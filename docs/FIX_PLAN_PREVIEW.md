@@ -1,4 +1,4 @@
-# FIX PLAN — PREVIEW FOR REVIEW
+﻿# FIX PLAN  -  PREVIEW FOR REVIEW
 
 ## CRITICAL
 
@@ -17,7 +17,7 @@
 ## MODERATE
 
 ### 4. 6 classes have no political faction
-**Wrong:** Chronarch, Gambit, Minstrel, Shaper, Toxicologist, Revenant have mechanics but no worldFriction — no stance, no enemies, no side.
+**Wrong:** Chronarch, Gambit, Minstrel, Shaper, Toxicologist, Revenant have mechanics but no worldFriction  -  no stance, no enemies, no side.
 **Fix:** Each gets a 2-3 line worldFriction block. Examples:
 - Chronarch: pro-timeline-stabilizers vs. pro-accelerators
 - Minstrel: The Last Verse as oral-resistance against the Scribe-Cartel

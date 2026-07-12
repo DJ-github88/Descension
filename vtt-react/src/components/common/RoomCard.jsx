@@ -133,7 +133,7 @@ const RoomCard = ({
       try {
         // Compress the image first
         const compressedFile = await compressImage(file);
-        console.log('ðŸ—œï¸ Image compressed from', (file.size / 1024).toFixed(1), 'KB to', (compressedFile.size / 1024).toFixed(1), 'KB');
+        console.log('ðŸ - œï¸ Image compressed from', (file.size / 1024).toFixed(1), 'KB to', (compressedFile.size / 1024).toFixed(1), 'KB');
 
         const reader = new FileReader();
         reader.onload = (e) => {

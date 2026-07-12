@@ -47,7 +47,7 @@ export const RACE_NAMES = {
     ],
     neth: [
         'Saren', 'Lyra', 'Orven', 'Vaelis', 'Thira', 'Kaelen', 'Miren', 'Dervan', 'Solyn', 'Ilyth',
-        'Vel-Sen', 'Aran-Kel', 'Mirth-Vel', 'Toris', 'Nessa', 'Caelum', 'Luren', 'Drith-Vel', 'Sylen', 'Veris'
+        'Vel-Sen', 'Aran-Kel', 'Mirth-Vel', 'Toris', 'Nessa', 'Caelum', 'Luren', 'Drith-Vel', 'Vashir', 'Veris'
     ],
 
     astril: [

@@ -1533,7 +1533,7 @@ export default function CharacterStats() {
                     const multiplier = resistanceData.multiplier || 1.0;
                     
                     if (multiplier < 0) {
-                        return `Heals ${Math.abs(multiplier)}√ó damage`;
+                        return `Heals ${Math.abs(multiplier)}√ -  damage`;
                     } else if (multiplier === 0 || level === 0) {
                         return 'Immune (0% damage)';
                     } else if (multiplier < 1.0) {
@@ -2225,7 +2225,7 @@ export default function CharacterStats() {
                                         <div className="stat-info">
                                             <span className="stat-label">
                                                 {ability.charAt(0).toUpperCase() + ability.slice(1)} Save:
-                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>‚óè</span>}
+                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>‚ - è</span>}
                                             </span>
                                         </div>
                                     </div>
@@ -2392,7 +2392,7 @@ export default function CharacterStats() {
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? '‚óÄ' : '‚ñ∂'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? '‚ - Ä' : '‚ñ∂'}</span>
                 </button>
                 {Object.entries(statGroups).map(([key, group]) => (
                     <button

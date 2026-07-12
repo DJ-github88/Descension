@@ -435,7 +435,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Switch to new map - but SKIP local switch if in multiplayer (server handles it)
             let success = false;
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
-                console.log('ðŸ—ºï¸ GM in multiplayer mode - updating currentMapId locally AND waiting for server data');
+                console.log('ðŸ - ºï¸ GM in multiplayer mode - updating currentMapId locally AND waiting for server data');
                 // CRITICAL FIX: We MUST update currentMapId locally immediately, otherwise
                 // the batcher will continue sending terrain updates to the old map!
                 useMapStore.setState({ currentMapId: mapId });
@@ -502,7 +502,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                     };
                 }
             } else {
-                console.log('ðŸ—ºï¸ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
+                console.log('ðŸ - ºï¸ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
                 // CRITICAL FIX: Even in multiplayer mode, load local items from mapStore to avoid losing them
                 // The server's gm_view_changed will handle merging with server state
                 mapState = await loadMapState();
@@ -778,7 +778,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('ðŸ–¼ï¸ Compressing background image for map creation... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
-            console.log('ðŸ—œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+            console.log('ðŸ - œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -950,7 +950,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('ðŸ–¼ï¸ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
-            console.log('ðŸ—œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+            console.log('ðŸ - œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -1312,7 +1312,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                                 className="character-appearance-modal-close"
                                 onClick={() => setShowAssetSelector(false)}
                             >
-                                Ã—
+                                Ã - 
                             </button>
                         </div>
                         <div className="character-appearance-modal-body">

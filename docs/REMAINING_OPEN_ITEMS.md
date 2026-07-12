@@ -1,4 +1,4 @@
-# Mythrill VTT — Remaining Open Items
+﻿# Mythrill VTT  -  Remaining Open Items
 
 > Carved out of the completed Sync & Integration Audit (2026-07-03).
 > All sync, persistence, rules, and community-download bugs have been fixed.
@@ -7,7 +7,7 @@
 
 ---
 
-## 1. C4 — Shared `campaignStore` (large refactor, deferred)
+## 1. C4  -  Shared `campaignStore` (large refactor, deferred)
 
 Both campaign UIs (`components/account/CampaignManager.jsx` ~2222 lines,
 `components/windows/CampaignManagerWindow.jsx` ~2830 lines) keep independent
@@ -19,37 +19,37 @@ singleton. They can drift within a single session.
   (both UIs read/write it).
 - Accept localStorage-as-truth + re-sync on focus.
 
-Full rewrite risk — defer until product priorities align. This is the **only**
+Full rewrite risk  -  defer until product priorities align. This is the **only**
 bug-level item left open; everything below is feature work or enhancement.
 
 ---
 
-## 2. Community features — built but not wired to UI
+## 2. Community features  -  built but not wired to UI
 
 Each of these has correct Firestore rules + functional services + ready-to-use
 hooks/components. They just need a render call or a button.
 
-### P4-1 — Community Campaign Browser
+### P4-1  -  Community Campaign Browser
 - **What exists:** `sharedCampaignService.js` (`getSharedCampaigns`,
   `getSharedCampaign`, `downloadCampaign`, `getUserSharedCampaigns`).
   Publish works (`ShareCampaignModal`, ULTIMATE-gated). Rules OK.
 - **What's missing:** a "Community Campaigns" browse/download tab.
 - **Effort:** moderate (new tab + card grid + download flow).
 
-### P4-2 — Community Map Sharing
+### P4-2  -  Community Map Sharing
 - **What exists:** `communityMapService.js` + `userMapsService.shareMapToCommunity`.
   Rules added (`community_maps` / `map_categories` / `map_ratings`).
 - **What's missing:** share button in `MapLibraryWindow` + a community tab.
 - **Effort:** moderate (share dialog + community tab).
 
-### P4-3 — Pack Browser
-- **What exists:** a **complete** feature ecosystem — `packService.js` +
+### P4-3  -  Pack Browser
+- **What exists:** a **complete** feature ecosystem  -  `packService.js` +
   `useCommunityPacks.js` hook + `PackCard.jsx` + `PackDetailsModal.jsx` +
   `PackBrowser.jsx`. `community_packs` rules exist.
 - **What's missing:** mounting `PackBrowser` in a community hub (one render call).
 - **Effort:** trivial (add `<PackBrowser />` to a tab/route).
 
-### P4-4 — Folders (all content types)
+### P4-4  -  Folders (all content types)
 - **What exists:** folder CRUD services for items, creatures, spells, maps.
   Rules in place (`userItemFolders` / `userCreatureFolders` / `user_folders`).
 - **What's missing:** folder tree UI (create, rename, drag-drop, navigate).
@@ -99,7 +99,7 @@ error can't corrupt the user's content.
 
 ---
 
-## 4. P4-7 — Community sharing tier policy (verified, no change needed)
+## 4. P4-7  -  Community sharing tier policy (verified, no change needed)
 
 `subscriptionService.communitySharing = { FREE: true, PRO: true, ULTIMATE: true }`.
 Community sharing is intentionally free for all registered users. Only

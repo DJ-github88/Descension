@@ -124,7 +124,7 @@ const useSettingsStore = create(
 
       // Window & UI Settings
       setWindowScale: (scale) => {
-        const clampedScale = Math.max(0.5, Math.min(2.0, scale));
+        const clampedScale = Math.max(0.5, Math.min(1.5, scale));
         get().updateSettings({ windowScale: clampedScale });
 
         // Dispatch custom events to notify windows of scale changes
@@ -395,6 +395,14 @@ const useSettingsStore = create(
     {
       name: 'user-settings',
       storage: createJSONStorage(() => createFirebaseStorage()),
+      // Clamp windowScale from older versions that allowed up to 2.0
+      merge: (persisted, current) => {
+        const merged = { ...current, ...(persisted || {}) };
+        if (typeof merged.windowScale === 'number') {
+          merged.windowScale = Math.max(0.5, Math.min(1.5, merged.windowScale));
+        }
+        return merged;
+      },
       // Only persist certain settings to avoid bloat
       partialize: (state) => ({
         // Window & UI

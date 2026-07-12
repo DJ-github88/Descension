@@ -1,5 +1,5 @@
 // Survival Skill Multi-Dimensional Tables
-// 7 proficiency levels Ã— 6 dice types = 42 tables total
+// 7 proficiency levels Ã -  6 dice types = 42 tables total
 
 export const SURVIVAL_TABLES = {
     // UNTRAINED - d4 through d20

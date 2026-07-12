@@ -39,7 +39,7 @@ const NPC_PORTRAITS = {
   },
   'Synod-Broker Lyra': {
     url: '/assets/images/portraits/broker_lyra.png',
-    caption: 'Synod-Broker Lyra, the silver-skinned Neth merchant noble with crystalline markings.'
+    caption: 'Synod-Broker Lyra, the pale-skinned Neth merchant noble with crystalline markings.'
   },
   'Guild-Master Fexric Keth': {
     url: '/assets/images/portraits/fexric_keth.png',

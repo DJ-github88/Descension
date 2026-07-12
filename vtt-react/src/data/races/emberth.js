@@ -1,24 +1,29 @@
 ﻿export const emberth = {
   id: 'emberth',
   name: 'Emberth',
-  essence: 'The cold-ash remnants of a dead cosmic fire',
+  essence: 'Devoted cave-dwelling nomads, keepers of Sol\'s last ember',
   illustration: '/assets/images/races/emberth_illustration.png',
-  illustrationCaption: 'An Emberth cinder-walker with basalt-dark, cooled charcoal skin and dreadlocks, holding a tiny, fading ember near their chest to absorb its precious heat.',
-  cardFlavor: 'Cold-bodied remnants of a dead sun, they harvest external fire to keep their hearts from calcifying to stone.',
-  description: `**[The Cinder-Born Clans]**, *Deep in the dark vaults of Sundale, a cold, broad figure sits in absolute stillness, flesh running grey with deep-ash and dark as cooled charcoal, holding a fading geothermal shard to his chest to keep his heart-blood from seizing and mineralizing into solid stone.*
+  illustrationCaption: 'An Emberth cinder-walker with dark brown-beige skin and dreadlocks, holding a tiny, fading ember near their chest in solemn devotion.',
+  cardFlavor: 'Religious cave-dwelling nomads and devoted keepers of the Solbrand, the last ember of their sleeping god.',
+  description: `**[The Cinder-Born Clans]**, *Deep in the dark vaults of Sundale, a broad, still figure sits in absolute contemplation, dark brown-beige skin lit by the faint glow of the Solbrand, holding a moment of perfect silence before the last ember of Sol.*
 
-Broad-shouldered and heavy, the Emberth do not possess internal body heat. Their flesh is dense and cold-running, so saturated over generations with volcanic minerals and deep-ash that the skin presents as basalt-dark charcoal to the eye, a biological legacy of the line that sheltered in Sol's dying thermal shadow. They do not sweat; their skin sheds a fine, dry powder of grey mineral-ash when they move or suffer stress. To survive, the Emberth must metabolic-harvest and hoard external thermal energy. Without regular exposure to volcanic calderas, geothermal vents, or forge-fires, their joints slowly seize, and the mineral salts in their tissue calcify back toward inert stone. 
+Broad-shouldered and solid, the Emberth are a people shaped by the deep. Their skin is a warm, earthy dark brown-beige, the tone of a people who have lived in volcanic landscapes for generations, running grey with a fine dusting of dry mineral-ash that sheds when they move or suffer stress. They are strong, not brutish or hulking, but solidly built from a life of navigating caves, climbing volcanic rock, and enduring the physical demands of subterranean existence. Their eyes are enormous and solid black, absorbing light rather than reflecting it, adapted to perceive the faintest heat-gradient in the absolute darkness of the subterranean vaults where they sheltered after Sol went dark. On the surface, they wear thick, ash-tinted eye-cloths to filter the daylight that pains those dark-adapted eyes.
 
-They are forge-keepers not out of ritual devotion, but out of absolute metabolic necessity,an hour at the anvil is equivalent to a warm-blooded creature breathing or eating. Their eyes are enormous and sensitive, adapted to perceive heat gradients in the absolute darkness of the subterranean thermal vaults where they sheltered after Sol went dark. On the surface, they must wear thick, ash-tinted eye-cloths to prevent permanent blindness. They carry their history in the deep, deliberate burn-scars branded into their forearms at birth,not as decoration, but as thermal-conductive channels designed to distribute heat efficiently across their limbs.`,
+The Emberth do not need external fire to survive. Their lungs filter ash, their skin resists thermal damage, and their eyes see in near-total darkness, adaptations to the volcanic environments they have called home for generations, not a metabolic dependence on forge-flame. They are religious cave-dwelling nomads, plainsrunners and forge-tenders, devoted to the Solbrand, the last ember of the sleeping god Sol. They tend the forge not because they will calcify without it, but because the forge is the altar of their faith, and the Solbrand is their god's last conscious fragment. They carry their lineage in the deep, deliberate marks branded into their forearms at birth by molten ash, the Marking-Rite, encoding clan affiliation and ancestor-lineage in a visual language readable by any Emberth at a glance.`,
 
   icon: 'fas fa-fire',
-  overview: `When Sol spoke to the Emberth, it was never in words. The Sun-Speakers, the eldest cinder-keepers, crouched in the geothermal vents at dawn and received pulses of thermal radiation and fading heat-signatures that guided their great descent. They dug not to hide, but to survive, excavating the thermal deep beneath Sundale because they knew their bodies would freeze to lifeless soot under open winter skies.
+  overview: `When Sol spoke to the Emberth, it was never in words. The Sun-Speakers, the eldest cinder-keepers, crouched in the geothermal vents at dawn and received pulses of thermal radiation and fading heat-signatures that guided their great descent. They dug not to hide, but to survive, excavating the thermal deep beneath Sundale because they knew the open winter skies would be harsh and unforgiving.
 
-The Emberth were already deep underground when the surface world froze. On the day Sol was bound beneath the earth's crust, every Sun-Speaker in every clan felt the cosmic fire die, receiving one final image: an ember held in cupped hands. Then cold. They call that ember the Solbrand, a small, eternal flame tended through centuries of darkness. It is not a sacred relic; it is the primary thermal radiator of their entire vault capital, a fading piece of the primordial fire that keeps the entire population from calcifying into lifeless stone.
+The Emberth were already deep underground when the surface world froze. On the day Sol was bound beneath the earth's crust, every Sun-Speaker in every clan felt the cosmic fire die, receiving one final image: an ember held in cupped hands. Then cold. They call that ember the Solbrand, a small, fading piece of Sol's primordial fire, the last physical connection between the sleeping star and the world it once nourished. The Solbrand is not a sacred relic to the Emberth. It is their god.
 
-They emerged when Emberspire erupted, reclaiming the volcanic ashlands because the surface had warmed enough for them to range. They rebuilt their forge-clans around active calderas, resumed the old ways, sun-prayers at dawn to catch the faint heat, forge-work as metabolic survival, the Solbrand tended by an order of Sun-Speakers who listen every morning to a silence that grows colder every year. The Emberth are not forge-people because fire is in their blood; they are forge-people because they are cold, and without the forge, they die.`,
+They emerged when Emberspire erupted, reclaiming the volcanic ashlands because the surface had warmed enough to range across comfortably. They rebuilt their forge-clans around active calderas, resumed the old ways: sun-prayers at dawn, the Solbrand tended by an order of Sun-Speakers who listen every morning to a silence that grows colder every year. The Emberth are religious fanatics, but grounded, practical fanatics. They tend the forge not because they will die without it, but because the forge is the altar of their faith, and the Solbrand is the most important thing in the world. They organize their entire civilization around keeping it burning.`,
+    quickFacts: [
+        'Religious forge-clan nomads of Sundale\'s volcanic ashlands. They lived underground before the sun died and now tend the Solbrand, the last conscious fragment of their entombed god, organizing their entire civilization around keeping it burning.',
+        'Charcoal-black skin cross-hatched with glowing scar-traced forge-marks that encode clan, trade, and lineage in a visual language any Emberth reads at a glance. Their lungs filter ash, their dark-adapted eyes see heat in near-total darkness, and their culture of absolute stillness makes them unnervingly patient.',
+        'Play an Emberth to carry the heat of a dying star. Your entire civilization is built around a vigil that has lasted eight centuries, and the ember you guard is visibly dimming. The tending-clan has been lying about it for three generations, and the forge-clans are beginning to splinter.'
+    ],
 
-  culturalBackground: `Emberth society is organized into forge-clans bound to volcanic calderas, each clan tracing its lineage to one of the original Sun-Speakers who received the prophecy of descent. These clans are not factions or competing nations. They are bloodlines, each with its own ancestral forge, its own variant of the sun-prayers, and its own methods of heat conservation. Clan identity is worn visibly: every Emberth's forearms and shoulders are marked at birth with deliberate burn-scars applied by a heated obsidian stylus, a process called the Marking-Rite. The scars encode clan affiliation, trade specialization, and ancestor-lineage in a visual language that can be read by any Emberth at a glance. The marks darken with proximity to the Solbrand; Korr forge-marks are stark and crisp, while Thrask marks are fainter and blurred at the edges from generational distance from the ember. To deface a forge-mark is the severest crime.
+  culturalBackground: `Emberth society is organized into forge-clans bound to volcanic calderas, each clan tracing its lineage to one of the original Sun-Speakers who received the prophecy of descent. These clans are not factions or competing nations. They are bloodlines, each with its own ancestral forge, its own variant of the sun-prayers, and its own practice of the Vault-Breath. Clan identity is worn visibly: every Emberth's forearms and shoulders are marked at birth with deliberate burn-scars applied by a heated obsidian stylus, a process called the Marking-Rite. The scars encode clan affiliation, trade specialization, and ancestor-lineage in a visual language that can be read by any Emberth at a glance. The marks darken with proximity to the Solbrand; Korr forge-marks are stark and crisp, while Thrask marks are fainter and blurred at the edges from generational distance from the ember. To deface a forge-mark is the severest crime.
 
 Settlements are built around the forges, not as industry, but as altars. The forge is where the Solbrand is kept by the clan currently entrusted with its tending; where young Emberth are brought at dawn to learn stillness before they learn speech; where disputes are settled not by violence but by forge-trials, competitions of craft, endurance, or hours of uninterrupted silence before the flame. The skills vary by clan. The principle is the same: Sol's silence taught the Emberth patience, and patience is the highest virtue.
 
@@ -26,16 +31,16 @@ The surface ashlands are barely hospitable to anyone else, choking storms of vol
 
 Their society is a meritocracy of craft and endurance, not birth. Those who work longest, forge finest, endure deepest silence rise highest. The weak are not cast out, they are pitied, supported, given simpler work, because weakness in one clan-member shames the entire bloodline. The greatest terror in Emberth culture is not death. It is the slow, permanent cooling of the Solbrand, a dimming that has been observed, denied, concealed, and whispered about across three generations. The clan that currently holds the Solbrand has been lying about its health. The other clans are beginning to splinter. What happens when the last ember of Sol goes out is a question no Emberth knows how to answer.`,
 
-  variantDiversity: `The Emberth are divided into two bloodlines based on where their ancestors sheltered during the underground exile: the Korr of the Deep-Vault, who chose to wait near the Solbrand core and calcify their bodies to conserve thermal energy, and the Thrask of the High-Vault, who chose to venture onto the frozen surface border in heavy insulating wraps, burning their fading embers fast and intense.`,
+  variantDiversity: `The Emberth are divided into two bloodlines based on where their ancestors sheltered during the underground exile: the Korr of the Deep-Vault, who chose to stay near the Solbrand core and train their bodies for absolute stillness as religious devotion, and the Thrask of the High-Vault, who chose to venture onto the frozen surface border in heavy insulating wraps, ranging the ashlands as scouts and messengers.`,
 
   integrationNotes: {
     actionPointSystem: 'Emberth abilities focus on endurance, forge-craft, and patient combat. Their underground ancestry grants them stillness, ash-resistance, and dark-adapted senses, not fire magic, but the hard-earned adaptations of a people who survived the deep.',
     backgroundSynergy: 'Emberth excel in backgrounds emphasizing crafting, endurance, and spiritual devotion. Their sun-reverent culture and clan-mark identity complement paths of tradition, craft, and unyielding patience.',
-    classCompatibility: 'The Korr favor Martyrs and Spellguards because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness and willing sacrifice, the quiet monks who interpret the Solbrand\'s silent dimming have long formalized suffering as spiritual currency. Spellguards emerge from Korr who have learned to absorb geothermal instability into their mineral-dense bodies. The Thrask favor Pyrofiends above all, using their cold-hardened bodies and surface mobility to harness raw lava-flow heat as a weapon. Thrask defaced their imperial marks to embrace the wild fury of the caldera, and some have made the obvious leap from volcanic heat to Scathrach\'s infernal offer.'
+    classCompatibility: 'The Korr favor Martyrs and Spellguards because their deep-vault isolation and practice of the Vault-Breath align with absolute physical stillness and willing sacrifice, the quiet Sun-Speakers who interpret the Solbrand\'s silent dimming have long formalized suffering as spiritual currency. Spellguards emerge from Korr who have learned to absorb geothermal instability into their disciplined bodies. The Thrask favor Pyrofiends above all, using their surface-hardened bodies and surface mobility to harness raw lava-flow heat as a weapon. Thrask defaced their imperial marks to embrace the wild fury of the caldera, and some have made the obvious leap from volcanic heat to Scathrach\'s infernal offer.'
   },
 
-  diasporaVariation: `Emberth diaspora clusters wherever geothermal heat is available. The Harath-Vault Korr are the deep-vault archetype, but Cragjaw-diaspora Emberth (around the Steam-Line Cartel's geothermal pipes at Frostmaw) run hotter and more active, their burn-scars blurred by the different mineral profile of Cragjaw water. The Bloodhammer-Sump Emberth of Nordhalla, a small community around the geothermal skirmish-grounds, have intermarried enough with Skald to develop a cold-tolerance their southern kin lack, though they still require forge-time daily. Sundale is the only region with a large Emberth population; elsewhere they are rare, heat-dependent expatriates.`,
-  meaningfulTradeoffs: 'Emberth possess formidable physical endurance and ash-resistance but suffer fatigue in clean air and are deeply vulnerable to the cold, not because they are "fire people," but because their bodies adapted to geothermal heat and cannot shed warmth efficiently. Their dark-adapted eyes struggle in daylight. Their stillness is a cultural strength and a social liability among faster, more fidget-prone races.',
+  diasporaVariation: `Emberth diaspora clusters wherever geothermal heat is available. The Harath-Vault Korr are the deep-vault archetype, but Cragjaw-diaspora Emberth (around the Steam-Line Cartel's geothermal pipes at Frostmaw) run hotter and more active, their burn-scars blurred by the different mineral profile of Cragjaw water. The Bloodhammer-Sump Emberth of Nordhalla, a small community around the geothermal skirmish-grounds, have intermarried enough with Skald to develop a cold-tolerance their southern kin lack, though they still keep daily vigil at whatever forge they can find. Sundale is the only region with a large Emberth population; elsewhere they are rare, devoted expatriates who carry their faith to whatever geothermal outpost will have them.`,
+  meaningfulTradeoffs: 'Emberth possess formidable physical endurance and ash-resistance but suffer fatigue in clean, humid air and are deeply vulnerable to the cold, not because they are metabolically dependent on fire, but because their bodies are adapted to volcanic environments and struggle in damp, clean climates. Their dark-adapted black eyes struggle in daylight. Their deliberate stillness is a cultural and devotional strength, and a social liability among faster, more fidget-prone races.',
 
   baseTraits: {
     languages: ['Common', 'Sundari'],
@@ -69,7 +74,7 @@ The Emberth do not know which of these stories is true. They only know the ember
       title: 'Keeper of the Dimming Flame',
       portraitIcon: 'Demon/Icon4',
       backstory: `
-The eldest living Sun-Speaker, Thaeron has tended the Solbrand for sixty years. His skin is dark as cooled basalt, cross-hatched with age-lines that trace the pattern of old lava-flows across his forearms. His eyes, enormous even for an Emberth, the pupils barely distinguishable from the near-black sclera, have stared into the Solbrand's light for so long that he claims to see colors in it that younger shamans cannot perceive. He does not speak of what those colors mean.
+The eldest living Sun-Speaker, Thaeron has tended the Solbrand for sixty years. His skin is weathered dark brown-beige, cross-hatched with age-lines that trace the pattern of old lava-flows across his forearms. His eyes, enormous even for an Emberth, the pupils barely distinguishable from the solid black sclera, have stared into the Solbrand's light for so long that he claims to see colors in it that younger shamans cannot perceive. He does not speak of what those colors mean.
 
 Thaeron belongs to the tending-clan, the bloodline currently entrusted with the Solbrand. He is the only living Emberth who has known for certain that the ember is dimming for more than fifty years. He has never told anyone. Not his apprentices. Not his clan-elders. Not the other forge-clans who demand transparency. His silence has preserved the Forge Accords through three generations of slow, incremental cooling. He believes, with the unshakeable certainty of a man who has spent six decades staring into dying fire, that revealing the truth would shatter Emberth civilization more completely than the dimming itself.
 
@@ -99,7 +104,7 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
     },
     {
       name: 'The Shyr',
-      description: `A ninety-mile scar of cooling basalt, the Shyr serves as the Emberth's primary thoroughfare, a road of stone that walks itself as the lava cools and contracts into predictable fracture-patterns. The Shyr is not a wasteland. It is the Emberth's main artery of survival, where Thrask surface badland-rangers and miners build temporary volcanic outposts, constantly navigating shifting thermal vents and guarding the basalt trade roads from ice-pirates and freezing border beasts.`
+      description: `A ninety-mile scar of cooling basalt, the Shyr serves as the Emberth's primary thoroughfare, a road of stone that walks itself as the lava cools and contracts into predictable fracture-patterns. The Shyr is not a wasteland. It is the Emberth's main artery of survival, where Thrask surface badland-hunters and miners build temporary volcanic outposts, constantly navigating shifting thermal vents and guarding the basalt trade roads from ice-pirates and freezing border beasts.`
     }
   ],
 
@@ -120,7 +125,7 @@ Thaeron, the eldest Sun-Speaker, belongs to none of these camps. He has spent si
   culturalPractices: `
 The Marking-Rite is the foundation of Emberth identity. At birth, every Emberth's forearms and shoulders are marked by the clan's eldest Sun-Speaker using a heated obsidian stylus, deliberate burn-scars that encode three things: clan affiliation, trade specialization, and ancestor-lineage. The process is painful and brief. The child is not comforted during the marking; to cry out is normal, but to be soothed through the pain is considered a failure of the clan to prepare its young for the world. The marks darken with proximity to the Solbrand, Korr forge-marks are stark and crisp, while Thrask marks are fainter. This is not a flaw. It is a visible record of where the bloodline has stood in relation to Sol's ember across generations. To deface a forge-mark, cutting, burning over, or magically removing the scars, is the severest crime in Emberth legal code, considered equivalent to erasing the victim from living memory.
 
-The Vault-Breath is the discipline of absolute stillness and thermal conservation. Children learn it before they learn speech: sitting motionless for increasing periods in the forge-halls, breathing in slow, deliberate cycles that conserve precious body heat and oxygen. An adult Emberth can remain perfectly still for six hours, the length of a standard Solbrand tending-shift. Outsiders find this deeply unsettling. Among Emberth, fidgeting is considered a sign of poor discipline, poor upbringing, or both. A guest who cannot sit still during a formal meeting has insulted the host, whether they know it or not.
+The Vault-Breath is the discipline of absolute stillness and devotional contemplation. Children learn it before they learn speech: sitting motionless for increasing periods in the forge-halls, breathing in slow, deliberate cycles that conserve oxygen and quiet the mind before the Solbrand. An adult Emberth can remain perfectly still for six hours, the length of a standard Solbrand tending-shift. Outsiders find this deeply unsettling. Among Emberth, fidgeting is considered a sign of poor discipline, poor upbringing, or both. A guest who cannot sit still during a formal meeting has insulted the host, whether they know it or not.
 
 The Eye-Wrap is a practical adaptation with deep cultural weight. Emberth eyes, enlarged during the underground exile to see in near-total darkness, are painfully sensitive to daylight. Every adult wears a strip of ash-tinted cloth wrapped across the eyes, dyed with volcanic particulate that filters sunlight to tolerable levels. The wrap is personalized: clan colors, trade-sigils, and achievement-marks are woven into the fabric. Removing an Emberth's eye-wrap without permission is a violation akin to stripping someone naked in public. Seeing an Emberth without their wrap is an intimacy reserved for family, bonded partners, and deathbed confessions.
 
@@ -181,7 +186,7 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
     {
       id: 'vault_breath_emberth',
       name: 'The Vault-Breath',
-      description: 'Your stillness is a weapon and a vulnerability, the discipline of centuries spent in oxygen-starved chambers, where every unnecessary motion burned air and lost precious thermal energy. You can hold yourself motionless for hours, conserving all heat, indistinguishable from volcanic stone, and the mental discipline this requires grants you advantage on saves against fear and charm. But the deep stillness cannot be shed quickly. When combat begins, you make initiative rolls with disadvantage. Your body needs a moment to remember that movement is permitted.',
+      description: 'Your stillness is a weapon and a vulnerability, the discipline of centuries spent in oxygen-starved chambers, where every unnecessary motion burned air the vault could not spare. You can hold yourself motionless for hours, conserving air and quieting the mind, indistinguishable from the volcanic stone around you, and the mental discipline this requires grants you advantage on saves against fear and charm. But the deep stillness cannot be shed quickly. When combat begins, you make initiative rolls with disadvantage. Your body needs a moment to remember that movement is permitted.',
       level: 1,
       icon: 'spell_arcane_teleportundercity',
       spellType: 'PASSIVE',
@@ -281,9 +286,9 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
       id: 'korr_emberth',
       name: 'Korr',
       illustration: '/assets/images/races/korr_illustration.png',
-      illustrationCaption: 'A Korr Emberth forge-keeper sitting in absolute, calcified stillness in deep-vault volcanic heat, conserving every drop of thermal energy.',
-      tooltipSummary: 'Volcano-hearted guardians who draw warmth from the deep earth, slow and steady, their bodies ash-lunged but implacable.',
-      description: 'The fewest and the most isolated. Korr bodies are calcified for absolute stillness, elongated lungs that conserve thermal energy, metabolisms so slow their pulses are barely perceptible, and eyes enlarged to perceive the faint heat in absolute darkness. Their skin is the deepest basalt-dark, cooled charcoal texture, untouched by daylight. They move like people who have forgotten why movement matters. Their Vault-Breath can extend to twelve hours, double the standard, and older Korr report that time itself feels different in the deep, that centuries pass like seasons, and that the cold ash of their bodies is a language they are still learning to translate.',
+      illustrationCaption: 'A Korr Emberth forge-priest sitting in absolute, conditioned stillness before the Solbrand, deep in devotional contemplation.',
+      tooltipSummary: 'Deep-vault forge-priests and Sun-Speakers, contemplative and deliberate, conditioned to absolute stillness before the Solbrand.',
+      description: 'The fewest and the most isolated. Korr bodies are conditioned for absolute stillness, elongated lungs that conserve air, metabolisms so slow their pulses are barely perceptible, and solid black eyes enlarged to perceive the faint heat in absolute darkness. Their skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns, stark and crisp from proximity to the Solbrand. They are contemplative, scholarly in their devotion, spending their lives deciphering the Solbrand\'s silence. They move like people who have forgotten why movement matters. Their Vault-Breath can extend to twelve hours, double the standard, and older Korr report that time itself feels different in the deep, that centuries pass like seasons, and that the silence of the Solbrand is a language they are still learning to translate.',
       culturalBackground: `The Korr trace their lineage to the Sun-Speakers who answered Sol's silence with absolute patience. When the other clans asked what they would contribute to the survival effort, the Korr answered: meaning. They would wait. For centuries, the other two clans fed them, protected them, and carried geothermal fuel down into the Deep-Vault where the air was too thin for anyone but a Korr to breathe, because the Korr were the Emberth's connection to the dying heat. Without them, the survival effort had no purpose.
 
 The Korr are the smallest bloodline and the most politically powerful. They hold the Solbrand. They interpret the silence. They officiate the Solstice Vigil and apply the newborn's forge-marks and determine, through decades of listening, whether a given omen means war or peace or nothing at all. Their word is final, because no other clan can perform the tending. The Vault-Breath required to endure the Deep-Vault for more than an hour is a Korr-specific adaptation; a Thrask who attempts the full vigil risks freezing.
@@ -436,6 +441,35 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'vault_breath_exhale_korr',
+          name: 'Vault-Breath Exhale',
+          description: 'Once per short rest, exhale a concentrated burst of geothermal vapor in a 15-foot cone. All creatures in range must make a Constitution saving throw (DC 13) or be disoriented for 1 round. The Vault-Breath that sustains your stillness can also be weaponized.',
+          level: 1,
+          icon: 'spell_fire_selfdestruct',
+          spellType: 'ACTION',
+          effectTypes: ['debuff'],
+          typeConfig: {
+            school: 'ember',
+            icon: 'spell_fire_selfdestruct',
+            tags: ['cone', 'vapor', 'disoriented', 'active', 'korr']
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [
+              {
+                id: 'geothermal_vapor_disorient',
+                name: 'Disoriented',
+                description: 'Target must make a Constitution saving throw (DC 13) or be disoriented for 1 round. The geothermal vapor overwhelms the senses.',
+                statusEffect: { level: 'minor', description: 'Disoriented for 1 round on failed Constitution save (DC 13).' }
+              }
+            ],
+            durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: true
+          },
+          targetingConfig: { targetingType: 'area', rangeType: 'cone', rangeDistance: 15 },
+          resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
       ],
       languages: ['Common', 'Sundari'],
@@ -460,9 +494,9 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
       id: 'thrask_emberth',
       name: 'Thrask',
       illustration: '/assets/images/races/thrask_illustration.png',
-      illustrationCaption: 'A Thrask Emberth surface badland-ranger insulated in thick ashy cloth wraps, holding an obsidian weapon and scouting for geothermal vents.',
-      tooltipSummary: 'Border-blooded halfbreeds who walk the line between fire and ice, ash-skimming the volcanic scree with obsidian-grafted limbs.',
-      description: 'The most surface-adapted and the most mobile. Thrask bodies have shorn hair and are wrapped in heavy ash-insulating cloths to retain what little heat they possess. Their skin is sallow grey to dark charcoal-brown. Their ash-filtering lungs are weaker than the Korr\'s, adapted for the thin, cold air of the surface border rather than the thick particulate of the Mid-Vault. They are the only Emberth who can survive extended periods above ground by foraging for active geothermal vents and coal-veins, though they must move constantly to keep their blood moving and prevent their limbs from freezing. They move like people who have forgotten why stillness was ever necessary.',
+      illustrationCaption: 'A Thrask Emberth surface badland-hunter insulated in thick ashy cloth wraps, holding an obsidian weapon and scouting for geothermal vents.',
+      tooltipSummary: 'Surface scouts of the volcanic ashlands, leaner and more mobile than their deep-vault kin, carrying obsidian-forged tools across the scree.',
+      description: 'The most surface-adapted and the most mobile. Thrask bodies have shorn hair and are wrapped in heavy ash-insulating cloths against the cold of the open ashlands. Their skin is dark brown-beige, weathered from surface exposure, and their ash-branding marks are fainter, blurred at the edges from generational distance from the Solbrand. Their ash-filtering lungs are somewhat weaker than the Korr\'s, adapted for the thin, cold air of the surface border rather than the thick particulate of the Mid-Vault. They are the Emberth\'s connection to the surface, ranging the volcanic ashlands as scouts, messengers, and badland-hunters, mapping the thermal vents and carrying word between outposts. Leaner, faster, and more mobile than the Korr, they move like people who have forgotten why stillness was ever necessary.',
       culturalBackground: `The Thrask trace their lineage to the hunters who answered Sol's silence with vigilance. They worked the High-Vault, the tunnels nearest the frozen surface, ranging into the dead world above to hunt what survived the freeze and salvage active coal deposits. Without them, the other clans would have frozen in their sleep.
 
 The Thrask are the Emberth's connection to the surface, even now that the surface has been partially reclaimed. They map the ash-wastes, scout the frontier, and carry message-tubes between outposts. Vaelith, the most trusted messenger of the clans, is a Thrask.
@@ -473,12 +507,12 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
         strength: 1,
         intelligence: -1
       },
-      currentCrisis: 'The surface thermal vents the Thrask depend on are cooling. Not everywhere or all at once, but the pattern is unmistakable: secondary geothermal fields that sustained Thrask outposts for centuries are dropping in temperature year by year. Thrask scouts have returned from the northern frontier reporting that entire vent-clusters have gone cold, their basalt crusts sealing over like healed wounds. The Thrask have begun migrating their outposts southward, closer to Emberspire\'s core heat, but that brings them into direct competition with Korr-claimed territories and the forge-clan hierarchy they have spent generations avoiding. The Korr refuse to acknowledge the cooling. The Thrask cannot ignore it. For the first time in centuries, the surface-rangers are being forced to choose: freeze on the frontier or submit to a Deep-Vault hierarchy that has never respected them.',
+      currentCrisis: 'The surface thermal vents the Thrask depend on are cooling. Not everywhere or all at once, but the pattern is unmistakable: secondary geothermal fields that sustained Thrask outposts for centuries are dropping in temperature year by year. Thrask scouts have returned from the northern frontier reporting that entire vent-clusters have gone cold, their basalt crusts sealing over like healed wounds. The Thrask have begun migrating their outposts southward, closer to Emberspire\'s core heat, but that brings them into direct competition with Korr-claimed territories and the forge-clan hierarchy they have spent generations avoiding. The Korr refuse to acknowledge the cooling. The Thrask cannot ignore it. For the first time in centuries, the surface-scouts are being forced to choose: freeze on the frontier or submit to a Deep-Vault hierarchy that has never respected them.',
       traits: [
         {
           id: 'border_blood_thrask',
           name: 'Border-Blood',
-          description: 'Advantage on saving throws against cold weather and environmental cold effects, but disadvantage on saving throws against heat effects and extreme heat. Your body learned to survive the border\'s cold by burning hotter — a threshold that cuts both ways and leaves you vulnerable to the fire your kin hoard.',
+          description: 'Advantage on saving throws against cold weather and environmental cold effects, but disadvantage on saving throws against heat effects and extreme heat. Your body learned to survive the border\'s cold by burning hotter, a threshold that cuts both ways and leaves you vulnerable to the fire your kin hoard.',
           level: 1,
           icon: 'spell_frost_frostward',
           spellType: 'PASSIVE',
@@ -596,6 +630,35 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
             targetRestriction: 'critical_target'
           },
           targetingConfig: { targetingType: 'single_target', rangeType: 'melee', rangeDistance: 5 },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+        },
+        {
+          id: 'scree_sprint_thrask',
+          name: 'Scree-Sprint',
+          description: 'Once per short rest, Dash as a free action (does not consume AP) and your movement does not provoke opportunity attacks until the end of your turn. Decades of running volcanic scree made you impossible to catch.',
+          level: 1,
+          icon: 'ability_rogue_sprint',
+          spellType: 'ACTION',
+          effectTypes: ['buff'],
+          typeConfig: {
+            school: 'physical',
+            icon: 'ability_rogue_sprint',
+            tags: ['dash', 'movement', 'opportunity-attack-immunity', 'active', 'thrask']
+          },
+          buffConfig: {
+            buffType: 'movementEnhancement',
+            effects: [
+              {
+                id: 'free_dash',
+                name: 'Free Dash',
+                description: 'Dash as a free action without consuming AP. Your movement does not provoke opportunity attacks until the end of your turn.',
+                statusEffect: { level: 'minor', description: 'Free Dash. Movement does not provoke opportunity attacks until end of turn.' }
+              }
+            ],
+            durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }

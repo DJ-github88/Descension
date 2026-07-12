@@ -1754,7 +1754,7 @@ const ObjectSystem = () => {
         const hasTokenOrHUD = allElementsAtPoint.some(el => isTokenOrHUD(el));
 
         if (connectionElement) {
-            console.log('ðŸ”— ObjectSystem: detected connection element, triggering its context menu', {
+            console.log('ðŸ” -  ObjectSystem: detected connection element, triggering its context menu', {
                 connectionElement: {
                     tag: connectionElement.tagName,
                     classes: connectionElement.classList ? Array.from(connectionElement.classList) : [],

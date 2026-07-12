@@ -433,7 +433,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                 zIndex: 10
                                             }}
                                         >
-                                            Ã—
+                                            Ã - 
                                         </button>
                                     </div>
                                 </>
@@ -449,7 +449,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                     if (onClose) onClose();
                                                 }}
                                             >
-                                                Ã—
+                                                Ã - 
                                             </button>
                                             <div className="window-title centered">{safeTitle}</div>
                                             <div className="header-spacer"></div>
@@ -495,7 +495,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                     if (onClose) onClose();
                                                 }}
                                             >
-                                                Ã—
+                                                Ã - 
                                             </button>
                                         </>
                                     )}

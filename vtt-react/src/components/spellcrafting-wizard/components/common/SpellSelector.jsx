@@ -198,7 +198,7 @@ const SpellSelector = ({
                 }}
                 title="Clear selection"
               >
-                Ã—
+                Ã - 
               </button>
             </div>
           </div>

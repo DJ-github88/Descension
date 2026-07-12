@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 
 const NPC_DATA = {
   'aldren-thalreth': {
@@ -94,9 +94,9 @@ const NPC_DATA = {
     id: 'thorn-speaker',
     name: 'The Thorn-Speaker',
     title: 'Voice of the Ironwood',
-    race: 'Unshorn Briaran',
+    race: 'Trueborn Briaran',
     gender: 'Female',
-    factionIds: ['unshorn-briaran'],
+    factionIds: ['trueborn-briaran'],
     locationIds: ['ironwood-heart'],
     age: 'Unknown',
     status: 'Active',
@@ -116,7 +116,7 @@ const NPC_DATA = {
     id: 'the-first-liar',
     name: 'The First Liar',
     title: 'Unknown',
-    race: 'Unlit Astril',
+    race: 'Astril (Silath)',
     gender: 'Unknown',
     factionIds: ['unlit-veil'],
     locationIds: ['synod-hold'],
@@ -147,7 +147,7 @@ const NPC_DATA = {
     appearance:
       'A gaunt woman with skin the color of old parchment and eyes that seem to look through rather than at. She wears the grey robes of a Doomsayer beneath the white vestments of a priest. Her hands are covered in scarified text: calculations she has carved into her own flesh so she would not forget them.',
     personality:
-      'Valeria is the last living person who studied under Malakor the Grim, the original Doomsayer. She is blunt, unsentimental, and brutally honest. She does not offer comfort because she believes comfort is a lie. She offers truth, which is cold but reliable.',
+      'Valeria is the last living person who studied under Malakor the Finite, the original Doomsayer. She is blunt, unsentimental, and brutally honest. She does not offer comfort because she believes comfort is a lie. She offers truth, which is cold but reliable.',
     backstory:
       'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, in time, his successor as the keeper of the Doom-Choir's calculations. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results (she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber) a form of deliberate temporal stasis: suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
     hooks: [
@@ -299,7 +299,7 @@ const NPC_DATA = {
     locationIds: ['atropolis'],
     age: '412',
     status: 'Active',
-    appearance: 'The eldest active Arcanoneer: more Mnemonic Shard than flesh, his silver skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused eight generations of refinement ago. He has not spoken an unplanned word in thirty years.',
+    appearance: 'The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused eight generations of refinement ago. He has not spoken an unplanned word in thirty years.',
     personality: 'Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Velun Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.',
     backstory: 'Ledger-Prime of the Canopy-Ledger, Vel-Otharan presides over the Arcanoneer order from Atropolis\'s Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.',
     hooks: [
@@ -433,19 +433,19 @@ const NPC_DATA = {
     id: 'bri-vessela',
     name: 'Bri-Vessela',
     title: 'Keeper of the Phases (Regent of the Lunar Communion)',
-    race: 'Unshorn Briaran',
+    race: 'Trueborn Briaran',
     gender: 'Female',
     factionIds: ['lunar-communion', 'briaran-groves'],
     locationIds: ['frostwood-reach'],
     age: '63',
     status: 'Active: acting',
-    appearance: 'A senior Unshorn Briaran whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene\'s whispers reach her. She wears the ghost-metal regent\'s token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.',
+    appearance: 'A senior Trueborn Briaran whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene\'s whispers reach her. She wears the ghost-metal regent\'s token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.',
     personality: 'Reluctant, theological, and increasingly frightened. Bri-Vessela is a scholar forced into power by Selene\'s silence. She spends her nights transcribing whispers she does not understand and her days pretending she does.',
     backstory: 'Regent of the Lunar Communion in Selene\'s silence, Bri-Vessela leads only because the alternative was civil war between the caste-factions. The elder parasites are synchronizing every Lunarch\'s phases toward an unknown convergence, and Selene\'s whispers are, she has begun to suspect, not madness but instructions: the hatching-song of the dead moon.',
     hooks: [
       'Bri-Vessela desperately needs a translator for the dead-language whispers; she will fund any expedition to find one',
       'She can be convinced to either halt the convergence or accelerate it: depending on what the party learns',
-      'A Smooth-Skinned faction is secretly welcoming the hatching; Bri-Vessela does not know who'
+      'A Shorn faction is secretly welcoming the hatching; Bri-Vessela does not know who'
     ]
   },
 
@@ -579,7 +579,7 @@ const NPC_DATA = {
     locationIds: ['emberspire'],
     age: '51',
     status: 'Active',
-    appearance: 'A Thrask Emberth veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His basalt-dark skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.',
+    appearance: 'A Thrask Emberth veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.',
     personality: 'A pragmatist drill-sergeant watching his engineering discipline fail against a threat it was never built for. Thrak-Damos is precise, blunt, and deeply frustrated.',
     backstory: 'Bulwark-Captain of the Aegis, Thrak-Damos leads from the Emberspire forge-keeps and enforces Damon\'s method with drill-sergeant discipline. The rising ambient magic has no structure to dismantle and no vector to redirect; he has begun ordering Spellguards to absorb (Damon\'s forbidden technique) because there is nothing left to dismantle.',
     hooks: [

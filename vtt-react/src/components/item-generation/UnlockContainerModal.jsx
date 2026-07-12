@@ -277,7 +277,7 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
                 <div className="unlock-container-modal" onClick={e => e.stopPropagation()}>
                     <div className="modal-header">
                         <h3>Error</h3>
-                        <button className="close-button" onClick={onClose}>Ã—</button>
+                        <button className="close-button" onClick={onClose}>Ã - </button>
                     </div>
                     <div className="modal-content">
                         <p>Container properties are missing. Please try again.</p>

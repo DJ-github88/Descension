@@ -1,20 +1,20 @@
-﻿/**
+/**
  * False Prophet Class Data
  *
  * substrate AUTOPSY, FALSE PROPHET MASTER OVERHAUL
  *
- * • Why Bring Me?: Empathetic Link, active from Level 1 via Stitch of Suffering.
+ * � Why Bring Me?: Empathetic Link, active from Level 1 via Stitch of Suffering.
  * The False Prophet channels a parasitic psychic bond between ally and enemy, redirecting a
  * percentage of incoming damage straight into the linked foe. No other class can
  * weaponize party suffering onto a target of their choosing from the very first turn.
  * This is now their singular, terrifying utility, immediate and undeniable.
  *
- * • Fatal Flaw: The Isolation Penalty, without a living congregation (allies or
+ * � Fatal Flaw: The Isolation Penalty, without a living congregation (allies or
  * enslaved entities) within a strict 30-foot radius, all mana costs inflate brutally.
  * They are conductors that cannot perform without instruments to play.
  * Extreme radiant vulnerability (+25% from all sources). Physically the frailest caster.
  *
- * • Level 1 Link Integration: Stitch of Suffering costs Mana, generates exactly 1
+ * � Level 1 Link Integration: Stitch of Suffering costs Mana, generates exactly 1
  * Madness point, and threads an empathetic bond that redirects 30% of an ally's
  * incoming damage to a linked enemy as wyrd damage. The core utility loop is
  * now operational from Turn 1. All Madness generation uses normalized random dice
@@ -25,11 +25,13 @@
 
 export const FALSE_PROPHET_DATA = {
  restrictions: {
-  "allowedSubraces": [
-   "sylen_astril",
-   "muren_astril",
-   "morren_human"
-  ],
+   "allowedSubraces": [
+    "vashir_astril",
+    "silath_astril",
+    "morren_human",
+    "solvarn_human",
+    "tessen_human"
+   ],
    "hardBlocks": [
     "skald_human",
     "thalren_human",
@@ -37,61 +39,95 @@ export const FALSE_PROPHET_DATA = {
     "emberth"
    ],
    "narrativeUnlock": true,
-   "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril host constellation-spirits that blur the line between absolute truth and parasitic deception. Morren live in debt-trapped desperation adjacent to the Keeper's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists — a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
+       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Morren live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
  },
 
  /**
  * Subrace Variants, the False Prophet sells manufactured meaning, and what counts
  * as "meaning" depends entirely on what your people are desperate to hear. The Astril
  * variants are the most dangerous: their constructed faith is indistinguishable from
- * the genuine celestial resonance their bodies already carry.
+ * the genuine resonance of the Lumia heritage their bodies already carry.
  */
  subraceVariants: {
- sylen_astril: {
-  subraceName: 'Sylen Astril',
+ vashir_astril: {
+  subraceName: 'Vashir Astril',
   title: 'The False Star',
-  reframe: `The <LoreLink termId="astril">Sylen</LoreLink> host *real* constellation-spirits, and a Sylen False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine celestial resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real imprisoned star-fragment and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
+   reframe: `The <LoreLink termId="astril">Vashir</LoreLink> carry *real* Lumia heritage, and a Vashir False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
   signatureAbility: {
   name: 'Borrowed Resonance',
-  description: `The Prophet channels their host constellation-spirit's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real celestial contact, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
+   description: `The Prophet channels their Lumia heritage's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real contact with the memory of a dead world, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
   },
-  currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Sylen's constellation-spirits *recognize*, the imprisoned fragments of Sol's court react to the Voice with something the Sylen can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the constellation-spirits remember from before the Deepening. Their constructed faith may be older than they knew.`,
+   currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Vashir's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Vashir can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.`,
   signatureQuote: {
   text: '"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are."',
   speaker: 'Aenith the Luminous Lie',
-  context: 'A Sylen False Prophet, three years into a fabricated solar-revival cult'
+  context: 'A Vashir False Prophet, three years into a fabricated solar-revival cult'
   }
  },
 
- muren_astril: {
-  subraceName: 'Muren Astril',
+ silath_astril: {
+  subraceName: 'Silath Astril',
   title: 'The Gagged Evangelist',
-  reframe: `The <LoreLink termId="astril">Muren</LoreLink> suppress their constellation-spirits, and a Muren False Prophet weaponizes the *suppression itself*, preaching a gospel the bound spirit rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Muren Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
+   reframe: `The <LoreLink termId="astril">Silath</LoreLink> suppress their Lumia heritage, and a Silath False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Silath Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
   signatureAbility: {
   name: 'Hostage-Sermon',
-  description: `Faith-power scales with the suppressed constellation-spirit's agitation; the more the bound spirit fights the doctrine, the more the congregation believes it, genuine supernatural resistance reads, to mortals, as the force of true revelation.`
+   description: `Faith-power scales with the suppressed heritage's agitation; the more the bound Lumian memory fights the doctrine, the more the congregation believes it, genuine supernatural resistance reads, to mortals, as the force of true revelation.`
   },
-  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Muren: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Muren False Prophet whose hostage agrees with them is, almost universally, a Muren False Prophet who has finally said something the hostage wants.`,
+  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Silath: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Silath False Prophet whose hostage agrees with them is, almost universally, a Silath False Prophet who has finally said something the hostage wants.`,
   signatureQuote: {
   text: '"For years I preached against my star\'s will, and the people believed the struggle. Now my star is silent. I do not know which frightens me more."',
   speaker: 'Orathin the Willing',
-  context: 'A Muren False Prophet, the morning his suppressed spirit stopped objecting'
+  context: 'A Silath False Prophet, the morning his suppressed spirit stopped objecting'
   }
  },
 
  morren_human: {
   subraceName: 'Morren',
   title: 'The Debt-Preacher',
-  reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live in debt-trapped desperation adjacent to the <LoreLink termId="keeper_of_the_last_threshold">Keeper</LoreLink>'s power, and a Morren False Prophet sells the one thing every Morren family would pay anything for: salvation from the Neth contract-debt. Their manufactured faith is a counter-currency, devotion in lieu of gold, belief in lieu of blood, the congregation paying in worship what their families owe in interest.`,
+  reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live in debt-trapped desperation adjacent to the <LoreLink termId="morvane">Morvane</LoreLink>'s power, and a Morren False Prophet sells the one thing every Morren family would pay anything for: salvation from the Neth contract-debt. Their manufactured faith is a counter-currency, devotion in lieu of gold, belief in lieu of blood, the congregation paying in worship what their families owe in interest.`,
   signatureAbility: {
   name: 'Indulgence-Economy',
   description: `The Prophet's congregation pays devotion in direct proportion to their inherited debt; the more a follower owes the Neth, the more powerful the Prophet's faith-effects become when channeling through them. The Morren False Prophet is, in effect, a competing creditor.`
   },
-  currentCrisisAngle: `The Voice's instructions to open "the way" in the Frozen Archive have been read by the Morren Debt-Preachers as a promise: a way out of the contract-system entirely. Some have begun preaching that the Keeper itself is the first False Prophet, that the entire Neth contract-economy is a manufactured faith eight centuries old. If they are right, the Morren are not heretics. If they are wrong, the Keeper's Sanction will be absolute.`,
+  currentCrisisAngle: `The Voice's instructions to open "the way" in the Frozen Archive have been read by the Morren Debt-Preachers as a promise: a way out of the contract-system entirely. Some have begun preaching that Morvane itself is the first False Prophet, that the entire Neth contract-economy is a manufactured faith eight centuries old. If they are right, the Morren are not heretics. If they are wrong, Morvane's Sanction will be absolute.`,
   signatureQuote: {
   text: '"Your grandmother signed a contract with a thing that eats debts. I am offering you a power who will tear it up. Tell me again which one of us is the fraud."',
   speaker: 'Preacher Mor-Velk',
   context: 'A Morren Debt-Preacher, to a Neth tax-collector, the night before his arrest'
+  }
+ },
+
+ solvarn_human: {
+  subraceName: 'Solvarn Human',
+  title: 'The Honest Heretic',
+  reframe: `Preaches the Silence to exhausted <LoreLink termId="solvarn">Ash-Dwellers</LoreLink> who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  --  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solvarn False Prophet does not lie. That is what makes them a prophet.
+
+The faith reached Sundale through the Hunger Road  --  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Morren debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Emberth. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
+  signatureAbility: {
+  name: 'Unvarnished Truth',
+  description: `Madness Points are generated by speaking the literal, despairing truth to a congregation that has been fed hope for centuries. The Honest Heretic's doctrine is the most dangerous because it is true: Sol is not returning, the vigil is meaningless, and telling people this generates more Madness than any lie ever could.`
+  },
+  currentCrisisAngle: `The Dawn Vigil has noticed the Honest Heretics, and they are terrified because the Heretics cannot be executed on theological grounds  --  they are not preaching heresy, they are preaching accuracy. The Vigil's inquisitors have begun arresting them for "demoralization," a crime that did not exist before the Honest Heretics invented it by forcing the Vigil to admit it.`,
+  signatureQuote: {
+  text: '"They burned the last preacher who lied to them. They will burn me for telling the truth. The fire is the same. The only difference is that I deserve it less."',
+  speaker: 'Ash-Preacher Sol-Venn',
+  context: 'A Solvarn Honest Heretic, the night before his scheduled execution'
+  }
+ },
+
+ tessen_human: {
+  subraceName: 'Tessen Human',
+  title: 'The Keep-Prophet',
+  reframe: `Four centuries of isolation have made the <LoreLink termId="house_tesshan">Tessen</LoreLink> desperate for meaning. A Keep-Prophet manufactures a faith that replaces the sealed stone walls with cosmic purpose. The keep IS the congregation, and the congregation cannot leave  --  they are literally trapped together. A Tessen False Prophet builds Madness faster than any other variant because they have a captive audience, and the audience has no other source of meaning. The voice from the vault speaks loudest in sealed rooms.`,
+  signatureAbility: {
+  name: 'Captive Congregation',
+  description: `Madness Points build at an accelerated rate because the congregation is physically trapped inside the sealed keep; no member can leave the service, and the Keep-Prophet has a captive audience with no competing source of meaning. The keeps' isolation amplifies the Prophet's voice, and the stone walls ensure the sermon never stops.`
+  },
+  currentCrisisAngle: `The Tessen keeps are failing, and the Keep-Prophets have realized their congregations are not just metaphorically trapped  --  they are actually sealed in failing structures. The sermons have shifted from manufactured faith to manufactured courage: the Prophet is now the only thing keeping the keep from collapsing into panicked stampede.`,
+  signatureQuote: {
+  text: '"The walls are failing. The stone is cracking. My congregation asks if I can pray the ceiling closed. I tell them yes. The ceiling does not hear me, but they do, and that is enough."',
+  speaker: 'Keep-Preacher Tess-Oren',
+  context: 'A Tessen Keep-Prophet, the night the inner stonework began to crumble'
   }
  }
  },
@@ -114,40 +150,46 @@ export const FALSE_PROPHET_DATA = {
  currentLeader: {
   name: '<LoreLink termId="mor-vereth">Cell-Mother Mor-Vereth</LoreLink>',
   title: 'Weaver of the Congregation',
-  characterization: `A <LoreLink termId="house_morrath">Morren</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat.`
+  characterization: `A <LoreLink termId="house_morrath">Morren</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  --  Neth-made, contract-grade  --  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone.`
  },
  headquarters: { name: 'The Crater of the First Silence (cell-network, no fixed seat)', locationId: 'starfall_vale' },
  crisisConnection: `<LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> is the one receiving the Voice's new, specific instructions, *descend to the Frozen Archive's lowest vault, open the way*, and she is terrified because the instructions are no longer suggestions. <LoreLink termId="li-wei">Li Wei</LoreLink>'s heart has begun beating in the rhythm of the commands, and the Congregation's cells across every region are reporting the same rhythm. Whatever is trapped beneath the Archive is using the faith to free itself, and <LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> does not know how to stop a power she invented.`
  },
 
  worldFriction: [
- { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod-Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true celestial resonance. A Prophet identified by the Luminarchy is subject to immediate crystal-binding and exile; repeat offenders are "quieted."', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
+  { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod-Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true resonance. A Prophet identified by the Astril elders is subject to immediate crystal-binding and exile; repeat offenders are "quieted." The Quieting of Year 720  --  when Synod crystal-binders publicly sealed twelve False Prophets in the plaza of Synod-Hold, only for the gathered crowd to hear the sealed Prophets continue preaching from within their crystal prisons. The synod-elders called it heresy. The crowd called it a miracle. The Congregation tripled in size within the year.', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
  { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil considers manufactured revelation a direct threat to the Reforging theology; False Prophets in Sundale are burned as heretics alongside suspected Pyrofiends.' },
- { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are constitutionally unable to be fooled by spoken faith (they cannot lie and sense lies), so the Congregation of the Silence struggles in Bryngloom, but the Morren debt-population is desperate enough to believe anything.' }
+ { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Morren debt-population is desperate enough to believe anything.' }
  ],
 
  overview: {
- originStory: `Founded in the most recent centuries by Li Wei, who witnessed the Silence Between Stars in a Sundered Monolith crater and returned with blank white eyes and a hypnotic madness. In the starless grasslands of the Sundrift Vale, a nomadic herd-watcher named Li Wei followed a falling meteor into a deep, crystalline crater. He did not find a metal shard, but an ancient, sundered monolith humming with a black, empty vacuum. When he looked directly into the silence where Sol once shone, he did not see light; he saw the gospel of the Silence. The vacuum spoke not in words, but in the terrifying, silent architecture of the stars' demise.
+  originStory: `A manufacturer of faith. Not a believer, not a mystic, but someone who has learned that conviction, even false conviction, generates power, and that desperate people will follow any voice that sounds certain.
 
-Li Wei returned with blank, white eyes and a mind permanently shattered by the competing voices of dead stars. The False Prophet is physically blind, his skin pale and cracked, and his heart beating in erratic, asynchronous patterns. His words carry a hypnotic madness that drains the stamina of listeners, forcing them to see the phantom embers of dead stars.
+The first was Li Wei, an Ordan herd-watcher in the Sundrift Vale. He followed a falling meteor into a deep crystalline crater and found not metal but a sundered monolith humming with a black vacuum, the space where Sol's light had been. When he looked directly into that silence, he saw the gospel of the Silence. He returned with blank white eyes and a mind permanently shattered by the competing voices of dead stars. He cannot lead. He can only listen. The Congregation of the Silence formed around his breathing without his consent.
 
-Speak the silence's gospel. The stars are dead, and the vacuum is the only truth left. Lead them into the dark.`,
- title: "The False Prophet",
+Each subrace manufactures faith from a different desperation. The Vashir Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Silath Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Morren sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solvarn preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
+
+The faith reached Sundale through the Hunger Road. Morren debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Emberth forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
+
+The Synod-Hold has hunted the Congregation since the Quieting of Year 720, when Synod crystal-binders publicly sealed twelve prophets and the gathered crowd heard them continue preaching from within their crystal prisons. The Synod called it heresy. The crowd called it miracle. The Congregation tripled.
+
+The cell-network is run by Cell-Mother Mor-Vereth, a Morren debtor who keeps Li Wei alive because the Voice will not speak through any other throat. She maintains a private ledger recording every cell-member who has died following her instructions. She updates it on the last night of every month, alone. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
+
+The Voice itself has grown louder. It has begun giving specific instructions: descend to the lowest vault of the Frozen Archive, open the way. Something beneath the Archive is using the faith to free itself, and Mor-Vereth does not know how to stop a power she invented.`,
+  title: "The False Prophet",
  subtitle: "The Lie That Devours the Living",
  illustration: "/assets/images/classes/false_prophet_illustration.png",
  illustrationCaption: "A Vreken Starved False Prophet carrying a dark scripture in a serene preaching pose.",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The False Prophet harvests Madness Points (0-20) by preaching the Silence as absolute truth, with each stolen point granting +1 damage to all psychic, silence, and necrotic spells. The temptation is a noose, pull toward 20 for godlike power, but cross the threshold and an Insanity Convulsion tears through you: catastrophic self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. Your empathetic link is active from Level 1, Stitch of Suffering threads an empathetic bond between ally and enemy on your very first turn.
+  content: `**Who they are**: A preacher who sells manufactured revelation, harvesting the psychic residue of every mind they have touched and compressing it into weaponized willpower. They preach the Silence as absolute truth  --  not because they believe it, but because it generates power.
 
-**Core Mechanic**: Preach silence sermons -> Roll dice for random Madness gains -> Damage scales with Madness (+1 per point to all spell damage types) -> Stitch empathetic links from Level 1 to redirect ally suffering onto enemies -> Unlock Temptation thresholds at 6, 9, 12 Madness -> Reach 20 and trigger Insanity Convulsion -> Reset to 0
+**The hook**: Build Madness Points by preaching sermons and stitching empathetic links between allies and enemies. Each point adds +1 to all spell damage. Your empathetic link is active from Level 1  --  redirect 30% of an ally's incoming damage straight into the linked foe. Suffering is your ammunition, and you redirect it.
 
-**Resource**: Madness Points (0-20 scale, random generation and spending)
+**The cost**: At 20 Madness, your mind shatters in an Insanity Convulsion  --  self-harm, uncontrolled teleportation, stunned helplessness, or worse. Your Madness resets to zero. You begin the harvest again. You always begin again. And in the quiet moments, the Voice of the Silence comments on everything, reminding you of the horrifying truth behind every mundane moment.
 
-**Playstyle**: Parasite caster hollowing themselves out on the altar of their own stolen power
-
-**Best For**: Players who understand that power is a disease and want to see how far the infection spreads before it kills the host`,
+**Bring one for**: Weaponizing suffering  --  the 40-point blow meant for your tank travels down your empathetic link and crashes into the boss. No other class turns party pain into enemy death with such surgical precision.`,
  },
 
  description: `The False Prophet does not worship - they channel. They preach the Silence as absolute revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. This madness is not inspiration; it is the accumulated wyrd pressure of every consciousness they have touched, compressed into weaponized willpower. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm the Prophet from within. They walk a razor edge between transcendence and collapse, and every step forward is powered by the wyrd exhaustion of those who believed them.`,
@@ -161,11 +203,11 @@ The false prophet's blinding fervor was born in the starless steppe of the <Lore
 False Prophets are viewed with deep suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by desperate humans and the constellationless <LoreLink termId="astril">Unlit Astril</LoreLink>.
+The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> humans, <LoreLink termId="solvarn">Solvarn</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
 
 **NOTABLE FIGURES**
 * **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the silence in the constellations.
-* **Seraphina the Silent**: An Unlit Astril who led a small cult of starless heretics across the steppe.`
+* **Seraphina the Silent**: An Astril who led a small cult of heretics across the steppe.`
  },
 
  signatureQuote: {
@@ -176,7 +218,7 @@ The class is practiced by desperate humans and the constellationless <LoreLink t
 
  philosophy: {
   coreTenet: 'The universe is cold, dark, and empty. The Light is a lie people tell themselves to feel safe. The Silence is the truth, vast, and indifferent. To embrace the Silence is not to worship death; it is to finally stop being afraid of it. A False Prophet does not preach despair. They preach clarity.',
-   relationship: 'False Prophets draw power from the Silence — the void between stars, the quiet after death. To them this is the Wyrd, and the scholars of the Frozen Archive now concur: the Silence is the resonance of the Void, the hush left where Keth-Amar\'s Breach tore reality open — one face of the Wyrd\'s corruption, not a separate or older power. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Silence\'s truth, and the less human they become.',
+   relationship: 'False Prophets draw power from the Silence � the void between stars, the quiet after death. To them this is the Wyrd, and the scholars of the Frozen Archive now concur: the Silence is the resonance of the Void, the hush left where Keth-Amar\'s Breach tore reality open � one face of the Wyrd\'s corruption, not a separate or older power. The Prophet opens their mind to it, and it fills them with Madness. Madness is not a side effect. It is the point. The more Madness a Prophet holds, the more clearly they can perceive the Silence\'s truth, and the less human they become.',
   paradox: 'False Prophets preach salvation through oblivion, but they cannot practice what they preach. To fully embrace the Silence would be to dissolve, to become one with the absence they worship. But if they dissolved, who would spread the gospel? So they hold themselves at the edge of annihilation, forever teetering, forever preaching, forever denying themselves the peace they offer others.'
  },
 
@@ -277,7 +319,7 @@ The False Prophet thrives when surrounded by a congregation - allies to channel 
 
  immersiveCombatExample: {
   title: "Combat Example: Dancing on the Edge of Madness",
-  content: `The bandits have no idea what they are facing. To them, you are a street preacher in ragged robes, easy prey. They do not understand that the silence you carry is not emptiness — it is a presence. When you open your mouth, it will not be your voice that answers.
+  content: `The bandits have no idea what they are facing. To them, you are a street preacher in ragged robes, easy prey. They do not understand that the silence you carry is not emptiness � it is a presence. When you open your mouth, it will not be your voice that answers.
 
 **The Setup**: You're a False Prophet (Silence-Speaker specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
 
@@ -705,7 +747,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
 
   triggerConfig: {
     triggers: [
-      { id: "fp_blood_sermon_trigger", name: "Silence Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP — non-negotiable sacrifice to the silence." }
+      { id: "fp_blood_sermon_trigger", name: "Silence Toll", triggerType: "on_cast", action: "Channeling the sermon costs 3 HP � non-negotiable sacrifice to the silence." }
     ]
   },
   tags: ["damage", "wyrd", "madness", "self-harm", "silence_speaker"],
@@ -3793,7 +3835,7 @@ verbalText: "The silence answers!",
   },
   { id: "fp_surface_thoughts",
    name: "Surface Thoughts",
-   description: "Press a psychic ear to a creature's mind and hear only what is loudest — its immediate surface thoughts and the emotion behind them. No deep secrets, no memories; just what it is thinking right now, which lets you catch lies by their nervous tell. Out of combat; concentration.",
+   description: "Press a psychic ear to a creature's mind and hear only what is loudest � its immediate surface thoughts and the emotion behind them. No deep secrets, no memories; just what it is thinking right now, which lets you catch lies by their nervous tell. Out of combat; concentration.",
    level: 2,
    spellType: "ACTION",
    icon: "Psychic/Psychic Telepathy",
@@ -3802,20 +3844,20 @@ verbalText: "The silence answers!",
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["any"] },
    resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["verbal","somatic"], verbalText: "A question the mind wants to answer", somaticText: "Tilt your head as though listening to a voice no one else hears" },
    resolution: "NONE",
-   utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "surface_thoughts_read", name: "Loud Thoughts", description: "For 1 minute read one creature's immediate surface thoughts and emotion; catch spoken lies by their nervous tell. Surface only — no memories, plans, or deep secrets.", mechanicsText: "Read surface thoughts + emotions + detect lies, 1 min." } ], duration: 1, durationUnit: "minutes", concentration: true, power: "moderate" },
+   utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "surface_thoughts_read", name: "Loud Thoughts", description: "For 1 minute read one creature's immediate surface thoughts and emotion; catch spoken lies by their nervous tell. Surface only � no memories, plans, or deep secrets.", mechanicsText: "Read surface thoughts + emotions + detect lies, 1 min." } ], duration: 1, durationUnit: "minutes", concentration: true, power: "moderate" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility","divination","social","investigation","false prophet"],
   },
   { id: "fp_consult_the_voice",
    name: "Consult the Voice",
-   description: "Fall silent and let the Voice answer. Ask one question; the silence-entity replies truthfully, in its own words, about anything it can perceive — but the truth it speaks costs you 1d4 Madness, and it answers what it wants, sometimes more than you asked, sometimes in a way meant to further its own unknown ends. Out of combat.",
+   description: "Fall silent and let the Voice answer. Ask one question; the silence-entity replies truthfully, in its own words, about anything it can perceive � but the truth it speaks costs you 1d4 Madness, and it answers what it wants, sometimes more than you asked, sometimes in a way meant to further its own unknown ends. Out of combat.",
    level: 2,
    spellType: "ACTION",
    icon: "Psychic/Agonizing Scream",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", icon: "Psychic/Agonizing Scream", tags: ["utility","divination","investigation","madness","false prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
-   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal"], verbalText: "Ask the question aloud — the Voice is listening" },
+   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal"], verbalText: "Ask the question aloud � the Voice is listening" },
    resolution: "NONE",
    utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "consult_voice_answer", name: "The Voice Answers", description: "Receive one truthful answer to any question the silence can perceive. Costs 1d4 Madness (may push you toward Convulsion). The Voice chooses its phrasing and may volunteer unsettling extra truth; it is honest, not helpful.", mechanicsText: "1 truthful answer from the Voice; +1d4 Madness cost." } ], power: "moderate" },
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
@@ -3823,7 +3865,7 @@ verbalText: "The silence answers!",
   },
   { id: "fp_whispered_suggestion",
    name: "Whispered Suggestion",
-   description: "Slip a single thought into a weak-willed creature's mind — a reasonable idea it believes is its own: to step aside, to answer, to look the other way, to trust you. Not domination; a nudge it can refuse if the suggestion is harmful or wildly out of character. Out of combat.",
+   description: "Slip a single thought into a weak-willed creature's mind � a reasonable idea it believes is its own: to step aside, to answer, to look the other way, to trust you. Not domination; a nudge it can refuse if the suggestion is harmful or wildly out of character. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Psychic/Psychic Telepathy",

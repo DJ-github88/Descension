@@ -1313,7 +1313,7 @@ export const SKILL_QUESTS = {
   religion: [
     {
       id: 'divine_knowledge',
-      name: 'Warden\'s Knowledge',
+      name: 'Aethil\'s Knowledge',
       description: 'Recall important religious information',
       icon: 'Radiant/Radiant Light 5',
       rank: 'NOVICE',
@@ -1367,12 +1367,12 @@ export const SKILL_QUESTS = {
     },
     {
       id: 'divine_intervention',
-      name: 'Warden\'s Intervention',
+      name: 'Aethil\'s Intervention',
       description: 'Witness or invoke sacred intervention',
       icon: 'Radiant/Radiant Light 5',
       rank: 'ADEPT',
       completed: false,
-      unlocks: ['Warden\'s connection']
+      unlocks: ['Aethil\'s connection']
     },
     {
       id: 'planar_beings',

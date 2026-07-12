@@ -2739,7 +2739,7 @@ const ProfessionalVTTEditor = () => {
                             onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
                             title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
                         >
-                            {isLayersPanelCollapsed ? 'â—€' : 'â–¶'}
+                            {isLayersPanelCollapsed ? 'â - €' : 'â–¶'}
                         </button>
 
                         {/* Render tool-specific components */}

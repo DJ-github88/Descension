@@ -1,11 +1,12 @@
 export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "maskborne_mimir",
-          "mistwoven_mimir",
+          "masked_mimir",
+          "woven_mimir",
           "unwoven_mimir",
           "morgh_groven",
-          "ithran_groven"
+          "ithran_groven",
+          "marked_vreken"
       ],
       "hardBlocks": [
           "human",
@@ -25,35 +26,35 @@ export const SHAPER_DATA = {
    * body-sculpting heritage, the vats that made them, turned inward.
    */
   subraceVariants: {
-    maskborne_mimir: {
-      subraceName: 'Mask-Borne Mimir',
+    masked_mimir: {
+      subraceName: 'Masked Mimir',
       title: 'The Form-Locked',
-      reframe: `The <LoreLink termId="mimir">Mask-Borne</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Mask-Borne are the most controlled Shapers: the mask holds the self stable while the body shifts around it, a fixed point around which transformation orbits. The most stable, and the most limited, they cannot reshape the face the mask protects.`,
+      reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Masked are the most controlled Shapers: the mask holds the self stable while the body shifts around it, a fixed point around which transformation orbits. The most stable, and the most limited, they cannot reshape the face the mask protects.`,
       signatureAbility: {
         name: 'Anchor-Form',
-        description: `Kinetic Flux builds faster when the Shaper's mask remains untouched, the mask is the fixed axis, and every transformation radiates from it. The instant the mask is struck or displaced, all held forms destabilize violently. The Mask-Borne fight to protect the one thing they cannot change.`
+        description: `Kinetic Flux builds faster when the Shaper's mask remains untouched, the mask is the fixed axis, and every transformation radiates from it. The instant the mask is struck or displaced, all held forms destabilize violently. The Masked fight to protect the one thing they cannot change.`
       },
-      currentCrisisAngle: `Convergence Collapse hits the Mask-Borne as a *mask-crisis*: when young Mask-Borne attempt every form at once, the transformations begin *reaching for the mask*, trying to reshape the one thing that holds the self. Several young Mask-Borne have shattered their own masks mid-convergence, and the resulting identity-collapse is the most frightening thing the elder Shapers have ever witnessed, a Mimir without an anchor, dissolving in real time.`,
+      currentCrisisAngle: `Convergence Collapse hits the Masked as a *mask-crisis*: when young Masked attempt every form at once, the transformations begin *reaching for the mask*, trying to reshape the one thing that holds the self. Several young Masked have shattered their own masks mid-convergence, and the resulting identity-collapse is the most frightening thing the elder Shapers have ever witnessed, a Mimir without an anchor, dissolving in real time.`,
       signatureQuote: {
         text: '"My mask is the only shape I cannot change, and the dance keeps trying to take it from me. The day I let it, I will not be anyone to remember the loss."',
         speaker: 'Form-Keeper Mir-Vassen',
-        context: 'A Mask-Borne Shaper, splinting his mask-straps before a convergence drill'
+        context: 'A Masked Shaper, splinting his mask-straps before a convergence drill'
       }
     },
 
-    mistwoven_mimir: {
-      subraceName: 'Mist-Woven Mimir',
+    woven_mimir: {
+      subraceName: 'Woven Mimir',
       title: 'The Sentinel-Shifter',
-      reframe: `The <LoreLink termId="mimir">Mist-Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance. A Mist-Woven Shaper does not reshape for combat; they reshape for *perception*, becoming the thing that sees what the fog hides.`,
+      reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance. A Woven Shaper does not reshape for combat; they reshape for *perception*, becoming the thing that sees what the fog hides.`,
       signatureAbility: {
         name: 'Vigil-Form',
-        description: `Shaping forms optimized for sensory coverage rather than offense, widened eyes, extended auditory structures, distributed nerve-endings. The Mist-Woven are the tradition's scouts, and their Kinetic Flux generates from *detection* (spotting an enemy) as much as from combat impact.`
+        description: `Shaping forms optimized for sensory coverage rather than offense, widened eyes, extended auditory structures, distributed nerve-endings. The Woven are the tradition's scouts, and their Kinetic Flux generates from *detection* (spotting an enemy) as much as from combat impact.`
       },
-      currentCrisisAngle: `The mist is learning to hide (the Apex crisis), and the Mist-Woven Shapers feel it most acutely, every vigil-form is returning less, the sensory adaptations hitting a fog that refuses to cooperate. The young Mist-Woven, in frustration, are pushing their vigil-forms past design limits, burning through crystalline skin to see a fog that has decided to be blind.`,
+      currentCrisisAngle: `The mist is learning to hide (the Apex crisis), and the Woven Shapers feel it most acutely, every vigil-form is returning less, the sensory adaptations hitting a fog that refuses to cooperate. The young Woven, in frustration, are pushing their vigil-forms past design limits, burning through crystalline skin to see a fog that has decided to be blind.`,
       signatureQuote: {
         text: '"I reshaped my eyes to pierce the mist. The mist reshaped itself to defy my eyes. We are arguing, and I am losing, and I do not know what it is protecting."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Mist-Woven Shaper, the third night her vigil-form returned nothing'
+        context: 'A Woven Shaper, the third night her vigil-form returned nothing'
       }
     },
 
@@ -103,6 +104,22 @@ export const SHAPER_DATA = {
         speaker: 'Ith-Sparra Span-Dancer',
         context: 'An Ithran Shaper, choosing which cracking span to run before a battle'
       }
+    },
+
+    marked_vreken: {
+      subraceName: 'Marked Vreken',
+      title: 'The Mycelium-Sculpt',
+      reframe: `The <LoreLink termId="root_veil">Ghost-Mycelium</LoreLink> already threads their body, connecting them to the <LoreLink termId="root_veil">Root-Veil</LoreLink>. A <LoreLink termId="vreken">Marked Vreken</LoreLink> Shaper does not reshape only bone and muscle  -  the mycelium reshapes WITH them, fungal threads coiling and uncoiling in synchronization with the Shaping Forms. The most fluid Shaper  -  transitions between Forms are silk-smooth  -  and the most alien to watch. The mycelium visibly moves beneath the skin during transformation. The Body Toll is paid in fungal decay: spent mycelium turns black and falls away, and new growth must replace it. The Marked Vreken Shaper risks burning through their own fungal network faster than the Root-Veil can replenish it.`,
+      signatureAbility: {
+        name: 'Mycelium-Flux',
+        description: `Shaping Forms are rendered *frictionless* by the Ghost-Mycelium's assistance: form transitions cost 1 less Flux (minimum 1). The cost is paid in fungal decay  -  every form shift causes a visible blackening and shedding of spent mycelium threads from the skin. The Marked Vreken Shaper must spend time in contact with the Root-Veil between combats to regrow their network, or risk burning through it entirely.`
+      },
+      currentCrisisAngle: `The Root-Veil is recoiling from the Marked (the foundational crisis), and the Mycelium-Sculpt Shapers feel it in every shift  -  the network resists, the threads pull against the transformation, and each form change becomes a *negotiation* rather than a collaboration. The young Marked Shapers are burning through their mycelial reserves at three times the normal rate, and the Root-Veil is not replacing what it used to provide. Several have been forced to stop shifting entirely, their bodies frozen mid-form, waiting for a forest that may not return.`,
+      signatureQuote: {
+        text: '"The mycelium used to dance with me. Now it pulls back. Every shift hurts where it used to flow. The Root-Veil is leaving, and I am left holding a body that moves alone, in a silence I do not recognize."',
+        speaker: 'Myc-Sculpt Vrek-Fel',
+        context: 'A Marked Vreken Shaper, pausing mid-shift as the mycelium resists'
+      }
     }
   },
 
@@ -116,22 +133,22 @@ export const SHAPER_DATA = {
   livingOrder: {
     orderName: 'The Form-Convergence',
     founder: {
-      name: '<LoreLink termId="veyra">Veyra</LoreLink>',
-      status: `Alive. The <LoreLink termId="mimir">Mimir</LoreLink> chronicler who merged Sylvanus's kinetic momentum dance (Frostwood) with Torin's biological adaptation art (<LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>) still leads the Convergence, her semi-crystalline skin more calcified each year. She is the only Shaper who has held the merged art without burning out, because she invented it slowly, over centuries.`,
-      note: `<LoreLink termId="veyra">Veyra</LoreLink> did not invent the Shaping Forms; she invented the *convergence*. The kinetic and biological traditions existed separately for centuries. She proved they were one dance seen from two angles.`
+      name: '<LoreLink termId="torin">Torin</LoreLink>',
+      status: `Deceased. Torin was a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War (Years 100-120, Dimming). With his limbs too short to brace the widening crack, he drank a cask of raw alchemical sulfur-clay  -  the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before  -  and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came. The Morgh elders recognized what he had done: he had turned the Deep Alchemists' violation into a choice. The Shaping Hall was established at Frostmaw Crag, and Torin became its first master.`,
+      note: `Torin did not invent body modification  -  the Deep Alchemists did, when they reshaped the Thrumm into Groven. What Torin did was reclaim it. He took the alchemist's tools and used them on his own terms, and that act of reclamation is the Shaper's founding principle.`
     },
     currentLeader: {
       name: '<LoreLink termId="veyra">Form-Matriarch Veyra the Merged</LoreLink>',
       title: 'Keeper of the Six Forms',
-      characterization: `Ancient, patient, and more stone than flesh, <LoreLink termId="veyra">Veyra</LoreLink>'s body is a living record of every transformation she has ever held. She leads the Convergence from Frostmaw and teaches the six Forms in sequence, insisting no student attempt convergence until they have mastered each form alone. The young convergers consider this archaic. She considers their burnout rate the proof she is right.`
+      characterization: `Ancient, patient, and more stone than flesh. <LoreLink termId="veyra">Veyra</LoreLink> was a Woven Mimir trade envoy on the Ancestor-Spans who learned the Shaping art from Groven masters and brought it home to the Frostwood, becoming the bridge between two body-modifying cultures. Her semi-crystalline skin is more calcified each year. She leads the Convergence from the Shaping Hall at Frostmaw and teaches the six Forms in sequence, insisting no student attempt convergence until they have mastered each form alone. The young convergers consider this archaic. She considers their burnout rate the proof she is right.`
     },
     headquarters: { name: 'The Shaping Hall, Frostmaw Holdfast', locationId: 'frostmaw_holdfast' },
-    crisisConnection: `<LoreLink termId="veyra">Veyra</LoreLink> is losing the argument. The purist-vs-converger schism is worsening, and Convergence Collapse is killing the young Mimir Shapers, burning through crystalline skin in years rather than centuries. <LoreLink termId="veyra">Veyra</LoreLink>'s slow method works, but the era does not allow for slow: the Frostwood mist is learning to hide, the Ancestor-Spans are cracking, and the world demands Shapers who can converge *now*. <LoreLink termId="veyra">Veyra</LoreLink> is being forced to teach the dangerous convergence she spent centuries proving was premature, because the alternative is a tradition of pure-form specialists who cannot meet the moment.`
+    crisisConnection: `<LoreLink termId="veyra">Veyra</LoreLink> is losing the argument. The purist-vs-converger schism is worsening, and Convergence Collapse is killing the young Mimir Shapers, burning through crystalline skin in years rather than centuries. <LoreLink termId="veyra">Veyra</LoreLink>'s slow method  -  adapted from Groven bone-sculpting to Mimir fluid transformation  -  works, but the era does not allow for slow: the Frostwood mist is learning to hide, the Ancestor-Spans are cracking, and the world demands Shapers who can converge *now*. <LoreLink termId="veyra">Veyra</LoreLink> is being forced to teach the dangerous convergence she spent centuries proving was premature, because the alternative is a tradition of pure-form specialists who cannot meet the moment.`
   },
 
   worldFriction: [
     { region: 'frostwood-reach', status: 'distrusted', consequence: 'House Thalreth outlaws shape-shifting outside licensed Mimir actors, fearing that unregistered form-shifting is used by spies to bypass the Scribe-Cartel registries.', workaround: 'Shapers hide their transformations under massive, fur-lined cloaks, utilizing the constant mist to mask the flash of biological shift.' },
-    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution and Shapers are honored as the inheritors of the Vat-Breakers\' biological heritage. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' },
+    { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution founded by Morgh elders after Torin\'s act of reclamation. Shapers are honored as those who turned the Deep Alchemists\' violation into choice. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' },
     { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Debt-Revenants.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
   ],
 
@@ -141,44 +158,46 @@ export const SHAPER_DATA = {
     illustration: "/assets/images/classes/shaper_illustration.png",
     illustrationCaption: "A Shaper mid-transition, kinetic sparks trailing from reshaping limbs as bone and blade become one.",
 
-    originStory: `Founded centuries into the Dimming when the Mimir chronicler Veyra the Merged fused two ancient traditions: Sylvanus's Frostwood kinetic dance and Torin's Cragjaw biological body-sculpting. The first shapers were not warriors or alchemists but desperate survivors who refused to accept the body they were born with. In the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, the wood-warden Sylvanus learned to synchronize his strikes with the wind-swept ironwood branches, flowing through mist like a falling leaf, his twin axes carving a path of kinetic momentum through face-stealing horrors. In the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the troll-kin Torin drank a draft of raw alchemical sulfur-clay and forced his skeleton to calcify and expand, mimicking basalt pillars to hold up a collapsing mine.
+    originStory: `A shaper treats their body as a malleable weapon, reshaping posture, bone density, and musculature in real time through six Shaping Forms. Every transformation leaves a scar. Every stance shift erodes identity. Body Toll tracks the cumulative cost. At maximum, control is surrendered to something older than the self.
 
-When a wandering <LoreLink termId="mimir">Mimir</LoreLink> chronicler named Veyra encountered both traditions, she realized they were the same art expressed through different bodies. Sylvanus reshaped posture and momentum. Torin reshaped bone and flesh. Both treated the body as a medium,malleable, negotiable, and ultimately expendable in pursuit of perfection. Veyra merged the kinetic dance with the biological rupture, creating the Shaper: a combatant who treats their own body as the ultimate weapon, shifting between kinetic states and physical forms with the same fluid inevitability.
+The tradition was born in the Cragjaw Peaks, the only place on Mythrill where bodies are routinely modified. The Groven were alchemically reshaped from Thrumm stock. The Fexric graft metal and gear to themselves. The Still-Claiming turns Groven dead into stone. Body modification is not exotic here, it is the primary fact of existence.
 
-The price of this dual mastery is absolute. The Shaper’s joints grind from kinetic friction. Their bones crack from forced mutations. Their nervous system fires at velocities no mortal frame was designed to sustain. Every transformation leaves a scar. Every stance shift erodes their identity. The body is an instrument, and the Shaper plays it until the strings break.
+The first shaper was Torin, a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, a conflict between Groven holdfasts and Fexric expeditions over geothermal vent access from Years 100 to 120 of the Dimming. The ceiling was coming down. His limbs were too short to brace the widening crack. He drank a cask of raw alchemical sulfur-clay, the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before, and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came.
 
-Shape the flesh. Sharpen the bone. The dance does not end when the music stops. It ends when there is nothing left to move.`,
+The art should have stopped there. But the Morgh elders recognized what Torin had done: he had turned the Deep Alchemists' violation, the forced reshaping of their ancestors, into a choice. The Shaping Hall was established at Frostmaw Crag, and the tradition grew. A Groven who reshapes their body is not submitting to the Fexric's design. They are taking the alchemist's tools and using them on their own terms.
+
+The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Woven Mimir trade envoy who regularly crossed the spans, was the first to merge Cragjaw bone-sculpting with Mimir fluid transformation. She did not discover a connection. She was the bridge between two cultures who had both been modifying bodies for centuries, in different ways, for different reasons. The Masked Mimir reshape controlled by their mask, the Unwoven cling to each form as temporary identity, and the Marked Vreken reshape with their mycelium moving in synchronization, the most fluid and the most alien.
+
+Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Unwoven are dying fastest, chasing convergence highs for hours of feeling complete.`,
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Shaper merges hyper-accelerated kinetic combat with biological shape-shifting. Navigate 6 Shaping Forms that blend combat posture and physical morphology. Build **Kinetic Flux** through combat actions. **Body Toll** tracks the cumulative cost of every transformation.
+      content: `**Who they are**: A kinetic biologist who treats their body as a malleable weapon  -  reshaping posture, bone density, and musculature in real time as they flow between six combat forms that blend momentum dance with biological adaptation.
 
-**Core Mechanic**: Flow between 6 Shaping Forms (Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex, Silence Predator). Build Flux through form-specific combat actions. Shift forms to match the situation,but every shift adds Body Toll.
+**The hook**: Navigate six Shaping Forms  -  from the frenzied Ataxic Flow to the immovable Deadened Bastion to the predatory Silence Predator. Each form is a complete combat specialty. Build Kinetic Flux through form-specific actions, then shift forms mid-combat to match any situation.
 
-**Resources**: Kinetic Flux (0-20) & Body Toll (0-10).
+**The cost**: Zero base armor. Double wyrd damage taken. If rooted or grappled, your Flux drops to zero and your body hemorrhages blight damage each round. Every transformation leaves a scar  -  your joints grind from kinetic friction, your bones crack from forced mutations, and your identity erodes with every shift. The body is an instrument you play until the strings break.
 
-**Fatal Flaw**: 0 base Armor, +50% wyrd vulnerability. If rooted/grappled, Flux drops to 0 and 1d10 blight/round.
-
-**Best For**: Players who enjoy tactical versatility, rapid form-switching, and dual-resource tension.`
+**Bring one for**: Tactical versatility unmatched by any other melee class  -  six stances, each a complete combat identity, switchable on demand as the battlefield demands.`
     },
 
-    description: `A master of kinetic biology, the Shaper treats their body as a malleable weapon,reshaping posture, bone density, and musculature in real time. They flow between combat forms that blend the kinetic momentum dance with biological adaptation.`,
+    description: `A shaper treats their body as a malleable weapon, reshaping posture, bone density, and musculature in real time through six Shaping Forms. Every transformation leaves a scar.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `**HISTORY: THE CONVERGENCE**
-Born from the convergence of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> kinetic momentum dance and the <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink> biological body-sculpting. The Mimir chronicler Veyra merged both traditions into the Shaper art.
+      content: `**HISTORY: THE FOUNDING**
+Born in the Cragjaw Peaks when Morgh Groven miner Torin, trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, drank raw alchemical sulfur-clay and commanded his skeleton to grow  -  reclaiming the very process that made his people. The Morgh elders established the Shaping Hall at Frostmaw Crag. The art spread across the Ancestor-Spans when Woven Mimir trade envoy Veyra learned it from Groven masters and brought it to the Frostwood, merging Cragjaw bone-sculpting with Mimir fluid transformation.
 
 **CITIES & CIVIL RECEPTION**
-Celebrated in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>, respected but watched in <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Common folk find their visible transformations disturbing.
+Celebrated in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> and at <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Common folk find their visible transformations disturbing.
 
 **RACES & CULTURAL AFFILIATION**
-Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction) and the Morgh <LoreLink termId="groven">Groven</LoreLink> (calcified bone structure stabilizes adaptation).
+The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (Torin's people, the first Shapers). From the Cragjaw it spread to the Ithran Groven (bridge-builders who adapted the art for span-running). Veyra brought it across the Ancestor-Spans to the Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction; the Masked and Unwoven learned from Veyra's school). The Marked <LoreLink termId="vreken">Vreken</LoreLink> later adapted it through Root-Veil contact, adding mycelial co-sculpting.
 
 **NOTABLE FIGURES**
-* **Sylvanus the Wood-Warden**: The pioneer of kinetic momentum shifting.
-* **Torin the Troll-Kin**: The pioneer of biological calcification and expansion.
-* **Veyra the Converger**: The Mimir scholar who synthesized both into a singular art.`
+* **Torin the Claimer**: Morgh Groven miner, first Shaper, who reclaimed the alchemy that made his people.
+* **Veyra the Merged**: Woven Mimir trade envoy who brought the Shaping art across the Ancestor-Spans and founded the Form-Convergence.
+* **Sylvanus**: A legendary Mimir Shaper  -  the first to master all six Forms after Veyra brought the art, now regarded as a near-mythic figure of kinetic mastery.`
     },
 
     signatureQuote: {
@@ -188,12 +207,12 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
     },
 
     philosophy: {
-      coreTenet: `The body is not fixed. It is a conversation between intention and bone, between velocity and flesh. A Shaper negotiates with their body,posture, density, speed, form,reshaping in real time until the body becomes the weapon the fight demands.`,
-      relationship: `Power comes from kinetic momentum and biological adaptation,two expressions of the same truth. Momentum reshapes posture. Biology reshapes flesh. Together, they reshape everything.`,
+      coreTenet: `The body is not fixed. It is a conversation between intention and bone, between ancestry and choice. The Deep Alchemists reshaped the Thrumm into the Groven without consent. A Shaper reshapes themselves on purpose  -  reclaiming the tools of their making and turning violation into self-determination.`,
+      relationship: `Power comes from alchemical heritage and deliberate transformation  -  two expressions of the same truth. The alchemists sculpted from outside. The Shaper sculpts from within. Together, they reshape everything.`,
       paradox: `The Shaper achieves perfection by destroying themselves. Every form shift leaves permanent marks,calcified skin, nocturnal vision, joints moving in wrong directions. The greatest Shapers can become anything and can no longer remember what they started as.`
     },
 
-    currentCrisis: `Young Shapers experience **Convergence Collapse**,kinetic momentum and biological adaptation trigger simultaneously, causing the body to attempt every transformation at once. The Mimir are burning through their semi-crystalline skin in years. A faction of purist Shapers advocates single-tradition practice while convergers push deeper integration. The schism is worsening.`,
+    currentCrisis: `Young Shapers experience **Convergence Collapse**,when the Groven bone-sculpting heritage and Mimir fluid transformation trigger simultaneously, causing the body to attempt every transformation at once. The Mimir are burning through their semi-crystalline skin in years. A faction of purist Shapers advocates single-tradition practice while convergers push deeper integration. The schism is worsening.`,
 
     meaningfulTradeoffs: `Every transformation leaves a permanent mark. Silence Predator users retain shadow-touched vision. Deadened Bastion users develop calcified skin patches. Frequent shifters lose the ability to remember their original face. The dance is killing them, but stopping is death.`,
 
@@ -212,12 +231,12 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
       content: `**Why Bring Me?**: Rewrite combat posture, physical stats, damage resistances, and movement capabilities mid-combat. Bypass armor (Arterial Strike), tank (Deadened Bastion), ambush (Silence Predator).
 
 **Weaknesses**:
-- Naked Flesh: 0 base armor — every blow lands full. You dodge or you die.
+- Naked Flesh: 0 base armor  -  every blow lands full. You dodge or you die.
 - Wyrd-Vulnerable: +50% wyrd damage permanently; magic is your hard counter and a caster's best target.
-- Rooted is Death: if your movement is reduced to 0 (grapple, root, pin), your Flux crashes to 0 and you take 1d10 blight every round — immobilizers shut you down completely.
-- Body Toll Cascade: over-shift and you lose yourself — 3+ Toll locks your joints, 5+ silences you, 7+ sends you Feral, 10 hands you to the GM.
-- Flux Starves in a Bad Fight: Flux drops on a miss, on getting hit, and while idle — a fight turning against you drains your engine when you need it most.
-- Lost Face (social): every shift leaves permanent marks — calcified skin, joints bending the wrong way, shadow-eyes — and frequent shifters forget their original face. You read as a monster to common folk, and old friends may not recognize you.`
+- Rooted is Death: if your movement is reduced to 0 (grapple, root, pin), your Flux crashes to 0 and you take 1d10 blight every round  -  immobilizers shut you down completely.
+- Body Toll Cascade: over-shift and you lose yourself  -  3+ Toll locks your joints, 5+ silences you, 7+ sends you Feral, 10 hands you to the GM.
+- Flux Starves in a Bad Fight: Flux drops on a miss, on getting hit, and while idle  -  a fight turning against you drains your engine when you need it most.
+- Lost Face (social): every shift leaves permanent marks  -  calcified skin, joints bending the wrong way, shadow-eyes  -  and frequent shifters forget their original face. You read as a monster to common folk, and old friends may not recognize you.`
     },
 
     playstyle: {
@@ -236,7 +255,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 
     immersiveCombatExample: {
       title: "Combat Example: The Shape of Violence",
-      content: `You feel the old familiar hunger — the body wanting to be more than bone and tendon. The archers have not yet nocked their arrows. By the time they do, you will no longer be what you were.
+      content: `You feel the old familiar hunger  -  the body wanting to be more than bone and tendon. The archers have not yet nocked their arrows. By the time they do, you will no longer be what you were.
 
 **Turn 1**: Free shift to Silence Predator (+1 Toll). Shadow Strike hits, +2 Flux from stealth.
 **Turn 2**: Shift to Arterial Strike (2 Flux, +1 Toll). Kinetic Dissection,two hits, one crit.
@@ -809,13 +828,13 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 // ===== NON-COMBAT / BODY-RESHAPING UTILITY (the shapeshifter, out of combat) =====
 { id: "shaper_bone_spread",
   name: "Bone-Spread",
-  description: "Dislocate, flatten, and reshape your skeleton to fit through absurd gaps — under a door, between the bars of a cage, through a crack barely wider than your skull. You leave your gear behind (it does not reshape) and reform on the other side. Bone and sinew only; you cannot compress past solid obstructions. Out of combat.",
+  description: "Dislocate, flatten, and reshape your skeleton to fit through absurd gaps  -  under a door, between the bars of a cage, through a crack barely wider than your skull. You leave your gear behind (it does not reshape) and reform on the other side. Bone and sinew only; you cannot compress past solid obstructions. Out of combat.",
   level: 1, spellType: "ACTION", icon: "Utility/Utility",
   typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","infiltration","exploration","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "body_toll", cost: 1 }, somaticText: "Feel each joint pop free as you pour yourself through the gap" },
   resolution: "AUTOMATIC", effectTypes: ["utility"],
-  utilityConfig: { utilityType: "mobility", selectedEffects: [ { "id": "bone_spread_contort", "name": "Contortion", "description": "Pass through any gap a skull-width or wider — under doors, between bars, through cracks. Non-body gear stays behind; re-equip after reforming. Adds 1 Body Toll.", "mechanicsText": "Squeeze through any skull-width gap; leave gear behind; +1 Toll." } ], power: "moderate" },
+  utilityConfig: { utilityType: "mobility", selectedEffects: [ { "id": "bone_spread_contort", "name": "Contortion", "description": "Pass through any gap a skull-width or wider  -  under doors, between bars, through cracks. Non-body gear stays behind; re-equip after reforming. Adds 1 Body Toll.", "mechanicsText": "Squeeze through any skull-width gap; leave gear behind; +1 Toll." } ], power: "moderate" },
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
   tags: ["utility","infiltration","exploration","shaper"],
   somaticText: "Feel each joint pop free as you pour yourself through the gap.",
@@ -823,7 +842,7 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 },
 { id: "shaper_kinetic_parkour",
   name: "Kinetic Parkour",
-  description: "Channel flux into pure locomotion. For the duration you can wall-run, vault, cling briefly to surfaces, and stick impossible landings — traversing terrain no normal body could: sheer walls, wide chasms, collapsing floors, dense rubble. You carry no one and fight poorly while flowing. Out of combat.",
+  description: "Channel flux into pure locomotion. For the duration you can wall-run, vault, cling briefly to surfaces, and stick impossible landings  -  traversing terrain no normal body could: sheer walls, wide chasms, collapsing floors, dense rubble. You carry no one and fight poorly while flowing. Out of combat.",
   level: 1, spellType: "ACTION", icon: "Utility/Speed Boot",
   typeConfig: { school: "physical", icon: "Utility/Speed Boot", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","mobility","exploration","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -837,27 +856,27 @@ Heavily practiced by the Mist-Woven <LoreLink termId="mimir">Mimir</LoreLink> (s
 },
 { id: "shaper_flesh_mask",
   name: "Flesh-Mask",
-  description: "Reshape your bone, muscle, and skin to mimic another humanoid's face and build, or simply become a forgettable stranger. A true biological disguise — no illusion to dispel, but it cannot change your voice, size-class, or gear, and close inspection may catch the seams. Holds until you next shift a Form. Out of combat.",
+  description: "Reshape your bone, muscle, and skin to mimic another humanoid's face and build, or simply become a forgettable stranger. A true biological disguise  -  no illusion to dispel, but it cannot change your voice, size-class, or gear, and close inspection may catch the seams. Holds until you next shift a Form. Out of combat.",
   level: 2, spellType: "ACTION", icon: "Utility/Utility",
   typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 10, castTimeType: "MINUTES", tags: ["utility","social","infiltration","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 }, components: ["somatic"], classResource: { type: "body_toll", cost: 2 }, somaticText: "Knead your own features like clay until the mirror answers to a stranger" },
   resolution: "NONE", effectTypes: ["utility"],
-  utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "flesh_mask_disguise", "name": "Biological Disguise", "description": "Take any humanoid face and build, or become forgettably average. Not an illusion — undispellable, but voice/size/gear stay yours and close inspection may reveal seams. Holds until your next Form shift.", "mechanicsText": "Biological disguise; undispellable; voice/size/gear unchanged." } ], duration: 8, durationUnit: "hours", power: "major" },
+  utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "flesh_mask_disguise", "name": "Biological Disguise", "description": "Take any humanoid face and build, or become forgettably average. Not an illusion  -  undispellable, but voice/size/gear stay yours and close inspection may reveal seams. Holds until your next Form shift.", "mechanicsText": "Biological disguise; undispellable; voice/size/gear unchanged." } ], duration: 8, durationUnit: "hours", power: "major" },
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
   tags: ["utility","social","infiltration","shaper"],
   somaticText: "Knead your own features like clay until the mirror answers to a stranger.",
-  verbalText: "Silence — the work is in the hands and the breath."
+  verbalText: "Silence  -  the work is in the hands and the breath."
 },
 { id: "shaper_bone_reading",
   name: "Bone-Reading",
-  description: "Snap off a sliver of your own reshaped bone and cast it, reading the kinetic patterns in how it falls and splinters — the Groven bone-reader's art. Ask one question about a course of action, a foe, or a choice ahead; the bones answer in fragments: favored, ill-fated, or contested. They read momentum, not destiny. Out of combat.",
+  description: "Snap off a sliver of your own reshaped bone and cast it, reading the kinetic patterns in how it falls and splinters  -  the Groven bone-reader's art. Ask one question about a course of action, a foe, or a choice ahead; the bones answer in fragments: favored, ill-fated, or contested. They read momentum, not destiny. Out of combat.",
   level: 2, spellType: "ACTION", icon: "Nature/Nature Natural 11",
   typeConfig: { school: "physical", icon: "Nature/Nature Natural 11", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "body_toll", cost: 1 }, somaticText: "Snap the bone-splinter and watch how the shards scatter" },
   resolution: "NONE", effectTypes: ["utility"],
-  utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "bone_reading_pattern", "name": "Splinter-Pattern", "description": "Cast a bone-splinter for one question about an action, foe, or choice ahead. The bones answer favored / ill-fated / contested in kinetic fragments — momentum, not guaranteed fate.", "mechanicsText": "One favored/ill-fated/contested reading on a course of action." } ], power: "moderate" },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "bone_reading_pattern", "name": "Splinter-Pattern", "description": "Cast a bone-splinter for one question about an action, foe, or choice ahead. The bones answer favored / ill-fated / contested in kinetic fragments  -  momentum, not guaranteed fate.", "mechanicsText": "One favored/ill-fated/contested reading on a course of action." } ], power: "moderate" },
   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
   tags: ["utility","divination","investigation","shaper"],
   somaticText: "Snap the bone-splinter and watch how the shards scatter.",

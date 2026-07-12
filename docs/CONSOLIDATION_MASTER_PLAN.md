@@ -1,4 +1,4 @@
-# MYTHRILL CONSOLIDATION MASTER PLAN
+﻿# MYTHRILL CONSOLIDATION MASTER PLAN
 
 > Last updated: 2026-06-10
 > Status: **Phase 7 complete. 30→20 classes. 16→8 damage types. 12→10 playable races. 15 Mythrill-native backgrounds. Library window consolidated. Target HUD tooltips implemented. Interactive World Map with region soft-lock fully integrated.**
@@ -26,7 +26,7 @@ Copy the block below into a fresh opencode session to continue from the exact po
 > - Wire to zone/location data (deepLocationData.js, rulesData.js regions)
 > - Add region soft-lock integration (recommended, not enforced; toggle to unlock)
 >
-> **Build command:** `cd vtt-react; npx craco build` (PowerShell — no `&&`)
+> **Build command:** `cd vtt-react; npx craco build` (PowerShell  -  no `&&`)
 > **Build verification:** Skip during session. Verify syntax manually.
 > **Known pre-existing issue:** Cannot access '__WEBPACK_DEFAULT_EXPORT__' before initialization in HUDContainer chunk (Phase 1 deleted classes, not current work).
 >
@@ -255,23 +255,23 @@ Healing stays as a separate restorative category.
 
 **Groven (+2 shared):**
 - Vat-Sleep: Monthly ancestral dream. Advantage on History checks (Groven/Thrumm lore); disoriented on waking (-2 Perception, 10 min)
-- Still-Claiming: Reaction at 0 HP — petrify for 1 round instead of falling Unconscious. Half Cover to adjacent allies. Immune to damage. 1/long rest.
+- Still-Claiming: Reaction at 0 HP  -  petrify for 1 round instead of falling Unconscious. Half Cover to adjacent allies. Immune to damage. 1/long rest.
 
 **Myrathil (+1 per subrace):**
-- Breakers-Born: Spindrift Diplomacy — Advantage on Persuasion during mediation; 1 psychic on failed mediation
-- Deep-Born: Sea Mother's Hum — 1-minute trance to sense creatures in same body of water (100ft); DC 10 Spirit save for long rest without salt water
-- River-Fed: Fresh-Water Memory — Advantage on History/Survival for freshwater geography; 1/long rest perfectly retrace a river route
+- Breakers-Born: Spindrift Diplomacy  -  Advantage on Persuasion during mediation; 1 psychic on failed mediation
+- Deep-Born: Sea Mother's Hum  -  1-minute trance to sense creatures in same body of water (100ft); DC 10 Spirit save for long rest without salt water
+- River-Fed: Fresh-Water Memory  -  Advantage on History/Survival for freshwater geography; 1/long rest perfectly retrace a river route
 
 **Vreken (+1 per subrace):**
-- Clean: Veil-Speaker's Chant — 1/short rest, 1-min ancestral chant grants ally advantage on next save; announces location within 120ft
-- Marked: Root-Veil Echo — 1/long rest touch surface to sense creatures present in last hour + emotional state + shadow of intent; 1 level Exhaustion cost
+- Clean: Veil-Speaker's Chant  -  1/short rest, 1-min ancestral chant grants ally advantage on next save; announces location within 120ft
+- Marked: Root-Veil Echo  -  1/long rest touch surface to sense creatures present in last hour + emotional state + shadow of intent; 1 level Exhaustion cost
 
 ### 3.4: "Cannot Lie" Replacements Verified [COMPLETED]
-- **Neth (neth.js)**: Bound Tongue (Velun) — cannot speak lies, 1d4 psychic on falsehood ✓
-- **Briaran**: Thorn-Born (shared) — disadvantage on Deception, thorns physically betray lies ✓
-- **Myrathil**: Tide-Tongue (Breakers-Born) — disadvantage on Deception, vein-colors shift with emotion ✓
-- **Groven**: Toll-Keeper's Eye (Ithran) — scales grind audibly when lying, other Groven auto-detect ✓
-- **Human (Skald)**: Bloodline Pride (Skald) — disadvantage on Deception, "A Skald does not lie" ✓
+- **Neth (neth.js)**: Bound Tongue (Velun)  -  cannot speak lies, 1d4 psychic on falsehood ✓
+- **Briaran**: Thorn-Born (shared)  -  disadvantage on Deception, thorns physically betray lies ✓
+- **Myrathil**: Tide-Tongue (Breakers-Born)  -  disadvantage on Deception, vein-colors shift with emotion ✓
+- **Groven**: Toll-Keeper's Eye (Ithran)  -  scales grind audibly when lying, other Groven auto-detect ✓
+- **Human (Skald)**: Bloodline Pride (Skald)  -  disadvantage on Deception, "A Skald does not lie" ✓
 
 ---
 
@@ -309,7 +309,7 @@ Healing stays as a separate restorative category.
 
 ### 5.1: Corvani Demoted to Nordhalla Subfolk [COMPLETED]
 - Corvani removed as a standalone playable race (corvani.js deleted, raceData.js updated: 11→10 races)
-- Reclassified as Nordhalla subfolk — glacier-dwelling raven-marked messengers bound to Corvid Fate-Spirits
+- Reclassified as Nordhalla subfolk  -  glacier-dwelling raven-marked messengers bound to Corvid Fate-Spirits
 - Region changed from frostwood-reach/cragjaw-peaks to nordhalla in loreDictionary.js
 - All Cragjaw Peaks references removed from GM_WORLD_GUIDE.md and rulesData.js
 - Corvid-Speech language preserved and rewritten with Nordhalla context in languages.js
@@ -326,7 +326,7 @@ Healing stays as a separate restorative category.
 - TimelineDisplay.jsx: Two timeline events updated
 - All 24 Zhentarim references fully purged
 
-### 5.3: Solvarn Active Agenda — The Dawn Vigil [COMPLETED]
+### 5.3: Solvarn Active Agenda  -  The Dawn Vigil [COMPLETED]
 - Added the Dawn Vigil: a militant Solvarn faction seeking to reforge the Sundered Monoliths
 - Added to GM_WORLD_GUIDE.md Sundale section and rulesData.js Sundale region lore
 - Dawn Vigil sends expeditionary companies into all regions; clashes with Korr and Unwoven Emberth
@@ -343,9 +343,9 @@ Healing stays as a separate restorative category.
 - loreDictionary.js region entries updated for Corvani (nordhalla)
 
 ### 5.6: Loose Ends [COMPLETED]
-- **Myrathil "Deep Speech" renamed to "Sea-Call"** (myrathil.js line 732) — avoids D&D confusion
-- **SocialEncounterGenerator.jsx "Goblin Stack" → "Fexric Scrap-Gang"** — Mythrill-native equivalent
-- **Creature icon selectors**: D&D names (Halfling, Goblin, Orc) remain as icon folder names — icon folders not migrated; file paths functional. Migrate folders in a future phase if desired.
+- **Myrathil "Deep Speech" renamed to "Sea-Call"** (myrathil.js line 732)  -  avoids D&D confusion
+- **SocialEncounterGenerator.jsx "Goblin Stack" → "Fexric Scrap-Gang"**  -  Mythrill-native equivalent
+- **Creature icon selectors**: D&D names (Halfling, Goblin, Orc) remain as icon folder names  -  icon folders not migrated; file paths functional. Migrate folders in a future phase if desired.
 ---
 
 ## PHASE 6: UI/UX IMPROVEMENTS [COMPLETED]

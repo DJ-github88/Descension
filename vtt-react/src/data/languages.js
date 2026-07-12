@@ -30,7 +30,7 @@ export const LANGUAGES = [
     name: 'Synod-Speak',
     icon: 'fa-tree',
     category: 'standard',
-    description: 'The resonant harmonic language of the Synod-Hold\'s crystal-lattice archives in Sundrift Vale. Constellation-spirits speak in its overtones; Astril scholars use it for formal discourse. Each word vibrates at a frequency that memory-glass can store.',
+    description: 'The resonant harmonic language of the Synod-Hold\'s crystal-lattice archives in Sundrift Vale. Lumian echo-signatures speak in its overtones; Astril scholars use it for formal discourse. Each word vibrates at a frequency that memory-glass can store.',
     sound: 'Harmonic and crystalline, with overtones that shimmer like light through prismatic glass. Words ring and sustain.',
     example: 'Syl-velen aeth-mir',
     translation: 'Light remembers, spirit endures'
@@ -68,7 +68,7 @@ export const LANGUAGES = [
     name: 'Celestial',
     icon: 'fa-sun',
     category: 'exotic',
-    description: 'The harmonious language of the constellation-spirits who fled Keth-Amar\'s slaughter and took sanctuary in willing Astril vessels. Carries the memory of stars in its cadence. The Synod-Hold\'s archives resonate with it.',
+    description: 'The harmonious language of Lumia\'s echo that fled with the Astril refugees and resonated in willing Astril vessels. Carries the memory of stars in its cadence. The Synod-Hold\'s archives resonate with it.',
     sound: 'Pure and luminous, with clear tones that resonate like crystal bells struck by starlight.',
     example: 'Ael\'drin sol\'athiel val\'mor',
     translation: 'Blessed light of the dying star endures'
@@ -86,7 +86,7 @@ export const LANGUAGES = [
     name: 'Root-Veil',
     icon: 'fa-brain',
     category: 'exotic',
-    description: 'The mycelial network\'s ancient whisper-language, older than any surface civilization. Spoken by the Keeper of the Last Threshold and fungal entities in the Bryngloom Forest. The Over-Lit hear it constantly. Sounds like spores settling on old bone.',
+    description: 'The mycelial network\'s ancient whisper-language, older than any surface civilization. Spoken by Morvane and fungal entities in the Bryngloom Forest. The Over-Lit hear it constantly. Sounds like spores settling on old bone.',
     sound: 'Alien and unsettling, with sub-vocal clicks, fungal hisses, and sounds that seem to bypass the ears entirely.',
     example: 'Kss\'vul nyr\'gast thol-veir',
     translation: 'We observe your debt. The Gloom remembers.'
@@ -95,7 +95,7 @@ export const LANGUAGES = [
     name: 'Infernal',
     icon: 'fa-fire-flame-curved',
     category: 'exotic',
-    description: 'The structured binding-language of the Warden\'s enforcement, the universe\'s mechanism of consequence. Every syllable is a clause; every pause, a penalty. Used in Neth contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal.',
+    description: 'The structured binding-language of Aethil\'s enforcement, the universe\'s mechanism of consequence. Every syllable is a clause; every pause, a penalty. Used in Neth contract-houses for clauses that must survive death. The First Contract\'s oldest sections are in Infernal.',
     sound: 'Precise and binding, with measured syllables and formal cadence that carries metaphysical weight.',
     example: 'Contractum aeternum vinctura anima',
     translation: 'The eternal contract binds the soul'
@@ -104,7 +104,7 @@ export const LANGUAGES = [
     name: 'Primordial',
     icon: 'fa-wind',
     category: 'exotic',
-    description: 'The ancient root-language of elementals, from which Aquan, Auran, Ignan, and Terran descend. The Sea Mother\'s first words were Primordial. The Deep Thrum beneath Cragjaw speaks a dialect so old it barely qualifies as language.',
+    description: 'The ancient root-language of elementals, from which Aquan, Auran, Ignan, and Terran descend. Mareth\'s first words were Primordial. The Deep Thrum beneath Cragjaw speaks a dialect so old it barely qualifies as language.',
     sound: 'Raw and elemental, shifting between flowing water, crackling fire, rushing air, and rumbling earth in a single breath.',
     example: 'Kh\'aur-dra ign\'vael thal\'aqu dhur\'terr',
     translation: 'Air-fire-water-earth as one'
@@ -113,7 +113,7 @@ export const LANGUAGES = [
     name: 'Sylvan',
     icon: 'fa-seedling',
     category: 'exotic',
-    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Briaran thorns resonate with its cadence; the Unshorn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
+    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Briaran thorns resonate with its cadence; the Trueborn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
     sound: 'Musical and enchanting, like wind through thorn-briars with trilling notes and promises that echo.',
     example: 'Loun-syl vaen\'drael virathel',
     translation: 'The eighth house endures beneath the leaves'
@@ -130,7 +130,7 @@ export const LANGUAGES = [
 
   // ===== ANCESTRAL & RACIAL LANGUAGES =====
   // NOTE: The Astril people have no dedicated language id of their own. They communicate through
-  // Synod-Speak (formal discourse), Celestial (the constellation-spirits dwelling in their vessels),
+  // Synod-Speak (formal discourse), Celestial (Lumia\'s echo resonating in their vessels),
   // and Ethereal (the dream-speech of those spirits). No Astril-specific language is defined.
   {
     name: 'Old Nord',
@@ -154,7 +154,7 @@ export const LANGUAGES = [
     name: 'Ethereal',
     icon: 'fa-ghost',
     category: 'racial',
-    description: 'The whispered language of spirits, the Veilborn, and entities that exist between the Wyrd and physical reality. Constellation-spirits murmur it in their Astril vessels\' dreams. Barely audible to mortal ears without training.',
+    description: 'The whispered language of spirits, the Veilborn, and entities that exist between the Wyrd and physical reality. Lumian echo-tellation-spirits murmur it in their Astril vessels\' dreams. Barely audible to mortal ears without training.',
     sound: 'Breathy and barely audible, with whispered fricatives and hollow vowels that seem to drift between worlds.',
     example: 'Fhae\'sul thae\'vir isel\'nym',
     translation: 'Between worlds, we speak. Between breaths, we listen.'
@@ -282,7 +282,7 @@ export const LANGUAGES = [
     name: 'Aquan',
     icon: 'fa-water',
     category: 'elemental',
-    description: 'The fluid, flowing language of water elementals, the Iceheart Sea\'s consciousness, and the Myrathil people. The Sea Mother speaks in Aquan, though she rarely speaks at all, preferring to send storms. Myrathil Deep-Born learn it in the womb.',
+    description: 'The fluid, flowing language of water elementals, the Iceheart Sea\'s consciousness, and the Myrathil people. Mareth speaks in Aquan, though she rarely speaks at all, preferring to send storms. Myrathil Deep-Born learn it in the womb.',
     sound: 'Liquid consonants and flowing vowels with wave-like rhythm, smooth and deep.',
     example: 'Lhum\'vael syl\'ru thar\'nym',
     translation: 'Flowing current runs deep. The tide remembers.'

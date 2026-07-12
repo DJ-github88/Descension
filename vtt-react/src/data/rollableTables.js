@@ -95,7 +95,7 @@
       { min: 7, max: 8, result: 'Riddle-chamber, a ledger-riddle is carved into the sealed door' },
       { min: 9, max: 10, result: 'Vault with a bound guardian (Inquisitor-work, or worse)' },
       { min: 11, max: 12, result: 'Prison cell, 1d4 captives, their memories half-eaten by the fog' },
-      { min: 13, max: 14, result: 'Shrine or altar, to Sol, to the Warden, or to something older than either' },
+      { min: 13, max: 14, result: 'Shrine or altar, to Sol, to Aethil, or to something older than either' },
       { min: 15, max: 16, result: 'Natural cavern with a steaming geothermal vent' },
       { min: 17, max: 18, result: 'Archive-room full of crumbling ledger-tomes and chained scribe-desks' },
       { min: 19, max: 19, result: 'Boss chamber, the main threat awaits' },
@@ -221,7 +221,7 @@
       { min: 14, max: 14, result: 'The Solbrand\'s tending-clan has gone silent, and the forge-clans are mobilizing' },
       { min: 15, max: 15, result: 'A Morren caravan arrives at the gate; all are deep in hush-trance and will not wake' },
       { min: 16, max: 16, result: 'Someone is buying all the cold-iron in the region, Inquisitor-quantities, no questions asked' },
-      { min: 17, max: 17, result: 'An Astril screams and will not stop, a constellation-spirit died in their blood, and the sky has lost a point of light' },
+      { min: 17, max: 17, result: 'An Astril screams and will not stop, Lumia\'s echo died in their blood, and the sky has lost a point of light' },
       { min: 18, max: 18, result: 'A rival expedition is racing for the same Monolith-shard, and their Augur has already read how this ends' },
       { min: 19, max: 19, result: 'The Frozen Archive\'s deepest ice is melting, and Aldren Thalreth the Elder\'s chamber is warming' },
       { min: 20, max: 20, result: 'A Wyrd-bleed tears open, and someone unmistakably familiar steps through, wounded, warning the party to run' }

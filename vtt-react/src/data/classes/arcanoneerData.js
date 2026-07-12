@@ -6,53 +6,56 @@
  */
 
 export const ARCANONEER_DATA = {
- restrictions: {
-   "allowedSubraces": [
-     "velun_neth",
-     "kessen_neth",
-     "drun_neth"
-   ],
-   "hardBlocks": [
-     "human",
-     "astril",
-     "vreken",
-     "skald_human",
-     "emberth",
-     "mimir",
-     "groven",
-     "fexrick",
-     "myrathil",
-     "briaran"
-   ],
-   "narrativeUnlock": false,
-   "justification": "Requires inability to lie (Neth-specific biological/legal trait). Contract-magic syntax requires Neth neurology. Non-Neth would breach First Contract terms causing soul-fading."
- },
+  restrictions: {
+    "allowedSubraces": [
+      "velun_neth",
+      "kessen_neth",
+      "drun_neth",
+      "kethrin_fexric",
+      "drall_fexric"
+    ],
+    "hardBlocks": [
+      "human",
+      "astril",
+      "vreken",
+      "skald_human",
+      "emberth",
+      "mimir",
+      "groven",
+      "myrathil",
+      "briaran"
+    ],
+    "narrativeUnlock": false,
+    "justification": "Elemental weaving requires discipline and calculation uncommon among other races. The Velun Neth originated the craft through contract-syntax, Fexric adapted it through precision engineering. Both approaches demand a cultural affinity for structured, high-stakes combination work."
+  },
 
  /**
-  * Subrace Variants, the Arcanoneer is Neth-exclusive by biology and law. The single
-  * Velun Neth entry exists not for variety but to articulate, in-world, WHY no other
-  * race can practice this tradition: the inability to lie is the engine, not a cost.
-  */
- subraceVariants: {
-  velun_neth: {
-   subraceName: 'Velun Neth',
-   title: 'The Contract-Caster',
-   reframe: `Every Arcanoneer incantation is a legally-binding document, offer, consideration, consequence, and only a being that *cannot breach a contract* can utter one without the magic recoiling into soul-fading. <LoreLink termId="valerius">Valerius</LoreLink> did not invent the Velun Neth's inability to lie; he weaponized it. The silver blood and stilled breath that mark the Neth are not side-effects of the magic, they are its prerequisite. To an Arcanoneer, a non-Neth attempting this craft is not a student who struggles; they are a litigant who has already defaulted.`,
-   signatureAbility: {
-    name: 'Mnemonic Shard',
-    description: `Silver blood crystallizes into volatile spell-anchors, siphoned through the pig-iron forearm graft. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
+   * Subrace Variants - The Arcanoneer was born among the Velun Neth but has since spread
+   * across cultures, each adapting elemental weaving to their own philosophical framework.
+   * Velun Neth practice contract-syntax; Kessen Neth borrow from the obligation-web;
+   * Drun Neth operate severed from the First Contract; Kethrin Fexric treat it as guild
+   * engineering; Drall Fexric weave from salvage and improvisation.
+   */
+  subraceVariants: {
+   velun_neth: {
+    subraceName: 'Velun Neth',
+    title: 'The Contract-Weaver',
+    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane\'s silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  --  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Velun Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  --  they are its prerequisite.`,
+    signatureAbility: {
+     name: 'Mnemonic Shard',
+     description: `Silver blood crystallizes into volatile spell-anchors, held in suspension around the weaver's crystal focus. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
+    },
+    currentCrisisAngle: `The Canopy-Ledger fracture is an existential threat specifically *because* only the Velun Neth practice this art. If the senior Arcanoneers of <LoreLink termId="atropolis">Atropolis</LoreLink> cannot agree on the Velun Contingency Protocol, and half the Ledger dissolves its oaths, the Velun Neth who *filed* those oaths may legally cease to exist, Morvane does not distinguish between a caster and their filings.`,
+    signatureQuote: {
+     text: '"Every word I speak is evidence. Every spell I cast is a conviction. Do not ask me to improvise, I am not permitted to lie, and a lie is what improvisation would require."',
+     speaker: 'Valerius',
+     context: 'The founder, refusing a request to "try something untested" during the first contract-war'
+    }
    },
-   currentCrisisAngle: `The Canopy-Ledger fracture is an existential threat specifically *because* only the Velun Neth practice this art. If the senior Arcanoneers of <LoreLink termId="atropolis">Atropolis</LoreLink> cannot agree on the Velun Contingency Protocol, and half the Ledger dissolves its oaths, the Velun Neth who *filed* those oaths may legally cease to exist, the Keeper does not distinguish between a caster and their filings.`,
-   signatureQuote: {
-    text: '"Every word I speak is evidence. Every spell I cast is a conviction. Do not ask me to improvise, I am not permitted to lie, and a lie is what improvisation would require."',
-    speaker: 'Valerius',
-    context: 'The founder, refusing a request to "try something untested" during the first contract-war'
-   }
-  },
   kessen_neth: {
    subraceName: 'Kessen Neth',
    title: 'The Clause-Weaver',
-   reframe: `The Kessen Neth carry the pact's sight, they perceive the obligation-web that connects every living thing to every contract ever struck. For <LoreLink termId="valerius">Valerius</LoreLink>'s tradition, this is not an enhancement, it is a different method entirely. Where the Velun Arcanoneer files a clause and trusts the Keeper to enforce it, the Kessen sees the exact thread of obligation and *tugs*. Their Mnemonic Shards are not filed, they are woven, anchored not to the First Contract but to the web of lesser agreements that surrounds every Neth transaction. A Kessen Arcanoneer's silver blood crystallizes into threads rather than shards, and each cast reweaves a small piece of the obligation-web to their advantage. The magic is less absolute than the Velun method but more adaptive, a Kessen can alter a spell in-flight by finding a loophole in the local obligation-web.`,
+   reframe: `The Kessen Neth carry the pact's sight, they perceive the obligation-web that connects every living thing to every contract ever struck. For <LoreLink termId="valerius">Valerius</LoreLink>'s tradition, this is not an enhancement, it is a different method entirely. Where the Velun Arcanoneer files a clause and trusts Morvane to enforce it, the Kessen sees the exact thread of obligation and *tugs*. Their Mnemonic Shards are not filed, they are woven, anchored not to the First Contract but to the web of lesser agreements that surrounds every Neth transaction. A Kessen Arcanoneer's silver blood crystallizes into threads rather than shards, and each cast reweaves a small piece of the obligation-web to their advantage. The magic is less absolute than the Velun method but more adaptive, a Kessen can alter a spell in-flight by finding a loophole in the local obligation-web.`,
    signatureAbility: {
     name: 'Thread-Shard',
     description: `Silver blood crystallizes into filament-thin threads that latch onto existing obligation-nodes in the surrounding web. Each thread is a leveraged clause, the spell borrows enforcement from a pre-existing contract. A thread that snaps does not detonate harmlessly; it triggers whatever penalty the borrowed contract stipulated.`
@@ -73,12 +76,42 @@ export const ARCANONEER_DATA = {
     description: `Heat-brittle silver fragments that retain the impression of filed clauses without the legal standing to enforce them. A Scar-Shard detonates on impact with the chaotic force of a contract that has lost its signatory, the magic has nowhere to go and expresses itself as raw, untethered elemental release.`
    },
    currentCrisisAngle: `The Canopy-Ledger fracture creates an unexpected opening for the Drun. As half the Ledger dissolves its oaths, those former signatories become Drun-adjacent, legally unbound, debt-null, their Mnemonic Shards going dark. The Drun Arcanoneers of the Deep-Quarter have begun extending offers to these newly-unbound: not to re-sign, but to *Sever properly*, trading one form of legal death for another. The Ledger's leadership has noticed. They do not know whether to prosecute the Drun for poaching or to study their Severing ritual as a contingency plan for the dissolution.`,
-   signatureQuote: {
-    text: '"You want to know how I cast without the First Contract? I do not. I remember how it *felt* to have the Keeper\'s eye on me, and I flinch in the right direction. Every spell I cast is a phantom limb reaching for a contract that no longer has my name on it."',
-    speaker: 'Unnamed Drun Arcanoneer',
-    context: 'Intercepted correspondence, found nailed to the Heart-Vault door'
+    signatureQuote: {
+     text: '"You want to know how I cast without the First Contract? I do not. I remember how it *felt* to have Morvane\'s eye on me, and I flinch in the right direction. Every spell I cast is a phantom limb reaching for a contract that no longer has my name on it."',
+     speaker: 'Unnamed Drun Arcanoneer',
+     context: 'Intercepted correspondence, found nailed to the Heart-Vault door'
+    }
+   },
+   kethrin_fexric: {
+    subraceName: 'Kethrin Fexric',
+    title: 'The Gear-Weaver',
+    reframe: `Where the Velun Neth file legal documents with Morvane, the Kethrin Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Kethrin Gear-Weaver carries a toolkit of elemental regulators  --  brass attenuators, thermal sinks, conductive relays  --  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time.`,
+    signatureAbility: {
+     name: 'Calibrated Matrix',
+     description: `The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  --  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings.`
+    },
+    currentCrisisAngle: `The Canopy-Ledger fracture is, to a Kethrin Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Kethrin guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
+    signatureQuote: {
+     text: '"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  --  and my guild warranty is the only thing between me and a very large crater."',
+     speaker: 'Kethrin Guild-Master',
+     context: 'Response to a Velun Arcanoneer who suggested "trying something new" during a joint expedition'
+    }
+   },
+   drall_fexric: {
+    subraceName: 'Drall Fexric',
+    title: 'The Scrap-Weaver',
+    reframe: `The Drall Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Drall Scrap-Weaver's focus is a jury-rigged mess of scavenged components  --  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  --  and their combination matrix includes entries the Kethrin guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  --  including the Scrap-Weaver  --  knows exactly what will happen when they pull the trigger.`,
+    signatureAbility: {
+     name: 'Jury-Rigged Catalyst',
+     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  --  and it works more often than any guild engineer would believe possible  --  the result is a weave that exists nowhere in the certified matrix. The Drall call this "field testing." The Kethrin call it "attempted suicide." Both are correct.`
+    },
+    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Drall Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Drall for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  --  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
+    signatureQuote: {
+     text: '"The guild says you can\'t combine Rime with Wyrd unless the thermal sink is rated for Class-3 entropy. Do you know what happens if you use a Class-2 thermal sink? Neither do I. But I\'m about to find out, and so is that thing charging toward us."',
+     speaker: 'Unnamed Drall Scrap-Weaver',
+     context: 'Moments before a weave that was later added to the Kethrin guild\'s list of certified combinations, despite the guild\'s official position that the Drall "discovered it by accident"'
+    }
    }
-  }
  },
 
  id: "arcanoneer",
@@ -101,140 +134,136 @@ export const ARCANONEER_DATA = {
  // Overview section
  livingOrder: {
   orderName: 'The Canopy-Ledger',
-  founder: {
-   name: '<LoreLink termId="valerius">Valerius</LoreLink>',
-   status: `Ascended into the First Contract, neither alive nor dead. His name is now a clause in the Heart-Vault, his pig-iron forearm graft preserved in <LoreLink termId="atropolis">Atropolis</LoreLink> as a relic.`,
-   note: `The Velun archivist who drafted the First Contract and weaponized the Neth inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
-  },
+   founder: {
+    name: '<LoreLink termId="valerius">Valerius</LoreLink>',
+    status: `Ascended into the First Contract, neither alive nor dead. His name is now a clause in the Heart-Vault, his crystal prism, through which he viewed the First Contract, preserved in <LoreLink termId="atropolis">Atropolis</LoreLink>.`,
+    note: `The Velun archivist who drafted the First Contract and weaponized the Neth inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
+   },
   currentLeader: {
    name: '<LoreLink termId="vel-otharen">Ledger-Prime Vel-Otharen</LoreLink>',
    title: 'Senior Signatory of the Canopy-Ledger',
    characterization: `The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Velun Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it.`
   },
-  headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis' },
-  crisisConnection: `<LoreLink termId="vel-otharen">Vel-Otharen</LoreLink> chairs the arbitration that cannot resolve the Contingency Protocol: half the Ledger demands magical warfare against the unknown contract-breacher, half demands the Ledger dissolve itself. His own Mnemonic Shards are degrading, clauses he filed decades ago are being rejected by the Keeper, and he suspects, but cannot yet prove, that the breach originates *inside* the Heart-Vault itself.`
+   headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis', description: 'The Heart-Vault is not a chamber  --  it is the living ironwood at Atropolis\'s core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache.' },
+  crisisConnection: `<LoreLink termId="vel-otharen">Vel-Otharen</LoreLink> chairs the arbitration that cannot resolve the Contingency Protocol: half the Ledger demands magical warfare against the unknown contract-breacher, half demands the Ledger dissolve itself. His own Mnemonic Shards are degrading, clauses he filed decades ago are being rejected by Morvane, and he suspects, but cannot yet prove, that the breach originates *inside* the Heart-Vault itself.`
  },
 
  worldFriction: [
   { region: 'bryngloom-forest', location: 'atropolis', status: 'celebrated', consequence: 'At Atropolis the Arcanoneer is the legal and magical authority, Senior Signatories sit on the Heart-Vault council and their filed clauses are binding law. An Arcanoneer in good standing can commandeer archive-resources and demand audience with Regent Morrath.' },
-  { region: 'iceheart-sea', location: 'ironjaw_port', status: 'restricted', consequence: 'Away from the Heart-Vault, an Arcanoneer operates at reduced jurisdiction, the Ironjaw Port copy of the First Contract sustains their craft, but Mnemonic Shards filed here carry less enforcement-weight. Hostile foreign magic is harder to annul when the local Keeper-presence is thin.' },
+  { region: 'iceheart-sea', location: 'ironjaw_port', status: 'restricted', consequence: 'Away from the Heart-Vault, an Arcanoneer operates at reduced jurisdiction, the Ironjaw Port copy of the First Contract sustains their craft, but Mnemonic Shards filed here carry less enforcement-weight. Hostile foreign magic is harder to annul when the local Morvane-presence is thin.' },
   { region: 'sundrift-vale', status: 'banned', consequence: 'House Ordavan outlaws written contract-magic across the steppe (the Iron-Yurt Law recognizes only Steppe-Staves and oral bond). An Arcanoneer who files a clause on Ordan soil has it voided, and may be charged with sedition against the Khatun.' }
  ],
 
  overview: {
-  originStory: `Founded in the first centuries of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with the Keeper of the Last Threshold. In the first drafting of the First Contract with the Keeper of the Last Threshold, the high Neth archivist Valerius sought to capture the raw, volatile magic of the Bryngloom Forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting.
+    originStory: `Founded in the first centuries of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Neth scribes. Morvane's contract preserved Neth bodies, but the raw elemental energies of the forest  --  the same energies that power the ironwood trees and the memory-glass  --  had no contract governing them. Neth archivists who worked too close to the Root-Veil's deeper reaches were being unmade  --  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Neth flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  --  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  --  he bypassed the chaotic feedback of traditional spellcasting.
 
-Yet, the Keeper demanded a physical toll. The price of this absolute structured clarity was that his blood crystallized into volatile, multicolored shards that had to be physically siphoned through a massive pig-iron cylinder forearm graft. Firing these shards anchors the limbs to the earth in a freezing lock, fractures the ribs from recoil, and seals the voice against any falsehood.
+The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination not as contract-law but as precision engineering: calibrated components, documented tolerances, guild-certified parameters. Where the Velun Neth file clauses, the Fexric build mechanisms. Both approaches work. Both can fail catastrophically. The Arcanoneer does not cast spells  --  they combine elemental spheres and hope the weave holds before the elements remember they are enemies.
 
-You are the contract's executioner. The Keeper has written the syntax in your bones, and your forearm cylinder is the chamber. Pull the trigger.`,
-  title: "The Arcanoneer",
-   subtitle: "The Magi-ballistic Artillery",
+During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port required Kethrin engineers to maintain the memory-glass archives that housed copies of the First Contract. The Kethrin, observing Velun arcanoneers filing elemental clauses, recognized the pattern: this was not magic  --  it was *calibration*. Each elemental sphere was a gear; each combined weave was a mechanism. They reverse-engineered the technique over two decades of quiet observation. The Drall learned from discarded Kethrin schematics traded through the Sump-Markets.`,
+    title: "The Arcanoneer",
+    subtitle: "The Elemental Weaver",
   illustration: "/assets/images/classes/arcanoneer_illustration.png",
-  illustrationCaption: "A Neth Vault Keeper Arcanoneer with a heavy pig-iron forearm graft.",
+   illustrationCaption: "A Velun Neth Arcanoneer weaving elemental spheres through a crystal prism focus.",
 
   quickOverview: {
    title: "Quick Overview",
-   content: `**What You Need to Know**: You are a Magi-ballistic Artillery. A massive, super-heated cylinder of pig-iron is grafted directly to your forearm, the skin scorched and bonded to the metal. Every turn, you extract volatile aether-shards from your forearm condensers, rolling 4d8 to generate ballistic spheres (Arcane, Radiant, blight+blight, Fire, Frost, Nature, Chaos). You slam two of these essences into the cylinder to chamber a volatile shell. Fire + Frost shatters from the barrel as a blinding steam vent, while Fire + Fire kicks back with a concussive inferno blast.
+    content: `**Who they are**: An elemental weaver who treats magic as either legal syntax or precision engineering  --  every spell is a negotiated contract between forces that would rather annihilate each other. They combine raw elemental spheres into devastating compound effects, holding two hostile elements together just long enough to release them.
 
-**Recoil and Pain**:\n\n**Wild Combination Mayhem**: You don't cast tidy spells — you slam elements together and pull the trigger. Fire + Frost shatters the barrel as a blinding steam-vent; Fire + Fire kicks out a concussive inferno; Chaos + anything rolls on a table for pure unpredictability. Half the fun is reading your random 4d8 hand and concocting the cleverest combination it allows.\n\nThis is the Magicka-inspired heart of the class: a fanatic juggling every element at once, mathematical about the combos but chaotic in the firing.
+**The hook**: Every turn you roll 4d8 to generate elemental spheres from ambient aether. Weave any two into a spell through one of five firing profiles  --  the 36-combination matrix means no two turns are ever the same, and you can produce any damage type to exploit any enemy weakness. Learned Recipes turn basic combos into battlefield-shaping ordnance.
 
-**The Recoil Anchor**: The sheer kinetic force of discharging your forearm sleeve reduces your movement speed to 0 for the turn whenever you fire a spell. You must anchor yourself to fire.
+**The cost**: Every offensive weave pins your movement to zero  --  the elements demand you stand your ground. Incompatible pairings can backfire catastrophically, damaging you and scrambling your sphere bank. Your four-element hand each turn is random  --  a bad roll leaves you with the wrong tools, and the only fix costs precious mana and health.
 
-**The Chamber Flush**: Should your forearm chambers jam with catastrophic elemental RNG, you can execute a "Chamber Flush" action, costing Mana and AP, to flush alternate aether-shards from your forearm condensers, discarding all rolled spheres and rerolling your 4d8 grid.
-
-**Core Loop**: Roll 4d8 to condense aether-shards → Chamber spheres into your iron cylinder → Choose a firing profile Action (Bombard, Shield, Infuse, Rupt, or Snare) → Combine two essences to chamber a shell → If you've learned a Recipe, fire it instead for devastating power.
-
-**Resource**: Elemental Spheres (random each turn, forged from condensed aether, bankable during combat, lost when combat ends) + Mana.`,
+**Bring one for**: Unmatched adaptive damage and the thrill of concocting the cleverest combination from whatever the dice give you  --  half Magicka-inspired chaos, half cold-blooded tactical calculus.`,
   },
 
-  description: `The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. By converting mana into elemental spheres, they generate and combine different magical terms (Sphere Generation & Combination) to produce highly specialized, legally binding spellcraft. The Arcanoneer operates with absolute strategic clarity: because their magic is a contract submitted to the Keeper of the Last Threshold, they cannot lie, and this limitation makes their spellcraft the most rigorously honest and devastatingly precise magic in the world.`,
+   description: `The Arcanoneer is an elemental weaver  --  a disciplined mind who combines raw elemental spheres into devastating compound effects. The craft is not about raw power; it is about precision, calculation, and the nerve to hold two forces that naturally repel each other and convince them to cooperate, briefly, before they remember they are enemies. Master of none but proficient in all, the Arcanoneer trades specialization for versatility, and every weave is a gamble that the elements will obey before they rebel.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
-   content: `**HISTORY: THE GENESIS**
-The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first drafting of the First Contract with the Keeper of the Last Threshold, a Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> sought a way to capture the raw, volatile magic of the forest without succumbing to its decay. By structuring incantations as strict, balanced legal syntax, he bypassed the chaotic feedback of traditional spellcasting.
+    content: `**HISTORY: THE GENESIS**
+The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Dimming, a Velun Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  --  each elemental sphere a clause, each combined weave a document submitted for silent approval  --  he bypassed the chaotic feedback of traditional spellcasting.
 
-Yet, the magic demanded a heavy physical toll. The price of this absolute structured clarity was that his blood crystallized into volatile, multicolored shards that had to be physically chambered and siphoned through pig-iron sleeves grafted directly to the forearm. Firing these shards anchored his limbs to the earth in a freezing lock, drained his physical stamina, and permanently sealed his voice against any falsehood.
+The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination as precision engineering rather than contract-law. Kethrin Fexric Gear-Weavers mapped the combination matrix with guild-certified tolerances and maintenance schedules, while Drall Fexric Scrap-Weavers  --  operating from salvage and improvisation  --  pushed the boundaries far beyond what any guild would sanction.
 
 **CITIES & CIVIL RECEPTION**
-Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as the judges, administrators, and high diplomats of the Neth empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
+Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Neth empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
 
 **RACES & CULTURAL AFFILIATION**
-The class is almost exclusively practiced by the <LoreLink termId="neth">Velun Neth</LoreLink>, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to the Keeper without triggering a catastrophic, soul-fading breach of terms.
+The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who practice elemental weaving as contract-syntax  --  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Kessen Neth weave through the obligation-web, Drun Neth operate severed from the First Contract entirely, Kethrin Fexric treat weaving as guild engineering, and Drall Fexric weave from salvage and improvisation.
 
 **NOTABLE FIGURES**
-* **Valerius the Scriptor**: First Neth archivist to graft the pig-iron sleeve to channel condensed aether-shards.
+* **Valerius the Scriptor**: First Velun archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
 * **Kaelen the Unbroken**: A Neth arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
   },
 
-  signatureQuote: {
-   text: '"The Contract does not ask if you are willing. It asks if you are honest. And then it pulls the trigger."',
-   speaker: 'Valerius the Scriptor',
-   context: 'Inscribed on the casing of the first pig-iron cylinder graft, displayed in the Canopy-Ledger of Atropolis'
-  },
-
-  philosophy: {
-   coreTenet: 'Magic is not a gift, not an art, not a science, it is a contract. Every spell is a clause. Every incantation is a signature. Every misfire is a breach of terms.',
-   relationship: 'Arcanoneers do not cast spells; they execute legally binding magical instruments. Their power flows from the Keeper of the Last Threshold, who enforces the terms. The Keeper demands absolute honesty, absolute precision, and, when the contract is violated, absolute payment.',
-   paradox: 'The most powerful legal mages in the world are physically incapable of lying. This is not a weakness. It is the source of their power. In a world built on dark bargains and broken promises, the Arcanoneer is the only party whose word is iron.'
-  },
-
-  currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract, specifically, the Velun Contingency Protocol, which governs what happens if the First Contract itself is ever breached. Half the Ledger argues the Protocol authorizes total magical warfare against the breaching party. The other half argues it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths.
-
-Behind the legal dispute is a darker truth: someone IS breaching the First Contract. The Keeper has begun rejecting clauses it previously accepted. Spells are misfiring in ways that suggest intentional sabotage of the contractual framework. If the Contract collapses, every Arcanoneer\'s graft becomes a deadweight of iron fused to their arm, and every spell they\'ve ever cast becomes retroactively void, unraveling centuries of magical infrastructure across the Bryngloom.`,
-
-  meaningfulTradeoffs: `To be an Arcanoneer is to trade your voice for your power. The pig-iron graft seals the throat against falsehood, you cannot lie, cannot equivocate, cannot even remain silent when asked a direct question. Every word you speak is legally binding. Every promise you make is enforced by the Keeper. You cannot say "I love you" unless you mean it with absolute, contractual certainty. You cannot say "I will protect you" unless you are prepared to die trying. Most Arcanoneers learn to speak very, very carefully. Some stop speaking entirely, communicating only through written contracts, which, under the terms of the graft, are equally binding.`,
-
-  classSpecificLocations: [
-   {
-    name: 'The Canopy-Ledger',
-    locationId: 'atropolis',
-    description: 'The highest court of Arcanoneer law, occupying the topmost platforms of Atropolis. Here, senior Arcanoneers debate contract interpretation, adjudicate magical disputes, and draft new clauses for submission to the Keeper.',
-    purpose: 'Legislative, judicial, and educational, the Ledger is simultaneously parliament, supreme court, and university',
-    status: 'Active, but the current factional dispute is paralyzing its function'
+   signatureQuote: {
+    text: '"The elements do not ask if you are willing. They ask if you are precise. And then they remind you what the price of imprecision is."',
+    speaker: 'Valerius the Scriptor',
+    context: 'Inscribed on the casing of the first contract-prism, displayed in the Canopy-Ledger of Atropolis'
    },
-   {
-    name: 'The Foundry of Grafts',
-    locationId: 'ironjaw-port',
-    description: 'The only facility capable of forging and attaching a pig-iron cylinder graft. The process takes three days and requires the prospective Arcanoneer to recite the entire First Contract from memory while molten iron is poured into the forearm mold. Fewer than half survive the grafting.',
-    purpose: 'Initiation, every Arcanoneer receives their graft here',
-    status: 'Active, overseen by the Iron-Sworn, a guild of smith-priests who have never spoken a word'
-   }
-  ],
+
+   philosophy: {
+    coreTenet: 'Magic is not a gift, not an art, not a science  --  it is a negotiation. Every sphere is a voice. Every weave is an agreement. Every backlash is a broken promise.',
+    relationship: 'Arcanoneers do not simply cast spells; they broker temporary alliances between forces that would rather annihilate each other. Their power flows from precision and calculation: identify compatible elements, calculate the risk, and release the result before the alliance collapses.',
+    paradox: 'The most versatile casters in the world are also the most constrained. Every weave balances on a knife\'s edge between cooperation and catastrophe. The master knows not just which elements combine  --  but which ones combine safely, which ones require bribes, and which ones should never share the same weave under any circumstances.'
+   },
+
+    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract  --  specifically, the Velun Contingency Protocol, which governs what happens if the First Contract itself is ever breached. The Ledger has split into two named factions. The Invokers argue the Protocol authorizes total magical warfare against the breaching party. The Nullifiers argue it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths. Ledger-Prime Vel-Otharen finds himself opposed by Signatory Vel-Korath, a younger Velun who argues Vel-Otharen's conservatism is why the breach is happening  --  the eldest Arcanoneer's refusal to audit the oldest clauses has allowed someone to exploit the Contract's accumulated inconsistencies over centuries.
+
+Behind the legal dispute is a darker truth: someone IS breaching the First Contract. Morvane has begun rejecting clauses it previously accepted. Weaves are collapsing in ways that suggest intentional sabotage of the contractual framework. If the Contract collapses, every Arcanoneer's filed clauses become void, and every spell they've ever cast becomes retroactively invalid, unraveling centuries of magical infrastructure across the Bryngloom.`,
+
+   meaningfulTradeoffs: `To be an Arcanoneer is to trade safety for versatility. Every weave is a calculated risk: the elements you combine will cooperate  --  briefly  --  but they will not forget what they are. Incompatible pairings can backfire catastrophically, dealing damage to the caster, scrambling your sphere bank, or producing effects wildly different from what you intended. The Arcanoneer who plays it safe is predictable. The Arcanoneer who pushes boundaries is terrifying  --  right up until the moment the weave collapses and takes half the battlefield with it.`,
+
+   classSpecificLocations: [
+    {
+     name: 'The Canopy-Ledger',
+     locationId: 'atropolis',
+     description: 'The highest court of Arcanoneer law, occupying the topmost platforms of Atropolis. Here, senior Arcanoneers debate contract interpretation, adjudicate magical disputes, and draft new clauses for submission to Morvane.',
+     purpose: 'Legislative, judicial, and educational, the Ledger is simultaneously parliament, supreme court, and university',
+     status: 'Active, but the current factional dispute is paralyzing its function'
+    },
+    {
+     name: 'The Cragjaw Guild-Hall',
+     locationId: 'cragjaw_peaks',
+     description: 'The Kethrin Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  --  and most conservative  --  combination matrix in existence.',
+     purpose: 'Training, certification, and research into guild-approved elemental pairings',
+     status: 'Active, though the guild-masters are increasingly alarmed by reports of Drall Scrap-Weavers achieving results outside certified parameters'
+    }
+   ],
 
   combatRole: {
    title: "Combat Role",
-   content: `**Primary Role**: Visceral, high-recoil, adaptive damage dealer
+    content: `**Primary Role**: Versatile, high-risk adaptive damage dealer
 
-**Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate cover-shattering, screen-clearing siege master. Your pig-iron sleeve can fire any combination of raw elements, giving you unparalleled versatility to obliterate enemy defenses, destroy defensive cover, and clear groups from extreme range.
+**Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate adaptable caster. Your elemental weaving can produce any damage type to exploit enemy weaknesses, shatter defenses, and control the battlefield from range  --  but every weave is a gamble with backlash as the stakes.
 
 **How You Fight**:
-1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to extract volatile aether-shards.
-2. **Read your hand**, What ammo is loaded? What recipes can you chamber?
-3. **Decide**: Pull the trigger now with what you have, or bank spheres to chamber a larger shell?
-4. **Execute**, Fire the cannon, pay the mana, and brace — firing pins your movement to 0 for the turn (Recoil Anchor).
+1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to generate elemental essences.
+2. **Read your hand**, What elements are available? What recipes can you weave?
+3. **Decide**: Release now with what you have, or bank spheres to weave a larger combination?
+4. **Execute**, Weave the elements, pay the mana, and brace  --  releasing a hostile weave pins your movement to 0 for the turn (Elemental Backlash).
 
 **Strengths**:
 - Unmatched versatility: can produce ANY damage type to exploit enemy weaknesses.
 - Dual damage types on mixed combos (Ember+Rime hits both ember-weak AND rime-weak enemies).
-- Powerful cover-shattering siege detonations.
+- Powerful battlefield-shaping detonations.
 - Nature combos provide defensive and support utility (Nature+Nature for gristle blockades, Nature+Radiant for slag-sutures).
 - Chaos combos provide wild swing potential (high risk, high reward).
 
 **Weaknesses**:
-- Rooted to Fire: every offensive shot pins your movement to 0 for the turn — enemies reposition freely while you are anchored.
-- Ammo by RNG: your damage type depends on a 4d8 roll — a bad hand means the wrong element for the enemy's resistances, and your only fix (Chamber Flush) costs Mana and AP.
-- Siege-Slow: big Recipes take turns to bank; fast swarmers or ambushers reach you before a shell is chambered.
-- Glass Artillery: light armor and you must plant yourself to fire — a mobile flanker or ranged attacker can pin and shred you while you're rooted.
-- Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll — attrition is one-way.
-- Cannot Lie (social): the graft forces honesty — you cannot bluff, deceive, or even stay silent when asked a direct question. A clever interrogator can pin you with a yes/no trap.`,
+- Rooted by Backlash: every offensive weave pins your movement to 0 for the turn  --  enemies reposition freely while you are anchored.
+- Elements by RNG: your damage type depends on a 4d8 roll  --  a bad hand means the wrong element for the enemy's resistances, and your only fix (Weave Reset) costs Mana and AP.
+- Weave-Slow: big Recipes take turns to bank; fast swarmers or ambushers reach you before a weave is ready.
+- Glass Caster: light armor and you must plant yourself to weave  --  a mobile flanker or ranged attacker can pin and shred you while you're anchored.
+- Zero Clinical Healing: you can sew flesh at a cost but cannot restore HP without a dark biological toll  --  attrition is one-way.
+- Backlash Risk: incompatible element pairings can backfire, damaging you and scrambling your sphere bank.`,
   },
 
   playstyle: {
    title: "Playstyle",
-   content: `**The Moment-to-Moment**:
+    content: `**The Moment-to-Moment**:
 
-Every turn begins with the sound of metal grinding as you roll 4d8 and watch your aether-shards condense.
+Every turn begins with the ripple of energy as you roll 4d8 and watch your elemental spheres condense from ambient aether.
 
 **Turn 1, The Hand You're Dealt**
 
@@ -248,91 +277,92 @@ Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire
 
 **Turn 2, Banking for Power**
 
-You banked all 4 spheres from Turn 1. Now you roll Arcane, blight+blight, Nature, Chaos. You have 8 spheres total. Suddenly you can:
+You banked all 4 spheres from Turn 1. Now you roll Arcane, Blight, Nature, Chaos. You have 8 spheres total. Suddenly you can:
 - Cast a 2-sphere combo AND still have 6 spheres left
 - Start building toward a 3-sphere Recipe (need 1 more turn of banking)
 - Cast multiple 2-sphere combos if you have the action points
 
-**The Core Tension**: Spend your random hand now for immediate impact, or bank spheres for devastating multi-sphere Recipes later? Banking pays off big — but it costs turns, and a bad 4d8 roll can leave you with the wrong elements for the fight. There is no wrong answer, only the answer that wins this particular fight.
+**The Core Tension**: Spend your random hand now for immediate impact, or bank spheres for devastating multi-sphere Recipes later? Banking pays off big  --  but it costs turns, and a bad 4d8 roll can leave you with the wrong elements for the fight. There is no wrong answer, only the answer that wins this particular fight.
 
 **Where Mastery Lives**:
 - Knowing the 36 matrix combos by heart (or at least the ones relevant to your spec)
 - Recognizing when your rolled spheres match a Recipe you've learned
 - Managing your sphere bank like a hand of cards, planning two turns ahead
-- Reading the battlefield's resistances and concocting the combination that exploits them.`,
+- Reading the battlefield's resistances and concocting the combination that exploits them.
+- Knowing which element pairings are unstable and weighing the backlash risk against the tactical need.`,
   },
 
-  immersiveCombatExample: {
-   title: "Combat Example: The Ambush at Grimhollow Bridge",
-   content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees. A fourth, their leader, stands at the far end, chanting. Your fighter charges. Your cleric holds the line. You stand at the center, your pig-iron forearm grafting hissing with heat, ready to fire.
+   immersiveCombatExample: {
+    title: "Combat Example: The Ambush at Grimhollow Bridge",
+    content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees. A fourth, their leader, stands at the far end, chanting. Your fighter charges. Your cleric holds the line. You stand at the center, your crystal focus humming as elemental spheres orbit around you, ready to weave.
 
 **You are a Level 4 Arcanoneer** with 34 mana. You regenerate 4 mana per turn. You've learned Abyssal Maw and carry three Level 1-2 Recipes: Marrow-Piercing Slug, Rime-Iron Clasp, and Superheated Steam Vent.
 
-**Turn 1, The Opening Discharge** *(2 AP available, 34 mana)*
+**Turn 1, The Opening Weave** *(2 AP available, 34 mana)*
 
-*You crank four aether-shards from the forearm condensers...*
+*You condense four elemental spheres from the ambient aether...*
 
 **Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Frost, Nature
 
-*Two jagged, red-glowing shards of flame feed into the first chamber. A shard of freezing rime goes into the second, and a rusted crimson sphere of nature waits in the reserve. The iron cylinder hums, its surface searing.*
+*Two jagged spheres of flame spiral into your focus. A shard of freezing rime joins them, and a rusted crimson sphere of nature waits in reserve. The focus pulses, its surface shimmering with contained energy.*
 
-**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Frost). Using the **Area** action (7 mana + 1d6 HP recoil), you vent a 20ft cone of blinding steam.
+**Your Mind Races**: Three bandits, clustered together. You have the Recipe: **Superheated Steam Vent** (Fire + Frost). Using the **Area** action (7 mana + 1d6 HP backlash), you release a 20ft cone of blinding steam.
 
-*You slam the fire and ice shards into the main chamber. The pig-iron cylinder roars as the opposing forces react. A pressurized column of superheated steam erupts from the barrel, searing the bandits. The kinetic back-blast punches your shoulder, shuddering through your arm (1d6 recoil damage) and anchoring you to the stone bridge (movement speed reduced to 0).*
+*You weave fire and frost together. The opposing forces resist, then relent, releasing a pressurized column of superheated steam that sears the bandits. The magical backlash shudders through your body (1d6 backlash damage), anchoring you in place (movement speed reduced to 0).*
 
-**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 ember+rime damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the Ember and Nature spheres.
+**Result**: Cast **Superheated Steam Vent** via Area action. 1d8 + INT/4 ember+rime damage to all three bandits + Blinded. **Cost: 7 mana, 1d6 HP. Remaining: 27 mana, 1 AP. Movement: 0.** You bank the remaining Fire and Nature spheres.
 
-**Turn 2, Chambering the Shell** *(2 AP available, 31 mana after regen)*
+**Turn 2, Preparing the Payload** *(2 AP available, 31 mana after regen)*
 
 *The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged, he can't reach the caster in time. It's down to you.*
 
-**Roll 4d8**: [1, 3, 6, 8] → Arcane, blight+blight, Nature, Chaos
+**Roll 4d8**: [1, 3, 6, 8] → Arcane, Blight, Nature, Chaos
 
-*Four more shards erupt: a violet sliver of force, a writhing blight+blight shadow, a crackling nature spike, and a volatile chaos core.*
+*Four more spheres materialize: a violet sliver of force, a writhing blight shadow, a crackling nature spike, and a volatile chaos core.*
 
 **Your Banked Spheres**: Fire, Nature (from Turn 1)
-**Total Available**: Fire, Nature, Arcane, blight+blight, Nature, Chaos, 6 spheres
+**Total Available**: Fire, Nature, Arcane, Blight, Nature, Chaos  --  6 spheres
 
-**The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres into the reserve chambers, letting the iron cool slightly while preparing a massive blast. Since you didn't fire, you take no recoil damage and your movement is unaffected.
+**The Decision**: You need to stop the leader, but your rolled elements are scattered and you want a massive payload. You bank all spheres, letting the focus cool slightly while gathering energy for a massive blast. Since you didn't release a weave, you take no backlash and your movement is unaffected.
 
 **Result**: No cast. **Cost: 0 mana, 0 HP. Remaining: 31 mana. AP: 2 unused (wasted).**
 
 **Turn 3, The Heavy Recipe Unleashed** *(2 AP available, 35 mana after regen)*
 
-*The leader's blade glows with dark power. You raise your pig-iron arm, bracing your shoulder as the bones grind.*
+*The leader's blade glows with dark power. You raise your focus, bracing as the elemental spheres orbit faster.*
 
-**Roll 4d8**: [3, 3, 5, 2] → blight+blight, blight+blight, Frost, Radiant
+**Roll 4d8**: [3, 3, 5, 2] → Blight, Blight, Frost, Radiant
 
-*Two dark blight+blight shards emerge. Perfect. You load them directly.*
+*Two dark blight spheres emerge. Perfect. You weave them together immediately.*
 
-**Your Total Spheres**: Fire, Nature, Arcane, blight+blight, Nature, Chaos, blight+blight, blight+blight, Frost, Radiant, 10 spheres.
+**Your Total Spheres**: Fire, Nature, Arcane, Blight, Nature, Chaos, Blight, Blight, Frost, Radiant  --  10 spheres.
 
-*You select blight+blight + blight+blight. You unleash the Recipe: **Abyssal Maw**.*
+*You select Blight + Blight. You unleash the Recipe: **Abyssal Maw**.*
 
 *"Umbra Clausura!"*
 
-*The pig-iron chassis shudders violently. Firing it sends a shockwave through your collarbone (1d6 HP recoil damage) and anchoring you (movement speed 0). Ethereal jaws of shadow erupt from the barrel, devouring the leader's strength.*
+*The focus pulses violently. Releasing the weave sends a shockwave through your body (1d6 HP backlash), anchoring you (movement speed 0). Ethereal jaws of shadow erupt from the focus, devouring the leader's strength.*
 
-**Result**: Cast **Abyssal Maw** (Recipe-enhanced blight+blight + blight+blight). 2d8 + INT/3 blight+blight + 1d6 blight+blight DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
+**Result**: Cast **Abyssal Maw** (Recipe-enhanced Blight + Blight). 2d8 + INT/3 blight + 1d6 blight DoT + target STR reduced by 2. **Cost: 14 mana, 1d6 HP. Remaining: 21 mana, 1 AP. Movement: 0.**
 
 *The bandit leader staggers. Your fighter finishes him with a clean strike.*
 
-With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded bandit for extra damage.
+With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded bandit for extra damage.
 
 **Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana, 1d4 HP. Remaining: 16 mana. AP: 0. Movement: 0.**
 
-**Turn 4, Back-Blast and Recovery** *(2 AP available, 20 mana after regen)*
+**Turn 4, Backlash and Recovery** *(2 AP available, 20 mana after regen)*
 
 *Only one bandit remains, wounded and cornered. Time to finish this. But you roll all Nature spheres!*
 
 **Roll 4d8**: [7, 7, 7, 7] → Nature, Nature, Nature, Nature
 
-*Four soft green spheres of nature energy emerge. You are not helpless, but you need to support your fighter. You cast Gristle Blockade (Nature + Nature) via Buff action on the fighter, binding their wounds with compressed botanical fiber and bone-knit plates.*
+*Four soft green spheres of nature energy emerge. You are not helpless, but you need to support your fighter. You weave Gristle Blockade (Nature + Nature) via Buff action on the fighter, binding their wounds with compressed botanical fiber and bone-knit plates.*
 
 **Result**: Fighter gained gristle armor. **Cost: 4 mana, 1d4 HP. Remaining: 12 mana.**
 
-**The Lesson**: Being a Magi-ballistic Artillery is not about having an elegant solution; it is about managing the kinetic chaos, bracing yourself against the recoil, knowing which volatile combinations to chamber, and paying the price in stamina to erase your enemies. The master knows when to vent and when to discharge.`,
-  },
+**The Lesson**: Being an Elemental Weaver is not about having an elegant solution; it is about managing the chaos, bracing yourself against magical backlash, knowing which volatile combinations to weave, and paying the price in stamina to erase your enemies. The master knows when to release and when to hold.`,
+   },
  },
 
  primaryStat: "intelligence",
@@ -341,8 +371,8 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
  // Character Creation
  characterCreation: {
   title: "Creating Your Arcanoneer",
-  subtitle: "The Elemental Chemist",
-  description: `The Arcanoneer is a class that rewards preparation and pattern recognition. You don't memorize spell lists, you learn a matrix of elemental combinations and collect Recipes that enhance specific pairings. Your power comes from reading what the dice give you and making the most of it.`,
+   subtitle: "The Elemental Weaver",
+   description: `The Arcanoneer is a class that rewards preparation and pattern recognition. You don't memorize spell lists  --  you learn a matrix of elemental combinations and collect Recipes that enhance specific pairings. Your power comes from reading what the dice give you and making the most of it.`,
   steps: [
    {
     step: 1,
@@ -450,10 +480,10 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
  },
 
  // Resource System
- resourceSystem: {
-  title: "The Forearm Graft & Shard Chambers",
-  subtitle: "Building Block Generation & Formulation (shifting Spell Crafting)",
-  description: `The Arcanoneer uses a specialized resource system centered around a massive iron sleeve grafted directly to the arm, loaded with crystallized shards of the caster's own blood.
+  resourceSystem: {
+   title: "Elemental Weaving & Sphere Mechanics",
+   subtitle: "Building Block Generation & Combination (Shifting Spell Crafting)",
+   description: `The Arcanoneer uses a specialized resource system centered around elemental spheres  --  condensed essences of raw magical energy drawn from ambient aether. The weaver's focus (crystal prism, contract-scroll, memory-glass lens, or mechanical regulator) channels and stabilizes these spheres for combination.
 
 **Visual Representation**:
 - **Force Blocks**: Purple orbs of pure, humming force
@@ -466,14 +496,14 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
 - **Wyrd Blocks**: Iridescent, shifting orbs of unstable, morphing energy
 
 **How It Changes Each Turn**:
-- **Turn Start**: 4 new blocks appear (from your 4d8 roll)
-- **When Casting**: Spent blocks disappear from the cylinder
-- **When Banking**: Unused blocks remain visible, accumulating over turns (max **12 banked**)
-- **Overflow**: If rolling would exceed 12, you choose which new blocks to keep. Excess are lost.
-- **Combat End**: All blocks vanish, the graft vents and cools down
-- **The Recoil Anchor**: Discharging the heavy cannon is so violent that your movement speed is reduced to 0 for the turn whenever you cast a spell.
+- **Turn Start**: 4 new spheres condense from ambient aether (from your 4d8 roll)
+- **When Casting**: Spent spheres dissipate from your focus
+- **When Banking**: Unused spheres remain in orbit around your focus, accumulating over turns (max **12 banked**)
+- **Overflow**: If rolling would exceed 12, you choose which new spheres to keep. Excess are lost.
+- **Combat End**: All spheres dissipate, the focus cools and returns to rest
+- **Elemental Backlash**: Releasing a hostile weave anchors you in place; movement speed is reduced to 0 for the turn.
 
-**Reading the Bar at a Glance**: The cylinder bar represents your active ammunition. A cylinder full of Heat blocks indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what formulations and Recipes your current bank can feed. With 36 formulations and learned Recipes, managing your bank becomes a deadly calculus.`,
+**Reading the Bank at a Glance**: Your sphere bank represents your active arsenal. A bank full of Heat spheres indicates pure explosive potential. A diverse mix suggests high utility. You must constantly analyze what combinations and Recipes your current bank can supply. With 36 combinations and learned Recipes, managing your bank becomes a deadly calculus.`,
 
   mechanics: {
    title: "How It Works",
@@ -497,66 +527,66 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      stepNumber: 3,
      title: "Pick Action + Blocks",
      subtitle: "Combine & Cast",
-     content: `Choose an **action** (what shape) and your **blocks** (what elements). Combine two blocks into a formulation and pay mana. Firing anchors you, reducing movement speed to 0.`,
+      content: `Choose an **action** (what shape) and your **spheres** (what elements). Combine two spheres into a weave and pay mana. Releasing a hostile weave triggers backlash, reducing movement speed to 0.`,
     },
    ],
-   actionTable: {
-    title: "Your 5 Firing Profiles",
-    subtitle:
-     "Pick one. Offensive firing profiles pin your movement speed to 0 for the turn (Recoil Anchor). The Defend profile does not anchor you.",
-    actions: [
-     {
-      name: "Attack",
-      icon: "crosshairs",
-      spheres: "2",
-      mana: "5",
-      range: "30ft",
-      target: "One enemy",
-      damage: "1d8 + INT/4",
-      note: "Standard single-target ballistic blast. Pins your movement to 0.",
-     },
-     {
-      name: "Defend",
-      icon: "shield-alt",
-      spheres: "2",
-      mana: "6",
-      range: "Self/Ally 30ft",
-      target: "One creature",
-      damage: "Absorbs level HP",
-      note: "Defensive shield; does not pin your movement.",
-     },
-     {
-      name: "Buff",
-      icon: "magic",
-      spheres: "2",
-      mana: "4",
-      range: "Touch",
-      target: "One weapon",
-      damage: "+1d6 next hit",
-      note: "Infuses a weapon with the combo's elements. Pins your movement to 0.",
-     },
-     {
-      name: "Area",
-      icon: "burst",
-      spheres: "2",
-      mana: "7",
-      range: "30ft center",
-      target: "10ft radius",
-      damage: "1d6 + INT/4 each",
-      note: "Vents the explosion in a wider area. Pins your movement to 0.",
-     },
-     {
-      name: "Trap",
-      icon: "draw-polygon",
-      spheres: "2",
-      mana: "6",
-      range: "30ft surface",
-      target: "5ft zone",
-      damage: "1d8 + INT/4",
-      note: "Seeds a mine of raw magical energy that lasts 1 minute. Pins your movement to 0.",
-     },
-    ],
-   },
+    actionTable: {
+     title: "Your 5 Firing Profiles",
+     subtitle:
+      "Pick one. Offensive profiles trigger Elemental Backlash, pinning movement to 0 for the turn. The Defend profile does not trigger backlash.",
+     actions: [
+      {
+       name: "Attack",
+       icon: "crosshairs",
+       spheres: "2",
+       mana: "5",
+       range: "30ft",
+       target: "One enemy",
+       damage: "1d8 + INT/4",
+       note: "Standard single-target weave. Pins your movement to 0.",
+      },
+      {
+       name: "Defend",
+       icon: "shield-alt",
+       spheres: "2",
+       mana: "6",
+       range: "Self/Ally 30ft",
+       target: "One creature",
+       damage: "Absorbs level HP",
+       note: "Defensive shield; does not pin your movement.",
+      },
+      {
+       name: "Buff",
+       icon: "magic",
+       spheres: "2",
+       mana: "4",
+       range: "Touch",
+       target: "One weapon",
+       damage: "+1d6 next hit",
+       note: "Infuses a weapon with the combo's elements. Pins your movement to 0.",
+      },
+      {
+       name: "Area",
+       icon: "burst",
+       spheres: "2",
+       mana: "7",
+       range: "30ft center",
+       target: "10ft radius",
+       damage: "1d6 + INT/4 each",
+       note: "Spreads the weave in a wider area. Pins your movement to 0.",
+      },
+      {
+       name: "Trap",
+       icon: "draw-polygon",
+       spheres: "2",
+       mana: "6",
+       range: "30ft surface",
+       target: "5ft zone",
+       damage: "1d8 + INT/4",
+       note: "Seeds a mine of raw magical energy that lasts 1 minute. Pins your movement to 0.",
+      },
+     ],
+    },
    chaosEffectsTable: {
     title: "Chaos Effects Table (Player Rolls d20)",
     subtitle:
@@ -594,42 +624,42 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      ["20", "Chaos Perfection, choose ANY effect from this table."],
     ],
    },
-   singleSphereFallbacks: {
-    title: "Single-Sphere Fallbacks & Emergency Venting",
-    subtitle: "Leftover spheres or catastrophic RNG? Gouge your flesh or vent your chambers.",
-    abilities: [
-     {
-      name: "Chamber Flush",
-      cost: "3 Mana + 1 AP + 1d4 HP",
-      type: "Utility / Emergency",
-       description: "Flush alternate aether-shards from your forearm condensers to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
-     },
-     {
-      name: "Fling",
-      cost: "1 Sphere + 2 Mana + 1 HP",
-      type: "Attack",
-      description: "1d4 damage of that element. 30ft. A minor shrapnel launch.",
-     },
-     {
-      name: "Ward",
-      cost: "1 Sphere + 3 Mana",
-      type: "Reaction",
-      description: "Grant resistance to that element for 1 round. (Absorbs recoil completely).",
-     },
-     {
-      name: "Siphon",
-      cost: "1 Sphere",
-      type: "Resource",
-      description: "Destroy sphere, recover 2 mana. Siphons minor blood-heat.",
-     },
-     {
-      name: "Purge",
-      cost: "2 Any + 4 Mana + 1d4 HP",
-      type: "Utility",
-      description: "Remove 1 debuff from self/ally. Touch range. Burns away curses by searing tissue.",
-     },
-    ],
-   },
+    singleSphereFallbacks: {
+     title: "Single-Sphere Fallbacks & Emergency Weave Reset",
+     subtitle: "Leftover spheres or catastrophic RNG? Pay the toll to reset your weave.",
+     abilities: [
+      {
+       name: "Weave Reset",
+       cost: "3 Mana + 1 AP + 1d4 HP",
+       type: "Utility / Emergency",
+        description: "Purge unstable spheres from your focus to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
+      },
+      {
+       name: "Fling",
+       cost: "1 Sphere + 2 Mana + 1 HP",
+       type: "Attack",
+       description: "1d4 damage of that element. 30ft. A minor shrapnel launch.",
+      },
+      {
+       name: "Ward",
+       cost: "1 Sphere + 3 Mana",
+       type: "Reaction",
+       description: "Grant resistance to that element for 1 round. (Absorbs backlash completely).",
+      },
+      {
+       name: "Siphon",
+       cost: "1 Sphere",
+       type: "Resource",
+       description: "Destroy sphere, recover 2 mana. Siphons minor ambient energy.",
+      },
+      {
+       name: "Purge",
+       cost: "2 Any + 4 Mana + 1d4 HP",
+       type: "Utility",
+       description: "Remove 1 debuff from self/ally. Touch range. Burns away curses by searing tissue.",
+      },
+     ],
+    },
    baseVsRecipes: {
     title: "Why Learn Recipes?",
     subtitle: "Base combos are cantrips. Recipes are real spells.",
@@ -647,8 +677,8 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
     recipeExamples: [
      {
       level: "Lv 1",
-      name: "Chamber Flush",
-      upgrade: "Emergency venting → Discard and reroll all active spheres",
+       name: "Weave Reset",
+       upgrade: "Emergency reset → Discard and reroll all active spheres",
      },
      {
       level: "Lv 2",
@@ -683,42 +713,42 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
      },
     ],
    },
-   comboTiers: {
-    title: "Combination Tiers",
-    tiers: [
-     {
-      name: "2-Sphere Matrix",
-      sphereCost: "2",
-      manaCost: "4-7",
-      available: "Always",
-      description:
-       "Your cantrips. Pick an action, pick your elements, done. If you've learned a Recipe for that combo, spend its mana cost instead for the upgraded version.",
-      highlight: true,
-     },
-     {
-      name: "3-Sphere Recipe",
-      sphereCost: "3",
-      manaCost: "20-25",
-      available: "Level 6+",
-      description:
-       "Recipe-only. Heavy ordnance, scaling dice, persistent effects, unique mechanics. Deals severe self-damage and erodes max HP.",
-     },
-     {
-      name: "4-Sphere Recipe",
-      sphereCost: "4",
-      manaCost: "25-36",
-      available: "Level 8+",
-      description:
-       "The big guns. Bank across turns. Battlefield-shaping power — but the bigger the shell, the harder the Recoil Anchor pins you, and the more spheres it eats.",
-     },
-    ],
-   },
-   manaWarning:
-    "Spheres + Mana. You need **both**. A full bank is useless without mana.",
-   manaRegeneration: {
-    title: "Mana Regeneration",
-    content: `You have a **Mana Pool** equal to 10 + (Intelligence Ã, 2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
-   },
+    comboTiers: {
+     title: "Combination Tiers",
+     tiers: [
+      {
+       name: "2-Sphere Matrix",
+       sphereCost: "2",
+       manaCost: "4-7",
+       available: "Always",
+       description:
+        "Your cantrips. Pick an action, pick your elements, done. If you've learned a Recipe for that combo, spend its mana cost instead for the upgraded version.",
+       highlight: true,
+      },
+      {
+       name: "3-Sphere Recipe",
+       sphereCost: "3",
+       manaCost: "20-25",
+       available: "Level 6+",
+       description:
+        "Recipe-only. Heavy ordnance, scaling dice, persistent effects, unique mechanics. Deals severe self-damage and erodes max HP.",
+      },
+      {
+       name: "4-Sphere Recipe",
+       sphereCost: "4",
+       manaCost: "25-36",
+       available: "Level 8+",
+       description:
+        "The big guns. Bank across turns. Battlefield-shaping power  --  but the bigger the weave, the harder the backlash pins you, and the more spheres it consumes.",
+      },
+     ],
+    },
+    manaWarning:
+     "Spheres + Mana. You need **both**. A full bank is useless without mana.",
+    manaRegeneration: {
+     title: "Mana Regeneration",
+     content: `You have a **Mana Pool** equal to 10 + (Intelligence � -  2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
+    },
    actionPointsRule: {
     title: "Action Points",
     content: `You gain **2 Action Points (AP)** per turn. Most 2-sphere combos cost 1 AP. 3-sphere Recipes cost 1-2 AP. 4-sphere Recipes cost 2-3 AP. If you have the AP and the spheres, you can cast multiple combos in one turn.`,
@@ -738,7 +768,7 @@ With 1 AP remaining, you fire Arcane + Frost = **Crystal Shard** on a wounded ba
     ["Buff", "2", "4"],
     ["Area", "2", "7"],
     ["Trap", "2", "6"],
-    ["Chamber Flush", "0", "3 (costs 1d4 HP + 1 AP)"],
+     ["Weave Reset", "0", "3 (costs 1d4 HP + 1 AP)"],
     ["Fling (1 sphere)", "1", "2"],
     ["Ward (1 sphere)", "1", "3"],
     ["Purge", "2 any", "4"],
@@ -955,16 +985,16 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 **Quick Reference Card**:
 
 \`\`\`
-ARCANONEER, SPHERE GENERATION & RECOIL
+ARCANONEER, SPHERE GENERATION & BACKLASH
 Roll 4d8 each turn:
 1 = Arcane (Purple)  5 = Frost (Blue)
 2 = Radiant (Gold)   6 = Nature (Green)
 3 = blight+blight (Black)  7 = Flesh (Crimson)
 4 = Fire (Red)     8 = Chaos (Rainbow)
 
-CORE MECHANIC: Firing reduce movement speed to 0.
-RECOIL HP COST: Attack/Buff (1d4), Area/Trap (1d6).
-Defend has 0 Recoil.
+CORE MECHANIC: Hostile weaves reduce movement speed to 0.
+BACKLASH HP COST: Attack/Buff (1d4), Area/Trap (1d6).
+Defend has 0 Backlash.
 BASE COMBO COST: 5 mana
 BASE COMBO DAMAGE: 1d8 + INT/4
 RECIPE SCALING: Lv3-4 → 2d8+INT/3 | Lv5 → 3d8+INT/2
@@ -1703,7 +1733,7 @@ MAX BANKED SPHERES: 12
     effectDescription:
      "Burn away afflictions with molten slag. Deals 2d6 ember damage to the ally and removes ONE debuff or condition by violently searing the tissue.",
     flavorText:
-     "Fire does not heal, it purges. The forearm graft vents a jet of boiling magma that is smeared directly onto the ally's wounds. They scream as their flesh melts, but the heat instantly burns away any poison, disease, or curse, leaving permanent molten scars.",
+      "Fire does not heal, it purges. The weave vents a jet of boiling magma that smears directly onto the ally's wounds. They scream as their flesh melts, but the heat instantly burns away any poison, disease, or curse, leaving permanent molten scars.",
    },
    {
     id: "fire_chaos",
@@ -1918,7 +1948,7 @@ MAX BANKED SPHERES: 12
     effectDescription:
      "An unstable ward of shifting flesh and bone. Roll 1d4 on the random effects table: 1=+2 Armor for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=flesh collapses (no effect).",
     flavorText:
-     "You fuse viscera and chaos in your chambers. Grotesque limbs, teeth, and skin bubble around your forearm graft, ready to absorb incoming strikes. Will it hold, or will the tissue melt away into useless slurry?",
+      "You fuse viscera and chaos in your focus. Grotesque limbs, teeth, and skin bubble around the weave-lattice, ready to absorb incoming strikes. Will it hold, or will the tissue melt away into useless slurry?",
     randomEffects: [
      {
       name: "Gristle Shield",
@@ -2091,7 +2121,7 @@ MAX BANKED SPHERES: 12
    id: "arc_spark_bolt",
    name: "Marrow-Piercing Slug",
    description:
-    "Chambers a crystallized soul-shard of pure force, discharging a bone-shattering slug that ignites as it exits the pig-iron barrel. Ignores 2 points of enemy armor.",
+     "Weaves a crystallized soul-shard of pure force, discharging a bone-shattering bolt that punches through armor. Ignores 2 points of enemy armor.",
    level: 1,
    enhancesCombo: "arcane_arcane",
    spellType: "ACTION",
@@ -2120,7 +2150,7 @@ MAX BANKED SPHERES: 12
     components: ["verbal", "somatic"],
      verbalText: "Aether Ignis!",
      somaticText:
-      "Your pig-iron sleeve superheats as a violet aether-shard feeds into the chamber. Firing it sends a sharp vibration through your forearm.",
+       "Your focus pulses as a violet aether-shard weaves into the lattice. Releasing it sends a sharp vibration through your forearm.",
     spheres: ["Arcane", "Arcane"],
    },
 
@@ -2146,7 +2176,7 @@ MAX BANKED SPHERES: 12
    id: "arc_frost_touch",
    name: "Rime-Iron Clasp",
    description:
-    "Grafts freezing rime directly onto your iron cylinder, gripping the target to flash-freeze tissue. Frozen targets take +1d4 bonus damage from the next physical attack against them.",
+     "Weaves freezing rime directly into the target, gripping them to flash-freeze tissue. Frozen targets take +1d4 bonus damage from the next physical attack against them.",
    level: 1,
    enhancesCombo: "ice_ice",
    spellType: "ACTION",
@@ -2174,7 +2204,7 @@ MAX BANKED SPHERES: 12
     components: ["verbal", "somatic"],
     verbalText: "Gelu Clavis!",
     somaticText:
-     "Freezing rime spreads from the pig-iron chassis across your hand as you clasp the target's blight+k.",
+      "Freezing rime spreads across your hand as you clasp the target's flesh.",
     spheres: ["rime", "rime"],
    },
 
@@ -2426,7 +2456,7 @@ MAX BANKED SPHERES: 12
    id: "arc_steam_burst",
    name: "Superheated Steam Vent",
    description:
-     "Vents the pig-iron cylinder's thermal chambers, unleashing a pressurized cone of blinding steam.",
+      "Vents the thermal chambers of your focus, unleashing a pressurized cone of blinding steam.",
    level: 2,
    enhancesCombo: "fire_ice",
    spellType: "ACTION",
@@ -2458,7 +2488,7 @@ MAX BANKED SPHERES: 12
     components: ["verbal", "somatic"],
     verbalText: "Calidus Ventus!",
     somaticText:
-     "Force open the cooling bypass valves on the forearm sleeve, spraying superheated white mist in a wide arc",
+      "Open the cooling bypass vents, spraying superheated white mist in a wide arc",
     spheres: ["ember", "rime"],
    },
 
@@ -2578,7 +2608,7 @@ MAX BANKED SPHERES: 12
    id: "arc_celestial_ray",
    name: "Aetheric Lance",
    description:
-    "Overcharges the cylinder with sacred and arcane essences, projecting a continuous beam of blinding celestial energy that scorches enemies while sealing the wounds of allies in its path.",
+     "Overcharges the focus with sacred and arcane essences, projecting a continuous beam of blinding celestial energy that scorches enemies while sealing the wounds of allies in its path.",
    level: 2,
    enhancesCombo: "arcane_holy",
    spellType: "ACTION",
@@ -2899,7 +2929,7 @@ MAX BANKED SPHERES: 12
    id: "arc_firestorm",
    name: "Incinerating Slag-Shower",
    description:
-    "Superheats the cylinder until the iron drips molten slag, venting a spinning cyclone of hellfire that incinerates all flesh in a 15-foot radius.",
+     "Superheats the focus until elemental energy drips molten slag, venting a spinning cyclone of hellfire that incinerates all flesh in a 15-foot radius.",
    level: 4,
    enhancesCombo: "fire_fire",
    spellType: "ACTION",
@@ -2971,7 +3001,7 @@ MAX BANKED SPHERES: 12
    id: "arc_frost_nova",
    name: "Bone-Chilling Vent",
    description:
-    "Purges the cooling lines of your cylinder, unleashing a pressurized shockwave of absolute zero that flash-freezes joints and muscles in a 15-foot blast.",
+     "Purges the cooling lines of your focus, unleashing a pressurized shockwave of absolute zero that flash-freezes joints and muscles in a 15-foot blast.",
    level: 4,
    enhancesCombo: "ice_ice",
    spellType: "ACTION",

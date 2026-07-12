@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Augur Class Data
  *
  * Complete surgical overhaul for the Augur - the Visceral Haruspex who reads
@@ -12,11 +12,11 @@ export const AUGUR_DATA = {
  restrictions: {
   "allowedSubraces": [
    "skald_human",
-   "sylen_astril",
-   "muren_astril",
+   "vashir_astril",
+   "silath_astril",
    "tessen_human",
-   "clean_vreken",
-   "marked_vreken"
+   "marked_vreken",
+   "korr_emberth"
   ],
   "hardBlocks": [
    "merryn_human",
@@ -40,7 +40,8 @@ export const AUGUR_DATA = {
   reframe: `This is Cassia's original tradition. The <LoreLink termId="skald">Skald</LoreLink> read the future in the entrails of sacrificed glacier-elk at the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, where the preserved dead stand upright in the ice as witnesses. The glacier-cold slows the cooling of the gore, extending the reading window, a Skald Augur working in a warm room has seconds; working against glacier-ice, they have minutes.`,
   signatureAbility: {
   name: 'Glacier-Reading',
-  description: `Visceral auguries remain legible far longer when read against frozen ground or glacier-ice, extending the window in which a vision can be parsed. In warmth, the entrails (and the future they hold) cool and lie within heartbeats.`
+  description: `A reader of the immediate future. Not prophecy. Not cosmic destiny. The trajectory of a blade. The moment a guard will drop. The exact second a killing blow will land. The augur reads these things in fresh violence -- blood, entrails, splintered bone -- and pays for every vision with sanity or stamina.`,
+
   },
   currentCrisisAngle: `The accuracy collapse (93% to 41%) began at the Frozen Archive itself, the Skald's seat. The elder Haruspexes insist the elk are still true and that something is interfering with the ice, not the entrails. The younger Skald suspect the elders cannot accept that their founding method is obsolete.`,
   signatureQuote: {
@@ -50,42 +51,42 @@ export const AUGUR_DATA = {
   }
  },
 
- sylen_astril: {
-  subraceName: 'Sylen Astril',
+ vashir_astril: {
+  subraceName: 'Vashir Astril',
   title: 'The Star-Viscera Reader',
-  reframe: `The <LoreLink termId="astril">Sylen</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The constellation-spirit's death-rattle echoes *forward* through the crystal lattice, a Sylen Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
+   reframe: `The <LoreLink termId="astril">Vashir</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Vashir Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
   signatureAbility: {
   name: 'Lattice-Fracture',
   description: `Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack, but the crack is real, and the skin does not always heal.`
   },
-  currentCrisisAngle: `The Sylen's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Sylen Augurs believe their constellation-spirits are no longer reading the real future but a future the spirit *wants* to be true, the dying star's court choosing comfortable lies over the Deepening's truth.`,
+   currentCrisisAngle: `The Vashir's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Vashir Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the Deepening's truth.`,
   signatureQuote: {
   text: '"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe."',
   speaker: 'Aenith Glass-Skinned',
-  context: 'A Sylen Augur to a party member who, by her reading, should be dead'
+  context: 'A Vashir Augur to a party member who, by her reading, should be dead'
   }
  },
 
- muren_astril: {
-  subraceName: 'Muren Astril',
+ silath_astril: {
+  subraceName: 'Silath Astril',
   title: 'The Suppressed Oracle',
-  reframe: `The <LoreLink termId="astril">Muren</LoreLink> bind and suppress their constellation-spirits, and an Augur among them weaponizes that captivity. The suppressed spirit *knows* what is coming and screams it through the crystal the Muren have gagged. A Muren Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
+   reframe: `The <LoreLink termId="astril">Silath</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Silath have gagged. A Silath Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
   signatureAbility: {
   name: 'Gagged-Foresight',
-  description: `Suppressed constellation-spirits leak prophecy as involuntary flashes, vivid but fragmentary, the spirit smuggling warnings past its own bindings. The Muren cannot control what they see, only endure it.`
+   description: `Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Silath cannot control what they see, only endure it.`
   },
-  currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Muren's spirits *easier* to suppress, the future they scream about is now so garbled it barely registers. Some Muren Augurs are relieved. Others are terrified: a spirit that stops screaming may have stopped because it has nothing left worth warning about.`,
+   currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Silath's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Silath Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.`,
   signatureQuote: {
   text: '"I bound it to silence it. Now it whispers, and I cannot tell whether it is finally dying or finally right."',
   speaker: 'Orathin the Muzzled',
-  context: 'A Muren Augur, the night the readings first contradicted themselves'
+  context: 'A Silath Augur, the night the readings first contradicted themselves'
   }
  },
 
  tessen_human: {
   subraceName: 'Tessen',
   title: 'The Keep-Prophet',
-  reframe: `Sealed inside their snow-buried keeps for four centuries, the <LoreLink termId="house_tesshan">Tessen</LoreLink> have no elk and no glacier. They read the future in the cracks of their own crumbling architecture, the dying keep *as* entrail, the settling stone a slow-motion sacrifice. A Tessen Augur's prophecy is the sound the wall made before it fell.`,
+   reframe: `Sealed inside their snow-buried keeps for four centuries, the <LoreLink termId="house_tesshan">Tessen</LoreLink> have no elk and no glacier. They read the future in the cracks of their own crumbling architecture, the dying keep *as* entrail, the settling stone a slow-motion sacrifice. A Tessen Augur's prophecy is the sound the wall made before it fell. During the Toll Wars (Years 280-340), a Skald augur named <LoreLink termId="eira_bone_reader">Eira Bone-Reader</LoreLink> was part of a trade delegation crossing the Ancestor-Spans. A sudden blizzard trapped her party in a Tessen keep for an entire winter. She taught the keep's archivists the principles of haruspicy in exchange for shelter. The Tessen had no elk and no glacier  --  but they had something the Skald did not: a keep that was dying. The stress-fractures in the ancient stone became their entrails.`,
   signatureAbility: {
   name: 'Stone-Harrow',
   description: `Visions are read in the stress-fractures of load-bearing architecture, the Augur's own keep, or any large masonry structure under strain. The bigger the structure and the closer to collapse, the clearer and more catastrophic the reading.`
@@ -101,7 +102,7 @@ export const AUGUR_DATA = {
  clean_vreken: {
   subraceName: 'Clean Vreken',
   title: 'The Bog-Gore Diviner',
-  reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> read the future in the preserved dead the bog itself coughs up, peat-mummified corpses whose final, frozen expressions encode their last vision. Where the Skald read fresh sacrifice, the Vreken read the ancient dead the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> has been kind enough to return.`,
+   reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> read the future in the preserved dead the bog itself coughs up, peat-mummified corpses whose final, frozen expressions encode their last vision. Where the Skald read fresh sacrifice, the Vreken read the ancient dead the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> has been kind enough to return. The Clean Vreken did not learn from the Skald  --  they developed augury independently when the Bryngloom bog, disturbed by the Breach, began coughing up peat-mummified corpses that were centuries old. The Vreken already read their dead through spore-inhalation; reading the *future* through the dead's preserved flesh was a natural extension, discovered by a Clean Vreken crypt-keeper named <LoreLink termId="mother_ysen">Mother Ysen</LoreLink>.`,
   signatureAbility: {
   name: 'Peat-Reading',
   description: `Visions are parsed from recovered bog-mummies, their posture, expression, and the orientation of their last grasp. The older the corpse, the further forward it sees, but the more degraded the image. A fresh corpse sees hours; a centuries-old mummy sees decades, in fragments.`
@@ -128,6 +129,22 @@ export const AUGUR_DATA = {
   speaker: 'Vesh the Bloom-Walked',
   context: 'A Marked Vreken Augur, during the third week of the looping vision'
   }
+ },
+
+ korr_emberth: {
+  subraceName: 'Korr Emberth',
+  title: 'The Solbrand-Reader',
+   reframe: `The <LoreLink termId="emberth">Korr</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="solbrand">Solbrand</LoreLink> itself \u2014 the dying star's pulse as omen. The Korr maintain the Solbrand in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Korr learned augury not from Skald or Vreken but from watching the Solbrand for eight centuries. A Korr forge-priest named <LoreLink termId="ignis_the_watcher">Ignis the Watcher</LoreLink> noticed that the Solbrand's flicker-patterns changed before every major calamity  --  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. The Solbrand was always speaking; the Korr were the first to realize it was speaking *forward*. The Solbrand has been dimming for eight centuries. The Korr Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
+  signatureAbility: {
+  name: 'Flame-Reading',
+  description: `Visions are read in the Solbrand's flicker-patterns, the dying star's pulse serves as the Augur's entrails. The Korr read dimming-rate, flare-frequency, and color-shift the way other Augurs read liver-mottling and intestine-convolution. The reading is continuous and passive, a vigil maintained across generations, meaning a Korr Augur carries the accumulated observations of every watcher who preceded them.`
+  },
+  currentCrisisAngle: `The accuracy collapse has not affected the Korr the way it has affected the elk-readers: the Solbrand has never been accurate in the short term, it reads in centuries, not minutes. But the long-term pattern has shifted. The dimming-rate the Korr have tracked for eight centuries has, in the past decade, begun to accelerate. The elders who have maintained the vigil for eighty years say the flame is dimming now at a rate that predicts total darkness within two generations. They have not told the Dawn Vigil. They have not told the Solvarn. They have not told anyone.`,
+  signatureQuote: {
+  text: '"You read entrails and see the next battle. I read the flame and see the next century. The flame tells me there is not going to be one. You tell me which of us should be more afraid."',
+  speaker: 'Vigil-Keeper Orm Ember-Eye',
+  context: 'A Korr Augur, responding to a Skald Haruspex who dismissed flame-reading as imprecise'
+  }
  }
  },
 
@@ -142,17 +159,21 @@ export const AUGUR_DATA = {
  orderName: 'The Frozen Order of the Elk',
  founder: {
   name: '<LoreLink termId="cassia">Cassia</LoreLink>',
-  status: `Alive, technically. Her body sits in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, preserved upright in the glacier-ice, eyes open. She forgot her own name forty years ago but still reads entrails through the glass.`,
+       status: `Alive, technically. Her body sits in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, preserved upright in the glacier-ice, eyes open. She forgot her own name forty years ago but still reads entrails through the glass. She does not move. She cannot move. The glacier-ice IS the entrail now  --  she reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them. The glacier-ice does not preserve her through cold alone  --  it preserves her through the same mathematical resonance she used to read the Deepening. She is trapped in the moment of her greatest vision, the temporal feedback loop that burned her memories also freezing her flesh at the exact instant of perfect clarity. She cannot die because the moment she occupies has not yet finished happening.`,
   note: `The Skald star-watcher who read the Deepening in a sacrificed elk's entrails. The temporal-feedback burn took her past, her family, and eventually her identity, the price of seeing too clearly, paid in installments.`
  },
  currentLeader: {
   name: '<LoreLink termId="skadi-glass-eye">Archive-Mistress <LoreLink termId="skadi-glass-eye">Skadi Glass-Eye</LoreLink></LoreLink>',
   title: 'Keeper of the Elk-Rites',
-  characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s great-great-granddaughter, who learned the augury from a woman who no longer remembers being her great-great-grandmother. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see.`
+   characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s descendant, separated from her ancestor by eight centuries and a title  --  'granddaughter'  --  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see.`
  },
  headquarters: { name: 'The Frozen Archive', locationId: 'frozen_archive' },
- crisisConnection: `Skadi defends her founder's method against contradictory readings she cannot explain. Privately, she has begun a secret cross-reference, comparing the elk-readings against <LoreLink termId="cassia">Cassia</LoreLink>'s pre-collapse predictions. The pattern suggests the interference is *temporal*: something is editing the future the elk can see. She has not told the Archive council, because the implication is that the Chronarchs' temporal stitching is responsible.`
- },
+  crisisConnection: `Skadi defends her founder's method against contradictory readings she cannot explain. Privately, she has begun a secret cross-reference, comparing the elk-readings against <LoreLink termId="cassia">Cassia</LoreLink>'s pre-collapse predictions. The pattern suggests the interference is *temporal*: something is editing the future the elk can see. She has not told the Archive council, because the implication is that the Chronarchs' temporal stitching is responsible.`,
+  internalOpposition: {
+   name: '<LoreLink termId="helgar_the_rejector">Helgar the Rejector</LoreLink>',
+   stance: 'A senior Augur who argues the Order should abandon Cassia\'s method entirely  --  the elk-readings have become unreliable, and continuing to trust them is endangering lives. He advocates for pure mathematical star-arithmetic instead of blood-reading, putting him in direct conflict with Skadi.'
+  }
+  },
 
  worldFriction: [
  { region: 'nordhalla', location: 'frozen_archive', status: 'celebrated', consequence: 'At the Frozen Archive, Augurs are the prophetic backbone, their readings inform Skald military deployment and House Skalvyr policy. Senior Augurs hold advisory seats and their elk-readings are recorded in the genealogical archives.', workaround: 'This standing is currently fragile: the 41% accuracy collapse has halved their credibility, and junior augurs are increasingly ignored by commanders who remember the 93% era.' },
@@ -160,23 +181,28 @@ export const AUGUR_DATA = {
  ],
 
  overview: {
- originStory: `Founded in the Deepening by Cassia, who read the dying star's hour in glacier-elk entrails at the Frozen Archive. The future does not reveal itself to clean minds; it must be dragged, warm and steaming, from the belly of the dead. It is said that Cassia, the chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when the star Sol first darkened. With the astrolabes frozen solid, she did not look to the sky. Instead, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, spilling its entrails across the icy stone. By tracing the steaming convolutions of the intestines and the purple mottling of the liver, she read the exact hour of the Deepening. She did not find a path to salvation, but a map of the deaths to come.
+ originStory: `A reader of the immediate future. Not prophecy. Not cosmic destiny. The trajectory of a blade. The moment a guard will drop. The exact second a killing blow will land. The augur reads these things in fresh violence, blood, entrails, splintered bone, and pays for every vision with sanity or stamina.
 
-The price of peering through the stargate feedback loops of fate was immediate and cruel. As the future flooded her mind, the temporal feedback loop burned away her past. The memories of her husband’s face, the warmth of the hearth, and the names of her children were incinerated to clear space for the mathematically precise coordinate chains of cosmic doom. To maintain this sight, the Augur must invite physical trauma. When the air is still and the future grows dim, she must carve deep runes into her own forearms, using the warm flow of her own blood to re-establish the connection to the stars. The viscera of her enemies and the split-open hides of beasts are her only ledger.
+The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first darkened and her astrolabes froze solid, she took a bronze scaling knife, opened the abdomen of a sacrificial glacier-elk, and traced the steaming convolutions of its intestines across the icy stone. By the purple mottling of the liver and the coil-pattern of the gut, she read the exact hour of the Deepening.
 
-Predict the end. The sky is dark, but the runes in the meat still burn. Read the gory scroll before the final memory of your own name fades into the ice.`,
+The temporal feedback burn took her past. The memories of her husband's face were incinerated to clear space for precise coordinate chains of cosmic doom. The names of her children went next. The warmth of the hearth. Her own name. She does not move. She cannot move. Her body sits preserved in the glacier-ice at the Frozen Archive, trapped in the moment of her greatest vision. The glacier-ice is the entrail now, and Cassia reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them.
+
+Each culture reads a different entrail. The Skald, Cassia's original tradition, still sacrifice glacier-elk against frozen ground. The Vashir Astril read the future in resonant fractures of their own crystalline skin, Lumian memory echoing forward through the lattice. The Silath Astril smuggle prophecy past their own suppression, the gagged heritage screaming warnings through crystal. The Tessen read the future in the crumbling architecture of their sealed keeps, the dying keep as sacrificial animal. The Marked Vreken read bioluminescent bloom-patterns across the mycelial network, though the network has begun looping the same prophecy. The Korr Emberth read the Solbrand itself, the dying star's pulse as omen, patterns in the dimming that no one else has been told about.
+
+The star-arithmetic is failing. Accuracy has collapsed from ninety-three percent to forty-one percent in three months. One elk shows the Archive intact in ten years. Another shows it collapsed last week. The entrails return contradictory results because something is interfering with the flow of time itself. The current leader, Archive-Mistress Skadi Glass-Eye, privately suspects the Chronarchs' temporal stitching is responsible. A rival within the order, Helgar the Rejector, argues the entire method should be abandoned for pure mathematical calculation with no blood involved.`,
+
  title: "The Augur",
  subtitle: "Visceral Haruspex of the Ripped Flesh",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Must Know**: Augurs do not gaze at clean stars; they read the immediate, raw future in wet meat. Every time a d20 rolls within 60 feet,yours, an ally's, or an enemy's,the number speaks: Even results generate **Benediction** (radiant, agonizing foresight) while Odd results generate **Malediction** (psychic, decaying curses). You spend these twin resources to alter the immediate 6 seconds of combat.
+     content: `**Who they are**: A visceral haruspex who reads the immediate future in steaming entrails, spilt blood, and splintered marrow. They do not gaze at clean stars  --  they drag prophecy warm and wet from the belly of the dead.
 
-**Core Mechanic**: d20 Roll → Even = +1 Benediction, Odd = +1 Malediction. Spend Benediction for preemptive evasion and warding, Malediction for crippling curses and agonizing rot.
+**The hook**: Every d20 roll within sixty feet feeds your dual resource  --  even results bring agonizing foresight to shield allies, odd results bring decaying curses to cripple enemies. You spend these twin visions to rewrite the next six seconds of combat before the blade ever lands.
 
-**Fatal Flaw**: Magic demands fresh violence. If no bleeding targets or fresh corpses are present within 60 feet, your omen spells cannot perceive the future. To force them to speak, you must carve into your own meat, dealing slashing damage to yourself and inducing a Bleed condition.
+**The cost**: Your sight demands fresh violence. With no bleeding target or corpse nearby, the future goes blind  --  you must carve runes into your own forearms and endure a self-inflicted Bleed to force the omens to speak. Unspent visions at rest scourge your mind until blood is spilled again.
 
-**Why Bring Me?**: You dominate the round-by-round action economy. You provide absolute preemptive evasion to allies targeted by deadly strikes, or congeal warm blood across their weapons to guarantee devastating critical counter-strikes.`,
+**Bring one for**: Unmatched preemptive action economy. You do not heal damage after it lands  --  you prevent it from ever connecting, yanking allies out of harm's way and guaranteeing critical counter-strikes that turn a killing blow back on its sender.`,
  },
 
  description: `The Augur is a tragic seer of the immediate gutter. While scholars squabble over ancient astronomical charts, the Augur reads the heat of fresh battlefields and the trajectory of violence yet to come. They do not predict broad cosmic destinies, they track the exact trajectory of a blade, the moment a guard will drop, and the instant a killing blow will land. Every vision demands a toll of sanity or stamina; magic is not a formula, but a visceral price that must be paid in focus and fortitude.`,
@@ -192,7 +218,7 @@ The price of this feedback loop was memory-loss. Cassia had to trade away her ow
 Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod-Hold</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink> and the Astril.
+The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Korr <LoreLink termId="emberth">Emberth</LoreLink> who read the Solbrand's dying pulse.
 
 **NOTABLE FIGURES**
 * **Cassia the Star-Eyed**: The legendary seer of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> who predicted the solar eclipse at the cost of her past.
@@ -239,12 +265,12 @@ The Augurs have identified the cause: something is interfering with the flow of 
 Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. They are high-risk, high-reward catalysts of immediate probability who must bleed to keep their allies breathing.
 
 **Weaknesses**:
-- Blind Without Blood: with no bleeding target or fresh corpse within 60 ft, your omens fail — you must cut yourself (1d6 slashing + Bleed) to see anything. Clean rooms, ambushes, and parley are your blind spots.
-- Reaction-Window Only: you prevent damage, you never heal it — miss the reaction window and you have done nothing that round.
-- Omen Debt: hoard Benediction/Malediction to a long rest and the unspent visions scourge you — -1 to all saves per leftover point (cap -10) until blood is spilled again.
+- Blind Without Blood: with no bleeding target or fresh corpse within 60 ft, your omens fail � you must cut yourself (1d6 slashing + Bleed) to see anything. Clean rooms, ambushes, and parley are your blind spots.
+- Reaction-Window Only: you prevent damage, you never heal it � miss the reaction window and you have done nothing that round.
+- Omen Debt: hoard Benediction/Malediction to a long rest and the unspent visions scourge you � -1 to all saves per leftover point (cap -10) until blood is spilled again.
 - Cap Overflow Waste: resource generated past your spec cap is lost and deals 1 wyrd damage per wasted point straight to your mind.
-- Squishy Soothsayer: light armor and a fragile body — if a frontline reaches you, you fold fast.
-- Chronal Myopia (social/exploration): you forget the last five minutes, cannot read (tomorrow's page overlays today's), and lose names — briefings, passwords, and faces slip through you.`,
+- Squishy Soothsayer: light armor and a fragile body � if a frontline reaches you, you fold fast.
+- Chronal Myopia (social/exploration): you forget the last five minutes, cannot read (tomorrow's page overlays today's), and lose names � briefings, passwords, and faces slip through you.`,
  },
 
  playstyle: {
@@ -266,16 +292,16 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 * **Blood Price**: You take 1d6 slashing damage (4 HP lost) and suffer Bleed (1d4 damage at the start of your turn for 3 rounds). This generates +2 Malediction.
 * **Your Action**: Cast "Fractured Fate Portent" on the Executioner (8 Mana + 2 Malediction spent).
 * **Effect**: You scream the fracture you see. The executioner staggers as his femur cracks internally. He takes 2d6 wyrd damage and suffers -2 DR and -10ft speed for 3 rounds.
-* **Mana**: 45 → 37/55.
-* **Malediction**: 2 → 0/15.
+* **Mana**: 45 ? 37/55.
+* **Malediction**: 2 ? 0/15.
 * **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Bleed Active (3 rounds)
 
 **Turn 2 - The Blood Flows**
 *The executioner roars in agony, his bones splintering from within. The fight begins.*
-* **Fighter's Turn**: Attacks the executioner → d20+6 → [12] → Hit! 
-* **Omen Reading**: 12 is even → +1 Benediction.
-* **Enemy's Turn**: The executioner swings his massive cleaver at the Fighter → d20+7 → [17] → Hit!
-* **Omen Reading**: 17 is odd → +1 Malediction.
+* **Fighter's Turn**: Attacks the executioner ? d20+6 ? [12] ? Hit! 
+* **Omen Reading**: 12 is even ? +1 Benediction.
+* **Enemy's Turn**: The executioner swings his massive cleaver at the Fighter ? d20+7 ? [17] ? Hit!
+* **Omen Reading**: 17 is odd ? +1 Malediction.
 * **Your Reaction**: Spend 1 Benediction and 1 Malediction to cast "Blood-Read Foresight".
 * **Effect**: You read the spray of dust and sweat. You pull the threads of the immediate six seconds. The cleaver cleaves empty air as the Fighter slips 10 feet backward under your frantic warning, completely evading the attack without opportunity strikes.
 * **Current State**: Malediction: 0/15 | Benediction: 0/5 | HP: 46/50 | Fighter untouched. The executioner cleaves nothing but shadow.`,
@@ -290,9 +316,9 @@ Augurs are not frontline gladiators, nor are they safe, back-line spellcasters. 
 - **Even Rolls**: Generate 1 **Benediction**,the radiant, blinding flash of immediate preservation.
 - **Odd Rolls**: Generate 1 **Malediction**,the psychic, decaying rot of immediate doom.
 
-⚠️ **The Haruspex Flaw**: Your omen-reading spells require fresh violence. If no bleeding targets or fresh corpses exist within 60 feet, your vision is blind. You must execute a **Blood Price** action (0 AP, once per round): take 1d6 slashing damage and inflict Bleed (1d4 damage at start of turn for 3 rounds) on yourself to generate 2 Benediction or 2 Malediction of your choice.
+?? **The Haruspex Flaw**: Your omen-reading spells require fresh violence. If no bleeding targets or fresh corpses exist within 60 feet, your vision is blind. You must execute a **Blood Price** action (0 AP, once per round): take 1d6 slashing damage and inflict Bleed (1d4 damage at start of turn for 3 rounds) on yourself to generate 2 Benediction or 2 Malediction of your choice.
 
-⚠️ **Omen Debt**: Your soul cannot safely hold these visions. At the end of a long rest, any unused Benediction or Malediction decays. If you had unused resources, your mind is scourged by the ghosts of unfulfilled futures, inflicting **Omen Debt** (a permanent -1 penalty to all saving throws per unused point, capped at -10) until you spill blood in combat again.`,
+?? **Omen Debt**: Your soul cannot safely hold these visions. At the end of a long rest, any unused Benediction or Malediction decays. If you had unused resources, your mind is scourged by the ghosts of unfulfilled futures, inflicting **Omen Debt** (a permanent -1 penalty to all saving throws per unused point, capped at -10) until you spill blood in combat again.`,
 
  cards: [
   {
@@ -2066,7 +2092,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    name: "Weighted Reroll",
    description:
     "Force any creature within 60ft to reroll a d20. You may add or subtract up to 5 to the final result.",
-   mechanicsText: "Forces d20 reroll, modify result by ±5.",
+   mechanicsText: "Forces d20 reroll, modify result by �5.",
    },
   ],
   power: "supreme",
@@ -2462,8 +2488,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    { id : "master_of_omens",
    name: "Sovereign Haruspex",
    description:
-    "You control all omens. Declare d20 Even/Odd before any roll. Spend 1 resource to change any result by ±1. All allies gain +2 to all rolls, all enemies suffer -2 to all rolls.",
-   mechanicsText: "Declare d20 outcomes, modify rolls by ±1, allies +2, enemies -2.",
+    "You control all omens. Declare d20 Even/Odd before any roll. Spend 1 resource to change any result by �1. All allies gain +2 to all rolls, all enemies suffer -2 to all rolls.",
+   mechanicsText: "Declare d20 outcomes, modify rolls by �1, allies +2, enemies -2.",
    },
   ],
   durationValue: 10,
@@ -2478,7 +2504,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
    { id : "master_of_omens_utility",
    name: "Omnipotent Reading",
    description: "Declare d20 Even/Odd outcomes before rolls. Spend Benediction/Malediction to modify rolls.",
-   mechanicsText: "Modify rolls by ±1 per resource spent.",
+   mechanicsText: "Modify rolls by �1 per resource spent.",
    },
   ],
   power: "supreme",
@@ -2744,7 +2770,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
  // ===== NON-COMBAT / HARUSPEX DIVINATION (the omen-reader identity) =====
  { id : "augur_cast_the_bones",
   name: "Cast the Bones",
-  description: "Scatter rune-scored bone fragments and read the pattern they fall in. Ask one specific question about a near-future event (within one day) and receive a truthful omen: yes, no, ill, or favorable — plus a single cryptic image of what the bones see coming. Out of combat.",
+  description: "Scatter rune-scored bone fragments and read the pattern they fall in. Ask one specific question about a near-future event (within one day) and receive a truthful omen: yes, no, ill, or favorable � plus a single cryptic image of what the bones see coming. Out of combat.",
   level: 1,
   spellType: "ACTION",
   icon: "Psychic/Focused Mind",
@@ -2753,12 +2779,12 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { components: ["somatic"], actionPoints: 1, mana: 4, classResource: { type: "benediction", cost: 1 } },
   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "cast_bones_omen", name: "Bone Omen", description: "One yes/no/ill/favorable answer to a near-future (within 1 day) question, plus a single cryptic image. The bones answer the likeliest probability, not destiny — and they are terse.", mechanicsText: "1 near-future yes/no + a cryptic image." } ], power: "minor" },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "cast_bones_omen", name: "Bone Omen", description: "One yes/no/ill/favorable answer to a near-future (within 1 day) question, plus a single cryptic image. The bones answer the likeliest probability, not destiny � and they are terse.", mechanicsText: "1 near-future yes/no + a cryptic image." } ], power: "minor" },
   resolution: "NONE",
   tags: ["utility","divination","social","augur"],
 
   somaticText: "Cast the bone-set on bare ground; the scatter is the sentence.",
-  verbalText: "The question, once — the bones answer what is asked, not what is meant.",
+  verbalText: "The question, once � the bones answer what is asked, not what is meant.",
  },
  { id : "augur_read_the_entrails",
   name: "Read the Entrails",
@@ -2776,11 +2802,11 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   tags: ["utility","divination","investigation","exploration","augur"],
 
   somaticText: "Hook the blade beneath the ribs and let the heat speak before it cools.",
-  verbalText: "A low, droning tone — the entrails will not read themselves in silence.",
+  verbalText: "A low, droning tone � the entrails will not read themselves in silence.",
  },
  { id : "augur_smoke_sign",
   name: "Smoke-Sign Reading",
-  description: "Burn a token of the thing you seek — a lock of hair, a scrap of its clothing, a written name — and read the curl and drift of the smoke. It streams toward the target's current location and grows thick when close, thin when far, letting you track a person, place, or object across any distance for the duration. Out of combat.",
+  description: "Burn a token of the thing you seek � a lock of hair, a scrap of its clothing, a written name � and read the curl and drift of the smoke. It streams toward the target's current location and grows thick when close, thin when far, letting you track a person, place, or object across any distance for the duration. Out of combat.",
   level: 2,
   spellType: "ACTION",
   icon: "Nature/Wind Gust",
@@ -2789,7 +2815,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 7, classResource: { type: "benediction", cost: 2 } },
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-  utilityConfig: { utilityType: "tracking", selectedEffects: [ { id : "smoke_sign_trail", name: "Smoke Trail", description: "For 1 hour the smoke from a burned token of the target streams toward its current location — thickening as you near, thinning as you move away. Works across any distance; defeated by wards that block divination, not by distance.", mechanicsText: "Track one person/place/object by smoke for 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
+  utilityConfig: { utilityType: "tracking", selectedEffects: [ { id : "smoke_sign_trail", name: "Smoke Trail", description: "For 1 hour the smoke from a burned token of the target streams toward its current location � thickening as you near, thinning as you move away. Works across any distance; defeated by wards that block divination, not by distance.", mechanicsText: "Track one person/place/object by smoke for 1 hour." } ], duration: 1, durationUnit: "hours", power: "moderate" },
   resolution: "NONE",
   tags: ["utility","divination","tracking","exploration","augur"],
 
@@ -2798,7 +2824,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
  },
  { id : "augur_omen_of_the_threshold",
   name: "Omen of the Threshold",
-  description: "Before a door, a pass, or a chosen path, slit your palm and read the immediate future of crossing. You glimpse the next minute of what will happen if you proceed — ambushers, traps, who waits beyond, the first blow struck. Visions fade past sixty seconds. Out of combat.",
+  description: "Before a door, a pass, or a chosen path, slit your palm and read the immediate future of crossing. You glimpse the next minute of what will happen if you proceed � ambushers, traps, who waits beyond, the first blow struck. Visions fade past sixty seconds. Out of combat.",
   level: 2,
   spellType: "ACTION",
   icon: "Arcane/Spiral Vortex",
@@ -2807,16 +2833,16 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 8, classResource: { type: "benediction", cost: 2 } },
   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
-  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "threshold_glimpse", name: "Sixty-Second Glimpse", description: "Glimpse the next 60 seconds of what occurs if you cross the threshold now — threats, waiting foes, the first attack. Shows the likeliest immediate future only; changes if you delay or alter approach.", mechanicsText: "Preview next 60 seconds past a threshold." } ], power: "moderate" },
+  utilityConfig: { utilityType: "divination", selectedEffects: [ { id : "threshold_glimpse", name: "Sixty-Second Glimpse", description: "Glimpse the next 60 seconds of what occurs if you cross the threshold now � threats, waiting foes, the first attack. Shows the likeliest immediate future only; changes if you delay or alter approach.", mechanicsText: "Preview next 60 seconds past a threshold." } ], power: "moderate" },
   resolution: "NONE",
   tags: ["utility","divination","exploration","augur"],
 
   somaticText: "Press a bleeding palm to the doorframe and breathe until the room ahead bleeds into view.",
-  verbalText: "A counted whisper — one, two, three — the future arrives on the third.",
+  verbalText: "A counted whisper � one, two, three � the future arrives on the third.",
  },
  { id : "augur_doomseers_mark",
   name: "Doom-Seer's Mark",
-  description: "Study a creature within sight and read the omens written on its body — the way it holds its weight, the fate-lines in its skin. Learn its single greatest near-future fear or vulnerability, and sense whether it intends you betrayal within the next hour. Out of combat.",
+  description: "Study a creature within sight and read the omens written on its body � the way it holds its weight, the fate-lines in its skin. Learn its single greatest near-future fear or vulnerability, and sense whether it intends you betrayal within the next hour. Out of combat.",
   level: 3,
   spellType: "ACTION",
   icon: "Psychic/Focused Mind",
@@ -2825,12 +2851,12 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30 },
   resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 8, classResource: { type: "malediction", cost: 2 } },
   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-  utilityConfig: { utilityType: "social", selectedEffects: [ { id : "doomseers_read", name: "Read the Marked", description: "Learn one creature's greatest near-future fear/vulnerability and whether it intends you betrayal within the hour. Surface omens only — not deep secrets or long plans.", mechanicsText: "Read one creature's top fear + betrayal intent." } ], power: "moderate" },
+  utilityConfig: { utilityType: "social", selectedEffects: [ { id : "doomseers_read", name: "Read the Marked", description: "Learn one creature's greatest near-future fear/vulnerability and whether it intends you betrayal within the hour. Surface omens only � not deep secrets or long plans.", mechanicsText: "Read one creature's top fear + betrayal intent." } ], power: "moderate" },
   resolution: "NONE",
   tags: ["utility","divination","social","investigation","augur"],
 
   somaticText: "Lidless stare at the target until the fate-lines surface on their skin.",
-  verbalText: "Silence — the reading is done with the eyes, not the mouth.",
+  verbalText: "Silence � the reading is done with the eyes, not the mouth.",
  },
  ],
 

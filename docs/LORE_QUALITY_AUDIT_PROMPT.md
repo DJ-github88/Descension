@@ -1,4 +1,4 @@
-# Mythrill World Lore Quality Audit Prompt
+﻿# Mythrill World Lore Quality Audit Prompt
 
 > **Purpose:** A ruthlessly thorough audit framework for evaluating the quality, consistency, depth, and integration of the Mythrill VTT worldbuilding. This prompt is designed to be given to an AI auditor who has access to the full codebase and lore documents. The audit should produce a brutally honest report with specific line-number citations and concrete fixes.
 
@@ -6,7 +6,7 @@
 
 ## Instructions to the Auditor
 
-You have access to the full Mythrill VTT codebase. Your job is to conduct a **ruthless, unsparing audit** of the world lore. Do not be kind. Do not congratulate. Do not soft-pedal. Every inconsistency, every lazy sentence, every gap in logic, every missed opportunity for depth — find it, cite it, and propose a fix.
+You have access to the full Mythrill VTT codebase. Your job is to conduct a **ruthless, unsparing audit** of the world lore. Do not be kind. Do not congratulate. Do not soft-pedal. Every inconsistency, every lazy sentence, every gap in logic, every missed opportunity for depth  -  find it, cite it, and propose a fix.
 
 **You are not reviewing for typos. You are reviewing for whether this world holds together as a living, breathing place that a Game Master could run a campaign in without tripping over contradictions.**
 
@@ -17,30 +17,30 @@ Read every file listed in the **Source Files** section. Then produce the audit r
 ## Source Files
 
 ### Primary Lore Files
-- `vtt-react/src/data/rulesData.js` — Canonical in-app lore (~5,200 lines). Contains cosmic mythos, world state, Wyrd mechanics, 7 regional gazetteers, race overviews, timeline.
-- `vtt-react/src/data/loreDictionary.js` — Cross-referenced dictionary entries for regions, houses, locations, races, classes, creatures, events, concepts.
-- `vtt-react/src/data/zoneData.js` — 86 zone/location definitions across 7 regions with descriptions, danger levels, factions, connections, Wyrd creatures.
-- `vtt-react/src/data/deepLocationData.js` — 11 deep location profiles with heraldry, population, leadership, economy, atmosphere, history, sub-locations, NPCs.
-- `docs/GM_WORLD_GUIDE.md` — Master prose world bible (narrative format).
+- `vtt-react/src/data/rulesData.js`  -  Canonical in-app lore (~5,200 lines). Contains cosmic mythos, world state, Wyrd mechanics, 7 regional gazetteers, race overviews, timeline.
+- `vtt-react/src/data/loreDictionary.js`  -  Cross-referenced dictionary entries for regions, houses, locations, races, classes, creatures, events, concepts.
+- `vtt-react/src/data/zoneData.js`  -  86 zone/location definitions across 7 regions with descriptions, danger levels, factions, connections, Wyrd creatures.
+- `vtt-react/src/data/deepLocationData.js`  -  11 deep location profiles with heraldry, population, leadership, economy, atmosphere, history, sub-locations, NPCs.
+- `docs/GM_WORLD_GUIDE.md`  -  Master prose world bible (narrative format).
 
 ### Supporting Lore Files
-- `vtt-react/src/data/races/human.js` — Human race with 7 subraces, cultural backgrounds, major locations, current crisis.
-- `vtt-react/src/data/races/mimir.js`, `emberth.js`, `fexrick.js`, `neth.js`, `groven.js`, `myrathil.js`, `astril.js`, `vreken.js`, `briaran.js` — Individual race files with subraces, traits, lore.
-- `vtt-react/src/data/biomeData.js` — 6-7 biomes mapped to regions with weather, encounters, terrain, atmosphere.
-- `vtt-react/src/data/creatureData.js` — Region-indexed creature stat blocks and lore.
-- `vtt-react/src/data/creatureLibraryData.js` — Extended creature library entries.
-- `vtt-react/src/data/languages.js` — 32+ languages with phonetic descriptions and in-world context.
-- `vtt-react/src/data/backgroundData.js` — 15 character backgrounds tied to world lore.
-- `vtt-react/src/utils/nameGenerator.js` — Per-race naming conventions.
-- `vtt-react/src/store/factionStore.js` — Faction definitions with members, territories, relationships.
-- `vtt-react/src/store/worldStore.js` — Region metadata and state.
-- `vtt-react/src/data/regionPolygons.js` — Map polygon definitions.
-- `vtt-react/src/data/explorationRules.js` — Region-specific exploration mechanics.
+- `vtt-react/src/data/races/human.js`  -  Human race with 7 subraces, cultural backgrounds, major locations, current crisis.
+- `vtt-react/src/data/races/mimir.js`, `emberth.js`, `fexrick.js`, `neth.js`, `groven.js`, `myrathil.js`, `astril.js`, `vreken.js`, `briaran.js`  -  Individual race files with subraces, traits, lore.
+- `vtt-react/src/data/biomeData.js`  -  6-7 biomes mapped to regions with weather, encounters, terrain, atmosphere.
+- `vtt-react/src/data/creatureData.js`  -  Region-indexed creature stat blocks and lore.
+- `vtt-react/src/data/creatureLibraryData.js`  -  Extended creature library entries.
+- `vtt-react/src/data/languages.js`  -  32+ languages with phonetic descriptions and in-world context.
+- `vtt-react/src/data/backgroundData.js`  -  15 character backgrounds tied to world lore.
+- `vtt-react/src/utils/nameGenerator.js`  -  Per-race naming conventions.
+- `vtt-react/src/store/factionStore.js`  -  Faction definitions with members, territories, relationships.
+- `vtt-react/src/store/worldStore.js`  -  Region metadata and state.
+- `vtt-react/src/data/regionPolygons.js`  -  Map polygon definitions.
+- `vtt-react/src/data/explorationRules.js`  -  Region-specific exploration mechanics.
 
 ### Design Documents
-- `docs/RACE_BUILDING_SESSION_PROMPT.md` — Race design philosophy and framework.
-- `docs/PHASE_7_INTERACTIVE_WORLD_MAP.md` — World map design doc.
-- `docs/CONSOLIDATION_MASTER_PLAN.md` — Project consolidation history.
+- `docs/RACE_BUILDING_SESSION_PROMPT.md`  -  Race design philosophy and framework.
+- `docs/PHASE_7_INTERACTIVE_WORLD_MAP.md`  -  World map design doc.
+- `docs/CONSOLIDATION_MASTER_PLAN.md`  -  Project consolidation history.
 
 ---
 

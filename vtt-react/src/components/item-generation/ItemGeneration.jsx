@@ -254,7 +254,7 @@ export default function ItemGeneration({ onContainerCreate }) {
                 <h2>Item Designer</h2>
                 <p>Draw shapes to create custom items, then edit their properties</p>
                 <div className="grid-info">
-                    Grid: {gridSize ? `${gridSize.COLS} Ã— ${gridSize.ROWS}` : '...'}
+                    Grid: {gridSize ? `${gridSize.COLS} Ã -  ${gridSize.ROWS}` : '...'}
                 </div>
             </div>
 

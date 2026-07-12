@@ -54,7 +54,7 @@ const ConflictResolutionModal = ({
       <div className="conflict-modal">
         <div className="conflict-modal-header">
           <h3>⚠️ Data Conflict Detected</h3>
-          <button className="conflict-modal-close" onClick={onCancel}>×</button>
+          <button className="conflict-modal-close" onClick={onCancel}>� - </button>
         </div>
 
         <div className="conflict-modal-body">

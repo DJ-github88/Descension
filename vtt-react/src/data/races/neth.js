@@ -1,33 +1,38 @@
-export const neth = {
+﻿export const neth = {
  id: 'neth',
  name: 'Neth',
  essence: 'The Silver-Touched',
  illustration: '/assets/images/races/neth_illustration.png',
- illustrationCaption: 'A tall, silver-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
- cardFlavor: 'The Silver-Skinned Pact-Lords, bound by an ancient contract to the forest Keeper, writing new agreements to sustain their silver skin and stilled breath.',
- description: `**[The Silver-Skinned Pact-Lords]**, *Inside the quiet canopy-libraries of Atropolis, a tall, silver-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
+ illustrationCaption: 'A tall, pale-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
+ cardFlavor: 'The pale-skinned Pact-Lords, bound by an ancient contract to Morvane, writing new agreements to sustain their pale skin and stilled breath.',
+ description: `**[The pale-skinned Pact-Lords]**, *Inside the quiet canopy-libraries of Atropolis, a tall, pale-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
 
 There is a city in the Bryngloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive, the oldest archive in the known world, and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant, all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.`,
  icon: 'fas fa-scroll',
  overview: `The Neth were dying. The first freeze had crept into the Gloom, not the sudden ice of Nordhalla, but a slow, insidious cold that seeped through the ancient woods and found the children first. Their ancestors were scribes, archivists, merchant-brokers, the Gloom's legal class, the ones who recorded who owed whom, who married whom, who betrayed whom, who inherited what. They were not warriors or priests. They were the people who remembered, and memory does not stop frostbite.
 
-They walked into the deep wood where the bioluminescent trees thin and the preserving bog begins, carrying every contract they had ever written, every precedent, and every genealogical record. They found the Keeper of the Last Threshold waiting at the boundary, an entity older than the Wyrd, older than the noble families, and older than any name. The Vreken call it the Root-Veil and worship it. The Neth ancestors called it by what it is: the thing that decides what the Gloom preserves and what the Gloom consumes.
+They walked into the deep wood where the bioluminescent trees thin and the preserving bog begins, carrying every contract they had ever written, every precedent, and every genealogical record. They found the Morvane waiting at the boundary, an entity older than the Wyrd, older than the noble families, and older than any name. The Vreken call it the Root-Veil and worship it. The Neth ancestors called it by what it is: the thing that decides what the Gloom preserves and what the Gloom consumes.
 
 They did not pray. They presented a case.
 
 *You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies, every debt, every promise, every name. If you preserve us, we will record everything. Every contract we write will carry a piece of your authority. The forest's memory will never fade, because we will be its living archive.*
 
-The Keeper had never been reasoned with, only feared, prayed to, or fed. It considered the argument, the first argument anyone had ever made to it that treated it as a partner, not a spirit, and accepted.
+Morvane had never been reasoned with, only feared, prayed to, or fed. It considered the argument, the first argument anyone had ever made to it that treated it as a partner, not a spirit, and accepted.
 
-They rose from the bog with silver skin instead of dying flesh, with stilled breath, and with the pact written in the blood of every descendant, a contract that would outlast their bodies and carry into subsequent generations. The Keeper would preserve them for as long as they honored the terms.
+They rose from the bog with pale skin instead of dying flesh, with stilled breath, and with the pact written in the blood of every descendant, a contract that would outlast their bodies and carry into subsequent generations. Morvane would preserve them for as long as they honored the terms.
 
-That was eight centuries ago. The First Contract still rests in the heart of Atropolis, visible through living heartwood like a fossil in amber. The Neth are still there, and they are still writing. The Keeper is still watching, not as a spirit or predator, but as a business partner with very long patience and an excellent memory for breached terms. The Neth do not die; they renegotiate.`,
+That was eight centuries ago. The First Contract still rests in the heart of Atropolis, visible through living heartwood like a fossil in amber. The Neth are still there, and they are still writing. Morvane is still watching, not as a spirit or predator, but as a business partner with very long patience and an excellent memory for breached terms. The Neth do not die; they renegotiate.`,
+    quickFacts: [
+        'Pale-skinned immortal scribes of the Bryngloom Forest who survived the freeze by presenting Morvane, an ancient bog-entity, with a legal argument for their preservation. It was accepted. Eight centuries later, the First Contract still rests in the living heartwood of Atropolis, and every Neth still writes.',
+        'They require no food, water, or sleep: four hours of trance sustains them. But they cannot stray far from physical copies of the First Contract without the Fading: a slow dissolution of mind and body. Every word they speak carries contractual weight, and Morvane enforces their promises with cosmic precision.',
+        'Play a Neth to be immortal in a dying world, preserved, frozen, watching younger races burn through lives you will outlast by centuries. The Unraveling tempts you with freedom at the cost of self-destruction, Morvane\'s attention is drifting, and a new argument is being drafted in the deep bog by someone whose name was burned from the contract.'
+    ],
 
- culturalBackground: `Neth society is built on a single document: the First Contract, preserved in the heart of Atropolis. Every Neth contract written since carries a fragment of that original pact's authority, a tiny renewal of the agreement that keeps their entire species alive. They do not write contracts because they love paperwork. They write contracts because the act of writing one is an act of worship, a reminded pulse sent through the pact, a signal to the Keeper that says: *we are still here, and the terms still hold.*
+ culturalBackground: `Neth society is built on a single document: the First Contract, preserved in the heart of Atropolis. Every Neth contract written since carries a fragment of that original pact's authority, a tiny renewal of the agreement that keeps their entire species alive. They do not write contracts because they love paperwork. They write contracts because the act of writing one is an act of worship, a reminded pulse sent through the pact, a signal to Morvane that says: *we are still here, and the terms still hold.*
 
 This has produced a civilization whose every institution is mediated by negotiated terms. Neth parents write birth-contracts with their newborns, care obligations, filial duties, inheritance clauses. Neth lovers negotiate relationship-documents with renewal options and dissolution penalties. The most intimate bond in Neth society is not a marriage. It is a forty-seven-page cohabitation agreement that both parties update annually.
 
-To outsiders, this reads as cold, transactional, alienating. To the Neth, it is the opposite: a contract is the most sincere form of love because it says *I am willing to be bound to you in a way the Keeper will enforce.* They do not understand why other races find this monstrous.
+To outsiders, this reads as cold, transactional, alienating. To the Neth, it is the opposite: a contract is the most sincere form of love because it says *I am willing to be bound to you in a way Morvane will enforce.* They do not understand why other races find this monstrous.
 
 The deeper flaw is not the contract-spiral itself. It is what the contract-spiral produces over centuries: **amber.** The pact preserved the Neth as they were at the moment of signing, and preservation resists change. The eldest Neth are magnificent, unchanging, frozen in their first century's patterns. They repeat phrases their original mouths spoke four hundred years ago. They maintain grudges their original counterparts have been dead for centuries. They are not senile. They are *perfectly preserved.* And completely, utterly still.
 
@@ -35,18 +40,18 @@ Young Neth, those only fifty or sixty years old, still fluid, still capable of s
 
 **The Unraveling** is what happens when a Neth decides to break contracts on purpose, not for gain, but to force change. It begins small: a vendor's receipt ignored, a casual promise broken, a ritual obligation skipped. At first it feels like freedom. The pact loosens. The Neth becomes more fluid, spontaneous, briefly *alive.* Then the Fading begins, because breaking contracts is breaking the pact that sustains them. Most Neth who start the Unraveling stop before it's fatal, returning to the contract-spiral chastened and hollow. Some don't stop. Some would rather die fluid than live frozen.
 
-The Neth operate from their grave-city Atropolis, a cathedral-grove woven into the canopy of the Gloom's oldest ironwood forest. They control the major trade outposts, Ironjaw Port on the Iceheart Sea, the Frostwood trade-embassy, the Sundale crossroads, because these outposts house copies of the First Contract. Without a copy nearby, the Neth begin the Fading: a slow unraveling of mind and body that ends in a silver-skinned husk with nothing left behind the eyes. Their trade empire is not built on ambition. It is built on necessity. They cannot leave the documents, so the documents must go wherever they go.`,
+The Neth operate from their grave-city Atropolis, a cathedral-grove woven into the canopy of the Gloom's oldest ironwood forest. They control the major trade outposts, Ironjaw Port on the Iceheart Sea, the Frostwood trade-embassy, the Sundale crossroads, because these outposts house copies of the First Contract. Without a copy nearby, the Neth begin the Fading: a slow unraveling of mind and body that ends in a pale-skinned husk with nothing left behind the eyes. Their trade empire is not built on ambition. It is built on necessity. They cannot leave the documents, so the documents must go wherever they go.`,
 
- variantDiversity: `The Neth are divided into three bloodlines based on which aspect of the Keeper's pact each inherited most strongly. The Velun carry the pact's authority, they can invoke the Keeper's power directly, binding their words with cosmic weight, but their own tongue is bound in return. The Kessen carry the pact's sight, they perceive the obligation-web connecting every living thing and manipulate probability by tugging the right thread, but every tug snaps something elsewhere. The Drun carry the pact's silence, they severed their names from the First Contract entirely through a traumatic fire-ritual, becoming magic-resistant, debt-null, and legally non-existent.`,
+ variantDiversity: `The Neth are divided into three bloodlines based on which aspect of Morvane's pact each inherited most strongly. The Velun carry the pact's authority, they can invoke Morvane's power directly, binding their words with cosmic weight, but their own tongue is bound in return. The Kessen carry the pact's sight, they perceive the obligation-web connecting every living thing and manipulate probability by tugging the right thread, but every tug snaps something elsewhere. The Drun carry the pact's silence, they severed their names from the First Contract entirely through a traumatic fire-ritual, becoming magic-resistant, debt-null, and legally non-existent.`,
 
  integrationNotes: {
- actionPointSystem: 'Neth abilities focus on contract-invocation, fate-weaving, and preservation. Velun wizards are spellcasters who convert mana into binding clauses. Kessen manipulate probability and require careful positioning. Drun operate outside the pact entirely, immune to enforcement but unable to benefit from Neth social systems.',
+ actionPointSystem: 'Neth abilities focus on contract-invocation, fate-weaving, and preservation. Velun arcanoneers are spellcasters who convert mana into binding clauses. Kessen manipulate probability and require careful positioning. Drun operate outside the pact entirely, immune to enforcement but unable to benefit from Neth social systems.',
  backgroundSynergy: 'Neth excel in backgrounds emphasizing scholarship, negotiation, investigation, and survival. Their pact-based existence creates deep roleplay hooks around debt, obligation, the Unraveling, and the Fading.',
- classCompatibility: 'The Velun favor Arcanoneers, Animists, and Revenants, drawing upon the First Contract\'s authority to bind spells in legal script, channel ancestral spirits, and replicate the Keeper\'s partial death. Velun also produce Martyrs, those who have borne so many contractual obligations on behalf of others that their body has learned to convert suffering into sacred currency. The Kessen favor Gambit above all, utilizing their ability to perceive the obligation-web of the world to tilt the scales of probability. The Drun favor Plaguebringers and False Prophets, operating outside the Keeper\'s legal system to harness raw, non-contractual decay and manufactured revelation, the Drun have no use for the Keeper\'s law and everything to gain from weaponizing desperation.'
+ classCompatibility: 'The Velun favor Arcanoneers, Animists, and Revenants, drawing upon the First Contract\'s authority to bind spells in legal script, channel ancestral spirits, and replicate Morvane\'s partial death. Velun also produce Martyrs, those who have borne so many contractual obligations on behalf of others that their body has learned to convert suffering into sacred currency. The Kessen favor Gambit above all, utilizing their ability to perceive the obligation-web of the world to tilt the scales of probability. The Drun favor Plaguebringers and False Prophets, operating outside Morvane\'s legal system to harness raw, non-contractual decay and manufactured revelation, the Drun have no use for Morvane\'s law and everything to gain from weaponizing desperation.'
  },
 
  diasporaVariation: `The Neth diaspora is the most institutionally structured of any race: every outpost (Ironjaw Port, the Frostwood trade-embassy, the Sundale crossroads) houses a copy of the First Contract and a Neth garrison to tend it. Each outpost has developed a distinct character: Ironjaw-Port Neth are maritime-minded and feuding over tariff policy; the Frostwood-embassy Neth have grown fog-tolerant and keep dual journals (Sovereign Ledger and First Contract); the Sundale-crossroads Neth run the hottest (geothermal proximity slows the Fading) and are the most likely to Unravel. The Velun-dominated outposts are rigid; the Kessen frontier-posts are fluid and experimental.`,
- meaningfulTradeoffs: 'Neth gain preservation and magical power through their pact with the Keeper, but are tethered to physical copies of the First Contract, straying too far causes the Fading. The Unraveling offers freedom at the cost of self-destruction. Subrace flaws are binding: Velun cannot lie, Kessen break things they cannot see, and Drun are legally non-existent.',
+ meaningfulTradeoffs: 'Neth gain preservation and magical power through their pact with Morvane, but are tethered to physical copies of the First Contract, straying too far causes the Fading. The Unraveling offers freedom at the cost of self-destruction. Subrace flaws are binding: Velun are bound by Morvane\'s authority and face harsh consequences for breach, Kessen break things they cannot see, and Drun are legally non-existent.',
 
  baseTraits: {
  languages: ['Common', 'Gloom-Tongue'],
@@ -55,34 +60,51 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
  size: 'Medium',
  height: '5\'10" - 6\'6"',
  weight: '130-180 lbs',
- build: 'Tall, slender, silver-luminescent skin, dark pool-like eyes, colorless spider-silk hair'
+ build: 'Tall, slender, pale skin, dark pool-like eyes, colorless spider-silk hair'
  },
 
  sharedTraits: [
  {
- "id": "contractual_restriction_neth",
-   "name": "Contractual Lock",
-   "description": "Cannot use magic that violates contract syntax. Deliberate contract breach triggers Fraying and Fading.",
-   "level": 1,
-   "icon": "fas fa-scroll",
-   "spellType": "PASSIVE",
-   "effectTypes": [
-    "debuff"
-   ],
-   "typeConfig": {
-    "school": "primal",
+  "id": "contractual_restriction_neth",
+    "name": "Contractual Lock",
+    "description": "Cannot use magic that violates contract syntax. Deliberate contract breach triggers Fraying: -1 to Charisma checks per breach (stacking, max -3). After 3 unresolved breaches, Fading begins: -1 to Intelligence checks, pale skin dulls, and Archive-Tether range is halved until contracts are resolved.",
+    "level": 1,
     "icon": "fas fa-scroll",
-    "tags": [
-     "weakness",
-     "debuff",
-     "shared"
-    ]
-   }
- },
+    "spellType": "PASSIVE",
+    "effectTypes": [
+     "debuff"
+    ],
+    "typeConfig": {
+     "school": "primal",
+     "icon": "fas fa-scroll",
+     "tags": [
+      "weakness",
+      "debuff",
+      "shared"
+     ]
+    },
+    "debuffConfig": {
+     "debuffType": "curse",
+     "effects": [{
+      "id": "fraying_neth",
+      "name": "Fraying",
+      "description": "Each deliberate contract breach: -1 Charisma checks (stacking, max -3). After 3 unresolved breaches, Fading: -1 Intelligence, Archive-Tether range halved.",
+      "statusEffect": {
+       "level": "severe",
+       "frayingStage": { "stat": "charisma", "magnitude": -1, "magnitudeType": "flat_per_breach", "maxStacks": 3 },
+       "fadingStage": { "trigger": "3_unresolved_breaches", "stat": "intelligence", "magnitude": -1, "magnitudeType": "flat", "additionalEffect": "archive_tether_range_halved" }
+      }
+     }],
+     "durationValue": 0,
+     "durationType": "conditional",
+     "durationUnit": "until_contract_resolved",
+     "canBeDispelled": false
+    }
+  },
  {
   id: 'pact_stillness_neth',
   name: 'The Pact\'s Stillness',
-  description: 'The Keeper\'s pact sustains you. You require no food, water, or sleep, four hours of trance (the Stillness) restores you fully. But the pact is anchored to physical copies of the First Contract, and distance from them exacts a price that begins as restlessness and ends as dissolution.',
+  description: 'Morvane\'s pact sustains you. You require no food, water, or sleep, four hours of trance (the Stillness) restores you fully. But the pact is anchored to physical copies of the First Contract, and distance from them exacts a price that begins as restlessness and ends as dissolution.',
   level: 1,
   icon: 'spell_holy_innerfire',
   spellType: 'PASSIVE',
@@ -94,7 +116,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    {
    id: 'stillness_trance',
    name: 'Eternal Vigil',
-   description: 'You require no food, water, or sleep. Four hours of trance (the Stillness) restores you as fully as eight hours of sleep. You are conscious of your surroundings during the trance, eyes open, body still, mind adrift in the Keeper\'s archive.',
+   description: 'You require no food, water, or sleep. Four hours of trance (the Stillness) restores you as fully as eight hours of sleep. You are conscious of your surroundings during the trance, eyes open, body still, mind adrift in Morvane\'s archive.',
    statusEffect: { level: 'major', description: 'No food, water, or sleep required. 4-hour trance restores fully.' }
    },
    {
@@ -113,7 +135,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    {
    id: 'archive_tether',
    name: 'The Archive-Tether',
-   description: 'You must remain within one week\'s travel of a copy of the First Contract. Beyond this, the Fading begins: after 3 days, disadvantage on Intelligence and Spirit checks. After 7 days, silver skin dulls and hunger returns. After 14 days, total cognitive dissolution, you become a silver-skinned husk with nothing behind the eyes. Major Neth outposts (Ironjaw Port, Frostwood embassy, Sundale crossroads) each house a weaker copy. Return to any copy\'s range to halt the Fading; full recovery requires 24 hours of uninterrupted trance.',
+   description: 'You must remain within one week\'s travel of a copy of the First Contract. Beyond this, the Fading begins: after 3 days, disadvantage on Intelligence and Spirit checks. After 7 days, pale skin dulls and hunger returns. After 14 days, total cognitive dissolution, you become a pale-skinned husk with nothing behind the eyes. Major Neth outposts (Ironjaw Port, Frostwood embassy, Sundale crossroads) each house a weaker copy. Return to any copy\'s range to halt the Fading; full recovery requires 24 hours of uninterrupted trance.',
    statusEffect: { level: 'severe', description: 'Must remain within 1 week of a First Contract copy. Fading escalates: 3 days (mental disadvantage), 7 days (physical deterioration), 14 days (cognitive dissolution).' }
    }
   ],
@@ -126,7 +148,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
  {
   id: 'returned_count_neth',
   name: 'The Returned Count',
-  description: 'You know exactly how many times you have nearly died and been pulled back by the pact. You remember each threshold, the cold, the Keeper\'s presence, the renegotiation in a space between language and silence. The count is part of your name. The memory does not fade.',
+  description: 'You know exactly how many times you have nearly died and been pulled back by the pact. You remember each threshold, the cold, Morvane\'s presence, the renegotiation in a space between language and silence. The count is part of your name. The memory does not fade.',
   level: 1,
   icon: 'spell_shadow_deathanddecay',
   spellType: 'PASSIVE',
@@ -137,8 +159,8 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
   effects: [
    {
    id: 'pact_recall',
-   name: 'The Keeper Remembers',
-   description: 'Advantage on death saving throws. The pact does not release you easily, the Keeper has invested too much precedent in your continued existence, and death is a clause that must be renegotiated, not accepted.',
+   name: 'Morvane Remembers',
+   description: 'Advantage on death saving throws. The pact does not release you easily, Morvane has invested too much precedent in your continued existence, and death is a clause that must be renegotiated, not accepted.',
    statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'advantage' }
    }
   ],
@@ -150,7 +172,7 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    {
    id: 'remembered_death',
    name: 'The Known Threshold',
-   description: 'Disadvantage on saving throws against fear effects caused by a damage type or circumstance that has killed you before. You remember exactly what drowning feels like, or frostbite, or the blade, and the memory is not abstract. It is the last thing you felt before the Keeper pulled you back.',
+   description: 'Disadvantage on saving throws against fear effects caused by a damage type or circumstance that has killed you before. You remember exactly what drowning feels like, or frostbite, or the blade, and the memory is not abstract. It is the last thing you felt before Morvane pulled you back.',
    statModifier: { stat: 'fear_saves', magnitude: -99, magnitudeType: 'disadvantage', conditions: { familiarDeathMethod: true } }
    }
   ],
@@ -163,17 +185,17 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
  ],
 
  epicHistory: `
-The First Contract was signed in a clearing where the ancient ironwood forest meets the preserving bog, a boundary older than any map, older than any kingdom, older than the word "Gloom." The Keeper of the Last Threshold had always been there. The Vreken, the Gloom's first inhabitants, had always known it existed and had always treated it as sacred. But they had never spoken to it. They had never asked it to do anything but continue.
+The First Contract was signed in a clearing where the ancient ironwood forest meets the preserving bog, a boundary older than any map, older than any kingdom, older than the word "Gloom." The Morvane had always been there. The Vreken, the Gloom's first inhabitants, had always known it existed and had always treated it as sacred. But they had never spoken to it. They had never asked it to do anything but continue.
 
 The Neth asked.
 
 The clan that would become the Neth, a dying consortium of scribes, archivists, and merchant-brokers, had served the Gloom's scattered settlements for generations before the sun was stolen. They were the ones who recorded marriages and inheritances, who arbitrated trade disputes, who wrote the contracts that governed the dock-towns and the timber-harvests and the fungal exchanges. When the first freeze came and the cold crept through the ancient woods claiming children and elders alike, the clan's leaders assembled in the scriptorium they had maintained for two hundred years and asked themselves a question no one had ever asked: *What if dying is just another dispute, and we arbitrate it?*
 
-They gathered every contract they had ever written. Every genealogical record. Every precedent. They walked into the deep wood where the trees thin and the bog begins, carrying ink made from bog-iron that would later be refined into memory-glass, and they found the Keeper waiting. It always waited.
+They gathered every contract they had ever written. Every genealogical record. Every precedent. They walked into the deep wood where the trees thin and the bog begins, carrying ink made from bog-iron that would later be refined into memory-glass, and they found Morvane waiting. It always waited.
 
-The argument they presented was three pages long. Its central claim: the Keeper's function was to decide what the Gloom preserved and what it consumed. The Neth clan were the only people in the region who could record those decisions, track them across generations, and ensure the Keeper's judgments were honored by the living. If the clan died, the record died, and the Keeper's authority would be exercised blindly, without documentation, without precedent, without the dignity of a written judgment. The Neth were not asking for mercy. They were offering a partnership: authority in exchange for survival. The Keeper would gain something it had never possessed, a legal system, a corps of contract-enforcers, a living archive that would ensure its decisions were never forgotten or disputed. The Neth would gain preservation.
+The argument they presented was three pages long. Its central claim: Morvane's function was to decide what the Gloom preserved and what it consumed. The Neth clan were the only people in the region who could record those decisions, track them across generations, and ensure Morvane's judgments were honored by the living. If the clan died, the record died, and Morvane's authority would be exercised blindly, without documentation, without precedent, without the dignity of a written judgment. The Neth were not asking for mercy. They were offering a partnership: authority in exchange for survival. Morvane would gain something it had never possessed, a legal system, a corps of contract-enforcers, a living archive that would ensure its decisions were never forgotten or disputed. The Neth would gain preservation.
 
-The Keeper accepted.
+Morvane accepted.
 
 The surviving clan-members rose from the bog with skin that caught the canopy-light like pure-silver. Their breath stilled, they no longer needed air except to speak. Their eyes darkened into pools that reflected the bioluminescent trees like captive skies. And in the heartwood of the oldest ironwood tree in the forest, the First Contract appeared, not written, but *grown*, the text visible through the living wood like a fossil in amber, in a language that both parties understood and neither had invented.
 
@@ -181,13 +203,13 @@ The first century was spent building Atropolis, coaxing the ancient ironwood int
 
 The Vreken watched all of this from their cavern-lanterns and said nothing for three centuries. When they finally broke silence, it was to open trade, fungal-light exports for bog-preserved goods. The relationship has been coldly functional ever since. The Vreken view the Neth as spiritually bankrupt. The Neth view the Vreken as sentimental archivists who worship what the Neth negotiated with. Neither is entirely wrong.
 
-The Severing, the event that created the Drun, occurred in the fourth century. Saren-Vel was a Velun mage of extraordinary power and increasingly visible Unraveling. She had lived long enough to feel the pact's weight as a cage, to understand that every contract she honored was another bar in the structure that held her frozen. Rather than let the Unraveling claim her, a slow, humiliating dissolution, she walked into the deepest part of the bog where the pact's authority thins and the preserving ichor runs pure. She carried a flame that consumed only ink, not paper. She burned her name from the First Contract itself.
+The Severing, the event that created the Drun, occurred in the fourth century. Saren-Vel was a Velun pact-caster of extraordinary power and increasingly visible Unraveling. She had lived long enough to feel the pact's weight as a cage, to understand that every contract she honored was another bar in the structure that held her frozen. Rather than let the Unraveling claim her, a slow, humiliating dissolution, she walked into the deepest part of the bog where the pact's authority thins and the preserving ichor runs pure. She carried a flame that consumed only ink, not paper. She burned her name from the First Contract itself.
 
-When she walked out, she was still alive. Still silver-skinned. Still preserved. But the pact could no longer feel her, and she could no longer feel the pact. The silence where her name had been was so deep that every Neth within fifty miles felt the absence, like a held breath, like a missing heartbeat, like a word on the tip of the tongue that will not come. She was the first Drun. She has not spoken a word in four hundred years, not because she cannot, but because what would she say, now that her words carry no weight?
+When she walked out, she was still alive. Still pale-skinned. Still preserved. But the pact could no longer feel her, and she could no longer feel the pact. The silence where her name had been was so deep that every Neth within fifty miles felt the absence, like a held breath, like a missing heartbeat, like a word on the tip of the tongue that will not come. She was the first Drun. She has not spoken a word in four hundred years, not because she cannot, but because what would she say, now that her words carry no weight?
 
 The five centuries since the Severing have been defined by a slow, grinding tension between the three bloodlines. The Velun consolidate power in Atropolis, refining contract-law into ever more precise instruments of control. The Kessen drift between the canopy and the outposts, reading the obligation-web, making their quiet bets on probability, never quite trusted and never quite controllable. The Drun multiply in the shadows, not fast, but steadily, each Severing another name burned from the First Contract, another Neth who chose freedom at the cost of legal existence.
 
-The pact holds. The Keeper has never renegotiated the terms. But the oldest Neth, the ones who have returned seven times, ten times, fourteen times, report that the Keeper's presence at the threshold feels different now. Colder. More distant. As if something else has its attention. As if the bargain is not the only one the Keeper is honoring.
+The pact holds. Morvane has never renegotiated the terms. But the oldest Neth, the ones who have returned seven times, ten times, fourteen times, report that Morvane's presence at the threshold feels different now. Colder. More distant. As if something else has its attention. As if the bargain is not the only one Morvane is honoring.
  `,
 
  notableFigures: [
@@ -196,7 +218,7 @@ The pact holds. The Keeper has never renegotiated the terms. But the oldest Neth
   title: 'The First Drun',
   portraitIcon: 'Undead/Icon3',
   backstory: `
-Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation, a contract-lawyer and arcanist whose binding-clauses were so precise that the Keeper itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Velun bloodlines. She was, by any measure, the apotheosis of what a Velun could become.
+Before she was the first Drun, Saren-Vel was the most powerful Velun pact-caster of her generation, a contract-lawyer and arcanist whose binding-clauses were so precise that Morvane itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Velun bloodlines. She was, by any measure, the apotheosis of what a Velun could become.
 
 And she was unraveling.
 
@@ -214,13 +236,13 @@ She has never spoken. No one knows if she still can.
   title: 'The Twelfth-Generation Oracle',
   portraitIcon: 'Undead/Icon7',
   backstory: `
-The Oracle of Atropolis is not a title. It is a person, always a Velun, always female, always the eldest living Neth who has returned more times than any other. Lyra-Vel is the twelfth to hold the position. She has returned fourteen times: four illnesses, three accidents, five acts of violence, and two causes she refuses to disclose. Her death-count is the highest in recorded Neth history, and the Keeper knows her voice.
+The Oracle of Atropolis is not a title. It is a person, always a Velun, always female, always the eldest living Neth who has returned more times than any other. Lyra-Vel is the twelfth to hold the position. She has returned fourteen times: four illnesses, three accidents, five acts of violence, and two causes she refuses to disclose. Her death-count is the highest in recorded Neth history, and Morvane knows her voice.
 
-Lyra-Vel does not read the future. She reads the First Contract, not the text, but the implications. She perceives the contract-graph the way Kessen perceive the obligation-web, but deeper, older, more structural. When a new contract is signed anywhere in the Neth trade network, she feels the shift in the pact's balance. When a contract is broken, she knows before the Debt-Revenant rises. When the Keeper's attention wavers, as it has been doing, increasingly, in the last century, she is the first to notice.
+Lyra-Vel does not read the future. She reads the First Contract, not the text, but the implications. She perceives the contract-graph the way Kessen perceive the obligation-web, but deeper, older, more structural. When a new contract is signed anywhere in the Neth trade network, she feels the shift in the pact's balance. When a contract is broken, she knows before the Debt-Revenant rises. When Morvane's attention wavers, as it has been doing, increasingly, in the last century, she is the first to notice.
 
 The Velun consult her before every major policy decision. She never tells them what to do. She tells them what the pact allows, what the pact forbids, and what the pact has never been asked before, and lets them draw their own conclusions. The youngest Velun find her terrifying. The oldest Velun find her comforting. Lyra-Vel herself finds both reactions mildly disappointing.
 
-She has been writing a personal addendum to the First Contract for two hundred years, a document that no one else has been permitted to read. Some believe it is a record of every return, every threshold, every conversation with the Keeper. Others believe it is a legal argument for the pact's dissolution, a case she is building so slowly that no one alive will see it filed. Lyra-Vel has never clarified. When asked, she says only: "The Keeper has not asked me to stop writing."
+She has been writing a personal addendum to the First Contract for two hundred years, a document that no one else has been permitted to read. Some believe it is a record of every return, every threshold, every conversation with Morvane. Others believe it is a legal argument for the pact's dissolution, a case she is building so slowly that no one alive will see it filed. Lyra-Vel has never clarified. When asked, she says only: "Morvane has not asked me to stop writing."
   `
  },
  {
@@ -248,17 +270,17 @@ No one knows what he bet. No one knows what broke when he tugged that thread. So
   title: 'The One Who Drafted the First Contract',
   portraitIcon: 'Undead/Icon15',
   backstory: `
-Vaelis was the eldest of the dying clan of scribes who walked into the deep wood and presented the Keeper with an argument. She was eighty-three years old when the first freeze reached the Gloom. She had outlived two husbands, three children, and an entire legal tradition that died when the sun was stolen and the trade routes collapsed. She had been writing contracts for sixty-one years. She had never lost a case.
+Vaelis was the eldest of the dying clan of scribes who walked into the deep wood and presented Morvane with an argument. She was eighty-three years old when the first freeze reached the Gloom. She had outlived two husbands, three children, and an entire legal tradition that died when the sun was stolen and the trade routes collapsed. She had been writing contracts for sixty-one years. She had never lost a case.
 
 The argument she drafted was three pages long. She wrote it in three hours while her youngest grandchild, a girl named Thira, seven years old, already silver-mottled with frostbite, slept in her lap. The argument was not a prayer. It was not a supplication. It was a legal brief addressed to an entity with no known jurisdiction, citing precedents from a civilization that no longer existed, demanding terms that had never been negotiated before.
 
-When the Keeper accepted, when the silver bloomed across Vaelis's skin and her breath stopped in her chest, she did not weep. She did not celebrate. She looked at her granddaughter, whose frostbite had vanished, whose skin now shimmered with the same pure-silver luminescence, whose dark eyes reflected the canopy-light like a mirror, and she said: *"The terms are binding. We must begin the archive."*
+When Morvane accepted, when the silver bloomed across Vaelis's skin and her breath stopped in her chest, she did not weep. She did not celebrate. She looked at her granddaughter, whose frostbite had vanished, whose skin now shimmered with the same pure-silver luminescence, whose dark eyes reflected the canopy-light like a mirror, and she said: *"The terms are binding. We must begin the archive."*
 
 Vaelis lived for another one hundred and forty-seven years. She personally wrote the first three thousand contracts in the Atropolis archive. She established the formatting conventions that the Neth still use, clause numbering, witness requirements, enforcement mechanisms. She refused to take a title. She refused to be called the founder. She insisted, until her final return, that she had simply been the scribe on duty when the argument needed to be written.
 
 She returned twice: once from the wasting-disease that had killed her first husband (she had caught it from him, decades later, through a preserved letter that still carried the contagion), and once from an assassination attempt by a human trade delegation that had realized, too late, what they had signed. The second return took something from her, she never specified what, but her handwriting changed afterward, and she stopped writing contracts about love.
 
-Her original draft of the First Contract is preserved in the deepest chamber of Atropolis, visible through living heartwood that has grown around it for eight centuries. The ink has faded. The text is barely legible. But the tree that holds it is still alive, and the roots that anchor it reach all the way down to the Keeper's threshold, and somewhere in those roots the original argument still vibrates, a question asked once, answered forever.
+Her original draft of the First Contract is preserved in the deepest chamber of Atropolis, visible through living heartwood that has grown around it for eight centuries. The ink has faded. The text is barely legible. But the tree that holds it is still alive, and the roots that anchor it reach all the way down to Morvane's threshold, and somewhere in those roots the original argument still vibrates, a question asked once, answered forever.
   `
  }
  ],
@@ -267,11 +289,11 @@ Her original draft of the First Contract is preserved in the deepest chamber of 
  {
   name: 'Atropolis',
   description: `
-The heart of Neth civilization and the largest living structure in the Bryngloom Forest. Atropolis is not a city of stone. It is a cultivated cathedral-grove, the oldest ironwood trees in the Gloom, each one shaped over a thousand years into cathedral-spaces where the Neth live, work, and archive. The trees are still growing. The oldest chambers, deep in the heartwood, date to the first generation after the Keeper's bargain. The newest, in the outer canopy, are still being coaxed into shape by Velun wood-speakers who have been guiding the same branch for eighty years.
+The heart of Neth civilization and the largest living structure in the Bryngloom Forest. Atropolis is not a city of stone. It is a cultivated cathedral-grove, the oldest ironwood trees in the Gloom, each one shaped over a thousand years into cathedral-spaces where the Neth live, work, and archive. The trees are still growing. The oldest chambers, deep in the heartwood, date to the first generation after Morvane's bargain. The newest, in the outer canopy, are still being coaxed into shape by Velun wood-speakers who have been guiding the same branch for eighty years.
 
 Walkways of living branch and bioluminescent moss connect the tree-structures at every level. At night the city glows faintly with the same cold light that runs through Neth veins, not bright, not warm, but steady, eternal, the color of moonlight on still water. The streets are named after signatories of the First Contract. The buildings are named after the contracts they house.
 
-The deepest chamber of the oldest tree, the Heart-Vault, contains the First Contract itself, visible through living heartwood that has grown around the original document over eight centuries. The text is barely legible now, but the tree remembers it. The roots remember it. The Keeper remembers it. Neth make pilgrimage to the Heart-Vault at least once in their lives to press their tendrils against the bark and feel the original argument vibrating beneath, a question asked once, answered forever.
+The deepest chamber of the oldest tree, the Heart-Vault, contains the First Contract itself, visible through living heartwood that has grown around the original document over eight centuries. The text is barely legible now, but the tree remembers it. The roots remember it. Morvane remembers it. Neth make pilgrimage to the Heart-Vault at least once in their lives to press their tendrils against the bark and feel the original argument vibrating beneath, a question asked once, answered forever.
   `
  },
  {
@@ -309,9 +331,9 @@ The oldest tablets in the Ledger date to the first generation after the pact, th
  currentCrisis: `
 Three things are troubling the Neth, and none of them have been spoken aloud in the contract-halls of Atropolis.
 
-The first is the Keeper's attention. The elders who have returned many times, the ones whose death-count exceeds ten, who have stood at the threshold often enough to know the Keeper's presence by its weight, report that something has changed. The Keeper is distant. Colder. Absent for longer periods, as if something else has its attention, something larger, something elsewhere, something that is making the preservation of one forest-boundary entity and its contract-bound partners seem like a smaller priority than it used to be. The younger Neth cannot feel this. They have nothing to compare it to. But the elders are afraid, and the elders do not frighten easily.
+The first is Morvane's attention. The elders who have returned many times, the ones whose death-count exceeds ten, who have stood at the threshold often enough to know Morvane's presence by its weight, report that something has changed. Morvane is distant. Colder. Absent for longer periods, as if something else has its attention, something larger, something elsewhere, something that is making the preservation of one forest-boundary entity and its contract-bound partners seem like a smaller priority than it used to be. The younger Neth cannot feel this. They have nothing to compare it to. But the elders are afraid, and the elders do not frighten easily.
 
-The second is the Unraveling. The number of Neth who have begun the Unraveling, breaking contracts in sequence, feeling the temporary freedom, inching toward dissolution, has tripled in the last fifty years. No one has published the statistics. The statistics exist; the Kessen can read them in the obligation-web, and the Velun can find them in the Canopy-Ledger if they look. The cause is unclear. Some blame the Keeper's distraction, a weaker pact is easier to break. Some blame the cultural stagnation, the young are rebelling because the old have been frozen for centuries and show no sign of thawing. Some blame the Severing itself, every name burned from the First Contract weakens the pact slightly, and there have been more Severings in the last century than in the three centuries before.
+The second is the Unraveling. The number of Neth who have begun the Unraveling, breaking contracts in sequence, feeling the temporary freedom, inching toward dissolution, has tripled in the last fifty years. No one has published the statistics. The statistics exist; the Kessen can read them in the obligation-web, and the Velun can find them in the Canopy-Ledger if they look. The cause is unclear. Some blame Morvane's distraction, a weaker pact is easier to break. Some blame the cultural stagnation, the young are rebelling because the old have been frozen for centuries and show no sign of thawing. Some blame the Severing itself, every name burned from the First Contract weakens the pact slightly, and there have been more Severings in the last century than in the three centuries before.
 
 The third is the bloodline-fracture. The three subraces have always existed in tension, but that tension has been functional for eight centuries. Now it is becoming something else. The Velun are consolidating power, they control the contract-halls, the trade delegations, the external diplomacy. The Kessen are withdrawing, fewer of them attend the contract-halls, fewer of them submit their probability-predictions for official record. The Drun are multiplying, the Severing is becoming less rare, less stigmatized, more visible, and the Velun have no legal mechanism to stop it because the Severing is not illegal. It simply removes the severer from legal existence, which makes prosecution impossible.
 
@@ -321,37 +343,37 @@ Somewhere in the deep bog, a Drun elder, perhaps Saren-Vel herself, perhaps some
  culturalPractices: `
 Every Neth child learns to read before they learn to speak. The first object placed in a newborn's hands is a memory-glass tablet, blank, uninscribed, waiting. The child is expected to feel the glass respond to their touch, to understand that information lives in light and light lives in the trees, to know before they can articulate it that their species is defined by the contract between memory and preservation.
 
-The Stillness is the Neth's most intimate ritual. Four hours of trance, eyes open, body motionless, mind adrift in the Keeper's archive. During the Stillness, the Neth does not sleep, they *listen.* They hear the mycelial network's slow pulse, the contract-clauses being written and fulfilled and broken across the trade network, the distant presence of the Keeper at the threshold. A Neth emerging from Stillness is refreshed but also haunted, they have spent four hours in the presence of everything their species has promised, and some of those promises are heavier than others.
+The Stillness is the Neth's most intimate ritual. Four hours of trance, eyes open, body motionless, mind adrift in Morvane's archive. During the Stillness, the Neth does not sleep, they *listen.* They hear the mycelial network's slow pulse, the contract-clauses being written and fulfilled and broken across the trade network, the distant presence of Morvane at the threshold. A Neth emerging from Stillness is refreshed but also haunted, they have spent four hours in the presence of everything their species has promised, and some of those promises are heavier than others.
 
-The Annual Renegotiation is the Neth calendar's central event. On the anniversary of the First Contract's signing, every active Neth contract within a given jurisdiction is reviewed for continued validity. Clauses that have expired are struck. Clauses that remain relevant are renewed. Clauses that no longer serve their original purpose are renegotiated, this is the only time of year when contract terms can be altered without penalty. The Renegotiation is a festival, a legal proceeding, and a religious observance simultaneously. Young Neth test the edges of their binding. Old Neth reassert the terms of their power. And somewhere, at the threshold, the Keeper listens to the collective sound of its partners adjusting their agreements.
+The Annual Renegotiation is the Neth calendar's central event. On the anniversary of the First Contract's signing, every active Neth contract within a given jurisdiction is reviewed for continued validity. Clauses that have expired are struck. Clauses that remain relevant are renewed. Clauses that no longer serve their original purpose are renegotiated, this is the only time of year when contract terms can be altered without penalty. The Renegotiation is a festival, a legal proceeding, and a religious observance simultaneously. Young Neth test the edges of their binding. Old Neth reassert the terms of their power. And somewhere, at the threshold, Morvane listens to the collective sound of its partners adjusting their agreements.
 
-Neth do not bury their dead. They do not burn them. When a Neth's physical form finally fails beyond even the pact's preservation, when the body has been returned too many times, when the Keeper declines to renegotiate the terms, the body is carried to the Heart-Vault in Atropolis and placed against the living heartwood that encases the First Contract. Over months, the tree absorbs the body, the silver skin softens into bark, the dark eyes become knots in the wood, the hair dissolves into root-thread. The Neth becomes part of the tree that holds the contract that preserved them. The oldest trees in Atropolis are the oldest Neth who ever lived, and if you press your palm against the bark in the right place, you can still feel the memory-glass pulse of contracts they signed eight centuries ago.
+Neth do not bury their dead. They do not burn them. When a Neth's physical form finally fails beyond even the pact's preservation, when the body has been returned too many times, when Morvane declines to renegotiate the terms, the body is carried to the Heart-Vault in Atropolis and placed against the living heartwood that encases the First Contract. Over months, the tree absorbs the body, the pale skin softens into bark, the dark eyes become knots in the wood, the hair dissolves into root-thread. The Neth becomes part of the tree that holds the contract that preserved them. The oldest trees in Atropolis are the oldest Neth who ever lived, and if you press your palm against the bark in the right place, you can still feel the memory-glass pulse of contracts they signed eight centuries ago.
 
-The Neth do not love the Keeper. They respect it the way a debtor respects a creditor who has been patient for eight hundred years. When a Neth returns from the threshold, pulled back from a near-death by the pact's preservation, they do not thank the Keeper. They renegotiate their terms. A returned Neth owes a new clause in their life-contract: a restriction, an obligation, a promise they did not make but now must keep. The deaths are not gifts. They are loans, and the interest compounds.
+The Neth do not love Morvane. They respect it the way a debtor respects a creditor who has been patient for eight hundred years. When a Neth returns from the threshold, pulled back from a near-death by the pact's preservation, they do not thank Morvane. They renegotiate their terms. A returned Neth owes a new clause in their life-contract: a restriction, an obligation, a promise they did not make but now must keep. The deaths are not gifts. They are loans, and the interest compounds.
  `,
 
  birthrightQuestions: {
- description: 'At character creation, answer: how many times have you returned, and what did the last return take from you? The answer is purely narrative, no mechanics, but it defines your character\'s relationship to the pact, the Keeper, and their own mortality.',
+ description: 'At character creation, answer: how many times have you returned, and what did the last return take from you? The answer is purely narrative, no mechanics, but it defines your character\'s relationship to the pact, Morvane, and their own mortality.',
  prompts: [
   {
   id: 'returned_once',
   name: 'Returned Once',
-  question: 'You were young. A childhood fever that should have killed you, or a fall that should have shattered you, or a blade that slipped. The Keeper\'s presence at the threshold was your first experience of anything beyond your own body, a vast, patient, utterly alien attention that considered you for a long moment and then said (not in words, not in language, but in the sudden absence of cold): *not yet.* You barely remember it. You have spent the rest of your life wondering if it really happened, if the Keeper is real, if the pact is anything more than a story the elders tell to make their immortality bearable. The other Neth pity your innocence. They also envy it.'
+  question: 'You were young. A childhood fever that should have killed you, or a fall that should have shattered you, or a blade that slipped. Morvane\'s presence at the threshold was your first experience of anything beyond your own body, a vast, patient, utterly alien attention that considered you for a long moment and then said (not in words, not in language, but in the sudden absence of cold): *not yet.* You barely remember it. You have spent the rest of your life wondering if it really happened, if Morvane is real, if the pact is anything more than a story the elders tell to make their immortality bearable. The other Neth pity your innocence. They also envy it.'
   },
   {
   id: 'returned_three',
   name: 'Returned Three Times',
-  question: 'You have crossed the threshold three times: illness, accident, violence. The Keeper knows your presence now. The last return took a memory, not the memory of the death itself (those never fade), but a memory from *before.* The Keeper asked for something as payment for the renegotiation: a face, a name, a moment of warmth. You gave it. You do not remember what it was. The absence is a dull ache, like a tooth that was pulled and replaced with nothing. Sometimes, in Stillness, you feel the shape of what you lost pressing against the gap, recognizable, familiar, almost recoverable, and then the trance ends and the shape dissolves and you are left with the ache alone. The other Neth respect your experience. They also fear it.'
+  question: 'You have crossed the threshold three times: illness, accident, violence. Morvane knows your presence now. The last return took a memory, not the memory of the death itself (those never fade), but a memory from *before.* Morvane asked for something as payment for the renegotiation: a face, a name, a moment of warmth. You gave it. You do not remember what it was. The absence is a dull ache, like a tooth that was pulled and replaced with nothing. Sometimes, in Stillness, you feel the shape of what you lost pressing against the gap, recognizable, familiar, almost recoverable, and then the trance ends and the shape dissolves and you are left with the ache alone. The other Neth respect your experience. They also fear it.'
   },
   {
   id: 'returned_seven',
   name: 'Returned Seven Times',
-  question: 'Seven returns. The Keeper says your name now, or something that functions as a name in the space between language and silence where the renegotiations happen. The last return took something you did not want to give: a promise, a person, a piece of your future. The terms were clear. You accepted them because the alternative was the silence that waits for those who break the pact entirely. You do not speak of what you gave. You do not speak of who you gave it to. But sometimes, in crowded rooms, you catch yourself looking for someone you know is not there, someone whose absence is a clause in your life-contract that you read every morning and still, somehow, do not understand. The other Neth are afraid of you. You are afraid of what you will give next time.'
+  question: 'Seven returns. Morvane says your name now, or something that functions as a name in the space between language and silence where the renegotiations happen. The last return took something you did not want to give: a promise, a person, a piece of your future. The terms were clear. You accepted them because the alternative was the silence that waits for those who break the pact entirely. You do not speak of what you gave. You do not speak of who you gave it to. But sometimes, in crowded rooms, you catch yourself looking for someone you know is not there, someone whose absence is a clause in your life-contract that you read every morning and still, somehow, do not understand. The other Neth are afraid of you. You are afraid of what you will give next time.'
   },
   {
   id: 'never_returned',
   name: 'Never Returned',
-  question: 'You have never crossed the threshold. You are young, perhaps only thirty or forty, barely an adult by Neth standards, or you have been impossibly lucky, or you have been impossibly careful. You live in quiet dread of the first return. Every other Neth you know has crossed and come back different. What if you do not come back at all? What if you come back wrong, colder, harder, something the Keeper touched too firmly and left a mark on? The other Neth treat you with a strange mixture of protectiveness and distance, as if you are not yet fully one of them, as if the first return is the real birth, and you are still waiting to be born. They are not wrong.'
+  question: 'You have never crossed the threshold. You are young, perhaps only thirty or forty, barely an adult by Neth standards, or you have been impossibly lucky, or you have been impossibly careful. You live in quiet dread of the first return. Every other Neth you know has crossed and come back different. What if you do not come back at all? What if you come back wrong, colder, harder, something Morvane touched too firmly and left a mark on? The other Neth treat you with a strange mixture of protectiveness and distance, as if you are not yet fully one of them, as if the first return is the real birth, and you are still waiting to be born. They are not wrong.'
   }
  ]
  },
@@ -361,16 +383,16 @@ The Neth do not love the Keeper. They respect it the way a debtor respects a cre
   id: 'velun_neth',
   name: 'Velun',
   illustration: '/assets/images/races/velun_illustration.png',
-  illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, silver skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
-  tooltipSummary: 'Tongue-bound contract-lords whose binding words carry legal weight, commanding authority through the Pact\'s absolute truth-sense.',
-  description: 'The original Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of the Keeper\'s authority. When a Velun speaks the pact\'s words, the universe listens, their voice carries the Keeper\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound: they cannot lie, cannot break a spoken promise, cannot speak in hypotheticals without the pact treating it as a potential contract under review.',
-  culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to the Keeper, Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass, and their negotiations are always, always binding.
+  illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, pale skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
+  tooltipSummary: 'Contract-lords whose words carry binding weight, commanding authority through the Pact\'s enforceable legacy.',
+  description: 'The original Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of Morvane\'s authority. When a Velun speaks the pact\'s words, the universe listens, their voice carries Morvane\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound not to truth but to commitment: every promise they make, every statement of intent they utter, is a potential contract. Morvane does not care whether a Velun speaks truth or falsehood; it cares whether the Velun honors what was spoken. A lie that contradicts no prior commitment passes without notice. A promise broken, even one made casually, carries the full weight of the pact.',
+  culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to Morvane, Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass, and their negotiations are always, always binding.
 
-Velun children are educated in the contract-halls from the moment their silver skin stabilizes, usually around age five or six. They learn to read memory-glass before they learn to read spoken faces. They learn contract law before they learn ethics. They learn that every word they speak carries weight, and that weight accumulates, a careless promise at ten becomes a binding obligation at fifty, and the Keeper does not distinguish between a child's protestation and an adult's oath.
+Velun children are educated in the contract-halls from the moment their pale skin stabilizes, usually around age five or six. They learn to read memory-glass before they learn to read spoken faces. They learn contract law before they learn ethics. They learn that every word they speak carries weight, and that weight accumulates, a careless promise at ten becomes a binding obligation at fifty, and Morvane does not distinguish between a child's protestation and an adult's oath.
 
-A Velun's power is their voice. When they invoke a clause aloud, a binding, a sealing, a cosmic enforcement, the pact responds. The air thickens. The light shifts. Everyone in the room feels the Keeper's attention settle on the proceedings like a held breath. A Velun who has perfected their craft can seal a contract with a single spoken sentence that no signatory can ever break, not without consequences that ripple across generations.
+A Velun's power is their voice. When they invoke a clause aloud, a binding, a sealing, a cosmic enforcement, the pact responds. The air thickens. The light shifts. Everyone in the room feels Morvane's attention settle on the proceedings like a held breath. A Velun who has perfected their craft can seal a contract with a single spoken sentence that no signatory can ever break, not without consequences that ripple across generations.
 
-The flaw is inseparable from the gift. A Velun cannot lie. They cannot break a promise, any promise, no matter how small, no matter how casually made. They cannot speak in hypotheticals with impunity; the pact may treat a "what if" as a draft contract, and drafts, in Neth law, are admissible as evidence of intent. The oldest Velun speak rarely. They choose every word like it costs them something, because it does. The youngest Velun learn silence before they learn magic.
+The flaw is inseparable from the gift. A Velun\'s words carry weight: any statement made with intent becomes a potential contract, and Morvane enforces commitments rigorously. This does not mean they cannot lie. It means they think carefully before speaking, because a careless promise, a hypothetical casually offered, or a statement of intent uttered in passing may be treated by the pact as a binding clause. The oldest Velun speak rarely. They choose every word like it costs them something, because it does. The youngest Velun learn silence before they learn magic.
 
 They view the Kessen with a mixture of admiration and unease, the Kessen see the web behind the text, the implications the Velun cannot perceive, and that makes them useful and unpredictable. They view the Drun with something closer to horror, the Drun are what happens when a Neth decides the pact's weight is heavier than the silence, and the Velun cannot process a choice that results in legal non-existence.`,
   statModifiers: { spirit: 2, intelligence: 1, strength: -1 },
@@ -378,7 +400,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   {
    id: 'bound_tongue_velun',
    name: 'Bound Tongue',
-    description: 'Advantage on Persuasion checks when negotiating contract terms or formal agreements. You cannot lie: a spoken falsehood deals 1d4 wyrd damage and imposes disadvantage on Deception, and the Keeper may treat any casual or even hypothetical promise as a binding contract at the GM\'s discretion. (The tongue that binds is itself bound — every word you speak is a clause the pact may enforce.)',
+    description: 'Advantage on Persuasion checks when negotiating contract terms or formal agreements. Your words carry the weight of the Pact: a broken promise or commitment you later contradict deals 1d4 wyrd damage and imposes disadvantage on Deception until atoned, and Morvane may treat any casual or even hypothetical promise as a binding contract at the GM\'s discretion. (Words are contracts; what you speak, the pact may enforce.)',
    level: 1,
    icon: 'spell_holy_innerfire',
    spellType: 'PASSIVE',
@@ -389,7 +411,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
    effects: [
     {
     id: 'velun_authority',
-    name: 'The Keeper\'s Voice',
+    name: 'Morvane\'s Voice',
     description: 'Advantage on Persuasion checks when making a formal agreement or negotiating contract terms. The pact echoes behind your words, the person across the table can feel the weight of the entity that enforces what you negotiate.',
     statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { negotiatingContracts: true } }
     }
@@ -400,10 +422,10 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
    debuffType: 'curse',
    effects: [
     {
-    id: 'cannot_lie_velun',
-    name: 'The Sealed Tongue',
-    description: 'You cannot lie. Disadvantage on Deception checks. A false statement spoken aloud causes 1d4 wyrd damage as the pact registers the breach. and, a spoken promise, even casual, even hypothetical, may be treated by the Keeper as a binding contract; the GM decides if and when the pact enforces a given statement.',
-    statusEffect: { level: 'severe', description: 'Cannot lie. Disadvantage on Deception. Spoken falsehoods deal 1d4 psychic. Casual promises may bind.' }
+    id: 'bound_commitment_velun',
+    name: 'The Bound Commitment',
+    description: 'Disadvantage on Deception checks when speaking about matters covered by an existing contract. A spoken promise, even casual, even hypothetical, may be treated by Morvane as a binding contract; the GM decides if and when the pact enforces a given statement. Breaking a commitment you previously made aloud deals 1d4 wyrd damage. (Your words are contracts; what you speak, the pact may hold you to.)',
+    statusEffect: { level: 'severe', description: 'Disadvantage on Deception where contracts exist. Spoken promises may bind. Broken commitments deal 1d4 wyrd.' }
     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -415,7 +437,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   {
    id: 'clause_of_binding_velun',
    name: 'Clause of Binding',
-   description: 'Invoke the Keeper\'s authority to seal a spoken agreement with pact-magic. The target who accepts your terms is cosmically bound: if they break the promise, the Keeper exacts a price. But the clause binds you equally, if you break your own word, the price is yours to pay.',
+   description: 'Invoke Morvane\'s authority to seal a spoken agreement with pact-magic. The target who accepts your terms is cosmically bound: if they break the promise, Morvane exacts a price. But the clause binds you equally, if you break your own word, the price is yours to pay.',
    level: 1,
    icon: 'spell_holy_sealofrighteousness',
    spellType: 'ACTION',
@@ -426,8 +448,8 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
    effects: [
     {
     id: 'sealed_promise',
-    name: 'Sealed by the Keeper',
-    description: 'Speak a single, clear promise to a willing creature within 30 feet. For 24 hours, if they knowingly break the promise, they suffer 2d6 wyrd damage and disadvantage on their next d20 roll, the Keeper enforces. The promise must be specific and achievable ("you will not harm my allies in this battle," not "you will be a good person").',
+    name: 'Sealed by Morvane',
+    description: 'Speak a single, clear promise to a willing creature within 30 feet. For 24 hours, if they knowingly break the promise, they suffer 2d6 wyrd damage and disadvantage on their next d20 roll, Morvane enforces. The promise must be specific and achievable ("you will not harm my allies in this battle," not "you will be a good person").',
     duration: 24, durationUnit: 'hours',
     conditions: { range: 30, rangeUnit: 'feet', targetMustBeWilling: true, maxDuration: '24_hours' }
     }
@@ -440,7 +462,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     {
     id: 'binding_recoil',
     name: 'The Binder Bound',
-    description: 'If you yourself break the sealed promise, you suffer the same penalty, 2d6 wyrd damage and disadvantage on your next d20 roll. The Keeper does not distinguish between signatories. A contract binds all parties equally.',
+    description: 'If you yourself break the sealed promise, you suffer the same penalty, 2d6 wyrd damage and disadvantage on your next d20 roll. Morvane does not distinguish between signatories. A contract binds all parties equally.',
     statusEffect: { level: 'moderate', description: 'Breaking your own sealed promise deals 2d6 psychic and imposes disadvantage on next d20 roll.' }
     }
    ],
@@ -453,7 +475,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   {
    id: 'memory_glass_training_velun',
    name: 'Canopy-Scholar',
-    description: '+2 to History and Arcana checks involving the Bryngloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. Requires 1 hour of archive maintenance per long rest to keep the bonus; missing it forfeits the bonus until you spend 1+ hour catching up. (You trained in the Canopy-Ledger, the living archive where Neth contracts sit in crystallized tree-sap that pours knowledge straight into the reader\'s mind — your education never truly ended.)',
+    description: '+2 to History and Arcana checks involving the Bryngloom Forest, contract law, Morvane, Neth genealogy, or the Wyrd. Requires 1 hour of archive maintenance per long rest to keep the bonus; missing it forfeits the bonus until you spend 1+ hour catching up. (You trained in the Canopy-Ledger, the living archive where Neth contracts sit in crystallized tree-sap that pours knowledge straight into the reader\'s mind; your education never truly ended.)',
    level: 1,
    icon: 'inv_misc_book_09',
    spellType: 'PASSIVE',
@@ -465,7 +487,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     {
     id: 'archive_knowledge',
     name: 'Ledger-Trained',
-    description: '+2 to History and Arcana checks related to the Bryngloom Forest, contract law, the Keeper, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy, the archive is not a place you visit. It is where you live.',
+    description: '+2 to History and Arcana checks related to the Bryngloom Forest, contract law, Morvane, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy, the archive is not a place you visit. It is where you live.',
     statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
     additionalStatModifier: { stat: 'arcana', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
     }
@@ -487,11 +509,36 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
    resourceCost: { actionPoints: 0, mana: 0, components: [] },
    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-  }
-  ],
-  languages: ['Common', 'Gloom-Tongue'],
-  speed: 30,
-   baseStats: { hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
+   },
+   {
+    id: 'pact_flame_velun',
+    name: 'Pact-Flame',
+   description: 'Once per long rest, invoke Morvane\'s authority against a target within 30 feet that has broken a promise, contract, or oath within the last 24 hours. The target takes 2d6 wyrd damage (no save). Morvane does not forgive debts, and your voice carries its collection notice.',
+    level: 1,
+    icon: 'spell_holy_sealofrighteousness',
+    spellType: 'ACTION',
+    effectTypes: ['buff'],
+    typeConfig: { school: 'wyrd', icon: 'spell_holy_sealofrighteousness', tags: ['damage', 'pact', 'debt', 'active'] },
+    buffConfig: {
+    buffType: 'custom',
+    effects: [
+     {
+     id: 'pact_flame_damage',
+     name: 'The Collector\'s Flame',
+     description: 'Target a creature within 30 feet that has broken a promise, contract, or oath within the last 24 hours. The target takes 2d6 wyrd damage with no saving throw. Morvane does not forgive debts.',
+     statusEffect: { level: 'severe', description: '2d6 wyrd damage to an oath-breaker within 30 feet. No save.' }
+     }
+    ],
+    durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+    },
+    targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['any'] },
+    resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] },
+    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+   }
+   ],
+   languages: ['Common', 'Gloom-Tongue'],
+   speed: 30,
+    baseStats: { hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
   savingThrowModifiers: { advantage: ['charm', 'disease'], disadvantage: [] }
  },
 
@@ -501,8 +548,8 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   illustration: '/assets/images/races/kessen_illustration.png',
   illustrationCaption: 'A Kessen weaver in close-fitting silver-grey silks, eyes unfocused on the obligation-web, probability-glyphs visible only to them tracing the air around their fingers.',
   tooltipSummary: 'Fate-thread readers who weave probability from the temporal ledger, riding the razor edge between insight and temporal paralysis.',
-  description: 'The second Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of the Keeper\'s sight. Where the Velun see the text, the Kessen see the implications, the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
-  culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited the Keeper's sight, not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time, a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
+  description: 'The second Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of Morvane\'s sight. Where the Velun see the text, the Kessen see the implications, the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
+  culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited Morvane's sight, not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time, a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
 
 This perception makes them extraordinary gamblers, chaos-weavers, and fate-readers. A Kessen doesn't predict the future. They read the conditions that produce specific outcomes and nudge the right variable at the right moment. Their magic is not spellcasting, it is probability-manipulation, thread-tugging, clause-adjustment. They are the only Neth who can see what a contract will become before it is written.
 
@@ -517,8 +564,8 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   traits: [
   {
    id: 'keepers_sight_kessen',
-   name: 'The Keeper\'s Sight',
-    description: 'Advantage on Insight checks to detect deception, read a creature\'s true loyalties, or gauge whether a promise is sincere. In social situations of more than 10 people you suffer disadvantage on Spirit and Charisma checks as the obligation-web overwhelms you, and your obligation-threads remain visible to any creature with supernatural perception. (You perceive the debt-threads binding all things — the web reveals everything, and the web is everywhere.)',
+   name: 'Morvane\'s Sight',
+    description: 'Advantage on Insight checks to detect deception, read a creature\'s true loyalties, or gauge whether a promise is sincere. In social situations of more than 10 people you suffer disadvantage on Spirit and Charisma checks as the obligation-web overwhelms you, and your obligation-threads remain visible to any creature with supernatural perception. (You perceive the debt-threads binding all things; the web reveals everything, and the web is everywhere.)',
    level: 1,
    icon: 'spell_holy_mindvision',
    spellType: 'PASSIVE',
@@ -549,7 +596,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     {
     id: 'web_presence',
     name: 'The Thread That Shows',
-    description: 'Other creatures with supernatural perception, other Kessen, certain Wyrd-creatures, the Keeper itself, can see the threads connecting you to your obligations. Your loyalties, your debts, your broken promises are visible in the web to anyone who knows how to look.',
+    description: 'Other creatures with supernatural perception, other Kessen, certain Wyrd-creatures, Morvane itself, can see the threads connecting you to your obligations. Your loyalties, your debts, your broken promises are visible in the web to anyone who knows how to look.',
     statusEffect: { level: 'minor', description: 'Obligation-threads visible to supernatural perception. Your debts and loyalties can be read.' }
     }
    ],
@@ -599,7 +646,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   {
    id: 'chronometric_intuition_kessen',
    name: 'Temporal Ledger',
-    description: '+2 to initiative rolls, and once per long rest you may ask the GM one truthful but cryptic question about the approaching consequences of a situation. A failed or ominous divination answer imposes disadvantage on your next initiative roll. (Time is the longest obligation-thread — you feel promises coming due long before they arrive.)',
+    description: '+2 to initiative rolls, and once per long rest you may ask the GM one truthful but cryptic question about the approaching consequences of a situation. A failed or ominous divination answer imposes disadvantage on your next initiative roll. (Time is the longest obligation-thread; you feel promises coming due long before they arrive.)',
    level: 1,
    icon: 'spell_arcane_arcanetactics',
    spellType: 'PASSIVE',
@@ -633,11 +680,48 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
    resourceCost: { actionPoints: 0, mana: 0, components: ['verbal'] },
    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-  }
-  ],
-  languages: ['Common', 'Gloom-Tongue'],
-  speed: 30,
-   baseStats: { hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
+   },
+   {
+    id: 'thread_snap_kessen',
+    name: 'Thread-Snap',
+   description: 'Once per long rest, when a creature within 60 feet makes an attack roll, ability check, or saving throw, you can force them to reroll and take the new result. You take 1d4 wyrd damage as the obligation-web recoils through your consciousness.',
+    level: 1,
+    icon: 'spell_arcane_portal',
+    spellType: 'REACTION',
+    effectTypes: ['buff', 'debuff'],
+    typeConfig: { school: 'arcane', secondaryElement: 'wyrd', icon: 'spell_arcane_portal', tags: ['probability', 'fate', 'reroll', 'reaction'] },
+    buffConfig: {
+    buffType: 'custom',
+    effects: [
+     {
+     id: 'forced_reroll',
+     name: 'The Severed Thread',
+     description: 'When a creature within 60 feet makes an attack roll, ability check, or saving throw, force them to reroll the d20 and take the new result. You choose after seeing the original roll. Once per long rest.',
+     conditions: { usesPerRest: 1, restType: 'long_rest', range: 60, rangeUnit: 'feet', reaction: true }
+     }
+    ],
+    durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+    },
+    debuffConfig: {
+    debuffType: 'statusEffect',
+    effects: [
+     {
+     id: 'web_recoil',
+     name: 'The Recoil',
+     description: 'When you use Thread-Snap, you take 1d4 wyrd damage as the obligation-web recoils through your consciousness. You felt the thread snap, and it snapped through you.',
+     statusEffect: { level: 'minor', description: 'Take 1d4 wyrd damage on use. The web recoils through the weaver.' }
+     }
+    ],
+    durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+    },
+    targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['any'] },
+    resourceCost: { actionPoints: 0, mana: 0, components: ['somatic'] },
+    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+   }
+   ],
+   languages: ['Common', 'Gloom-Tongue'],
+   speed: 30,
+    baseStats: { hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['perception', 'initiative'], disadvantage: ['fear'] }
  },
 
@@ -645,20 +729,20 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   id: 'drun_neth',
   name: 'Drun',
   illustration: '/assets/images/races/drun_illustration.png',
-  illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, silver skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
+  illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, pale skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
   tooltipSummary: 'Severed silence-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent silence-walkers who bear the pact-sickness as their price.',
-  description: 'Founded in Year ~380 of the Dimming by Saren-Vel, who walked into the deepest bog with a flame that consumed only ink and burned her name from every active copy of the First Contract. The Drun have been legally nonexistent for ~420 years. The inheritors of the Keeper\'s silence. Through the Severing, a traumatic fire-ritual that burns their name from every active copy of the First Contract, the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to the Keeper\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
-  culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it, the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until the Keeper releases you, and the Keeper has never released anyone."
+  description: 'Founded in Year ~380 of the Dimming by Saren-Vel, who walked into the deepest bog with a flame that consumed only ink and burned her name from every active copy of the First Contract. The Drun have been legally nonexistent for ~420 years. The inheritors of Morvane\'s silence. Through the Severing, a traumatic fire-ritual that burns their name from every active copy of the First Contract, the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to Morvane\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
+  culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it, the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until Morvane releases you, and Morvane has never released anyone."
 
-Saren-Vel found the loophole. The pact's authority is anchored to names, the names of the original signatories, the names of their descendants, the names written in every active copy of the First Contract. A name burned from the contract is a name the pact can no longer enforce. The Severing does not destroy the person. It destroys the record of the person. What remains is a Neth who is still alive, still silver-skinned, still preserved, but no longer *bound.*
+Saren-Vel found the loophole. The pact's authority is anchored to names, the names of the original signatories, the names of their descendants, the names written in every active copy of the First Contract. A name burned from the contract is a name the pact can no longer enforce. The Severing does not destroy the person. It destroys the record of the person. What remains is a Neth who is still alive, still pale-skinned, still preserved, but no longer *bound.*
 
-The Drun live in the deep bog, near the Severing ground where Saren-Vel performed the first ritual. Their camps are small, rarely more than twenty or thirty, organized around principles that would appall any Velun: gift-economy, informal promises, trust without contract. A Drun who breaks a promise faces only the disappointment of their community, not the Keeper's enforcement. A Drun who gives a gift gives it freely, without terms, because terms require a legal framework and the Drun have burned theirs.
+The Drun live in the deep bog, near the Severing ground where Saren-Vel performed the first ritual. Their camps are small, rarely more than twenty or thirty, organized around principles that would appall any Velun: gift-economy, informal promises, trust without contract. A Drun who breaks a promise faces only the disappointment of their community, not Morvane's enforcement. A Drun who gives a gift gives it freely, without terms, because terms require a legal framework and the Drun have burned theirs.
 
 They serve as the Neth's shadow class: couriers across dead zones where the Archive-Tether doesn't reach, assassins who leave no mycelial trace, guides through the deep bog where no Velun would survive the thinning pact-authority. They are the only Neth who can operate outside the trade network, because they carry a copy of the First Contract with their name still visible but the *connection* burned, the document acknowledges them without binding them. It is the closest thing to freedom the Neth have ever achieved.
 
-The flaw is absolute. A Drun is legally non-existent under Neth law. They cannot own property, anything they hold is, legally, abandoned. They cannot marry, no contract can bind them, and no contract will protect their partner. They cannot testify in a Neth court, their words carry no pact-weight, and a Velun judge has no mechanism to evaluate testimony that is not backed by the Keeper's authority. A Drun can be killed without legal consequence, because no contract names them as protected.
+The flaw is absolute. A Drun is legally non-existent under Neth law. They cannot own property, anything they hold is, legally, abandoned. They cannot marry, no contract can bind them, and no contract will protect their partner. They cannot testify in a Neth court, their words carry no pact-weight, and a Velun judge has no mechanism to evaluate testimony that is not backed by Morvane's authority. A Drun can be killed without legal consequence, because no contract names them as protected.
 
-They are also severed from the pact's preservation. A Drun must eat, drink, and sleep like any warm-blood. They age, slowly, the silver skin dulls over centuries, the dark eyes fade, the Stillness no longer restores them. They are the only Neth who will eventually die of old age, and none have lived long enough yet to know how long that takes.
+They are also severed from the pact's preservation. A Drun must eat, drink, and sleep like any warm-blood. They age, slowly, the pale skin dulls over centuries, the dark eyes fade, the Stillness no longer restores them. They are the only Neth who will eventually die of old age, and none have lived long enough yet to know how long that takes.
 
 They view the Velun with something between pity and contempt, the Velun are powerful and trapped, and the Drun remember what it felt like to be both. They view the Kessen with a strange, wistful recognition, the Kessen can see the Drun in the obligation-web as *absences,* holes where a thread should be, and the Drun can feel the Kessen watching. Neither speaks of this. Neither needs to.`,
   statModifiers: { agility: 2, intelligence: 1, spirit: -1 },
@@ -666,7 +750,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'severed_drun',
    name: 'Severed',
-    description: 'Advantage on saving throws against spells and magical effects, and immunity to the Keeper\'s enforcement (the Debt-Revenant cannot target you, Velun Clause of Binding cannot bind you, and the Unraveling cannot affect you). You suffer disadvantage on social checks with Velun Neth and, severed from the pact\'s preservation, must eat, drink, and sleep normally and will eventually age to death. (Your name is burned from every copy of the First Contract — the pact cannot feel, bind, or protect you.)',
+    description: 'Advantage on saving throws against spells and magical effects, and immunity to Morvane\'s enforcement (the Debt-Revenant cannot target you, Velun Clause of Binding cannot bind you, and the Unraveling cannot affect you). You suffer disadvantage on social checks with Velun Neth and, severed from the pact\'s preservation, must eat, drink, and sleep normally and will eventually age to death. (Your name is burned from every copy of the First Contract; the pact cannot feel, bind, or protect you.)',
    level: 1,
    icon: 'spell_fire_fireball',
    spellType: 'PASSIVE',
@@ -678,7 +762,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
     {
     id: 'magic_resistance_drun',
     name: 'The Pact\'s Silence',
-    description: 'Advantage on saving throws against spells and magical effects. The pact cannot reach you, magic that would bind, enforce, or compel a Velun or Kessen slides off you like water off still glass. and, you are immune to the Keeper\'s enforcement mechanisms (the Debt-Revenant cannot target you, you cannot be bound by a Velun\'s Clause of Binding, and the Unraveling cannot affect you).',
+    description: 'Advantage on saving throws against spells and magical effects. The pact cannot reach you, magic that would bind, enforce, or compel a Velun or Kessen slides off you like water off still glass. and, you are immune to Morvane\'s enforcement mechanisms (the Debt-Revenant cannot target you, you cannot be bound by a Velun\'s Clause of Binding, and the Unraveling cannot affect you).',
     statModifier: { stat: 'magic_saves', magnitude: 1, magnitudeType: 'advantage' }
     }
    ],
@@ -709,7 +793,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'silence_walker_drun',
    name: 'Silence-Walker',
-    description: 'Advantage on Stealth checks, leaving no tracks, scent, or magical residue; creatures using supernatural tracking (trail-sight, mycelial perception, the obligation-web) cannot detect your passage. You cannot give testimony, sign contracts, or serve as a witness in any Neth jurisdiction — your voice carries no pact-weight. (The pact cannot record you; you walk unseen through the web of your own civilization.)',
+    description: 'Advantage on Stealth checks, leaving no tracks, scent, or magical residue; creatures using supernatural tracking (fungal perception, mycelial sense, the obligation-web) cannot detect your passage. You cannot give testimony, sign contracts, or serve as a witness in any Neth jurisdiction; your voice carries no pact-weight. (The pact cannot record you; you walk unseen through the web of your own civilization.)',
    level: 1,
    icon: 'ability_rogue_shadowstep',
    spellType: 'PASSIVE',
@@ -721,7 +805,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
     {
     id: 'untraceable',
     name: 'Beyond the Web',
-    description: 'Advantage on Stealth checks. You leave no tracks on soft ground, no scent-trail, and no magical residue that can be traced. Creatures using supernatural tracking (trail-sight, mycelial perception, the obligation-web) cannot detect your passage.',
+    description: 'Advantage on Stealth checks. You leave no tracks on soft ground, no scent-trail, and no magical residue that can be traced. Creatures using supernatural tracking (fungal perception, mycelial sense, the obligation-web) cannot detect your passage.',
     statModifier: { stat: 'stealth', magnitude: 1, magnitudeType: 'advantage' }
     }
    ],
@@ -746,7 +830,7 @@ They view the Velun with something between pity and contempt, the Velun are powe
   {
    id: 'bog_survival_drun',
    name: 'Bog-Hardened',
-    description: 'Resistance to blight damage and advantage on Survival checks in swamps, bogs, or the Bryngloom Forest. When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour. (You survived the Severing and the bog that followed — the deep wild has stopped trying to kill you.)',
+    description: 'Resistance to blight damage and advantage on Survival checks in swamps, bogs, or the Bryngloom Forest. When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour. (You survived the Severing and the bog that followed; the deep wild has stopped trying to kill you.)',
    level: 1,
    icon: 'spell_nature_resistnature',
    spellType: 'PASSIVE',
@@ -779,11 +863,42 @@ They view the Velun with something between pity and contempt, the Velun are powe
    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
    resourceCost: { actionPoints: 0, mana: 0, components: [] },
    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-  }
-  ],
-  languages: ['Common', 'Gloom-Tongue'],
-  speed: 35,
-   baseStats: { hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
+   },
+   {
+    id: 'null_strike_drun',
+    name: 'Null-Strike',
+   description: 'Once per short rest, make a melee attack that deals +1d4 arcane damage. On hit, dispel one magical effect currently active on the target (GM chooses if multiple). Your severed nature unravels magic on contact; the pact cannot feel you, and neither can its spells.',
+    level: 1,
+    icon: 'spell_fire_fireball',
+    spellType: 'ACTION',
+    effectTypes: ['buff'],
+    typeConfig: { school: 'arcane', icon: 'spell_fire_fireball', tags: ['damage', 'dispel', 'melee', 'severance', 'active'] },
+    buffConfig: {
+    buffType: 'custom',
+    effects: [
+     {
+     id: 'null_strike_damage',
+     name: 'Severed Edge',
+     description: 'Make a melee attack. On hit, the attack deals +1d4 arcane damage. Your severed nature unravels magic on contact.',
+     statusEffect: { level: 'moderate', description: 'Melee attack deals +1d4 arcane damage on hit.' }
+     },
+     {
+     id: 'magic_dispelling',
+     name: 'The Unraveling Touch',
+     description: 'On a hit, dispel one magical effect currently active on the target. If multiple magical effects are active, the GM chooses which is dispelled. The pact cannot feel you, and neither can its spells.',
+     statusEffect: { level: 'moderate', description: 'On hit, dispel one magical effect on the target (GM chooses if multiple).' }
+     }
+    ],
+    durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+    },
+    targetingConfig: { targetingType: 'single', rangeType: 'melee', targetRestrictions: ['enemy'] },
+    resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+   }
+   ],
+   languages: ['Common', 'Gloom-Tongue'],
+   speed: 35,
+    baseStats: { hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['blight', 'magic'], disadvantage: ['charm'] }
  }
  }

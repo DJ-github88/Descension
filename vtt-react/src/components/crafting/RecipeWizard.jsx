@@ -396,7 +396,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                                         <div className="material-icon"><img src={getIconUrl(item?.iconId || 'inv_misc_questionmark', 'items')} alt={item?.name} /></div>
                                         <span className="material-name">{item?.name}</span>
                                         <input type="number" className="quantity-input" value={material.quantity} onChange={(e) => updateMaterialQuantity(material.itemId, parseInt(e.target.value))} min="1" />
-                                        <button className="remove-btn" onClick={() => removeMaterial(material.itemId)}>Ã—</button>
+                                        <button className="remove-btn" onClick={() => removeMaterial(material.itemId)}>Ã - </button>
                                     </div>
                                 );
                             })}

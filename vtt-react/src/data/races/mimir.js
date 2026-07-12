@@ -5,36 +5,43 @@
     illustration: '/assets/images/races/mimir_illustration.png',
     illustrationCaption: 'A tall, slender Mimir in a bark-hide cloak, flat reflective mask catching fog-light, two glowing eye-beads burning through the mist like distant stars.',
     cardFlavor: 'Canopy-dwellers who sealed their faces behind wooden masks when the Frostwood fog began stealing their memories.',
-    description: `**[The Mask-Bound Canopy-Folk]**, *High in the foggy canopy of the ironwood forests, a slender figure in a unbroken oak mask leans forward, their wooden face perfectly still while their body shifts with a liquid, predatory grace.*
+    description: `**[The Mask-Bound]**, *High in the foggy canopy of the ironwood forests, a slender figure in an unbroken oak mask leans forward, their wooden face perfectly still while their body shifts with a liquid, predatory grace.*
 
-The Mimir have never shown their faces to outsiders. This is not because they hide something monstrous, but because the fog that saved the Frostwood Reach from the deep freeze also devours memory over generations, leaving them uncertain of what their original faces looked like. The unbroken mask of heartwood or storm-glass is the last thing a Mimir mother gives to her child, pressed into newborn spore-flesh to serve as a calcified barrier between the original soul and the fetch-spirit that lives inside them. Poachers hunt the Mimir for their mask-relics, and the Mimir live in perpetual secrecy in the mist-shattered valleys, where the very air threatens to erase their memories.`,
+The Mimir have never shown their faces to outsiders. This is not because they hide something monstrous, but because the fog that wreathes the Frostwood Reach devours memory over generations, and behind every mask lies a face their creator once rejected. The Mimir were MADE by Sereth, an ancient world-bound deity of creation and perfection, who shaped and reshaped them across centuries, each iteration falling short of an impossible standard. Each rejection carved the same message into them: *you are not enough.* When Sereth finally died, undone by its own contradictions, the Mimir were left with scriptures they could no longer fully read and a shame they could no longer name. The unbroken mask of heartwood or storm-glass is a blank canvas, a perfect face to replace the one their creator turned away from. They do not know why they wear them. They know only that to remove one is the deepest dishonor. Their real faces are beautiful, achingly so, but no Mimir will ever believe it, the shame is soul-deep, older than memory, older than the fog.`,
     icon: 'fas fa-mask',
-    overview: `When the Frostwood Reach's noble family made their dark bargain with the Keth-Amar, trading the region's spatial clarity for a protective, insulating mist that would keep their ancient timber and wildlife from freezing into glass, they understood the price they were paying. The fog would decay memory. Over generations, history would blur. Faces would fade. The humans would cope with written journals, hand-carved lineage tapestries, and a deep, abiding suspicion of anyone who could not verify their ancestry.
+    overview: `The Mimir do not know their own origin. This is the central tragedy of their race.
 
-The Mimir were not part of that bargain. They predate it. They were already living in the Fog-Vales when the mist descended, already wearing masks carved from heartwood and storm-glass, already hiding from a world that had never been kind to those who could wear another's face. The fog, for them, was not a curse but a deepening of conditions they had already adapted to. It made them harder to find. It made the Hunters who pursued them for their masks stumble blind through the grey. It was, in a terrible way, a gift.
+They were made by Sereth, an ancient world-bound deity of creation and perfection. Sereth was insecure the way gods can be insecure: with the power to reshape living beings and the impossible standards that made every reshaping a failure. The Mimir were Sereth's great project, an attempt to create something perfect. Each iteration fell short. Sereth remade them, again and again, refining, adjusting, stripping away what was flawed and rebuilding what remained. The cycle repeated across centuries. And with each rejection, the Mimir absorbed the message: *you are not enough. You will never be enough.*
 
-But the fog also took from them. The mist that preserves the timber and steals human memory also erodes the Mimir's own recollections, their spore-memories, their ancestral lineages, the faces of their mothers. The masks became more than tradition. They became the only reliable containers of identity in a land where identity itself was being slowly dissolved by the air.
+Then Sereth died. The way gods can die, not by violence, but by contradiction. Sereth's obsessive perfectionism consumed it from within, the impossible standard collapsing under its own weight, the creator destroyed by the same inadequacy it projected onto its creations. Sereth is gone. The Mimir are still here.
 
-The Mimir are what happens when a person sees their own death-omen and refuses to die. They are the descendants of those who merged with their fetches, doppelganger spirits that appear as omens of impending death, and survived the union. The mask is the calcified barrier between the original soul and the fetch, a gift from each mother to each child, forged in sacred mother-flame chambers deep in the Fog-Vales. Births are spore-based, secret, rare. The art of making new masks was lost during the Purge, when inquisitors from the eastern kingdoms, armed with detection magic and silver weapons, burned the birthing chambers and killed the last Mask-Mothers who knew the craft.
+They do not remember this clearly. Centuries of inherited shame, compounded by the memory-devouring fog they live in, have buried the origin story beneath layers of self-blame and ritualized denial. They do not know why they wear masks. They know only that to remove one is the deepest dishonor, that the mask is honor and lineage and identity, and that beneath it lies something that cannot be looked upon.
 
-Now every mask in existence is a relic. The Mimir live in a thousand square miles of perpetual mist, old-growth canopies where the Mask-Borne aristocracy hold their ancestral holds, cloud-shelf mountain aeries where the Mist-Woven stand sentinel against the next Purge, and the deep floor where the Unwoven, born Maskless, have built a culture from what everyone else threw away. They hide from a world that either refuses to believe they exist or pays fortunes for the masks off their dead. They share these mist-choked forests with the Briaran, thorn-blooded descendants of House Viridane, in a relationship of wary mutual recognition: two peoples who understand why the other hides.
+The Frostwood Reach's protective fog serves a dual purpose for the Mimir. It solidifies the dream-fragments locked in their masks, the moisture and the ancient wood interacting in ways that preserve inherited memory, keeping the fragments from fading entirely. But the fog also prevents self-recognition. A Mimir in the fog never sees their own face clearly. Mirrors fog. Water surfaces ripple. The mask becomes the only face they know, and the face beneath it recedes into the same mist that devours the memories of the humans who share the forest.
 
-And deep in the oldest canopy-hold, the mother-flame still burns, the pale, heatless fire that Sylvain first kindled from her own spore and breath when she became the first Mimir. No birth has occurred there in thirty years. The last mother to use it died in childbirth. Her child survived. The child is Unwoven, raised on the floor by strangers, carrying a cracked mask that no one knows how to repair. The Elders debate reopening the Chamber. But the fog is growing thicker. The Hunters are getting closer. And the time for debate may have already passed.`,
-    culturalBackground: `Mimir society is built around masks, not bloodlines. Every Mimir receives their mask from their mother at birth, a sacred heirloom carved from heartwood, storm-glass, or salvaged fragments, depending on lineage. The mask is everything: face, name, identity, the only barrier between the Mimir's soul and the fetch that lives inside them. Without it, a Mimir is not merely exposed, they are dissolving.
+The cruelest irony of Mimir existence: they would be better off without the masks. Their faces are beautiful. The shame is inherited, not earned. But even a Mimir who loses their mask, who is forced to walk maskless, would never accept praise for their appearance. The shame is soul-deep. It is in their bones, in their breath, in the dreams of Sereth's disappointment that surface unbidden in the night. A maskless Mimir told they are beautiful will flinch. They will not believe it. They cannot.
 
-The art of mask-forging was lost during the Purge, when inquisitors burned the birthing chambers and killed the last Mask-Mothers who knew the craft. Every mask in existence is a relic. This scarcity created the Rupture, in the third century of the Dimming, triggered by the Wyrd incursion that destroyed the birthing chambers, when inheritance laws decreed that only first-born children could receive their mother's mask, the Mimir shattered into three subraces. The Mask-Borne claimed the canopy-holds and became aristocracy. The Mist-Woven were pushed to the mountain aeries and became sentinels. The Unwoven, those born without masks, or who lost them, drifted to the floor and became something else entirely.
+The truth, that beneath every mask is a face Sereth called imperfect and the world would call beautiful, is the most closely guarded secret in Mythrill, guarded so effectively that even the Mimir themselves do not know it.`,
+    quickFacts: [
+        'Tall, slender canopy-dwellers of the Frostwood Reach who seal their faces behind unbroken masks of heartwood or storm-glass. Created and repeatedly rejected by Sereth, a perfectionist deity who died of its own impossible standards, they inherited a shame they cannot name and a face they will never believe is beautiful.',
+        'Every mask is an heirloom carrying centuries of ancestral dream-memories. The fog that devours memory also preserves their masks but prevents self-recognition; no Mimir has seen their own face clearly. Divided into Masked aristocrats, Woven crafters, and Unwoven outcasts who carry Fetch-Motes of Sereth\'s residual creative energy.',
+        'Play a Mimir to explore identity as performance and inheritance as burden. Your entire society is built on a lie (the masks were never necessary, the shame was never earned) and a single translated line of scripture threatens to unravel everything. What happens when you learn you were never rejected?'
+    ],
+    culturalBackground: `Mimir society is built around masks, not bloodlines. Every Mimir receives their mask as an heirloom, a sacred object carved from heartwood, storm-glass, or salvaged fragments, depending on lineage. The mask is everything: face, name, identity, the only stable surface in a people whose origins have been swallowed by fog. Without it, a Mimir is not merely exposed, they are dissolving.
 
-Mimir are introverted by nature. Outside the Vales they wear borrowed forms, faces gathered from brief contact, glimpses, stolen moments, but they cannot maintain them for long. Prolonged time among outsiders drains them. They need the fog, the silence, the company of their own kind. And always, always, the small spore-companion orbiting their shoulder, the Fetch-Mote, their oldest friend, the keeper of everything they forget.
+The Mimir are a shame culture. They do not remember precisely why, only that the shame is older than any living memory and that it must be honored. Masks are the family heirlooms that carry it. A mask passed down through generations accumulates the dream-memories of every Mimir who wore it, surfacing unbidden in sleep: faces they have never seen, places they have never been, griefs that belong to people who lived and died centuries before them. The knowledge of how to consciously retrieve these inherited memories is lost. The dreams are uncontrollable, inconsistent, often distressing, and the Mimir have made peace with the fact that their ancestors speak to them in fragments they cannot quite understand.
 
-The Mimir share the Frostwood Reach with the Briaran, thorn-blooded descendants of the erased House Viridane who refused the Dark Bargains entirely. The two peoples coexist in the same mist-choked forests but rarely interact directly: the Briaran follow the old ways in the deepest ironwood groves, bound by fae contracts rather than mask-tradition, and regard the Mimir's fetch-bond as something between an alliance and an infection. The Mimir, for their part, view the Briaran's symbiotic thorns with wary recognition, another people who wear their bargains visibly, and who pay for their survival every day.`,
-    variantDiversity: 'The Mimir are divided into three bloodlines shaped by the Rupture: The Mask-Borne hold the canopy, aristocrats, artisans, the inheritors. The Mist-Woven guard the borders from mountain aeries, sentinels, first-alert, the ones who see threats before they arrive. The Unwoven drift the deep floor, outcasts, survivors, the ones who made a home from what everyone else threw away.',
+The Masked subrace preserves ancient scriptures, fragments, tablets, carvings, that speak of Sereth in tones of desperate reverence. The language is archaic, partially undeciphered, and the content is sparse: instructions for rituals whose purpose has been lost, praises for a creator whose name is invoked like a prayer, laments that read like apologies. "We were not what was intended," one tablet reads. "The shape was given and we could not hold it. The hand that shaped us turned away." Masked scholars dedicate their lives to deciphering these scriptures, seeking new tablets in the deep Frostwood ruins, trading fragments between canopy-holds at enormous cost. The pursuit of Sereth's word is the closest thing the Mimir have to a shared religious practice, a hunger for the approval of a parent who will never return to give it.
+
+The Mimir share the Frostwood Reach with the Briaran, thorn-blooded descendants of the erased House Viridane. The two peoples coexist in the same mist-choked forests but rarely interact directly: the Briaran follow the old ways in the deepest ironwood groves, bound by fae contracts rather than mask-tradition. The Mimir, for their part, view the Briaran's symbiotic thorns with wary recognition, another people who wear their bargains visibly, and who pay for their survival every day.`,
+    variantDiversity: 'The Mimir are divided into three lineages shaped by the Rupture: The Masked hold the canopy, the scripture-keepers and inheritors of ancestral masks carrying the deepest dream-memories. The Woven guard the borders from mountain aeries and keep the only living tradition of mask-craft, forging fresh storm-glass because they have no inheritance to claim. The Unwoven drift the deep floor, the maskless and the patchwork, the only Mimir who carry Fetch-Motes and receive the clearest dream-memories of all, the unfiltered residue of Sereth\'s creative energy.',
     integrationNotes: {
       actionPointSystem: 'Mimir abilities focus on perception, memory, identity protection, and environmental adaptation. Their traits emphasize survival in obscured terrain and social nuance.',
       backgroundSynergy: 'Mimir excel in backgrounds emphasizing stealth, perception, and survival. Their introverted nature and secretive culture create compelling roleplay tension with outsiders.',
-      classCompatibility: 'The Mask-Borne favor Lunarchs above all, using their inherited masks and canopy archives to commune with ancestral memories and channel the parasite\'s lunar feeding cycle through starlight portents. The Mist-Woven favor Apex and Shapers, employing their physical agility and storm-glass masks to stalk Wyrd through the fog and reshape their forms for cliff-border patrol. The Unwoven favor Toxicologists, Plaguebringers, and Harbingers, relying on deep-floor fungal poisons, homebrew remedies, and the desperate, maskless freedom of the valley floor to survive. Animists emerge among all Mimir who channel the ancestral identities preserved in the canopy archives.'
+      classCompatibility: 'The Masked favor Lunarchs above all, using their inherited masks and canopy archives to commune with ancestral memories and channel the parasite\'s lunar feeding cycle through starlight portents. The Woven favor Apex and Shapers, employing their physical agility and storm-glass masks to stalk Wyrd through the fog and reshape their forms for cliff-border patrol. The Unwoven favor Toxicologists, Plaguebringers, and Harbingers, relying on deep-floor fungal poisons, homebrew remedies, and the desperate, maskless freedom of the valley floor to survive. Animists emerge among all Mimir who channel the ancestral identities preserved in the canopy archives.'
     },
-    diasporaVariation: `The Mimir are the least diasporic race in Mythrill, they cannot survive long outside the Frostwood fog without dissolving. The rare expatriate Mimir (usually Unwoven, who have less to lose) cling to the Frostwood trade-embassies and Ironjaw Port's fog-warded quarters, growing visibly thinner the longer they stay. A sea-ward Mimir who has lived a decade in the Merrowport fog-wards develops a salt-tolerance and a strange nautical dialect of Vale-Speak, but their spore-memories degrade faster in sea-mist than forest-mist. There is no meaningful Bryngloom or Sundale Mimir population, the few who attempted it faded within years.`,
-    meaningfulTradeoffs: 'Mimir gain powerful identity protection and perception abilities through their masks and fetch-motes, but suffer severe consequences if their masks are forcibly removed or their motes destroyed. They are introverted outsiders who struggle outside the Fog-Vales and face hostility from poachers who hunt them for their mask-relics.',
+    diasporaVariation: `The Mimir are the least diasporic race in Mythrill, they cannot survive long outside the Frostwood fog without the mask-memories they carry beginning to fade. The rare expatriate Mimir (usually Unwoven, who have less to lose) cling to the Frostwood trade-embassies and Ironjaw Port's fog-warded quarters, growing visibly thinner the longer they stay. A sea-ward Mimir who has lived a decade in the Merrowport fog-wards develops a salt-tolerance and a strange nautical dialect of Vale-Speak, but their dream-memories degrade faster in sea-mist than forest-mist. There is no meaningful Bryngloom or Sundale Mimir population, the few who attempted it faded within years, their inherited scriptures crumbling to pulp in the dry air.`,
+    meaningfulTradeoffs: 'Mimir gain powerful identity protection and perception abilities through their masks, but suffer severe consequences if their masks are forcibly removed. The Mask-Shift lets them adopt other faces, but their inherited shame prevents them from ever accepting their own. They are introverted outsiders who struggle outside the Fog-Vales, defined by an inadequacy they cannot name and a creator they cannot remember.',
     baseTraits: {
       languages: ['Common', 'Vale-Speak'],
       lifespan: '90-130 years',
@@ -45,71 +52,53 @@ The Mimir share the Frostwood Reach with the Briaran, thorn-blooded descendants 
       build: 'Tall, slender, unnaturally fluid movement'
     },
     epicHistory: `
-The First Fetch happened before the sun was stolen, before the Frostwood Reach's noble family traded their spatial clarity for fog, before the word "Mimir" had been spoken by any tongue. Sylvain was a forester's daughter from a village whose name the mist has since eaten. When her fetch appeared at the foot of her bed, a perfect duplicate, featureless save for two glowing points where eyes should be, she was twenty-two, unwed, and carrying a child that would never have a father. Her husband had died in a hunting accident three weeks prior, and the fetch wore his face for the first three seconds before it smoothed into the mask-surface all Mimir now know.
+Before the word "Mimir" had been spoken by any tongue, there was Sereth. A world-bound deity of creation and perfection, ancient beyond reckoning, powerful enough to shape living beings from the raw material of the Frostwood's primordial mists. Sereth's great project was the Mimir. An attempt to create something perfect.
 
-In the old stories of the Frostwood Reach, seeing your fetch means you will die within the year. Sylvain did not die. She reached out and touched it. The fetch, which could not speak, touched her chest with fingers that passed through skin and pressed directly against her heart. She understood. It wanted to live, and it needed a living soul to anchor it. She made the bargain without words. The fetch entered her, and her unborn child became the first Mimir born from spore rather than blood.
+The first iteration fell short. Sereth reshaped them. The second fell short. Sereth reshaped them again. The cycle repeated across centuries, across millennia, each version refined, adjusted, stripped of what was flawed, rebuilt from what remained. The Mimir who lived through those early cycles do not remember them clearly. What survives is the feeling: the slow accumulation of inadequacy, the certainty that they were not what was intended, that the hand shaping them grew more weary and more ashamed with each failed attempt. The scriptures preserve fragments of the cycle in archaic verse. "Honor what was made, even if what was made was wrong." The Mimir recite these words without fully understanding them.
 
-For three days Sylvain lay fevered, her body fighting the merger. When she rose, her face was smooth, not blank, but reflective, like polished water held perfectly still. The fetch had become her second soul, and the barrier between them had calcified into the first mask. She was not dead. She was not alive as she had been. She was the first Mimir.
+Then Sereth died. Not by violence, no outside force could have touched a deity of that power, but by contradiction. The impossible standard Sereth had set consumed it from within. The creator was destroyed by the same inadequacy it had projected onto its creations for centuries. The Mimir do not know this. The scriptures record only the absence, the sudden silence where Sereth's voice had been, the long dimming of the creative fire that had burned in the deep places of the Frostwood. The Mimir interpret this dimming as their own failure. They believe Sereth turned away from them in disgust. They cannot conceive that Sereth turned away because Sereth was gone.
 
-Her children inherited the condition, not through blood, but through spore. Sylvain discovered that in deep fog, her body released microscopic spore-clouds that could germinate new life. The first Mimir births happened in secret, in chambers lit only by the mother-flame, a sacred fire that consumes neither fuel nor oxygen, burning the same steady blue-white it burned when Sylvain first kindled it from her own breath. The mask became tradition: each mother carved a mask for her child from heartwood or storm-glass, passing down the barrier that kept the fetch contained and the soul intact.
+The crafting of the first masks began in the centuries after the silence. The Mimir do not remember who carved the first one, or why. The scriptures hint at it obliquely: passages about "the covering of what could not be looked upon," "the honor of the hidden face." What is certain is that within a few generations of Sereth's death, every Mimir wore a mask. The tradition hardened into law, then into identity, then into something deeper than either. The mask became the face. The face beneath it became the shame.
 
-For centuries, the Mimir thrived in the Fog-Vales. They learned to forge masks, to build canopy-villages in the ancient ironwood forests, to read the fog like weather. They had no contact with the human settlements of the Reach, the humans were too busy preserving their own memories against the mist to notice a people who had already solved the problem the fog presented.
+The Rupture followed in the third century of the Dimming. With no new masks being crafted, every heirloom became priceless. The elders decreed that only first-born children could inherit their family's mask. Second-born and later children were born Maskless, and in a society built on masks, Maskless meant nothing. The Masked consolidated power in the canopy-holds, becoming aristocrats who hoarded both masks and lineage. The Woven retreated to the mountain borders, told to craft their own masks from storm-glass and watch for whatever threat might come next. The Maskless were given the floor, the deepest fog, the ground nobody else wanted, and told to survive if they could. They became the Unwoven.
 
-Then came the Purge. When word of the Mimir's faceshifting reached the eastern kingdoms, the response was not curiosity but terror. Inquisitors armed with detection magic and silver weapons swept through the Vales, burning everything they found. They declared the Mimir abominations, soulless fetch-creatures wearing stolen faces, monsters to be exterminated. The birthing chambers were destroyed. The mask-forgers were executed. The secret of creating new masks died with Ithra Mask-Mother, the last of the forge-masters, whose body was never found and whose own mask was never recovered. On the floor of the central birthing chamber, she left behind a half-finished mask carved with the image of a doorway, threshold carved but frame incomplete, laid in a ring of scattered wood-shavings arranged in a pattern no one has ever been able to interpret.
-
-The Rupture followed in the third century of the Dimming. With no new masks being made, every heirloom became priceless. The elders decreed that only first-born children could inherit their mother's mask. Second-born and later children were born Maskless, and in a society built on masks, Maskless meant nothing. The Mask-Borne consolidated power in the canopy-holds, becoming aristocrats who hoarded both masks and lineage. The Mist-Woven were pushed to the mountain borders, told to watch for the next Purge. The Maskless were given the floor, the deepest fog, the spore-thickets, the ground nobody else wanted, and told to survive if they could. They became the Unwoven.
-
-The Mimir have been hiding ever since. But the world is not done with them. The fog that protects them also erodes them. The Hunters still probe the Vales with ever-better detection magic. The masks still fetch fortunes on the black market. And the mother-flame still burns in its sealed chamber, waiting for someone who remembers how to use it.
+The Mimir have been hiding ever since. The fog that protects them also erodes them, slowly wearing away the origin memories they no longer fully possess. The scriptures grow harder to read with each generation, the archaic language slipping further from comprehension, the meaning of rituals fading into rote repetition. And deep in the oldest canopy-hold, the creative fire Sereth first kindled still burns, pale and heatless, burning the same steady blue-white it has burned since before any living Mimir can remember. No one knows what it was for. No one knows how to use it. The Mimir tend it because the scriptures say it must be tended. That is reason enough.
     `,
     notableFigures: [
       {
-        name: 'Sylvain of the First Fetch',
-        title: 'The Original',
+        name: 'Vaelith Thread-Speaker',
+        title: 'The Last Reader',
         portraitIcon: 'Halfling/Icon3',
         backstory: `
-She was a forester's daughter from a village whose name has been eaten by time. When her fetch appeared at the foot of her bed, she was twenty-two, unwed, and carrying a child that would never have a father, he had died in a hunting accident three weeks prior, and the fetch wore his face for the first three seconds before it smoothed into the mask-surface all Mimir now know.
+Of the Masked scholars who dedicate their lives to deciphering Sereth's scriptures, Vaelith has read more of them than any living Mimir. Seventy years in the canopy archives, hunched over tablets older than the Rupture, fingers stained black with the pigment scholars use to mark conjectural translations. Vaelith has produced three deciphered passages in their lifetime, each one a fragment of the creation cycle, each one harder to look at than the last.
 
-Sylvain did not scream. She did not run. She asked the fetch what it wanted, and the fetch, which could not speak, touched her chest with fingers that passed through skin and pressed directly against her heart. She understood. It wanted to live, and it needed a living soul to anchor it. She made the bargain without words. The fetch entered her, and her unborn child became the first Mimir born from spore.
+The most recent translation unsettles them. It is a single line, partial, the edges of the tablet worn smooth by centuries of fog-moisture: "...and the maker saw that the final shape held, and turned away in grief, not in disgust." Vaelith has not shown this translation to the Elders. They do not know what it means. They know only that it contradicts every scripture that came before it, every lullaby they were raised on, every apology carved into the walls of the archive. If the final shape held, then the Mimir were not rejected. If they were not rejected, then the masks are...
 
-Sylvain lived to one hundred and seven. She taught three generations of Mimir how to carve masks, how to tend the mother-flame, how to commune with their fetches without losing themselves. Her own mask, the First Mask, the original calcified barrier, was never passed down. She asked to be buried in it. The Mimir honored her wish. Her grave is somewhere in the oldest part of the canopy, unmarked, because she said a marker would only tell the hunters where to dig.
+Vaelith sits with the tablet in their private study and does not finish the thought. They are eighty-three years old. The tablet has another edge still buried in its mounting-stone. They do not know if they will live long enough to uncover it.
         `
       },
       {
-        name: 'Ithra Mask-Mother',
-        title: 'The Last Forge-Master',
+        name: 'Tallen Glass-Hand',
+        title: 'The Living Tradition',
         portraitIcon: 'Halfling/Icon7',
         backstory: `
-No Mimir alive remembers how to make a new mask. The last person who did was Ithra, and she died in the Purge ninety years ago with the technique still in her hands.
+The Woven are the only Mimir subrace that still crafts masks. Every Masked heirloom was carved centuries ago. Every Unwoven composite is stitched from fragments of the dead. Only the Woven, driven to the cliff-aeries after the Rupture, kept the living tradition, cutting fresh heartwood and shaping new storm-glass because they had no inheritance to claim. Tallen is the finest mask-forger of this generation, possibly of the last three.
 
-Ithra was a Mask-Borne artisan of the highest order. She knew the heartwood trees by name, could identify storm-glass by its resonance when struck, and had memorized every carving-pattern from the First Fetch to her own generation. She trained seventeen apprentices. None of them finished their training before the inquisitors came.
+Tallen's masks are beautiful. They are also, by Masked standards, worthless. A newly crafted mask has no dream-echoes, no accumulated lineage, no centuries of inherited memory pressing against the wood. It is a blank canvas, waiting for its first wearer to begin filling it. The Masked will not wear them. The Unwoven cannot afford them. Only other Woven wear Tallen's work, and there are fewer Woven every year.
 
-When the Purge reached the birthing chambers, Ithra made a choice. Instead of fleeing, she sealed herself inside the central chamber with the mother-flame, a carving knife, and a block of raw heartwood. The inquisitors broke through the door ninety minutes later. The chamber was empty. The mother-flame still burned. On the floor, surrounded by a ring of scattered wood-shavings arranged in a pattern no one has ever been able to interpret, was a half-finished mask. Ithra's own mask was gone. Her body was never found.
-
-Some Mimir believe she finished the mask and used it to become something else, something beyond fetch, beyond spore, beyond the need for either. Others believe the inquisitors took her and the mask was destroyed. The image on the half-finished mask was of a doorway with no door, threshold carved but frame incomplete. No one knows what it was supposed to open.
+Tallen does not mind. They forge because the tradition must be kept, because the scriptures hint that mask-craft is sacred to Sereth even if the why has been lost, because the day the last Woven forger stops working is the day the Mimir lose the only living link to the creative act that made them. Tallen has trained eleven apprentices. Three survived to competence. Two are still alive. The tradition continues. Barely.
         `
       },
       {
-        name: 'Kalev Rope-Caller',
-        title: 'The One Who Held the Pass',
+        name: 'The Dreaming One',
+        title: 'The Unbroken Memory',
         portraitIcon: 'Halfling/Icon11',
         backstory: `
-The Mist-Woven do not build monuments. They build warnings. The highest spire in the eastern aerie range has a single rope dangling from its peak, not a bridge, not a ladder, just a line of fog-spider silk that Kalev climbed alone, in the dark, while a poacher company was working its way up the cliff below.
+Among the Unwoven, those who carry Fetch-Motes are both revered and pitied. The Mote is residual Sereth-energy, the creative residue of the dead deity, drawn to the Unwoven because they are the closest to their original, unmasked form. The Masked sealed themselves away from Sereth's residue behind their heirloom masks. The Woven partially shielded themselves with crafted ones. The Unwoven, bare-faced or patchwork, receive the full measure of what remains.
 
-Kalev was sixteen. He had been posted to the easternmost watch-point, the one no one wanted because it was exposed and the wind never stopped. He saw the poachers before anyone else did, twelve of them, armed, carrying the specialized glass-cutters the hunters use to pry masks off dead Mimir. He had no way to alert the aerie. The fog was too thick for signal-fires. So he climbed.
+The Dreaming One has carried their Mote longer than any Unwoven in living memory. They do not speak. They do not need to. The Mote pulses in slow rhythm with their breath, and when other Mimir draw near, they too catch fragments of what the Dreaming One receives: not the broken, half-remembered dream-fragments that surface from heirloom masks, but clear, vivid, fully-formed memories of the creation cycle itself. The first shaping. The first rejection. The grief that Sereth could not name and the Mimir could not escape.
 
-He scaled the sheer face of the spire, three hundred feet of vertical stone, no rope, no gear, just the friction of his storm-glass fingertips against the rock, and when he reached the summit he tied off the longest rope-silk he had and swung down onto the poachers' climbing line. He cut it. Eight of them fell. The remaining four tried to fight him on the cliff face. He killed two. The last two fled. Kalev climbed back to his post, lit the signal-fire, and sat down. His hands were shredded. His mask was cracked across the left eye-bead. He had not slept in two days. When the relief watch arrived, he was still sitting there, staring into the fog, his fetch-mote curled in his lap like a cat that had seen everything and would never speak of it.
-        `
-      },
-      {
-        name: 'The Eyeless One',
-        title: 'The Floor Remembers',
-        portraitIcon: 'Halfling/Icon15',
-        backstory: `
-Among the Unwoven, elders do not rule, they persist. The oldest living Unwoven has no name, or rather has had so many patchwork-names stitched together from mask fragments that no single one applies. Other Mimir call them the Eyeless One because both eye-beads in their composite mask are dark, extinguished decades ago, and yet they navigate the floor perfectly, reading spore-trails by touch and scent.
-
-The Eyeless One's mask is a mosaic of over a hundred fragments, shards from dead Mask-Borne, slivers from fallen Mist-Woven, pieces of other Unwoven whose masks outlasted their bodies. When the Eyeless One speaks, their voice shifts mid-sentence, carrying the cadences of every Mimir whose fragment is currently dominant. They have forgotten their own birth. They remember everyone else's.
-
-Young Unwoven seek the Eyeless One out for one purpose: to hear whether their lost siblings are still alive. The Eyeless One touches the seeker's mask, hums a single note, and then names every Mimir the seeker is related to, living or dead, present or distant, with the exact emotional signature of each. They are never wrong. When asked how they know, they touch the oldest fragment in their composite mask, a shard of heartwood that might be from Sylvain's original, and say: "I paid for this already. The memory lives in the shard. I am just the voice it borrows."
+The Masked scholars have asked, begged, demanded that the Dreaming One allow the memories to be recorded. The Dreaming One refuses, not out of malice but out of inability. The memories come unbidden. They cannot be summoned. They cannot be written down. They surface only in the presence of the Mote, and they fade the moment conscious thought tries to grasp them. The Dreaming One sits in the deep floor fog, breathing in rhythm with a small warm light, and remembers things the Mimir have spent centuries trying to forget.
         `
       }
     ],
@@ -117,31 +106,31 @@ Young Unwoven seek the Eyeless One out for one purpose: to hear whether their lo
       {
         name: 'The Canopy-Holds',
         description: `
-The heartland of the Mask-Borne, suspended eighty feet above the forest floor in the oldest fog-woods of the Vales. The canopy here is so dense that the mist never penetrates fully, diffused green-gold light filters through layers of ironwood leaves, and the air smells of living bark and cultivated mycelium. Mask-Borne homes are grown, not built: platforms of woven branch and shelf-fungus, connected by living bridges that pulse faintly at night with bioluminescence only Mimir eye-beads can perceive.
+The heartland of the Masked, suspended eighty feet above the forest floor in the oldest fog-woods of the Vales. The canopy here is so dense that the mist never penetrates fully, diffused green-gold light filters through layers of ironwood leaves, and the air smells of living bark and old scripture-ink. Masked homes are grown, not built: platforms of woven branch and shelf-fungus, connected by living bridges that pulse faintly at night with bioluminescence only Mimir eye-beads can perceive.
 
-The oldest family holds have stood for four centuries. Their heartwood supports have thickened into something like stone, their mask-galleries display ancestral masks going back eleven generations. Every Mask-Borne child learns their lineage by walking these galleries, touching the heartwood masks of their great-great-grandparents, feeling the faint warmth of eye-beads that have been dark for two hundred years but are not quite cold.
+The oldest family holds have stood for four centuries. Their heartwood supports have thickened into something like stone. Their mask-galleries display ancestral masks going back eleven generations, and their scripture-archives hold tablets older than the Rupture, fragments of Sereth's word that Masked scholars spend their lives trying to decipher. Every Masked child learns to read the ancient script before they learn to speak Common, running their fingers over carvings they cannot yet translate, absorbing the shape of the words even when the meaning escapes them.
 
-The Canopy-Holds are beautiful and they are paranoid. Trap-bridges collapse under non-Mimir weight. Guard-perches disguised as dead branches watch every approach. Mask-Borne elders debate endlessly in chambers hung with sound-dampening mycelium tapestries, because they know, they have always known, that the Purge could come again, and this time there will be no Ithra to seal the chambers behind her.
+The Canopy-Holds are beautiful and they are paranoid. Trap-bridges collapse under non-Mimir weight. Guard-perches disguised as dead branches watch every approach. Masked elders debate endlessly in chambers hung with sound-dampening mycelium tapestries, parsing half-translated scripture for guidance from a creator who will never speak again, knowing, they have always known, that they are the keepers of the last word Sereth left behind.
         `
       },
       {
         name: 'The Spire-Aeries',
         description: `
-The border fortresses of the Mist-Woven, carved into the highest mountain cliffs where the Vales meet the peaks. From below, they are invisible, nothing but weathered stone and hanging moss. From above, impossible to see, because the cloud never clears. The Mist-Woven live in vertical settlements: chambers bored into cliff faces, connected by rope-bridges of fog-spider silk, every dwelling facing outward over the drop so nothing can approach unseen.
+The border fortresses of the Woven, carved into the highest mountain cliffs where the Vales meet the peaks. From below, they are invisible, nothing but weathered stone and hanging moss. From above, impossible to see, because the cloud never clears. The Woven live in vertical settlements: chambers bored into cliff faces, connected by rope-bridges of fog-spider silk, every dwelling facing outward over the drop so nothing can approach unseen.
 
-The Aeries are lit by storm-glass lanterns, captured fulgurite, the glass formed when lightning strikes mountain stone, that glows with a cold silver light when charged by static from passing clouds. Mist-Woven masks are made from this same material, lighter and more angular than Mask-Borne heartwood, built for weather rather than ceremony.
+The Aeries are lit by storm-glass lanterns, captured fulgurite, the glass formed when lightning strikes mountain stone, that glows with a cold silver light when charged by static from passing clouds. Woven masks are made from this same material, lighter and more angular than Masked heartwood, built for weather rather than ceremony. Every Aerie has a small forge where mask-crafters work the fresh storm-glass, keeping the only living tradition of mask-making the Mimir still possess.
 
-Every Aerie has a Watch-Bell, a bronze chime larger than a Mimir, suspended over the deepest drop, that rings only when the outer alarm lines have been tripped. The bell has rung four times in living memory. Each time, the Mist-Woven held the line. Each time, they lost someone. The names of the fallen are carved into the bell itself, and when the wind is right, the bell hums with their voices.
+Every Aerie has a Watch-Bell, a bronze chime larger than a Mimir, suspended over the deepest drop, that rings only when the outer alarm lines have been tripped. The bell has rung four times in living memory. Each time, the Woven held the line. Each time, they lost someone. The names of the fallen are carved into the bell itself, and when the wind is right, the bell hums with their voices.
         `
       },
       {
-        name: 'The Mother-Flame Chamber',
+        name: "The Maker's Hearth",
         description: `
-The deepest secret of the Vales, a cavern beneath the oldest canopy-hold where the original birthing flame still burns. No outsider has ever seen it. Few Mimir have. The flame is a pale, heatless fire that consumes neither fuel nor oxygen, burning the same steady blue-white it burned when Sylvain first kindled it from her own spore and breath. It is the only place where new Mimir can be born. In its light, spore-clouds condense and combine. The mother who tends the flame during a birth pours her own spore into it. The child forms from the mingled mist.
+The deepest secret of the Vales, a cavern beneath the oldest canopy-hold where the creative fire Sereth first kindled still burns. No outsider has ever seen it. Few Mimir have. The flame is a pale, heatless fire that consumes neither fuel nor oxygen, burning the same steady blue-white it has burned since before any living Mimir can remember. The scriptures record that Sereth shaped the first Mimir in this light. They do not record how. The ritual is lost, if it was ever known to the Mimir at all.
 
-The Chamber has been sealed since the Purge. The entrance is hidden behind a collapse the Mask-Borne deliberately caused to make it look like a dead end. Only the eldest Mask-Borne know the passage through. The mother-flame still burns. But no birth has occurred here in thirty years. The last mother to use it, a Mask-Borne named Velaine, died in childbirth, and her mask cracked during the delivery. Her child survived. The child's name is not spoken. The child is Unwoven, raised on the floor by strangers, carrying a cracked mask that no one knows how to repair.
+The Hearth has been sealed since before the Rupture. The entrance is hidden behind a collapse the Masked deliberately caused to protect it from those who would misunderstand or misuse it. Only the eldest Masked know the passage through. The fire still burns. But no shaping has occurred here in uncounted years. The last elders permitted to enter report that the flame dims slightly in the presence of Mimir who have recently removed their masks, as if recognizing something, or grieving it.
 
-The Elders debate reopening the Chamber. The Hunters are getting closer. Time may not wait for consensus.
+The Elders debate reopening the Hearth. The scriptures are growing harder to read. The archaic language is slipping from comprehension with each generation. Some Masked scholars believe the Hearth holds the key to the undeciphered passages. Others say the Hearth should never have been opened in the first place, that some questions are not meant to be answered, that Sereth's silence is a mercy the Mimir do not deserve but should not refuse.
         `
       },
       {
@@ -149,41 +138,39 @@ The Elders debate reopening the Chamber. The Hunters are getting closer. Time ma
         description: `
 Where the fog never lifts. The valley floor beneath the canopy is a world of permanent twilight, giant fungal blooms taller than houses, spore-thickets dense enough to walk on, and a silence so complete that Mimir raised here can hear a heartbeat at thirty paces. The Unwoven live here not because they chose to but because it is the only place they were allowed.
 
-There are no permanent structures on the floor. The Unwoven drift with the spore-blooms and fungus cycles, building temporary shelters from cap-flesh that lasts a few weeks before decaying back into the soil. Their masks are composite, fragments of Mask-Borne heartwood, Mist-Woven storm-glass, and older pieces that predate even the Rupture, lashed together with spore-silk into something functional but visibly wrong.
+There are no permanent structures on the floor. The Unwoven drift with the spore-blooms and fungus cycles, building temporary shelters from cap-flesh that lasts a few weeks before decaying back into the soil. Their masks, when they have them, are composite, fragments of Masked heartwood, Woven storm-glass, and older pieces that predate even the Rupture, lashed together with spore-silk into something functional but visibly wrong. Many Unwoven have no mask at all, and walk the fog with their faces hidden behind long hair and hooded cloaks, peering through curtains of unwashed strands.
 
-The floor is dangerous. Fog-beasts hunt by vibration. Sinkholes open without warning into fungal caverns that may connect to something beneath the Vales entirely. But the Unwoven survive where Mask-Borne and Mist-Woven would die within days. They have learned to read the spore-trails left by everything that moves, to brew toxins from blooms that exist nowhere else, to navigate by senses the canopy-folk have forgotten they possess.
+The floor is dangerous. Fog-beasts hunt by vibration. Sinkholes open without warning into fungal caverns that may connect to something beneath the Vales entirely. But the Unwoven survive where Masked and Woven would die within days. They have learned to read the spore-trails left by everything that moves, to brew toxins from blooms that exist nowhere else, to navigate by senses the canopy-folk have forgotten they possess. And on the floor, where no heirloom mask seals away the creative residue of a dead god, the Unwoven alone carry Fetch-Motes, small warm lights that orbit their shoulders and hold the clearest dream-memories any Mimir ever receives.
 
-Mask-Borne call the floor "exile." The Unwoven call it home.
+Masked call the floor "exile." The Unwoven call it home.
         `
       }
     ],
     currentCrisis: `
-The masks are running out. Every year, more Mimir are born than masks are passed down. The Mask-Borne elders have known this for decades, but they have refused to acknowledge the mathematics because acknowledging it means admitting the Rupture was a mistake, that hoarding masks for first-borns while casting the rest to the floor has not preserved Mimir society. It has poisoned it.
+The masks are running out. Every year, more Mimir are born than masks are passed down. The Masked elders have known this for decades, but they have refused to acknowledge the mathematics because acknowledging it means admitting the Rupture was a mistake, that hoarding masks for first-borns while casting the rest to the floor has not preserved Mimir society. It has poisoned it.
 
-The fog itself grows stranger. The protective mist that the Frostwood Reach's noble family bargained for generations ago has begun to thicken in ways the elders do not recognize. The old patterns are shifting. The fog that once merely degraded memory now swallows it entirely in patches, places in the Vales where a Mimir can walk for an hour and emerge unable to recall what they were doing, where they were going, or in some cases, their own name. The Mask-Borne attribute this to the natural decay of the old bargain. The Unwoven, who spend more time in the deepest fog than anyone, say something else is at work, something that was not part of the original deal.
+But the deeper crisis is in the scriptures. For centuries, the Masked have read Sereth's tablets as a single unbroken apology, a record of the creator's disappointment, the foundational text of the shame that defines Mimir existence. The scriptures were the proof. The shame was the doctrine. The mask was the answer. This reading has gone unchallenged since the Rupture.
 
-Meanwhile, the Hunters grow bolder. A new cartel operating out of the eastern trade cities has begun systematic expeditions into the Vales, equipped with detection magic refined specifically to pierce Mimir concealment. These are not superstitious peasants with silver knives. They are professionals backed by noble houses who know exactly what a Mimir mask is worth on the black collector's market, more than a mercenary company's annual contract, more than a small estate, more than most people in the Reach will earn in a lifetime.
+Then Vaelith Thread-Speaker deciphered a partial line on a tablet deep in the oldest archive: "...and the maker saw that the final shape held, and turned away in grief, not in disgust." The translation is fragmentary. The context is gone. The reading is uncertain. But if it is correct, it contradicts everything the Mimir have believed about themselves for eight hundred years. If the final shape held, then the Mimir were not rejected. If they were not rejected, then the shame has no foundation. If the shame has no foundation, then the masks are...
 
-The Mist-Woven have held the borders so far. But they are losing scouts faster than they can train replacements. The Watch-Bell has rung twice in the last year, more than in the previous decade combined. Some Mist-Woven whisper that the Aeries should be abandoned, that the Mimir should retreat deeper into the Vales and collapse the passes behind them. Others say retreat only delays extinction, that the Mimir must finally stop hiding and fight, as the Skald fought at Frostgate Pass, as the Emberth fought to reclaim Sundale. Hiding, they argue, is what their ancestors did during the Purge. And the Purge nearly ended them.
+The Masked elders who have seen the translation have suppressed it. The scholars who have heard of it are divided. Some call it a mistranslation, a desperate projection by an aging reader. Others call it the most important discovery since the scriptures were first assembled. A small and growing minority, mostly younger Masked and a few Unwoven who have somehow heard of the work, believe it is the truth the Mimir have been hiding from themselves since Sereth died: that the masks are unnecessary. That Sereth's final creation was successful. That the shame is inherited from a creator who destroyed itself, not from a creator who rejected them.
 
-The Unwoven watch this crisis from the floor with the patience of people who have always known the reckoning was coming. They have something the Mask-Borne do not: numbers. For every Mask-Borne or Mist-Woven child who inherits a mask, two more are born Maskless and sent to the floor. The Unwoven have been growing, quietly, for three generations. They are no longer the minority. They are the majority, and they know it. They have learned to read spore-trails that the canopy-folk have forgotten exist. They brew toxins from deep-floor fungal blooms. They navigate by senses the Mask-Borne aristocracy, so proud of their eleven generations of lineage, can no longer access.
+This heresy threatens the entire social order. The Masked aristocracy derives its authority from the masks. The Woven derive their craft from the assumption that masks are sacred. The Unwoven are defined by their masklessness. If the masks are unnecessary, every structure the Mimir have built since the silence collapses. The Conclave the Elders have called to address the shrinking supply of masks may be overtaken by a far more dangerous question: what if the masks were never the answer at all.
 
-The Mask-Borne Elders have called a Conclave, the first since the Rupture, to discuss "consolidation." The Mist-Woven have been invited. The Unwoven have not. But the floor hears everything, and the Unwoven are already preparing their answer to an invitation that was never sent.
-
-And deep beneath the oldest canopy-hold, the mother-flame still burns. The chamber remains sealed. Inside it, the half-finished mask Ithra left behind, with its carved doorway, threshold complete but frame incomplete, has begun, according to the few elders permitted to check it, to glow faintly in the presence of young Mimir who have never been told what it is.
+And deep beneath the oldest canopy-hold, the Maker's Hearth still burns. The chamber remains sealed. Inside it, the pale fire that Sereth first kindled has, according to the few elders permitted to check it, begun to glow faintly brighter in the presence of young Mimir who have never been told what it is.
     `,
     culturalPractices: `
-Before your first breath of surface air, your mother presses her mask to your unformed face. The mask is still warm from her, the eye-beads holding the last light she will ever give you directly. This is the Mask-Gifting, the only inheritance any Mimir receives. The mask adjusts to you over your first year, the heartwood or storm-glass softening and reshaping to fit features that are still deciding what they are. By your first birthday, the mask is yours. The mother who gave it to you will never wear one again. This is why Mimir mothers do not leave the birthing chambers. They have given away the only face they had.
+Before your first breath of surface air, your family presses their mask to your unformed face. The mask is still warm from them, the eye-beads holding the last light they will ever give you directly. This is the Mask-Gifting, the only inheritance any Mimir receives. The mask adjusts to you over your first year, the heartwood or storm-glass softening and reshaping to fit features that are still deciding what they are. By your first birthday, the mask is yours. The Mimir who gave it to you will never wear one again. They have given away the only face they had. They do this because the scriptures say it must be done. No one remembers why.
 
-Your Fetch-Mote appears within hours of your first mask-wearing, a small, tentative glow that orbits you like a shy moon. To outsiders it is invisible. To other Mimir it is the first proof that you are real. You learn to commune with it through eye contact: a silent language of images, emotions, sensory fragments. It holds what you forget. When you cannot remember your mother's face, the mote shows you, not her features (those were behind the mask, and no one remembers those), but the warmth of her presence, the rhythm of her breathing, the color of her eye-beads in the dark.
+Within hours of your first mask-wearing, you begin to dream. The dreams are not your own. They belong to the Mimir who wore the mask before you, and the one before them, and the one before them, an unbroken chain of inherited fragments stretching back centuries. You dream of faces you have never seen, places you have never been, griefs that belong to people who lived and died long before you were born. The dreams are uncontrollable, inconsistent, and often distressing. A Mimir might wake from a dream of their great-great-grandparent's first mask-gifting with tears on their face and no understanding of why. The knowledge of how to consciously retrieve these memories is lost. The dreams come when they come, and the Mimir have made peace with that.
 
-By your tenth year, you learn the Fog-Walk, the art of moving through the Vales without disturbing the spore. Every Mimir leaves a trail, microscopic and invisible to outsiders, but legible to their own kind. The trail carries your emotional residue. A Mimir walking past a spot you stood in an hour ago will feel an echo of what you felt. The Mask-Borne teach control, how to walk without leaving rage, how to pass without trailing grief. The Mist-Woven teach reading, how to know who passed and what they carried. The Unwoven teach survival, how to walk so nothing follows you, how to erase your trail entirely, how to become invisible even to other Mimir.
+By your tenth year, you learn to recite the scriptures. The language is archaic, partially undeciphered, but every Masked child memorizes the litanies before they can translate them. "We were not what was intended. The shape was given and we could not hold it. The hand that shaped us turned away." You speak the words without fully understanding them, the way you breathe without thinking. The shame becomes part of you before you have any framework for what it means. By the time you are old enough to ask why, the question feels profane.
 
-Disputes among Mask-Borne are settled by Lineage Witness: both parties present their mask to an elder, who reads the ancestral patterns carved into the heartwood and determines whose claim has older precedent. The elder's ruling is final because the mask does not lie. Disputes among Mist-Woven are settled by the Cliff-Duel: both parties fight on a rope-bridge with blunted weapons until one falls. The fall is never fatal, there is always a catch-net, but the loser must yield their watch-post for a season. Disputes among the Unwoven are settled by Fragment-Speech: both parties surrender a piece of their composite mask, and an elder presses the fragments together. The merged fragment whispers the truth of the dispute. Both parties accept the verdict because the fragment is now part of the elder's mask and to argue with it is to argue with a piece of yourself you can never get back.
+Disputes among Masked are settled by Lineage Witness: both parties present their mask to an elder, who reads the ancestral patterns carved into the heartwood and determines whose claim has older precedent. The elder's ruling is final because the mask does not lie. Disputes among Woven are settled by the Cliff-Duel: both parties fight on a rope-bridge with blunted weapons until one falls. The fall is never fatal, there is always a catch-net, but the loser must yield their watch-post for a season. Disputes among the Unwoven are settled by Fragment-Speech: if both parties have composite masks, each surrenders a piece, and an elder presses the fragments together. The merged fragment whispers the truth of the dispute. If one or both parties are maskless, they settle the matter in the fog alone, and whatever happens there is between them and Sereth's silence.
 
-Death rites are the same across all subraces: the dying Mimir removes their own mask, the only time it is ever willingly removed, and presses it into the hands of their chosen heir. The eye-beads hold their last light for exactly as long as the dying Mimir's fetch takes to leave the body. In that moment, the heir sees a final image: not the dying Mimir's face (no one ever sees that, not even at death), but their life's defining memory, the moment that made them who they were. Then the eye-beads dim to the new wearer's color, and the mask belongs to someone new. The body is returned to the fog. Within three days, it has dissolved into spore and rejoined the Vales.
+Death rites are the same across all subraces: the dying Mimir removes their own mask, the only time it is ever willingly removed, and presses it into the hands of their chosen heir. The eye-beads hold their last light for exactly as long as it takes for the dream-memories locked in the mask to settle into their new bearer. In that moment, the heir sees a final image, not the dying Mimir's face (no one ever sees that, not even at death), but their life's defining memory, the moment that made them who they were. Then the eye-beads dim to the new wearer's color, and the mask belongs to someone new. The body is returned to the fog. Within three days, it has dissolved back into the Vales.
 
-The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Rupture, Mimir who reject the Mask-Borne aristocracy, and with it, the carved lineage names inherited from mask-ancestry, sometimes take the name of the founder who first merged with a fetch rather than accepting a carved lineage. A Sylvain is not born; a Sylvain is chosen. The act of taking the name is a declaration: I will not pay for a name with obedience.
+The name "Sereth" is invoked in every prayer and carved into every threshold. It is not a name the living use lightly. Some Unwoven, who have no inherited names to lose, take it as a personal name in defiance of the Masked tradition. A Sereth is not born; a Sereth is chosen. The act of taking the name is a declaration: I will not pay for my existence with shame I did not earn.
     `,
     birthrightQuestions: {
       description: 'At character creation, choose one of the following RP prompts to define what you carry into the world. No mechanical effects, purely who you are and what haunts you.',
@@ -191,22 +178,22 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
         {
           id: 'previous_wearer',
           name: 'The Mask That Came Before',
-          question: 'Every Mimir mask is an heirloom. Yours was worn by someone before you, your mother, an exiled sibling, a stranger whose name you will never know. Who was the last person to wear your mask, and what is the one thing you know about them that no one else does?'
+          question: 'Every Mimir mask is an heirloom. Yours was worn by someone before you, a parent, an exiled sibling, a stranger whose name you will never know. Who was the last person to wear your mask, and what is the one dream-memory that has surfaced from it that no one else knows about?'
         },
         {
-          id: 'mote_memory',
-          name: "Your Mote's First Memory",
-          question: 'The Fetch-Mote orbits you like a shy moon, silent except for the memories it holds. When you first made eye contact long enough to connect, it shared one memory that did not belong to you, a fragment from the mask\'s previous life. What did you see, and why can\'t you stop thinking about it?'
+          id: 'scripture_doubt',
+          name: 'The Verse You Cannot Recite',
+          question: 'Every Masked child memorizes the litanies before they can translate them. There is one verse you have never been able to speak aloud, a fragment of Sereth\'s word that catches in your throat every time you try. What does it say, and why does it feel like it was written specifically for you?'
         },
         {
-          id: 'witnessed_birth',
-          name: 'The One Who Felt You Born',
-          question: 'Mimir births are secret. Only your mother and the birthing flame witnessed your first breath. But someone else was close enough to feel your spore-signature ignite, another Mimir who sensed you come into being. They have never spoken of it. Who were they to you, and why do you think they have kept your secret?'
+          id: 'shame_moment',
+          name: 'The First Time You Believed It',
+          question: 'The shame is inherited, not earned, but there was a first moment when you felt it land in your own chest rather than your family\'s, a moment when the inherited weight became yours. What happened, and who was the Mimir who made you understand what you were supposed to feel about your own face?'
         },
         {
           id: 'borrowed_face',
-          name: 'The Face You Borrow Most',
-          question: 'Outside the Vales, Mimir wear borrowed forms, faces gathered from brief contact, glimpses, stolen moments. Among the forms you have collected, one face you took yourself, deliberately, from someone who mattered. Who was it, how did you take it, and what do you feel every time you put it on?'
+          name: 'The Face You Wear Most',
+          question: 'Outside the Vales, the Mask-Shift lets you adopt a face that is not your own. Among the forms you have worn, one you took yourself, deliberately, from someone who mattered. Who was it, how did you take their shape, and what do you feel every time you put their face on?'
         }
       ]
     },
@@ -214,7 +201,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
     {
     "id": "maskless_frailty_mimir",
          "name": "Maskless Frailty",
-         "description": "Cannot use identity-based magic or shapeshifting without a mask.",
+          "description": "Without a mask, you cannot cast identity-based spells, shapeshift, or use Mimir racial traits that require the mask-bond. Disadvantage on Charisma checks as the inherited shame surfaces unfiltered and your sense of self buckles under the weight of what Sereth turned away from.",
          "level": 1,
          "icon": "fas fa-mask",
          "spellType": "PASSIVE",
@@ -229,12 +216,28 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
                    "debuff",
                    "shared"
               ]
+         },
+         "debuffConfig": {
+              "debuffType": "statusEffect",
+              "effects": [{
+                   "id": "maskless_identity_lock",
+                   "name": "Identity Lock",
+                   "description": "Without a mask: no identity magic, no shapeshifting, no mask-bond racial traits. Disadvantage on Charisma checks.",
+                   "statModifier": { "stat": "charisma", "magnitude": -99, "magnitudeType": "disadvantage", "conditions": { "notWearingMask": true } },
+                   "statusEffect": {
+                        "restrictions": ["no_identity_magic", "no_shapeshifting", "no_mask_racial_traits"]
+                   }
+              }],
+              "durationValue": 0,
+              "durationType": "conditional",
+              "durationUnit": "while_maskless",
+              "canBeDispelled": false
          }
     },
       {
         id: 'fetch_mote_mimir',
         name: 'Fetch-Mote',
-        description: 'A fist-sized companion of condensed spore and fetch-residue orbits you like a shy moon. To outsiders it is invisible, a flicker at the edge of sight, a patch of warm air. To other Mimir, it is a faint, beloved glow. Through prolonged eye contact you commune with it silently, receiving impressions and fragments of the memories it holds. It is your oldest friend. You protect it at all costs.',
+        description: 'A fist-sized companion of condensed Sereth-residue, the residual creative energy of the dead creator-deity, orbits you like a shy moon. To outsiders it is invisible, a flicker at the edge of sight, a patch of warm air. To other Mimir it is a faint, beloved glow, drawn to you because no heirloom mask seals you away from what remains of Sereth. Through prolonged concentration you commune with it silently, receiving impressions and fragments far clearer than any heirloom dream-memory. It is your oldest friend, the closest thing to unconditional love a Mimir will ever experience. You protect it at all costs.',
         level: 1,
         icon: 'spell_holy_divinespirit',
         spellType: 'PASSIVE',
@@ -281,7 +284,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
       {
         id: 'mask_bound_mimir',
         name: 'Mask-Bound',
-        description: 'Your mask is not armor. It is your face, your name, your lineage, the calcified barrier between your soul and the fetch that would consume it. While worn, it anchors you against anything that would steal or read your identity. Removed by force, it briefly unmakes you.',
+        description: 'Your mask is not armor. It is your face, your name, your lineage, the blank canvas that covers the face Sereth rejected and the world would call beautiful. While worn, it anchors you against anything that would steal or read your identity. Removed by force, it briefly unmakes you.',
         level: 1,
         icon: 'spell_shadow_antimagicshell',
         spellType: 'PASSIVE',
@@ -298,7 +301,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
             {
               id: 'identity_anchor',
               name: 'Identity Anchor',
-              description: 'While wearing your mask, advantage on saving throws against identity loss, mind-reading, scrying, and effects that would compel you to remove your mask. The fetch cannot be reached while the mask holds.',
+              description: 'While wearing your mask, advantage on saving throws against identity loss, mind-reading, scrying, and effects that would compel you to remove your mask. The shame cannot surface while the mask holds.',
               statModifier: { stat: 'identity_saves', magnitude: 1, magnitudeType: 'advantage' }
             }
           ],
@@ -310,7 +313,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
             {
               id: 'mask_removed',
               name: 'Forcibly Unmasked',
-              description: 'If your mask is forcibly removed by another creature, you are Stunned for 1 round and cannot use any Mimir racial traits until you recover and don the mask. If the mask is lost, you must spend 7 days in the Fog-Vales to grow a replacement from your own spore, a deeply shameful act that marks you as Maskless among your people.',
+              description: 'If your mask is forcibly removed by another creature, you are Stunned for 1 round and cannot use any Mimir racial traits until you recover and don the mask. If the mask is lost, you must spend 7 days in the Fog-Vales while a Woven mask-crafter forges a replacement, a deeply shameful act that marks you as Maskless among your people.',
               statusEffect: { level: 'severe', description: 'Stunned 1 round on forced unmasking. All racial traits disabled until mask recovered.' }
             }
           ],
@@ -322,14 +325,14 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
       }
     ],
     subraces: {
-      maskborne: {
-        id: 'maskborne_mimir',
-        name: 'Mask-Borne',
-        illustration: '/assets/images/races/maskborne_illustration.png',
-        illustrationCaption: 'A Mask-Borne Mimir aristocrat in a high canopy-hold, wearing a heartwood mask with glowing amber eye-beads.',
+      masked: {
+        id: 'masked_mimir',
+        name: 'Masked',
+        illustration: '/assets/images/races/masked_illustration.png',
+        illustrationCaption: 'A Masked Mimir aristocrat in a high canopy-hold, wearing a heartwood mask with glowing amber eye-beads.',
         tooltipSummary: 'Aristocratic mask-wearers whose heartwood faces carry eleven generations of carved lineage, cultured, traditional, and slowly running out of masks.',
-        description: 'Originally the Mimir aristocracy; after the Purge (Year ~220) and Rupture (Year ~240) limited mask inheritance to first-borns, they have been a shrinking ruling class for over 550 years. The inheritors of what little remains. Tall and poised, their heartwood masks carved with lineage patterns that record eleven generations of ancestry, braided glyphs and family sigils legible to every Mask-Borne who looks upon them. Their eye-beads burn the steady amber of old flame, a warmth that never fades. When they speak, the voices of previous wearers layer beneath their own, measured, deliberate, never hurried. Their bearing announces aristocracy before they enter a room, and in the canopy-holds where the fog thins to a green-gold haze, that bearing commands obedience. Their hands are the hands of artisans, callused from carving, stained from spore-resin, precise from centuries of inherited technique passed down through the very masks they wear. They are the face the Mimir present to themselves: cultured, traditional, and slowly, painfully, realizing that their traditions are killing them. Eleven generations of hoarding masks for first-borns while casting siblings to the floor has produced a ruling class that is shrinking, isolated, and presiding over a society whose majority they refuse to acknowledge.',
-        culturalBackground: 'Mask-Borne society is built on lineage and craft, and on the unspoken terror that both are running out. Every child is trained in mask-maintenance, ancestral history, and the art of reading the carved patterns that tell a Mimir\'s entire lineage at a glance. They live in the Canopy-Holds, suspended eighty feet above the forest floor in villages grown from living mycelium and ironwood, where the fog never fully penetrates and the air smells of cultivated spore and ancient heartwood. They are the keepers of the mother-flame, the custodians of the sealed birthing chamber, the ones who debate endlessly in halls hung with sound-dampening mycelium tapestries because they know, they have always known, that the Purge could come again. But preservation has calcified into hoarding. The younger generation is beginning to ask what happens when the last heartwood mask cracks and no one alive remembers how to carve its replacement. They ask why the Unwoven are not invited to Conclave. They ask, quietly, carefully, so the elders cannot hear, whether the Rupture was a mistake, and whether the Mask-Borne deserve the masks they inherited.',
+        description: 'The scripture-keepers and inheritors of the oldest masks. The Masked are the Mimir aristocracy, the custodians of Sereth\'s tablets, the ones who decipher the archaic script and recite the litanies in canopy-holds suspended eighty feet above the forest floor. Since the Rupture, they have been a shrinking ruling class, hoarding the deepest memory-dense masks for first-born children while casting siblings to the floor. Tall and poised, their heartwood masks are the oldest, carved with lineage patterns that record eleven generations of ancestry, braided glyphs and family sigils legible to every Masked who looks upon them. Their eye-beads burn the steady amber of old flame, a warmth that never fades. When they speak, the voices of previous wearers layer beneath their own, measured, deliberate, never hurried, the accumulated resonance of every Mimir who has spoken through that mask before. Their bearing announces aristocracy before they enter a room, and in the canopy-holds where the fog thins to a green-gold haze, that bearing commands obedience. Their hands are the hands of artisans, callused from carving, stained from scripture-ink, precise from centuries of inherited technique passed down through the very masks they wear. They are the face the Mimir present to themselves: cultured, traditional, devout in their pursuit of Sereth\'s word, and slowly, painfully, realizing that their traditions are killing them. Eleven generations of hoarding masks for first-borns while casting siblings to the floor has produced a ruling class that is shrinking, isolated, and presiding over a society whose majority they refuse to acknowledge.',
+        culturalBackground: 'Masked society is built on lineage and scripture, and on the unspoken terror that both are slipping away. Every child is trained in mask-maintenance, ancestral history, and the art of reading the ancient Serethite script that tells a Mimir\'s entire lineage at a glance. They live in the Canopy-Holds, suspended eighty feet above the forest floor in villages grown from living mycelium and ironwood, where the fog never fully penetrates and the air smells of old scripture-pigment and ancient heartwood. They are the keepers of the scripture-archives, the custodians of the sealed Maker\'s Hearth, the ones who debate endlessly in halls hung with sound-dampening mycelium tapestries, parsing half-translated tablets for guidance from a creator who will never speak again. But preservation has calcified into hoarding. The younger generation is beginning to ask what happens when the last heartwood mask cracks and no Masked alive remembers how to decipher the carvings on its replacement. They ask why the Unwoven are not invited to Conclave. They ask, quietly, carefully, so the elders cannot hear, whether the Rupture was a mistake, and whether the shame they have inherited for eight centuries was ever truly earned.',
         statModifiers: {
           charisma: 2,
           intelligence: 1,
@@ -339,7 +342,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'heartwood_lineage_maskborne',
             name: 'Heartwood Lineage',
-            description: 'You gain +2 to Persuasion and Insight checks against Mask-Borne NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Mist-Woven and Unwoven, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Mask-Borne — among the maskless, that privilege is a wall they learned to recognize long before they learned to speak.)',
+            description: 'You gain +2 to Persuasion and Insight checks against Masked NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Woven and Unwoven, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Masked \u2014 among the maskless, that privilege is a wall they learned to recognize long before they learned to speak.)',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -351,19 +354,19 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
             },
             buffConfig: {
               buffType: 'combatAdvantage',
-              customDescription: '+2 to Persuasion and Insight checks with Mask-Borne NPCs. Your lineage is known and respected.',
+              customDescription: '+2 to Persuasion and Insight checks with Masked NPCs. Your lineage is known and respected.',
               effects: [
                 {
                   id: 'lineage_persuasion',
                   name: 'Recognized Lineage',
-                  description: '+2 to Persuasion checks with Mask-Borne NPCs. They know your ancestors.',
-                  statModifier: { stat: 'persuasion', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'maskborne' } }
+                  description: '+2 to Persuasion checks with Masked NPCs. They know your ancestors.',
+                  statModifier: { stat: 'persuasion', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'masked' } }
                 },
                 {
                   id: 'lineage_insight',
                   name: 'Ancestral Insight',
-                  description: '+2 to Insight checks with Mask-Borne NPCs. You were raised reading the same social language.',
-                  statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'maskborne' } }
+                  description: '+2 to Insight checks with Masked NPCs. You were raised reading the same social language.',
+                  statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'masked' } }
                 }
               ],
               durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -374,8 +377,8 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
                 {
                   id: 'aristocratic_bearing',
                   name: 'Aristocratic Bearing',
-                  description: 'Disadvantage on Deception and Stealth checks against Mist-Woven and Unwoven. Your bearing marks you before you speak.',
-                  statModifier: { stat: 'deception', magnitude: -99, magnitudeType: 'disadvantage', conditions: { npcSubrace: ['mistwoven', 'unwoven'] } }
+                  description: 'Disadvantage on Deception and Stealth checks against Woven and Unwoven. Your bearing marks you before you speak.',
+                  statModifier: { stat: 'deception', magnitude: -99, magnitudeType: 'disadvantage', conditions: { npcSubrace: ['woven', 'unwoven'] } }
                 }
               ],
               durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -387,7 +390,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'fog_piercing_sight_maskborne',
             name: 'Fog-Piercing Sight',
-            description: 'You gain Darkvision 60ft and see through non-magical fog and mist without penalty, with +2 to Perception checks in fog, mist, or darkness. In bright sunlight or clear daylight, you suffer disadvantage on sight-based Perception checks, your eye-beads never meant for the open sun. (Your eye-beads were calibrated for the high canopy where the mist thins to glass — clear sky is the one thing they cannot bear.)',
+            description: 'You gain Darkvision 60ft and see through non-magical fog and mist without penalty, with +2 to Perception checks in fog, mist, or darkness. In bright sunlight or clear daylight, you suffer disadvantage on sight-based Perception checks, your eye-beads never meant for the open sun. (Your eye-beads were calibrated for the high canopy where the mist thins to glass \u2014 clear sky is the one thing they cannot bear.)',
             level: 1,
             icon: 'spell_holy_mindvision',
             spellType: 'PASSIVE',
@@ -473,6 +476,36 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
             targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
             resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] },
             cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+          },
+          {
+            id: 'borrowed_face_maskborne',
+            name: 'Borrowed Face',
+            description: 'Once per short rest, adopt a face you have previously observed for 10 minutes. +3 to Deception checks to impersonate that specific person. The mask shows what you need it to show, and the Mimir have always been the people behind the face.',
+            level: 1,
+            icon: 'spell_shadow_disguise',
+            spellType: 'ACTION',
+            effectTypes: ['buff'],
+            typeConfig: {
+              school: 'wyrd',
+              icon: 'spell_shadow_disguise',
+              tags: ['disguise', 'identity', 'social', 'active']
+            },
+            buffConfig: {
+              buffType: 'custom',
+              customDescription: 'Adopt a previously observed face for 10 minutes. +3 to Deception checks to impersonate that specific person. Once per short rest.',
+              effects: [
+                {
+                  id: 'borrowed_face',
+                  name: 'Borrowed Face',
+                  description: 'For 10 minutes, your mask displays a face you have previously observed. You gain +3 to Deception checks made to impersonate that specific person. The mask shows what you need it to show.',
+                  statModifier: { stat: 'deception', magnitude: 3, magnitudeType: 'flat', conditions: { impersonatingObservedPerson: true } }
+                }
+              ],
+              durationValue: 10, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+            cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
           }
         ],
         languages: ['Common', 'Vale-Speak'],
@@ -493,14 +526,14 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           disadvantage: ['blight']
         }
       },
-      mistwoven: {
-        id: 'mistwoven_mimir',
-        name: 'Mist-Woven',
-        illustration: '/assets/images/races/mistwoven_illustration.png',
-        illustrationCaption: 'A Mist-Woven Mimir sentinel on a cliff face, wearing an angular storm-glass mask, pulling back a recurve bow.',
+      woven: {
+        id: 'woven_mimir',
+        name: 'Woven',
+        illustration: '/assets/images/races/woven_illustration.png',
+        illustrationCaption: 'A Woven Mimir sentinel on a cliff face, wearing an angular storm-glass mask, pulling back a recurve bow.',
         tooltipSummary: 'Storm-sense rope-runners who navigate the canopy by reading air currents, feeling tremors through the fog-drenched forest.',
-        description: 'Emerged as a distinct caste during the Rupture, in the third century of the Dimming, when disinherited siblings took to the rope-bridges as sentinels, forging storm-glass masks from fulgurite. The sentinels of a siege that has lasted since the Purge. Lean and weathered, their storm-glass masks, forged from fulgurite, the glass created when lightning strikes mountain stone, are lighter and more angular than the Mask-Borne\'s heartwood, built for weather rather than ceremony. Their eye-beads burn cold blue, the color of lightning at a great distance across the Frostwood Reach\'s perpetual twilight. They move like people who have spent their lives on rope-bridges and cliff faces: balanced, economical, never a wasted motion. When they stand still against stone, they disappear into it, the storm-glass catching the rock\'s texture, the grey cloak blending with the mist. When they speak, their words are few and weighted, the vocabulary of people who know that every unnecessary sound could be the noise that gives away a position. They are the first alert, the border guard, the ones who die so the canopy does not burn, and they have been dying for generations while the Mask-Borne debate. The flaw they carry is vigilance turned inward: they see threats before they exist, and sometimes they strike before they should.',
-        culturalBackground: 'Mist-Woven society is built around watchfulness and sacrifice. Every child is trained to read the alarm-lines, thin fog-spider silk stretched across every approach to the Vales, so sensitive that a squirrel\'s weight will telegraph its location to the nearest Aerie. They learn to fight on vertical surfaces, to recognize the sound of a non-Mimir footstep on stone, to distinguish the scent of detection magic from the natural ozone of mountain storms. Their homes are cliff-face settlements, vertical communities where privacy comes from distance and trust comes from having fought beside someone on a rope-bridge with the drop yawning below. They value readiness, directness, and the cold clarity of a decision made before the crisis arrives. But readiness has a cost: Mist-Woven are jumpy, suspicious, and the older sentinels carry a thousand-yard stare that unnerves even other Mimir. They have been watching the borders since the Rupture. They have been losing scouts since the Hunters grew bold. They are tired, bone-tired, soul-tired, the exhaustion of people who have been holding a perimeter for generations against an enemy that never retreats, only pauses. When the Mask-Borne Elders debate, the Mist-Woven bleed. They have always bled. They will bleed until someone remembers that a border is only as strong as the people holding it, and the people holding it are running out.',
+        description: 'The mask-crafters. Those who lost their ancestral masks, or whose bloodlines never had one to lose, and learned to forge their own from storm-glass and fresh heartwood. The Woven are the only Mimir subrace that maintains a living mask-making tradition, the skilled artisans who keep the craft of shaping faces alive while the Masked hoard the unmaking of old ones. Lean and weathered, their storm-glass masks, forged from fulgurite, the glass created when lightning strikes mountain stone, are lighter and more angular than the Masked\'s heartwood, built for weather rather than ceremony. A newly crafted mask has no dream-echoes, no accumulated lineage, it is a blank canvas, waiting for its first wearer to begin filling it. Over decades, a Woven mask builds its own history, its own dream-fragments, its own weight, but it will never carry the centuries of a Masked heirloom, and both parties know this. Their eye-beads burn cold blue, the color of lightning at a great distance across the Frostwood Reach\'s perpetual twilight. They move like people who have spent their lives on rope-bridges and cliff faces: balanced, economical, never a wasted motion. When they speak, their words are few and weighted, the vocabulary of people who know that every unnecessary sound could be the noise that gives away a position. They are the first alert, the border guard, the keepers of the only craft the Mimir cannot afford to lose. They are the watchers of the Ironwood Palisade, and from their ranks came Sylas, who founded the Silent Hunt after the Greythorn massacre proved that the fog could hide what the eyes alone could not see. The flaw they carry is vigilance turned inward: they see threats before they exist, and sometimes they strike before they should.',
+        culturalBackground: 'Woven society is built around watchfulness, craft, and sacrifice. Every child is trained to read the alarm-lines, thin fog-spider silk stretched across every approach to the Vales, so sensitive that a squirrel\'s weight will telegraph its location to the nearest Aerie. They learn to fight on vertical surfaces, to recognize the sound of a non-Mimir footstep on stone, to distinguish the scent of detection magic from the natural ozone of mountain storms. And they learn to forge masks: the only Mimir children who learn the living craft, cutting fresh heartwood and shaping storm-glass by lantern-light in cliff-side forges because the scriptures hint, obliquely, uncertainly, that mask-craft is sacred to Sereth. Their homes are cliff-face settlements, vertical communities where privacy comes from distance and trust comes from having fought beside someone on a rope-bridge with the drop yawning below. They value readiness, directness, and the cold clarity of a decision made before the crisis arrives. But readiness has a cost: Woven are jumpy, suspicious, and the older sentinels carry a thousand-yard stare that unnerves even other Mimir. They have been watching the borders since the Rupture. They have been losing scouts since the Hunters grew bold. They are tired, bone-tired, soul-tired, the exhaustion of people who have been holding a perimeter for generations against an enemy that never retreats, only pauses. When the Masked Elders debate scripture, the Woven bleed. They have always bled. They will bleed until someone remembers that a border is only as strong as the people holding it, and the people holding it are running out.',
         statModifiers: {
           agility: 2,
           constitution: 1,
@@ -510,7 +543,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'storm_glass_senses_mistwoven',
             name: 'Storm-Glass Senses',
-            description: 'You gain Tremorsense 30ft while touching stone, rope, or earth, feeling movement through solid surfaces. When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round unless you pass a DC 14 Constitution save. (Forged from fulgurite, your storm-glass mask reads the world as vibration — but the same sensitivity that reads footfalls also reads thunder as a blow to the skull.)',
+            description: 'You gain Tremorsense 30ft while touching stone, rope, or earth, feeling movement through solid surfaces. When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round unless you pass a DC 14 Constitution save. (Forged from fulgurite, your storm-glass mask reads the world as vibration \u2014 but the same sensitivity that reads footfalls also reads thunder as a blow to the skull.)',
             level: 1,
             icon: 'spell_lightning_lightning',
             spellType: 'PASSIVE',
@@ -553,7 +586,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'rope_runner_mistwoven',
             name: 'Rope-Runner',
-            description: 'You gain +20ft climb speed and advantage on Acrobatics checks involving balance, narrow surfaces, and rope-work. The first round of any combat begun on solid, flat ground, you are Off-Guard until the end of your first turn as your body recalibrates to surfaces that do not move. (You were raised where a misstep is death — when the world holds still, your cliff-trained balance briefly betrays you.)',
+            description: 'You gain +20ft climb speed and advantage on Acrobatics checks involving balance, narrow surfaces, and rope-work. The first round of any combat begun on solid, flat ground, you are Off-Guard until the end of your first turn as your body recalibrates to surfaces that do not move. (You were raised where a misstep is death \u2014 when the world holds still, your cliff-trained balance briefly betrays you.)',
             level: 1,
             icon: 'ability_rogue_sprint',
             spellType: 'PASSIVE',
@@ -595,7 +628,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'first_alert_mistwoven',
             name: 'First-Alert',
-            description: 'You gain +3 Initiative and cannot be surprised while in fog, mist, darkness, or similar obscured terrain. When an ally moves into or starts their turn within 5ft of you, you must make a DC 12 Spirit save or spend your reaction (if available) on a single melee attack at disadvantage against that ally. (Raised to see threats before they see you, your vigilance has no off-switch — it cannot tell a friend\'s lunge from a foe\'s.)',
+            description: 'You gain +3 Initiative and cannot be surprised while in fog, mist, darkness, or similar obscured terrain. When an ally moves into or starts their turn within 5ft of you, you must make a DC 12 Spirit save or spend your reaction (if available) on a single melee attack at disadvantage against that ally. (Raised to see threats before they see you, your vigilance has no off-switch \u2014 it cannot tell a friend\'s lunge from a foe\'s.)',
             level: 1,
             icon: 'ability_rogue_findweakness',
             spellType: 'PASSIVE',
@@ -633,6 +666,36 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
             targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
             resourceCost: { actionPoints: 0, mana: 0, components: [] },
             cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+          },
+          {
+            id: 'glass_shard_volley_mistwoven',
+            name: 'Glass-Shard Volley',
+            description: 'Once per short rest, hurl shards of your storm-glass mask material at a target within 30 feet, dealing 1d4+Agility storm damage. The shards regrow from your mask within minutes.',
+            level: 1,
+            icon: 'spell_lightning_lightning',
+            spellType: 'ACTION',
+            effectTypes: ['buff'],
+            typeConfig: {
+              school: 'storm',
+              icon: 'spell_lightning_lightning',
+              tags: ['damage', 'storm-glass', 'ranged', 'active']
+            },
+            buffConfig: {
+              buffType: 'custom',
+              customDescription: 'Hurl storm-glass shards at a target within 30 feet. Deals 1d4+Agility storm damage. Once per short rest.',
+              effects: [
+                {
+                  id: 'glass_shard_damage',
+                  name: 'Glass-Shard Volley',
+                  description: 'Hurl shards of your storm-glass mask material at a target within 30 feet. The shards deal 1d4+Agility storm damage on hit. The shards regrow from your mask within minutes.',
+                  statusEffect: { level: 'moderate', description: '1d4+Agility storm damage to a target within 30 feet.' }
+                }
+              ],
+              durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
+            resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+            cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
           }
         ],
         languages: ['Common', 'Vale-Speak'],
@@ -659,8 +722,8 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
         illustration: '/assets/images/races/unwoven_illustration.png',
         illustrationCaption: 'An Unwoven Mimir floor-dweller with a patchwork composite mask, reading spore-trails on the twilight forest floor.',
         tooltipSummary: 'Floor-dwelling outcasts who lost their masks to the Rupture and built a new identity from poison-hardened survival and spore-whispering.',
-        description: 'Emerged during the Rupture, in the third century of the Dimming, when siblings cast from their aeries built composite masks from salvaged fragments. The floor-dwellers have been the Mimir\'s dispossessed majority for over 550 years. The floor-folk. The ones the Mask-Borne threw away. Their masks are composite, fragments of heartwood from dead Mask-Borne, shards of storm-glass from fallen Mist-Woven, and older pieces that predate even the Rupture, lashed together with spore-silk into something functional but visibly, unnervingly wrong. No two Unwoven masks look alike, because no two Unwoven inherit the same fragments. Their eye-beads flicker between colors as borrowed fragments compete for dominance, amber one moment, cold blue the next, then a brief, unsettling flash of a shade no living mask has worn in three hundred years. They move like people who have learned to navigate by senses other than sight: reading spore-trails, tasting the air for emotional residue, feeling vibrations through the fungal floor that maps the world around them in ways the canopy-folk have forgotten they possess. They smell of the deep floor: rich rot, old spore, the fungal sweetness of decay turning into something that is not quite decay and not quite life. The flaw they carry is the weight of what they have absorbed, every fragment whispers with its previous wearer\'s memories, every stolen piece of mask-history fights for airtime in their consciousness, and the Unwoven who has not learned to manage the chorus of voices is already on their way to becoming something that is no longer Mimir at all.',
-        culturalBackground: 'Unwoven society is improvised and adaptive because it had to be. When the Rupture cast the Maskless to the floor, they were told to survive if they could, and they did, building a culture from fragments the way they built their masks from fragments. They drift with spore-blooms and fungus cycles, building temporary shelters from cap-flesh that lasts a few weeks before decaying back into the soil. There are no permanent structures, no lineages, no inheritance, because what would they inherit? They value survival, adaptability, and the knowledge that grows in the deep floor where no Mask-Borne would dare to walk. The Mask-Borne call the floor "exile." The Unwoven call it home. But adaptability has a dark side: the Unwoven are changing faster than the other subraces, absorbing more memories from their composite masks, becoming less distinctly Mimir and more something the Vales itself is inventing. The eldest Unwoven, like the Eyeless One, whose composite mask holds over a hundred fragments, whose eye-beads have been dark for decades, and who navigates the floor by touch and scent alone, are barely recognizable as Mimir at all. They are becoming something else. Something the fog made. Something the Vales have been growing in the dark, beneath the canopy, while the Mask-Borne debated and the Mist-Woven bled and no one on the surface remembered to look down.',
+        description: 'The maskless. Those who, through loss, exile, or birth into poverty, have no mask at all, or only patchwork composites assembled from fragments of dead Mimir\'s masks, lashed together with spore-silk into something functional but visibly wrong. The Unwoven hide their faces behind long hair and hooded cloaks, peering through curtains of unwashed strands with eyes that carry a look no other Mimir can fully meet. No two Unwoven masks look alike, because no two Unwoven inherit the same fragments. Their eye-beads flicker between colors as borrowed fragments compete for dominance, amber one moment, cold blue the next, then a brief, unsettling flash of a shade no living mask has worn in three hundred years. They move like people who have learned to navigate by senses other than sight: reading spore-trails, tasting the air for emotional residue, feeling vibrations through the fungal floor that maps the world around them in ways the canopy-folk have forgotten they possess. The Unwoven are the only Mimir subrace that carries a Fetch-Mote, a small, warm orb of condensed creative energy that orbits their shoulder like a shy moon. The Mote is residual Sereth-energy, the creative residue of the dead deity, drawn to the Unwoven because they are the closest to their original, unmasked form. The Masked sealed themselves away from Sereth\'s residue behind their heirloom masks. The Woven partially shielded themselves with crafted ones. The Unwoven, bare-faced or patchwork, receive the full measure of what remains, and their dream-memories are the clearest of any Mimir. They are psychologically volatile. Without the mask\'s barrier, the shame is rawest. They are closest to their actual faces, and therefore closest to the truth they can never accept. The eldest Unwoven are barely recognizable as Mimir at all, having absorbed so much of Sereth\'s residue that they have become something the fog itself is shaping, in the dark, beneath the canopy, while the Masked debate scripture and the Woven bleed and no one on the surface remembers to look down.',
+        culturalBackground: 'Unwoven society is improvised and adaptive because it had to be. When the Rupture cast the Maskless to the floor, they were told to survive if they could, and they did, building a culture from fragments the way they built their masks from fragments. They drift with spore-blooms and fungus cycles, building temporary shelters from cap-flesh that lasts a few weeks before decaying back into the soil. There are no permanent structures, no lineages, no inheritance, because what would they inherit? They value survival, adaptability, and the knowledge that grows in the deep floor where no Masked would dare to walk. The Masked call the floor "exile." The Unwoven call it home. But the deepest truth of Unwoven life is the Fetch-Mote. Every Unwoven carries one, or carries the absence of one and grieves it. The Mote pulses with warmth and a faint light that matches the Unwoven\'s emotional state. Through prolonged concentration, an Unwoven can commune with it, receiving impressions, fragments, sensory echoes that feel like memories but belong to no one living. The Mote holds what the Unwoven have forgotten. It is their oldest friend, their only connection to a creator who is gone, and the closest thing to unconditional love a Mimir will ever experience. Some Unwoven are serene, having made a kind of peace with their exposure and their Mote. Others are shattered, prowling the deep floor in a state of permanent crisis, unable to bear the weight of what they receive. The eldest Unwoven, like the Dreaming One, who has carried their Mote longer than any Unwoven in living memory and does not speak because the Mote\'s memories leave no room for their own words, are becoming something else. Something the fog made. Something the Vales have been growing in the dark.',
         statModifiers: {
           constitution: 2,
           spirit: 1,
@@ -670,7 +733,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'floor_touched_unwoven',
             name: 'Floor-Touched',
-            description: 'You gain resistance to blight damage and advantage on saving throws against disease and poison. Animals become hostile or flee at the GM\'s discretion and creatures with scent-based perception detect you at twice normal range, the floor\'s rot carried in your spore. (The deep fog has saturated you so thoroughly that poison reads like an old acquaintance — but the floor clings, and beasts want no part of what you carry.)',
+            description: 'You gain resistance to blight damage and advantage on saving throws against disease and poison. Animals become hostile or flee at the GM\'s discretion and creatures with scent-based perception detect you at twice normal range, the floor\'s rot carried in your spore. (The deep fog has saturated you so thoroughly that poison reads like an old acquaintance \u2014 but the floor clings, and beasts want no part of what you carry.)',
             level: 1,
             icon: 'spell_nature_poison',
             spellType: 'PASSIVE',
@@ -719,7 +782,7 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
           {
             id: 'patchwork_mask_unwoven',
             name: 'Patchwork Mask',
-            description: 'After personally defeating a humanoid enemy, spend 10 minutes to harvest a fragment, gaining +1 to one skill they were proficient in (one active fragment at a time, fades on long rest). While a harvested fragment is active, you suffer disadvantage on Spirit saving throws until your next long rest. (Your composite mask hungers for fragments of the fallen — but every stolen sliver comes with a voice, and voices that are not your own do not stay quiet for long.)',
+            description: 'After personally defeating a humanoid enemy, spend 10 minutes to harvest a fragment, gaining +1 to one skill they were proficient in (one active fragment at a time, fades on long rest). While a harvested fragment is active, you suffer disadvantage on Spirit saving throws until your next long rest. (Your composite mask hungers for fragments of the fallen \u2014 but every stolen sliver comes with a voice, and voices that are not your own do not stay quiet for long.)',
             level: 1,
             icon: 'spell_shadow_deathcoil',
             spellType: 'PASSIVE',
@@ -797,6 +860,36 @@ The name "Sylvain" is a common honor-name among Unwoven rebels. Since the Ruptur
               durationValue: 0, durationType: 'conditional', durationUnit: 'on_crowded_read', canBeDispelled: false
             },
             targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+            cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+          },
+          {
+            id: 'spore_burst_unwoven',
+            name: 'Spore-Burst',
+            description: 'Once per short rest, release a cloud of deep-floor spores in a 10-foot radius centered on you. All enemies in range must make a Constitution saving throw (DC 12) or be poisoned for 1 round. The floor\'s rot lives in your blood, and you can share it.',
+            level: 1,
+            icon: 'spell_nature_poison',
+            spellType: 'ACTION',
+            effectTypes: ['debuff'],
+            typeConfig: {
+              school: 'blight',
+              secondaryElement: 'primal',
+              icon: 'spell_nature_poison',
+              tags: ['poison', 'spore', 'area', 'active']
+            },
+            debuffConfig: {
+              debuffType: 'statusEffect',
+              effects: [
+                {
+                  id: 'spore_poison',
+                  name: 'Deep-Floor Spores',
+                  description: 'Release a cloud of deep-floor spores in a 10-foot radius centered on you. All enemies in range must make a Constitution saving throw (DC 12) or be poisoned for 1 round.',
+                  statusEffect: { level: 'moderate', description: 'DC 12 Constitution save or poisoned for 1 round in a 10-foot radius.' }
+                }
+              ],
+              durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'area', rangeType: 'self_centered', aoeSize: 10 },
             resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
             cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
           }

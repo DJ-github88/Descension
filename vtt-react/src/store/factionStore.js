@@ -84,7 +84,7 @@ const SEEDED_FACTIONS = [
 
    {
 
-    targetFactionId: 'unshorn-briaran',
+    targetFactionId: 'trueborn-briaran',
 
     type: 'hostile',
 
@@ -196,7 +196,7 @@ const SEEDED_FACTIONS = [
 
    {
 
-    targetFactionId: 'unshorn-briaran',
+    targetFactionId: 'trueborn-briaran',
 
     type: 'hostile',
 
@@ -250,7 +250,7 @@ const SEEDED_FACTIONS = [
 
   publicDescription:
 
-   'The unyielding northern lords of Nordhalla. When titanic glaciers advanced to grind their mountain keeps into dust, House Skalvyr struck a bargain within the Warden\'s framework to freeze the ice sheets in place permanently. Summer never returned to the north, and the Skalvyr have ruled the frozen fjords ever since, valuing cold-resistance and bloodline purity above all.',
+   'The unyielding northern lords of Nordhalla. When titanic glaciers advanced to grind their mountain keeps into dust, House Skalvyr struck a bargain within Aethil\'s framework to freeze the ice sheets in place permanently. Summer never returned to the north, and the Skalvyr have ruled the frozen fjords ever since, valuing cold-resistance and bloodline purity above all.',
 
   hiddenAgenda:
 
@@ -340,9 +340,9 @@ const SEEDED_FACTIONS = [
 
  {
 
-  id: 'unshorn-briaran',
+  id: 'trueborn-briaran',
 
-  name: 'The Unshorn Briaran',
+  name: 'The Trueborn Briaran',
 
   type: 'tribal',
 
@@ -450,7 +450,7 @@ const SEEDED_FACTIONS = [
 
   hiddenAgenda:
 
-   'The Unlit Veil are the only Astril who can lie â€” and they have built a continent-spanning intelligence network on that singular advantage. Their goal is not conquest but indispensability: a world where no deal closes, no secret stays buried, and no ruler makes a decision without their whispered counsel. Behind this, they work to dismantle the Luminarchy\'s caste system from within, erasing the distinction between Lit and Unlit.',
+   'The Unlit Veil are Astril who have learned to smother their Lumian glow until their skin runs dark, and they have built a continent-spanning intelligence network on that singular advantage. Their goal is not conquest but indispensability: a world where no deal closes, no secret stays buried, and no ruler makes a decision without their whispered counsel. Behind this, they work to dismantle the Synod\'s authority from within, erasing the distinction between Vashir and Silath by making both irrelevant.',
 
   hiddenDescription:
 
@@ -514,13 +514,13 @@ const SEEDED_FACTIONS = [
 
   classAffinities: ['gambit', 'toxicologist', 'shaper'],
 
-  lore:
+   lore:
 
-   'The Unlit Veil was founded by an Unlit Astril who realized that being born without star-glow was not a curse but a weapon. The Lit Astril cannot lie â€” their skin blazes with every falsehood. The Unlit have no such glow to betray them. Within a generation, the Veil had stopped trading in goods entirely and shifted to trading in secrets.',
+   'The Unlit Veil was founded by an Astril who realized that smothering the Lumian glow until the skin ran dark was not surrender but a weapon. Where other Astril blazed their every conviction across their skin for the steppe to read, the Veil learned to go cold and unreadable, leaving no resonance-trace on their markings when they deceived. Named for the Unlit Knoll where they hold their judgments, within a generation the Veil had stopped trading in goods entirely and shifted to trading in secrets.',
 
   secrets:
 
-   'The First Liar is not one Unlit. It is a rotating council of seven, each of whom believes they are the only First Liar. None of them know the others exist. The memory-crystals deliver contradictory orders, and whichever order is fulfilled first becomes "the First Liar\'s true intent."',
+   'The First Liar is not one operative. It is a rotating council of seven, each of whom believes they are the only First Liar. None of them know the others exist. The memory-crystals deliver contradictory orders, and whichever order is fulfilled first becomes "the First Liar\'s true intent."',
 
   quests: []
 
@@ -746,7 +746,7 @@ const SEEDED_FACTIONS = [
   publicDescription:
    'House Mereval governs the violent, churning expanse of the Iceheart Sea from Merrowport: a floating city anchored to a warm submarine volcano. Their bargain traded calm waters for navigable sea-lanes that never freeze, dooming the ocean to perpetual storm-cycles.',
   hiddenAgenda:
-   'House Mereval has been secretly mapping the deep-ocean trenches beneath the Iceheart, cataloguing what the Myrathil call the Sea Mother: an entity they believe can be bargained with for a second compact.',
+   'House Mereval has been secretly mapping the deep-ocean trenches beneath the Iceheart, cataloguing what the Myrathil call Mareth: an entity they believe can be bargained with for a second compact.',
   leader: {
    npcId: 'mereval-admiral',
    title: 'Grand Admiral of Merrowport',
@@ -840,13 +840,13 @@ const SEEDED_FACTIONS = [
   leader: {
    npcId: 'thorn-speaker',
    title: 'Voice of the Ironwood',
-   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Briaran elder who remembers the oral history of the flight south and speaks for the Unshorn in the deep groves.'
+   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Briaran elder who remembers the oral history of the flight south and speaks for the Trueborn in the deep groves.'
   },
   members: [],
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart', 'frostwood-reach'],
   relationships: [
-   { targetFactionId: 'unshorn-briaran', type: 'successor', description: 'The Unshorn Briaran are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
+   { targetFactionId: 'trueborn-briaran', type: 'successor', description: 'The Trueborn Briaran are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
     { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" — the wound in human history' }
   ],
   classAffinities: ['lunarch', 'apex'],
@@ -917,7 +917,7 @@ const SEEDED_FACTIONS = [
     { targetFactionId: 'unlit-veil', type: 'rival', description: 'The Veil trades in secrets the Arcanoneers are sworn to file and seal.' }
    ],
    classAffinities: ['arcanoneer'],
-   lore: 'Heir to Valerius who drafted the First Contract with the Keeper. Now the Keeper is rejecting clauses it once accepted and arbitration cannot resolve the Velun Contingency Protocol.',
+   lore: 'Heir to Valerius who drafted the First Contract with Morvane. Now Morvane is rejecting clauses it once accepted and arbitration cannot resolve the Velun Contingency Protocol.',
    secrets: 'The Velun Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy-Ledger has buried it on purpose.',
   quests: []
  },
@@ -1067,7 +1067,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
    relationships: [
-    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Unshorn guard.' },
+    { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Trueborn guard.' },
     { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a silence the Lunarchs say is devouring the moon.' }
    ],
    classAffinities: ['lunarch'],
@@ -1089,7 +1089,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
    relationships: [
-    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Groves are the Unshorn custodians of the same moonlit groves.' },
+    { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Groves are the Trueborn custodians of the same moonlit groves.' },
     { targetFactionId: 'house-thalreth', type: 'hostile', description: 'Thalreth erases the groves memory from every ledger it controls.' }
    ],
    classAffinities: ['lunarch'],
@@ -1137,7 +1137,7 @@ const SEEDED_FACTIONS = [
     { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult stilled the sea the Minstrels once calmed.' }
    ],
    classAffinities: ['minstrel'],
-   lore: 'Founded by Lyris the Tide-Singer, who calmed the gales at the cost of her spoken voice. The sea has fallen silent and the Deep-Born fled the abyss after hearing something sing back.',
+   lore: 'Founded by Lyris the Tide-Singer, who calmed the gales at the cost of her spoken voice. The sea has fallen silent and the Deep fled the abyss after hearing something sing back.',
    secrets: 'Mer-Lyrisa recovered a lute from the silent sea that, played correctly, would shatter the nearest Monolith, and she has not told the Vigil.',
   quests: []
  },
@@ -1266,7 +1266,7 @@ const SEEDED_FACTIONS = [
   territory: ['the-shallows'],
    relationships: [
     { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Distillery supplies Thalreth with fog-venom defense.' },
-    { targetFactionId: 'unshorn-briaran', type: 'hostile', description: 'The Briaran withhold the mask-resin the Distillery needs.' }
+    { targetFactionId: 'trueborn-briaran', type: 'hostile', description: 'The Briaran withhold the mask-resin the Distillery needs.' }
    ],
    classAffinities: ['toxicologist'],
    lore: 'Founded by Varis the Thalren alchemist. The changing fog is spoiling the venoms relied on for generations, degrading in weeks instead of years.',
@@ -1309,7 +1309,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
     relationships: [
-    { targetFactionId: 'unshorn-briaran', type: 'allied', description: 'The Silent Hunt shares the groves with the Unshorn trackers.' },
+    { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Silent Hunt shares the groves with the Trueborn trackers.' },
     { targetFactionId: 'mist-sentinels', type: 'hostile', description: 'The Sentinels patrol the Reach the Apex say is already hunted.' }
    ],
     classAffinities: ['apex'],
@@ -1325,7 +1325,7 @@ const SEEDED_FACTIONS = [
    icon: '/assets/icons/factions/watcher.png',
    colors: { primary: '#2a3a4a', secondary: '#6b8fa0' },
    publicGoal: 'Maintain the boundary between life and death, memory and oblivion',
-   publicDescription: 'The impartial cosmic boundary entity between life, death, memory, and oblivion. Known as the Keeper of the Last Threshold in the Bryngloom and the Root-Veil by the Vreken. Older than Keth-Amar\'s interest in this system.',
+    publicDescription: 'The impartial cosmic boundary entity between life, death, memory, and oblivion. Known as Morvane in the Bryngloom and the Root-Veil by the Vreken. Older than Keth-Amar\'s interest in this system.',
    leader: null,
    members: [],
    headquarters: null,
@@ -1335,7 +1335,7 @@ const SEEDED_FACTIONS = [
      { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'Keth-Amar\'s pressure (channeled through the Cult of Forgotten Shadow) is fracturing the Watcher. If the boundary collapses, death and memory cease to exist as categories.' }
     ],
    classAffinities: ['lunarch', 'augur', 'inquisitor', 'arcanoneer'],
-   lore: 'The Watcher is the world\'s conscience and memory. It does not serve the Warden. It is not answerable to Keth-Amar. It reached House Viridane at the last possible moment during the Breach, hid the false Monolith in a pocket of forgotten memory, and now cannot find it either — the erasure worked too well. It is fracturing under Keth-Amar\'s pressure, and if it breaks, the boundary between life and death collapses entirely.',
+   lore: 'The Watcher is the world\'s conscience and memory. It does not serve Aethil. It is not answerable to Keth-Amar. It reached House Viridane at the last possible moment during the Breach, hid the false Monolith in a pocket of forgotten memory, and now cannot find it either — the erasure worked too well. It is fracturing under Keth-Amar\'s pressure, and if it breaks, the boundary between life and death collapses entirely.',
     secrets: 'The Watcher did not outmaneuver Keth-Amar — it gambled at the last moment and does not know if it will hold. The false Monolith is lost inside the Watcher\'s own territory, a splinter it cannot extract without unmaking itself. The timeline fracture is the Watcher\'s fracture bleeding into reality.',
     quests: []
    },
@@ -1398,7 +1398,7 @@ const SEEDED_FACTIONS = [
    headquarters: 'the-shallows',
    territory: ['the-shallows', 'ironwood-heart', 'greythorn-copse'],
    relationships: [
-    { targetFactionId: 'unshorn-briaran', type: 'hostile', description: 'The Briaran raid the palisade checkpoints and shelter Forgotten fugitives the Sentinels are sworn to return.' },
+    { targetFactionId: 'trueborn-briaran', type: 'hostile', description: 'The Briaran raid the palisade checkpoints and shelter Forgotten fugitives the Sentinels are sworn to return.' },
     { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Sentinels are the armed fist of Thalreth\'s Sovereign Ledger along the timber border.' }
    ],
    classAffinities: ['inquisitor', 'apex'],
@@ -1436,7 +1436,7 @@ const SEEDED_FACTIONS = [
    icon: '/assets/icons/factions/drun-outcasts.png',
    colors: { primary: '#3a3a3a', secondary: '#7a7a7a' },
    publicGoal: 'Survive outside the First Contract and the Great Registry',
-   publicDescription: 'Neth who severed their names from the First Contract, legally nonexistent, magic-immune, and invisible to the Keeper\'s enforcement. They dwell in the Over-Shanty and the deep bog.',
+    publicDescription: 'Neth who severed their names from the First Contract, legally nonexistent, magic-immune, and invisible to Morvane\'s enforcement. They dwell in the Over-Shanty and the deep bog.',
    leader: { npcId: 'saren-vel', title: 'The Nameless Flame', description: 'The Drun have no single leader; the closest is the memory of Saren-Vel, who burned her name first.' },
    members: [],
    headquarters: 'over-shanty',
@@ -1446,7 +1446,7 @@ const SEEDED_FACTIONS = [
     { targetFactionId: 'house-morrath', type: 'allied', description: 'Morrath descendants hide among the Drun; the two share the condition of being unwritten by the seventh seat.' }
    ],
    classAffinities: ['plaguebringer', 'revenant'],
-   lore: 'Born when Saren-Vel burned her name from the First Contract, the Drun are Neth who chose legal nonexistence over the Keeper\'s tightening cage. They cannot lie because they no longer sign, and they cannot be bound because they no longer exist.',
+       lore: 'Born when Saren-Vel burned her name from the First Contract, the Drun are Neth who chose legal nonexistence over Morvane\'s tightening cage. They exist outside the contract system — their words carry no pact-weight, their actions cast no legal shadow, and they cannot be bound because they no longer exist.',
    secrets: 'A Drun woman among them is a living Morrath heir who burned her name two centuries ago and does not know her bloodline, the same one the Velun have hunted for eighty years.',
    quests: []
   },
@@ -1524,17 +1524,17 @@ const SEEDED_FACTIONS = [
    icon: '/assets/icons/factions/neth.png',
    colors: { primary: '#3a2a4a', secondary: '#9a8fb0' },
    publicGoal: 'Keep the First Contract and govern the Bryngloom through the Great Registry',
-   publicDescription: 'The Silver-Touched Pact-Lords, a scribe-clan who bargained with the Keeper of the Last Threshold and rose from the bog with silver skin. They divide into the Velun pact-lords, the Kessen weavers, and the Drun outcasts.',
+       publicDescription: 'The Silver-Touched Pact-Lords, a scribe-clan who bargained with Morvane and rose from the bog with pale skin. They divide into the Velun pact-lords, the Kessen weavers, and the Drun outcasts.',
    leader: { npcId: 'morrath-steward', title: 'Regent of the Neth', description: 'The Neth are administered from Atropolis, where the Morrath regent signs in the Neth\'s name under the First Contract.' },
    members: [],
    headquarters: 'atropolis',
    territory: ['atropolis', 'vel-keth-bayou', 'aran-glen', 'black-fen'],
    relationships: [
     { targetFactionId: 'house-morrath', type: 'allied', description: 'The Neth administer Morrath\'s authority through the Great Registry; the seventh seat exists only because the Neth say it does.' },
-    { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Neth cannot lie and write everything down, while the Scribe-Cartel sells the ink that decides what gets written at all.' }
+    { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Neth write everything down, while the Scribe-Cartel sells the ink that decides what gets written at all.' }
    ],
    classAffinities: ['arcanoneer', 'revenant'],
-   lore: 'The Neth were a dying scribe-clan of the Bryngloom who bargained with the Keeper of the Last Threshold, trading death\'s finality for silver-skinned survival and an absolute prohibition on falsehood. They rose from the bog as the Silver-Touched Pact-Lords and now govern Atropolis under the First Contract.',
+       lore: 'The Neth were a dying scribe-clan of the Bryngloom who bargained with Morvane, trading death\'s finality for pale-skinned survival and an absolute prohibition on falsehood. They rose from the bog as the Silver-Touched Pact-Lords and now govern Atropolis under the First Contract.',
    secrets: 'The Neth blood-crystallizes into volatile shards when a lie is attempted, but a hidden circle has learned to write truths so narrow they deceive without breaking the prohibition, and they rule from it.',
    quests: []
   }

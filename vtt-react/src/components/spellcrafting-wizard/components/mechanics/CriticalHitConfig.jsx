@@ -188,7 +188,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                       âˆ’
                     </button>
                     <div className="multiplier-display">
-                      {critConfig.critMultiplier}Ã—
+                      {critConfig.critMultiplier}Ã - 
                     </div>
                     <button
                       type="button"
@@ -371,7 +371,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                       value={critConfig.critMultiplier}
                       onChange={(e) => handleChange('critMultiplier', parseFloat(e.target.value))}
                     />
-                    <span className="input-label">Ã—</span>
+                    <span className="input-label">Ã - </span>
                   </div>
                 </div>
               )}
@@ -457,7 +457,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                       value={critConfig.critMultiplier}
                       onChange={(e) => handleChange('critMultiplier', parseFloat(e.target.value))}
                     />
-                    <span className="input-label">Ã—</span>
+                    <span className="input-label">Ã - </span>
                   </div>
                 </div>
               )}

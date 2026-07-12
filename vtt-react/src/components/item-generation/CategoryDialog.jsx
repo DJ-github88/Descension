@@ -46,7 +46,7 @@ const CategoryDialog = ({ onComplete, onCancel, parentId }) => {
             <div className="category-dialog">
                 <div className="category-dialog-header">
                     <h2>New Category</h2>
-                    <button className="category-dialog-close" onClick={onCancel}>Ã—</button>
+                    <button className="category-dialog-close" onClick={onCancel}>Ã - </button>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="category-dialog-content">

@@ -1695,7 +1695,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`${parameters.length || 30}ft Ã— ${parameters.width || 5}ft`, length/2, -halfWidth - 10);
+        ctx.fillText(`${parameters.length || 30}ft Ã -  ${parameters.width || 5}ft`, length/2, -halfWidth - 10);
 
         ctx.restore();
         break;
@@ -1837,7 +1837,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`${parameters.radius || 10}ft Ã— ${height}ft`, x, y + radius + 15);
+        ctx.fillText(`${parameters.radius || 10}ft Ã -  ${height}ft`, x, y + radius + 15);
         break;
       }
 
@@ -1911,7 +1911,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`${parameters.length || 30}ft Ã— ${parameters.width || 5}ft Ã— ${height}ft`, 0, halfWidth + 15);
+        ctx.fillText(`${parameters.length || 30}ft Ã -  ${parameters.width || 5}ft Ã -  ${height}ft`, 0, halfWidth + 15);
 
         ctx.restore();
         break;

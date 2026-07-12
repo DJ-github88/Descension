@@ -7,19 +7,26 @@
     cardFlavor: 'Sea-spawned from volcanic foam and storm-surge, their bioluminescent skin shifts with every tide and mood.',
     description: `**[The Bioluminescent Foam-Born]**, *Lashed to the bowsprit of an ice-locked clipper, a slender Myrathil navigator with bioluminescent teal skin guides the ship through a shifting channel in the frozen sea.*
 
-The Myrathil are not born; they are concluded. When Emberspire erupted and bled volcanic fury into the frozen oceans, the violent clash of fire and ice churned the weary seas into thick, living foam. That foam, given enough storm, salt, and the sea mother's lonely curiosity, learned to stand and walk. When a three-day gale beats the surface white against the rocks and the wind finally dies, the Myrathil rise from the spindrift and walk ashore, salt drying on their lashes. They have no mothers except the sea, no fathers except the storm, and no inheritance except the tide-table and the ache in their veins that warns of rain three days before the sky clouds over. Their eyes are ocean-blue and too large for their faces, built for the dim light beneath docks and hulls, perpetually squinting at a sky that has held no sun in living memory. The webbing between their fingers flushes with blood when their marine nature asserts itself, and their skin shifts color along the vein-lines when they feel deeply and forget to hide it. Land-folk call them beautiful, mysterious, and tragic, collecting their sea-glass beads, writing poetry about their eyes, and building summer homes on the beaches where they spawn, forgetting that the Myrathil can hear every word. They are the free-born, answerable to no spirits, bound to no land, claiming no legacy save the tide pulling them home across the churning, freezing waters of the Iceheart Sea.`,
+The Myrathil are not born; they are concluded. When Emberspire erupted and bled volcanic fury into the frozen oceans, the violent clash of fire and ice churned the weary seas into thick, living foam. That foam, given enough storm, salt, and Mareth's lonely curiosity, learned to stand and walk. When a three-day gale beats the surface white against the rocks and the wind finally dies, the Myrathil rise from the spindrift and walk ashore, salt drying on their lashes. They have no mothers except the sea, no fathers except the storm, and no inheritance except the tide-table and the ache in their veins that warns of rain three days before the sky clouds over. Their eyes are ocean-blue and too large for their faces, built for the dim light beneath docks and hulls, perpetually squinting at a sky that has held no sun in living memory. The webbing between their fingers flushes with blood when their marine nature asserts itself, and their skin shifts color along the vein-lines when they feel deeply and forget to hide it. Land-folk call them beautiful, mysterious, and tragic, collecting their sea-glass beads, writing poetry about their eyes, and building summer homes on the beaches where they spawn, forgetting that the Myrathil can hear every word. They are the free-born, answerable to no spirits, bound to no land, claiming no legacy save the tide pulling them home across the churning, freezing waters of the Iceheart Sea.`,
     icon: 'fas fa-water',
-    overview: `When the sun was dragged beneath the earth and the oceans began their long, slow death, the sea mother did not bargain with the Keth-Amar as the noble families did. She did not sacrifice her children at northern peaks or trade summer for frozen glaciers. She simply endured. And in her endurance, she grew curious. The Myrathil are the sea's attempt at personhood, her experiment in giving her waters a voice, a shape, a will that could walk upon the land her tides could only touch.
+    overview: `When the sun was dragged beneath the earth and the oceans began their long, slow death, Mareth did not bargain with the Keth-Amar as the noble families did. She did not sacrifice her children at northern peaks or trade summer for frozen glaciers. She simply endured. And in her endurance, she grew curious. The Myrathil are the sea's attempt at personhood, her experiment in giving her waters a voice, a shape, a will that could walk upon the land her tides could only touch.
 
-The first Myrathil spawned during the cataclysm that followed Emberspire's eruption, when volcanic heat met glacial meltwater and churned the oceans into a frenzy of foam and fury. The sea mother had been trying for centuries before that, crude attempts, more foam than flesh, children who dissolved back into the waves within hours of standing. But the collision of fire and ice was the catalyst she needed. The foam grew thick with potential. The storms lasted longer. And the children began to stay.
+The first Myrathil spawned during the cataclysm that followed Emberspire's eruption, when volcanic heat met glacial meltwater and churned the oceans into a frenzy of foam and fury. Mareth had been trying for centuries before that, crude attempts, more foam than flesh, children who dissolved back into the waves within hours of standing. But the collision of fire and ice was the catalyst she needed. The foam grew thick with potential. The storms lasted longer. And the children began to stay.
 
-The great population boom came in the decades after Emberspire stabilized, when the Iceheart Sea reached its perfect, churning equilibrium of freezing wave and volcanic current. Myrathil spawned by the hundreds along every coastline. Drift-villages appeared on horizons where no sail had ever been seen. The sea mother's lonely experiment had become a people.
+The great population boom came in the decades after Emberspire stabilized, when the Iceheart Sea reached its perfect, churning equilibrium of freezing wave and volcanic current. Myrathil spawned by the hundreds along every coastline. Drift-villages appeared on horizons where no sail had ever been seen. Mareth's lonely experiment had become a people.
 
 No parents, no bloodline, no inheritance, just the sea's curiosity given legs. Their bodies are keyed to water: they breathe both air and sea, their vein-colors shift with mood and atmospheric pressure, and they know the direction of the nearest major body of water as instinctively as a land-child knows its mother's voice. They cannot truly rest without submersion, the sea calls them back to sleep, and on land they doze lightly, half-consciously, always listening for the tide.
 
-They are rare, elusive, and deeply misunderstood. In port cities of Sundale they are exotic celebrities. In the Frostwood Reach they are considered spirits of the mist-choked coast. The Skald of Nordhalla view them with the same suspicion they reserve for anything that does not freeze. The Neth of the Bryngloom Forest, ever the pragmatists, simply ask what the Myrathil want to trade. And the Myrathil, patient, amused, ancient in a way that has nothing to do with individual lifespan, tolerate the attention of younger races with the quiet grace of a people who have watched civilizations rise and fall on shorelines they once called home.
+The Myrathil are lunar creatures as much as aquatic ones. The moons of Mythrill pull the tides, and the tides pull the Myrathil. Every aspect of their biology (spawning cycles, navigation, emotional states, rest patterns) is tied to lunar phases. During the new moon, when tidal forces are strongest and the ocean is darkest, the most powerful spawning events occur and the Deep-spawned Myrathil are born. The full moon brings the highest tides and the strongest social energy; Shore-dwelling Myrathil are most active, the Tide-Sings are loudest, and trade conditions are best. The waxing and waning phases are used for navigation, the Myrathil read lunar position the way land-folk read compasses, feeling the pull in their veins even miles from the coast. All Myrathil feel the moon the way land-folk feel the sun. It is their clock, their compass, and their emotional anchor. A Myrathil deprived of moonlight grows restless and disoriented, not as severely as a land-dweller deprived of sun, but noticeably.
 
-Somewhere in the Treakous Oceanic Rift, where the waters plunge deeper than any living thing has measured, one of the 7 Sundered Monoliths rests in absolute darkness. The Myrathil know where it is. Deep-Born Listeners have hummed toward it for generations and received answers they do not share. What the shard whispers in the abyss, and what the sea mother intends to do about it, is a secret kept by a people who have never needed the land's wars or the land's shards, and who may discover, very soon, that the land's problems have followed them into the deep.`,
+They are uncommon, elusive, and deeply misunderstood. In port cities of Sundale they are exotic celebrities. In the Frostwood Reach they are considered spirits of the mist-choked coast. The Skald of Nordhalla view them with the same suspicion they reserve for anything that does not freeze. The Neth of the Bryngloom Forest, ever the pragmatists, simply ask what the Myrathil want to trade. And the Myrathil, patient, amused, ancient in a way that has nothing to do with individual lifespan, tolerate the attention of younger races with the quiet grace of a people who have watched civilizations rise and fall on shorelines they once called home.
+
+Somewhere in the Treakous Oceanic Rift, where the waters plunge deeper than any living thing has measured, one of the 7 Sundered Monoliths rests in absolute darkness. The Myrathil know where it is. Deep Listeners have hummed toward it for generations and received answers they do not share. What the shard whispers in the abyss, and what Mareth intends to do about it, is a secret kept by a people who have never needed the land's wars or the land's shards, and who may discover, very soon, that the land's problems have followed them into the deep.`,
+    quickFacts: [
+        'Sea-spawned children of Mareth, the ocean deity who grew curious and gave her waters a voice. They rise from storm-foam fully formed, with no parents, no bloodline, and no inheritance except the tide-table and the ache in their veins that warns of rain three days before the sky clouds over.',
+        'Amphibious and bioluminescent, their vein-colors shift with mood and atmospheric pressure. They breathe both air and sea, navigate by lunar pull, and cannot truly rest without submersion. Divided into Shore diplomats, Deep mystics who hum into the abyss, and Brook explorers who follow rivers inland.',
+        'Play a Myrathil to be born of freedom itself, answerable to no spirits, bound to no land, claimed by nothing but the tide. But the spawning gales are shifting north, land-folk are damming your rivers and stealing your children, and the Sundered Monolith in the deepest trench has begun to hum a new frequency.'
+    ],
     culturalBackground: `Myrathil society is built around coasts, not bloodlines. Since every Myrathil spawns alone from the sea, family is chosen, communities form around stretches of shoreline, migratory camps, or floating raft-villages far from land. Their culture is oral and sung, history passed through harmonics that carry over water. They measure time in tides, not clocks, \u201cmeet me at mid-ebb\u201d is precise; \u201cmeet me at noon\u201d is foreign.
 
 They live in the intertidal zone, the war between sea and land where the tide conquers half their world twice daily. Permanent structures make no sense here. Dwellings are driftwood frames hung with living curtain-kelp, storm-sail canvas that folds down into shelter when gales hit, and submerged rest-chambers grown from cultivated coral. Possessions float on tethered buoy-nets beside sleeping pools. A Myrathil camp can be abandoned in an hour and rebuilt the same day.
@@ -28,17 +35,17 @@ Clothing is layered: kelp-weave body-wraps as a base layer, a living fabric cult
 
 Their tools and craft follow the same philosophy, nothing dead, nothing permanent. Kelp-rope that rehydrates and seals its own knots underwater. Whalebone and salvage-iron tools beaten from anchor-steel and hull-bolts. Domesticated sea-creatures fill niches machines fill for other races: anchor-crabs hold moorings, light-squid illuminate submerged chambers, kelp-eels tend garden-beds. The sea provides the material; their skill turns it into culture.
 
-But Myrathil are rare, and rarity breeds rumor. In port cities they are exotic celebrities, poets write of their \u201cliquid eyes,\u201d collectors pay fortunes for their sea-glass (real or fake), and noble families keep Myrathil lovers they will never marry. Spawning beaches become tourist sites during gale-season; the wealthy stake out the coastline hoping to witness a birth, and sometimes they steal the child. Myrathil in human cities learn to perform, to be the charming sea-folk the stories describe, and some never learn to stop. Those who refuse to perform are written off as feral.
+But Myrathil are uncommon, not rare. Port cities on the Iceheart Sea coast see them regularly, and they have established permanent and semi-permanent settlements along every major coastline and river system: Salt-Hinge at the mouth of the Silver River, the Drift-Home raft-village tethered over a submerged volcanic ridge, the First Shore where more Myrathil have spawned than anywhere else, Brinewell on the Frostwood Reach coastline, and Rillmeet at the confluence of three rivers far inland. Still, exoticism breeds rumor. In port cities they are exotic celebrities, poets write of their \u201cliquid eyes,\u201d collectors pay fortunes for their sea-glass (real or fake), and noble families keep Myrathil lovers they will never marry. Spawning beaches become tourist sites during gale-season; the wealthy stake out the coastline hoping to witness a birth, and sometimes they steal the child. Myrathil in human cities learn to perform, to be the charming sea-folk the stories describe, and some never learn to stop. Those who refuse to perform are written off as feral.
 
-Among themselves, the Myrathil are warm and direct. They cannot lie well, their vein-colors betray them. They settle disputes by submerging together: arguments had floating in a tide pool resolve differently than arguments had on dry land. Their highest value is freedom, the right to drift where currents take them, to belong nowhere fully, to answer to no one but the sea mother and each other.`,
-    variantDiversity: 'The Myrathil are shaped by the water that births them. The Breakers-Born spawn where waves hammer shore, mediators, traders, the face the world sees. The Deep-Born spawn in open ocean, mystics and sea-herders who find land-folk exhausting. The River-Fed spawn where freshwater meets salt, explorers and scouts who follow rivers inland and return with stories no other Myrathil could tell.',
+Among themselves, the Myrathil are warm and direct. They are gullible and too honest at times, naive in the way of a people who have no concept of inheritance, ownership, or bloodline. They CAN lie; they are simply bad at it, because their culture values directness and has no framework for sustained deception. Their vein-colors shift with emotion, making them easy to read, but a skilled Myrathil can suppress the tell with effort. They are not lie-detectors. They are emotionally transparent people raised in a culture that never taught them to hide. They settle disputes by submerging together: arguments had floating in a tide pool resolve differently than arguments had on dry land. Their highest value is freedom, the right to drift where currents take them, to belong nowhere fully, to answer to no one but Mareth and each other.`,
+    variantDiversity: 'The Myrathil are shaped by the water that births them. The Shore spawn where waves hammer shore, mediators, traders, the face the world sees. The Deep spawn in open ocean, mystics and sea-herders who find land-folk exhausting. The Brook spawn where freshwater meets salt, explorers and scouts who follow rivers inland and return with stories no other Myrathil could tell.',
     integrationNotes: {
       actionPointSystem: 'Myrathil abilities focus on water adaptation, weather-sensing, and mobility. They are amphibious skirmishers and support characters who thrive near coasts and waterways.',
-      backgroundSynergy: 'Myrathil excel in backgrounds emphasizing exploration, trade, and maritime life. Their rarity and exotic reputation create compelling social dynamics.',
-      classCompatibility: 'Breakers-Born favor Minstrels and Gambit, using their natural social fluency, performance skills, and comfort with risk to thrive in coastal taverns, trade hubs, and diplomatic circles. Deep-Born favor Revenants, channeling their deep ocean connection to ancestral sea currents and the things that breathe in the pressure-dark below. River-Fed favor Animists, utilizing their connection to fresh water systems and the spirit-traditions of the inland waterways.'
+      backgroundSynergy: 'Myrathil excel in backgrounds emphasizing exploration, trade, and maritime life. Their uncommon nature and exotic reputation create compelling social dynamics.',
+      classCompatibility: 'Shore favor Minstrels and Gambit, using their natural social fluency, performance skills, and comfort with risk to thrive in coastal taverns, trade hubs, and diplomatic circles. Deep favor Revenants, channeling their deep ocean connection to ancestral sea currents and the things that breathe in the pressure-dark below. Brook favor Animists, utilizing their connection to fresh water systems and the spirit-traditions of the inland waterways.'
     },
-    diasporaVariation: `Myrathil diaspora follows the water. The Breakers-Born hold the Iceheart coast; the River-Fed have migrated up every major river system and established small enclaves in inland ports as far as the Sundrift Vale's edge and the Bryngloom's peat-waterways. A Bryngloom-River-Fed Myrathil develops darker, bog-tinted bioluminescence and a tolerance for still water that coastal kin find unsettling. The Deep-Born do not diaspora, they are trench-bound and surface only under the current crisis. Merrowport is the only true mixed Myrathil-Merryn city; elsewhere Myrathil are small river-enclaves, increasingly silent as the sea-silence spreads upstream.`,
-    meaningfulTradeoffs: 'Myrathil are amphibious and weather-attuned, but cannot truly rest without submersion in water. Their emotional transparency and exotic reputation create social complications. The further they travel from the sea, the more disconnected they become from the mother who made them.',
+    diasporaVariation: `Myrathil diaspora follows the water. The Shore hold the Iceheart coast; the Brook have migrated up every major river system and established small enclaves in inland ports as far as the Sundrift Vale's edge and the Bryngloom's peat-waterways. A Bryngloom-Brook Myrathil develops darker, bog-tinted bioluminescence and a tolerance for still water that coastal kin find unsettling. The Deep do not diaspora, they are trench-bound and surface only under the current crisis. Merrowport is the only true mixed Myrathil-Merryn city; elsewhere Myrathil are small river-enclaves, increasingly silent as the sea-silence spreads upstream.`,
+    meaningfulTradeoffs: 'Myrathil are amphibious and weather-attuned, with rest requirements tied to their subrace and proximity to water. They are gullible and emotionally transparent; they can lie, but their culture never taught them how, and their vein-colors make them easy to read. Their exotic reputation creates social complications. The further they travel from the sea, the more disconnected they become from Mareth and the tides that made them.',
     baseTraits: {
       languages: ['Common', 'Aquan'],
       lifespan: '140-200 years',
@@ -64,21 +71,21 @@ Among themselves, the Myrathil are warm and direct. They cannot lie well, their 
       }
     ],
     epicHistory: `
-The First Spawning came before the sun was stolen, crude attempts by the sea mother to give her waters a shape that could walk. Those first children were barely humanoid, more foam than flesh, dissolving back into the waves within hours. But the sea mother was patient in the way of things that have no lifespan. She kept trying. Each storm season the children lasted longer, moved further, remembered more.
+The First Spawning came before the sun was stolen, crude attempts by Mareth to give her waters a shape that could walk. Those first children were barely humanoid, more foam than flesh, dissolving back into the waves within hours. But Mareth was patient in the way of things that have no lifespan. She kept trying. Each storm season the children lasted longer, moved further, remembered more.
 
 Then the sun was torn from the sky.
 
-The oceans began to freeze. The sea mother felt her body turning solid at the extremities, glaciers reaching down from the poles, ice sheets thickening across her surface. She could not bargain with the Warden as the noble families did. She had no firstborn to offer, no words the abyssal entity would understand. She could only wait, and hope, and keep trying to make children who might survive what was coming.
+The oceans began to freeze. Mareth felt her body turning solid at the extremities, glaciers reaching down from the poles, ice sheets thickening across her surface. She could not bargain with Aethil as the noble families did. She had no firstborn to offer, no words the abyssal entity would understand. She could only wait, and hope, and keep trying to make children who might survive what was coming.
 
-When Emberspire erupted, the sea mother received her answer. The collision of volcanic heat and ancient ice was not destruction, it was catalyst. The churning, freezing waves of the Iceheart Sea became a cradle. The foam that had always been her birthing medium grew thick with potential. The gales that spawned her children lasted longer, struck harder, reached further. In the decades after Emberspire stabilized, Myrathil spawned by the hundreds along every coastline. The sea mother's lonely experiment had become a population.
+When Emberspire erupted, Mareth received her answer. The collision of volcanic heat and ancient ice was not destruction, it was catalyst. The churning, freezing waves of the Iceheart Sea became a cradle. The foam that had always been her birthing medium grew thick with potential. The gales that spawned her children lasted longer, struck harder, reached further. In the decades after Emberspire stabilized, Myrathil spawned by the hundreds along every coastline. Mareth's lonely experiment had become a population.
 
-The early Myrathil lived entirely at sea, drifting on raft-villages woven from living kelp and cultivated coral. They had no contact with land-folk for generations, and they were not missed. The first encounter came when a Breakers-Born child walked ashore near a Frostwood Reach fishing village and a terrified fisherman threw a net over her, thinking she was a caught spirit. She talked her way out of it. That fisherman became the first land-folk to speak with a Myrathil, and the stories he told spread through every port on the coast.
+The early Myrathil lived entirely at sea, drifting on raft-villages woven from living kelp and cultivated coral. They had no contact with land-folk for generations, and they were not missed. The first encounter came when a Shore child walked ashore near a Frostwood Reach fishing village and a terrified fisherman threw a net over her, thinking she was a caught spirit. She talked her way out of it. That fisherman became the first land-folk to speak with a Myrathil, and the stories he told spread through every port on the coast.
 
-What land-folk called the Age of Collection followed. Land-folk did not fear the Myrathil, they coveted them. Sailors claimed Myrathil tears turned to pearls. Nobles wanted Myrathil servants as status symbols. Scholars from Sundale's academies wanted to dissect one. The Myrathil retreated to isolated coasts and deep-ocean rafts, avoiding land-folk for another century while the fever died down. It never fully died. Even now, a Myrathil walking into a port town draws stares, offers, and the occasional attempted kidnapping.
+What followed, in the early centuries of the Dimming, was a period the land-folk called the Collection. Land-folk did not fear the Myrathil, they coveted them. Sailors claimed Myrathil tears turned to pearls. Nobles wanted Myrathil servants as status symbols. Scholars from Sundale's academies wanted to dissect one. The Myrathil retreated to isolated coasts and deep-ocean rafts, avoiding land-folk for another century while the fever died down. It never fully died. Even now, a Myrathil walking into a port town draws stares, offers, and the occasional attempted kidnapping.
 
-The Myrathil have never had wars among themselves. They have no territory to fight over, the sea belongs to everyone and no one, and their population remains too scattered for organized conflict. What disputes arise are settled by submersion: the parties float together in deep water and talk until the sea mother drains the anger out of them. It has always worked.
+The Myrathil have never had wars among themselves. They have no territory to fight over, the sea belongs to everyone and no one, and their population remains too scattered for organized conflict. What disputes arise are settled by submersion: the parties float together in deep water and talk until Mareth drains the anger out of them. It has always worked.
 
-The most significant event in recent Myrathil history was the Inland Expedition, when a group of River-Fed followed a great river system hundreds of miles inland and mapped territory no Myrathil had ever seen, mountains, deserts, and land-folk who had never heard of the sea. The expedition proved that the sea mother's children could survive far from her embrace, though not without cost. It also proved that the land held things the sea had never imagined.
+The most significant event in recent Myrathil history was the Inland Expedition, when a group of Brook followed a great river system hundreds of miles inland and mapped territory no Myrathil had ever seen, mountains, deserts, and land-folk who had never heard of the sea. The expedition proved that Mareth's children could survive far from her embrace, though not without cost. It also proved that the land held things the sea had never imagined.
     `,
     notableFigures: [
       {
@@ -86,7 +93,7 @@ The most significant event in recent Myrathil history was the Inland Expedition,
         title: 'The Voice That Crossed',
         portraitIcon: 'Pirates/Icon3',
         backstory: `
-Saelith was the first Breakers-Born to walk into a human port and refuse to perform. When the poets wanted to write about her eyes, she asked them what they paid their last human subject. When a noble offered her rooms in his manor, she asked if the offer came with a collar. She was not angry, Myrathil are rarely angry, but she was direct in a way that land-folk found profoundly uncomfortable.
+Saelith was the first Shore to walk into a human port and refuse to perform. When the poets wanted to write about her eyes, she asked them what they paid their last human subject. When a noble offered her rooms in his manor, she asked if the offer came with a collar. She was not angry, Myrathil are rarely angry, but she was direct in a way that land-folk found profoundly uncomfortable.
 
 She established the first permanent Myrathil trading post at the mouth of the Silver River, a place called Salt-Hinge where land-folk and sea-folk could meet as equals. She wrote the Salt-Hinge Accords: a set of agreements that any Myrathil entering a trade deal could invoke, guaranteeing fair exchange and safe passage back to the sea. Most port cities still honor the Accords, though some only because violating them noticeably coincides with bad weather.
 
@@ -98,11 +105,11 @@ Saelith died old, nearly two hundred, floating in the tide pool where she was sp
         title: 'The One Who Heard Too Much',
         portraitIcon: 'Pirates/Icon7',
         backstory: `
-Ulvir was Deep-Born, spawned in open ocean during a moonless gale and not found by other Myrathil for nearly a month. He arrived on a floating village-raft already half-grown, speaking only in the low-frequency hum that Deep-Born use underwater. It took him a year to learn spoken language. His first words were: "The bottom is speaking."
+Ulvir was Deep, spawned in open ocean during a moonless gale and not found by other Myrathil for nearly a month. He arrived on a floating village-raft already half-grown, speaking only in the low-frequency hum that Deep use underwater. It took him a year to learn spoken language. His first words were: "The bottom is speaking."
 
-What Ulvir heard in the abyss became the foundation of Deep-Born mysticism. He described voices, not spirits, not ancestors, but something older than both, something sleeping in the trenches where light has never reached. He taught other Deep-Born how to listen for these voices without losing themselves to them. Some of his students went too deep and never returned. Ulvir himself spent his last decades on a raft tethered over the deepest trench he could find, humming into the dark and listening for answers.
+What Ulvir heard in the abyss became the foundation of Deep mysticism. He described voices, not spirits, not ancestors, but something older than both, something sleeping in the trenches where light has never reached. He taught other Deep how to listen for these voices without losing themselves to them. Some of his students went too deep and never returned. Ulvir himself spent his last decades on a raft tethered over the deepest trench he could find, humming into the dark and listening for answers.
 
-His teachings are controversial. Breakers-Born find them unsettling. River-Fed dismiss them as deep-water delirium. But every Deep-Born Oracle traces their lineage of listening back to Ulvir, and every few generations another Myrathil comes up from a long dive with the same words: "It spoke again."
+His teachings are controversial. Shore find them unsettling. Brook dismiss them as deep-water delirium. But every Deep Oracle traces their lineage of listening back to Ulvir, and every few generations another Myrathil comes up from a long dive with the same words: "It spoke again."
         `
       },
       {
@@ -110,11 +117,11 @@ His teachings are controversial. Breakers-Born find them unsettling. River-Fed d
         title: 'The One Who Found the Inland Sea',
         portraitIcon: 'Pirates/Icon11',
         backstory: `
-Venn was River-Fed, spawned in a brackish delta where three rivers met the sea. From childhood she was drawn inland, not toward the sea like most Myrathil, but upstream, following the taste of freshwater thinning into something else. At sixteen she left her delta camp and walked upriver alone. She was gone for three years.
+Venn was Brook, spawned in a brackish delta where three rivers met the sea. From childhood she was drawn inland, not toward the sea like most Myrathil, but upstream, following the taste of freshwater thinning into something else. At sixteen she left her delta camp and walked upriver alone. She was gone for three years.
 
 She returned with maps, real maps, on parchment, bought from land-folk cartographers she'd befriended along the way. She had followed the Great River system to its headwaters in the Stonecrown Mountains, crossed a desert by following a seasonal stream that no map recorded, and discovered a vast inland lake that she named the Mother's Mirror, a body of water so large she couldn't see the far shore, and so deep she couldn't dive to its bottom. The lake had no salt. It was fresh. And when she submerged in it, she could rest.
 
-Venn proved that River-Fed could survive anywhere there was water, and her maps became the foundation for every Myrathil expedition inland. She died on her fifth expedition, somewhere in a mountain range she never finished naming, her body never found. River-Fed still set out in her direction, hoping to complete her maps. None have.
+Venn proved that Brook could survive anywhere there was water, and her maps became the foundation for every Myrathil expedition inland. She died on her fifth expedition, somewhere in a mountain range she never finished naming, her body never found. Brook still set out in her direction, hoping to complete her maps. None have.
         `
       }
     ],
@@ -124,15 +131,15 @@ Venn proved that River-Fed could survive anywhere there was water, and her maps 
         description: `
 A crescent of white shell-grit beach on the western coast where more Myrathil have spawned than any other location. The sea here foams brighter during gales, visible from miles away, and the beach itself is littered with small cairns, each one marking where a Myrathil first stood up. No one builds permanent structures on the First Shore. It is a pilgrimage site, not a settlement. Myrathil visit to leave offerings (sea-glass, shells, a strand of their own kelp-weave) and to float in the tide pools where their kind first learned to exist.
 
-Land-folk are not forbidden from the First Shore, but they rarely stay long. Something about the place makes them feel watched. The Myrathil say it is the sea mother, curious about her guests.
+Land-folk are not forbidden from the First Shore, but they rarely stay long. Something about the place makes them feel watched. The Myrathil say it is Mareth, curious about her guests.
         `
       },
       {
         name: 'The Drift-Home',
         description: `
-A sprawling raft-village in the open ocean, tethered over a submerged volcanic ridge, home to the largest permanent Deep-Born community. The Drift-Home is built on cultivated coral platforms that rise and fall with the swells, connected by kelp-bridges and anchored by domesticated anchor-crabs the size of small boats. There are no walls, privacy comes from curtain-kelp and the understanding that no one who lives here wants to be found.
+A sprawling raft-village in the open ocean, tethered over a submerged volcanic ridge, home to the largest permanent Deep community. The Drift-Home is built on cultivated coral platforms that rise and fall with the swells, connected by kelp-bridges and anchored by domesticated anchor-crabs the size of small boats. There are no walls, privacy comes from curtain-kelp and the understanding that no one who lives here wants to be found.
 
-The Drift-Home is the spiritual center of Deep-Born culture. The Listeners (those who practice Ulvir's teachings) maintain a submerged chamber at the village's center where they hum into the abyss and record what answers. Surface-folk who visit describe the experience as "floating on a cathedral made of living things."
+The Drift-Home is the spiritual center of Deep culture. The Listeners (those who practice Ulvir's teachings) maintain a submerged chamber at the village's center where they hum into the abyss and record what answers. Surface-folk who visit describe the experience as "floating on a cathedral made of living things."
         `
       },
       {
@@ -140,24 +147,24 @@ The Drift-Home is the spiritual center of Deep-Born culture. The Listeners (thos
         description: `
 The trading post Saelith founded at the mouth of the Silver River, now the largest permanent Myrathil settlement and the only place where land-folk and sea-folk conduct regular commerce as equals. Salt-Hinge is built on stilts over a tidal estuary, half submerged, half above water, with docks that lower and rise with the tide. Myrathil traders sell sea-glass jewelry, cultivated pearls, salted fish, and kelp-weave fabric. Land-folk traders sell forged tools, parchment, spices, and news.
 
-Salt-Hinge operates under the Accords Saelith wrote, and both sides enforce them. The Myrathil who live here permanently are mostly Breakers-Born. It is the place where young River-Fed come to buy supplies before walking inland, and where old River-Fed return to sell their maps.
+Salt-Hinge operates under the Accords Saelith wrote, and both sides enforce them. The Myrathil who live here permanently are mostly Shore. It is the place where young Brook come to buy supplies before walking inland, and where old Brook return to sell their maps.
         `
       }
     ],
     currentCrisis: `
-The spawning gales are shifting. For centuries, the First Shore has been the most reliable birthing ground, producing more Myrathil than any other coastline. But over the last two generations, the gales have been moving north, further north each season, and the spawnings have followed them. The First Shore is not barren, but it is quieter than it has ever been. The sea mother is moving her storms. Something is pulling them.
+The spawning gales are shifting. For centuries, the First Shore has been the most reliable birthing ground, producing more Myrathil than any other coastline. But over the last two generations, the gales have been moving north, further north each season, and the spawnings have followed them. The First Shore is not barren, but it is quieter than it has ever been. Mareth is moving her storms. Something is pulling them.
 
-The Deep-Born Listeners who hum into the Treakous Oceanic Rift report that the Sundered Monolith resting at the bottom of that lightless chasm has changed its resonance. For generations it hummed at a frequency the Listeners could ignore, a background note in the deep. Now it thrums like a plucked string, and every Deep-Born within a hundred miles of the rift can feel it in their teeth. The Shard is awake. No one knows what woke it. Some Listeners whisper that the Keth-Amar, slowly devouring the sun's embers in the world's core, has finally turned its attention to the pieces of the bargain it left scattered across the world. Others say the sea mother herself is calling the Shard, that she has decided, after millennia of patience, that the time for watching has passed.
+The Deep Listeners who hum into the Treakous Oceanic Rift report that the Sundered Monolith resting at the bottom of that lightless chasm has changed its resonance. For generations it hummed at a frequency the Listeners could ignore, a background note in the deep. Now it thrums like a plucked string, and every Deep within a hundred miles of the rift can feel it in their teeth. The Shard is awake. No one knows what woke it. Some Listeners whisper that the Keth-Amar, slowly devouring the sun's embers in the world's core, has finally turned its attention to the pieces of the bargain it left scattered across the world. Others say Mareth herself is calling the Shard, that she has decided, after millennia of patience, that the time for watching has passed.
 
-Meanwhile, the threats from the surface world multiply. River-Fed who have traveled far inland report that land-folk are damming rivers, draining marshes, and building ports over spawning estuaries without knowing, or caring, what they are destroying. A noble house in the eastern kingdoms has begun offering bounties for live Myrathil, claiming scholarly purposes while their menagerie tells a different story. A new port city has been proposed directly on top of a minor spawning beach near the Frostwood Reach coastline. Land-folk tourism to gale-season sites has become an industry, the wealthy staking out the coast during storms, hoping to witness a birth, and sometimes stealing the child.
+Meanwhile, the threats from the surface world multiply. Brook who have traveled far inland report that land-folk are damming rivers, draining marshes, and building ports over spawning estuaries without knowing, or caring, what they are destroying. A noble house in the eastern kingdoms has begun offering bounties for live Myrathil, claiming scholarly purposes while their menagerie tells a different story. A new port city has been proposed directly on top of a minor spawning beach near the Frostwood Reach coastline. Land-folk tourism to gale-season sites has become an industry, the wealthy staking out the coast during storms, hoping to witness a birth, and sometimes stealing the child.
 
-The Myrathil are not endangered, not yet. But for the first time in their history, they are asking whether the sea mother can keep up with a world that has forgotten to fear the ocean.
+The Myrathil are not endangered, not yet. But for the first time in their history, they are asking whether Mareth can keep up with a world that has forgotten to fear the ocean.
 
-The Breakers-Born want to negotiate, to establish treaties and accords with the land-kingdoms before the situation escalates. The Deep-Born want to disappear into the open ocean, to drift so far from shore that no land-folk ship could ever find them. The River-Fed want to map every spawning site, every estuary, every brackish delta before it is destroyed, to preserve at least the knowledge of what was lost if the losses cannot be prevented.
+The Shore want to negotiate, to establish treaties and accords with the land-kingdoms before the situation escalates. The Deep want to disappear into the open ocean, to drift so far from shore that no land-folk ship could ever find them. The Brook want to map every spawning site, every estuary, every brackish delta before it is destroyed, to preserve at least the knowledge of what was lost if the losses cannot be prevented.
 
 All three answers may be right. None of them may be enough. And beneath the churning, freezing waves of the Iceheart Sea, the Sundered Monolith hums its new, urgent frequency into the dark, waiting for whatever comes to claim it.
 
-The Myrathil have never needed the land's wars or the land's shards — but the land's wars have followed them into the deep. The same Monolith that hums in the Rift is kin to the shards the Dawn Vigil hunts and Keth-Amar feeds through; if the seal fails, no ocean depth will protect what spawns in its waters. The sea mother's children must choose: drift away while the world above burns, or rise and wade into a war that was never theirs.
+The Myrathil have never needed the land's wars or the land's shards \u2014 but the land's wars have followed them into the deep. The same Monolith that hums in the Rift is kin to the shards the Dawn Vigil hunts and Keth-Amar feeds through; if the seal fails, no ocean depth will protect what spawns in its waters. Mareth's children must choose: drift away while the world above burns, or rise and wade into a war that was never theirs.
     `,
     culturalPractices: `
 Every Myrathil child spawns alone and walks ashore with nothing but salt in their hair and the sea's last foam clinging to their heels. They are found, always found, by other Myrathil, because the signs of a spawning are unmistakable. Tide pools arrange shells in spirals. Shorebirds circle silently. The waves sound spoken. Any Myrathil within twenty miles feels the ache in their veins. The community gathers before the child even opens its eyes.
@@ -170,7 +177,7 @@ Adolescence is marked by the First Drift: a young Myrathil leaves their communit
 
 The Tide-Share is the core of Myrathil community life. Every evening at mid-flood, the community gathers, on the shore, on the raft-decks, on the riverbank, and shares what they found that day: fish, salvage, news, stories. Nothing is traded; everything is given. A Myrathil who hoards is sick, and the community responds by submerging them, literally carrying them into the water and holding them there until they remember they are not alone.
 
-The Tide-Sing occurs at spawning gales. When a storm approaches that carries the right pressure and the right wind, Myrathil gather on the nearest coast and sing, not to summon the storm, but to welcome whatever it brings. During the Tide-Sing, Myrathil do not speak in words. They hum. The harmonics layer and build until every Myrathil present is breathing in the same rhythm at the same moment. The sea mother, they believe, can hear them. Sometimes the gale spawns a child. Sometimes it doesn't. Either outcome is accepted with the same quiet grace.
+The Tide-Sing occurs at spawning gales. When a storm approaches that carries the right pressure and the right wind, Myrathil gather on the nearest coast and sing, not to summon the storm, but to welcome whatever it brings. During the Tide-Sing, Myrathil do not speak in words. They hum. The harmonics layer and build until every Myrathil present is breathing in the same rhythm at the same moment. Mareth, they believe, can hear them. Sometimes the gale spawns a child. Sometimes it doesn't. Either outcome is accepted with the same quiet grace.
     `,
     birthrightQuestions: {
       description: 'At character creation, choose one of the following RP prompts to define what was unusual about your spawning. No mechanical effects, purely who you are and what you carry.',
@@ -198,19 +205,19 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         {
           id: 'twice_born',
           name: 'Twice-Born',
-          question: 'Your foam took shape, you stood up, and then you collapsed back into the sea. Hours later, it happened again. Same storm, same shore, same foam. You stood up a second time, and this time you stayed. Other Myrathil consider this an omen, but cannot agree of what. Some say the sea mother reconsidered and chose you twice. Some say you were not finished the first time. Which do you believe?'
+          question: 'Your foam took shape, you stood up, and then you collapsed back into the sea. Hours later, it happened again. Same storm, same shore, same foam. You stood up a second time, and this time you stayed. Other Myrathil consider this an omen, but cannot agree of what. Some say Mareth reconsidered and chose you twice. Some say you were not finished the first time. Which do you believe?'
         }
       ]
     },
     subraces: {
-      breaker: {
-        id: 'breaker_myrathil',
-        name: 'Breakers-Born',
-        illustration: '/assets/images/races/breakersborn_illustration.png',
-        illustrationCaption: 'A Breakers-Born Myrathil standing on a wind-whipped shore, webbed fingers flushing, wearing layered sailcloth.',
+      shore: {
+        id: 'shore_myrathil',
+        name: 'Shore',
+        illustration: '/assets/images/races/shore_illustration.png',
+        illustrationCaption: 'A Shore Myrathil standing on a wind-whipped shore, webbed fingers flushing, wearing layered sailcloth.',
         tooltipSummary: 'Shore-born diplomats who broker deals between sea and land, their vein-colors betraying every emotion they cannot hide.',
-        description: 'The first Myrathil, spawned from shoreline foam during Emberspire\'s eruption, in the earliest generations of the Deepening. The most numerous and the ambassadors their people present to the world. Born where waves hammer shore, the collision of sea meeting land, of volcanic warmth meeting glacial melt, of the Iceheart Sea\'s patient fury meeting the continents it can never quite claim. The Breakers-Born are the most numerous Myrathil, the ambassadors, the face their people present to a world that collects them. Their bodies are built for both worlds and belong fully to neither, lungs for air, gill-veins for water, webbed fingers that flush with blood when they remember what they are. They broker deals between ship-captains and shore-towns in ports from Frostwood Reach to Sundale. They mediate disputes in tide pools and trading posts. They carry the weight of being the diplomats of a people who have no nations, no armies, and no exploit except the quiet threat that the sea, should she choose, could take back every coastline she ever lent to the land. The flaw they carry is the flaw of the middle: they mediate everyone else\'s conflicts but cannot resolve their own. A Breakers-Born who picks a side, land or sea, is seen as having failed at being Myrathil.',
-        culturalBackground: 'Breakers-Born are the most visible Myrathil in the wider world. They maintain the trade posts from Salt-Hinge to the Frostwood Reach coast, negotiate with port authorities in cities that barely acknowledge their right to exist, and have developed a social fluency that other Myrathil find exhausting. They learn land-languages young, the tongues of Sundale, the trade-pidgins of the Iceheart Sea routes, the formal speech of Neth merchants who have learned that a Myrathil trader is more reliable than a human one. Their camps are the most permanent, relatively speaking, and their kelp-weave tends toward the practical and presentable rather than the ceremonial. They are the Myrathil most likely to marry into land-settlements, most likely to have human friends, and most likely to wake up at night in a dry bed feeling the tide pull in two directions at once. When the Sundered Monolith in the Treakous Rift began its new resonance, it was Breakers-Born who carried the news to every Myrathil community along every coastline within a month. It is Breakers-Born who now carry the difficult questions: negotiate or retreat? Treaty or disappearance? The sea mother is not answering. She has never answered directly. She only sends more storms.',
+        description: 'The first Myrathil, spawned from shoreline foam during Emberspire\'s eruption, in the earliest generations of the Deepening. The most numerous and the ambassadors their people present to the world. Born where waves hammer shore, the collision of sea meeting land, of volcanic warmth meeting glacial melt, of the Iceheart Sea\'s patient fury meeting the continents it can never quite claim. The Shore are the most numerous Myrathil, the ambassadors, the face their people present to a world that collects them. Their bodies are built for both worlds and belong fully to neither, lungs for air, gill-veins for water, webbed fingers that flush with blood when they remember what they are. The Shore are equally comfortable on land and at sea; they need no special water-rest requirement that their Deep and Brook kin bear, and can long rest anywhere, dry or wet. They are the most adaptable Myrathil, the diplomats and traders who run trade posts and negotiate with port authorities. They broker deals between ship-captains and shore-towns in ports from Frostwood Reach to Sundale. They mediate disputes in tide pools and trading posts. They carry the weight of being the diplomats of a people who have no nations, no armies, and no exploit except the quiet threat that the sea, should she choose, could take back every coastline she ever lent to the land. The flaw they carry is the flaw of the middle: they mediate everyone else\'s conflicts but cannot resolve their own. A Shore who picks a side, land or sea, is seen as having failed at being Myrathil.',
+        culturalBackground: 'Shore are the most visible Myrathil in the wider world. They maintain the trade posts from Salt-Hinge to the Frostwood Reach coast, negotiate with port authorities in cities that barely acknowledge their right to exist, and have developed a social fluency that other Myrathil find exhausting. They learn land-languages young, the tongues of Sundale, the trade-pidgins of the Iceheart Sea routes, the formal speech of Neth merchants who have learned that a Myrathil trader is more reliable than a human one. Their camps are the most permanent, relatively speaking, and their kelp-weave tends toward the practical and presentable rather than the ceremonial. They are the Myrathil most likely to marry into land-settlements, most likely to have human friends, and most likely to wake up at night in a dry bed feeling the tide pull in two directions at once. When the Sundered Monolith in the Treakous Rift began its new resonance, it was Shore who carried the news to every Myrathil community along every coastline within a month. It is Shore who now carry the difficult questions: negotiate or retreat? Treaty or disappearance? Mareth is not answering. She has never answered directly. She only sends more storms.',
         statModifiers: {
           charisma: 2,
           agility: 1,
@@ -218,9 +225,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         },
         traits: [
           {
-            id: 'amphibious_breaker',
+            id: 'amphibious_shore',
             name: 'Born of Spindrift',
-            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. The sea mother gave you lungs for air and gill-veins for water, but only the tide\'s weight lets you truly sleep.',
+            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. Mareth gave you lungs for air and gill-veins for water, but only the tide\'s weight lets you truly sleep.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -292,54 +299,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'wake_drawn_breaker',
-            name: 'Wake-Drawn',
-            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
-            level: 1,
-            icon: 'ability_rogue_findweakness',
-            spellType: 'PASSIVE',
-            effectTypes: ['buff'],
-            typeConfig: {
-              school: 'primal',
-              icon: 'ability_rogue_findweakness',
-              tags: ['animals', 'coastal', 'passive', 'flavor']
-            },
-            buffConfig: {
-              buffType: 'statusEffect',
-              effects: [
-                {
-                  id: 'coastal_affinity',
-                  name: 'Coastal Affinity',
-                  description: 'Advantage on Animal Handling checks with coastal and marine creatures. Small shore animals (crabs, fish, clams, seabirds) are non-hostile by default.',
-                  statusEffect: {
-                    level: 'minor',
-                    description: 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are docile.'
-                  }
-                }
-              ],
-              durationValue: 0,
-              durationType: 'permanent',
-              durationUnit: 'permanent',
-              canBeDispelled: false
-            },
-            targetingConfig: {
-              targetingType: 'self',
-              rangeType: 'self_centered'
-            },
-            resourceCost: {
-              actionPoints: 0,
-              mana: 0,
-              components: []
-            },
-            cooldownConfig: {
-              cooldownType: 'none',
-              cooldownValue: 0
-            }
-          },
-          {
-            id: 'storm_blood_breaker',
+            id: 'storm_blood_shore',
             name: 'Storm-Blooded',
-            description: 'During storm conditions (rain, gale, thunder, heavy sea) you gain +2 Initiative. You always know the direction of the nearest major body of water and can sense incoming storms up to 72 hours ahead — their direction, intensity, and arrival time. Your vein-colors surge and your blood wakes at the sky\'s first pressure-change; the spawning weather that made you left a permanent sensitivity to the storm.',
+            description: 'During storm conditions (rain, gale, thunder, heavy sea) you gain +2 Initiative. You always know the direction of the nearest major body of water and can sense incoming storms up to 72 hours ahead \u2014 their direction, intensity, and arrival time. Your vein-colors surge and your blood wakes at the sky\'s first pressure-change; the spawning weather that made you left a permanent sensitivity to the storm.',
             level: 1,
             icon: 'spell_nature_storm',
             spellType: 'PASSIVE',
@@ -397,13 +359,13 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'tide_tongue_breaker',
+            id: 'tide_tongue_shore',
             name: 'Tide-Tongue',
-            description: 'You gain +1 to Insight and Persuasion checks, but suffer Disadvantage on Deception — your vein-colors betray strong emotion and dishonesty to any Myrathil. You feel the emotional currents in a room like weather patterns, and you learned early that the truth, delivered gently, is a currency most have forgotten how to spend.',
+            description: 'You gain +1 to Insight and Persuasion checks. Your vein-colors shift with strong emotion, making you easy to read, but you CAN suppress the tell with effort and you CAN lie; your culture simply never taught you how. You feel the emotional currents in a room like weather patterns, and you learned early that the truth, delivered gently, is a currency most have forgotten how to spend.',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
-            effectTypes: ['buff', 'debuff'],
+            effectTypes: ['buff'],
             typeConfig: {
               school: 'primal',
               icon: 'spell_holy_divinefavor',
@@ -419,24 +381,6 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                   statusEffect: {
                     level: 'minor',
                     description: '+1 Insight, +1 Persuasion'
-                  }
-                }
-              ],
-              durationValue: 0,
-              durationType: 'permanent',
-              durationUnit: 'permanent',
-              canBeDispelled: false
-            },
-            debuffConfig: {
-              debuffType: 'statusEffect',
-              effects: [
-                {
-                  id: 'vein_transparency',
-                  name: 'Vein Transparency',
-                  description: 'Disadvantage on Deception checks. Your vein-colors shift with strong emotion and betray dishonesty. Other Myrathil can always tell when you are lying.',
-                  statusEffect: {
-                    level: 'moderate',
-                    description: 'Disadvantage on Deception. Vein-colors reveal emotional state.'
                   }
                 }
               ],
@@ -462,7 +406,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'spindrift_diplomacy',
             name: 'Spindrift Diplomacy',
-            description: 'Advantage on Persuasion checks during trade negotiations or diplomatic mediations; failing to mediate a conflict between two parties who share your loyalty deals you 1 wyrd damage. Breakers-Born carry the middle between sea and land, reading a room the way you read a tide chart — but the middle is a lonely place, and the sea mother does not judge those who try to hold it.',
+            description: 'Advantage on Persuasion checks during trade negotiations or diplomatic mediations; failing to mediate a conflict between two parties who share your loyalty deals you 1 wyrd damage. Shore carry the middle between sea and land, reading a room the way you read a tide chart \u2014 but the middle is a lonely place, and Mareth does not judge those who try to hold it.',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -495,12 +439,12 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       },
       deep: {
         id: 'deep_myrathil',
-        name: 'Deep-Born',
-        illustration: '/assets/images/races/deepborn_illustration.png',
-        illustrationCaption: 'A Deep-Born Myrathil swimming in the abyssal oceanic rift, accompanied by small glowing light-squid.',
+        name: 'Deep',
+        illustration: '/assets/images/races/deep_illustration.png',
+        illustrationCaption: 'A Deep Myrathil swimming in the abyssal oceanic rift, accompanied by small glowing light-squid.',
         tooltipSummary: 'Abyss-born mystics who hum into the ocean trench and speak a language older than words, finding the surface world unbearably loud.',
-        description: 'Emerged in the first century of the Dimming as the Iceheart Sea reached thermal equilibrium. Abyss-adapted mystics who hum into the Treakous Rift. Born from foam in the open Iceheart Sea during moonless gales, far from any coast. Sometimes they drift for weeks before finding land, arriving on beaches already half-grown, salt-crusted, speaking only the low-frequency hum that Myrathil use underwater. Their biology skews further toward sea than their shore-born kin: longer submersion tolerance, stronger swimming muscles, less comfort with spoken language. They are the mystics who hum into the Treakous Rift and record what answers, the sea-herders who tend the deep kelp-forests and migration routes, the guardians of knowledge the surface world would call madness and they call home. The flaw they carry is distance: land-folk feel alien and exhausting to them, their customs incomprehensible, their desperate need to fill silence with speech a constant irritation. A Deep-Born who spends too long on land begins to feel their own heartbeat as an intrusion, a reminder that they carry something warm inside them, and warmth is not what the deep prepared them for.',
-        culturalBackground: 'Deep-Born communities are the most isolated of all Myrathil. Their raft-villages drift far from shipping lanes, tethered over submerged volcanic ridges where the water runs warmer and the kelp grows thicker. Their submerged rest-chambers are too deep for surface-folk to reach without magic. Their culture is built around listening rather than speaking, the Ulvir tradition of humming into the abyss and recording what answers. When the Sundered Monolith in the Treakous Rift changed its resonance, the Deep-Born were the first to know. They had been listening to it for generations: a background hum, constant and ignorable. Now it thrums with purpose, and every Deep-Born within a hundred miles can feel it. The elders debate what this means. Some say the Shard is calling to its siblings, that the 7 Shards are waking, one by one, and the Myrathil have been guardian of one for millennia without knowing it. Others say the Shard is calling to the sea mother herself, and that she is finally preparing to answer. Many Deep-Born go their entire lives without speaking to a non-Myrathil. They prefer the low hum. The surface world is unbearably loud.',
+        description: 'Emerged in the first century of the Dimming as the Iceheart Sea reached thermal equilibrium. Abyss-adapted mystics who hum into the Treakous Rift. Born from foam in the open Iceheart Sea during moonless gales, far from any coast. Sometimes they drift for weeks before finding land, arriving on beaches already half-grown, salt-crusted, speaking only the low-frequency hum that Myrathil use underwater. Their biology skews further toward sea than their shore-born kin: longer submersion tolerance, stronger swimming muscles, less comfort with spoken language. They must hydrate frequently; prolonged dryness is exhausting, and after 24 hours in arid conditions cumulative fatigue sets in. Moist or humid environments suffice for comfort, but they need proximity to water for a true long rest. Being dry is not dangerous, but it is draining, like holding your breath: they can do it, but they would rather not. They are the mystics who hum into the Treakous Rift and record what answers, the sea-herders who tend the deep kelp-forests and migration routes, the guardians of knowledge the surface world would call madness and they call home. The flaw they carry is distance: land-folk feel alien and exhausting to them, their customs incomprehensible, their desperate need to fill silence with speech a constant irritation. A Deep who spends too long on land begins to feel their own heartbeat as an intrusion, a reminder that they carry something warm inside them, and warmth is not what the deep prepared them for.',
+        culturalBackground: 'Deep communities are the most isolated of all Myrathil. Their raft-villages drift far from shipping lanes, tethered over submerged volcanic ridges where the water runs warmer and the kelp grows thicker. Their submerged rest-chambers are too deep for surface-folk to reach without magic. Their culture is built around listening rather than speaking, the Ulvir tradition of humming into the abyss and recording what answers. When the Sundered Monolith in the Treakous Rift changed its resonance, the Deep were the first to know. They had been listening to it for generations: a background hum, constant and ignorable. Now it thrums with purpose, and every Deep within a hundred miles can feel it. The elders debate what this means. Some say the Shard is calling to its siblings, that the 7 Shards are waking, one by one, and the Myrathil have been guardian of one for millennia without knowing it. Others say the Shard is calling to Mareth herself, and that she is finally preparing to answer. Many Deep go their entire lives without speaking to a non-Myrathil. They prefer the low hum. The surface world is unbearably loud.',
         statModifiers: {
           spirit: 2,
           constitution: 1,
@@ -511,7 +455,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'amphibious_deep',
             name: 'Born of Spindrift',
-            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. The sea mother gave you lungs for air and gill-veins for water, but you are not equally at home on land — only the weight of the deep lets you truly sleep.',
+            description: 'You gain Water Breathing and a +30 ft swim speed. True rest requires 4+ hours of submersion in salt water; sleeping on land yields only half normal HP recovery. Mareth gave you lungs for air and gill-veins for water, but you are not equally at home on land \u2014 only the weight of the deep lets you truly sleep.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -583,54 +527,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'wake_drawn_deep',
-            name: 'Wake-Drawn',
-            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
-            level: 1,
-            icon: 'ability_rogue_findweakness',
-            spellType: 'PASSIVE',
-            effectTypes: ['buff'],
-            typeConfig: {
-              school: 'primal',
-              icon: 'ability_rogue_findweakness',
-              tags: ['animals', 'coastal', 'passive', 'flavor']
-            },
-            buffConfig: {
-              buffType: 'statusEffect',
-              effects: [
-                {
-                  id: 'coastal_affinity_deep',
-                  name: 'Coastal Affinity',
-                  description: 'Advantage on Animal Handling checks with coastal and marine creatures. Small shore animals (crabs, fish, clams, seabirds) are non-hostile by default.',
-                  statusEffect: {
-                    level: 'minor',
-                    description: 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are docile.'
-                  }
-                }
-              ],
-              durationValue: 0,
-              durationType: 'permanent',
-              durationUnit: 'permanent',
-              canBeDispelled: false
-            },
-            targetingConfig: {
-              targetingType: 'self',
-              rangeType: 'self_centered'
-            },
-            resourceCost: {
-              actionPoints: 0,
-              mana: 0,
-              components: []
-            },
-            cooldownConfig: {
-              cooldownType: 'none',
-              cooldownValue: 0
-            }
-          },
-          {
             id: 'abyssal_adaptation_deep',
             name: 'Abyssal Adaptation',
-            description: 'While submerged you gain Darkvision 60 ft, 25% Cold Resistance, and can hold your breath for 30 minutes. Every 12 hours continuously on land without submersion costs -1 to all ability checks (cumulative, max -3), resetting the moment you submerge in salt water. The deep left its mark on your body — lungs that compress without pain, eyes built for absolute dark, skin that barely feels the cold that kills surface-swimmers.',
+            description: 'While submerged you gain Darkvision 60 ft, 25% Cold Resistance, and can hold your breath for 30 minutes. Every 12 hours continuously on land without submersion costs -1 to all ability checks (cumulative, max -3), resetting the moment you submerge in salt water. The deep left its mark on your body \u2014 lungs that compress without pain, eyes built for absolute dark, skin that barely feels the cold that kills surface-swimmers.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -646,7 +545,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                 {
                   id: 'deep_vision',
                   name: 'Deep Sight',
-                  description: 'Darkvision 60ft while submerged. The abyss has no light, so the sea mother gave you different eyes.',
+                  description: 'Darkvision 60ft while submerged. The abyss has no light, so Mareth gave you different eyes.',
                   statusEffect: {
                     level: 'moderate',
                     description: 'Darkvision 60ft underwater'
@@ -712,7 +611,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'deep_hum',
             name: 'The Deep Hum',
-            description: 'Every Myrathil carries a secondary voice, a low-frequency hum that carries for miles underwater and just barely registers above the surface. Deep-Born learn to shape it. You can speak through it, sending simple concepts through the water to anyone in range. Above water, you can let it resonate through the air, a single low note that steadies the minds of those nearby. The hum is not language. It is older than language. It is what the sea mother sounds like when she is listening.',
+            description: 'Every Myrathil carries a secondary voice, a low-frequency hum that carries for miles underwater and just barely registers above the surface. Deep learn to shape it. You can speak through it, sending simple concepts through the water to anyone in range. Above water, you can let it resonate through the air, a single low note that steadies the minds of those nearby. The hum is not language. It is older than language. It is what Mareth sounds like when she is listening.',
             level: 1,
             icon: 'spell_arcane_mindcontrol',
             spellType: 'ACTION',
@@ -768,9 +667,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'sea_mothers_hum',
-            name: "Sea Mother's Hum",
-            description: 'Once per long rest you may enter a 1-minute uninterrupted humming trance to sense the emotional state and approximate location of all creatures within 100 ft touching the same body of water. On land, you must succeed a DC 10 Spirit save to benefit from a long rest without at least 1 hour of salt-water submersion. You carry the sea mother\'s frequency in your bones, a low vibration aligning you with the deep currents and the creatures who navigate them.',
+            id: 'mareths_hum',
+            name: "Mareth's Hum",
+            description: 'Once per long rest you may enter a 1-minute uninterrupted humming trance to sense the emotional state and approximate location of all creatures within 100 ft touching the same body of water. On land, you must succeed a DC 10 Spirit save to benefit from a long rest without at least 1 hour of salt-water submersion. You carry Mareth\'s frequency in your bones, a low vibration aligning you with the deep currents and the creatures who navigate them.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -802,15 +701,15 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           disadvantage: ['ember', 'charmed']
         }
       },
-      river: {
-        id: 'river_myrathil',
-        name: 'River-Fed',
-        illustration: '/assets/images/races/riverfed_illustration.png',
-        illustrationCaption: 'A River-Fed Myrathil scout wading in a freshwater delta, holding a parchment map and surveying the terrain.',
+      brook: {
+        id: 'brook_myrathil',
+        name: 'Brook',
+        illustration: '/assets/images/races/brook_illustration.png',
+        illustrationCaption: 'A Brook Myrathil scout wading in a freshwater delta, holding a parchment map and surveying the terrain.',
         tooltipSummary: 'Estuary-born explorers who follow rivers inland to map territories no Myrathil has ever seen, caught between two worlds that claim them.',
-        description: 'Emerged in the early centuries of the Dimming when Venn the Salt-Walker discovered the Mother\'s Mirror and proved Myrathil could survive in freshwater. The wanderers who follow rivers inland. Born where freshwater meets salt, river mouths, estuaries, mangrove deltas, in brackish water that is neither one world nor the other. Unlike other Myrathil, they can submerge in freshwater without the salt-irritation that makes their kin avoid the rivers that vein the continents. This makes them the wanderers: the ones who follow waterways inland from the Frostwood Reach to the edge of Sundale\'s volcanic deserts, who have crossed the Sundrift Vale by following a seasonal stream that no map recorded, who become scouts and explorers seeing mountains for the first time in Myrathil history. They return with maps and stories and a look in their eyes that other Myrathil find hard to hold. The flaw they carry is suspicion from their own kind. A River-Fed who stays inland too long "forgets the taste of mother." Breakers-Born treat them as too land-ish. Deep-Born treat them as practically human. They are the ones caught between loyalties, accused of not being Myrathil enough, and yet they are the only Myrathil who have seen the inland territories where the Sundered Monoliths rest, who have walked the Sundrift Vale and mapped the rivers that flow toward the Bryngloom Forest\'s swampy heart.',
-        culturalBackground: 'River-Fed are the explorers of Myrathil society, but they are also the bearers of the most urgent intelligence. When word of the Sundered Monolith\'s awakening in the Treakous Rift reached the delta camps, it was River-Fed who connected it to what they had seen inland: other old magics stirring, ancient burial mounds humming in the Sundrift Vale, a murky pool in the Bryngloom Forest that had begun to glow with light that did not behave like light. They follow rivers inland, trading with land-settlements far from the coast, mapping territories no other Myrathil has seen. Their camps are temporary, their possessions are minimal, and their relationships with land-folk are the most genuine, they are the Myrathil most likely to have human friends rather than human collectors. They return to the delta or coast every few years to share their maps and stories at the Tide-Share. Some settle inland permanently, marrying into land-communities and raising children who have never seen the sea. These are mourned as lost by their kin, even while they are still alive and happy, the sea mother\'s children who chose the land, and whom the land, in its own way, accepted. When the crisis over the spawning gales escalates, it will be the River-Fed who carry the messages between the retreating Deep-Born and the negotiating Breakers-Born, as they have always carried the messages between worlds that do not speak the same language.',
-        currentCrisis: 'The rivers are changing faster than any River-Fed can map. The Great Silver River has dropped three feet in the last decade. Seasonal streams that have flowed since before the Deepening are drying to gravel beds. River-Fed who followed those streams inland, who built trading posts and lives far from the coast, are being forced to retreat — or to stay and watch the water vanish around them. The land-folk blame the volcanic winter shifting rainfall. The Deep-Born blame the Sundered Monolith in the Treakous Rift, its awakening pulling thermal currents in directions no one can predict. The Breakers-Born say nothing, because saying "we told you so" to a River-Fed whose homeland is evaporating would be cruel. The River-Fed are running out of rivers — and for the first time, asking whether the sea mother ever intended them to go so far inland at all.',
+        description: 'Emerged in the early centuries of the Dimming when Venn the Salt-Walker discovered the Mother\'s Mirror and proved Myrathil could survive in freshwater. The wanderers who follow rivers inland. Born where freshwater meets salt, river mouths, estuaries, mangrove deltas, in brackish water that is neither one world nor the other. Unlike other Myrathil, they can submerge in freshwater without the salt-irritation that makes their kin avoid the rivers that vein the continents. This makes them the wanderers: the ones who follow waterways inland from the Frostwood Reach to the edge of Sundale\'s volcanic deserts, who have crossed the Sundrift Vale by following a seasonal stream that no map recorded, who become scouts and explorers seeing mountains for the first time in Myrathil history. They are the most adaptable and self-sufficient of the Myrathil, needing only some contact with water to sustain themselves where their kin require submersion. Their yearning is for flowing freshwater: a Brook Myrathil who returns to a river after long absence feels the current in their veins reawaken, like a pulse finding its rhythm again. They return with maps and stories and a look in their eyes that other Myrathil find hard to hold. The flaw they carry is suspicion from their own kind. A Brook who stays inland too long "forgets the taste of mother." Shore treat them as too land-ish. Deep treat them as practically human. They are the ones caught between loyalties, accused of not being Myrathil enough, and yet they are the only Myrathil who have seen the inland territories where the Sundered Monoliths rest, who have walked the Sundrift Vale and mapped the rivers that flow toward the Bryngloom Forest\'s swampy heart.',
+        culturalBackground: 'Brook are the explorers of Myrathil society, but they are also the bearers of the most urgent intelligence. When word of the Sundered Monolith\'s awakening in the Treakous Rift reached the delta camps, it was Brook who connected it to what they had seen inland: other old magics stirring, ancient burial mounds humming in the Sundrift Vale, a murky pool in the Bryngloom Forest that had begun to glow with light that did not behave like light. They follow rivers inland, trading with land-settlements far from the coast, mapping territories no other Myrathil has seen. Their camps are temporary, their possessions are minimal, and their relationships with land-folk are the most genuine, they are the Myrathil most likely to have human friends rather than human collectors. They return to the delta or coast every few years to share their maps and stories at the Tide-Share. Some settle inland permanently, marrying into land-communities and raising children who have never seen the sea. These are mourned as lost by their kin, even while they are still alive and happy, Mareth\'s children who chose the land, and whom the land, in its own way, accepted. When the crisis over the spawning gales escalates, it will be the Brook who carry the messages between the retreating Deep and the negotiating Shore, as they have always carried the messages between worlds that do not speak the same language.',
+        currentCrisis: 'The rivers are changing faster than any Brook can map. The Great Silver River has dropped three feet in the last decade. Seasonal streams that have flowed since before the Deepening are drying to gravel beds. Brook who followed those streams inland, who built trading posts and lives far from the coast, are being forced to retreat \u2014 or to stay and watch the water vanish around them. The land-folk blame the volcanic winter shifting rainfall. The Deep blame the Sundered Monolith in the Treakous Rift, its awakening pulling thermal currents in directions no one can predict. The Shore say nothing, because saying "we told you so" to a Brook whose homeland is evaporating would be cruel. The Brook are running out of rivers \u2014 and for the first time, asking whether Mareth ever intended them to go so far inland at all.',
         statModifiers: {
           agility: 2,
           intelligence: 1,
@@ -818,7 +717,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         },
         traits: [
           {
-            id: 'amphibious_river',
+            id: 'amphibious_brook',
             name: 'Born of Spindrift',
             description: 'You gain Water Breathing, a +30 ft swim speed, and can achieve full rest through submersion in fresh OR salt water. True rest otherwise requires 4+ hours of submersion; sleeping on land yields only half normal HP recovery. Your brackish spawning means the rivers welcome you where the sea cannot reach, and you breathe both air and water.',
             level: 1,
@@ -834,7 +733,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
               buffType: 'statEnhancement',
               effects: [
                 {
-                  id: 'water_breathing_river',
+                  id: 'water_breathing_brook',
                   name: 'Water Breathing',
                   description: 'Breathe both air and water without limitation.',
                   statModifier: {
@@ -844,7 +743,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                   }
                 },
                 {
-                  id: 'sea_swim_river',
+                  id: 'sea_swim_brook',
                   name: 'Natural Swimmer',
                   description: '+30ft swim speed. The sea recognizes her children.',
                   statModifier: {
@@ -872,7 +771,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
               debuffType: 'curse',
               effects: [
                 {
-                  id: 'surface_restlessness_river',
+                  id: 'surface_restlessness_brook',
                   name: 'Surface Restlessness',
                   description: 'Cannot benefit from long rests unless submerged for at least 4 hours. Sleeping on land provides only half the normal HP recovery.',
                   statusEffect: {
@@ -901,54 +800,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'wake_drawn_river',
-            name: 'Wake-Drawn',
-            description: 'You have Advantage on Animal Handling checks with coastal and marine creatures, and small shore animals (crabs, fish, clams, seabirds) are non-hostile by default. The sea trails after you — shore-crabs scuttle in your wake, and tide-pools you linger near seem to rearrange themselves in your honor.',
-            level: 1,
-            icon: 'ability_rogue_findweakness',
-            spellType: 'PASSIVE',
-            effectTypes: ['buff'],
-            typeConfig: {
-              school: 'primal',
-              icon: 'ability_rogue_findweakness',
-              tags: ['animals', 'coastal', 'passive', 'flavor']
-            },
-            buffConfig: {
-              buffType: 'statusEffect',
-              effects: [
-                {
-                  id: 'coastal_affinity_river',
-                  name: 'Coastal Affinity',
-                  description: 'Advantage on Animal Handling checks with coastal and marine creatures. Small shore animals (crabs, fish, clams, seabirds) are non-hostile by default.',
-                  statusEffect: {
-                    level: 'minor',
-                    description: 'Advantage on Animal Handling with coastal/marine creatures. Shore animals are docile.'
-                  }
-                }
-              ],
-              durationValue: 0,
-              durationType: 'permanent',
-              durationUnit: 'permanent',
-              canBeDispelled: false
-            },
-            targetingConfig: {
-              targetingType: 'self',
-              rangeType: 'self_centered'
-            },
-            resourceCost: {
-              actionPoints: 0,
-              mana: 0,
-              components: []
-            },
-            cooldownConfig: {
-              cooldownType: 'none',
-              cooldownValue: 0
-            }
-          },
-          {
-            id: 'brackish_heritage_river',
+            id: 'brackish_heritage_brook',
             name: 'Brackish Heritage',
-            description: 'You are immune to freshwater-exposure effects that afflict other Myrathil and gain 25% Poison Resistance; you also gain +5 ft movement speed when traveling along rivers or streams. When more than 50 miles from any natural water source (river, lake, or coast), you lose 1 Spirit. Spawned where two waters meet, your body remembers the blend — but the further you travel from any water, the fainter the sea mother\'s voice becomes in your chest.',
+            description: 'You are immune to freshwater-exposure effects that afflict other Myrathil and gain 25% Poison Resistance; you also gain +5 ft movement speed when traveling along rivers or streams. When more than 50 miles from any natural water source (river, lake, or coast), you lose 1 Spirit. Spawned where two waters meet, your body remembers the blend \u2014 but the further you travel from any water, the fainter Mareth\'s voice becomes in your chest.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',
@@ -993,7 +847,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
                 {
                   id: 'water_distance_penalty',
                   name: 'Distant Waters',
-                  description: 'When more than 50 miles from any natural water source (river, lake, or coast): -1 Spirit. The sea mother\'s voice grows faint, and you feel it in your chest.',
+                  description: 'When more than 50 miles from any natural water source (river, lake, or coast): -1 Spirit. Mareth\'s voice grows faint, and you feel it in your chest.',
                   statusEffect: {
                     level: 'minor',
                     description: '-1 Spirit when >50 miles from natural water'
@@ -1020,9 +874,9 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             }
           },
           {
-            id: 'mask_estuary_river',
+            id: 'mask_estuary_brook',
             name: 'Mask of the Estuary',
-            description: 'The River-Fed spend more time among land-folk than any other Myrathil, and they have learned to pull the sea inward when they need to pass unnoticed. You can retract your webbing completely, dim your vein-colors to near-invisibility, and still the restless tide in your movements until you look, briefly, almost human. It is uncomfortable, like holding your breath while awake, and you cannot maintain it forever. The sea mother does not judge you for hiding. But she does not help, either.',
+            description: 'The Brook spend more time among land-folk than any other Myrathil, and they have learned to pull the sea inward when they need to pass unnoticed. You can retract your webbing completely, dim your vein-colors to near-invisibility, and still the restless tide in your movements until you look, briefly, almost human. It is uncomfortable, like holding your breath while awake, and you cannot maintain it forever. Mareth does not judge you for hiding. But she does not help, either.',
             level: 1,
             icon: 'ability_rogue_disguise',
             spellType: 'ACTION',
@@ -1085,7 +939,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             id: 'fresh_water_memory',
             name: 'Fresh-Water Memory',
-            description: 'Advantage on Intelligence (History) or Survival checks to recall geographical features of any freshwater system you have personally traveled, and once per long rest you may perfectly retrace any river route you swam within the last week (even if blinded or disoriented); you suffer Disadvantage on Knowledge checks for land-based geography. River-Fed carry maps no one else draws — every river lived in your blood as currents, not memories, a flowing cartography that surfaces when you need it most, though the land-folk\'s maps still make no sense to someone who navigates by flow.',
+            description: 'Advantage on Intelligence (History) or Survival checks to recall geographical features of any freshwater system you have personally traveled, and once per long rest you may perfectly retrace any river route you swam within the last week (even if blinded or disoriented); you suffer Disadvantage on Knowledge checks for land-based geography. Brook carry maps no one else draws \u2014 every river lived in your blood as currents, not memories, a flowing cartography that surfaces when you need it most, though the land-folk\'s maps still make no sense to someone who navigates by flow.',
             level: 1,
             icon: 'spell_nature_water',
             spellType: 'PASSIVE',

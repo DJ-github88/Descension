@@ -248,7 +248,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
   // Helper function to convert actual scale to display percentage
   const scaleToDisplayPercent = (scale) => {
-    return Math.round((scale / 0.8) * 100);
+    return Math.round(scale * 100);
   };
 
   // Handle window scale preview change
@@ -278,7 +278,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   };
 
   const previewScaleUp = () => {
-    const newScale = Math.min(2.0, previewWindowScale + 0.05);
+    const newScale = Math.min(1.5, previewWindowScale + 0.05);
     setPreviewWindowScale(newScale);
     setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
   };
@@ -412,18 +412,35 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
               </button>
               <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px', maxWidth: '300px' }}>
                 <span className="range-label">50%</span>
-                <input type="range" min="0.5" max="2.0" step="0.05" value={previewWindowScale} onChange={handleWindowScalePreviewChange} className="control-slider" style={{ flex: 1 }} />
-                <span className="range-label">200%</span>
+                <input type="range" min="0.5" max="1.5" step="0.05" value={previewWindowScale} onChange={handleWindowScalePreviewChange} className="control-slider" style={{ flex: 1 }} />
+                <span className="range-label">150%</span>
               </div>
-              <button className="control-button secondary" onClick={previewScaleUp} disabled={previewWindowScale >= 2.0} style={{ minWidth: '80px' }} title="Make windows larger">
+              <button className="control-button secondary" onClick={previewScaleUp} disabled={previewWindowScale >= 1.5} style={{ minWidth: '80px' }} title="Make windows larger">
                 <i className="fas fa-plus" style={{ marginRight: '6px' }}></i>Larger
               </button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '16px', flexWrap: 'wrap' }}>
+              {[0.5, 0.65, 0.8, 1.0, 1.25, 1.5].map(preset => (
+                <button
+                  key={preset}
+                  onClick={() => { setPreviewWindowScale(preset); setHasScaleChanges(Math.abs(preset - windowScale) > 0.01); }}
+                  style={{
+                    padding: '4px 12px', borderRadius: '4px', fontSize: '12px', cursor: 'pointer', fontFamily: 'Cinzel, serif',
+                    border: `1px solid ${Math.abs(previewWindowScale - preset) < 0.001 ? '#7a3b2e' : '#e8dcc0'}`,
+                    background: Math.abs(previewWindowScale - preset) < 0.001 ? 'rgba(122, 59, 46, 0.12)' : 'rgba(255,255,255,0.5)',
+                    color: '#7a3b2e', fontWeight: Math.abs(previewWindowScale - preset) < 0.001 ? '700' : '500'
+                  }}
+                >
+                  {preset === 0.8 ? `${scaleToDisplayPercent(preset)}% (Default)` : `${scaleToDisplayPercent(preset)}%`}
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="control-actions" style={{ justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <button className="control-button secondary" onClick={resetWindowScalePreview} style={{ minWidth: '120px' }} title="Reset to standard 100% scale">
-              <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>Reset to 100%
+            <button className="control-button secondary" onClick={resetWindowScalePreview} style={{ minWidth: '120px' }} title="Reset to default 80% scale">
+              <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>Reset to Default
             </button>
             <button className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`} onClick={applyWindowScale} disabled={!hasScaleChanges} style={{ minWidth: '120px' }}>
               <i className="fas fa-check" style={{ marginRight: '6px' }}></i>{hasScaleChanges ? 'Apply Changes' : 'No Changes'}

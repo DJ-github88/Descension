@@ -83,7 +83,7 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                                     }}
                                 >
                                     <div className="connection-item-header">
-                                        <span className="connection-item-icon">â—‰</span>
+                                        <span className="connection-item-icon">â - ‰</span>
                                         <span className="connection-item-name">{displayName}</span>
                                     </div>
                                     <div className="connection-item-meta">

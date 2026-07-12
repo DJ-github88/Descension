@@ -1337,7 +1337,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (addCombatNotification) {
       addCombatNotification({
         type: 'system',
-        content: `ğŸ—ï¸ ${creatureName} command bestowed to ${playerName}`,
+        content: `ğŸ - ï¸ ${creatureName} command bestowed to ${playerName}`,
         timestamp: new Date().toISOString()
       });
     }
@@ -4000,7 +4000,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             {/* Decorative top border */}
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(to right, transparent, #8b4513, #d4af37, #8b4513, transparent)', borderRadius: '12px 12px 0 0' }} />
 
-            <div style={{ fontSize: '40px', marginBottom: '12px' }}>ğŸ—¡ï¸</div>
+            <div style={{ fontSize: '40px', marginBottom: '12px' }}>ğŸ - ¡ï¸</div>
             <h2 style={{ margin: '0 0 8px', fontSize: '22px', color: '#5a1e12', textTransform: 'uppercase', letterSpacing: '1px' }}>
               Command Bestowed
             </h2>

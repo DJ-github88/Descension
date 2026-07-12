@@ -66,7 +66,7 @@ const PerformanceDashboard = ({ isOpen, onClose }) => {
       <div className="performance-dashboard">
         <div className="performance-header">
           <h2>Performance Dashboard</h2>
-          <button className="close-btn" onClick={onClose}>Ã—</button>
+          <button className="close-btn" onClick={onClose}>Ã - </button>
         </div>
 
         <div className="performance-controls">

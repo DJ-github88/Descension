@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Race-Specific Starting Equipment
  *
  * Items that are only available to specific races and subraces.
@@ -357,7 +357,7 @@ export const NETH_BASE_ITEMS = [
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A silver-leaf ring binding a fragment of the First Contract echo. The Keeper sees through it, and the dead speak when the terms demand.',
+        description: 'A silver-leaf ring binding a fragment of the First Contract echo. Morvane sees through it, and the dead speak when the terms demand.',
         iconId: 'inv_jewelry_ring_28',
         value: { platinum: 0, gold: 10, silver: 75, copper: 50 },
         weight: 0.1,
@@ -404,7 +404,7 @@ export const ASTREN_BASE_ITEMS = [
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A ring set with a memory-glass chip that hums when a constellation-spirit stirs. The Luminarchy issues these to every Astril host.',
+        description: 'A ring set with a memory-glass chip that hums when Lumia\'s echo stirs within an Astril bearer. The Synod issues these to every Astril host.',
         iconId: 'inv_jewelry_ring_22',
         value: { platinum: 0, gold: 11, silver: 75, copper: 50 },
         weight: 0.1,
@@ -499,12 +499,12 @@ agility: { value: 1, isPercentage: false }
 // Myrathil subrace items
 export const MYRATHIL_SUBRACE_ITEMS = [
     {
-        id: 'breakers-sea-glass-torc',
-        name: 'Breakers\' Sea-Glass Torc',
+        id: 'shore-sea-glass-torc',
+        name: 'Shore\'s Sea-Glass Torc',
         type: 'accessory',
         subtype: 'NECKLACE',
         quality: 'uncommon',
-        description: 'A torc of woven salvage-silk set with sea-glass that shifts color with atmospheric pressure, a Breakers-Born trader\'s most trusted negotiation tool.',
+        description: 'A torc of woven salvage-silk set with sea-glass that shifts color with atmospheric pressure, a Shore trader\'s most trusted negotiation tool.',
         iconId: 'inv_jewelry_necklace_18',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 0.3,
@@ -516,17 +516,17 @@ export const MYRATHIL_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['breaker_myrathil']
+            subraces: ['shore_myrathil']
         }
     },
 
     {
-        id: 'deepborn-abyss-pearl',
-        name: 'Deep-Born Abyss Pearl',
+        id: 'deep-abyss-pearl',
+        name: 'Deep Abyss Pearl',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A pearl harvested from the deepest trench-gardens, cold to the touch even on land. Deep-Born mystics use it as a focus for the low hum, it resonates faintly when the abyss is listening.',
+        description: 'A pearl harvested from the deepest trench-gardens, cold to the touch even on land. Deep mystics use it as a focus for the low hum, it resonates faintly when the abyss is listening.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
         weight: 0.1,
@@ -543,12 +543,12 @@ export const MYRATHIL_SUBRACE_ITEMS = [
     },
 
     {
-        id: 'riverfed-cartographer-kit',
-        name: 'River-Fed Cartographer\'s Kit',
+        id: 'brook-cartographer-kit',
+        name: 'Brook Cartographer\'s Kit',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A waterproofed leather case containing parchment, ink pressed from coastal minerals, and a compass that points toward the nearest river-mouth rather than north. Carried by every River-Fed who walks inland.',
+        description: 'A waterproofed leather case containing parchment, ink pressed from coastal minerals, and a compass that points toward the nearest river-mouth rather than north. Carried by every Brook who walks inland.',
         iconId: 'inv_misc_enggizmos_27',
         value: { platinum: 0, gold: 7, silver: 50, copper: 75 },
         weight: 2,
@@ -560,7 +560,7 @@ export const MYRATHIL_SUBRACE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['river_myrathil']
+            subraces: ['brook_myrathil']
         }
     }
 ];
@@ -573,7 +573,7 @@ export const MIMIR_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A cloak of fog-spider silk that holds the shape of whoever last wore a mask near it. A Mask-Borne tool of identity-craft.',
+        description: 'A cloak of fog-spider silk that holds the shape of whoever last wore a mask near it. A Masked tool of identity-craft.',
         iconId: 'inv_misc_cape_18',
         value: { platinum: 0, gold: 9, silver: 50, copper: 75 },
         weight: 2,
@@ -585,7 +585,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['maskborne_mimir']
+            subraces: ['masked_mimir']
         }
     },
     {
@@ -594,7 +594,7 @@ export const MIMIR_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A storm-glass lantern that reveals the spore-trails intruders leave. The Mist-Woven hang these from the Spire-Aeries.',
+        description: 'A storm-glass lantern that reveals the spore-trails intruders leave. The Woven hang these from the Spire-Aeries.',
         iconId: 'inv_misc_lantern_01',
         value: { platinum: 0, gold: 7, silver: 85, copper: 50 },
         weight: 2,
@@ -607,7 +607,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['mistwoven_mimir']
+            subraces: ['woven_mimir']
         }
     },
     {
@@ -628,7 +628,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['maskborne_mimir']
+            subraces: ['masked_mimir']
         }
     },
     {
@@ -661,7 +661,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A mirror of ghost-metal polish that shows the face beneath a Smooth-Skinned Briarans borrowed name. The Hollow-Court trades in what it reveals.',
+        description: 'A mirror of ghost-metal polish that shows the face beneath a Shorn Briarans borrowed name. The Hollow-Court trades in what it reveals.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 1,
@@ -673,7 +673,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['smoothskinned_briaran']
+            subraces: ['shorn_briaran']
         }
     },
     {
@@ -682,7 +682,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Living thorn-plate grown from an Unshorn Briarans own skin. The Thorn-Fall records every wound it absorbs.',
+        description: 'Living thorn-plate grown from a Trueborn Briarans own skin. The Thorn-Fall records every wound it absorbs.',
         iconId: 'inv_chest_leather_04',
         value: { platinum: 0, gold: 9, silver: 60, copper: 40 },
         weight: 10,
@@ -697,7 +697,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['unshorn_briaran']
+            subraces: ['trueborn_briaran']
         }
     },
     {
@@ -727,7 +727,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['unshorn_briaran']
+            subraces: ['trueborn_briaran']
         }
     }
 ];
@@ -1021,7 +1021,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A Velun Neth quill that writes in silver-leaf ink, drafting contract-clauses so tight the Keeper has never found a gap. The ink never dries.',
+        description: 'A Velun Neth quill that writes in silver-leaf ink, drafting contract-clauses so tight Morvane has never found a gap. The ink never dries.',
         iconId: 'inv_feather_12',
         value: { platinum: 0, gold: 7, silver: 85, copper: 25 },
         weight: 0.1,
@@ -1068,7 +1068,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Muren crystal-veil that cages a constellation-spirits light behind mental discipline. The Unlit threshold recedes while it is worn.',
+        description: 'A Silath crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
         iconId: 'inv_helmet_31',
         value: { platinum: 0, gold: 10, silver: 75, copper: 25 },
         weight: 1,
@@ -1080,7 +1080,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['muren_astril']
+            subraces: ['silath_astril']
         }
     },
     {
@@ -1089,7 +1089,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Sylen crown that lets a constellation-spirit burn bright and unchained. The hosts chest glows like a captured star.',
+        description: 'A Vashir crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
         iconId: 'inv_crown_01',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 1,
@@ -1101,7 +1101,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['sylen_astril']
+            subraces: ['vashir_astril']
         }
     },
     {
@@ -1110,7 +1110,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A bone-etched chart of the constellation-spirit lineages, mapping which stars still burn and which went dark at the Ordavan bargain.',
+        description: 'A bone-etched chart of the Astril echo-lineages, mapping which signatures still resonate and which went dark at the Ordavan bargain.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
         weight: 0.5,
@@ -1122,7 +1122,7 @@ export const ASTREN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['sylen_astril', 'muren_astril']
+            subraces: ['vashir_astril', 'silath_astril']
         }
     }
 ];

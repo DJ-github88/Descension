@@ -145,7 +145,7 @@ export const REVENANT_DATA = {
       "Rations (7 days, salt-cured)",
       "Ritual components pouch (iron filings, bone ash, preserved peat-moss)",
       "Lantern with black iron cage",
-      "1d10 × 5 tarnished silver pieces",
+      "1d10 � -  5 tarnished silver pieces",
     ],
     notes: "Revenants cannot wield sacred tokens or consecrated weapons, the blight resonance in their blood causes such items to crack and dull. Bows and crossbows are forbidden; the Revenant's work requires the press of blood or frost against flesh.",
   },
@@ -175,35 +175,31 @@ export const REVENANT_DATA = {
   overview: {
     title: "The Revenant",
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
-    originStory: `Founded in the later centuries of the Dimming when bog-graves began waking on their own and two death-magic traditions merged: Kora the Veil-Speaker's blood-covenant and Vesper the Scribe's frost-stasis phylactery. Two traditions of death magic, born in the same peat-bogs of the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, bound by the same terrible truth: life force is the only currency that matters.
+    originStory: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.
 
-The Vreken Veil-Speaker <LoreLink termId="kora">Kora</LoreLink> was the first to pay it. Desperate to keep the ancestral lights of six generations burning, she walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread. The covenant was absolute, every spell she wove drained her own life, generating volatile Blood Tokens that orbited her body like carrion flies. The dead answered. The living recoiled. Kora's voice was reduced to a dry whisper by the overlapping screams of ancestors she could never silence.
+The art emerged from the Bryngloom Forest during the later centuries of the Dimming, when the bog-graves began waking on their own. Two separate responses to death became one. The Vreken Veil-Speaker Kora walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread to keep the ancestral lights of six generations burning. Every spell she cast drained her own life and filled her body with volatile Blood Tokens. The Velun Neth scribe Vesper, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. He still answers correspondence. His heart beats once per hour.
 
-The human scribe <LoreLink termId="vesper">Vesper</LoreLink> sought the same bogs decades later, dying of the sumps' lung-rot. He performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. Vesper achieved immortality, but his body became a cold, rotting tomb. His heart beats once an hour. His flesh is cold as bog-iron. He must constantly harvest life force to prevent his skeleton from dissolving.
+When the bog-graves began waking without permission and the dead started marching toward the Sundered Monoliths, the two traditions recognized they were fighting the same war. Kora provided the blood-fueled sacrifice. Vesper provided the frost-stasis phylactery. Together they created a practitioner who charges their phylactery through enemy kills and resurrects from stored life force when slain, triggering a battlefield-wide freeze. The revenant's voice comes out as a whisper, and their hands are always cold.
 
-When the bog-graves began waking on their own, the dead marching toward the Sundered Monoliths without permission, Kora's descendants and Vesper's acolytes recognized that their separate wars were the same war. The necrotic covenant was failing. The peat was turning black. The dead were no longer waiting.
+Each subrace refuses death for different reasons. The Clean Vreken refuse because their ancestors need a living voice to speak through, the revenant state continued service, the host kept half-alive so the dead keep speaking. The Marked Vreken achieve the state through the Root-Veil itself, consciousness smeared across miles of mycelium, dying everywhere and nowhere, nearly impossible to permanently kill but feeling every wound the forest feels. The Drun Neth are legal non-existence made metaphysical. Severed from the First Contract, invisible to Morvane, death cannot claim what legally does not exist. They are the freest undead and the loneliest. The Morren are denied death by the contract-economy that owned them in life. Undeath is the final clause, power scaling with outstanding debt, because the Neth will not let a major debtor simply die. The Tessen anchor their souls to ancestral keep architecture. As long as the keep stands, they cannot be destroyed. The keeps are failing.
 
-The Revenant was forged in that recognition. Blood magic meets frost stasis. Volatile sacrifice meets methodical harvest. Kora's tokens and Vesper's phylactery are one economy now. The dead answer to a single voice. That voice is yours. It comes out as a whisper, and your hands are always cold.
-
-You died once. That was the easy part. Coming back is where the price starts.`,
+Twelve revenants have been found drained of blood but showing no wounds. The Cult of Forgotten Shadow, a silent order operating from the deepest peat-bogs where the Bryngloom's light never reaches, offers Silence-stasis, clean immortality requiring no life-force harvesting. Half the remaining revenants have accepted the offer. The other half suspect the Silence is replacing their souls.`,
 
     illustration: "/assets/images/classes/revenant_illustration.png",
     illustrationCaption: "A Vreken Revenant standing at the edge of the Bryngloom peat-bogs, blood-frost crackling between their fingers.",
 
     quickOverview: {
       title: "The Undying Economy",
-      content: `**What You Need to Know**: The Revenant is a death mage who has returned from the grave with two intertwined economies: **Death Toll** (0-20, volatile blight energy built through HP sacrifice and kills) and a **Phylactery** (resurrection pool charged by killing enemies). You can toggle **Death Shroud** mode to burn HP instead of Mana for enhanced frost+necrotic spells.
+      content: `**Who they are**: A death mage who has returned from the grave carrying two necrotic economies  -  volatile blight energy and a soul-charged resurrection vessel. They are not alive, not dead, and have work to do.
 
-**Core Loop**: Sacrifice HP / Kill enemies → Build Death Toll + Charge Phylactery → Toggle Death Shroud for devastating HP-burning spells → Die strategically → Resurrect via Phylactery → Death Trigger freeze → Repeat
+**The hook**: Sacrifice HP to build Death Toll and charge your Phylactery with every kill. Toggle Death Shroud to burn HP instead of mana for enhanced frost-and-necrotic devastation. Die strategically  -  your resurrection freezes everything around you in one of the strongest control effects in the game  -  then rise and do it again.
 
-**Resources**: Mana (Normal casting), HP (Death Shroud casting + spell sacrifice), Death Toll (0-20, volatile, decays without kills), Phylactery HP (kill-charged resurrection pool, max 50), Death Marks (5 permanent bargains)
+**The cost**: Death Toll at 6+ deals self-damage. At 11+, you cannot be healed. At 16+, dying detonates a nuclear necrotic blast. Your Phylactery depletes with each resurrection  -  run out of harvested souls and there is no safety net. Every spell costs life. Every kill feeds the grave.
 
-**Fatal Flaws**: Death Toll 6+ = self-damage. 11+ = cannot be healed. 16+ = nuclear detonation on death. Death Shroud drains HP every turn. Phylactery depleted = no safety net.
-
-**Best For**: Players who want to ride the razor's edge between annihilation and godhood, who treat death as a tactical resource, and who understand that the real enemy is the timer in their own veins`,
+**Bring one for**: The only class that converts its own death into a tactical weapon  -  the freeze that erupts from your resurrection turns a party wipe into a counterattack, and the Death Shroud burns your life for raw damage no mana-based caster can match.`,
     },
 
-    description: `The Revenant is a death caster who walks between two necrotic traditions, the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life. Every kill feeds the grave. The Death Toll they carry is not safe storage, it is boiling blight energy orbiting their body, volatile and searing. Their Phylactery is their insurance against the inevitable: when the cold consumes them, the harvested souls drag them back from the threshold. Death Shroud mode transforms them into a walking blizzard of HP-burning devastation. They are the only class that converts their own death into a tactical weapon, the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in the game. They are not alive. They are not dead. They are the Revenant, and they have work to do.`,
+    description: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -238,6 +234,8 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
     currentCrisis: `The bog-graves are waking up on their own. For centuries, the peat-bogs of the Bryngloom have held the dead in perfect preservation. Now the dead are calling themselves, twelve Revenants found dead in their ritual chambers, bodies drained of blood but showing no wounds, the bog-graves empty.
 
 Simultaneously, the Cult of Forgotten Shadow has discovered a way to amplify the frost stasis ritual using Silence energy. Unlike traditional peat-preservation, Silence-stasis requires no life force harvesting, the Silence sustains the body directly. Half of the remaining Revenants have accepted this "clean immortality." The other half suspect the Silence is not sustaining them but slowly consuming them, replacing their souls with something else.
+
+The Cult of Forgotten Shadow is a silent order that operates from the deepest peat-bogs where the Bryngloom's light never reaches. They worship the Silence  -  not the Void that Li Wei preaches, but the quiet between life and death, the space Morvane's contract does not reach. Their Silence-stasis is genuine: it preserves consciousness without requiring life-force harvesting. The price, they claim, is memory. The cultists remember nothing of their former lives. The Revenants who have joined them remember nothing at all  -  not their names, not their debts, not their reasons for refusing death. Whether this is the cost of the stasis or the cult's deliberate erasure is not known.
 
 The peat-bogs are reacting. In areas where Silence-stasis Revenants have congregated, the preserving peat has turned black and acidic. The Root-Veil is withdrawing its blessing. The dead are no longer waiting for permission. They are marching toward the Sundered Monoliths, and the Revenants have lost control of their ancestral covenant.`,
 
@@ -287,10 +285,10 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 
 **Weaknesses**:
 - Volatile Death Toll: your own resource is a bomb. At 6+ Toll, searing self-damage; at 11+, you cannot be healed; at 16+, your death detonates and kills nearby allies.
-- HP is Fuel: every spell costs HP and/or Mana — you are always one bad trade from the grave, and a long fight with no drains empties you.
-- Death Shroud Bleeds: every turn in Shroud drains HP — sustained use is a slow suicide.
-- No Safety Net Empty: if the Phylactery is depleted, death is permanent — a foe who forces your deaths back-to-back ends you.
-- Party Liability: at 16+ Toll your death kills allies — your party must manage YOU as much as the enemy, and may have to put you down.
+- HP is Fuel: every spell costs HP and/or Mana  -  you are always one bad trade from the grave, and a long fight with no drains empties you.
+- Death Shroud Bleeds: every turn in Shroud drains HP  -  sustained use is a slow suicide.
+- No Safety Net Empty: if the Phylactery is depleted, death is permanent  -  a foe who forces your deaths back-to-back ends you.
+- Party Liability: at 16+ Toll your death kills allies  -  your party must manage YOU as much as the enemy, and may have to put you down.
 - Cold and Dead Inside (social): you feel cold always, cannot taste food, and the voices of the dead overlay every conversation; warmth, emotion, and intimacy have faded to ash, and relationships fail.`
     },
 
@@ -322,7 +320,7 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
 
     immersiveCombatExample: {
       title: "Combat Example: Death Is Fuel",
-      content: `The crypt is cold. The undead knight does not breathe, does not blink, does not hurry — it has all the time in the world. You have a different relationship with time. You have died before. You know what it costs to come back. The question is not whether you can win. The question is what you are willing to pay.
+      content: `The crypt is cold. The undead knight does not breathe, does not blink, does not hurry  -  it has all the time in the world. You have a different relationship with time. You have died before. You know what it costs to come back. The question is not whether you can win. The question is what you are willing to pay.
 
 **The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Level 4 Revenant (Sanguine Harvest) with 2 Death Marks active (Shrouded Veil, Crimson Pact). HP: 60/72, Mana: 40/50, Death Toll: 0, Phylactery: 10 HP, Death Shroud: OFF.
 
@@ -605,7 +603,7 @@ The Revenant can switch between two casting modes:
         },
         keyAbilities: [
           "Blood Leech, Drain health, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
-          "Crimson Shield, Absorb 10× damage sacrificed as a ward (5 mana, 1d10 HP cost)",
+          "Crimson Shield, Absorb 10� -  damage sacrificed as a ward (5 mana, 1d10 HP cost)",
           "Eternal Agony, Escalating psychic DOT based on HP sacrificed (15 mana, 1d10 HP cost)",
         ],
       },
@@ -848,7 +846,7 @@ The Revenant can switch between two casting modes:
           { id: "rv_aegis_absorption",
             name: "Crimson Absorption",
             triggerType: "on_hit",
-            action: "When struck, absorb damage up to 2× HP sacrificed. Ward crumbles when depleted.",
+            action: "When struck, absorb damage up to 2� -  HP sacrificed. Ward crumbles when depleted.",
           },
         ],
       },
@@ -856,8 +854,8 @@ The Revenant can switch between two casting modes:
         effects: [
           { id: "rv_crimson_ward",
             name: "Crimson Aegis",
-            description: "Absorbs damage equal to 2× HP sacrificed (lasts 3 rounds).",
-            mechanicsText: "Absorb 2× HP sacrificed as a damage ward (3 rounds)",
+            description: "Absorbs damage equal to 2� -  HP sacrificed (lasts 3 rounds).",
+            mechanicsText: "Absorb 2� -  HP sacrificed as a damage ward (3 rounds)",
             statModifier: {
               stat: "damage_absorption",
               magnitude: "2x_health_sacrificed",
@@ -1334,7 +1332,7 @@ The Revenant can switch between two casting modes:
     {
       id: "rv_petition_the_dead",
       name: "Petition the Dead",
-      description: "Cut your palm and feed the blood to a grave, bone, or lingering shade to petition a specific ancestor by name. The dead answer one question truthfully, in their own voice, for the price of your blood — they owe you nothing freely, and a debt unrecorded is a debt denied. Out of combat.",
+      description: "Cut your palm and feed the blood to a grave, bone, or lingering shade to petition a specific ancestor by name. The dead answer one question truthfully, in their own voice, for the price of your blood  -  they owe you nothing freely, and a debt unrecorded is a debt denied. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1360,7 +1358,7 @@ The Revenant can switch between two casting modes:
     {
       id: "rv_frost_stasis",
       name: "Frost-Stasis",
-      description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis — halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
+      description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis  -  halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Frost/Ice Shard",
       typeConfig: { school: "rime", icon: "Frost/Ice Shard", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1373,20 +1371,20 @@ The Revenant can switch between two casting modes:
     {
       id: "rv_soul_interrogate",
       name: "Soul-Interrogate",
-      description: "Bind a soul that has not yet departed — a fresh corpse, a captured wisp, or one drawn from your Phylactery — and compel it to answer your questions about its life, its death, and what it knew. The bound soul cannot lie, but it may omit or bargain, and older/weaker souls answer faintly. Out of combat.",
+      description: "Bind a soul that has not yet departed  -  a fresh corpse, a captured wisp, or one drawn from your Phylactery  -  and compel it to answer your questions about its life, its death, and what it knew. The bound soul cannot lie, but it may omit or bargain, and older/weaker souls answer faintly. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Necrotic/Death Mark",
       typeConfig: { school: "blight", icon: "Necrotic/Death Mark", castTime: 10, castTimeType: "MINUTES", tags: ["utility","divination","investigation","social","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["verbal","somatic"], somaticText: "Trap the soul in a ring of bone-dust and pin it with the covenant-sign" },
       resolution: "SAVE", effectTypes: ["utility"],
-      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "soul_interrogate_truth", "name": "Bound Truth", "description": "A bound soul answers up to 3 questions — no lies, but may omit or bargain. Older/weaker souls answer faintly or in fragments; a strong-willed soul gets a Spirit save per question.", "mechanicsText": "Bind a soul to answer 3 questions; no lies, may omit." } ], power: "major" },
+      utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "soul_interrogate_truth", "name": "Bound Truth", "description": "A bound soul answers up to 3 questions  -  no lies, but may omit or bargain. Older/weaker souls answer faintly or in fragments; a strong-willed soul gets a Spirit save per question.", "mechanicsText": "Bind a soul to answer 3 questions; no lies, may omit." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility","divination","investigation","social","revenant"],
     },
     {
       id: "rv_undying_constitution",
       name: "Undying Constitution",
-      description: "Your half-dead body is barely a body at all. For the duration you do not need to breathe, eat, or drink, and you ignore mundane cold exposure — walk the seafloor, cross a poison-gas chamber, endure a blizzard, or sit vigil without food or air. You still take damage from attacks and magical hazards. Out of combat.",
+      description: "Your half-dead body is barely a body at all. For the duration you do not need to breathe, eat, or drink, and you ignore mundane cold exposure  -  walk the seafloor, cross a poison-gas chamber, endure a blizzard, or sit vigil without food or air. You still take damage from attacks and magical hazards. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
       typeConfig: { school: "rime", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","revenant"] },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -1399,7 +1397,7 @@ The Revenant can switch between two casting modes:
     {
       id: "rv_blood_reading",
       name: "Blood-Reading",
-      description: "Taste or scatter a drop of blood and read what the blood remembers — whose it is (kin, species), their recent wounds or trauma, any poisons or diseases in it, and the emotional state at the moment it was shed. Fresh blood speaks clearly; old blood whispers. Out of combat.",
+      description: "Taste or scatter a drop of blood and read what the blood remembers  -  whose it is (kin, species), their recent wounds or trauma, any poisons or diseases in it, and the emotional state at the moment it was shed. Fresh blood speaks clearly; old blood whispers. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },

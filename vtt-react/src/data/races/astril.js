@@ -1,121 +1,96 @@
 ﻿export const astril = {
     id: 'astril',
     name: 'Astril',
-    essence: 'The Star-Carried',
+    essence: 'The Fire-Carried',
     illustration: '/assets/images/races/astril_illustration.png',
-    illustrationCaption: 'A humble Astril herder on the wind-swept Sundrift steppe, faint constellation-patterns ebbing across their forearms beneath a starless sky.',
-    cardFlavor: 'Vessels of fallen stars, constellation patterns drift beneath their skin like embers beneath ash.',
-    description: `**[The Constellation Vessels]**, *Standing on the synod's crystal balcony, a silent Astril priest watches the starless steppe, the glowing starlight patterns on her skin dimming to a deep obsidian.*
+    illustrationCaption: 'An Astril farmer standing watch over moonlit fields, reptilian eyes catching a glow that belongs to another world.',
+    cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
+    description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
 
-There is a silence in the Sundrift Vale that has nothing to do with the wind. The sky is empty. It has been empty since the dark bargain was sealed, since the noble family traded fertile soil for endless grass and woke to find the stars erased from the firmament above them. What the histories do not record, what the Emberth will not sing, what the Neth cannot prove but know to be true, is that the stars did not simply vanish when Keth-Amar took the sky. They fell. They fled. They bled into the only vessels willing to receive them.
+Lumia is gone. It was a star, once, the sun of a world that orbited it and grew warm beneath it and learned to call it home. The Astril were that world's children. They farmed its soil. They hunted its forests. They sang beneath its light. They were not special. They were not chosen. They were a people, and their star was their star.
 
-The Astril were a humble people before the constellations came, herders, throat-singers, farmers who mapped the heavens through song and ritual. They watched the stars go dark one by one and understood what was happening: the predator that had entombed Sol beneath Emberspire was eating the celestial court. The spirits of the steppe were being consumed. And when the dying ministers of the upper dark came to them, not as deities demanding worship, but as refugees begging sanctuary, the Astril ancestors opened themselves. They volunteered. They became living vessels for the last fragments of Sol's court.
+Then Keth-Amar came.
 
-They carry them still. Every Astril child is born with a constellation-spirit woven into their blood, an animal-sign of the old zodiac, a celestial bureaucrat who fled the slaughter and took shelter in mortal flesh. The spirit whispers to them. It marks their skin with luminous patterns visible only in the dark. It remembers what Keth-Amar tasted like. And when an Astril dies, the spirit does not fade. It seeks the nearest Astril with the purest faith and enters them, a succession that has made Astril society a labyrinth of devotion, assassination, and the desperate, unending performance of belief.`,
+The predator does not announce itself. It arrived in the dark beyond the dark, the hunger that moves between stars, and it found Lumia the way a wolf finds a lantern in winter. The star dimmed. The world froze. Crops failed in a single season, the rivers hardened to glass, and the children who had never known cold learned its name in the long nights when the air itself turned brittle and the sky went the color of a bruise.
+
+The Astril survived because their ancestors had always carried more than they knew. Fragments of Lumia's biosphere lived in their bloodlines, seeds of starlight passed mother to child, father to daughter, for ten thousand years without anyone understanding why. When Lumia died, those fragments did not. They kept the cold from the marrow. They kept the blood from crystallizing. They kept a people alive on a world that should have killed every living thing within a season of the star's death.
+
+They fled. What else was there? They built what they could from the bones of their dead world, they gathered what remained of Lumia's living echo in their veins, and they crossed the void. They did not know where they were going. They only knew that staying was dying, and the Astril had decided, somewhere in the long dark between stars, that they would not die with their sun.
+
+They reached Mythrill. And in reaching it, in crossing the void with a predator that tracks the light it failed to consume, they led Keth-Amar to Sol.
+
+The Astril do not speak of this easily. They reached out to the deities of this new world, desperate, grieving, carrying a warning they wished they did not have to give. They were directed to Selunis, the dormant lunar deity who sleeps beneath the tides of Mythrill's moon, and Selunis gave them a dual quest: ensure that Sol is not devoured as Lumia was, and wake the sleeper through a ritual measured in centuries, performed every night beneath the moon that remembers what the moon of Lumia looked like.
+
+The Astril warned the world's leaders. They advocated for the Binding. They have spent their centuries on Mythrill tending a ritual that may never finish, carrying a secret that may never be safe, and bearing a guilt that the rest of the world does not even know it should blame them for. They brought the predator here. They are trying, with every night of their long lives, to make it right.`,
     icon: 'fas fa-star',
-    overview: `The Astril were herders and throat-singers of the Sundrift Vale long before they became vessels of the stars. In the age before the sky went dark, they mapped the heavens through song and lived by the grass. The Sundrift Vale was their home long before the dark bargain, wind-swept steppe, dead tundra grass, ancestors buried in mounds that still hum with the memory of their voices. When the sun was bound and the world began to freeze, they endured because the steppe had always demanded endurance. When the noble family traded fertile soil for endless grass and the sky went dark, the Astril survived because the sky had been their map and now the map was gone, but the land remained.
+    overview: `The Astril are not of Mythrill. They came from a world that orbited a star called Lumia, a world of farmers and hunters and singers of the soil, until Keth-Amar found them. The predator ate Lumia the way it eats every star it finds: slowly, completely, without mercy. The world froze. The sky went dark. Everything that depended on warmth should have died.
 
-They did not seek the constellations. The constellations came to them.
+The Astril did not die. For ten thousand years before the end, their bloodlines had carried fragments of Lumia's biosphere, living echoes of the star woven into flesh and passed from generation to generation. No one understood why. When Lumia was devoured, the reason became clear: the fragments kept them alive. They held back the cold. They preserved a spark of the dead star's warmth in blood that should have frozen solid.
 
-Keth-Amar, the predator, the First Hunger, the thing that burrows through Sol's dying embers beneath Emberspire, did not stop at devouring the sun. It hunted the celestial court. The zodiac ministers, the animal-spirits who had governed the seasons and the stars and the turning of the heavens since before human memory, were consumed one by one. The sky did not simply darken. It was eaten.
+So the survivors fled. They crossed the void between worlds in vessels built from the wreckage of their own, carrying what remained of Lumia's living fire in their veins. They did not know if they would find anything on the other side of the dark. They went anyway, because the alternative was to lie down on a frozen world and wait for the end.
 
-The spirits that survived, Horse and Wolf, Dragon and Serpent, Tiger and Stag, fled the massacre. But they had no physical form. They were celestial beings, and the mortal world offers no shelter to things without flesh. They needed vessels. They needed those vessels to be willing. And in the Sundrift Vale, among a people who had been singing the stars' names for a thousand years, they found what they were looking for.
+They found Mythrill. And in finding it, they brought the predator with them. Keth-Amar tracks the light it cannot consume, and the Astril glow, faintly, with the light of a star it killed. Their flight across the void was a trail. Their arrival was a beacon. They led the hunger that devoured their sun straight to Sol.
 
-The Astril ancestors opened themselves. Not as sacrifice, but as sanctuary.
+The Astril reached out to Mythrill's deities in desperation. They were answered, after a fashion, by Selunis, the lunar deity who sleeps dormant beneath the moon, whose dreams move the tides and whose silence has lasted since before human memory. Selunis gave the refugees a dual quest. The first: ensure that Sol is not devoured as Lumia was. The Astril took this quest to the world's leaders, warned them of the predator beneath Emberspire, and advocated, with the desperate authority of survivors, for the Binding that would chain Keth-Amar. The second: wake Selunis. The sleeper must be roused through a ritual performed every night, beneath the moon, for as long as it takes. Centuries, perhaps. The Astril have been performing it since they arrived, and they are not finished.
 
-The infusion changed them. The spirits entered the bloodlines and stayed. Every Astril born since carries a constellation, its animal-sign marking the body in subtle ways, its luminous pattern ebbing across the skin in darkness, its voice a constant low whisper beneath conscious thought. The Astril are not possessed; they are inhabited. The spirit and the mortal are woven together, two consciousnesses sharing one flesh, and after centuries of coexistence they have learned to call this condition home.
+They kept their heritage secret. Keth-Amar is all-knowing, or near enough that the distinction does not matter. If the predator learned that the refugees carried Lumia's fire, it would hunt them to extinction. If it learned of the ritual to wake Selunis, it would end it. So the Astril hid. They settled in small, isolated farming communities where strangers do not come and questions are not asked. They told no one what they were. They told no one what they had done.
 
-But the spirits are not passive guests. They remember, they hunger, and they speak. When an Astril dies, the spirit does not fade, it seeks the nearest Astril of purest faith, drawn to belief like a moth to the only lamp left in a darkened world. This is the Luminarchy: a complex political hierarchy of inherited starlight where social status, noble lineages, and even the assassination economy are governed by the number and power of the zodiac spirits a bloodline carries.`,
+But Keth-Amar found them anyway.
 
-    culturalBackground: `Astril society is built on a single, inescapable truth: faith is visible. The constellation-spirit within every Astril responds to the depth of mortal belief, the luminous patterns on the skin brighten with genuine conviction, dim with doubt, writhe with heresy. An Astril cannot fake piety. The body betrays the soul.
+When it did, the Astril did what they had always done: they carried the warning. They went to the world's leaders again and told them the predator had found its trail. The Binding, they said, would not hold forever. The work must continue. The ritual must continue. And the guilt that the Astril carry, the knowledge that they led the hunger to this world, is the engine that drives every night of their long labor. They are refugees. They are penitents. They are the people who doomed the world they fled to, and they will spend every century they have left trying to save it.`,
+    quickFacts: [
+        'Refugees from a world orbiting the devoured star Lumia. They carry fragments of their dead sun\'s biosphere in their blood and live in scattered, isolated farming communities across Mythrill, performing a nightly ritual to wake the dormant lunar deity Selunis.',
+        'Their reptilian eyes see in darkness but blind them in daylight; their blood holds Lumia\'s echo, granting alien resilience against environmental extremes. Divided into the scaled, grounded Vashir and the pale, star-reading Silath, each carrying a different fragment of their lost world.',
+        'Play an Astril to carry the weight of cosmic guilt; you led the star-devouring predator Keth-Amar to this world, and every night of your centuries-long life is penance. Your entire civilization is a vigil, and the thing you warned everyone about is stirring again.'
+    ],
+    culturalBackground: `Astril communities are small, isolated, and deliberately unremarkable. They farm. They hunt. They keep to themselves. A traveler passing through an Astril village sees hardworking people with strange eyes and quiet manners, nothing more. That is what the Astril want you to see.
 
-This has produced a culture of relentless, almost desperate sincerity. Every Astril is raised to cultivate genuine belief, not because doctrine demands it, but because survival requires it. The spirit within grows restless when faith wavers. It whispers louder when conviction flags. It withholds its gifts when the vessel's devotion rings hollow. And at the moment of death, when the spirit seeks its next host, it will always choose the Astril whose faith burns brightest, regardless of bloodline, regardless of station, regardless of whether that Astril had anything to do with the death that freed it.
+The truth is that every Astril community is a ritual-site. They prefer the night, not from preference but from purpose: the work of waking Selunis can only be done beneath the moon, and so the Astril's true labor begins when the sun goes down. By day they tend fields and raise children and barter at distant markets like any farming folk. By night they gather in their moon-courtyards and read the stars, not to navigate, but to time the ritual. Star-reading, for the Astril, is the art of knowing which phase of which constellation permits which step of the rite. The sky is a clock. The ritual is the work. The night is the teacher.
 
-The assassination economy is the shadow cast by this light. Kill an Astril, and their spirit may choose you. Murder a noble whose bloodline has carried the Dragon-Sign for thirty generations, broadcast your faith as they die, and if your belief is genuine enough, truly genuine, not performed, the Dragon enters you. The Synod, the ruling council of the oldest constellation-bloodlines, condemns this publicly and practices it privately. Every Astril of means maintains a cadre of spirit-guards: devout warriors whose primary function is to be more faithful than any potential assassin, ensuring the spirit goes to them instead. Every noble child is raised alongside a "companion of the blood", a peer trained from infancy to believe harder, pray louder, glow brighter. The companions are not friends. They are insurance.
+The night is the teacher. Astril children are born into the work. Before they can walk they learn the feel of moonlight on their skin, the rhythm of the ritual-chants, the names of the stars that mark the hours of the rite. As they grow they learn star-reading, then farming, then hunting, then the deeper mysteries of the Selunis-ritual. They are taught, early and plainly, that they are refugees. That their ancestors came from a world that died. That they led something terrible to this one. That their work, every night, every generation, is the only thing standing between Mythrill and the fate of Lumia. Children raised on this truth do not grow up light-hearted. They grow up purposeful. They grow up carrying a weight the rest of the world does not know is there.
 
-The spiritless, called the Unlit, are born without a constellation. No patterns. No whisper. No voice. Their skin is dark in every darkness, their faith produces no glow, their deaths release nothing. The Synod's doctrine holds them as cursed: souls too hollow to attract a spirit's attention, vessels too flawed to hold the sacred. Because they are the only Astril who can lie without their skin betraying them, the Synod uses them as spies to enforce the Khatun's laws, though they gather secretly at the Unlit Knoll to nurture their own silent rebellion.
+The isolation is not merely practical. It is theological. The Astril kept their heritage secret for centuries because Keth-Amar is all-knowing, and to be discovered was to be hunted. Old habits endure. Even now, after the secret has broken, the Astril cluster together in their scattered villages and trust outsiders slowly. An Astril who leaves the community is either an exile, a messenger, or a penitent seeking to atone in the wider world. All three are pitied. None are envied.
 
-The two great paths, Sylen and Muren, the Open and the Bound, define how an Astril lives with the spirit within. Sylen embrace the constellation: they open themselves to the whisper, let the patterns blaze, cultivate symbiosis. Their faith is public, their glow bright, their risk of becoming Over-Sung, consumed entirely by the spirit, a constant threat. Muren suppress: through ritual and discipline, they contain the spirit, dim the patterns, build walls between consciousnesses. Their faith is private, their control absolute, their risk of eruption, the spirit breaking through the suppression in uncontrolled flares, a constant threat. Most Astril are born into one path or the other based on family tradition, but the choice is personal and can be changed. Changing sides is considered either the deepest act of self-knowledge or the most damning betrayal, depending on who you ask.
-
-Astril settlements are deliberately poor. The culture of the Luminarchy rewards visible faith, not visible wealth, gold distracts from devotion, possessions clutter the vessel. They live in collapsible felt-and-bone yurts that follow the herds across the steppe. Their stone circles, the spirit-laying grounds, are the only permanent structures, built at ancestral burial mounds where the oldest constellations were first received. Their diet is herd-milk, dried meat, and wind-cured grass-tea. Their tools are made from the bones of ancestors who have passed their spirits on, not as trophies, but as anchors, physical remains that still hold the echo of the constellation that once lived in them.
-
-Throat-singing remains their sacred art, though it has become a deadly act of defiance. Backed by southern Inquisitors, Khatun Bayarmaa has outlawed the "Sky-Songs",traditional throat-singing that communed with star-spirits,forcing all clans to practice only state-sanctioned ancestor-singing under penalty of execution. In the shadows of the Ancestor Mounds, throat-singers still risk their lives to hum the forbidden constellations.
-
-Their relationship with the Emberth of Sundale is the deepest theological schism in the known world. The Emberth are Sol's chosen, sun-reverent forge-clans who received prophecy from the dying spirit before the binding. The Astril carry Sol's ministers, the court that served beneath the sun. Some Emberth revere the Astril as sacred: living relics of the celestial order, proof that Sol's court endured. Other Emberth despise them: the ministers fled while Sol was entombed, and a servant who abandons their sovereign deserves no sanctuary. Every Emberth forge-clan is split on this question. Every Astril who meets an Emberth does not know whether they will be embraced as a sacred vessel or struck down as a living blasphemy.
-
-The Neth are fascinated. The Astril represent a form of contract the Neth have never encountered, a voluntary binding between mortal and celestial, sealed not in ink but in flesh, enforced not by the Keeper of the Last Threshold but by the spirit's own hunger for belief. Neth scholars have petitioned the Synod for access to Astril bloodline records for three centuries. The Synod has refused every petition. The Neth continue to ask.
-
-The Vreken feel an unspoken kinship. Both peoples are inhabited by something older than themselves, the Vreken by their fungal bond, the Astril by their constellation-spirits. Neither people chose their passenger. Both have learned to live with it. The Vreken's trail-sight and the Astril's star-sense are not the same thing, but they recognize each other across a crowded room.
-
-The Skald distrust them. The spirits are too close to the Wyrd, a voice inside the flesh that is not the flesh's own. The Skald have spent centuries fighting the Wyrd-creatures that the Frostwood fog births from human fear, and the idea of voluntarily inviting a spirit into one's own body strikes them as either madness or corruption.
-
-And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exist. The spirits they carry are the ones that escaped. The predator has not forgotten. When its influence stirs, near a Sundered Monolith, near Emberspire's caldera, near Wyrd-creatures that serve it, Astril patterns writhe and recoil. The spirit remembers what ate its kin. The Astril are living detectors of the predator's presence. Some call this a gift. Others call it a beacon.`,
-
-    variantDiversity: `The Astril are divided not by birth or geography, but by the single most defining choice of their existence: how to live with the spirit inside them. The Sylen open themselves to the constellation, they embrace the whisper, let the patterns blaze, cultivate symbiosis at the risk of being consumed. The Muren bind the spirit through ritual, they suppress the whisper, dim the patterns, build walls at the risk of eruption. Both paths are ancient. Both are honored. Both are terrified of each other.`,
-
+They carry guilt the rest of the world does not know about. The leaders of Mythrill know the Astril warned them of Keth-Amar. They do not always know, or fully understand, that the Astril are the reason the predator found Sol at all. The Astril themselves never forget. Every ritual performed is penance. Every harvest gathered on foreign soil is a debt. They are farmers and hunters who work the land of a world they doomed, and the land feeds them anyway, and the kindness of that fact is a wound that never quite closes.`,
+    variantDiversity: `The Astril are divided not by faith or politics, but by bloodline, by which fragment of Lumia's biosphere their ancestors carried out of the dying world. The Vashir carry Lumia's reptilian heritage: the scaled bloodlines, the cold-blooded patience, the physicality of a people who survived by claw and hide. The Silath carry Lumia's consciousness, the stellar memory, the part of the dead star that remembered rather than endured. Both are Astril. Both are refugees. Both perform the ritual. But the Vashir are rooted in the ground, and the Silath are rooted in the sky, and each carries a flaw that is the mirror of the other's strength.`,
     integrationNotes: {
-        actionPointSystem: 'Astril abilities focus on the constellation-spirit relationship, channeling celestial power, faith-display, and the constant tension between embrace and suppression. Their luminous patterns create unique tactical opportunities and social consequences.',
-        backgroundSynergy: 'Astril excel in backgrounds emphasizing faith, performance, and survival. Their Luminarchy culture creates deep roleplay hooks around devotion, assassination, inherited power, and the Unlit.',
-        classCompatibility: 'The Sylen favor Augurs, Harbingers, Animists, and False Prophets because their total embrace of the constellation-spirit grants them wild premonitions, untamed fury, and the ability to channel celestial frequencies, but the spirit\'s whispers also blur the line between sacred truth and parasitic deception, making them susceptible to manufactured revelation. The Muren, who suppress the spirit within, favor Wardens, Apex, and Animists, using strict mental discipline to build walls around the passenger, guard thresholds, and direct the trapped starlight into defensive arrays and ancestral bindings.'
+        actionPointSystem: 'Astril abilities reflect their alien biology and their lunar calling: inverted senses, luminous eyes that betray them in the dark, resilience born of a dead world, and a ritual bond to the dormant Selunis. Their night-focus creates distinct tactical rhythms, strong after sundown, vulnerable in daylight, exposed when hiding.',
+        backgroundSynergy: 'Astril excel in backgrounds emphasizing survival, ritual, and guardianship. Their refugee heritage and hidden guilt create deep roleplay hooks around penance, secrecy, farming communities, and the centuries-long work of waking a god.',
+        classCompatibility: 'The Vashir, rooted in the physical world, favor Wardens, Apex, and Animists, turning their reptilian resilience and territorial instinct toward defense, hunting, and stewardship of the land. The Silath, carrying Lumia\'s consciousness, favor Augurs, Harbingers, and Animists, channeling stellar memory and lunar attunement into prophecy, ritual, and the slow work of waking the sleeper beneath the moon.'
     },
-
-    diasporaVariation: `Astril diaspora is limited by their dependence on the constellation-spirits and the Synod-Hold hierarchy. The largest expatriate community is at the Sundale crossroads, where Sylen Astril serve as celestial-advisors to the Dawn Vigil (a tense posting, the Vigil's solar theology and the Astril's stellar-spirit symbiosis coexist uneasily). A Nordhalla-diaspora Astril is rare and pitied, the glacier-light is too dim for their crystalline skin, which frosts and dulls. Muren Astril travel more freely than Sylen (their suppressed spirits are less region-bound), and a Synod-exiled Muren can be found in any major city, working as a discreet resonance-consultant.`,
-    meaningfulTradeoffs: 'Astril gain celestial guidance through their constellation-spirit and luminous pattern-detection, but their visible faith makes stealth and deception difficult among their own kind. The spirit\'s constant whisper is both a gift and a burden. Sylen risk being consumed by the spirit they embrace; Muren risk the spirit breaking through the walls they build.',
-
+    diasporaVariation: `Astril diaspora is reluctant and rare. Their communities are scattered and isolated by design, each one a ritual-site maintaining its piece of the Selunis-rite. The largest gatherings are in remote farmlands far from the great cities, where the night sky is clear and strangers seldom come. An Astril in a major city is almost always a messenger, an exile, or a penitent seeking allies for the work. In Sundale, a small Vashir community trades quietly with the Emberth, a tense relationship, for the Emberth revere the sun the Astril inadvertently endangered. In Nordhalla, a handful of Silath tend a moon-courtyard carved into the glacier itself, reading stars the cold makes razor-sharp. Most Astril, however, never leave the village they were born in. The ritual does not permit absence for long.`,
+    meaningfulTradeoffs: 'Astril gain alien resilience and lunar attunement through Lumia\'s echo, but their inverted vision blinds them in bright daylight, and their luminous eyes betray every attempt to hide in darkness. The Vashir are so rooted in the physical world that they sometimes forget the ritual that gives their people purpose. The Silath are so focused on the ritual that they sometimes forget the ground beneath their feet.',
     baseTraits: {
-        languages: ['Common', 'Celestial'],
+        languages: ['Common', 'Lumian'],
         lifespan: '140-200 years',
         baseSpeed: 30,
         size: 'Medium',
-        height: '5\'4" - 6\'0"',
-        weight: '120-180 lbs',
-        build: 'Lean and wind-marked, luminous constellation-patterns ebbing beneath the skin'
+        height: '5\'2" - 6\'0"',
+        weight: '130-190 lbs',
+        build: 'Sturdy and practical, the weather-marked build of farmers and hunters, with claw-like nails and faint organic markings unique to each individual'
     },
-
     sharedTraits: [
         {
-        "id": "vessel_stress_astril",
-                  "name": "Vessel Stress",
-                  "description": "On a natural 1 on any saving throw, the constellation-spirit fights to override your body; you must succeed on a Spirit saving throw to maintain control, or the vessel's will takes the reins. A constant hazard of the inhabited, the whisper waits for weakness to surface.",
-                  "level": 1,
-                  "icon": "fas fa-brain",
-                  "spellType": "PASSIVE",
-                  "effectTypes": [
-                            "debuff"
-                  ],
-                  "typeConfig": {
-                            "school": "primal",
-                            "icon": "fas fa-brain",
-                            "tags": [
-                                      "weakness",
-                                      "debuff",
-                                      "shared"
-                            ]
-                  }
-        },
-        {
-            id: 'star_sign_flare_astril',
-            name: 'Star-Sign Flare',
-            description: 'You see in dim light as if it were bright light within 60 feet, and within 120 feet of Keth-Amar\'s influence (a Sundered Monolith, Emberspire\'s caldera, or a Wyrd-creature serving the predator) your luminous patterns writhe and recoil involuntarily, this cannot be suppressed. You suffer disadvantage on attack rolls and Perception checks in bright sunlight, volcanic glow, forge-fire, or daylight spells. The star-carried wear their constellation openly, a private map the dark remembers and the forge-light punishes.',
+            id: 'inverted_vision_astril',
+            name: 'Inverted Vision',
+            description: 'Your eyes were shaped by Lumia\'s light, a spectrum that has nothing to do with the sun. You see the day as the natives see the night, and the night as the natives see the day. You have advantage on Perception checks made in darkness or dim light, but disadvantage on Perception checks in bright daylight. The world is clearest to you when the rest of it is asleep.',
             level: 1,
-            icon: 'spell_holy_innerfire',
+            icon: 'fas fa-eye',
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'ember', icon: 'spell_holy_innerfire', tags: ['star-sign', 'luminous', 'low-light-vision', 'light-sensitivity', 'keth-amar-detection', 'passive', 'shared'] },
+            typeConfig: {
+                school: 'primal',
+                icon: 'fas fa-eye',
+                tags: ['inverted-vision', 'darkvision', 'light-sensitivity', 'passive', 'shared']
+            },
             buffConfig: {
-                buffType: 'custom',
+                buffType: 'statusEffectBuff',
                 effects: [
                     {
-                        id: 'low_light_vision_astril',
-                        name: 'Starless Sight',
-                        description: 'You can see in dim light as if it were bright light within 60 feet, your eyes carry the reflective tapeta of a people who learned to see when the sky went dark.',
-                        statusEffect: { level: 'moderate', description: 'Eyes adapted to the starless dark' }
-                    },
-                    {
-                        id: 'predator_detection_astril',
-                        name: 'The Skin Remembers',
-                        description: 'When within 120 feet of Keth-Amar\'s direct influence (a Sundered Monolith, Emberspire\'s caldera, a Wyrd-creature serving the predator), your luminous patterns writhe and recoil involuntarily, the spirit within recognizes what ate its kin. This cannot be suppressed.',
-                        statusEffect: { level: 'moderate', description: 'Your skin knows when the predator is near' }
+                        id: 'night_clarity_astril',
+                        name: 'Night Clarity',
+                        description: 'Advantage on Perception checks made in darkness or dim light, your eyes were made for a different sun, and Mythrill\'s night is your morning.',
+                        statusEffect: { level: 'moderate', description: 'The dark is where you see best' }
                     }
                 ],
                 durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -124,16 +99,15 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
                 debuffType: 'statusEffect',
                 effects: [
                     {
-                        id: 'light_sensitivity_astril',
-                        name: 'Light Sensitivity',
-                        description: 'Disadvantage on attack rolls and Perception checks made in bright sunlight, volcanic glow, or the immediate radius of forge-fire and daylight spells, your eyes, adapted to the starless Vale, recoil from the forge-light.',
+                        id: 'day_blindness_astril',
+                        name: 'Day-Blind',
+                        description: 'Disadvantage on Perception checks in bright daylight, what the natives call morning, you experience as a blinding noon.',
                         statusEffect: {
                             level: 'moderate',
-                            description: 'Eyes adapted to darkness cannot bear the forge-light',
-                            penaltyType: 'sensitivity',
-                            affectedChecks: ['attack_rolls', 'perception'],
+                            description: 'The daylight of an alien sun is blinding',
+                            penaltyType: 'perception',
                             magnitude: 'disadvantage',
-                            conditions: ['bright_sunlight', 'volcanic_glow', 'forge_fire', 'daylight_spells']
+                            conditions: ['bright_daylight']
                         }
                     }
                 ],
@@ -144,124 +118,328 @@ And Keth-Amar, the predator, the hunger beneath Emberspire, knows the Astril exi
             cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
         },
         {
-            id: 'the_whisper_astril',
-            name: 'The Whisper',
-            description: 'You have advantage on Spirit saving throws against being charmed or frightened, the spirit sees through mortal deception. When you take wyrd damage, you must succeed on a DC 12 Spirit save or suffer disadvantage on your next attack roll, saving throw, or ability check as your two consciousnesses collapse into each other. The constellation-spirit is a second mind, alien and opinionated, both your shield and your unraveling.',
+            id: 'luminous_eyes_astril',
+            name: 'Luminous Eyes',
+            description: 'Your reptilian eyes glow faintly with the moonlight echo of Lumia, a pale light visible in true darkness from farther than you would like. You have disadvantage on Stealth checks made in darkness, your eyes are the first thing anything hunting in the dark will see. Some Astril bind their eyes with dark cloth when they must hide. It helps only a little.',
             level: 1,
-            icon: 'spell_shadow_psychichorrors',
+            icon: 'fas fa-eye',
             spellType: 'PASSIVE',
-            effectTypes: ['buff', 'debuff'],
-            typeConfig: { school: 'wyrd', icon: 'spell_shadow_psychichorrors', tags: ['spirit-whisper', 'dual-consciousness', 'charm-resistance', 'psychic-vulnerability', 'passive', 'shared'] },
+            effectTypes: ['debuff'],
+            typeConfig: {
+                school: 'primal',
+                icon: 'fas fa-eye',
+                tags: ['luminous-eyes', 'stealth-penalty', 'moonlight-glow', 'passive', 'shared']
+            },
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'glowing_eyes_astril',
+                        name: 'Glowing Eyes',
+                        description: 'Disadvantage on Stealth checks in darkness, your faintly luminous eyes are visible from far away. The light of a dead star shines in them whether you will it or not.',
+                        statusEffect: {
+                            level: 'moderate',
+                            description: 'Your eyes betray you in the dark',
+                            penaltyType: 'stealth',
+                            magnitude: 'disadvantage',
+                            conditions: ['darkness']
+                        }
+                    }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+            id: 'lumias_echo_astril',
+            name: 'Lumia\'s Echo',
+            description: 'You carry a fragment of a dead world\'s biosphere in your blood. The alien biology that kept your ancestors alive on frozen Lumia endures in you. You have advantage on Survival and Nature checks, and you have resistance to environmental extremes, cold that would kill a native of Mythrill barely slows you, and heat that would wither them you endure. The echo is not warmth, exactly. It is the memory of warmth, and the memory is enough.',
+            level: 1,
+            icon: 'fas fa-leaf',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff'],
+            typeConfig: {
+                school: 'primal',
+                icon: 'fas fa-leaf',
+                tags: ['lumias-echo', 'survival', 'environmental-resistance', 'alien-biology', 'passive', 'shared']
+            },
             buffConfig: {
                 buffType: 'statusEffectBuff',
                 effects: [
                     {
-                        id: 'dual_consciousness_astril',
-                        name: 'Dual Consciousness',
-                        description: 'Advantage on Spirit saving throws against being charmed or frightened, the constellation has governed seasons for millennia and is not impressed by your intimidation.',
-                        statusEffect: { level: 'moderate', description: 'Two minds share one skull; manipulation finds twice the resistance' }
+                        id: 'alien_resilience_astril',
+                        name: 'Alien Resilience',
+                        description: 'Advantage on Survival and Nature checks. Resistance to environmental extremes (extreme cold and extreme heat). The fragment of Lumia in your blood remembers how to survive a dying world.',
+                        statusEffect: { level: 'moderate', description: 'A dead world\'s biology keeps you alive in this one' }
                     }
                 ],
                 durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
             },
-            debuffConfig: {
-                debuffType: 'triggeredEffect',
-                effects: [
-                    {
-                        id: 'psychic_collapse_astril',
-                        name: 'Psychic Collapse',
-                        description: 'When you take wyrd damage, succeed on a DC 12 Spirit saving throw or the whisper becomes a scream, your two consciousnesses collapse into each other. Disadvantage on your next attack roll, saving throw, or ability check as you wrestle the spirit back into silence.',
-                        statusEffect: {
-                            level: 'moderate',
-                            description: 'Psychic wounds strike twice in a mind that houses two',
-                            trigger: 'psychic_damage_taken',
-                            savingThrow: { stat: 'spirit', dc: 12, failureEffect: 'disadvantage_on_next_roll' }
-                        }
-                    }
-                ],
-                durationValue: 0, durationType: 'trigger', durationUnit: 'instant', canBeDispelled: false
-            },
             targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
             resourceCost: { actionPoints: 0, mana: 0, components: [] },
             cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+            id: 'selunis_quest_astril',
+            name: 'Selunis\'s Quest',
+            description: 'You are bound to the dormant lunar deity your people have served since they arrived on Mythrill. At night, beneath the moon, Selunis\'s dreaming presence steadies your spirit. You have advantage on Spirit saving throws made at night. Additionally, you may perform a brief ritual attunement (1 minute) under moonlight once per long rest to gain temporary insight: your next ability check, attack roll, or saving throw within 1 hour gains advantage. The sleeper whispers to those who tend the rite.',
+            level: 1,
+            icon: 'fas fa-moon',
+            spellType: 'PASSIVE',
+            effectTypes: ['buff'],
+            typeConfig: {
+                school: 'ember',
+                icon: 'fas fa-moon',
+                tags: ['selunis', 'lunar-attunement', 'spirit-resistance', 'ritual', 'passive', 'shared']
+            },
+            buffConfig: {
+                buffType: 'statusEffectBuff',
+                effects: [
+                    {
+                        id: 'lunar_steadfast_astril',
+                        name: 'Lunar Steadfast',
+                        description: 'Advantage on Spirit saving throws made at night. The dreamer beneath the moon holds you steady when the dark is yours.',
+                        statusEffect: { level: 'moderate', description: 'Selunis\'s dream shields you by moonlight' }
+                    },
+                    {
+                        id: 'moonlit_insight_astril',
+                        name: 'Moonlit Insight',
+                        description: 'Once per long rest, a 1-minute ritual under moonlight grants advantage on your next ability check, attack roll, or saving throw within 1 hour.',
+                        statusEffect: { level: 'moderate', description: 'The sleeper whispers a thread of the future' }
+                    }
+                ],
+                durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+            },
+            targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+            resourceCost: { actionPoints: 0, mana: 0, components: [] },
+            cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
         }
     ],
-
     epicHistory: `
-Before the binding, before the dark bargains, before the sky was erased, the Sundrift Vale was a place where the stars could be heard. The Astril ancestors, then unnamed, then merely a people of herders and throat-singers, built their stone circles on the burial mounds of their dead and sang the constellations into memory. They mapped the heavens through song because song could not be burned, could not be lost, could not be struck from a record by a noble family's decree. Every child learned the celestial cycles through melody before they learned to speak. Every elder carried three hundred star-names in their throat.
+There was a world. It had a name, but the Astril do not speak it aloud anymore, because speaking the name of a grave feels too much like digging in it. It orbited a star called Lumia, and it was warm, and the Astril farmed its lowlands and hunted its forests and sang to their children beneath a sky that was always, always full of light.
 
-When Sol entered the Deepening and the seven noble families bound the sun beneath Sundale, the Astril ancestors felt the silence before they saw the dark. The stars dimmed. Not all at once, one by one, season by season, constellation by constellation. The singers watched the Horse fade from the northern sky. The Wolf guttered and died over three nights of frantic, desperate song. The Dragon, the oldest, the brightest, the constellation that had governed the turning of the year since before human memory, was the last to go, and when it vanished the throat-singers could not produce a single note for a month.
+They were not a remarkable people. That is the part the legends leave out. The Astril were farmers. They were hunters. They argued about fences and rainfall and whose goats had wandered into whose fields. They had no empire, no great magic, no destiny anyone had written down. They were a people, ordinary and alive, and that was enough.
 
-They did not know, then, that Keth-Amar was hunting. The predator had breached the vault beneath Sundale, had begun its slow feast on Sol's dying embers, had discovered the celestial court orbiting the entombed sun like moths around a dying lamp, and had begun to eat them too. Each consumed constellation left a permanent gap in the sky. Each gap was a season that would never turn again, a direction that had lost its guardian, an animal-sign whose descendants would never be born under its influence.
+Then Keth-Amar found Lumia.
 
-The surviving constellations fled. They scattered across the dying heavens, searching for shelter, searching for vessels, searching for anything that could hold a celestial being in a world that had no place for them. Most found nothing. Some found the Sundrift Vale, found a people whose throats were still shaped around their names, whose stone circles still hummed with the memory of their presence, whose faith had not dimmed when the stars went dark.
+No one knows how the predator arrives. The Astril records, such as they are, say only that the star began to dim. Slowly at first. A season of long twilights. A winter that did not end. Crops that withered in soil that had been fertile for a thousand years. The elders read the sky and found a darkness in it that had not been there before, a hunger moving behind the light, and they understood, with the terrible clarity of prey that has finally seen the wolf, that their sun was being eaten.
 
-The first covenant was struck at the burial mound of the First Singer, an ancestor whose name has been deliberately forgotten so that no one can call her back. The Horse came first, then the Wolf, then the Serpent, then the Stag. They came not as spirits but as refugees, wounded, terrified, fleeing a predator that had already consumed their kin. And the Astril ancestors opened themselves. Not as sacrifice. As sanctuary.
+The world froze in the span of a generation. The rivers turned to glass. The forests became stone. The children who had never known cold learned it in nights so bitter the air itself cracked. Everything should have died. Everything did die, except the Astril.
 
-The infusion took three days. The first generation of the Star-Carried emerged from the stone circles with luminous patterns burning beneath their skin, with animal-features faintly traced across their bodies, with whispers in their minds that spoke in celestial frequencies they had only ever heard in song. They were the first Astril. And they were already being hunted.
+They survived because of what they carried. For ten thousand years, the bloodlines of that world had held fragments of Lumia's biosphere, living seeds of the star's warmth, passed from parent to child for reasons no one fully understood. When Lumia was devoured, the reason revealed itself. The fragments held the cold at bay. They kept the blood liquid. They kept a spark of the dead sun's warmth burning in mortal flesh. The Astril did not choose this inheritance. They only discovered, in the hour of their world's death, that they had been carrying salvation in their veins all along.
 
-The Luminarchy formed within the first century. The spirits bred true through bloodlines, but they also transferred at death, jumping to the nearest vessel whose faith burned brightest. The first assassination occurred before the first generation had finished dying of old age. The Synod was formed to regulate the succession, and immediately began exploiting it.
+They built what they could. They gathered the living echo of Lumia into the strongest bloodlines. They constructed vessels from the wreckage of their civilization, crude and desperate things, barely ships, more like coffins with engines. And they fled. They left behind the frozen bodies of their dead, the graves of their ancestors, the fields their families had farmed for a hundred generations. They crossed the void, the long dark between stars, with no certainty that anything waited on the other side.
 
-The schism between Sylen and Muren came in the third century of the Dimming, The Harmonists (who would become the Sylen) argued that the spirit must be embraced fully, that suppression was a betrayal of the sanctuary their ancestors had promised. The Silencers (who would become the Muren) argued that the spirit was a passenger, not a partner, that unchecked embrace led inexorably to the Over-Sung, the consumed, the ones who stopped being Astril and became only vessel. The first Sylen saint achieved symbiosis so complete that her skin blazed visible for a mile. The first Muren heretic achieved suppression so absolute that his patterns vanished entirely, and his spirit, unable to express itself, erupted through his chest and killed three people before it found a new host.
+They were running from Keth-Amar. They did not know, then, that they were running toward Mythrill with the predator on their trail.
 
-Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod still schemes. The assassination economy still churns. The Unlit still wait in the margins for a spirit that may never come. And Keth-Amar, the predator, the hunger, the thing that ate their spirits, still feeds beneath Emberspire, still growing stronger, still remembering that some of the constellations escaped.
+They arrived. They found a world that was alive, with a sun, Sol, that still burned, and peoples, and deities, and a sky full of stars they had never seen. They wept. They had not expected to weep again. And then they reached out, carefully, fearfully, to the powers of this new world, because they carried a warning they were honor-bound to deliver.
+
+They were directed to Selunis. The lunar deity sleeps. It has slept since before the peoples of Mythrill kept records, dreaming beneath the tides of the moon, its presence felt in the pull of the sea and the pale light of the night sky. The Astril, carrying the echo of a dead star, could hear Selunis where others could not. And Selunis, in the language of dream and moonlight, gave them their purpose.
+
+The first quest: save Sol. The Astril went to the leaders of Mythrill and told them what they knew. They spoke of Keth-Amar. They spoke of a predator that eats stars. They advocated, with the authority of the only survivors of its hunger, for the Binding that would chain the thing beneath Emberspire. They were heard. They were believed, eventually, because the alternative was too terrible to disbelieve.
+
+The second quest: wake Selunis. The ritual must be performed every night, beneath the moon, for as long as it takes. Centuries. The Astril accepted it. They scattered across Mythrill in small, isolated communities, farmers and hunters by day, ritual-tenders by night, and they began a work they knew they would not live to see finished.
+
+They kept their heritage secret. Keth-Amar is all-knowing, or near enough. If it learned what they carried, it would hunt them. If it learned what they were tending, it would end it. So the Astril hid. For centuries they passed as merely strange, a reclusive people with odd eyes and quiet ways, and the secret held.
+
+Until it didn't.
+
+Keth-Amar found them. How, no Astril will say, but the predator began to stir, to reach, to remember the light it had failed to consume. When the Astril understood they had been found, they did what survivors do: they carried the warning. They went again to the leaders of the world. They said the Binding would not hold forever. They said the work must continue.
+
+Now the ritual continues. The Selunis-rite is performed every night in scattered moon-courtyards across Mythrill, and the Astril tend it with the devotion of a people paying a debt they can never repay. They brought the predator to this world. They will spend every night they have left making sure it does not finish what they started.
     `,
-
     notableFigures: [
         {
-            name: 'Selen Veyrith',
-            title: 'The First Vessel',
+            name: 'Vael of the Long Crossing',
+            title: 'The Navigator',
             portraitIcon: 'Fairy/Icon3',
-            backstory: 'The legendary ancestor who opened herself to the Horse constellation when it first fled to the Vale. Her true name has been deliberately forgotten, a tradition among the Astril, who believe that naming the first vessel gives the spirit within her bloodline too much power over the living. She is known only as Selen Veyrith: "she who received the star." Her burial mound still glows faintly on moonless nights.'
+            backstory: 'Vael is remembered as the one who charted the void between Lumia\'s world and Mythrill. They were not a navigator by training, only a farmer who had watched the stars to time the planting season, but when the world froze and the ships were built, Vael\'s eyes were the ones that could still read a sky. The Crossing took generations. Vael did not survive it, but the star-maps they carved into the hull of the lead vessel guided the fleet to Mythrill long after their hands had gone still. Every Astril moon-courtyard keeps a copy of the Long Crossing charts. They are read as ritual, and as remembrance.'
         },
         {
-            name: 'Tharun Muren',
-            title: 'The First Silencer',
+            name: 'Mother Therra',
+            title: 'First Voice of Selunis',
             portraitIcon: 'Fairy/Icon7',
-            backstory: 'A third-century Astril of the Wolf bloodline who became the first to successfully suppress his constellation through ritual rather than embrace it. His methods, the binding chants, the fasting, the scarification patterns that channel spirit-energy away from the conscious mind, became the foundation of the Muren path. He was assassinated at forty-two by his own Sylen sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the Over-Sung within the year.'
+            backstory: 'Therra was the first Astril to hear Selunis clearly. When the refugees arrived on Mythrill, grieving and desperate, it was Therra whose bloodline carried Lumia\'s echo most strongly, and it was Therra who first felt the lunar deity stirring in dream. Selunis spoke the dual quest through Therra\'s mouth, and Therra spent the remainder of her long life teaching the other Astril how to listen. She is the one who named the ritual, who established the first moon-courtyard, who decided that the work would be done in isolated farming communities where the secret could be kept. She died at one hundred and ninety, performing the rite on the night of a full moon. They say the moon brightened as she passed.'
         },
         {
-            name: 'Korrath Unlit',
-            title: 'The Lightless Prophet',
+            name: 'Korr Vashir',
+            title: 'The Warning-Bearer',
             portraitIcon: 'Fairy/Icon11',
-            backstory: 'Born without a constellation in an era when the Unlit were considered barely above animals, Korrath became the first spiritless Astril to serve on the Synod, not as a member, but as a truth-speaker whose words could not be verified by pattern-reading because his skin had no patterns to read. He revolutionized Astril intelligence networks by proving that the Unlit could move through Luminarchy society completely unreadable. The Synod has relied on Unlit spies ever since. Korrath himself was never rewarded. He died at sixty-one, still Unlit, still invisible, still waiting for a spirit that never chose him.'
+            backstory: 'When Keth-Amar found the Astril at last, it was Korr, a Vashir hunter of unremarkable bloodline, who carried the warning to the world\'s leaders. He walked out of his isolated village one autumn morning and did not stop walking until he had reached every court that would hear him. He spoke plainly. He told them what the Astril were, what they had brought, what was coming. He was called liar, heretic, and worse, before he was believed. Korr never returned to his village. He lives still, somewhere in the world, an old hunter with reptilian eyes who watches the horizon for the thing he warned everyone about. He does not consider himself a hero. He considers himself a messenger who was three centuries too late.'
         }
     ],
-
     majorLocations: [
         {
-            name: 'The First Mound',
-            description: 'The burial site of Selen Veyrith, where the Horse constellation first entered mortal flesh. The mound is a low stone circle on the northern steppe, unmarked and deliberately unremarkable, the Astril do not build monuments that would attract the predator\'s attention. The stones hum at dawn with a frequency only the Horse-blooded can hear. Pilgrimage is permitted once per lifetime. Most Astril go. Some return changed.'
+            name: 'The Moon-Courtyards',
+            description: 'Scattered across Mythrill in the most remote farming country, the moon-courtyards are the heart of every Astril community. Each is a circular clearing of pale stone, open to the sky, oriented to the moon\'s path. By day they look like ordinary threshing floors or market squares. By night they are where the Selunis-ritual is performed, the star-readers tracing the constellations that time each phase of the rite while the community chants in low, double-toned voices. The oldest courtyard, said to be the one Mother Therra first consecrated, sits on a hillside where the moon is visible every night of the year. Pilgrimage to it is a rite of adulthood for every Astril.'
         },
         {
-            name: 'The Hollow-Sky Observatory',
-            description: 'A circle of standing stones, Stelequarts pillars, arranged in the pattern of the erased constellations. The pillars are ground into lenses at their tops, angled to catch and focus starlight that no longer exists. Astril seers use the observatory to read their own luminous patterns amplified through the lenses, studying the spirit-echoes in their skin as if they were the sky itself. The observatory is the closest thing the Astril have to a temple, and it is never, ever lit.'
+            name: 'The Quiet Observatory',
+            description: 'High in a range the map-makers never bothered to name, the Quiet Observatory is the Astril\'s great star-reading site, a ring of standing stones aligned not to Mythrill\'s constellations but to the patterns the ritual requires. The Silath tend it, reading the sky each night to determine which phase of the rite may be performed when. The stones are carved with star-charts that no native astronomer of Mythrill recognizes, for they map not the sky as it is, but the sky as the ritual sees it, a clock-face for waking a god. The Observatory is never lit by fire. Only moonlight is permitted within the ring.'
+        },
+        {
+            name: 'Lumia\'s Hearth',
+            description: 'The oldest Astril settlement, a farming village so small and so remote that it appears on no map. This is where the first refugees stopped fleeing and began planting. The fields here are tended by Vashir bloodlines who have farmed this soil since the arrival, and the crops that grow in them are the descendants of seeds carried across the void from a dead world. The village surrounds a moon-courtyard older than any other. Beneath the courtyard\'s central stone, the Astril say, is buried a fragment of Lumia itself, the last physical remnant of the star, carried across the void and hidden where no one would think to look. Whether this is true, none but the eldest ritual-tenders know, and they will not say.'
         }
     ],
-
-    currentCrisis: 'The constellations that fled Keth-Amar centuries ago are growing restless. The spirits feel the predator strengthening beneath Emberspire, its hunger increasing as Sol\'s embers diminish, and they are afraid. Some spirits have begun whispering to their vessels about fleeing again, about abandoning the Vale entirely, about finding new hosts in lands untouched by the Warden\'s bargains. The Synod has forbidden discussion of exodus, but the whispers cannot be silenced, and the Muren, who suppress their spirits most aggressively, report that the binding rituals are failing with increasing frequency. The Over-Sung are appearing in numbers not seen since the first century. Something is coming. The spirits know what it is. They are not telling.',
-
-    culturalPractices: 'Astril children are taught throat-singing before they are taught speech. The first sound an Astril infant hears is the double-tone of their mother\'s voice, the low drone that soothes the newborn spirit, the high overtone that carries the bloodline\'s song. Faith is cultivated as a skill, not a feeling, daily ritual, public devotion, visible sincerity. The spirit within rewards genuine belief and punishes performance, but the line between the two has been blurring for centuries. Marriage is a three-way covenant: the two mortals and the two spirits, all bound in a ceremony witnessed by a Synod truth-speaker who reads the patterns of all four participants to ensure the vows were meant. The Unlit are not permitted to marry, their vows cannot be verified, and their children would be born spiritless. The dead are laid on stone slabs at the burial mounds, uncovered, their luminous patterns watched by the community until the light fades, signaling that the spirit has departed and found its new vessel. The watching takes between three hours and three days. It is never interrupted.',
-
+    currentCrisis: 'The Selunis-ritual is approaching a critical phase. The Silath star-readers have watched the moon\'s tides shift over the last decade in ways the old charts predicted centuries ago, the signs that the waking is near, perhaps within a generation. But the same decade has seen Keth-Amar\'s awareness grow. The predator stirs more often, reaches further, and the Astril fear it has begun to sense the lunar connection. If the ritual is discovered before the awakening is complete, centuries of nightly work end in a single night. If it is interrupted at the wrong phase, no one knows what happens to a half-woken god. The ritual-tenders are working faster than the charts permit, pushing the rite ahead of its proper rhythm, and the Vashir farmers are digging in, fortifying the remote communities, preparing for the day the predator turns its full attention toward the moon. The Astril have spent centuries hiding. They are beginning to suspect they will not be hidden much longer.',
+    culturalPractices: 'The night is the teacher. An Astril child\'s first lessons come after sundown, held in the moon-courtyard while the adults perform the ritual and the elders murmur the star-charts in the double-tone. Children learn to read the sky before they learn to read words. They learn that the stars are a clock, that the moon is a door, and that their people are the only ones who remember how to open it.\n\nBy day, the Astril farm and hunt. Every community is self-sufficient by necessity, isolation requires it. The Vashir bloodlines tend the fields and track the game, their reptilian patience suited to the slow work of growing things. The Silath bloodlines keep the records, time the rituals, and watch the sky for the signs that mark each phase of the rite. Both bloodlines perform the ritual together. The work cannot be done by one alone.\n\nChildren are taught their heritage plainly and without ornament. You are a refugee. Your ancestors came from a world that died. You led something terrible to this one. Your work, every night, every generation, ensures that this world does not die the same way. There is no glory in the telling. There is only the truth, and the purpose it carries. Astril children do not play at heroes. They play at farmers and ritual-tenders, because that is what they will be.\n\nThe dead are laid in the moon-courtyard beneath the open sky, watched through a single night so that Selunis\'s dreaming gaze may pass over them. By dawn they are buried in the fields, returning to a soil that is not the soil of their ancestors\' world but feeds their descendants all the same. The Astril plant above their graves. They say the crops that grow from Lumia\'s-blood-fed earth taste faintly of a star that no longer exists, and only the Astril can taste it.',
     subraces: {
-        sylen: {
-            id: 'sylen_astril',
-            name: 'Sylen',
-            illustration: '/assets/images/races/sylen_illustration.png',
-            illustrationCaption: 'A Sylen Astril whose skin-patterns blaze like hearth-fire under a starless sky.',
-            tooltipSummary: 'Star-sigil warriors who burn with the vessel\'s constellation fire, their contained flare turning them into living weapons of celestial fury.',
-            description: 'The Sylen are Astril who have chosen to open themselves to the constellation within. Their luminous patterns blaze bright as hearth-fire in any darkness, visible constellations that shift and pulse with their emotions, their faith, and the unseen position of the stars that no longer exist. Their features carry the animal-sign of their spirit more visibly than the Muren: elongated canines among the Wolf-blooded, an equine elongation of the face among the Horse-blooded, serpentine pupils among the Dragon-blooded. They move with the confidence of the possessed, a second consciousness humming beneath their own, granting them premonitions, hungers, and instincts not their own. Their faith is not private. It cannot be. And every Sylen knows the name of at least one Over-Sung, someone who opened too wide and was consumed, the spirit claiming the vessel entirely, the mortal consciousness snuffed like a candle in a hurricane. The risk is the price. The light is the reward.',
-            culturalBackground: 'Sylen culture is built on openness, to the spirit, to the community, to the constant performance of belief that the Luminarchy demands. A Sylen does not hide their doubts because they cannot hide them, the patterns dim with uncertainty, writhe with heresy, go dark with despair. This creates an almost unbearable social transparency: every Sylen knows the state of every other Sylen\'s faith at a glance. Friendships are built on mutual spiritual accountability. Betrayals are visible before they happen. A Sylen who is losing their faith is visited by the community within hours, the patterns told on them before they said a word.\n\nThe Over-Sung are the Sylen\'s wound. When a Sylen opens too completely, in battle, in ritual, in passion, and cannot close again, the spirit floods the vessel. The mortal consciousness is submerged, not destroyed. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by a constellation that has forgotten it was ever a passenger. The Over-Sung are not killed. They are tended in the spirit-dormitories, sung to, fed, loved. Some recover. Most do not. Every Sylen has visited the dormitory where their predecessor\'s predecessor still rocks in place, humming a star-frequency that no living Astril can reproduce.\n\nThe Sylen have dominated the Luminarchy\'s upper ranks for five centuries since the schism. The Synod is overwhelmingly Sylen, the Muren cannot display their faith visibly enough to attract the spirits of the dying powerful, and the Unlit have no faith to display at all. The Sylen nobility carry the oldest, strongest constellations: Dragon, Tiger, Wolf. Their patterns are layered, some bloodlines carry five, six, seven spirits simultaneously, the skin rippling like a nebula. The assassination economy targets Sylen almost exclusively. The Muren are rarely worth killing for their spirits because Muren spirits are suppressed, dim, hard to read, hard to attract. An assassin who kills a Muren risks the spirit choosing a Sylen bystander whose faith blazes louder than the killer\'s own.',
-            statModifiers: { spirit: 2, charisma: 1, constitution: -1 },
-            baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
-            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['wyrd'] },
+        vashir: {
+            id: 'vashir_astril',
+            name: 'Vashir',
+            illustration: '/assets/images/races/vashir_illustration.png',
+            illustrationCaption: 'A Vashir Astril farmer, scaled patterns tracing the forearms, claw-like nails resting on a hoe, slit-pupil eyes watching a field by moonlight.',
+            tooltipSummary: 'Bloodlines carrying Lumia\'s reptilian heritage, the scaled farmers, hunters, and builders whose patience and hide root the Astril in the physical world.',
+            description: 'The Vashir are the Astril bloodlines that carry Lumia\'s reptilian heritage. Scaled patterns trace their forearms and the backs of their necks, faint geometric markings that flush darker with exertion or cold. Their hands end in prominent claw-like nails, thick and dark, suited to digging and gripping and the hard labor of a farming life. Their eyes are slit-pupiled and faintly luminous, protected by a nictitating membrane that slides across the iris in wind or rain. Their body temperature runs cooler than a Mythrill native\'s, a relic of cold-blooded ancestors who survived a frozen world. They are sturdy, grounded, territorial, patient in the way that only a people who measure their work in centuries can be. The Vashir are the farmers, the hunters, the builders, the ones whose hands are always in the soil or on the kill. Their flaw is the mirror of their strength: they are so rooted in the physical world, so attuned to the land and the season and the harvest, that they sometimes forget the ritual. A Vashir who forgets the rite is not punished. They are simply reminded, gently, by the Silath, that the land they love so much will die if the work does not get done.',
+            culturalBackground: 'Vashir communities are the visible face of the Astril to the rare outsider who passes through. They are the ones in the fields at dawn, the ones who barter at distant markets, the ones whose scaled forearms and claw-nailed hands draw the stares that the Silath, paler and quieter, prefer to avoid. The Vashir do not mind the stares. They have work to do.\n\nThe Vashir farm the descendants of seeds carried across the void from Lumia\'s world, and they hunt the game of Mythrill with a patience that borders on the geological. Their reptilian heritage suits them to this: the cooler body temperature, the slow metabolism, the hide that resists claw and cold. They are territorial in the quiet way of farmers, not aggressive, simply rooted, unwilling to leave land they have tended for generations. The oldest Vashir families have worked the same soil since the Astril arrived on Mythrill.\n\nTheir geometric markings are personal, unique to each Vashir, tracing patterns that suggest scale-rows without ever quite repeating. They are not constellation-maps. They are not sacred. They are simply the way the Vashir body remembers its heritage, and most Vashir could not tell you what their pattern signifies even if they wanted to. The Vashir are philosophically rooted in the physical world. They believe the work of saving Mythrill is done with hands and soil and patience, not with ritual and moonlight. They are not wrong. They are also not entirely right, and the Silath remind them of this every night when the rite must be performed and a Vashir has to be pulled away from a half-finished fence to take their place in the moon-courtyard.',
+            statModifiers: { constitution: 2, strength: 1, spirit: -1 },
+            baseStats: { hp: 8, mana: 5, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['physical'], disadvantage: ['wyrd'] },
             traits: [
                 {
-                    id: 'open_the_vessel_sylen',
-                    name: 'Open the Vessel',
-                    description: 'You lower every wall, unmake every suppression, and open yourself completely to the constellation within. For a span of heartbeats, the spirit floods you, your patterns blaze like hearth-fire, your voice carries harmonic undertones that are not your own, your eyes reflect constellations that no longer exist in the sky above. Your magic sharpens. Your presence terrifies. But the spirit is not a tool to be wielded and put away, it is a passenger who has just been given the reins, and it does not want to give them back. When the opening ends, you must wrestle your own body back from a celestial being who has just remembered what it felt like to be sovereign.',
+                    id: 'reptilian_hide_vashir',
+                    name: 'Reptilian Hide',
+                    description: 'Your scaled skin resists harm the way your ancestors\' did on a frozen world. You gain 15% physical damage resistance and resistance to cold damage. The hide that kept your bloodline alive on Lumia endures in you, thick and cool and stubborn.',
                     level: 1,
-                    icon: 'spell_holy_innerfire',
+                    icon: 'fas fa-shield-alt',
+                    spellType: 'PASSIVE',
+                    actionPoints: 0,
+                    components: [],
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial', school: 'primal' },
+                    buffConfig: {
+                        buffType: 'damageMitigation',
+                        effects: [
+                            {
+                                id: 'scaled_hide_vashir',
+                                name: 'Scaled Hide',
+                                description: '15% physical damage resistance. Resistance to cold damage. The reptilian heritage of Lumia made your ancestors hard to kill, and it makes you the same.',
+                                statModifier: { stat: 'physical', magnitude: 15, magnitudeType: 'resistance' },
+                                statusEffect: { level: 'moderate', description: 'Scaled hide turns claw and cold alike' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'claw_hand_strike_vashir',
+                    name: 'Claw-Hand Strike',
+                    description: 'Your claw-like nails are natural weapons, thick and dark and suited to the kill. When you make an unarmed strike, you deal 1d6 + Strength modifier slashing damage instead of the normal amount. As an action, you may spend 1 AP to make a claw-strike that rends: your next melee attack within 1 round deals an additional 1d4 slashing damage and causes the target to bleed for 1d4 damage at the start of its next turn. The hunter\'s tools are the ones you were born with.',
+                    level: 1,
+                    icon: 'fas fa-hand-rock',
+                    spellType: 'ACTION',
+                    actionPoints: 1,
+                    components: ['somatic'],
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial', school: 'primal' },
+                    buffConfig: {
+                        buffType: 'combatEnhancement',
+                        effects: [
+                            {
+                                id: 'natural_weapon_vashir',
+                                name: 'Natural Weapon',
+                                description: 'Unarmed strikes deal 1d6 + Str slashing damage. Spend 1 AP: next melee attack deals +1d4 slashing damage.',
+                                statusEffect: { level: 'moderate', description: 'Your claws are the hunter\'s first tools' }
+                            }
+                        ],
+                        durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'rend_bleed_vashir',
+                                name: 'Rend',
+                                description: 'Target bleeds for 1d4 slashing damage at the start of its next turn. The claws of Lumia\'s hunters were made to open things that did not want to be opened.',
+                                statusEffect: { type: 'bleeding', damageType: 'slashing', damageFormula: '1d4', duration: 1, durationUnit: 'turns' }
+                            }
+                        ],
+                        targetRestriction: 'melee_target'
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }
+                },
+                {
+                    id: 'territorial_instinct_vashir',
+                    name: 'Territorial Instinct',
+                    description: 'The reptilian blood in you knows its ground and defends it. When you are fighting to defend a location you have held for at least a day, or to protect an ally within 30 feet, you have advantage on Constitution saving throws and your melee attacks deal +1 damage. The Vashir do not abandon what they have rooted themselves to.',
+                    level: 1,
+                    icon: 'fas fa-anchor',
+                    spellType: 'PASSIVE',
+                    actionPoints: 0,
+                    components: [],
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial', school: 'primal' },
+                    buffConfig: {
+                        buffType: 'statusEffectBuff',
+                        effects: [
+                            {
+                                id: 'rooted_defender_vashir',
+                                name: 'Rooted Defender',
+                                description: 'When defending a held location or protecting an ally within 30 ft: advantage on Constitution saving throws, +1 melee damage. The farmer does not leave the field while the harvest is still standing.',
+                                statusEffect: { level: 'moderate', description: 'Rooted, patient, unwilling to yield your ground' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'conditional', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'patient_hunter_vashir',
+                    name: 'Patient Hunter',
+                    description: 'The Vashir hunt the way their ancestors did: slowly, surely, reading the land and the quarry until the moment is perfect. Once per short rest, you may spend 1 minute observing a target (creature, terrain, or track) to gain advantage on your next Survival, Nature, or attack roll against that target within the next hour. The reptilian patience that survived a frozen world does not rush.',
+                    level: 1,
+                    icon: 'fas fa-crosshairs',
+                    spellType: 'ACTION',
+                    actionPoints: 1,
+                    components: ['somatic'],
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial', school: 'primal' },
+                    buffConfig: {
+                        buffType: 'combatAdvantage',
+                        effects: [
+                            {
+                                id: 'hunters_focus_vashir',
+                                name: 'Hunter\'s Focus',
+                                description: 'Spend 1 minute observing a target: gain advantage on your next Survival, Nature, or attack roll against it within 1 hour. The cold-blooded patience of Lumia reads its quarry before it moves.',
+                                statusEffect: { level: 'moderate', description: 'You have read the quarry; the moment will be yours' }
+                            }
+                        ],
+                        durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }
+                }
+            ]
+        },
+        silath: {
+            id: 'silath_astril',
+            name: 'Silath',
+            illustration: '/assets/images/races/silath_illustration.png',
+            illustrationCaption: 'A Silath Astril star-reader, skin translucent in the moonlight, pale silver eyes turned to a sky only they can read.',
+            tooltipSummary: 'Bloodlines carrying Lumia\'s consciousness and stellar memory, the pale star-readers and ritual-tenders most connected to the dormant Selunis.',
+            description: 'The Silath are the Astril bloodlines that carry Lumia\'s consciousness, the part of the dead star that remembered rather than endured. Their skin is almost translucent in certain light, pale to the point of revealing the violet-blue threads of blood beneath, and their body temperature runs lower even than the Vashir\'s. Their eyes are uniform pale silver with no visible pupil, flat and bright as a mirror catching moonlight, and they do not blink as often as they should. Their markings are softer than the Vashir\'s, flowing rather than geometric, wind-patterns and tidal-maps that seem to shift when observed from the corner of the eye. The Silath are the star-readers, the ritual-tenders, the ones most connected to Selunis. They hear the sleeper\'s dreams more clearly than any other bloodline, and they are the ones who time the rite and chant its oldest passages. Their flaw is the mirror of their strength: they are so focused on the ritual, so attuned to the moon and the sky and the slow work of waking a god, that they sometimes forget the ground. A Silath who forgets to eat, or sleep, or notice the season has turned, is gently reminded by the Vashir that the body is also part of the work.',
+            culturalBackground: 'The Silath are the keepers of the rite. In every Astril community, it is the Silath who read the stars each night, who determine which phase of the Selunis-ritual may be performed, who chant the passages that the lunar deity most needs to hear. They are the most connected to Selunis, and they bear the cost of that connection: the dreams come to them whether they will it or not, pale and tidal, full of images from a god\'s long sleep, and a Silath who has tended the rite for decades sometimes forgets which world they are standing in.\n\nTheir markings are soft and flowing, tidal-maps and wind-patterns that trace the skin as if drawn by a current. Like the Vashir\'s scales, they are unique to each Silath, personal and organic, never repeating. The Silath do not read them as sacred. They read them as personal, the way the consciousness of Lumia wrote itself on the body that carried it.\n\nThe Silath are paler, quieter, and more fragile than the Vashir, and they know it. They cannot farm as long or hunt as hard, and they do not try. Their work is the rite, and the records, and the watching of the sky. They are the ones who remember that the purpose of the Astril is not merely to survive on this world but to ensure the world itself survives. The Vashir tend the soil. The Silath tend the moon. Neither can do the other\'s work, and the ritual fails without both.\n\nA Silath who leaves the community is usually a messenger, a seeker of allies, or a penitent who has decided that their guilt must be worked out in the wider world rather than in the moon-courtyard. They are easy to spot, if you know what you are looking for: the translucent skin, the silver eyes, the faintly distracted air of someone who is listening to something you cannot hear. Most Silath, however, never leave the courtyard. The work is here. The dreamer is here. The Silath will not abandon either.',
+            statModifiers: { spirit: 2, charisma: 1, constitution: -1 },
+            baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
+            savingThrowModifiers: { advantage: ['spirit'], disadvantage: ['physical'] },
+            traits: [
+                {
+                    id: 'read_the_tide_silath',
+                    name: 'Read the Tide',
+                    description: 'You open yourself to the stellar memory in your blood, the consciousness of Lumia that remembers every star it ever shone upon. For 1 minute, your patterns brighten, your silver eyes go fully mirror-bright, and the dream of Selunis moves through you. You gain +2 to Spirit-based spell attack rolls and +1 to spell save DC, and you may cast one divination or ritual effect you know without spending mana. When the tide recedes, you are left shivering and faint: gain 1 level of exhaustion as the alien memory withdraws. The star\'s consciousness does not linger where it is not at home.',
+                    level: 1,
+                    icon: 'fas fa-moon',
                     spellType: 'ACTION',
                     actionPoints: 1,
                     components: ['verbal', 'somatic'],
@@ -271,10 +449,10 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                         buffType: 'combatAdvantage',
                         effects: [
                             {
-                                id: 'spirit_flood_sylen',
-                                name: 'Spirit Flood',
-                                description: '+2 to Spirit-based spell attack rolls and +1 to spell save DC for 1 minute, the constellation pours its ancient power through your mortal frame',
-                                statusEffect: { level: 'major', description: 'The spirit pours its ancient power through mortal flesh' }
+                                id: 'stellar_surge_silath',
+                                name: 'Stellar Surge',
+                                description: '+2 to Spirit-based spell attack rolls and +1 to spell save DC for 1 minute. One divination or ritual effect may be cast without mana. Lumia\'s consciousness pours its memory through you.',
+                                statusEffect: { level: 'major', description: 'A dead star\'s memory floods your mind' }
                             }
                         ],
                         durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true
@@ -283,13 +461,14 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                         debuffType: 'statusEffect',
                         effects: [
                             {
-                                id: 'spirit_wrest_back_sylen',
-                                name: 'Wrest Back',
-                                description: 'DC 14 Constitution save at end of duration. On failure, gain 1 exhaustion level, the spirit does not want to give the reins back, and your body pays the toll of the struggle. On natural 1, you cede control for 1 additional round and attack the nearest creature (friend or foe) as the spirit acts through you.',
+                                id: 'tide_recession_silath',
+                                name: 'Tide Recession',
+                                description: 'Gain 1 level of exhaustion when the surge ends. The stellar memory withdraws, and your mortal frame pays for what it briefly held.',
                                 statusEffect: {
                                     level: 'major',
-                                    description: 'The spirit has tasted sovereignty and is reluctant to surrender it',
-                                    savingThrow: { stat: 'constitution', dc: 14, failureEffect: 'exhaustion_level_1', criticalFailureEffect: 'attack_nearest_creature' }
+                                    description: 'The alien consciousness has gone, and you are emptied',
+                                    penaltyType: 'exhaustion',
+                                    magnitude: 1
                                 }
                             }
                         ],
@@ -300,11 +479,73 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                     resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] }
                 },
                 {
-                    id: 'faith_made_visible_sylen',
-                    name: 'Faith Made Visible',
-                    description: 'You have advantage on Persuasion and Insight checks against other Astril and spirit-touched creatures, and when near a dying Astril you are always a candidate to inherit their constellation. You suffer disadvantage on Stealth checks in dim light or darkness, your patterns visible from up to 30 feet away. Your luminous faith is a beacon the spirits covet and the dark cannot hide, you glow and you cannot stop glowing.',
+                    id: 'lunar_attunement_silath',
+                    name: 'Lunar Attunement',
+                    description: 'Your silver eyes see what Selunis sees. You have advantage on Insight and Perception checks involving dreams, omens, or the lunar deity\'s influence, and you may cast a ritual to commune with Selunis\'s dream once per long rest, gaining a cryptic answer to a single question. Your translucent skin and pupil-less eyes mark you as the dreamer\'s own, and those who know the signs recognize a ritual-tender on sight.',
                     level: 1,
-                    icon: 'spell_holy_auramastery',
+                    icon: 'fas fa-moon',
+                    spellType: 'PASSIVE',
+                    actionPoints: 0,
+                    components: [],
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial', school: 'ember' },
+                    buffConfig: {
+                        buffType: 'statusEffectBuff',
+                        effects: [
+                            {
+                                id: 'dreamsight_silath',
+                                name: 'Dreamsight',
+                                description: 'Advantage on Insight and Perception checks involving dreams, omens, or Selunis. Once per long rest, commune with the dream for a cryptic answer to one question. The Silath see what the sleeper shows them.',
+                                statusEffect: { level: 'moderate', description: 'Your eyes reflect the dream of a sleeping god' }
+                            }
+                        ],
+                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'memory_of_lumia_silath',
+                    name: 'Memory of Lumia',
+                    description: 'When you fail a saving throw, the consciousness of the dead star within you surges to protect the vessel that carries it. You may reroll the saving throw and must accept the new result. After using this, your markings blaze with pale light for 1 minute, granting disadvantage on Stealth checks and revealing your position to all enemies within 60 feet. The memory does not let its bearer fall, but it exacts a price for the intervention.',
+                    level: 1,
+                    icon: 'fas fa-star',
+                    spellType: 'REACTION',
+                    actionPoints: 0,
+                    components: [],
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial', school: 'ember' },
+                    buffConfig: {
+                        buffType: 'triggeredEffect',
+                        effects: [{
+                            id: 'stellar_intervention_silath',
+                            name: 'Stellar Intervention',
+                            description: 'Reroll a failed saving throw, once per long rest.',
+                            statusEffect: { level: 'major', description: 'The memory of Lumia floods outward to shield its bearer' }
+                        }],
+                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [{
+                            id: 'marking_blaze_silath',
+                            name: 'Marking Blaze',
+                            description: 'Tidal-markings blaze with pale light for 1 minute. Disadvantage on Stealth. Position revealed to all enemies within 60 ft.',
+                            statusEffect: { level: 'moderate', duration: 1, durationUnit: 'minutes', penaltyType: 'stealth', magnitude: 'disadvantage', revealRange: 60 }
+                        }],
+                        targetRestriction: 'self'
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] }
+                },
+                {
+                    id: 'silver_eyes_silath',
+                    name: 'Silver Eyes',
+                    description: 'Your pupil-less silver eyes read the surface of the world the way they read the sky. You have advantage on Insight checks against living creatures, catching the small tides of deception that ripple across a liar\'s face. You suffer disadvantage on Intimidation checks, your pale, unblinking gaze reads as unsettling or unwell to those who do not know you. The Silath see too much and threaten too little.',
+                    level: 1,
+                    icon: 'fas fa-eye',
                     spellType: 'PASSIVE',
                     actionPoints: 0,
                     components: [],
@@ -314,10 +555,10 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                         buffType: 'socialBonus',
                         effects: [
                             {
-                                id: 'spirit_beacon_sylen',
-                                name: 'Spirit Beacon',
-                                description: 'Advantage on Persuasion and Insight checks against other Astril and spirit-touched creatures, your faith is visible and undeniable. When near a dying Astril, the departing spirit notices you, you are always a candidate for constellation inheritance.',
-                                statusEffect: { level: 'moderate', description: 'The spirits see your faith and covet it' }
+                                id: 'tidal_read_silath',
+                                name: 'Tidal Read',
+                                description: 'Advantage on Insight checks against living creatures. Your silver eyes read the currents of deceit the way they read the currents of the sky.',
+                                statusEffect: { level: 'moderate', description: 'You see the lie before it lands' }
                             }
                         ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -326,208 +567,18 @@ Now, centuries later, the Astril endure. The Luminarchy still rules. The Synod s
                         debuffType: 'statusEffect',
                         effects: [
                             {
-                                id: 'cannot_hide_glow_sylen',
-                                name: 'The Unhidden Flame',
-                                description: 'Disadvantage on Stealth checks made in dim light or darkness, your luminous patterns are visible from up to 30 feet away. The spirits notice you. So does everything else.',
+                                id: 'unsettling_gaze_silath',
+                                name: 'Unsettling Gaze',
+                                description: 'Disadvantage on Intimidation checks. Your unblinking silver eyes read to strangers as illness or wrongness, not threat.',
                                 statusEffect: {
                                     level: 'moderate',
-                                    description: 'You glow. In the dark, you are the first thing anything sees.',
-                                    penaltyType: 'stealth',
-                                    magnitude: 'disadvantage',
-                                    conditions: ['dim_light', 'darkness']
+                                    description: 'Your gaze unsettles rather than frightens',
+                                    penaltyType: 'intimidation',
+                                    magnitude: 'disadvantage'
                                 }
                             }
                         ],
                         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                },
-                {
-                    id: 'constellation_fury_sylen',
-                    name: 'Constellation Fury',
-                    description: 'You cede the reins, not partly, not carefully, but completely. The animal-spirit within surges forward, flooding your limbs with celestial strength and ancient, wordless rage. For three heartbeats you are no longer yourself: you are the Horse trampling a predator, the Wolf bringing down a wounded stag, the Tiger defending its territory against anything that breathes. Your strikes blaze with starlight. Your speed is not yours, it is the speed of a constellation that once crossed the entire sky in a single night. But the spirit has waited centuries for this moment of freedom, and it does not distinguish friend from foe, ally from prey, innocent from threat. When the fury ends, you must convince the spirit to give the body back. It has been waiting a long time. It is not ready to stop.',
-                    level: 1,
-                    icon: 'spell_holy_innerfire',
-                    spellType: 'ACTION',
-                    actionPoints: 2,
-                    components: ['verbal', 'somatic'],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'ember' },
-                    buffConfig: {
-                        buffType: 'combatAdvantage',
-                        effects: [
-                            {
-                                id: 'celestial_fury_sylen',
-                                name: 'Celestial Fury',
-                                description: '+2 Strength, +10ft speed, melee attacks deal +1d4 ember damage for 3 rounds',
-                                statusEffect: { level: 'major', description: 'The constellation\'s ancient rage floods mortal limbs' }
-                            }
-                        ],
-                        durationValue: 3, durationType: 'turns', durationUnit: 'turns', canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'spirit_reins_sylen',
-                                name: 'The Reins Are Loosed',
-                                description: 'While this effect is active, you must attack the nearest creature each turn, friend or foe. The spirit does not distinguish. When the effect ends, DC 14 Spirit save or the spirit attempts to retain control: you make one melee attack against yourself (1d8+Str) as you wrestle it back down.',
-                                statusEffect: {
-                                    level: 'extreme',
-                                    description: 'The spirit does not distinguish friend from prey',
-                                    compulsion: 'attack_nearest_creature',
-                                    savingThrow: { stat: 'spirit', dc: 14, failureEffect: 'self_damage_1d8_plus_str' }
-                                }
-                            }
-                        ],
-                        targetRestriction: 'self'
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-                    resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] }
-                }
-            ]
-        },
-        muren: {
-            id: 'muren_astril',
-            name: 'Muren',
-            illustration: '/assets/images/races/muren_illustration.png',
-            illustrationCaption: 'A Muren Astril showing faint, suppressed skin-patterns and binding-ritual scars.',
-            tooltipSummary: 'Soul-fortress ascetics who learned to wall their presence and contain the spirit\'s overflow, suffering sacred rejection for their fortress discipline.',
-            description: "The Muren are Astril who bind the constellation within through ritual suppression. Their luminous patterns are dim. Their animal-sign features are subtle. They live at war with their own passenger, a Muren who maintains their rituals is a fortress; a Muren who falters is a bomb.",
-            culturalBackground: "The Muren bind through scarification, fasting, and binding-chants learned before speech. Their faith is private, unverifiable, and distrusted by the Sylen-dominated Luminarchy. Suppression creates pressure, when the walls fail, years of pent celestial energy erupt. A Muren who flares in public is exiled. They pass unnoticed among non-Astril.",
-            statModifiers: { spirit: 2, constitution: 1, charisma: -1 },
-            baseStats: { hp: 8, mana: 5, ap: 3, initiative: 0 },
-            savingThrowModifiers: { advantage: ['charm'], disadvantage: ['sacred'] },
-            traits: [
-                {
-                    id: 'rite_of_binding_muren',
-                    name: 'Rite of Binding',
-                    description: 'You perform the ritual gestures that contain the constellation, precise throat-tones and scar-tracing that reinforce the walls between your consciousness and the spirit\'s. For an hour, your mind is a fortress: external influence glances off the same barriers that hold a celestial minister at bay. Your patterns dim to near-invisibility, you could pass for Unlit, or even for human, in anything but the closest inspection. But the spirit feels the tightening and resists. Divine energy, the language of its former home, cannot reach you through walls that thick. And your presence, so carefully muted, unsettles those who sense the thing you are not showing them.',
-                    level: 1,
-                    icon: 'spell_shadow_antimagicshell',
-                    spellType: 'ACTION',
-                    actionPoints: 1,
-                    components: ['verbal', 'somatic'],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'wyrd' },
-                    buffConfig: {
-                        buffType: 'statusEffectBuff',
-                        effects: [
-                            {
-                                id: 'fortress_mind_muren',
-                                name: 'Fortress Mind',
-                                description: 'For 1 hour: advantage on Spirit and Charisma saving throws against external mental influence. +1 to all saving throws. Suppressed luminous patterns grant advantage on Stealth checks made to avoid detection, you appear Unlit.',
-                                statusEffect: { level: 'major', description: 'Your mind is a fortress; the spirit is locked within, and external influence glances off the same walls' }
-                            }
-                        ],
-                        durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'walled_presence_muren',
-                                name: 'Walled Presence',
-                                description: 'While active: sacred healing received is halved, the spirit resists what it perceives as further containment. Disadvantage on Persuasion checks, your muted presence seems hollow, untrustworthy, wrong.',
-                                statusEffect: {
-                                    level: 'moderate',
-                                    description: 'The spirit resists sacred light; your muted soul unsettles onlookers',
-                                    healingModifier: { type: 'sacred', magnitude: 0.5, magnitudeType: 'multiplier' },
-                                    socialPenalty: { skill: 'persuasion', magnitude: 'disadvantage' }
-                                }
-                            }
-                        ],
-                        targetRestriction: 'self'
-                    },
-                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
-                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
-                    resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] }
-                },
-                {
-                    id: 'contained_flare_muren',
-                    name: 'Contained Flare',
-                    description: 'When you take a critical hit or fall below 50% HP, the suppressed spirit erupts for an instant, dealing 1d6 ember damage to all creatures within 10 feet (including allies). You then have disadvantage on your next attack roll from the breach. The walls you built for years shatter in a moment, starlight screaming through the cracks where your prison used to be.',
-                    level: 1,
-                    icon: 'spell_fire_incinerate',
-                    spellType: 'PASSIVE',
-                    actionPoints: 0,
-                    components: [],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'ember' },
-                    buffConfig: {
-                        buffType: 'triggeredEffect',
-                        effects: [
-                            {
-                                id: 'spirit_rupture_muren',
-                                name: 'Spirit Rupture',
-                                description: 'When you take damage from a critical hit or fall below 50% HP, the spirit erupts: all creatures within 10 feet (including allies) take 1d6 ember damage as suppressed celestial energy floods outward.',
-                                statusEffect: { level: 'moderate', description: 'The walls break; starlight floods through the cracks', trigger: ['critical_hit_taken', 'hp_below_50_percent'] }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'rupture_recoil_muren',
-                                name: 'Rupture Recoil',
-                                description: 'When flare triggers: disadvantage on your next attack roll. You reel from the breach, the walls you spent years building are rubble, and the spirit is laughing in the silence where its prison used to be.',
-                                statusEffect: {
-                                    level: 'moderate',
-                                    description: 'The breach leaves you reeling',
-                                    penaltyType: 'next_attack_disadvantage'
-                                }
-                            }
-                        ],
-                        targetRestriction: 'self'
-                    },
-                    targetingConfig: { targetingType: 'area', rangeType: 'self_centered', aoeSize: 10 },
-                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
-                    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
-                },
-                {
-                    id: 'ward_skin_muren',
-                    name: 'Ward-Skin',
-                    description: 'You gain +1 Armor and resistance to possession and domination effects, the same barriers that hold the spirit at bay admit no other passenger. Astral and sacred healing you receive is halved, and you cannot benefit from Bardic Inspiration or morale effects. The constant suppression has hardened your flesh into a fortress, one the light cannot enter.',
-                    level: 1,
-                    icon: 'spell_holy_auramastery',
-                    spellType: 'PASSIVE',
-                    actionPoints: 0,
-                    components: [],
-                    effectTypes: ['buff', 'debuff'],
-                    typeConfig: { category: 'racial', school: 'ember' },
-                    buffConfig: {
-                        buffType: 'damageMitigation',
-                        effects: [
-                            {
-                                id: 'hardened_vessel_muren',
-                                name: 'Hardened Vessel',
-                                description: '+1 Armor. Resistance to possession and domination effects, the walls that hold the spirit at bay will not admit any other passenger.',
-                                statusEffect: { level: 'moderate', description: 'Your body is a fortress; no other passenger will be admitted' }
-                            }
-                        ],
-                        durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
-                    },
-                    debuffConfig: {
-                        debuffType: 'statusEffect',
-                        effects: [
-                            {
-                                id: 'divine_rejection_muren',
-                                name: 'Astral Rejection',
-                                description: 'Astral and sacred healing is halved, the spirit perceives sacred energy as a cage and rejects it. Cannot benefit from Bardic Inspiration or morale effects, your walls are too thick, and inspiration cannot find purchase on a mind that has spent a lifetime refusing entry.',
-                                statusEffect: {
-                                    level: 'major',
-                                    description: 'The spirit rejects sacred light; your walls keep out inspiration as efficiently as they keep in the star',
-                                    healingModifier: { type: 'sacred', magnitude: 0.5, magnitudeType: 'multiplier' },
-                                    immunity: ['bardic_inspiration', 'morale_effects']
-                                }
-                            }
-                        ],
-                        targetRestriction: 'self'
                     },
                     targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                     resourceCost: { actionPoints: 0, mana: 0, components: [] },

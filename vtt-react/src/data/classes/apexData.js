@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Apex Class Data
  *
  * Complete class information for the Apex - an agile melee combatant
@@ -8,13 +8,11 @@
 export const APEX_DATA = {
  restrictions: {
   "allowedSubraces": [
-   "maskborne_mimir",
-   "mistwoven_mimir",
+   "woven_mimir",
    "unwoven_mimir",
    "skald_human",
-   "clean_vreken",
    "marked_vreken",
-   "ordan_human"
+   "vashir_astril"
   ],
   "hardBlocks": [
    "emberth",
@@ -33,35 +31,36 @@ export const APEX_DATA = {
  * The mist is learning to hide from all of them.
  */
  subraceVariants: {
- maskborne_mimir: {
-  subraceName: 'Mask-Borne Mimir',
+ masked_mimir: {
+  subraceName: 'Masked Mimir',
   title: 'The Mask-Hunter',
-  reframe: `The <LoreLink termId="mimir">Mask-Borne</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Mask-Borne are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
+  reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Masked are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
   signatureAbility: {
   name: 'Anchor-Sense',
-  description: `Tracking-perception is stabilized by the mask; while the Mask-Borne Apex's mask is intact and untouched, their sensory acuity cannot be eroded by the fog's memory-decay. The instant the mask is displaced, the senses scatter. The Mask-Borne hunt with their face protected at all costs.`
+  description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something -- hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
+
   },
-  currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Mask-Borne feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses. Several Mask-Borne Apexes have reported the mist *looking back* through their own stabilized perception, as if the thing they are hunting is now hunting through the very clarity they rely on.`,
+  currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Masked feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses. Several Masked Apexes have reported the mist *looking back* through their own stabilized perception, as if the thing they are hunting is now hunting through the very clarity they rely on.`,
   signatureQuote: {
   text: '"My mask holds me steady so I can see what the fog hides. Lately the fog sees me back, through my own steadiness. I have become the thing I am hunting, or it has become me."',
   speaker: 'Mask-Hunter Mir-Vassen',
-  context: 'A Mask-Borne Apex, the fourth hunt his anchored senses returned nothing'
+  context: 'A Masked Apex, the fourth hunt his anchored senses returned nothing'
   }
  },
 
- mistwoven_mimir: {
-  subraceName: 'Mist-Woven Mimir',
+ woven_mimir: {
+  subraceName: 'Woven Mimir',
   title: 'The Sentinel-Tracker',
-  reframe: `The <LoreLink termId="mimir">Mist-Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Mist-Woven Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
+  reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Woven Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
   signatureAbility: {
   name: 'Perimeter-Track',
-  description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Mist-Woven are nearly infallible. Outside it, pursuing prey that has fled, their acuity drops sharply. They are guards, not pursuers.`
+  description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Woven are nearly infallible. Outside it, pursuing prey that has fled, their acuity drops sharply. They are guards, not pursuers.`
   },
-  currentCrisisAngle: `The mist's new evasion has the Mist-Woven sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected. Several Mist-Woven Apexes have abandoned their posts in the Palisade to hunt whatever is teaching the mist to hide, judging the root cause more dangerous than the perimeter-breaches it causes.`,
+  currentCrisisAngle: `The mist's new evasion has the Woven sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected. Several Woven Apexes have abandoned their posts in the Palisade to hunt whatever is teaching the mist to hide, judging the root cause more dangerous than the perimeter-breaches it causes.`,
   signatureQuote: {
   text: '"I have guarded this wall for thirty years and the wall has held because the mist cooperated. Now the mist opens doors for the things I am meant to stop. I am leaving the wall to find the hand on the door."',
   speaker: 'Sentinel-Tracker Mir-Felss',
-  context: 'A Mist-Woven Apex, requesting leave to hunt beyond the Palisade'
+  context: 'A Woven Apex, requesting leave to hunt beyond the Palisade'
   }
  },
 
@@ -143,6 +142,22 @@ export const APEX_DATA = {
   speaker: 'Steppe-Scent Bayar',
   context: 'An Ordan Apex, returning from a third hunt that found nothing'
   }
+ },
+
+ vashir_astril: {
+  subraceName: 'Vashir Astril',
+  title: 'The Steppe-Stalker',
+  reframe: `The <LoreLink termId="astril">Vashir</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is typically a steppe predator \u2014 a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Vashir Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice \u2014 a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
+  signatureAbility: {
+  name: 'Heat-Sight',
+  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Vashir's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
+  },
+  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Vashir differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Vashir Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Vashir are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
+  signatureQuote: {
+  text: '"The Ordan read the grass. The Skald read the ice. I read the heat, and the heat does not lie to me the way the wind lies to them. But the heat is fading. Something on the steppe is getting colder, and I do not think it is the season."',
+  speaker: 'Sethra Heat-Eye',
+  context: 'A Vashir Apex, tracking a herd that was already dead when it arrived'
+  }
  }
  },
 
@@ -157,16 +172,16 @@ export const APEX_DATA = {
  livingOrder: {
  orderName: 'The Silent Hunt',
  founder: {
-  name: '<LoreLink termId="sylas">Sylas</LoreLink>',
-  status: `Alive, and entirely deaf. The tracker who tuned his senses to the silent vibrations of pine needles and damp earth, stalking a conceptual Wyrd-entity for seven days. To achieve absolute sensory focus, he paid with his hearing, completely deaf to kin, living in a silent predatory world. He has led the Hunt in sign-language ever since.`,
-  note: `<LoreLink termId="sylas">Sylas</LoreLink> built the Silent Hunt on a trade the order still honors: give up one sense to sharpen the rest. Every Apex initiate chooses a sacrifice. <LoreLink termId="sylas">Sylas</LoreLink> chose hearing. The mist that is now learning to hide is teaching him that some things cannot be tracked even with every sense paid for.`
+ name: '<LoreLink termId="sylas">Sylas</LoreLink>',
+ status: `Alive, and entirely deaf. A Woven Mimir sentinel on the Ironwood Palisade, Sylas walked into the Frostwood fog after the Greythorn massacre and did not return for seven days. When he came back, he was deaf  --  he had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He had stalked and killed the first Gref, a Wyrd entity that steals faces and erases memory of its victims. He has led the Silent Hunt in sign-language ever since.`,
+ note: `<LoreLink termId="sylas">Sylas</LoreLink> built the Silent Hunt on a trade the order still honors: give up one sense to sharpen the rest. Every Apex initiate chooses a sacrifice. <LoreLink termId="sylas">Sylas</LoreLink> chose hearing. The mist that is now learning to hide is teaching him that some things cannot be tracked even with every sense paid for.`
  },
  currentLeader: {
   name: '<LoreLink termId="sylas">Silent-Master Sylas</LoreLink>',
   title: 'The First Hunter',
-  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the same conceptual Wyrd-entity, on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
+  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  --  the first Gref  --  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
  },
- headquarters: { name: 'The Still Blind, deep Ironwood Heart (Frostwood Reach)', locationId: 'frostwood-reach' },
+ headquarters: { name: 'The Still Blind, memorial site near Greythorn (Frostwood Reach)', locationId: 'frostwood-reach' },
  crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide, not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Unwoven trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either, because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
  },
 
@@ -176,33 +191,30 @@ export const APEX_DATA = {
  ],
 
  overview: {
- originStory: `Founded in the early decades of the Dimming by Sylas, who traded his hearing for vibration-sense to track Wyrd-creatures through the Frostwood fog. The ranger Sylas tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the silent, sub-vocal vibrations of the pine needles and the damp earth. In a fog-shrouded valley, he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace the faint disturbances in the fog-memory.
+ originStory: `A master hunter who has made a trade with the Frostwood fog. The fog takes something, hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.
 
-To achieve this absolute sensory focus, Sylas paid with his own hearing, becoming completely deaf to the voices of his kin. The Apex lives in a silent, predatory world of scents and vibrations, unable to hear the warnings of allies or the screams of her prey. The forest is a map written in heat, odor, and kinetic tremors.
+The tradition was born from the Greythorn massacre. A Thalren timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Woven Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
 
-Draw the bow. Scent the spoor. The forest is silent, and you are its sharpest shadow. Strike before they know you are there.`,
+The Silent Hunt was founded that week at the memorial site near Greythorn. Sylas established the trade. Every hunter chooses a sensory sacrifice. The fog takes something permanent, and in exchange, the hunter can perceive what the fog conceals. This is not a skill learned through practice. It is a bargain struck with the mist that protects the Reach, a miniature dark bargain, personal and irreversible.
+
+Sylas has led the Hunt ever since. He communicates through a tactile sign-language developed specifically because spoken words are unreliable in the Frostwood fog. He has tracked the same Wyrd-entity, on and off, for forty years. Lately it has begun circling him.
+
+The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Vashir Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Unwoven Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
+
+The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Unwoven trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
+
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The Apex is an agile melee damage dealer who builds Quarry Marks through coordinated attacks with her beast companion, NOT from individual hits. Your glaive is deadly alone, but your true power comes from the pack.
+  content: `**Who they are**: A predator who traded a human sense  --  hearing, scent, or touch  --  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
 
-**Core Mechanic**: Coordinate with companion → Generate Quarry Marks from companion synergy (coordinated strikes, companion commands, pack tactics) → Spend marks on companion buffs, glaive chain extensions, or ultimate abilities
+**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  --  one swing hitting four or five targets as shadow energy arcs between them.
 
-**Resource**: Quarry Marks (0-5 scale, max +3 generated per turn, +4 for Beastmaster)
+**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  --  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
 
-**Playstyle**: Hit-and-run tactical melee with deep companion synergy
-
-**Best For**: Players who enjoy pet management, multi-target melee, and building power through teamwork between hunter and beast
-
----
-
-**Your First Turn (Quickstart)**:
-1. **Command** your companion to Attack a priority target (1 AP)
-2. **Glaive Toss** at the same target (2 AP), this is a Coordinated Strike
-3. **Watch your Quarry Marks fill**, coordinated attacks with your companion generate +2 QM
-4. **Spend marks** to extend chains, buff companion, or save for a devastating ultimate`,
+**Bring one for**: The most efficient multi-target melee damage in the game  --  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
  },
 
  description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she builds power through the bond with her companion, Quarry Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
@@ -210,17 +222,17 @@ Draw the bow. Scent the spoor. The forest is silent, and you are its sharpest sh
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The apex's stalker focus was forged in the ancient ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A wood-ranger named **Sylas** tracked the invisible spoor of Wyrd-creatures, using the fog to mask his approach. The price of this perfect focus was a sensory numbness. Sylas became completely deaf to the voices of his kin, his mind permanently locked in the tracking of mist-spoor.
+The Apex was born from the Greythorn massacre  --  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Woven Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  --  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
 
 **CITIES & CIVIL RECEPTION**
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="mimir">Mist-Woven Mimir</LoreLink> and the Skald hunters.
+The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Vashir <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
 
 **NOTABLE FIGURES**
-* **Sylas the Silent**: The first ranger who tracked the invisible spoor of Wyrd-creatures through the Frostwood.
-* **Maeve of the Canopy**: A Mist-Woven Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
+* **Sylas the Silent**: Woven Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.
+* **Maeve of the Canopy**: A Woven Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
  },
 
  signatureQuote: {
@@ -232,12 +244,12 @@ The class is heavily practiced by the <LoreLink termId="mimir">Mist-Woven Mimir<
  philosophy: {
   coreTenet: 'Every creature leaves a mark on the world, whether it knows it or not. A footprint, a broken twig, a displaced scent, a tremor in the moss. The Apex reads these marks the way a scholar reads a book. The quarry cannot hide, they can only make the reading harder.',
   relationship: 'The Apex and her companion are not master and pet, they are partners. The bond is forged through shared hunts, shared kills, and shared survival. The companion does not obey; it anticipates. After years together, a Apex does not need to give commands, her companion knows what she needs before she knows it herself. This bond is sacred and irreplaceable. A Apex whose companion dies rarely takes another. The grief is too specific.',
-  paradox: 'The Apex lives in a world of pure sensation, scents, vibrations, tiny visual cues, because she has deliberately sacrificed the world of human connection. Sylas went deaf to his kin so he could hear the forest. Every Apex since has made a similar trade: they give up something essential to their humanity in exchange for the ability to track the supernaturally untrackable. They are the greatest hunters in the world, and the loneliest.'
+  paradox: 'The Apex lives in a world of pure sensation, scents, vibrations, tiny visual cues, because she has deliberately sacrificed the world of human connection. Sylas went deaf to his kin so he could feel the fog\'s secrets through his bones. Every Apex since has made a similar trade: they give up something essential to their humanity in exchange for the ability to track the supernaturally untrackable. They are the greatest hunters in the world, and the loneliest.'
  },
 
  currentCrisis: `The mist is learning to hide. For centuries, Apexes have tracked Wyrd-creatures through the Frostwood Reach by reading the disturbances they leave in the fog, ripples of displaced vapor that betray their passage. But the fog is changing. It is becoming more static, less responsive, as if it is deliberately refusing to reveal the creatures moving through it.
 
-Some Apexes believe the fog is responding to the increased activity of the Wyrd, that it is thickening to protect the incursions. Others believe something worse: the fog is not protecting them. It is hiding something else, something large, that has been moving through the Reach for months without leaving any trace. The old Apexes say the last time the fog went this still was the day before the first Gref appeared.`,
+Some Apexes believe the fog is responding to the increased activity of the Wyrd, that it is thickening to protect the incursions. Others believe something worse: the fog is not protecting them. It is hiding something else, something large, that has been moving through the Reach for months without leaving any trace. The old Apexes say the last time the fog went this still was the morning before Greythorn fell.`,
 
  meaningfulTradeoffs: `To be a Apex is to give up the world of words. The constant sensory tuning required to track Wyrd-creatures permanently alters the brain\'s auditory processing centers. Apexes gradually lose the ability to understand spoken language, not because their hearing fails, but because their brain no longer prioritizes human speech over environmental sound. They develop their own sign language, tactile gestures that can be felt through gloves. A pair of Apexes can hold a silent conversation through hand-pressure alone, but they cannot hear a friend say goodbye.`,
 
@@ -263,12 +275,12 @@ Some Apexes believe the fog is responding to the increased activity of the Wyrd,
 - Excellent at controlling enemy positioning
 
 **Combat Weaknesses**:
-- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived — you become an ordinary glaive-fighter with no resource and no burst.
+- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived � you become an ordinary glaive-fighter with no resource and no burst.
 - Pack-Dependent Damage: your glaive alone hits for base damage; without grouped enemies to chain AND a living companion to feed marks, your output collapses.
-- Leather-Clad: light armor only — caught without Shadowstep, you are a priority burst target.
+- Leather-Clad: light armor only � caught without Shadowstep, you are a priority burst target.
 - Melee-Only, Kiteable: no ranged answer; fliers, archers, and spread-out formations shut you down.
 - Primal Outrage Friendly-Fire: sit on 5 marks or let your beast get wounded and it Frenzies, attacking the nearest creature, including you and your allies.
-- Bond Sickness: when your companion falls you roll on the Bond Sickness table (disadvantage, wyrd damage) for 3 rounds — a cruel enemy can weaponize your grief.
+- Bond Sickness: when your companion falls you roll on the Bond Sickness table (disadvantage, wyrd damage) for 3 rounds � a cruel enemy can weaponize your grief.
 
 **Optimal Positioning**:
 Apexes excel at close range (5-15 feet), positioning themselves to maximize glaive chains between grouped enemies. They should maintain mobility, using Shadowstep to reposition and avoid being surrounded while keeping their companion in effective range.`,
@@ -320,7 +332,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
  immersiveCombatExample: {
   title: "Combat Example: The Shadow Glaive Dance",
-  content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception — the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
+  content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception � the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
 
 **The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
 
@@ -330,7 +342,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 ---
 
-**Turn 1, The Opening Chain (QM: 2 → 5)**
+**Turn 1, The Opening Chain (QM: 2 ? 5)**
 
 *Five bandits stand in a tight group, weapons drawn. You grip your Shadow Glaive,a crescent-bladed polearm that hums with dark energy. Fang growls beside you, ready to strike.*
 
@@ -338,7 +350,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 **Your Turn** (initiative 12):
 - **Action**: Shadow Glaive Attack on Bandit #1 (melee attack, chains to nearby enemies)
- - **Strike Roll**: 2d8 (glaive die) → [7, 6] + 4 (AGI) = **17 damage** to Bandit #1
+ - **Strike Roll**: 2d8 (glaive die) ? [7, 6] + 4 (AGI) = **17 damage** to Bandit #1
 
 *Your glaive strikes Bandit #1, and the blade GLOWS. Shadow energy arcs from the impact point, seeking nearby targets.*
 
@@ -346,9 +358,9 @@ Don't stand still. Use Shadowstep and Evasion to:
  - **Enemies in Range**: Bandits #2, #3, #4 (all within 5 feet of Bandit #1)
  - **Chain Damage**: 1d8+4 to each chained target (Bladestorm spec: 1d6 minimum on chains)
 
- - **Chain Attack #1 (Bandit #2)**: 1d8+4 → [6] + 4 = **10 damage**
- - **Chain Attack #2 (Bandit #3)**: 1d8+4 → [7] + 4 = **11 damage**
- - **Chain Attack #3 (Bandit #4)**: 1d8+4 → [5] + 4 = **9 damage**
+ - **Chain Attack #1 (Bandit #2)**: 1d8+4 ? [6] + 4 = **10 damage**
+ - **Chain Attack #2 (Bandit #3)**: 1d8+4 ? [7] + 4 = **11 damage**
+ - **Chain Attack #3 (Bandit #4)**: 1d8+4 ? [5] + 4 = **9 damage**
 
 *The shadow energy EXPLODES outward, striking four bandits in one swing. They stagger, wounded.*
 
@@ -357,7 +369,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 - **QM Calculation**: 2 + 3 = **5 QM** (cap reached, 1 mark lost to overflow)
 
 - **Bonus Action**: Command Fang to Attack Bandit #1
- - **Fang Strike Roll**: 1d8 (companion die) → [6] + 3 = **9 damage**
+ - **Fang Strike Roll**: 1d8 (companion die) ? [6] + 3 = **9 damage**
  - **Result**: Bandit #1 takes 17 + 9 = 26 total damage, **DEAD**
 
 *Fang leaps forward, jaws clamping down on Bandit #1's throat. The bandit falls.*
@@ -366,12 +378,12 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 ---
 
-**Turn 2, Extending the Chain (QM: 5 → 3 → 5)**
+**Turn 2, Extending the Chain (QM: 5 ? 3 ? 5)**
 
 *The bandits regroup. Bandit #5 closes the distance and swings at you.*
 
 **Bandit #5's Turn** (initiative 16):
-- **Strike Roll**: 2d6 (bandit weapon) → [5, 4] + 3 = **12 damage**
+- **Strike Roll**: 2d6 (bandit weapon) ? [5, 4] + 3 = **12 damage**
 - **Your HP**: 70 - 12 = **58/70**
 
 **Your Turn** (initiative 12):
@@ -381,12 +393,12 @@ Don't stand still. Use Shadowstep and Evasion to:
 *You focus your will. The Shadow Glaive pulses with darker energy. This next strike will chain further.*
 
 - **Action**: Shadow Glaive Attack on Bandit #2
- - **Strike Roll**: 2d8 (glaive die) → [8, 7] + 4 (AGI) = **19 damage** to Bandit #2
+ - **Strike Roll**: 2d8 (glaive die) ? [8, 7] + 4 (AGI) = **19 damage** to Bandit #2
 
 - **Chain Mechanic**: Extended chain reaches Bandits #3, #4, and #5 (3 enemies within extended range)
- - **Chain Attack #1 (Bandit #3)**: 1d8+4 → [6] + 4 = **10 damage** → Bandit #3 **DEAD** (was already wounded)
- - **Chain Attack #2 (Bandit #4)**: 1d8+4 → [8] + 4 = **12 damage** → Bandit #4 **DEAD** (was already wounded)
- - **Chain Attack #3 (Bandit #5)**: 1d8+4 → [5] + 4 = **9 damage**
+ - **Chain Attack #1 (Bandit #3)**: 1d8+4 ? [6] + 4 = **10 damage** ? Bandit #3 **DEAD** (was already wounded)
+ - **Chain Attack #2 (Bandit #4)**: 1d8+4 ? [8] + 4 = **12 damage** ? Bandit #4 **DEAD** (was already wounded)
+ - **Chain Attack #3 (Bandit #5)**: 1d8+4 ? [5] + 4 = **9 damage**
 
 *The glaive chains to THREE enemies this time, killing two of them. Only Bandits #2 and #5 remain.*
 
@@ -401,24 +413,24 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 ---
 
-**Turn 3, Companion Empowerment (QM: 5 → 4 → 5)**
+**Turn 3, Companion Empowerment (QM: 5 ? 4 ? 5)**
 
 *Two bandits left. Bandit #2 is wounded (19 damage taken), Bandit #5 is wounded (9 damage taken). Time to finish this.*
 
-**Bandit #2 Strike Roll** vs Fang → 1d6 → [1] → **Fumble!**
+**Bandit #2 Strike Roll** vs Fang ? 1d6 ? [1] ? **Fumble!**
 
 **Your Turn** (initiative 12):
 - **Quick Action** (0 AP): Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
  - **QM: 5 - 1 = 4**
 
 - **Bonus Action**: Command Fang to Attack Bandit #2
- - **Fang Strike Roll**: 1d8 (companion die) → [7] + 3 = **10 damage**
+ - **Fang Strike Roll**: 1d8 (companion die) ? [7] + 3 = **10 damage**
  - **Result**: Bandit #2 **DEAD**
 
 *Fang's jaws glow with shadow energy as he tears into Bandit #2. The bandit falls.*
 
 - **Action**: Shadow Glaive Attack on Bandit #5 (last enemy)
- - **Strike Roll**: 2d8 (glaive die) → [8, 6] + 4 (AGI) = **18 damage** to Bandit #5
+ - **Strike Roll**: 2d8 (glaive die) ? [8, 6] + 4 (AGI) = **18 damage** to Bandit #5
  - **Result**: Bandit #5 **DEAD**
 
 *Your glaive sweeps through the last bandit. He falls. Combat over.*
@@ -518,7 +530,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   momentum:
   'Start by commanding your companion to "Attack" a target while you use "Glaive Toss" at the SAME target. This Coordinated Strike generates +2 QM immediately. Build your 3-mark "Companion Special" by turn two through pack coordination.',
   flourish:
-  "⚠️ The Over-Hunt: If you hit 5 QM, don't sit on them. You generate marks so fast that any unspent marks are effectively wasted power. ⚠️ WITHOUT YOUR COMPANION: You generate ZERO marks. Keep your beast alive at all costs.",
+  "?? The Over-Hunt: If you hit 5 QM, don't sit on them. You generate marks so fast that any unspent marks are effectively wasted power. ?? WITHOUT YOUR COMPANION: You generate ZERO marks. Keep your beast alive at all costs.",
  },
 
  overheatRules: {
@@ -608,7 +620,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    name: "Whirling Blades",
    icon: "Slashing/Quick Slash",
    description:
-    "Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 → 1d6 → 1d6 → 1d6 → 1d6). This does not cost Quarry Marks. Chain damage floor is raised to 1d6 at all levels.",
+    "Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 ? 1d6 ? 1d6 ? 1d6 ? 1d6). This does not cost Quarry Marks. Chain damage floor is raised to 1d6 at all levels.",
    },
    {
    name: "Momentum",
@@ -805,7 +817,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    description: "Chains to enemies within 5 feet of previous target",
    maxTargets: 4,
    damageReduction:
-   "Chain damage: 1d8 (primary) → 1d6 → 1d6 → 1d4. At L5+, all chains deal at least 1d6. At L8+, all chains deal at least 1d8.",
+   "Chain damage: 1d8 (primary) ? 1d6 ? 1d6 ? 1d4. At L5+, all chains deal at least 1d6. At L8+, all chains deal at least 1d8.",
   },
   bladestormPassive: {
    description:
@@ -2143,7 +2155,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_apex_predator",
   name: "Apex Predator",
   description:
-  "Assume the stance of the ultimate hunter — your senses sharpen, your reflexes quicken, and every fiber of your being becomes a weapon for 5 rounds.",
+  "Assume the stance of the ultimate hunter � your senses sharpen, your reflexes quicken, and every fiber of your being becomes a weapon for 5 rounds.",
   spellType: "ACTION",
   icon: "Nature/Cat Face",
   level: 6,
@@ -2897,7 +2909,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_ultimate_hunter",
   name: "Ultimate Hunter",
   description:
-  "Transcend mortal hunting limits — your perception expands, your companion syncs to your soul, and for 10 rounds you become the thing prey prays never finds them.",
+  "Transcend mortal hunting limits � your perception expands, your companion syncs to your soul, and for 10 rounds you become the thing prey prays never finds them.",
   spellType: "ACTION",
   icon: "Nature/Roaring Bear",
   level: 9,
@@ -3226,7 +3238,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    formula: "12d6 + agility * 1.5",
    type: "storm",
    description:
-   "Deals 12d6 + agility × 1.5 force damage that ignores resistances",
+   "Deals 12d6 + agility � 1.5 force damage that ignores resistances",
   },
   execute: {
    description:
@@ -3660,7 +3672,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_scent_memory",
    name: "Scent Memory",
    description:
-   "Let your companion lock onto a presented scent — a drop of blood, a scrap of cloth, a fresh track. Thereafter it can trail that specific quarry across any distance and will alert you (and pinpoint) if the same creature is nearby, even disguised, hidden, or invisible. Out of combat or combat.",
+   "Let your companion lock onto a presented scent � a drop of blood, a scrap of cloth, a fresh track. Thereafter it can trail that specific quarry across any distance and will alert you (and pinpoint) if the same creature is nearby, even disguised, hidden, or invisible. Out of combat or combat.",
    spellType: "ACTION",
    icon: "Nature/Sense",
    level: 2,
@@ -3710,7 +3722,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_silent_sign",
    name: "Silent Sign",
    description:
-   "Speak in the hand-pressure sign language of the Silent Sisterhood — fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
+   "Speak in the hand-pressure sign language of the Silent Sisterhood � fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
    spellType: "ACTION",
    icon: "Utility/Utility",
    level: 1,
@@ -3735,7 +3747,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_hunting_blind",
    name: "Hunting Blind",
    description:
-   "Establish a concealed ambush camp — masking scent, mounding cover, and posting your companion as lookout. Allies who rest inside gain advantage on recovery, and the party's first strike out of the blind has advantage and +1d6 damage. Lasts until you move on or break concealment.",
+   "Establish a concealed ambush camp � masking scent, mounding cover, and posting your companion as lookout. Allies who rest inside gain advantage on recovery, and the party's first strike out of the blind has advantage and +1d6 damage. Lasts until you move on or break concealment.",
    spellType: "ACTION",
    icon: "Nature/Tree",
    level: 3,

@@ -1,11 +1,12 @@
-﻿export const INQUISITOR_DATA = {
+export const INQUISITOR_DATA = {
   restrictions: {
-      "allowedSubraces": [
-          "marked_vreken",
-          "clean_vreken",
-          "thalren_human",
-          "morren_human"
-      ],
+       "allowedSubraces": [
+           "marked_vreken",
+           "clean_vreken",
+           "thalren_human",
+           "morren_human",
+           "woven_mimir"
+       ],
       "hardBlocks": [
           "emberth",
           "fexrick",
@@ -81,12 +82,29 @@
         description: `Corrupted magical bonds are severed through contract-law inversion, the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Morren are uniquely suited: they have been reading fine print since birth.`
       },
       currentCrisisAngle: `The Wyrd is bleeding faster, and the Morren Inquisitors have noticed the new entities do not *have* contracts, they cannot be severed because they were never bound. A Morren Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
-      signatureQuote: {
-        text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
-        speaker: 'Severer Mor-Kael',
-        context: 'A Morren Inquisitor, requesting transfer from contract-work to the deep groves'
-      }
-    }
+     signatureQuote: {
+       text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
+       speaker: 'Severer Mor-Kael',
+       context: 'A Morren Inquisitor, requesting transfer from contract-work to the deep groves'
+     }
+   },
+
+   woven_mimir: {
+     subraceName: 'Woven Mimir',
+     title: 'The Fog-Sentinel',
+     reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the <LoreLink termId="ironwood-palisade">Ironwood Palisade</LoreLink> against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Righteous Authority builds from patience, not pursuit.`,
+     signatureAbility: {
+       name: 'Fog-Reading',
+       description: `Wyrd-incursions are detected through the fog's memory-shifts before they physically manifest; the Woven Inquisitor reads the mist like a seismograph, feeling the corruption as a wrongness in the fog's texture. Their Authority builds from the waiting itself  -  each silent hour on the Palisade is a vigil that deepens their power.`
+     },
+     currentCrisisAngle: `The fog has begun to remember things the Woven do not want it to remember  -  old incursions, ancient corruptions, forgotten entities that predate the Palisade. The Sentinels are reading warnings for threats that may be centuries old, or may be arriving now. The fog does not distinguish between past and present danger, and the Woven Inquisitors are losing the ability to tell the difference.`,
+     signatureQuote: {
+       text: '"The fog warned me of your arrival three days ago. It did not warn me of what follows you. I am still waiting for that warning. I suspect I will be waiting for a very long time."',
+       speaker: 'Sentinel Woven-Marr',
+       context: 'A Woven Fog-Sentinel, greeting a party at the Ironwood Palisade, refusing entry'
+     }
+   },
+
   },
 
   id : "inquisitor",
@@ -156,27 +174,25 @@
   overview: {
     title: "The Inquisitor",
     subtitle: "Cold Iron, Burning Salt, and the Barbed Leash of the Damned",
-    originStory: `Founded in the mid-Diming centuries when two Wyrd-hunting traditions merged into the Barbed Vow: Orven the Still-Handed and Elias the Salt-Scarred. Two traditions of occult warfare, born in parallel from the same wound in the world. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh.
+    originStory: `An inquisitor hunts the Wyrd. Not with faith or magic, but with cold iron and the Barbed Vow, an oath sworn in blood that grants authority over the supernatural at the cost of rejecting all magical assistance. An inquisitor cannot be healed by magic or receive magical buffs. The Vow makes them immune to supernatural corruption, but leaves their bones brittle and their flesh vulnerable.
 
-Both traditions understood the same truth: the Wyrd bleeds through every crack that magic carves in reality. One tradition learned to seal the cracks by destroying the caster. The other learned to trap what seeped through, binding it in chains of salt and will. When the Sundered Monoliths began cracking wider and the incursion rate tripled, the two orders recognized that their separate wars were the same war.
+The order was founded during the mid-Dimming centuries, when the Wyrd incursion rate tripled and two separate hunting traditions merged out of necessity. In the Bryngloom Forest, the Vreken hunter Orven the Still-Handed, a Marked Vreken whose twin sister had been taken by the hush, forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kin. In the Frostwood Reach, the Thalren healer Elias the Salt-Scarred opened his own veins to draw face-stealing Wyrd entities into living flesh, baiting them with deliberately breakable oaths.
 
-The Inquisition was forged in that recognition. Cold iron meets bound horror. Anti-magic negation meets purifying ritual. The Barbed Vow and the salt-scar are one oath now.
+When the incursion rate tripled, the two hunters met at the border between their territories and recognized they were fighting the same war with different weapons. The order they founded combines cold-iron binding with flesh-baiting, producing a doctrine effective against the Wyrd but eroding the user with every application. Silver-poisoned bones. Whispered demons in the blood. Self-inflicted wounds that never heal. Total isolation from the communities they protect.
 
-You are the Inquisitor. You hunt the caster, bind the entity, purge the corruption, and pay for every victory with your own blood. The iron in your bones makes you brittle. The demons in your veins make you less than human. But between your two traditions, nothing supernatural escapes.`,
+Only forty-seven inquisitors remain. The Wyrd is bleeding faster, and new entities are emerging that fall outside the order's entire methodology, things with no contracts to sever, no faces to bait, no names to bind. The current leader, High-Severer Vrael the Forty-Seventh, has begun training recruits in forbidden techniques. Not severing corruption, but binding it. The founders would have considered this heresy. Vrael considers it survival.
+
+Each subrace hunts through their own culture's strengths. The Marked Vreken track corruption through the mycelial network itself, the forest's nervous system. The Clean Vreken identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Marked sever. The Thalren open their own veins as bait, each wound a permanent scar of intended betrayal. The Morren hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Woven Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Righteous Authority building from patience rather than pursuit.`,
 
     quickOverview: {
       title: "The Weight of Authority",
-      content: `**A Crown of Ash and Chains**: The Inquisitor is a dual-purpose occult warrior who combines anti-magic negation with Wyrd-touched binding and purification. You build Righteous Authority (0-8) through both anti-magic friction (absorbing spells, breaking wards, shattering enchantments) and binding rituals (commanding bound entities, executing the supernatural). Against mundane threats, you generate nothing, and both the silver in your marrow and the demons in your blood leave you catastrophically vulnerable to ordinary steel.
+      content: `**Who they are**: An occult arbiter who hunts spellcasters with cold iron and commands bound horrors with salt-scarred authority  -  two traditions fused into a single devastating doctrine. They are both Covenbane and Exorcist, and the distinction no longer matters.
 
-**Core Mechanic**: Absorb and negate enemy magic + Bind and command supernatural entities + Purge corruption from allies at physical cost -> Spend Authority on anti-magic effects, binding commands, and terminal executions
+**The hook**: Build Righteous Authority by absorbing and negating enemy magic while commanding bound supernatural entities. Spend it to shatter spells, purge corruption from allies at physical cost, and execute the supernatural with terminal finality. Every third strike against a possessed or enchanted target unleashes a white-hot spike of alchemical silver that bypasses all resistance.
 
-**Resource**: Righteous Authority (0-8, unified resource combining Hexbreaker Charges and Divine Dominance, decaying when no supernatural contact, rebellion risk at 0)
+**The cost**: Against mundane threats, you generate nothing  -  and the silver in your marrow makes you catastrophically vulnerable to ordinary steel. The demons bound in your blood whisper constantly. Your skin crawls with contained horrors, and the communities you protect will never fully trust the thing you have become.
 
-**Passive**: Arbiter's Precision -- Every 3rd strike against a supernatural target unleashes a white-hot spike of alchemical silver that bypasses all resistance
-
-**Playstyle**: High-tension anti-magic striker and horror commander carrying alchemical fragility, self-inflicted wounds, and total social isolation
-
-**Best For**: Players who crave systematic oppression of spellcasters, volatile pet micromanagement, and heavy, high-stakes trade-offs`,
+**Bring one for**: Systematic oppression of spellcasters and the ability to turn an enemy's summoned horror into your own weapon  -  no other class combines anti-magic negation with horror binding in a single doctrine.`,
     },
 
     description: `For those who stand on the bleeding edge between absolute authority and absolute heresy, the Inquisitor is the ultimate arbiter of the occult. Born from the fusion of two parallel traditions, the cold-iron Covenbane and the horror-binding Exorcist, they wield both anti-magic negation and Wyrd-touched binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities, allowing them to shatter spells, bind demons, and purge corruption. Yet the price of this power is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.`,
@@ -190,7 +206,7 @@ The Inquisition was born from the convergence of two traditions: the Vreken Barb
 Inquisitors are feared, respected, and deeply isolated. They are tolerated at the margins of <LoreLink termId="sunken_spire">The Sunken Spire</LoreLink> and Atropolis, welcomed in frontier settlements of the Reach, but never fully trusted. Their skin crawls with contained horrors, their voices carry undertones that are not their own, and the cold iron they carry interferes with divination and healing.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the Ghost-Mycelium, and the Thalren humans and <LoreLink termId="mimir">Unwoven Mimir</LoreLink> of the Frostwood Reach.
+The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the Ghost-Mycelium, the Thalren humans of the Frostwood Reach, the debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> who turned contract-law into severance, and the <LoreLink termId="mimir">Woven Mimir</LoreLink> Fog-Sentinels who watch the Ironwood Palisade.
 
 **NOTABLE FIGURES**
 * **Orven the Still-Handed**: Vreken founder of the Barbed Vow who tracked his own sister into the sinking bogs.
@@ -1862,7 +1878,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_witch_sight",
       name: "Witch-Sight",
       description:
-        "Open your cold-iron eyes and see the supernatural for what it is. For the duration you perceive active magic, recent spellcasting residue, hidden wards and glyphs, possession, corruption, and the Wyrd-touched as clearly as torchlight — including the faint ash-trail of a spell cast within the last hour. Iron and salt read as bright lines. Out of combat.",
+        "Open your cold-iron eyes and see the supernatural for what it is. For the duration you perceive active magic, recent spellcasting residue, hidden wards and glyphs, possession, corruption, and the Wyrd-touched as clearly as torchlight  -  including the faint ash-trail of a spell cast within the last hour. Iron and salt read as bright lines. Out of combat.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -1913,7 +1929,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_exorcise_place",
       name: "Exorcise",
       description:
-        "Drive out the supernatural from a place or object — lift a haunting, break a curse on a room or item, cleanse corruption sunk into a floor or a blade. The bound or Wyrd-touched thing is expelled (not destroyed) and flees the warded space. Heavier infestations demand ritual time and Authority. Out of combat.",
+        "Drive out the supernatural from a place or object  -  lift a haunting, break a curse on a room or item, cleanse corruption sunk into a floor or a blade. The bound or Wyrd-touched thing is expelled (not destroyed) and flees the warded space. Heavier infestations demand ritual time and Authority. Out of combat.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -1930,7 +1946,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_barbed_interdict",
       name: "Barbed Interdict",
       description:
-        "Invoke the secular authority of the Barbed Vow. Once per long rest, you may lawfully demand entry, seizure of cursed objects, custody of the possessed, or answers from a religious or civil institution regarding a supernatural matter — and they recognize your standing. Gain advantage on Intimidation and Persuasion with authorities for one hour. Out of combat.",
+        "Invoke the secular authority of the Barbed Vow. Once per long rest, you may lawfully demand entry, seizure of cursed objects, custody of the possessed, or answers from a religious or civil institution regarding a supernatural matter  -  and they recognize your standing. Gain advantage on Intimidation and Persuasion with authorities for one hour. Out of combat.",
       level: 3,
       spellType: "ACTION",
       effectTypes: ["utility", "buff"],
@@ -1940,7 +1956,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       durationConfig: { durationType: "hours", durationValue: 1, durationUnit: "hours" },
       resourceCost: { resourceTypes: ["mana", "righteousAuthority"], resourceValues: { mana: 6, righteousAuthority: 1 }, actionPoints: 1, components: ["verbal"], verbalText: "By the authority of the Barbed Vow, I interdict" },
       resolution: "NONE",
-      utilityConfig: { utilityType: "social", selectedEffects: [ { id: "barbed_interdict_authority", name: "Vested Authority", description: "For 1 hour, recognized institutions (temples, courts, garrisons) treat your supernatural demands as lawful, and you gain advantage on Intimidation and Persuasion with authority figures. Fails if you invoke it fraudulently — the Vow knows.", mechanicsText: "Lawful standing + advantage with authorities re supernatural matters, 1 hour." } ], duration: 1, durationUnit: "hours", power: "major" },
+      utilityConfig: { utilityType: "social", selectedEffects: [ { id: "barbed_interdict_authority", name: "Vested Authority", description: "For 1 hour, recognized institutions (temples, courts, garrisons) treat your supernatural demands as lawful, and you gain advantage on Intimidation and Persuasion with authority figures. Fails if you invoke it fraudulently  -  the Vow knows.", mechanicsText: "Lawful standing + advantage with authorities re supernatural matters, 1 hour." } ], duration: 1, durationUnit: "hours", power: "major" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["utility", "social", "authority", "anti magic"],
     },

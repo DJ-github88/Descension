@@ -19,7 +19,7 @@ export const DICE_PRESETS = {
   classic: {
     id: 'classic',
     name: 'Classic',
-    icon: 'â—†',
+    icon: 'â - †',
     bodyColor: '#1a0f30',
     edgeColor: '#dbb85c',
     numberColor: '#dbb85c',

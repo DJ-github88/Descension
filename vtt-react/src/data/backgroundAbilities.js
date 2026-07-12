@@ -324,17 +324,17 @@
 
   starboundScholar: [
     {
-      name: 'Constellation-Lore',
+      name: 'Echo-Lore',
       type: 'Passive',
       usage: 'Always Active',
-      description: "The Sky-Songs still map the stars that went dark. Gain resistance to radiant damage and advantage on Arcana or Religion checks involving celestial or constellation-spirit phenomena.",
-      details: "You have resistance to radiant damage. You have advantage on Intelligence (Arcana) or Intelligence (Religion) checks related to celestial phenomena, constellation-spirits, or the Luminarchy's rites."
+      description: "The Echo-Songs still map the signatures that went dark. Gain resistance to radiant damage and advantage on Arcana or Religion checks involving celestial or Astril-echo phenomena.",
+      details: "You have resistance to radiant damage. You have advantage on Intelligence (Arcana) or Intelligence (Religion) checks related to celestial phenomena, Lumia's echo, or the Synod's rites."
     },
     {
-      name: 'Celestial Surge',
+      name: 'Lumian Surge',
       type: 'Active',
       usage: '1/Long Rest',
-      description: "The constellation-spirit in every Astril host remembers the sun. Enter a surge state for 1 minute, reducing spell costs and casting one spell for free.",
+      description: "Lumia\'s echo in every Astril host remembers the lost sun. Enter a surge state for 1 minute, reducing spell costs and casting one spell for free.",
       details: "For 1 minute, all spell costs are reduced by 1 (minimum 1), and you can cast one spell of 3rd level or lower without expending a spell slot."
     }
   ],

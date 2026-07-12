@@ -57,7 +57,7 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
             <div className="categorize-modal" style={modalStyle} onClick={(e) => e.stopPropagation()}>
                 <div className="categorize-modal-header">
                     <h3>Select Category</h3>
-                    <button className="close-button" onClick={onClose}>Ã—</button>
+                    <button className="close-button" onClick={onClose}>Ã - </button>
                 </div>
 
                 <div className="categorize-modal-content">

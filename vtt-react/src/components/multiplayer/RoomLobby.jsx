@@ -1089,7 +1089,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     // Test basic socket connectivity
     socket.emit('test_connectivity', { test: true, roomId: finalRoomId });
     socket.once('connectivity_test', (response) => {
-      console.log('ðŸ”— Socket connectivity test successful:', response);
+      console.log('ðŸ” -  Socket connectivity test successful:', response);
     });
   };
 

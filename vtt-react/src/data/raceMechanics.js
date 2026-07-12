@@ -1,21 +1,21 @@
-﻿export const RACE_MECHANICS = {
-  over_sung: {
-    id: 'over_sung',
-    name: 'Over-Sung',
+export const RACE_MECHANICS = {
+  echo_submersion: {
+    id: 'echo_submersion',
+    name: 'Echo-Submersion',
     applicableRace: 'astril',
-    applicableSubrace: 'sylen',
+    applicableSubrace: 'Vashir',
     type: 'escalation_track',
-    description: 'Bloodline is destiny in a world shaped by bargains. when a Sylen opens too completely to the constellation-spirit, the mortal consciousness is submerged. The Over-Sung still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by a constellation that has forgotten it was ever a passenger.',
+    description: 'When a Vashir opens too completely to Lumia\'s echo, the mortal consciousness is submerged. The Submerged still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by the memory of a dead world that has forgotten it was ever a passenger.',
     resource: {
-      name: 'Spirit Depth',
+      name: 'Echo Depth',
       range: { min: 0, max: 10 },
       startingValue: 0,
       displayType: 'counter'
     },
     advancement: [
       { trigger: 'Use "Open the Vessel" ability', amount: 1 },
-      { trigger: 'Use "Constellation Fury" ability', amount: 1 },
-      { trigger: 'Roll natural 1 on Spirit save while constellation is active', amount: 1 },
+      { trigger: 'Use "Lumian Fury" ability', amount: 1 },
+      { trigger: 'Roll natural 1 on Spirit save while Lumia\'s echo is active', amount: 1 },
       { trigger: 'Long rest with throat-singer present', amount: -1 },
       { trigger: 'Long rest in spirit-dormitory', amount: -2 }
     ],
@@ -24,16 +24,16 @@
         range: [1, 3],
         name: 'Whispering',
         effects: [],
-        narrative: 'The spirit\'s voice is louder after combat. Patterns flicker at the edge of vision.'
+        narrative: 'Lumia\'s memory speaks louder after combat. Crystalline patterns flicker at the edge of vision.'
       },
       {
         range: [4, 6],
         name: 'Surging',
         effects: [
-          { type: 'debuff', stat: 'stealth', value: 'disadvantage', description: 'Patterns glow even in bright light' },
-          { type: 'narrative', description: 'GM delivers one "spirit impulse" per session, the constellation wants something. Spirit save DC 12 to resist; success costs 1 Depth, failure advances 1 Depth.' }
+          { type: 'debuff', stat: 'stealth', value: 'disadvantage', description: 'Markings glow even in bright light' },
+          { type: 'narrative', description: 'GM delivers one "echo impulse" per session, Lumia\'s memory wants something. Spirit save DC 12 to resist; success costs 1 Depth, failure advances 1 Depth.' }
         ],
-        narrative: 'The constellation\'s will bleeds into daily life. The Sylen begins each session with an intrusive desire that is not their own.'
+        narrative: 'The echo of a dead world bleeds into daily life. The Vashir begins each session with an intrusive desire that is not their own.'
       },
       {
         range: [7, 9],
@@ -41,24 +41,24 @@
         effects: [
           { type: 'buff', stat: 'spirit', value: 2 },
           { type: 'buff', stat: 'attackDamage', value: '1d4 ember' },
-          { type: 'special', description: 'On natural 1 on any d20 roll, the spirit takes control for 1 round. DC 16 Constitution save to resist.' }
+          { type: 'special', description: 'On natural 1 on any d20 roll, the echo takes control for 1 round. DC 16 Constitution save to resist.' }
         ],
         narrative: 'The mortal shell is a contested vessel. Power flows, but autonomy ebbs.'
       },
       {
         range: [10, 10],
-        name: 'Over-Sung',
+        name: 'Submerged',
         effects: [
           { type: 'character_loss', description: 'Character becomes NPC under GM control. The mortal consciousness is submerged.' }
         ],
         recovery: {
           method: 'Throat-singing ritual',
           requirements: '3 successful Spirit checks (DC 15) by allies over 3 consecutive in-game days',
-          success: 'Character returns at Spirit Depth 5',
-          failure: 'Character remains Over-Sung permanently',
-          specialCase: 'Player may continue as the constellation itself, a genuinely different personality, until recovery succeeds or fails.'
+          success: 'Character returns at Echo Depth 5',
+          failure: 'Character remains Submerged permanently',
+          specialCase: 'Player may continue as the echo-entity itself, a genuinely different personality, until recovery succeeds or fails.'
         },
-        narrative: 'The constellation has forgotten it was ever a passenger. The person who bore it is a memory fading in the starless dark.'
+        narrative: 'Lumia\'s memory has forgotten it was ever a passenger. The person who bore it is a fading echo in the starless dark.'
       }
     ]
   },
@@ -69,7 +69,7 @@
     applicableRace: 'neth',
     applicableSubrace: 'all',
     type: 'escalation_track',
-    description: 'When a Neth breaks contracts on purpose, not for gain, but to force change, the Fading begins. At first it feels like freedom. The pact loosens. The Neth becomes fluid, spontaneous, briefly alive. Then the silver skin dulls and the mind dissolves.',
+    description: 'When a Neth breaks contracts on purpose, not for gain, but to force change, the Fading begins. At first it feels like freedom. The pact loosens. The Neth becomes fluid, spontaneous, briefly alive. Then the pale skin dulls and the mind dissolves.',
     resource: {
       name: 'Fraying',
       range: { min: 0, max: 10 },
@@ -97,10 +97,10 @@
         range: [3, 4],
         name: 'Thinning',
         effects: [
-          { type: 'debuff', stat: 'persuasion_neth', value: 'disadvantage', description: 'Other Neth can see the Fraying in the dulled silver skin' },
+          { type: 'debuff', stat: 'persuasion_neth', value: 'disadvantage', description: 'Other Neth can see the Fraying in the dulled pale skin' },
           { type: 'debuff', stat: 'archive_tether_range', value: 'halved', description: '7 days becomes 3.5 days before the Fading begins' }
         ],
-        narrative: 'The silver skin begins to dull. The Neth\'s community notices, and the Velun will not contract with them.'
+        narrative: 'The pale skin begins to dull. The Neth\'s community notices, and the Velun will not contract with them.'
       },
       {
         range: [5, 6],
@@ -117,7 +117,7 @@
         name: 'Coming Apart',
         effects: [
           { type: 'skill_loss', description: 'At the start of each session, the GM removes one skill proficiency or language (player\'s choice, GM can veto). Recoverable only by re-learning through downtime.' },
-          { type: 'social', description: 'Velun will not contract with them. The silver skin is visibly tarnished.' }
+          { type: 'social', description: 'Velun will not contract with them. The pale skin is visibly tarnished.' }
         ],
         narrative: 'Memories fragment. The contract-spiral that sustained them for centuries is unraveling, and each thread that snaps takes a piece of who they were.'
       },
@@ -136,9 +136,9 @@
         range: [10, 10],
         name: 'Dissolved',
         effects: [
-          { type: 'character_loss', description: 'The Neth becomes a silver-skinned husk. Nothing behind the eyes. Character retired.' }
+          { type: 'character_loss', description: 'The Neth becomes a pale-skinned husk. Nothing behind the eyes. Character retired.' }
         ],
-        narrative: 'Nothing behind the eyes. The silver skin is all that remains, a beautiful, empty shell that was once someone.'
+        narrative: 'Nothing behind the eyes. The pale skin is all that remains, a beautiful, empty shell that was once someone.'
       }
     ]
   }

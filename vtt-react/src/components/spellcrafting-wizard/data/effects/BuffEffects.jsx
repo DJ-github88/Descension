@@ -1440,7 +1440,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                               }}
                               title="Remove stage"
                             >
-                              Ã—
+                              Ã - 
                             </button>
                           </div>
                         </div>
@@ -1813,7 +1813,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                   className="pf-remove-btn"
                   onClick={() => removeStatModifier(stat.id)}
                 >
-                  Ã—
+                  Ã - 
                 </button>
               </div>
             ))}
@@ -2015,7 +2015,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                     }}
                     title="Remove effect"
                   >
-                    Ã—
+                    Ã - 
                   </button>
                 )}
               </div>

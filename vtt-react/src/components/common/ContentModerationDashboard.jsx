@@ -131,7 +131,7 @@ const ContentModerationDashboard = ({ isOpen, onClose }) => {
       <div className="moderation-dashboard">
         <div className="moderation-header">
           <h2>Content Moderation Dashboard</h2>
-          <button className="close-btn" onClick={onClose}>Ã—</button>
+          <button className="close-btn" onClick={onClose}>Ã - </button>
         </div>
 
         {stats && (

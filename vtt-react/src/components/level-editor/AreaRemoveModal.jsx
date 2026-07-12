@@ -23,7 +23,7 @@ const AreaRemoveModal = ({ isOpen, onClose, onRemove, selectedObjects }) => {
             <div className="area-remove-modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="area-remove-modal-header">
                     <h3>Area Removal Options</h3>
-                    <button className="area-remove-modal-close" onClick={onClose}>Ã—</button>
+                    <button className="area-remove-modal-close" onClick={onClose}>Ã - </button>
                 </div>
                 <div className="area-remove-modal-body">
                     <p className="area-remove-modal-info">

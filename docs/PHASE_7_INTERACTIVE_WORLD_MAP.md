@@ -1,4 +1,4 @@
-# PHASE 7: INTERACTIVE WORLD MAP
+﻿# PHASE 7: INTERACTIVE WORLD MAP
 
 > Status: **Completed**
 > Build order: 7.1 + 7.2 → user defines regions → 7.3 → 7.4 → 7.5 → 7.6 (future)
@@ -53,7 +53,7 @@ An interactive world map accessible from the landing page that allows:
 | World guide | `docs/GM_WORLD_GUIDE.md` | Canonical narrative source, Part II lines 46-367 |
 | Subscription tiers | `vtt-react/src/services/subscriptionService.js` | GUEST, FREE, PRO (Dungeon Master), ULTIMATE (Archmage) with featureFlags |
 | Social/friends | `vtt-react/src/store/socialStore.js` + `vtt-react/src/services/socialService.js` | Friend list management, presence tracking |
-| Nav library window | `vtt-react/src/components/windows/LibraryWindow.jsx` | Atlas section renders `MapLibraryWindow` — UI pattern reference |
+| Nav library window | `vtt-react/src/components/windows/LibraryWindow.jsx` | Atlas section renders `MapLibraryWindow`  -  UI pattern reference |
 
 ### 1.4 Existing Data Pipeline (How Region Data Is Already Wired)
 
@@ -111,7 +111,7 @@ NORTH (frozen, glaciers)
 
 ---
 
-## SECTION 2: THE 7 REGIONS — COMPLETE DATA REFERENCE
+## SECTION 2: THE 7 REGIONS  -  COMPLETE DATA REFERENCE
 
 ### 2.1 Region Summary Table
 
@@ -122,8 +122,8 @@ NORTH (frozen, glaciers)
 | 3 | `sundale` | Sundale | High | Desert | House Solvan | Ancestral lands die |
 | 4 | `iceheart-sea` | Iceheart Sea | Extreme | Ocean | House Mereval | The sea never sleeps |
 | 5 | `cragjaw-peaks` | Cragjaw Peaks | Extreme | Underdark | House Tesshan | Every landmark buried; no sky in 8 generations |
-| 6 | `sundrift-vale` | Sundrift Vale | Medium | — (no biome) | House Ordavan | Constellations erased from firmament |
-| 7 | `bryngloom-forest` | Bryngloom Forest | High | Swamp | — (Neth ancestors) | Death is a renegotiated clause |
+| 6 | `sundrift-vale` | Sundrift Vale | Medium |  -  (no biome) | House Ordavan | Constellations erased from firmament |
+| 7 | `bryngloom-forest` | Bryngloom Forest | High | Swamp |  -  (Neth ancestors) | Death is a renegotiated clause |
 
 ### 2.2 Key Locations Per Region (zoneData.js, 5 per region)
 
@@ -143,7 +143,7 @@ Only 4 locations currently have deep profiles: Greymark Keep (frostwood-reach), 
 
 ---
 
-## SECTION 3: STEP 7.1 — IMMERSE BUTTON + MAP VIEWER SHELL
+## SECTION 3: STEP 7.1  -  IMMERSE BUTTON + MAP VIEWER SHELL
 
 ### 3.1 Immerse Button (Landing Page)
 
@@ -267,7 +267,7 @@ WorldMapImmerse.jsx
 
 ---
 
-## SECTION 4: STEP 7.2 — DEV EDITOR (POLYGON + PIN PLACEMENT TOOL)
+## SECTION 4: STEP 7.2  -  DEV EDITOR (POLYGON + PIN PLACEMENT TOOL)
 
 ### 4.1 Access Method
 
@@ -343,7 +343,7 @@ All icons drawn as inline SVG `<path>` data, styled with parchment ink aesthetic
 **Output format (printed to `console.log`):**
 
 ```js
-// regionPolygons.js — Copy this block into the file
+// regionPolygons.js  -  Copy this block into the file
 export const REGION_POLYGONS = {
   'frostwood-reach': {
     points: [
@@ -358,7 +358,7 @@ export const REGION_POLYGONS = {
   // ... 5 more regions
 };
 
-// locationCoordinates.js — Copy this block into the file
+// locationCoordinates.js  -  Copy this block into the file
 export const LOCATION_COORDINATES = {
   'greymark-keep': { x: 1234, y: 567, pinType: 'fortress' },
   'the-shallows': { x: 1300, y: 600, pinType: 'tree' },
@@ -385,7 +385,7 @@ export const LOCATION_COORDINATES = {
 
 ---
 
-## SECTION 5: STEP 7.3 — REGION OVERLAYS + HOVER EFFECTS
+## SECTION 5: STEP 7.3  -  REGION OVERLAYS + HOVER EFFECTS
 
 ### 5.1 SVG Polygon Layer
 
@@ -402,7 +402,7 @@ Rendered inside the zoom/pan container (so regions scale/pan with the map image)
 </svg>
 ```
 
-### 5.2 Visual Style (TTRPG Feel — Antique Map)
+### 5.2 Visual Style (TTRPG Feel  -  Antique Map)
 
 **Default state:**
 - Fill: semi-transparent color (opacity 0.12-0.20) with subtle parchment texture overlay
@@ -481,7 +481,7 @@ Regions should not overlap by definition (they partition the map). The first mat
 
 ---
 
-## SECTION 6: STEP 7.4 — LORE SIDEBAR
+## SECTION 6: STEP 7.4  -  LORE SIDEBAR
 
 ### 6.1 Trigger
 
@@ -492,7 +492,7 @@ Click any region polygon or location pin. If a pin is clicked and the pin is in 
 - Slides in from right edge: `transform: translateX(350px) → translateX(0)`, ~400ms ease-out
 - Width: 350px (fixed)
 - Backdrop: slides with the sidebar
-- Sidebar does NOT push the map — it overlays on top
+- Sidebar does NOT push the map  -  it overlays on top
 - Close: slide out right, ~250ms ease-in
 
 ### 6.3 Sidebar Layout
@@ -601,7 +601,7 @@ Locations that have a corresponding deepLocationData entry (4 total) show:
 
 ---
 
-## SECTION 7: STEP 7.5 — LOCATION PINS
+## SECTION 7: STEP 7.5  -  LOCATION PINS
 
 ### 7.1 Pin Rendering
 
@@ -669,7 +669,7 @@ All 35 pins are rendered as a single `<g>` element containing 35 `<g pin>` child
 
 ---
 
-## SECTION 8: STEP 7.6 — PLAYER ANNOTATIONS (FUTURE)
+## SECTION 8: STEP 7.6  -  PLAYER ANNOTATIONS (FUTURE)
 
 > This section is fully designed but NOT in the current build scope.
 > It will be implemented after 7.1-7.5 are complete and functional.
@@ -734,7 +734,7 @@ Subscription tier checked via `subscriptionService.getTier(userId)` → `tierId`
 **Solution: Selection Carousel**
 
 1. Visual indicator: when multiple items overlap at a click point, a small numbered badge appears (e.g., `③` with gold ring) showing how many items are stacked
-2. Click opens a **selection carousel** — a small popup directly adjacent to the click point listing all overlapping items:
+2. Click opens a **selection carousel**  -  a small popup directly adjacent to the click point listing all overlapping items:
    ```
    ┌──────────────────────────┐
    │ 🏰 Greymark Keep (Region)│
@@ -1022,7 +1022,7 @@ This avoids prop threading through the route hierarchy and keeps the map viewer 
 
 | Order | Step | Depends On | What to Build |
 |---|---|---|---|
-| **1** | 7.1 (Map Viewer Shell) | — | Immerse button, WorldMapImmerse component, MapCanvas with react-zoom-pan-pinch, burned parchment border, enter/exit transitions, auto-drift |
+| **1** | 7.1 (Map Viewer Shell) |  -  | Immerse button, WorldMapImmerse component, MapCanvas with react-zoom-pan-pinch, burned parchment border, enter/exit transitions, auto-drift |
 | **2** | 7.2 (Dev Editor) | 7.1 (needs map to draw on) | Dev toolbar, polygon drawing mode, pin placement mode, console export, all 12 map pin SVG icons |
 | **3** | 🛠 Define Regions | 7.2 | YOU use the dev editor to draw all 7 region boundaries and place all 35 location pins. Copy exported JS to `regionPolygons.js` and `locationCoordinates.js`. |
 | **4** | 7.3 (Region Overlays) | Step 3 (needs polygon data) | RegionOverlay component, polygon rendering, hover/active states, danger color coding, point-in-polygon click detection |
@@ -1113,12 +1113,12 @@ The `LibraryWindow.jsx` in `components/windows/` is a good reference for:
 
 ## SECTION 14: FUTURE ENHANCEMENTS (BEYOND 7.6)
 
-1. **Region detail maps** — High-res regional map images, one per region, loaded when "Immerse: Explore" is clicked (7.4 future transition)
-2. **GM live session overlay** — During multiplayer sessions, show party token position on the world map in real-time
-3. **Travel system integration** — Connect zoneData `connections[]` graph to travel mechanics, show routes between locations
-4. **Timeline integration** — Filter map by timeline events: "Show world state during Year 5 of the Deepening"
-5. **Faction influence overlay** — Heatmap showing faction influence per region, from `factionStore`
-6. **Weather overlay** — Live weather data from `biomeData.weatherTable` rendered on the map
-7. **Multiplayer collaborative annotation** — Party members can see each other's shared annotations in real-time via Socket.io
-8. **Print/export** — Export the annotated map as a PNG for session handouts
-9. **Accessibility** — Keyboard navigation, screen reader descriptions for regions, high-contrast mode
+1. **Region detail maps**  -  High-res regional map images, one per region, loaded when "Immerse: Explore" is clicked (7.4 future transition)
+2. **GM live session overlay**  -  During multiplayer sessions, show party token position on the world map in real-time
+3. **Travel system integration**  -  Connect zoneData `connections[]` graph to travel mechanics, show routes between locations
+4. **Timeline integration**  -  Filter map by timeline events: "Show world state during Year 5 of the Deepening"
+5. **Faction influence overlay**  -  Heatmap showing faction influence per region, from `factionStore`
+6. **Weather overlay**  -  Live weather data from `biomeData.weatherTable` rendered on the map
+7. **Multiplayer collaborative annotation**  -  Party members can see each other's shared annotations in real-time via Socket.io
+8. **Print/export**  -  Export the annotated map as a PNG for session handouts
+9. **Accessibility**  -  Keyboard navigation, screen reader descriptions for regions, high-contrast mode

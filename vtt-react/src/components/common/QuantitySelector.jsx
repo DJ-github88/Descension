@@ -58,7 +58,7 @@ const QuantitySelector = ({
                                 onClick={() => setShowQuantityPopup(false)}
                                 title="Close"
                             >
-                                Ã—
+                                Ã - 
                             </button>
                         </div>
 

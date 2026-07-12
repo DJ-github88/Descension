@@ -1,4 +1,4 @@
-# Mythrill VTT — Lore Consistency Audit v3: Findings Report
+﻿# Mythrill VTT  -  Lore Consistency Audit v3: Findings Report
 
 **Date:** 02 July 2026
 **Protocol:** LORE_CONSISTENCY_AUDIT_v3.md
@@ -21,21 +21,21 @@
 
 ---
 
-## A. CRITICAL (must fix — lore is wrong)
+## A. CRITICAL (must fix  -  lore is wrong)
 
-### A-01. [CRITICAL] Vespera claims "eight centuries" — founded Year 500 (~300 years)
+### A-01. [CRITICAL] Vespera claims "eight centuries"  -  founded Year 500 (~300 years)
 - **Files:** `npcStore.js:502-504`, `loreDictionary.js` Plaguebringer entry
 - **Problem:** "bonded with bog-rot eight centuries ago" / "Vespera has been dying for eight centuries"
 - **Actual:** Plaguebringer founded **Year 500 of the Dimming** (~300 years ago). She should be ~300 years old.
 - **Fix:** Change to "three centuries" throughout.
 
-### A-02. [CRITICAL] Varis the Trembling claims "eight centuries" — founded Year 380 (~420 years)
+### A-02. [CRITICAL] Varis the Trembling claims "eight centuries"  -  founded Year 380 (~420 years)
 - **File:** `npcStore.js:604`
 - **Problem:** "extracted fog-predator venom for eight centuries"
 - **Actual:** Toxicologist founded **Year 380 of the Dimming** (~420 years ago).
 - **Fix:** Change to "four centuries" throughout.
 
-### A-03. [CRITICAL] Revenant quote claims "eight hundred years" — founded Year 550 (~250 years)
+### A-03. [CRITICAL] Revenant quote claims "eight hundred years"  -  founded Year 550 (~250 years)
 - **Files:** `revenantData.js:226`, `GM_WORLD_GUIDE.md:980`
 - **Problem:** "Death came for me in the peat-bogs and I told it to wait. It has been waiting eight hundred years."
 - **Actual:** Revenant founded **Year 550 of the Dimming** (~250 years ago). Also: "thirty generations of the dead" cannot fit in ~250 years.
@@ -46,44 +46,44 @@
 - **Problem:** Claims "eight centuries" but Warden founded Year 70 (~730 years ago). Close but overstated by ~70 years.
 - **Fix:** Change to "seven centuries" (730 years round-down).
 
-### A-05. [CRITICAL] "Eight generations" for Tessen humans — should be ~25-30 generations
+### A-05. [CRITICAL] "Eight generations" for Tessen humans  -  should be ~25-30 generations
 - **Files:** `rulesData.js:513`, `human.js:21,365`, `GM_WORLD_GUIDE.md:283`
 - **Problem:** "The Tessen have not seen the sky in eight generations" but Snow-Veil Bargain was ~Year 40 (760 years ago). At human generation length (25-30 years), this = ~25-30 generations, not 8.
 - **Fix:** Change to "thirty generations" or adjust the generation length definition for lore purposes.
 
-### A-06. [CRITICAL] "Twelve generations" of Thalren genealogy — far too few
+### A-06. [CRITICAL] "Twelve generations" of Thalren genealogy  -  far too few
 - **File:** `human.js:100`
 - **Problem:** "forty thousand names, stretching back twelve generations" but the Fog Compact was Year 5 (~795 years). 12 human generations = ~300 years.
 - **Fix:** Change to "thirty-two generations."
 
-### A-07. [CRITICAL] "Twelve generations" of Astril Dragon-Sign — far too few
+### A-07. [CRITICAL] "Twelve generations" of Astril Dragon-Sign  -  far too few
 - **File:** `astril.js:34`
 - **Problem:** "a noble whose bloodline has carried the Dragon-Sign for twelve generations" but first Astril vessels were Year 15 (~785 years ago). 12 generations is far too few.
 - **Fix:** Change to "thirty generations."
 
 ### CRITICAL DEPRECATED NAMES IN ACTIVE CODE
 
-### A-08. [CRITICAL] `classEquipment.js` — 5 items assigned to `'Chaos Weaver'` (should be `'Harbinger'`)
+### A-08. [CRITICAL] `classEquipment.js`  -  5 items assigned to `'Chaos Weaver'` (should be `'Harbinger'`)
 - **File:** `classEquipment.js:434,453,477,498,516`
 - **Problem:** Equipment items use the deprecated class name `'Chaos Weaver'` in their `classes` array instead of `'Harbinger'`. Players selecting Harbinger will NOT receive these items.
 - **Fix:** Replace `'Chaos Weaver'` with `'Harbinger'` in all 5 locations.
 
-### A-09. [CRITICAL] `classEquipment.js` — 1 item assigned to `'Lichborne'` (should be `'Revenant'`)
+### A-09. [CRITICAL] `classEquipment.js`  -  1 item assigned to `'Lichborne'` (should be `'Revenant'`)
 - **File:** `classEquipment.js:1708`
 - **Problem:** Equipment item uses deprecated class name `'Lichborne'` when it should be `'Revenant'`.
 - **Fix:** Replace `'Lichborne'` with `'Revenant'`.
 
-### A-10. [CRITICAL] `ClassResourceBar.jsx` — `characterClass === 'Fate Weaver'` (should be `'Gambit'`)
+### A-10. [CRITICAL] `ClassResourceBar.jsx`  -  `characterClass === 'Fate Weaver'` (should be `'Gambit'`)
 - **File:** `ClassResourceBar.jsx:1180`
 - **Problem:** Active runtime condition checks for deprecated class name `'Fate Weaver'` instead of `'Gambit'`. The Fate Weaver resource bar will never render for Gambit characters.
 - **Fix:** Replace with `'Gambit'`.
 
-### A-11. [CRITICAL] `classSpellGenerator.js` — passes `'Chaos Weaver'` as class name
+### A-11. [CRITICAL] `classSpellGenerator.js`  -  passes `'Chaos Weaver'` as class name
 - **File:** `classSpellGenerator.js:160`
 - **Problem:** `normalizeClassSpell(spell, 'Chaos Weaver', ...)` uses deprecated name.
 - **Fix:** Replace with `'Harbinger'`.
 
-### A-12. [CRITICAL] `classResourceUtils.js` — test array includes `'Chaos Weaver'`
+### A-12. [CRITICAL] `classResourceUtils.js`  -  test array includes `'Chaos Weaver'`
 - **File:** `classResourceUtils.js:57`
 - **Problem:** Test array uses deprecated class name.
 - **Fix:** Replace with `'Harbinger'`.
@@ -100,7 +100,7 @@
 
 ---
 
-## B. MAJOR (should fix — misleading or inconsistent)
+## B. MAJOR (should fix  -  misleading or inconsistent)
 
 ### TIMELINE ANACHRONISMS (classIds tag classes before they existed)
 
@@ -146,7 +146,7 @@ The `classIds` arrays in `timelineStore.js` serve as relevance tags (`getEventsB
 - **Problem:** Appears in Year 400-450 event. Founded Year 500.
 - **File:** `timelineStore.js:743`
 
-### B-11. [MAJOR] "Twenty generations" of Ordan chieftains — short by ~11 generations
+### B-11. [MAJOR] "Twenty generations" of Ordan chieftains  -  short by ~11 generations
 - **File:** `loreDictionary.js:1449,1795-1796`
 - **Problem:** "twenty generations of chieftains" in the Ancestor Mounds. Ordan migration bargain ~Year 25 (775 years ago). 20 human generations = ~500 years.
 - **Fix:** Change to "thirty-one generations."
@@ -176,14 +176,14 @@ The `classIds` arrays in `timelineStore.js` serve as relevance tags (`getEventsB
 
 ---
 
-## C. MINOR (polish — wording, style)
+## C. MINOR (polish  -  wording, style)
 
-### C-01. [MINOR] Sera Solvan "Dead — eight centuries" — slightly overstated
+### C-01. [MINOR] Sera Solvan "Dead  -  eight centuries"  -  slightly overstated
 - **File:** `martyrData.js:111`
 - **Problem:** Martyr founded Year 5 (Deepening). Sera was an adult mother. If she died at ~60, she'd be dead ~735-740 years. "Eight centuries" is ~65 years too high.
 - **Fix:** Change to "seven centuries" or "nearly eight centuries."
 
-### C-02. [MINOR] "Eleven generations" of Mask-Borne — plausible if Mimir lifespan is extended
+### C-02. [MINOR] "Eleven generations" of Mask-Borne  -  plausible if Mimir lifespan is extended
 - **File:** `mimir.js:122,330`
 - **Problem:** 11 generations in "four centuries" = ~36 years per generation. Plausible for long-lived Mimir, but should be explicitly noted (Mimir lifespan unclear).
 - **Fix:** Either define Mimir generational span or adjust the count.
@@ -195,12 +195,12 @@ The `classIds` arrays in `timelineStore.js` serve as relevance tags (`getEventsB
 
 ### C-04. [MINOR] "Age of Collection" in Myrathil lore
 - **File:** `myrathil.js:77`
-- **Problem:** "The Age of Collection followed" — not a canonical era label.
+- **Problem:** "The Age of Collection followed"  -  not a canonical era label.
 - **Fix:** Either remove or document as a Myrathil-specific internal period label.
 
 ### C-05. [MINOR] "Age of the Deepening" in False Prophet lore
 - **File:** `falseProphetData.js:186`
-- **Problem:** "trapped since the Age of the Deepening" — adds "Age of" prefix to canonical "The Deepening" era.
+- **Problem:** "trapped since the Age of the Deepening"  -  adds "Age of" prefix to canonical "The Deepening" era.
 - **Fix:** Standardize to "trapped since the Deepening."
 
 ### C-06. [MINOR] `RulesPage.jsx` has old icon mappings for 'Deathcaller' and 'Lichborne'
@@ -212,12 +212,12 @@ The `classIds` arrays in `timelineStore.js` serve as relevance tags (`getEventsB
 
 ### C-07. [MINOR] Greymark Keep classified as "city" with only 1,200 population
 - **Files:** `WORLD_MAP_MAKER_BRIEF.md:155`, `deepLocationData.js` Greymark entry
-- **Problem:** "city" classification for a settlement of 1,200 — more fitting as a "town" or "keep."
+- **Problem:** "city" classification for a settlement of 1,200  -  more fitting as a "town" or "keep."
 - **Fix:** Reclassify as "town" or "fortified keep."
 
 ### C-08. [MINOR] Solvan's Stand population decline: "30,000 to under 4,000" plausible
 - **Files:** `zoneData.js:2166`, `human.js:131`, `WORLD_MAP_MAKER_BRIEF.md:344`
-- **Problem:** A city of 30,000 is significant. "Lost forty feet to ashfall in the last century alone" — verify 40 feet of ash accumulation in 100 years is geologically plausible for a volcanic caldera.
+- **Problem:** A city of 30,000 is significant. "Lost forty feet to ashfall in the last century alone"  -  verify 40 feet of ash accumulation in 100 years is geologically plausible for a volcanic caldera.
 - **Status:** Numbers are internally consistent. Geologic plausibility is borderline but lore-appropriate.
 
 ### C-09. [MINOR] `deepLocationData.js` has `'gambit', 'gambit'` duplicate in classPresence
@@ -260,7 +260,7 @@ Only 10 factions in `factionStore.js` have populated `members` arrays. The remai
 ### D-05. House Viridane missing from factionStore
 All 8 noble houses are defined in loreDictionary, but `house-viridane` has no factionStore entry (likely intentional since they are "erased" in-world, but should still have a hidden/disguised faction entry).
 
-### D-06. `cult-of-forgotten-shadow` — no loreDictionary entry
+### D-06. `cult-of-forgotten-shadow`  -  no loreDictionary entry
 Heavily referenced across locations, timeline events, NPCs, and factionStore. Has no dictionary entry for LoreLink auto-linking.
 
 ### D-07. Settlement classification gaps
@@ -308,19 +308,19 @@ Heavily referenced across locations, timeline events, NPCs, and factionStore. Ha
 | I (Gaps) | 0 | 0 | 0 | 4 categories |
 | J (Identity) | 0 | 0 | 0 | 0 |
 
-### E-03. Category C (Attribution) — NO ISSUES FOUND
+### E-03. Category C (Attribution)  -  NO ISSUES FOUND
 All 7 regional bargains correctly attribute the bargain-making house across `loreDictionary.js`, `timelineStore.js`, `rulesData.js`, and `GM_WORLD_GUIDE.md`. All 20 class founders are consistently named across class files, loreDictionary entries, and timeline events. No kill attribution contradictions found.
 
-### E-04. Category D (Numeric) — NO MAJOR ISSUES FOUND
+### E-04. Category D (Numeric)  -  NO MAJOR ISSUES FOUND
 Population, distance, duration, and quantity claims are internally consistent. Settlement population numbers are plausible given the apocalyptic setting.
 
-### E-05. Category E (Spatial) — NO MAJOR ISSUES FOUND
+### E-05. Category E (Spatial)  -  NO MAJOR ISSUES FOUND
 All 7 trade routes have coherent origin/destination/via paths. Region adjacency is consistent across all files. Climate descriptions match region biomes.
 
-### E-06. Category G (Tonal) — NO MAJOR ISSUES FOUND
+### E-06. Category G (Tonal)  -  NO MAJOR ISSUES FOUND
 The grim-dark tone is consistent across all lore files. No motivational contradictions found for NPCs vs. faction goals. No knowledge anachronisms found (characters only know things plausible for their era).
 
-### E-07. Category J (Cross-File Identity) — NO ISSUES FOUND
+### E-07. Category J (Cross-File Identity)  -  NO ISSUES FOUND
 - "The Warden" (cosmic entity) and "The Warden" (class tradition) are distinct concepts consistently distinguished across all files.
 - "Sluagh" has a single, consistent identity as a creature.
 - "Hunger Pact" (Berserker ancestor trauma) and "the hunger" (Keth-Amar cosmic hunger) are distinct concepts consistently referenced.
@@ -335,8 +335,8 @@ The grim-dark tone is consistent across all lore files. No motivational contradi
 ## F. RECOMMENDED FIX PRIORITY
 
 ### Immediate (breaking gameplay)
-1. Fix 6 deprecated class names in `classEquipment.js` (A-08, A-09) — players can't receive their class items
-2. Fix `ClassResourceBar.jsx:1180` Fate Weaver → Gambit (A-10) — resource bar won't render
+1. Fix 6 deprecated class names in `classEquipment.js` (A-08, A-09)  -  players can't receive their class items
+2. Fix `ClassResourceBar.jsx:1180` Fate Weaver → Gambit (A-10)  -  resource bar won't render
 3. Fix `classSpellGenerator.js:160` Chaos Weaver → Harbinger (A-11)
 
 ### High (lore is factually wrong)

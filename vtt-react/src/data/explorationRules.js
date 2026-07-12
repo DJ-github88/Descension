@@ -357,7 +357,7 @@
         id: 'debt_covenant_audit',
         name: 'Debt-Covenant Audit',
         type: 'environmental',
-        description: 'The Keeper of the Last Threshold enforces the legal terms of all active covenants.',
+        description: 'Morvane enforces the legal terms of all active covenants.',
         trigger: 'Violating a local contract, telling a direct lie, or failing to pay a toll.',
         resolution: {
           save: 'Spirit',

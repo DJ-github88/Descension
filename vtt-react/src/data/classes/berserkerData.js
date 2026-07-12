@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Berserker Class Data
  *
  * Complete class information for the Berserker - the Hemorrhagic Butcher.
@@ -10,7 +10,8 @@ export const BERSERKER_DATA = {
   "allowedSubraces": [
    "skald_human",
    "thrask_emberth",
-   "morgh_groven"
+   "morgh_groven",
+   "solvarn_human"
   ],
   "hardBlocks": [
    "mimir",
@@ -77,6 +78,22 @@ export const BERSERKER_DATA = {
   speaker: 'Gareth Anvil-Born',
   context: 'The first Vat-Woken, three days before he vanished from the lower sumps'
   }
+ },
+
+ solvarn_human: {
+  subraceName: 'Solvarn Human',
+  title: 'The Sun-Fury',
+  reframe: `The Solvarn learned the Blood-Heat from <LoreLink termId="emberth">Thrask</LoreLink> forge-workers in Sundale  -  not from the <LoreLink termId="skald">Skald</LoreLink> themselves, and not through independent discovery. The Solvarn are sun-worshippers; the idea of internal fire appealed to them. But they lacked both the ancestral starvation of the <LoreLink termId="skald">Skald</LoreLink> Hunger Pact and the geothermal resonance the <LoreLink termId="emberth">Thrask</LoreLink> draw from <LoreLink termId="emberspire">Emberspire</LoreLink>. So they substituted faith  -  religious ecstasy as fuel. A Solvarn Berserker enters the Heat through conviction, not memory. It works. It also terrifies everyone who witnesses it. The Heat builds fastest near <LoreLink termId="emberspire">Emberspire</LoreLink>'s caldera or the <LoreLink termId="solbrand">Solbrand</LoreLink>'s warmth. It is not rage \u2014 it is rapture. The Solvarn Berserker is terrifying specifically because they are smiling.`,
+  signatureAbility: {
+  name: 'Rapture-Ignition',
+  description: `Blood-Heat builds fastest near sources of Sol's residual warmth, Emberspire's caldera, the Solbrand's flame, or any ember-blessed ground. The Solvarn does not burn with rage but with ecstatic conviction, and the Heat manifests as a radiant, searing light rather than the Skald's blood-boil or the Thrask's tectonic tremor. Their fury is religious, and the liturgy is the certain belief that the sun will rise.`
+  },
+  currentCrisisAngle: `The Solvarn are the only Berserkers whose fuel is faith, and the faith is faltering. As Sol dims and the Solbrand gutters, the conviction that once ignited their Heat is becoming harder to sustain. Solvarn Berserkers who once burned at the mere sight of the flame now find themselves cold at the base of Emberspire itself. The elders of the Dawn Vigil have begun to wonder whether the Heat is leaving the Solvarn because Sol itself is dying, and if so, what happens to a Berserker whose god abandons them mid-rage.`,
+  signatureQuote: {
+  text: '"The Skald burn because they ate their dead. The Thrask burn because the mountain told them to. I burn because the sun is coming back, and I am going to be the first thing it sees. You tell me which of us frightens you more, and I will tell you which of us is smiling."',
+  speaker: 'Seris Dawn-Burned',
+  context: 'A Solvarn Berserker, addressing a Pact-sworn Skald who demanded to know by what right she carried the Heat'
+  }
  }
  },
 
@@ -92,7 +109,7 @@ export const BERSERKER_DATA = {
  founder: {
   name: '<LoreLink termId="grum">Grum Bloodhammer</LoreLink>',
   status: `Dead, seven centuries. His forge still burns in the <LoreLink termId="emberspire">Emberspire</LoreLink> tunnels, tended by a single elderly Berserker who has not spoken in sixty years.`,
-  note: `The first to ignite the Blood-Heat. The Skald insist Grum was sacrificed by his lords to test whether a man could burn and stand; the Bloodhammer clans insist he chose the fury. The disagreement is theological and unresolved.`
+  note: `The first to weaponize the Blood-Heat. He did not ignite it first  -  the Hunger Pact was always in Skald blood. But Grum was the first to survive turning a survival reflex into a weapon. The Skald who stayed in Nordhalla tell it differently: they say he was sacrificed by his lords to test whether a man could burn and stand. The disagreement is theological and unresolved.`
  },
  currentLeader: {
   name: '<LoreLink termId="hark-ash-hammer">Blood-Priest Hark Ash-Hammer</LoreLink>',
@@ -115,25 +132,27 @@ export const BERSERKER_DATA = {
  subtitle: "The Blood-Fueled Berserker",
  illustration: "/assets/images/classes/berserker_illustration.png",
  illustrationCaption: "A Mimir mask-merged Berserker dual-wielding battleaxes with subtle crystal skin lines.",
- originStory: `Founded in the first centuries of the Dimming by Grum the Iron-Smith, who ignited the Blood-Heat in Emberspire's caldera at the end of the Bloodhammer migration. The world of Mythrill does not forgive weakness, and in the freezing wastes of Nordhalla, the line between survival and savagery was erased eight centuries ago. When the Glacier Bargain halted the ice at the price of summer, the Skald were left in a land of absolute cold. In the darkest winter of the cataclysm, when starvation stalked the keeps of the Frozen Archive, the Skald did not pray for warmth, they prayed for endurance. The ancestors consumed their own fallen kin so the bloodline could persist, and that terrible act did not merely scar their history. It entered their very blood.
+ originStory: `Born not from rage but from memory  -  the Hunger Winter, three years of absolute cold following House Skalvyr's Glacier Bargain. The price of halting the glaciers was not merely eternal winter. The price was the land freezing solid. Nothing grew. Nothing hunted. Nothing survived except what the Skald carried in their own bodies. The ancestors consumed their dead to persist. They did not do this as ritual. They did it because the alternative was the end of their bloodline. The children who survived that winter were born with the Hunger Pact in their veins  -  the physiological memory of starvation, passed down through generations. When recalled, it literally boils the blood.
 
-The Bloodhammer clans refused to wait for the cold to finish them. Led by the chieftain Torra Bloodhammer, they marched south out of the glaciers and down into the volcanic caldera tunnels of <LoreLink termId="sundale">Sundale</LoreLink>, trading the frozen keeps their ancestors had died in for the geothermal dark beneath Emberspire. There, in the lower miners' chambers, the first Berserker was born. Grum the Iron-Smith did not choose the fury, the fury chose him. When a colossal ice-wyrm burst from the cooling vents into the forge-halls, Grum threw down his hammer and allowed the furnace's heat to occupy his marrow. His veins boiled with an adrenaline rush so violent his tendons snapped, yet he shattered the wyrm's glacial hide with his bare hands. The Skald who stayed behind in Nordhalla recount the tale differently: they swear Grum was trapped by his own lords, sacrificed to the deep mantles to see if a man could burn and still stand.
+This is the Blood-Heat. It is not a magical rage or a barbarian fury. It is the body remembering a time when it should have died and refusing to let that happen again. Every Berserker carries their ancestors' last meal in their blood  -  and that meal was family.
 
-Today, this physiological meltdown is known as the Blood-Heat. A Berserker’s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
+The first to weaponize it was Grum the Iron-Smith. During the Bloodhammer migration south  -  when Torra Bloodhammer abandoned Nordhalla's frozen keeps and led the Skald clans through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels  -  Grum was working the forge when an ice-wyrm burst through the cooling vents. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. His veins boiled, his tendons snapped, and he killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Blood-Heat had never been meant for combat  -  it was a survival reflex. Grum was the first to survive turning it into a weapon. The Skald who stayed in Nordhalla  -  the ones who refused the migration  -  tell the story differently. They say Grum was sacrificed by his lords as a test. They say the Blood-Heat is not a gift but a curse, a sign that the Hunger Pact has been dishonored by making it a weapon instead of a memory. The disagreement has never been resolved.
 
-As a Berserker of the Bloodhammer line, you carry the Hunger Pact in your veins. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.`,
+From the Skald, the Blood-Heat spread through contact  -  never independently re-discovered, always learned. The Thrask Emberth encountered it when the Bloodhammer migration reached Sundale; Thrask forge-workers watched Skald warriors ignite during a volcanic vent-collapse and asked to learn. Lacking the Hunger Pact's ancestral memory, they substituted the mountain's geothermal heat. The Solvarn learned it from Thrask forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, when Groven bridge-tenders and Skald caravans fought side by side against Draskar raids  -  their alchemical serum residue igniting as a parallel mechanism, not the Pact itself. Four peoples, one fire, four different fuel sources: ancestral memory, geothermal resonance, religious faith, and alchemical residue.
+
+Today, a Berserker\u2019s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
+
+As a Berserker, you carry the Hunger Pact in your veins  -  or the substitute your people found to survive without it. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.`,
 
  quickOverview: {
   title: "Quick Overview",
-   content: `**What You Need to Know**: The Berserker is not a noble hero; they are a tragic anomaly. Their "Rage" is a violent physiological meltdown,Blood-Heat (0-100),where adrenaline boils their blood and snaps their tendons to force inhuman strikes. The standard Blood-Heat gauge caps at 100, and exceeding it triggers **Metabolic Burnout (Overheat)**, causing internal organs to seize under the crushing pressure. However, high-level overdrive masteries allow the player to enter temporary catastrophic states (101-150+) without instant burnout.
+   content: `**Who they are**: A tragic anomaly whose "rage" is not rage at all  -  it is the Hunger Pact, a physiological memory of ancestral starvation passed down through generations. When recalled, the body remembers a time when it should have died and refuses to let that happen again. The blood literally boils, the tendons snap, and the body becomes a self-destructive engine of war.
 
-**Core Mechanic**: Every strike feeds the boiling Blood-Heat. At higher heat, their raw damage output scales drastically, but they permanently damage themselves to maintain it. They possess **Pain Immunity**, making them completely immune to pain,but this horrific state blocks all incoming healing from allies while raging.
+**The hook**: Build Blood-Heat by hitting and bleeding  -  the higher it climbs, the more your damage scales. When your own health drops below 30%, you enter Death's Door and your strikes completely bypass all enemy physical resistances. You turn near-death into unmitigated destruction.
 
-**Resource**: Blood-Heat (0-100 Rage scale, physically tracked via d20s/d10s)
+**The cost**: While raging above 20 Heat, pain immunity kicks in  -  which means no ally can heal you. Zero self-healing exists. Push past 100 Heat and your heart seizes in Metabolic Burnout. Every fight shortens your lifespan. Veteran Berserkers die young, not in battle, but in their sleep when their hearts finally give out after years of thermal stress.
 
-**Playstyle**: Violent, high-risk melee. You are a ticking time bomb. You must dance on the razor's edge of death to unleash apocalyptic damage before your own heart ruptures.
-
-**Best For**: Players who enjoy riding the absolute edge of survival, trading health for unmitigated ruin, and punishing passivity.`,
+**Bring one for**: Apocalyptic near-death damage output that turns certain defeat into mutual annihilation  -  no class hits harder at the edge of the grave.`,
  },
 
   description: `The Berserker represents the raw survival of flesh and bone. They do not wield magic; they push their own anatomy past its limits through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles strain beyond human tolerance to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
@@ -141,19 +160,19 @@ As a Berserker of the Bloodhammer line, you carry the Hunger Pact in your veins.
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The berserker's calling was forged during the desperate defense of the volcanic caldera tunnels of <LoreLink termId="sundale">Sundale</LoreLink>. When a colossal ice-wyrm burst into the lower miners' chambers, a blacksmith named <LoreLink termId="grum">Grum</LoreLink> threw down his tools and surrendered entirely to the searing heat of the forge. Rather than burning away, Grum's veins boiled with a violent adrenaline surge, allowing him to single-handedly shatter the wyrm's glacial hide.
+The Berserker's calling originates from the Hunger Winter  -  three years of absolute cold following House Skalvyr's Glacier Bargain, during which nothing grew, nothing hunted, and nothing survived except what the Skald carried in their own bodies. The ancestors consumed their dead to persist, and the children who survived were born with the Hunger Pact in their veins: the physiological memory of starvation, passed down through generations. When recalled, it literally boils the blood.
 
-Yet, this power was an anatomical curse. The price of this survival instinct was a permanent physiological meltdown. His blood ran hotter than forge-steel, cooking his internal pathways and locking out all incoming restorative magic while the battle-fury burned.
+The first to weaponize it was Grum the Iron-Smith during the Bloodhammer migration south  -  when Torra Bloodhammer led the Skald clans out of Nordhalla's frozen keeps through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels. An ice-wyrm burst through the cooling vents into Grum's forge. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. He killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Blood-Heat had never been meant for combat. Grum was the first to survive turning it into a weapon.
 
 **CITIES & CIVIL RECEPTION**
 Berserkers are completely outlawed within the silver law-chambers and administrative halls of <LoreLink termId="atropolis">Atropolis</LoreLink>, where their volatile fury is viewed as a threat to public order. However, they are highly celebrated in the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> and the frontier keeps of the Skald, where their high-stamina survival engine is viewed as a sacred gift.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the massive Skald and hot-headed <LoreLink termId="emberth">Thrask Emberth</LoreLink> who defaced their imperial marks to embrace the wild fury of the caldera.
+Born from the Skald Hunger Pact, the Blood-Heat spread through contact, not independent discovery. The Thrask Emberth learned it during the Bloodhammer migration into Sundale, substituting geothermal resonance for ancestral memory. The Solvarn learned it from Thrask forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, their alchemical serum residue igniting as a parallel mechanism. Four peoples, one fire, four different fuel sources: memory, geothermal heat, faith, and alchemy.
 
 **NOTABLE FIGURES**
-* **Grum the Iron-Smith**: The legendary smith who crushed a glacier-wyrm with bare hands while his veins burned.
-* **Torra Bloodhammer**: A chieftain who led the Bloodhammer clans down into the geothermal vaults.`
+* **Grum the Iron-Smith**: The smith who was the first to weaponize the Blood-Heat, killing an ice-wyrm with his bare hands when the Hunger Pact ignited in defense of the bloodline.
+* **Torra Bloodhammer**: The chieftain who led the Bloodhammer clans out of Nordhalla's frozen keeps into the geothermal vaults of Sundale, bringing the Hunger Pact south.`
  },
 
  signatureQuote: {
@@ -168,9 +187,9 @@ The class is heavily practiced by the massive Skald and hot-headed <LoreLink ter
   paradox: 'The Berserker is simultaneously the most vulnerable and most dangerous combatant on any battlefield. At full health, they are merely dangerous. At the edge of death, with their Blood-Heat at critical levels, they become unstoppable, because the body, convinced it is dying, stops holding anything back. The paradox is that they must nearly die to truly live.'
  },
 
- currentCrisis: `The Bloodhammer clans are fracturing. For centuries, all Berserkers traced their lineage to Grum the Iron-Smith and the original Hunger Pact. But in the past decade, a new generation of Berserkers has emerged who never underwent the Pact ritual, their Blood-Heat manifests spontaneously, without the ancestral trigger. The elders call them "Unbound" and consider them abominations. The Unbound argue that the Pact was always a leash, a way for the Skald lords to control who could access the Heat and who could not.
+ currentCrisis: `The Hunger Pact is changing. For centuries, the Blood-Heat required the Pact ritual  -  the generational teaching that awakened the ancestral memory of starvation. But in the past decade, a new generation of Berserkers has emerged whose Blood-Heat ignites spontaneously, without the ritual, without the teaching. The elders call them "Unbound" and consider them abominations. The Unbound's existence suggests something terrifying: the physiological memory of the Hunger Winter is now strong enough to survive without generational instruction. The Pact was never the source of the Heat  -  only the leash.
 
-Tensions erupted into violence at the last Harath-Vault arena, when an Unbound Berserker who had never sworn the Pact defeated three Pact-sworn champions in succession. The Skald Council declared the match invalid and ordered the Unbound executed. The Unbound escaped, and now there are rumors of an Unbound settlement forming in the deep volcanic tunnels, Berserkers who answer to no clan, no pact, and no lord.`,
+Tensions erupted into violence at the last Harath-Vault arena, when an Unbound Berserker who had never undergone the Pact ritual defeated three Pact-sworn champions in succession. The Skald Council declared the match invalid and ordered the Unbound executed. The Unbound escaped, and now there are rumors of an Unbound settlement forming in the deep volcanic tunnels  -  Berserkers who ignite without permission, the memory of starvation too powerful to require permission anymore.`,
 
  meaningfulTradeoffs: `To be a Berserker is to accept that your body is a temporary resource. Every fight shortens your lifespan. Every activation of the Blood-Heat cooks your internal organs a little more. Veteran Berserkers die young, not in battle, but in their sleep, when their hearts finally give out after years of thermal stress. They know this. They do not fear it. They fear being too weak to fight when the time comes. Berserkers measure their lives not in years but in worthy opponents, and they consider a death from organ failure to be the only truly shameful end.`,
 
@@ -198,12 +217,12 @@ Tensions erupted into violence at the last Harath-Vault arena, when an Unbound B
 However, their weaknesses are absolute and exploitable:
 
 **Weaknesses**:
-- Pain Immunity Blocks Healing: while Raging (Blood-Heat over 20) you cannot be healed by allies — you solo your own survival until the fury ends.
-- Zero Recovery: no self-heal, no lifesteal, none — every HP lost is gone until you stop raging and rest.
+- Pain Immunity Blocks Healing: while Raging (Blood-Heat over 20) you cannot be healed by allies  -  you solo your own survival until the fury ends.
+- Zero Recovery: no self-heal, no lifesteal, none  -  every HP lost is gone until you stop raging and rest.
 - DoT Bait: Bleed and Poison silently drain you while you are pain-blind; a stacking DoT will kill you before you ever feel it.
 - Metabolic Burnout: push Blood-Heat past 100 and you have one round to dump it, or take 2d6 unresistable damage and crash to 0 Heat.
-- Pain Starvation: two full rounds without dealing melee damage and the rage turns inward (mind decay) — kiting and hard CC shut you down.
-- Death's-Door Gamble: your peak damage requires being under 30 percent HP — misjudge the threshold and you simply die.`
+- Pain Starvation: two full rounds without dealing melee damage and the rage turns inward (mind decay)  -  kiting and hard CC shut you down.
+- Death's-Door Gamble: your peak damage requires being under 30 percent HP  -  misjudge the threshold and you simply die.`
 ,
  },
 
@@ -222,23 +241,23 @@ However, their weaknesses are absolute and exploitable:
   title: "Combat Example: The Tragic Toll",
   content: `**The Setup**: You stand before an armored Iron Golem in a decaying crypt. Your heart rate is normal, your Blood-Heat is at 0. Your greataxe is heavy, dragging in the dirt.
 
-**Turn 1 - Splintering the Flesh (Rage: 0 → 12)**
+**Turn 1 - Splintering the Flesh (Rage: 0 ? 12)**
 *You heave your axe with both hands, muscles tearing as you force the blade forward.*
-- **Action**: Cast **Hemorrhagic Strike** → Hit!
+- **Action**: Cast **Hemorrhagic Strike** ? Hit!
 - **Blood-Heat**: Gain +12 Rage (now at 12).
 - **Recoil**: Take 1d4 physical damage (tendons snapping).
 *The pain doesn't register as a warning,it is a chemical trigger. The blood in your neck begins to sizzle.*
 
-**Turn 2 - Boiling the Veins (Rage: 12 → 35)**
+**Turn 2 - Boiling the Veins (Rage: 12 ? 35)**
 *You unlock your boiling veins, allowing the crimson fire to circulate. The Golem swings its heavy stone fist, striking your ribs.*
 - **Action**: Activate **Boiling Veins** stance.
 - **Golem Attack**: Hit! Take 12 damage.
 - **Pain Immunity Triggers**: Your Rage is now 35 (Frenzied State). The Golem's follow-up hit hurts, but you laugh,a wet, rattling sound. You are now immune to pain; the friendly Priest's healing spell washes over you, but has **no effect**.
 - **Self-Damage**: Lose 1 HP at the start of your turn.
 
-**Turn 3 - Death's Door (Rage: 35 → 78)**
+**Turn 3 - Death's Door (Rage: 35 ? 78)**
 *Your health is down to 25%. You are at Death's Door. Your vision is a tunnel of red. The Golem's high physical resistance has ignored your allies' strikes, but you swing with desperate, apocalyptic force.*
-- **Action**: Cast **Frenzied Slash** → Hit!
+- **Action**: Cast **Frenzied Slash** ? Hit!
 - **Why Bring Me?**: Because you are under 30% HP, your strike completely bypasses the Golem's stone resistance!
 - **Damage**: Deal 45 unmitigated physical damage.
 - **Blood-Heat**: Spend 8 Rage (drops to 27) but gain +15 Rage on hit (ends at 42 - Primal State).
@@ -330,7 +349,7 @@ However, their weaknesses are absolute and exploitable:
 
  usage: {
   momentum: "Blood-Heat costs range from 5 to 100. Pushing higher unlocks stronger states, but every ability deals recoil damage to your own frame.",
-  flourish: "⚠️ Pain Immunity: While Blood-Heat is 21 or higher, you are entirely immune to pain. so, you cannot be healed by allies' spells or potions. You are a ticking clock.",
+  flourish: "?? Pain Immunity: While Blood-Heat is 21 or higher, you are entirely immune to pain. so, you cannot be healed by allies' spells or potions. You are a ticking clock.",
  },
 
  overheatRules: {
@@ -2591,7 +2610,7 @@ However, their weaknesses are absolute and exploitable:
   {
    "id": "berserk_pain_blind",
    "name": "Pain-Blind",
-   "description": "Your Pain Immunity is not a combat state; it is what you are. You cannot feel pain at all — torture and pain-based interrogation simply do not register, and you shrug off fear-pain. The cost: you cannot gauge your own wounds, and must be told or checked to know how badly you are hurt. Out of combat.",
+   "description": "Your Pain Immunity is not a combat state; it is what you are. You cannot feel pain at all  -  torture and pain-based interrogation simply do not register, and you shrug off fear-pain. The cost: you cannot gauge your own wounds, and must be told or checked to know how badly you are hurt. Out of combat.",
    "level": 1,
    "spellType": "ACTION",
    "icon": "Utility/Shout",
@@ -2602,7 +2621,7 @@ However, their weaknesses are absolute and exploitable:
    "effectTypes": ["utility"],
    "utilityConfig": {
     "utilityType": "social",
-    "selectedEffects": [ { "id": "pain_blind_steadfast", "name": "Pain-Blind", "description": "Immune to pain-based interrogation/torture and advantage on saves vs fear. You cannot feel your own injuries and do not know your current HP/wounds unless examined — a danger in long attrition.", "mechanicsText": "Immune to pain interrogation; advantage vs fear; cannot self-assess wounds." } ],
+    "selectedEffects": [ { "id": "pain_blind_steadfast", "name": "Pain-Blind", "description": "Immune to pain-based interrogation/torture and advantage on saves vs fear. You cannot feel your own injuries and do not know your current HP/wounds unless examined  -  a danger in long attrition.", "mechanicsText": "Immune to pain interrogation; advantage vs fear; cannot self-assess wounds." } ],
     "duration": 1, "durationUnit": "hours", "concentration": false, "power": "minor"
    },
    "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
@@ -2631,7 +2650,7 @@ However, their weaknesses are absolute and exploitable:
   {
    "id": "berserk_forge_touched_hands",
    "name": "Forge-Touched Hands",
-   "description": "Seize non-magical metal — shackles, a lock, an iron bar, a chain, a thin gate — and let your forge-hot grip soften and warp it. Bend, break, or prise apart the metal with bare hands; the heat leaves your palms blistered. Cannot affect enchanted or large reinforced structures. Out of combat.",
+   "description": "Seize non-magical metal  -  shackles, a lock, an iron bar, a chain, a thin gate  -  and let your forge-hot grip soften and warp it. Bend, break, or prise apart the metal with bare hands; the heat leaves your palms blistered. Cannot affect enchanted or large reinforced structures. Out of combat.",
    "level": 2,
    "spellType": "ACTION",
    "icon": "Fire/Volcanic Corruption",
@@ -2651,7 +2670,7 @@ However, their weaknesses are absolute and exploitable:
   {
    "id": "berserk_unbroken_will",
    "name": "Unbroken Will",
-   "description": "The survival instinct that ignites your Blood-Heat will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned — but never made willing. Out of combat.",
+   "description": "The survival instinct that ignites your Blood-Heat will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned  -  but never made willing. Out of combat.",
    "level": 3,
    "spellType": "ACTION",
    "icon": "Utility/Empowered Warrior",

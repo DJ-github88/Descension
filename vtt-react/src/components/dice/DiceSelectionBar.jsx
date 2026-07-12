@@ -151,7 +151,7 @@ const DiceSelectionBar = () => {
                 onClick={clearSelectedDice}
                 title="Clear all"
               >
-                Ã—
+                Ã - 
               </button>
             )}
           </div>

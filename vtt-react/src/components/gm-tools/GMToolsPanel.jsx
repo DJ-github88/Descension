@@ -531,7 +531,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
     <div className="gm-tools-panel">
       <div className="gm-tools-header">
         <h2>🎲 GM Tools</h2>
-        <button className="gm-tools-close" onClick={onClose}>×</button>
+        <button className="gm-tools-close" onClick={onClose}>� - </button>
       </div>
 
       <div className="gm-tools-tabs">

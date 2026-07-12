@@ -146,7 +146,7 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
             <div ref={modalRef} className="currency-withdraw-modal">
                 <div className="modal-header">
                     <h3>Withdraw {getCurrencyLabel()}</h3>
-                    <button className="close-button" onClick={onClose}>Ã—</button>
+                    <button className="close-button" onClick={onClose}>Ã - </button>
                 </div>
                 <div className="modal-content">
                     <div className="currency-info">

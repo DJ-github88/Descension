@@ -237,7 +237,7 @@ const StepCombatStats = ({ itemData, updateItemData }) => {
                                                             value={level.value}
                                                             style={{ color: level.color }}
                                                         >
-                                                            {level.label} ({level.multiplier === 1.0 ? 'Normal' : level.multiplier < 0 ? `Heals ${Math.abs(level.multiplier)}Ã—` : `${level.multiplier}Ã—`})
+                                                            {level.label} ({level.multiplier === 1.0 ? 'Normal' : level.multiplier < 0 ? `Heals ${Math.abs(level.multiplier)}Ã - ` : `${level.multiplier}Ã - `})
                                                         </option>
                                                     ))}
                                                 </select>

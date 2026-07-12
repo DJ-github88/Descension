@@ -1,4 +1,4 @@
-# CoA → Mythrill: Improvement Rundown
+﻿# CoA → Mythrill: Improvement Rundown
 
 This file distills every actionable improvement from `COA_TRANSLATION_BRIEF.md` into a categorized checklist. Use it to triage what to implement.
 
@@ -13,20 +13,20 @@ CoA's strength is that each spec has a one-line hook. Audit yours for the same.
 |---|---|
 | Berserker Savage | "I trade my HP for unresistable damage when I'm near death." |
 | Apex Bladestorm | "My glaive bounces through 5 enemies before returning." |
-| Chronarch Rewinding | "I heal by reversing time on wounds — it costs me, not them." |
+| Chronarch Rewinding | "I heal by reversing time on wounds  -  it costs me, not them." |
 | Pyrofiend Inferno | "Scathrach screams through me. Every cast is a negotiation." |
-| False Prophet Voidcaller | "I balance on the edge of madness — the more insane I get, the more damage I deal. If I go over, I die." |
+| False Prophet Voidcaller | "I balance on the edge of madness  -  the more insane I get, the more damage I deal. If I go over, I die." |
 
 **What to do**: Add the one-liner to each spec's `description` field. 5 minutes per class.
 
 ### Signature First-Session Moment
-CoA gives every class a "first combat hook" — Necromancer raises a skeleton on their first kill, Tinker builds a turret. Add one line to each class's `overview.immersiveCombatExample`:
+CoA gives every class a "first combat hook"  -  Necromancer raises a skeleton on their first kill, Tinker builds a turret. Add one line to each class's `overview.immersiveCombatExample`:
 
-- **Berserker**: First killing blow sprays blood — gain +2 Blood-Heat immediately.
+- **Berserker**: First killing blow sprays blood  -  gain +2 Blood-Heat immediately.
 - **Apex**: First glaive throw ricochets to a second target.
 - **Revenant**: First death = Death Shroud triggers, frost spreads under you.
 - **Pyrofiend**: First spell ignites the ground for 1 round.
-- **Chronarch**: First hit rewinds a fraction of a second — an enemy attack misses.
+- **Chronarch**: First hit rewinds a fraction of a second  -  an enemy attack misses.
 
 **What to do**: Add as a bullet in each class's overview. 1-2 lines each.
 
@@ -38,7 +38,7 @@ Every class gets one unique profession interaction. Already documented in the br
 ## 2. Class Structure Improvements
 
 ### Add the Support Role Tag
-CoA's headline innovation is the **Support role**. Mythrill's specs already fit this — they just aren't tagged:
+CoA's headline innovation is the **Support role**. Mythrill's specs already fit this  -  they just aren't tagged:
 - Minstrel Battlechoir (damage amp support)
 - Minstrel Soulsinger (heal support)
 - Martyr Redemption (heal/tank support)
@@ -87,7 +87,7 @@ Specs that should use Empower:
 ### Resource-as-Transformation
 CoA's Son of Arugal builds Rage in caster form, then transforms into a Worgen with a new ability bar. Mythrill's Berserker can borrow this:
 
-- **Berserker**: At 100 Blood-Heat, enter **Overdrive**. For 2 rounds, your ability bar changes: melee attacks deal +2d6, you cannot be healed, but every attack costs 1d4 HP. This is already partially in the "Boiling Veins" stance — codify it as a transformation state with visual flair.
+- **Berserker**: At 100 Blood-Heat, enter **Overdrive**. For 2 rounds, your ability bar changes: melee attacks deal +2d6, you cannot be healed, but every attack costs 1d4 HP. This is already partially in the "Boiling Veins" stance  -  codify it as a transformation state with visual flair.
 
 ### Damage-Type Exploitation
 CoA's core combat depth: different classes are strong against different creature types. Formalize this:
@@ -148,8 +148,8 @@ Add a `strongAgainst` and `weakAgainst` field to each spec. The UI shows it as a
 
 | Don't Do | Why |
 |---|---|
-| 4th specs (yet) | You chose "polish existing 3 specs" — adding 4th specs is a separate project |
-| Talent trees (yet) | On hold by design — revisit after core spec identities are tight |
+| 4th specs (yet) | You chose "polish existing 3 specs"  -  adding 4th specs is a separate project |
+| Talent trees (yet) | On hold by design  -  revisit after core spec identities are tight |
 | PvP modes / Hardcore trials | These are system features, not class improvements. Deferred. |
 | Rename everything | Keep Mythrill-native names (Keth-Amar, not Old Gods; Scathrach, not Xoroth) |
 

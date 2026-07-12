@@ -226,7 +226,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
     const member = partyMembers.find(m => m.id === targetUserId);
     if (member) {
-      console.log('ğŸ—‘ï¸ Removing party member:', member.name);
+      console.log('ğŸ - ‘ï¸ Removing party member:', member.name);
       kickPartyMember(member.id);
     }
     closeContextMenu();

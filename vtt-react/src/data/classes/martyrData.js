@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Martyr Class Data
  *
  * Complete class information for the Martyr - a selfless protector
@@ -8,10 +8,11 @@
 export const MARTYR_DATA = {
  restrictions: {
    "allowedSubraces": [
-     "solvarn_human",
-     "korr_emberth",
-     "velun_neth",
-     "skald_human"
+      "solvarn_human",
+      "korr_emberth",
+      "velun_neth",
+      "skald_human",
+      "morren_human"
    ],
     "hardBlocks": [
       "tessen_human",
@@ -65,12 +66,12 @@ export const MARTYR_DATA = {
   velun_neth: {
    subraceName: 'Velun Neth',
    title: 'The Contract-Martyr',
-   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> cannot lie and cannot breach a contract, and a Martyr among them sacrifices per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion Gauge is, to them, a ledger of fulfilled clauses.`,
+   reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Velun Neth Marty the protection it generates a delivered obligation. A Velun Neth Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion Gauge is, to them, a ledger of fulfilled clauses.`,
    signatureAbility: {
     name: 'Covenant-Absorption',
-    description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute, the Keeper enforces the transfer. No waste, no ambiguity, no mercy.`
+    description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute, Morvane enforces the transfer. No waste, no ambiguity, no mercy.`
    },
-   currentCrisisAngle: `The conscription crisis is, to the Velun Neth, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Velun oversight, and the resulting cadres operate under contracts the Neth never co-signed. The Velun consider this not exploitation but *counterfeiting*, unauthorized parties issuing obligations in the Keeper's name, and the legal ramifications may be worse than the human cost.`,
+   currentCrisisAngle: `The conscription crisis is, to the Velun Neth, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Velun oversight, and the resulting cadres operate under contracts the Neth never co-signed. The Velun consider this not exploitation but *counterfeiting*, unauthorized parties issuing obligations in Morvane's name, and the legal ramifications may be worse than the human cost.`,
    signatureQuote: {
     text: '"I suffer because I agreed to suffer, in writing, with witnesses, at a fair rate of exchange. What you call martyrdom I call a satisfied clause. Do not sentimentalize my contract."',
     speaker: 'Covenant-Martyr Vel-Ossar',
@@ -87,13 +88,29 @@ export const MARTYR_DATA = {
     description: `Devotion is tracked as *boiler-pressure* in the Martyr's furnace-armor; incoming damage heats the boiler rather than wounding the flesh directly, and vented pressure drives devastating counter-strikes. The Ironclad is the only Martyr variant that converts absorbed suffering into *offensive* output.`
    },
    currentCrisisAngle: `The Skald Ironclads are the variant the noble houses want most, a Martyr that fights back, and the conscription has hit them hardest. Worse, the furnace-pipes rely on Cragjaw geothermal design, and the Steam-Line Cartel has begun *licensing* Ironclad production to the houses, turning a sacred adaptation into a manufactured asset. The original Ironclads consider this a desecration; the houses consider it procurement.`,
-   signatureQuote: {
-    text: '"They put the furnace in my chest so I would burn for them. They did not expect me to aim it. Everything you hit me with comes back hotter. Stand clear."',
-    speaker: 'Ironclad Torra Furnace-Born',
-    context: 'A Skald Martyr, the first to vent boiler-pressure in a counter-strike'
+    signatureQuote: {
+     text: '"They put the furnace in my chest so I would burn for them. They did not expect me to aim it. Everything you hit me with comes back hotter. Stand clear."',
+     speaker: 'Ironclad Torra Furnace-Born',
+     context: 'A Skald Martyr, the first to vent boiler-pressure in a counter-strike'
+    }
+   },
+
+   morren_human: {
+    subraceName: 'Morren',
+    title: 'The Debt-Flesh',
+    reframe: `A <LoreLink termId="house_morrath">Morren</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Morren Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion Gauge fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Morren Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
+    signatureAbility: {
+     name: 'Debt-Absorption',
+     description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Morren Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
+    },
+    currentCrisisAngle: `The Morren Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Morren Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Neth contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Morren in the peat-crypts becomes a mint.`,
+    signatureQuote: {
+     text: '"I do not bleed for faith. I bleed because it is due. My body is a receipt, my scars are itemized, and Morvane is the only creditor I have ever trusted to keep the books honest."',
+     speaker: 'Mor-Vash the Ledger-Kept',
+     context: 'A Morren Martyr, adding a fresh entry to his scar-ledger'
+    }
    }
-  }
- },
+  },
 
 
  id : "martyr",
@@ -126,31 +143,29 @@ export const MARTYR_DATA = {
  ],
 
  overview: {
-  originStory: `Founded just after the Binding by Sera Solvan, who carved her sacrificed child's name into her forearm with volcanic obsidian. The Solvarn mother Sera refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive.
+  originStory: `A martyr has learned to convert suffering into power. Not metaphorically. Physically. The body absorbs damage meant for others, converts it through a glowing scar, and releases it as healing, shielding, or raw protective force. The more pain the martyr bears, the stronger the effect. At high Devotion, the form turns translucent and the bones blaze with volatile golden energy.
 
-Her devotion opened a channel of sympathetic pain. The Martyr carries the physical scars of all nearby wounds, her tissue burning with sympathetic heat whenever an ally is struck. She finds power only in her own suffering, converting blood to light, her skin cracking to reveal the solar embers of her vow.
+The first was Sera Solvan, a Solvarn mother whose child was sacrificed to Keth-Amar during the Binding. The six noble houses marched their firstborn to the northern peaks as bloodline-offerings, and Sera went with them, not to participate, but to witness. She carried a piece of volcanic obsidian from Emberspire. She carved her child's name into her own forearm, and she swore to bear the pain of the entire world if it meant the memory would never be erased.
 
-Suffer for them. You are the shield of meat and bone, and your wounds are the only light left in the ash. Bleed until they are safe.`,
+The wound did not heal correctly. It became a glowing solar scar that pulsed with heat, not her heat, but the heat of whatever her child had become inside Keth-Amar. Sera discovered that when she placed herself between someone else and their suffering, the scar absorbed it. She could take a blade meant for an ally. She could draw poison from a wound into her own bloodstream. She could feel the death coming for someone else and intercept it with her own body.
+
+The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
+
+Each subrace approaches the sacrifice differently. The Solvarn treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Korr Emberth frame sacrifice as silent vigil over the Solbrand, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Morren pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
+
+Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
    subtitle: "Wounded Faith Healer, Where the Sacred Meets the Scalpel",
 
   quickOverview: {
    title: "Quick Overview",
-   content: `**What You Need to Know**: The Martyr does not use shields or armor to stop blades. They use the fragile body of their own to catch weapons meant for their companions. Every wound they choose to bear becomes a prayer, and every prayer demands more flesh. You do not get stronger by surviving. You get stronger by volunteering to not survive.
+    content: `**Who they are**: A bleeding faith healer who does not use shields or armor  -  they use their own fragile body to catch weapons meant for their companions. Every wound they volunteer for becomes a prayer, and every prayer demands more flesh. They get stronger not by surviving, but by volunteering to not survive.
 
-**Core Mechanic**: ACTIVELY sacrifice HP (Intervene, self-damage spells, voluntary offering) → Cross damage thresholds → Unlock Devotion Levels → Spend Devotion to amplify healing/buffs
+**The hook**: Voluntarily sacrifice HP through Intervene and self-damage spells to build Devotion across six escalating tiers. Intercept a major blow meant for an ally and the violence converts into absolute authority. Intervene to yank a fatal hit into your own body  -  no other class can completely negate a killing blow tracking toward a party member.
 
-**Resource**: Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken)
+**The cost**: The faith that is not tested rots immediately. Go one round without taking damage and you lose a Devotion level. Lose three in one fight and you become Faithless  -  all healing you deal is halved, you cannot Intervene, and the sacred has abandoned you. You must bleed at least fifteen HP in a single round to be forgiven.
 
-**CRITICAL DIFFERENCE FROM IRONCLAD**: The Ironclad specialization is an immovable furnace-fortress that absorbs damage and converts it into heat and shields. The standard Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Ironclad's power comes from what hits them. The other Martyrs' power comes from what they CHOOSE to suffer. The Ironclad endures. The others volunteer.
-
-**The Minor Hit Loop**: Intervene creates a tactical fork. Intercepting a major hit (10+ damage) yields maximum Devotion progression, your body drinks the violence and converts it into absolute authority. But intercepting a minor hit (less than 10 damage) bypasses Devotion entirely and instead immediately restores 1d4 Mana. You must choose between building power and sustaining your casting endurance.
-
-**The Fatal Flaw, Devotion Collapse**: If you go 1 round without taking damage or sacrificing HP, you lose 1 Devotion Level. The faith that is not tested rots immediately. Lose 3 levels through decay in a single combat and you become Faithless for 2 rounds: all healing you deal is halved, and you cannot use Intervene. The sacred does not reward fair-weather believers. Recover by sacrificing at least 15 HP in a single round.
-
-**Playstyle**: Frontline bleeding altar who converts deliberate self-harm into emergency salvation for everyone else
-
-**Best For**: Players who enjoy protective gameplay with genuine risk, the martyrdom fantasy, and the visceral satisfaction of turning personal catastrophe into party survival`,
+**Bring one for**: The only class that can transform personal catastrophe into party survival  -  catching the blow that would have killed your wizard and turning your own wounds into amplified healing for everyone else.`,
   },
 
   description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion Gauge, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate armor, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
@@ -215,8 +230,8 @@ Several houses have begun "recruiting" Martyrs, some by indoctrination, some by 
 - Highly vulnerable to targeted crowd control that isolates them from the party, if they cannot reach allies to intercept, their Devotion starves
 - Can become overwhelmed if they sacrifice too aggressively
 - Requires ACTIVE self-sacrifice to reach full potential, passive damage absorption alone is insufficient
-- **Ignored Martyr**: enemies who focus your allies and attack outside your Intervene window starve your Devotion engine — a smart foe attacks when you cannot intercept
-- **Faithless Lockout**: if Devotion decays into the Faithless state, your healing output halves and Intervene locks entirely — foes who stall, kite, or CC you can shut your whole kit down
+- **Ignored Martyr**: enemies who focus your allies and attack outside your Intervene window starve your Devotion engine  -  a smart foe attacks when you cannot intercept
+- **Faithless Lockout**: if Devotion decays into the Faithless state, your healing output halves and Intervene locks entirely  -  foes who stall, kite, or CC you can shut your whole kit down
 - **Sympathetic Vulnerability (social)**: you feel every wound your allies take, always, and cannot turn it off. A captor hurting a friend cripples you with shared agony, and a crowded room of suffering is physically painful
 - **The Zealot's Wrath Tithe**: Zealot-spec Martyrs deal devastating bonus damage scaled to Devotion, but suffer half that bonus as self-harm, they are simultaneously the party's most aggressive support and their own worst enemy
 
@@ -228,9 +243,9 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
    content: `Playing a Martyr is about strategic sacrifice, resource management, and the constant threat of Devotion Collapse. Key considerations:
 
 **Building Devotion** (Active Sacrifice, NOT Passive Tanking):
-- **Intervene (Major Hit)**: Intercept an attack dealing 10+ damage meant for an ally → Take the damage → Gain bonus Devotion equal to damage ÷ 10 (minimum 1). This is your primary Devotion engine for heavy combat
-- **Intervene (Minor Hit Loop)**: Intercept an attack dealing less than 10 damage → Bypass Devotion gain entirely → Immediately restore 1d4 Mana. Use this when your Devotion is stable but your casting endurance is flagging
-- **Self-Damage Spells**: Cast Penance of Pain, Burning Sacrifice, or other self-harming spells → Build Devotion while healing/buffing allies
+- **Intervene (Major Hit)**: Intercept an attack dealing 10+ damage meant for an ally ? Take the damage ? Gain bonus Devotion equal to damage � 10 (minimum 1). This is your primary Devotion engine for heavy combat
+- **Intervene (Minor Hit Loop)**: Intercept an attack dealing less than 10 damage ? Bypass Devotion gain entirely ? Immediately restore 1d4 Mana. Use this when your Devotion is stable but your casting endurance is flagging
+- **Self-Damage Spells**: Cast Penance of Pain, Burning Sacrifice, or other self-harming spells ? Build Devotion while healing/buffing allies
 - **Voluntary Offering**: At the start of your turn, sacrifice up to 1d8 HP as a free action to gain +1 Devotion progress toward the next threshold
 - **Passive Damage**: Being hit naturally contributes, but this is SLOW. A Martyr who just stands there and gets hit is a dead Martyr
 - **Devotion Collapse**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become Faithless for 2 rounds (healing halved, cannot Intervene). Recover by sacrificing 15+ HP in a single round
@@ -271,25 +286,25 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 *A lesser horror charges your mage. She's at 25 HP,one solid hit will drop her.*
 
 **Your Reaction, Intervene** (4 mana, redirect attack to self):
-**Demon's Attack**: Redirected to you → 2d8+5 → [7, 8]+5 = **20 damage**
+**Demon's Attack**: Redirected to you ? 2d8+5 ? [7, 8]+5 = **20 damage**
 **No passives active** (Devotion 0)
-**Your HP**: 100 − 20 = **80/100**
+**Your HP**: 100 - 20 = **80/100**
 **Total Damage Taken**: 20
 
-**Devotion Check**: 20 ≥ 10 and 20 ≥ 20 → crossed 2 thresholds → **Devotion Level 2**
+**Devotion Check**: 20 = 10 and 20 = 20 ? crossed 2 thresholds ? **Devotion Level 2**
 **Passive Gained (Level 1)**: Resistance to the first damage instance you receive each round (half damage, rounded down)
 **Passive Gained (Level 2)**: Regain 1d6 HP at the start of your turn
-**Redemptive Grace**: Intervene heals the protected ally for 2d6 → [4, 5] = 9 → Mage: 25 + 9 = **34/70**
+**Redemptive Grace**: Intervene heals the protected ally for 2d6 ? [4, 5] = 9 ? Mage: 25 + 9 = **34/70**
 **Suffering's Gift**: Requires Devotion 3+, not yet active
 
 *Golden light flares from your wounds. Your first sacrifice awakens something sacred.*
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [7]+3 = 10 damage
-**Level 1 Passive (first instance this round)**: Resistance → 10 ÷ 2 = **5 damage**
-**Your HP**: 80 − 5 = **75/100**
+**Attack**: 1d10+3 ? [7]+3 = 10 damage
+**Level 1 Passive (first instance this round)**: Resistance ? 10 � 2 = **5 damage**
+**Your HP**: 80 - 5 = **75/100**
 **Total Damage Taken**: 20 + 5 = 25
-**Devotion Check**: 25 ≥ 20 but < 40 → still 2 thresholds → Devotion **2**
+**Devotion Check**: 25 = 20 but < 40 ? still 2 thresholds ? Devotion **2**
 
 **Your Party's Mage**: "You took that hit for me..."
 **You**: "That's what I'm here for. My pain is your protection."
@@ -300,29 +315,29 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 *The horror lord turns its burning gaze to you, flames licking along its massive blade.*
 
-**Start of Turn, Level 2 Passive**: Regain 1d6 HP → [4] = 4 → HP: 75 + 4 = **79**
+**Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [4] = 4 ? HP: 75 + 4 = **79**
 
 **Demon Lord attacks you**:
-**Attack**: 3d10+6 fire → [8, 9, 7]+6 = **30 ember damage**
-**Level 1 Passive (first instance this round)**: Resistance → 30 ÷ 2 = **15 damage**
-**Your HP**: 79 − 15 = **64/100**
+**Attack**: 3d10+6 fire ? [8, 9, 7]+6 = **30 ember damage**
+**Level 1 Passive (first instance this round)**: Resistance ? 30 � 2 = **15 damage**
+**Your HP**: 79 - 15 = **64/100**
 **Total Damage Taken**: 25 + 15 = 40
 
-**Devotion Check**: 40 ≥ 40 → crossed 3 thresholds → **Devotion Level 3!**
+**Devotion Check**: 40 = 40 ? crossed 3 thresholds ? **Devotion Level 3!**
 **Passive Gained (Level 3), Suffering's Gift**: When you take damage, all allies within 10 ft gain temporary HP equal to your Devotion Level (3). Triggers once per damage instance. Self-inflicted damage does not trigger this effect.
-**Suffering's Gift fires**: Allies gain 3 temp HP → Mage: **3 temp HP**, Tank: **3 temp HP**
+**Suffering's Gift fires**: Allies gain 3 temp HP ? Mage: **3 temp HP**, Tank: **3 temp HP**
 
 *More wounds. More light. Your scars glow brighter.*
 
 **Your Action, sacred shield** (10 mana, AoE within 10 ft):
-**Effect**: All allies within 10 ft gain 1d6 temporary HP → [5] = **5 temp HP**
-**Temp HP comparison**: 5 (sacred shield) > 3 (Suffering's Gift) → higher value applies
+**Effect**: All allies within 10 ft gain 1d6 temporary HP ? [5] = **5 temp HP**
+**Temp HP comparison**: 5 (sacred shield) > 3 (Suffering's Gift) ? higher value applies
 **Result**: Mage: **5 temp HP**, Tank: **5 temp HP**
 
 **Lesser Demon #2 attacks Tank**:
-**Attack**: 1d10+3 → [6]+3 = 9 damage
+**Attack**: 1d10+3 ? [6]+3 = 9 damage
 **No ally resistance passive** (Level 4 not yet reached)
-**Tank's 5 temp HP** absorbs 5 → Tank takes 4 → Tank: 50 − 4 = **46/90** (0 temp HP remaining)
+**Tank's 5 temp HP** absorbs 5 ? Tank takes 4 ? Tank: 50 - 4 = **46/90** (0 temp HP remaining)
 
 **Current State**: HP: 64/100 | Devotion: 3 (3 crossed, 0 spent) | Total Damage: 40 | Mana: 36/60
 Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
@@ -331,47 +346,47 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 
 *The demons surround you. You're bleeding from a dozen wounds, but golden light pulses from every scar.*
 
-**Start of Turn, Level 2 Passive**: Regain 1d6 HP → [3] = 3 → HP: 64 + 3 = **67**
+**Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [3] = 3 ? HP: 64 + 3 = **67**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire → [7, 8]+6 = **21 ember damage**
-**Level 1 Passive (first instance this round)**: Resistance → 21 ÷ 2 = **10 damage** (rounded down)
-**Your HP**: 67 − 10 = **57/100**
+**Attack**: 2d10+6 fire ? [7, 8]+6 = **21 ember damage**
+**Level 1 Passive (first instance this round)**: Resistance ? 21 � 2 = **10 damage** (rounded down)
+**Your HP**: 67 - 10 = **57/100**
 **Total Damage Taken**: 40 + 10 = 50
-**Devotion Check**: 50 ≥ 40 but < 60 → still 3 thresholds → Devotion **3**
-**Suffering's Gift**: Allies gain 3 temp HP → Mage has 5 (3 < 5, no change) | Tank has 0 → Tank: **3 temp HP**
+**Devotion Check**: 50 = 40 but < 60 ? still 3 thresholds ? Devotion **3**
+**Suffering's Gift**: Allies gain 3 temp HP ? Mage has 5 (3 < 5, no change) | Tank has 0 ? Tank: **3 temp HP**
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [9]+3 = 12 damage
+**Attack**: 1d10+3 ? [9]+3 = 12 damage
 **Second instance this round, no resistance**
-**Your HP**: 57 − 12 = **45/100**
+**Your HP**: 57 - 12 = **45/100**
 **Total Damage Taken**: 50 + 12 = 62
 
-**Devotion Check**: 62 ≥ 60 → crossed 4 thresholds → **Devotion Level 4!**
+**Devotion Check**: 62 = 60 ? crossed 4 thresholds ? **Devotion Level 4!**
 **Passive Gained (Level 4)**: All allies within 10 ft resist the first damage type they receive each round (half damage, rounded down)
-**Suffering's Gift**: Allies gain 4 temp HP → Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) → Tank: **4 temp HP**
+**Suffering's Gift**: Allies gain 4 temp HP ? Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) ? Tank: **4 temp HP**
 
 **Lesser Demon #2 attacks Mage**:
-**Attack**: 1d10+3 → [5]+3 = 8 physical damage
-**Level 4 Passive**: Allies resist first damage type → 8 ÷ 2 = **4 damage** to Mage
-**Mage's 5 temp HP** absorbs 4 → Mage takes 0 → Mage: **34/70** (1 temp HP remaining)
+**Attack**: 1d10+3 ? [5]+3 = 8 physical damage
+**Level 4 Passive**: Allies resist first damage type ? 8 � 2 = **4 damage** to Mage
+**Mage's 5 temp HP** absorbs 4 ? Mage takes 0 ? Mage: **34/70** (1 temp HP remaining)
 
 *Your wounds are radiant. Power surges through you. The mage is safe. Now,amplify.*
 
 **Your Action, Restorative Prayer AMPLIFIED** on Mage (5 mana + spend 2 Devotion Levels):
-**Devotion Spent**: 2 → Effective Devotion: 4 crossed − 2 spent = **Level 2**
-**Rise Check**: Total damage (62) crosses a NEW threshold (80)? No → stays at Level 2
-**Base Healing**: 1d4 + Spirit(4) → [3]+4 = 7 HP
-**Amplification Bonus**: +2d8 per Devotion Level spent (2) = +4d8 → [6, 7, 4, 8] = +25 HP
-**Total Healing**: 7 + 25 = **32 HP** → Mage: 34 + 32 = **66/70**
+**Devotion Spent**: 2 ? Effective Devotion: 4 crossed - 2 spent = **Level 2**
+**Rise Check**: Total damage (62) crosses a NEW threshold (80)? No ? stays at Level 2
+**Base Healing**: 1d4 + Spirit(4) ? [3]+4 = 7 HP
+**Amplification Bonus**: +2d8 per Devotion Level spent (2) = +4d8 ? [6, 7, 4, 8] = +25 HP
+**Total Healing**: 7 + 25 = **32 HP** ? Mage: 34 + 32 = **66/70**
 
-**Self-Damage (Amplified Spell Cost)**: 1d6 per Devotion Level spent (2) = 2d6 → [3, 2] = **5 damage**
-**Self-inflicted → does NOT add to Total Damage Taken**
-**Self-inflicted → does NOT trigger Suffering's Gift**
-**Your HP**: 45 − 5 = **40/100**
+**Self-Damage (Amplified Spell Cost)**: 1d6 per Devotion Level spent (2) = 2d6 ? [3, 2] = **5 damage**
+**Self-inflicted ? does NOT add to Total Damage Taken**
+**Self-inflicted ? does NOT trigger Suffering's Gift**
+**Your HP**: 45 - 5 = **40/100**
 **Total Damage Taken**: still **62**
 
-**Mana**: 36 − 5 = **31/60**
+**Mana**: 36 - 5 = **31/60**
 
 **Your Party's Tank**: "You're glowing like a furnace! Are you holding up?"
 **You**: "I've been better. But the mage just got healed for 32 HP. That's what matters."
@@ -383,30 +398,30 @@ Mage: 66/70 + 1 temp HP | Tank: 46/90 + 4 temp HP
 
 *You're at 40 HP. The demons are relentless. But your Devotion is rebuilding,each wound brings you closer to the next threshold.*
 
-**Start of Turn, Level 2 Passive**: Regain 1d6 HP → [5] = 5 → HP: 40 + 5 = **45**
+**Start of Turn, Level 2 Passive**: Regain 1d6 HP ? [5] = 5 ? HP: 40 + 5 = **45**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire → [9, 7]+6 = **22 ember damage**
-**Level 1 Passive (first instance this round)**: Resistance → 22 ÷ 2 = **11 damage**
-**Your HP**: 45 − 11 = **34/100**
+**Attack**: 2d10+6 fire ? [9, 7]+6 = **22 ember damage**
+**Level 1 Passive (first instance this round)**: Resistance ? 22 � 2 = **11 damage**
+**Your HP**: 45 - 11 = **34/100**
 **Total Damage Taken**: 62 + 11 = 73
-**Devotion Check**: 73 < 80 → still 4 thresholds → Devotion **2**
+**Devotion Check**: 73 < 80 ? still 4 thresholds ? Devotion **2**
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [8]+3 = 11 damage
+**Attack**: 1d10+3 ? [8]+3 = 11 damage
 **Second instance this round, no resistance**
-**Your HP**: 34 − 11 = **23/100**
+**Your HP**: 34 - 11 = **23/100**
 **Total Damage Taken**: 73 + 11 = 84
 
-**Devotion Check**: 84 ≥ 80 → NEW threshold crossed! 5 thresholds total → Effective Devotion: 5 − 2 = **Level 3!**
-**Suffering's Gift**: Allies gain 3 temp HP → Mage has 1 (3 > 1) → Mage: **3 temp HP** | Tank has 4 (3 < 4, no change)
+**Devotion Check**: 84 = 80 ? NEW threshold crossed! 5 thresholds total ? Effective Devotion: 5 - 2 = **Level 3!**
+**Suffering's Gift**: Allies gain 3 temp HP ? Mage has 1 (3 > 1) ? Mage: **3 temp HP** | Tank has 4 (3 < 4, no change)
 
 *New Devotion surges through you. Not full power, but enough.*
 
 **Your Action, Devoted Strike** at Lesser Demon #2 (6 mana, melee):
-**Attack Roll**: d20+5 → [18] = Hit!
-**Damage**: 1d8 + Strength(3) → [7]+3 = **10 ember damage**
-**Self-Heal**: Strength(3) ÷ 2 = 1 HP → HP: 23 + 1 = **24/100**
+**Attack Roll**: d20+5 ? [18] = Hit!
+**Damage**: 1d8 + Strength(3) ? [7]+3 = **10 ember damage**
+**Self-Heal**: Strength(3) � 2 = 1 HP ? HP: 23 + 1 = **24/100**
 **Result**: Lesser Demon #2 is wounded
 
 *Your allies finish the fight,the tank crushes the wounded horror, and the mage's fire spell scorches the last one.*
@@ -472,12 +487,12 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
       [
        "Martyr's Intervene (Major Hit: 10+ dmg)",
        "Redirect + Bonus",
-       "Gain Devotion = damage ÷ 10 (min 1)",
+       "Gain Devotion = damage � 10 (min 1)",
       ],
       [
        "Martyr's Intervene (Minor Hit: <10 dmg)",
        "No Devotion",
-       "Bypass Devotion → Restore 1d4 Mana instead",
+       "Bypass Devotion ? Restore 1d4 Mana instead",
       ],
       [
        "Self-Sacrifice Spells",
@@ -532,7 +547,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
 **Passive vs Active**: A Level 6 Martyr is practically a win-condition due to the group-wide resistance aura. Spending those levels should be your last resort, used only when the amplified healing is the only way to prevent a death.
 
-**The Minor Hit Mana Loop**: Not every intercepted blow needs to build Devotion. When you intercept a hit dealing less than 10 damage, you gain no Devotion, but you immediately restore 1d4 Mana. This creates a tactical decision: do you need ancestral power (major hit → Devotion) or casting endurance (minor hit → Mana)? Late-game, when Devotion is stable, the minor hit loop becomes your primary sustain mechanic.
+**The Minor Hit Mana Loop**: Not every intercepted blow needs to build Devotion. When you intercept a hit dealing less than 10 damage, you gain no Devotion, but you immediately restore 1d4 Mana. This creates a tactical decision: do you need ancestral power (major hit ? Devotion) or casting endurance (minor hit ? Mana)? Late-game, when Devotion is stable, the minor hit loop becomes your primary sustain mechanic.
 
 **The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a double-win: you provide necessary support while manually pushing your Devotion Gauge into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
 
@@ -1771,7 +1786,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   { id: "martyr_shield_of_faith",
    name: "Shield of Faith",
    description:
-    "Create a sacred shield around an ally that absorbs 3d8 + spirit×2 damage. Lasts up to 10 rounds or until the shield is depleted.",
+    "Create a sacred shield around an ally that absorbs 3d8 + spirit�2 damage. Lasts up to 10 rounds or until the shield is depleted.",
    level: 4,
    spellType: "ACTION",
    icon: "Radiant/Radiant Golden Shield",
@@ -1809,7 +1824,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
      { id : "faith_shield",
       name: "Shield of Faith",
       description:
-       "Absorbs 3d8 + spirit×2 damage until depleted. Lasts up to 10 rounds.",
+       "Absorbs 3d8 + spirit�2 damage until depleted. Lasts up to 10 rounds.",
       shieldValue: {
        formula: "3d8 + spirit * 2",
        shieldType: "absorption",
@@ -3146,7 +3161,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Press a hand to your scarred chest and listen through the bond" },
     resolution: "NONE", effectTypes: ["utility"],
-    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "sympathys_thread_sense", name: "Pain Radar", description: "For 10 minutes sense wounded/dying/frightened/despairing creatures within 60 ft — direction and rough state — and read a place's emotional tenor. The healthy and hidden-through-numbness read as faint.", mechanicsText: "Sense nearby suffering/emotion for 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
+    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "sympathys_thread_sense", name: "Pain Radar", description: "For 10 minutes sense wounded/dying/frightened/despairing creatures within 60 ft  -  direction and rough state  -  and read a place's emotional tenor. The healthy and hidden-through-numbness read as faint.", mechanicsText: "Sense nearby suffering/emotion for 10 min." } ], duration: 10, durationUnit: "minutes", power: "minor" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","detection","investigation","martyr"],
   },
@@ -3188,13 +3203,13 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_sanctified_word",
     name: "Sanctified Word",
-    description: "Speak a vow that binds YOU, not them. Once per long rest, swear to fulfill a single stated promise (to protect, to deliver, to answer truly). The vow is magically binding on you — breaking it costs you HP and Devotion — and others feel its weight, granting advantage on Persuasion and reassurance checks with those who hear it, because they can sense you mean it absolutely. Out of combat.",
+    description: "Speak a vow that binds YOU, not them. Once per long rest, swear to fulfill a single stated promise (to protect, to deliver, to answer truly). The vow is magically binding on you  -  breaking it costs you HP and Devotion  -  and others feel its weight, granting advantage on Persuasion and reassurance checks with those who hear it, because they can sense you mean it absolutely. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
     typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","martyr"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["verbal"], verbalText: "The sworn promise, spoken aloud" },
     resolution: "NONE", effectTypes: ["utility","buff"],
-    utilityConfig: { utilityType: "social", selectedEffects: [ { id: "sanctified_word_vow", name: "Self-Bound Vow", description: "Swear one promise; it binds you (breach costs 2d6 HP + 1 Devotion Level). Listeners feel its reality, granting advantage on Persuasion/reassurance with them for the scene. Useless if you swear falsely — the vow only binds what you truly intend.", mechanicsText: "Self-binding vow; advantage on Persuasion; penalty to break." } ], duration: 1, durationUnit: "days", power: "moderate" },
+    utilityConfig: { utilityType: "social", selectedEffects: [ { id: "sanctified_word_vow", name: "Self-Bound Vow", description: "Swear one promise; it binds you (breach costs 2d6 HP + 1 Devotion Level). Listeners feel its reality, granting advantage on Persuasion/reassurance with them for the scene. Useless if you swear falsely  -  the vow only binds what you truly intend.", mechanicsText: "Self-binding vow; advantage on Persuasion; penalty to break." } ], duration: 1, durationUnit: "days", power: "moderate" },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["utility","social","martyr"],
   },

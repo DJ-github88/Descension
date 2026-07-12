@@ -474,7 +474,7 @@ export default function Skills() {
             const rankTables = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
             if (typeof rankTables === 'object') {
                 if (rankTables[dieKey]) {
-                // New structure: proficiency Ã— die type
+                // New structure: proficiency Ã -  die type
                     const tableId = rankTables[dieKey];
                     if (!ROLLABLE_TABLES[tableId]) {
                         console.error(`Table not found: ${tableId} for skill ${skillId}, rank ${rank.key}, die ${dieKey}`);
@@ -769,7 +769,7 @@ export default function Skills() {
                                         )}
                                     </div>
                                     <div className="quest-status">
-                                        {isCompleted ? 'âœ“' : 'â—‹'}
+                                        {isCompleted ? 'âœ“' : 'â - ‹'}
                                     </div>
                                 </div>
                             );
@@ -930,7 +930,7 @@ export default function Skills() {
                     onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                     title={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
                 >
-                    <span className="skills-toggle-icon">{sidebarCollapsed ? 'â–¶' : 'â—€'}</span>
+                    <span className="skills-toggle-icon">{sidebarCollapsed ? 'â–¶' : 'â - €'}</span>
                 </button>
                 {!sidebarCollapsed && (
                     <div className="skills-search-container">

@@ -214,7 +214,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
                 console.log('🖼️ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
                 const compressedFile = await compressImage(file, 1920, null, 0.85);
-                console.log('🗜️ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+                console.log('� - �️ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -392,7 +392,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                             onClick={() => removeBackground(bg.id)}
                                             title="Remove this background"
                                         >
-                                            ×
+                                            � - 
                                         </button>
                                     </div>
                                 </div>

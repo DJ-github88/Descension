@@ -9,9 +9,9 @@
 
 The Humans of Mythrill are the shortest-lived sapient species on a dying world, and its most prolifically dangerous inhabitants. Not because they are strong. Not because they are swift. Not because any cosmic power chose them or blessed their bloodlines with longevity or magic. Because they refuse, specifically and loudly, to stop. Every human culture from the fog-choked Frostwood Reach to the ashfall cities of Sundale has developed its own particular flavor of this refusal, and every flavor is different, and every flavor is recognizably human.
 
-Sixty good years, though a steadfast few are said to keep on past a century. That is what a Human gets, on average, sixty years to carve a name into a world that was ancient before their ancestors learned to walk upright. No claws. No fangs. No quicksilver blood. No centuries to master a craft. What they have is spite, stubbornness, and the deep, cellular certainty that tomorrow is worth bleeding for today. Other races find this exhausting to witness. The Neth, who do not age, who do not hurry, who negotiate the terms of their own existence with impartial cosmic entities, regard humans the way archivists regard fires: with professional respect and genuine alarm.
+Sixty good years, though a steadfast few are said to keep on past a century. That is what a Human gets, on average, sixty years to carve a name into a world that was ancient before their ancestors learned to walk upright, and they spend every one of those years refusing to accept that sixty is all they get. No claws. No fangs. No quicksilver blood. No centuries to master a craft. What they have is spite, stubbornness, and the deep, cellular certainty that tomorrow is worth bleeding for today. Every human culture burns its wick at both ends, hotter and faster than the slow centuries of the Neth or the mineral patience of the Groven, a brightness so total it can be felt across a room, and none of them, not one, has ever agreed that burning twice as bright is the same bargain as burning half as long. The wick is short. The flame is enormous. That is the whole of the human condition, and the reason every other sapient people watches them with something between admiration and dread. Other races find this exhausting to witness. The Neth, who do not age, who do not hurry, who negotiate the terms of their own existence with impartial cosmic entities, regard humans the way archivists regard fires: with professional respect and genuine alarm.
 
-Seven noble houses sealed the Dark Bargains that fractured this world's sky. Seven houses traded their children's futures, for warmth, for fog, for snow-veils, for navigable seas, for endless grass. Six of those houses marched their firstborn to the northern peaks as bloodline-offerings to Keth-Amar. One, House Viridane, refused and fled south through the Frostwood Reach into the moonlit fae groves beyond, and the other six struck their name from every legal record that could be found. House Morrath was later elevated to fill Viridane's empty seventh seat. The Briaran — Viridane's descendants — are remembered by the folk as the 'eighth house.' The descendants of the six who said yes carry that capitulation in their bones. Not all of them know the full terms. The fog has eaten those memories in Frostwood. The ash has buried them in Sundale. The sea has drowned them in Iceheart. But Keth-Amar's debt remains, collectible at any time, and the Sun-Eater has never forgotten a clause.`,
+Seven noble houses sealed the Dark Bargains that fractured this world's sky. Seven houses traded their children's futures, for warmth, for fog, for snow-veils, for navigable seas, for endless grass. Six of those houses marched their firstborn to the northern peaks as bloodline-offerings to Keth-Amar. One, House Viridane, refused and fled south through the Frostwood Reach into the moonlit fae groves beyond, and the other six struck their name from every legal record that could be found. House Morrath was later elevated to fill Viridane's empty seventh seat. The Briaran, Viridane's descendants, are remembered by the folk as the 'eighth house.' The descendants of the six who said yes carry that capitulation in their bones. Not all of them know the full terms. The fog has eaten those memories in Frostwood. The ash has buried them in Sundale. The sea has drowned them in Iceheart. But Keth-Amar's debt remains, collectible at any time, and the Sun-Eater has never forgotten a clause.`,
 
   icon: 'fas fa-user',
   overview: `Humans span more territory than any other sapient race on Mythrill. Every continent has human settlements, not because they conquered those continents, but because humans were already there when Sol was buried, and they refused to leave. The seven noble houses made their bargains region by region, and seven distinct peoples are still living with the consequences eight centuries later.
@@ -20,7 +20,14 @@ In Frostwood Reach, the Thalren keep journals chained to their belts because the
 
 In the Cragjaw Peaks, the Tessen have not left their snow-buried keeps in thirty generations and have developed elaborate internal politics to match their elaborate isolation. They depend on Fexrick geothermal pipes for heat and have never seen their suppliers, a fact that would disturb them greatly if they thought about it, which they do not. In Sundale, the Solvarn worship the memory of the dying sun from forge-towns slowly being buried in volcanic ash, and they will not leave because leaving would mean admitting that their ancestors' sacrifice to Keth-Amar was meaningless. The Emberth forge-clans tend the Solbrand in the deep vaults below the same ashfields, and the Solvarn regard the Emberth with the complicated tenderness of people who share a grave.
 
-On the Iceheart Sea, the Merryn tattoo their contracts onto their skin and measure wealth in ships. Their relationship with the Myrathil, the deep-water people of the same sea, is one of ancient, armed coexistence: the Merryn sail the surface storms, the Myrathil control what moves beneath, and neither acknowledges the other's sovereignty over what neither can fully claim. In the Sundrift Vale, the Ordan follow the endless woolly herds across the starless steppe, navigating by throat-sung ancestor-maps and regarding all settled peoples, the Astril crystal-bearers who share the steppe, the Neth traders who occasionally cross it, as fundamentally unserious about survival. In the Bryngloom Forest, the Morren live in contracted debt to the Neth. Every swamp-village owes something. Every family has a contract they cannot repay. The Neth's protection is the only thing standing between the Morren and the Vreken's ancestral territories, and the Vreken regard the Morren's presence in the bog with the cold patience of people who remember exactly when the Morren arrived and exactly what they owe.`,
+On the Iceheart Sea, the Merryn tattoo their contracts onto their skin and measure wealth in ships. Their relationship with the Myrathil, the deep-water people of the same sea, is one of ancient, armed coexistence: the Merryn sail the surface storms, the Myrathil control what moves beneath, and neither acknowledges the other's sovereignty over what neither can fully claim. In the Sundrift Vale, the Ordan follow the endless woolly herds across the starless steppe, navigating by throat-sung ancestor-maps and regarding all settled peoples, the Astril crystal-bearers who share the steppe, the Neth traders who occasionally cross it, as fundamentally unserious about survival. In the Bryngloom Forest, the Morren live in contracted debt to the Neth. Every swamp-village owes something. Every family has a contract they cannot repay. The Neth's protection is the only thing standing between the Morren and the Vreken's ancestral territories, and the Vreken regard the Morren's presence in the bog with the cold patience of people who remember exactly when the Morren arrived and exactly what they owe.
+
+What unites the seven is never spoken, because none of them would agree on the words. It is felt, not stated, in the velocity of a Thalren's pen, the ferocity of a Skald's cold-test, the sealed stone of a Tessen keep, the heat of a Solvarn vigil, the ink sunk into a Merryn's skin, the unceasing pace of an Ordan herd, the precision of a Morren's recited debt. Every human culture carries the same unnamed engine: the knowledge, cellular and inarguable, that the wick is short, and the only answer that has ever made sense to any of them is to burn so fiercely that the shortness becomes the point. They do not say this. They do not need to. It is legible in everything they build, which is always too much, too fast, and never enough.`,
+    quickFacts: [
+        'The shortest-lived and most prolifically dangerous sapient species on Mythrill, sixty good years, no claws, no fangs, no centuries to master a craft. Seven regional cultures spanning every continent, each shaped by the dark bargain their noble ancestors made with Keth-Amar eight centuries ago.',
+        'What unites all humans is the same unnamed engine: the cellular certainty that the wick is short and the only answer is to burn so fiercely the shortness becomes the point. They are everywhere, they never stop moving, and they refuse, specifically and loudly, to accept that the sun\'s death is the end of their story.',
+        'Play a Human to be the desperate, brilliant, short-fused variable in a world of ancient powers. You are fragile and you know it, which makes you dangerous. Choose your region: fog-choked archivist, glacier-hardened warrior, ashfield martyr, storm-chasing sailor, or debt-bound bog-dweller.'
+    ],
 
   culturalBackground: `Human civilization is not a single civilization. It is seven distinct cultures, each forged by the dark bargain their noble ancestors made with Keth-Amar, each adapted to a different corner of a dying world through centuries of refusal to be erased.
 
@@ -34,15 +41,15 @@ The Solvarn of Sundale are martyrs in the truest, most exhausting sense. House S
 
 The Merryn of the Iceheart Sea are the most demonstrably pragmatic human culture: storm-chasers, luck-worshippers, and contract-keepers by necessity, since a tattooed oath on a Merryn sailor's forearm is the only binding document that the Drift-Council of Merrowport will enforce without question. The Merryn share the Iceheart Sea with the Myrathil, the deep-water people who have inhabited the ocean's abyss since before any human ship floated there. The arrangement is old and unwritten and enforced entirely by mutual necessity: the Merryn do not dive, the Myrathil do not surface, and in the waters between, things that belong to neither of them occasionally wash ashore.
 
-The Ordan of the Sundrift Vale are a people who solved the problem of a starless sky by memorizing the ground. Their throat-sung ancestor-maps, a form of simultaneous polyphonic navigation encoded in oral tradition, are the most accurate cartographic system on Mythrill for the specific terrain of the Vale. The Ordan share the steppe with the Astril, the crystal-skinned people whose bodies carry the imprisoned constellation-spirits of Sol's celestial court. The Ordan regard the Astril's luminous burden with the sympathetic detachment of nomads who understand that what you carry either strengthens you or breaks you, and either outcome is information worth having. The Astril regard the Ordan's relentless movement as the most sensible response to a world without anchors.
+The Ordan of the Sundrift Vale are a people who solved the problem of a starless sky by memorizing the ground. Their throat-sung ancestor-maps, a form of simultaneous polyphonic navigation encoded in oral tradition, are the most accurate cartographic system on Mythrill for the specific terrain of the Vale. The Ordan share the steppe with the Astril, the alien-descended people whose crystalline markings echo the lost biosphere of their devoured world Lumia. The Ordan regard the Astril's luminous burden with the sympathetic detachment of nomads who understand that what you carry either strengthens you or breaks you, and either outcome is information worth having. The Astril regard the Ordan's relentless movement as the most sensible response to a world without anchors.
 
 The Morren of the Bryngloom Forest are debtors, not by character, but by the specific legal architecture of their ancestors' survival. When the first freeze crept through the Bryngloom and the Morren's ancestors had no bargain of their own to offer Keth-Amar, they borrowed their survival from the Neth at interest. The terms were generous by the standards of desperation and crushing by the standards of everything else. Every Morren family carries a contract. Most families carry several. House Morrath, the Morren's own noble house, administers those contracts on behalf of the Neth, which makes House Morrath simultaneously the most powerful Morren institution and the most despised. The Morren know exactly what House Morrath is. House Morrath knows exactly what the Morren think of them. The contracts bind both parties to continue the arrangement until the debt is repaid, and the debt accrues interest at a rate the Neth consider fair and the Morren consider designed to never be satisfied.
 
-Morren children learn the terms of their family's contract before they learn to read them, the contracts are recited at mealtimes, memorized by rhythm before their meaning becomes clear. A Morren who cannot recite their family's obligations by age six is considered dangerously underprepared. The Neth do not enforce this expectation directly. They do not need to. The Morren enforce it themselves, because a Morren who is surprised by their contract's terms is a Morren who might accidentally breach it, and breach carries consequences that range from financial penalty to Keeper's Sanction, which the Neth describe as "resolution of the outstanding claim" and which the Morren have learned never to ask for clarification on.
+Morren children learn the terms of their family's contract before they learn to read them, the contracts are recited at mealtimes, memorized by rhythm before their meaning becomes clear. A Morren who cannot recite their family's obligations by age six is considered dangerously underprepared. The Neth do not enforce this expectation directly. They do not need to. The Morren enforce it themselves, because a Morren who is surprised by their contract's terms is a Morren who might accidentally breach it, and breach carries consequences that range from financial penalty to Morvane's Sanction, which the Neth describe as "resolution of the outstanding claim" and which the Morren have learned never to ask for clarification on.
 
 Through all of this, human merchant networks span the continents, not because the seven cultures trust each other, but because they require each other. The Thalren need Nordhalla iron. The Solvarn need Iceheart timber. The Tessen need Sundrift herd-hides and Fexrick heat. Survival is more persuasive than pride, and humans are everywhere and they never stop moving. They are the connective tissue of Mythrill's economy, because everyone else either cannot leave their territory or will not.
 
-  Viridane was the seventh house called to the Dark Bargains, but it refused, fled south through the Frostwood Reach into the moonlit fae groves beyond, and was erased. House Morrath was later elevated to fill the empty seventh seat. The Briaran — Viridane's descendants — are remembered by the folk as the 'eighth house,' the wound in human history. The family that refused the dark bargain, fled south through the Frostwood Reach into the moonlit fae groves beyond, and had their name struck from every record the other six houses could access. Their descendants are the Briaran, and every human culture has a different relationship with this knowledge. The Thalren have forgotten, the fog took that memory before anyone thought to write it down. The Skald know and consider it desertion. The Solvarn know and cannot decide whether to envy or condemn. The Tessen have never heard the name. The Merryn don't care, specifically and principally. The Ordan sing ballads about the family that walked away, presented always as neither heroic nor cowardly but simply real, the one time someone said no and the world didn't end for them. The Morren know the full truth because the Neth told them, in the fine print of a contract amendment filed in the year of the second ashfall: House Viridane refused. The rest did not. The world is dying because of what the rest agreed to. The Morren are the only humans who know this clearly, and the knowledge has made them permanently, quietly furious.`,
+  Viridane was the seventh house called to the Dark Bargains, but it refused, fled south through the Frostwood Reach into the moonlit fae groves beyond, and was erased. House Morrath was later elevated to fill the empty seventh seat. The Briaran, Viridane's descendants, are remembered by the folk as the 'eighth house,' the wound in human history. The family that refused the dark bargain, fled south through the Frostwood Reach into the moonlit fae groves beyond, and had their name struck from every record the other six houses could access. Their descendants are the Briaran, and every human culture has a different relationship with this knowledge. The Thalren have forgotten, the fog took that memory before anyone thought to write it down. The Skald know and consider it desertion. The Solvarn know and cannot decide whether to envy or condemn. The Tessen have never heard the name. The Merryn don't care, specifically and principally. The Ordan sing ballads about the family that walked away, presented always as neither heroic nor cowardly but simply real, the one time someone said no and the world didn't end for them. The Morren know the full truth because the Neth told them, in the fine print of a contract amendment filed in the year of the second ashfall: House Viridane refused. The rest did not. The world is dying because of what the rest agreed to. The Morren are the only humans who know this clearly, and the knowledge has made them permanently, quietly furious.`,
 
   variantDiversity: `Humanity is divided into seven regional bloodlines, each shaped by the dark bargain their noble ancestors made and the continent they have spent centuries refusing to abandon. The Thalren of Frostwood Reach, the Skald of Nordhalla, the Tessen of the Cragjaw Peaks, the Solvarn of Sundale, the Merryn of the Iceheart Sea, the Ordan of the Sundrift Vale, and the Morren of the Bryngloom Forest, seven peoples, one species, bound by shared fragility and the shared refusal to accept extinction.`,
 
@@ -61,7 +68,7 @@ Merryn produce Gambit reflexively, the tradition was practically invented by the
 
 Ordan produce Apex as a cultural baseline, the steppe requires predator-knowledge before anything else, and the Ordan have honed it for generations. Animists are the Ordan's spiritual tradition distilled to its core: instinct bonded with ancestral spirit-channeling. The False Prophet's manufactured faith finds fertile ground among those who have watched the migration thin the herd year after year and begun manufacturing sacred meaning from the silence.
 
-Morren produce Toxicologists because the Bryngloom's pharmacological resources are extraordinary and the Morren have centuries of incentive to understand what the bog produces. Revenants arise naturally in a community that lives adjacent to the Vreken's ancestral-spirit culture, and among those who have renegotiated so many Neth contracts that they accidentally replicate the Keeper's partial death. Inquisitors are produced by those who eventually decide to stop being afraid of their Neth contracts and start dismantling them. Animists emerge from those who channel the Bryngloom's own fungal spirit-traditions. Plaguebringers arise from Morren who have learned to cultivate the hush itself as a weapon.`
+Morren produce Toxicologists because the Bryngloom's pharmacological resources are extraordinary and the Morren have centuries of incentive to understand what the bog produces. Revenants arise naturally in a community that lives adjacent to the Vreken's ancestral-spirit culture, and among those who have renegotiated so many Neth contracts that they accidentally replicate Morvane's partial death. Inquisitors are produced by those who eventually decide to stop being afraid of their Neth contracts and start dismantling them. Animists emerge from those who channel the Bryngloom's own fungal spirit-traditions. Plaguebringers arise from Morren who have learned to cultivate the hush itself as a weapon.`
   },
 
   meaningfulTradeoffs: 'All Humans share Mortal Frailty (-10% base HP) and The Short Straw (+25% damage from necrotic/aging/time effects). Their only universal strength is Desperate Will (+2 Spirit, advantage vs Fear/Charm/Domination). Every Human subrace trades raw survivability for asymmetric niche power shaped by their region\'s dark bargain.',
@@ -82,9 +89,9 @@ Before Sol was buried, humanity was already distributed across every continent o
 
 When Sol entered its Deepening, the vulnerable stellar trance that the cosmic predator Keth-Amar had tracked across a thousand years, the seven noble houses made the decision that shaped everything that followed. They bound Sol beneath Sundale. The entombment required the willing sacrifice of Aex, Sol's firstborn, a being of pure stellar radiance flayed alive to weave the binding seal. The seven houses contributed bloodline-keys, encoded in their firstborn children's veins, to seal the vault. What the official histories record as "the Great Binding" was, according to the fragments that survived the subsequent purge, considerably more desperate. Sol did not go willingly into the vault. The volcano shook for eleven days after the sealing.
 
-Keth-Amar did not leave. For eight years after the Binding, the star-predator whispered into the houses' kitchens, nurseries, and night-watches. Not with rage — with precision. It learned what each region feared most and distilled that fear into a voice that sounded like reason. The world grew colder by degrees as Sol's warmth failed to reach the surface. The six noble families who remained after House Viridane's defection were starving and fracturing under the political pressure of a population blaming them for the freeze. When Keth-Amar finally approached, not with fire, not with violence, but with a whispered promise of warmth, six of the seven houses capitulated. They marched their firstborn heirs to the northern peaks at Keth-Amar's direction. The predator consumed them as vessels: each heir carried a bloodline-key, and Keth-Amar used those keys from inside to crack the vault's seal from within. Emberspire erupted. The Wyrd flooded through the fracture. The binding seal shattered into seven Sundered Monoliths that scattered across the continent.
+Keth-Amar did not leave. For eight years after the Binding, the star-predator whispered into the houses' kitchens, nurseries, and night-watches. Not with rage, with precision. It learned what each region feared most and distilled that fear into a voice that sounded like reason. The world grew colder by degrees as Sol's warmth failed to reach the surface. The six noble families who remained after House Viridane's defection were starving and fracturing under the political pressure of a population blaming them for the freeze. When Keth-Amar finally approached, not with fire, not with violence, but with a whispered promise of warmth, six of the seven houses capitulated. They marched their firstborn heirs to the northern peaks at Keth-Amar's direction. The predator consumed them as vessels: each heir carried a bloodline-key, and Keth-Amar used those keys from inside to crack the vault's seal from within. Emberspire erupted. The Wyrd flooded through the fracture. The binding seal shattered into seven Sundered Monoliths that scattered across the continent.
 
-House Viridane, the seventh house, the one that had refused to participate in the original entombment, watched from the Frostwood Reach as the six houses committed their children to the peaks. House Viridane did not go. They fled south through the Frostwood Reach into the moonlit fae groves beyond, and struck a counter-bargain with entities older than Keth-Amar's contract system. Their descendants are the Briaran. The six houses that marched their children north spent the following three centuries erasing every surviving reference to House Viridane's existence. They were reasonably thorough. The Thalren lost the name to the fog. The Skald purged it from their stone-carved genealogies. The Solvarn buried it under three layers of religious reinterpretation. Only the Neth preserved the full account, because the Neth preserve everything, and the Keeper's archive does not accept deletions.
+House Viridane, the seventh house, the one that had refused to participate in the original entombment, watched from the Frostwood Reach as the six houses committed their children to the peaks. House Viridane did not go. They fled south through the Frostwood Reach into the moonlit fae groves beyond, and struck a counter-bargain with entities older than Keth-Amar's contract system. Their descendants are the Briaran. The six houses that marched their children north spent the following three centuries erasing every surviving reference to House Viridane's existence. They were reasonably thorough. The Thalren lost the name to the fog. The Skald purged it from their stone-carved genealogies. The Solvarn buried it under three layers of religious reinterpretation. Only the Neth preserved the full account, because the Neth preserve everything, and Morvane's archive does not accept deletions.
 
 The dark bargains were struck region by region in the immediate aftermath of The Breach, each house trading something intangible for something survival-critical. The seven houses that set their seals to the original Binding were Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Viridane. Six of those seven marched their heirs to the peaks; Viridane refused, fled, and was erased from the record. House Morrath was elevated afterward to fill the empty seventh seat. Of the six survivor-houses, their bargains were made as follows: House Thalreth traded spatial clarity for insulating fog. House Skalvyr traded summer for halted glaciers. House Solvan traded their remaining heirs' futures for the volcanic warmth of Emberspire. House Mereval traded peaceful seas for navigable storm-lanes. House Tesshan traded visibility for a protective blizzard that hid their keeps from the starving populations below. House Ordavan traded fertile soil for grass that always returned. House Morrath, the Morren house, had nothing left to trade that Keth-Amar would accept and was elevated only to fill Viridane's erased seat; the Morren borrowed their survival from the Neth instead, at interest.
 
@@ -230,7 +237,7 @@ Morren children receive an education in contract-law before they receive an educ
       tooltipSummary: 'Fog-choked scholars of Frostwood Reach who chain journals to their belts, frantically recording every memory before the mist erases it.',
       description: `*Mist-damp scholars in heavy leather coats, currently split between the documented citizens of Greymark and the erased outcasts of the palisades.*
 
-The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping, the first skill a Thalren child learns, before speech, before walking. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster. House Thalreth struck the Fog Compact in the early generations of the Deepening. Their culture of journal-keeping and ledger-dependence is a direct response to eight centuries of memory-eating fog.`,
+The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping, the first skill a Thalren child learns, before speech, before walking, because a Thalren who has not written themselves down does not, in any sense that matters, exist. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster, and a life that rots with it was, by the only measure the Thalren recognize, a life that never happened. To be Thalren is to understand that existence is a document, and that the unrecorded life, the unwitnessed name, the day no pen touched, is simply not worth living. House Thalreth struck the Fog Compact in the early generations of the Deepening. Their culture of journal-keeping and ledger-dependence is a direct response to eight centuries of memory-eating fog.`,
       culturalBackground: 'Thalren culture is an arms race against oblivion, recently weaponized by Jarl-Archivist Kaelen Thalreth’s Sovereign Ledger. Because the protective fog degrades memory over generations, Kaelen has decreed that only those with registered lineages in Greymark’s tapestries hold legal rights, splitting the populace into the documented Ledgered and the unrecorded, outlawed Forgotten. The Scribe-Cartel maintains a stranglehold on life-preserving Soot-Resin Ink and Peat-Parchment, leaving the Forgotten to barter for black-market ink in Greymark\'s Shallows. Meanwhile, children showing magical spark are taken by force to the keep’s Tapestry-Wards, where their ancestral animism is systematically erased in favor of structured runic logic, and the Ironwood Palisade is patrolled by heavy Wardens to enforce Kaelen\'s taxes and shut out the undocumented.',
       statModifiers: { intelligence: 2, spirit: 1, constitution: -1 },
       languages: ['Common'],
@@ -271,7 +278,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
         {
           id: 'written_word_thalren',
           name: 'The Written Word',
-          description: 'Advantage on checks to detect forgery, decipher codes, and identify altered documents. After spending 10 minutes writing a detailed account of any event witnessed in the last 24 hours, that account is treated as a reliable record. The fog takes memory, but ink resists — you have read what others wrote your whole life, and you know when the hand is wrong.',
+          description: 'Advantage on checks to detect forgery, decipher codes, and identify altered documents. After spending 10 minutes writing a detailed account of any event witnessed in the last 24 hours, that account is treated as a reliable record. The fog takes memory, but ink resists; you have read what others wrote your whole life, and you know when the hand is wrong.',
           level: 1,
           icon: 'spell_arcane_manashield',
           spellType: 'PASSIVE',
@@ -281,6 +288,20 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'fog_step_thalren',
+          name: 'Fog-Step',
+          description: 'Once per short rest, when you are in fog, mist, smoke, or dim light, you can use your reaction to become invisible until the end of your next turn or until you make an attack or cast a spell. The memory-eating fog that threatens your mind also conceals your body, and you have learned to fold yourself into its embrace the way the mist folds around Greymark\'s walls.',
+          level: 1,
+          icon: 'spell_arcane_blink',
+          spellType: 'REACTION',
+          effectTypes: ['buff'],
+          typeConfig: { category: 'racial', school: 'wyrd' },
+          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'fog_concealment', name: 'Fog Concealment', description: 'Reaction in fog/mist/smoke/dim light: become invisible until end of next turn, or until you attack or cast.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
       ]
     },
@@ -292,7 +313,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
       tooltipSummary: 'Cold-forged bards of Nordhalla whose throat-songs carry glacier rage and bloodline pride, freezing enemies with ancestral fury.',
       description: `*Wind-burned endurance-purists in mammoth-furs, currently divided between those who swore fealty to the iron crown and the nomads who refuse to bend.*
 
-The frozen tundra of Nordhalla forges the Skald body into a weapon. Broad-shouldered, cold-hardened, with the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure, Skald children are tested against the cold from infancy. Their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of people who know that wasted motion costs body-heat, and body-heat is life. House Skalvyr struck the Glacier Bargain in the early generations of the Deepening. The Hunger Winter, when ancestors consumed their dead, seeded the Hunger Pact in Skald blood.
+The frozen tundra of Nordhalla forges the Skald body into a weapon. Broad-shouldered, cold-hardened, with the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure, Skald children are tested against the cold from infancy, and the test is not metaphor: an infant is held to the fjord wind, and what the cold does not break, the Skald believe, it has made, the doctrine applied literally, before the child can speak or refuse it. Their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of people who know that wasted motion costs body-heat, and body-heat is life. Among the Skald, suffering is not endured on the way to strength; it is the forge that hammers strength into being, and the only true failure is to survive a cold that leaves you unchanged. House Skalvyr struck the Glacier Bargain in the early generations of the Deepening. The Hunger Winter, when ancestors consumed their dead, seeded the Hunger Pact in Skald blood.
 
 Beneath the ice, the Skald carry a darker legacy. The elders speak in whispers of the Hunger Winter, a three-year blizzard in the deep past when their ancestors, cornered and starving, consumed their dead to survive. No Skald admits to this history openly. No Skald claims descent from those who ate. But the story persists, passed from grandmother to granddaughter, a shameful secret that explains why the cold has never left Skald blood, not entirely, not ever. Some Skald lineages are still called "frost-touched" (historically known as the Hrym): their skin runs colder, their breath mists even in summer heat, and they claim to hear the ice whisper. The warm-blooded Skald clans of the ruling fjord-keeps regard these frost-touched bloodlines with a complicated mixture of reverence and disgust, they carry the oldest memories of House Skalvyr, but they also carry the proof of what survival cost.
 
@@ -312,7 +333,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           name: 'Cold Endurance',
           description: 'Resistance to rime damage and automatic success on saving throws against environmental cold; you survive indefinitely in freezing temperatures without shelter. Disadvantage on saving throws against heat effects and +25% ember damage taken in environments above freezing. Your blood has learned the cold, and never learned what warmth means.',
           level: 1,
-          icon: 'spell_nature_frostarmor',
+          icon: 'spell_frost_frostward',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'rime' },
@@ -327,7 +348,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           name: 'Glacier Rage',
           description: 'When you take rime damage or are struck below 50% HP in a freezing environment, you may use your reaction to enter Glacial Focus for 1 minute: +1 to attack rolls and immunity to the first level of exhaustion. You cannot use Charisma-based skills while active, and gain 1 level of exhaustion when the state ends. The cold does not numb you; it focuses you, until your body remembers it is mortal.',
           level: 1,
-          icon: 'spell_nature_frostarmor',
+          icon: 'spell_frost_frostward',
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'rime' },
@@ -340,7 +361,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
         {
           id: 'bloodline_pride_skald',
           name: 'Bloodline Pride',
-          description: 'When you succeed on a Constitution-based saving throw or ability check, allies within 30 feet who can see you gain advantage on their next saving throw against fear. You have disadvantage on Deception checks. Your ancestry is armor, and a Skald does not lie — they do not need to.',
+          description: 'When you succeed on a Constitution-based saving throw or ability check, allies within 30 feet who can see you gain advantage on their next saving throw against fear. You have disadvantage on Deception checks. Your ancestry is unbreakable, and a Skald does not lie; they do not need to.',
           level: 1,
           icon: 'spell_holy_auramastery',
           spellType: 'PASSIVE',
@@ -351,6 +372,23 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'frost_knuckle_skald',
+          name: 'Frost-Knuckle Strike',
+          description: 'Once per short rest, your next unarmed or melee strike deals +1d6 rime damage and the target is slowed by 10 feet for 1 round. The cold lives in Skald bones, and every strike carries the glacier\'s memory, a chill passed down through the blood of those who survived the Hunger Winter and never fully thawed.',
+          level: 1,
+          icon: 'ability_warrior_rampage',
+          spellType: 'ACTION',
+          actionPoints: 1,
+          components: ['somatic'],
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: { category: 'racial', school: 'rime' },
+          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'frost_knuckle', name: 'Frost-Knuckle', description: 'Next unarmed or melee strike deals +1d6 rime damage.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'glacier_slow', name: 'Glacier-Slow', description: 'Target is slowed by 10 feet for 1 round.', statusEffect: { level: 'minor', statusType: 'slow', magnitude: 10 } }], targetRestriction: 'enemy' },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
       ]
     },
@@ -362,7 +400,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
       tooltipSummary: 'Debt-bound shadow-courtiers who trade in secrets and silence, their sealed lips carrying favors worth more than gold.',
       description: `*Pale, keep-dwelling survivalists wearing heavy woolens and carrying knotted knotted cord-cords, managing geothermal vents while avoiding mountain spirits.*
 
-The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who spend their lives in vertical, stone-tunneled keeps. Tessen skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of triggering avalanches have made loud voices a social violation. They record their lives not in ink (which freezes) but in knotted cord-cords, carrying themselves with a quiet caution. House Tesshan's Blizzard-Veil bargain, in the early generations of the Dimming, traded visibility for concealment. The Tessen have not left their snow-buried keeps in thirty generations.`,
+The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who spend their lives in vertical, stone-tunneled keeps. Tessen skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of triggering avalanches have made loud voices a social violation. They record their lives not in ink (which freezes) but in knotted cord-cords, carrying themselves with a quiet caution. House Tesshan's Blizzard-Veil bargain, in the early generations of the Dimming, traded visibility for concealment. The Tessen have not left their snow-buried keeps in thirty generations, and in that time isolation has stopped being a condition and become an identity. Where other peoples reach outward, the Tessen have turned the stone wall into a virtue and the sealed door into a creed. They would say, if they ever spoke to outsiders long enough to say it, that no man is an island; the Tessen know better, because they are one, and have been for four hundred years, and they have made of their solitude a country no caravan can cross.`,
       culturalBackground: 'Tessen culture is a vertical pressure-cooker governed by Jarl-Tesshan Oda Tesshan and the Steam-Cartel. The keeps are carved into the cliffs and connected by calcified bone-bridges grown from the dead (the Groven). Society is split between the high-born Terraced, who control the geothermal agricultural andenes, and the impoverished Chasm-Dwellers who perform the mandatory corvée labor to maintain the pipes. The state enforces ancestor veneration of the Groven, brutally persecuting the traditional "Rock-Speakers" who commune with mountain rock-spirits. This has angered the local Wyrd, causing hostile Wyrd-kin like the Rime-Brides and Storm-Crows to stalk the rope-bridges.',
       statModifiers: { spirit: 2, constitution: 1, charisma: -1 },
       baseStats: { hp: 26, mana: 5, ap: 3, initiative: -1 },
@@ -401,7 +439,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           id: 'sealed_silence_tessen',
           name: 'Sealed Silence',
-          description: 'Advantage on Stealth checks made to avoid detection by sound, and you can whisper across a room to a specific person while remaining inaudible to others. Disadvantage on Intimidation checks made through volume. Centuries of close-quarters living made silence a survival skill, and shouting is what surface-dwellers do — beneath you.',
+          description: 'Advantage on Stealth checks made to avoid detection by sound, and you can whisper across a room to a specific person while remaining inaudible to others. Disadvantage on Intimidation checks made through volume. Centuries of close-quarters living made silence a survival skill, and shouting is what surface-dwellers do, beneath you.',
           level: 1,
           icon: 'spell_shadow_antimagicshell',
           spellType: 'PASSIVE',
@@ -410,6 +448,20 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'keep_silence', name: 'Keep-Silence', description: 'Advantage on Stealth vs sound detection. Whisper across a room to one person.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'no_shout', name: 'No Shout', description: 'Disadvantage on Intimidation through volume. You do not shout.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['intimidation'], conditions: ['volume_based'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'geothermal_sense_tessen',
+          name: 'Geothermal Sense',
+          description: 'You can sense heat sources through stone walls within 30 feet. Advantage on Perception checks to detect creatures, traps, or structural features behind solid stone. The geothermal pipes are the Tessen\'s lifeblood, and you feel their warmth through the keep\'s bones, a sixth sense no surface-dweller possesses and no amount of isolation could breed out.',
+          level: 1,
+          icon: 'spell_fire_incinerate',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff'],
+          typeConfig: { category: 'racial', school: 'ember' },
+          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'heat_through_stone', name: 'Heat Through Stone', description: 'Sense heat sources through stone walls within 30ft. Advantage on Perception to detect creatures, traps, or features behind solid stone.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
         }
@@ -423,7 +475,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
       tooltipSummary: 'Sun-reverent warriors who draw strength from the dying star-ember, swearing vigil oaths to hold back the endless dark.',
       description: `*Ash-stained martyrs kneeling on obsidian sands to offer blood to a sun that died eight centuries ago, currently split between the wealthy Deep-Born and the conscripted Ash-Dwellers.*
 
-The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darkened by volcanic particulate, a permanent grey-brown stain that no amount of washing removes. Their lungs are adapted to thin, ash-heavy air. Their eyes are narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Sun-emblems are worn on every garment. The vigil is never broken. House Solvan wielded the knife that flayed Aex during the Binding, in the earliest generations of the Deepening. The Solvarn have lived in Emberspire's shadow, tending the tomb they helped build, for eight centuries.`,
+The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darkened by volcanic particulate, a permanent grey-brown stain that no amount of washing removes. Their lungs are adapted to thin, ash-heavy air. Their eyes are narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Sun-emblems are worn on every garment. The vigil is never broken, because the vigil is not a duty the Solvarn perform, it is the thing they are, existence defined as devotion to a light no living Solvarn has ever seen. The sun they worship has been buried for eight centuries, and they pray to it anyway, because to the Solvarn faith is not the hope that the thing will return but the evidence, legible in the act of kneeling, that the thing was real. House Solvan wielded the knife that flayed Aex during the Binding, in the earliest generations of the Deepening. The Solvarn have lived in Emberspire's shadow, tending the tomb they helped build, for eight centuries, and they will tend it for eight more, because a vigil is not proven by the dawn; it is proven by the watch.`,
       culturalBackground: 'Solvarn culture is a death-cult turned martial-theocracy under Hierophant Aethelgard and the Dawn Vigil. They worship the memory of the sun, Sol, enforcing the vigil under penalty of heresy. The region is fractured by class conflict: the wealthy Deep-Born live in climate-controlled luxury within the Harath-Vault, while the Ash-Dwellers live in toxic surface shanties, conscripted into the Caldera Labor-Levies to mine sulfur and clear magma-lines. The Dawn Vigil defends this exploitation as sacred service for the "Reforging," using the Obsidian Escarpment fortresses to prevent refugees from fleeing to cleaner lands.',
       statModifiers: { spirit: 2, constitution: 1, agility: -1 },
       baseStats: { hp: 24, mana: 7, ap: 3, initiative: 0 },
@@ -447,7 +499,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
         {
           id: 'vigil_oath_solvarn',
           name: 'Vigil Oath',
-          description: 'Once per long rest, when you would be reduced to 0 HP, you instead remain at 1 HP, gaining 1 level of exhaustion immediately. You are not harder to kill — you simply refuse to die before the vigil is complete, and the refusal is heavy.',
+          description: 'Once per long rest, when you would be reduced to 0 HP, you instead remain at 1 HP, gaining 1 level of exhaustion immediately. You are not harder to kill; you simply refuse to die before the vigil is complete, and the refusal is heavy.',
           level: 1,
           icon: 'spell_holy_renew',
           spellType: 'PASSIVE',
@@ -473,6 +525,22 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'ember_brand_solvarn',
+          name: 'Ember-Brand',
+          description: 'Once per short rest, brandish a piece of sacred forge-ember: all enemies within 10 feet must make a Spirit saving throw (DC 12) or be feared for 1 round. The Solvarn wield the memory of Sol\'s fire as a weapon against those who would extinguish it, and the brand carries the weight of eight centuries of vigil.',
+          level: 1,
+          icon: 'spell_holy_innerfire',
+          spellType: 'ACTION',
+          actionPoints: 1,
+          components: ['somatic'],
+          effectTypes: ['debuff'],
+          typeConfig: { category: 'racial', school: 'ember' },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'forge_fear', name: 'Forge-Fear', description: 'Enemies within 10ft must pass a Spirit save (DC 12) or be feared for 1 round.', statusEffect: { level: 'moderate', statusType: 'fear', saveType: 'spirit', saveDC: 12 } }], targetRestriction: 'enemy' },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 10 },
+          resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
       ]
     },
@@ -484,7 +552,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
       tooltipSummary: 'Salt-scarred sailors whose storm-luck and tattoo-contracts bind them to the sea\'s capricious mercy.',
       description: `*Tattoo-covered mariners whose skin is cross-hatched with ink-contracts, split between the wealthy Deck-Born and the pressed Bilge-Dwellers.*
 
-The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas, every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn's body is a legal document. Their hands are callused from rope and salt. They walk with the rolling gait of people who spent their lives on pitching decks, and they distrust anyone who cannot swim. House Mereval's Sea-Charter, in the early generations of the Dimming, traded calm seas for navigable storm-lanes. The Merryn tattooing tradition, skin as legal document, evolved over seven centuries of storm trade.`,
+The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas, every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn's body is a legal document, and a Merryn's self is the sum of the obligations written there: to be Merryn is not to carry a name or a bloodline first, but to carry the contracts you have kept and the ones you have yet to honor, and a contract made is a contract kept, full stop, inked into the skin so the sea cannot wash it away and the holder cannot pretend to forget. Their hands are callused from rope and salt. They walk with the rolling gait of people who spent their lives on pitching decks, and they distrust anyone who cannot swim, and they distrust, more deeply still, anyone who speaks of a promise as if a promise were a flexible thing. House Mereval's Sea-Charter, in the early generations of the Dimming, traded calm seas for navigable storm-lanes. The Merryn tattooing tradition, skin as legal document, evolved over seven centuries of storm trade.`,
       culturalBackground: 'Merryn culture is a floating hierarchy governed by the Mereval Board of Trade and Grand Admiral Varis. While captains traditionally voted on the Drift-Council at Merrowport, the rise of the Brine-Bond Syndicate has split the populace: wealthy Deck-Born officers control the trade ships, while pressed Bilge-Dwellers crew the heavy coal-clads under legal Press-Warrants. Traditional "Tide-Speak" animism has been outlawed under the state-enforced Luck-Ledger, forcing mariners to purchase temple luck-coins to protect against Rime-Bride-like storm wraiths. Meanwhile, steam-trawling engines pollute the unfreezing currents, driving the amphibious Deep-Born Myrathil to madness.',
       statModifiers: { agility: 2, charisma: 1, spirit: -1 },
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 2 },
@@ -493,7 +561,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           id: 'sea_legs_merryn',
           name: 'Sea-Legs',
-          description: 'Swim speed equals your walking speed; advantage on checks to climb rigging, balance on unstable surfaces, and keep footing during storms; immunity to seasickness. Disadvantage on Stealth and Acrobatics on solid, unmoving ground. Born on the water, you will likely die on it — the land feels wrong under your feet, too still, too dead.',
+          description: 'Swim speed equals your walking speed; advantage on checks to climb rigging, balance on unstable surfaces, and keep footing during storms; immunity to seasickness. Disadvantage on Stealth and Acrobatics on solid, unmoving ground. Born on the water, you will likely die on it; the land feels wrong under your feet, too still, too dead.',
           level: 1,
           icon: 'spell_nature_wind',
           spellType: 'PASSIVE',
@@ -523,7 +591,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           id: 'storm_luck_merryn',
           name: 'Storm-Luck',
-          description: 'Once per long rest, when you fail a saving throw that would result in death or incapacitation, you may reroll it and must accept the new result. This is not skill — it is the luck that has kept your particular ship afloat through forty winters of the Iceheart\'s worst.',
+          description: 'Once per long rest, when you fail a saving throw that would result in death or incapacitation, you may reroll it and must accept the new result. This is not skill; it is the luck that has kept your particular ship afloat through forty winters of the Iceheart\'s worst.',
           level: 1,
           icon: 'spell_arcane_blink',
           spellType: 'PASSIVE',
@@ -533,6 +601,21 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
+        },
+        {
+          id: 'salt_cut_merryn',
+          name: 'Salt-Cut',
+          description: 'Once per short rest, when you hit with a melee attack, you can deal +1d4 physical damage and the target takes an additional 1d4 physical damage at the start of its next turn as salt-crusted wounds burn. The Merryn salt-cure everything, including their enemies, and the cure is worse than the cut.',
+          level: 1,
+          icon: 'ability_warrior_rampage',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: { category: 'racial', school: 'physical' },
+          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'salt_wound', name: 'Salt-Wound', description: 'On melee hit: deal +1d4 physical damage. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'salt_burn', name: 'Salt-Burn', description: 'Target takes 1d4 physical damage at the start of its next turn as salt-crusted wounds burn.', statusEffect: { level: 'minor', statusType: 'bleed', damageType: 'physical' } }], targetRestriction: 'enemy' },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
         }
       ]
     },
@@ -544,7 +627,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       tooltipSummary: 'Endless marchers of the Sundrift steppe whose throat-songs echo across the grass-sea, bearing mound-offerings to forgotten ancestors.',
       description: `*Lean, sheepskin-clad nomads throat-singing ancient maps of stars, carrying Steppe-Staves to trace migration routes under a starless sky.*
 
-The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runners. Lean, weathered, with the deep-set eyes of people who squint against a constant gale. Their skin is darkened by wind and sun, even the dim, starless sky of the Vale leaves its mark. Their hands are callused from reins and herd-tending. They carry bone Steppe-Staves to record their lineage and migration tallies. They are split between the Mounted (De Hestebårne) who own the swift horses, and the Unmounted (De Hesteløse) who carry the baggage on foot. House Ordavan's Iron-Yurt Law, in the early generations of the Deepening, traded fertile soil for endless migration. The Ordan have followed the grass-line, throat-singing star-maps, for nearly eight centuries.`,
+The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runners. Lean, weathered, with the deep-set eyes of people who squint against a constant gale. Their skin is darkened by wind and sun, even the dim, starless sky of the Vale leaves its mark. Their hands are callused from reins and herd-tending. They carry bone Steppe-Staves to record their lineage and migration tallies. They raise their children the way they follow the herd, honestly: the steppe does not adjust its pace for the walker who cannot keep it, and the Ordan do not pretend otherwise, not from cruelty but from the conviction that to tell a child the world will slow for them is the first and cruelest lie. They are split between the Mounted (De Hestebårne) who own the swift horses, and the Unmounted (De Hesteløse) who carry the baggage on foot. House Ordavan's Iron-Yurt Law, in the early generations of the Deepening, traded fertile soil for endless migration. The Ordan have followed the grass-line, throat-singing star-maps, for nearly eight centuries.`,
       culturalBackground: 'Ordan culture is governed by the Iron-Yurt Law of Khatun Bayarmaa Ordavan. Clans migrate seasonally between the Ancestor Mounds under the Ordan-Urtuu post-system, paying a heavy Herd-Tithe to the chancellery for grazing rights. Following the Purge of the Sky-Singers, traditional "Sky-Song" throat-singing to the lost stars has been outlawed, forcing clans to perform only Mound-Singing to the royal dead. They navigate by memory, avoiding the toxic sinkholes caused by geothermal Thermal Bores and checking their passes at the basalt Cairn-Checkpoints.',
       statModifiers: { agility: 2, spirit: 1, intelligence: -1 },
       languages: ['Common', 'Mound-Tongue'],
@@ -598,6 +681,20 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] }
+        },
+        {
+          id: 'herd_instinct_ordan',
+          name: 'Herd-Instinct',
+          description: 'When an ally within 10 feet is hit by an attack, you can use your reaction to move 5 feet toward them and grant them a +1 to their next saving throw. The herd protects its own, and the steppe taught you that survival is collective, no Ordan stands alone who remembers the migration.',
+          level: 1,
+          icon: 'ability_warrior_rampage',
+          spellType: 'REACTION',
+          effectTypes: ['buff'],
+          typeConfig: { category: 'racial', school: 'primal' },
+          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'herd_guard', name: 'Herd-Guard', description: 'Reaction when an ally within 10ft is hit: move 5ft toward them and grant +1 to their next saving throw.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 10 },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] }
         }
       ]
     },
@@ -609,7 +706,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
       tooltipSummary: 'Bog-treaders who signed their names into the mire itself, reading contract-sight in the swamp\'s living ink and surviving on debtors\' patience.',
       description: `*Sallow-skinned peat-cutters legally bound to Neth contract-houses to pay off ancient ancestral debts, split between Contracted citizens and Defaulted laborers.*
 
-The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchful people. Smaller and slighter than other humans, they carry the pale complexion of those who live under perpetual canopy-gloom. Their hands are thin and long-fingered, adapted for signing Neth contracts in precise, legally-binding script. Their eyes carry the particular anxiety of debtors who know that death is no escape, as the Postmortem Corvée can resurrect them as Debt-Revenants to work off unpaid balances. They move quietly through the bog-villages, navigating the Toll-Dikes and sagged boardwalks. The Morren were never a true noble house, they were a minor family elevated a century into the Deepening to replace the erased House Viridane. They borrowed their survival from the Neth at interest and have been debt-bound ever since.`,
+The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchful people. Smaller and slighter than other humans, they carry the pale complexion of those who live under perpetual canopy-gloom. Their hands are thin and long-fingered, adapted for signing Neth contracts in precise, legally-binding script. Their eyes carry the particular anxiety of debtors who know that death is no escape, as the Postmortem Corvée can resurrect them as Debt-Revenants to work off unpaid balances. They move quietly through the bog-villages, navigating the Toll-Dikes and sagged boardwalks. To be Morren is to be owned before you are born: the debtor is slave to the lender, and every Morren's first breath is drawn already in arrears, their identity not a name but a balance, a figure, a clause recited at mealtimes. The Morren were never a true noble house, they were a minor family elevated a century into the Deepening to replace the erased House Viridane. They borrowed their survival from the Neth at interest and have been debt-bound ever since, and the interest has so thoroughly become the shape of their lives that most Morren could not say where the self ends and the contract begins.`,
       culturalBackground: `Morren culture is governed by Regent Morrath Neth and the Great Registry. Society is split between the high-canopy Contracted who hold active credits, and the floor-dwelling Defaulted who work the peat-presses. Under the Scribe-Cartel monopoly, poor Morren are trapped in perpetual peonage, mortgaging their children's future lifelines for peat-oil. Following the Purging of the Swamp-Singers, traditional "Swamp-Song" animism has been outlawed, forcing all to practice only Registry-Rituals. They live under constant Neth surveillance, nursing a cold rage against their noble house for administering their bondage.`,
       statModifiers: { intelligence: 2, spirit: 1, strength: -1 },
       baseStats: { hp: 20, mana: 7, ap: 3, initiative: 0 },
@@ -632,7 +729,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
         {
           id: 'bog_adapted_morren',
           name: 'Bog-Adapted',
-          description: 'Your body has been shaped by the Bryngloom\'s潮湿 depths. You are immune to non-magical diseases carried by bog water and fungal spores, including spore-hush and bog-rot. You move at full speed through bog, marsh, and shallow water where others must struggle. Your skin carries the Bog-Strider\'s blessing: advantage on Stealth checks in swamp, marsh, and forest environments. However, your body craves moisture—disadvantage on all physical checks in dry, arid environments like the open steppe or desert, where your skin cracks and your lungs burn.',
+          description: 'Your body has been shaped by the Bryngloom\'s depths. You are immune to non-magical diseases carried by bog water and fungal spores, including spore-hush and bog-rot. You move at full speed through bog, marsh, and shallow water where others must struggle. Your skin carries the Bog-Strider\'s blessing: advantage on Stealth checks in swamp, marsh, and forest environments. However, your body craves moisture - disadvantage on all physical checks in dry, arid environments like the open steppe or desert, where your skin cracks and your lungs burn.',
           level: 1,
           icon: 'spell_nature_poisongas',
           spellType: 'PASSIVE',
@@ -657,6 +754,22 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
+        },
+        {
+          id: 'debt_collector_morren',
+          name: 'Debt-Collector',
+          description: 'Once per short rest, mark an enemy within 30 feet with a spiritual debt-marker (no save). The next time any ally damages that enemy, the enemy takes +1d4 wyrd damage and the mark fades. The Morren know debts, and this one comes due immediately, extracted by the same contract-law your ancestors learned from the Neth.',
+          level: 1,
+          icon: 'spell_shadow_deathanddecay',
+          spellType: 'ACTION',
+          actionPoints: 1,
+          components: ['somatic'],
+          effectTypes: ['debuff'],
+          typeConfig: { category: 'racial', school: 'wyrd' },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'debt_mark', name: 'Debt-Mark', description: 'Mark an enemy within 30ft (no save). Next time any ally damages them: +1d4 wyrd damage, then the mark fades.', statusEffect: { level: 'moderate', statusType: 'marked', damageType: 'wyrd' } }], targetRestriction: 'enemy' },
+          targetingConfig: { targetingType: 'enemy', rangeType: 'ranged', range: 30 },
+          cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+          resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }
         }
       ]
     }

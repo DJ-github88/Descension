@@ -1,8 +1,8 @@
-﻿export const HARBINGER_DATA = {
+export const HARBINGER_DATA = {
  restrictions: {
    "allowedSubraces": [
-     "sylen_astril",
-     "muren_astril",
+     "vashir_astril",
+     "silath_astril",
      "solvarn_human",
      "tessen_human"
    ],
@@ -15,7 +15,7 @@
      "ordan_human"
    ],
    "narrativeUnlock": true,
-   "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solvarn live in the dying light. Astril commune with fading celestial entities. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
+    "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solvarn live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
  },
 
  /**
@@ -25,35 +25,35 @@
   * waiting.
   */
  subraceVariants: {
-  sylen_astril: {
-   subraceName: 'Sylen Astril',
+  vashir_astril: {
+   subraceName: 'Vashir Astril',
    title: 'The Entropy-Symphony',
-   reframe: `The <LoreLink termId="astril">Sylen</LoreLink> commune with fading celestial entities, fragments of Sol's dying court, and a Harbinger among them hears the constellation-spirit's death-crescendo as entropy made musical. A Sylen Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried star as a symphony whose final note is the end of everything.`,
+    reframe: `The <LoreLink termId="astril">Vashir</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Vashir Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
    signatureAbility: {
     name: 'Death-Crescendo',
-    description: `Mayhem-pressure builds in resonance with the host constellation-spirit's fading; the closer the spirit is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Sylen Harbinger is, in effect, accelerating their own spirit's death to fuel their magic.`
+     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Vashir Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
    },
-   currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Sylen's fading spirits, the Pockets are, the elders now believe, the death-crescendo made geographic. The Sylen Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their spirit-fragments die in silence.`,
-   signatureQuote: {
-    text: '"My star is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
+    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Vashir's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Vashir Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
+    signatureQuote: {
+     text: '"My world is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
     speaker: 'Caelum Dim-Voiced',
-    context: 'A Sylen Harbinger, conducting a Wild Surge that rearranged a hillside'
+    context: 'A Vashir Harbinger, conducting a Wild Surge that rearranged a hillside'
    }
   },
 
-  muren_astril: {
-   subraceName: 'Muren Astril',
+  silath_astril: {
+   subraceName: 'Silath Astril',
    title: 'The Suppressed Catastrophe',
-   reframe: `The <LoreLink termId="astril">Muren</LoreLink> suppress their constellation-spirits, and a Harbinger among them weaponizes the suppressed spirit's catastrophic foreknowledge, doom the bound spirit is gagged from preventing. A Muren Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
+    reframe: `The <LoreLink termId="astril">Silath</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Silath Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
    signatureAbility: {
     name: 'Gagged-Doom',
-    description: `Mayhem-pressure builds from the suppressed spirit's frantic, gagged warnings of catastrophe; the more the bound spirit fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Muren burn their captive's love for the world as fuel.`
+     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Silath burn their captive's love for the world as fuel.`
    },
-   currentCrisisAngle: `The permanent Chaos Pockets have made the Muren's suppressed spirits go quiet, the same silence the False Prophet Muren report. A Muren Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
-   signatureQuote: {
-    text: '"I bound my star to stop it from warning me. Now I weaponize the warning it cannot give. The star has not forgiven me. I did not ask."',
+    currentCrisisAngle: `The permanent Chaos Pockets have made the Silath's suppressed heritage go quiet, the same silence the False Prophet Silath report. A Silath Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
+    signatureQuote: {
+     text: '"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask."',
     speaker: 'Vesh the Muffled',
-    context: 'A Muren Harbinger, tightening her bindings before a major surge'
+    context: 'A Silath Harbinger, tightening her bindings before a major surge'
    }
   },
 
@@ -99,9 +99,9 @@
  livingOrder: {
   orderName: 'The Doom-Choir',
   founder: {
-   name: '<LoreLink termId="xyris">Xyris</LoreLink> (the Tear) and <LoreLink termId="malakor">Malakor</LoreLink> (the Arithmetic)',
-   status: `<LoreLink termId="xyris">Xyris</LoreLink>, dead. She spliced temporal friction into her veins, tore a hole in reality in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, and the hole killed her. <LoreLink termId="malakor">Malakor</LoreLink>, alive, and leading. He calculated exactly when <LoreLink termId="xyris">Xyris</LoreLink>'s holes would consume everything, and the calculation did not break him; it gave him a purpose.`,
-   note: `<LoreLink termId="xyris">Xyris</LoreLink> opened the wounds. <LoreLink termId="malakor">Malakor</LoreLink> learned to read them. The Doom-Choir formed around the survivors who could do both: tear reality and predict where it would tear next.`
+   name: '<LoreLink termId="malakor">Malakor</LoreLink> (the Arithmetic)',
+   status: `<LoreLink termId="malakor">Malakor</LoreLink>, alive, and leading. He calculated exactly when Sol's extinction would finish, and the calculation did not break him; it gave him a purpose. His original thirty scrolls of star-arithmetic, suppressed by the Frozen Archive, are the founding text of the Doom-Choir.`,
+   note: `<LoreLink termId="malakor">Malakor</LoreLink> provided the truth: the freeze is mathematically absolute, and the math does not care. <LoreLink termId="xyris">Xyris</LoreLink> was the first student to prove the math could be *used*  --  she tore the first Chaos Pocket and died proving the principle. The Doom-Choir formed around those who understood both: the math could not be un-understood, and the ending could be weaponized.`
   },
   currentLeader: {
    name: '<LoreLink termId="malakor">Catastrophe-Reader Malakor the Finite</LoreLink>',
@@ -118,27 +118,27 @@
  ],
 
  overview: {
-  originStory: `Founded in the mid-Diming centuries when two apocalyptic traditions merged: Xyris, who tore the first permanent Chaos Pocket, and Malakor, who calculated Sol's extinction in thirty scrolls of star-arithmetic. Reality is a woven web, but the nomad Xyris did not see beauty in the threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach. She gathered fragments of the Sundrift Monolith, fusing them into her own blood to thin the planar anchor that binds her to this world.
+   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the first centuries of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythrill can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
 
-During the first solar eclipse of Sol's Deepening, the Skald archivist Malakor did not flee. He locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic. By calculating the mass of the dying sun and the cooling rate of the mantle, he realized that the freeze was not temporary. It was mathematically absolute. The realization did not break his mind. It froze it.
+He published his findings. The Frozen Archive suppressed them. The calculations were correct, but the political implications were unacceptable. If freeze was mathematically certain, the noble houses had not saved the world by binding Sol. They had merely delayed the execution. Malakor continued calculating. Other mathematicians found his work, came to the Archive, studied his papers, understood the conclusion, and left carrying the math in their heads, because the math once understood cannot be un-understood.
 
-When Xyris and Malakor's paths converged, something unprecedented was born. The Harbinger is both a living tear in spacetime AND a prophet of mathematical catastrophe. They saw how the world ends (Malakor) and found a way to WEAR that ending (Xyris). Their prophecies do not just predict doom. They channel the entropic friction of collapsing timelines to force it into existence. The price is absolute: molecular instability from the planar thinning, emotional death from the certainty of calculated doom, and a chronal identity so fractured they can no longer trust their own memories.`,
-  title: "The Harbinger",
+Xyris was a Solvarn student who found Malakor's suppressed papers. She was the first to apply the math practically: if freeze was entropy and entropy was measurable, then entropy could be directed. She tore the first Chaos Pocket in the Sundrift Vale, a localized acceleration of the freeze, weaponized. The hole killed her. It also proved the principle. Malakor provided the truth. Xyris proved it could be used.
+
+Each subrace channels a different apocalypse. The Vashir Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Silath Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solvarn read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
+
+The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.`,
+   title: "The Harbinger",
   subtitle: "The End Was Always Coming. You Just Made It Come Faster.",
 
   quickOverview: {
    title: "Quick Overview",
-   content: `**What You Must Know**: The Harbinger is a prophet of catastrophe who weaponizes both the friction of collapsing timelines and the mathematical certainty of doom. They operate on a dual system: a passive **Mayhem** gauge (0-100) that amplifies their spells the longer combat drags on, combined with a spendable Mayhem currency used to manipulate **Prophecy Ranges**. Their magic builds pressure and channels it into living bomb prophecies that tick, escalate, and detonate with apocalyptic force.
+    content: `**Who they are**: A prophet of catastrophe who weaponizes the mathematical certainty of doom. They have calculated exactly how the world ends  --  the freeze is absolute, the math does not care  --  and then tear open the hole to make it happen faster. They are a living tear in the fabric of spacetime, wielding the entropy of a dying world as a weapon.
 
-**Core Mechanic**: Cast spells to build Mayhem passively (0-100). Mayhem amplifies spell damage, area, and targeting across four strict tiers. Mayhem can also be SPENT to widen Prophecy Ranges for safer, more devastating outcomes. When Mayhem hits 100, a catastrophic **d100 Master Wild Surge** triggers and resets the gauge.
+**The hook**: Plant living bomb prophecies in your enemies that tick, escalate, and detonate with apocalyptic force. Build Mayhem passively  --  the longer combat drags on, the more your spells amplify in damage, area, and targets. Spend Mayhem to widen your Prophecy Ranges for safer, more devastating outcomes.
 
-**Prophecy Range**: Many spells use Prophecy Range mechanics. Roll 2 dice to create a Low-High range. Resolution roll inside the range triggers the enhanced Prophesied effect. On a boundary triggers Base. Outside the range triggers negative backlash on the caster.
+**The cost**: At 100 Mayhem, a catastrophic Wild Surge triggers and resets the gauge. Your molecular coherence is permanently frayed  --  your skin phases out of existence, your memories blur with alternate timelines, and you can no longer feel warmth or trust your own past. Every prophecy you fulfill fills you with stolen entropy that strains your dimensional anchor.
 
-**Resource**: Mayhem (0-100 dual system: passive pressure gauge + spendable currency).
-
-**Playstyle**: A high-tension caster who plants living bomb prophecies amplified by Mayhem pressure, riding the redline between catastrophic spell amplification and their own physical annihilation.
-
-**Best For**: Players who want to play a ticking time bomb that plants prophecies in their enemies like landmines, then detonates them with ever-increasing mayhem.`
+**Bring one for**: The only class that plants prophecies like landmines and detonates them with escalating mayhem  --  a ticking time bomb whose mere presence accelerates the end.`
   },
 
   description: `To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. Their eyes carry a cold, blue certainty. They do not cast spells. They speak endings into flesh and invite local molecular collapse. This power is a turbulent stream that strains the caster's dimensional anchor and fractures their emotional core. Every time they channel the entropic wind, their molecular coherence wavers, and their body resonates with the high-pitched shriek of folding dimensions. Every prophecy they fulfill fills them with stolen entropy. The mathematics of doom are absolute, and the chaos of reality is the tool they use to enforce them.`,
@@ -146,29 +146,31 @@ When Xyris and Malakor's paths converged, something unprecedented was born. The 
   roleplayIdentity: {
    title: "Roleplay Identity",
    content: `**HISTORY: THE GENESIS**
-The Harbinger's dual nature was born in the convergence of two catastrophic traditions: the timeline-fracturing arts of Xyris in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, and the apocalypse-calculating arithmetic of Malakor in the <LoreLink termId="nordhalla">Nordhalla</LoreLink> library-vaults. Where Xyris tore holes in reality, Malakor calculated exactly when those holes would consume everything. Together, their merged art became the Harbinger: a being that sees how the world ends and then tears open the hole to make it happen faster.
+The Harbinger's origin is not prophecy. It is arithmetic. In the first centuries of the Dimming, the Skald mathematician <LoreLink termId="malakor">Malakor</LoreLink> locked himself in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>'s Scribe's Tower with thirty scrolls of star-arithmetic and calculated the lifespan of the world. The answer was absolute: the freeze would accelerate until every heat source was drained into Keth-Amar's feeding. The math did not permit hope. The Frozen Archive suppressed his papers  --  the math was correct, but the political implications were unacceptable.
+
+The math could not be suppressed forever. Other mathematicians found Malakor's work. They studied. They understood. And they left, carrying the math in their heads. <LoreLink termId="xyris">Xyris</LoreLink> was the first to apply the math practically: she tore the first Chaos Pocket in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, weaponizing directed entropy. The hole killed her, but it proved the principle. The Harbinger tradition was born: Malakor's truth, Xyris's application, one discovery of doom with one terrible use.
 
 **CITIES & CIVIL RECEPTION**
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the crystal-skinned <LoreLink termId="astril">Sylen Astril</LoreLink> who seek absolute symbiosis with their nesting spirits, as well as the Solvarn humans and <LoreLink termId="skald">Rune Keeper Skald</LoreLink> who calculate the arithmetic of doom.
+This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  --  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Vashir hear the entropy as a dying world's music. The Silath channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
 
 **NOTABLE FIGURES**
-* **Xyris the Rift-Spanner**: The nomad who thinned her planar anchor to step through reality, risking physical dissolution.
-* **Malakor the Grim**: The archivist who calculated the exact decline of the human keeps, losing his ability to feel warmth.
+* **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.
+* **Xyris the Sundrift-Tear**: The Solvarn student who found Malakor's papers and was the first to prove the math could be weaponized. Her first Chaos Pocket killed her. The principle survived.
 * **Zarek the Unstable**: An Astril chaos-weaver whose skin blazed with the light of three colliding stars.
 * **Valeria the Grim**: A Solvarn priestess who prophesied the extinction of the surface cities during the Cold-Lock.`
   },
 
   signatureQuote: {
-   text: '"I did not tear a hole in reality. I simply found one that was already there, and I am small enough to crawl through. The chaos was here before me. And when I crawled through, I saw the end. It was not a vision. It was an equation. The math checks out. We are all already dead. I am simply the one who carries the proof."',
-   speaker: "Xyris-Malakor, the First Harbinger",
-   context: "Merged journal entry found in the ruins of the Scribe's Tower, written in two different handwritings that gradually become one"
+   text: '"The math does not lie. I have run the calculation seventeen times, and seventeen times the answer is the same: the freeze is absolute, the warmth is finite, and the end is arithmetic. I am not a prophet. I am a mathematician who did not look away from the answer."',
+   speaker: "Malakor the Finite",
+   context: "From the suppressed preface of his thirty scrolls, still locked in the Frozen Archive's deepest vault"
   },
 
   philosophy: {
-   coreTenet: "Reality is a consensus hallucination held together by habit, and the future is a mathematical certainty that most people lack the courage to compute. Chaos Weavers wake up from the dream and realize the walls are thin. Doomsayers reveal what has already been decided. The Harbinger does both. They see the end written in the numbers, and they tear the walls down to let it in. Constraint is violence. Chaos is truth. The end is arithmetic.",
+   coreTenet: "The freeze is mathematically absolute. Everything dies. The math does not care. Hope is not a strategy  --  it is a rounding error. The Harbinger has accepted what others refuse to compute: that the world is ending, and the only question is how fast. Once you accept the answer, the arithmetic becomes a weapon. Constraint is violence. Entropy is truth. The end is arithmetic.",
    relationship: "Heralds are bound to both absolute truth and absolute chaos. They cannot offer comfort or hope because they have seen the numbers AND felt the friction of collapsing timelines. The death of Sol was not a tragedy. It was arithmetic. The extinction of surface life is not a possibility. It is an equation waiting to be solved. And the chaos that accelerates it is not evil. It is simply physics. Every spell draws on the death throes of unborn realities, and every fulfilled prophecy generates stolen entropy that fuels the next catastrophe.",
    paradox: "The more Mayhem a Harbinger accumulates, the more powerful they become, and the closer they come to catastrophic dissolution. At maximum Mayhem, they are briefly godlike, warping reality with every gesture and detonating prophecies with absolute precision. And then the Wild Surge hits. A Harbinger who survives their first Surge is forever changed. They are also the only beings who smile when the worst happens, because it means their prophecy was right. They cannot feel warmth or joy, but they are sustained by the deep satisfaction of vindicated doom."
   },
@@ -207,11 +209,11 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 **The Unstable Catalyst ("Why Bring Me?")**: You offer both the Chaos Weaver's apocalyptic area-of-effect amplification and the Doomsayer's living bomb prophecy system. As your Mayhem climbs, your spells swell with massive bonus damage dice, expanded radii, and multi-targeting capabilities. Meanwhile, your prophecies tick and fester in the enemy's bones, waiting for the moment of detonation. The two systems feed each other: fulfilled prophecies generate Mayhem, and Mayhem amplifies prophecy damage.
 
 **Weaknesses**:
-- Anomalous Dissociation: at 100 Mayhem your molecular density drops to zero, a Wild Surge triggers, and you become 100 percent vulnerable to bludgeoning and slashing — a rogue with a blade is your nightmare.
-- Prophecy Collapse: every prophecy that resolves outside its range fizzles and drains your Mayhem (and stacks a Doom on you on the heavy ones) — a bad roll wastes the cast and bleeds your pressure, not the enemy's.
-- No Healing While Prophesying: you cannot receive healing while any of your prophecies are active — your own magic blocks the mender.
+- Anomalous Dissociation: at 100 Mayhem your molecular density drops to zero, a Wild Surge triggers, and you become 100 percent vulnerable to bludgeoning and slashing � a rogue with a blade is your nightmare.
+- Prophecy Collapse: every prophecy that resolves outside its range fizzles and drains your Mayhem (and stacks a Doom on you on the heavy ones) � a bad roll wastes the cast and bleeds your pressure, not the enemy's.
+- No Healing While Prophesying: you cannot receive healing while any of your prophecies are active � your own magic blocks the mender.
 - Ticking to Inevitability: Mayhem climbs toward 100 whether you want it to or not; you can delay the Surge, never cancel it. The bomb always goes off.
-- Glass Cannon: light armor, low HP — you hit the hardest and fold the fastest.
+- Glass Cannon: light armor, low HP � you hit the hardest and fold the fastest.
 - Terminal Certainty (social): you compute the doom of every moment (a wedding becomes its divorce and death odds) and cannot feel warmth; you read as coldly cruel. Your own past is being overwritten by other people's lives, so you cannot fully trust your own memories.`
    },
 
@@ -1235,7 +1237,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   // ===== NON-COMBAT / DOOM-ARITHMETIC & CHAOS UTILITY (the prophet of catastrophe, out of combat) =====
   { id: "harbinger-universal-doom_reckoning",
    name: "Doomsayer's Reckoning",
-   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken — by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
+   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken � by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
    level: 1, icon: "Necrotic/Skull Burst", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["utility", "divination", "investigation", "doom", "universal"] },
@@ -1248,7 +1250,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger-universal-entropy_read",
    name: "Entropy Read",
-   description: "Run your doom-arithmetic over an object or mechanism and read its decay — how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
+   description: "Run your doom-arithmetic over an object or mechanism and read its decay � how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
    level: 1, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "divination", "investigation", "universal"] },
@@ -1261,7 +1263,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger-universal-rift_step",
    name: "Rift-Step",
-   description: "Thin reality at a single point and slip through it — pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
+   description: "Thin reality at a single point and slip through it � pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
    level: 2, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "mobility", "infiltration", "chaos", "universal"] },
@@ -1287,7 +1289,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger-universal-cold_certainty",
    name: "Cold Certainty",
-   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them — their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
+   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them � their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
    level: 3, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "social", "universal"] },

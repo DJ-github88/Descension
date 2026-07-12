@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Warden Class Data
  *
  * Complete class information for the Warden - the Penitent Jailer
@@ -180,18 +180,16 @@ export const WARDEN_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Warden is a heavy-martial lockdown specialist who has completely abandoned all druidic or forest ranger tropes. They are the Penitent Jailer,wielding thick, rusted iron chains physically grafted directly into their own forearms, spine, and flesh. They do not guard trees; they guard nightmares.
+      content: `**Who they are**: A penitent jailer who has driven rusted iron chains through their own forearms, spine, and flesh  -  an anchor of meat and metal who tethers abominations with their own body as the pin.
 
-**Core Mechanic**: Drive rusted hooks into your own flesh and the enemy to establish a *Iron Chain Tether* -> Restrict target's movement and target selection -> Generate *Tether Tension* through pain and manual reeling -> Spend Tension on bone-crushing flails, agony-infused braces, or ultimate ascundancies.
+**The hook**: Drive your grafted hooks into a target and they cannot touch your allies  -  every blow they land builds your Tether Tension, and every point of tension feeds bone-crushing counter-strikes and iron-hard braces that render you immovable.
 
-**Resource**: *Tether Tension* (0-10 scale), representing the agonizing physical strain on the chains driven through your bones. Built by establishing tethers, receiving strikes, or manually reeling; spent on massive crowd-control and crushing counter-strikes.
+**The cost**: You are physically chained to your prisoner. Half of all area damage it takes hits you too. A tethered giant drags you bodily across the battlefield. The iron graft never fully heals  -  every Warden carries a scar-map of every monster they have ever anchored, and old wounds ache worse when struck again.
 
-**Playstyle**: Extreme close-quarters lockdown. You physically anchor yourself to the battlefield's greatest horrors, forcing them into a brutal duel of meat and bone.
-
-**Best For**: Players who enjoy high-risk, high-reward tactical shielding, inescapable crowd control, and the heavy, agonizing narrative of a warrior who pays for every victory in blood and bone.`,
+**Bring one for**: Absolute, inescapable lockdown. The thing you chain is removed from the fight until you release it or die  -  no other class can force a creature to duel them and only them.`,
     },
 
-    description: `The Warden is a grim, tragic figure of absolute lockdown,a Penitent Jailer who binds their own flesh to the horrors they pursue. Stripped of all druidic or forest magic, they wield massive, rusted iron chains grafted directly into their forearms and spine. They exist to hold the line against nightmares, pinning abominations in place by physically chaining themselves to the beast. Their power is not magical grace; it is the desperate, agonizing survival of bone, meat, and iron under crushing tension.`,
+    description: `A warden is the Penitent Jailer. Iron chains are grafted directly into the forearms and spine, driven through living bone. The warden physically tethers to abominations, creating a forced duel where the tethered enemy cannot target anyone else. The chain is chosen, not inflicted.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -221,7 +219,15 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
       paradox: 'The Warden controls their enemy by giving up control of themselves. They cannot release the tether at will, the hooks are too deep, the tension too great. Once anchored, the Warden is committed. They must win or die.'
     },
 
-    originStory: `Founded in the first centuries of the Dimming by Alaric the Law-Keeper, who drove an ore-hauling chain through his own forearm to contain a Deep Alchemist escapee at Frostmaw Holdfast. The first Warden was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. When the Deep Alchemists' vat-laboratories collapsed during the Vat-Breakers' revolt, the containment wards shattered and the experiments, things with too many limbs and not enough skin, poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving a ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his own body as the pin. He held it for three days. When rescue finally arrived, the chain had rusted into his bone and the creature had died of exhaustion, unable to break free. The Fexric Drall smiths who cut him free noted that the pattern of scar tissue around the graft points had fused with the iron, creating a permanent bond. They asked if he wanted the chain removed. He said no. He spent the next decade refining the technique, grafting thicker chains, developing the tether-and-reel system, training others to do the same. The order he founded still operates from the Forge of Alaric in Frostmaw Holdfast, where new Wardens drive their first hook under the supervision of Fexric Drall chain-smiths. The tradition has spread beyond the Groven, Neth archivists tether themselves to forbidden texts, Skald berserkers chain themselves to glacier-wyrms, and Vreken penitents anchor themselves to the horrors that crawl from the deep bogs. But every Warden's first chain is still forged at Alaric's anvil.`,
+    originStory: `A warden is the Penitent Jailer. Iron chains are grafted directly into the forearms and spine, driven through living bone. The warden physically tethers to abominations, creating a forced duel where the tethered enemy cannot target anyone else. The chain is chosen, not inflicted. This distinction is the foundation of the entire tradition.
+
+The first was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. During the Vat-Breakers' revolt, the Deep Alchemists' containment wards shattered and experiments poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving an ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his body as the pin. He held it for three days. When rescue arrived, the chain had rusted into his bone and the creature had died of exhaustion. The Fexric Drall smiths who cut him free asked if he wanted the chain removed. He said no.
+
+Alaric's regenerative Thrumm-derived biology keeps him functional seven centuries beyond a normal Groven lifespan. He still leads the Bound from his anvil at Frostmaw. Every warden's first chain is forged there on the principle: "The chain is chosen, not inflicted."
+
+Each subrace wears the chains for different reasons. The Morgh Groven invented the chain-graft. The chains echo the containment they shattered in the Vat-Breakers' revolt, worn voluntarily now to ensure nothing else is contained the way they were. The irony is the point. The Ithran Groven distribute tether-tension across multiple enemies through bridge-builder bone-knowledge, the only multi-target wardens. The Drall Fexric re-tune chain configuration mid-combat as engineering, favoring lockdown or pursuit. The Kethrin Fexric practice as guild discipline with certified specifications and documented load-ratings, most consistent and most rigid. The Skald specialize in glacier-hunting, chains contracting and gripping harder in cold, the only wardens who have volunteered for chardalyn chains. The Clean Vreken mark tethered enemies with visible bioluminescence through fog and darkness, broadcasting their own position equally. The Marked Vreken route tethers through the Root-Veil, holding abominations miles away through connected terrain.
+
+The chains are becoming brittle in the Cragjaw cold. The Drall propose chardalyn-alloy replacement, stronger and lighter, but chardalyn causes madness with prolonged contact. Those who have accepted the new chains report hearing whispers at night. The Groven refuse to wear the metal of their creators. The Kethrin guilds are in open regulatory schism over certification. Alaric refuses chardalyn absolutely, even as brittle-iron casualties mount. The Bound are losing wardens faster than Alaric can train them.`,
 
     currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing, the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Drall have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
 
@@ -253,7 +259,7 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
 - **Hard-coded Wyrd Vulnerability**: Constant proximity to Wyrd-horrors fractures their mind, causing them to take +50% wyrd damage.
 - **Zero Ranged Attacks**: Completely helpless at distance; they must reel targets in or walk them down in heavy iron.
 - **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 blight/piercing to self) as the grafted hooks tear through flesh.
-- **Marked Penitent (social)**: your rusted, skin-grafted chains and bolt-scars mark you as a walking cell-block — common folk find you disturbing, read you as a zealot, and your scar-map broadcasts every horror you have ever anchored; old wounds remember and ache worse when struck again.`,
+- **Marked Penitent (social)**: your rusted, skin-grafted chains and bolt-scars mark you as a walking cell-block  -  common folk find you disturbing, read you as a zealot, and your scar-map broadcasts every horror you have ever anchored; old wounds remember and ache worse when struck again.`,
     },
 
     playstyle: {
@@ -278,26 +284,26 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 **Starting State**: Tether Tension: 0/10 | HP: 90/90 | Tethered Target: None
 
-**Turn 1 - Graft the Hook (Tension: 0 → 2)**
+**Turn 1 - Graft the Hook (Tension: 0 ? 2)**
 
 *The flesh-golem roars, stepping toward your fragile mage. You step forward. You do not shout a sacred oath. You grip the rusted chain extending from your forearms and drive the colossal hook straight through your own wrist and deep into the golem's shoulder.*
 
 **Your Action**: "Iron Chain Tether" on Flesh-Golem (1 Action Point)
-**Self-Harm**: Take 1d6 blight damage → [4] = 86 HP remaining.
+**Self-Harm**: Take 1d6 blight damage ? [4] = 86 HP remaining.
 **Effect**: Golem is tethered. It physically cannot target your allies or move beyond a 15-foot radius from you.
 **Tension Generated**: +2 Tension (Tension: **2/10**)
 
 *The golem shrieks as the chain snaps taut. It tries to raise its fist toward the mage, but the physical drag of the iron binds its focus to you. It must fight you, and only you.*
 
-**Turn 2 - Pain Builds Power (Tension: 2 → 5)**
+**Turn 2 - Pain Builds Power (Tension: 2 ? 5)**
 
 *The golem realizes it is trapped. It turns its fury upon you, smashing its heavy fists into your iron plate.*
 
 **Golem's Turn**: Attacks you twice.
-**Attack Roll 1**: d20+6 → Hit!
+**Attack Roll 1**: d20+6 ? Hit!
 **Damage**: 18 physical damage. You endure.
 **Tension Generated**: +1 (Tether strike) = **3/10** (Tension Threshold: Taut Links active! Your movement is restricted but your chain strikes deal +1d6 tearing damage).
-**Attack Roll 2**: d20+6 → Hit!
+**Attack Roll 2**: d20+6 ? Hit!
 **Damage**: 15 physical damage.
 **Tension Generated**: +1 (Tether strike) = **4/10**
 **Your Reaction**: "Iron Brace" (+2 DR against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
@@ -305,28 +311,28 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 *HP: 86 - 18 - 10 = 58/90. Your blood lubricates the rusted links, but your mind is focused. Tension is at 5. The chains are vibrating with raw kinetic force.*
 
-**Turn 3 - Bracing the Beast (Tension: 5 → 1)**
+**Turn 3 - Bracing the Beast (Tension: 5 ? 1)**
 
 *The golem attempts to dash away to crush your allies. Because it is vastly larger, it drags you with it.*
 
 **Golem's Action**: Attempts to break the boundary by dashing.
-**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 physical damage → [5, 4] = 9 damage.
+**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 physical damage ? [5, 4] = 9 damage.
 **Your Action**: "Penitent Resolve" (4 Tether Tension spent).
 **Tension**: 5 - 4 = **1/10**
 **Effect**: Gain 50% damage resistance and +4 DR for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
 
 *You slam your heel into the dirt. The iron plate grinds into the stone. The golem is jerked to a violent halt, its shoulder socket popping under the strain of the chain. It is locked down.*
 
-**Turn 4 - Rebuilding the Trap (Tension: 1 → 6)**
+**Turn 4 - Rebuilding the Trap (Tension: 1 ? 6)**
 
 **Your Action**: Agonizing Reel (1 AP). You pull the rusted chain tighter, grinding the metal hooks deeper into your flesh.
-**Self-Harm**: Take 1d4 physical damage → [2] = 47 HP remaining.
+**Self-Harm**: Take 1d4 physical damage ? [2] = 47 HP remaining.
 **Tension Generated**: +2 = **3/10**
 **Your Action**: "Barbed Lash" (2 Tension spent) combined with a melee chain strike.
 **Tension**: 3 - 2 = **1/10**
-**Attack Roll**: d20+8 → Hit!
-**Base Damage**: 2d6+4 → [5, 6] + 4 = 15 physical damage.
-**Barbed Lash Bonus**: +2d6 → [6, 4] = 10 bleeding damage.
+**Attack Roll**: d20+8 ? Hit!
+**Base Damage**: 2d6+4 ? [5, 6] + 4 = 15 physical damage.
+**Barbed Lash Bonus**: +2d6 ? [6, 4] = 10 bleeding damage.
 **Total Damage**: 25 damage!
 **Tension Generated**: +2 (striking tethered prey twice with multi-strike) = **3/10**
 
@@ -335,7 +341,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 **Your Reaction**: "Iron Brace" reaction.
 **Tension Generated**: +1 = **4/10**
 
-**Turn 5 - Iron Ascendancy (Tension: 4 → 10 → 0)**
+**Turn 5 - Iron Ascendancy (Tension: 4 ? 10 ? 0)**
 
 *You manually reel the chain once more as a free action under Tension, pushing your body to the limit. The pain is blinding, but the lock is absolute.*
 
@@ -2604,7 +2610,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
   // ===== NON-COMBAT / CHAIN & JAILER UTILITY (the Penitent Jailer, out of combat) =====
   { id: "warden_iron_tow",
     name: "Iron Tow",
-    description: "Pay out your grafted chains and use them as a living winch. Tow or haul a heavy load, drag a collapsed beam or boulder aside, haul an ally up a cliff face, or lower and raise goods/personnel on the chain. Your bones take the anchor-strain — 1 blight per 100 lb hauled. Out of combat.",
+    description: "Pay out your grafted chains and use them as a living winch. Tow or haul a heavy load, drag a collapsed beam or boulder aside, haul an ally up a cliff face, or lower and raise goods/personnel on the chain. Your bones take the anchor-strain  -  1 blight per 100 lb hauled. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Utility",
     typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30 },
@@ -2618,7 +2624,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
   },
   { id: "warden_barbed_bind",
     name: "Barbed Bind",
-    description: "Bind a captive with your chains in a hold no mundane slip or lockpick defeats — the barbed links seat against flesh and bone, tightening on any struggle. Secure a prisoner for transport, chain a door's handle to a wall, or hogtie a catch. A bound creature of vastly greater strength may still tear free. Out of combat.",
+    description: "Bind a captive with your chains in a hold no mundane slip or lockpick defeats  -  the barbed links seat against flesh and bone, tightening on any struggle. Secure a prisoner for transport, chain a door's handle to a wall, or hogtie a catch. A bound creature of vastly greater strength may still tear free. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Utility",
     typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","social","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2632,7 +2638,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
   },
   { id: "warden_chain_ward",
     name: "Chain-Ward",
-    description: "Chain a door, portcullis, gate, or hatch shut from the inside with your iron — barring it physically beyond any mundane lock, and anchoring the links to your own grafted flesh so the bar cannot be thrown without waking you. Alternately, anchor yourself to a spot to hold a line or doorway immovable. Out of combat.",
+    description: "Chain a door, portcullis, gate, or hatch shut from the inside with your iron  -  barring it physically beyond any mundane lock, and anchoring the links to your own grafted flesh so the bar cannot be thrown without waking you. Alternately, anchor yourself to a spot to hold a line or doorway immovable. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Utility",
     typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2646,17 +2652,17 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
   },
   { id: "warden_scar_map_reading",
     name: "Scar-Map Reading",
-    description: "Read the pattern of bolt-scars on a Warden's skin (your own or another's), or the wound-marks on a mauled corpse, and identify what left them — the species and rough strength of every creature that was anchored or that did the mauling. The scar-map is a record written in flesh. Out of combat.",
+    description: "Read the pattern of bolt-scars on a Warden's skin (your own or another's), or the wound-marks on a mauled corpse, and identify what left them  -  the species and rough strength of every creature that was anchored or that did the mauling. The scar-map is a record written in flesh. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Psychic/Focused Mind",
     typeConfig: { school: "physical", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Trace the scar-lines with a calloused thumb and read the chain that made them" },
     resolution: "NONE", effectTypes: ["utility"],
-    utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "scar_map_read", "name": "Flesh Record", "description": "From a Warden's scar-map or a corpse's wounds, identify the species and rough strength/number of creatures that left each mark — a history of what was fought, anchored, or mauled.", "mechanicsText": "Read scars/wounds to identify the creatures that made them." } ], power: "minor" },
+    utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "scar_map_read", "name": "Flesh Record", "description": "From a Warden's scar-map or a corpse's wounds, identify the species and rough strength/number of creatures that left each mark  -  a history of what was fought, anchored, or mauled.", "mechanicsText": "Read scars/wounds to identify the creatures that made them." } ], power: "minor" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","divination","investigation","warden"],
     somaticText: "Trace the scar-lines with a calloused thumb and read the chain that made them.",
-    verbalText: "Silence — the scars speak for themselves."
+    verbalText: "Silence  -  the scars speak for themselves."
   },
   { id: "warden_penitents_vigil",
     name: "Penitent's Vigil",
@@ -2666,7 +2672,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "tether_tension", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
     resolution: "NONE", effectTypes: ["utility"],
-    utilityConfig: { utilityType: "rest", selectedEffects: [ { "id": "penitents_vigil_watch", "name": "The Watch", "description": "For up to 8 hours: you cannot be moved, need no sleep/food/rest, and cannot be snuck past — an immovable anchor on watch. You act slowly (disadvantage on non-vigil checks) and arrive tired when it ends, but nothing short of overwhelming force breaks the vigil.", "mechanicsText": "Immovable sleepless vigil 8h; disadvantage after." } ], duration: 8, durationUnit: "hours", power: "moderate" },
+    utilityConfig: { utilityType: "rest", selectedEffects: [ { "id": "penitents_vigil_watch", "name": "The Watch", "description": "For up to 8 hours: you cannot be moved, need no sleep/food/rest, and cannot be snuck past  -  an immovable anchor on watch. You act slowly (disadvantage on non-vigil checks) and arrive tired when it ends, but nothing short of overwhelming force breaks the vigil.", "mechanicsText": "Immovable sleepless vigil 8h; disadvantage after." } ], duration: 8, durationUnit: "hours", power: "moderate" },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["utility","rest","exploration","social","warden"],
     somaticText: "Drive the hook deep and let the chain take your weight.",

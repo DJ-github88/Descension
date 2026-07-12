@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Step 9: Character Summary & Finalization
  *
  * Final review of character before creation
@@ -125,12 +125,12 @@ const getSpellIconUrl = (iconId) => {
 const getSubraceImage = (subraceId, raceId) => {
   const mapping = {
     // Myrathil
-    breaker_myrathil: 'breakersborn_illustration.png',
-    deep_myrathil: 'deepborn_illustration.png',
-    river_myrathil: 'riverfed_illustration.png',
+    shore_myrathil: 'shore_illustration.png',
+    deep_myrathil: 'deep_illustration.png',
+    brook_myrathil: 'brook_illustration.png',
     // Briaran
-    unshorn_briaran: 'unshorn_illustration.png',
-    smoothskinned_briaran: 'smoothskinned_illustration.png',
+    trueborn_briaran: 'trueborn_illustration.png',
+    shorn_briaran: 'shorn_illustration.png',
     // Emberth
     korr_emberth: 'korr_illustration.png',
     thrask_emberth: 'thrask_illustration.png',
@@ -141,16 +141,16 @@ const getSubraceImage = (subraceId, raceId) => {
     morgh_groven: 'morgh_illustration.png',
     ithran_groven: 'ithran_illustration.png',
     // Mimir
-    maskborne_mimir: 'maskborne_illustration.png',
-    mistwoven_mimir: 'mistwoven_illustration.png',
+    masked_mimir: 'masked_illustration.png',
+    woven_mimir: 'woven_illustration.png',
     unwoven_mimir: 'unwoven_illustration.png',
     // Neth
     velun_neth: 'velun_illustration.png',
     kessen_neth: 'kessen_illustration.png',
     drun_neth: 'drun_illustration.png',
     // Astril
-    sylen_astril: 'sylen_illustration.png',
-    muren_astril: 'muren_illustration.png',
+    vashir_astril: 'vashir_illustration.png',
+    silath_astril: 'silath_illustration.png',
     // Vreken
     clean_vreken: 'clean_illustration.png',
     marked_vreken: 'marked_illustration.png',
@@ -553,7 +553,7 @@ const formatDescriptionText = (text) => {
               <div key={item.label} className={`hover-check-item ${item.done ? 'complete' : 'incomplete'}`}>
                 <span>{item.label}</span>
                 <span className="hover-check-status-text">
-                  {item.done ? '✓' : '✗'}
+                  {item.done ? '?' : '?'}
                 </span>
               </div>
             ))}

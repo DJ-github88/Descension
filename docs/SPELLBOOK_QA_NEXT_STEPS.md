@@ -1,4 +1,4 @@
-# Spellbook QA Continuation Prompt
+﻿# Spellbook QA Continuation Prompt
 
 Copy this prompt into a new chat to continue the spellbook spellcard QA work.
 
@@ -9,10 +9,10 @@ Copy this prompt into a new chat to continue the spellbook spellcard QA work.
 We just completed a major spellbook formatting overhaul (Phase 1-4). Here's what was done:
 
 ### Already Completed
-1. **CSS Header Color Unification** — All spell card headers now use a single dark Pathfinder red gradient (`#7a3b2e → #5e2e23 → #45211a`) across all 7 rendering contexts. Removed 15+ competing `!important` CSS rules.
-2. **Canonical Damage Type Color Map** — `SpellCardUtils.js` is now the single source of truth for damage type colors using a dark Pathfinder RPG palette. CSS variables in `variables.css`, badge colors in `cards.css`, school accents in `Step3Abilities.css`, and border colors in `wow-classic.css` all updated to match.
-3. **Data Migration** — Migrated `acid→poison` (dreadnaughtData.js), `thunder→lightning` (minstrelData.js, berserkerData.js), and `cold→frost` (dreadnaughtData.js) in structured data fields. Added `level` to 11 lichborne spells.
-4. **QA Script** — Created `scripts/spell-qa.mjs` for automated validation.
+1. **CSS Header Color Unification**  -  All spell card headers now use a single dark Pathfinder red gradient (`#7a3b2e → #5e2e23 → #45211a`) across all 7 rendering contexts. Removed 15+ competing `!important` CSS rules.
+2. **Canonical Damage Type Color Map**  -  `SpellCardUtils.js` is now the single source of truth for damage type colors using a dark Pathfinder RPG palette. CSS variables in `variables.css`, badge colors in `cards.css`, school accents in `Step3Abilities.css`, and border colors in `wow-classic.css` all updated to match.
+3. **Data Migration**  -  Migrated `acid→poison` (dreadnaughtData.js), `thunder→lightning` (minstrelData.js, berserkerData.js), and `cold→frost` (dreadnaughtData.js) in structured data fields. Added `level` to 11 lichborne spells.
+4. **QA Script**  -  Created `scripts/spell-qa.mjs` for automated validation.
 
 ### Canonical Damage Types (15)
 `fire`, `frost`, `lightning`, `nature`, `bludgeoning`, `piercing`, `slashing`, `force`, `psychic`, `radiant`, `arcane`, `necrotic`, `poison`, `void`, `chaos`
@@ -22,10 +22,10 @@ Plus general categories: `physical`, `magical`
 `cold/ice→frost`, `shadow→necrotic`, `holy→radiant`, `electric→lightning`, `acid→poison`, `thunder→lightning`, `physical→bludgeoning`
 
 ### Key Files (Single Source of Truth)
-- **Colors**: `vtt-react/src/components/spellcrafting-wizard/components/common/SpellCardUtils.js` — `DAMAGE_TYPE_COLORS` constant + `getDamageTypeColor()` + `getBorderColor()`
-- **CSS Variables**: `vtt-react/src/components/spellcrafting-wizard/styles/pathfinder/core/variables.css` — `--pf-fire` through `--pf-slashing`
-- **CSS Badges**: `vtt-react/src/components/spellcrafting-wizard/styles/pathfinder/components/cards.css` — `.pf-damage-type-badge.<type>` classes
-- **Spell Data Reference**: `docs/SPELL_DATA_REFERENCE.md` (3,334 lines — definitive guide)
+- **Colors**: `vtt-react/src/components/spellcrafting-wizard/components/common/SpellCardUtils.js`  -  `DAMAGE_TYPE_COLORS` constant + `getDamageTypeColor()` + `getBorderColor()`
+- **CSS Variables**: `vtt-react/src/components/spellcrafting-wizard/styles/pathfinder/core/variables.css`  -  `--pf-fire` through `--pf-slashing`
+- **CSS Badges**: `vtt-react/src/components/spellcrafting-wizard/styles/pathfinder/components/cards.css`  -  `.pf-damage-type-badge.<type>` classes
+- **Spell Data Reference**: `docs/SPELL_DATA_REFERENCE.md` (3,334 lines  -  definitive guide)
 - **QA Script**: `scripts/spell-qa.mjs`
 - **Full QA Report**: `scripts/spell-qa-full-report.txt`
 
@@ -62,9 +62,9 @@ There are **106 remaining references** to `acid`, `thunder`, and `cold` across *
 - In `description` text: replace damage type references (e.g., "cold damage" → "frost damage", "thunder damage" → "lightning damage")
 - In structured fields (`damage`, `element`, `type`, `formula`, `elements`): replace the value
 - **DO NOT** replace "cold" when used as an English adjective (temperature, metaphor). There are ~22 instances of legitimate "cold" as adjective (e.g., "cold fury", "cold blue light", "supernatural cold"). See the excluded list below.
-- In `effect` strings where the `damageType` is already `'poison'` but text says "acid" — update the text to match
+- In `effect` strings where the `damageType` is already `'poison'` but text says "acid"  -  update the text to match
 
-**Excluded "cold" (NOT damage type — do not change):**
+**Excluded "cold" (NOT damage type  -  do not change):**
 - lichborneData.js: lines 37, 43, 47, 103, 125, 136, 218, 305
 - deathcallerData.js: line 122
 - arcanoneerData.js: lines 194, 695, 996, 1424

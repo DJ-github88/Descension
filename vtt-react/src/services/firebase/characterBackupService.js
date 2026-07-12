@@ -334,7 +334,7 @@ class CharacterBackupService {
           await deleteDoc(backup.ref);
         }
 
-        console.log(`ğŸ—‘ï¸ Cleaned up ${toDelete.length} old backups for character ${characterId}`);
+        console.log(`ğŸ - ‘ï¸ Cleaned up ${toDelete.length} old backups for character ${characterId}`);
       }
 
     } catch (error) {
@@ -356,7 +356,7 @@ class CharacterBackupService {
           localStorage.removeItem(backup.id);
         });
 
-        console.log(`ğŸ—‘ï¸ Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
+        console.log(`ğŸ - ‘ï¸ Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
       }
 
     } catch (error) {

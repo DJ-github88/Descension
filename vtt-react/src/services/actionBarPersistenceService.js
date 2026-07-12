@@ -211,7 +211,7 @@ class ActionBarPersistenceService {
         });
       }
 
-      console.log(`ğŸ—‘ï¸ Action bar config deleted for character ${characterId} in room ${roomId}`);
+      console.log(`ğŸ - ‘ï¸ Action bar config deleted for character ${characterId} in room ${roomId}`);
       return true;
     } catch (error) {
       console.error('Error deleting action bar config:', error);
@@ -352,7 +352,7 @@ class ActionBarPersistenceService {
       localStorage.removeItem(storageKey);
       this.hotkeyCache.delete(storageKey);
 
-      console.log(`ğŸ—‘ï¸ Hotkeys deleted for character ${characterId} in room ${roomId}`);
+      console.log(`ğŸ - ‘ï¸ Hotkeys deleted for character ${characterId} in room ${roomId}`);
       return true;
     } catch (error) {
       console.error('Error deleting hotkeys:', error);

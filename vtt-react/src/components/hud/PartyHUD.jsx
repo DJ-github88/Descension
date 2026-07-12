@@ -434,7 +434,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 gap: '6px'
                             }}
                         >
-                            <span style={{ minWidth: '12px' }}>{isCurrent ? '‚ñ∂' : (isActive ? '‚óè' : '‚óã')}</span>
+                            <span style={{ minWidth: '12px' }}>{isCurrent ? '‚ñ∂' : (isActive ? '‚ - è' : '‚ - ã')}</span>
                             <span>{text}</span>
                         </div>
                     );

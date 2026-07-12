@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Points of Interest (POIs) and Sub-Zone Database
  *
  * Houses TTRPG-styled points of interest for all seven regions of Mythrill,
@@ -12,10 +12,10 @@
 
 export const ZONE_DATA = [
  {
- "id": "greymark-keep",
- "regionId": "frostwood-reach",
- "name": "Greymark Keep",
- "type": "city",
+  "id": "greymark-keep",
+  "regionId": "frostwood-reach",
+  "name": "Greymark Keep",
+  "type": "town",
  "description": "The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog. Founded just after the Binding with the Fog Compact. The Scribe-Sentinels codified the Sovereign Ledger here in the first centuries of the Dimming.",
  "dangerLevel": "low",
  "factions": [
@@ -91,7 +91,7 @@ export const ZONE_DATA = [
  "description": "The deepest, darkest grove in the Frostwood Reach, where the ironwoods grow so dense that the mist forms a heavy, stagnant lake on the forest floor. At its center stands a titanic, glowing white tree whose sap remains warm, attracting both desperate survivalists and horrific predators.",
  "dangerLevel": "extreme",
  "factions": [
-  "unshorn-briaran"
+  "trueborn-briaran"
  ],
  "connections": [
   "the-shallows",
@@ -129,7 +129,7 @@ export const ZONE_DATA = [
  "dangerLevel": "low",
  "factions": [
   "Thalren Trappers",
-  "Unshorn Briaran"
+  "Trueborn Briaran"
  ],
  "connections": [
   "wraithfen",
@@ -145,7 +145,7 @@ export const ZONE_DATA = [
  "description": "An open stretch of thorn-covered heathland at the forest edge where the ironwood canopy breaks and the fog thins for the first time. Briaran rangers patrol here, tending the thorn-barriers that mark the boundary between the Reach and the lowland approaches. The heath is beautiful in a savage way, crimson thorn-flowers bloom year-round in soil nourished by centuries of blood.",
  "dangerLevel": "medium",
  "factions": [
-  "Unshorn Briaran"
+  "Trueborn Briaran"
  ],
  "connections": [
   "greythorn-copse",
@@ -178,10 +178,10 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Mirror Mere",
  "type": "settlement",
- "description": "A perfectly still lake settlement where Mask-Borne Mimir test their reflections against their masks to ensure their identity holds. The mere never ripples, even in storm weather, the surface remains glass-still. Mimir scholars use the lake as a divination tool, reading the reflections of possible futures in its depths.",
+ "description": "A perfectly still lake settlement where Masked Mimir test their reflections against their masks to ensure their identity holds. The mere never ripples, even in storm weather, the surface remains glass-still. Mimir scholars use the lake as a divination tool, reading the reflections of possible futures in its depths.",
  "dangerLevel": "low",
  "factions": [
-  "Mask-Borne Mimir"
+  "Masked Mimir"
  ],
  "connections": [
   "greymark-keep"
@@ -321,7 +321,7 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "The Still Crag",
  "type": "wilderness",
- "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where the Warden's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
+ "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where Aethil's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
  "dangerLevel": "high",
  "factions": [
   "Rime-Born Rune Keepers"
@@ -848,7 +848,7 @@ export const ZONE_DATA = [
  "dangerLevel": "high",
  "factions": [
   "Merryn Whalers",
-  "Myrathil River-Fed"
+  "Myrathil Brook"
  ],
  "connections": [
   "brinehorse-cove",
@@ -864,7 +864,7 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Wraithsound",
  "type": "wilderness",
- "description": "A wide, deep inlet perpetually shrouded in sea-mist, where the echoes of drowned sailors carry for miles. Myrathil Deep-Born claim the sound is a living thing, that it listens and remembers every voice that crosses its water. Ships that enter the sound without a Myrathil guide often emerge with crews who refuse to speak of what they heard.",
+ "description": "A wide, deep inlet perpetually shrouded in sea-mist, where the echoes of drowned sailors carry for miles. Myrathil Deep claim the sound is a living thing, that it listens and remembers every voice that crosses its water. Ships that enter the sound without a Myrathil guide often emerge with crews who refuse to speak of what they heard.",
  "dangerLevel": "extreme",
  "factions": [
   "Myrathil Deep-Stalkers"
@@ -883,10 +883,10 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Deepwell Archipelago",
  "type": "wilderness",
- "description": "A chain of ice-islands where Deep-Born Myrathil congregate in underwater cave-cities beneath the frozen surface. The archipelago stretches for forty miles, each island connected by submerged tunnels. The Deep-Born maintain a culture entirely separate from the surface, they emerge only to trade and to conduct their mysterious Drowning Rites.",
+ "description": "A chain of ice-islands where Deep Myrathil congregate in underwater cave-cities beneath the frozen surface. The archipelago stretches for forty miles, each island connected by submerged tunnels. The Deep maintain a culture entirely separate from the surface, they emerge only to trade and to conduct their mysterious Drowning Rites.",
  "dangerLevel": "extreme",
  "factions": [
-  "Myrathil Deep-Born"
+  "Myrathil Deep"
  ],
  "connections": [
   "wraithsound",
@@ -921,7 +921,7 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "The Synod-Hold",
  "type": "city",
- "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first constellation-spirit vessels were received just after the Breach.",
+ "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first Lumian echo-vessels arrived just after the Breach.",
  "dangerLevel": "low",
  "factions": [
   "house-ordavan",
@@ -959,7 +959,7 @@ export const ZONE_DATA = [
  "dangerLevel": "medium",
  "factions": [
   "Mound-Keepers",
-  "Astril Sylen"
+  "Astril Vashir"
  ],
  "connections": [
   "synod-hold",
@@ -993,7 +993,7 @@ export const ZONE_DATA = [
  "description": "A unique region of the steppe where the grass is replaced by glowing, crystal-infused Lien-stalks. The soil here is highly fertile, but the crystalline grass makes grazing dangerous, attracting mutated beasts and crystal-skinned scavengers.",
  "dangerLevel": "extreme",
  "factions": [
-  "Astril Muren"
+  "Astril Silath"
  ],
  "connections": [
   "ancestor-mounds",
@@ -1046,10 +1046,10 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "Starfall Vale",
  "type": "wilderness",
- "description": "A deep valley in the otherwise flat steppe where Astril claim constellation-spirits fell to earth during the Breach. The valley floor is littered with crystalline shards that glow faintly with trapped starlight, the physical residue of Sol's shattered celestial court. Sylen Astril make pilgrimages here to commune with their nesting spirits.",
+ "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Vashir Astril make pilgrimages here to commune with Lumia's echo.",
  "dangerLevel": "high",
  "factions": [
-  "Astril Sylen"
+  "Astril Vashir"
  ],
  "connections": [
   "ancestor-mounds",
@@ -1065,7 +1065,7 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "The Unlit Knoll",
  "type": "ruin",
- "description": "A small, rounded hill where Unlit Astril hold their secret judgments, the trials of those whose constellation-spirits have gone dark. The knoll is devoid of all light by Unlit design; even fire refuses to burn here. Unlit Veil operatives use the knoll as a dead-drop and meeting point, knowing no Astril with star-glow in their blood can approach.",
+ "description": "A small, rounded hill where the Unlit Veil hold their secret judgments, the trials of those whose Lumian echo has gone dark. The knoll is devoid of all light by Unlit design; even fire refuses to burn here. Unlit Veil operatives use the knoll as a dead-drop and meeting point, knowing no Astril with active crystalline resonance can approach.",
  "dangerLevel": "high",
  "factions": [
   "Unlit Veil"
@@ -1093,11 +1093,28 @@ export const ZONE_DATA = [
   "mound-camps",
   "lien-stalked-grazes"
  ],
- "wyrdCreatures": []
- },
- {
- "id": "atropolis",
- "regionId": "bryngloom-forest",
+  "wyrdCreatures": []
+  },
+  {
+  "id": "thaw-run-river",
+  "regionId": "sundrift-vale",
+  "name": "The Thaw-Run",
+  "type": "waterway",
+  "description": "The longest continuous river on Mythrill, born from the Cragjaw melt-lakes where the eternal blizzard's runoff collects against the volcanic heat of the lower peaks. The river flows south through the Sundrift Vale, providing the Ordan their primary water source and the Brook Myrathil their inland route from the Iceheart Sea. Near Ironjaw Port, the Thaw-Run empties into the ocean — this estuary was the first waterway to go silent when the ocean's frequency stopped.",
+  "dangerLevel": "low",
+  "factions": [
+   "house-ordavan"
+  ],
+  "connections": [
+   "ironjaw-port",
+   "sundrift-vale",
+   "cragjaw-peaks"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+  "id": "atropolis",
+  "regionId": "bryngloom-forest",
  "name": "Atropolis",
  "type": "city",
  "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Dimming, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward for nearly eight centuries.",
@@ -1449,7 +1466,7 @@ export const ZONE_DATA = [
  "factions": [
   "Xardin's Trading Company",
   "Skald Navy (visiting)",
-  "Fredløse smugglers"
+  "Fredl�se smugglers"
  ],
  "connections": [
   "southern-shore-smugglers-cove",
@@ -1492,10 +1509,10 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "Smuggler's Cove",
  "type": "settlement",
- "description": "A hidden inlet on the southern shore, just south of Xardin's Hearth. The Fredløse clans use it to slip past the Icechamber Syndicate's patrol-ships. There is no permanent town, only shacks built into the cliff, rebuilt each year after the winter storms wash them away. The captain who runs it changes names every season.",
+ "description": "A hidden inlet on the southern shore, just south of Xardin's Hearth. The Fredl�se clans use it to slip past the Icechamber Syndicate's patrol-ships. There is no permanent town, only shacks built into the cliff, rebuilt each year after the winter storms wash them away. The captain who runs it changes names every season.",
  "dangerLevel": "medium",
  "factions": [
-  "Fredløse clans"
+  "Fredl�se clans"
  ],
  "connections": [
   "xardins-hearth"
@@ -1531,7 +1548,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Ironjaw Village",
  "type": "settlement",
- "description": "A small Emberth fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Smooth-Skinned exiles from the old Solvan nobility live here in disguise.",
+ "description": "A small Emberth fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Shorn exiles from the old Solvan nobility live here in disguise.",
  "dangerLevel": "low",
  "factions": [
   "Ironjaw Council",
@@ -1617,12 +1634,12 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Glittering Forest",
  "type": "wilderness",
- "description": "A peninsula connected to Sundale's main landmass by a narrow isthmus, a half-island, the greenest land in the region. Crystal-rich volcanic soil supports ancient broadleaf forest; the leaves catch the volcanic light and throw it back in shards. Long thought cursed, the Glitterwood is now the home of the Risen, the Smooth-Skinned exiles of the old Solvan nobility, and hermits who fled the Dawn Vigil's conscription. The Dawn Vigil pretends the isthmus does not exist.",
+ "description": "A peninsula connected to Sundale's main landmass by a narrow isthmus, a half-island, the greenest land in the region. Crystal-rich volcanic soil supports ancient broadleaf forest; the leaves catch the volcanic light and throw it back in shards. Long thought cursed, the Glitterwood is now the home of the Risen, the Shorn exiles of the old Solvan nobility, and hermits who fled the Dawn Vigil's conscription. The Dawn Vigil pretends the isthmus does not exist.",
  "dangerLevel": "low",
  "factions": [
   "The Risen",
   "Free Glitterwood Council",
-  "Smooth-Skinned exiles"
+  "Shorn exiles"
  ],
  "connections": [
   "glitterwood-heart",
@@ -1898,7 +1915,7 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Tide-Court Cove",
  "type": "settlement",
- "description": "A hidden tidal harbor on a Western Isle, the meeting-place of the Mer-Court, a council of Tide-Speakers, Myrathil River-Fed, and animist holdouts who refuse the Sea-Charter. The Cove fills twice a day with the tide; the rest of the time, it is a ring of black-sand beach around a tidal pool full of singing fish. The Mer-Court is older than the Mereval House; the Board of Trade has never been able to suppress it.",
+ "description": "A hidden tidal harbor on a Western Isle, the meeting-place of the Mer-Court, a council of Tide-Speakers, Myrathil Brook, and animist holdouts who refuse the Sea-Charter. The Cove fills twice a day with the tide; the rest of the time, it is a ring of black-sand beach around a tidal pool full of singing fish. The Mer-Court is older than the Mereval House; the Board of Trade has never been able to suppress it.",
  "dangerLevel": "low",
  "factions": [
   "Mer-Court",
@@ -1998,10 +2015,10 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Spindrift Lagoon",
  "type": "settlement",
- "description": "A warm bioluminescent coral inlet on a volcanic island in the Merrow Archipelago, the only place in the Iceheart Sea where the water is warm enough to swim. The lagoon glows at night with light from the coral; the Breakers-Born Myrathil come here to spawn, and the lagoon is closed to surface traffic during the spawning season.",
+ "description": "A warm bioluminescent coral inlet on a volcanic island in the Merrow Archipelago, the only place in the Iceheart Sea where the water is warm enough to swim. The lagoon glows at night with light from the coral; the Shore Myrathil come here to spawn, and the lagoon is closed to surface traffic during the spawning season.",
  "dangerLevel": "low",
  "factions": [
-  "Myrathil Breakers-Born",
+  "Myrathil Shore",
   "Spindrift Spa-Cult (visiting)"
  ],
  "connections": [
@@ -2151,7 +2168,7 @@ export const ZONE_DATA = [
  "description": "A pre-Thalreth burial mound on the eastern edge of the Reach, untouched by the memory-fog for reasons no Scribe-Sentinel has ever been able to explain. The barrow predates House Thalreth; the original inhabitants are unknown. The Mist-Sentinels are forbidden to enter; the Briaran come here to grieve for the Forgotten who have no other grave.",
  "dangerLevel": "medium",
  "factions": [
-  "Unshorn Briaran (pilgrims)"
+  "Trueborn Briaran (pilgrims)"
  ],
  "connections": [
   "the-shifting-fen"
@@ -2197,10 +2214,10 @@ export const ZONE_DATA = [
  "regionId": "bryngloom-forest",
  "name": "The Root-Veil Scriptorium",
  "type": "settlement",
- "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Neth contract ever written is held in ironwood-root crystals. The Keeper of the Last Threshold guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
+ "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Neth contract ever written is held in ironwood-root crystals. Morvane guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
  "dangerLevel": "extreme",
  "factions": [
-  "Keeper of the Last Threshold",
+  "Morvane",
   "Root-Veil Coven"
  ],
  "connections": [],

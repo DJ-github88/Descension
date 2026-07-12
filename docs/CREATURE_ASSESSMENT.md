@@ -1,4 +1,4 @@
-# Mythrill Creature Compendium — Critical Design Assessment
+﻿# Mythrill Creature Compendium  -  Critical Design Assessment
 
 ## Expert TTRPG Creature Designer Review: 140 Creatures Evaluated Against the Mythrill Stat System
 
@@ -6,7 +6,7 @@
 > **Danger Levels:** Low / Medium / High (no CR)  
 > **6 Stats:** STR, AGI, CON, INT, SPI, CHA (range 4–18+)  
 > **Resources:** maxHp (30–160+), maxMana (0–60), maxActionPoints (3–5), speed (20–45)  
-> **Resistances:** Percentage-based (25 / 50 / 100) — types: cold, fire, physical, psychic, piercing, slashing, lightning, poison, acid, radiant  
+> **Resistances:** Percentage-based (25 / 50 / 100)  -  types: cold, fire, physical, psychic, piercing, slashing, lightning, poison, acid, radiant  
 > **Combat Format:** Dice notation (XdY+Z), DC saves vs AGI / CON / SPI, special mechanics, vulnerabilities
 
 ---
@@ -30,13 +30,13 @@ D&D's iconic creatures succeed because each has a **visually unique silhouette**
 
 The compendium lacks several creature TYPES that make a TTRPG bestiary feel complete:
 
-- **Swarms** (no swarm-size creatures — insect clouds, rat tides, fish schools)
+- **Swarms** (no swarm-size creatures  -  insect clouds, rat tides, fish schools)
 - **True oozes/gelatins** (no amorphous non-sentient hazards)
 - **Mechanical/clockwork constructs** (the Frozen Archive setting begs for brass automata)
-- **Mountable beasts** (almost nothing a party can tame and ride — critical for a VTT)
+- **Mountable beasts** (almost nothing a party can tame and ride  -  critical for a VTT)
 - **Environmental hazards** (only Kur-Pit and Graia approach this)
-- **Shapeshifting infiltrators** (beyond Kitsune — creatures that pretend to be NPCs)
-- **Colossal/Kaiju-tier** (only Ketos and Kraken qualify — need 2–3 more region-scale threats)
+- **Shapeshifting infiltrators** (beyond Kitsune  -  creatures that pretend to be NPCs)
+- **Colossal/Kaiju-tier** (only Ketos and Kraken qualify  -  need 2–3 more region-scale threats)
 
 ### 1.3 The "Lure + Drain" Monoculture
 
@@ -54,9 +54,9 @@ Roughly **40% of all 140 creatures** have a primary mechanic that boils down to 
 
 | Danger Level | Existing 35 | New 140 | Problem |
 |---|---|---|---|
-| Low | 5 (14%) | ~25 (18%) | Underrepresented — the best Low creatures are the memorable ones |
+| Low | 5 (14%) | ~25 (18%) | Underrepresented  -  the best Low creatures are the memorable ones |
 | Medium | 17 (49%) | ~70 (50%) | Appropriate |
-| High | 13 (37%) | ~45 (32%) | Slightly under — need more boss-caliber threats |
+| High | 13 (37%) | ~45 (32%) | Slightly under  -  need more boss-caliber threats |
 
 ### 1.5 Naming Convention Fatigue
 
@@ -64,14 +64,14 @@ Roughly **40% of all 140 creatures** have a primary mechanic that boils down to 
 
 ---
 
-## PART 2: MASCOT CANDIDATES — The "Beholder Tier"
+## PART 2: MASCOT CANDIDATES  -  The "Beholder Tier"
 
 These 10 creatures are visually distinctive, mechanically unique, and thematically resonant enough to serve as **cover art / promotional mascots** for Mythrill. Each could be to Mythrill what the Beholder is to D&D.
 
 | # | Creature | Why It's Iconic |
 |---|---|---|
 | **6** | **Nuckelmist** | Skinless centaur-thing that erases roads by walking them. Pure nightmare fuel. No other TTRPG has this silhouette. |
-| **25** | **Perchtar** | Not a creature — a PROCESSION. A wall of masked ice-demons that parades through your town. Mechanically: a walking weather event. |
+| **25** | **Perchtar** | Not a creature  -  a PROCESSION. A wall of masked ice-demons that parades through your town. Mechanically: a walking weather event. |
 | **59** | **Kur-Pit** | A sentient hole in the ground. Players fight geography. It has a face made of spiraling glyphs. Completely unprecedented. |
 | **78** | **Graia** | A living whirlpool that shows you your own future face and asks "What will you pay?" Ships that sail through it time-travel. |
 | **86** | **Jorōgumo** | Half-spider, half-woman who IS the bridge you're crossing. She weaves the Ancestor-Span from her own body. The reveal is cinematic. |
@@ -105,7 +105,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 6 | **Nuckelmist** | **S** | **High** | **The skinless centaur that erases roads. Mascot candidate. Nothing like this exists in any TTRPG.** |
 | 7 | Mossmaiden | B | Medium | Goat-legs + moss-skin is nice but she's the 3rd "beautiful forest woman" in 7 entries. |
 | 8 | Fachanwatch | A | High | Two-legged giant with a single central arm demanding truths. Visually striking and unique body plan. |
-| 9 | Knockbrew | C | Low | Just a drunk cellar sprite. Clurichaun done again. The forget-mead is the only interesting bit — extract that into a standalone item. |
+| 9 | Knockbrew | C | Low | Just a drunk cellar sprite. Clurichaun done again. The forget-mead is the only interesting bit  -  extract that into a standalone item. |
 | 10 | Wildejagd | A | High | Flock of screaming ancestor-ghosts fused into one entity. The Archive-Storm concept is cinematic. |
 | 11 | Fuath | C | Medium | 4th "lure you to water" creature in this region. Folds into Drudehaunt or Banshrond. |
 | 12 | Grogoch | B | Low | Adorable but redundant with Schratling. The tunnel-network mechanic is the saving grace. |
@@ -114,9 +114,9 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 15 | Cusith | A | Medium | Better version of Erlking's Hound. The three-bark memory mechanic is brilliant game design. |
 | 16 | Pixie | B | Low | Functional will-o-wisp variant. The color-coded trail (gold/blue/red) is elegant game design. |
 | 17 | Sluagh | A | High | Swirling vortex of spectral crows born from crossroads executions. Excellent use of the Gallow-Wyrd lore. |
-| 18 | Banshrond | B | High | Strong thematically but she's the 5th "woman at fog's edge" creature. The comb-bargain is the unique mechanic — lean into that. |
+| 18 | Banshrond | B | High | Strong thematically but she's the 5th "woman at fog's edge" creature. The comb-bargain is the unique mechanic  -  lean into that. |
 | 19 | Waldschrat | C | Low | Redundant with Pixie. Both are small forest tricksters with riddle/prank mechanics. |
-| 20 | Moorboggle | C | Medium | Generic shapeless blob. No visual identity. Needs a radical redesign — consider making it a parasitic house-spirit that mimics furniture. |
+| 20 | Moorboggle | C | Medium | Generic shapeless blob. No visual identity. Needs a radical redesign  -  consider making it a parasitic house-spirit that mimics furniture. |
 
 **Region 1 Issues:** 5 "woman at fog's edge" creatures (Drudehaunt, Mossmaiden, Fuath, Banshrond, Cailleach). 3 "small sprite" creatures (Schratling, Grogoch, Pixie). Kill 3–4 of the weakest and replace with a construct, a swarm, and a mount.
 
@@ -130,7 +130,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 22 | Marepress | B | Medium | Solid nightmare-spirit but identical in function to Drudehaunt (#3). Different region, same mechanic. |
 | 23 | Klabatskerry | A | Low | Ship-sprite made of wreck-debris with a bell-chest. The weeping-omen mechanic is fantastic GM tool. |
 | 24 | Krampuskin | A | High | 10-foot ice-furred punisher dragging chains. Iconic silhouette. The frozen-sack of preserved victims is horrifying. |
-| 25 | **Perchtar** | **S** | **High** | **A walking procession-entity. Masked ice-demons that clear Wyrd. This is a set-piece encounter, not a monster — brilliant design.** |
+| 25 | **Perchtar** | **S** | **High** | **A walking procession-entity. Masked ice-demons that clear Wyrd. This is a set-piece encounter, not a monster  -  brilliant design.** |
 | 26 | Helhest | A | High | Three-legged horse that anchors glaciers. The "killing it unleashes the glacier" dilemma is superb game design. |
 | 27 | Myling | C | Medium | Heavy baby ghost. One-trick mechanic (carry me or get crushed). Too narrow for repeated use. |
 | 28 | Jutul | B | Medium | Boulder-troll in a sunless world = always active. Nice setting tie-in. But the toll-demand is generic. |
@@ -164,7 +164,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 47 | Bes | A | Low | Terracotta homunculus that fights with noise and comedy. The shatter-into-warding-shards death is beautiful. |
 | 48 | Ifrit | A | High | White-hot coal-giant who shapes magma. The cobra-glare (ignites at 50 paces) is a strong area-denial mechanic. |
 | 49 | Ghul | B | Medium | Sheet-figure with floating eyes. The invisible-smiter mechanic is solid but the Medjed source is thin. |
-| 50 | Gugalanna | C | Medium | "Big fiery bull." The Apis scarab-purification is interesting but the creature itself is generic. Needs a twist — make it crystalline, or make its body a walking map. |
+| 50 | Gugalanna | C | Medium | "Big fiery bull." The Apis scarab-purification is interesting but the creature itself is generic. Needs a twist  -  make it crystalline, or make its body a walking map. |
 | 51 | Peri | A | Low | Gorgeous moth of fallen-starlight. The sun-seed mechanic (plant in hearthstone → fire for a year) is excellent crafting bait. |
 | 52 | Daeva | A | High | Moving hole in the world that eats truth. The market-vs-temple feeding-dynamic is inspired social design. |
 | 53 | Simurgh | A | High | Ancient griffon-bird that remembers the world before the Dimming. The caldera-stabilizing aura gives it ecological weight. |
@@ -185,16 +185,16 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | # | Creature | Tier | Danger | Critical Assessment |
 |---|---|---|---|---|
 | 61 | Mamiri | B | Medium | Beautiful singing woman on a reef. Classic but overdone in fantasy. The Mami-Wata bargain mechanic saves it. |
-| 62 | Charybdis | A | High | Living whirlpool with leopard-spotted scales flashing inside. Great encounter design — players fight ocean geometry. |
+| 62 | Charybdis | A | High | Living whirlpool with leopard-spotted scales flashing inside. Great encounter design  -  players fight ocean geometry. |
 | 63 | **Ketos** | **A** | **High** | **200-foot elephant-serpent trying to communicate with the Monolith. The "god's mistake" lore is compelling.** |
 | 64 | Harpy | B | Medium | Iron-hooked bird-women. Functional but the "snatch from deck" mechanic is identical to Qalupalik (existing). |
-| 65 | Hippocampus | A | Low | Rideable sea-horse that purifies water. EXCELLENT — this is the mount the bestiary desperately needs. |
+| 65 | Hippocampus | A | Low | Rideable sea-horse that purifies water. EXCELLENT  -  this is the mount the bestiary desperately needs. |
 | 66 | Gorgon | A | High | Bioluminescent eel-hair woman whose gaze causes progressive petrification. The firefly-shift (compress into a tiny eel) is brilliant. |
 | 67 | Tokoloshe | C | Low | Accurate to folklore but the penis-nose and the "brick under the bed" countermeasure are tonally inconsistent with the rest of the bestiary. Redesign. |
 | 68 | Lamia | B | Medium | 4th "beautiful sea-woman who lures you" in this region. The 12-foot arms are the only distinctive feature. |
 | 69 | Empusa | B | High | Brass-leg/heron-face shifter. Interesting visually but the immortality-transfer mechanic is complex and hard to GM. |
 | 70 | Telkhine | A | Medium | Seal-headed blacksmith who forges ice-weapons and strips nails from boats. The material-obsession is unique. |
-| 71 | Stymphalian | B | Medium | Bronze-feathered birds that shed shrapnel. Solid but the Kongamato fusion feels thin — it's mostly just Greek. |
+| 71 | Stymphalian | B | Medium | Bronze-feathered birds that shed shrapnel. Solid but the Kongamato fusion feels thin  -  it's mostly just Greek. |
 | 72 | Nereid | B | Low | Benevolent luminous rescuer. Good counterpart to the hostile sea creatures. But "beautiful sea woman" again. |
 | 73 | Graeae | A | Medium | Three crones sharing one obsidian eye that shows futures. The tooth-payment mechanic (give tooth = true prophecy) is dark and memorable. |
 | 74 | Triton | A | High | Merman sovereign who calms storms with a conch. The Monolith-dampening duty gives him cosmic importance. |
@@ -202,10 +202,10 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 76 | Popobawa | A | High | Shape-shifting terror that feeds on shame-silence. The "break its hold by speaking publicly" countermeasure is brilliant social-combat design. |
 | 77 | Abada | A | Low | Narwhal-antelope unicorn that purifies water. The horn-as-cure is classic. Another potential mount. |
 | 78 | **Graia** | **S** | **High** | **A living whirlpool-portal that shows your future face and time-travels ships. "What will you pay?" is iconic.** |
-| 79 | Ichthya | B | Medium | Sea-centaur blacksmith. Cool visually but overlaps with Telkhine (#70) — both forge underwater weapons. |
-| 80 | Brine | A | Low | Floating souls of dead sailors that guide ships to safety — or onto rocks. The "check the faces" mechanic is incredible player-skill design. |
+| 79 | Ichthya | B | Medium | Sea-centaur blacksmith. Cool visually but overlaps with Telkhine (#70)  -  both forge underwater weapons. |
+| 80 | Brine | A | Low | Floating souls of dead sailors that guide ships to safety  -  or onto rocks. The "check the faces" mechanic is incredible player-skill design. |
 
-**Region 4 Issues:** FOUR "beautiful sea-woman" types (Mamiri, Lamia, Empusa, Nereid). Kill 2. Replace with a crustacean-colossal and an actual sea-serpent (not another woman). Telkhine/Ichthya overlap — merge into one.
+**Region 4 Issues:** FOUR "beautiful sea-woman" types (Mamiri, Lamia, Empusa, Nereid). Kill 2. Replace with a crustacean-colossal and an actual sea-serpent (not another woman). Telkhine/Ichthya overlap  -  merge into one.
 
 ---
 
@@ -216,13 +216,13 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 81 | Kappa | A | Low | Turtle-sprite guarding geothermal pools. The bow-debt weakness is the most charming mechanic in the entire compendium. |
 | 82 | Kitsune | A | Medium | Multi-tailed fox with illusion-storage in each tail. The backward-foot Chullachaqui tell is great player-skill design. |
 | 83 | Supayoni | B | High | Standard oni-brute. The aurora-club is nice but the design is the least creative fusion in the region. |
-| 84 | Yuki-Onna variant — CUT | — | — | Yuki-Onna already exists in the bestiary. This slot should be a different creature entirely. |
+| 84 | Yuki-Onna variant  -  CUT |  -  |  -  | Yuki-Onna already exists in the bestiary. This slot should be a different creature entirely. |
 | 85 | Tengu-Crag | B | Medium | Crow-spirit with wind-magic. But Tengu Scout already exists. Too similar. Needs radical differentiation. |
 | 86 | **Jorōgumo** | **S** | **High** | **She IS the bridge. Half-spider, half-woman woven into the Ancestor-Span itself. The reveal is cinematic gold.** |
 | 87 | Kodama | A | Low | Tiny mountain-spirit that repeats everything with a 7-second delay. The communication-network mechanic is genius VTT utility. |
 | 88 | Nurikabe | A | Medium | A section of cliff that blocks your path and rearranges mountain geography overnight. Unique "living terrain" design. |
 | 89 | Nue | A | High | Shape-shifting nightmare-cloud that causes shared hallucinations. The "earth-wound immune response" ecology is inspired. |
-| 90 | Kasha | A | Medium | Flame-cat that steals corpses — or leaves fortune-miniatures. The duality (death-thief or fortune-bringer) is great ambiguity. |
+| 90 | Kasha | A | Medium | Flame-cat that steals corpses  -  or leaves fortune-miniatures. The duality (death-thief or fortune-bringer) is great ambiguity. |
 | 91 | Tanuki | A | Low | Raccoon-dog toll-collector who demands riddles and songs. The illa-stone reward mechanic is delightful. |
 | 92 | Ushioni | A | High | Spider-bodied bull-demon that webs geothermal vents. The sabotage-heating-system mechanic is unique siege design. |
 | 93 | Baku | A | Low | Chimera that eats nightmares and makes rooms sacred. The "huaca zone" (no violence possible) is a brilliant safe-room mechanic. |
@@ -242,7 +242,7 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 
 | # | Creature | Tier | Danger | Critical Assessment |
 |---|---|---|---|---|
-| 101 | Almas | B | Medium | Shy wildman observer. Nice as worldbuilding but passive — hard to build encounters around. |
+| 101 | Almas | B | Medium | Shy wildman observer. Nice as worldbuilding but passive  -  hard to build encounters around. |
 | 102 | Tulpar | A | Medium | Winged dragon-horse carrying lost constellations in its scales. The "Astril read its flank like starlight" mechanic is beautiful. Potential mount. |
 | 103 | Erlik | A | High | Half-flesh/half-skeleton judge on a bone-throne. The "body gone = worthy, body remains = condemned" mechanic is chilling. |
 | 104 | Burkhan-Wind | B | Medium | Invisible sacred-presence. Hard to grid. The khadag-multiplication omen-system is elegant though. |
@@ -290,9 +290,9 @@ These 10 creatures are visually distinctive, mechanically unique, and thematical
 | 137 | Alkonost | A | High | Joy-singer whose song erases memories into feathers. The "Neth find it irresistible" angle creates great internal party conflict. |
 | 138 | Dziwozona-Wild | B | Medium | Ugly water-woman substituting changelings. The contract-paper-eating changeling is funny but the creature herself is yet another bog-woman. |
 | 139 | **Upir-Root** | **S** | **High** | **A vampire that IS a root-system spreading underground from a screaming corpse. You fight the forest floor. The legal-declaration-of-release countermeasure is perfect for the Neth setting. Unprecedented design.** |
-| 140 | **Sirin-Song** | **S** | **High** | **The most beautiful face in existence, eyes forever closed. Her song is the Keeper's voice. Nine fate-threads she can pluck. This is the endgame creature — the voice of the setting's final arbiter.** |
+| 140 | **Sirin-Song** | **S** | **High** | **The most beautiful face in existence, eyes forever closed. Her song is the Keeper's voice. Nine fate-threads she can pluck. This is the endgame creature  -  the voice of the setting's final arbiter.** |
 
-**Region 7 Verdict:** Strongest closing region. The S-tiers (Upir-Root, Sirin-Song) are genuinely the best creatures in the compendium. Three bird-women (Gamayun, Alkonost, Sirin) need careful differentiation — currently they blur. Consider making Gamayun the scholar, Alkonost the danger, and Sirin the cosmic force.
+**Region 7 Verdict:** Strongest closing region. The S-tiers (Upir-Root, Sirin-Song) are genuinely the best creatures in the compendium. Three bird-women (Gamayun, Alkonost, Sirin) need careful differentiation  -  currently they blur. Consider making Gamayun the scholar, Alkonost the danger, and Sirin the cosmic force.
 
 ---
 
@@ -329,11 +329,11 @@ These C-tier creatures should be either removed or completely redesigned:
 10. **#115 Ubagan-Mud** → Cut (Olgoi-Khorkhoi exists). Replace with a steppe-fire elemental
 
 ### Priority 2: Add Missing Archetypes (filling freed slots)
-- **Construct/Clockwork** (2–3 creatures) — Brass Archive-automata in Nordhalla, terracotta war-constructs in Sundale
-- **Swarm** (2 creatures) — A fog-insect swarm in Frostwood, a bone-rat swarm in Bryngloom
-- **Mountable Beast** (2–3 creatures) — The Hippocampus and Tulpar are good starts. Add a Cragjaw climbing-beast and a Sundrift war-beast
-- **Colossal/Kaiju** (1–2 creatures) — Region-scale threats beyond even the High danger tier
-- **Environmental Hazard-Creature** (1–2 creatures) — Like Kur-Pit but for other regions
+- **Construct/Clockwork** (2–3 creatures)  -  Brass Archive-automata in Nordhalla, terracotta war-constructs in Sundale
+- **Swarm** (2 creatures)  -  A fog-insect swarm in Frostwood, a bone-rat swarm in Bryngloom
+- **Mountable Beast** (2–3 creatures)  -  The Hippocampus and Tulpar are good starts. Add a Cragjaw climbing-beast and a Sundrift war-beast
+- **Colossal/Kaiju** (1–2 creatures)  -  Region-scale threats beyond even the High danger tier
+- **Environmental Hazard-Creature** (1–2 creatures)  -  Like Kur-Pit but for other regions
 
 ### Priority 3: Sharpen Differentiation
 - Give each of the 7 regions exactly **one** signature "beautiful lure" creature and no more
@@ -349,13 +349,13 @@ For the full per-creature ability blocks that follow, abilities use this format:
 > **Ability Name** *(type, range, XdY+Z damage type, DC ## [AGI/CON/SPI] save or [effect])*
 
 **Ability Types:**
-- *(melee)* — melee attack, uses STR or AGI to hit
-- *(ranged)* — ranged attack, uses AGI or SPI to hit
-- *(AoE)* — area of effect, targets in radius make saves
-- *(bonus action)* — costs 1 AP, does not replace main action
-- *(passive)* — always active
-- *(reaction)* — triggered by specific event
-- *(special)* — unique mechanic, see description
+- *(melee)*  -  melee attack, uses STR or AGI to hit
+- *(ranged)*  -  ranged attack, uses AGI or SPI to hit
+- *(AoE)*  -  area of effect, targets in radius make saves
+- *(bonus action)*  -  costs 1 AP, does not replace main action
+- *(passive)*  -  always active
+- *(reaction)*  -  triggered by specific event
+- *(special)*  -  unique mechanic, see description
 
 **Damage Types in Mythrill:** physical, cold, fire, lightning, acid, poison, psychic, radiant, bludgeoning, slashing, piercing
 
@@ -377,8 +377,8 @@ For the full per-creature ability blocks that follow, abilities use this format:
 | Sundrift Vale | 3 | 6 | 8 | 3 | 7/10 |
 | Bryngloom Forest | 2 | 10 | 6 | 2 | **8/10** |
 
-**Overall Compendium Score: 7.5/10** — A strong foundation with genuine standout creatures, but suffering from archetype monoculture and intra-region redundancy. With the recommended cuts and redesigns, this could reach 9/10.
+**Overall Compendium Score: 7.5/10**  -  A strong foundation with genuine standout creatures, but suffering from archetype monoculture and intra-region redundancy. With the recommended cuts and redesigns, this could reach 9/10.
 
 ---
 
-*The per-creature ability blocks for all 140 creatures follow in a separate document — CREATURE_ABILITIES.md — formatted for direct integration into `creatureData.js`.*
+*The per-creature ability blocks for all 140 creatures follow in a separate document  -  CREATURE_ABILITIES.md  -  formatted for direct integration into `creatureData.js`.*

@@ -202,7 +202,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Synod-Speak' && (
                 <>
                   <li><i className="fas fa-check"></i> Astril scholars of the Synod-Hold</li>
-                  <li><i className="fas fa-check"></i> Constellation-spirits and their vessels</li>
+                  <li><i className="fas fa-check"></i> Lumian echo-signatures and their vessels</li>
                   <li><i className="fas fa-check"></i> Crystal-lattice archivists and historians</li>
                   <li><i className="fas fa-check"></i> Those who study spirit-genealogies</li>
                 </>
@@ -257,7 +257,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Celestial' && (
                 <>
-                  <li><i className="fas fa-check"></i> Constellation-spirits and their Astril vessels</li>
+                  <li><i className="fas fa-check"></i> Lumian echo and its Astril vessels</li>
                   <li><i className="fas fa-check"></i> Solvarn martyrs who tend Emberspire's wound</li>
                   <li><i className="fas fa-check"></i> Korr Sun-Speakers in their sacred vigil</li>
                   <li><i className="fas fa-check"></i> Those who carry the memory of stars in their blood</li>
@@ -273,7 +273,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Root-Veil' && (
                 <>
-                  <li><i className="fas fa-check"></i> The Keeper of the Last Threshold and fungal entities</li>
+                  <li><i className="fas fa-check"></i> Morvane and fungal entities</li>
                   <li><i className="fas fa-check"></i> Over-Lit Vreken who hear it constantly</li>
                   <li><i className="fas fa-check"></i> Ghost-Mycelium and the Hush-Bogs themselves</li>
                   <li><i className="fas fa-check"></i> Entities that predate all surface civilization</li>
@@ -281,7 +281,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Infernal' && (
                 <>
-                  <li><i className="fas fa-check"></i> The Warden's enforcement-mechanisms</li>
+                  <li><i className="fas fa-check"></i> Aethil's enforcement-mechanisms</li>
                   <li><i className="fas fa-check"></i> Neth contract-houses drafting deathless clauses</li>
                   <li><i className="fas fa-check"></i> Arcanoneers who bind spells to formal agreements</li>
                   <li><i className="fas fa-check"></i> Any being bound by the First Contract's oldest sections</li>
@@ -290,7 +290,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Primordial' && (
                 <>
                   <li><i className="fas fa-check"></i> Elementals of all four primal forces</li>
-                  <li><i className="fas fa-check"></i> The Sea Mother and the Deep Thrum's oldest dialect</li>
+                  <li><i className="fas fa-check"></i> Mareth and the Deep Thrum's oldest dialect</li>
                   <li><i className="fas fa-check"></i> Planar scholars and elemental channelers</li>
                   <li><i className="fas fa-check"></i> Creatures native to elemental intelligences</li>
                 </>
@@ -298,7 +298,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Sylvan' && (
                 <>
                   <li><i className="fas fa-check"></i> Fae entities who accepted House Viridane's counter-bargain</li>
-                  <li><i className="fas fa-check"></i> Briaran Unshorn who sing to their groves</li>
+                  <li><i className="fas fa-check"></i> Briaran Trueborn who sing to their groves</li>
                   <li><i className="fas fa-check"></i> The Revel's endlessly-celebrating courtiers</li>
                   <li><i className="fas fa-check"></i> Moonlit groves where promises echo forever</li>
                 </>
@@ -329,7 +329,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Aquan' && (
                 <>
-                  <li><i className="fas fa-check"></i> The Iceheart Sea's consciousness: the Sea Mother</li>
+                  <li><i className="fas fa-check"></i> The Iceheart Sea's consciousness: Mareth</li>
                   <li><i className="fas fa-check"></i> Myrathil of all three subraces</li>
                   <li><i className="fas fa-check"></i> Merrow sailors and Brine-marked survivors</li>
                   <li><i className="fas fa-check"></i> Water elementals and deep-ocean entities</li>
@@ -369,7 +369,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Vale-Speak' && (
                 <>
                   <li><i className="fas fa-check"></i> Mimir of the Frostwood Reach</li>
-                  <li><i className="fas fa-check"></i> Mask-Borne, Mist-Woven, and Unwoven alike</li>
+                  <li><i className="fas fa-check"></i> Masked, Woven, and Unwoven alike</li>
                   <li><i className="fas fa-check"></i> Fog-adapted communities who navigate by voice alone</li>
                   <li><i className="fas fa-check"></i> Those who lost their masks in the Purge ninety years ago</li>
                 </>
@@ -409,7 +409,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Ethereal' && (
                 <>
                   <li><i className="fas fa-check"></i> Spirits and the Veilborn between worlds</li>
-                  <li><i className="fas fa-check"></i> Constellation-spirits in their vessels' dreams</li>
+                  <li><i className="fas fa-check"></i> Lumian echo in their vessels' dreams</li>
                   <li><i className="fas fa-check"></i> Wyrd-echoes and ghostly entities</li>
                   <li><i className="fas fa-check"></i> Mediums and spirit-channelers</li>
                 </>

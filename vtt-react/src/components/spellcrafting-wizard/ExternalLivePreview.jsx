@@ -224,7 +224,7 @@ const ExternalLivePreview = () => {
 
     } catch (error) {
       console.error('Error completing spell:', error);
-      setCompletionMessage('âœ— Failed to complete spell. Please try again.');
+      setCompletionMessage('âœ -  Failed to complete spell. Please try again.');
       setTimeout(() => setCompletionMessage(''), 3000);
     } finally {
       setIsCompleting(false);

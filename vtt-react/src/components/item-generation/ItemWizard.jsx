@@ -720,7 +720,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             e.preventDefault();
                             e.stopPropagation();
                             handleClose();
-                        }}>Ã—</button>
+                        }}>Ã - </button>
                     </div>
                     {/* Single column layout - Preview is now external */}
                     <div className="wizard-main-content">

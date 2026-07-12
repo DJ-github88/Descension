@@ -761,10 +761,11 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
 
   return (
     <div
-      className={`race-card ${isSelected ? 'selected' : ''}`}
+      className={`race-card race-card-${race.id} ${isSelected ? 'selected' : ''}`}
       onClick={() => onSelect(race.id)}
       style={{ '--race-gradient': race.gradient }}
     >
+        <div className="race-card-bg-effects"></div>
         {RACE_WATERCOLOR[race.id] && (
           <img
             className="race-card-watermark"
@@ -797,12 +798,13 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
 });
 
 // Memoized Variant Card Component
-const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => {
+const VariantCard = React.memo(({ raceId, variantId, variant, isSelected, onSelect }) => {
   return (
     <div
-      className={`variant-card ${isSelected ? 'selected' : ''}`}
+      className={`variant-card variant-card-${raceId} variant-card-${variant.id || variantId} ${isSelected ? 'selected' : ''}`}
       onClick={() => onSelect(variantId)}
     >
+      <div className="variant-card-bg-effects"></div>
       <h4 className="variant-card-name">{variant.name}</h4>
       <p className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</p>
       <StatModifiersMini statModifiers={variant.statModifiers} />
@@ -1300,6 +1302,7 @@ const RaceSelector = () => {
               {Object.entries(raceData.subraces).map(([variantId, variant]) => (
                 <VariantCard
                   key={variantId}
+                  raceId={raceData.id}
                   variantId={variantId}
                   variant={variant}
                   isSelected={selectedVariant === variantId}

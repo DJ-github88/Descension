@@ -5211,3 +5211,72 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   background: #8b4513;
   transform: scale(1.25);
 }
+
+/* Class Navigation Buttons in Header */
+.class-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.class-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: radial-gradient(circle, #fcf8ee 0%, #f7f0df 100%);
+  border: 1px solid #c9a227;
+  border-radius: 4px;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.class-nav-btn:hover {
+  background: radial-gradient(circle, #f7f0df 0%, #eadaa6 100%);
+  border-color: #a68019;
+  color: #3b110a;
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+  transform: translateY(-1px);
+}
+
+.class-nav-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.class-nav-btn.back {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+}
+
+.class-nav-btn i {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.class-nav-btn.prev:hover i {
+  transform: translateX(-2px);
+}
+
+.class-nav-btn.next:hover i {
+  transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+  .class-nav-buttons {
+    gap: 4px;
+  }
+  .class-nav-btn {
+    padding: 6px 8px;
+  }
+  .class-nav-btn .nav-btn-text {
+    display: none;
+  }
+}

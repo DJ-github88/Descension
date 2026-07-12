@@ -109,7 +109,7 @@ const PortalLibrary = () => {
                                             onClick={() => handleDeleteTemplate(template.id)}
                                             title="Delete template"
                                         >
-                                            🗑️
+                                            � - �️
                                         </button>
                                     </div>
                                 </div>

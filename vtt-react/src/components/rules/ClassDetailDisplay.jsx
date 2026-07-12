@@ -10,6 +10,7 @@ import './ClassDetailDisplay.css';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import { RULES_CATEGORIES } from '../../data/rulesData';
+import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 
 
 /**
@@ -283,15 +284,7 @@ const CLASS_REGIONS = {
  // 'formbender' removed (consolidated into Shaper)
 
  // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
- fate_weaver: {
-  regionId: 'cragjaw-peaks',
-  regionName: 'Cragjaw Peaks',
-  accentColor: '#8e44ad',
-  bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
-  borderColor: '#8e44ad',
-  glowColor: 'rgba(142, 68, 173, 0.15)',
-  icon: 'fas fa-project-diagram'
- },
+ // 'fate_weaver' removed (consolidated into Gambit, which uses the Iceheart Sea config below)
  chronarch: {
   regionId: 'cragjaw-peaks',
   regionName: 'Cragjaw Peaks',
@@ -301,7 +294,7 @@ const CLASS_REGIONS = {
   glowColor: 'rgba(142, 68, 173, 0.15)',
   icon: 'fas fa-history'
  },
- gambler: {
+ gambit: {
   regionId: 'iceheart-sea',
   regionName: 'Iceheart Sea',
   accentColor: '#2c3e50', // deep indigo
@@ -750,7 +743,7 @@ const classFallbacks = {
  ],
  shaper: [
   { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Bone-Reader Shaper reshaping bone and sinew.' },
-  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Breakerborn Myrathil Shaper with curved bone-swords and water-force.' },
+  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Shore Myrathil Shaper with curved bone-swords and water-force.' },
   { url: '/assets/images/classes/shaper_illustration_3.png', caption: 'A Korr Emberth Shaper reshaping glowing lava-infused bones with their hands.' }
  ],
  revenant: [
@@ -759,7 +752,7 @@ const classFallbacks = {
   { url: '/assets/images/classes/revenant_illustration_3.png', caption: 'An Ithran Groven Revenant wreathed in roots with glowing swamp-green eyes.' }
  ],
  animist: [
-  { url: '/assets/images/classes/animist_illustration.png', caption: 'An Unshorn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
+  { url: '/assets/images/classes/animist_illustration.png', caption: 'A Trueborn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
   { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' },
   { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Velun Neth Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
  ],
@@ -784,7 +777,7 @@ const classFallbacks = {
   { url: '/assets/images/classes/plaguebringer_illustration_3.png', caption: 'A Morgh Groven Plaguebringer holding a clay jar leaking thick rot vapors.' }
  ],
  minstrel: [
-  { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A River-fed Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
+  { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A Brook Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
   { url: '/assets/images/classes/minstrel_illustration_2.png', caption: 'A Skald Human Minstrel singing a tale and playing a rustic lute.' },
   { url: '/assets/images/classes/minstrel_illustration_3.png', caption: 'A Tessen Human Minstrel playing a small, ornate harp with swirling wind currents.' }
  ],
@@ -794,9 +787,9 @@ const classFallbacks = {
   { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Morren Human Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
  ],
  apex: [
-  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Smoothskinned Briaran Silent Hunter Apex drawing a recurve bow.' },
-  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'An Unshorn Briaran Apex with wild thorns growing along their arms drawing a living bow.' },
-  { url: '/assets/images/classes/apex_illustration_3.png', caption: 'A River-fed Myrathil Apex drawing a coral bow with a glowing water arrow.' }
+  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Shorn Briaran Silent Hunter Apex drawing a recurve bow.' },
+  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'A Trueborn Briaran Apex with wild thorns growing along their arms drawing a living bow.' },
+  { url: '/assets/images/classes/apex_illustration_3.png', caption: 'A Brook Myrathil Apex drawing a coral bow with a glowing water arrow.' }
  ],
  warden: [
   { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
@@ -804,23 +797,23 @@ const classFallbacks = {
   { url: '/assets/images/classes/warden_illustration_3.png', caption: 'An Ordan Human Warden in heavy iron plate armor dragging a massive shackle.' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Muren Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Silath Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
   { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' },
   { url: '/assets/images/classes/gambit_illustration_3.png', caption: 'A Skald Human Gambit flipping three glowing brass coins to trace probability lines.' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Sylen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
+  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Vashir Astril Starlight Astrologer Chronarch utilizing time-sand.' },
   { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' },
-  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Muren Astril Chronarch tracing complex golden clockwork dials in the air.' }
+  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Silath Astril Chronarch tracing complex golden clockwork dials in the air.' }
  ],
  spellguard: [
   { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Muren Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Silath Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
   { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Drall Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
  ],
  augur: [
   { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Sylen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
+  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Vashir Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
   { url: '/assets/images/classes/augur_illustration_3.png', caption: 'An Unwoven Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
  ],
  harbinger: [
@@ -831,7 +824,7 @@ const classFallbacks = {
  lunarch: [
   { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
   { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' },
-  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'An Unshorn Briaran Lunarch wreathed in glowing silver lunar briars.' }
+  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'A Trueborn Briaran Lunarch wreathed in glowing silver lunar briars.' }
  ]
 };
 
@@ -844,7 +837,7 @@ const classFallbacks = {
  * - Specializations (talent trees/specs)
  * - Example Spells (showcasing the class's capabilities)
  */
-const ClassDetailDisplay = ({ classData, onBack }) => {
+const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [activeTab, setActiveTab] = useState('overview');
  const [selectedSpell, setSelectedSpell] = useState(null);
  const [currentPage, setCurrentPage] = useState(0);
@@ -861,17 +854,29 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
   const illustrationData = useMemo(() => {
    if (!classData) return null;
+   const fallbacks = classFallbacks[classId];
+   if (fallbacks && Array.isArray(fallbacks) && fallbacks.length > 0) {
+    return fallbacks[activeIllusIndex % fallbacks.length];
+   }
    const overview = classData.overview || {};
    if (overview.illustration) {
     return { url: overview.illustration, caption: overview.illustrationCaption };
    }
-   const fallbacks = classFallbacks[classId];
-   if (!fallbacks) return null;
-   if (Array.isArray(fallbacks)) {
-    return fallbacks[activeIllusIndex % fallbacks.length];
-   }
-   return fallbacks;
+   return null;
   }, [classId, classData, activeIllusIndex]);
+
+  // Find previous and next classes for direct navigation
+  const classNavData = useMemo(() => {
+   if (!classData) return { prevClass: null, nextClass: null };
+   const currentIdx = CLASS_DISPLAY_DATA.findIndex(
+    c => c.name.toLowerCase() === classData.name.toLowerCase()
+   );
+   if (currentIdx === -1) return { prevClass: null, nextClass: null };
+   
+   const prevClass = CLASS_DISPLAY_DATA[currentIdx > 0 ? currentIdx - 1 : CLASS_DISPLAY_DATA.length - 1];
+   const nextClass = CLASS_DISPLAY_DATA[(currentIdx + 1) % CLASS_DISPLAY_DATA.length];
+   return { prevClass, nextClass };
+  }, [classData]);
 
  // Deep Combat Chronicle Fallbacks to guarantee content is never empty
  const combatRoleData = useMemo(() => {
@@ -1564,7 +1569,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       <div className="dossier-card spec-card">
        {illustrationData && (() => {
         const fallbacks = classFallbacks[classId];
-        const hasMultiple = !classData.overview?.illustration && Array.isArray(fallbacks) && fallbacks.length > 1;
+        const hasMultiple = Array.isArray(fallbacks) && fallbacks.length > 1;
         return (
          <div className="guide-illustration-wrapper-centered">
           <div className="guide-illustration-frame">
@@ -2965,7 +2970,35 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       </div>
      </div>
     </div>
-    <div className="class-header-right"></div>
+    <div className="class-header-right">
+     {onSelectClass && classNavData.prevClass && classNavData.nextClass && (
+      <div className="class-nav-buttons">
+       <button 
+        className="class-nav-btn prev" 
+        onClick={() => onSelectClass(classNavData.prevClass.name)}
+        title={`Previous: ${classNavData.prevClass.name}`}
+       >
+        <i className="fas fa-chevron-left"></i>
+        <span className="nav-btn-text">{classNavData.prevClass.name}</span>
+       </button>
+       <button 
+        className="class-nav-btn back" 
+        onClick={onBack}
+        title="Back to All Classes"
+       >
+        <i className="fas fa-th"></i>
+       </button>
+       <button 
+        className="class-nav-btn next" 
+        onClick={() => onSelectClass(classNavData.nextClass.name)}
+        title={`Next: ${classNavData.nextClass.name}`}
+       >
+        <span className="nav-btn-text">{classNavData.nextClass.name}</span>
+        <i className="fas fa-chevron-right"></i>
+       </button>
+      </div>
+     )}
+    </div>
    </div>
 
    <div className="class-detail-tabs premium-tabs">

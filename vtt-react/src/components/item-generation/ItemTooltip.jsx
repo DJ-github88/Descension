@@ -1531,7 +1531,7 @@ function ItemTooltip({ item }) {
                     if (multiplier < 0) {
                         // Healing from damage
                         const healMultiplier = Math.abs(multiplier);
-                        formatted = `${type.charAt(0).toUpperCase() + type.slice(1)} damage heals you for ${healMultiplier}Ã— the damage taken, instead of damaging you.`;
+                        formatted = `${type.charAt(0).toUpperCase() + type.slice(1)} damage heals you for ${healMultiplier}Ã -  the damage taken, instead of damaging you.`;
                         resistanceType = 'vampiric';
                     } else if (multiplier === 0.0 || level === 0) {
                         // Immune
@@ -1540,19 +1540,19 @@ function ItemTooltip({ item }) {
                     } else if (multiplier < 1.0) {
                         // Resistant
                         if (multiplier <= 0.5) {
-                            formatted = `Highly resistant to ${type.toLowerCase()} damage, taking only ${multiplier}Ã— the damage taken.`;
+                            formatted = `Highly resistant to ${type.toLowerCase()} damage, taking only ${multiplier}Ã -  the damage taken.`;
                         } else {
-                            formatted = `Resistant to ${type.toLowerCase()} damage, taking ${multiplier}Ã— the damage taken.`;
+                            formatted = `Resistant to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
                         }
                         resistanceType = 'resistant';
                     } else if (multiplier > 1.0) {
                         // Vulnerable
                         if (multiplier >= 2.0) {
-                            formatted = `Extremely vulnerable to ${type.toLowerCase()} damage, taking ${multiplier}Ã— the damage taken.`;
+                            formatted = `Extremely vulnerable to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
                         } else if (multiplier >= 1.5) {
-                            formatted = `Exposed to ${type.toLowerCase()} damage, taking ${multiplier}Ã— the damage taken.`;
+                            formatted = `Exposed to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
                         } else {
-                            formatted = `Susceptible to ${type.toLowerCase()} damage, taking ${multiplier}Ã— the damage taken.`;
+                            formatted = `Susceptible to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
                         }
                         resistanceType = 'vulnerable';
                     }

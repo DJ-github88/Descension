@@ -59,7 +59,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
    { date: 'around the time of the Mimir Purge', event: 'The Ledger Halls Collapse: original archives buried; the Great Forgetting begins' },
    { date: 'centuries into the Dimming', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
    { date: 'centuries into the Dimming', event: 'Briaran raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
-   { date: 'centuries into the Dimming', event: 'The Briaran Uprising: Unshorn Briaran raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
+   { date: 'centuries into the Dimming', event: 'The Briaran Uprising: Trueborn Briaran raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
    { date: 'centuries into the Dimming', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
    { date: 'in the later centuries of the Dimming', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
   ]
@@ -164,7 +164,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
    'The Skald carved the Archive into the glacier as both fortress and tomb. The first chamber held their dead. The family believed that freezing their ancestors in ice would preserve not just their bodies but their wisdom. Over centuries, the vaults grew as chiselers added genealogies, star-charts, treaties, and prophecies.',
   significantEvents: [
    { date: 'at the Binding', event: 'First Augur reading: Cassia reads the Deepening\'s hour in glacier-elk entrails' },
-   { date: 'just after the Binding', event: 'The Skalvyr Glacier Bargain: Warden freezes glaciers; Frost-Tithe set on Rime-Born' },
+   { date: 'just after the Binding', event: 'The Skalvyr Glacier Bargain: Aethil freezes glaciers; Frost-Tithe set on Rime-Born' },
    { date: 'just after the Breach', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
    { date: 'in the first centuries of the Dimming', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
    { date: 'in the first centuries of the Dimming', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
@@ -299,7 +299,7 @@ DEEP_LOCATIONS['over-shanty'] = {
  factionPresence: [
   { factionId: 'cult-of-forgotten-shadow', influence: 'strong', description: 'The Cult runs the memory trade and provides "spiritual services"' },
   { factionId: 'drun-outcasts', influence: 'strong', description: 'The original inhabitants, control the rope-bridges and peat-harvesting' },
-  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Astril brokers competing for control of the memory-trade; tense coexistence with the Drun' }
+  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Veil brokers competing for control of the memory-trade; tense coexistence with the Drun' }
  ],
  travelConnections: [
   { destinationId: 'atropolis', distance: '200 feet up', travelTime: '10 min', route: 'Cargo elevators and rope-ladders up to Atropolis\'s platforms' },
@@ -319,7 +319,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   description: 'A circle of seven standing stones against a starless sky, each stone inscribed with the crest of a noble house'
  },
  population: 800,
- dominantRaces: ['Solvarn humans', 'Unlit Astril'],
+ dominantRaces: ['Solvarn humans', 'Astril (Silath)'],
  leadership: {
   type: 'noble_house',
   title: 'Steppe-Lord',
@@ -356,12 +356,12 @@ DEEP_LOCATIONS['synod-hold'] = {
    'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Unlit Veil arrived within a generation and never left.',
 
   significantEvents: [
-   { date: 'just after the Breach', event: 'Astril First Vessels: Ordan ancestors volunteer to carry constellation-spirits' },
+   { date: 'just after the Breach', event: 'Astril First Landing: the refugee vessels from Lumia touch the steppe' },
    { date: 'in the early generations of the Dimming', event: 'Synod Hold established as a permanent trade post' },
-   { date: 'in the early centuries of the Dimming', event: 'The first Unlit Veil couriers arrived, offering "trade consultation services"' },
-   { date: 'in the early centuries of the Dimming', event: 'The Synod Organizes: formal ruling council established; first Over-Sung case recorded' },
-   { date: 'centuries into the Dimming', event: 'The Sylen-Muren Schism: Harmonists vs. Silencers split the Astril' },
-   { date: 'in the later centuries of the Dimming', event: 'False Dawn Riots: Luminarchy authority challenged when the myth of Sol\'s return breaks' },
+   { date: 'in the early centuries of the Dimming', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
+   { date: 'in the early centuries of the Dimming', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
+   { date: 'centuries into the Dimming', event: 'The Vashir-Silath Schism: Harmonists vs. Silencers split the Astril' },
+   { date: 'in the later centuries of the Dimming', event: 'False Dawn Riots: Synod authority challenged when the myth of Sol\'s return breaks' },
    { date: 'in the later centuries of the Dimming', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
    { date: 'in the most recent centuries', event: 'Silence Between Stars: Li Wei witnesses the contact and founds the False Prophet tradition' }
   ]
@@ -376,7 +376,7 @@ DEEP_LOCATIONS['synod-hold'] = {
    proprietor: 'Unlit Veil (unofficially) / House Ordavan (nominally)',
    notableFeatures: [
     'The Notice-Spire: a tall stone pillar where traders post messages; controlled by Unlit Veil clerks who "help" people write their notices',
-    'The Astril Enclosure: a quiet corner where Unlit Astril sell constellation-readings, fragments of dying stars glimpsed in their crystalline blood'
+    'The Astril Enclosure: a quiet corner where Unlit Veil agents sell echo-readings, fragments of Lumia glimpsed in their crystalline blood'
    ]
   }
  ],
@@ -402,19 +402,19 @@ DEEP_LOCATIONS['mirror-mere'] = {
   description: 'A perfectly still pool reflecting a featureless white mask, ringed by ironwood branches'
  },
  population: 200,
- dominantRaces: ['Mask-Borne Mimir', 'Thalren humans'],
+ dominantRaces: ['Masked Mimir', 'Thalren humans'],
  leadership: {
   type: 'council',
   title: 'Reflection Council',
   leaderId: null,
   description:
-   'A rotating council of three Mask-Borne Mimir elders governs Mirror Mere, consulting the lake\'s reflections before every decision. The council chamber is the lakeshore itself. Decisions are made standing at the water\'s edge, watching the future-echoes ripple across the surface.'
+   'A rotating council of three Masked Mimir elders governs Mirror Mere, consulting the lake\'s reflections before every decision. The council chamber is the lakeshore itself. Decisions are made standing at the water\'s edge, watching the future-echoes ripple across the surface.'
  },
  defenses: {
   militiaSize: 15,
   fortifications:
    'The mere itself is the primary defense. The water reflects attackers before they arrive, giving the Mimir hours of advance warning. The surrounding ironwood grove has been shaped into a natural labyrinth by generations of Mimir horticulture.',
-  watchPresence: 'Mask-Borne sentinels stand at cardinal points around the mere, their masks angled toward the water'
+  watchPresence: 'Masked sentinels stand at cardinal points around the mere, their masks angled toward the water'
  },
  economy: {
   primary: 'Divination services and identity-verification',
@@ -435,9 +435,9 @@ DEEP_LOCATIONS['mirror-mere'] = {
  },
  history: {
   founded: 'in the early generations of the Dimming',
-  foundedBy: 'Mask-Borne Mimir elders',
+  foundedBy: 'Masked Mimir elders',
   foundingStory:
-   'When the first Mimir discovered that the fog was dissolving their identities, a small group of Mask-Borne sought a place where identity could be verified externally. They found a lake so perfectly still that it reflected not just the present, but rippled with echoes of the near future. They built their settlement around it, and the mere has served as both anchor and oracle ever since.',
+   'When the first Mimir discovered that the fog was dissolving their identities, a small group of Masked sought a place where identity could be verified externally. They found a lake so perfectly still that it reflected not just the present, but rippled with echoes of the near future. They built their settlement around it, and the mere has served as both anchor and oracle ever since.',
   significantEvents: [
    { date: 'in the early generations of the Dimming', event: 'The Mirror Compact, Mimir elders swore to maintain the mere as a neutral identity-ground' },
    { date: 'around the time of the Mimir Purge', event: 'A Gref emerged from the mere\'s reflection, stealing the face of an elder mid-council session' },
@@ -463,7 +463,7 @@ DEEP_LOCATIONS['mirror-mere'] = {
    type: 'market',
    description:
     'A covered workshop where Mimir artisans harvest memory-glass from the lakebed and carve it into masks, lenses, and divination tools. The glass is naturally formed by the mere\'s unique alchemy, volcanic minerals, cold-iron trace elements, and something the Mimir will not discuss. Each piece is unique, and the finest specimens capture and hold a single memory indefinitely.',
-   proprietor: 'Mask-Borne Artisans\' Guild',
+   proprietor: 'Masked Artisans\' Guild',
    notableFeatures: [
     'The Memory-Vials: small glass ampoules containing captured reflections, sold to Thalren scribes as archival insurance',
     'The Unmasking Booth: a private chamber where Mimir can safely remove their masks to verify their true forms, heavily guarded, as an unmasked Mimir is profoundly vulnerable'
@@ -472,7 +472,7 @@ DEEP_LOCATIONS['mirror-mere'] = {
  ],
  connectedMaps: [],
  factionPresence: [
-  { factionId: 'mask-borne-mimir', influence: 'dominant', description: 'Founders and custodians of the mere' },
+  { factionId: 'masked-mimir', influence: 'dominant', description: 'Founders and custodians of the mere' },
   { factionId: 'scribe-sentinels', influence: 'moderate', description: 'Maintain a small presence for memory-glass procurement and cross-referencing' }
  ],
  travelConnections: [
@@ -859,19 +859,19 @@ DEEP_LOCATIONS['spindrift-lagoon'] = {
   description: 'A coral reef glowing blue-green beneath crystalline water'
  },
  population: 250,
- dominantRaces: ['Myrathil Breakers-Born', 'Merryn humans'],
+ dominantRaces: ['Myrathil Shore', 'Merryn humans'],
  leadership: {
   type: 'council',
   title: 'Reef-Mother',
   leaderId: null,
   description:
-   'The Reef-Mother, the eldest Breakers-Born Myrathil coral-tender, governs Spindrift Lagoon. Her authority derives from her intimate knowledge of the reef substrate. The Reef-Mother controls harvesting quotas, diving permissions, and settlement boundaries. She communicates primarily through the bioluminescent patterns of her own crystalline skin.'
+   'The Reef-Mother, the eldest Shore Myrathil coral-tender, governs Spindrift Lagoon. Her authority derives from her intimate knowledge of the reef substrate. The Reef-Mother controls harvesting quotas, diving permissions, and settlement boundaries. She communicates primarily through the bioluminescent patterns of her own crystalline skin.'
  },
  defenses: {
   militiaSize: 20,
   fortifications:
    'The coral reef itself is the defense, a living wall of fire-coral and crystalline formations that surrounds the lagoon. The entrance channel is narrow and navigable only by captains who know the bioluminescent marker-patterns. Myrathil divers can collapse sections of the reef in emergencies.',
-  watchPresence: 'Breakers-Born sentinels swim the reef perimeter in rotating shifts, their bioluminescence pulsing in coded patterns'
+  watchPresence: 'Shore sentinels swim the reef perimeter in rotating shifts, their bioluminescence pulsing in coded patterns'
  },
  economy: {
   primary: 'Bioluminescent organism harvesting',
@@ -892,11 +892,11 @@ DEEP_LOCATIONS['spindrift-lagoon'] = {
  },
  history: {
   founded: 'in the first centuries of the Dimming',
-  foundedBy: 'Myrathil Breakers-Born',
+  foundedBy: 'Myrathil Shore',
   foundingStory:
-   'The lagoon was discovered by Breakers-Born Myrathil following a thermal current that cut through the frozen sea like a warm scar. They found a volcanic hotspot where coral had survived the Deepening, sheltered by the unique thermal dynamics. The Breakers-Born have tended the reef ever since, building a settlement that exists in harmony with the living organisms that power it.',
+   'The lagoon was discovered by Shore Myrathil following a thermal current that cut through the frozen sea like a warm scar. They found a volcanic hotspot where coral had survived the Deepening, sheltered by the unique thermal dynamics. The Shore have tended the reef ever since, building a settlement that exists in harmony with the living organisms that power it.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'First coral-chamber grown; the Breakers-Born established the Reef Compact' },
+   { date: 'in the first centuries of the Dimming', event: 'First coral-chamber grown; the Shore established the Reef Compact' },
    { date: 'in the early centuries of the Dimming', event: 'Merryn traders arrived; negotiated a co-habitation agreement' },
    { date: 'in the mid-Dimming centuries', event: 'A coral blight threatened the reef, the Reef-Mother sacrificed her voice to save it, communicating only through bioluminescence thereafter' }
   ]
@@ -908,7 +908,7 @@ DEEP_LOCATIONS['spindrift-lagoon'] = {
    type: 'market',
    description:
     'An underwater marketplace grown from living coral, where Myrathil artisans sell bioluminescent organisms, thermal crystals, and coral-sculpted tools. Buyers wear diving helmets or are Myrathil, the market operates entirely beneath the surface. Transactions are conducted through bioluminescent pulse-codes and hand-signals.',
-   proprietor: 'Breakers-Born Artisans',
+   proprietor: 'Shore Artisans',
    notableFeatures: [
     'The Glow-Vats: sealed coral chambers where the most valuable bioluminescent strains are cultivated',
     'The Crystal-Shelves: natural alcoves in the reef where thermal crystals grow, harvested monthly under strict quota'
@@ -929,7 +929,7 @@ DEEP_LOCATIONS['spindrift-lagoon'] = {
  ],
  connectedMaps: [],
  factionPresence: [
-  { factionId: 'myrathil-breakers-born', influence: 'dominant', description: 'Custodians of the reef and primary producers' },
+  { factionId: 'myrathil-shore', influence: 'dominant', description: 'Custodians of the reef and primary producers' },
   { factionId: 'merryn-traders', influence: 'moderate', description: 'Handle all surface trade and shipping logistics' },
   { factionId: 'house-mereval', influence: 'minor', description: 'Maintain a trade representative for luxury bioluminescent goods' }
  ],
@@ -951,19 +951,19 @@ DEEP_LOCATIONS['starfall-vale'] = {
   description: 'A crystalline shard embedded in dark earth, emanating pale starlight'
  },
  population: 150,
- dominantRaces: ['Astril Sylen', 'Ordan humans'],
+ dominantRaces: ['Astril Vashir', 'Ordan humans'],
  leadership: {
   type: 'religious',
   title: 'Star-Oracle',
   leaderId: null,
   description:
-   'The Star-Oracle, a Sylen Astril whose constellation-spirit has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
+   'The Star-Oracle, a Vashir Astril whose Lumian echo has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
  },
  defenses: {
   militiaSize: 10,
   fortifications:
    'The vale\'s natural geography provides protection, steep walls of dark stone rise on all sides, broken only by narrow paths. The crystalline shards emit a faint radiation that Wyrd-creatures instinctively avoid, creating an invisible barrier.',
-  watchPresence: 'Sylen Astril sentinels meditate at the vale\'s entrances, their constellation-spirits alerting them to approaching threats'
+  watchPresence: 'Vashir Astril sentinels meditate at the vale\'s entrances, their crystalline resonance alerting them to approaching threats'
  },
  economy: {
   primary: 'Pilgrimage and spiritual tourism',
@@ -972,23 +972,23 @@ DEEP_LOCATIONS['starfall-vale'] = {
  },
  atmosphere: {
   mood:
-   'Reverent, hushed, and luminous. Starfall Vale is the closest thing the starless world has to a cathedral of light. The crystalline shards glow with trapped starlight, fragments of Sol\'s celestial court that fell to earth during the Breach. Even the most cynical visitors lower their voices. The light is simply too beautiful to shout over.',
+   'Reverent, hushed, and luminous. Starfall Vale is the closest thing the starless world has to a cathedral of light. The crystalline shards glow with trapped starlight, fragments of Lumia\'s shattered biosphere that struck Mythrill during the Breach. Even the most cynical visitors lower their voices. The light is simply too beautiful to shout over.',
   architecture:
    'Minimal and organic, Ordan yurts and Astril crystal-tents arranged around the vale\'s central shard-field. No permanent stone structures; the Astril believe building in stone would insult the starlight. The Ordan herders maintain the paths and supply the settlement with food.',
   sounds:
-   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Sylen pilgrims. The distant lowing of Ordan herds on the steppe above.',
+   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Vashir pilgrims. The distant lowing of Ordan herds on the steppe above.',
   smells:
    'Ozone, the sharp, clean scent of the sky before a storm, present constantly. Crushed herbs from Ordan cooking fires. The faint metallic scent of the crystalline shards, like licking a coin.',
   lighting:
-   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Sylen Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of the Astril\'s constellation-spirits.'
+   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Vashir Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
  },
  history: {
   founded: 'at the Binding',
-  foundedBy: 'Sylen Astril',
+  foundedBy: 'Vashir Astril',
   foundingStory:
-   'When Sol was bound and the Breach shattered the celestial court, the constellation-spirits that survived fled downward, seeking refuge in the bloodlines of the steppe peoples. The physical residue of their fall, crystalline shards of condensed starlight, impacted the earth here, creating a crater that the Sylen Astril found within hours of the event. They have never left.',
+   'When Keth-Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here during the Breach, creating a crater that the Vashir Astril found within hours of their arrival. They have never left.',
   significantEvents: [
-   { date: 'at the Binding', event: 'The Starfall, constellation-spirit residue impacts the steppe; Sylen Astril claim the site within hours' },
+   { date: 'at the Binding', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Vashir Astril claim the site within hours' },
    { date: 'in the first centuries of the Dimming', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },
    { date: 'in the later centuries of the Dimming', event: 'Ordan herders granted grazing rights in exchange for provisioning the pilgrimage route' }
   ]
@@ -999,10 +999,10 @@ DEEP_LOCATIONS['starfall-vale'] = {
    name: 'The Shard-Field',
    type: 'temple',
    description:
-    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Sylen call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
-   proprietor: 'Sylen Astril',
+    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Vashir call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
+   proprietor: 'Vashir Astril',
    notableFeatures: [
-    'The First Shard: the largest crystal, at the crater\'s center, it produces a tone that resonates with every constellation-spirit simultaneously',
+    'The First Shard: the largest crystal, at the crater\'s center, it produces a tone that resonates with every Astril\'s Lumian heritage simultaneously',
     'The Oracle\'s Seat: a natural depression in the First Shard where the Star-Oracle sits to receive visions'
    ]
   },
@@ -1021,7 +1021,7 @@ DEEP_LOCATIONS['starfall-vale'] = {
  ],
  connectedMaps: [],
  factionPresence: [
-  { factionId: 'astril-sylen', influence: 'dominant', description: 'Spiritual custodians and primary inhabitants' },
+  { factionId: 'astril-Vashir', influence: 'dominant', description: 'Spiritual custodians and primary inhabitants' },
   { factionId: 'ordan-nomads', influence: 'moderate', description: 'Provide provisions and maintain the pilgrimage route' },
   { factionId: 'unlit-veil', influence: 'minor', description: 'Maintain a discrete observation post, monitoring the Oracle\'s prophecies for actionable intelligence' }
  ],
@@ -1227,7 +1227,7 @@ DEEP_LOCATIONS['merrowport'] = {
   militiaSize: 40,
   fortifications:
    'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Neth contract-wards that magically bind anyone who enters uninvited.',
-  watchPresence: 'Myrathil Breakers-Born patrol the underwater approaches, their bioluminescence marking safe passages'
+  watchPresence: 'Myrathil Shore patrol the underwater approaches, their bioluminescence marking safe passages'
  },
  economy: {
   primary: 'Gambling, debt-finance, and contract-brokering',
@@ -1289,6 +1289,19 @@ DEEP_LOCATIONS['merrowport'] = {
  ],
  classPresence: ['gambit', 'minstrel', 'warden'],
  npcs: ['merr-cael', 'jax', 'lyra']
+};
+
+// =============================================================================
+// FROSTWOOD REACH, Thornwood Grove (deep)
+// =============================================================================
+DEEP_LOCATIONS['thornwood-grove'] = {
+  name: 'Thornwood Grove',
+  region: 'frostwood-reach',
+  type: 'wilderness',
+  description: 'A quiet grove of ironwood and thorn-vine three leagues east of the Shallows, known locally as the site of the Third Harvest massacre — a Gref-pack that peeled four Thalren scouts and wore their faces into the settlements. The Shallows executed 17 people before the infestation was purged. The trees still bear the axe-marks of the executions, and the ground is saturated with alchemical residue from the Toxicologist Varis\'s first field laboratory, built in the canopy above the massacre site. The grove is avoided by locals; the fog here tastes faintly of copper.',
+  dangerLevel: 'moderate',
+  factions: ['scribe-cartel'],
+  connections: ['the-shallows']
 };
 
 const getDeepLocation = (locationId) => DEEP_LOCATIONS[locationId] || null;

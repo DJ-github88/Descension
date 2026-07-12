@@ -114,7 +114,7 @@ function spellLibraryReducer(state, action) {
 
       const spellToDelete = state.spells.find(s => s.id === spellId);
       if (!spellToDelete) {
-        console.warn('ðŸ—‘ï¸ [SpellLibraryReducer] Spell NOT found in library.spells:', spellId);
+        console.warn('ðŸ - ‘ï¸ [SpellLibraryReducer] Spell NOT found in library.spells:', spellId);
       }
 
       const updatedSpells = state.spells.filter(spell => spell.id !== spellId);

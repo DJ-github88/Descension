@@ -1,5 +1,5 @@
 // Medicine Skill Multi-Dimensional Tables
-// 7 proficiency levels Ã— 6 dice types = 42 tables total
+// 7 proficiency levels Ã -  6 dice types = 42 tables total
 // Medicine governs diagnosis, treatment, stabilization, and physical care
 // Die type represents urgency and difficulty, NOT healing output
 // Grounded in realism and tension, not magical healing

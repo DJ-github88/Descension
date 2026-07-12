@@ -625,7 +625,7 @@ function BlacksmithingInterface({ onBack, activeTab, onTabChange }) {
                                             />
                                             {!craftCheck.canCraft && (
                                                 <div className="craft-overlay">
-                                                    <span>âœ—</span>
+                                                    <span>âœ - </span>
                                                 </div>
                                             )}
                                         </div>

@@ -421,7 +421,7 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
                             className="resource-controls-close"
                             onClick={() => setShowControls(false)}
                         >
-                            Ã—
+                            Ã - 
                         </button>
                     </div>
                     <div className="resource-adjustment-buttons">
@@ -707,7 +707,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     // Remove each racial spell individually to ensure they're deleted
                     uniqueSpellsToRemove.forEach(spell => {
                         if (spell && spell.id) {
-                            // console.log('ðŸ—‘ï¸ [Equipment] Deleting racial spell:', spell.id, spell.name);
+                            // console.log('ðŸ - ‘ï¸ [Equipment] Deleting racial spell:', spell.id, spell.name);
                             libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
                         }
                     });
@@ -1832,7 +1832,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? 'â—€' : 'â–¶'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? 'â - €' : 'â–¶'}</span>
                 </button>
                 {Object.entries(SECTIONS).map(([key, section]) => (
                     <button

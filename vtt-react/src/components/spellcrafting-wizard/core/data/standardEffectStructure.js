@@ -67,8 +67,8 @@ export const createStandardEffect = (type, id, config = {}) => {
           
           // Resolution-specific configurations
           diceConfig: config.diceConfig || { formula: config.formula || '1d6 + INT' },
-          cardConfig: config.cardConfig || { drawCount: 4, formula: 'card values + face cards Ã— 5' },
-          coinConfig: config.coinConfig || { flipCount: 5, formula: 'heads Ã— 8 + (all heads ? 15 : 0)' }
+          cardConfig: config.cardConfig || { drawCount: 4, formula: 'card values + face cards Ã -  5' },
+          coinConfig: config.coinConfig || { flipCount: 5, formula: 'heads Ã -  8 + (all heads ? 15 : 0)' }
         }
       };
       
@@ -102,8 +102,8 @@ export const createStandardEffect = (type, id, config = {}) => {
           
           // Resolution-specific configurations
           diceConfig: config.diceConfig || { formula: config.formula || '1d8 + HEA' },
-          cardConfig: config.cardConfig || { drawCount: 3, formula: 'card values + face cards Ã— 3' },
-          coinConfig: config.coinConfig || { flipCount: 5, formula: 'heads Ã— 7 + (longest streak > 2 ? longest streak Ã— 5 : 0)' }
+          cardConfig: config.cardConfig || { drawCount: 3, formula: 'card values + face cards Ã -  3' },
+          coinConfig: config.coinConfig || { flipCount: 5, formula: 'heads Ã -  7 + (longest streak > 2 ? longest streak Ã -  5 : 0)' }
         }
       };
       

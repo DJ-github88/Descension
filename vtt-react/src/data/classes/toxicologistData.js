@@ -11,8 +11,9 @@ export const TOXICOLOGIST_DATA = {
           "thalren_human",
           "unwoven_mimir",
           "morren_human",
-          "unshorn_briaran",
-          "smoothskinned_briaran"
+          "trueborn_briaran",
+          "shorn_briaran",
+          "drun_neth"
       ],
       "hardBlocks": [
           "emberth",
@@ -26,7 +27,7 @@ export const TOXICOLOGIST_DATA = {
    * Subrace Variants, the Toxicologist crafts poison, and the source of the reagents
    * defines the craft. The Thalren distill the fog-predators. The Unwoven Mimir brew
    * the canopy floor. The Morren know the bog. The Briaran carry the deep grove's
-   * thorn-venom, and the Smooth-Skinned brew it in secret, among neighbors who would
+   * thorn-venom, and the Shorn brew it in secret, among neighbors who would
    * kill them for it.
    */
   subraceVariants: {
@@ -78,35 +79,51 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    unshorn_briaran: {
-      subraceName: 'Unshorn Briaran',
+    trueborn_briaran: {
+      subraceName: 'Trueborn Briaran',
       title: 'The Thorn-Venom',
-      reframe: `The <LoreLink termId="briaran">Unshorn Briaran</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Briaran's thorns, and an Unshorn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
+      reframe: `The <LoreLink termId="briaran">Trueborn Briaran</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Briaran's thorns, and an Trueborn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
       signatureAbility: {
         name: 'Thorn-Blood',
-        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood, a deeply personal reagent that makes every Unshorn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Briaran's blood, but each distillation costs the Toxicologist real HP.`
+        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood, a deeply personal reagent that makes every Trueborn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Briaran's blood, but each distillation costs the Toxicologist real HP.`
       },
-      currentCrisisAngle: `The changing fog has reached the deep groves, and the fae-touched thorn-blood is responding, the thorns growing *faster*, the venom more virulent, the Unshorn Toxicologists *bleeding spontaneously*. Several elders read this as the fae-contract *collecting*, the same interest-compounding the Lunarchs describe, and fear the Unshorn are being bled dry by their own patrons.`,
+      currentCrisisAngle: `The changing fog has reached the deep groves, and the fae-touched thorn-blood is responding, the thorns growing *faster*, the venom more virulent, the Trueborn Toxicologists *bleeding spontaneously*. Several elders read this as the fae-contract *collecting*, the same interest-compounding the Lunarchs describe, and fear the Trueborn are being bled dry by their own patrons.`,
       signatureQuote: {
         text: '"I distill my own arm to poison my enemies. The arm grows back. The venom grows stronger. Lately the arm bleeds whether I ask it to or not. The fae are collecting, and I am the harvest."',
         speaker: 'Thorn-Venom Bri-Vess',
-        context: 'An Unshorn Toxicologist, bandaging a spontaneous thorn-bleed'
+        context: 'An Trueborn Toxicologist, bandaging a spontaneous thorn-bleed'
       }
     },
 
-    smoothskinned_briaran: {
-      subraceName: 'Smooth-Skinned Briaran',
+    shorn_briaran: {
+      subraceName: 'Shorn Briaran',
       title: 'The Hidden-Cuil',
-      reframe: `The <LoreLink termId="briaran">Smooth-Skinned Briaran</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Smooth-Skinned are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught.`,
+      reframe: `The <LoreLink termId="briaran">Shorn Briaran</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Shorn are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught. They learned the craft from the very humans they hide among  -  Shorn Briaran have lived in Thalren edge-settlements since the Second Clearing, and when Thalren distillers began teaching their neighbors fog-venom extraction, the Shorn listened from the shadows. What the Thalren taught as area-denial warfare, the Shorn refined into assassination.`,
       signatureAbility: {
         name: 'Veiled-Cuil',
-        description: `Toxins are engineered for *untraceability*, delayed onset, undetectable residue, symptoms that mimic natural illness. The Smooth-Skinned are the tradition's assassins, and their poisons are designed to leave no evidence that a Toxicologist was ever present. The cost: the weakest direct-combat toxins in the tradition.`
+        description: `Toxins are engineered for *untraceability*, delayed onset, undetectable residue, symptoms that mimic natural illness. The Shorn are the tradition's assassins, and their poisons are designed to leave no evidence that a Toxicologist was ever present. The cost: the weakest direct-combat toxins in the tradition.`
       },
-      currentCrisisAngle: `The spontaneous thorn-bleeding (the Unshorn crisis) affects the Smooth-Skinned too, and it is *exposing* them, a Smooth-Skinned Toxicologist who bleeds thorn-blood in a Thalren market is no longer passing as human. Several have been identified and reported to the Scribe-Cartel, and the Smooth-Skinned Toxicologists are being forced to choose between their craft (which now betrays them) and their cover (which requires abandoning it).`,
+      currentCrisisAngle: `The spontaneous thorn-bleeding (the Trueborn crisis) affects the Shorn too, and it is *exposing* them, a Shorn Toxicologist who bleeds thorn-blood in a Thalren market is no longer passing as human. Several have been identified and reported to the Scribe-Cartel, and the Shorn Toxicologists are being forced to choose between their craft (which now betrays them) and their cover (which requires abandoning it).`,
       signatureQuote: {
         text: '"I brewed in secret for twenty years and the Thalren never knew. Now my arm bleeds in their market and they are looking at me the way I always feared. My craft has unmasked me. I do not know which to mourn."',
         speaker: 'Vael the Smooth',
-        context: 'A Smooth-Skinned Toxicologist, the morning after bleeding at a checkpoint'
+        context: 'A Shorn Toxicologist, the morning after bleeding at a checkpoint'
+      }
+    },
+
+    drun_neth: {
+      subraceName: 'Drun Neth',
+      title: 'The Silence-Distiller',
+      reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink>, the leaden-grey outcasts who severed their names from the First Contract, are the Toxicologist tradition's most paradoxical practitioners. The Drun were exposed to the craft through Morren bog-chemists who sought refuge in the Deep-Quarter after the Keeper's Sanction came down on ichor-thieves. A Morren Toxicologist named Mor-Velk the Wet taught the first Drun the principles of bog-reading as payment for sanctuary, and the Drun adapted the craft to their own condition: where the Morren read the bog, the Drun read decay itself. Their own severed flesh, no longer preserved by Morvane's contract, hosts decomposition chemistry that no other subrace can safely study. A Drun Toxicologist distills from their own slow dissolution, and their poisons carry the Silence  -  a null-chemistry that leaves no trace in the Ledger, no signature Morvane can audit. The Neth consider Drun Toxicologists a legal impossibility: they practice a taxable craft without existing as taxable entities.`,
+      signatureAbility: {
+        name: 'Null-Distillate',
+        description: `Toxins are distilled from the Toxicologist's own decaying flesh, carrying the Silence that voids Morvane's contractual detection. Drun poisons are legally untraceable  -  the Ledger simply cannot register them as existing  -  and they bypass magical wards that key off First Contract signatures. The cost: each distillation accelerates the Drun's dissolution, spending their remaining half-life as reagent.`
+      },
+      currentCrisisAngle: `The changing fog does not reach the Deep-Quarter directly, but the fog-predators the Thalren distill are migrating deeper into the Frostwood to escape it, and their shifting biology is producing venoms the Drun cannot predict. Worse: the Silence that shields Drun chemistry from the Ledger is *deepening*  -  null-distillates are becoming too aggressive, eating through containment vessels, dissolving the very glass that holds them. Several Drun Toxicologists in the Deep-Quarter have lost their workshops to runaway null-spills that consumed everything including the floorboards. The Drun suspect the fog's changing chemistry and the deepening Silence are the same phenomenon  -  the world's contracts unraveling from both the natural and the supernatural ends  -  and they fear their craft is accelerating the dissolution faster than the fog ever could.`,
+      signatureQuote: {
+        text: '"I distill from flesh that is legally not flesh. The poison I pour does not exist on Morvane\'s ledger. My craft is a crime with no criminal, a transaction with no payer. I am the loophole the First Contract forgot to close."',
+        speaker: 'Drun Vel-Hassik',
+        context: 'A Drun Toxicologist, explaining her null-distillate to a horrified Neth auditor who cannot file the evidence'
       }
     }
   },
@@ -123,7 +140,7 @@ export const TOXICOLOGIST_DATA = {
     orderName: 'The Distillery',
     founder: {
       name: '<LoreLink termId="varis">Varis</LoreLink>',
-      status: `Alive, old, trembling, and still working. The <LoreLink termId="frostwood-reach">Thalren</LoreLink> alchemist who extracted raw venom from fog-predators to defend against face-stealing horrors. Years in the ironwood canopies left him with chronic tremors, burned-away taste, and permanently stained fingers. He cannot sign his own name legibly. He can still pour a lethal dose without spilling.`,
+      status: `Alive, old, trembling, and still working. The <LoreLink termId="frostwood-reach">Thalren</LoreLink> alchemist who extracted raw venom from fog-predators to defend against face-stealing horrors. Years in the ironwood canopies left him with chronic tremors, burned-away taste, and permanently stained fingers. The venoms that destroyed his nerves and stole his taste also froze his aging  -  a side effect he discovered too late to benefit from and too early to die from. He has been old for three hundred years. He cannot sign his own name legibly. He can still pour a lethal dose without spilling.`,
       note: `<LoreLink termId="varis">Varis</LoreLink> built the Distillery on patience: a poison laid today that blooms in a week. The changing fog is rewriting his pharmacopoeia in real time, and the most premeditative tradition in Mythrill is being forced to improvise, the one thing it was never built to do.`
     },
     currentLeader: {
@@ -131,8 +148,57 @@ export const TOXICOLOGIST_DATA = {
       title: 'Keeper of the Slow Cup',
       characterization: `<LoreLink termId="varis">Varis</LoreLink> still leads, though his tremors make the work dangerous and his junior distillers flank every pour. He is stubborn, brilliant, and furious at the fog in a way only a four-century practitioner can be, the resentment of a master watching his medium rewrite itself without his consent. He considers the changing fog a personal insult.`
     },
-    headquarters: { name: 'The Canopy-Distillery, the Shallows (Frostwood Reach)', locationId: 'frostwood-reach' },
-    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project, distilling the *changing fog itself*, has produced reagents no one can characterize, and two of his apprentices have died testing them. He refuses to stop. He has spent four centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
+    headquarters: { name: 'The Distillery  -  Canopy-Laboratory, the Shallows (Frostwood Reach)', locationId: 'frostwood-reach' },
+    foundingEvent: {
+      eventName: 'The Third Harvest of the Gref-Veil',
+      location: 'The Shallows, Frostwood Reach  -  Thornwood patrol route',
+      year: 'Mid-Diming, c. 400 years before present',
+      summary: `In the mid-Diming centuries, the fog-predators known as the Gref grew bolder. Unlike the Gambrel (which hunted the mist alone), the Gref had learned to coordinate  -  a hunting-pack behavior no Thalren naturalist had ever documented. During what the survivors called the Third Harvest, a Gref-pack cornered a Thalren scout patrol of six at Thornwood, a shallow-ironwood grove three leagues east of the Shallows, and *peeled* four of them before the remaining two escaped. The Gref did not kill them. They stole their faces, their voices, their memories, and for three weeks the four dead scouts *walked back into the settlements* wearing their killers' stolen identities. The Shallows executed seventeen people  -  some of them the Gref-wearing husks, some of them innocent neighbors indistinguishable from the predators  -  before the infestation was purged. Watching his patrolmates return as hollow mimics broke something in Varis. He declared that he would find a weapon the Gref could not steal, could not wear, could not turn back upon his people. He spent the next decade isolating the venom-glands of captured Gref specimens in a canopy-laboratory suspended above the Thornwood grove where his patrol died, and the Toxicologist tradition was born not from curiosity but from vengeance.` },
+    culturalSpread: {
+      title: 'The Spread of the Slow Cup',
+      description: `The Toxicologist craft did not remain confined to the Thalren. Over four centuries, the tradition spread across Mythrill through a chain of desperate transmissions  -  refugees, exiles, spies, and debtors each carrying the craft to a new people who needed it for their own reasons.`,
+      vectors: [
+        {
+          from: 'Thalren',
+          to: 'Unwoven Mimir',
+          vector: `The Unwoven Mimir share the Frostwood with the Thalren, dwelling on the forest floor beneath the same canopies. When the Thalren began deploying fog-venom perimeters against the Gref, the Unwoven observed the results from below  -  predators that survived the canopy traps fell dying into the floor-dwellings. The first Unwoven Toxicologists did not learn from Varis directly; they learned by *reverse-engineering the corpses* that rained down on their settlements. An Unwoven elder named Mir-Haeth collected dying Gref, studied the venoms still active in their wounds, and cultivated the first floor-toxin from the fungal mats that flourished where the poisoned corpses decomposed. The Unwoven call this transmission "the Falling Lesson." They never asked the Thalren for permission, and the Thalren never offered it.`
+        },
+        {
+          from: 'Thalren',
+          to: 'Morren',
+          vector: `The Bryngloom is far from the Frostwood, but the Neth contract-economy draws resources from every corner of Mythrill. Thalren distillers who fell into debt to the Neth (which most eventually did, given the cost of fog-predator-hunting equipment) were indentured to work the Bryngloom peat-fields alongside Morren families serving their own generational debt. A Thalren debt-worker named Hael the Split-Hand, sentenced to twenty years of peat-cutting, began teaching the Morren the principles of venom-distillation during the long nights in the bog-worker dormitories  -  not out of generosity, but because the Morren knew the bog's alchemical moss better than any Thalren ever could, and Hael saw a way to pay off his contract faster by producing saleable distillates. The Morren adapted Thalren techniques to bog-chemistry within a generation, producing toxins the Thalren had never imagined. Hael died in the bog before his debt was cleared. The Morren remember his name.`
+        },
+        {
+          from: 'Thalren',
+          to: 'Trueborn Briaran',
+          vector: `The Trueborn Briaran learned toxicology through a transaction that both sides now regret. A Trueborn elder named Bri-Aethren, observing the Thalren's chemical defenses against the Gref, offered a Thornwood Accord: in exchange for Thalren distillation techniques, the Trueborn would teach the Thalren how to read the fae-signs that predict fog-predator movements. The Thalren accepted. What they did not anticipate was that the Trueborn would adapt human alchemy to their own biology  -  distilling from thorn-blood rather than predator venom, creating a fae-alchemical hybrid that neither the Thalren nor the fae-contracts had anticipated. The Trueborn now possess the tradition's most personal and most dangerous poisons, and the Thalren distillers who made the original trade consider it the worst bargain of their lives. Bri-Aethren has since disappeared into the deep groves and no longer answers to anyone.`
+        },
+        {
+          from: 'Morren',
+          to: 'Drun Neth',
+          vector: `The Drun Neth learned the craft from Morren bog-chemists fleeing the Keeper's Sanction. When Mor-Velk the Wet began intercepting ichor shipments meant for Neth contract-rituals, she knew the Ledger would eventually trace the theft. She sought refuge in the Deep-Quarter, where the Drun  -  legally non-existent, untraceable by contract-enforcement  -  offered her sanctuary. In exchange for protection, Mor-Velk taught the Drun everything she knew about bog-reading and alchemical distillation. The Drun adapted the craft to their own condition: their half-decayed flesh, no longer preserved by Morvane's contract, hosts decomposition chemistry that no living Toxicologist can replicate. The resulting null-distillates are the only poisons in Mythrill that cannot be registered on the First Contract, making the Drun Toxicologists the most dangerous chemists Morvane has never heard of.`
+        }
+      ]
+    },
+    ranks: {
+      title: 'The Hierarchy of the Slow Cup',
+      ranks: [
+        { rank: 'Keeper of the Slow Cup', count: 1, holder: 'Varis the Trembling', description: 'The founder and master of the Distillery. The rank is named for Varis\'s belief that the best poison is the one you pour today and let bloom tomorrow. No successor has been named; Varis refuses to discuss succession.' },
+        { rank: 'Venom-Pourer', count: 12, holders: 'Senior distillers including Lyra the Poison-Weaver (Unwoven), Mor-Velk the Wet (Morren, in absentia), Bri-Vess the Thorn-Venom (Trueborn, in absentia)', description: 'Master distillers who have produced at least one original toxin formulation ratified by the Keeper. Each Venom-Pourer oversees a satellite distillery in their home region and is authorized to teach the craft. Three of the twelve are currently in absentia  -  fugitives from their respective regional authorities who maintain contact through encrypted formula-letters.' },
+        { rank: 'Glass-Hand', count: '~40', description: 'Journeyman distillers who have completed their apprenticeship and maintain their own small laboratories. Glass-Hands are permitted to sell low-grade poisons to scouts, hunters, and fog-predator-control. They handle the Distillery\'s day-to-day operations and are the rank most likely to interact with outsiders.' },
+        { rank: 'Shaker', count: '~80', description: 'Apprentices, named for the tremors they have not yet learned to control. Shakers spend their first five years doing nothing but cleaning glassware, recording formula variations, and learning to pour without spilling. Most Shakers wash out within two years  -  the chronic toxin exposure is too much. Those who stay develop the stains, the tremors, and the burned-out tastebuds that mark a true Toxicologist.' },
+        { rank: 'Tongue-Burned (Unofficial)', count: 'Unknown', description: 'A grim colloquialism for Toxicologists whose sense of taste has been completely destroyed by toxin exposure  -  a common milestone that the Distillery treats as an informal rank. Tongue-Burned distillers can no longer taste-test their own work and must rely entirely on chemical indicators and junior tasters. Varis has been Tongue-Burned for over three centuries.' }
+      ],
+      note: 'The Distillery is not a formal guild with charters, dues, or legal recognition. It is an oral tradition organized around a particular set of techniques, maintained by a man who cannot write legibly and enforced by the mutual reliance of poisoners who have no one else to trust.'
+    },
+    rival: {
+      name: 'Nerath the Soft-Voiced',
+      title: 'Former Venom-Pourer, now Keeper of the Clean Hand',
+      status: 'Exiled from the Distillery, operating independently from an unmarked laboratory in the Ironwood Deeps',
+      conflict: `Nerath was Varis's most brilliant Venom-Pourer  -  the only Toxicologist in the tradition's history to produce six original toxin formulations before the age of forty. When the fog began changing and the pharmacopoeia began to spoil, Nerath argued that Varis should abandon the old formula entirely: stop distilling fog-predator venom, stop trying to preserve the old pharmacopoeia, and start fresh with synthetic chemistry independent of the Frostwood's ecosystem. "The fog is rewriting the rules," Nerath told the assembled Venom-Pourers at the Conclave of Spoiling, held in the Canopy-Laboratory three years ago. "We should be writing new ones, not preserving the old ones in brine." Varis accused him of cowardice. Nerath accused Varis of senility  -  of being too old and too stubborn to see that his life's work was already dead, that the fog-predator venoms were not salvageable, that every vial Varis poured from the old pharmacopoeia was a waste of time that could go into finding alternatives. The argument ended with Nerath breaking a vial of his own formulation  -  a synthetic neurotoxin he had developed without predator-venom  -  against the laboratory floor and walking out. Half the Glass-Hands agreed with Nerath privately. None followed him publicly. Nerath now operates alone in the Ironwood Deeps, developing synthetic toxins from mineral chemistry rather than biological extraction. His poisons work  -  they are stable, reproducible, and unaffected by the changing fog  -  but they lack the potency of predator-derived venoms, and they have a signature that anyone with chemical training can identify. Varis calls Nerath's work "factory poison  -  a blunt instrument for a blunt mind." Nerath calls Varis's work "a museum devoted to a dead world." Neither has spoken to the other in three years. The junior distillers whisper that if the fog doesn't kill the Distillery, the schism between Varis and Nerath will.`,
+      significance: `Nerath's break from the Distillery represents the tradition's deepest philosophical fracture: whether to adapt or preserve. If Varis dies before the fog crisis is resolved, Nerath is the only person with the knowledge, the formulations, and the institutional memory to run the Distillery  -  and he has already made it clear that he would dismantle the old pharmacopoeia entirely. The Venom-Pourers are terrified that the Distillery will die with its founder, split between a dead man's stubbornness and a traitor's ambition.`
+    },
+    crisisConnection: `<LoreLink termId="varis">Varis</LoreLink> is presiding over the spoilage of his life's work: fog-predator venoms degrading in weeks rather than years, the entire Distillery pharmacopoeia turning unstable. His desperation project, distilling the *changing fog itself*, has produced reagents no one can characterize, and two of his apprentices  -  a young Thalren Shaker named Kellan Soft-Hand and a veteran Glass-Hand named Torven the Steady, killed three months apart testing uncharacterized fog-distillates on themselves  -  have died for his obsession. Varis refuses to stop. He has spent four centuries mastering the Frostwood's chemistry, and he will master the new chemistry or die in the attempt. The Distillery's junior members are no longer certain which outcome they are rooting for.`
   },
 
   worldFriction: [
@@ -142,11 +208,13 @@ export const TOXICOLOGIST_DATA = {
   ],
 
   overview: {
-    originStory: `Founded in the mid-Diming centuries by Varis the Trembling, who systematized venom extraction from the fog-predators of the Frostwood Reach. Varis the alchemist extracted raw venom from the fog-predators of the Frostwood, seeking a chemical defense against the face-stealing horrors that cornered his scout patrols. He spent years in the ironwood canopies, distilling toxic moss and acidic secretions.
+    originStory: `A toxicologist is a self-poisoned surgeon whose veins run thick with weaponized toxin. They set traps before initiative, craft poisons mid-combat from their own saturated flesh, and stack layered debuffs that no one else can apply. The body rejects restoration. Every poison costs blood. Every antidote is for someone else.
 
-The constant exposure to toxic fumes caused chronic tremors in his hands, burning away his sense of taste and leaving his fingers permanently stained with acid runoff. The Toxicologist cannot handle delicate tools without intense pain, their catalysts trailing corrosive fumes.
+The first was Varis the Trembling, a Thalren alchemist who systematized venom extraction from Frostwood fog-predators during the mid-Dimming centuries. His scout patrols had been cornered by face-stealing horrors, and he was the only survivor. He spent the next decade above the massacre site at Thornwood Grove, three leagues east of the Shallows, developing fog-venom, a toxin derived from the same predators that had killed his team. Years in the ironwood canopies distilling toxic moss and acidic secretions left him with chronic tremors, burned-away taste, and permanently stained fingers. The same preservative toxins that ruined his body also froze his aging. He has been old for three hundred years. He considers the changing fog a personal insult.
 
-Brew the end. The vial is filled with your own decay, and the vapor is your shroud. Let them choke.`,
+Each subrace distills from different sources. The Thalren draw venom from fog-predators, optimized for slow-acting area-denial, a poison laid today that blooms in a week. The Unwoven Mimir brew from undergrowth decay, the slow chemistry of decomposition producing the longest-lasting agents in the tradition. The Morren draw from the Bryngloom's richest pharmacological treasury, the bog's peat-acids and contract-preserving ichor. The Trueborn Briaran distill their own fae-touched thorn-blood, every bloodline's poison unique and uncounterable without specific study. The Shorn Briaran brew in absolute secret among Thalren neighbors who would kill them, their toxins engineered for untraceability, delayed onset that mimics natural illness. The Drun Neth operate outside Neth jurisdiction entirely, their names burned from the First Contract, brewing with materials no registered alchemist would touch. Every brew is an act of rebellion, and Morvane, though it cannot see them, can sometimes feel what they are doing to its forest.
+
+The fog is changing chemistry. Compounds that remained viable for years now degrade in weeks. Predator venoms are spoiling. The entire pharmacopoeia is turning unstable. Two apprentices have died testing Varis's desperation project: distilling the changing fog itself.`,
     title: "The Toxicologist",
     subtitle: "The Self-Poisoned Surgeon -- Every Cure Is for Someone Else",
     illustration: "/assets/images/classes/toxicologist_illustration.png",
@@ -154,33 +222,37 @@ Brew the end. The vial is filled with your own decay, and the vapor is your shro
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You are the only preparation-based alchemist. You set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Your enemies are weakened, slowed, bleeding, and armor-shredded before the real fight begins. But your own blood rejects medicine -- all healing you receive is halved, and fire or ember damage causes your active poisons to detonate inside you. Without preparation time, you are a basic combatant with a body full of toxins and nowhere to spend them.
+      content: `**Who they are**: A self-poisoned surgeon whose veins run thick with weaponized toxin  -  a walking crucible of reagents who brews death from their own saturated blood. They began as a healer who understood the boundary between medicine and venom. That person is dead.
 
-**Core Mechanic**: Bleed Toxin Vials from your own flesh -> Craft Poisons & Concoctions Mid-Combat -> Deploy Contraption Parts -> Stack Debuffs and Watch Them Crumble
+**The hook**: The only preparation-based alchemist in the game. Set traps before initiative, craft poisons mid-combat from Toxin Vials bled from your own flesh, and stack debilitating debuffs no other class can apply  -  weakened, slowed, bleeding, and armor-shredded before the real fight begins.
 
-**Resource**: Toxin Vials (INT mod + 3, min 4) & Contraption Parts (max 5)
+**The cost**: Your body rejects medicine  -  all healing you receive is halved. Fire and ember damage causes your active poisons to detonate inside you. Your hands shake constantly from years of toxin exposure, a visible mark that brands you as what you are. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
 
-**Playstyle**: Oppressive alchemical preparation -- set the board, then watch them suffer
-
-**Best For**: Players who love pre-combat planning, mid-fight crafting, and the grim satisfaction of watching enemies crumble under layered afflictions they never saw coming`,
+**Bring one for**: Turning the battlefield into your laboratory before initiative is even rolled  -  no other class can pre-rig a choke point with spike traps and poison gas, then craft explosives mid-fight while layered afflictions slowly dismantle the enemy.`,
     },
 
-    description: `There is no cure for what you have become. The Toxicologist began as a healer -- someone who understood the boundary between medicine and venom, who could save a life with one drop and end it with two. That person is dead. What remains is a self-poisoned surgeon whose veins run thick with weaponized toxin, whose body is a walking crucible of reagents that rejects restoration. Every poison you craft costs blood. Every antidote you brew is for someone else. Your own flesh cannot be saved -- it is saturated past the point of no return. Unlike the Plaguebringer (who feeds on enemy death) or the Witch Doctor (who channels angry old powers), the Toxicologist is PREPARATION-BASED. You set up before combat, craft during combat, and reclaim after combat. No passive pressure, no ancestral demands -- just science, poison, and contraptions. Your strength is that NOTHING forces you to act -- but also nothing helps you if you didn't prepare.`,
+    description: `A toxicologist is a self-poisoned surgeon whose veins run thick with weaponized toxin. The body rejects restoration. Every poison costs blood. Every antidote is for someone else.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The toxicologist's chemical catalysts were born in the ironwood forests of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. An alchemist named **Varis** extracted raw venom from the fog-predators to create specialized combat catalysts. The price of this alchemical synthesis was chronic tremors. Varis's hands developed chronic tremors, and his fingers were permanently stained with chemical runoff, dulling his sense of taste.
+The toxicologist's chemical catalysts were born at Thornwood, three leagues east of the Shallows in the Frostwood Reach, where a Gref-pack killed four of six Thalren scouts during the Third Harvest and wore their faces back into the settlements. An alchemist named **Varis**, the sole surviving officer of that patrol, spent the next decade suspended in a canopy-laboratory above the massacre site, isolating fog-predator venom until he had a weapon the Gref could not steal. The price of this alchemical synthesis was chronic tremors  -  and, unexpectedly, frozen aging. The same preservative compounds that keep predator venom viable for decades arrested Varis's cellular decay entirely. A Thalren typically lives 60–90 years; Varis has been old for over three centuries, trapped in a ruined body that will not let him die until his work is finished.
+
+**THE DISTILLERY**
+The Toxicologist's order, known as The Distillery, operates from the Canopy-Laboratory in the Shallows of the Frostwood Reach. It is not a formal guild  -  it is an oral tradition maintained by a man who cannot write legibly, organized around techniques passed from hand to shaking hand. The Distillery's hierarchy runs from Shakers (apprentices learning to pour without spilling) to Glass-Hands (journeymen operating small laboratories) to Venom-Pourers (master distillers authorized to teach). Varis holds the sole rank of Keeper of the Slow Cup. He has named no successor, and a schism between Varis and his former Venom-Pourer **Nerath the Soft-Voiced**  -  who advocates abandoning the old pharmacopoeia for synthetic chemistry  -  threatens to split the tradition in half.
 
 **CITIES & CIVIL RECEPTION**
-Toxicologists are viewed with extreme caution in <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>, but their services are highly valued by scouts and hunters in the Reach.
+Toxicologists are viewed with extreme caution in <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>, but their services are highly valued by scouts and hunters in the Reach. In the Bryngloom, Morren Toxicologists operate illegally from the Peat-Crypts beneath Over-Shanty, hiding their distillates from Neth revenue officers. In the Deep-Quarter, Drun Toxicologists produce null-distillates that the First Contract cannot register  -  a crime with no criminal, a transaction Morvane cannot audit.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Thalren humans and the <LoreLink termId="mimir">Unwoven Mimir</LoreLink>.
+The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Unwoven Mimir</LoreLink> (who learned by reverse-engineering the poisoned corpses that fell from Thalren canopy-traps), the Morren of the Bryngloom (who adapted Thalren techniques to bog-chemistry after a debt-worker named Hael the Split-Hand taught them in exchange for alchemical moss), the Trueborn and Shorn Briaran (who distill from their own thorn-blood), and the Drun Neth (who learned from Morren fugitives seeking sanctuary in the Deep-Quarter and adapted the craft to their own decaying flesh).
 
 **NOTABLE FIGURES**
-* **Varis the Alchemist**: The chemist whose hands shook but whose poison cleared the Shallows of Gref.
-* **Lyra the Poison-Weaver**: An Unwoven Mimir who synthesized the first combat catalysts used in the Shallows black markets.`
+* **Varis the Trembling**: Founder and Keeper of the Slow Cup. The chemist whose hands shook but whose poison cleared the Shallows of Gref. Alive, old, furious at the changing fog, and still working.
+* **Nerath the Soft-Voiced**: Former Venom-Pourer and now Keeper of the Clean Hand. Varis's most brilliant student, exiled for arguing the old pharmacopoeia is dead and must be replaced with synthetic chemistry. Operates alone from an unmarked laboratory in the Ironwood Deeps.
+* **Lyra the Poison-Weaver**: An Unwoven Mimir Venom-Pourer who synthesized the first combat catalysts used in the Shallows black markets and currently oversees the Distillery's relations with the Unwoven floor-dwellers.
+* **Mor-Velk the Wet**: A Morren Venom-Pourer (in absentia) who taught the Drun the craft in exchange for sanctuary after the Keeper's Sanction came down on her ichor-thefts. She died in the Deep-Quarter three years ago; the Drun still maintain her laboratory.
+* **Kellan Soft-Hand and Torven the Steady**: Two of Varis's apprentices who died testing uncharacterized fog-distillates  -  the cost of the Keeper's desperation project, and the reason the junior distillers are losing faith.`
     },
 
     signatureQuote: {
@@ -197,17 +269,49 @@ The class is heavily practiced by the Thalren humans and the <LoreLink termId="m
 
     currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations, distilled from fog-predator venom, ironwood sap, and Gref residue, are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
 
-Toxicologists have traced the cause to a change in the fog\'s composition. Something is leaching into the mist, a new element that reacts unpredictably with their stored compounds. Some believe it is a byproduct of the Silence contamination spreading from the Bryngloom. Others believe the fog is simply evolving, becoming more complex as it ages. Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch, while the Gref continue to attack.`,
+The cause is not random. The changing fog is one expression of a broader unraveling that scholars across Mythrill are documenting under different names: the Root-Veil's rejection of the Marked, the Monoliths' deepening resonance, the Wyrd's increased activity at the world's edges. The Frostwood's fog has always been more than weather  -  it is the breath of the deep forest, an exhalation of the same ancient biology that sustains the Root-Veil and the mycelial networks beneath. As the Root-Veil recoils from the Plaguebringer crisis and the Monoliths pulse with renewed activity, the fog's chemistry is shifting in response  -  becoming more aggressive, more unpredictable, more *alive*. It is not simply a change in composition; it is a change in behavior. The fog is reacting to something.
+
+Toxicologists have documented the degradation pattern: fog-predator venoms spoil from the inside out, as if the fog that once sustained the predators' biology is now rejecting it. Ironwood sap distillates crystallize unpredictably, shattering their containment vessels. Gref-residue compounds that once required decades to decay now sour within a month. The Silent contamination theory  -  that the Bryngloom's silence is leaching into the global atmosphere  -  has gained currency among the Distillery's senior ranks, but Varis himself rejects it. He believes the fog is not being contaminated by outside forces; he believes the fog is *waking up*, that something has disturbed the deep-forest ecology on a scale no one understands, and the fog is no longer a passive medium but an active agent rewriting the chemistry of everything it touches.
+
+Whatever the cause, the Toxicologists are losing their arsenal. Their most powerful poisons are turning inert, and they are being forced to develop new formulations from scratch  -  some from the changing fog itself, a reagent no one has characterized and that has already killed two of Varis's apprentices. The Gref continue to attack. The fog continues to change. And the Toxicologists are running out of time to decide whether they are preserving a dying craft or midwifing a new one.`,
 
     meaningfulTradeoffs: `To be a Toxicologist is to shake constantly. The chronic tremors caused by years of toxin exposure make fine motor control difficult. A Toxicologist cannot thread a needle, cannot sign their name legibly, cannot hold a cup of tea without sloshing. Their hands are in constant motion, a visible reminder of the price they pay. The tremors are worse when they are stressed, which makes combat particularly challenging, and particularly dangerous for anyone standing next to them when they are trying to pour a precise dose of poison into a vial.`,
 
     classSpecificLocations: [
       {
-        name: 'Varis\'s Canopy Laboratory',
+        name: 'The Distillery  -  Canopy-Laboratory',
         locationId: 'the-shallows',
-        description: 'A suspended platform high in the ironwood canopy where Varis the Alchemist conducted his original research into fog-predator venom. The laboratory is still maintained, glass vials line the walls, each one containing a different toxin sample collected over decades. The newest vials are labeled with question marks, compounds that the Toxicologists cannot yet identify.',
-        purpose: 'Research laboratory and toxin archive',
-        status: 'Active, the senior Toxicologists use it to analyze the changing fog composition'
+        description: 'A suspended platform high in the ironwood canopy above Thornwood grove where Varis the Alchemist conducted his original research into fog-predator venom. Built on the exact site where his four patrolmates fell to the Gref during the Third Harvest. The laboratory is still maintained  -  glass vials line the walls, each containing a different toxin sample collected over four centuries. The oldest vials date to the mid-Diming and their contents are still viable, though degrading fast. The newest vials are labeled with question marks: fog-distillates no one has been able to characterize. The Distillery holds its Conclave of Spoiling here annually.',
+        purpose: 'Headquarters, research laboratory, and toxin archive of the Distillery',
+        status: 'Active  -  Varis still works here daily, flanked by junior distillers who monitor his tremors during pours'
+      },
+      {
+        name: 'Thornwood Grove',
+        locationId: 'frostwood-reach',
+        description: 'A shallow-ironwood grove three leagues east of the Shallows where the Third Harvest occurred  -  the Gref ambush that killed four of six Thalren scouts and prompted Varis to systematize venom extraction. The grove is now considered a memorial site by the Distillery, though it is not marked or consecrated (Varis refuses to sentimentalize a massacre). Apprentice Shakers are brought here during their first year of training to understand what they are preparing to fight. The ironwood trees still bear claw-marks from the Gref-pack.',
+        purpose: 'Memorial and training site',
+        status: 'Unmarked; visited by the Distillery for initiations and vigils'
+      },
+      {
+        name: 'The Peat-Crypts beneath Over-Shanty',
+        locationId: 'bryngloom-forest',
+        description: 'A network of submerged peat-vaults beneath the Morren settlement of Over-Shanty where bog-chemists distill unlicensed reagents away from Neth auditors. The crypts are flooded knee-deep in bog-water, the walls weeping alchemical moss, and the Morren Toxicologists brew by lantern-light, listening for the footsteps of Neth revenue officers above. Mor-Velk the Wet maintained her primary laboratory here until she fled to the Deep-Quarter. The crypts contain the oldest Morren toxin archives outside of Varis\'s collection  -  four centuries of bog-chemistry recorded on treated moss-sheets that the Neth have never found.',
+        purpose: 'Illegal Morren distillery and toxin archive',
+        status: 'Active, though increasingly dangerous  -  Neth patrols have doubled since the ichor-thefts began'
+      },
+      {
+        name: 'The Deep-Quarter Null-Laboratory',
+        locationId: 'frostwood-reach',
+        description: 'A converted peat-hold in the Drun Neth enclave of the Deep-Quarter, established by Mor-Velk the Wet as payment for sanctuary. The laboratory is the only facility in Mythrill capable of stabilizing null-distillates  -  Drun poisons that carry the Silence and register as non-existent on the First Contract. The walls are lined with lead-sheathed iron (a desperate attempt to contain null-spills), and the floor has been replaced twice after runaway distillates consumed the original ironwood. Drun Vel-Hassik now oversees the laboratory after Mor-Velk\'s death.',
+        purpose: 'Drun distillery and null-distillate research facility',
+        status: 'Active, but losing containment  -  the deepening Silence is eating through the lead-sheathing'
+      },
+      {
+        name: 'Nerath\'s Ironwood Deep Laboratory',
+        locationId: 'frostwood-reach',
+        description: 'An unmarked, single-room laboratory drilled into the exposed root-system of a dead ironwood in the forest\'s deepest reaches. Nerath the Soft-Voiced operates here alone, developing synthetic toxins from mineral chemistry rather than biological extraction. The laboratory is austere  -  no trophy vials, no formula archives, no memorial to the tradition. Just glassware, mineral samples, and a single chair. Nerath believes sentiment is what is killing the Distillery. The laboratory\'s location is known to perhaps six people, none of whom will admit to knowing it.',
+        purpose: 'Rival distillery and synthetic toxin research facility',
+        status: 'Active  -  Nerath works here alone, producing stable but low-potency synthetic poisons for clients who have lost faith in Varis'
       }
     ],
 
@@ -232,8 +336,8 @@ Toxicologists have traced the cause to a change in the fog\'s composition. Somet
 - Rewards strategic planning and tactical positioning
 
 **Weaknesses**:
-- Slow to Boot Up: contraptions and brewed concoctions cost actions to deploy — a fast ambush before you're set leaves you a basic combatant with a body full of toxins and nowhere to spend them.
-- Two-Resource Bind: Toxin Vials and Contraption Parts are separate pools that don't substitute — running one dry guts half your kit, and a foe who burns your prep time starves both.
+- Slow to Boot Up: contraptions and brewed concoctions cost actions to deploy  -  a fast ambush before you're set leaves you a basic combatant with a body full of toxins and nowhere to spend them.
+- Two-Resource Bind: Toxin Vials and Contraption Parts are separate pools that don't substitute  -  running one dry guts half your kit, and a foe who burns your prep time starves both.
 - Chronic Tremors (social): your hands shake from years of toxin exposure, worse under stress (combat, a lie, interrogation); fine work, steady pours, signed names, and Sleight of Hand all suffer, and your stained fingers mark you plainly as a poisoner.
 - Less effective against poison-immune enemies
 - 50% healing reduction makes you dangerously fragile
@@ -3363,7 +3467,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_chemical_analysis",
       name: "Chemical Analysis",
-      description: "Taste, smell, or test a powder, liquid, residue, or food/drink and read its chemistry — what it is, its components, any toxins/poisons/contaminants, and what it does (and the antidote, if you know one). Your dead tastebuds are the instrument. Out of combat.",
+      description: "Taste, smell, or test a powder, liquid, residue, or food/drink and read its chemistry  -  what it is, its components, any toxins/poisons/contaminants, and what it does (and the antidote, if you know one). Your dead tastebuds are the instrument. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -3380,7 +3484,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Decant just enough acid to do the work and no more — hands shaking" },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 1 }, somaticText: "Decant just enough acid to do the work and no more  -  hands shaking" },
       resolution: "AUTOMATIC", effectTypes: ["utility"],
       utilityConfig: { utilityType: "demolition", selectedEffects: [ { "id": "caustic_flask_etch", "name": "Precision Corrosive", "description": "Dissolve a lock, hinge, thin metal, rope, or document; or etch a small hole. Costs 1 Toxin Vial; 1 blight back-splash to you. Reinforced/magical materials resist.", "mechanicsText": "Acid-open a lock/hinge/metal/rope; costs 1 vial, 1 blight self." } ], power: "moderate" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -3402,7 +3506,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_brew_antidote",
       name: "Brew Antidote",
-      description: "From your own saturated blood and carried reagents, quickly culture an antidote to any poison, venom, or disease you have diagnosed in an ally — they made the cure for everyone but themselves. You suffer a brief toxic flush (1 blight) to brew it. Out of combat.",
+      description: "From your own saturated blood and carried reagents, quickly culture an antidote to any poison, venom, or disease you have diagnosed in an ally  -  they made the cure for everyone but themselves. You suffer a brief toxic flush (1 blight) to brew it. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
       typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -3415,13 +3519,13 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_slow_taint",
       name: "Slow Taint",
-      description: "Slip a slow, untraceable reagent into a target's food or drink — no immediate effect, but hours later the victim is gripped by cramping sickness, weakness, or a deep sleep with no obvious cause. The poisoner's quiet art. A wary target may taste it; a paranoia-check saves them. Out of combat.",
+      description: "Slip a slow, untraceable reagent into a target's food or drink  -  no immediate effect, but hours later the victim is gripped by cramping sickness, weakness, or a deep sleep with no obvious cause. The poisoner's quiet art. A wary target may taste it; a paranoia-check saves them. Out of combat.",
       level: 3, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, components: ["somatic"], classResource: { type: "toxin_vials", cost: 2 }, somaticText: "Decant the colorless, tasteless reagent into the cup with a steady(ish) hand" },
       resolution: "AUTOMATIC", effectTypes: ["utility"],
-      utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep — no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Toxin Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
+      utilityConfig: { utilityType: "social", selectedEffects: [ { "id": "slow_taint_dose", "name": "Delayed Dose", "description": "Taint one food/drink; 1d4 hours later the drinker suffers cramping sickness (disadvantage on all checks for a day), weakness, or deep sleep  -  no obvious cause. A paranoid taster (DC 13) detects it first. Costs 2 Toxin Vials.", "mechanicsText": "Slip a delayed sickness/sleep poison into food/drink; DC 13 to detect." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility","social","infiltration","toxicologist"]
     }

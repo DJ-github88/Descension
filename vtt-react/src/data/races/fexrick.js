@@ -1,4 +1,4 @@
-export const fexrick = {
+﻿export const fexrick = {
     // Naming convention: "Fexrick" = singular collective noun (the race as a whole).
     // "Fexric" = adjective/plural form (the Fexric people, Fexric engineering, Fexric alchemy).
     // The race file is "fexrick.js", the id is "fexrick", and the adjective form is "Fexric".
@@ -10,9 +10,9 @@ export const fexrick = {
     cardFlavor: 'Master alchemists and cyber-grafters who have been augmenting themselves to endure the Peaks since before the mountain had a name.',
     description: `**[The Cyber-Graft Guilds]**, *In the volcanic soot-glow and neon flicker of the Cragjaw Peak vaults, a green-skinned cyber-engineer adjusts a whirring, brass alchemical ocular grafted to his left eye-socket, his copper-wired beard clicking as neural data pulses through his pneumatic tools.*
 
-The Fexric were beneath the Cragjaw Peaks before the mountain had a name, before the Thrumm crawled through the deep crags, and before the surface-dwellers built their keeps and made their bargains with the dark. They were already there, already building, already tending the geothermal veins, already singing the maintenance code that keeps the world's oldest machines alive. They did not arrive in the peaks; they augmented themselves to endure them. They are still augmenting.
+The Fexric were beneath the Cragjaw Peaks before the mountain had a name, before the Thrumm crawled through the deep crags, and before the surface-dwellers built their keeps and made their bargains with the dark. They were already there, already building, already tending the geothermal veins, already singing the maintenance code that keeps the world's oldest machines alive. They did not arrive in the peaks; they augmented themselves to endure them. They are still augmenting, still adapting, still refusing to admit that what they have been fighting, obsolescence, decay, the slow forgetting of their own songs, may be a monster they became long ago without noticing.
 
-The surface world knows their creations better than it knows the creators. There are the Groven, the Fexric's greatest failure and their greatest shame, the servitors who shattered their alchemical vats and rose against them. There are the Fexrick, the unintended sapient accident the Fexric still refuse to name aloud, born from alchemical heavy-metal runoff, now living in every scrap-heap from Sundale to the Iceheart Sea. They made both. They lost control of both. And they have spent the centuries since pretending the first was a tragedy and the second never happened.
+The surface world knows their creations better than it knows the creators. There are the Groven, the Fexric's greatest failure and their greatest shame, the servitors who shattered their alchemical vats and rose against them. There are the Fexrick, the unintended sapient accident the Fexric still refuse to name aloud, born from alchemical heavy-metal runoff, now living in every scrap-heap from Sundale to the Iceheart Sea. They made both. They lost control of both. And they have spent the centuries since pretending the first was a tragedy and the second never happened. They fought the darkness of their own dying age with alchemy and gears, and the darkness they fought has taken up residence in the very machines they built to hold it back. The Groven are the abyss, looking back at them from above the snow line. The Fexrick are the abyss, chattering in the scrap-heaps they refuse to acknowledge. And they are the abyss, hollowed out, still singing songs they no longer understand, still grafting parts onto bodies that stopped needing them generations ago.
 
 But the Fexric are not defined by what escaped. They are defined by what they graft: the holdfasts, the machine-songs, and the proprietary cyber-craft they have hoarded through millennia of isolation. They pass neural schematics from master to apprentice in oral traditions so old that the language has drifted and some verses are now sung in syllables no living Fexric understands. They maintain augmented engines they can no longer build, following installation procedures whose original purpose they can only guess at. They are the custodians of a cyber-golden age they cannot replicate, and they are too proud to admit it, and too stubborn to stop grafting.`,
 
@@ -25,7 +25,12 @@ They tinker because they must. They practice alchemy because the Cragjaw's miner
 
 Their beards are their resumes. Every copper wire, every gear-tooth, every glowing fiber-optic strand announces their craft, their guild, their rank, and their installed cyberware. A Fexric's beard is the first thing another Fexric reads. It tells them everything they need to know about who they are dealing with, and whether they can trust their code.
 
-The Fexric represent the oldest continuous civilization on Mythrill, and they are slowly forgetting themselves. The Deep Alchemists believe the answer lies in radical experimentation, pushing the boundaries of what the old knowledge allows, grafting new modular components onto old principles, even if the cost is measured in Groven rebellions and Fexric accidents. The Orthodoxy believes the answer lies in strict preservation, guarding what remains, singing the songs exactly as they were sung, never deviating, never innovating. Both sides are right. Both sides are losing. And somewhere in the deepest level of the oldest holdfast, beneath a layer of stone that has not been breached in three thousand years, a machine that has been running since before the invention of speech has started making a sound that is not in any of the songs.`,
+The Fexric represent the oldest continuous civilization on Mythrill, and they are slowly forgetting themselves. The Deep Alchemists believe the answer lies in radical experimentation, pushing the boundaries of what the old knowledge allows, grafting new modular components onto old principles, even if the cost is measured in Groven rebellions and Fexric accidents. The Orthodoxy believes the answer lies in strict preservation, guarding what remains, singing the songs exactly as they were sung, never deviating, never innovating. Both sides are right. Both sides are losing. They spend so much energy fighting the dying of their age, staring into the abyss of their own decay, that they have stopped noticing the abyss staring back: in the Groven who escaped and condemned them, in the Fexrick they refuse to name, in the machines that have begun singing to each other in a language no Fexric ever taught them. And somewhere in the deepest level of the oldest holdfast, beneath a layer of stone that has not been breached in three thousand years, a machine that has been running since before the invention of speech has started making a sound that is not in any of the songs.`,
+    quickFacts: [
+        'The oldest continuous civilization on Mythrill, stocky, green-skinned cyber-grafters and alchemists who have been augmenting themselves to survive beneath the Cragjaw Peaks for eight thousand years, since before the mountain had a name.',
+        'Every Fexric\'s beard is a public resume woven with copper wire, gear-teeth, and glowing fiber-optic strands that announce guild, rank, and installed cyberware. They maintain machines they can no longer build, singing oral maintenance songs whose verses are slowly being forgotten. They created the Groven through alchemy, and lost control of them.',
+        'Play a Fexric to be the custodian of a dying golden age. The oldest machines are failing, the songs have gaps, and something in the deepest holdfast has started making a sound not in any of the songs. You are either Guild-Bound, hoarding secrets as the world degrades, or Clan-Free, improvising survival from salvage.'
+    ],
 
     culturalBackground: `Fexric society is built on three ancient pillars, each reinforced by the pressure of millennia underground and transformed by their obsession with self-augmentation.
 
@@ -79,7 +84,7 @@ The Groven were created eight hundred years ago. The Alchemists, working in secr
 
 The Fexrick were an accident from the same era. The chemical runoff from the Groven experiments pooled in the deep sumps and coalesced into something nobody expected: small, quick, endlessly curious creatures with quicksilver blood and an instinct to build. The Fexric classified them as vermin and ignored them. The Fexrick scattered through every crack and sewer in the known world. The Fexric still refuse to acknowledge they exist, because admitting the Fexrick are sapient means admitting the Deep Alchemists created a second intelligent species purely by accident. The embarrassment is worse than the moral failure.
 
-Now the oldest machines are failing faster. The oral traditions are degrading. The Deep Alchemists have been quietly rebuilding their laboratories, and reports from the lower sumps suggest they have captured fresh Thrumm broodlings. The Orthodoxy debates endlessly and does nothing. The Guilds hoard their songs. The Clan-Free improvise with whatever the Guilds discard. And somewhere in the oldest holdfast, the first turbine, the one that has been running for eight thousand years, has begun to make a sound that is not in any of the songs, and no one knows what it means.
+Now the oldest machines are failing faster. The oral traditions are degrading. The Deep Alchemists have been quietly rebuilding their laboratories, and reports from the lower sumps suggest they have captured fresh Thrumm broodlings. The Orthodoxy debates endlessly and does nothing. The Guilds hoard their songs. The Clan-Free improvise with whatever the Guilds discard. The Fexric have been fighting the slow death of their world for so long that they have become what they fought: hollow maintainers of a machine they can no longer build, singing songs they no longer understand, creating monsters (the Groven, the Fexrick, the Deep Alchemists' next experiment) in the desperate hope that something new will save them from something old. The abyss they gazed into has been gazing back for centuries, and they have learned to recognize its face because it is their own. And somewhere in the oldest holdfast, the first turbine, the one that has been running for eight thousand years, has begun to make a sound that is not in any of the songs, and no one knows what it means.
     `,
 
     notableFigures: [
@@ -108,7 +113,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
         }
     ],
 
-    currentCrisis: 'The oldest machines are failing faster than the oral traditions can be recovered. In the last century alone, three primary turbines, each over five thousand years old, have begun making sounds not documented in any maintenance song. The Guilds debate endlessly: send expeditions to recover lost knowledge from sealed holdfasts, or authorize the Deep Alchemists to attempt experimental repairs. The Clan-Free have begun improvising solutions on their own, using salvage and untested alchemy. The Orthodoxy condemns this as dangerous. The Deep Alchemists watch from their sump-laboratories, waiting for the moment when desperation makes their methods acceptable again. In the deepest level of the oldest holdfast, the First Turbine has begun making a sound like someone trying to remember a song they have not heard in eight thousand years. But last month, for the first time, a secondary turbine in the Fourth Holdfast answered it. The machines are not just failing. They are beginning to communicate. And the frequency they are using is not in any maintenance song — it is a language the Fexric have never needed to understand because nothing alive has spoken it since before the holdfasts were carved.',
+    currentCrisis: 'The oldest machines are failing faster than the oral traditions can be recovered. In the last century alone, three primary turbines, each over five thousand years old, have begun making sounds not documented in any maintenance song. The Guilds debate endlessly: send expeditions to recover lost knowledge from sealed holdfasts, or authorize the Deep Alchemists to attempt experimental repairs. The Clan-Free have begun improvising solutions on their own, using salvage and untested alchemy. The Orthodoxy condemns this as dangerous. The Deep Alchemists watch from their sump-laboratories, waiting for the moment when desperation makes their methods acceptable again. In the deepest level of the oldest holdfast, the First Turbine has begun making a sound like someone trying to remember a song they have not heard in eight thousand years. But last month, for the first time, a secondary turbine in the Fourth Holdfast answered it. The machines are not just failing. They are beginning to communicate. And the frequency they are using is not in any maintenance song; it is a language the Fexric have never needed to understand because nothing alive has spoken it since before the holdfasts were carved.',
 
     culturalPractices: 'Fexric children are apprenticed at age five, earlier for Guild-Bound, later for Clan-Free, but always young. The first tool a Fexric child receives is a gear-puller; the first song they learn is the Ventilation Hymn, which calibrates airflow through the holdfast and teaches basic Still-Air awareness. Craft mastery is measured by beards: each achievement adds a copper wire, a gear-tooth, or a braided strand, and a Fexric\'s beard is their public resume. The mechanical replacement is earned at the transition to adulthood, when the apprentice demonstrates mastery of their chosen craft, a brass finger for tinkers, a silver filament for alchemists, a gear-joint for trap-crafters. Clan-Free Fexric often build their own replacements from salvage. Marriage is a contract between guilds, not individuals, and the negotiation can take years. The dead are interred inside the machines they tended, their body-heat joining the geothermal flow to power the turbines. A Fexric funeral is a maintenance procedure with singing.',
 
@@ -116,7 +121,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
         {
         "id": "graft_drawback_fexric",
                   "name": "Mechanical Interference",
-                  "description": "Mechanical grafts attract lightning/Wyrd damage (+25% vulnerability to storm and Wyrd damage).",
+                  "description": "Mechanical grafts attract and conduct electrical and chaotic energy: +25% vulnerability to storm and wyrd damage. The copper, brass, and fiber-optic threads woven through your body turn what should be a glancing strike into a full-body circuit.",
                   "level": 1,
                   "icon": "fas fa-bolt",
                   "spellType": "PASSIVE",
@@ -131,6 +136,23 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                                       "debuff",
                                       "shared"
                             ]
+                  },
+                  "debuffConfig": {
+                            "debuffType": "vulnerability",
+                            "effects": [{
+                                      "id": "conductive_grafts_fexric",
+                                      "name": "Conductive Grafts",
+                                      "description": "+25% storm damage. +25% wyrd damage. Mechanical grafts conduct electrical and chaotic energy with lethal efficiency.",
+                                      "statusEffect": {
+                                                "vulnerabilityType": "storm",
+                                                "vulnerabilityPercent": 25,
+                                                "additionalVulnerability": { "type": "wyrd", "percent": 25 }
+                                      }
+                            }],
+                            "durationValue": 0,
+                            "durationType": "permanent",
+                            "durationUnit": "permanent",
+                            "canBeDispelled": false
                   }
         },
         {
@@ -252,7 +274,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'guild_precision_kethrin',
                     name: 'Guild Precision',
-                    description: 'Advantage on all checks to repair, disable, or modify mechanical devices and traps; when you spend at least 1 minute on a task that normally takes 1 action, treat any roll of 9 or lower as a 10. You suffer disadvantage on initiative rolls — precision is not speed. (The muscle memory of your guild lives in your fingers, four thousand years deep, and those hands have not fumbled in millennia.)',
+                    description: 'Advantage on all checks to repair, disable, or modify mechanical devices and traps; when you spend at least 1 minute on a task that normally takes 1 action, treat any roll of 9 or lower as a 10. You suffer disadvantage on initiative rolls; precision is not speed. (The muscle memory of your guild lives in your fingers, four thousand years deep, and those hands have not fumbled in millennia.)',
                     level: 1,
                     icon: 'ability_rogue_findweakness',
                     spellType: 'PASSIVE',
@@ -285,7 +307,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'hoarded_secret_kethrin',
                     name: 'Hoarded Secret',
-                    description: 'Once per long rest, when you or an ally within 30 feet fails a check to repair, disable, or understand a mechanical device, trap, or construct, you may use your reaction to make that check succeed instead. Any Guild-Bound Fexric who hears you knows you shared guild knowledge outside the guild, and you cannot use this again for 24 hours. (The half-remembered syllables are older than the current tongue; the machine obeys — but the guild remembers everything.)',
+                    description: 'Once per long rest, when you or an ally within 30 feet fails a check to repair, disable, or understand a mechanical device, trap, or construct, you may use your reaction to make that check succeed instead. Any Guild-Bound Fexric who hears you knows you shared guild knowledge outside the guild, and you cannot use this again for 24 hours. (The half-remembered syllables are older than the current tongue; the machine obeys, but the guild remembers everything.)',
                     level: 1,
                     icon: 'spell_arcane_mindmastery',
                     spellType: 'PASSIVE',
@@ -314,6 +336,39 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     targetingConfig: { targetingType: 'single_target', rangeType: 'ranged', rangeDistance: 30 },
                     resourceCost: { actionPoints: 0, mana: 0, components: ['verbal'] },
                     cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                },
+                {
+                    id: 'neural_overclock_kethrin',
+                    name: 'Neural-Overclock',
+                    description: 'Once per long rest, overclock your cyber-graft: gain +1 AP immediately. After your next turn, take 1d4 storm damage as the conductive frame overheats. The graft was built for bursts the body cannot sustain.',
+                    level: 1,
+                    icon: 'spell_nature_lightning',
+                    spellType: 'ACTION',
+                    effectTypes: ['buff', 'debuff'],
+                    typeConfig: { category: 'racial', school: 'storm' },
+                    buffConfig: {
+                        buffType: 'statEnhancement',
+                        effects: [{
+                            id: 'ap_overclock',
+                            name: 'Overclocked',
+                            description: 'Gain +1 AP immediately. The cyber-graft pushes past its safe operational limits.',
+                            statusEffect: { level: 'moderate', description: '+1 AP gained instantly from overclocked graft.' }
+                        }],
+                        durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                    },
+                    debuffConfig: {
+                        debuffType: 'statusEffect',
+                        effects: [{
+                            id: 'frame_overheat',
+                            name: 'Frame Overheat',
+                            description: 'After your next turn, take 1d4 storm damage as the conductive frame overheats from the overclock.',
+                            statusEffect: { penaltyType: 'self_damage', formula: '1d4', type: 'storm', timing: 'after_next_turn' }
+                        }],
+                        targetRestriction: 'self'
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                    cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
                 }
             ]
         },
@@ -328,7 +383,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
             statModifiers: { agility: 2, spirit: 1, charisma: -1 },
             baseStats: { hp: 7, mana: 4, ap: 3, initiative: 2 },
             savingThrowModifiers: { advantage: ['traps'], disadvantage: ['lightning_effects'] },
-            currentCrisis: 'The Sump-Markets are flooding — not with water, with Kethrin. As the guild system tightens its information lockdown around the dying turbines, disillusioned apprentices, disgraced journeymen, and expelled guild members descend into the sump-tunnels seeking Clan-Free shelter. The Drall were never designed to absorb this many refugees. Their salvage-based economy is straining beyond capacity. Their improvisational repair techniques, never tested at industrial scale, are being asked to keep critical infrastructure running. And whispered rumors from the deepest sump-levels suggest that the Deep Alchemists, the same faction that created the Groven, have begun offering sanctuary to Drall exiles in exchange for test subjects. The Drall must decide whether to absorb the guild refugees, turn them away, or ally with the one faction every Fexric has sworn never to trust again.',
+            currentCrisis: 'The Sump-Markets are flooding, not with water, with Kethrin. As the guild system tightens its information lockdown around the dying turbines, disillusioned apprentices, disgraced journeymen, and expelled guild members descend into the sump-tunnels seeking Clan-Free shelter. The Drall were never designed to absorb this many refugees. Their salvage-based economy is straining beyond capacity. Their improvisational repair techniques, never tested at industrial scale, are being asked to keep critical infrastructure running. And whispered rumors from the deepest sump-levels suggest that the Deep Alchemists, the same faction that created the Groven, have begun offering sanctuary to Drall exiles in exchange for test subjects. The Drall must decide whether to absorb the guild refugees, turn them away, or ally with the one faction every Fexric has sworn never to trust again.',
             traits: [
                 {
                     id: 'jury_rig_drall',
@@ -358,7 +413,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     id: 'sump_acclimation_drall',
                     name: 'Sump-Acclimation',
-                    description: 'Immune to blight damage and the poisoned condition, and you have advantage on saving throws against disease. In clean surface air, your speed is reduced by 5 feet as your scarred lungs struggle with pure oxygen. (You breathed the sump\'s heavy-metal exhaust so long your quicksilver blood now neutralizes the poison — but it never learned to breathe clean.)',
+                    description: 'Immune to blight damage and the poisoned condition, and you have advantage on saving throws against disease. In clean surface air, your speed is reduced by 5 feet as your scarred lungs struggle with pure oxygen. (You breathed the sump\'s heavy-metal exhaust so long your quicksilver blood now neutralizes the poison, but it never learned to breathe clean.)',
                     level: 1,
                     icon: 'spell_nature_corrosivebreath',
                     spellType: 'PASSIVE',
@@ -410,6 +465,29 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
                     resourceCost: { actionPoints: 0, mana: 0, components: [] },
                     cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                },
+                {
+                    id: 'scrap_shield_drall',
+                    name: 'Scrap-Shield',
+                    description: 'Once per short rest, cobble together a temporary barrier from salvage: gain a shield that absorbs the next 1d6+Constitution points of physical damage you would take. Lasts 1 round. The sump provides, if you\'re fast enough.',
+                    level: 1,
+                    icon: 'ability_warrior_shieldmastery',
+                    spellType: 'ACTION',
+                    effectTypes: ['buff'],
+                    typeConfig: { category: 'racial', school: 'physical' },
+                    buffConfig: {
+                        buffType: 'shield',
+                        effects: [{
+                            id: 'scrap_barrier',
+                            name: 'Scrap-Barrier',
+                            description: 'Gain a shield that absorbs the next 1d6+Constitution points of physical damage. Lasts 1 round.',
+                            statusEffect: { level: 'moderate', description: 'Shield absorbs 1d6+Constitution physical damage. Duration: 1 round.' }
+                        }],
+                        durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: true
+                    },
+                    targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                    resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
+                    cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
                 }
             ]
         }

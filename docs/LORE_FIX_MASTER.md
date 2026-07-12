@@ -1,4 +1,4 @@
-# Mythrill VTT — Ultimate Lore Consistency Fix Protocol
+﻿# Mythrill VTT  -  Ultimate Lore Consistency Fix Protocol
 
 **Date:** July 2026
 **Track record:** 3 audit cycles (v1, v2, v3) found 14 CRITICAL + 36 MAJOR + 84+ gaps. Each audit found NEW categories of bugs. This protocol is designed to **eliminate the root cause** of recurring inconsistencies.
@@ -11,11 +11,11 @@ After 3 audits, every inconsistency falls into one of these patterns:
 
 | Root Cause | % of Bugs | Example |
 |-----------|-----------|---------|
-| **No single source of truth** — age/generation claims in NPC/race files are manually typed, not derived from founding dates | 40% | Vespera says "eight centuries" but class was founded Year 500 (~300 years) |
-| **Relevance tagging conflated with chronology** — timeline classIds tag thematically connected classes regardless of whether they existed | 25% | False Prophet tagged in Year 250 event, but founded Year 598 |
-| **Deprecated names leak into active code** — renaming a class doesn't purge old names from all code paths | 15% | Chaos Weaver still in classEquipment.js, ClassResourceBar.jsx |
-| **Split settlement data** — one location's data lives across 3+ stores with no canonical source | 10% | Greymark Keep is "city" with 1,200 pop; 50+ locations in loreDictionary have no zoneData |
-| **Undocumented display conventions** — UI components use non-canonical labels that look like lore | 10% | TimelineDisplay.jsx "Age of the Breach" vs canonical "The Deepening" |
+| **No single source of truth**  -  age/generation claims in NPC/race files are manually typed, not derived from founding dates | 40% | Vespera says "eight centuries" but class was founded Year 500 (~300 years) |
+| **Relevance tagging conflated with chronology**  -  timeline classIds tag thematically connected classes regardless of whether they existed | 25% | False Prophet tagged in Year 250 event, but founded Year 598 |
+| **Deprecated names leak into active code**  -  renaming a class doesn't purge old names from all code paths | 15% | Chaos Weaver still in classEquipment.js, ClassResourceBar.jsx |
+| **Split settlement data**  -  one location's data lives across 3+ stores with no canonical source | 10% | Greymark Keep is "city" with 1,200 pop; 50+ locations in loreDictionary have no zoneData |
+| **Undocumented display conventions**  -  UI components use non-canonical labels that look like lore | 10% | TimelineDisplay.jsx "Age of the Breach" vs canonical "The Deepening" |
 
 ---
 
@@ -33,7 +33,7 @@ For every lore claim, designate ONE canonical source. All other occurrences DERI
 | Timeline event chronology | `src/store/timelineStore.js` → `SEEDED_EVENTS[].date.year` | Year, factionIds, classIds, causes, effects |
 | Calendar / Era names | `src/store/timelineStore.js` → `MYTHRILL_CALENDAR.eras` | 3 eras: Before the Deepening, The Deepening, The Age of the Dimming |
 | Bargain attribution | `src/data/loreDictionary.js` → house entries + the_warden entry | House name, year, region |
-| NPC age/death status | `src/store/npcStore.js` — but DERIVED from class founding years | Must cross-ref class data |
+| NPC age/death status | `src/store/npcStore.js`  -  but DERIVED from class founding years | Must cross-ref class data |
 | Region geography | `src/data/subregions.js` + `src/data/regionPolygons.js` | Borders, adjacency |
 | Settlement type/population | `src/data/deepLocationData.js` (primary) + `src/data/zoneData.js` (gameplay) | Type, pop, dominant races |
 | Race description | `src/data/races/*.js` | Origin, culture, relations |
@@ -49,7 +49,7 @@ For every lore claim, designate ONE canonical source. All other occurrences DERI
 
 Run this phase first. It builds the canonical reference tables.
 
-#### P1.1 — Class Founding Years
+#### P1.1  -  Class Founding Years
 
 Read every file in `src/data/classes/*Data.js`. Extract:
 
@@ -63,23 +63,23 @@ Read every file in `src/data/classes/*Data.js`. Extract:
 
 Present year = **Year 800 of the Dimming** (not Year 0). Calculate age: `800 - founding_year = actual age`.
 
-#### P1.2 — Timeline Event Table
+#### P1.2  -  Timeline Event Table
 
 Read `timelineStore.js` SEEDED_EVENTS. For each event extract:
 - `date.year`, `title`, `classIds`, `factionIds`, `causes`, `effects`
 
 Build a chronological index. Note: `classIds` are **relevance tags**, not chronological markers. Document this explicitly.
 
-#### P1.3 — Era Canon
+#### P1.3  -  Era Canon
 
 From `MYTHRILL_CALENDAR.eras`:
-- **Before the Deepening** — Year < 0
-- **The Deepening** — Year 0-12
-- **The Age of the Dimming** — Year 12+
+- **Before the Deepening**  -  Year < 0
+- **The Deepening**  -  Year 0-12
+- **The Age of the Dimming**  -  Year 12+
 
 No other era names are canonical. "Age of Collection", "Age of the Breach", "Age of the Norse Kings" etc. must be removed or prefixed with "What some call...".
 
-#### P1.4 — Deprecated Class Blacklist
+#### P1.4  -  Deprecated Class Blacklist
 
 From `src/data/classes/index.js`:
 - **Merged into Shaper:** Formbender, Bladedancer
@@ -94,9 +94,9 @@ From `src/data/classes/index.js`:
 
 ### Phase 2: Fix All Deviations (Fix-Forward)
 
-For each phase below, fix every deviation. Do NOT audit first then fix — fix as you find.
+For each phase below, fix every deviation. Do NOT audit first then fix  -  fix as you find.
 
-#### P2.1 — NPC Age Fix (4 known + any new)
+#### P2.1  -  NPC Age Fix (4 known + any new)
 
 For each NPC in `npcStore.js`:
 
@@ -106,11 +106,11 @@ For each NPC in `npcStore.js`:
 4. Round down to nearest century for readability (300+ for Year 500, 400+ for Year 380, etc.)
 
 **Patterns to grep:**
-- `"eight centuries"` in any NPC — verify the entity actually existed for 800 years. Exceptions: entities founded in Year 0-12 (correct), entities founded Year 25-599 (wrong).
-- `"centuries"` in any NPC backstory — verify each claim
-- `"generations"` in any NPC description — verify count × 25 ≤ years elapsed
+- `"eight centuries"` in any NPC  -  verify the entity actually existed for 800 years. Exceptions: entities founded in Year 0-12 (correct), entities founded Year 25-599 (wrong).
+- `"centuries"` in any NPC backstory  -  verify each claim
+- `"generations"` in any NPC description  -  verify count × 25 ≤ years elapsed
 
-#### P2.2 — Generation Math Fix (all race files + loreDictionary)
+#### P2.2  -  Generation Math Fix (all race files + loreDictionary)
 
 For each file in `src/data/races/*.js`, loreDictionary.js, rulesData.js, GM_WORLD_GUIDE.md:
 
@@ -127,7 +127,7 @@ For each file in `src/data/races/*.js`, loreDictionary.js, rulesData.js, GM_WORL
 - Ordan "20 generations" → "31 generations" (human, ~775 years)
 - Revenant "30 generations" → "6 generations" (250 years old, not 750)
 
-#### P2.3 — Deprecated Name Purge
+#### P2.3  -  Deprecated Name Purge
 
 For each deprecated name in P1.4, search ALL files in `vtt-react/src/`:
 
@@ -146,7 +146,7 @@ For each deprecated name in P1.4, search ALL files in `vtt-react/src/`:
 ```
 Exclude legitimate archival references: loreDictionary entries, in-world quotes, historical mentions.
 
-#### P2.4 — Era Label Standardization
+#### P2.4  -  Era Label Standardization
 
 Search ALL files for era labels. For each:
 
@@ -166,7 +166,7 @@ Search ALL files for era labels. For each:
 "The Age of the Deepening"  // should just be "The Deepening"
 ```
 
-#### P2.5 — Settlement Classification Fix
+#### P2.5  -  Settlement Classification Fix
 
 Cross-reference `deepLocationData.js` populations with `zoneData.js` types:
 
@@ -181,7 +181,7 @@ Cross-reference `deepLocationData.js` populations with `zoneData.js` types:
 **Known issues:**
 - Greymark Keep: "city" with 1,200 pop → reclassify as "fortified keep" or "town"
 
-#### P2.6 — Missing Entity Fills
+#### P2.6  -  Missing Entity Fills
 
 For each entity type, ensure the data store has an entry matching the SSOT:
 
@@ -194,7 +194,7 @@ For each entity type, ensure the data store has an entry matching the SSOT:
 
 For each missing entity: create a minimal entry in the appropriate store.
 
-#### P2.7 — Timeline Anachronism Documentation
+#### P2.7  -  Timeline Anachronism Documentation
 
 For each event in `timelineStore.js` where `classIds` includes a class founded AFTER the event year:
 
@@ -207,7 +207,7 @@ This is a DESIGN intensional (relevance filtering), not a bug. But it MUST BE DO
 
 ### Phase 3: Validation
 
-#### P3.1 — Run the Automated Validation Script
+#### P3.1  -  Run the Automated Validation Script
 
 Execute `node scripts/validateLoreConsistency.js` to check:
 
@@ -218,7 +218,7 @@ Execute `node scripts/validateLoreConsistency.js` to check:
 5. Settlement types match population ranges
 6. No empty causes/effects arrays on events that should have them
 
-#### P3.2 — Manual Verification Checklist
+#### P3.2  -  Manual Verification Checklist
 
 Check these by reading:
 
@@ -227,7 +227,7 @@ Check these by reading:
 - [ ] All 7 regional bargains name the correct house across all files
 - [ ] All 20 class founders are consistently named across class files, loreDictionary, and timeline
 - [ ] No character knows information from after their time period
-- [ ] The grim-dark tone is maintained — no unwarranted optimism
+- [ ] The grim-dark tone is maintained  -  no unwarranted optimism
 - [ ] Every <LoreLink> target exists in loreDictionary.js
 - [ ] Trade routes in timelineStore can be mapped on the physical geography
 
@@ -263,7 +263,7 @@ If any of these are missing, add a placeholder.
 
 ---
 
-## APPENDIX: QUICK REFERENCE — PRESENT YEAR MATH
+## APPENDIX: QUICK REFERENCE  -  PRESENT YEAR MATH
 
 Present year in Mythrill = **Year 800 of the Dimming** (or ~800)
 
@@ -298,4 +298,4 @@ Present year in Mythrill = **Year 800 of the Dimming** (or ~800)
 
 ---
 
-*End of LORE_FIX_MASTER.md — execute phases 1-3 sequentially, verify with P3.1 before declaring complete.*
+*End of LORE_FIX_MASTER.md  -  execute phases 1-3 sequentially, verify with P3.1 before declaring complete.*

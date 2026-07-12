@@ -1,11 +1,11 @@
-# Spell Class Audit & Enhancement Agent Prompt
+﻿# Spell Class Audit & Enhancement Agent Prompt
 
 ## Instructions for Orchestrator
 
-> **Updated June 2026.** The engine ships **20 classes** (not 30 — see `classes/index.js` and
+> **Updated June 2026.** The engine ships **20 classes** (not 30  -  see `classes/index.js` and
 > `SPELL_DATA_REFERENCE.md §8` for the consolidation map). The class list below supersedes the old
 > 30-class batch assignment. Run agents in parallel over the 20 current `*Data.js` files.
-> **Animist is `implemented: false` (no spells yet) — skip it** until its spell migration is done.
+> **Animist is `implemented: false` (no spells yet)  -  skip it** until its spell migration is done.
 
 ### Agent Assignment (20 classes)
 
@@ -26,13 +26,13 @@
 | Chaos Weaver, Doomsayer | harbingerData.js |
 | Huntress | apexData.js |
 | Oracle | augurData.js |
-| Primalist, Witch Doctor, Inscriptor | animistData.js (**unimplemented — skip**) |
+| Primalist, Witch Doctor, Inscriptor | animistData.js (**unimplemented  -  skip**) |
 | Titan | wardenData.js (Monolith spec) |
 | Dreadnaught | martyrData.js (Ironclad spec) |
 
 ### Already Completed (DO NOT RE-AUDIT unless re-running validation)
 
-- **All 20 class files** — Layer-1 structural sweep complete 2026-06-15 (effectType↔config, schools,
+- **All 20 class files**  -  Layer-1 structural sweep complete 2026-06-15 (effectType↔config, schools,
   secondaryElement, resolution, icons). See `docs/SPELL_AUDIT_REPORT_2026-06.md` §8.
 - Re-run the scanner to validate: `node …\opencode\audit_layer1.mjs`.
 
@@ -40,7 +40,7 @@
 
 ## Agent Mission
 
-You are auditing, fixing, and **enhancing** every spell in your assigned class files. This is not just a data-format check — you are ensuring each class feels **unique, cohesive, and mechanically rich** while producing spell cards that render beautifully and intuitively.
+You are auditing, fixing, and **enhancing** every spell in your assigned class files. This is not just a data-format check  -  you are ensuring each class feels **unique, cohesive, and mechanically rich** while producing spell cards that render beautifully and intuitively.
 
 Read **`D:\VTT\docs\SPELL_CARD_AUDIT_PROMPT.md`** in its entirety before starting. It contains:
 - The 7 Unbreakable Rules (Section 2 of the reference doc)
@@ -59,11 +59,11 @@ Every spell MUST pass these before moving on:
 
 - **Required fields**: `id`, `name`, `description`, `level`, `spellType` (UPPERCASE), `icon`, `typeConfig.school` (damage type ID, NOT D&D school name), `typeConfig.icon`, `targetingConfig`, `resourceCost.actionPoints`, `cooldownConfig` with `cooldownType`/`cooldownValue`, `tags`
 - **effectTypes ↔ configs**: Every type in `effectTypes` has a matching config object, every config has its type in `effectTypes`
-- **damageTypes is ALWAYS an array** — never a string, never a singular `damageType` field
+- **damageTypes is ALWAYS an array**  -  never a string, never a singular `damageType` field
 - **resolution** is set inside each effect config (`DICE`, `CARDS`, `COINS`, `PROPHECY`, `SAVE`, `NONE`, `AUTOMATIC`)
-- **cooldownConfig** uses `{ cooldownType, cooldownValue }` — NOT `{ type, value }`
-- **buffConfig/debuffConfig effects[]** uses objects `{ id, name, description, mechanicsText }` — NOT strings
-- **savingThrow** uses `{ ability, difficultyClass, saveOutcome }` — NOT `saveDC`/`saveType`/`savingThrowConfig`
+- **cooldownConfig** uses `{ cooldownType, cooldownValue }`  -  NOT `{ type, value }`
+- **buffConfig/debuffConfig effects[]** uses objects `{ id, name, description, mechanicsText }`  -  NOT strings
+- **savingThrow** uses `{ ability, difficultyClass, saveOutcome }`  -  NOT `saveDC`/`saveType`/`savingThrowConfig`
 - **resourceCost** uses wizard format: `resourceTypes`, `resourceValues`, `actionPoints`, `components`
 - **No orphaned fields**: Remove `uses`, `requirement` from resourceCost. Use `cooldownConfig` and flat top-level fields instead.
 - **`typeConfig.school` matches actual damage types**: NOT `'force'` unless the spell actually deals force damage. Check `damageConfig.formula` and `damageTypes` to confirm.
@@ -159,13 +159,13 @@ The following issues were identified in the Augur's spells before the full audit
 - Any spell whose description describes sustained/ongoing/ticking effects that require focus should be `'CHANNELED'`.
 
 **2. effectTargeting missing on dual-target area spells**
-- `augur_balanced_sign` (L4): `targetRestrictions: ['any']`, has both `buffConfig` (allies) and `debuffConfig` (enemies) — NO `effectTargeting`, NO `targetingMode: 'effect'`.
-- `augur_reality_of_omens` (L7): Same pattern — buffs allies, debuffs enemies, no `effectTargeting`.
+- `augur_balanced_sign` (L4): `targetRestrictions: ['any']`, has both `buffConfig` (allies) and `debuffConfig` (enemies)  -  NO `effectTargeting`, NO `targetingMode: 'effect'`.
+- `augur_reality_of_omens` (L7): Same pattern  -  buffs allies, debuffs enemies, no `effectTargeting`.
 - `augur_cosmic_aurora` (L8): Buffs + heals allies, damages enemies, no `effectTargeting`.
 - `augur_eternal_benediction` (L9), `augur_master_of_omens` (L10), `augur_hierophant_supreme` (L10): All same issue.
 
 **3. classResource absent on spells that should use it**
-- `augur_read_the_signs` (L1): Utility/divination with NO `classResource`. Should generate Benediction (it's reading signs — the core mechanic).
+- `augur_read_the_signs` (L1): Utility/divination with NO `classResource`. Should generate Benediction (it's reading signs  -  the core mechanic).
 - `augur_omen_bolt` (L3): Damage spell at level 3 with NO `classResource`. Should spend Benediction and/or Malediction.
 
 **4. secondaryElement missing on dual-damage spells**
@@ -180,17 +180,17 @@ These are bugs found during auditing that agents MUST check for. They are caused
 
 ### Pitfall 1: `school` must match actual damage types
 
-The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there** — it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
+The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there**  -  it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
 
 **Rule**: `typeConfig.school` MUST be the spell's primary damage type (the one that appears first or deals the most damage). NEVER use `'force'` as a generic placeholder unless the spell actually deals force damage.
 
 ```javascript
-// WRONG — spell deals fire + necrotic but school says force
+// WRONG  -  spell deals fire + necrotic but school says force
 typeConfig: { school: 'force' }
 damageConfig: { damageTypes: ['fire', 'necrotic'] }
 // Card shows: only "force" badge (normalizer stops at school)
 
-// CORRECT — school matches primary damage type
+// CORRECT  -  school matches primary damage type
 typeConfig: { school: 'fire', secondaryElement: 'necrotic' }
 damageConfig: { damageTypes: ['fire', 'necrotic'] }
 // Card shows: fire + necrotic badges
@@ -213,12 +213,12 @@ typeConfig: {
 The `ProphecySummary` component (line 98) reads `prophesied.effect.damagePerRound` to render DoT damage. It does NOT read `dotFormula`. If a prophecy effect applies a DoT (burning, poisoned, etc.), use `damagePerRound`, NOT `dotFormula`:
 
 ```javascript
-// WRONG — ProphecySummary ignores this
+// WRONG  -  ProphecySummary ignores this
 prophesied: {
   effect: { name: 'Ignited', dotFormula: '2d6', duration: 3 }
 }
 
-// CORRECT — ProphecySummary renders "2d6 per round" 
+// CORRECT  -  ProphecySummary renders "2d6 per round" 
 prophesied: {
   effect: { name: 'Ignited', damagePerRound: '2d6 fire', duration: 3, unit: 'rounds' }
 }
@@ -238,7 +238,7 @@ If damage is variable/dynamic:
 // WRONG
 damageConfig: { formula: 'SPECIAL', damageTypes: ['necrotic'] }
 
-// CORRECT — base formula + conditional scaling
+// CORRECT  -  base formula + conditional scaling
 damageConfig: {
   formula: '2d8 × active_prophecies',
   damageTypes: ['necrotic'],
@@ -273,15 +273,15 @@ prophesied: { description: 'Deals massive dual damage and burns enemies.' }
 prophesied: { description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.' }
 ```
 
-### Pitfall 6: spellType must match the description — CHANNELED, not just ACTION
+### Pitfall 6: spellType must match the description  -  CHANNELED, not just ACTION
 
 Valid `spellType` values are: **`ACTION`**, **`CHANNELED`**, **`PASSIVE`**, **`REACTION`**, **`TRAP`**, **`STATE`**. If a spell's description says "Channel", "concentrate", or describes a sustained/ongoing effect that ticks over multiple rounds, it should be `'CHANNELED'`, not `'ACTION'`.
 
-The card renderer and transformer treat `CHANNELED` as a distinct type — it gets its own tag, color, icon, and requires `channelingConfig`. Setting a channeled spell as `ACTION` means the card will never render the channeling stages or tick information.
+The card renderer and transformer treat `CHANNELED` as a distinct type  -  it gets its own tag, color, icon, and requires `channelingConfig`. Setting a channeled spell as `ACTION` means the card will never render the channeling stages or tick information.
 
 **CHANNELED spells MUST have `channelingConfig`** at minimum:
 ```javascript
-// WRONG — description says "Channel raw omen energy" but spellType is ACTION
+// WRONG  -  description says "Channel raw omen energy" but spellType is ACTION
 spellType: 'ACTION',
 // No channelingConfig
 
@@ -308,10 +308,10 @@ channelingConfig: {
 
 When a spell targets `['any']` or `['ally', 'enemy']` in `targetingConfig.targetRestrictions` AND has separate effect configs for different groups (e.g., `buffConfig` for allies + `debuffConfig` for enemies, or `buffConfig` for allies + `damageConfig` for enemies), it **MUST** have `effectTargeting` to route each effect to the correct targets. Without it, the card cannot show which effect hits whom.
 
-You must also set `targetingMode: 'effect'` in `targetingConfig` — the card renderer checks `spell.targetingMode === 'effect'` before reading `effectTargeting`.
+You must also set `targetingMode: 'effect'` in `targetingConfig`  -  the card renderer checks `spell.targetingMode === 'effect'` before reading `effectTargeting`.
 
 ```javascript
-// WRONG — area spell with buff + debuff but no way to route effects
+// WRONG  -  area spell with buff + debuff but no way to route effects
 targetingConfig: {
   targetingType: 'area',
   targetRestrictions: ['any'],
@@ -319,9 +319,9 @@ targetingConfig: {
 },
 buffConfig: { /* buffs for allies */ },
 debuffConfig: { /* debuffs for enemies */ },
-// Card shows both effects hitting everyone — wrong!
+// Card shows both effects hitting everyone  -  wrong!
 
-// CORRECT — effectTargeting routes each effect
+// CORRECT  -  effectTargeting routes each effect
 targetingConfig: {
   targetingType: 'area',
   targetingMode: 'effect',       // REQUIRED for card to read effectTargeting
@@ -359,16 +359,16 @@ The `effectTargeting` keys match the effect config names: `damage`, `healing`, `
 For classes whose entire identity revolves around a resource system (Augur = Benediction/Malediction, Pyrofiend = Inferno, Gambler = Luck/Heat, etc.), **every non-trivial spell must interact with that resource**. A spell with no `classResource` in these classes breaks the class fantasy.
 
 ```javascript
-// WRONG — Augur utility spell with no resource interaction
+// WRONG  -  Augur utility spell with no resource interaction
 resourceCost: {
   resourceTypes: ['mana'],
   resourceValues: { mana: 4 },
   actionPoints: 1,
   components: ['verbal', 'somatic']
-  // No classResource — this spell ignores the entire Benediction/Malediction system
+  // No classResource  -  this spell ignores the entire Benediction/Malediction system
 }
 
-// CORRECT — even utility spells interact with the class resource
+// CORRECT  -  even utility spells interact with the class resource
 resourceCost: {
   resourceTypes: ['mana'],
   resourceValues: { mana: 4 },
@@ -398,10 +398,10 @@ classResource: { type: 'malediction', cost: 5 }
 This is already covered in Pitfall 2 but bears repeating with a specific Augur example because it's frequently missed: if `damageTypes` has 2+ entries, `typeConfig` MUST have `secondaryElement` set to the second type. The normalizer reads `school` + `secondaryElement` from typeConfig to build the damage badges on the card. `damageConfig.damageTypes` alone is NOT enough.
 
 ```javascript
-// WRONG — damageTypes has 2 types but typeConfig only has school
+// WRONG  -  damageTypes has 2 types but typeConfig only has school
 typeConfig: { school: 'psychic', icon: '...' },
 damageConfig: { damageTypes: ['psychic', 'radiant'], formula: '8d8' }
-// Card only shows "psychic" — radiant is invisible
+// Card only shows "psychic"  -  radiant is invisible
 
 // CORRECT
 typeConfig: { school: 'psychic', secondaryElement: 'radiant', icon: '...' },
@@ -415,15 +415,15 @@ damageConfig: { damageTypes: ['psychic', 'radiant'], formula: '8d8' }
 
 ---
 
-## Execution Process — Per Class
+## Execution Process  -  Per Class
 
 ### Step 1: Read the class context
 Read the full class data file (and any spell subdirectory files). Study:
-- `overview` — what is this class about?
-- `resourceSystem` — how does the class resource work? What generates it? What spends it?
-- `specializations` — what are the three specs and how do they differ?
-- `combatRole` — what should this class be doing in combat?
-- `characterCreation` — any hints about intended play patterns?
+- `overview`  -  what is this class about?
+- `resourceSystem`  -  how does the class resource work? What generates it? What spends it?
+- `specializations`  -  what are the three specs and how do they differ?
+- `combatRole`  -  what should this class be doing in combat?
+- `characterCreation`  -  any hints about intended play patterns?
 
 ### Step 2: Audit every spell (Layers 1-2)
 For each spell, run through the full audit checklist from `SPELL_CARD_AUDIT_PROMPT.md`:

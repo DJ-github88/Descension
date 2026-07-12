@@ -5020,7 +5020,11 @@ const RulesPage = () => {
 
 
 
-            <ClassDetailDisplay classData={loadedClassData} onBack={handleBackToClasses} />
+            <ClassDetailDisplay 
+              classData={loadedClassData} 
+              onBack={handleBackToClasses} 
+              onSelectClass={handleClassClick}
+            />
 
 
 

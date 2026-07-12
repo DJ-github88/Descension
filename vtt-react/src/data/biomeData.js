@@ -1,4 +1,4 @@
-﻿const frostTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
+const frostTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
 const sandTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.1'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`;
 const leafTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")`;
 const mossTexture = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.15'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`;
@@ -310,7 +310,7 @@ export const BIOMES = [
       { range: [12, 12], type: 'combat', label: 'Ironwood Animated Grove', note: 'Guardians of old growth. Fire effective.' },
       { range: [13, 13], type: 'hazard', label: 'Fog Pocket / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },
       { range: [14, 14], type: 'hazard', label: 'Root Trip / Sinkhole', note: 'Perception vs moderate die (d8) or fall.' },
-      { range: [15, 15], type: 'combat', label: 'Unshorn Briaran Raid', note: 'Stealth vs challenging die (d10). Demands fog-repudiation.' },
+      { range: [15, 15], type: 'combat', label: 'Trueborn Briaran Raid', note: 'Stealth vs challenging die (d10). Demands fog-repudiation.' },
       { range: [16, 16], type: 'combat', label: 'Fog Stalker', note: 'Web traps in mist, venom.' },
       { range: [17, 17], type: 'discovery', label: 'Wyrd-Nexus / Briaran Shrine', note: 'Arcana vs moderate die (d8) to understand.' },
       { range: [18, 18], type: 'social', label: 'Mimir Canopy Seneschal', note: 'Neutral unless provoked.' },
@@ -522,9 +522,9 @@ export const BIOMES = [
       { range: [13, 13], type: 'hazard', label: 'Iceberg Drift', note: 'Survival vs challenging die (d10) to navigate.' },
       { range: [14, 14], type: 'hazard', label: 'Reef / Shallows', note: 'Perception vs challenging die (d10) to spot.' },
       { range: [15, 15], type: 'combat', label: 'Merryn Pirate Cutter', note: 'Grappling hooks, boarding action.' },
-      { range: [16, 16], type: 'combat', label: 'Myrathil Deep-Born War Party', note: 'Territorial. Nature vs moderate die (d8) to parley.' },
+      { range: [16, 16], type: 'combat', label: 'Myrathil Deep War Party', note: 'Territorial. Nature vs moderate die (d8) to parley.' },
       { range: [17, 17], type: 'discovery', label: 'Uncharted Island', note: 'Nature vs moderate die (d8) to assess.' },
-      { range: [18, 18], type: 'social', label: 'Myrathil Breakers-Born Delegation', note: 'Evasive. Intimidation vs challenging die (d10).' },
+      { range: [18, 18], type: 'social', label: 'Myrathil Shore Delegation', note: 'Evasive. Intimidation vs challenging die (d10).' },
       { range: [19, 19], type: 'combat', label: 'Abyssal Leviathan (Juvenile)', note: 'Grapple and drag. Athletics vs difficult die (d12).' },
       { range: [20, 20], type: 'combat', label: 'Abyssal Leviathan (Adult)', note: 'Legendary sea creature. Controls currents.' }
     ],
@@ -733,7 +733,7 @@ export const BIOMES = [
       { range: [12, 12], type: 'combat', label: 'Mound-Awakened Ancestor', note: 'Rises from barrow. Resist slashing.' },
       { range: [13, 13], type: 'hazard', label: 'Collapsing Mound', note: 'Perception vs challenging die (d10) to spot unstable ground.' },
       { range: [14, 14], type: 'hazard', label: 'Lien-Stalk Razorgrass Field', note: 'Agility vs challenging die (d10) or 1d4 slashing per 10 feet.' },
-      { range: [15, 15], type: 'combat', label: 'Astril Muren Agent', note: 'Constellation-spirit combat. Persuasion vs difficult die (d12) to bargain.' },
+      { range: [15, 15], type: 'combat', label: 'Astril Silath Agent', note: 'Echo-subdued combat. Persuasion vs difficult die (d12) to bargain.' },
       { range: [16, 16], type: 'combat', label: 'Wyrd-Touched Herd-Beast', note: 'Stampede risk. Animal Handling vs challenging die (d10).' },
       { range: [17, 17], type: 'discovery', label: 'Buried Synod Archive', note: 'Perception vs challenging die (d10) to spot crystal-lattice.' },
       { range: [18, 18], type: 'social', label: 'Unlit Veil Courier', note: 'Evasive. Deception vs challenging die (d10).' },

@@ -38,7 +38,7 @@ const categorize = (type) => {
 
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
-// ╔══════════════════════════════════════════════════════════════════════╗
+// ╔══════════════════════════════════════════════════════════════════════� - 
 // ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.  ║
 // ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when     ║
 // ║  you're done looking. Example entries are tagged `__example: true`.   ║

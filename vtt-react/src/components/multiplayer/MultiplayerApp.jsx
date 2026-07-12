@@ -370,7 +370,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         lastMapId = currentMapId;
         setPlayerCurrentMapId(currentMapId);
         playerCurrentMapIdRef.current = currentMapId;
-        console.log(`ðŸ—ºï¸ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
+        console.log(`ðŸ - ºï¸ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
       }
     });
     return () => unsubscribe();

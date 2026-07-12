@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spellguard Class Data
  *
  * "Flesh stitched to radioactive metal. We are the tombs of their old powers."
@@ -8,7 +8,7 @@
  * mutilated flesh, suffering severe internal radiation to protect allies before
  * detonating that stored energy back at the caster.
  *
- * ⚠️ EXCLUSIVE DOMAIN: The Spellguard is the only class that can physically intercept
+ * ?? EXCLUSIVE DOMAIN: The Spellguard is the only class that can physically intercept
  * magical attacks meant for allies and store the raw leyline energy inside their own body.
  */
 
@@ -156,26 +156,30 @@ export const SPELLGUARD_DATA = {
  ],
 
  overview: {
-  originStory: `Founded at the Binding by Damon, who blocked a solar flare with an alchemical tower shield during Sol's entombment. Damon the blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment, protecting the caravan at the cost of his own hands. The solar energy permanently scarred his flesh, leaving his veins humming with volatile, trapped mana that threatens to detonate his own marrow.
+   originStory: `A spellguard absorbs magic into their own flesh. Not as a trick or a technique, but as the foundational act of a tradition born at the moment the sun was buried.
 
-The Spellguard's hands are frozen in a rigid, shielding posture, and absorbing spells causes intense nerve pain. A single cracked barrier can detonate his own marrow. They weld heavy brass plates to their arms to channel the backdraft, standing as the ultimate shield against the arcane.
+The first was Damon, an Emberth blacksmith working the forge-keeps during the Binding. When Sol was forced into the vault beneath Sundale, the dying star convulsed, a solar flare erupting through the caldera that would have incinerated every worker in the forge-levels. Damon raised an alchemical tower shield and took the flare directly. He was not desecrating Sol's light. He was shielding his fellow workers from a dying star's death-throes. What Damon absorbed was not sacred radiance but Sol's scream.
 
-Stand as the shield. You are the iron wall against the arcane, and the backdraft is your burden. Block it until the end.`,
+The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
+
+Each subrace absorbs differently. The Velun Neth cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solvarn absorb raw into flesh, practice-tested against Solbrand-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Korr Emberth intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Thrask Emberth deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
+
+Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Silence Resonance faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
   title: "The Spellguard",
   subtitle: "The Silence-Scarred Aegis",
 
   quickOverview: {
    title: "Visceral Overview",
-   content: `**The Spellguard is the Silence-Scarred Aegis.** They are not a shining magic knight. Their flesh is a blistered tomb, and their specialized armor is permanently scarred by the radioactive fallout of absorbed magic. They stand between their party and the apocalypse, dragging raw leylines into their own lungs to save those behind them.
+    content: `**Who they are**: A silence-scarred aegis whose flesh is a blistered tomb for absorbed magic. They are not a shining knight  -  their specialized armor is permanently scarred by the radioactive fallout of every spell they have devoured. They stand between their party and the apocalypse, dragging raw leylines into their own lungs.
 
-**Why Bring Me?**: You are the ultimate magical sponge and reflector. You possess the exclusive, terrifying utility to physically intercept lethal magical attacks meant for your allies, draw the raw spell-energy into your own body, and violently detonate it back at the enemy.
+**The hook**: Physically intercept lethal magical attacks meant for allies, absorb the spell-energy into your body as volatile Silence Resonance, then violently detonate the radiation back at the enemy. You are a magical sponge that reflects destruction.
 
-**The Fatal Flaw**: **Arcane Radiation & Kinetic Fragility**. Magic is a radioactive poison. Holding unspent Silence Resonance burns you from the inside out, melting your maximum HP and causing internal blight damage every round you fail to purge it. and, your hyper-specialized refraction plate leaves you catastrophically vulnerable to raw, heavy kinetic trauma. A single swing of a mundane executioner's axe can shatter your brittle shell (+50% vulnerability to Bludgeoning and Physical damage).
+**The cost**: Holding unspent Resonance burns you from the inside  -  melting your maximum HP and dealing internal blight damage each round you fail to purge it. Your hyper-specialized refraction armor leaves you catastrophically vulnerable to mundane physical strikes  -  a single swing of an executioner's axe can shatter your brittle shell.
 
-**Core Loop**: Intercept magical damage → Absorb it into the flesh as volatile Silence Resonance → Suffer Arcane Radiation → Violently purge the radiation through devastating explosions and reflections.`,
+**Bring one for**: The ultimate magical shield  -  no other class can step in front of a spell meant for an ally, absorb its full force into their own body, and throw it back at the caster with interest.`,
   },
 
-  description: `A tragic, heavily-armored sponge for magical catastrophe. The Spellguard absorbs spells meant for their allies, converting the hostile magic into a highly unstable internal resource called Silence Resonance, before expelling it back as raw force.`,
+  description: `A spellguard absorbs magic into their own flesh. Not as a trick or a technique, but as the foundational act of a tradition born at the moment the sun was buried.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -222,21 +226,21 @@ Spellguards are reporting that their Silence Resonance is filling faster than th
   ],
   combatRole: {
    title: "Combat Role",
-   content: `**Primary Role**: The ultimate magical sponge and reflector — the only class that intercepts lethal spells meant for allies, drinks the raw energy into its own flesh, and detonates it back at the caster.
+   content: `**Primary Role**: The ultimate magical sponge and reflector  -  the only class that intercepts lethal spells meant for allies, drinks the raw energy into its own flesh, and detonates it back at the caster.
 
 **Strengths**:
 - Exclusive magical interception: physically absorb spells aimed at allies and store the energy as Silence Resonance
 - Reflect/repurpose: vent stored resonance as devastating return-fire or as barriers
-- Hard counter to enemy casters — the more magic thrown at the party, the more dangerous you become
+- Hard counter to enemy casters  -  the more magic thrown at the party, the more dangerous you become
 - Prismatic barriers and refraction can shelter allies from an arcane assault
 
 **Weaknesses**:
-- Kinetic Fragility: +50% bludgeoning and physical damage — a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
-- Arcane Radiation: holding unspent Silence Resonance burns your max HP and deals blight every round you fail to purge it — vent or melt.
+- Kinetic Fragility: +50% bludgeoning and physical damage  -  a mundane axe, mace, or crossbow bolt is your hard counter; any martial flanker shreds you.
+- Arcane Radiation: holding unspent Silence Resonance burns your max HP and deals blight every round you fail to purge it  -  vent or melt.
 - Purge or Pop: silenced, CC'd, or denied a target, the resonance builds to a spontaneous Radiation Burst that harms everyone nearby, allies included.
-- Anti-Mage, Not Anti-Steel: built to eat magic, not weapons — a fight with no casters leaves you a fragile liability.
-- Glowing (social): absorbed magic emits pale blue light through your skin — you cannot hide, sneak, or pass unnoticed; you are always visible, always identifiable, always the first target for a sniper.
-- Reliant on Allies: you need your party to handle mundane threats so you can handle the magical ones — isolated, you are a glowing, brittle mark.`
+- Anti-Mage, Not Anti-Steel: built to eat magic, not weapons  -  a fight with no casters leaves you a fragile liability.
+- Glowing (social): absorbed magic emits pale blue light through your skin  -  you cannot hide, sneak, or pass unnoticed; you are always visible, always identifiable, always the first target for a sniper.
+- Reliant on Allies: you need your party to handle mundane threats so you can handle the magical ones  -  isolated, you are a glowing, brittle mark.`
   },
  },
 
@@ -916,7 +920,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_suppression",
     name: "Silence Suppression",
    description:
-     "Instantly choke a spell at its source by filling the target's lungs with silence ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level × 10.",
+     "Instantly choke a spell at its source by filling the target's lungs with silence ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Resonance equal to the spell's level � 10.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Magical Cross Emblem 2",
@@ -1120,7 +1124,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_violent_purge",
    name: "Violent Purge",
    description:
-    "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Silence Resonance (minimum 30 required). Deals storm damage equal to (Silence Resonance × 1.5) to all creatures within 20 feet, including your allies.",
+    "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Silence Resonance (minimum 30 required). Deals storm damage equal to (Silence Resonance � 1.5) to all creatures within 20 feet, including your allies.",
    level: 5,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -1363,7 +1367,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_ley_reading",
    name: "Ley-Reading",
-   description: "Open your scarred senses and read the magic in a place or object. For the duration you perceive active spells, enchantments, lingering spell-residue, magical traps, leylines, and the school and rough strength of each — glowing like heat-shimmer only you can see. Out of combat.",
+   description: "Open your scarred senses and read the magic in a place or object. For the duration you perceive active spells, enchantments, lingering spell-residue, magical traps, leylines, and the school and rough strength of each  -  glowing like heat-shimmer only you can see. Out of combat.",
    level: 1, spellType: "ACTION", icon: "Arcane/Spellcasting Aura",
    typeConfig: { school: "arcane", icon: "Arcane/Spellcasting Aura", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","spellguard"] },
    targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -1376,7 +1380,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_aegis_ward",
    name: "Aegis-Ward",
-   description: "Raise a tuned prismatic barrier over a doorway, threshold, object, or small area that drinks incoming spells the way you do — absorbing hostile magic and weak magical traps before they can pass. It does not stop steel or bodies, only spells, and it cracks once it has drunk its fill. Out of combat.",
+   description: "Raise a tuned prismatic barrier over a doorway, threshold, object, or small area that drinks incoming spells the way you do  -  absorbing hostile magic and weak magical traps before they can pass. It does not stop steel or bodies, only spells, and it cracks once it has drunk its fill. Out of combat.",
    level: 1, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
    typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 10, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","spellguard"] },
    targetingConfig: { targetingType: "area", rangeType: "touch", rangeDistance: 0, areaType: "circle", areaSize: 15 },
@@ -1389,20 +1393,20 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_resonance_discharge",
    name: "Resonance Discharge",
-   description: "Dump stored Silence Resonance into a mechanism, magical lock, construct, or device — powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
+   description: "Dump stored Silence Resonance into a mechanism, magical lock, construct, or device  -  powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Spiral Vortex",
    typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","investigation","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
    resourceCost: { actionPoints: 1, resourceTypes: [], resourceValues: {}, classResource: { type: "void_resonance", cost: 3 }, components: ["somatic"], somaticText: "Grip the mechanism and pour the eaten magic back out" },
    resolution: "AUTOMATIC", effectTypes: ["utility"],
-   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "resonance_discharge_fuel", "name": "Eaten Fuel", "description": "Power, overload, force, or blast one magical mechanism/lock/seal/construct using 3 stored Silence Resonance. Spend resonance you already absorbed — no mana cost.", "mechanicsText": "Power/overload a magical mechanism; costs 3 stored resonance." } ], power: "moderate" },
+   utilityConfig: { utilityType: "conjuration", selectedEffects: [ { "id": "resonance_discharge_fuel", "name": "Eaten Fuel", "description": "Power, overload, force, or blast one magical mechanism/lock/seal/construct using 3 stored Silence Resonance. Spend resonance you already absorbed  -  no mana cost.", "mechanicsText": "Power/overload a magical mechanism; costs 3 stored resonance." } ], power: "moderate" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility","exploration","investigation","spellguard"]
   },
   {
    id: "spellguard_disenchant",
    name: "Disenchant",
-   description: "Drain the magic out of an enchanted object into your own flesh — temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Silence Resonance. The magic returns when you stop feeding on it. Out of combat.",
+   description: "Drain the magic out of an enchanted object into your own flesh  -  temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Silence Resonance. The magic returns when you stop feeding on it. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
    typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },

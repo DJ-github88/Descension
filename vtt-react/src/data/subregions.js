@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Subregions Database
  *
  * Named geographical subregions within each continent. This is the
@@ -20,7 +20,7 @@ export const SUBREGIONS = {
     description: 'The warmer, denser southern half of the Frostwood Reach, closest to the world-heart and the volcanic warmth bleeding out of Sundale. The ironwood here is the oldest and tallest in the region, and the fog is at its thickest. This is Thalreth country: the Sovereign Ledger is enforced at every check-post, the Scribe-Cartel holds its monopoly on ink, and the Mist-Sentinels patrol the Ironwood Palisade.',
     climate: 'Cool-temperate, damp, fog-bound year-round',
     dominantTerrain: 'Petrified ironwood forest, peat-bog hollows, silt-roads',
-    primaryRaces: ['Thalren humans', 'Mask-Borne Mimir', 'Smooth-Skinned Briaran'],
+    primaryRaces: ['Thalren humans', 'Masked Mimir', 'Shorn Briaran'],
     primaryFactions: ['House Thalreth', 'Scribe-Cartel', 'Mist-Sentinels'],
     zoneIds: ['greymark-keep', 'scribes-tower', 'ledger-halls', 'the-shallows', 'greythorn-copse', 'skalds-landing', 'mirror-mere', 'bramble-heath', 'meadowglen-crossing', 'velling-pass', 'ironwood-heart']
   },
@@ -42,7 +42,7 @@ export const SUBREGIONS = {
     description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir Unwoven and the most desperate Briaran exiles.',
     climate: 'Damp, hazier than the rest of the Reach, mild',
     dominantTerrain: 'Peat-bog, marsh, drowned ironwood groves',
-    primaryRaces: ['Mimir Unwoven', 'Forgotten (Thalren outcasts)', 'Unshorn Briaran refugees'],
+    primaryRaces: ['Mimir Unwoven', 'Forgotten (Thalren outcasts)', 'Trueborn Briaran refugees'],
     primaryFactions: ['The Forgotten', 'Mimir Unwoven tribes', 'Root-Veil spillover'],
     zoneIds: ['wraithfen', 'the-shifting-fen', 'mistbarrow']
   },
@@ -65,7 +65,7 @@ export const SUBREGIONS = {
     id: 'nordhalla-fjord-coast',
     name: 'The Fjord-Coast',
     regionId: 'nordhalla',
-    description: 'The long eastern seaboard of Nordhalla, where the black fjords cut deep into the cliff walls. This is the warmest, most populated face of the continent. The only place where agriculture is possible, where trade ships can dock, and where the Icechamber Syndicate runs its monopoly. The Fastboende (settled loyalists) cluster here; the Fredløse (outlaw clans) try to survive on the edges.',
+    description: 'The long eastern seaboard of Nordhalla, where the black fjords cut deep into the cliff walls. This is the warmest, most populated face of the continent. The only place where agriculture is possible, where trade ships can dock, and where the Icechamber Syndicate runs its monopoly. The Fastboende (settled loyalists) cluster here; the Fredl�se (outlaw clans) try to survive on the edges.',
     climate: 'Cold-temperate maritime, moderated by sea',
     dominantTerrain: 'Black granite fjords, sea-cliffs, harbor towns, fish-farms',
     primaryRaces: ['Skald humans', 'Merryn expatriates', 'occasional Corvani'],
@@ -76,11 +76,11 @@ export const SUBREGIONS = {
     id: 'nordhalla-southern-shore',
     name: 'The Southern Shore',
     regionId: 'nordhalla',
-    description: 'The southern coast of Nordhalla, facing the open sea toward Sundale. Less defended than the Fjord-Coast; the Skald navy patrols, but smugglers and Fredløse raiders use the long, broken shoreline to slip past the Icechamber Syndicate. Xardin\'s Hearth, the southernmost major settlement, sits on a volcanic vent that keeps the harbor ice-free year-round.',
+    description: 'The southern coast of Nordhalla, facing the open sea toward Sundale. Less defended than the Fjord-Coast; the Skald navy patrols, but smugglers and Fredl�se raiders use the long, broken shoreline to slip past the Icechamber Syndicate. Xardin\'s Hearth, the southernmost major settlement, sits on a volcanic vent that keeps the harbor ice-free year-round.',
     climate: 'Cold but milder, sea-moderated',
     dominantTerrain: 'Volcanic black-sand beaches, sea-cliffs, geothermal hot-springs',
-    primaryRaces: ['Skald humans', 'Smuggler crews', 'Fredløse outlaws'],
-    primaryFactions: ['Skald navy', 'Fredløse clans', 'Xardin\'s Trading Company'],
+    primaryRaces: ['Skald humans', 'Smuggler crews', 'Fredl�se outlaws'],
+    primaryFactions: ['Skald navy', 'Fredl�se clans', 'Xardin\'s Trading Company'],
     zoneIds: ['xardins-hearth', 'southern-shore-smugglers-cove']
   },
 
@@ -124,10 +124,10 @@ export const SUBREGIONS = {
     id: 'sundale-glitterwood',
     name: 'The Glitterwood (Forested Half-Island)',
     regionId: 'sundale',
-    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old faith), and the Smooth-Skinned descendants of the old Solvarn nobility who fled the capital.',
+    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.',
     climate: 'Warm, humid, sheltered by mountain spine',
     dominantTerrain: 'Crystal-rich soil, ancient broadleaf forest, geothermal hot-springs, hidden valleys',
-    primaryRaces: ['The Risen (old Emberth faith)', 'Smooth-Skinned exiles', 'Emberth hermits'],
+    primaryRaces: ['The Risen (old Emberth faith)', 'Shorn exiles', 'Emberth hermits'],
     primaryFactions: ['The Risen', 'Free Glitterwood Council', 'Old-Sun reverence revival'],
     zoneIds: ['the-glittering-forest', 'glitterwood-heart', 'old-sun-shrine']
   },
@@ -161,10 +161,10 @@ export const SUBREGIONS = {
     id: 'iceheart-deepwell-trench',
     name: 'The Deepwell Trench',
     regionId: 'iceheart-sea',
-    description: 'The eastern reach of the Iceheart Sea, where the continental shelf drops away into the Treakous Oceanic Rift, a bottomless abyss. The Myrathil rule this depth; their Deep-Born dwell in pressurized cave-cities carved into underwater basalt columns. Surface access is by Breathers-Born (merfolk-blooded) liaisons only.',
+    description: 'The eastern reach of the Iceheart Sea, where the continental shelf drops away into the Treakous Oceanic Rift, a bottomless abyss. The Myrathil rule this depth; their Deep dwell in pressurized cave-cities carved into underwater basalt columns. Surface access is by Breathers-Born (merfolk-blooded) liaisons only.',
     climate: 'Frigid deep-sea, no surface weather',
     dominantTerrain: 'Abyssal rift, underwater basalt cave-cities, bioluminescent reefs',
-    primaryRaces: ['Myrathil (Breakers-Born, Deep-Born, River-Fed)'],
+    primaryRaces: ['Myrathil (Shore, Deep, Brook)'],
     primaryFactions: ['Myrathil Trench-Council', 'Abyssal Cartel', 'Surface diplomatic missions'],
     zoneIds: ['deepwell-archipelago', 'treakous-rift', 'the-shivering-bight']
   },
@@ -257,10 +257,10 @@ export const SUBREGIONS = {
     id: 'sundrift-ancestor-wolds',
     name: 'The Ancestor Wolds',
     regionId: 'sundrift-vale',
-    description: 'The eastern uplands of the Vale, rolling hills covered with thousands of burial barrows. The Mound-Camps gather here in summer; the Astril pilgrimage to the deepest mounds to hear the constellation-spirits. The Ordavan Herd-Tithe is enforced at cairn-checkpoints; the Sky-Singers come here to die.',
+    description: 'The eastern uplands of the Vale, rolling hills covered with thousands of burial barrows. The Mound-Camps gather here for in summer; the Astril pilgrimage to the deepest mounds to hear Lumia\'s echo. The Ordavan Herd-Tithe is enforced at cairn-checkpoints; the Echo-Singers come here to die.',
     climate: 'Cool upland, fog in the burial hollows',
     dominantTerrain: 'Burial barrows, hallowed ground, cairn-checkpoints',
-    primaryRaces: ['Ordan humans', 'Astril (Muren and Sylen)', 'Sky-Singer hermits'],
+    primaryRaces: ['Ordan humans', 'Astril (Silath and Vashir)', 'Sky-Singer hermits'],
     primaryFactions: ['House Ordavan', 'Astril Synod', 'Mound-Keepers'],
     zoneIds: ['ancestor-mounds', 'mound-camps', 'novas-heath', 'the-moundwatch']
   },
@@ -268,11 +268,11 @@ export const SUBREGIONS = {
     id: 'sundrift-starfall-basin',
     name: 'The Starfall Basin',
     regionId: 'sundrift-vale',
-    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the constellation-spirits of Sol\'s celestial court fell when the star was bound. The Synod-Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
+    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during the Breach. The Synod-Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
     climate: 'Cold, the basin is sheltered by ridges',
     dominantTerrain: 'Meteor crater, crystal-fields, crystal-lattice spires',
-    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Unlit Veil'],
-    primaryFactions: ['Astril Synod', 'Unlit Veil', 'Star-Watching cult'],
+    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Vashir pilgrims'],
+    primaryFactions: ['Astril Synod', 'Vashir Pilgrim-Orders', 'Lumia-Memory cult'],
     zoneIds: ['synod-hold', 'starfall-vale']
   },
   'sundrift-bogpost-march': {
@@ -360,11 +360,11 @@ export const SUBREGIONS = {
     id: 'bryngloom-root-veil',
     name: 'The Root-Veil (Subterranean)',
     regionId: 'bryngloom-forest',
-    description: 'Beneath the entire forest, the mycelial network the Neth call the Root-Veil connects every ironwood root. The Keeper of the Last Threshold rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.',
+    description: 'Beneath the entire forest, the mycelial network the Neth call the Root-Veil connects every ironwood root. Morvane rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.',
     climate: 'Always dark, always damp, the air is thick with spores',
     dominantTerrain: 'Mycelial network, ironwood root-tunnels, fungal groves',
-    primaryRaces: ['Keeper of the Last Threshold (entity)', 'Kessen Weavers (deep)'],
-    primaryFactions: ['Keeper\'s Archive', 'Root-Veil Coven'],
+    primaryRaces: ['Morvane (entity)', 'Kessen Weavers (deep)'],
+    primaryFactions: ['Morvane\'s Archive', 'Root-Veil Coven'],
     zoneIds: ['root-veil-scriptorium']
   }
 };

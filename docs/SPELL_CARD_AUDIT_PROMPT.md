@@ -1,4 +1,4 @@
-# Spell Card Accuracy Audit — Per-Class Verification
+﻿# Spell Card Accuracy Audit  -  Per-Class Verification
 
 ## Your Mission
 
@@ -21,7 +21,7 @@ The card reads spells through this pipeline:
 **Pipeline A (Wizard → Preview)**: `mapWizardStateToPreviewState()` in Step10Review.jsx → `UnifiedSpellCard` `spell` prop
 **Pipeline B (Library → Card)**: `normalizeSpell()` → `transformSpellForCard()` → `UnifiedSpellCard` `spell` prop
 
-Both pipelines preserve all fields end-to-end (verified by round-trip test: 115/115 top-level keys survive, 35/35 critical fields pass). The normalizer does a deep copy, the transformer does a deep copy — no fields are dropped except `cooldownConfig.type`/`cooldownConfig.value` (renamed to `cooldownType`/`cooldownValue`).
+Both pipelines preserve all fields end-to-end (verified by round-trip test: 115/115 top-level keys survive, 35/35 critical fields pass). The normalizer does a deep copy, the transformer does a deep copy  -  no fields are dropped except `cooldownConfig.type`/`cooldownConfig.value` (renamed to `cooldownType`/`cooldownValue`).
 
 ### Key Card Rendering Locations (UnifiedSpellCard.jsx)
 
@@ -116,7 +116,7 @@ All files are in `D:\VTT\vtt-react\src\data\classes\`:
 
 **Note**: titanData.js imports spells from `titan/titanSpells.js`. Augur, berserker, doomsayer, plaguebringer, primalist, pyrofiend, spellguard, toxicologist, and gaoler also have subdirectories with additional files.
 
-## Audit Process — Per Class
+## Audit Process  -  Per Class
 
 For each class file, do the following:
 
@@ -132,7 +132,7 @@ Read the entire class data file (and any spell subdirectory files). Understand t
 - [ ] `level`: 1-9 integer
 - [ ] `spellType`: UPPERCASE (`ACTION`, `CHANNELED`, `PASSIVE`, `REACTION`, `TRAP`, `STATE`)
 - [ ] `icon`: valid icon path
-- [ ] `typeConfig.school`: valid damage type ID (fire, frost, etc. — NOT D&D school names)
+- [ ] `typeConfig.school`: valid damage type ID (fire, frost, etc.  -  NOT D&D school names)
 - [ ] `typeConfig.icon`: matches top-level `icon`
 - [ ] `targetingConfig`: has `targetingType`, `rangeType`, `rangeDistance` (for ranged), `targetRestrictions`
 - [ ] `resourceCost.actionPoints`: ALWAYS set (1-5)
@@ -166,15 +166,15 @@ Read the entire class data file (and any spell subdirectory files). Understand t
 - [ ] `resolution` is set in each effect config or at top level (UPPERCASE)
 
 #### Resource Cost Integrity
-- [ ] Every non-PASSIVE spell costs at least one primary resource (mana, HP, or class-specific resource) — NEVER just AP with no resource
+- [ ] Every non-PASSIVE spell costs at least one primary resource (mana, HP, or class-specific resource)  -  NEVER just AP with no resource
 - [ ] `resourceCost.actionPoints` is ALWAYS set (0 for PASSIVE, 1–5 for everything else)
 - [ ] `resourceCost` uses wizard format: `resourceTypes`, `resourceValues`, `actionPoints`, `components`
 - [ ] Class-specific resource is present in `resourceCost.resourceValues` or as a flat top-level field (see table below)
 - [ ] Mana cost is appropriate for spell level (roughly: L1=3–6, L2=5–10, L3=8–15, L4=12–18, L5=15–22, L6=18–26, L7=22–30, L8=26–35, L9=30–40, L10=35–45)
 - [ ] PASSIVE spells may have `resourceValues: { mana: 0 }` but MUST still include `actionPoints: 0` and the class resource where applicable (e.g., `devotionRequired`, `infernoRequired`)
-- [ ] No orphaned `uses` or `requirement` strings in resourceCost — use `cooldownConfig` and flat top-level fields instead
+- [ ] No orphaned `uses` or `requirement` strings in resourceCost  -  use `cooldownConfig` and flat top-level fields instead
 
-**Class Resource Table** — every spell in these classes MUST reference their class resource:
+**Class Resource Table**  -  every spell in these classes MUST reference their class resource:
 
 | Class | Resource | Where in Spell Data | Required Fields |
 |---|---|---|---|
@@ -313,15 +313,15 @@ After completing each class, report:
 
 ## Critical Reference Files
 
-- **`D:\VTT\docs\SPELL_DATA_REFERENCE.md`** — THE comprehensive reference (1,501 lines, 21 sections). Read Sections 1-7 first, then consult specific sections as needed.
-- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\components\common\UnifiedSpellCard.jsx`** — The sole rendering engine (~14,240 lines). Search for specific field names to see how they render.
-- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\core\utils\spellNormalizer.js`** — Normalization logic (~792 lines)
-- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\core\utils\spellCardTransformer.js`** — Display defaults (~567 lines)
-- **`D:\VTT\vtt-react\src\data\classSpellGenerator.js`** — Class-specific spell processing (~853 lines)
+- **`D:\VTT\docs\SPELL_DATA_REFERENCE.md`**  -  THE comprehensive reference (1,501 lines, 21 sections). Read Sections 1-7 first, then consult specific sections as needed.
+- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\components\common\UnifiedSpellCard.jsx`**  -  The sole rendering engine (~14,240 lines). Search for specific field names to see how they render.
+- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\core\utils\spellNormalizer.js`**  -  Normalization logic (~792 lines)
+- **`D:\VTT\vtt-react\src\components\spellcrafting-wizard\core\utils\spellCardTransformer.js`**  -  Display defaults (~567 lines)
+- **`D:\VTT\vtt-react\src\data\classSpellGenerator.js`**  -  Class-specific spell processing (~853 lines)
 
 ## Wizard Output Format Reference
 
-The spell crafting wizard produces these exact data structures. When auditing class spells, compare against these formats — class spells should produce equivalent data that the card can render.
+The spell crafting wizard produces these exact data structures. When auditing class spells, compare against these formats  -  class spells should produce equivalent data that the card can render.
 
 ### damageConfig (Step 3: Effects → Damage)
 
@@ -813,7 +813,7 @@ prophecyOptions: {
 }
 ```
 
-### channelingConfig (Channeling Step — CHANNELED only)
+### channelingConfig (Channeling Step  -  CHANNELED only)
 
 ```javascript
 channelingConfig: {
@@ -909,12 +909,12 @@ These are real bugs found during auditing. They are caused by mismatches between
 
 ### Pitfall 1: `school` must match actual damage types
 
-The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there** — it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
+The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there**  -  it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
 
 **Rule**: `typeConfig.school` MUST be the spell's primary damage type. NEVER use `'force'` as a generic placeholder unless the spell actually deals force damage.
 
 ```javascript
-// WRONG — spell deals fire + necrotic but school says force
+// WRONG  -  spell deals fire + necrotic but school says force
 typeConfig: { school: 'force' }
 damageConfig: { damageTypes: ['fire', 'necrotic'] }
 // Card shows: only "force" badge
@@ -942,12 +942,12 @@ typeConfig: {
 The `ProphecySummary` component (line 98) reads `prophesied.effect.damagePerRound` to render DoT. It does NOT read `dotFormula`.
 
 ```javascript
-// WRONG — ProphecySummary ignores this
+// WRONG  -  ProphecySummary ignores this
 prophesied: {
   effect: { name: 'Ignited', dotFormula: '2d6', duration: 3 }
 }
 
-// CORRECT — ProphecySummary renders "2d6 per round"
+// CORRECT  -  ProphecySummary renders "2d6 per round"
 prophesied: {
   effect: { name: 'Ignited', damagePerRound: '2d6 fire', duration: 3, unit: 'rounds' }
 }
@@ -955,7 +955,7 @@ prophesied: {
 
 ### Pitfall 4: Never use `formula: 'SPECIAL'`
 
-The card renders `formula` as literal text. `'SPECIAL'` displays as "SPECIAL necrotic damage" — confusing and useless. Use descriptive notation with `conditionalEffects`:
+The card renders `formula` as literal text. `'SPECIAL'` displays as "SPECIAL necrotic damage"  -  confusing and useless. Use descriptive notation with `conditionalEffects`:
 
 ```javascript
 // CORRECT
@@ -981,8 +981,8 @@ prophesied: { description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all
 - The pipeline was audited and fixed: ALL fields survive the normalizer → transformer → card pipeline (115/115 top-level keys, 35/35 critical fields verified)
 - Two dead formatting engines were deleted. UnifiedSpellCard.jsx is the SOLE renderer.
 - The normalizer handles legacy format conversion automatically (damageType→damageTypes, cooldownConfig key renames, resolution defaults, etc.)
-- However, the normalizer cannot fix WRONG values — only structural issues. If a spell says "3d6" in description but has `formula: '2d6'` in data, the normalizer won't catch that. That's what this audit is for.
-- Class spells use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format — both are accepted by the card
+- However, the normalizer cannot fix WRONG values  -  only structural issues. If a spell says "3d6" in description but has `formula: '2d6'` in data, the normalizer won't catch that. That's what this audit is for.
+- Class spells use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format  -  both are accepted by the card
 - Some classes have subdirectories with additional spell files (e.g., `titan/titanSpells.js`, `augur/augurSpells.js`). Always check for these.
 - **Work one class at a time.** Don't try to batch fixes across files. Complete each class fully before moving to the next.
 
@@ -1004,33 +1004,33 @@ Start with simpler/smaller classes first to calibrate your judgment, then tackle
 ## Example Audit Entry
 
 ```
-SPELL: pyro_ember_spark (Ember Spark) — pyrofiendData.js
+SPELL: pyro_ember_spark (Ember Spark)  -  pyrofiendData.js
 
 ✅ id: pyro_ember_spark
 ✅ name: Ember Spark
-✅ description: "Launch a malevolent spark..." — mentions 1d6 fire damage + 1d4/round DoT for 2 rounds
+✅ description: "Launch a malevolent spark..."  -  mentions 1d6 fire damage + 1d4/round DoT for 2 rounds
 ✅ level: 1, spellType: ACTION, icon: valid
 ✅ typeConfig.school: 'fire' ✓
 ✅ targetingConfig: single, ranged, 60ft ✓
-✅ resourceCost.actionPoints: 2 ✓ (note: 2 AP, not 1 — this is intentional for this class)
+✅ resourceCost.actionPoints: 2 ✓ (note: 2 AP, not 1  -  this is intentional for this class)
 ✅ cooldownConfig: cooldownType: 'turn_based', cooldownValue: 0 ✓
-✅ effectTypes: ['damage'] — matches damageConfig ✓
-✅ damageConfig.formula: '1d6' — matches description ✓
-✅ damageConfig.damageTypes: ['fire'] — array ✓
+✅ effectTypes: ['damage']  -  matches damageConfig ✓
+✅ damageConfig.formula: '1d6'  -  matches description ✓
+✅ damageConfig.damageTypes: ['fire']  -  array ✓
 ✅ damageConfig.resolution: 'DICE' ✓
-✅ damageConfig.dotConfig: enabled, 1d4/tick, fire, round, 2 rounds — matches "1d4 per round for 2 rounds" in description ✓
-✅ durationConfig: 2 rounds — matches DoT duration ✓
+✅ damageConfig.dotConfig: enabled, 1d4/tick, fire, round, 2 rounds  -  matches "1d4 per round for 2 rounds" in description ✓
+✅ durationConfig: 2 rounds  -  matches DoT duration ✓
 ✅ tags: ['fire', 'damage', 'dot', 'starter'] ✓
 
-RESULT: PASS — No issues found.
+RESULT: PASS  -  No issues found.
 ```
 
 ```
-SPELL: pyro_smoldering_touch (Smoldering Touch) — pyrofiendData.js
+SPELL: pyro_smoldering_touch (Smoldering Touch)  -  pyrofiendData.js
 
 ⚠️ description mentions "lingering smolder that burns intensely" but no duration specified in description
-✅ dotConfig exists with duration: 2 — but description doesn't specify duration
+✅ dotConfig exists with duration: 2  -  but description doesn't specify duration
 🔧 FIX: Updated description to "leaving a lingering smolder that burns for 2 rounds dealing 1d4 fire damage per round."
 
-RESULT: FIXED — Description updated to match data.
+RESULT: FIXED  -  Description updated to match data.
 ```

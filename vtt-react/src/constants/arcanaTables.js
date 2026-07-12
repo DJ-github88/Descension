@@ -1,5 +1,5 @@
 // Arcana Skill Multi-Dimensional Tables
-// 7 proficiency levels Ã— 6 dice types = 42 tables total
+// 7 proficiency levels Ã -  6 dice types = 42 tables total
 // Governs manipulation, sensing, and control of ambient magical energy
 
 export const ARCANA_TABLES = {

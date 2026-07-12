@@ -1,4 +1,4 @@
-# Lore Liquidation Audit — Mythrill VTT
+﻿# Lore Liquidation Audit  -  Mythrill VTT
 
 **Reviewer:** opencode | **Date:** 2026-07-09 | **Methodology:** Every listed file in CORE_LORE_FRAMEWORK.md read against CORE_LORE_FRAMEWORK.md as single source of truth.
 
@@ -6,7 +6,7 @@
 
 ## 1. THE SENTENCE
 
-The Mythrill VTT setting is an ambitious, sprawling, emotionally resonant world that has been built by accretion rather than architecture. Its contradictions are not bugs in an otherwise clean system — they are the inevitable result of eight hundred fictional years of parallel development where no one stopped to ask whether the new cool idea contradicted the old cool idea. The dead moon is an egg (lunarchData.js). The dead moon is a dead celestial body whose ghost still orbits (lunarchData.js, later). The Wyrd is primordial spiritual rot (rulesData.js). The Wyrd is also something you inhale through fungal spores (animistData.js). The Watcher is too abstract to matter. Too many classes have no political skin in the game. Too many races overlap into redundancy. The "secret at the center" the setting desperately needs is absent — replaced by a dozen semi-secrets that compete for attention and satisfy none.
+The Mythrill VTT setting is an ambitious, sprawling, emotionally resonant world that has been built by accretion rather than architecture. Its contradictions are not bugs in an otherwise clean system  -  they are the inevitable result of eight hundred fictional years of parallel development where no one stopped to ask whether the new cool idea contradicted the old cool idea. The dead moon is an egg (lunarchData.js). The dead moon is a dead celestial body whose ghost still orbits (lunarchData.js, later). The Wyrd is primordial spiritual rot (rulesData.js). The Wyrd is also something you inhale through fungal spores (animistData.js). The Watcher is too abstract to matter. Too many classes have no political skin in the game. Too many races overlap into redundancy. The "secret at the center" the setting desperately needs is absent  -  replaced by a dozen semi-secrets that compete for attention and satisfy none.
 
 This document names every wound. The order is deliberate: cosmology first, then the bargain-invisible regions, then races, then classes, then the Watcher, the Dead Moon, the Wyrd, and finally the missing secret.
 
@@ -30,7 +30,7 @@ Everything wrong with the timeline and metaphysics, ranked by severity.
 - If the Wyrd is inhaled through mycelium, the Void and fungal biology cannot be the same thing.
 - If the Wyrd is cosmic void-speech, spores have nothing to do with it.
 
-**Fix needed:** Establish a hierarchy. Recommendation: the Wyrd is the primordial rot (rulesData.js) — the leaked cosmic decay from the Breach. The Vreken fungal tradition is one *interface* with the Wyrd, not the Wyrd itself. The Void is a *different* cosmic phenomenon that the False Prophets tap into. The current text conflates three distinct things. Separate them in CORE_LORE_FRAMEWORK.md.
+**Fix needed:** Establish a hierarchy. Recommendation: the Wyrd is the primordial rot (rulesData.js)  -  the leaked cosmic decay from the Breach. The Vreken fungal tradition is one *interface* with the Wyrd, not the Wyrd itself. The Void is a *different* cosmic phenomenon that the False Prophets tap into. The current text conflates three distinct things. Separate them in CORE_LORE_FRAMEWORK.md.
 
 ### Critical: The Deepening Is Both a Cosmic Cycle and a Specific Historical Event
 
@@ -50,7 +50,7 @@ Everything wrong with the timeline and metaphysics, ranked by severity.
 
 CORE_LORE_FRAMEWORK.md specifies: the 7 houses made the Binding Compact. But the official public record in `loreDictionary.js` (line 96) lists 7 houses that *all* sealed the compact. The truth in `rulesData.js` (line 95-97) is that the original seventh (House Viridane) was replaced by House Morrath, and Morrath is not a true signatory. This means **the binding seal is structurally incomplete**.
 
-**Critical crisis angle:** If Morrath was substituted into a contract requiring exactly seven bloodlines that participated in the ritual, the seal should have failed *immediately* — or there should be a reason it didn't. `rulesData.js` acknowledges this implicitly (line 97: "the seventh monolith does not scream with a silenced refusal. It screams with a substituted name"), but neither the `arcanoneerData.js` nor `loreDictionary.js` addresses the magical/legal implications of a substituted signatory in a cosmic contract. The Neth literally built their entire civilization on the First Contract — if a substitution was possible in the Binding Compact, the Arcanoneers should have noticed and studied it. The fact that they haven't is a plot hole.
+**Critical crisis angle:** If Morrath was substituted into a contract requiring exactly seven bloodlines that participated in the ritual, the seal should have failed *immediately*  -  or there should be a reason it didn't. `rulesData.js` acknowledges this implicitly (line 97: "the seventh monolith does not scream with a silenced refusal. It screams with a substituted name"), but neither the `arcanoneerData.js` nor `loreDictionary.js` addresses the magical/legal implications of a substituted signatory in a cosmic contract. The Neth literally built their entire civilization on the First Contract  -  if a substitution was possible in the Binding Compact, the Arcanoneers should have noticed and studied it. The fact that they haven't is a plot hole.
 
 **Regional invisibility analysis:**
 
@@ -63,7 +63,7 @@ CORE_LORE_FRAMEWORK.md specifies: the 7 houses made the Binding Compact. But the
 | Iceheart Sea | Sea-Charter (Mereval) | Board of Trade | Moderate, 14 related terms |
 | Sundrift Vale | Fertile soil for migration (Ordavan) | Iron-Yurt Law | Moderate, 16 related terms |
 | Bryngloom Forest | First Contract (Neth) | Great Registry | Well-documented, 28+ related terms |
-| **Missing: Greymark Keep/Sunken Spire** | — | — | 3 passing references across all files |
+| **Missing: Greymark Keep/Sunken Spire** |  -  |  -  | 3 passing references across all files |
 
 **Urgency: Moderate.** The regions themselves are well-characterized, but the *bargain* they made with Keth-Amar is often buried in loreDictionary.js summaries and not carried through into regional content. A GM reading only rulesData.js would not know that every region exists by grace of a deal with the Sun-Eater. The bargains need to be front-loaded in the regional descriptions.
 
@@ -82,13 +82,13 @@ CORE_LORE_FRAMEWORK.md specifies: the 7 houses made the Binding Compact. But the
 
 ### Problem 2: Selene's Silence Has No Consequence
 
-Selene has been silent for three weeks, whispering in a dead language. This is mentioned in `lunarchData.js` (lines 155-157, 232-233) but nowhere else. Not in `CORE_LORE_FRAMEWORK.md`, not in `rulesData.js`, not in `timelineStore.js`. The first Lunarch going catatonic-translating-eldritch is a **world-changing event** — it should be at least as prominent as the Monoliths waking. It appears in exactly one sub-section of one class file.
+Selene has been silent for three weeks, whispering in a dead language. This is mentioned in `lunarchData.js` (lines 155-157, 232-233) but nowhere else. Not in `CORE_LORE_FRAMEWORK.md`, not in `rulesData.js`, not in `timelineStore.js`. The first Lunarch going catatonic-translating-eldritch is a **world-changing event**  -  it should be at least as prominent as the Monoliths waking. It appears in exactly one sub-section of one class file.
 
 **Fix:** Elevate to a global timeline event. Add a `crisis-tracker` entry in rulesData.js. Cross-reference in all Briaran region content.
 
 ### Problem 3: The Moon Has No Name
 
-The Dead Moon is described as "the dead moon" or "the moon" across all files. It has no proper name. In a setting where Sol is named, Keth-Amar is named, Aex is named, Selene is named — the moon is just "the moon." This suggests it was never fully developed as a character/entity in the cosmology.
+The Dead Moon is described as "the dead moon" or "the moon" across all files. It has no proper name. In a setting where Sol is named, Keth-Amar is named, Aex is named, Selene is named  -  the moon is just "the moon." This suggests it was never fully developed as a character/entity in the cosmology.
 
 **Recommendation:** Give it a name. "Vael" (old Mythrill word for veil/echo) is one option. "Lyss" (from "lys" - light in some tongues) is another. A named moon has religious weight; an unnamed moon is a plot device.
 
@@ -100,7 +100,7 @@ The setting has 10 playable races. The CORE_LORE_FRAMEWORK.md does not specify a
 
 ### Critical Redundancy 1: Myrathil and Merryn Human
 
-The **Myrathil** (`myrathil.js`) are deep-sea merfolk with bioluminescent patterns, amphibious, tied to the Iceheart Sea. The **Merryn** (a human subrace, `human.js`) are described as "Merryn humans who bury their dead at sea" with the same Iceheart Sea region. The Myrathil are a full race with distinct culture, the Merryn are a human subrace performing the same ecological niche. This is fine IF the Myrathil are the original deep-sea inhabitants and the Merryn are surface humans who adapted to the same environment. But the `myrathil.js` file explicitly mentions Myrathil "did not exist in ice age depths, but in pockets of volcanic-vent warmth" — implying they are restricted to warm pockets, while Merryn occupy the surface ports.
+The **Myrathil** (`myrathil.js`) are deep-sea merfolk with bioluminescent patterns, amphibious, tied to the Iceheart Sea. The **Merryn** (a human subrace, `human.js`) are described as "Merryn humans who bury their dead at sea" with the same Iceheart Sea region. The Myrathil are a full race with distinct culture, the Merryn are a human subrace performing the same ecological niche. This is fine IF the Myrathil are the original deep-sea inhabitants and the Merryn are surface humans who adapted to the same environment. But the `myrathil.js` file explicitly mentions Myrathil "did not exist in ice age depths, but in pockets of volcanic-vent warmth"  -  implying they are restricted to warm pockets, while Merryn occupy the surface ports.
 
 **Verdict:** Can be kept if the Myrathil's niche (fully aquatic, deep-sea) is clearly distinguished from Merryn's niche (surface sailors who only visit the water). Currently `myrathil.js` does not explain why a Myrathil would ever adventure on land, which is a problem for a playable race.
 
@@ -113,11 +113,11 @@ The **Myrathil** (`myrathil.js`) are deep-sea merfolk with bioluminescent patter
 
 Both are artificial humanoids from the same region (Cragjaw Peaks). The Groven are biological/organic-alchemical constructs whose dead become infrastructure. The Fexrick are mechanical/clockwork constructs built from lost-brood vats. Both fill the "artificial person" trope in the same geography. The `fexrick.js` file does not reference Groven at all. The `groven.js` file does not reference Fexrick. These two do not interact despite sharing a region and a thematic space.
 
-**Verdict:** Keep both if you give them a relationship. Do the Fexrick salvage Groven bone for their machinery? Do the Groven consider Fexrick "dead metal" that cannot be part of the Ancestor-Span cycle? The lack of any cross-reference is a missed opportunity AND causes player confusion: "I want to play a construct in the Cragjaw Peaks — which one?"
+**Verdict:** Keep both if you give them a relationship. Do the Fexrick salvage Groven bone for their machinery? Do the Groven consider Fexrick "dead metal" that cannot be part of the Ancestor-Span cycle? The lack of any cross-reference is a missed opportunity AND causes player confusion: "I want to play a construct in the Cragjaw Peaks  -  which one?"
 
 **Fix:** Add a section in both files about their relationship to the other artificial race.
 
-### Minor Redundancy: Vreken and Neth — Both Forest-Dwelling Contractual Peoples
+### Minor Redundancy: Vreken and Neth  -  Both Forest-Dwelling Contractual Peoples
 
 **Vreken** (`vreken.js`): Bioluminescent, mycelial, intuitive, deep-Bryngloom, contract with the Root-Veil.
 **Neth** (`neth.js`): Silver-skinned, legalistic, immortal, canopy-Atropolis, bound by the First Contract.
@@ -139,7 +139,7 @@ The Emberth are volcanic-adapted, dark-skinned forge-tenders of Sundale. The Sol
 | Myrathil | Merryn human (partial) | Moderate | Explain land-surface motivation |
 | Groven | Fexrick | Moderate | Add inter-file relationship |
 | Fexrick | Groven | Moderate | Add inter-file relationship |
-| Vreken | (Neth) | None - well diff'd | — |
+| Vreken | (Neth) | None - well diff'd |  -  |
 | Astril | (None) | None | Unique spirit-host concept |
 | Human | (All 5 subraces) | None | Humans are fine as flex-race |
 
@@ -170,7 +170,7 @@ The CORE_LORE_FRAMEWORK.md says "classes are political." Many classes are. Some 
 
 | Class | Current Status | What's Missing |
 |-------|---------------|----------------|
-| **Bladedancer/Berserker** | Sundale-specific. Well-positioned but the Bladedancer itself has no faction — it's just a fighting style | Can be tied to the Dawn Vigil expeditionaries or the anti-Vigil resistance. Needs one sentence of faction alignment. |
+| **Bladedancer/Berserker** | Sundale-specific. Well-positioned but the Bladedancer itself has no faction  -  it's just a fighting style | Can be tied to the Dawn Vigil expeditionaries or the anti-Vigil resistance. Needs one sentence of faction alignment. |
 | **Chronarch** | Lives in Cragjaw Peaks. Extends lifespan by manipulating time. Never takes a side. | The timeline == fracture crisis is their natural political battlefield. They should be trying to stabilize the timeline (Dawn Vigil faction) OR accelerating it (Keth-Amar pawns). |
 | **Gambit** | Gambler/dealmaker. No political position. | The Merryn/Brine-Bond context (Iceheart Sea) gives them a natural position as press-Warrant resisters or Sea-Charter enforcers. Currently they're mechanically interesting and politically inert. |
 | **Minstrel** | Performer. No faction. | The "story is power" theme (living order name: The Last Verse) implies oral tradition as resistance, but it's not developed. Tie to anti-Ledger Forgotten underground or anti-Knotted Decree Tesshan dissent. |
@@ -192,10 +192,10 @@ Searching all read files for "Watcher," "watcher," or "the watcher" returns **ze
 It is **completely absent from every data file.** It does not appear in `loreDictionary.js`, `rulesData.js`, `timelineStore.js`, or any class file. The Watcher is a concept that was written into the framework and then never implemented in any content.
 
 **Verdict:** The Watcher is either (a) cut entirely, or (b) urgently introduced into at minimum:
-1. `loreDictionary.js` — as a `historical_figure` entry
-2. `rulesData.js` — cosmic mythos section, as the entity that reached Viridane
-3. `timelineStore.js` — as a crisis event: "the Watcher is sighted"
-4. `lunarchData.js` or `briaran.js` — because the Viridane bloodline is Briaran, and whatever reached them in the mist is relevant to the Lunarch crisis
+1. `loreDictionary.js`  -  as a `historical_figure` entry
+2. `rulesData.js`  -  cosmic mythos section, as the entity that reached Viridane
+3. `timelineStore.js`  -  as a crisis event: "the Watcher is sighted"
+4. `lunarchData.js` or `briaran.js`  -  because the Viridane bloodline is Briaran, and whatever reached them in the mist is relevant to the Lunarch crisis
 
 **Urgency: Critical.** Setting a major cosmic entity in the framework and then never grounding it in any data file creates a hole that players will feel. They won't know what's missing, but the setting will feel incomplete at the metaphysical level.
 
@@ -205,13 +205,13 @@ It is **completely absent from every data file.** It does not appear in `loreDic
 
 Covered extensively in Section 2 (cosmological contradictions). The Wyrd appears in:
 
-- **rulesData.js** — Primordial rot. The stuff that bled through the Breach.
-- **animistData.js** — Something you inhale as spores. Fungal substrate.
-- **falseProphetData.js** — Void resonance, cosmic silence, the space between stars.
-- **CORE_LORE_FRAMEWORK.md** — "The Wyrd is the ambient spiritual detritus of the Breach. It is not alive. It is not dead. It is the world bleeding from a wound that will not close."
-- **plaguebringerData.js** — A contagion the Mirkel Vreken track.
+- **rulesData.js**  -  Primordial rot. The stuff that bled through the Breach.
+- **animistData.js**  -  Something you inhale as spores. Fungal substrate.
+- **falseProphetData.js**  -  Void resonance, cosmic silence, the space between stars.
+- **CORE_LORE_FRAMEWORK.md**  -  "The Wyrd is the ambient spiritual detritus of the Breach. It is not alive. It is not dead. It is the world bleeding from a wound that will not close."
+- **plaguebringerData.js**  -  A contagion the Mirkel Vreken track.
 
-**The root problem:** Five different ontologies for the same word. The CORE_LORE_FRAMEWORK.md definition ("spiritual detritus of the Breach") is the most elegant — it positions the Wyrd as a symptom, not a substance. It is the *smell* of the wound, not the wound itself. The fungal interface, the Void-connection, the spiritual rot are all *different flavors of Wyrd*, not the Wyrd itself.
+**The root problem:** Five different ontologies for the same word. The CORE_LORE_FRAMEWORK.md definition ("spiritual detritus of the Breach") is the most elegant  -  it positions the Wyrd as a symptom, not a substance. It is the *smell* of the wound, not the wound itself. The fungal interface, the Void-connection, the spiritual rot are all *different flavors of Wyrd*, not the Wyrd itself.
 
 **Fix:** Adopt the CORE_LORE_FRAMEWORK.md definition as the only true one. Then reframe:
 - Vreken spores: a way to *sense* the Wyrd, not the Wyrd itself
@@ -233,13 +233,13 @@ CORE_LORE_FRAMEWORK.md says the players should never fully understand the world.
 4. **The Watcher.** Absent from all data files. **Critical gap.**
 5. **The Dead Moon was an egg.** Present in `lunarchData.js` (line 232). Contradicted by same file (line 226). **Critical gap due to contradiction.**
 6. **The animator ancestral language is fragmenting.** Present in `animistData.js` (line 216-218). Both a secret and a crisis. Well-implemented.
-7. **Keth-Amar cannot see the seventh monolith.** Present in `rulesData.js` (lines 60-61). The cosmic "substitution" twist. Excellent — a genuine mystery with implications.
+7. **Keth-Amar cannot see the seventh monolith.** Present in `rulesData.js` (lines 60-61). The cosmic "substitution" twist. Excellent  -  a genuine mystery with implications.
 
 ### The Gap
 
 There are 7 secrets. One (the Watcher) does not exist in any data. One (the Dead Moon) is contradicted by itself. One (the timeline fracture) is fragmented across classes. That leaves 4 fully-implemented secrets.
 
-**The missing secret** the setting needs is one that connects *all* the other secrets — a central question that every other mystery points toward. Currently the mysteries are independent: the timeline breaks here, the moon-egg there, the Watcher (maybe) responds to this. None of them point at each other.
+**The missing secret** the setting needs is one that connects *all* the other secrets  -  a central question that every other mystery points toward. Currently the mysteries are independent: the timeline breaks here, the moon-egg there, the Watcher (maybe) responds to this. None of them point at each other.
 
 **Recommendation:** Add one connective thread: the Watcher is the entity *causing* the timeline fracture. The timeline fracture is what's *accelerating* the moon-egg hatching. The moon-egg hatching is what Selene is *translating* for the Watcher. Suddenly all seven secrets are one secret with seven faces. The players can discover any entry point and find the same answer: **something is unraveling the timeline to hasten or prevent the last thing Keth-Amar expects.**
 
@@ -249,15 +249,15 @@ There are 7 secrets. One (the Watcher) does not exist in any data. One (the Dead
 
 ### Problem: Dark Grit and Lighthearted Mechanics
 
-The setting is grimdark — child sacrifice, debt-slavery, face-stealing horrors, fog that erases memories, the cosmic predation of a dying star. But some class mechanics are borderline silly:
+The setting is grimdark  -  child sacrifice, debt-slavery, face-stealing horrors, fog that erases memories, the cosmic predation of a dying star. But some class mechanics are borderline silly:
 
 - The **Apex** throwing a "Glaive Toss" chaining to "Bandits #1-5" with numbered turn-by-turn damage calculations reads like a video game tutorial, not a tragic silent hunter.
-- The **Augur** combat example is just dice math against "Bandit Captain" with quotes around "How did you—?" This undercuts the visceral horror of reading entrails.
+- The **Augur** combat example is just dice math against "Bandit Captain" with quotes around "How did you - ?" This undercuts the visceral horror of reading entrails.
 - The **Arcanoneer** combat example with "the bandit leader finishes his chant" and "Gristle Blockade" feels like a D&D module from 1985.
 
-The solution is not to remove the mechanics — it's to ensure the *narrative voice* of the combat examples matches the lore voice. The ice-lake reading should sound like Cassia witnessing doom, not like a player optimizing their turn.
+The solution is not to remove the mechanics  -  it's to ensure the *narrative voice* of the combat examples matches the lore voice. The ice-lake reading should sound like Cassia witnessing doom, not like a player optimizing their turn.
 
-**Not critical but worth noting:** The lore (class data files, especially `lunarchData.js`, `inquisitorData.js`, `animistData.js`) is genuinely excellent. The roleplay identity sections, the subrace variants, and the crisis angles are dark, textured, and specific. The combat examples read like they were written by a different person — someone who had read the lore but didn't internalize it.
+**Not critical but worth noting:** The lore (class data files, especially `lunarchData.js`, `inquisitorData.js`, `animistData.js`) is genuinely excellent. The roleplay identity sections, the subrace variants, and the crisis angles are dark, textured, and specific. The combat examples read like they were written by a different person  -  someone who had read the lore but didn't internalize it.
 
 ---
 
@@ -279,7 +279,7 @@ The solution is not to remove the mechanics — it's to ensure the *narrative vo
 
 ## 11. THE VERDICT
 
-The core lore of Mythrill VTT is **sound in concept, fractured in execution.** The CORE_LORE_FRAMEWORK.md describes a dark, sophisticated, multi-layered world with genuine secrets, real stakes, and no easy answers. The class data files (especially `lunarchData.js`, `inquisitorData.js`, `animistData.js`, `apexData.js`) are **the best writing in the project** — rich, specific, emotionally resonant, with genuine tragedy and no easy redemption.
+The core lore of Mythrill VTT is **sound in concept, fractured in execution.** The CORE_LORE_FRAMEWORK.md describes a dark, sophisticated, multi-layered world with genuine secrets, real stakes, and no easy answers. The class data files (especially `lunarchData.js`, `inquisitorData.js`, `animistData.js`, `apexData.js`) are **the best writing in the project**  -  rich, specific, emotionally resonant, with genuine tragedy and no easy redemption.
 
 **What works:**
 - The cosmic mythos (Sol, Aex, Keth-Amar, the Binding, the Breach)
@@ -289,10 +289,10 @@ The core lore of Mythrill VTT is **sound in concept, fractured in execution.** T
 - The "all nobility is compromised" political baseline
 
 **What needs surgery:**
-1. **The Dead Moon identity** — choose: egg or corpse. Make the other a myth.
-2. **The Wyrd** — adopt the CORE_LORE_FRAMEWORK.md "spiritual detritus" definition. Reframe all other appearances as interfaces/symptoms.
-3. **The Watcher** — introduce into `loreDictionary.js`, `rulesData.js`, and `timelineStore.js` immediately, or cut it from the framework.
-4. **The apolitical classes** — 2-3 lines each of worldFriction in Gambit, Minstrel, Shaper, Toxicologist, Revenant, Chronarch. This is a 30-minute fix that doubles class utility for GMs.
-5. **Connective thread** — one sentence that links the timeline fracture to the moon-egg to the Watcher. This transforms 7 independent mysteries into one meta-mystery.
+1. **The Dead Moon identity**  -  choose: egg or corpse. Make the other a myth.
+2. **The Wyrd**  -  adopt the CORE_LORE_FRAMEWORK.md "spiritual detritus" definition. Reframe all other appearances as interfaces/symptoms.
+3. **The Watcher**  -  introduce into `loreDictionary.js`, `rulesData.js`, and `timelineStore.js` immediately, or cut it from the framework.
+4. **The apolitical classes**  -  2-3 lines each of worldFriction in Gambit, Minstrel, Shaper, Toxicologist, Revenant, Chronarch. This is a 30-minute fix that doubles class utility for GMs.
+5. **Connective thread**  -  one sentence that links the timeline fracture to the moon-egg to the Watcher. This transforms 7 independent mysteries into one meta-mystery.
 
-**The overall grade:** The worldbuilding is B+ with flashes of A. The data implementation is C+ — too many orphan peaks (excellent writing in isolation) that do not connect to each other. The 8-section liability framework in LIQUIDATE_OUR_LORE.md correctly identified every weak spot. Fix these in the order ranked above, re-sync CORE_LORE_FRAMEWORK.md against the corrected files, and the setting achieves internal coherence for the first time.
+**The overall grade:** The worldbuilding is B+ with flashes of A. The data implementation is C+  -  too many orphan peaks (excellent writing in isolation) that do not connect to each other. The 8-section liability framework in LIQUIDATE_OUR_LORE.md correctly identified every weak spot. Fix these in the order ranked above, re-sync CORE_LORE_FRAMEWORK.md against the corrected files, and the setting achieves internal coherence for the first time.

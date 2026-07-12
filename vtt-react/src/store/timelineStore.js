@@ -46,7 +46,7 @@ const MYTHRILL_CALENDAR = {
     { id: 9, name: 'The Long Dark', season: 'deepening-winter',
       description: 'The longest nights; families gather in sump-halls for warmth. The Vreken claim the death-trails burn brightest in this month.' },
     { id: 10, name: 'Star-Count', season: 'deepening-winter',
-      description: 'Astril constellation-readers gather to count the remaining visible stars: a census of what Keth-Amar has not yet consumed.' },
+      description: 'Astril heritage-readers gather to count the remaining visible lights in the sky: a census of what Keth-Amar has not yet consumed.' },
     { id: 11, name: 'Midwinter', season: 'deepening-winter',
       description: 'The solstice; children born in this month are said to carry the Frostmaiden\'s blessing. The Frost-Tithe is traditionally paid.' },
     { id: 12, name: 'The Creeping Light', season: 'false-dawn',
@@ -98,11 +98,11 @@ const WARMTH_PHASES = [
     intrusion: 'Keth-Amar is weak, just starting to feed. Influence is ambient: Wyrd bleeding through the Breach cracks, the Frost-Tithe on Rime-Born births, subtle whispers in deep vents.',
     society: 'False optimism: "Sol will rebirth. This is temporary." The seven bargains are struck. Classes form from immediate survival needs. Subraces begin differentiating along regional lines.' },
   { id: 'first-ebbing', name: 'The First Ebbing', years: '50-200', warmth: 'Declining. Secondary geothermal vents weaken. The first marginal settlements fail. Rebirth windows producing declining output. The Freeze-Front advances slowly.',
-    intrusion: 'Growing. Wyrd activity increases in the Frostwood and Bryngloom. The first sustained Wyrd incursions. Whispers reach deeper into the surface. The Keeper of the Last Threshold remains watchful.',
+    intrusion: 'Growing. Wyrd activity increases in the Frostwood and Bryngloom. The first sustained Wyrd incursions. Whispers reach deeper into the surface. Morvane remains watchful.',
     society: 'Adaptation begins. Institutions form around information preservation (Sovereign Ledger, Scribe-Cartel, Synod). Trade routes establish. First regional conflicts over thermal resources. Classes emerge from adaptation needs.' },
   { id: 'contraction', name: 'The Contraction', years: '200-450', warmth: 'Significant decline. Major geothermal systems failing. The Freeze-Front advances. Rebirth windows below 15%. Habitable zones visibly contract.',
-    intrusion: 'Targeted. Keth-Amar can corrupt specific individuals. Wyrd epidemic in multiple regions. The first "owned" agents appear. The Mimir Purge happens. The Vreken Over-Lit epidemic begins. The Keeper becomes noticeably distracted.',
-    society: 'Survival infrastructure solidifies. The Sovereign Ledger becomes a weapon of social control. Wars break out over thermal resources. Subraces split into castes (Mimir Rupture, Sylen/Muren schism). Classes form from organized responses to Wyrd and scarcity.' },
+    intrusion: 'Targeted. Keth-Amar can corrupt specific individuals. Wyrd epidemic in multiple regions. The first "owned" agents appear. The Mimir Purge happens. The Vreken Over-Lit epidemic begins. Morvane becomes noticeably distracted.',
+    society: 'Survival infrastructure solidifies. The Sovereign Ledger becomes a weapon of social control. Wars break out over thermal resources. Subraces split into castes (Mimir Rupture, Vashir/Silath schism). Classes form from organized responses to Wyrd and scarcity.' },
   { id: 'squeeze', name: 'The Squeeze', years: '450-650', warmth: 'Accelerating decline. Major geothermal systems failing across all regions. The Solbrand\'s output measurably diminishes (concealed by the Korr for three generations). Rebirth windows below 8%.',
     intrusion: 'Coordinated. The Cult of Forgotten Shadow makes two-way contact with the deep dark. Keth-Amar can whisper to specific people across vast distances and corrupt institutions. It speaks through the cracks directly. The dead stir.',
     society: 'Institutions fracture under pressure. The Great Revision rewrites history. The False Dawn Riots shatter the myth of Sol\'s return. The Over-Shanty becomes a permanent shadow-state. Classes form from desperation and the need to weaponize the Wyrd itself.' },
@@ -139,7 +139,7 @@ const TRADE_ROUTES = [
   { id: 'trade-steppe-circuit', name: 'The Steppe Migration Circuit', origin: 'synod-hold', destination: 'morrens-bogpost',
     via: ['starfall-vale', 'ancestor-wolds'], cargo: 'Steppe-wool, shag-ox herds, Astril crystal-lattice → Bryngloom peat-oil, fungal goods',
     established: 'Year ~25 (Dimming)', status: 'seasonal',
-    history: 'Not a fixed road but the Ordan migration circuit: following the grass-line south before frost claims it and north before the thaw rots it. The Astril Synod taxes constellation-spirit passage. The Herd-Tithe is exacted by House Ordavan. Every Mound-Camp along the route is a seasonal trading post.' }
+    history: 'Not a fixed road but the Ordan migration circuit: following the grass-line south before frost claims it and north before the thaw rots it. The Astril elders tax heritage-passage along the route. The Herd-Tithe is exacted by House Ordavan. Every Mound-Camp along the route is a seasonal trading post.' }
 ];
 
 const SEEDED_EVENTS = [
@@ -225,12 +225,12 @@ const SEEDED_EVENTS = [
     type: 'cosmic',
     phase: 'false-spring',
     description:
-      'When Emberspire erupted and bled volcanic fury into the frozen oceans, the violent clash of fire and ice churned the seas into living foam. The sea mother (the ocean\'s attempt at personhood) gave that foam the will to stand and walk. The Breakers-Born emerged first: shore-spawned from the collision of wave and rock. They would become the ambassadors, the most numerous Myrathil. The Deep-Born and River-Fed would emerge centuries later as the oceans reached equilibrium and inland exploration began.',
+      'When Emberspire erupted and bled volcanic fury into the frozen oceans, the violent clash of fire and ice churned the seas into living foam. Mareth (the ocean\'s attempt at personhood) gave that foam the will to stand and walk. The Shore emerged first: shore-spawned from the collision of wave and rock. They would become the ambassadors, the most numerous Myrathil. The Deep and Brook would emerge centuries later as the oceans reached equilibrium and inland exploration began.',
     locationIds: ['iceheart-sea'],
     factionIds: [],
     classIds: ['minstrel'],
     causes: ['event-emberspire-eruption'],
-    effects: ['event-deep-born-emerge', 'event-river-fed-emerge']
+    effects: ['event-deep-born-emerge', 'event-brook-emerge']
   },
   {
     id: 'event-viridane-flight',
@@ -244,7 +244,7 @@ const SEEDED_EVENTS = [
     factionIds: ['house-viridane'],
     classIds: ['lunarch'],
     causes: ['event-keth-amar-breach'],
-    effects: ['event-briaran-smooth-skinned']
+    effects: ['event-briaran-shorn']
   },
   {
     id: 'event-first-rebirth',
@@ -281,7 +281,7 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'As titanic glaciers advanced to grind Nordhalla\'s mountain keeps into dust, House Skalvyr bargained with the Warden to freeze the ice sheets in place. The Warden accepted but decreed that summer would never return to the north. Keth-Amar set the Frost-Tithe on Rime-Born births (the bargain\'s interest, a supernatural birth-curse where every frost-touched child draws the mother\'s warmth to survive. The Hunger Winter that followed was so absolute that Skald ancestors consumed their own dead) the first seed of the Hunger Pact that would later ignite the Berserker rage.',
+      'As titanic glaciers advanced to grind Nordhalla\'s mountain keeps into dust, House Skalvyr bargained with Aethil to freeze the ice sheets in place. Aethil accepted but decreed that summer would never return to the north. Keth-Amar set the Frost-Tithe on Rime-Born births (the bargain\'s interest, a supernatural birth-curse where every frost-touched child draws the mother\'s warmth to survive. The Hunger Winter that followed was so absolute that Skald ancestors consumed their own dead) the first seed of the Hunger Pact that would later ignite the Berserker rage.',
       locationIds: ['frozen-archive', 'fjord-gate', 'skadis-col'],
     factionIds: ['house-skalvyr'],
     classIds: ['berserker', 'harbinger', 'augur'],
@@ -309,7 +309,7 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'House Ordavan traded the Sundrift Vale\'s fertile soil for endless migration and grass that always returned. The sky went dark (the constellation-spirits fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart\'s calm for navigable) and perpetually storm-lashed, sea lanes. House Tesshan traded the Cragjaw\'s visibility for an eternal blizzard-veil. In the Bryngloom, the Neth ancestors. not a noble house, but a dying scribe-clan: negotiated the First Contract with the Keeper of the Last Threshold, trading death\'s finality for silver-skinned survival and an absolute prohibition on falsehood.',
+      'House Ordavan traded the Sundrift Vale\'s fertile soil for endless migration and grass that always returned. The sky went dark (the fragments of Lumia\'s biosphere fled the slaughter and the Astril ancestors volunteered as living vessels. House Mereval traded the Iceheart\'s calm for navigable) and perpetually storm-lashed, sea lanes. House Tesshan traded the Cragjaw\'s visibility for an eternal blizzard-veil. In the Bryngloom, the Neth ancestors. not a noble house, but a dying scribe-clan: negotiated the First Contract with Morvane, trading death\'s finality for pale-skinned survival and an absolute prohibition on falsehood.',
     locationIds: ['sundrift-vale', 'iceheart-sea', 'cragjaw-peaks', 'bryngloom-forest', 'atropolis'],
     factionIds: ['house-ordavan', 'house-mereval', 'house-tesshan'],
     classIds: ['animist', 'gambit', 'shaper'],
@@ -323,7 +323,7 @@ const SEEDED_EVENTS = [
     type: 'cultural',
     phase: 'false-spring',
     description:
-      'When Sol was bound, the constellation-spirits of the sun\'s celestial court fled the slaughter, Horse, Wolf, Dragon, Serpent, Tiger, Stag. They found the Sundrift Vale, where the Ordan had been singing the stars\' names for a thousand years. The Astril ancestors opened themselves: they became living vessels for the last fragments of Sol\'s court. Every Astril child is born with a constellation-spirit woven into their blood. Faith is visible. patterns brighten with conviction, dim with doubt. This created the assassination economy: kill an Astril, and their spirit may choose you.',
+      'When Keth-Amar devoured Lumia, the Astril refugees fled across the void carrying fragments of their dead world\'s biosphere in their blood. They reached Mythrill and settled the Sundrift Vale, where their alien biology — pale skin, reptilian eyes, and unique crystalline markings — set them apart from the native peoples. The Ordan, who had been singing the old migration routes for centuries, regarded these newcomers with wary curiosity. Every Astril child is born with Lumia\'s heritage woven into their bloodlines, an inheritance that cannot be chosen or refused. The markings are personal, unique to each Astril, faintly luminous only in complete darkness — a biological echo of a dead star, not a moral compass.',
     locationIds: ['sundrift-vale', 'starfall-vale'],
     factionIds: ['house-ordavan'],
     classIds: ['augur', 'harbinger'],
@@ -337,7 +337,7 @@ const SEEDED_EVENTS = [
     type: 'pact',
     phase: 'false-spring',
     description:
-      'The Neth (a dying scribe-clan of the Bryngloom) gathered every contract they had ever written and walked into the deep wood. They found the Keeper of the Last Threshold and did not pray, they presented a legal case: "You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies." The Keeper accepted. They rose from the bog with silver skin, stilled breath, and the First Contract written in their blood. The Neth cannot lie. Their blood crystallizes into volatile shards. The Velun bloodline. born of the original signatories: still run Atropolis.',
+      'The Neth (a dying scribe-clan of the Bryngloom) gathered every contract they had ever written and walked into the deep wood. They found Morvane and did not pray, they presented a legal case: "You are the record-keeper of the forest. The Neth are the record-keepers of civilization. If we die, the record dies." Morvane accepted. They rose from the bog with pale skin, stilled breath, and the First Contract written in their blood. The Velun bloodline, born of the original signatories, still run Atropolis.',
     locationIds: ['bryngloom-forest', 'atropolis'],
     factionIds: [],
     classIds: ['arcanoneer'],
@@ -468,15 +468,15 @@ const SEEDED_EVENTS = [
     effects: []
   },
   {
-    id: 'event-briaran-smooth-skinned',
+    id: 'event-briaran-shorn',
     date: { year: 75, eraId: 'dimming' },
-    title: 'The Smooth-Skinned Emerge',
+    title: 'The Shorn Emerge',
     type: 'cultural',
     phase: 'first-ebbing',
     description:
-      'Three generations after House Viridane\'s flight, Aurel Shorn-First walked out of the moonlit groves and built a life under a human name. He was the first Briaran to systematically shave his thorns and pass as human. The Smooth-Skinned subrace was born: the pragmatists, choosing invisibility over defiance. They carry a single piece of ghost-metal hidden against the skin. The Unshorn who remained in the groves considered them deserters.',
+      'Three generations after House Viridane\'s flight, Aurel Shorn-First walked out of the moonlit groves and built a life under a human name. He was the first Briaran to systematically shave his thorns and pass as human. The Shorn subrace was born: the pragmatists, choosing invisibility over defiance. They carry a single piece of ghost-metal hidden against the skin. The Trueborn who remained in the groves considered them deserters.',
     locationIds: ['frostwood-reach', 'ironwood-heart'],
-    factionIds: ['unshorn-briaran'],
+    factionIds: ['trueborn-briaran'],
     classIds: [],
     causes: ['event-viridane-flight'],
     effects: []
@@ -512,11 +512,11 @@ const SEEDED_EVENTS = [
   {
     id: 'event-deep-born-emerge',
     date: { year: 100, eraId: 'dimming' },
-    title: 'The Deep-Born Myrathil Emerge',
+    title: 'The Deep Myrathil Emerge',
     type: 'cultural',
     phase: 'first-ebbing',
     description:
-      'As the Iceheart Sea reached thermal equilibrium after Emberspire\'s eruption, Myrathil began spawning from open-ocean foam rather than just shoreline spindrift. The Deep-Born emerged: abyss-adapted mystics who hum into the Treakous Rift and find the surface world unbearably loud. The Listeners established a submerged chamber, recording the Rift\'s background hum. Centuries later, they would be the first to notice that the hum was changing: that the Sundered Monolith in the Rift was waking.',
+      'As the Iceheart Sea reached thermal equilibrium after Emberspire\'s eruption, Myrathil began spawning from open-ocean foam rather than just shoreline spindrift. The Deep emerged: abyss-adapted mystics who hum into the Treakous Rift and find the surface world unbearably loud. The Listeners established a submerged chamber, recording the Rift\'s background hum. Centuries later, they would be the first to notice that the hum was changing: that the Sundered Monolith in the Rift was waking.',
     locationIds: ['iceheart-sea'],
     factionIds: [],
     classIds: ['minstrel'],
@@ -525,17 +525,17 @@ const SEEDED_EVENTS = [
   },
   {
     id: 'event-first-thermal-war',
-    date: { year: 100, eraId: 'dimming', endYear: 120 },
+    date: { year: 110, eraId: 'dimming' },
     title: 'The First Thermal War',
     type: 'conflict',
-    phase: 'first-ebbing',
+    phase: 'contraction',
     description:
-      'As geothermal vents failed in the Cragjaw border tunnels, three factions clashed over the remaining heat sources: the Fexric holdfasts defending their ancestral infrastructure, Nordhalla refugees pressing south along the Hunger Road, and Groven toll-keepers raising passage rates at the Ancestor-Spans. The war was fought in the vertical darkness of the Cragjaw: on rope-bridges, in steam-filled tunnels, at the Rope-Garrison and Deepchasm Keep. The Steam-Line Cartel emerged from the war\'s wreckage, consolidating control of surviving geothermal pipes. The Groven established formal toll-treaties at Ironjaw Port, cementing their role as gatekeepers of every pass.',
-    locationIds: ['cragjaw-peaks', 'deepchasm-keep', 'ironjaw-port'],
-    factionIds: ['steam-line-cartel', 'vat-breakers-guild'],
-    classIds: ['warden', 'shaper'],
-    causes: ['event-first-vent-failure', 'event-vat-breakers-revolt'],
-    effects: ['event-toll-wars']
+      'Groven holdfasts and Fexric deep-tunnel expeditions clashed over control of the geothermal vents beneath Frostmaw Crag. The Groven, still recovering from the Vat-Breakers\' revolt, defended the upper crag warrens against Fexric mining incursions. The war ended in stalemate: the Groven retained the upper vents, the Fexric the deep tunnels. It was during this conflict that the Groven miner Torin drank alchemical sulfur-clay to hold a collapsing tunnel — an act that would later become the foundation of the Shaper tradition.',
+    locationIds: ['frostmaw-holdfast'],
+    factionIds: ['vat-breakers-guild'],
+    classIds: ['shaper'],
+    causes: ['event-vat-breakers-revolt'],
+    effects: []
   },
   {
     id: 'event-fogwood-schism',
@@ -552,13 +552,13 @@ const SEEDED_EVENTS = [
     effects: ['event-memory-wars']
   },
   {
-    id: 'event-river-fed-emerge',
+    id: 'event-brook-emerge',
     date: { year: 150, eraId: 'dimming' },
-    title: 'The River-Fed Myrathil Emerge',
+    title: 'The Brook Myrathil Emerge',
     type: 'cultural',
     phase: 'first-ebbing',
     description:
-      'Venn the Salt-Walker, a Myrathil explorer, followed a seasonal stream inland through the Sundrift Vale and discovered a vast freshwater lake: the Mother\'s Mirror. She proved Myrathil could survive away from salt water. The River-Fed emerged: estuary-born wanderers who follow rivers inland, the only Myrathil to have seen the mountains and the inland Monoliths.',
+      'Venn the Salt-Walker, a Myrathil explorer, followed a seasonal stream inland through the Sundrift Vale and discovered a vast freshwater lake: the Mother\'s Mirror. She proved Myrathil could survive away from salt water. The Brook emerged: estuary-born wanderers who follow rivers inland, the only Myrathil to have seen the mountains and the inland Monoliths.',
     locationIds: ['sundrift-vale', 'iceheart-sea'],
     factionIds: [],
     classIds: ['gambit'],
@@ -572,7 +572,7 @@ const SEEDED_EVENTS = [
     type: 'founding',
     phase: 'first-ebbing',
     description:
-      'The Astril Luminarchy formally organized into the Synod, a ruling council of the oldest constellation-bloodlines governing from the crystal-lattice cathedral of Synod-Hold. The assassination economy was openly condemned and privately practiced. The first Over-Sung case was recorded within the year: a Sylen who opened too wide and was consumed, the spirit claiming the vessel entirely. The Unlit. Astril born without a constellation: were conscripted as Synod spies, their patternless skin making them perfectly unreadable.',
+      'The Astril elders formally organized into the Synod, a ruling council of the oldest heritage-bloodlines governing from the crystal-lattice cathedral of Synod-Hold. The Synod\'s purpose was dual: coordinate the Selunis-ritual across all Astril communities, and maintain the secrecy of their refugee origins. Keth-Amar was already searching for the light it had failed to consume, and discovery meant extinction. The Vashir and Silath bloodlines established their complementary roles: Vashir as farmers, hunters, and guardians of the physical communities; Silath as star-readers, ritual-tenders, and keepers of the celestial record.',
     locationIds: ['sundrift-vale', 'synod-hold'],
     factionIds: [],
     classIds: ['augur', 'harbinger'],
@@ -587,7 +587,7 @@ const SEEDED_EVENTS = [
     phase: 'first-ebbing',
     description:
       'Five traditions emerged as the warmth declined and civilizations adapted to permanent survival:\n\n' +
-      '• Arcanoneer (Year ~60) (Valerius, a Velun Neth archivist, drafted the First Contract with the Keeper of the Last Threshold, structuring raw Bryngloom magic as strict legal clauses. His blood crystallizes into volatile shards) the cost of weaponizing the pact.\n' +
+      '• Arcanoneer (Year ~60) (Valerius, a Velun Neth archivist, drafted the First Contract with Morvane, structuring raw Bryngloom magic as strict legal clauses. His blood crystallizes into volatile shards) the cost of weaponizing the pact.\n' +
       '• Warden (Year ~70): Alaric the Law-Keeper, a Groven mine-guard at Frostmaw Holdfast, drove an ore-hauling chain through his own forearm into a colossal Deep Alchemist specimen during the Vat-Breakers\' revolt. He held for three days. The chain rusted into his bone.\n' +
       '• Lunarch (Year ~80) (Selene, sister of House Viridane, bargained with wildwood fae in the moonlit groves to capture the dead moon\'s light. She bound a lunar parasite to her bones) an ancient celestial predator feeding on memory, sensation, and sanity.\n' +
       '• Minstrel (Year ~100) (Lyris the Tide-Singer, a Merryn sailor, sang a sea-symphony to calm the Iceheart gales at Merrowport. The ocean mother accepted but stole her spoken voice) attempting to speak causes her throat to bleed.\n' +
@@ -639,9 +639,9 @@ const SEEDED_EVENTS = [
     type: 'schism',
     phase: 'contraction',
     description:
-      'With no new masks being made, the Mask-Borne elders (the aristocratic inheritors of heartwood masks bearing eleven generations of carved lineage) decreed that only first-born children may receive their mother\'s mask. Siblings were cast to the forest floor with no inheritance. Within a generation, Mimir society had shattered into three castes:\n' +
-      '• Mask-Borne: the shrinking aristocracy, presiding over a majority they refuse to acknowledge.\n' +
-      '• Mist-Woven: the sentinels who took to the rope-bridges, forging storm-glass masks from fulgurite.\n' +
+      'With no new masks being made, the Masked elders (the aristocratic inheritors of heartwood masks bearing eleven generations of carved lineage) decreed that only first-born children may receive their mother\'s mask. Siblings were cast to the forest floor with no inheritance. Within a generation, Mimir society had shattered into three castes:\n' +
+      '• Masked: the shrinking aristocracy, presiding over a majority they refuse to acknowledge.\n' +
+      '• Woven: the sentinels who took to the rope-bridges, forging storm-glass masks from fulgurite.\n' +
       '• The Unwoven: the floor-dwelling outcasts, wearing composite masks of salvaged fragments: two hundred years later, the Eyeless One\'s mask holds over a hundred borrowed fragments.',
     locationIds: ['frostwood-reach', 'ironwood-heart'],
     factionIds: [],
@@ -666,11 +666,11 @@ const SEEDED_EVENTS = [
   {
     id: 'event-astril-schism',
     date: { year: 250, eraId: 'dimming', endYear: 300 },
-    title: 'The Sylen-Muren Schism',
+    title: 'The Vashir-Silath Schism',
     type: 'schism',
     phase: 'contraction',
     description:
-      'The Astril fractured. The Harmonists (future Sylen) argued that the constellation-spirit must be embraced fully: suppression was a betrayal of the sanctuary their ancestors had promised. The Silencers (future Muren) argued that unchecked embrace led to the Over-Sung and that suppression through scarification, fasting, and binding-chants was survival. Tharun Muren, the first Silencer, was assassinated by his own Sylen sister who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the Over-Sung within the year. The schism has never healed.',
+      'The Astril fractured. The Harmonists (future Vashir) argued that the Lumia heritage must be embraced fully: suppression was a betrayal of the sanctuary their ancestors had promised. The Silencers (future Silath) argued that unchecked embrace led to full consumption and that suppression through scarification, fasting, and binding-chants was survival. Tharun Silath, the first Silencer, was assassinated by his own Vashir sister who believed his suppression was starving the heritage. The heritage consumed her. She lost herself to full possession within the year. The schism has never healed.',
     locationIds: ['sundrift-vale', 'synod-hold'],
     factionIds: [],
     classIds: ['augur', 'harbinger', 'falseProphet'],
@@ -684,7 +684,7 @@ const SEEDED_EVENTS = [
     type: 'cultural',
     phase: 'contraction',
     description:
-      'Saren-Vel, the most powerful Velun Neth mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink, not paper, not flesh. She burned her name from every active copy of the First Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to the Keeper\'s enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Neth court. Her act was a response to the Keeper\'s growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.',
+      'Saren-Vel, the most powerful Velun Neth mage of her generation, walked into the deepest Bryngloom bog with a flame that consumed only ink, not paper, not flesh. She burned her name from every active copy of the First Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to Morvane\'s enforcement. They are also legally non-entitled. no property, no marriage, no testimony in a Neth court. Her act was a response to Morvane\'s growing distraction: as the pact weakened, its cage became unbearable to those who could feel it tightening.',
     locationIds: ['bryngloom-forest', 'atropolis'],
     factionIds: [],
     classIds: ['revenant', 'gambit'],
@@ -726,7 +726,7 @@ const SEEDED_EVENTS = [
     type: 'conflict',
     phase: 'contraction',
     description:
-      'As thermal refugees increased along the Hunger Road, Groven toll-keepers raised passage rates at the Ancestor-Spans. Nordhalla Skald caravans and Sundale Solvarn trade delegations clashed with Groven bridge-tenders and each other over transit rights. The Ithran diplomat Ithra-Mal negotiated the Ironjaw Port Toll-Treaties: the first formal recognition of Groven sovereign bridge-rights by the noble houses. The Morgh/Ithran Ladder of Purity solidified during this period: Ithran diplomats negotiated the treaties the Morgh bridge-builders died to enforce.',
+      'As thermal refugees increased along the Hunger Road, Groven toll-keepers raised passage rates at the Ancestor-Spans. Nordhalla Skald caravans and Sundale Solvarn trade delegations clashed with Groven bridge-tenders and each other over transit rights. The Ithran diplomat Ithra-Mal negotiated the Ironjaw Port Toll-Treaties: the first formal recognition of Groven sovereign bridge-rights by the noble houses. The Morgh/Ithran ideological split solidified during this period: Ithran diplomats negotiated the treaties the Morgh bridge-builders died to enforce, each side certain the other had mistaken freedom for something it was not.',
     locationIds: ['cragjaw-peaks', 'ironjaw-port', 'deepchasm-keep'],
     factionIds: ['vat-breakers-guild', 'house-skalvyr', 'house-solvan'],
     classIds: ['warden', 'shaper'],
@@ -754,9 +754,9 @@ const SEEDED_EVENTS = [
     type: 'conflict',
     phase: 'contraction',
     description:
-      'The Unshorn Briaran, rejecting the Fog Compact and the Sovereign Ledger\'s authority, launched a series of raids against timber caravans and ledger-shrines in the Frostwood Reach. House Thalreth responded with a brutal suppression campaign that drove the Briaran deep into the Ironwood Heart. The conflict has smoldered for generations: the Briaran never fully suppressed, the Thalreth never fully secure. The Briaran call it the Righteous Refusal. The Thalreth call it the Thorn Insurgency.',
+      'The Trueborn Briaran, rejecting the Fog Compact and the Sovereign Ledger\'s authority, launched a series of raids against timber caravans and ledger-shrines in the Frostwood Reach. House Thalreth responded with a brutal suppression campaign that drove the Briaran deep into the Ironwood Heart. The conflict has smoldered for generations: the Briaran never fully suppressed, the Thalreth never fully secure. The Briaran call it the Righteous Refusal. The Thalreth call it the Thorn Insurgency.',
     locationIds: ['ironwood-heart', 'the-shallows', 'frostwood-reach'],
-    factionIds: ['unshorn-briaran', 'house-thalreth', 'mist-sentinels'],
+    factionIds: ['trueborn-briaran', 'house-thalreth', 'mist-sentinels'],
     classIds: ['apex', 'lunarch'],
     causes: ['event-memory-wars'],
     effects: []
@@ -973,7 +973,7 @@ const SEEDED_EVENTS = [
     type: 'disaster',
     phase: 'intrusion',
     description:
-      'The Keeper of the Last Threshold (the death-boundary entity that had enforced the Neth\'s First Contract for seven centuries) became so distracted by whatever force Keth-Amar had unleashed that the pact began to fray. The Unraveling accelerated: Neth who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Drun numbers swelled as Neth voluntarily severed their names from the Contract. The Keeper had been the metaphysical glue holding one of the world\'s foundational bargains together, and it was coming undone.',
+      'Morvane (the death-boundary entity that had enforced the Neth\'s First Contract for seven centuries) became so distracted by whatever force Keth-Amar had unleashed that the pact began to fray. The Unraveling accelerated: Neth who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Drun numbers swelled as Neth voluntarily severed their names from the Contract. Morvane had been the metaphysical glue holding one of the world\'s foundational bargains together, and it was coming undone.',
     locationIds: ['bryngloom-forest', 'atropolis'],
     factionIds: [],
     classIds: ['arcanoneer', 'revenant', 'falseProphet'],
@@ -1043,7 +1043,7 @@ const SEEDED_EVENTS = [
     type: 'catastrophe',
     phase: 'intrusion',
     description:
-      'The Iceheart Sea fell silent. The tidesong (the subsonic pressure-pulse that Merryn sailors and Myrathil deep-born had navigated by for centuries) stopped. Lyris the Tide-Singer, founder of the Minstrel tradition, vanished the same night. The Treakous Rift Sundered Monolith was no longer a background hum; it was a command frequency. Myrathil Deep-Born reported hearing instructions in the silence. Ships disappeared in increasing numbers: not sunk, not wrecked, just gone. Silence has been spreading up the rivers inland. The River-Fed Myrathil are the first to encounter it in freshwater for the first time.',
+      'The Iceheart Sea fell silent. The tidesong (the subsonic pressure-pulse that Merryn sailors and Myrathil Deep had navigated by for centuries) stopped. Lyris the Tide-Singer, founder of the Minstrel tradition, vanished the same night. The Treakous Rift Sundered Monolith was no longer a background hum; it was a command frequency. Myrathil Deep reported hearing instructions in the silence. Ships disappeared in increasing numbers: not sunk, not wrecked, just gone. Silence has been spreading up the rivers inland. The Brook Myrathil are the first to encounter it in freshwater for the first time.',
     locationIds: ['iceheart-sea', 'merrowport', 'spindrift-lagoon'],
     factionIds: ['brine-bond-syndicate', 'house-mereval'],
     classIds: ['minstrel', 'gambit'],
@@ -1057,7 +1057,7 @@ const SEEDED_EVENTS = [
     type: 'catastrophe',
     phase: 'intrusion',
     description:
-      'All seven Sundered Monoliths began to hum simultaneously, a frequency that could be felt in the bones as much as heard. The Shard-Window storm-vortex above the Iceheart Sea\'s Monolith intensified, pulling ships into its eye. The Berg of the Frozen Flame in the Northern Ice-Flows melted its own cradle. The Cragjaw Subterranean Vault warmed for the first time since the Binding. Emberspire\'s throat Monolith pulsed in rhythm with the Solbrand\'s failing light. The Treakous Oceanic Rift Monolith began broadcasting what the Deep-Born Myrathil call "instructions." Chaos Pockets stabilized into permanence across the Sundrift Vale. The bog-graves of Bryngloom rose and began marching. not randomly, but TOWARD the Monoliths. Every bargain struck in the past 800 years was coming due at once.',
+      'All seven Sundered Monoliths began to hum simultaneously, a frequency that could be felt in the bones as much as heard. The Shard-Window storm-vortex above the Iceheart Sea\'s Monolith intensified, pulling ships into its eye. The Berg of the Frozen Flame in the Northern Ice-Flows melted its own cradle. The Cragjaw Subterranean Vault warmed for the first time since the Binding. Emberspire\'s throat Monolith pulsed in rhythm with the Solbrand\'s failing light. The Treakous Oceanic Rift Monolith began broadcasting what the Deep Myrathil call "instructions." Chaos Pockets stabilized into permanence across the Sundrift Vale. The bog-graves of Bryngloom rose and began marching. not randomly, but TOWARD the Monoliths. Every bargain struck in the past 800 years was coming due at once.',
     locationIds: ['sundale', 'iceheart-sea', 'nordhalla', 'cragjaw-peaks', 'frostwood-reach', 'bryngloom-forest', 'sundrift-vale'],
     factionIds: ['dawn-vigil', 'cult-of-forgotten-shadow'],
     classIds: ['all'],

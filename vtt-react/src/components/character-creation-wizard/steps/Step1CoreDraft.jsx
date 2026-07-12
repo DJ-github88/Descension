@@ -440,17 +440,17 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Myrathil
 
-    breaker_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
+    shore_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
 
     deep_myrathil: ['Chronarch', 'Augur', 'Animist', 'Spellguard', 'Lunarch', 'Shaper'],
 
-    river_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
+    brook_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
 
     // Briaran
 
-    unshorn_briaran: ['Animist', 'Shaper', 'Apex', 'Warden'],
+    trueborn_briaran: ['Animist', 'Shaper', 'Apex', 'Warden'],
 
-    smoothskinned_briaran: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
+    shorn_briaran: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
 
     // Emberth
 
@@ -472,9 +472,9 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Mimir
 
-    maskborne_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
+    masked_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
 
-    mistwoven_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
+    woven_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
 
     unwoven_mimir: ['Martyr (Ironclad)', 'Harbinger', 'Augur', 'Chronarch', 'Toxicologist', 'Gambit', 'Arcanoneer'],
 
@@ -488,9 +488,9 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Astril
 
-    sylen_astril: ['Chronarch', 'Augur', 'Gambit', 'Lunarch', 'Spellguard', 'Inquisitor'],
+    vashir_astril: ['Chronarch', 'Augur', 'Gambit', 'Lunarch', 'Spellguard', 'Inquisitor'],
 
-    muren_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch'],
+    silath_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch'],
 
     // Vreken
 
@@ -697,17 +697,17 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Myrathil
 
-        breaker_myrathil: 'breakersborn_illustration.png',
+        shore_myrathil: 'shore_illustration.png',
 
-        deep_myrathil: 'deepborn_illustration.png',
+        deep_myrathil: 'deep_illustration.png',
 
-        river_myrathil: 'riverfed_illustration.png',
+        brook_myrathil: 'brook_illustration.png',
 
         // Briaran
 
-        unshorn_briaran: 'unshorn_illustration.png',
+        trueborn_briaran: 'trueborn_illustration.png',
 
-        smoothskinned_briaran: 'smoothskinned_illustration.png',
+        shorn_briaran: 'shorn_illustration.png',
 
         // Emberth
 
@@ -729,9 +729,9 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Mimir
 
-        maskborne_mimir: 'maskborne_illustration.png',
+        masked_mimir: 'masked_illustration.png',
 
-        mistwoven_mimir: 'mistwoven_illustration.png',
+        woven_mimir: 'woven_illustration.png',
 
         unwoven_mimir: 'unwoven_illustration.png',
 
@@ -745,9 +745,9 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Astril
 
-        sylen_astril: 'sylen_illustration.png',
+        vashir_astril: 'vashir_illustration.png',
 
-        muren_astril: 'muren_illustration.png',
+        silath_astril: 'silath_illustration.png',
 
         // Vreken
 

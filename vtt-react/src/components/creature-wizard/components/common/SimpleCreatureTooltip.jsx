@@ -452,7 +452,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
         {/* Type and Size */}
         <div className="creature-tooltip-subtitle">
-          {formatSizeName(creature.size)} {formatTypeName(creature.type)} • {sizeMapping.width}×{sizeMapping.height}
+          {formatSizeName(creature.size)} {formatTypeName(creature.type)} • {sizeMapping.width}� - {sizeMapping.height}
         </div>
       </div>
 

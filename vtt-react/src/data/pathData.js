@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Character Path Data Module
  *
  * Defines the 9 character paths for the character creation wizard:
@@ -17,7 +17,7 @@ export const PATH_DATA = {
     vessel: {
         id: 'vessel',
         name: 'The Vessel',
-        description: 'You have been entered by something older than yourself, a constellation-spirit, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
+        description: 'You have been entered by something older than yourself, a Lumian echo, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Neth call it a breach of contract. Both are correct.',
         icon: 'fas fa-eye',
         statModifiers: {
             intelligence: 1,
@@ -45,7 +45,7 @@ export const PATH_DATA = {
     bound: {
         id: 'bound',
         name: 'The Bound',
-        description: 'You have sworn a binding oath, to the Keeper, to the Luminarchy, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
+        description: 'You have sworn a binding oath, to Morvane, to the Astril Synod, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
         icon: 'fas fa-scroll',
         statModifiers: {
             strength: 1,
@@ -57,15 +57,15 @@ export const PATH_DATA = {
         languages: 1,
         startingEquipment: [
             'Memory-glass tablet (blank)',
-            'Keeper\'s clause-scroll',
+            'Morvane\'s clause-scroll',
             'Bog-iron ink pot',
             'Contract-sealed vestments',
             'Wind-leather cloak',
             'Belt pouch with 15g'
         ],
         feature: {
-            name: 'Keeper\'s Clause',
-            description: 'Your binding oath protects you at the threshold between life and death. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead, but you incur a debt that must be honored before the next moon or suffer the Keeper\'s attention.'
+            name: 'Morvane\'s Clause',
+            description: 'Your binding oath protects you at the threshold between life and death. Once per day, when you would be reduced to 0 hit points, you can choose to drop to 1 hit point instead, but you incur a debt that must be honored before the next moon or suffer Morvane\'s attention.'
         },
         startingPoints: 1
     },
@@ -73,7 +73,7 @@ export const PATH_DATA = {
     unseen: {
         id: 'unseen',
         name: 'The Unseen',
-        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Astril can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
+        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Veil can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
         icon: 'fas fa-mask',
         statModifiers: {
             agility: 2,
@@ -101,7 +101,7 @@ export const PATH_DATA = {
     scarred: {
         id: 'scarred',
         name: 'The Scarred',
-        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Over-Sung. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
+        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Echo-Submersion. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
         icon: 'fas fa-skull',
         statModifiers: {
             constitution: 2,
@@ -156,7 +156,7 @@ export const PATH_DATA = {
     indebted: {
         id: 'indebted',
         name: 'The Indebted',
-        description: 'You have made a bargain with something dangerous, Keth-Amar, a Wyrd-entity, the Keeper, Scathrach, and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
+        description: 'You have made a bargain with something dangerous, Keth-Amar, a Wyrd-entity, Morvane, Scathrach, and the debt is still outstanding. Every region made a Dark Bargain. Yours was personal. Your power comes from the creditor, and the creditor is patient.',
         icon: 'fas fa-handshake',
         statModifiers: {
             intelligence: 1,
@@ -212,7 +212,7 @@ export const PATH_DATA = {
     wayfarer: {
         id: 'wayfarer',
         name: 'The Wayfarer',
-        description: 'You are a professional traveler, guide, or toll-keeper who knows the routes between regions. The Ordan nomads solved the problem of a starless sky by memorizing the ground. The Ancestor-Span toll-keepers charge passage in bones and promises. The River-Fed Myrathil explore freshwater routes no map records. Your value lies in knowing how to get from here to there alive.',
+        description: 'You are a professional traveler, guide, or toll-keeper who knows the routes between regions. The Ordan nomads solved the problem of a starless sky by memorizing the ground. The Ancestor-Span toll-keepers charge passage in bones and promises. The Brook Myrathil explore freshwater routes no map records. Your value lies in knowing how to get from here to there alive.',
         icon: 'fas fa-route',
         statModifiers: {
             strength: 1,
@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Muren who maintains their rituals is a fortress; a Muren who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Silath who maintains their rituals is a fortress; a Silath who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,

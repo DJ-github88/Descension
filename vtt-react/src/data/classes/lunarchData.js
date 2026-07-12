@@ -10,10 +10,10 @@
 export const LUNARCH_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "unshorn_briaran",
-          "smoothskinned_briaran",
-          "maskborne_mimir",
-          "mistwoven_mimir",
+          "trueborn_briaran",
+          "shorn_briaran",
+          "masked_mimir",
+          "woven_mimir",
           "unwoven_mimir",
           "thalren_human"
       ],
@@ -44,15 +44,15 @@ export const LUNARCH_DATA = {
    * replacement is.
    */
   subraceVariants: {
-    unshorn_briaran: {
-      subraceName: 'Unshorn Briaran',
+    trueborn_briaran: {
+      subraceName: 'Trueborn Briaran',
       title: 'The Thorn-Bound',
-      reframe: `The <LoreLink termId="briaran">Unshorn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Unshorn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Unshorn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
+      reframe: `The <LoreLink termId="briaran">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
       signatureAbility: {
         name: 'Thorn-Debt',
-        description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Unshorn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
+        description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Trueborn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
       },
-      currentCrisisAngle: `The dead-moon-is-a-fallen-star revelation strikes the Unshorn hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the fallen star's brood-siblings. The Unshorn elders fear the fae themselves were parasites all along, that the entire Briaran bloodline is a larval stage. Selene's three-week silence is, the Unshorn believe, her being *called home* to the fallen star she cannot refuse.`,
+      currentCrisisAngle: `The dead-moon-is-a-fallen-star revelation strikes the Trueborn hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the fallen star's brood-siblings. The Trueborn elders fear the fae themselves were parasites all along, that the entire Briaran bloodline is a larval stage. Selene's three-week silence is, the Trueborn believe, her being *called home* to the fallen star she cannot refuse.`,
       signatureQuote: {
         text: '"The fae lent us the thorn and the moon collects the interest. We always knew the lender was older than the loan. We did not know the lender was still hatching."',
         speaker: 'Selene of House Viridane',
@@ -60,51 +60,51 @@ export const LUNARCH_DATA = {
       }
     },
 
-    smoothskinned_briaran: {
-      subraceName: 'Smooth-Skinned Briaran',
+    shorn_briaran: {
+      subraceName: 'Shorn Briaran',
       title: 'The Hidden Moon',
-      reframe: `The <LoreLink termId="briaran">Smooth-Skinned</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Smooth-Skinned Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
+      reframe: `The <LoreLink termId="briaran">Shorn</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Shorn Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
       signatureAbility: {
         name: 'Veiled-Phase',
-        description: `The parasite's phases are suppressed during the day and in company, then erupt violently in isolation or moonlight, the Smooth-Skinned cannot control *when* the phase shifts, only where they are when it happens. Power is potent but catastrophically unpredictable.`
+        description: `The parasite's phases are suppressed during the day and in company, then erupt violently in isolation or moonlight, the Shorn cannot control *when* the phase shifts, only where they are when it happens. Power is potent but catastrophically unpredictable.`
       },
-      currentCrisisAngle: `The elder parasites communicating across hosts is, for the Smooth-Skinned, an *exposure crisis*: the cross-host communication manifests as visible moonlight bleeding through the skin during the day, when the Smooth-Skinned are meant to be passing as human. The hidden moon is becoming impossible to hide, and the Thalren neighbors are beginning to notice that certain people *glow* at night.`,
+      currentCrisisAngle: `The elder parasites communicating across hosts is, for the Shorn, an *exposure crisis*: the cross-host communication manifests as visible moonlight bleeding through the skin during the day, when the Shorn are meant to be passing as human. The hidden moon is becoming impossible to hide, and the Thalren neighbors are beginning to notice that certain people *glow* at night.`,
       signatureQuote: {
         text: '"I hid my thorns to live among you. I hid my moon to live with myself. Now the moon will not stay hidden, and you are looking at me the way I always feared you would."',
         speaker: 'Vael the Smooth',
-        context: 'A Smooth-Skinned Lunarch, the morning after glowing through her sleeves'
+        context: 'A Shorn Lunarch, the morning after glowing through her sleeves'
       }
     },
 
-    maskborne_mimir: {
-      subraceName: 'Mask-Borne Mimir',
+    masked_mimir: {
+      subraceName: 'Masked Mimir',
       title: 'The Moon-Masked',
-      reframe: `The <LoreLink termId="mimir">Mask-Borne</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Mask-Borne are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
+      reframe: `The <LoreLink termId="mimir">Masked</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Masked are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
       signatureAbility: {
         name: 'Lunar-Anchor',
-        description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A Mask-Borne Lunarch can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
+        description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A Masked Lunarch can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
       },
-      currentCrisisAngle: `The dead-moon revelation threatens the Mask-Borne uniquely: if the parasite is one of many siblings communicating across hosts, the Mask-Borne Lunarch's *identity* is being shared with strangers. Several Mask-Borne have reported waking with memories that are not their own, the elder parasites trading identity-fragments between hosts like correspondences. The Mask-Borne fear they are becoming a *collection*, not a person.`,
+      currentCrisisAngle: `The dead-moon revelation threatens the Masked uniquely: if the parasite is one of many siblings communicating across hosts, the Masked Lunarch's *identity* is being shared with strangers. Several Masked have reported waking with memories that are not their own, the elder parasites trading identity-fragments between hosts like correspondences. The Masked fear they are becoming a *collection*, not a person.`,
       signatureQuote: {
         text: '"I wore a mask to remember who I am. Now I wear the moon, and it remembers three other people who are also me. I cannot tell which of us is the original."',
         speaker: 'Veil-Keeper Mir-Tassen',
-        context: 'A Mask-Borne Lunarch, cataloguing memories that arrived overnight'
+        context: 'A Masked Lunarch, cataloguing memories that arrived overnight'
       }
     },
 
-    mistwoven_mimir: {
-      subraceName: 'Mist-Woven Mimir',
+    woven_mimir: {
+      subraceName: 'Woven Mimir',
       title: 'The Sentinel-Moon',
-      reframe: `The <LoreLink termId="mimir">Mist-Woven</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Mist-Woven host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
+      reframe: `The <LoreLink termId="mimir">Woven</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Woven host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
       signatureAbility: {
         name: 'Vigil-Bond',
-        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Mist-Woven Lunarch who abandons their post loses their magic within hours. The moon rewards vigilance and punishes desertion, the parasite *is* the post.`
+        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Woven Lunarch who abandons their post loses their magic within hours. The moon rewards vigilance and punishes desertion, the parasite *is* the post.`
       },
-      currentCrisisAngle: `The elder-parasite communication manifests in the Mist-Woven as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist. The Mist-Woven Lunarchs are being driven to exhaustion by a parasite that will not stop watching, and several have abandoned their actual posts to chase phantom alerts into the deep fog.`,
+      currentCrisisAngle: `The elder-parasite communication manifests in the Woven as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist. The Woven Lunarchs are being driven to exhaustion by a parasite that will not stop watching, and several have abandoned their actual posts to chase phantom alerts into the deep fog.`,
       signatureQuote: {
         text: '"I am the sentinel and the moon is my post. Lately the moon sees things I do not. I do not know if it is lying or if I am going blind."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Mist-Woven Lunarch, the fourth night of phantom alarms'
+        context: 'A Woven Lunarch, the fourth night of phantom alarms'
       }
     },
 
@@ -154,44 +154,44 @@ export const LUNARCH_DATA = {
     founder: {
       name: '<LoreLink termId="selene">Selene of House Viridane</LoreLink>',
       status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="briaran">Briaran</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
-      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star — and the "egg" a folk misunderstanding — has rendered her silence terrifying rather than merely concerning.`
+      note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star  --  and the "egg" a folk misunderstanding  --  has rendered her silence terrifying rather than merely concerning.`
     },
     currentLeader: {
       name: '<LoreLink termId="bri-vessela">Regent Bri-Vessela</LoreLink>',
       title: 'Keeper of the Phases (acting)',
-      characterization: `A senior Unshorn Briaran who has led the Communion in Selene's silence with visible reluctance. She is a theologian, not a politician, and she took the regency only because the alternative was civil war between the caste-factions. She spends her nights at Selene's side, transcribing the dead-language whispers, and her days pretending she understands what they mean.`
+      characterization: `A senior Trueborn Briaran who has led the Communion in Selene's silence with visible reluctance. She is a theologian, not a politician, and she took the regency only because the alternative was civil war between the caste-factions. She spends her nights at Selene's side, transcribing the dead-language whispers, and her days pretending she understands what they mean.`
     },
     headquarters: { name: 'The Moonlit Groves, deep Frostwood Reach', locationId: 'frostwood-reach' },
     crisisConnection: `<LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> is presiding over a Communion that is, quietly, being *called*, the elder parasites communicating across hosts are synchronizing the phases of every Lunarch toward an unknown convergence. Selene's whispers are, <LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> has begun to suspect, not madness but *instructions*: the waking-song of the fallen star, and every Lunarch is a note in it. She does not know whether to stop the convergence or let it come, because no one alive remembers what wakes.`
   },
 
   worldFriction: [
-    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints. The fog that erases Thalren memory feeds the parasite, making the persecution worse.', workaround: 'The Smooth-Skinned Briaran variant survives by passing as human; the Unwoven Mimir variant is already unrecorded and feels little difference. The openly lunar have no workaround, only flight into the deep groves.' },
+    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints. The fog that erases Thalren memory feeds the parasite, making the persecution worse.', workaround: 'The Shorn Briaran variant survives by passing as human; the Unwoven Mimir variant is already unrecorded and feels little difference. The openly lunar have no workaround, only flight into the deep groves.' },
     { region: 'bryngloom-forest', status: 'banned', consequence: 'The Neth consider the lunar parasite an unbound entity outside the First Contract, a Lunarch in Atropolis is treated as a walking contract-breach and detained for "resolution of the unfiled attachment."' }
   ],
 
   overview: {
-    originStory: `Founded in the first centuries of the Dimming by Selene of House Viridane, who bargained with wildwood fae in the moonlit groves to guide her family's escape. Selene, a sister of the forgotten House Viridane, bargained with the wildwood fae in the moonlit groves of the Frostwood, seeking the light of the dead moon to guide her family's escape from the northern vigil keeps. She bound a lunar parasite to her bones, letting its starlight veins wrap around her marrow.
+    originStory: `A lunarch is not a priest. They are a host. An ancient celestial parasite has burrowed into their nervous system and refused to leave. The moon is not a symbol of hope. It is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed.
 
-The fae granted the light, but they took the warmth from her blood. The Lunarch carries a permanent chill in her marrow, unable to feel heat even when standing in forge-fire. Her power fluctuates erratically with the lunar cycles, leaving her weak during the new moon, her skin glowing with a pale silver aura.
+The first host was Selene of House Viridane, who struck the bargain during her family's flight from the northern keeps at the time of the Binding. The six noble houses had marched their firstborn to the peaks to seal the dark bargains with Keth-Amar. House Viridane refused. Selene led her family south through the Frostwood Reach into the moonlit fae groves, and there she bargained with wildwood fae for protection. The fae granted a lunar parasite, a creature of starlight and cold that wrapped around her bones and fed on her warmth. It guided them through the fog. It hid them from Keth-Amar's searching. It also took something Selene has never gotten back.
 
-Shine in the dark. The moon's light is cold, but it is the only guide left in a frozen world. Guide them before the shadows close in.`,
+The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing physical damage as the parasite rearranges their nervous system for the next feeding.
+
+For eight centuries, the parasite bonded only to Briaran bloodlines. The Trueborn Briaran, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Briaran carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Masked finding it replaces their heartwood mask as identity-anchor, the Woven having it bond to the vigil itself, the Unwoven clinging to it as the only thing holding their dissolving edges together. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
+
+The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Briaran elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves during the Deepening. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
     title: "The Lunarch",
     subtitle: "Vessel of the Lunar Parasite",
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: You did not choose this. An ancient celestial parasite has fused with your nervous system. Every three rounds it FORCEFULLY REWRITES your physiology -- dealing 2d6 blight damage as it feeds on a different aspect of your humanity. You are its host. Its hunger is your power.
+      content: `**Who they are**: A host to an ancient celestial parasite that has threaded tendrils of starlight through their nervous system and refuses to leave. The moon is not a symbol of hope  --  it is a cold, alien predator that has been feeding on dying stars since before flesh existed, and it chose them without asking permission.
 
-**Core Mechanic**: Parasitic Phase Cycle -- New Moon (Memory Eater: +3 DR, immune to charm/fear, but -2 attacks, lose 1d4 mana/turn) → Waxing Moon (Sensation Harvest: +1d6 damage, +10ft speed, but take 1d4 blight/turn, no healing) → Full Moon (Sanity Erosion: +2d8 radiant, crit 19-20, ignores 50% DR, but Delirium rolls each turn, -5 max HP/round) → Waning Moon (Vitality Drain: -3 mana costs, vampiric 25%, but -2 DR, -10 max HP)
+**The hook**: Every three rounds the parasite forcibly rewrites your physiology, cycling through four lunar phases  --  memory-eating New Moon, sensation-harvesting Waxing, sanity-eroding Full Moon, and vitality-draining Waning. Each phase grants devastating new abilities but extracts a different nutrient from your body. You must weaponize the horror.
 
-**Gauge, Lunar Flux**: The parasite's feeding cycle bleeds mana and flesh in equal measure. Every natural cycle shift deals 2d6 necrotic. Manual shifts cost 8 mana + 1d8+2 necrotic. Roll on the Transition Shock Table (1d6) every time.
+**The cost**: Standard magical healing deals wyrd damage to you  --  the parasite devours foreign magic. Bludgeoning trauma ruptures your parasite-interlaced organs at +25%. Every phase shift deals damage and forces a roll on the Transition Shock Table. Your body is a crime scene the parasite refuses to leave.
 
-**Fatal Flaw -- Celestial Rejection**: +25% vulnerability to Bludgeoning damage. Standard magical healing deals wyrd damage to you instead of healing (the parasite devours foreign magic). Only your own phase-specific restoration works.
-
-**Unique Utility -- Battlefield Cycle Manipulation**: The only class that can distort the passage of rounds, impose phase-specific vulnerabilities across the entire battlefield, and force enemies to sync with your volatile internal clock.
-
-**Best For**: Players who want to play a tragic, self-destructive tactical mastermind who turns their own suffering into a weapon that warps reality`,
+**Bring one for**: The only class that can warp the passage of rounds on the battlefield, imposing a cosmic feeding cycle on enemies and turning your own parasitic affliction into a weapon that spreads phase-corresponding devastation across the entire fight.`,
     },
 
     description: `The Lunarch is not a priest. The Lunarch is a host -- a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
@@ -223,12 +223,12 @@ The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</Lo
     },
 
     philosophy: {
-      coreTenet: 'We thought the moon — Vael, the old songs called it — was dead, its ghost a pale recording of a celestial body no longer there. The elders have since learned the truth: Vael was never a corpse but a dormant star, a sleeping deity whose slumber has no known cause. When the Broken Seal cracked, the largest fragment of that fallen star broke away and plunged into the Frostwood\'s groves — and from that fragment hatched the lunar parasites now bonded to our bones. Some Lunarch lore still speaks of the fallen star as an "egg," though in truth it was a star, not a shell waiting to hatch; and Keth-Amar itself later nested in the corpse-star\'s hollow. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
+      coreTenet: 'We thought the moon  --  Vael, the old songs called it  --  was dead, its ghost a pale recording of a celestial body no longer there. The elders have since learned the truth: Vael was never a corpse but a dormant star, a sleeping deity whose slumber has no known cause. When the Broken Seal cracked, the largest fragment of that fallen star broke away and plunged into the Frostwood\'s groves  --  and from that fragment hatched the lunar parasites now bonded to our bones. Some Lunarch lore still speaks of the fallen star as an "egg," though in truth it was a star, not a shell waiting to hatch; and Keth-Amar itself later nested in the corpse-star\'s hollow. We drew power from absence because absence was all we understood. Now we must learn to draw power from what is waking.',
       relationship: 'The lunar parasite is not a symbiont, it is a predator that has learned to keep its host alive. It feeds on specific human experiences: the New Moon feeds on hope, the Waxing on anticipation, the Full on ecstasy, the Waning on memory. It cycles through these phases relentlessly, consuming whatever emotional energy the host is producing at that moment. The host is not in control. The parasite decides when to hunt, and the host is left to pick up the pieces of their own psyche afterward.',
       paradox: 'The Lunarch is at their most powerful when the parasite is at its most active, the Full Moon phase brings devastating power, but it consumes the host\'s most precious memories. A Lunarch who cycles through too many Full Moons will forget their own name, their family, their reason for fighting. The parasite remembers for them, but the parasite does not care. It will cheerfully trade a moment of transcendent power for a decade of the host\'s most cherished experiences.'
     },
 
-    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the dead moon was no mere ghost but a fallen star, and the parasites are not the children of an egg — they are the brood hatched from the great fragment that broke off the star and fell into the Frostwood's groves, now bonded to our bones. The "egg" was always a folk misunderstanding of the fallen star.
+    currentCrisis: `The dead moon is calling its children home. For centuries, the lunar parasite that binds to Lunarchs was believed to be a singular entity, a fragment of the long-dead moon that persisted in orbit. The Briaran elders have discovered otherwise: the dead moon was no mere ghost but a fallen star, and the parasites are not the children of an egg  --  they are the brood hatched from the great fragment that broke off the star and fell into the Frostwood's groves, now bonded to our bones. The "egg" was always a folk misunderstanding of the fallen star.
 
 The elder parasites, those bonded to the first Lunarchs, are beginning to communicate with each other across their hosts. They are planning something. Selene of House Viridane has been silent for three weeks, staring at the sky, occasionally whispering in a language that no living person speaks. The Briaran shamans have placed her in isolation, but they cannot stop the parasite from cycling through its phases.       When the next Full Moon comes, they do not know if Selene will still be Selene, or if she will be something the fallen star has been waiting for.`,
 
@@ -1840,7 +1840,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
     {
       "id": "lunarch_void_chill",
       "name": "Silence-Chill",
-      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien — advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien  --  advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
       "level": 3,
       "spellType": "ACTION",
       "icon": "Frost/Ice Shard",
@@ -1851,7 +1851,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "effectTypes": ["utility"],
         "utilityConfig": {
           "utilityType": "environment",
-          "selectedEffects": [ { "id": "void_chill_cold", "name": "Dead-Moon Cold", "description": "For 1 hour: freeze water/crust ice, snuff small flames and heat-signatures, chill/preserve items. Your alien aura grants advantage on Intimidation but disadvantage on Persuasion — you radiate a cold that isn't entirely of this world.", "mechanicsText": "Freeze water/snuff flames; +Intimidation, -Persuasion 1 hour." } ],
+          "selectedEffects": [ { "id": "void_chill_cold", "name": "Dead-Moon Cold", "description": "For 1 hour: freeze water/crust ice, snuff small flames and heat-signatures, chill/preserve items. Your alien aura grants advantage on Intimidation but disadvantage on Persuasion  --  you radiate a cold that isn't entirely of this world.", "mechanicsText": "Freeze water/snuff flames; +Intimidation, -Persuasion 1 hour." } ],
           "duration": 1, "durationUnit": "hours", "concentration": false, "power": "moderate"
         },
         "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
@@ -1860,7 +1860,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       {
         "id": "lunarch_phase_stasis",
         "name": "Phase Stasis",
-        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage — but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
+        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage  --  but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
         "level": 2,
         "spellType": "ACTION",
         "icon": "Utility/Utility",
@@ -1871,7 +1871,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "effectTypes": ["utility"],
         "utilityConfig": {
           "utilityType": "rest",
-          "selectedEffects": [ { "id": "phase_stasis_dormant", "name": "Dormant Parasite", "description": "For up to 4 hours the involuntary cycle pauses: no feeding damage, no phase penalties, advantage on rest recovery. You cannot cast Lunarch spells during stasis. On emergence, roll once on the Transition Shock Table — the parasite wakes hungry.", "mechanicsText": "Pause parasite cycle 4h; advantage on rest; Transition Shock on wake." } ],
+          "selectedEffects": [ { "id": "phase_stasis_dormant", "name": "Dormant Parasite", "description": "For up to 4 hours the involuntary cycle pauses: no feeding damage, no phase penalties, advantage on rest recovery. You cannot cast Lunarch spells during stasis. On emergence, roll once on the Transition Shock Table  --  the parasite wakes hungry.", "mechanicsText": "Pause parasite cycle 4h; advantage on rest; Transition Shock on wake." } ],
           "duration": 4, "durationUnit": "hours", "concentration": false, "power": "moderate"
         },
         "cooldownConfig": { "cooldownType": "long_rest", "cooldownValue": 1 },

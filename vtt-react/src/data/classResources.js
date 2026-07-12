@@ -1274,7 +1274,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
    icon: 'fas fa-dice-d20',
    theme: 'Unpredictability',
    summary: 'Random effects, wild magic, variable damage',
-   flavor: 'The clause the Keeper will not interpret.',
+   flavor: 'The clause Morvane will not interpret.',
    isGradient: true
   }
  ]

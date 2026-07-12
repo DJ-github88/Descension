@@ -1331,7 +1331,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                               }}
                               title="Remove stage"
                             >
-                              Ã—
+                              Ã - 
                             </button>
                           </div>
                         </div>
@@ -1695,7 +1695,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                   className="pf-remove-btn"
                   onClick={() => removeStatPenalty(stat.id)}
                 >
-                  Ã—
+                  Ã - 
                 </button>
               </div>
             ))}
@@ -1892,7 +1892,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                     }}
                     title="Remove effect"
                   >
-                    Ã—
+                    Ã - 
                   </button>
                 )}
 

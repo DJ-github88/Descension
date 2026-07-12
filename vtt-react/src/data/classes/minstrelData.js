@@ -10,9 +10,10 @@ export const MINSTREL_DATA = {
  restrictions: {
   "allowedSubraces": [
    "merryn_human",
-   "breaker_myrathil",
-   "river_myrathil",
-   "deep_myrathil"
+   "shore_myrathil",
+   "brook_myrathil",
+   "deep_myrathil",
+   "clean_vreken"
   ],
   "hardBlocks": [
    "tessen_human",
@@ -47,54 +48,74 @@ export const MINSTREL_DATA = {
   }
  },
 
- breaker_myrathil: {
-  subraceName: 'Breakers-Born Myrathil',
+ shore_myrathil: {
+  subraceName: 'Shore Myrathil',
   title: 'The Shore-Conductor',
-  reframe: `The <LoreLink termId="myrathil">Breakers-Born</LoreLink>, the shore-dwelling diplomats of the Myrathil, conduct the *surf*, not the storm. Their Cadence is the rhythm of the tide-line, the negotiation between sea and shore. Where the Merryn command the deep water, the Breakers-Born mediate the boundary, and their sound-work is gentler, more diplomatic, and far more versatile on land.`,
+  reframe: `The <LoreLink termId="myrathil">Shore</LoreLink>, the shore-dwelling diplomats of the Myrathil, conduct the *surf*, not the storm. Their Cadence is the rhythm of the tide-line, the negotiation between sea and shore. Where the Merryn command the deep water, the Shore mediate the boundary, and their sound-work is gentler, more diplomatic, and far more versatile on land.`,
   signatureAbility: {
   name: 'Tide-Cadence',
-  description: `Cadences are strongest at the waterline, the literal boundary between sea and land, and degrade smoothly with distance from shore. A Breakers-Born Minstrel is the only variant effective *both* on water and inland, the natural diplomat of the tradition.`
+  description: `Cadences are strongest at the waterline, the literal boundary between sea and land, and degrade smoothly with distance from shore. A Shore Minstrel is the only variant effective *both* on water and inland, the natural diplomat of the tradition.`
   },
-  currentCrisisAngle: `The silence has reached the surf, the Breakers-Born heard the deep sea go quiet first, through the tide-line they mediate. They have become the tradition's messengers, carrying the warning inland, but the shore-diplomats are realizing the silence is *spreading up the rivers*. Whatever silenced the sea is following the freshwater inland.`,
+  currentCrisisAngle: `The silence has reached the surf, the Shore heard the deep sea go quiet first, through the tide-line they mediate. They have become the tradition's messengers, carrying the warning inland, but the shore-diplomats are realizing the silence is *spreading up the rivers*. Whatever silenced the sea is following the freshwater inland.`,
   signatureQuote: {
   text: '"The sea stopped speaking and the shore is translating the silence. It says: be afraid. It says it in every language the foam knows."',
   speaker: 'Shore-Mother Mrya',
-  context: 'A Breakers-Born Minstrel, addressing the Merrowport council'
+  context: 'A Shore Minstrel, addressing the Merrowport council'
   }
  },
 
- river_myrathil: {
-  subraceName: 'River-Fed Myrathil',
+ brook_myrathil: {
+  subraceName: 'Brook Myrathil',
   title: 'The Freshwater-Voice',
-  reframe: `The <LoreLink termId="myrathil">River-Fed</LoreLink>, the inland swimmers who traded ocean-depth for freshwater mobility, conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.`,
+  reframe: `The <LoreLink termId="myrathil">Brook</LoreLink>, the inland swimmers who traded ocean-depth for freshwater mobility, conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.
+
+The Thaw-Run is the longest continuous river on Mythrill, flowing from the Cragjaw melt-lakes south through the Sundrift Vale before emptying into the Iceheart Sea near Ironjaw Port. It is the Brook Minstrel's primary trade route and the first waterway to go silent  --  the frequency stopped at the river's mouth and has been creeping upstream ever since, tributary by tributary.`,
   signatureAbility: {
   name: 'Current-Cadence',
-  description: `Cadences are amplified by flowing freshwater and attenuated by still or salt water; a River-Fed Minstrel on a swift river is nearly as potent as a Merryn in a storm. On a lake or the open sea, they are the weakest variant, the wrong element entirely.`
+  description: `Cadences are amplified by flowing freshwater and attenuated by still or salt water; a Brook Minstrel on a swift river is nearly as potent as a Merryn in a storm. On a lake or the open sea, they are the weakest variant, the wrong element entirely.`
   },
-  currentCrisisAngle: `The silence is spreading up the rivers, and the River-Fed are the variant watching it advance in real time, each tributary going mute in sequence, upstream. Some River-Fed Minstrels have begun fleeing *downstream* toward the silent sea, reasoning that the source must be found before it reaches the headwaters. Others are fleeing further inland, toward the mountains, where the rivers are born, and where no Minstrel has ever played.`,
+  currentCrisisAngle: `The silence is spreading up the rivers, and the Brook are the variant watching it advance in real time, each tributary going mute in sequence, upstream. Some Brook Minstrels have begun fleeing *downstream* toward the silent sea, reasoning that the source must be found before it reaches the headwaters. Others are fleeing further inland, toward the mountains, where the rivers are born, and where no Minstrel has ever played.`,
   signatureQuote: {
   text: '"I followed this river from the sea to its birth in the peaks. The silence is chasing me upstream. I am faster. The river is not."',
   speaker: 'Current-Swimmer Ryn',
-  context: 'A River-Fed Minstrel, the day the estuary went quiet behind her'
+  context: 'A Brook Minstrel, the day the estuary went quiet behind her'
   }
  },
 
  deep_myrathil: {
-  subraceName: 'Deep-Born Myrathil',
+  subraceName: 'Deep Myrathil',
   title: 'The Abyss-Resonant',
-  reframe: `The <LoreLink termId="myrathil">Deep-Born</LoreLink>, the abyssal pressure-forgers of the ocean trench, conduct frequencies no surface ear can parse. Their Cadence is subsonic, felt in the bone rather than heard, the deep-water pressure-wave made musical. A Deep-Born Minstrel is, to surface-dwellers, unsettling rather than beautiful: you do not hear them play so much as *vibrate* in sympathy.`,
+  reframe: `The <LoreLink termId="myrathil">Deep</LoreLink>, the abyssal pressure-forgers of the ocean trench, conduct frequencies no surface ear can parse. Their Cadence is subsonic, felt in the bone rather than heard, the deep-water pressure-wave made musical. A Deep Minstrel is, to surface-dwellers, unsettling rather than beautiful: you do not hear them play so much as *vibrate* in sympathy.`,
   signatureAbility: {
   name: 'Pressure-Cadence',
-  description: `Cadences operate below the threshold of hearing, as physical vibration; a Deep-Born Minstrel's effects bypass auditory resistance entirely and cannot be countered by silence or deafness. The cost is range, subsonic effects attenuate fast in shallow water or air.`
+  description: `Cadences operate below the threshold of hearing, as physical vibration; a Deep Minstrel's effects bypass auditory resistance entirely and cannot be countered by silence or deafness. The cost is range, subsonic effects attenuate fast in shallow water or air.`
   },
-  currentCrisisAngle: `The Deep-Born are the variant who know *what* silenced the sea, they felt it, in the deep, before anyone on the surface noticed. They will not say what they felt. The Deep-Born Minstrels have surfaced for the first time in centuries, and they are not performing. They are fleeing, and the look in their bioluminescent eyes is not artistic. Something in the abyss began to sing back.`,
-  signatureQuote: {
-  text: '"You ask why I left the deep. I left because something down there learned my song and is singing it back, in a voice that should not exist. I will not go down again."',
-  speaker: 'Pressure-Forge Myr-Than',
-  context: 'A Deep-Born Minstrel, the first to surface in three hundred years'
-  }
- }
- },
+  currentCrisisAngle: `The Deep are the variant who know *what* silenced the sea, they felt it, in the deep, before anyone on the surface noticed. They will not say what they felt. The Deep Minstrels have surfaced for the first time in centuries, and they are not performing. They are fleeing, and the look in their bioluminescent eyes is not artistic. Something in the abyss began to sing back.`,
+    signatureQuote: {
+    text: '"You ask why I left the deep. I left because something down there learned my song and is singing it back, in a voice that should not exist. I will not go down again."',
+    speaker: 'Pressure-Forge Myr-Than',
+    context: 'A Deep Minstrel, the first to surface in three hundred years'
+    }
+   },
+
+   clean_vreken: {
+    subraceName: 'Clean Vreken',
+    title: 'The Bog-Resonance',
+    reframe: `The <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s fungal network has its own rhythm  --  the pulse of the <LoreLink termId="root_veil">Root-Veil</LoreLink>, the hum of bioluminescent spores, the slow heartbeat of the bog itself. A <LoreLink termId="vreken">Clean Vreken</LoreLink> Minstrel conducts this rhythm, not the sea's. Their music is subterranean, felt in the roots, heard only by those who stand on living mycelium. The Cadences are deep, slow, and patient. A Clean Vreken Minstrel does not perform  --  they resonate. The bog is their instrument.
+
+The Clean Vreken discovered bog-resonance independently through the Root-Veil  --  but they first encountered the Minstrel *concept* through Neth traders at Ironjaw Port, where Tide-Choir performances are a recognized civic attraction. A Clean Vreken trade delegate named **Ysenil Deep-Glow** (the Vreken crypt-keeper) heard a Shore Minstrel perform and spent three years adapting the principles to the Bryngloom's fungal network. The Tide-Choir does not officially recognize the Clean Vreken as Minstrels  --  they have no seats in the Choir  --  but Ysenil's bog-cadences are genuine, and the bog itself vouches for them.`,
+    signatureAbility: {
+    name: 'Bog-Cadence',
+    description: `Cadences are amplified by proximity to active mycelial networks and fungal blooms; a Clean Vreken Minstrel standing on the Root-Veil can synchronize an entire grove's bioluminescence into a single sustained glow-pulse. Inland, on dead ground, away from any mycelium, the same Cadence is a whisper.`
+    },
+    currentCrisisAngle: `The Root-Veil is recoiling, the Marked are being rejected, and the Clean Vreken Minstrels feel it as a *changing rhythm*, the bog's heartbeat skipping, accelerating, running arrhythmic. They are the only Minstrels who can hear what the forest is afraid of, and what they hear is: something is coming that even the Root-Veil does not want to absorb. The Clean Vreken Minstrels are composing a warning in frequencies only the mycelium can carry.`,
+    signatureQuote: {
+    text: '"The sea has its conductors. I have the bog. It does not crash  --  it breathes. And lately, it breathes faster. The forest is running. I cannot yet tell from what."',
+    speaker: 'Root-Resonant Vrek-Syl',
+    context: 'A Clean Vreken Minstrel, the night the Root-Veil\'s rhythm changed'
+    }
+   }
+  },
 
 
  id : "minstrel",
@@ -117,7 +138,7 @@ export const MINSTREL_DATA = {
   characterization: `Named for the vanished founder she never met, <LoreLink termId="mer-lyrisa">Mer-Lyrisa</LoreLink> leads a Choir that has lost its instrument. She is hoarse, sleepless, and obsessed: she has spent every night since the silence began standing at the waterline of <LoreLink termId="merrowport">Merrowport</LoreLink>, listening for a sea that makes no sound. She is beginning to suspect the silence is not absence but *holding breath*.`
  },
  headquarters: { name: 'The Drowned Opera, Merrowport', locationId: 'merrowport' },
- crisisConnection: `<LoreLink termId="mer-lyrisa">Mer-Lyrisa</LoreLink> is holding a collapsing Choir together while the silence spreads up the rivers (the River-Fed variant's crisis). She has forbidden deep-water performances and grounded the Deep-Born who fled the abyss, but she knows the silence is advancing, and that whatever caused it sang back to the Deep-Born in a voice that should not exist. Her only lead is Lyris's recovered lute and the carving about shattering old powers. She is considering playing the note.`
+ crisisConnection: `<LoreLink termId="mer-lyrisa">Mer-Lyrisa</LoreLink> is holding a collapsing Choir together while the silence spreads up the rivers (the Brook variant's crisis). She has forbidden deep-water performances and grounded the Deep who fled the abyss, but she knows the silence is advancing, and that whatever caused it sang back to the Deep in a voice that should not exist. Her only lead is Lyris's recovered lute and the carving about shattering old powers. She is considering playing the note.`
  },
 
  worldFriction: [
@@ -127,25 +148,27 @@ export const MINSTREL_DATA = {
  ],
 
  overview: {
- originStory: `Founded in the first centuries of the Dimming by Lyris the Tide-Singer, who sang a sea-symphony to calm the Iceheart gales at Merrowport. The Merryn sailor Lyris sang a sacred sea-symphony to the churning gales of the Iceheart Sea, calming the waves so her ice-locked vessel could dock at Merrowport. The song was beautiful, but it was a transaction with the deep tides, drawing the freezing currents into her lungs.
+  originStory: `A minstrel tears music from dying dimensions and shapes it into something that can wound, heal, or simply be heard. This is not art. It is a fundamental violation of physics that demands biological payment in return.
 
-The ocean mother accepted the song, but she stole Lyris's spoken voice. The Minstrel can only communicate through melodic whispers or the strings of her lute. Attempting to scream or speak normally causes her throat to bleed and her lungs to fill with salt-water, her melodies carrying the physical weight of the gales.
+The first was Lyris the Tide-Singer, a Merryn sailor aboard the Wind-Wake, a trade-galley carrying whale-oil from Nordhalla to Merrowport. The ship was ice-locked, not unusual for the Iceheart Sea, but the storm that followed the lock was not natural. A gale rose that should have shattered the trapped hull against the ice-floes. The crew had lashed themselves to the mast. Lyris was the only one still singing. She sang a sea-symphony, a cadence constructed from the rhythm of the waves and the frequency of the wind, and the storm stilled. The ocean mother accepted the song. It also took Lyris's spoken voice as payment. She can communicate only through melodic whispers or her lute strings. Attempting to scream causes her throat to bleed and her lungs to fill with saltwater.
 
-Let the chorus rise. The sea has taken your voice, but your song can still shatter the glaciers. Sing until the world listens.`,
+The Tide-Choir that grew from her discovery numbers sixty-four active minstrels, divided into four sections. The Storm-Singers, Merryn practitioners led by Tide-Mistress Mer-Lyrisa, conduct open-water cadences. The Shore-Chorus, Shore Myrathil performers, mediate the boundary between sea and land. The River-Voice, Brook Myrathil practitioners, carry the work up the Thaw-Run, the longest continuous river on Mythrill, flowing from the Cragjaw melt-lakes through the Sundrift Vale to the Iceheart Sea. The Deep-Chamber, Deep Myrathil performers, produce subsonic frequencies felt in bone rather than heard. The Deep-Chamber section has had no active members since the silence began.
+
+The Clean Vreken discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Neth traders at Ironjaw Port. A Clean Vreken named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Clean Vreken branch, but the bog vouches for them.
+
+The Iceheart Sea has fallen silent. The oldest continuous frequency in the known world has stopped. The silence is spreading up the Thaw-Run, tributary by tributary. Lyris vanished the night it began. Her lute was recovered from the water with a carving on its back: "I am looking for the note that shatters the old powers." The Deep Myrathil surfaced not to perform but to flee. Something in the abyss learned their subsonic song and is singing it back to them in a voice that should not exist.`,
  title: "The Minstrel",
  subtitle: "Conductor of Reality's Death Rattle",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The Minstrel does not play music, they tear it screaming from the corpses of dying realities. Each note is a stolen fragment of a collapsing dimension, hoarded and combined into cadences that violate the laws of existence.
+  content: `**Who they are**: A musician who tears notes screaming from the corpses of dying realities  --  each chord is a splinter stolen from a collapsing dimension, hoarded and combined into cadences that violate the laws of existence. The music should not exist. It exists because the Minstrel forces it to.
 
-**Core Mechanic**: Cast builder spells ? Harvest musical notes (I,VII) from unraveling planes ? Combine notes into cadences ? Unleash catastrophic effects that reshape the battlefield
+**The hook**: Harvest musical notes from unraveling planes through builder spells, combine them into cadences, and unleash catastrophic effects that reshape the battlefield. Each accumulated note is a fresh wound torn in the fabric of reality, and each resolved cadence is an act of cosmic mutilation.
 
-**Resource**: Musical Notes (7 types, stack up to 5 each), Mana, and the slow erosion of your own body
+**The cost**: Every note is paid for in the slow erosion of your own body. The instruments are crafted from bone and grief. Your spoken voice was stolen by the sea that first gave you the power  --  you can communicate only in melodic whispers that crumble when you try to scream.
 
-**Playstyle**: Combo-building support with sustained power escalation through accumulated sonic atrocities
-
-**Best For**: Players who enjoy combo systems, the creeping dread of building toward devastation, and the martyrdom of protecting everyone except themselves`,
+**Bring one for**: Combo-building devastation that turns accumulated sonic atrocities into battlefield-reshaping cadences  --  protecting everyone except yourself, and always paying the biological price for every cosmic violation.`,
  },
 
  description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art, it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
@@ -159,7 +182,7 @@ The minstrel's auditory resonance was born on the storm-lashed decks of <LoreLin
 Minstrels are highly celebrated in the floating taverns of <LoreLink termId="merrowport">Merrowport</LoreLink> and the nomadic yurt-camps of the steppe.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Merryn humans and the <LoreLink termId="myrathil">Breakers-Born Myrathil</LoreLink>.
+The class is heavily practiced by the Merryn humans and the <LoreLink termId="myrathil">Shore Myrathil</LoreLink>.
 
 **NOTABLE FIGURES**
 * **Lyris the Tide-Singer**: The sailor whose melodies calmed the Iceheart Sea but left her throat bleeding if she tried to speak.
@@ -180,7 +203,9 @@ The class is heavily practiced by the Merryn humans and the <LoreLink termId="my
 
  currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence, no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
 
-The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world, it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.`,
+The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world, it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.
+
+The Tide-Choir numbers sixty-four active Minstrels  --  one for every note in the old scale  --  divided into four sections. The Storm-Singers (Merryn, led by Mer-Lyrisa herself) conduct open-water cadences. The Shore-Chorus (Shore Myrathil) mediate the boundary. The River-Voice (Brook Myrathil) carry the work inland. The Deep-Chamber (Deep Myrathil) produce the subsonic frequencies no surface ear can detect. The Deep Myrathil section has had no active members since the silence began  --  every single one surfaced within the same week.`,
 
  meaningfulTradeoffs: `Minstrels trade their own voice for their music. The stolen frequencies degrade the larynx, every Cadence performed causes cumulative damage to the vocal cords. Senior Minstrels speak in hoarse whispers, if they can speak at all. Their voices are replaced by their instruments; they communicate through hummed melodies, tapped rhythms, and the expressive language of lute-strings. The irony is not lost on them: they are masters of sound who have sacrificed their own.`,
 
@@ -261,7 +286,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
  immersiveCombatExample: {
   title: "Combat Example: The Perfect Cadence",
-  content: `The bandits hesitate at the sight of a war drum on the battlefield. They do not understand that the rhythm you are about to play is not music — it is a tide. The Iceheart Sea taught Lyris this cadence, and the sea does not negotiate.
+  content: `The bandits hesitate at the sight of a war drum on the battlefield. They do not understand that the rhythm you are about to play is not music  --  it is a tide. The Iceheart Sea taught Lyris this cadence, and the sea does not negotiate.
 
 **The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(1), V(1) from a previous short rest. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
 
@@ -1346,7 +1371,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_inspiring_rhythm",
   name: "Borrowed Rhythm",
   description:
-  "Play a rhythm stolen from a battalion's last charge before it fell — the ghost of their courage lends nearby allies +1 to attack rolls for 1 round, though the original soldiers are dust.",
+  "Play a rhythm stolen from a battalion's last charge before it fell  --  the ghost of their courage lends nearby allies +1 to attack rolls for 1 round, though the original soldiers are dust.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Golden Ring",
@@ -1417,7 +1442,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_minor_cadence",
   name: "Minor Cadence",
   description:
-  "Complete a stolen fragment of melody — the IV-to-I resolution that should bring peace but instead simply stanches the wound long enough for the next atrocity.",
+  "Complete a stolen fragment of melody  --  the IV-to-I resolution that should bring peace but instead simply stanches the wound long enough for the next atrocity.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Radiant Bolt",
@@ -1536,7 +1561,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_uplifting_rhythm",
   name: "Borrowed Cadence",
   description:
-  "A cadence ripped from a celebration in a world that has already ended — the ghost of joy bolsters an ally while generating supertonic notes from the echo.",
+  "A cadence ripped from a celebration in a world that has already ended  --  the ghost of joy bolsters an ally while generating supertonic notes from the echo.",
   spellType: "ACTION",
   icon: "Radiant/Radiant Warrior",
   level: 1,
@@ -1677,7 +1702,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_mending_cadence",
   name: "Mending Cadence",
   description:
-  "Perform the IV-I resolution, the gentlest theft the Minstrel commits — a soothing progression that coaxes flesh to knit and spirit to quiet.",
+  "Perform the IV-I resolution, the gentlest theft the Minstrel commits  --  a soothing progression that coaxes flesh to knit and spirit to quiet.",
   spellType: "ACTION",
   icon: "Healing/Reaching Hand",
   level: 1,
@@ -1767,7 +1792,7 @@ Before combat, decide which cadences you want to prioritize:
 
  { id: "minstrel_healing_hymn",
   name: "Harvested Hymn",
-  description: "Sing a melody that belongs to a reality where wounds heal in hours, not days — the stolen frequency pulls flesh together by force of stolen warmth.",
+  description: "Sing a melody that belongs to a reality where wounds heal in hours, not days  --  the stolen frequency pulls flesh together by force of stolen warmth.",
   spellType: "ACTION",
   icon: "Healing/Golden Heart",
   level: 2,
@@ -1944,7 +1969,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_dissonant_shriek",
   name: "Dissonant Shriek",
   description:
-  "Unleash a scream composed of frequencies that should never share the same air — the discordance tears at the mind while flooding your reservoir with tension notes.",
+  "Unleash a scream composed of frequencies that should never share the same air  --  the discordance tears at the mind while flooding your reservoir with tension notes.",
   spellType: "ACTION",
   icon: "Psychic/Agonizing Scream",
   level: 3,
@@ -2195,7 +2220,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_authentic_cadence",
   name: "Authentic Cadence",
   description:
-  "Execute the grand finale — I to VI to III to I — a progression so complete it wraps nearby allies in a cocoon of stolen stability, healing their wounds and steeling their resolve.",
+  "Execute the grand finale  --  I to VI to III to I  --  a progression so complete it wraps nearby allies in a cocoon of stolen stability, healing their wounds and steeling their resolve.",
   spellType: "ACTION",
   icon: "Healing/Prayer",
   level: 5,
@@ -2610,7 +2635,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_melancholy_melody",
   name: "Melancholy Melody",
   description:
-  "Play a dirge borrowed from a world that drowned — the sorrow seeps into nearby enemies, slowing their movements as submediant and subdominant notes coalesce from their despair.",
+  "Play a dirge borrowed from a world that drowned  --  the sorrow seeps into nearby enemies, slowing their movements as submediant and subdominant notes coalesce from their despair.",
   level: 2,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -2945,7 +2970,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_half_cadence",
   name: "Half Cadence",
   description:
-  "Suspend the progression on the dominant, unresolved and waiting — the harmonic tension crystallizes into a barrier around your allies, absorbing damage until the music decides where to land.",
+  "Suspend the progression on the dominant, unresolved and waiting  --  the harmonic tension crystallizes into a barrier around your allies, absorbing damage until the music decides where to land.",
   level: 5,
   spellType: "ACTION",
   icon: "Force/Force Field",
@@ -3048,7 +3073,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_phrygian_cadence",
   name: "Phrygian Cadence",
   description:
-  "Channel the resolve of every warrior who fought with a broken instrument — the ancient V-IV-I-VII progression grants your allies advantage on all attacks, the ghost of past defiance borrowed for one more battle.",
+  "Channel the resolve of every warrior who fought with a broken instrument  --  the ancient V-IV-I-VII progression grants your allies advantage on all attacks, the ghost of past defiance borrowed for one more battle.",
   level: 5,
   spellType: "ACTION",
   icon: "Radiant/Divine Halo",
@@ -3140,7 +3165,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_neapolitan_sixth",
   name: "Neapolitan Sixth",
   description:
-  "A chord that arrived from a neighboring reality by mistake — its unexpected precision sharpens your allies' aim, increasing critical hit chance as the wrong note proves itself right.",
+  "A chord that arrived from a neighboring reality by mistake  --  its unexpected precision sharpens your allies' aim, increasing critical hit chance as the wrong note proves itself right.",
   level: 6,
   spellType: "ACTION",
   icon: "Radiant/Radiant Bolt",
@@ -3388,7 +3413,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_cacophonous_blast",
   name: "Cacophonous Blast",
   description:
-  "Unleash pure discordance — frequencies so contradictory they cannot coexist in the same space — forcing the universe to choose between the sound and the silence, dealing wyrd damage to all who hear.",
+  "Unleash pure discordance  --  frequencies so contradictory they cannot coexist in the same space  --  forcing the universe to choose between the sound and the silence, dealing wyrd damage to all who hear.",
   level: 7,
   spellType: "ACTION",
   icon: "Psychic/Agonizing Scream",
@@ -4260,7 +4285,7 @@ Before combat, decide which cadences you want to prioritize:
  { id: "minstrel_harmony_strike",
   name: "Harmony Strike",
   description:
-  "Strike with a chord that is wrong in exactly the right way — the harmonic dissonance rips storm damage through the target while shaking loose usable musical notes from the fracture.",
+  "Strike with a chord that is wrong in exactly the right way  --  the harmonic dissonance rips storm damage through the target while shaking loose usable musical notes from the fracture.",
   level: 4,
   spellType: "ACTION",
   icon: "Social/Golden Harp",
@@ -4466,7 +4491,7 @@ Before combat, decide which cadences you want to prioritize:
   {
    "id": "minstrel_mnemonic_chord",
    "name": "Mnemonic Chord",
-   "description": "Play a questioning chord and let the stolen frequencies answer from collective memory. Ask one question of history, magic, language, or local lore; the resonance surfaces what the world still remembers — a name, a date, a translation, a weakness. The deeper or more forgotten the knowledge, the fainter and more fragmentary the answer. Out of combat.",
+   "description": "Play a questioning chord and let the stolen frequencies answer from collective memory. Ask one question of history, magic, language, or local lore; the resonance surfaces what the world still remembers  --  a name, a date, a translation, a weakness. The deeper or more forgotten the knowledge, the fainter and more fragmentary the answer. Out of combat.",
    "level": 2, "spellType": "ACTION", "icon": "Psychic/Focused Mind",
    "typeConfig": { "school": "wyrd", "icon": "Psychic/Focused Mind", "castTime": 1, "castTimeType": "MINUTES", "tags": ["utility","divination","investigation","minstrel"] },
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
@@ -4492,7 +4517,7 @@ Before combat, decide which cadences you want to prioritize:
   {
    "id": "minstrel_buskers_diversion",
    "name": "Busker's Diversion",
-   "description": "Launch into a loud, dazzling street performance — a shimmering, foot-stomping riot of sound and showmanship. Every guard, crowd, or onlooker within range is drawn to watch you, granting your allies a free round of unnoticed movement to sneak, pick a lock, slip past, or position. Ends if violence breaks out. Out of combat.",
+   "description": "Launch into a loud, dazzling street performance  --  a shimmering, foot-stomping riot of sound and showmanship. Every guard, crowd, or onlooker within range is drawn to watch you, granting your allies a free round of unnoticed movement to sneak, pick a lock, slip past, or position. Ends if violence breaks out. Out of combat.",
    "level": 3, "spellType": "ACTION", "icon": "Social/Music Note",
    "typeConfig": { "school": "wyrd", "icon": "Social/Music Note", "castTime": 1, "castTimeType": "IMMEDIATE", "tags": ["utility","social","infiltration","minstrel"] },
    "targetingConfig": { "targetingType": "area", "rangeType": "self_centered", "areaType": "circle", "areaSize": 60 },

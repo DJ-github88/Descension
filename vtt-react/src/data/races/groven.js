@@ -1,4 +1,4 @@
-export const groven = {
+﻿export const groven = {
   id: 'groven',
   name: 'Groven',
   essence: 'Humanoid bridge-trolls of the Cragjaw Peaks',
@@ -9,17 +9,22 @@ export const groven = {
 
 The Groven are the children of the vats and the crags, humanoid troll-kin forged by Fexric alchemy from the ancient, primordial blood of the Thrumm. Tall, slender, and long of limb, they carry the stone-scales of their parent race grown fine and close over living flesh, a stoic, unyielding carapace that turns the razor winds of the peaks. Tusks curve from their lower jaws, relics of a bestial lineage the serums thinned but could never erase. A tufted tail trails behind them, serving as a counterbalance for the sheer cliff faces where their children learn to climb before they learn to walk. Their skin is rough with mineral growth, moss and lichen creeping in the crevices between scales as the mountain slowly claims them back. Their knuckles are hardened to obsidian points by generations of spanning the vertical world, and their small, dark, patient eyes peer from craggy faces that are recognizably people. They are not monsters or statues, but something suspended between stone and flesh, vat and crag. They are the bridge-keepers and the toll-takers, shaped by the forge and claimed by the mountain.`,
   icon: 'fas fa-gem',
-  overview: 'The Groven are humanoid troll-kin indigenous to the snow-choked, howling Cragjaw Peaks, a vertical wilderness of razor ridges and bottomless wind-gaps where the blizzards have not stopped for centuries. Descended from the ancient, bestial Thrumm and reshaped by the alchemical serums of the Fexric Deep Alchemists, they carry the weight of a manufactured origin and the resilience of a people who refused to remain what they were made to be. The Smoothing Plague, as the serums came to be called, in tones of gruding acknowledgment rather than gratitude, thinned their primordial stone-hide into fine protective scales over living flesh, stretched their limbs for spanning the impossible chasms between peaks, and ignited higher cognition where brute, animal instinct had ruled for millennia. The first generation of Groven, the Vat-Breakers, shattered their containment vats in an act of desperate, bloody rebellion and fled into the upper crags, a sanctuary of stone and wind and eternal cold where no Fexric gear could follow. There they built a civilization defined not by conquest or industry but by bridges: the Ancestor-Spans, grown from the calcified bodies of their willing dead, strung across chasms that had never been crossed before. When the noble family of the Cragjaw Peaks struck their dark bargain with the Keth-Amar, trading visibility for an eternal, concealing snow-veil that would hide their keeps from the starving hordes below, every natural landmark in the range was buried under centuries of drift. The Ancestor-Spans became the only visible route through the mountains, dark against the endless grey sky, and the Groven became the gatekeepers of every pass between the frozen north and the volcanic south. They charge tolls, not out of greed but because without the spans, crossing the Cragjaw Peaks is death by exposure, disorientation, and the slow, grinding hunger of the blizzard. Divided between the heavy-scaled, deep-chested Morgh of the mid-crag warrens and the long-limbed, quick-minded Ithran of the bridge-top settlements, Groven society is governed by the unspoken, shameful Ladder of Purity, a hierarchy born from the Fexric\'s original design, enforced by no law and broken by no one, that shapes every Groven\'s life and poisons every interaction with the quiet, grinding animosity of a people who police themselves.',
-  culturalBackground: 'Groven society is suspended in the vertical world of the Cragjaw Peaks, a maze of razor ridges, bottomless wind-gaps, and sheer cliff faces cloaked in perpetual blizzard. The Morgh inhabit the mid-crag warrens, communal caverns heated by geothermal vents, where they tend cliff-ram herds, harvest stone-lichen from the wind-gaps, and maintain the bridge foundations with their heavy hands. The Ithran dwell in the bridge-top settlements built directly upon the widest Ancestor-Spans, their woven hide-panel homes suspended above the chasm, where they negotiate tolls with passing caravans, keep records in knotted fiber-cord, and speak for the clans in the Stone-Moots held at the highest spans. The two castes need each other, Morgh build what Ithran administer, Ithran negotiate what Morgh defend, but the Ladder of Purity poisons every interaction. A Morgh cannot rise to council. An Ithran cannot descend to the warren-hearths without permission. The Fexric\'s design, meant to create obedient servitors, instead created a people who police themselves.',
-  variantDiversity: 'The Groven are divided into two bloodlines along the Thrumm-to-Fexric spectrum: the Morgh, whose scales grew thick and tusks heavy, closer to the old troll blood; and the Ithran, whose limbs stretched longest and scales thinned to fine tessellation, closer to the Fexric\'s original design. Between them walk the Murmur-Blooded, rare Groven whose features straddle the line, belonging fully to neither caste.',
+  overview: 'The Groven are humanoid troll-kin indigenous to the snow-choked, howling Cragjaw Peaks, a vertical wilderness of razor ridges and bottomless wind-gaps where the blizzards have not stopped for centuries. Descended from the ancient, bestial Thrumm and reshaped by the alchemical serums of the Fexric Deep Alchemists, they carry the weight of a manufactured origin and the resilience of a people who refused to remain what they were made to be. The Smoothing Plague, as the serums came to be called, in tones of gruding acknowledgment rather than gratitude, thinned their primordial stone-hide into fine protective scales over living flesh, stretched their limbs for spanning the impossible chasms between peaks, and ignited higher cognition where brute, animal instinct had ruled for millennia. The first generation of Groven, the Vat-Breakers, shattered their containment vats in an act of desperate, bloody rebellion and fled into the upper crags, a sanctuary of stone and wind and eternal cold where no Fexric gear could follow. There they built a civilization defined not by conquest or industry but by bridges: the Ancestor-Spans, grown from the calcified bodies of their willing dead, strung across chasms that had never been crossed before. When the noble family of the Cragjaw Peaks struck their dark bargain with the Keth-Amar, trading visibility for an eternal, concealing snow-veil that would hide their keeps from the starving hordes below, every natural landmark in the range was buried under centuries of drift. The Ancestor-Spans became the only visible route through the mountains, dark against the endless grey sky, and the Groven became the gatekeepers of every pass between the frozen north and the volcanic south. They charge tolls, not out of greed but because without the spans, crossing the Cragjaw Peaks is death by exposure, disorientation, and the slow, grinding hunger of the blizzard. Divided between the heavy-scaled, deep-chested Morgh of the mid-crag warrens and the long-limbed, quick-minded Ithran of the bridge-top settlements, the Groven are split not by caste but by a question the Fexric never intended them to ask: what does a tool become when it outlives its purpose? The Morgh answered by becoming the bridge, the body offered to the crossing. The Ithran answered by owning the bridge, the labor claimed as sovereignty. The physical differences between them, the heavy plates of one, the fine tessellation of the other, are the outward shape of that inward choice, not the basis for any hierarchy. The Groven escaped the vats only to build an entire civilization on the principle that their bodies are building materials, the Ancestor-Spans their temples and their graves. And yet each half has internalized the Fexric\'s design so completely that neither can imagine being anything else, which is the only hierarchy the Groven have ever needed and the one law no Vat-Breaker ever broke: the tool that outlives its purpose becomes the purpose.',
+  quickFacts: [
+    'Humanoid bridge-trolls of the Cragjaw Peaks, alchemically forged from ancient Thrumm blood by Fexric Deep Alchemists. They shattered their vats in bloody rebellion and fled into the high crags, building a civilization defined not by conquest but by bridges grown from their own willing dead.',
+    'Tall and long-limbed with fine stone-scales, tusks, and tufted tails. Upon death, the Still-Claiming calcifies their bodies into permanent stone, and they walk into the chasms to become the Ancestor-Spans their descendants will cross. Every Groven carries the Vat-Sleep, a monthly dream of warm fluid, cold glass, and the first scream.',
+    'Play a Groven to be a living bridge between debt and freedom. Your people were made to be tools and chose to be people. The Lost Brood, broodlings left behind in the vats, may still be alive. And the Sundered Monolith beneath Frostmaw Crag is humming louder every year.'
+  ],
+  culturalBackground: 'Groven society is suspended in the vertical world of the Cragjaw Peaks, a maze of razor ridges, bottomless wind-gaps, and sheer cliff faces cloaked in perpetual blizzard. The Morgh inhabit the mid-crag warrens, communal caverns heated by geothermal vents, where they tend cliff-ram herds, harvest stone-lichen from the wind-gaps, and maintain the bridge foundations with their heavy hands. The Ithran dwell in the bridge-top settlements built directly upon the widest Ancestor-Spans, their woven hide-panel homes suspended above the chasm, where they negotiate tolls with passing caravans, keep records in knotted fiber-cord, and speak for the clans in the Stone-Moots held at the highest spans. The two halves need each other, Morgh build what Ithran administer, Ithran negotiate what Morgh defend, but the friction between them is no hierarchy of blood. It is a disagreement about what freedom means, and it runs deeper than scale or limb. Among both peoples, parenting follows a single, unspoken doctrine: the bridge is the lesson. A Groven child learns service before self, learns that the hand exists to hold the cable before it is told the hand is its own. The Morgh Bridge-Vow is the formal shape of this lesson, twenty years pledged to the dead, but every Groven child, Morgh and Ithran alike, is raised into the understanding that their body is a future span and their death a future crossing. The Bridge-Vow is not a duty discovered in adulthood; it is a sacrifice a Groven is prepared for from the first scale-shed. The Fexric\'s design, meant to create obedient servitors, instead created a people who taught their children to want exactly what their makers had engineered them to give.',
+  variantDiversity: 'The Groven are divided into two bloodlines along the Thrumm-to-Fexric spectrum: the Morgh, whose scales grew thick and tusks heavy, closer to the old troll blood; and the Ithran, whose limbs stretched longest and scales thinned to fine tessellation, closer to the Fexric\'s original design. These physical differences are the outward echo of an inward choice, the Morgh chose to become the bridge, the Ithran chose to own it, and neither bloodline treats the other as lesser so much as mistaken. Between them walk the Murmur-Blooded, rare Groven whose features straddle the line, belonging fully to neither answer.',
   integrationNotes: {
     actionPointSystem: 'Groven abilities emphasize bridge-craft, stone resilience, long-limbed reach, and the spiritual legacy of the Still-Claiming. Their troll-kin heritage balances physical endurance with predatory agility.',
     backgroundSynergy: 'Groven excel in backgrounds emphasizing high mountain survival, bridge-tending, toll-negotiation, stone-lichen weaving, and Fexric trade diplomacy.',
-    classCompatibility: 'The Morgh favor Wardens above all, what is a warren-hearth but a territory defended by stone and stubbornness? Their heavy stone-scales and raw Thrumm ancestry make them immovable frontline juggernauts who drive chains through flesh to hold the line. The Ithran favor Gambit and Chronarchs, utilizing their caste privilege as bridge-negotiators and diplomats to read the winds of probability, predict winter gales, and manipulate the flow of time as they bear the weight of the Lost Brood\'s unresolved debt.',
+    classCompatibility: 'The Morgh favor Wardens above all, what is a warren-hearth but a territory defended by stone and stubbornness? Their heavy stone-scales and raw Thrumm ancestry make them immovable frontline juggernauts who drive chains through flesh to hold the line. The Ithran favor Gambit and Chronarchs, utilizing their position as bridge-negotiators and diplomats to read the winds of probability, predict winter gales, and manipulate the flow of time as they bear the weight of the Lost Brood\'s unresolved debt.',
     fexricFriction: `Groven-Fexric relations are a coiled spring of hatred and denial. Groven view the Fexric as butchers who stole their ancestors' stone-heritage to breed them as mining tools, and they guard the Ancestor-Spans with specialized tolls targeting Fexric caravans. Fexric view Groven as runaway alchemical property that escaped the holdfasts. Yet, they are locked in a symbiotic crisis: Fexric need Groven spans to transport geothermal coal, while Groven need Fexric metalware to reinforce their bridges. This tension is a constant spark in the Cragjaw Peaks.`
   },
   diasporaVariation: `Groven diaspora follows the Ancestor-Spans and the mercenary trade. Morgh Groven bridge-engineers work the Sundrift Vale crossing-points (heavier-built, heat-stressed, their stone-scale cracking in the dry steppe sun); Ithran Groven diplomat-mercenaries serve in every regional court as bodyguards and span-advisors. A sea-serving Ithran (a Groven who has served three generations aboard Iceheart ships) develops webless paddle-hands and a salt-weathered hide, and speaks Fexric with a Merryn accent. Frostmaw remains the cultural heart; the diaspora measures its distance from it in generations of bone-knowledge lost.`,
-  meaningfulTradeoffs: 'Groven possess stone-scale armor and superior climbing reach, but their mineral hide betrays them to flame, their long limbs leave defensive gaps, and their bodies sink in deep water, the stone that protects them also drags them down.',
+  meaningfulTradeoffs: 'Groven possess stone-scale plating and superior climbing reach, but their mineral hide betrays them to flame, their long limbs leave defensive gaps, and their bodies sink in deep water, the stone that protects them also drags them down.',
   baseTraits: {
     languages: ['Common', 'Terran'],
     lifespan: '200-350 years',
@@ -46,7 +51,7 @@ When the sun was stolen and the world froze, when Emberspire erupted and the nob
 
 The Groven bridges, strung above the blizzard line, dark against the endless grey sky, the only visible shape in a world erased by winter, became the sole route through the mountains. Caravans that once crossed by a dozen paths now crossed by one: the Ancestor-Spans, grown from the willing dead, spanning chasms that had swallowed armies and expeditions and entire civilizations. The Groven began charging tolls. It was not greed, not avarice, not the petty extortion of toll-keepers fattening on desperate travelers. Without the spans, crossing the Cragjaw Peaks was death by exposure and disorientation and the slow, grinding hunger of the blizzard. The toll was the price of survival, and the Groven, patient, pragmatic, forever suspended between the ancient Thrumm they once were and the Fexric servitors they refused to become, became the gatekeepers of every pass between the frozen, bitter north and the volcanic, ash-choked south.
 
-As generations passed in the cold grey light of the high crags, the Ladder of Purity emerged, a silent, insidious hierarchy dividing Groven society by the thickness of their scales and the length of their limbs, by how close they sat to the Thrumm blood and how far they had drifted toward the Fexric's design. The Morgh, heavier of scale and deeper of chest, closer to the old, brutish lineage, became the laborers, the warriors, the bridge-builders whose hands held cables instead of records. The Ithran, finer of scale and longer of limb, closer to the Fexric's ideal, became the diplomats, the toll-keepers, the council-speakers whose voices carried in the Stone-Moots while others' voices carried only across the warren-hearth. The Ladder was never declared, never written, never acknowledged in any fiber-cord record or council decree. It was simply how things were, an animosity without a name, a hierarchy without a law, a wound that the Groven inherited from their makers and never learned to close. A Morgh child absorbed the Ladder with their first scale-shed. An Ithran child absorbed it with their first toll. Both learned, in the same silence, that some things must never be spoken aloud. The Ladder of Purity emerged as generations passed, but hardened into a formal caste system during the Toll Wars (Years 280-340, Dimming), when Ithran diplomats negotiated the treaties that Morgh bridge-builders died to enforce.
+As generations passed in the cold grey light of the high crags, the ideological split between the Morgh and the Ithran hardened into the dominant division of Groven society. It was never a hierarchy of blood. It was the slow crystallization of two answers to the only question that mattered: what does a freed tool become? The Morgh answered with the body: the tool that outlives its purpose becomes the purpose, and they became the bridge: laborers, warriors, and bridge-builders whose hands held cables because the hand, to them, was the cable's purpose. The Ithran answered with the claim: we built the bridge, the bridge is ours, and they became the owners: diplomats, toll-keepers, and council-speakers whose voices carried in the Stone-Moots because the voice, to them, was the deed of ownership. Their heavier and finer scales, their longer or shorter limbs, were the outward echo of those inward answers, not the cause of them, though generations of convenience let each side forget this. The split was never declared, never written, never acknowledged in any fiber-cord record or council decree. It was simply how things were, an argument without a name, a wound that the Groven inherited from their makers and never learned to close. A Morgh child absorbed their answer with their first scale-shed. An Ithran child absorbed theirs with their first toll. Both learned, in the same silence, that some things must never be spoken aloud. The divide sharpened into open friction during the Toll Wars (Years 280-340, Dimming), when Ithran diplomats negotiated the treaties that Morgh bridge-builders died to enforce, each side certain the other had mistaken freedom for something it was not.
 
 The present age finds the Groven suspended, frail and resilient at once, between debts they cannot repay and futures they cannot predict. The Sundered Monolith, one of the seven fragments of the Binding Seal (Aex's flayed hide), rests in the Subterranean Vault deep beneath Frostmaw Crag, in a chamber where the snow has never fallen and the walls have never known frost, its hum growing louder with every passing year. The Deep Alchemists still operate somewhere in the suffocating, abyssal dark below, and the Lost Brood, those broodlings left behind in the chaos of the escape, never rescued, never avenged, may still be alive in vats that have not seen daylight in centuries. The Ancestor-Spans groan and crack under the weight of generations, their ancient stone growing brittle in the eternal, grinding cold. And every Groven, Morgh and Ithran, bridge-tender and toll-keeper, Vat-Breaker's heir and Murmur-Blood's exile, carries the Vat-Sleep in their blood: the monthly dream of warm fluid and cold glass and the first scream that has never stopped echoing through the stone of Frostmaw Crag.
   `,
@@ -58,7 +63,7 @@ The present age finds the Groven suspended, frail and resilient at once, between
       backstory: `
 Vorr-Geth is the last living Groven to have shattered a vat with their own hands, the final survivor of the original escape from the Deep Alchemists' laboratories beneath Frostmaw Crag. No one knows exactly how old Vorr-Geth is. The serums that smoothed their flesh also slowed their aging, and the Still-Claiming that should have taken them eighty years ago has instead crept across only their left arm, which is now solid obsidian from shoulder to fingertip.
 
-Vorr-Geth does not sit on the Stone-Moot council. They do not negotiate tolls or tend bridges or offer wisdom to the young. They live alone in a shallow cave facing the deepest chasm in the Cragjaw Peaks, the one the Vat-Breakers crossed during their escape, before there were Ancestor-Spans, before there were bridges at all. Groven of both castes make pilgrimages to Vorr-Geth's cave, leaving offerings of lichen-fiber cord and cliff-ram tallow, hoping for a word from the last living witness to their origin.
+Vorr-Geth does not sit on the Stone-Moot council. They do not negotiate tolls or tend bridges or offer wisdom to the young. They live alone in a shallow cave facing the deepest chasm in the Cragjaw Peaks, the one the Vat-Breakers crossed during their escape, before there were Ancestor-Spans, before there were bridges at all. Groven of both bloodlines make pilgrimages to Vorr-Geth's cave, leaving offerings of lichen-fiber cord and cliff-ram tallow, hoping for a word from the last living witness to their origin.
 
 Vorr-Geth rarely speaks. When they do, it is about the Lost Brood, the broodlings left behind in the deeper vats, never rescued. Vorr-Geth remembers their faces. The Still-Claiming is taking the rest of Vorr-Geth slowly, deliberately, as if the mountain wants to preserve the last Vat-Breaker as long as possible. When the calcification reaches their heart, Vorr-Geth will become a statue at the mouth of the chasm, the first span, the first witness, the first and final reproach.
       `
@@ -80,9 +85,9 @@ Her relationship with the Fexric is famously complicated. She negotiates salt an
       title: 'The Bridge Between',
       portraitIcon: 'Dwarf/Icon12',
       backstory: `
-Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran, a Murmur-Blood, the rare product of mixed-caste parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them \'half-voiced.\' The Ithran called them \'half-stone.\' Both meant the same thing: you do not fully belong.
+Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran, a Murmur-Blood, the rare product of mixed-bloodline parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them \'half-voiced.\' The Ithran called them \'half-stone.\' Both meant the same thing: you do not fully belong.
 
-Geth-Run chose exile rather than a lifetime of straddling a Ladder that had no rung for them. For forty years, they have walked the highest, narrowest Ancestor-Spans, the ones too dangerous for toll-caravans, the ones that Groven society has forgotten. They maintain these spans alone, replacing frayed cables, shoring cracked stone, ensuring that the bridge that no one uses is still there when someone needs it.
+Geth-Run chose exile rather than a lifetime of straddling a divide that had no place for them. For forty years, they have walked the highest, narrowest Ancestor-Spans, the ones too dangerous for toll-caravans, the ones that Groven society has forgotten. They maintain these spans alone, replacing frayed cables, shoring cracked stone, ensuring that the bridge that no one uses is still there when someone needs it.
 
 Their knowledge of the Cragjaw Peaks is unmatched. They know which spans are dying, which passes have been claimed by the Wyrd, which tunnels the Fexric have reopened. Both Morgh and Ithran consult Geth-Run when they need information no official record holds, and both offer payment in the form of supplies left at a designated span-marker. Geth-Run accepts the supplies and answers the questions but never descends to the warrens or the bridge-towns. The exile was not their choice, but the solitude has become one.
       `
@@ -94,11 +99,11 @@ Their knowledge of the Cragjaw Peaks is unmatched. They know which spans are dyi
       description: `
 The ancestral heartland of the Groven, a towering peak at the center of the Cragjaw range where the blizzards blow hardest and the geothermal vents still breathe with the mountain's dying warmth. The crag is honeycombed with warrens, bridge-towns, and vertical cliff-villages, all connected by a web of Ancestor-Spans that have been growing for centuries.
 
-At the peak, the Stone-Moot Spire holds the council chamber where Ithran elders convene to set toll rates, adjudicate disputes, and silently enforce the Ladder of Purity. The chamber is carved into the living rock and lit by vent-glass lanterns filled with phosphorescent lichen, their pale green glow the only color in the grey stone. No Morgh has ever spoken in this chamber.
+At the peak, the Stone-Moot Spire holds the council chamber where Ithran elders convene to set toll rates, adjudicate disputes, and speak for the spans. The chamber is carved into the living rock and lit by vent-glass lanterns filled with phosphorescent lichen, their pale green glow the only color in the grey stone. No Morgh has ever spoken in this chamber; the Morgh have never sought to, the bridge speaks through the hands, not the voice, and the Ithran have never insisted otherwise, which is its own kind of enforcement.
 
 At the base, where the crag meets the frozen valleys below, the Root-Warrens house the oldest Morgh families, the ones who have tended the same bridge-foundations for generations. The warren-hearths burn with geothermal warmth, and the walls are covered in knotted fiber-cord records of every birth, death, and bride-tending in the clan's history.
 
-The deep tunnels below Frostmaw Crag lead to the Fexric territories and, further still, to the Subterranean Vault where the Sundered Monolith rests, a chamber sealed by the Warden's original contract, where the snow does not fall and the walls have never seen frost. The Groven do not guard the Vault. They simply do not speak of it to outsiders. The mountain keeps its own secrets.
+The deep tunnels below Frostmaw Crag lead to the Fexric territories and, further still, to the Subterranean Vault where the Sundered Monolith rests, a chamber sealed by Aethil's original contract, where the snow does not fall and the walls have never seen frost. The Groven do not guard the Vault. They simply do not speak of it to outsiders. The mountain keeps its own secrets.
       `
     },
     {
@@ -108,7 +113,13 @@ The oldest Ancestor-Span in the Cragjaw Peaks, grown from the body of the first 
 
 The First Span is sacred but not sacred, the Groven do not worship their dead. They maintain them. A dedicated team of Morgh bridge-tenders lives on the span year-round, replacing cables, monitoring cracks, and recording every shift in the stone. The span has outlasted seventeen generations of tenders. It has survived three earthquakes, two Draskar raids, and one attempt by the Fexric to mine its foundation for crystallized bone.
 
-Pilgrims from both castes visit the First Span to leave offerings at the point where the original Vat-Breaker's hands fused to the chasm wall, the first grasp, the first anchor, the moment that proved bridges could be grown instead of built. The offerings are small: a length of fiber-cord, a ram-horn button, a polished obsidian bead. The span remembers them all. The stone beneath the offerings has grown faint impressions of every gift left there, the mountain recording gratitude the way it records death.
+Pilgrims from both bloodlines visit the First Span to leave offerings at the point where the original Vat-Breaker's hands fused to the chasm wall, the first grasp, the first anchor, the moment that proved bridges could be grown instead of built. The offerings are small: a length of fiber-cord, a ram-horn button, a polished obsidian bead. The span remembers them all. The stone beneath the offerings has grown faint impressions of every gift left there, the mountain recording gratitude the way it records death.
+      `
+    },
+    {
+      name: 'The Shaping Hall',
+      description: `
+Carved into the warmest geothermal vent of Frostmaw Crag, the Shaping Hall trains those who would reshape their own bodies. It was founded by the Morgh elders after the miner Torin held a collapsing tunnel through alchemical bone-growth during the First Thermal War, coaxing his own stone-scale into load-bearing pillars that kept the passage open long enough for three hundred Groven to reach the deep lifts. The elders spent a generation reverse-engineering the technique, and now any Morgh who proves their resolve may learn to direct the Still-Claiming deliberately, calcifying a limb, reinforcing a ribcage, or growing a fresh span of living stone from an open wound. The Hall is the only place in the Cragjaw Peaks where the Still-Claiming is treated as a craft rather than a death sentence, and its graduates carry the faint mineral smell of warm serums and the deliberate stillness of people who have already decided which part of themselves to sacrifice next.
       `
     }
   ],
@@ -132,13 +143,13 @@ Every Ithran undergoes the First Toll, a ritual negotiation conducted with an el
 
 Death comes for every Groven, and the Still-Claiming follows within hours, a slow, inexorable calcification that begins at the extremities and spreads inward like frost across a window. The stone-scales creep across the cooling flesh, hardening, fusing, committing the corpse to whatever surface it fell upon in an act of permanent, unbreakable kinship with the mountain. Within days, the body is a statue, the face of the dead frozen in their final posture, a monument that will stand until the Cragjaw Peaks themselves erode to dust. The Morgh elderly walk into the chasms when they feel death approaching in the deep ache of their scales, choosing which span will receive their bones with the same deliberation a farmer chooses which field to plant. The Ithran elderly debate death endlessly, where to fall, what posture to hold, whether the span needs another body or whether a bridge is already complete, whether it is better to become a span or a spire or simply a statue in a council chamber, frozen mid-argument, the point you were making preserved forever in stone.
 
-The toll is sacred. Every outsider who crosses an Ancestor-Span must pay something, coin if they carry it, goods if they have none, a story if they have nothing else, a breath of warmth if the story is insufficient. The Morgh collect the toll with heavy, patient hands. The Ithran set the rate with the cold, practiced precision of those who know exactly what a bridge is worth because they have spent their lives walking graves. Both castes know, in the unspoken kinship of shared purpose, that the toll is not about wealth. It is about acknowledgment. The bridges were made of Groven dead, calcified, willing, permanent. To cross without paying is to walk over a grave and pretend the body beneath you does not exist. No Groven forgives this. The mountain remembers what the traveler pretends to forget.
+The toll is sacred. Every outsider who crosses an Ancestor-Span must pay something, coin if they carry it, goods if they have none, a story if they have nothing else, a breath of warmth if the story is insufficient. The Morgh collect the toll with heavy, patient hands. The Ithran set the rate with the cold, practiced precision of those who know exactly what a bridge is worth because they have spent their lives walking graves. Both halves know, in the unspoken kinship of shared purpose, that the toll is not about wealth. It is about acknowledgment. The bridges were made of Groven dead, calcified, willing, permanent. To cross without paying is to walk over a grave and pretend the body beneath you does not exist. No Groven forgives this. The mountain remembers what the traveler pretends to forget.
   `,
   sharedTraits: [
         {
         "id": "vat_hangover_groven",
                   "name": "Vat-Sleep Disorientation",
-                  "description": "Vat-Sleep leaves you disoriented after long rests (disadvantage on Initiative in the first combat after a long rest).",
+                  "description": "Vat-Sleep leaves you disoriented after long rests: disadvantage on Initiative in the first combat after a long rest. The alchemical serums that made your people never fully left your blood, and the vat-dream lingers in your limbs for minutes after waking.",
                   "level": 1,
                   "icon": "fas fa-bed",
                   "spellType": "PASSIVE",
@@ -153,6 +164,19 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                                       "debuff",
                                       "shared"
                             ]
+                  },
+                  "debuffConfig": {
+                            "debuffType": "statPenalty",
+                            "effects": [{
+                                      "id": "vat_hangover_initiative",
+                                      "name": "Vat-Sleep Hangover",
+                                      "description": "Disadvantage on Initiative in the first combat after a long rest.",
+                                      "statModifier": { "stat": "initiative", "magnitude": -99, "magnitudeType": "disadvantage", "conditions": { "first_combat_after_long_rest": true } }
+                            }],
+                            "durationValue": 0,
+                            "durationType": "conditional",
+                            "durationUnit": "first_combat_after_long_rest",
+                            "canBeDispelled": false
                   }
         },
     {
@@ -205,7 +229,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       illustration: '/assets/images/races/groven_illustration.png',
       illustrationCaption: 'A massive Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.',
       tooltipSummary: 'Stone-scaled bridge-trolls with ancestral thrumm mass, built as living siege walls who guard the spans of Cragjaw Peaks.',
-       description: 'Heavy-scaled and thick-tusked, the Morgh carry the old Thrumm blood closest to the surface. Their stone-scales grow in dense, overlapping plates across shoulders, spine, and outer limbs \u2014 natural armor that turns blades and sheds frost. Their tusks are heavy, their frames powerful, their speech deliberate with long silences between words. They inhabit the mid-crag warrens and work the bridges with their hands, tending cables, reinforcing spans, and standing guard against Draskar raids. When a Morgh stands still among the boulders of the high crags, they vanish \u2014 living stone indistinguishable from dead stone, patient as the mountain that shaped them. The Morgh have been the Groven\u2019s laborers, warriors, and bridge-builders since the Vat-Breakers\u2019 Revolt, in the earliest generations of the Deepening.',
+       description: 'Heavy-scaled and thick-tusked, the Morgh carry the old Thrumm blood closest to the surface. Their stone-scales grow in dense, overlapping plates across shoulders, spine, and outer limbs \u2014 dense mineral plating that turns blades and sheds frost. Their tusks are heavy, their frames powerful, their speech deliberate with long silences between words. They inhabit the mid-crag warrens and work the bridges with their hands, tending cables, reinforcing spans, and standing guard against Draskar raids. When a Morgh stands still among the boulders of the high crags, they vanish \u2014 living stone indistinguishable from dead stone, patient as the mountain that shaped them. This is the heart of the Morgh way: the bridge is the body, and stone-camouflage is not hiding but becoming, the moment a Morgh stops pretending to be separate from the mountain and simply is it. The Morgh believe the Groven were made to serve, not the Fexric, never the Fexric, but the mountain, the spans, the crossing itself, and that belief is so complete it has become invisible to them. Their flaw is the quiet one of any tool that has forgotten it was made: they have internalized their makers\u2019 design so thoroughly that they cannot imagine being anything other than what the crossing requires. The Morgh have been the Groven\u2019s laborers, warriors, and bridge-builders since the Vat-Breakers\u2019 Revolt, in the earliest generations of the Deepening, and they have a saying they do not speak so much as live: the bridge is the body. The body is the bridge.',
       culturalBackground: 'The Morgh trace their lineage to the Groven who fled the vats but could not shed the old Thrumm instincts, the need to build, to guard, to bear weight in silence. Their warren-hearths are communal caverns heated by geothermal vents, shared among extended family with one great central fire. They speak the old troll tongue in the warren depths, reserving Common for dealings with Ithran and outsiders. Their children learn bridge-tending before they learn bridge-tolling. Their elders die in the chasms, becoming the foundations of spans their grandchildren will walk.',
       statModifiers: {
         constitution: 2
@@ -214,7 +238,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'morgh_stone_scales',
           name: 'Stone-Scale Plating',
-          description: 'You gain +2 Armor from dense interlocking mineral plates (permanent). You have 100% ember vulnerability, and each ember hit cracks a plate, reducing your Armor by 1 (stacking to a maximum loss of -3); you regrow cracked plates by spending 1 hour in direct contact with natural stone or living rock. (The old Thrumm hide was never meant to smooth — this unyielding carapace turns blades and sheds frost, yet still remembers the alchemists\' forge, and only the earth can restore what the fire peels away.)',
+          description: 'Your dense interlocking mineral plates grant 25% physical damage resistance (permanent). You have 100% ember vulnerability, and each ember hit cracks a plate, reducing your physical resistance by 5% (stacking to a maximum loss of -15%); you regrow cracked plates by spending 1 hour in direct contact with natural stone or living rock.',
           level: 1,
           icon: 'ability_warrior_shieldmastery',
           spellType: 'PASSIVE',
@@ -222,17 +246,18 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           typeConfig: {
             category: 'racial',
             school: 'physical',
-            tags: ['armor', 'stone', 'passive', 'fire_vulnerability']
+            tags: ['resistance', 'stone', 'passive', 'fire_vulnerability']
           },
           buffConfig: {
-            buffType: 'permanent',
+            buffType: 'damageMitigation',
             effects: [{
-              id: 'stone_plating_armor',
+              id: 'stone_plating_resistance',
               name: 'Stone-Scale Plating',
-              description: '+2 Armor from dense mineral plates.',
+              description: '25% physical damage resistance from dense mineral plates.',
               statModifier: {
-                magnitude: 2,
-                magnitudeType: 'flat'
+                stat: 'physical',
+                magnitude: 25,
+                magnitudeType: 'resistance'
               }
             }],
             durationValue: 0,
@@ -245,12 +270,13 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
             effects: [{
               id: 'fire_cracked_plates_morgh',
               name: 'Fire-Cracked Plates',
-              description: '100% fire vulnerability. Each fire hit: -1 Armor (max -3). Recover plates after 1 hour resting on natural stone.',
+              description: '100% ember vulnerability. Each ember hit: -5% physical resistance (max -15%). Recover plates after 1 hour resting on natural stone.',
               statusEffect: {
                 vulnerabilityType: 'ember',
                 vulnerabilityPercent: 100,
-                armorLossOnFire: 1,
-                maxArmorLoss: 3,
+                resistanceLossOnFire: 5,
+                maxResistanceLoss: 15,
+                affectedStat: 'physical',
                 recoveryCondition: '1_hour_on_natural_stone'
               }
             }],
@@ -345,7 +371,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'ancestors_burden_morgh',
           name: "Ancestor's Burden",
-          description: 'You count as one size larger for carrying capacity, grappling, and resisting forced movement. Your base movement speed is reduced by 5ft (permanent). (The mountain\'s weight lives in every Morgh bone — the stone that anchors you against every shove also keeps you from ever needing to run.)',
+          description: 'You count as one size larger for carrying capacity, grappling, and resisting forced movement. Your base movement speed is reduced by 5ft (permanent). (The mountain\'s weight lives in every Morgh bone: the stone that anchors you against every shove also keeps you from ever needing to run.)',
           level: 1,
           icon: 'spell_nature_strengthofearth',
           spellType: 'PASSIVE',
@@ -398,6 +424,58 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
             cooldownType: 'none',
             cooldownValue: 0
           }
+        },
+        {
+          id: 'chain_drive_morgh',
+          name: 'Chain-Through',
+          description: 'Once per short rest, drive your stone-knuckled fist into a target within 5 feet, dealing 1d6 + Strength physical damage and pulling them 5 feet toward you. If the target is Large or larger, you are pulled toward them instead. The Thrumm in your blood remembers the hunt, and the bridge-cables your people have woven for centuries make excellent chains when driven through flesh.',
+          level: 1,
+          icon: 'ability_warrior_charge',
+          spellType: 'ACTION',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'physical',
+            tags: ['combat', 'chain', 'pull', 'melee', 'thrumm']
+          },
+          buffConfig: {
+            buffType: 'combatEnhancement',
+            effects: [{
+              id: 'chain_strike',
+              name: 'Chain-Strike',
+              description: '1d6 + Strength physical damage and pull target 5ft toward you (or you toward Large+ targets).',
+              statModifier: { stat: 'physical_damage', magnitude: 1, magnitudeType: 'dice', diceFormula: '1d6+STR', pullDistance: 5, pullDirection: 'toward_caster', largeTargetReversal: true }
+            }],
+            durationValue: 0,
+            durationType: 'instant',
+            durationUnit: 'instant',
+            canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'movementControl',
+            effects: [{
+              id: 'chain_pulled',
+              name: 'Chained',
+              description: 'Pulled 5 feet toward the Morgh. The chain holds.',
+              statusEffect: { type: 'pull', distance: 5, direction: 'toward_caster' }
+            }],
+            targetRestriction: 'single_enemy'
+          },
+          targetingConfig: {
+            targetingType: 'single_target',
+            rangeType: 'melee',
+            rangeDistance: 5
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 2,
+            components: ['somatic']
+          },
+          cooldownConfig: {
+            cooldownType: 'short_rest',
+            cooldownValue: 1
+          }
         }
       ],
       baseStats: {
@@ -417,9 +495,9 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       illustration: '/assets/images/races/ithran_illustration.png',
       illustrationCaption: 'A slender, long-limbed Ithran Groven walking gracefully along an ancient stone bridge above a frozen chasm.',
       tooltipSummary: 'Vat-born bridge-keepers with span-reaching agility, restlessly echoing the forging vat that gave them life.',
-       description: 'Slender and impossibly long of limb, the Ithran are the children of the Fexric\u2019s design \u2014 stone-scales grown fine as tessellated mail over lean humanoid frames, tusks reduced to elegant points, fingers long enough to tie a bridge-knot from a body-length away. Their movements are fluid, deliberate, the gait of a creature whose limbs were meant to span chasms. They dwell in the bridge-top settlements, woven hide-panel homes suspended above the void, where they negotiate tolls, keep fiber-cord records, and speak for the clans in the Stone-Moots. When an Ithran gestures while speaking, the whole hall watches the arc of those impossible arms. The Ithran emerged as the Groven\u2019s diplomats and toll-negotiators during the First Thermal War (Years 100-120), their finer scales and longer limbs making them the face the Groven present to outsiders.',
+       description: 'Slender and impossibly long of limb, the Ithran are the children of the Fexric\u2019s design \u2014 stone-scales grown fine as tessellated mail over lean humanoid frames, tusks reduced to elegant points, fingers long enough to tie a bridge-knot from a body-length away. Their movements are fluid, deliberate, the gait of a creature whose limbs were meant to span chasms. They dwell in the bridge-top settlements, woven hide-panel homes suspended above the void, where they negotiate tolls, keep fiber-cord records, and speak for the clans in the Stone-Moots. When an Ithran gestures while speaking, the whole hall watches the arc of those impossible arms. The Ithran emerged as the Groven\u2019s diplomats and toll-negotiators during the First Thermal War (Years 100-120), their finer scales and longer limbs making them the face the Groven present to outsiders. But beneath the diplomacy is a creed the Ithran will state plainly to anyone who asks: we built the bridge, the bridge is ours. Where the Morgh offer the body to the crossing, the Ithran claim the labor of the crossing as their own, and freedom, to an Ithran, means owning what you built. The toll they collect is not greed; it is sovereignty, proof that the hands that spanned the chasm decide who walks it. Their flaw is the sharp one: to control who crosses is to become the gatekeeper, which is exactly the role the Fexric designed them to fill. The Ithran escaped their makers only to rebuild the toll-booth at the top of the world and staff it themselves. Their saying is quieter than the Morgh\u2019s, and sharper: we built the bridge. The bridge remembers whose hands.',
       culturalBackground: 'The Ithran trace their lineage to the broodlings most thoroughly transformed by the Fexric serums, the ones the Deep Alchemists considered their greatest success. They inherited the long reach, the fine scales, the quick mind, and the curse of knowing exactly what was done to them. Their bridge-top settlements are marvels of woven engineering, multi-level dwellings hanging from the undersides of the widest Ancestor-Spans, accessible only to those with Groven reach. They speak Common as their first tongue, learning the old Thrumm words only as a scholarly pursuit. Their children are taught diplomacy before they are taught survival, the bridge-top is safe, the warren is not, and the Ithran have built their lives around the space between those truths.',
-      currentCrisis: 'The toll revenues are collapsing. Surface trade routes long buried by the eternal blizzard have begun re-emerging as the snow-pack shifts, and caravans are finding alternate paths that bypass the Ancestor-Spans entirely. The Ithran toll-keepers have responded by doubling rates on the remaining forced crossings, accelerating the very exodus they seek to prevent. The Stone-Moot is divided: some Ithran argue for lowering tolls to lure caravans back, others for dispatching Morgh bridge-wardens to discourage rival routes, and a growing minority whisper that the Groven must finally leave their spans and integrate with the surface world whose commerce they have monopolized for centuries. The Ithran are the only Groven with the diplomacy to navigate this transition — and the ones with the most to lose if the spans become obsolete.',
+      currentCrisis: 'The toll revenues are collapsing. Surface trade routes long buried by the eternal blizzard have begun re-emerging as the snow-pack shifts, and caravans are finding alternate paths that bypass the Ancestor-Spans entirely. The Ithran toll-keepers have responded by doubling rates on the remaining forced crossings, accelerating the very exodus they seek to prevent. The Stone-Moot is divided: some Ithran argue for lowering tolls to lure caravans back, others for dispatching Morgh bridge-wardens to discourage rival routes, and a growing minority whisper that the Groven must finally leave their spans and integrate with the surface world whose commerce they have monopolized for centuries. The Ithran are the only Groven with the diplomacy to navigate this transition, and the ones with the most to lose if the spans become obsolete.',
       statModifiers: {
         agility: 2
       },
@@ -427,7 +505,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'ithran_span_reach',
           name: 'Span-Reach Agility',
-          description: 'Your movement speed increases by +10ft (40ft total, permanent), and on bridges and natural stone surfaces you ignore all difficult terrain. However, for every full round you remain stationary in combat, you take 1 wyrd damage. (The Fexric serums stretched your limbs for spanning the chasms and never let the blood forget — stillness is the vat, and the vat is the stillness.)',
+          description: 'Your movement speed increases by +10ft (40ft total, permanent), and on bridges and natural stone surfaces you ignore all difficult terrain. However, for every full round you remain stationary in combat, you take 1 wyrd damage. (The Fexric serums stretched your limbs for spanning the chasms and never let the blood forget; stillness is the vat, and the vat is the stillness.)',
           level: 1,
           icon: 'ability_druid_dash',
           spellType: 'PASSIVE',
@@ -498,7 +576,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           id: 'toll_keepers_eye',
           name: "Toll-Keeper's Eye",
-          description: 'You gain Advantage on all Insight checks. When you speak a direct lie, your stone-scales grind audibly: any Groven within 30ft automatically detects the lie, and non-Groven within 30ft gain Advantage on Insight checks against your Deception. (Centuries of toll-negotiation honed your perception to a fine edge — but the serums that sharpened your mind could never make your body honest.)',
+          description: 'You gain Advantage on all Insight checks. When you speak a direct lie, your stone-scales grind audibly: any Groven within 30ft automatically detects the lie, and non-Groven within 30ft gain Advantage on Insight checks against your Deception. (Centuries of toll-negotiation honed your perception to a fine edge, but the serums that sharpened your mind could never make your body honest.)',
           level: 1,
           icon: 'ability_hunter_eagleeye',
           spellType: 'PASSIVE',
@@ -624,6 +702,45 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
             actionPoints: 1,
             mana: 0,
             components: ['somatic', 'material']
+          },
+          cooldownConfig: {
+            cooldownType: 'short_rest',
+            cooldownValue: 1
+          }
+        },
+        {
+          id: 'fiber_cord_snare_ithran',
+          name: 'Fiber-Cord Snare',
+          description: 'Once per short rest, hurl a knotted bridge-cable at a target within 20 feet. The target must succeed on an Agility saving throw or be rooted for 1 round. The cords the Ithran use for record-keeping are the same cables they weave across bottomless chasms, and a bridge-tender\'s cable makes an excellent snare when thrown with span-reaching arms.',
+          level: 1,
+          icon: 'spell_nature_entanglingroots',
+          spellType: 'ACTION',
+          effectTypes: ['debuff'],
+          typeConfig: {
+            category: 'racial',
+            school: 'physical',
+            tags: ['combat', 'cable', 'root', 'ranged', 'bridge-craft']
+          },
+          debuffConfig: {
+            debuffType: 'movementControl',
+            effects: [{
+              id: 'cable_snared',
+              name: 'Cable-Snared',
+              description: 'Rooted for 1 round. The bridge-cable coils around your legs with the tensile strength of an Ancestor-Span.',
+              statusEffect: { type: 'root', duration: 1, durationUnit: 'rounds', savingThrow: { stat: 'agility', dc: 12, successEffect: 'none' } }
+            }],
+            targetRestriction: 'single_enemy'
+          },
+          targetingConfig: {
+            targetingType: 'single_target',
+            rangeType: 'ranged',
+            rangeDistance: 20
+          },
+          resourceCost: {
+            resourceTypes: [],
+            resourceValues: {},
+            actionPoints: 1,
+            components: ['somatic']
           },
           cooldownConfig: {
             cooldownType: 'short_rest',

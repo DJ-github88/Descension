@@ -88,7 +88,7 @@ const HotkeyAssignmentPopup = ({ slotIndex, currentHotkey, onAssign, onClose, ac
             >
                 <div className="hotkey-popup-header">
                     <h3>Assign Hotkey</h3>
-                    <button className="hotkey-popup-close" onClick={onClose}>Ã—</button>
+                    <button className="hotkey-popup-close" onClick={onClose}>Ã - </button>
                 </div>
                 <div className="hotkey-popup-content">
                     <div className="hotkey-popup-slot-info">

@@ -826,7 +826,7 @@ const LevelUpChoiceModal = ({
 
                                     >
 
-                                        Ã—
+                                        Ã - 
 
                                     </button>
 

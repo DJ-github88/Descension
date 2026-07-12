@@ -1,7 +1,7 @@
-﻿export const TOKEN_TEMPLATES = {
+export const TOKEN_TEMPLATES = {
 
   // =========================================================================
-  // ANIMIST (6 tokens — one per real summon spell in animistData.js)
+  // ANIMIST (6 tokens  -  one per real summon spell in animistData.js)
   // Class resource: Ancestral Resonance. Totems are stationary (speed 0) and
   // radiate an aura (auraRadius). Specters/guardians are mobile + mentally
   // controlled. spellId values match animist_* spellbook entries exactly.
@@ -114,7 +114,7 @@
     {
       id: 'animist_spectral_guardian',
       name: 'Ancestral Colossus',
-      description: 'The oldest name is spoken, and the first guardian returns — an ancestral colossus of bone and storm, clad in primal fury. It protects the Animist and crushes their foes under mental command.',
+      description: 'The oldest name is spoken, and the first guardian returns  -  an ancestral colossus of bone and storm, clad in primal fury. It protects the Animist and crushes their foes under mental command.',
       level: 10,
       spellId: 'animist_spectral_guardian',
       category: 'beast',

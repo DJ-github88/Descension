@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Pyrofiend Class Data
  *
  * The Damned Conduit, flesh surrendered to Scathrach, the Ashen Sovereign.
@@ -12,7 +12,8 @@ export const PYROFIEND_DATA = {
   "allowedSubraces": [
    "solvarn_human",
    "thrask_emberth",
-   "skald_human"
+   "skald_human",
+   "morgh_groven"
   ],
   "hardBlocks": [
    "neth",
@@ -74,13 +75,29 @@ export const PYROFIEND_DATA = {
   description: `Inferno-Veil generation is *amplified by cold*, a Skald Pyrofiend draws extra power from environments that should be their native element, burning hotter the colder the surroundings. The pact is, mechanically, the inversion of everything Skald biology was built for, and the body resists violently.`
   },
   currentCrisisAngle: `Scathrach's mass collection is, for the Skald Pyrofiends, almost a *relief*, they have been exiles their whole lives, and being claimed by the Ashen Sovereign is, to them, finally belonging to something. The Skald Pyrofiends are not fleeing the collection. They are *walking toward* it, the first home they have ever been promised, and the Skald Council does not know whether to mourn them or consider the problem self-solving.`,
-  signatureQuote: {
-  text: '"Your cold broke me and cast me out. Scathrach\'s fire is the first thing that ever wanted me whole. I am going home. Do not call it damnation when it is the only welcome I have received."',
-  speaker: 'Traitor Skald-Varenn',
-  context: 'A Skald Pyrofiend, the night before walking into Emberspire\'s deepest vent'
-  }
- }
- },
+    signatureQuote: {
+    text: '"Your cold broke me and cast me out. Scathrach\'s fire is the first thing that ever wanted me whole. I am going home. Do not call it damnation when it is the only welcome I have received."',
+    speaker: 'Traitor Skald-Varenn',
+    context: 'A Skald Pyrofiend, the night before walking into Emberspire\'s deepest vent'
+    }
+   },
+
+   morgh_groven: {
+    subraceName: 'Morgh Groven',
+    title: 'The Vat-Ignition',
+    reframe: `A fourth, independent discovery of internal fire. The <LoreLink termId="groven">Deep Alchemists</LoreLink>' serums left alchemical residue in every Morgh vein. A <LoreLink termId="groven">Morgh Groven</LoreLink> Pyrofiend does not pact with <LoreLink termId="scathrach">Scathrach</LoreLink>  -  they ignite the dormant alchemy already circulating in their blood. The fire is their own, not borrowed from a horror. The Inferno Veil rises from self-combustion, not external corruption. The cost is the same: the body burns. But the Morgh variant dies on their own terms, not Scathrach's. This is both their strength and their tragedy  -  no entity collects their debt, so no entity can be bargained with for more time.`,
+    signatureAbility: {
+    name: 'Vat-Ignition',
+    description: `The Inferno Veil is fed by dormant alchemical serums in the Morgh's blood rather than by Scathrach's pact. The Morgh Pyrofiend cannot be compelled by the Wyrd-touched Whisper because they have no patron to whisper  -  but they also gain no Infernal Surge. The Morgh variant sacrifices Scathrach's offensive bonus for total autonomy. The self-damage is identical, but it is their own fire, and that matters.`
+    },
+    currentCrisisAngle: `The Morgh Pyrofiends are watching Scathrach's mass debt-collection with the dispassion of people who never signed. The Vat-Ignition is the only Pyrofiend variant with no creditor  -  but the Deep Alchemists, who seeded the alchemical residue, have not been heard from in centuries. Some Morgh Pyrofiends are beginning to wonder if the Deep Alchemists made them *specifically* for this moment: independent fire, no patron's claim, free to burn when every other Pyrofiend is being called home. The Morgh Groven do not know if they are escapees or the final contingency.`,
+    signatureQuote: {
+    text: '"Scathrach calls its debts. I owe it nothing. The fire in my blood was put there by alchemists who vanished before your grandfather\'s grandfather was born. I burn on my own tab. No one collects."',
+    speaker: 'Morgh Ignis-Vat',
+    context: 'A Morgh Pyrofiend, the night of the mass debt-calling'
+    }
+   }
+  },
 
 
  id : "pyrofiend",
@@ -96,7 +113,7 @@ export const PYROFIEND_DATA = {
   name: "Scathrach, the Ashen Sovereign",
   title: "The Ninth Flame of the Burning Throne",
   description:
-   "Scathrach is not a benevolent patron. It was born during the Binding — a fragment of Aex's flayed hide that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth-Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth-Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
+   "Scathrach is not a benevolent patron. It was born during the Binding  -  a fragment of Aex's flayed hide that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth-Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth-Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
  },
  utility:
   "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels, capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
@@ -131,25 +148,27 @@ export const PYROFIEND_DATA = {
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
  illustrationCaption: "An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
- originStory: `Founded just after the Breach by seven Solvarn occultists who swallowed Wyrd-touched coals of Scathrach when the first pulse failed. The summoner does not command the flame; they submit their flesh to it. In the lightless badlands of Sundale, when the sun-spirit Sol was entombed, a cabal of Solvarn occultists gathered in an obsidian cavern beneath the Emberspire caldera. They did not pray for salvation; they drew a summoning circle in their own blood, using volcanic glass knives to carve the seven sigils of Scathrach, the Ashen Sovereign. They offered their life-force as kindling, inviting the Ninth Flame of the Burning Throne to nest in their bones.
+  originStory: `A pyrofiend has made a deal with Scathrach, the Ashen Sovereign, and the deal is being collected. Scathrach was born during the Binding itself, a fragment of Aex's flayed hide that fell into Emberspire's deepest vent during Sol's entombment. It was corrupted by the Wyrd, grew sentient in the volcanic dark, and served Keth-Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed its own will. It sealed the vent from within. It now despises Keth-Amar for what it was made into and hoards power to wound its former master back. Every pyrofiend pact feeds that hoard.
 
-When the ritual was completed, they swallowed Wyrd-touched coals of pure, burning sulfur. The Wyrd-touched embers did not destroy their flesh, but bound their capillaries in a permanent, glowing lattice of occult channels. Their blood became liquid fire, their bones seared black, and their eyes reflecting the lightless heat of the infernal mantle. They survived the freeze, but they emerged as the first Pyrofiends, living vessels for a parasitic horror-lord.
+The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of the Breach. They carved the seven sigils of the Ashen Sovereign. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire. Their bones seared black. One by one, Scathrach collected their souls. The last was taken forty years ago. No pyrofiend has ever survived to describe what happens when the horror collects a contract.
 
-This occult covenant demands a terrible, escalating price. The sulfurous coal nesting in the host's chest slowly burns away their sanity, whispering forbidden secrets of destruction while demanding more blood, more ash, and more fuel. At the height of their ascension, the host's skin cracks open to reveal molten rock, and they have only minutes before their marrow turns to ash. The Sun-Speakers of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> hunt them down with silver chains, viewing them not just as heretics, but as walking portals to the infernal deep.
+The Inferno Veil measures how much of Scathrach's fire runs through the host at any moment, ascending through ten levels. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, a three-turn death clock begins, the body detonating in a thirty-foot radius and the soul claimed by Scathrach.
 
-Your marrow is the candle. Your blood is the wax. The Ashen Sovereign has written his name in your bones, and the interest is paid in flesh. Burn them before you burn yourself.`,
+Each subrace burns for different reasons. The Solvarn are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Thrask Emberth treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Thrask can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
+
+The Morgh Groven discovered the fire independently, no pact, no Scathrach. They ignite the dormant alchemical serum residue still circulating in Groven veins, the same compounds the Deep Alchemists used to reshape Thrumm into servitors. A Morgh pyrofiend dies on their own terms. No entity collects their debt, so no entity can be bargained with for more time. This is both their strength and their tragedy.
+
+Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.`,
 
  quickOverview: {
   title: "Quick Overview",
-     content: `**What You Need to Know**: You did not study magic. You surrendered your flesh to Scathrach, the Ashen Sovereign — a parasitic Wyrd-intelligence born from a fragment of Aex's hide during the Binding. Your power is a debt paid in blood. The Inferno Veil ascends through 10 levels (0-9), each one rewriting your body into something less human. Climb too high and the corruption kills you. Stay too low and you insult the horror that owns you.
+      content: `**Who they are**: A fire mage who surrendered their flesh to Scathrach, a parasitic Wyrd-intelligence born from Aex's hide. They did not study magic  -  they signed a debt paid in blood, and the Ashen Sovereign has written its name in their bones. Every spell burns the caster as much as the enemy.
 
-**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain ember damage bonus (+1 to +8, then +10 at Level 9 "Scathrach's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation, Wyrd-touched possession) → Use Cooling Ember to descend (imposes Mana Tax) → At Level 5+, make Spirit saves or be forced to attack the nearest living thing (friend or foe)
+**The hook**: Climb a 10-level corruption gauge  -  each tier amplifies your firepower with escalating damage bonuses. Stay low and insult the horror that owns you. Climb high and it may seize control, rewriting your body into something less human with each ascension.
 
-**Resource**: Inferno Veil (0-9 scale, tracked with a single d10 die)
+**The cost**: At corruption level 5+, you must make Spirit saves or be forced to attack the nearest living thing  -  friend or foe. Standard magical healing deals wyrd damage to you instead of restoring health. The sulfurous coal nesting in your chest slowly burns away your sanity, whispering forbidden secrets while demanding more fuel.
 
-**Playstyle**: Risk-reward Wyrd-escalation with catastrophic consequences and friendly-fire risk
-
-**Best For**: Players who thrive on living dangerously, managing escalating self-harm for devastating firepower, and making split-second tactical decisions, and who are comfortable being a potential liability to their own party at high corruption`,
+**Bring one for**: The sheer spectacle of self-destructive firepower. No class delivers higher damage-per-round at the cost of being a potential liability to your own party  -  you are a walking apocalypse that your allies must learn to position around.`,
  },
 
  description: `The Pyrofiend is a chaotic, fire-wielder who has invited a parasitic Wyrd-intelligence, **Scathrach, the Ashen Sovereign**, to nest directly within their marrow. They do not command fire through careful study or sacred grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the horror within constantly claw at their sanity, demanding more heat, more ash, and more fuel.`,
@@ -168,7 +187,7 @@ Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">
 The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn humans.
 
 **NOTABLE FIGURES**
-* **Ignis the First-Singed**: The Thrask miner who first welcomed the Sovereign to protect his deep caldera clan.
+* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Korr forge-priest who catalogued the Solbrand's patterns  -  the Emberth name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): The Thrask miner who first welcomed the Sovereign to protect his deep caldera clan.
 * **Aethelgard the Seared**: A Solvarn occultist who led the Cabal of the Ninth Flame during the solar binding.`
  },
 
@@ -180,7 +199,7 @@ The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn hum
 
  philosophy: {
   coreTenet: 'Fire is not destruction, it is transformation. The Pyrofiend does not burn things to ash. They return them to their original state: raw, formless, potential. Ash is not waste. Ash is the universe\'s memory of what something used to be.',
-   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is patient and deeply curious about mortality, but it is not ancient — it was born with the Breach, and its hunger is still young. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
+   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is patient and deeply curious about mortality, but it is not ancient  -  it was born with the Breach, and its hunger is still young. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
   paradox: 'The Pyrofiend is most powerful when they are closest to permanent death. Every point of Inferno Veil brings them closer to Scathrach\'s embrace, and closer to being consumed entirely. At Veil 9, they have exactly three turns before they cease to exist, their body becoming a permanent conduit for the Ashen Sovereign. The power is intoxicating; the price is oblivion. Every Pyrofiend must decide exactly how much they are willing to burn for victory, knowing that the final flame will be themselves.'
  },
 
@@ -212,12 +231,12 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
 The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are catastrophic: self-damage, movement loss, suffocation, Wyrd-touched possession, and eventually the death clock.
 
 **Weaknesses**:
-- Rime Bait: frost deals +50% damage AND forces your Veil to ascend — cold attackers literally accelerate your death spiral.
+- Rime Bait: frost deals +50% damage AND forces your Veil to ascend  -  cold attackers literally accelerate your death spiral.
 - Death Clock at Veil 9: climb to the top and you have three turns to live, period. Over-ascend and you simply die by your own fire.
-- Wyrd-touched Friendly Fire: at Veil 5+ you may be forced to attack the nearest living thing — friend or foe; your party must position around you like a bomb.
-- No Healing at Veil 6+: Heresy blocks all outside healing — healers cannot save you once you climb past the line.
-- Squishy Furnace: light armor, and escalating self-damage/movement loss at high Veil — you hit the hardest and die the fastest.
-- Burn-Touch (social): you char anything organic you touch — books, cloth, skin, food. You cannot hold a tome, embrace a friend, or eat a normal meal; affection is measured in millimeters of clearance.`
+- Wyrd-touched Friendly Fire: at Veil 5+ you may be forced to attack the nearest living thing  -  friend or foe; your party must position around you like a bomb.
+- No Healing at Veil 6+: Heresy blocks all outside healing  -  healers cannot save you once you climb past the line.
+- Squishy Furnace: light armor, and escalating self-damage/movement loss at high Veil  -  you hit the hardest and die the fastest.
+- Burn-Touch (social): you char anything organic you touch  -  books, cloth, skin, food. You cannot hold a tome, embrace a friend, or eat a normal meal; affection is measured in millimeters of clearance.`
 ,
  },
 
@@ -255,21 +274,21 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Starting State**: Inferno Level: 0/9 | Ember Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
 
-**Turn 1 - First Flames (Inferno: 0 → 1)**
+**Turn 1 - First Flames (Inferno: 0 ? 1)**
 
 *The ice elemental looms before you, frost radiating from its crystalline form. You feel the Wyrd-fire stirring within. Time to let it OUT.*
 
 **Your Action**: Cast "Ember Spark" at Ice Elemental (3 mana, ascends +1 Inferno)
-**Attack Roll**: d20+7 → [16] = Hit!
-**Base Damage**: 1d6 fire → [5] = 5 ember damage
+**Attack Roll**: d20+7 ? [16] = Hit!
+**Base Damage**: 1d6 fire ? [5] = 5 ember damage
 **Inferno Bonus**: +0 (currently at Level 0)
 **DoT Applied**: 1d4 ember damage per round for 2 rounds
 **Total Damage**: **5 ember damage** (plus ongoing burn)
 
 *The spark burrows into the elemental's icy hide. Ice cracks and steam hisses.*
 
-**Inferno Ascension**: 0 → **1** (Ember Spark ascends +1)
-**Ember Damage Bonus**: +0 → **+1**
+**Inferno Ascension**: 0 ? **1** (Ember Spark ascends +1)
+**Ember Damage Bonus**: +0 ? **+1**
 **Drawback (Level 1 - Limbo)**: Minor visual distortions reduce hit chance by 2
 
 **Mana**: 60 - 3 = 57/60
@@ -281,12 +300,12 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Current State**: Inferno: 1/9 | Fire Bonus: +1 | Mana: 57/60 | HP: 45/45
 
-**Turn 2 - Rising Heat (Inferno: 1 → 3)**
+**Turn 2 - Rising Heat (Inferno: 1 ? 3)**
 
 *The frost wraiths swarm. Your tank intercepts most, but you need AREA control.*
 
 **Your Action**: Cast "Cinder Bolt" at Frost Wraith group (8 mana, ascends +2 Inferno, AoE 5ft radius)
-**Damage Roll**: 2d6 + INT fire → [5, 6] + 3 = 14 ember damage
+**Damage Roll**: 2d6 + INT fire ? [5, 6] + 3 = 14 ember damage
 **Inferno Bonus**: +1 (currently at Level 1)
 **Total Damage**: 14 + 1 = **15 ember damage to wraiths in blast**
 
@@ -294,8 +313,8 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Frost Wraiths**: 2 wraiths heavily damaged, 2 wraiths moderately damaged
 
-**Inferno Ascension**: 1 → **3** (Cinder Bolt ascends +2)
-**Ember Damage Bonus**: +1 → **+3**
+**Inferno Ascension**: 1 ? **3** (Cinder Bolt ascends +2)
+**Ember Damage Bonus**: +1 ? **+3**
 **Drawback (Level 3 - Gluttony)**: -10 ft movement, constant fatigue
 
 **Mana**: 57 - 8 = 49/60
@@ -311,12 +330,12 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Current State**: Inferno: 3/9 | Fire Bonus: +3 | Mana: 49/60 | HP: 42/45
 
-**Turn 3 - Wyrd-touched Fury (Inferno: 3 → 5)**
+**Turn 3 - Wyrd-touched Fury (Inferno: 3 ? 5)**
 
 *The fatigue is real, but so is the power. You need MORE. The tank is holding the line, time to go big.*
 
 **Your Action**: Cast "Fireball" at Ice Elemental (12 mana, ascends +2 Inferno, AoE 10ft sphere)
-**Damage Roll**: 3d6 + INT fire → [6, 5, 4] + 3 = 18 ember damage
+**Damage Roll**: 3d6 + INT fire ? [6, 5, 4] + 3 = 18 ember damage
 **Inferno Bonus**: +3 (currently at Level 3)
 **Total Damage**: 18 + 3 = **21 ember damage to elemental and nearby wraiths**
 
@@ -325,12 +344,12 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 **Frost Wraiths**: 2 wraiths DEAD, 2 wraiths destroyed by blast
 **Ice Elemental**: 21 ember damage, HEAVILY DAMAGED
 
-**Inferno Ascension**: 3 → **5** (Fireball ascends +2)
-**Ember Damage Bonus**: +3 → **+5**
+**Inferno Ascension**: 3 ? **5** (Fireball ascends +2)
+**Ember Damage Bonus**: +3 ? **+5**
 **Drawback (Level 5 - Wrath)**: Body cracks, 1d6 bleeding per turn, weakened defenses
 **Infernal Surge Triggered**: Next fire spell deals +2d6 ember damage (Path Passive at Level 5+)
 
-**Bleeding Damage**: 1d6 → [4] = 4 damage
+**Bleeding Damage**: 1d6 ? [4] = 4 damage
 **HP**: 42 - 4 = 38/45
 
 *The transformation accelerates. Your skin begins to crack, revealing MOLTEN VEINS beneath. Small horns sprout from your forehead.*
@@ -342,39 +361,39 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Current State**: Inferno: 5/9 | Fire Bonus: +5 | Mana: 49 - 12 = 37/60 | HP: 38/45
 
-**Turn 4 - Maximum Inferno (Inferno: 5 → 8)**
+**Turn 4 - Maximum Inferno (Inferno: 5 ? 8)**
 
 *Only the ice elemental remains, wounded and desperate. You need MAXIMUM POWER to finish it.*
 
 **Your Action**: Cast "Hellfire Wave" at Ice Elemental (20 mana, ascends +2 Inferno, 30ft cone)
-**Damage Roll**: 8d6 + INT fire → [7, 6, 8, 5, 6, 7, 4, 8] + 3 = 54 ember damage
+**Damage Roll**: 8d6 + INT fire ? [7, 6, 8, 5, 6, 7, 4, 8] + 3 = 54 ember damage
 **Inferno Bonus**: +5 (currently at Level 5)
-**Infernal Surge**: +2d6 → [6, 7] = +13 ember damage
+**Infernal Surge**: +2d6 ? [6, 7] = +13 ember damage
 **Total Damage**: 54 + 5 + 13 = **72 ember damage!**
 
 *You sweep your arms forward. A WAVE OF HELLFIRE engulfs the elemental. It MELTS, screaming, ice becoming steam in an instant.*
 
 **Ice Elemental**: DEAD, OBLITERATED
 
-**Inferno Ascension**: 5 → **7** (Hellfire Wave ascends +2)
+**Inferno Ascension**: 5 ? **7** (Hellfire Wave ascends +2)
 
 *But you're not done. The elemental is dead, but the horror HUNGERs. You cast one more,*
 
 **Second Action**: Cast "Infernal Blast" at surviving Frost Wraith (20 mana, ascends +2)
-**Damage Roll**: 5d6 + INT fire → [6, 5, 4, 6, 5] + 3 = 29 ember damage
+**Damage Roll**: 5d6 + INT fire ? [6, 5, 4, 6, 5] + 3 = 29 ember damage
 **Inferno Bonus**: +7 (currently at Level 7)
 **Total Damage**: 29 + 7 = **36 ember damage!**
 
 *The wraith doesn't just die, it CEASES TO EXIST. Nothing but ash.*
 
-**Inferno Ascension**: 7 → **9** (MAXIMUM INFERNO, Infernal Blast ascends +2 more)
-**Ember Damage Bonus**: +7 → **+10** (The Demon's Bargain, Level 9 grants +10, not +9)
+**Inferno Ascension**: 7 ? **9** (MAXIMUM INFERNO, Infernal Blast ascends +2 more)
+**Ember Damage Bonus**: +7 ? **+10** (The Demon's Bargain, Level 9 grants +10, not +9)
 **Drawback (Level 9 - Treachery)**: 4d8 self-damage per turn, death in 3 turns if not extinguished, disadvantage on all saves
 
 **Mana**: 37 - 20 - 20 = -3... wait, you only had 37 mana. The second cast fails!
 
-**CORRECTION**: You cast Hellfire Wave (20 mana) → Mana: 37 - 20 = 17/60
-**Inferno Ascension**: 5 → **7** (not 9, you don't have mana for the second cast)
+**CORRECTION**: You cast Hellfire Wave (20 mana) ? Mana: 37 - 20 = 17/60
+**Inferno Ascension**: 5 ? **7** (not 9, you don't have mana for the second cast)
 
 *The elemental is DEAD. One frost wraith remains.*
 
@@ -382,7 +401,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Drawback (Level 7 - Violence)**: -15 ft speed, 1d6 suffocation per turn
 
-**Suffocation Damage**: 1d6 → [5] = 5 damage
+**Suffocation Damage**: 1d6 ? [5] = 5 damage
 **HP**: 38 - 5 = 33/45
 
 *Your horns GROW LARGER. Your eyes are PITS OF FLAME. Sulfurous smoke pours from your mouth. The horror is almost fully in control.*
@@ -400,7 +419,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 **HP**: 33 - 8 = 25/45
 
 **Your Action**: Cast "Ember Spark" at Frost Wraith (3 mana, ascends +1)
-**Damage Roll**: 1d6 fire → [5] = 5 ember damage + 1d4 DoT → ongoing
+**Damage Roll**: 1d6 fire ? [5] = 5 ember damage + 1d4 DoT ? ongoing
 **Inferno Bonus**: +7
 **Total Damage**: 5 + 7 = **12 ember damage**
 
@@ -408,8 +427,8 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Frost Wraith**: DEAD
 
-**Inferno Ascension**: 7 → **8** (Ember Spark ascends +1)
-**Ember Damage Bonus**: +7 → **+8**
+**Inferno Ascension**: 7 ? **8** (Ember Spark ascends +1)
+**Ember Damage Bonus**: +7 ? **+8**
 **Drawback (Level 8 - Fraud)**: 2d4 self-damage per turn, disadvantage on Dex checks
 
 **Mana**: 17 - 3 = 14/60
@@ -419,9 +438,9 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *You stand among the melted remains. The horror howls within, demanding you stay. But survival demands control. You cast Cooling Ember.*
 
 **Your Action (After Combat)**: Cast "Cooling Ember" (4 mana, descends -2 Inferno)
-**Inferno Descent**: 8 → **6**
-**Ember Damage Bonus**: +8 → **+6**
-**Healing**: 1d6 + spirit/3 → [5] + 2 = 7 HP
+**Inferno Descent**: 8 ? **6**
+**Ember Damage Bonus**: +8 ? **+6**
+**Healing**: 1d6 + spirit/3 ? [5] + 2 = 7 HP
 **Drawbacks Removed**: Level 8 Fraud (no more 2d4 self-damage, Dex checks restored)
 
 **Mana**: 14 - 4 = 10/60
@@ -432,9 +451,9 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 *But you're still at Level 6, Heresy's curse. You cannot be healed by others. You cast Cooling Ember again.*
 
 **Second Cooling Ember** (4 mana, descends -2 Inferno):
-**Inferno Descent**: 6 → **4**
-**Ember Damage Bonus**: +6 → **+4**
-**Healing**: 1d6 + spirit/3 → [3] + 2 = 5 HP
+**Inferno Descent**: 6 ? **4**
+**Ember Damage Bonus**: +6 ? **+4**
+**Healing**: 1d6 + spirit/3 ? [3] + 2 = 5 HP
 
 **Mana**: 10 - 4 = 6/60
 **HP**: 32 + 5 = 37/45
@@ -453,12 +472,12 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **The Lesson**: Pyrofiend gameplay is about:
 1. **Inferno Ascension**: Started at Level 0, ascended to Level 8 through fire spells
-2. **Damage Scaling**: Level 0 (+0) → Level 1 (+1) → Level 3 (+3) → Level 5 (+5) → Level 7 (+7) → Level 8 (+8)
-3. **Spell Synergy**: Ember Spark (starter DoT) → Cinder Bolt (AoE clear) → Fireball (big AoE) → Hellfire Wave (massive cone nuke)
+2. **Damage Scaling**: Level 0 (+0) ? Level 1 (+1) ? Level 3 (+3) ? Level 5 (+5) ? Level 7 (+7) ? Level 8 (+8)
+3. **Spell Synergy**: Ember Spark (starter DoT) ? Cinder Bolt (AoE clear) ? Fireball (big AoE) ? Hellfire Wave (massive cone nuke)
 4. **Infernal Surge**: The shared Path Passive triggered at Level 5+, adding +2d6 to the Hellfire Wave for 72 total damage
-5. **Drawback Escalation**: Level 1 (hit chance) → Level 3 (movement) → Level 5 (bleeding) → Level 7 (suffocation) → Level 8 (self-damage + Dex loss). **Note: Drawbacks do NOT stack**, you only suffer the penalty of your current level.
+5. **Drawback Escalation**: Level 1 (hit chance) ? Level 3 (movement) ? Level 5 (bleeding) ? Level 7 (suffocation) ? Level 8 (self-damage + Dex loss). **Note: Drawbacks do NOT stack**, you only suffer the penalty of your current level.
 6. **The Demon's Bargain**: Level 9 gives +10 instead of +9, disproportionate power for the final, deadliest drawback (death in 3 of your turns)
-7. **Cooling Ember**: Descended from 8 → 6 → 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
+7. **Cooling Ember**: Descended from 8 ? 6 ? 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
 8. **Resource Tension**: Nearly ran out of mana (6/60 remaining). Ascension costs spells, and spells cost mana.
 
 You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno Levels, each one adding +1 ember damage (+10 at the deadly Level 9) but imposing escalating drawbacks as Scathrach rewrites your body. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. At Level 5, the Wyrd-touched Whisper begins, fail a Spirit save and you may be forced to burn your own allies. You're not a safe class. You are a LIVING WEAPON that is slowly killing its wielder, a Wyrd-touched GLASS CANNON who trades their own blood, mana, and eventually their soul for DEVASTATING POWER.`,
@@ -1997,7 +2016,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_lava_burst",
   name: "Lava Burst",
   description:
-  "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage. The ground does not simply burn, it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT×2.",
+  "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage. The ground does not simply burn, it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT�2.",
   level: 6,
   spellType: "ACTION",
   icon: "Fire/Dripping Lava",
@@ -2217,7 +2236,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_volcanic_eruption",
   name: "Volcanic Eruption",
   description:
-  "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT×2 ember damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera, 16d6 + INT×2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
+  "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT�2 ember damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera, 16d6 + INT�2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
   level: 7,
   spellType: "ACTION",
   icon: "Fire/Flowing Lava",
@@ -2323,7 +2342,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_hellfire_breath",
   name: "Hellfire Breath",
   description:
-  "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat, 10d6 + INT×2 ember damage. This is not a spell. This is regurgitation. The horror has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
+  "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat, 10d6 + INT�2 ember damage. This is not a spell. This is regurgitation. The horror has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
   level: 7,
   spellType: "ACTION",
   icon: "Fire/Flame Burst",
@@ -2481,7 +2500,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_meteor_shower",
   name: "Meteor Shower",
   description:
-  "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT×2 ember damage with explosive force. The ground craters. The air ignites. This is not a spell, it is a natural disaster with your body as the epicenter.",
+  "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT�2 ember damage with explosive force. The ground craters. The air ignites. This is not a spell, it is a natural disaster with your body as the epicenter.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Fiery Comet",
@@ -2550,7 +2569,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_nova",
   name: "Infernal Nova",
   description:
-  "You detonate. Not metaphorically, you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT×2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
+  "You detonate. Not metaphorically, you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT�2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -2600,7 +2619,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_phoenix_flame",
   name: "Phoenix Flame",
   description:
-  "You summon the ghost of a phoenix, or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT×2 ember damage, then the ground itself catches fire: 3d6 + INT/2 ember damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
+  "You summon the ghost of a phoenix, or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT�2 ember damage, then the ground itself catches fire: 3d6 + INT/2 ember damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Rising Inferno",
@@ -2743,7 +2762,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_apocalypse",
   name: "Apocalypse",
   description:
-  "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT×2 ember damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls, the horror's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
+  "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT�2 ember damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls, the horror's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
   level: 9,
   spellType: "ACTION",
   icon: "Utility/Explosive Detonation",
@@ -2897,7 +2916,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_brimstone_teleport",
   name: "Brimstone Teleport",
   description:
-  "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT×2 ember damage to everything within 10 feet of your arrival. The teleport is not travel, it is passing through the horror's maw. You are digested and reborn in fire. The destination does not thank you.",
+  "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT�2 ember damage to everything within 10 feet of your arrival. The teleport is not travel, it is passing through the horror's maw. You are digested and reborn in fire. The destination does not thank you.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Burning Ember",
@@ -3050,7 +3069,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_inferno_mastery",
   name: "Inferno Mastery",
   description:
-  "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT×2 ember damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT×3. This is not a spell. This is what happens when the horror stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
+  "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT�2 ember damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT�3. This is not a spell. This is what happens when the horror stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Fire Orb",
@@ -3209,7 +3228,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
   { id: "pyro_smelters_touch",
     name: "Smelter's Touch",
-    description: "Focus your heat to a precise, surgical point. Smelt, weld, solder, or cut metal — seal a crack, fuse two pieces, repair a mechanism, or slice through a bar. Far finer than brute force; the Pyrofiend as glassblower and smith. You take 1d4 self-damage from the back-heat. Out of combat.",
+    description: "Focus your heat to a precise, surgical point. Smelt, weld, solder, or cut metal  -  seal a crack, fuse two pieces, repair a mechanism, or slice through a bar. Far finer than brute force; the Pyrofiend as glassblower and smith. You take 1d4 self-damage from the back-heat. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
     typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -3221,19 +3240,19 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
   { id: "pyro_ash_reading",
     name: "Ash-Reading",
-    description: "Burn an object or substance to ash and read the Sovereign's memory in what remains — what the thing was, how it was destroyed, who last held it, or the answer to a single question Scathrach deigns to whisper from the smoke. The Ashen Sovereign is honest, never kind, and the smoke-voice costs you 1d4 sanity (wyrd self-damage). Out of combat.",
+    description: "Burn an object or substance to ash and read the Sovereign's memory in what remains  -  what the thing was, how it was destroyed, who last held it, or the answer to a single question Scathrach deigns to whisper from the smoke. The Ashen Sovereign is honest, never kind, and the smoke-voice costs you 1d4 sanity (wyrd self-damage). Out of combat.",
     level: 2, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
     typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 }, components: ["verbal","somatic"], somaticText: "Crumble the object to ash and inhale the question off the smoke" },
     resolution: "NONE", effectTypes: ["utility"],
-    utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "ash_reading_memory", "name": "Sovereign's Memory", "description": "From the ash of a burned object: learn what it was, how it was destroyed, who last held it — OR ask Scathrach one question answered in the smoke (truthful, unkind, partial). Costs 1d4 wyrd self-damage (sanity).", "mechanicsText": "Read an object's end-memory or ask Scathrach 1 question; 1d4 wyrd." } ], power: "moderate" },
+    utilityConfig: { utilityType: "divination", selectedEffects: [ { "id": "ash_reading_memory", "name": "Sovereign's Memory", "description": "From the ash of a burned object: learn what it was, how it was destroyed, who last held it  -  OR ask Scathrach one question answered in the smoke (truthful, unkind, partial). Costs 1d4 wyrd self-damage (sanity).", "mechanicsText": "Read an object's end-memory or ask Scathrach 1 question; 1d4 wyrd." } ], power: "moderate" },
     cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
     tags: ["utility","divination","investigation","pyrofiend"]
   },
   { id: "pyro_cauterize",
     name: "Cauterize",
-    description: "Grip a wound and burn it shut. Stop active bleeding, sear closed a gash, or burn a toxin-laced wound to neutralize a contact poison — painful, scarring field surgery that trades agony for survival. Restores no HP, but stabilizes and prevents bleed/poison progression. Out of combat.",
+    description: "Grip a wound and burn it shut. Stop active bleeding, sear closed a gash, or burn a toxin-laced wound to neutralize a contact poison  -  painful, scarring field surgery that trades agony for survival. Restores no HP, but stabilizes and prevents bleed/poison progression. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Healing/Heart Shield",
     typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","investigation","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -3251,7 +3270,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 20 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], somaticText: "Exhale a flat sheet of rippling heat across your party" },
     resolution: "NONE", effectTypes: ["utility","buff"],
-    utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "cinder_veil_mirage", "name": "Heat Mirage", "description": "For 10 minutes, you and allies within 20 ft gain advantage on Stealth and obscure your exact count/position from distant observers — but only in hot, dry, or smoky conditions. Cold, wet, or wind dissolves the mirage instantly.", "mechanicsText": "Advantage Stealth + obscure position; hot/dry/smoky only, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
+    utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "cinder_veil_mirage", "name": "Heat Mirage", "description": "For 10 minutes, you and allies within 20 ft gain advantage on Stealth and obscure your exact count/position from distant observers  -  but only in hot, dry, or smoky conditions. Cold, wet, or wind dissolves the mirage instantly.", "mechanicsText": "Advantage Stealth + obscure position; hot/dry/smoky only, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
     tags: ["utility","stealth","exploration","pyrofiend"]
   }

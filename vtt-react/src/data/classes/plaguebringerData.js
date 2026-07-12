@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PLAGUEBRINGER CLASS DATA
  *
  * A dark cultivator who sows seeds of rot and pestilence in the flesh of the living.
@@ -54,7 +54,7 @@ export const PLAGUEBRINGER_DATA = {
  drun_neth: {
   subraceName: 'Drun Neth',
   title: 'The Silence-Host',
-  reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. Their state of partial-death means their body no longer fully resists foreign biology; disease *cultivates* in them the way moss cultivates on dead wood. A Drun Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts an substrate.`,
+   reframe: `The <LoreLink termId="neth">Drun Neth</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. The Drun severed their names from the First Contract through the fire-ritual of the Severing. Morvane's pact no longer preserves them  -  the slow decay that the contract once held at bay now creeps through their flesh. This partial-death is not a separate biological state; it is the absence of Morvane's preservation. But what the contract no longer protects, it also no longer regulates. The Drun's decaying flesh has become a legal vacuum  -  and nature, as always, fills vacuums. Their body accepts foreign biology not because it is designed to, but because there is nothing left to reject it. A Drun Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts a substrate.`,
   signatureAbility: {
   name: 'Silence-Cultivation',
   description: `Cultivated diseases take root faster and more virulently in the Drun's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Drun's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
@@ -73,7 +73,7 @@ export const PLAGUEBRINGER_DATA = {
   reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> took to the Plaguebringer path out of pure desperation, the bog's pharmacological resources were their only wield against the Neth contract-economy, and cultivating the hush itself as a weapon was the one act the Neth could not tax. A Morren Plaguebringer does not love disease; they *need* it, the way a debtor needs the one skill their creditor cannot repossess.`,
   signatureAbility: {
   name: 'Debt-Immunity',
-  description: `Cultivated diseases are engineered to be *untaxable*, they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Morren Plaguebringer's Virulence is, by design, the one property the Keeper has no jurisdiction over.`
+  description: `Cultivated diseases are engineered to be *untaxable*, they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Morren Plaguebringer's Virulence is, by design, the one property Morvane has no jurisdiction over.`
   },
   currentCrisisAngle: `As the foundational strain collapses and cultivated diseases turn virulent against the host, the Morren Plaguebringers face a bitter symmetry: the weapon they built to escape debt is now *costing them their lives*, and the Neth have offered to "renegotiate" their contracts in exchange for the cultivation techniques. The Morren are dying of the one freedom they ever had, and their creditors are circling.`,
   signatureQuote: {
@@ -151,30 +151,32 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
  },
 
  worldFriction: [
- { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Root-Veil is rejecting the Marked cultivators and the network is carrying weaponized disease to organisms that never met a Plaguebringer. The Neth Regency has begun classifying Plaguebringer cultivation as "assault on the archive-substrate", a capital offense against the Keeper.', workaround: 'None. A Plaguebringer in the deep Bryngloom is now hunted by the forest they depend on; the only refuge is the Over-Shanty, where the network does not reach.' },
+ { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Root-Veil is rejecting the Marked cultivators and the network is carrying weaponized disease to organisms that never met a Plaguebringer. The Neth Regency has begun classifying Plaguebringer cultivation as "assault on the archive-substrate", a capital offense against Morvane.', workaround: 'None. A Plaguebringer in the deep Bryngloom is now hunted by the forest they depend on; the only refuge is the Over-Shanty, where the network does not reach.' },
  { region: 'everywhere-else', status: 'shunned', consequence: 'Plaguebringers are universally untouchable, their cultivated diseases are contagious enough (even if host-specific) that no settlement permits casual contact. A traveling Plaguebringer is housed outside the walls and trades through intermediaries. This is not persecution; it is quarantine.' }
  ],
 
  overview: {
- originStory: `Founded in the later centuries of the Dimming by Blight-Mother Vespera, who bonded with bog-rot to cure the spore-hush ravaging her family's cave-keeps in the Bryngloom. Vespera the Vreken alchemist bonded with the bog-rot of the Bryngloom to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered the decaying moss of the Sunken Spire, injecting its alchemical bile directly into her veins to act as a counter-toxin.
+  originStory: `A plaguebringer is a living laboratory. The body has been deliberately infected with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming the host. In combat, these afflictions are seeded into enemies, advanced through stages of decay, and harvested at peak virulence. The craft requires the Bryngloom's unique fungal-bog substrate, a biological chemistry found nowhere else on Mythrill.
 
-She cured the hush, but her body became a permanent host for active decay. The Plaguebringer's skin is waxy, pale, and cold, and she must constantly cultivate new diseases within her own tissue to prevent the rot from consuming her own internal organs, transforming her body into a living laboratory.
+The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered decaying moss from the Sunken Spire and injected its alchemical bile directly into her veins. It cured the hush. It also made her body a permanent host for active decay. Her skin became waxy and pale. Her body temperature dropped below normal. She began cultivating new diseases within her own tissue, carefully balancing strains that would destroy an enemy but leave the host intact.
 
-Sicken the world. You are the flask of pestilence, and the rot is your only strength. Spread the seed before you dissolve.`,
+That was three centuries ago. Vespera's foundational bacterial strain, the original rot she pulled from the Sunken Spire, is dying. Cultivated diseases across all practitioners are mutating into forms that attack their hosts. The Root-Veil has begun actively rejecting them. The forest has decided the art is a disease worth curing.
+
+Each subrace hosts the affliction differently. The Drun Neth are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Morren cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
+
+Vespera is bedridden. She has tasked her cultivators with engineering a successor strain before she dies. The project is failing. The Root-Veil is deliberately killing the foundational strain, and the virulent mutations are spreading through the network to organisms that never encountered a plaguebringer at all.`,
  title: "The Plaguebringer",
  subtitle: "Dark Cultivator of Rot & Decay",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**What You Need to Know**: The Plaguebringer channels the horrific forces of disease and rot. By applying base afflictions ("Seeds") and cultivating them through five specific categories of corruption, they build Virulence to execute devastating, tragic finales.
+  content: `**Who they are**: A dark cultivator who treats the battlefield as a garden of rot  -  sowing sickness in enemies and nurturing it through stages of infection until the harvest reaps.
 
-**Core Mechanic**: Apply Seed afflictions → Cast Category spells to advance stages (Stage 1 to 3) → Accumulate Virulence (0-100) → Unleash devastating Harvest executions at high Virulence, paying a heavy toll of vitality and stamina.
+**The hook**: Apply Seed afflictions to enemies, then cultivate them through five categories of corruption from Stage 1 to Stage 3. Build Virulence with every advancing infection  -  the higher it climbs, the more your damage, duration, and spread radius amplify. Unleash devastating Harvest executions at peak Virulence to reap everything you have sown.
 
-**Resource**: Virulence (0-100) - generated by seeding and cultivating diseases. Boosts damage, duration, and spread size as it passes thresholds.
+**The cost**: Your body is a walking infection vector. Every spell drains your own vitality. Purging fire deals catastrophic damage to you. You carry active decay in your flesh  -  waxy skin, warty growths, cold to the touch. Society outlaws you on sight.
 
-**Playstyle**: Attrition-based strategic planner who dominates prolonged battles by turning enemies into infectious vectors.
-
-**Best For**: Players who crave dark fantasy folklore, tactical setup-and-payoff loops, and playing as an oppressive, inevitable force of decay.`,
+**Bring one for**: Unmatched attrition warfare  -  turn enemies into infectious vectors and watch the pandemic consume entire encounters. No other class fights by turning the enemy's own body against them with such creeping, inevitable finality.`,
  },
 
   description: `The Plaguebringer is a grim, tragic practitioner of corruption who treats the battlefield as a garden of rot. By sowing seeds of sickness in their enemies and nurturing them through stages of infection, they cultivate a creeping pandemic. However, this dark garden demands constant sacrifice; casting their spells drains the Plaguebringer's own vitality and leaves them vulnerable to purging fire.`,
@@ -236,12 +238,12 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 **Complexity**: High. Requires precise tracking of affliction stages, Virulence thresholds, and managing cultivation tolls.
 
 **Weaknesses**:
-- Ember-Purged: fire damage immediately purges your garden, stripping your life-draining siphons — a torch or a single ember spell can gut your entire kit in one hit.
+- Ember-Purged: fire damage immediately purges your garden, stripping your life-draining siphons  -  a torch or a single ember spell can gut your entire kit in one hit.
 - Slow Burn: your damage is exponential but back-loaded; fast, bursty enemies kill you before the garden ever blooms.
 - Virulence Volatility: your power scales with Virulence, but the gauge decays without kills and a fight with no siphon target leaves it empty and your DoTs weak.
-- Purge-Sensitive: at low Virulence your seeds are dispellable — a single cleansing effect can erase turns of setup.
+- Purge-Sensitive: at low Virulence your seeds are dispellable  -  a single cleansing effect can erase turns of setup.
 - Physically Fragile: moderate-low survivability and vulnerable to focused physical damage; a martial that reaches you folds you fast.
-- Untouchable (social): you are contagious and outlawed — permanent physical isolation, flinched from, barred from cities. You cannot touch your allies, hold a dying hand, or tend the sick without risk of passing the rot.`
+- Untouchable (social): you are contagious and outlawed  -  permanent physical isolation, flinched from, barred from cities. You cannot touch your allies, hold a dying hand, or tend the sick without risk of passing the rot.`
 ,
  },
 
@@ -264,7 +266,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
   title: "Combat Example: Sowing the Rot",
   content: `**The Setup**: You face a cluster of three armored knights in a damp dungeon corridor. Your party stands behind you. You start at 0 Virulence and 60/60 Mana.
 
-**Turn 1 - Sowing the Seeds (Virulence: 0 → 15)**
+**Turn 1 - Sowing the Seeds (Virulence: 0 ? 15)**
 *Your veins burn with black bile as you trace a rot-sigil in the air. The knights advance, unaware of the garden taking root in their marrow.*
 - **Action**: Cast "Wasting Curse" on the lead Knight (3 mana, 1 AP).
 - **Flesh Toll**: You take 2 blight damage as the sigil sears your palm.
@@ -272,7 +274,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 - **Virulence Generated**: +15 (Seed applied).
 - **State**: Lead Knight is infected (Stage 0). Caster HP: 58/60. Virulence: 15.
 
-**Turn 2 - Cultivating the Rot (Virulence: 15 → 30)**
+**Turn 2 - Cultivating the Rot (Virulence: 15 ? 30)**
 *The knight coughs, a dark ichor dripping from his visor. You advance the plague.*
 - **Action**: Cast "Enfeebling Fog" (4 mana, 1 AP) centering on the infected Knight.
 - **Flesh Toll**: Your pores leak damp fog, slowing your movement speed by 5ft.
@@ -280,7 +282,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 - **Virulence Generated**: +15 (Affliction cultivated).
 - **State**: Lead Knight at Stage 1 (Weaken). All knights in fog have DR reduced. Virulence: 30 (Sprouting threshold met).
 
-**Turn 3 - The Bloom and Spread (Virulence: 30 → 55)**
+**Turn 3 - The Bloom and Spread (Virulence: 30 ? 55)**
 *The lead knight staggers under his rotting armor. The rot wants to spread.*
 - **Action**: Cast "Infectious Sores" (6 mana, 1 AP) on the lead Knight.
 - **Flesh Toll**: You take 5 blight damage as your skin blisters in sympathy.
@@ -288,7 +290,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 - **Virulence Generated**: +25 (Affliction advanced + contagion spread).
 - **State**: Lead Knight at Stage 2 (Fester). Adjacent knights infected (Stage 0). Virulence: 55 (Blooming threshold met).
 
-**Turn 4 - Peak Harvest (Virulence: 55 → 80)**
+**Turn 4 - Peak Harvest (Virulence: 55 ? 80)**
 *The garden is fully realized. Three infected hosts stand before you, shivering with rot. It is time for the harvest.*
 - **Action**: Cast "Necrotic Eruption" (34 mana, 3 AP).
 - **Flesh Toll**: Black blood erupts from your nose; you take 20 blight damage.
@@ -304,9 +306,9 @@ The cause is unclear. Some blame the Silence contamination spreading through the
  subtitle: "Cultivating the Inevitable Decay",
  description: `The Plaguebringer's power is governed by Virulence, a scale representing the saturation of rot in the local area. Instead of immediate spells, they apply base Seeds and nurture them through five distinct thematic categories of decay. As Virulence climbs, the entire garden intensifies.
 
-⚠️ **PURGING FLAMES**: Purity is your absolute doom. Any source of ember damage instantly clears all active Seeds and affliction stages from targets within its area, setting your Virulence back to 0. 
+?? **PURGING FLAMES**: Purity is your absolute doom. Any source of ember damage instantly clears all active Seeds and affliction stages from targets within its area, setting your Virulence back to 0. 
 
-⚠️ **VIRULENCE ECONOMY**: Your power is measured in Virulence (0-100), generated by seeding and cultivating diseases and spent on devastating Harvests. Some advanced spells carry side-effects — a movement slow or temporary stat debuff from the rot you host — but the gauge, not your blood, is the price.`,
+?? **VIRULENCE ECONOMY**: Your power is measured in Virulence (0-100), generated by seeding and cultivating diseases and spent on devastating Harvests. Some advanced spells carry side-effects  -  a movement slow or temporary stat debuff from the rot you host  -  but the gauge, not your blood, is the price.`,
 
  cards: [
   {
@@ -316,13 +318,13 @@ The cause is unclear. Some blame the Silence contamination spreading through the
   },
   {
   title: "Affliction Stages (0-3)",
-  stats: "Seed → Cultivated → Final",
+  stats: "Seed ? Cultivated ? Final",
   details: "Spells apply a Stage 0 Seed. Category spells advance the Seed by 1 stage. At Stage 3, the affliction assumes a devastating, permanent final archetype."
   },
   {
   title: "Flesh Tolls",
    stats: "Self-Injury",
-   details: "Active spells generate and spend Virulence. Some advanced cultivations carry side-effects (slows, stat debuffs) from the rot you host — but your HP is not the currency."
+   details: "Active spells generate and spend Virulence. Some advanced cultivations carry side-effects (slows, stat debuffs) from the rot you host  -  but your HP is not the currency."
   }
  ],
 
@@ -336,7 +338,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
   content: `The manipulation of biological rot is a parasitic process. The Plaguebringer's body acts as the primary incubator, meaning they suffer severe feedback when push comes to shove.
 
 **HP and Attribute Tolls**:
-Many Plaguebringer cultivations carry side-effects — temporary Agility or Strength reductions from the rot you host, or a movement slow. These represent the strain of channeling decay, not a health cost; Virulence is the currency, not your HP.
+Many Plaguebringer cultivations carry side-effects  -  temporary Agility or Strength reductions from the rot you host, or a movement slow. These represent the strain of channeling decay, not a health cost; Virulence is the currency, not your HP.
 
 **The Fire Purge**:
 The greatest weakness of the garden is heat. If any target carrying your afflictions takes ember damage, or if a Fire-based zone (like a fireball or wall of fire) covers them, the heat immediately burns away all rot. The affliction is cleansed, and your Virulence drops by 15 per cleansed target. Plan your party composition carefully,allies with ember magic will ruin your harvest.
@@ -2104,7 +2106,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   classResource: { type: "virulence", gain: 10 }
   },
   damageConfig: {
-  formula: "All affliction DoT sums × virulence multiplier",
+  formula: "All affliction DoT sums � virulence multiplier",
   elementType: "blight",
  damageTypes: ["blight", "wyrd"],
   resolution: "AUTOMATIC"
@@ -2164,7 +2166,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   classResource: { type: "virulence", gain: 5 }
   },
   damageConfig: {
-  formula: "8d8 + (affliction stages × 2d8)",
+  formula: "8d8 + (affliction stages � 2d8)",
   elementType: "wyrd",
   damageTypes: ["wyrd"],
   resolution: "DICE",
@@ -2313,7 +2315,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   classResource: { type: "virulence", gain: 5 }
   },
   damageConfig: {
-  formula: "8d6 + (active afflictions × 2d6)",
+  formula: "8d6 + (active afflictions � 2d6)",
   elementType: "blight",
   damageTypes: ["blight"],
   resolution: "DICE",
@@ -2443,7 +2445,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    somaticText: "Channel plaguebringer through gesture",
   },
   damageConfig: {
-  formula: "Consumed Afflictions × 4d8 necrotic (max 8)",
+  formula: "Consumed Afflictions � 4d8 necrotic (max 8)",
   elementType: "blight",
   damageTypes: ["blight"],
   resolution: "AUTOMATIC"
@@ -2752,7 +2754,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   // ===== NON-COMBAT / ROT & MYCELIUM UTILITY (the gardener of decay, out of combat) =====
   { id : "pb_rot_touch",
     name: "Rot-Touch",
-    description: "Lay a hand on dead organic matter — a rope, a leather hinge, a wooden door, a plank, a corpse — and accelerate its decay a thousandfold. Rope crumbles, leather splits, softwood fails, and a corpse rots to clean bone and sludge in minutes (disposing of evidence). Living tissue and treated/magical materials resist. Out of combat.",
+    description: "Lay a hand on dead organic matter  -  a rope, a leather hinge, a wooden door, a plank, a corpse  -  and accelerate its decay a thousandfold. Rope crumbles, leather splits, softwood fails, and a corpse rots to clean bone and sludge in minutes (disposing of evidence). Living tissue and treated/magical materials resist. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
     typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2764,19 +2766,19 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_mycelium_sense",
     name: "Mycelium-Web Sense",
-    description: "Press bare skin to bare earth or root and listen through the Ghost-Mycelium. For the duration you feel every creature that treads on connected ground within range — footsteps, weight, direction, and the sharp sting of the Wyrd-touched. Stone, deep water, and dead/warded earth break the web. Out of combat.",
+    description: "Press bare skin to bare earth or root and listen through the Ghost-Mycelium. For the duration you feel every creature that treads on connected ground within range  -  footsteps, weight, direction, and the sharp sting of the Wyrd-touched. Stone, deep water, and dead/warded earth break the web. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Nature/Nature Natural 11",
     typeConfig: { school: "blight", icon: "Nature/Nature Natural 11", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","exploration","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Press palm and forehead to the earth and breathe with the rot" },
     resolution: "NONE", effectTypes: ["utility"],
-    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "mycelium_sense_tremor", name: "Fungal Tremorsense", description: "For 10 minutes, sense creatures moving on connected earth/root within 120 ft — weight, direction, count, and whether Wyrd-touched. Stone, deep water, dead earth, and warded ground break the web.", "mechanicsText": "Fungal tremorsense on connected ground, 120 ft, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
+    utilityConfig: { utilityType: "perception", selectedEffects: [ { id: "mycelium_sense_tremor", name: "Fungal Tremorsense", description: "For 10 minutes, sense creatures moving on connected earth/root within 120 ft  -  weight, direction, count, and whether Wyrd-touched. Stone, deep water, dead earth, and warded ground break the web.", "mechanicsText": "Fungal tremorsense on connected ground, 120 ft, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","detection","exploration","investigation","plaguebringer"]
   },
   { id : "pb_plague_reader",
     name: "Plague-Reader",
-    description: "Taste a drop of blood, breath, or sweat, or run a fingertip over a substance, and read the disease, poison, or affliction written there — what it is, its cause, how far it has progressed, and whether it is contagious. Your body already hosts every illness you understand; you recognize them by sympathy. Out of combat.",
+    description: "Taste a drop of blood, breath, or sweat, or run a fingertip over a substance, and read the disease, poison, or affliction written there  -  what it is, its cause, how far it has progressed, and whether it is contagious. Your body already hosts every illness you understand; you recognize them by sympathy. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Psychic/Focused Mind",
     typeConfig: { school: "blight", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2788,7 +2790,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_counter_culture",
     name: "Counter-Culture",
-    description: "From your own living substrate, culture a counter-strain to a disease or poison you have diagnosed: an antidote, a neutralizing spore, or a break-fever. You host the counter-disease briefly to brew it, then deliver it to cure the afflicted. The plaguebringer as healer — by suffering the cure. Out of combat.",
+    description: "From your own living substrate, culture a counter-strain to a disease or poison you have diagnosed: an antidote, a neutralizing spore, or a break-fever. You host the counter-disease briefly to brew it, then deliver it to cure the afflicted. The plaguebringer as healer  -  by suffering the cure. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
     typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -2800,7 +2802,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_cadaver_puppet",
     name: "Cadaver-Puppet",
-    description: "Seed a fresh corpse with pestilence and heave it upright as a shambling, mindless servant for an hour. It obeys simple commands — carry, pull a lever, walk ahead to spring traps, block a doorway, or provide a grisly distraction. It cannot fight meaningfully and collapses when its rot runs dry. Out of combat.",
+    description: "Seed a fresh corpse with pestilence and heave it upright as a shambling, mindless servant for an hour. It obeys simple commands  -  carry, pull a lever, walk ahead to spring traps, block a doorway, or provide a grisly distraction. It cannot fight meaningfully and collapses when its rot runs dry. Out of combat.",
     level: 3, spellType: "ACTION", icon: "Necrotic/Death Mark",
     typeConfig: { school: "blight", icon: "Necrotic/Death Mark", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","infiltration","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },

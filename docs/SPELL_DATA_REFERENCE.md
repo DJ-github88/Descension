@@ -1,4 +1,4 @@
-# Spell Data Structure Reference & AI Generation Guide
+﻿# Spell Data Structure Reference & AI Generation Guide
 
 > **THE single source of truth for creating, validating, and formatting spells in Mythrill VTT.**
 > This file unifies ALL formatting rules, wizard step mappings, card rendering expectations,
@@ -118,7 +118,7 @@ If you have an effectType but no config, the card shows empty/broken.
 damageTypes: ['ember']
 damageTypes: ['ember', 'blight']
 
-// WRONG — will not render damage type badge:
+// WRONG  -  will not render damage type badge:
 damageType: 'ember'          // singular, deprecated
 damageTypes: 'ember'         // string, not array
 ```
@@ -466,7 +466,7 @@ utilityConfig: {
 }
 ```
 
-### choiceConfig (Optional — "Choose One" Table)
+### choiceConfig (Optional  -  "Choose One" Table)
 
 When a utility effect requires the player to pick from multiple options, use `choiceConfig` instead of (or alongside) `selectedEffects`. The card renders choices as a numbered option table.
 
@@ -502,7 +502,7 @@ utilityConfig: {
 }
 ```
 
-**Rendering:** The card shows a styled table with a "CHOOSE ONE" header row, followed by numbered rows (`1. Danger Sense — Learn direction...`, `2. Fate Glimpse — Learn if...`, etc.). If `note` is provided, it appears in italics beneath the header.
+**Rendering:** The card shows a styled table with a "CHOOSE ONE" header row, followed by numbered rows (`1. Danger Sense  -  Learn direction...`, `2. Fate Glimpse  -  Learn if...`, etc.). If `note` is provided, it appears in italics beneath the header.
 
 **Backward compatibility:** When `choiceConfig` is present, the card renders it instead of `selectedEffects`. If both are present, `choiceConfig` takes precedence. If only `selectedEffects` exists, it renders as before (a bulleted list of effects).
 
@@ -1076,11 +1076,11 @@ Run this against EVERY spell. Fix any violation.
 - [ ] **`savingThrow.ability`** uses valid ability name (strength/agility/constitution/intelligence/spirit/charisma)
 - [ ] **`savingThrow.saveOutcome`** uses valid outcome (negates/half_damage/no_effect/damage_on_fail/reduced_duration)
 - [ ] **Trap spells** have `spellType: 'TRAP'` and `trapConfig` with required fields
-- [ ] **`typeConfig.school` matches actual damage types** — NOT a legacy alias like `'force'` unless the spell actually deals that legacy type (normalizer stops at school, ignores damageConfig.damageTypes)
-- [ ] **Dual-damage-type spells have `typeConfig.secondaryElement`** — without it, the second type is invisible to the card
-- [ ] **No `formula: 'SPECIAL'`** — must be readable dice notation (e.g., `'2d8 × stacks'`)
-- [ ] **Prophecy DoT effects use `damagePerRound`** — ProphecySummary reads `prophesied.effect.damagePerRound`, NOT `dotFormula`
-- [ ] **Prophecy descriptions have exact numbers** — not vague text like "massive damage"
+- [ ] **`typeConfig.school` matches actual damage types**  -  NOT a legacy alias like `'force'` unless the spell actually deals that legacy type (normalizer stops at school, ignores damageConfig.damageTypes)
+- [ ] **Dual-damage-type spells have `typeConfig.secondaryElement`**  -  without it, the second type is invisible to the card
+- [ ] **No `formula: 'SPECIAL'`**  -  must be readable dice notation (e.g., `'2d8 × stacks'`)
+- [ ] **Prophecy DoT effects use `damagePerRound`**  -  ProphecySummary reads `prophesied.effect.damagePerRound`, NOT `dotFormula`
+- [ ] **Prophecy descriptions have exact numbers**  -  not vague text like "massive damage"
 
 ---
 
@@ -1092,7 +1092,7 @@ Run this against EVERY spell. Fix any violation.
 > Apex (Huntress), Augur (Oracle), Animist (Primalist+Witch Doctor+Inscriptor), with Titan folded
 > into Warden (Monolith spec) and Dreadnaught into Martyr (Ironclad spec).
 >
-> **The engine key in the table below is the source of truth** — it is what `ClassResourceBar.jsx`
+> **The engine key in the table below is the source of truth**  -  it is what `ClassResourceBar.jsx`
 > and `classResources.js` read. The "Display name" is the lore label. Some classes' lore uses a
 > fancier name than the canonical key (e.g. Berserker lore says "Blood-Heat" but the canonical key
 > is `rage`); the key wins.
@@ -1763,8 +1763,8 @@ When a proc is enabled, the card displays a dedicated **"Chance on Hit"** descri
 
 The wizard has TWO mechanics structures that coexist:
 
-1. **`effectMechanicsConfigs`** (per-effect, primary) — keyed by effect ID strings
-2. **`mechanicsConfig`** (global, legacy) — card-level cards/combos/coins/prophecy
+1. **`effectMechanicsConfigs`** (per-effect, primary)  -  keyed by effect ID strings
+2. **`mechanicsConfig`** (global, legacy)  -  card-level cards/combos/coins/prophecy
 
 ## Per-Effect Mechanics (`effectMechanicsConfigs`)
 
@@ -2279,7 +2279,7 @@ These are wizard features that the spell card does NOT currently render:
 |---|---|---|
 | *(none remaining)* | All 8 previously-unrendered features now render | See rendering details below |
 
-### Previously Unrendered — Now Fixed (May 2026)
+### Previously Unrendered  -  Now Fixed (May 2026)
 | Feature | Renders As | Location on Card |
 |---|---|---|
 | `effectResolutions` | Resolution badge (e.g., `[CARDS]`) next to effect name | Inline with damage/healing effects |
@@ -2293,30 +2293,30 @@ These are wizard features that the spell card does NOT currently render:
 
 ### Known Inconsistencies
 - `restorationConfig` and `transformConfig` have full wizard+card support but zero class spells use them
-- Class data files use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format — both are accepted by the card
-- `prophecyConfig` preserved at top-level by normalizer instead of being moved into `mechanicsConfig` — both paths work for card rendering
-- Pre-existing paren mismatch (5730 open, 5729 close) in UnifiedSpellCard.jsx — does not affect rendering
+- Class data files use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format  -  both are accepted by the card
+- `prophecyConfig` preserved at top-level by normalizer instead of being moved into `mechanicsConfig`  -  both paths work for card rendering
+- Pre-existing paren mismatch (5730 open, 5729 close) in UnifiedSpellCard.jsx  -  does not affect rendering
 
 ### Known Inconsistencies
 - `restorationConfig` and `transformConfig` have full wizard+card support but zero class spells use them
-- Class data files use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format — both are accepted
-- `prophecyConfig` preserved at top-level by normalizer instead of being moved into `mechanicsConfig` — both paths work for card rendering
+- Class data files use legacy `triggers[]` array format; wizard creates `compoundTriggers[]` format  -  both are accepted
+- `prophecyConfig` preserved at top-level by normalizer instead of being moved into `mechanicsConfig`  -  both paths work for card rendering
 
 ### Fixes Applied (May 2026)
-- **Formatting unified**: Deleted two dead formatting engines (`formatSpellEffects.js` — 538 lines, zero imports; `formatSpellEffectsForReview.js` — 1,435 lines, one dead import in CollectionViewWindow.jsx). `UnifiedSpellCard.jsx` is now the SOLE rendering engine (25 consumers).
+- **Formatting unified**: Deleted two dead formatting engines (`formatSpellEffects.js`  -  538 lines, zero imports; `formatSpellEffectsForReview.js`  -  1,435 lines, one dead import in CollectionViewWindow.jsx). `UnifiedSpellCard.jsx` is now the SOLE rendering engine (25 consumers).
 - **Normalizer hardened**: 9 previously-missing normalization cases added (spellType UPPERCASE, school migration, cooldownConfig key rename, duration cross-population, resolution default, actionPoints default, damageType→damageTypes, buff/debuff string→object)
 - **Class spell data bulk-fixed**: 1,259 violations across 29 files (cooldownConfig keys, damageType singular, missing resolution)
 - **Critical bugs fixed**:
-  - `formatCooldown()` now reads both old (`type`/`value`) and new (`cooldownType`/`cooldownValue`) keys — was returning `null` for every normalized spell
-  - `cleanFormula()` no longer garbles variable names — removed destructive second pass that re-lowercased Proper Case replacements
-  - `level: 0` no longer coerced to `1` — cantrips/innate abilities now possible
-  - `damageTypes` string no longer crashes `.push()` — array coercion added in transformer
+  - `formatCooldown()` now reads both old (`type`/`value`) and new (`cooldownType`/`cooldownValue`) keys  -  was returning `null` for every normalized spell
+  - `cleanFormula()` no longer garbles variable names  -  removed destructive second pass that re-lowercased Proper Case replacements
+  - `level: 0` no longer coerced to `1`  -  cantrips/innate abilities now possible
+  - `damageTypes` string no longer crashes `.push()`  -  array coercion added in transformer
   - `normalizeDamageConfig()` no longer overwrites legacy-extracted fields with partial `damageConfig` spread
   - `prophecyOptions` in transformer now reads from `transformedSpell` (deep copy) instead of original `spell`
-  - `spell.effects` no longer preserved by reference — deep copied to prevent mutation
+  - `spell.effects` no longer preserved by reference  -  deep copied to prevent mutation
   - `schoolMap` expanded from 13 → 23 damage type mappings; duplicate `frost` key removed; now reads `typeConfig.school` first
   - Debug `console.log` statements removed from `spellCardTransformer.js`
-  - Hard-coded spell name/ID matching removed from formatting code — CARDS/COINS determined solely by `spell.resolution`
+  - Hard-coded spell name/ID matching removed from formatting code  -  CARDS/COINS determined solely by `spell.resolution`
 
 ---
 
@@ -2597,7 +2597,7 @@ automatically, but new spells should use these IDs everywhere:
 | `blight` | Otherworldly | necrotic, poison, acid, shadow, void |
 | `wyrd` | Otherworldly | psychic, chaos |
 
-**`typeConfig.secondaryElement`** [PARTIAL] — Second element for dual-damage spells. Set via Step 1.
+**`typeConfig.secondaryElement`** [PARTIAL]  -  Second element for dual-damage spells. Set via Step 1.
 The card reads this for dual-type badges but Section 7 audit checklist is the only spec mention.
 
 ---
@@ -2619,7 +2619,7 @@ typeConfig: {
 
 ### PASSIVE-specific [WIZARD-ONLY]
 ```javascript
-typeConfig: { toggleable: false }  // boolean — can the passive be toggled on/off?
+typeConfig: { toggleable: false }  // boolean  -  can the passive be toggled on/off?
 ```
 
 ### REACTION-specific [WIZARD-ONLY]
@@ -2643,7 +2643,7 @@ typeConfig: {
 }
 ```
 
-**`spellType: 'ZONE'`** [WIZARD-ONLY] — The wizard allows selecting ZONE but spec Section 1
+**`spellType: 'ZONE'`** [WIZARD-ONLY]  -  The wizard allows selecting ZONE but spec Section 1
 does not list it. Should be added to spec or removed from wizard.
 
 ---
@@ -3092,7 +3092,7 @@ triggerConfig: {
 | `debuff_stat`, `debuff_control`, `debuff_utility` | _(not in spec)_ | Wizard-only subtypes |
 
 ### Additional trigger [WIZARD-ONLY]
-- `trap_damage` trigger (params: `damage_threshold`) — not in spec's Trap trigger table
+- `trap_damage` trigger (params: `damage_threshold`)  -  not in spec's Trap trigger table
 
 ### Parameter value enums [UNDOCUMENTED]
 The wizard UI provides dropdown values for many trigger parameters that the spec only
@@ -3122,7 +3122,7 @@ lists the parameter NAME for:
 ### Entry field inconsistency
 - Sample entries use `customName` + `effect`
 - Placeholder/generated entries use `name` + `description`
-- **Internal inconsistency** — should be unified
+- **Internal inconsistency**  -  should be unified
 
 ### Extended entry fields [WIZARD-ONLY]
 ```javascript
@@ -3187,8 +3187,8 @@ When the user completes the trap step, the wizard OVERWRITES `targetingConfig` w
 ```
 
 ### Additional trap field
-`trapConfig.placementPosition: { x, y }` [WIZARD-ONLY] — canvas position for the trap.
+`trapConfig.placementPosition: { x, y }` [WIZARD-ONLY]  -  canvas position for the trap.
 
 ---
 
-*End of SPELL_DATA_REFERENCE.md — Updated June 2026 for Mythrill VTT spell system v2.2*
+*End of SPELL_DATA_REFERENCE.md  -  Updated June 2026 for Mythrill VTT spell system v2.2*

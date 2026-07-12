@@ -89,7 +89,7 @@ const EnhancedDiceRoller = ({ isVisible, onClose }) => {
     <div className="enhanced-dice-roller">
       <div className="dice-roller-header">
         <h2>🎲 Dice Roller</h2>
-        <button className="dice-roller-close" onClick={onClose}>×</button>
+        <button className="dice-roller-close" onClick={onClose}>� - </button>
       </div>
 
       <div className="dice-roller-content">

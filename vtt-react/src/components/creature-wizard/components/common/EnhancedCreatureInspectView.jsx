@@ -1470,7 +1470,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             onClick={() => setShowLabels(!showLabels)}
             title={showLabels ? 'Hide Labels' : 'Show Labels'}
           >
-            <span className="stats-toggle-icon">{showLabels ? 'â—€' : 'â–¶'}</span>
+            <span className="stats-toggle-icon">{showLabels ? 'â - €' : 'â–¶'}</span>
           </button>
           {Object.entries(statGroups).map(([key, group]) => (
             <button
@@ -2281,7 +2281,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                       }}
                     />
                     {item.quantity && item.quantity > 1 && (
-                      <div className="loot-quantity">Ã—{item.quantity}</div>
+                      <div className="loot-quantity">Ã - {item.quantity}</div>
                     )}
                   </div>
                   <div

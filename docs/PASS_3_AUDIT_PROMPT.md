@@ -1,4 +1,4 @@
-# PASS 3 AUDIT — MYTHRILL VTT RULES CONSISTENCY & GAP ANALYSIS
+﻿# PASS 3 AUDIT  -  MYTHRILL VTT RULES CONSISTENCY & GAP ANALYSIS
 
 You are performing a PASS 3 audit of the Mythrill VTT codebase at D:\VTT. This is a RUTHLESS rules-consistency audit. Previous passes fixed mechanical-lore alignment, cross-references, naming conventions, path redesign, and lore expansion. Now dig into what we HAVEN'T checked.
 
@@ -14,7 +14,7 @@ PASS 2 fixed: Petrified condition added to statusEffects, emberspire loreDiction
 
 ### A. RULES ENGINE CONSISTENCY
 
-1. **Damage type propagation**: Do ALL spell/ability data files (testSpells.js, class data ability sections, creatureLibraryData.js abilities) use ONLY the 8 valid damage types (physical, ember, rime, storm, arcane, primal, blight, wyrd)? Or do some still use legacy terms (fire, necrotic, psychic, radiant, cold, lightning, thunder, poison, acid, force, holy)? Check testSpells.js specifically — it was built before the damage type refactor.
+1. **Damage type propagation**: Do ALL spell/ability data files (testSpells.js, class data ability sections, creatureLibraryData.js abilities) use ONLY the 8 valid damage types (physical, ember, rime, storm, arcane, primal, blight, wyrd)? Or do some still use legacy terms (fire, necrotic, psychic, radiant, cold, lightning, thunder, poison, acid, force, holy)? Check testSpells.js specifically  -  it was built before the damage type refactor.
 
 2. **Status effect propagation**: Do spell/ability effects reference ONLY the 25 valid status effects from statusEffects.js (stun, slow, root, knockback, pull, silence, disarm, blind, fear, charm, confuse, sleep, bleed, poison, burning, disease, weakness, vulnerability, curse, disoriented, marked, taunt, haste, strengthened, resistance, immune, regen, shielded, petrified)? Or do they reference D&D conditions (grappled, paralyzed, restrained, blinded, frightened, charmed, poisoned, incapacitated, prone, concentration, invisible, flying, truesight)?
 
@@ -35,7 +35,7 @@ PASS 2 fixed: Petrified condition added to statusEffects, emberspire loreDiction
 
 ### C. EQUIPMENT & ECONOMY
 
-8. **Equipment damage types**: Do weapons in the equipment data reference valid damage types? Search for any "slashing", "piercing", "bludgeoning" references (D&D terms) — the Mythrill system uses "physical" for all martial damage per damageTypes.js.
+8. **Equipment damage types**: Do weapons in the equipment data reference valid damage types? Search for any "slashing", "piercing", "bludgeoning" references (D&D terms)  -  the Mythrill system uses "physical" for all martial damage per damageTypes.js.
 
 9. **Starting currency completeness**: Does startingCurrencyData.js have entries for ALL 10 races × ALL their subraces? After the morthel→neth fix, verify no subrace is missing a gold amount.
 
@@ -47,7 +47,7 @@ PASS 2 fixed: Petrified condition added to statusEffects, emberspire loreDiction
 
 12. **Zone connection bidirectionality (ALL regions)**: PASS 2 only verified Sundrift Vale zones. Check ALL 35 zones for bidirectional connections. If zone A lists zone B in its connections array, does zone B list zone A?
 
-13. **Creature encounter table validation**: Do the biome encounter tables in biomeData.js reference creatures that actually exist in creatureLibraryData.js? The PASS 1 fix replaced 43 D&D creatures with Mythrill-native ones — verify the replacement creature IDs are real.
+13. **Creature encounter table validation**: Do the biome encounter tables in biomeData.js reference creatures that actually exist in creatureLibraryData.js? The PASS 1 fix replaced 43 D&D creatures with Mythrill-native ones  -  verify the replacement creature IDs are real.
 
 ### E. LORE DICTIONARY COMPLETENESS
 
@@ -55,13 +55,13 @@ PASS 2 fixed: Petrified condition added to statusEffects, emberspire loreDiction
 
 15. **LoreLink coverage in race files**: Do race data files (vtt-react/src/data/races/) use LoreLink tags for major lore references, or are important terms just plain text? Check if race lore text mentions regions, houses, locations, or historical figures that SHOULD be LoreLinked but aren't.
 
-16. **LoreLink coverage in class files**: Same check for class data files — are there proper nouns that lack LoreLink wrapping?
+16. **LoreLink coverage in class files**: Same check for class data files  -  are there proper nouns that lack LoreLink wrapping?
 
 ### F. PASS 2 REGRESSION CHECKS
 
 17. **Faction store description coherence**: The PASS 2 faction fixes used blunt bash replacements to change targetFactionId values. Some descriptions may now be nonsensical (e.g., a description mentioning "The Myrathil claim the deep ocean" now targeting deep-alchemists instead). Read ALL faction relationship descriptions and flag any where the description text doesn't match the target faction.
 
-18. **backgroundEquipment.js path mapping accuracy**: After replacing old path IDs with new ones (mystic→vessel, zealot→bound, etc.), do the equipment items make sense for the new path themes? A "Holy symbol" under what was 'zealot' (now 'bound') may or may not fit — but "Crystal focus" under what was 'mystic' (now 'vessel') needs to match the new equipment list in pathData.js.
+18. **backgroundEquipment.js path mapping accuracy**: After replacing old path IDs with new ones (mystic→vessel, zealot→bound, etc.), do the equipment items make sense for the new path themes? A "Holy symbol" under what was 'zealot' (now 'bound') may or may not fit  -  but "Crystal focus" under what was 'mystic' (now 'vessel') needs to match the new equipment list in pathData.js.
 
 19. **New loreDictionary entries validation**: Do the 10+ new entries added in PASS 2 have internally consistent lore? Do they contradict anything in race files, class files, or rulesData.js? Check specifically: the emberspire entry vs. what sundale and house_solvan say about Emberspire; the root_veil entry vs. what neth.js says about the Root-Veil.
 
@@ -69,7 +69,7 @@ PASS 2 fixed: Petrified condition added to statusEffects, emberspire loreDiction
 
 20. **Spellcrafting wizard system**: The spellcrafting wizard at vtt-react/src/components/spellcrafting-wizard/ has its OWN data files for damage types, status effects, etc. Is this system consistent with the main game data? After PASS 2 added 'petrified' to the spellcrafting wizard, are there other status effects or damage types that are still out of sync?
 
-21. **Talent tree data**: Check vtt-react/src/data/talentTrees/ — do talent effects reference valid damage types, status effects, and save types? Are talent prerequisites internally consistent (no circular dependencies, no references to non-existent talents)?
+21. **Talent tree data**: Check vtt-react/src/data/talentTrees/  -  do talent effects reference valid damage types, status effects, and save types? Are talent prerequisites internally consistent (no circular dependencies, no references to non-existent talents)?
 
 22. **Level progression system**: Does the level-up system (pointBuySystem.js, levelData.js, or equivalent) handle the corrected stat modifiers correctly? Are there any hardcoded stat bonus expectations that assume the old +3 values?
 
@@ -91,4 +91,4 @@ For each finding:
 - MINOR = cosmetic inconsistency or maintenance hazard
 - OPPORTUNITY = system gap that should be addressed for completeness
 
-Be ruthless. Be specific. Cite line numbers. Quote exact text. Do not speculate — verify every claim against the actual file contents.
+Be ruthless. Be specific. Cite line numbers. Quote exact text. Do not speculate  -  verify every claim against the actual file contents.

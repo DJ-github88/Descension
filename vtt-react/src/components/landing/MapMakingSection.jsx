@@ -783,7 +783,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'water',
       action: 'DRAW',
       text: 'The Shard-Window: 3-mile-wide storm-vortex over a Monolith (Storm-Belt)',
-      why: 'The Shard-Window is a colossal, three-mile-wide storm vortex. Centered over the western Storm-Belt, it is surrounded by perpetual hurricanes and lightning walls. It is a legendary portal where the sky itself fractures, revealing the fading celestial court below.',
+      why: 'The Shard-Window is a colossal, three-mile-wide storm vortex. Centered over the western Storm-Belt, it is surrounded by perpetual hurricanes and lightning walls. It is a legendary portal where the sky itself fractures, revealing the fading echoes of long-dead stars below.',
       inkarnate: 'Giant spiral storm'
     },
     {
@@ -1020,7 +1020,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'terrain', action: 'COLOR', text: 'The Blizzard Bluff (north): sub-arctic, perpetual wind, deep snow', why: 'The Snow-Tooth separating from Frostwood', inkarnate: 'Snow bluff' },
     { category: 'terrain', action: 'DRAW',  text: 'Kumis Downs: rolling hills of pale grass (mara-herd country)', why: 'The Mounted clans\' territory, horse-breeding', inkarnate: 'Rolling hills' },
     { category: 'terrain', action: 'DRAW',  text: 'Lien-Stalked Grazes: grass replaced by glowing crystal-infused stalks', why: 'Crystal grass, glows faintly at night', inkarnate: 'Crystal grass icons' },
-    { category: 'terrain', action: 'DRAW',  text: 'Starfall Vale: crater carpeted with crystalline shards', why: 'Where Sol\'s celestial court fell, glows with trapped starlight', inkarnate: 'Crater + crystal icons' },
+    { category: 'terrain', action: 'DRAW',  text: 'Starfall Vale: crater carpeted with crystalline shards', why: 'Where Lumia\'s shards struck the earth, glows with trapped starlight', inkarnate: 'Crater + crystal icons' },
     { category: 'terrain', action: 'DRAW',  text: 'Nova\'s Heath: perfect circle of crystallized soil from a celestial impact', why: 'Astril meditation site, Unlit Veil hidden judgment-hill', inkarnate: 'Crystallized circle' },
     { category: 'terrain', action: 'DRAW',  text: 'The Unlit Knoll: where fire refuses to burn, no light persists', why: 'Unlit Veil headquarters', inkarnate: 'Dark hill' },
     { category: 'terrain', action: 'DRAW',  text: 'Grass Tundra: endless grey-green plains in the central Vale', why: 'Major nomad migration routes', inkarnate: 'Plain' },
@@ -1036,7 +1036,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'routes', action: 'DRAW', text: 'Cairn-checkpoints across the Blizzard Bluff (Ordan March Wardens)', why: 'Border watch to Frostwood', inkarnate: 'Checkpoint icons' },
     { category: 'routes', action: 'DRAW', text: 'Cairn-Checkpoints (basalt) at every major crossroads', why: 'Herd-Tithe and migration control', inkarnate: 'Basalt stone markers' },
     // EFFECTS
-    { category: 'effects', action: 'COLOR', text: 'Permanently dark sky (#2a2a2a base, NO stars)', why: 'Sol\'s celestial court was eaten, the defining feature', inkarnate: 'Dark sky overlay' },
+    { category: 'effects', action: 'COLOR', text: 'Permanently dark sky (#2a2a2a base, NO stars)', why: 'Keth-Amar devoured the constellation-forge, the defining feature', inkarnate: 'Dark sky overlay' },
     { category: 'effects', action: 'COLOR', text: 'Pale silver-white glow from Lien-stalks, woolly herd antlers, Astril patterns', why: 'The only natural light in the dark sky', inkarnate: 'Pale glow patches' },
     { category: 'effects', action: 'FOG',   text: 'Wind-streak texture across the entire Vale (perpetual wind)', why: 'The wind never stops', inkarnate: 'Wind-line overlay' },
     // LABELS
@@ -1049,7 +1049,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'terrain', action: 'COLOR', text: 'Peat-Wastes (north): acidic peat-bog, liquefying mud', why: 'Debt-Revenant labor territory', inkarnate: 'Acid bog' },
     { category: 'terrain', action: 'COLOR', text: 'Western Bayous (west): ironwood bayous, river-cliffs, ancient fae-contracts carved into bark', why: 'Kessen weaver country', inkarnate: 'Bayou' },
     { category: 'terrain', action: 'COLOR', text: 'The Great Mere (center-east): vast central lake dotted with small wooded islands', why: 'The hub of the forest, rises and falls with the moon', inkarnate: 'Big lake with island icons' },
-    { category: 'terrain', action: 'COLOR', text: 'The Root-Veil (subterranean): mycelial network beneath everything', why: 'The Keeper of the Last Threshold\'s domain', inkarnate: 'Dark layer under map' },
+    { category: 'terrain', action: 'COLOR', text: 'The Root-Veil (subterranean): mycelial network beneath everything', why: 'Morvane\'s domain', inkarnate: 'Dark layer under map' },
     { category: 'terrain', action: 'DRAW',  text: 'The Great Mere: vast central lake with small wooded islands', why: 'Trade hub, monastery on largest island', inkarnate: 'Big lake' },
     { category: 'terrain', action: 'DRAW',  text: 'Widow\'s Quagmire: stretch where the ground liquefies underfoot', why: 'The worst of the Peat-Wastes', inkarnate: 'Quagmire' },
     { category: 'terrain', action: 'DRAW',  text: 'Black Fen: the Final Clause, legal void where the Keeper has no jurisdiction', why: 'Neth\'s dumping ground, nothing grows', inkarnate: 'Black Silence' },

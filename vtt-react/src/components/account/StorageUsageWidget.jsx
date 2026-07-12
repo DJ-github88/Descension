@@ -94,7 +94,7 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
                   onClick={() => setShowDetails(false)}
                   aria-label="Close storage details"
                 >
-                  Ã—
+                  Ã - 
                 </button>
               </div>
               <div className="storage-message guest">
@@ -230,7 +230,7 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
                 onClick={() => setShowDetails(false)}
                 aria-label="Close storage details"
               >
-                Ã—
+                Ã - 
               </button>
             </div>
 

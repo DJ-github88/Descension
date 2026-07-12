@@ -787,7 +787,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
                     }}
                     title="Remove transformation target"
                   >
-                    Ã—
+                    Ã - 
                   </button>
                 </div>
 

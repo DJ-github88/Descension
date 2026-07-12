@@ -1,4 +1,4 @@
-# Spellcrafting Wizard Comprehensive Audit Report
+﻿# Spellcrafting Wizard Comprehensive Audit Report
 
 > Generated from a thorough analysis of every component, data file, and utility
 > connected to the spell wizard, cross-referenced against `SPELL_DATA_REFERENCE.md`.
@@ -36,9 +36,9 @@ Rendering Pipeline:
                          └─ reads every field with defensive fallbacks
 
 Secondary transformers (NOT in main render path):
-  - spellCardTransformer.js (579 lines) — used by SampleSpellsLoader, SpellLibraryPopup
-  - spellTransformers.js (259 lines) — LEGACY duplicate, used by creature-wizard only
-  - spellSerializer.js (932 lines) — used by Step10Review (orphaned), targets OLD schema
+  - spellCardTransformer.js (579 lines)  -  used by SampleSpellsLoader, SpellLibraryPopup
+  - spellTransformers.js (259 lines)  -  LEGACY duplicate, used by creature-wizard only
+  - spellSerializer.js (932 lines)  -  used by Step10Review (orphaned), targets OLD schema
 ```
 
 **Key insight:** There is no single "save → render" contract. The wizard writes one shape,
@@ -86,15 +86,15 @@ are silently skipped:** buff, debuff, utility, control, summoning, transformatio
 purification, restoration, status effects, rollable tables, and prophecy.
 
 ### 3.3 Crash: `.push()` on String
-**File:** `spellTransformers.js:103` — `.push()` on string `damageTypes` causes TypeError
+**File:** `spellTransformers.js:103`  -  `.push()` on string `damageTypes` causes TypeError
 for any spell with `damageTypes: 'fire'` (string instead of array).
 
 ### 3.4 Crash: Null Property Access
-**File:** `spellNormalizer.js:550` — accesses `.statModifier.stat` without `?.`, throws if
+**File:** `spellNormalizer.js:550`  -  accesses `.statModifier.stat` without `?.`, throws if
 any buff effect has `statModifier: null`.
 
 ### 3.5 Damage Step Permanently Blocks Advancement
-**File:** `Step3Effects.jsx:313-318` — `isEffectConfigured('damage')` checks
+**File:** `Step3Effects.jsx:313-318`  -  `isEffectConfigured('damage')` checks
 `damageConfig.primaryElement`, but `initializeConfigurations('damage')` sets `elementType`.
 Damage effects always validate as false, permanently disabling the Next button.
 
@@ -105,11 +105,11 @@ Damage effects always validate as false, permanently disabling the Next button.
 Both produce incorrect `isCompleted`/`isActive` values.
 
 ### 3.7 Channeling Config Temporal Dead Zone
-**File:** `Step8Channeling.jsx:161,405,477` — `initializePerRoundFormulas()` references
+**File:** `Step8Channeling.jsx:161,405,477`  -  `initializePerRoundFormulas()` references
 `channelingConfig` inside `useState` initializer before it's defined.
 
 ### 3.8 UnifiedSpellCard Encoding Corruption (Mojibake)
-**File:** `UnifiedSpellCard.jsx` — ~60 lines have corrupted Unicode characters:
+**File:** `UnifiedSpellCard.jsx`  -  ~60 lines have corrupted Unicode characters:
 - Suit symbols (hearts/diamonds/clubs/spades) are empty at lines 8678-8701
 - `≤` corrupted to `=` in ~9 trigger-condition tags (visible bug)
 - `◆` diamond corrupted to `?` in ~12 locations
@@ -117,19 +117,19 @@ Both produce incorrect `isCompleted`/`isActive` values.
 - Musical clef glyphs corrupted to `??`
 
 ### 3.9 Duplicate Object Keys (Real Bugs)
-- `resourceTypes.js:299-302` — `havoc` resource has `affectedBy`/`formula` declared twice
-- `statModifier.js:254&272` — `damage_reduction` defined twice
-- `formulaVariables.js:183&186` — `STRAIGHT` defined twice (different examples)
-- `formulaVariables.js:184&193` — `ROYAL_FLUSH` defined twice
-- `formulaVariables.js:203&207` — `CONSECUTIVE_HEADS` defined twice
-- `triggerIcons.js:92&113` — `timer` key collision with **different** values (trap timer overwritten)
+- `resourceTypes.js:299-302`  -  `havoc` resource has `affectedBy`/`formula` declared twice
+- `statModifier.js:254&272`  -  `damage_reduction` defined twice
+- `formulaVariables.js:183&186`  -  `STRAIGHT` defined twice (different examples)
+- `formulaVariables.js:184&193`  -  `ROYAL_FLUSH` defined twice
+- `formulaVariables.js:203&207`  -  `CONSECUTIVE_HEADS` defined twice
+- `triggerIcons.js:92&113`  -  `timer` key collision with **different** values (trap timer overwritten)
 
 ### 3.10 Logic Bugs
 - `extractDamageTypeFromResistanceName` (`UnifiedSpellCard.jsx:596`) maps `arcane` → `storm` (copy-paste bug)
-- `durationTypes.js:82-101` — `calculateDurationTime` missing `turns` case
-- `healingTypes.js:525` — `Math.floor` precedence error in `calculateDirectHealing`
-- `debuffTypes.js:1025-1028` — `calculateDiminishedValue` returns 0 for first stack
-- `cooldownTypes.js:432-435` — redundant `isValidDiceNotation(baseValue) ? isValidDiceNotation(baseValue) : baseValue`
+- `durationTypes.js:82-101`  -  `calculateDurationTime` missing `turns` case
+- `healingTypes.js:525`  -  `Math.floor` precedence error in `calculateDirectHealing`
+- `debuffTypes.js:1025-1028`  -  `calculateDiminishedValue` returns 0 for first stack
+- `cooldownTypes.js:432-435`  -  redundant `isValidDiceNotation(baseValue) ? isValidDiceNotation(baseValue) : baseValue`
 
 ---
 
@@ -143,25 +143,25 @@ Both produce incorrect `isCompleted`/`isActive` values.
 - **spellCardTransformer.js:175-186** reads `damageConfig.elementType` (non-spec)
 
 ### Rule 3: school in typeConfig using damage type IDs
-- **spellWizardContext.js:109** — top-level `school: ''` field (spec forbids)
-- **Step1BasicInfo.jsx:23-33** — uses `ember, rime, storm, primal, blight, wyrd, divine` instead of spec IDs
-- **spellCardTransformer.js:188-192** — unconditionally pushes `typeConfig.school` into `damageTypes` even for non-damage spells
+- **spellWizardContext.js:109**  -  top-level `school: ''` field (spec forbids)
+- **Step1BasicInfo.jsx:23-33**  -  uses `ember, rime, storm, primal, blight, wyrd, divine` instead of spec IDs
+- **spellCardTransformer.js:188-192**  -  unconditionally pushes `typeConfig.school` into `damageTypes` even for non-damage spells
 
 ### Rule 4: actionPoints is ALWAYS set
-- **Step5Resources.jsx:423-431** — only sets actionPoints if user explicitly selects it
-- **SpellwizardApp.jsx:276-282** — default resourceCost omits actionPoints
-- **spellCardTransformer.js:305** — defaults actionPoints to 0 (should be 1)
-- **spellTransformers.js:124** — same, defaults to 0
+- **Step5Resources.jsx:423-431**  -  only sets actionPoints if user explicitly selects it
+- **SpellwizardApp.jsx:276-282**  -  default resourceCost omits actionPoints
+- **spellCardTransformer.js:305**  -  defaults actionPoints to 0 (should be 1)
+- **spellTransformers.js:124**  -  same, defaults to 0
 
 ### Rule 5: resolution goes INSIDE the effect config
 - **spellCardTransformer.js** sets resolution at top-level only, not inside damageConfig/healingConfig
 
 ### Rule 6: cooldownConfig uses {cooldownType, cooldownValue}
-- **Step6Cooldown.jsx:16-20,140-162** — writes `{type, value, charges, recovery}`
-- **SpellwizardApp.jsx:284-287** — default uses `{cooldown, charges}`
-- **spellCardTransformer.js:317-326** — default uses `{type, value}`
-- **spellNormalizer.js:129** — default uses `{cooldown, charges}` (third pattern!)
-- **spellNormalizer.js:812** — `createEmptySpell()` correctly uses `{cooldownType, cooldownValue}` (inconsistent with line 129)
+- **Step6Cooldown.jsx:16-20,140-162**  -  writes `{type, value, charges, recovery}`
+- **SpellwizardApp.jsx:284-287**  -  default uses `{cooldown, charges}`
+- **spellCardTransformer.js:317-326**  -  default uses `{type, value}`
+- **spellNormalizer.js:129**  -  default uses `{cooldown, charges}` (third pattern!)
+- **spellNormalizer.js:812**  -  `createEmptySpell()` correctly uses `{cooldownType, cooldownValue}` (inconsistent with line 129)
 
 ### Rule 7: Buff/Debuff effects use objects
 - **BuffEffects.jsx:414-415** writes `statModifiers[]` + `statusEffects[]` instead of spec's `effects[]`
@@ -198,17 +198,17 @@ These rewrites silently change spec-valid IDs into new IDs with no warning.
 
 ## 6. UnifiedSpellCard Renderer Issues
 
-**File size:** 14,723 lines (docs say ~5,700 — stale).
-**Paren balance:** 5972 open / 5971 close (docs say 5730/5729 — stale).
+**File size:** 14,723 lines (docs say ~5,700  -  stale).
+**Paren balance:** 5972 open / 5971 close (docs say 5730/5729  -  stale).
 
 ### Structural Bugs
-- **Branch 1 drops most effect types** (see §3.2) — entire effect list is duplicated across two branches
-- **`propTypes` missing `rules` variant** — referenced ~10× in body but absent from enum (line 14703)
-- **`const` declarations inside unbraced `switch` cases** — lines 1660, 1765, 1810, 1824
+- **Branch 1 drops most effect types** (see §3.2)  -  entire effect list is duplicated across two branches
+- **`propTypes` missing `rules` variant**  -  referenced ~10× in body but absent from enum (line 14703)
+- **`const` declarations inside unbraced `switch` cases**  -  lines 1660, 1765, 1810, 1824
 
 ### Resistance Mapping Inverted
 Lines 11840-11867: Debuff resistance penalties map magnitude 0 → 'immune', which means
-"no penalty" reads as "target is immune" — misleading.
+"no penalty" reads as "target is immune"  -  misleading.
 
 ### Hard-coded Magic Strings
 Choice-config path (line 12449) and chance-on-hit branches embed hard-coded percentages
@@ -292,16 +292,16 @@ Missing `hot` as top-level type. Has extra `resurrection`, `spirit`. `HEALING_CA
 references nonexistent type IDs (`absorption`, `shield`, `chain`, `aoe`, `smart`).
 
 ### `durationTypes.js`
-`calculateDurationTime` switch missing `turns` case — returns 0 silently.
+`calculateDurationTime` switch missing `turns` case  -  returns 0 silently.
 
 ---
 
 ## 9. Dead Code & Technical Debt
 
 ### Orphaned Files (never imported)
-- `Step7Review.jsx` (13 lines) — wrapper, never imported
-- `Step10Review.jsx` (3039 lines) — never imported by wizard, superseded by `ExternalLivePreview.jsx`
-- `Step9Balance` — imported but never reachable in `determineWizardFlow`
+- `Step7Review.jsx` (13 lines)  -  wrapper, never imported
+- `Step10Review.jsx` (3039 lines)  -  never imported by wizard, superseded by `ExternalLivePreview.jsx`
+- `Step9Balance`  -  imported but never reachable in `determineWizardFlow`
 
 ### Duplicate Code
 - `spellTransformers.js` is legacy duplicate of `spellCardTransformer.js`
@@ -330,41 +330,41 @@ Excessive `console.log` statements across:
 - `SummoningEffects.jsx` (line 215)
 
 ### Other Issues
-- `SpellwizardApp.jsx:669,682,692` — `img src` set to literal string `"getIconUrl(...)"` instead of calling the function (broken images)
-- `SpellwizardApp.jsx:1120-1135` — QuickSpell damageTypes array has duplicate entries
-- `SpellWizardWrapper.jsx:21-42` — triple-dispatches spell load (redundant, may double-load)
-- `SpellwizardApp.jsx:104` — `activeTab` state declared but never used
+- `SpellwizardApp.jsx:669,682,692`  -  `img src` set to literal string `"getIconUrl(...)"` instead of calling the function (broken images)
+- `SpellwizardApp.jsx:1120-1135`  -  QuickSpell damageTypes array has duplicate entries
+- `SpellWizardWrapper.jsx:21-42`  -  triple-dispatches spell load (redundant, may double-load)
+- `SpellwizardApp.jsx:104`  -  `activeTab` state declared but never used
 
 ---
 
 ## 10. Prioritized Fix List
 
 ### Priority 1: Data Loss & Crashes (Fix Immediately)
-1. **Fix summon/transform naming** — unify on `summoningConfig`/`transformationConfig` across state, reducer, action creators, serializer, and all step components
-2. **Fix UnifiedSpellCard Branch 1** — render all effect types regardless of `hasEffectsToWrap`
-3. **Fix Step3Effects validation** — change `primaryElement` check to `elementType`
-4. **Fix spellTransformers.js crash** — coerce damageTypes to array before `.push()`
-5. **Fix spellNormalizer.js:550** — add `?.` guard on statModifier access
-6. **Fix hardcoded step indices** — Step6Cooldown (5→6), Step7Triggers (6→'triggers')
-7. **Fix mojibake** — re-save UnifiedSpellCard.jsx with correct UTF-8 encoding
+1. **Fix summon/transform naming**  -  unify on `summoningConfig`/`transformationConfig` across state, reducer, action creators, serializer, and all step components
+2. **Fix UnifiedSpellCard Branch 1**  -  render all effect types regardless of `hasEffectsToWrap`
+3. **Fix Step3Effects validation**  -  change `primaryElement` check to `elementType`
+4. **Fix spellTransformers.js crash**  -  coerce damageTypes to array before `.push()`
+5. **Fix spellNormalizer.js:550**  -  add `?.` guard on statModifier access
+6. **Fix hardcoded step indices**  -  Step6Cooldown (5→6), Step7Triggers (6→'triggers')
+7. **Fix mojibake**  -  re-save UnifiedSpellCard.jsx with correct UTF-8 encoding
 
 ### Priority 2: Spec Compliance (Core Wizard Output)
-8. **Fix cooldownConfig keys** — Step6Cooldown, SpellwizardApp, all transformers: use `{cooldownType, cooldownValue}`
-9. **Fix actionPoints** — Step5Resources always set it; transformers default to 1 not 0
-10. **Fix damageTypes** — Step3Effects/DamageEffects write `damageTypes: [...]` array, not `elementType`
-11. **Fix buff/debuff shape** — BuffEffects/DebuffEffects write `effects[]` with objects + `buffType`/`debuffType`
-12. **Fix school placement** — remove top-level `school` from wizard state
-13. **Fix Step1BasicInfo damage type IDs** — use spec-valid IDs or update spec to match new taxonomy
+8. **Fix cooldownConfig keys**  -  Step6Cooldown, SpellwizardApp, all transformers: use `{cooldownType, cooldownValue}`
+9. **Fix actionPoints**  -  Step5Resources always set it; transformers default to 1 not 0
+10. **Fix damageTypes**  -  Step3Effects/DamageEffects write `damageTypes: [...]` array, not `elementType`
+11. **Fix buff/debuff shape**  -  BuffEffects/DebuffEffects write `effects[]` with objects + `buffType`/`debuffType`
+12. **Fix school placement**  -  remove top-level `school` from wizard state
+13. **Fix Step1BasicInfo damage type IDs**  -  use spec-valid IDs or update spec to match new taxonomy
 
 ### Priority 3: Taxonomy Unification (Architectural Decision)
-14. **Decide on ONE damage type taxonomy** — either update spec to new IDs (ember/rime/storm) or update code to old IDs (fire/frost/lightning)
+14. **Decide on ONE damage type taxonomy**  -  either update spec to new IDs (ember/rime/storm) or update code to old IDs (fire/frost/lightning)
 15. **Update statModifier.js** to match chosen taxonomy
 16. **Remove or fix LEGACY_DAMAGE_TYPE_MAP** in spellNormalizer.js
 17. **Update resourceTypes.js** class names to match spec's 30 classes
 18. **Sync triggerTypes.js and triggerIcons.js** trigger ID names
 
 ### Priority 4: Code Cleanup
-19. **Delete spellTransformers.js** — update creature-wizard imports
+19. **Delete spellTransformers.js**  -  update creature-wizard imports
 20. **Delete Step7Review.jsx, Step10Review.jsx** (or rewire Step10Review as actual review step)
 21. **Delete dead state/functions** (see §9)
 22. **Remove all debug console.logs**
@@ -376,8 +376,8 @@ Excessive `console.log` statements across:
 26. **Make reducer default no-op** instead of throwing (both contexts)
 27. **Fix useEffect dependency arrays** across effect components
 28. **Replace window event bridges** with proper React context/state
-29. **Fix propTypes** — add `rules` variant to UnifiedSpellCard
-30. **Add XSS protection** — RollableTableSummary uses `dangerouslySetInnerHTML`
+29. **Fix propTypes**  -  add `rules` variant to UnifiedSpellCard
+30. **Add XSS protection**  -  RollableTableSummary uses `dangerouslySetInnerHTML`
 
 ---
 

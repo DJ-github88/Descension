@@ -1389,9 +1389,1083 @@
         0 4px 10px rgba(212, 175, 55, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
+    .variant-details-switcher .switcher-btn .variant-stats {
+        font-size: 0.75rem;
+        opacity: 0.8;
+        font-family: 'Cinzel', serif;
+    }
 
-.variant-details-switcher .switcher-btn .variant-stats {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    font-family: 'Cinzel', serif;
+/* ===== THEMATIC RACE & VARIANT CARD LAYOUT & STYLES ===== */
+
+.race-card-bg-effects,
+.variant-card-bg-effects {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.race-card, .variant-card {
+    position: relative;
+    z-index: 1;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* Elegant inner border frame for Spellbook look */
+.race-card::before, .variant-card::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px double rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 3;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+/* Hover spotlight lighting effect */
+.race-card::after, .variant-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.4s ease;
+}
+
+.race-card:hover::after, .variant-card:hover::after {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.race-card-header,
+.race-card-description,
+.race-card-info,
+.variant-card-name,
+.variant-card-description,
+.stat-modifiers-mini {
+    position: relative;
+    z-index: 4; /* Elevated above background textures & inner border & spotlight */
+}
+
+/* 1. MIMIR - The Mask-Bound (Forest Canopy & Wood Rings) */
+.race-card-mimir {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 0 200 L 0 170 L 20 150 L 40 175 L 70 140 L 90 165 L 120 130 L 150 170 L 180 145 L 210 175 L 240 135 L 270 165 L 300 120 L 300 200 Z' fill='%23080403' opacity='0.8'/%3E%3Cpath d='M 0 200 L 0 180 L 15 165 L 35 185 L 55 155 L 85 180 L 115 145 L 140 180 L 175 160 L 200 185 L 230 150 L 265 180 L 300 145 L 300 200 Z' fill='%23030101'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120 M-20 -20 A 150 150 0 0 1 180 180' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
+}
+.variant-card-masked_mimir {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3Cpath d='M 230 160 Q 230 140, 245 125 Q 260 110, 270 125 Q 280 140, 280 160 Q 280 180, 255 190 Q 230 180, 230 160 Z' fill='%23080403' stroke='%2325160f' stroke-width='1.5'/%3E%3Ccircle cx='247' cy='155' r='2.5' fill='%23150d0a'/%3E%3Ccircle cx='263' cy='155' r='2.5' fill='%23150d0a'/%3E%3C/svg%3E") !important;
+}
+.variant-card-woven_mimir {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 10 0 L 10 200 M 40 0 L 40 200 M 70 0 L 70 200 M 100 0 L 100 200 M 130 0 L 130 200 M 160 0 L 160 200 M 190 0 L 190 200 M 220 0 L 220 200 M 250 0 L 250 200 M 280 0 L 280 200' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 0 20 L 300 20 M 0 50 L 300 50 M 0 80 L 300 80 M 0 110 L 300 110 M 0 140 L 300 140 M 0 170 L 300 170' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
+}
+.variant-card-unwoven_mimir {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 80 C 60 40, 140 100, 320 60 L 320 200 L -20 200 Z' fill='%23080403' opacity='0.7'/%3E%3C/svg%3E") !important;
+}
+.race-card-mimir,
+.variant-card-mimir {
+    background-size: cover !important;
+    border: 1px solid rgba(212, 175, 55, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.race-card-mimir::before,
+.variant-card-mimir::before {
+    border: 1px dashed rgba(212, 175, 55, 0.25);
+}
+
+.race-card-mimir:hover,
+.variant-card-mimir:hover {
+    border-color: #d4af37 !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(0, 0, 0, 0.7) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-mimir:hover::before,
+.variant-card-mimir:hover::before {
+    border-color: rgba(212, 175, 55, 0.5);
+}
+
+.race-card-mimir.selected,
+.variant-card-mimir.selected {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.35), inset 0 0 20px rgba(212, 175, 55, 0.2) !important;
+}
+
+.race-card-mimir.selected::before,
+.variant-card-mimir.selected::before {
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+.race-card-mimir .race-card-name,
+.race-card-mimir .race-card-essence,
+.race-card-mimir .race-card-description,
+.variant-card-mimir .variant-card-name,
+.variant-card-mimir .variant-card-description {
+    color: #e2d1bd !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-mimir.selected .race-card-name,
+.race-card-mimir.selected .race-card-description,
+.race-card-mimir.selected .race-card-essence,
+.variant-card-mimir.selected .variant-card-name,
+.variant-card-mimir.selected .variant-card-description {
+    color: #fffaf0 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-mimir .race-card-icon,
+.race-card-mimir.selected .race-card-icon {
+    color: #d4af37 !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.race-card-mimir .info-badge {
+    background: rgba(212, 175, 55, 0.15) !important;
+    color: #e2d1bd !important;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.race-card-mimir .race-card-bg-effects::before,
+.variant-card-mimir .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    top: -75%;
+    left: -75%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 65%);
+    filter: blur(15px);
+    animation: fog-drift-1 20s linear infinite;
+}
+
+.race-card-mimir .race-card-bg-effects::after,
+.variant-card-mimir .variant-card-bg-effects::after {
+    content: '';
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    top: -75%;
+    left: -75%;
+    background: radial-gradient(circle at center, rgba(230, 240, 255, 0.05) 0%, transparent 55%);
+    filter: blur(20px);
+    animation: fog-drift-2 28s linear infinite;
+}
+
+@keyframes fog-drift-1 {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(8%, 12%) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes fog-drift-2 {
+    0% { transform: translate(0, 0) rotate(360deg); }
+    50% { transform: translate(-12%, -8%) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+
+/* 2. MYRATHIL - Children of the Sea (Bioluminescent ripples) */
+.race-card-myrathil {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss%29'/%3E%3Cpath d='M 0 80 Q 75 120, 150 60 T 300 110' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.25'/%3E%3Cpath d='M 0 100 Q 80 50, 160 110 T 300 80' fill='none' stroke='%2300b0ff' stroke-width='1.5' stroke-opacity='0.2'/%3E%3Ccircle cx='40' cy='50' r='3' fill='%2300e5ff' opacity='0.6' filter='blur%281px%29'/%3E%3Ccircle cx='260' cy='140' r='4' fill='%2300e5ff' opacity='0.5' filter='blur%281px%29'/%3E%3Ccircle cx='120' cy='160' r='2' fill='%2300e5ff' opacity='0.7'/%3E%3Ccircle cx='210' cy='40' r='2.5' fill='%2300b0ff' opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.variant-card-shore_myrathil {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-shore' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-shore%29'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190 L 300 200 L 0 200 Z' fill='%2300e5ff' opacity='0.25'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
+}
+.variant-card-deep_myrathil {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-deep' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23001e28'/%3E%3Cstop offset='100%25' stop-color='%2300090e'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-deep%29'/%3E%3Ccircle cx='60' cy='140' r='12' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 60 152 Q 58 165, 53 175 M 60 152 Q 62 165, 67 175' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='230' cy='60' r='8' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 230 68 Q 228 75, 225 82 M 230 68 Q 232 75, 235 82' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
+}
+.variant-card-brook_myrathil {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-brook' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23013a40'/%3E%3Cstop offset='100%25' stop-color='%23011317'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-brook%29'/%3E%3Ccircle cx='40' cy='180' r='15' fill='%23011c21'/%3E%3Ccircle cx='90' cy='190' r='12' fill='%23011c21'/%3E%3Ccircle cx='150' cy='185' r='18' fill='%23011c21'/%3E%3Cpath d='M 200 40 Q 220 30, 230 50 Q 210 60, 200 40 Z' fill='%2300e5ff' opacity='0.25'/%3E%3C/svg%3E") !important;
+}
+.race-card-myrathil,
+.variant-card-myrathil {
+    background-size: cover !important;
+    border: 1px solid rgba(0, 229, 255, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 131, 143, 0.2);
+}
+
+.race-card-myrathil::before,
+.variant-card-myrathil::before {
+    border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.race-card-myrathil:hover,
+.variant-card-myrathil:hover {
+    border-color: #00e5ff !important;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 12px rgba(0, 131, 143, 0.3) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-myrathil:hover::before,
+.variant-card-myrathil:hover::before {
+    border-color: rgba(0, 229, 255, 0.45);
+}
+
+.race-card-myrathil.selected,
+.variant-card-myrathil.selected {
+    border-color: #00e5ff !important;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.45), inset 0 0 15px rgba(0, 229, 255, 0.3) !important;
+}
+
+.race-card-myrathil.selected::before,
+.variant-card-myrathil.selected::before {
+    border-color: rgba(0, 229, 255, 0.6);
+}
+
+.race-card-myrathil .race-card-name,
+.race-card-myrathil .race-card-essence,
+.race-card-myrathil .race-card-description,
+.variant-card-myrathil .variant-card-name,
+.variant-card-myrathil .variant-card-description {
+    color: #b0e3ec !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-myrathil.selected .race-card-name,
+.race-card-myrathil.selected .race-card-description,
+.race-card-myrathil.selected .race-card-essence,
+.variant-card-myrathil.selected .variant-card-name,
+.variant-card-myrathil.selected .variant-card-description {
+    color: #e0f8ff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-myrathil .race-card-icon,
+.race-card-myrathil.selected .race-card-icon {
+    color: #00e5ff !important;
+    filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.6));
+}
+
+.race-card-myrathil .info-badge {
+    background: rgba(0, 229, 255, 0.15) !important;
+    color: #80deea !important;
+    border: 1px solid rgba(0, 229, 255, 0.25);
+}
+
+.race-card-myrathil .race-card-bg-effects::before,
+.variant-card-myrathil .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 120%, rgba(0, 229, 255, 0.22) 0%, transparent 70%);
+    animation: ocean-pulse 6s ease-in-out infinite alternate;
+}
+
+.race-card-myrathil .race-card-bg-effects::after,
+.variant-card-myrathil .variant-card-bg-effects::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: linear-gradient(0deg, transparent, rgba(0, 229, 255, 0.05) 50%, transparent);
+    transform: rotate(-30deg);
+    animation: water-sweep 12s linear infinite;
+}
+
+@keyframes ocean-pulse {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+@keyframes water-sweep {
+    0% { transform: translate(-30%, -30%) rotate(-30deg); }
+    100% { transform: translate(30%, 30%) rotate(-30deg); }
+}
+
+
+/* 3. BRIARAN - The Forgotten House (Creeping foliage and thorns) */
+.race-card-briaran {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 150 185 L 152 195 M 220 187 L 222 196' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3Ccircle cx='25' cy='45' r='2' fill='%2381c784' opacity='0.8'/%3E%3Ccircle cx='85' cy='175' r='2.5' fill='%2381c784' opacity='0.7'/%3E%3Ccircle cx='190' cy='170' r='2' fill='%2381c784' opacity='0.9'/%3E%3C/svg%3E") !important;
+}
+.variant-card-trueborn_briaran {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180 M 290 -10 C 280 40, 295 80, 285 120' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 285 30 L 293 25 M 283 60 L 275 65 M 287 90 L 295 93' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3C/svg%3E") !important;
+}
+.variant-card-shorn_briaran {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 L 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='30' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='14' cy='70' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='50' cy='175' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+}
+.race-card-briaran,
+.variant-card-briaran {
+    background-size: cover !important;
+    border: 1px solid rgba(129, 199, 132, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.race-card-briaran::before,
+.variant-card-briaran::before {
+    border: 1px solid rgba(129, 199, 132, 0.15);
+}
+
+.race-card-briaran:hover,
+.variant-card-briaran:hover {
+    border-color: #388e3c !important;
+    box-shadow: 0 0 15px rgba(56, 142, 60, 0.35), inset 0 0 10px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-briaran:hover::before,
+.variant-card-briaran:hover::before {
+    border-color: rgba(129, 199, 132, 0.4);
+}
+
+.race-card-briaran.selected,
+.variant-card-briaran.selected {
+    border-color: #81c784 !important;
+    box-shadow: 0 0 20px rgba(129, 199, 132, 0.45), inset 0 0 15px rgba(129, 199, 132, 0.2) !important;
+}
+
+.race-card-briaran.selected::before,
+.variant-card-briaran.selected::before {
+    border-color: rgba(129, 199, 132, 0.6);
+}
+
+.race-card-briaran .race-card-name,
+.race-card-briaran .race-card-essence,
+.race-card-briaran .race-card-description,
+.variant-card-briaran .variant-card-name,
+.variant-card-briaran .variant-card-description {
+    color: #c4dec5 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-briaran.selected .race-card-name,
+.race-card-briaran.selected .race-card-description,
+.race-card-briaran.selected .race-card-essence,
+.variant-card-briaran.selected .variant-card-name,
+.variant-card-briaran.selected .variant-card-description {
+    color: #e5ffe7 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-briaran .race-card-icon,
+.race-card-briaran.selected .race-card-icon {
+    color: #81c784 !important;
+    filter: drop-shadow(0 0 4px rgba(129, 199, 132, 0.5));
+}
+
+.race-card-briaran .info-badge {
+    background: rgba(129, 199, 132, 0.12) !important;
+    color: #a5d6a7 !important;
+    border: 1px solid rgba(129, 199, 132, 0.2);
+}
+
+.race-card-briaran .race-card-bg-effects::before,
+.variant-card-briaran .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 10% 10%, rgba(129, 199, 132, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 90% 90%, rgba(56, 142, 60, 0.1) 0%, transparent 60%);
+    animation: forest-breathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes forest-breathe {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+
+/* 4. GROVEN - Bridge-Trolls (3D Basalt Rock & Glowing Runes) */
+/* 4. GROVEN - Bridge-Trolls (3D Basalt Rock & Glowing Runes) */
+.race-card-groven {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231e2022'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 95 90 L 220 110 L 300 95 M 220 110 L 210 200' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
+}
+.variant-card-morgh_groven {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231a1b1d'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 300 95' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%2369f0ae' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
+}
+.variant-card-ithran_groven {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231e2022'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 300 95 M 220 110 L 210 200' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%2300b0ff' stroke-width='2.5' stroke-opacity='0.85' filter='blur%281px%29'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
+}
+.race-card-groven,
+.variant-card-groven {
+    background-size: cover !important;
+    border: 1px solid rgba(141, 144, 150, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(0, 0, 0, 0.8);
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.race-card-groven::before,
+.variant-card-groven::before {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.race-card-groven:hover,
+.variant-card-groven:hover {
+    border-color: #8d9096 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.8) !important;
+    transform: translateY(-4px);
+    animation: stone-shake 0.4s ease-in-out;
+}
+
+.race-card-groven:hover::before,
+.variant-card-groven:hover::before {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.race-card-groven.selected,
+.variant-card-groven.selected {
+    border-color: #9e9e9e !important;
+    box-shadow: 0 0 20px rgba(158, 158, 158, 0.35), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+}
+
+.race-card-groven.selected::before,
+.variant-card-groven.selected::before {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.race-card-groven .race-card-name,
+.race-card-groven .race-card-essence,
+.race-card-groven .race-card-description,
+.variant-card-groven .variant-card-name,
+.variant-card-groven .variant-card-description {
+    color: #c5c9cc !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-groven.selected .race-card-name,
+.race-card-groven.selected .race-card-description,
+.race-card-groven.selected .race-card-essence,
+.variant-card-groven.selected .variant-card-name,
+.variant-card-groven.selected .variant-card-description {
+    color: #f1f3f5 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-groven .race-card-icon,
+.race-card-groven.selected .race-card-icon {
+    color: #b0bec5 !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.race-card-groven .info-badge {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #b0bec5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes stone-shake {
+    0%, 100% { transform: translateY(-4px) rotate(0deg); }
+    20% { transform: translateY(-4px) translate(-1px, 1px) rotate(-0.4deg); }
+    40% { transform: translateY(-4px) translate(1px, -1px) rotate(0.4deg); }
+    60% { transform: translateY(-4px) translate(-1px, -1px) rotate(-0.4deg); }
+    80% { transform: translateY(-4px) translate(1px, 1px) rotate(0.4deg); }
+}
+
+
+/* 5. EMBERTH - Sol's Keepers (Volcanic Magma cracks) */
+.race-card-emberth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d0402'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ff3d00' stroke-width='8' stroke-opacity='0.75' filter='blur%284px%29'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ff9100' stroke-width='4' stroke-opacity='0.9' filter='blur%281px%29'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ffff00' stroke-width='1.5' stroke-opacity='0.95'/%3E%3Cpath d='M 80 140 L 100 190 M 180 65 L 230 40 M 140 100 L 110 50' fill='none' stroke='%23ff3d00' stroke-width='2.5' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 80 140 L 100 190 M 180 65 L 230 40 M 140 100 L 110 50' fill='none' stroke='%23ff9100' stroke-width='1' stroke-opacity='0.95'/%3E%3C/svg%3E") !important;
+}
+.variant-card-korr_emberth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d0402'/%3E%3Cpath d='M -20 180 L 160 80 L 320 20' fill='none' stroke='%23ff3d00' stroke-width='12' stroke-opacity='0.8' filter='blur%285px%29'/%3E%3Cpath d='M -20 180 L 160 80 L 320 20' fill='none' stroke='%23ffea00' stroke-width='3' stroke-opacity='0.95'/%3E%3C/svg%3E") !important;
+}
+.variant-card-thrask_emberth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230a0503'/%3E%3Cpath d='M 50 200 Q 70 140, 50 0 M 230 200 Q 210 120, 240 0' fill='none' stroke='%23d84315' stroke-width='3' stroke-opacity='0.4' filter='blur%282px%29'/%3E%3Ccircle cx='80' cy='60' r='1.5' fill='%23ff9100' opacity='0.7'/%3E%3Ccircle cx='210' cy='140' r='2' fill='%23ff9100' opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.race-card-emberth,
+.variant-card-emberth {
+    background-size: cover !important;
+    border: 1px solid rgba(216, 67, 21, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(183, 28, 28, 0.3);
+}
+
+.race-card-emberth::before,
+.variant-card-emberth::before {
+    border: 1px solid rgba(255, 112, 67, 0.15);
+}
+
+.race-card-emberth:hover,
+.variant-card-emberth:hover {
+    border-color: #ff7043 !important;
+    box-shadow: 0 0 20px rgba(255, 112, 67, 0.35), inset 0 0 10px rgba(183, 28, 28, 0.3) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-emberth:hover::before,
+.variant-card-emberth:hover::before {
+    border-color: rgba(255, 112, 67, 0.35);
+}
+
+.race-card-emberth.selected,
+.variant-card-emberth.selected {
+    border-color: #ff8a65 !important;
+    box-shadow: 0 0 25px rgba(255, 138, 101, 0.45), inset 0 0 15px rgba(183, 28, 28, 0.4) !important;
+}
+
+.race-card-emberth.selected::before,
+.variant-card-emberth.selected::before {
+    border-color: rgba(255, 138, 101, 0.5);
+}
+
+.race-card-emberth .race-card-name,
+.race-card-emberth .race-card-essence,
+.race-card-emberth .race-card-description,
+.variant-card-emberth .variant-card-name,
+.variant-card-emberth .variant-card-description {
+    color: #ffccbc !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-emberth.selected .race-card-name,
+.race-card-emberth.selected .race-card-description,
+.race-card-emberth.selected .race-card-essence,
+.variant-card-emberth.selected .variant-card-name,
+.variant-card-emberth.selected .variant-card-description {
+    color: #ffebe5 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.race-card-emberth .race-card-icon,
+.race-card-emberth.selected .race-card-icon {
+    color: #ff7043 !important;
+    filter: drop-shadow(0 0 5px rgba(255, 112, 67, 0.6));
+}
+
+.race-card-emberth .info-badge {
+    background: rgba(255, 87, 34, 0.15) !important;
+    color: #ffab91 !important;
+    border: 1px solid rgba(255, 87, 34, 0.25);
+}
+
+.race-card-emberth .race-card-bg-effects::before,
+.variant-card-emberth .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 110%, rgba(216, 67, 21, 0.3) 0%, transparent 70%);
+}
+
+.race-card-emberth .race-card-bg-effects::after,
+.variant-card-emberth .variant-card-bg-effects::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, #ff7043 1px, transparent 1px),
+        radial-gradient(circle, #ffb74d 1.5px, transparent 1.5px),
+        radial-gradient(circle, #d84315 1px, transparent 1px);
+    background-size: 40px 40px, 60px 60px, 50px 50px;
+    background-position: 0 0, 20px 10px, 10px 30px;
+    animation: rising-embers 7s linear infinite;
+    opacity: 0.35;
+}
+
+@keyframes rising-embers {
+    0% { background-position: 0 0, 20px 10px, 10px 30px; }
+    100% { background-position: 0 -40px, 20px -60px, 10px -100px; }
+}
+
+
+/* 6. VREKEN - The Gloom Lit (Hanging moss & glowing mushrooms) */
+.race-card-vreken {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Cpath d='M 30 0 L 25 40 M 45 0 L 40 30 M 120 0 L 125 50 M 180 0 L 175 35 M 260 0 L 265 45' fill='none' stroke='%23142c16' stroke-width='2' stroke-opacity='0.6'/%3E%3Cpath d='M 30 0 L 27 25 M 120 0 L 122 35 M 260 0 L 262 30' fill='none' stroke='%232e7d32' stroke-width='1' stroke-opacity='0.8'/%3E%3Cpath d='M 250 200 Q 252 170, 245 160' fill='none' stroke='%231b5e20' stroke-width='3.5'/%3E%3Cpath d='M 230 160 Q 245 145, 260 160 Z' fill='%2369f0ae' opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 235 158 Q 245 150, 255 158 Z' fill='%23ffffff'/%3E%3Cpath d='M 275 200 Q 272 180, 268 175' fill='none' stroke='%231b5e20' stroke-width='2.5'/%3E%3Cpath d='M 258 175 Q 268 165, 278 175 Z' fill='%2369f0ae' opacity='0.8' filter='blur%281px%29'/%3E%3Ccircle cx='230' cy='130' r='2' fill='%2369f0ae' opacity='0.9'/%3E%3Ccircle cx='265' cy='115' r='1.5' fill='%23b9f6ca' opacity='0.8'/%3E%3Ccircle cx='210' cy='160' r='2.5' fill='%2369f0ae' opacity='0.7'/%3E%3C/svg%3E") !important;
+}
+.variant-card-marked_vreken {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Ccircle cx='60' cy='120' r='15' fill='%2300e676' opacity='0.15' filter='blur%2810px%29'/%3E%3Ccircle cx='60' cy='120' r='2.5' fill='%2369f0ae' opacity='0.9'/%3E%3Ccircle cx='220' cy='70' r='20' fill='%2300e676' opacity='0.12' filter='blur%2812px%29'/%3E%3Ccircle cx='220' cy='70' r='3' fill='%23b9f6ca' opacity='0.8'/%3E%3C/svg%3E") !important;
+}
+.variant-card-clean_vreken {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Cpath d='M 0 0 C 40 40, 80 40, 120 0 M 180 0 C 220 40, 260 40, 300 0' fill='none' stroke='%23142c16' stroke-width='6' stroke-opacity='0.7'/%3E%3Cpath d='M 120 0 L 125 60 M 180 0 L 175 55' fill='none' stroke='%23142c16' stroke-width='2' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.race-card-vreken,
+.variant-card-vreken {
+    background-size: cover !important;
+    border: 1px solid rgba(46, 125, 50, 0.15) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.race-card-vreken::before,
+.variant-card-vreken::before {
+    border: 1px solid rgba(129, 199, 132, 0.15);
+}
+
+.race-card-vreken:hover,
+.variant-card-vreken:hover {
+    border-color: #4caf50 !important;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.35), inset 0 0 10px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-vreken:hover::before,
+.variant-card-vreken:hover::before {
+    border-color: rgba(129, 199, 132, 0.35);
+}
+
+.race-card-vreken.selected,
+.variant-card-vreken.selected {
+    border-color: #a5d6a7 !important;
+    box-shadow: 0 0 20px rgba(165, 214, 167, 0.4), inset 0 0 12px rgba(46, 77, 46, 0.3) !important;
+}
+
+.race-card-vreken.selected::before,
+.variant-card-vreken.selected::before {
+    border-color: rgba(165, 214, 167, 0.5);
+}
+
+.race-card-vreken .race-card-name,
+.race-card-vreken .race-card-essence,
+.race-card-vreken .race-card-description,
+.variant-card-vreken .variant-card-name,
+.variant-card-vreken .variant-card-description {
+    color: #c5e0c7 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-vreken.selected .race-card-name,
+.race-card-vreken.selected .race-card-description,
+.race-card-vreken.selected .race-card-essence,
+.variant-card-vreken.selected .variant-card-name,
+.variant-card-vreken.selected .variant-card-description {
+    color: #e5ffe7 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-vreken .race-card-icon,
+.race-card-vreken.selected .race-card-icon {
+    color: #81c784 !important;
+    filter: drop-shadow(0 0 4px rgba(129, 199, 132, 0.5));
+}
+
+.race-card-vreken .info-badge {
+    background: rgba(76, 175, 80, 0.12) !important;
+    color: #a5d6a7 !important;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.race-card-vreken .race-card-bg-effects::before,
+.variant-card-vreken .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(139, 195, 74, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.12) 0%, transparent 60%);
+    animation: spore-pulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes spore-pulse {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* 7. NETH - Silver-Touched (Silver Contract scroll filigree) */
+.race-card-neth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 5 25 C 5 5, 25 5, 25 5 M 5 15 C 5 8, 8 5, 15 5 M 8 20 A 4 4 0 1 1 12 16' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.5'/%3E%3Cpath d='M 295 175 C 295 195, 275 195, 275 195 M 295 185 C 295 192, 292 195, 285 195 M 288 180 A 4 4 0 1 1 292 176' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.5'/%3E%3Cpath d='M 40 45 C 50 43, 60 47, 70 45 C 80 43, 90 47, 100 45 C 110 43, 120 47, 130 45 M 40 60 C 50 58, 60 62, 70 60 C 80 58, 90 62, 100 60 M 40 75 C 50 73, 60 77, 70 75 C 80 73, 90 77, 100 75 C 110 73, 120 77, 130 75' fill='none' stroke='%238a9ba8' stroke-width='1' stroke-opacity='0.2'/%3E%3C/svg%3E") !important;
+}
+.variant-card-kessen_neth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 5 25 C 5 5, 25 5, 25 5 M 5 15 C 5 8, 8 5, 15 5 M 8 20 A 4 4 0 1 1 12 16' fill='none' stroke='%23d4af37' stroke-width='1.5' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.variant-card-velun_neth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 150 40 L 150 140 M 110 60 L 190 60 M 110 60 L 110 90 M 190 60 L 190 90' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
+}
+.variant-card-drun_neth {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 45 0 L 45 200 M 50 0 L 50 200' stroke='%23b71c1c' stroke-width='0.8' stroke-opacity='0.3'/%3E%3Cpath d='M 0 30 L 300 30 M 0 60 L 300 60 M 0 90 L 300 90 M 0 120 L 300 120' stroke='%238a9ba8' stroke-width='0.5' stroke-opacity='0.15'/%3E%3C/svg%3E") !important;
+}
+.race-card-neth,
+.variant-card-neth {
+    background-size: cover !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+.race-card-neth::before,
+.variant-card-neth::before {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.race-card-neth:hover,
+.variant-card-neth:hover {
+    border-color: #bdbdbd !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.05) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-neth:hover::before,
+.variant-card-neth:hover::before {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.race-card-neth.selected,
+.variant-card-neth.selected {
+    border-color: #e0e0e0 !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), inset 0 0 12px rgba(255, 255, 255, 0.15) !important;
+}
+
+.race-card-neth.selected::before,
+.variant-card-neth.selected::before {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.race-card-neth .race-card-name,
+.race-card-neth .race-card-essence,
+.race-card-neth .race-card-description,
+.variant-card-neth .variant-card-name,
+.variant-card-neth .variant-card-description {
+    color: #d1d4d6 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-neth.selected .race-card-name,
+.race-card-neth.selected .race-card-description,
+.race-card-neth.selected .race-card-essence,
+.variant-card-neth.selected .variant-card-name,
+.variant-card-neth.selected .variant-card-description {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-neth .race-card-icon,
+.race-card-neth.selected .race-card-icon {
+    color: #e0e0e0 !important;
+    filter: drop-shadow(0 2px 3px rgba(255, 255, 255, 0.2));
+}
+
+.race-card-neth .info-badge {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.race-card-neth::after,
+.variant-card-neth::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.race-card-neth:hover::after,
+.variant-card-neth:hover::after {
+    animation: metal-shine 1.2s ease-in-out;
+}
+
+@keyframes metal-shine {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+@keyframes metal-shine {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+
+/* 8. ASTRIL - Fire-Carried (Asymmetric Nebula & Scattered Stars) */
+.race-card-astril {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='nebula-orange' cx='20%25' cy='30%25' r='60%25'%3E%3Cstop offset='0%25' stop-color='%23ff6d00' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3CradialGradient id='nebula-purple' cx='80%25' cy='70%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%236200ea' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Crect width='300' height='200' fill='url%28%23nebula-orange%29'/%3E%3Crect width='300' height='200' fill='url%28%23nebula-purple%29'/%3E%3Cg opacity='0.9'%3E%3Ccircle cx='70' cy='50' r='2' fill='%23fff'/%3E%3Cpath d='M 70 45 L 70 55 M 65 50 L 75 50' stroke='%23fff' stroke-width='0.5'/%3E%3C/g%3E%3Cg opacity='0.8'%3E%3Ccircle cx='230' cy='150' r='1.8' fill='%23ffb74d'/%3E%3Cpath d='M 230 146 L 230 154 M 226 150 L 234 150' stroke='%23ffb74d' stroke-width='0.5'/%3E%3C/g%3E%3Ccircle cx='150' cy='30' r='0.8' fill='%23fff' opacity='0.6'/%3E%3Ccircle cx='40' cy='140' r='1' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='110' cy='170' r='0.6' fill='%23fff' opacity='0.4'/%3E%3Ccircle cx='280' cy='80' r='1.2' fill='%23fff' opacity='0.7'/%3E%3Ccircle cx='180' cy='110' r='0.5' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='250' cy='40' r='1' fill='%23ffb74d' opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.variant-card-silath_astril {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='neb-silath' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3Cstop offset='40%25' stop-color='%236200ea' stop-opacity='0.15'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Ccircle cx='150' cy='100' r='60' fill='url%28%23neb-silath%29'/%3E%3Cpath d='M 150 60 L 150 140 M 110 100 L 190 100' stroke='%23fff' stroke-width='1' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
+}
+.variant-card-vashir_astril {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Cpath d='M 50 140 L 110 170 L 180 110 L 250 40' fill='none' stroke='%23ffb74d' stroke-width='0.7' stroke-opacity='0.5' stroke-dasharray='3,3'/%3E%3Ccircle cx='50' cy='140' r='2' fill='%23fff'/%3E%3Ccircle cx='110' cy='170' r='2' fill='%23fff'/%3E%3Ccircle cx='180' cy='110' r='2' fill='%23fff'/%3E%3Ccircle cx='250' cy='40' r='2' fill='%23ffb74d'/%3E%3C/svg%3E") !important;
+}
+.race-card-astril,
+.variant-card-astril {
+    background-size: cover !important;
+    border: 1px solid rgba(255, 171, 64, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(124, 77, 255, 0.2);
+}
+
+.race-card-astril::before,
+.variant-card-astril::before {
+    border: 1px solid rgba(255, 204, 128, 0.15);
+}
+
+.race-card-astril:hover,
+.variant-card-astril:hover {
+    border-color: #ffa726 !important;
+    box-shadow: 0 0 15px rgba(255, 167, 38, 0.35), inset 0 0 10px rgba(124, 77, 255, 0.2) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-astril:hover::before,
+.variant-card-astril:hover::before {
+    border-color: rgba(255, 204, 128, 0.35);
+}
+
+.race-card-astril.selected,
+.variant-card-astril.selected {
+    border-color: #ffcc80 !important;
+    box-shadow: 0 0 20px rgba(255, 204, 128, 0.45), inset 0 0 15px rgba(124, 77, 255, 0.3) !important;
+}
+
+.race-card-astril.selected::before,
+.variant-card-astril.selected::before {
+    border-color: rgba(255, 204, 128, 0.5);
+}
+
+.race-card-astril .race-card-name,
+.race-card-astril .race-card-essence,
+.race-card-astril .race-card-description,
+.variant-card-astril .variant-card-name,
+.variant-card-astril .variant-card-description {
+    color: #e5ccbe !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-astril.selected .race-card-name,
+.race-card-astril.selected .race-card-description,
+.race-card-astril.selected .race-card-essence,
+.variant-card-astril.selected .variant-card-name,
+.variant-card-astril.selected .variant-card-description {
+    color: #fff2ea !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.race-card-astril .race-card-icon,
+.race-card-astril.selected .race-card-icon {
+    color: #ffa726 !important;
+    filter: drop-shadow(0 0 5px rgba(255, 167, 38, 0.6));
+}
+
+.race-card-astril .info-badge {
+    background: rgba(255, 152, 0, 0.12) !important;
+    color: #ffcc80 !important;
+    border: 1px solid rgba(255, 152, 0, 0.2);
+}
+
+.race-card-astril .race-card-bg-effects::before,
+.variant-card-astril .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 0.5px, transparent 0.5px);
+    animation: star-twinkle 5s ease-in-out infinite alternate;
+}
+
+@keyframes star-twinkle {
+    0% { opacity: 0.35; }
+    100% { opacity: 0.95; }
+}
+
+
+/* 9. FEXRICK - Cyber-Graft Sumps (Rust plate rivets & clockwork gears) */
+/* 9. FEXRICK - Cyber-Graft Sumps (Rust plate rivets & clockwork gears) */
+.race-card-fexrick {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%235d4037' stroke-width='8' stroke-linecap='square'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%23795548' stroke-width='6' stroke-linecap='square'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%2364dd17' stroke-width='2' stroke-linecap='square' stroke-opacity='0.8' filter='blur%280.5px%29'/%3E%3Ccircle cx='270' cy='170' r='25' fill='none' stroke='%238d6e63' stroke-width='3' stroke-dasharray='6,4'/%3E%3Ccircle cx='270' cy='170' r='18' fill='none' stroke='%238d6e63' stroke-width='1.5'/%3E%3Ccircle cx='270' cy='170' r='5' fill='%234e342e'/%3E%3Ccircle cx='225' cy='185' r='15' fill='none' stroke='%23a1887f' stroke-width='2' stroke-dasharray='4,3'/%3E%3Ccircle cx='225' cy='185' r='10' fill='none' stroke='%23a1887f' stroke-width='1'/%3E%3Ccircle cx='225' cy='185' r='3' fill='%234e342e'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%235d4037'/%3E%3Ccircle cx='292' cy='8' r='2' fill='%235d4037'/%3E%3Ccircle cx='8' cy='192' r='2' fill='%235d4037'/%3E%3Ccircle cx='292' cy='192' r='2' fill='%235d4037'/%3E%3C/svg%3E") !important;
+}
+.variant-card-drall_fexric {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Cpath d='M 100 0 L 100 200 M 0 100 L 300 100' stroke='%232d1f18' stroke-width='3'/%3E%3Ccircle cx='90' cy='90' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='110' cy='90' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='90' cy='110' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='110' cy='110' r='1.5' fill='%235d4037'/%3E%3C/svg%3E") !important;
+}
+.variant-card-kethrin_fexric {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Ccircle cx='60' cy='70' r='30' fill='none' stroke='%238d6e63' stroke-width='2.5' stroke-dasharray='5,3'/%3E%3Ccircle cx='110' cy='110' r='25' fill='none' stroke='%23a1887f' stroke-width='2' stroke-dasharray='4,2'/%3E%3C/svg%3E") !important;
+}
+.race-card-fexrick,
+.variant-card-fexrick {
+    background-size: cover !important;
+    border: 1px solid rgba(141, 110, 99, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.race-card-fexrick::before,
+.variant-card-fexrick::before {
+    border: 1px solid rgba(255, 204, 128, 0.12);
+}
+
+.race-card-fexrick:hover,
+.variant-card-fexrick:hover {
+    border-color: #ffcc80 !important;
+    box-shadow: 0 0 15px rgba(255, 204, 128, 0.25), inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-fexrick:hover::before,
+.variant-card-fexrick:hover::before {
+    border-color: rgba(255, 204, 128, 0.3);
+}
+
+.race-card-fexrick.selected,
+.variant-card-fexrick.selected {
+    border-color: #ffcc80 !important;
+    box-shadow: 0 0 20px rgba(255, 204, 128, 0.35), inset 0 0 12px rgba(0, 0, 0, 0.8) !important;
+}
+
+.race-card-fexrick.selected::before,
+.variant-card-fexrick.selected::before {
+    border-color: rgba(255, 204, 128, 0.45);
+}
+
+.race-card-fexrick .race-card-name,
+.race-card-fexrick .race-card-essence,
+.race-card-fexrick .race-card-description,
+.variant-card-fexrick .variant-card-name,
+.variant-card-fexrick .variant-card-description {
+    color: #cfc2b6 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.race-card-fexrick.selected .race-card-name,
+.race-card-fexrick.selected .race-card-description,
+.race-card-fexrick.selected .race-card-essence,
+.variant-card-fexrick.selected .variant-card-name,
+.variant-card-fexrick.selected .variant-card-description {
+    color: #efebe9 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.race-card-fexrick .race-card-icon,
+.race-card-fexrick.selected .race-card-icon {
+    color: #ffcc80 !important;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.race-card-fexrick .info-badge {
+    background: rgba(255, 204, 128, 0.08) !important;
+    color: #ffe0b2 !important;
+    border: 1px solid rgba(255, 204, 128, 0.15);
+}
+
+.race-card-fexrick .race-card-bg-effects::before,
+.variant-card-fexrick .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 115%, rgba(139, 195, 74, 0.15) 0%, transparent 60%);
+}
+
+.race-card-fexrick .race-card-bg-effects::after,
+.variant-card-fexrick .variant-card-bg-effects::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(139, 195, 74, 0.3) 1.5px, transparent 1.5px),
+        radial-gradient(circle, rgba(205, 220, 57, 0.25) 1px, transparent 1px);
+    background-size: 50px 50px, 40px 40px;
+    background-position: 5px 40px, 20px 20px;
+    animation: bubbling-sump 6s linear infinite;
+    opacity: 0.45;
+}
+
+@keyframes bubbling-sump {
+    0% { background-position: 5px 40px, 20px 20px; }
+    100% { background-position: 5px -10px, 20px -20px; }
+}
+
+
+/* 10. HUMAN - The Burning Wick (HIGH READABILITY Parchment & Candle) */
+/* 10. HUMAN - The Burning Wick (HIGH READABILITY Parchment & Candle) */
+.race-card-human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='candle-glow' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='40%25' stop-color='%23f5ecc8'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23candle-glow%29'/%3E%3Cpath d='M 0 50 C 40 40, 60 70, 100 50 T 200 40 T 300 60' fill='none' stroke='%23d7ccc8' stroke-width='0.7' stroke-opacity='0.4'/%3E%3Cpath d='M 0 130 C 50 140, 80 110, 150 120 T 300 130' fill='none' stroke='%23d7ccc8' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M 285 200 L 285 100 Q 285 95, 280 95 L 275 95 Q 270 95, 270 100 L 270 200 Z' fill='%236d4c41' opacity='0.15'/%3E%3Ccircle cx='277' cy='80' r='15' fill='%23ffa000' opacity='0.25' filter='blur%285px%29'/%3E%3Cpath d='M 277 88 C 281 88, 283 83, 277 72 C 271 83, 273 88, 277 88 Z' fill='%23ffb300' opacity='0.4'/%3E%3C/svg%3E") !important;
+}
+.variant-card-thalren_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-thalren' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-thalren%29'/%3E%3Cpath d='M 40 45 L 260 45 M 40 60 L 260 60 M 40 75 L 260 75' stroke='%236d4c41' stroke-width='0.5' stroke-opacity='0.15'/%3E%3Cpath d='M 230 180 Q 240 140, 260 110 L 265 110 Q 250 145, 235 180 Z' fill='%236d4c41' opacity='0.12'/%3E%3Ccircle cx='230' cy='180' r='8' fill='%236d4c41' opacity='0.15'/%3E%3Cpath d='M 10 -10 C 50 20, 10 60, -10 90' fill='none' stroke='%23d7ccc8' stroke-width='8' stroke-opacity='0.25' filter='blur%283px%29'/%3E%3C/svg%3E") !important;
+}
+.variant-card-skald_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-skald' cx='50%25' cy='50%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23e8f4f8'/%3E%3Cstop offset='100%25' stop-color='%23ebdca0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-skald%29'/%3E%3Cpath d='M 0 0 L 20 20 M 300 0 L 280 20 M 0 200 L 20 180 M 300 200 L 280 180' stroke='%23b0bec5' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 10 30 L 30 10 M 290 30 L 270 10 M 10 170 L 30 190 M 290 170 L 270 190' stroke='%23b0bec5' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M 230 40 L 245 40 L 237 55 Z M 237 35 L 237 60 M 225 48 L 250 48' fill='none' stroke='%236d4c41' stroke-width='1' stroke-opacity='0.2'/%3E%3C/svg%3E") !important;
+}
+.variant-card-tessen_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-tessen' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23ebdca0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-tessen%29'/%3E%3Cpath d='M 0 40 L 300 40 M 0 80 L 300 80 M 0 120 L 300 120 M 0 160 L 300 160 M 100 0 L 100 200 M 200 0 L 200 200' stroke='%236d4c41' stroke-width='1' stroke-opacity='0.08'/%3E%3Cpath d='M 40 0 L 40 200' stroke='%23ff7043' stroke-width='4' stroke-opacity='0.15' filter='blur%281px%29'/%3E%3Cpath d='M 220 0 L 220 120 Q 215 125, 220 130 A 5 5 0 1 1 220 120' fill='none' stroke='%236d4c41' stroke-width='2' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
+}
+.variant-card-solvarn_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-solvarn' cx='50%25' cy='50%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23fff3e0'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-solvarn%29'/%3E%3Ccircle cx='60' cy='60' r='30' fill='none' stroke='%23ffb74d' stroke-width='1.5' stroke-opacity='0.3' stroke-dasharray='4,4'/%3E%3Ccircle cx='60' cy='60' r='20' fill='none' stroke='%23ffb74d' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M 60 10 L 60 110 M 10 60 L 110 60 M 25 25 L 95 95 M 25 95 L 95 25' stroke='%23ffb74d' stroke-width='0.8' stroke-opacity='0.2'/%3E%3Cpath d='M 230 200 Q 250 160, 300 150 M 260 200 Q 280 180, 300 180' stroke='%23ff7043' stroke-width='1.5' stroke-opacity='0.25' filter='blur%280.5px%29'/%3E%3C/svg%3E") !important;
+}
+.variant-card-merryn_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-merryn' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-merryn%29'/%3E%3Ccircle cx='150' cy='100' r='50' fill='none' stroke='%238d6e63' stroke-width='0.8' stroke-opacity='0.25' stroke-dasharray='4,4'/%3E%3Ccircle cx='150' cy='100' r='30' fill='none' stroke='%238d6e63' stroke-width='0.5' stroke-opacity='0.15'/%3E%3Cpath d='M 150 40 L 150 160 M 90 100 L 210 100 M 108 58 L 192 142 M 108 142 L 192 58' stroke='%238d6e63' stroke-width='0.8' stroke-opacity='0.2'/%3E%3Cpath d='M 230 170 C 240 160, 250 160, 260 170 C 270 180, 280 180, 290 170' fill='none' stroke='%232d1510' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M 10 30 C 20 20, 30 20, 40 30 C 50 40, 60 40, 70 30' fill='none' stroke='%232d1510' stroke-width='1.5' stroke-opacity='0.15'/%3E%3C/svg%3E") !important;
+}
+.variant-card-ordan_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-ordan' cx='50%25' cy='50%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23fdfbf7'/%3E%3Cstop offset='100%25' stop-color='%23e5d59c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-ordan%29'/%3E%3Cpath d='M 0 100 Q 75 80, 150 100 T 300 100 M 0 120 Q 75 100, 150 120 T 300 120 M 0 140 Q 75 120, 150 140 T 300 140' fill='none' stroke='%238d6e63' stroke-width='0.6' stroke-opacity='0.2'/%3E%3Cpath d='M 230 170 H 250 L 255 165 L 260 170 H 270' fill='none' stroke='%236d4c41' stroke-width='1.2' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
+}
+.variant-card-morren_human {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-morren' cx='50%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23f1f6ed'/%3E%3Cstop offset='100%25' stop-color='%23dcd0a5'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-morren%29'/%3E%3Cpath d='M 10 10 L 290 10 L 290 190 L 10 190 Z' fill='none' stroke='%238d6e63' stroke-width='1' stroke-opacity='0.2' stroke-dasharray='2,2'/%3E%3Ccircle cx='260' cy='160' r='12' fill='%23b71c1c' opacity='0.22'/%3E%3Cpath d='M 30 0 L 25 30 M 70 0 L 73 25 M 180 0 L 175 35' stroke='%234caf50' stroke-width='1.5' stroke-opacity='0.15' fill='none'/%3E%3C/svg%3E") !important;
+}
+.race-card-human,
+.variant-card-human {
+    background-size: cover !important;
+    border: 1px solid rgba(141, 110, 99, 0.45) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), inset 0 0 12px rgba(141, 110, 99, 0.15);
+}
+
+.race-card-human::before,
+.variant-card-human::before {
+    border: 1px dashed rgba(141, 110, 99, 0.45);
+}
+
+.race-card-human:hover,
+.variant-card-human:hover {
+    border-color: #5d4037 !important;
+    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.25), inset 0 0 10px rgba(141, 110, 99, 0.15) !important;
+    transform: translateY(-4px);
+}
+
+.race-card-human:hover::before,
+.variant-card-human:hover::before {
+    border-color: rgba(93, 64, 55, 0.6);
+}
+
+.race-card-human.selected,
+.variant-card-human.selected {
+    border-color: #3e2723 !important;
+    box-shadow: 0 0 18px rgba(93, 64, 55, 0.4), inset 0 0 12px rgba(93, 64, 55, 0.2) !important;
+}
+
+.race-card-human.selected::before,
+.variant-card-human.selected::before {
+    border-color: rgba(93, 64, 55, 0.8);
+}
+
+/* Light background contrast text color overrides */
+.race-card-human .race-card-name,
+.race-card-human .race-card-essence,
+.race-card-human .race-card-description,
+.variant-card-human .variant-card-name,
+.variant-card-human .variant-card-description {
+    color: #2d1510 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.race-card-human.selected .race-card-name,
+.race-card-human.selected .race-card-description,
+.race-card-human.selected .race-card-essence,
+.variant-card-human.selected .variant-card-name,
+.variant-card-human.selected .variant-card-description {
+    color: #1a0805 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.race-card-human .race-card-icon,
+.race-card-human.selected .race-card-icon {
+    color: #5d4037 !important;
+    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.5));
+}
+
+.race-card-human .info-badge {
+    background: rgba(93, 64, 55, 0.1) !important;
+    color: #3e2723 !important;
+    border: 1px solid rgba(93, 64, 55, 0.25) !important;
+}
+
+.race-card-human .race-card-bg-effects::before,
+.variant-card-human .variant-card-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 50%, rgba(255, 224, 130, 0.35) 0%, transparent 65%);
+    animation: candle-flicker 4s ease-in-out infinite alternate;
+}
+
+@keyframes candle-flicker {
+    0% { opacity: 0.65; transform: scale(0.97) translate(-1px, 1px); }
+    20% { opacity: 0.95; transform: scale(1.03) translate(1px, -1px); }
+    40% { opacity: 0.75; transform: scale(0.94) translate(-1px, -1px); }
+    60% { opacity: 1; transform: scale(1.04) translate(1.5px, 1px); }
+    80% { opacity: 0.8; transform: scale(0.96) translate(-1px, 0.5px); }
+    100% { opacity: 0.9; transform: scale(1) translate(0, 0); }
 }

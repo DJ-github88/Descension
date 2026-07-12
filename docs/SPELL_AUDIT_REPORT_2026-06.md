@@ -1,7 +1,7 @@
-# Spell & Trait Audit Report — Classes & Subraces
+﻿# Spell & Trait Audit Report  -  Classes & Subraces
 
 > Generated 2026-06-15. Methodology per `docs/SPELL_DATA_REFERENCE.md` (the source of truth)
-> and `docs/SPELL_CLASS_AUDIT_AGENT_PROMPT.md` (3-layer audit). **Report-only — no fixes applied.**
+> and `docs/SPELL_CLASS_AUDIT_AGENT_PROMPT.md` (3-layer audit). **Report-only  -  no fixes applied.**
 >
 > Scan coverage: **702 spell/trait objects** (632 class spells across 19 implementable classes +
 > 70 race/subrace traits across 10 races). Layer-1 checks run programmatically; Layer-2/3 from
@@ -13,7 +13,7 @@
 
 | Metric | Value |
 |---|---|
-| Class files scanned | 20 (1 unimplemented — Animist) |
+| Class files scanned | 20 (1 unimplemented  -  Animist) |
 | Race files scanned | 10 (all 10 with subraces) |
 | Class spells scanned | 632 |
 | Race/subrace traits scanned | 70 |
@@ -53,7 +53,7 @@ still references the pre-consolidation 30-class list and should be regenerated.
 | False Prophet | falseProphetData.js | (echoes Doomsayer thematics) |
 | **Gambit** | gambitData.js | **Gambler + Fate Weaver** (equipment text confirms) |
 | **Apex** | apexData.js | **Huntress** (beast-companion + glaive + quarry marks) |
-| **Animist** | animistData.js | **Primalist + Witch Doctor + Inscriptor** (triple fusion — UNIMPLEMENTED) |
+| **Animist** | animistData.js | **Primalist + Witch Doctor + Inscriptor** (triple fusion  -  UNIMPLEMENTED) |
 | Lunarch | lunarchData.js | (original starlight-parasite) |
 | **Martyr** | martyrData.js | Martyr + **Dreadnaught** (Ironclad spec) |
 | Minstrel | minstrelData.js | Minstrel (kept) |
@@ -73,7 +73,7 @@ classes' resource schemas merged.
 
 | File | Class | Spells | Declared resource | Actual spell key | Status |
 |---|---|---|---|---|---|
-| animistData.js | Animist | **0** | Ancestral Resonance | — | **UNIMPLEMENTED** |
+| animistData.js | Animist | **0** | Ancestral Resonance |  -  | **UNIMPLEMENTED** |
 | apexData.js | Apex | 35 | Quarry Marks (0-5) | `classResource:{type:'quarry_marks'}` | ✅ (31/35) |
 | arcanoneerData.js | Arcanoneer | 33 | Elemental Spheres | `resourceValues:{arcane_sphere…}` | ✅ non-standard encoding |
 | augurData.js | Augur | 33 | Benediction / Malediction | `classResource:{type:'benediction'\|'malediction'}` | ✅ (24/32) |
@@ -103,9 +103,9 @@ ignore those 11 classes. This is the single biggest consistency risk in the data
 
 ## 3. Critical Thematic Gaps (need design decision before fixing)
 
-### 3.1 Animist — entire class has no spells
+### 3.1 Animist  -  entire class has no spells
 `animistData.js` defines `overview`, `resourceSystem`, `specializations` (Thornwarden / Spirit
-Binder / Stormscribe) but only `spellPools` — string arrays of legacy IDs from the three classes
+Binder / Stormscribe) but only `spellPools`  -  string arrays of legacy IDs from the three classes
 it absorbed (Primalist, Witch Doctor, Inscriptor). None of those IDs resolve to spell objects
 anywhere in `src/data/`. **The class is unplayable as-is.**
 
@@ -122,20 +122,20 @@ a "coming soon" flag.
 
 These rebrands never propagated to the spell data. Either rename the keys or update the lore.
 
-### 3.3 Gambit — Karmic Debt modeled in prose only
+### 3.3 Gambit  -  Karmic Debt modeled in prose only
 `resourceSystem` declares a Fortune Points (0-15) + **Karmic Debt (0-13)** dual ledger, but
 Karmic Debt never appears as a cost/gain key in any of the 63 spells. 50/63 spells generate
 Fortune via `specialMechanics.fortunePoints` rather than the canonical `classResource` field.
 Spenders are rare (11 spells).
 
-### 3.4 Lunarch — no per-spell resource interaction
+### 3.4 Lunarch  -  no per-spell resource interaction
 All 28 spells use only mana. The 4-phase lunar cycle is purely environmental
 (`specialMechanics.phaseInteraction`). This may be intentional, but it means the Lunarch has
 no resource-management gameplay loop distinct from any generic caster.
 
 ---
 
-## 4. Layer-1 Findings — Classes (structural)
+## 4. Layer-1 Findings  -  Classes (structural)
 
 Total class L1 issues: **105** across 60 spells. Breakdown:
 
@@ -145,7 +145,7 @@ Total class L1 issues: **105** across 60 spells. Breakdown:
 | ORPHAN_CONFIG | 32 | A `*Config` exists but its type isn't in `effectTypes` |
 | UNKNOWN_EFFECTTYPE | 5 | `effectTypes` value not in the canonical set |
 | NO_ACTIONPOINTS / NO_RESOURCECOST | 0 | (clean) |
-| COOLDOWN_OLD_KEYS | 0 | (clean — bulk fix already applied per reference §21) |
+| COOLDOWN_OLD_KEYS | 0 | (clean  -  bulk fix already applied per reference §21) |
 | SINGULAR_DAMAGE_TYPE_KEY | 0 | (clean) |
 | FORMULA_SPECIAL | 0 | (clean) |
 | INVALID_SCHOOL (classes) | 3 | `holy`, `shadow`, `restoration` |
@@ -161,7 +161,7 @@ Total class L1 issues: **105** across 60 spells. Breakdown:
 `tox_poison_bomb`, `tox_toxic_wave`. Three "summon" spells (`tox_mechanical_monstrosity`,
 `tox_war_machine`, `tox_mechanical_army`) use the non-canonical `summon` instead of `summoning`.
 
-**Shaper (15 issues / 16 spells):** widespread `EFFECTTYPE_NO_CONFIG` — `buff`/`debuff`/`utility`
+**Shaper (15 issues / 16 spells):** widespread `EFFECTTYPE_NO_CONFIG`  -  `buff`/`debuff`/`utility`
 declared but configs absent on most mutation-themed spells (`shaper_form_shift`,
 `shaper_ataxic_sway`, `shaper_arterial_puncture`, `shaper_alchemic_purge`, `shaper_kinetic_dash`,
 `shaper_alchemic_overdrive`, `shaper_void_collapse`, `shaper_sensory_numbing`,
@@ -200,17 +200,17 @@ grep for `damageTypes:[` arrays of length ≥2 and add `secondaryElement` for ea
 
 ---
 
-## 5. Layer-1 Findings — Races & Subraces (structural)
+## 5. Layer-1 Findings  -  Races & Subraces (structural)
 
 Total race L1 issues: **105** across ~40 traits. (The 108 `L3.NO_CLASS_RESOURCE` flags on race
-traits are **false positives** — races intentionally use AP+mana only; no race has a class-like
+traits are **false positives**  -  races intentionally use AP+mana only; no race has a class-like
 resource pool.)
 
 | Code | Count | Where |
 |---|---|---|
 | NO_SCHOOL | 32 | All 23 human traits + 6 fexrick + 3 astril |
 | INVALID_SCHOOL `divine` | 8 | astril (×4), emberth (×1), neth (×3) |
-| INVALID_SECONDARYELEMENT | 9 | emberth/mimir/myrathil/vreken — values like `willpower`, `perception`, `movement`, `earth`, `air`, `ancestral`, `curse` |
+| INVALID_SECONDARYELEMENT | 9 | emberth/mimir/myrathil/vreken  -  values like `willpower`, `perception`, `movement`, `earth`, `air`, `ancestral`, `curse` |
 | UNKNOWN_EFFECTTYPE | 3 | `social` (human tattoo_contract_merryn), `heal` (fexrick jury_rig_drall), `vulnerability` (fexrick) |
 | EFFECTTYPE_NO_CONFIG / ORPHAN | 2 | vreken crypt_chant_clean; human tattoo_contract_merryn |
 
@@ -234,50 +234,50 @@ resource pool.)
 
 ## 6. Layer-2/3 (Thematic) Notes per Class
 
-Resource integration is generally **healthy** — the automated `NO_CLASS_RESOURCE` flags on class
+Resource integration is generally **healthy**  -  the automated `NO_CLASS_RESOURCE` flags on class
 spells are almost all intentional drawback/weakness passives (`*_burnout`, `*_dependency`,
 `*_fragility`, `*_exhaustion`, `withdrawal`, `sterile_environment`). These are by design.
 
 Remaining thematic drift worth a human eye:
 
-- **Gambit** — 50/63 spells generate Fortune via `specialMechanics` not `classResource`. If the
+- **Gambit**  -  50/63 spells generate Fortune via `specialMechanics` not `classResource`. If the
   engine only reads `classResource`, Gambit's economy is invisible to it.
-- **Minstrel** — note generation lives in `musicalCombo.generates[{note,count}]`, not `classResource`.
+- **Minstrel**  -  note generation lives in `musicalCombo.generates[{note,count}]`, not `classResource`.
   Cadence (resolver) spells need verification that they actually consume notes.
-- **Martyr** — devotion lives in scattered top-level fields (`devotionCost`, `devotionGain`,
+- **Martyr**  -  devotion lives in scattered top-level fields (`devotionCost`, `devotionGain`,
   `devotionRequired`, `devotionLevel`) plus one spell using `resourceTypes:["mana","devotion"]`.
   Pick one canonical location.
-- **Toxicologist** — `Contraption Parts` resource is declared but never appears as a spell cost.
-- **Chronarch** — `Temporal Strain` is declared but only `time_shards` appears in spell data.
-- **Plaguebringer** — every spell *generates* virulence; none spend it. The spend mechanic must
-  live elsewhere (category progression) — confirm this is intentional.
+- **Toxicologist**  -  `Contraption Parts` resource is declared but never appears as a spell cost.
+- **Chronarch**  -  `Temporal Strain` is declared but only `time_shards` appears in spell data.
+- **Plaguebringer**  -  every spell *generates* virulence; none spend it. The spend mechanic must
+  live elsewhere (category progression)  -  confirm this is intentional.
 
 ---
 
 ## 7. Recommended Fix Order (when you green-light edits)
 
-**Tier A — blocking (do first):**
+**Tier A  -  blocking (do first):**
 1. Decide Animist's fate (§3.1). Either implement spells or disable the class.
-2. Fix the 3 resource-key mismatches (§3.2) — one rename each, ~45 spells.
-3. Fix Toxicologist + Shaper effectType↔config mismatches (§4.1) — ~56 spells, the largest
+2. Fix the 3 resource-key mismatches (§3.2)  -  one rename each, ~45 spells.
+3. Fix Toxicologist + Shaper effectType↔config mismatches (§4.1)  -  ~56 spells, the largest
    card-rendering bug cluster.
 
-**Tier B — systemic (high value, mechanical):**
+**Tier B  -  systemic (high value, mechanical):**
 4. Migrate `school:'divine'`/`'holy'`/`'shadow'`/`'restoration'` to canonical IDs (§4.2, §5.1).
 5. Add `typeConfig.school` to all 23 human traits + the 9 other missing-school race traits (§5.1).
 6. Add `typeConfig.secondaryElement` to every dual-`damageTypes` spell (§4.3).
 7. Replace non-standard race `effectTypes` (`social`/`heal`/`vulnerability`/`shield`) (§5.1).
 
-**Tier C — polish:**
+**Tier C  -  polish:**
 8. Apex / Harbinger / Lunarch / Minstrel effectType↔config cleanup (§4.1).
 9. Standardize the 11 non-canonical resource encodings onto `classResource` where feasible (§2),
    or document the alternative encodings as supported in the reference.
 10. Update `docs/SPELL_DATA_REFERENCE.md` §8 + `SPELL_CLASS_AUDIT_AGENT_PROMPT.md` to the 20-class
     reality (§1) so future audits don't chase phantom files.
 
-**Tier D — thematic design calls (need your input):**
+**Tier D  -  thematic design calls (need your input):**
 11. Karmic Debt (Gambit), Temporal Strain (Chronarch), Contraption Parts (Toxicologist),
-    Phylactery (Revenant) — all declared but unmodeled. Implement or remove.
+    Phylactery (Revenant)  -  all declared but unmodeled. Implement or remove.
 12. Lunarch per-spell resource loop (§3.4).
 13. Decide whether `divine` becomes a real school or maps to `ember`.
 
@@ -328,26 +328,26 @@ have no class resource + ~39 class drawback/weakness passives like `*_burnout`, 
 | **myrathil.js** | `secondaryElement:'air'`→`'storm'` (storm_blood_breaker) |
 | **vreken.js** | `secondaryElement:'divine'`→`'ember'`; removed unsupported `utility` effectType (crypt_chant_clean) |
 
-*Note: myrathil.js uses `baseTraits` instead of `sharedTraits` — unique among races, left as-is (likely intentional).*
+*Note: myrathil.js uses `baseTraits` instead of `sharedTraits`  -  unique among races, left as-is (likely intentional).*
 
-### Not yet addressed (need design decision — see §3, §6, §7 Tier C-D)
+### Not yet addressed (need design decision  -  see §3, §6, §7 Tier C-D)
 
-1. **Animist unimplemented** (§3.1) — class has lore + `spellPools` referencing ~85 legacy spell IDs that don't exist anywhere.
-2. **3 resource-key mismatches** (§3.2) — spellguard `arcane_energy_points` vs "Void Resonance", berserker `rage` vs "Blood-Heat", inquisitor `righteousAuthority` camelCase. These render fine; the mismatch is lore-vs-key naming.
-3. **Unmodeled declared resources** — Gambit Karmic Debt, Chronarch Temporal Strain, Toxicologist Contraption Parts.
-4. **11 classes use non-canonical resource encodings** (§2) — only 9/20 use the `classResource:{type,cost}` field the reference documents.
-5. **`docs/SPELL_DATA_REFERENCE.md §8` + audit prompt are stale** — list 30 classes, engine ships 20 (see §1 consolidation map).
+1. **Animist unimplemented** (§3.1)  -  class has lore + `spellPools` referencing ~85 legacy spell IDs that don't exist anywhere.
+2. **3 resource-key mismatches** (§3.2)  -  spellguard `arcane_energy_points` vs "Void Resonance", berserker `rage` vs "Blood-Heat", inquisitor `righteousAuthority` camelCase. These render fine; the mismatch is lore-vs-key naming.
+3. **Unmodeled declared resources**  -  Gambit Karmic Debt, Chronarch Temporal Strain, Toxicologist Contraption Parts.
+4. **11 classes use non-canonical resource encodings** (§2)  -  only 9/20 use the `classResource:{type,cost}` field the reference documents.
+5. **`docs/SPELL_DATA_REFERENCE.md §8` + audit prompt are stale**  -  list 30 classes, engine ships 20 (see §1 consolidation map).
 
 *Re-run scanner after any further changes: `node …\opencode\audit_layer1.mjs`.*
 
 ---
 
-## 9. Layer 2/3 Pass — Descriptions, Formatting & Obsolete Damage Types (2026-06-16)
+## 9. Layer 2/3 Pass  -  Descriptions, Formatting & Obsolete Damage Types (2026-06-16)
 
 Follow-up pass focused on (a) eliminating obsolete damage-type references, (b) Section 22
 description↔data alignment, (c) thematic description quality.
 
-### Obsolete damage types — fully eliminated
+### Obsolete damage types  -  fully eliminated
 Canonical set per §24A: `physical, ember, rime, storm, arcane, primal, blight, wyrd`. Anything
 else is obsolete. Final scanner result: **0 data-field hits, 0 prose hits** across all 20 classes
 + 10 races.
@@ -357,11 +357,11 @@ else is obsolete. Final scanner result: **0 data-field hits, 0 prose hits** acro
 | Prose replacements "<legacy> damage" → "<canonical> damage" in class descriptions | 349 |
 | Prose replacements in race descriptions | 47 |
 | `vulnerabilityType` data fixes (fire→ember, lightning→storm, necrotic→blight) | 4 |
-| **Shape-word `damageTypes` bug** — `["direct"]`/`["area"]` were delivery-shape values misplaced into the element array; corrected to real elements from each spell's `elementType`/`school` | **38** (apex 19, minstrel 19) |
+| **Shape-word `damageTypes` bug**  -  `["direct"]`/`["area"]` were delivery-shape values misplaced into the element array; corrected to real elements from each spell's `elementType`/`school` | **38** (apex 19, minstrel 19) |
 | School/data mismatches fixed (tox_toxic_wave school ember→blight; etc.) | 2 |
 
 *(arcanoneer `damageTypes:["random"]` is an **intentional** "random damage type" marker inside a
-`randomEffects` table — left as-is. `toxicologistSpells_new.js` is an unused orphan file — left.)*
+`randomEffects` table  -  left as-is. `toxicologistSpells_new.js` is an unused orphan file  -  left.)*
 
 ### Section 22 description↔data alignment fixes
 - All vague "massive damage"/"devastating damage" spell descriptions rewritten with **exact

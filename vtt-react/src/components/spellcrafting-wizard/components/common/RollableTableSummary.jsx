@@ -385,7 +385,7 @@ const RollableTableSummary = ({
                   disabled={currentPage === 1 || isRolling}
                   title="Previous Page"
                 >
-                  â—€
+                  â - €
                 </button>
                 <span className="page-info">
                   {currentPage} of {totalPages}
@@ -526,7 +526,7 @@ const RollableTableSummary = ({
                 disabled={currentPage === 1 || isRolling}
                 title="Previous Page"
               >
-                â—€
+                â - €
               </button>
               <span className="page-info">
                 {currentPage} of {totalPages}

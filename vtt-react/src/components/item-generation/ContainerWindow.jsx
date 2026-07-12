@@ -1196,7 +1196,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                     className="close-button"
                                     onClick={onClose}
                                 >
-                                    Ã—
+                                    Ã - 
                                 </button>
                             </div>
                             <div

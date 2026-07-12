@@ -1151,7 +1151,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                                 className="compact-clear"
                                                 title="Clear filters"
                                             >
-                                                Ã—
+                                                Ã - 
                                             </button>
                                         )}
                                     </div>

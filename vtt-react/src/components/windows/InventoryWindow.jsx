@@ -2905,7 +2905,7 @@ const InventoryWindow = memo(() => {
                                     setItemToRename(null);
                                 }}
                             >
-                                Ã—
+                                Ã - 
                             </button>
                         </div>
                         <div className="modal-body">
@@ -2982,7 +2982,7 @@ const InventoryWindow = memo(() => {
                                     setItemToSplit(null);
                                 }}
                             >
-                                Ã—
+                                Ã - 
                             </button>
                         </div>
                         <div className="modal-body">
