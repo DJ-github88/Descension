@@ -19,7 +19,7 @@ const AncestralResonanceResourceBar = ({
   renderStatusFlavor,
   logClassResourceChange,
 }) => {
-  const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;
+  const {} = uiState;
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
 

@@ -18,36 +18,26 @@ const QuarryMarksResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    localQuarryMarks,
-    huntressSpec,
-    companionHP,
-    companionMaxHP,
-    showQMMenu,
-    showHuntressSpecMenu,
-    huntressHoverSection
+      localQuarryMarks,
+      companionHP,
+      companionMaxHP,
+      showQMMenu
   } = huntressState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalQuarryMarks = (value) => setHuntressState(prev => ({ ...prev, localQuarryMarks: value }));
+    const setLocalQuarryMarks = (value) => setHuntressState(prev => ({ ...prev, localQuarryMarks: value }));
   const setLocalCompanionHP = (value) => setHuntressState(prev => ({ ...prev, companionHP: value }));
   const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
   const setHuntressHoverSection = (value) => setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
 
-        const specs = finalConfig.visual?.quarryMarks || {};
-        const maxQM = finalClassResource.max ?? 5;
+                const maxQM = finalClassResource.max ?? 5;
         const qmValue = Math.min(finalClassResource.current ?? localQuarryMarks, maxQM);
         const specColor = '#DC143C';
         const specGlow = '#FF6B6B';
-        const specIcon = 'fa-khanda';
-
+        
         // Companion info
         const companionHPValue = finalClassResource.companionHP ?? companionHP;
         const companionMaxHPValue = finalClassResource.companionMaxHP ?? companionMaxHP;

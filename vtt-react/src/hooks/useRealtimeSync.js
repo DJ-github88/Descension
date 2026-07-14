@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef, useState } from 'react';
-import { doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 export const useRealtimeSync = (collection, documentId, onRemoteChange, options = {}) => {
@@ -24,8 +24,55 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
   const {
     enabled = true,
     conflictResolution = 'remote-wins', // 'remote-wins', 'local-wins', 'ask-user'
-    onConflict = null
   } = options;
+
+  /**
+   * Stop real-time listener
+   */
+  const stopSync = useCallback(() => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+      unsubscribeRef.current = null;
+      setIsConnected(false);
+      console.log(`🛑 Stopped real-time sync for ${collection}/${documentId}`);
+    }
+  }, [collection, documentId]);
+
+  /**
+   * Mark that local changes have been made
+   */
+  const markLocalChange = useCallback((changeId) => {
+    localChangesRef.current.add(changeId);
+  }, []);
+
+  /**
+   * Mark that local changes have been saved
+   */
+  const markLocalSave = useCallback((timestamp = new Date()) => {
+    lastLocalSaveRef.current = timestamp;
+    localChangesRef.current.clear();
+    setConflictDetected(false);
+    setConflictData(null);
+  }, []);
+
+  /**
+   * Handle conflict resolution
+   */
+  const handleConflictResolution = useCallback((choice) => {
+    if (!conflictData) return;
+
+    if (choice === 'remote') {
+      // Accept remote changes
+      onRemoteChange(conflictData.remoteData, 'conflict-resolved-remote');
+      localChangesRef.current.clear();
+    } else if (choice === 'local') {
+      // Keep local changes - don't call onRemoteChange
+      // The local changes will be saved on next auto-save
+    }
+
+    setConflictDetected(false);
+    setConflictData(null);
+  }, [conflictData, onRemoteChange]);
 
   /**
    * Start real-time listener for the document
@@ -117,55 +164,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
     );
 
     console.log(`🔄 Started real-time sync for ${collection}/${documentId}`);
-  }, [collection, documentId, user, enabled, onRemoteChange, conflictResolution, onConflict]);
-
-  /**
-   * Stop real-time listener
-   */
-  const stopSync = useCallback(() => {
-    if (unsubscribeRef.current) {
-      unsubscribeRef.current();
-      unsubscribeRef.current = null;
-      setIsConnected(false);
-      console.log(`🛑 Stopped real-time sync for ${collection}/${documentId}`);
-    }
-  }, [collection, documentId]);
-
-  /**
-   * Mark that local changes have been made
-   */
-  const markLocalChange = useCallback((changeId) => {
-    localChangesRef.current.add(changeId);
-  }, []);
-
-  /**
-   * Mark that local changes have been saved
-   */
-  const markLocalSave = useCallback((timestamp = new Date()) => {
-    lastLocalSaveRef.current = timestamp;
-    localChangesRef.current.clear();
-    setConflictDetected(false);
-    setConflictData(null);
-  }, []);
-
-  /**
-   * Handle conflict resolution
-   */
-  const handleConflictResolution = useCallback((choice) => {
-    if (!conflictData) return;
-
-    if (choice === 'remote') {
-      // Accept remote changes
-      onRemoteChange(conflictData.remoteData, 'conflict-resolved-remote');
-      localChangesRef.current.clear();
-    } else if (choice === 'local') {
-      // Keep local changes - don't call onRemoteChange
-      // The local changes will be saved on next auto-save
-    }
-
-    setConflictDetected(false);
-    setConflictData(null);
-  }, [conflictData, onRemoteChange]);
+  }, [collection, documentId, user, enabled, onRemoteChange, conflictResolution, handleConflictResolution, stopSync]);
 
   // Start/stop sync based on enabled state and dependencies
   useEffect(() => {
@@ -184,7 +183,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
         console.log(`🧹 Cleanup: Stopped real-time sync for ${collection}/${documentId} on unmount/dependency change`);
       }
     };
-  }, [enabled, user, documentId]);
+  }, [enabled, user, documentId, collection, startSync, stopSync]);
 
   return {
     // Status

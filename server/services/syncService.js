@@ -68,7 +68,7 @@ class FirebaseBatchWriter {
    * Flush all pending writes to Firebase
    */
   async flush() {
-    if (this.pendingWrites.size === 0) return;
+    if (this.pendingWrites.size === 0) {return;}
 
     const writesToProcess = Array.from(this.pendingWrites.entries());
     this.pendingWrites.clear();
@@ -76,7 +76,7 @@ class FirebaseBatchWriter {
     let failedWrites = writesToProcess;
 
     for (let attempt = 1; attempt <= 3; attempt++) {
-      const writePromises = failedWrites.map(async ([roomId, data]) => {
+      const writePromises = failedWrites.map(async([roomId, data]) => {
         try {
           await firebaseService.updateRoomGameState(roomId, data.gameState);
           logger.debug(`Batched write completed for room ${roomId}`);
@@ -92,7 +92,7 @@ class FirebaseBatchWriter {
         .filter(r => r.status === 'fulfilled' && r.value && !r.value.success)
         .map(r => [r.value.roomId, r.value.data]);
 
-      if (failedWrites.length === 0) return;
+      if (failedWrites.length === 0) {return;}
 
       if (attempt < 3) {
         const delay = 500 * Math.pow(2, attempt - 1);
@@ -164,7 +164,7 @@ class MovementDebouncer {
    * @param {Map} players - Players map
    */
   flush(io, rooms, players) {
-    if (this.pendingMoves.size === 0) return;
+    if (this.pendingMoves.size === 0) {return;}
 
     const movesToProcess = Array.from(this.pendingMoves.values());
     this.pendingMoves.clear();
@@ -173,7 +173,7 @@ class MovementDebouncer {
 
     movesToProcess.forEach(move => {
       const room = rooms.get(move.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
       // Update room state
       if (!room.gameState.tokens) {
@@ -279,7 +279,7 @@ function createSyncServices(io, rooms, players) {
  * @param {Object} services - Service instances
  */
 function setupShutdownHandlers(services) {
-  const gracefulShutdown = async () => {
+  const gracefulShutdown = async() => {
     logger.info('Shutting down gracefully...');
     
     if (services.firebaseBatchWriter) {

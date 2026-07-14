@@ -158,9 +158,9 @@ export const CLASS_STARTING_CURRENCY = {
 
 // Subrace/Heritage starting gold modifiers
 export const SUBRACE_STARTING_CURRENCY = {
-    shore_myrathil: { gold: 10 },
-    deep_myrathil: { gold: 15 },
-    brook_myrathil: { gold: 12 },
+    shoreling_myrathil: { gold: 10 },
+    deepling_myrathil: { gold: 15 },
+    riverling_myrathil: { gold: 12 },
     trueborn_briaran: { gold: 5 },
     shorn_briaran: { gold: 8 },
     korr_emberth: { gold: 5 },
@@ -169,9 +169,9 @@ export const SUBRACE_STARTING_CURRENCY = {
     drall_fexric: { gold: 8 },
     morgh_groven: { gold: 8 },
     ithran_groven: { gold: 12 },
-    masked_mimir: { gold: 12 },
-    woven_mimir: { gold: 10 },
-    unwoven_mimir: { gold: 8 },
+    veiled_mimir: { gold: 12 },
+    tethered_mimir: { gold: 10 },
+    untethered_mimir: { gold: 8 },
     velun_neth: { gold: 10 },
     kessen_neth: { gold: 8 },
     drun_neth: { gold: 5 },

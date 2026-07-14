@@ -10,22 +10,9 @@ import QuestReward from '../quest-log/QuestReward';
 import QuestCard from '../quest-log/QuestCard';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import SmartTabButton from '../common/SmartTabButton';
-import '../../styles/quest-log-new.css';
-import '../../styles/quest-log-fixes.css';
-import '../../styles/party-hud.css'; // For context menu styles
 
 // Import icons
-import {
-  FaScroll,
-  FaCheckCircle,
-  FaPlusCircle,
-  FaSearch,
-  FaSkull,
-  FaMapMarkerAlt,
-  FaBoxOpen,
-  FaUser,
-  FaShieldAlt
-} from 'react-icons/fa';
+import { FaScroll, FaUser, FaShieldAlt } from 'react-icons/fa';
 
 const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propActiveTab, contentOnly = false }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab || 'active');
@@ -56,8 +43,6 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
   // Get quests from store
   const {
     quests,
-    filters,
-    setFilters,
     updateObjectiveProgress,
     completeObjective,
     completeQuest,
@@ -68,12 +53,9 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
     windowPosition,
     windowSize,
     setWindowPosition,
-    setWindowSize,
     activeQuestShares
   } = useQuestStore(state => ({
     quests: state.quests,
-    filters: state.filters,
-    setFilters: state.setFilters,
     updateObjectiveProgress: state.updateObjectiveProgress,
     completeObjective: state.completeObjective,
     completeQuest: state.completeQuest,
@@ -84,7 +66,6 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
     windowPosition: state.windowPosition,
     windowSize: state.windowSize,
     setWindowPosition: state.setWindowPosition,
-    setWindowSize: state.setWindowSize,
     activeQuestShares: state.activeQuestShares
   }));
 
@@ -214,20 +195,11 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
   const selectedQuestObj = quests.find(q => q.id === selectedQuest);
 
   // Handle objective progress update
-  const handleObjectiveUpdate = (questId, objectiveId, newProgress) => {
-    updateObjectiveProgress(questId, objectiveId, newProgress);
-  };
-
+  
   // Handle objective completion
-  const handleObjectiveComplete = (questId, objectiveId) => {
-    completeObjective(questId, objectiveId);
-  };
-
+  
   // Handle quest completion
-  const handleQuestComplete = (questId) => {
-    completeQuest(questId);
-  };
-
+  
   // Handle quest failure
   const handleQuestFail = (questId) => {
     failQuest(questId);

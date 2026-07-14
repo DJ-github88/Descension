@@ -3,14 +3,14 @@ import { createPortal } from 'react-dom';
 import { FaPlus, FaTrash, FaSkull, FaBoxOpen, FaMapMarkerAlt, FaScroll, FaSearch, FaTimes } from 'react-icons/fa';
 import useQuestStore from '../../store/questStore';
 import useItemStore from '../../store/itemStore';
-import useCreatureStore, { getCreatureSizeMapping } from '../../store/creatureStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemSelectionModal from './ItemSelectionModal';
 import QuestReward from './QuestReward';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
 import CreatureSelectionWindow from '../spellcrafting-wizard/components/common/CreatureSelectionWindow';
-import { RARITY_COLORS, getQualityColor } from '../../constants/itemConstants';
+import useCreatureStore, { getCreatureSizeMapping } from '../../store/creatureStore';
+import {  getQualityColor } from '../../constants/itemConstants';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 
 // Component to display selected creature details

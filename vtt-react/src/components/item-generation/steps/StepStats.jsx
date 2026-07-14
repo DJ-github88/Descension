@@ -2,7 +2,6 @@ import React from 'react';
 import { BASE_STATS } from '../itemWizardConfig';
 import { getIconUrl } from '../../../utils/assetManager';
 import { getCustomIconUrl } from '../../../utils/assetManager';
-import { CONDITIONS } from '../../../data/conditionsData';
 
 const StepStats = ({ itemData, updateItemData }) => {
                 if (itemData.type === 'currency') {

@@ -1,4 +1,4 @@
-﻿// Creature Tooltip Utility Functions
+// Creature Tooltip Utility Functions
 // Provides classification and formatting for creature token tooltips
 
 // === HEALTH STATE ===

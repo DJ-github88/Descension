@@ -4563,6 +4563,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   font-weight: 700 !important;
   margin: 0 !important;
   letter-spacing: 0.5px !important;
+  color: inherit;
 }
 
 .covenant-card-body {

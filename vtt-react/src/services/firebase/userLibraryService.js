@@ -7,19 +7,10 @@
  */
 
 import {
-  collection,
   doc,
-  getDocs,
-  addDoc,
   updateDoc,
-  deleteDoc,
-  query,
-  where,
-  orderBy,
-  limit,
   getDoc,
   setDoc,
-  writeBatch,
   arrayUnion,
   arrayRemove
 } from 'firebase/firestore';

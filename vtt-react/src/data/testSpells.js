@@ -1,4 +1,4 @@
-﻿/**
+/**
  * complete Test Spells
  * 
  * This file contains 37+ test spells that demonstrate EVERY feature of the spell wizard system.
@@ -236,7 +236,6 @@ export const EFFECT_TYPE_TEST_SPELLS = [
    materialComponents: 'A bit of fur and an amber rod',
    somaticText: 'Point fingers at targets in sequence',
    verbalText: 'Chains of lightning!',
-   materialComponents: 'A bit of fur and an amber rod',
    actionPoints: 1,
    mana: 40, health: 0, stamina: 0, focus: 0,
    classResource: {
@@ -1543,7 +1542,6 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
    materialComponents: 'A shard of chaos crystal',
    somaticText: 'Wild gesticulations',
    verbalText: 'Chaos unleashed!',
-   materialComponents: 'A shard of chaos crystal',
    actionPoints: 1,
    mana: 25,
    health: 0,
@@ -1593,7 +1591,6 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
    materialComponents: 'A pinch of sulfur',
    somaticText: 'Cup hands and gather energy',
    verbalText: 'Ignis globus!',
-   materialComponents: 'A pinch of sulfur',
    actionPoints: 1,
    mana: 30,
    health: 0,
@@ -1751,14 +1748,10 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
    components: ['verbal', 'somatic'],
    actionPoints: 1,
    mana: 25, health: 15, stamina: 10, focus: 5,
-   classResource: {
-    type: 'soul_shards',
-    cost: 3
-   },
-   classResource: {
-    type: 'soul_shards',
-    cost: 2
-   }
+    classResource: {
+     type: 'soul_shards',
+     cost: 2
+    }
   },
   cooldownConfig: {
    cooldownType: 'turn_based',
@@ -1818,7 +1811,6 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
    materialComponents: 'A prism and a vial of quicksilver',
    somaticText: 'Complex weaving hand patterns',
    verbalText: 'Omnia simul!',
-   materialComponents: 'A prism and a vial of quicksilver',
    actionPoints: 1,
    mana: 50,
    health: 0,
@@ -1981,17 +1973,12 @@ export const ADVANCED_MECHANICS_TEST_SPELLS = [
    materialComponents: 'A star sapphire worth 1000gp, a phoenix feather, and dragon blood (all consumed)',
    somaticText: 'Raise both arms to the heavens',
    verbalText: 'OMNIPOTENTIA ABSOLUTA!',
-   materialComponents: 'A star sapphire worth 1000gp, a phoenix feather, and dragon blood (all consumed)',
    actionPoints: 1,
    mana: 50, health: 25, stamina: 20, focus: 15,
-   classResource: {
-    type: 'soul_shards',
-    cost: 5
-   },
-   classResource: {
-    type: 'arcane_charges',
-    cost: 4
-   },
+    classResource: {
+     type: 'arcane_charges',
+     cost: 4
+    },
    reagents: [
     {
      name: 'Arcane Crystal',

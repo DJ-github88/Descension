@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Hook for Weapon-Enhanced Spells
  * 
  * Provides spells with shifting weapon integration, particularly for the Attack spell.
@@ -70,17 +70,17 @@ export const useWeaponEnhancedSpells = () => {
   });
 
   return enhancedSpellsList;
- }, [equipment, lastEquipmentUpdate]);
+ }, []);
  
  // Get the primary attack spell (main hand weapon)
  const primaryAttackSpell = useMemo(() => {
   return createWeaponAttackSpell('mainHand');
- }, [equipment]);
+ }, []);
  
  // Get all available attack options
  const allAttackSpells = useMemo(() => {
   return getAllWeaponAttackSpells();
- }, [equipment]);
+ }, []);
  
  // Check if character has weapons equipped
  const hasWeaponsEquipped = useMemo(() => {

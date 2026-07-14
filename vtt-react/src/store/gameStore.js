@@ -1,7 +1,6 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
-import { Creature, Ability, creatureTypes, abilityTypes } from "../game/creatures";
-import { calculateDerivedStats, applyRacialModifiers, calculateEquipmentBonuses } from "../utils/characterUtils";
+import { Creature } from "../game/creatures";
 import { handleRest } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
 
 const initialState = {
@@ -101,89 +100,6 @@ const initialState = {
     activeCooldowns: {},
 };
 
-// Handle storage quota exceeded for game store
-const handleGameStoreQuotaExceeded = (name, value) => {
-    try {
-
-        // Try to clean up other stores first
-        const keysToClean = [];
-        for (let key in localStorage) {
-            if (localStorage.hasOwnProperty(key) && key !== name) {
-                if (key.includes('temp-') || key.includes('cache-') || key.includes('backup-')) {
-                    keysToClean.push(key);
-                }
-            }
-        }
-
-        keysToClean.forEach(key => {
-            localStorage.removeItem(key);
-        });
-
-        // Try to optimize the game store data
-        try {
-            // Remove large background image data if present
-            const optimizedValue = {
-                ...value,
-                backgroundImage: null, // Remove large background image data
-                backgroundImageUrl: value.backgroundImageUrl || '', // Keep URL reference
-                // Keep other essential data
-                creatures: (value.creatures || []).slice(0, 50), // Limit creatures
-                tokens: (value.tokens || []).slice(0, 50), // Limit tokens
-                items: (value.items || []).slice(0, 100), // Limit items
-                containers: (value.containers || []).slice(0, 20) // Limit containers
-            };
-
-            const optimizedJson = JSON.stringify(optimizedValue);
-            localStorage.setItem(name, optimizedJson);
-
-            if (window.alert) {
-                alert('Storage space was running low. Background image data has been optimized. You may need to re-set your background image.');
-            }
-            return;
-        } catch (optimizeError) {
-            console.error('Error optimizing game store data:', optimizeError);
-        }
-
-        // Last resort: save minimal game store data
-        try {
-            const minimalValue = {
-                // Keep only essential game state
-                cameraX: value.cameraX || 0,
-                cameraY: value.cameraY || 0,
-                zoomLevel: value.zoomLevel || 1.0,
-                playerZoom: value.playerZoom || 1.0,
-                gridSize: value.gridSize || 50,
-                gridType: value.gridType || 'square',
-                gridOffsetX: value.gridOffsetX || 0,
-                gridOffsetY: value.gridOffsetY || 0,
-                gridLineColor: value.gridLineColor || '#000000',
-                gridLineThickness: value.gridLineThickness || 2,
-                windowScale: value.windowScale || 1.0,
-                // Remove all large data
-                backgroundImage: null,
-                backgroundImageUrl: '',
-                creatures: [],
-                tokens: [],
-                items: [],
-                containers: [],
-                backgrounds: []
-            };
-
-            const minimalJson = JSON.stringify(minimalValue);
-            localStorage.setItem(name, minimalJson);
-
-            if (window.alert) {
-                alert('Storage space was critically low. Only essential game settings have been preserved. You will need to re-add background images and game entities.');
-            }
-        } catch (minimalError) {
-            if (window.alert) {
-                alert('Critical storage error in game store. Please refresh the page and consider clearing browser data.');
-            }
-        }
-    } catch (error) {
-        // Error in handleGameStoreQuotaExceeded
-    }
-};
 
 const useGameStore = create((set, get) => ({
     ...initialState,
@@ -568,8 +484,6 @@ const useGameStore = create((set, get) => ({
         // Import stores dynamically to avoid circular dependencies
         const usePartyStore = getStore('partyStore');
         const useCharacterStore = getStore('characterStore');
-        const { getEncumbranceState } = getStore('inventoryStore');
-
         // Get party members
         const partyStore = usePartyStore.getState();
         const partyMembers = partyStore.partyMembers || [];

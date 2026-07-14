@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import ReactDOM, { unstable_batchedUpdates } from "react-dom";
 import { useShallow } from 'zustand/react/shallow';
 import useGameStore from '../store/gameStore';

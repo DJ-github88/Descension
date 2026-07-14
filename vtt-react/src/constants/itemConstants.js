@@ -1,4 +1,4 @@
-﻿export const RARITY_COLORS = {
+export const RARITY_COLORS = {
     poor: {
         border: '#8b7355',
         text: '#a08c70',

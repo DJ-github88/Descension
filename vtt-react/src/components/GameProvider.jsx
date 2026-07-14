@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react';
+import { useEffect } from 'react';
 import useGameStore from '../store/gameStore';
 import useCharacterStore from '../store/characterStore';
 

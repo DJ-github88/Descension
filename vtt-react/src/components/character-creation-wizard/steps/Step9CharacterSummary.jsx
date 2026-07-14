@@ -4,14 +4,14 @@
  * Final review of character before creation
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
-import { getWowIconUrl, getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
+import {  getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
 import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { applyRacialModifiers, RACE_DATA, getFullRaceData } from '../../../data/raceData';
-import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
+import {  STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import ClassIcon from '../../common/ClassIcon';
@@ -125,9 +125,9 @@ const getSpellIconUrl = (iconId) => {
 const getSubraceImage = (subraceId, raceId) => {
   const mapping = {
     // Myrathil
-    shore_myrathil: 'shore_illustration.png',
-    deep_myrathil: 'deep_illustration.png',
-    brook_myrathil: 'brook_illustration.png',
+    shoreling_myrathil: 'shore_illustration.png',
+    deepling_myrathil: 'deep_illustration.png',
+    riverling_myrathil: 'brook_illustration.png',
     // Briaran
     trueborn_briaran: 'trueborn_illustration.png',
     shorn_briaran: 'shorn_illustration.png',
@@ -141,9 +141,9 @@ const getSubraceImage = (subraceId, raceId) => {
     morgh_groven: 'morgh_illustration.png',
     ithran_groven: 'ithran_illustration.png',
     // Mimir
-    masked_mimir: 'masked_illustration.png',
-    woven_mimir: 'woven_illustration.png',
-    unwoven_mimir: 'unwoven_illustration.png',
+    veiled_mimir: 'masked_illustration.png',
+    tethered_mimir: 'woven_illustration.png',
+    untethered_mimir: 'unwoven_illustration.png',
     // Neth
     velun_neth: 'velun_illustration.png',
     kessen_neth: 'kessen_illustration.png',

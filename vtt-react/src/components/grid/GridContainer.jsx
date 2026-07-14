@@ -268,23 +268,7 @@ const GridContainer = ({ gridItem }) => {
     };
   }, [isMouseDown, dragOffset, gridSystem, gridItem.id, isGMMode, updateItemPosition, gridSize]);
 
-  const handleClick = (e) => {
-    // Prevent looting if we were dragging
-    if (isDragging) return;
-
-    // Distinguish between touch (usually for tooltips) and mouse (for looting)
-    if (lastPointerTypeRef.current === 'touch') {
-      setShowTooltip(prev => !prev);
-      return;
-    }
-
-    // Prevent propagation
-    e.stopPropagation();
-
-    // Open the container on click - matches standard container behavior and respects locks
-    handleOpenContainer();
-  };
-
+  
   // Handle opening the container
   const handleOpenContainer = () => {
     // Check if the container is locked

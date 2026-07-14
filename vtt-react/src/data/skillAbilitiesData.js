@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Skill-Based Abilities Data
  * 
  * These are special abilities unlocked by skill proficiency.
@@ -7,48 +7,7 @@
  * All abilities follow the spell card format from SPELL_WIZARD_TO_SPELLCARD_TEMPLATE.md
  */
 
-// Skill ID mapping (from rules table to skill definition IDs)
-const SKILL_NAME_TO_ID = {
- 'Acrobatics': 'acrobatics',
- 'Animal Handling': 'animalHandling',
- 'Arcana': 'arcana',
- 'Athletics': 'athletics',
- 'Deception': 'deception',
- 'History': 'history',
- 'Insight': 'insight',
- 'Intimidation': 'intimidation',
- 'Investigation': 'investigation',
- 'Medicine': 'medicine',
- 'Nature': 'nature',
- 'Perception': 'perception',
- 'Performance': 'performance',
- 'Persuasion': 'persuasion',
- 'Religion': 'religion',
- 'Sleight of Hand': 'sleightOfHand',
- 'Stealth': 'stealth',
- 'Survival': 'survival'
-};
 
-/**
- * Get action points from cost string
- */
-const parseActionPoints = (costStr) => {
- if (!costStr || costStr === '-' || costStr === '?') return 1;
- const match = costStr.match(/(\d+)\s*AP/i);
- return match ? parseInt(match[1]) : 1;
-};
-
-/**
- * Get spell type from type code
- * A = Action, R = Reaction, P = Passive
- */
-const getSpellType = (typeCode) => {
- switch (typeCode) {
-  case 'R': return 'REACTION';
-  case 'P': return 'PASSIVE';
-  default: return 'ACTION';
- }
-};
 
 /**
  * Skill-Based Abilities

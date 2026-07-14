@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -6,7 +6,6 @@ import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import LocalRoomIndicator from '../local-room/LocalRoomIndicator';
-import OfflineIndicator from '../common/OfflineIndicator';
 import ContentModerationDashboard from '../common/ContentModerationDashboard';
 import PlayerSelector from '../common/PlayerSelector';
 import { useNavigate } from 'react-router-dom';
@@ -213,7 +212,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
   // Player selection state for multiplayer GM actions
   const [selectedPlayersForXP, setSelectedPlayersForXP] = useState([]);
-  const [selectedPlayersForRest, setSelectedPlayersForRest] = useState([]);
+  const [selectedPlayersForRest] = useState([]);
 
   const { enabled: introsEnabled, seenCount: introsSeenCount, total: introsTotal, resetSeen: resetIntros, setEnabled: setIntrosEnabled } = useWindowIntros();
 
@@ -284,35 +283,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   };
 
   // Handle short rest (GM only, with multiplayer player targeting)
-  const handleShortRest = () => {
-    if (!isGMMode) return;
-    if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected && selectedPlayersForRest.length > 0) {
-      multiplayerSocket.emit('gm_action', {
-        type: 'short_rest',
-        roomId: multiplayerRoom?.id,
-        targetPlayerIds: selectedPlayersForRest
-      });
-    }
-    if (!isInMultiplayer || selectedPlayersForRest.includes('current-player')) {
-      takeShortRest();
-    }
-  };
-
+  
   // Handle long rest (GM only, with multiplayer player targeting)
-  const handleLongRest = () => {
-    if (!isGMMode) return;
-    if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected && selectedPlayersForRest.length > 0) {
-      multiplayerSocket.emit('gm_action', {
-        type: 'long_rest',
-        roomId: multiplayerRoom?.id,
-        targetPlayerIds: selectedPlayersForRest
-      });
-    }
-    if (!isInMultiplayer || selectedPlayersForRest.includes('current-player')) {
-      takeLongRest();
-    }
-  };
-
+  
   // Handle XP award (with multiplayer player targeting)
   const handleAwardXP = (amount) => {
     if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected && selectedPlayersForXP.length > 0) {
@@ -352,12 +325,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
       adjustLevel(amount);
     }
   };
-  const handleLeaveMultiplayer = () => {
-    if (window.confirm('Are you sure you want to leave the multiplayer room?')) {
-      leaveMultiplayer();
-    }
-  };
-
+  
   // Interface tab content
   const renderInterfaceTab = () => (
     <div className="settings-content-clean">

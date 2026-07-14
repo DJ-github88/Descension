@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Enhanced Effect System Data
  *
  * This file contains all the constants and utility functions for the enhanced effect system.
@@ -342,7 +342,7 @@ export function isValidDiceNotation(notation) {
   if (!notation || typeof notation !== 'string') return false;
 
   // Basic regex for dice notation: XdY or XdY+Z or XdY-Z
-  const diceRegex = /^(\d+)d(\d+)([\+\-]\d+)?$/;
+  const diceRegex = /^(\d+)d(\d+)([+-]\d+)?$/;
   return diceRegex.test(notation);
 }
 
@@ -354,7 +354,7 @@ export function isValidDiceNotation(notation) {
 export function getAverageRoll(notation) {
   if (!isValidDiceNotation(notation)) return 0;
 
-  const diceRegex = /^(\d+)d(\d+)([\+\-]\d+)?$/;
+  const diceRegex = /^(\d+)d(\d+)([+-]\d+)?$/;
   const match = notation.match(diceRegex);
 
   if (!match) return 0;

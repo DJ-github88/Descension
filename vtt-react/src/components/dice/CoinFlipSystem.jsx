@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import useChatStore from '../../store/chatStore';
 import useCharacterStore from '../../store/characterStore';
 import './CoinFlipSystem.css';

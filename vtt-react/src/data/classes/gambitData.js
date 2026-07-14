@@ -2,7 +2,7 @@ export const GAMBIT_DATA = {
   restrictions: {
        "allowedSubraces": [
            "merryn_human",
-           "shore_myrathil",
+            "shoreling_myrathil",
            "kessen_neth",
            "ithran_groven",
            "drall_fexric",
@@ -40,8 +40,8 @@ export const GAMBIT_DATA = {
       }
     },
 
-    shore_myrathil: {
-      subraceName: 'Shore Myrathil',
+    shoreling_myrathil: {
+      subraceName: 'Shoreling Myrathil',
       title: 'The Tide-Reader',
       reframe: `The <LoreLink termId="myrathil">Shore</LoreLink> read probability in foam-patterns and the color-shift of their own mood-skin. A Myrathil Gambit does not roll dice, they read the odds the sea-mother writes in the surf, and the payment is always in *memory*: the Myrathil's bioluminescent skin dims a little with each stake, the wager paid in recalled light.`,
       signatureAbility: {
@@ -110,7 +110,7 @@ The Drall did not adopt Merryn gambling  —  they independently discovered prob
   solvarn_human: {
     subraceName: 'Solvarn Human',
     title: 'The Sun-Wager',
-    reframe: `Bets on Sol\'s return with terminal optimism. Every Fortune Point is a wager placed on a miracle that has not happened for eight centuries. The Solvarn Gambit is a pilgrimage-gambler, walking from shrine to shrine, placing the same bet at every altar. When they win  —  and sometimes, against all probability, they do  —  they credit the dying sun. When they lose, they consider it a tithe. The Karmic Debt is the accumulated weight of eight centuries of lost wagers.`,
+    reframe: `Bets on Sol's return with terminal optimism. Every Fortune Point is a wager placed on a miracle that has not happened for eight centuries. The Solvarn Gambit is a pilgrimage-gambler, walking from shrine to shrine, placing the same bet at every altar. When they win  —  and sometimes, against all probability, they do  —  they credit the dying sun. When they lose, they consider it a tithe. The Karmic Debt is the accumulated weight of eight centuries of lost wagers.`,
     signatureAbility: {
       name: 'Sun-Shrine Pilgrimage',
       description: `Fortune Points are generated as pilgrimage-wagers placed at Sol-shrines across Sundale; each successful wager is credited to the dying sun, while each loss is counted as a tithe. The Karmic Debt is the accumulated weight of eight centuries of lost wagers, and the Solvarn Gambit carries that historical debt in every throw.`

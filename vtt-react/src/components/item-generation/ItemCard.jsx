@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
-import { createPortal } from 'react-dom';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import QuantitySelector from '../common/QuantitySelector';

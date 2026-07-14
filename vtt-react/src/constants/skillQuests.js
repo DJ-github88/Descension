@@ -1,4 +1,4 @@
-﻿// Skill Quest Definitions - Small side quests that progress skill levels
+// Skill Quest Definitions - Small side quests that progress skill levels
 // Each quest unlocks new abilities and rollable tables
 
 export const SKILL_QUESTS = {

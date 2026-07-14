@@ -338,15 +338,7 @@ The **[Solvarn](world-lore/races-overview)** humans share the ashlands. Every mo
  sections: [
  {
  title: 'Frostwood Reach (Starting Zone)',
- content: `> **Key Terms in Frostwood Reach:**
-> - **The Reach:** A dense, freezing ironwood forest wreathed in protective, memory-erasing fog.
-> - **House Thalreth:** The ruling human lineage that bargained away spatial clarity for protective mist.
-> - **Greymark Keep:** The central peat-stone sanctuary, archive-fortress, and seat of the Sovereign Ledger.
-> - **The Ironwood Palisade:** A massive line of petrified timber check-posts constructed by Jarl Kaelen to tax and control the forest.
-> - **The Scribe-Cartel:** The merchant monopoly controlling Soot-Resin Ink and Peat-Parchment.
-> - **The Tapestry-Wards:** State boarding houses where Mimir and frontier children are stripped of tribal animism.
-
-**The Regional Landscape & Current Vibe**
+ content: `**The Regional Landscape & Current Vibe**
 
 The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend, or whether they will remember it by the time they arrive. 
 
@@ -391,22 +383,27 @@ In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low c
 **Native Traditions & Founders**
 The Reach birthed several of Mythrill's traditions. The **Toxicologist** art was founded here by **Varis**, who distilled fog-predator venom to defend against face-stealing horrors; the **Apex** Silent Hunt was founded by **Sylas**, who traded his hearing for absolute tracking focus; and the **Lunarch** parasite was first bound by **Selene of House Viridane** in these moonlit groves. The Reach is also a co-founder of two wider traditions: **Elias the Salt-Scarred** pioneered the Frostwood-rooted half of the **Inquisitor** art (drawing Wyrd face-stealers into living flesh where they could be named and cut), and **Sylvanus** originated the kinetic momentum dance that, merged with Torin's biological work, became the **Shaper** class.
 
+> **Key Terms in Frostwood Reach:**
+> - **The Reach:** A dense, freezing ironwood forest wreathed in protective, memory-erasing fog.
+> - **House Thalreth:** The ruling human lineage that bargained away spatial clarity for protective mist.
+> - **Greymark Keep:** The central peat-stone sanctuary, archive-fortress, and seat of the Sovereign Ledger.
+> - **The Ironwood Palisade:** A massive line of petrified timber check-posts constructed by Jarl Kaelen to tax and control the forest.
+> - **The Scribe-Cartel:** The merchant monopoly controlling Soot-Resin Ink and Peat-Parchment.
+> - **The Tapestry-Wards:** State boarding houses where Mimir and frontier children are stripped of tribal animism.
+
 **Deep History & Strata**
-**The Pre-Deepening.** Before Sol was buried, the Reach was a Briaran grove-culture of ironwood-keepers who pacted with the fae, scattered among Skald-style archive-holds, the dual root of Greymark's record-obsession and the Briaran's fae-law. Mistbarrow's cairn-stones, carved by these grove-keepers millennia before House Thalreth, still stand untranslated.
-**The Deepening & the Bargain (just after the Binding, the Fog Compact).** Thalreth traded the region's spatial clarity for an insulating fog, called down at the Heart-Oak. Within a decade the first generation could no longer recall their parents' faces, and the Sovereign Ledger was invented to outsource memory to parchment before the fog took it.
-**The Long Dimming.** Around the time of the Mimir Purge a Gref crawled out of Mirror Mere's reflection, the first face-trader, whose line later spread down Ironjaw Port to the Iceheart. Centuries into the Dimming Briaran raiders (hidden Viridane descendants, driven to violence by the Silent Seventh erasure) breached Greymark's palisade; the Ironwood Palisade and the Tapestry-Wards were raised in answer.
-**The Present Fracture.** Steam-saw clear-cutting and the Dimming are thinning the fog, so the insulation that held back the cold is failing exactly as Nordhalla's glacier-summer-debt comes due, the Reach is being unmade by the same chain that is freezing the north.`
+
+**The Pre-Deepening.** Before Sol was buried, the Reach was a Briaran grove-culture. Ironwood-keepers pacted with the fae and lived scattered among Skald-style archive-holds. These two roots grew into Greymark's record-obsession and the Briaran's fae-law. Mistbarrow's cairn-stones were carved by those grove-keepers millennia before House Thalreth, and no living archivist can translate them.
+
+**The Deepening & the Bargain — the Fog Compact, just after the Binding.** Thalreth traded the region's spatial clarity for an insulating fog and called it down at the Heart-Oak. Within a decade, the first generation could no longer recall their parents' faces. The Sovereign Ledger was invented to outsource memory to parchment before the fog took it.
+
+**The Long Dimming.** Around the time of the Mimir Purge, a Gref crawled out of Mirror Mere's reflection: the first face-trader. Its line later spread down Ironjaw Port to the Iceheart. Centuries into the Dimming, Briaran raiders breached Greymark's palisade — hidden Viridane descendants, driven to violence by the Silent Seventh's erasure. The Ironwood Palisade and the Tapestry-Wards were raised in answer.
+
+**The Present Fracture.** Steam-saw clear-cutting and the Dimming are thinning the fog. The insulation that held back the cold is failing, exactly as Nordhalla's glacier-summer-debt comes due. The Reach is being unmade by the same chain that is freezing the north. The first time a Gref wears a face you recognize, you will understand why the Ledger exists.`
  },
  {
  title: 'Nordhalla & The Valley of Rime',
- content: `> **Key Terms in Nordhalla:**
-> - **Nordhalla:** A freezing northern wilderness of black fjords and towering glaciers halted mid-advance.
-> - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
-> - **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
-> - **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
-> - **The Frost-Tithe:** Keth-Amar's birth-debt on Rime-Born mothers, the bargain's interest on House Skalvyr's pact, draining warmth to save the child.
-
-**The Regional Landscape & Current Vibe**
+ content: `**The Regional Landscape & Current Vibe**
 
 Nordhalla is a brutalist cathedral of ice and stone, a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. 
 
@@ -451,22 +448,26 @@ Taverns in fjord-keeps (such as *The Hearth-Glow*) are built over steaming volca
 **Native Traditions & Founders**
 Nordhalla is the cradle of the **Augur** art, founded by **Cassia**, who read the Deepening in a sacrificed elk's entrails at the Frozen Archive. The **Berserker** Hunger Pact was forged here in the worst winter of the Glacier Bargain. Nordhalla also co-founded three traditions: **Theron** pioneered the runic-inscription root of the **Animist** triad here at the Frozen Archive; **Malakor the Finite** calculated the doom-arithmetic that, merged with Xyris's chaos-work, became the **Harbinger** class; and the Frozen Archive's surgical school became the secondary seat of the **Warden** chain-graft tradition, producing the cold-iron Skald Wardens who tether the horrors that crawl from the fjords.
 
+> **Key Terms in Nordhalla:**
+> - **Nordhalla:** A freezing northern wilderness of black fjords and towering glaciers halted mid-advance.
+> - **House Skalvyr:** The unyielding noble family that accepted eternal winter to stop the glaciers.
+> - **The Frozen Archive:** A clockwork and runic city-library carved inside a mile-high glacier.
+> - **The Rime-Born:** The frost-touched, stone-skinned survivors of the ancestral Hunger Pact.
+> - **The Frost-Tithe:** Keth-Amar's birth-debt on Rime-Born mothers, the bargain's interest on House Skalvyr's pact, draining warmth to save the child.
+
 **Deep History & Strata**
-**The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators, built atop the clockwork ruins of an ancient pre-Binding civilization the ice preserved intact, the original machinery the Frozen Archive merely reclaimed rather than built.
-**The Deepening & the Bargain (just after the Binding, the Glacier Bargain).** Skalvyr halted the glaciers at the price of summer, and Keth-Amar set the Frost-Tithe on the Rime-Born. Aethil's breath touched the mountain at the Still Crag, freezing it to silent witness. The first winter was so total the ancestors consumed their own dead to persist, the Hunger Pact that still seeds every Berserker rage.
-**The Long Dimming.** In the first centuries of the Dimming the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. Within living memory the Cult of Forgotten Shadow and Skalvyr's younger generation began the Silence-heat engine beneath the Archive, a heresy whose temporal runoff would later collapse the Augurs' elk-entrail readings.
-**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal sumps, the Frost-Tithe worsens, and the Silence-Heat Heresy is about to break the Glacier Bargain from within, Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth.`
+
+**The Pre-Deepening.** Nordhalla was a saga-culture of glacier-entombing ancestor-venerators. They built atop the clockwork ruins of an ancient pre-Binding civilization that the ice preserved intact. The Frozen Archive merely reclaimed that machinery. It did not build it.
+
+**The Deepening & the Bargain — the Glacier Bargain, just after the Binding.** Skalvyr halted the glaciers at the price of summer, and Keth-Amar set the Frost-Tithe on the Rime-Born. Aethil's breath touched the mountain at the Still Crag and froze it to a silent witness. The first winter was so total that the ancestors consumed their own dead to persist. That is the Hunger Pact, and it still seeds every Berserker rage.
+
+**The Long Dimming.** In the first centuries of the Dimming, the Frostwood elder Aldren Thalreth the Elder fled north and self-entombed in the Archive, binding the two regions' archive-traditions together. Within living memory, the Cult of Forgotten Shadow and Skalvyr's younger generation began a silence-heat engine beneath the Archive. Its temporal runoff would later collapse the Augurs' elk-entrail readings.
+
+**The Present Fracture.** The Dimming is cooling the geothermal sumps. The Frost-Tithe worsens. The Silence-Heat Heresy is about to break the Glacier Bargain from within, and Frigga Skalvyr's generation is preparing to trade the slow cold for a faster, dirtier warmth. The question is not whether the bargain breaks. It is who will be standing when it does.`
  },
  {
  title: 'Sundale & Emberspire',
- content: `> **Key Terms in Sundale:**
-> - **Sundale:** A volcanic ashland desert surrounding the tomb of the buried star.
-> - **House Solvan:** The tragic ruling house, now sidelined by Hierophant Aethelgard’s martial-theocracy.
-> - **Hierophant Aethelgard:** The fundamentalist leader of the Dawn Vigil enforcing the Reforging.
-> - **The Harath-Vault:** The massive underground forge-city, split between the Deep-Born and Ash-Dwellers.
-> - **The Sulfur Cartel:** The Korr smelting monopoly controlling geothermal coal, volcanic sulfur, and Solbrand steel.
-> - **The Obsidian Citadels:** A chain of fortresses along the Ashen Escarpment blocking the exit from Sundale.
-
+ content: `
 **The Regional Landscape & Current Vibe**
 
 Sundale is a volcanic desert of ashfall, obsidian rivers, and smoldering badlands surrounding Emberspire, the world-heart volcano, the tomb and cradle of Sol itself. The air is thick with particulate, the sky a permanent rust-orange smear. Lava-flows cut through the landscape like slow, deliberate arteries. 
@@ -508,22 +509,27 @@ Taverns in the Harath-Vault are steel-grate cages suspended directly over active
 **Native Traditions & Founders**
 Sundale is the furnace of the **Martyr** tradition, born when **Sera Solvan** carved her sacrificed child's name into her flesh with volcanic obsidian. The **Pyrofiend** pact was struck here by a cabal of Solvarn occultists who swallowed Scathrach's burning coals beneath Emberspire, and the **Spellguard** engineering discipline was founded by **Damon**, the Emberth smith who first dismantled a Solbrand eruption. Sundale is also the founding ground of the **Berserker** Blood-Heat itself: the Bloodhammer clans migrated south from Nordhalla under Torra Bloodhammer, and **Grum** surrendered to the Emberspire forge-heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry; Sundale gave it its fire.
 
+> **Key Terms in Sundale:**
+> - **Sundale:** A volcanic ashland desert surrounding the tomb of the buried star.
+> - **House Solvan:** The tragic ruling house, now sidelined by Hierophant Aethelgard's martial-theocracy.
+> - **Hierophant Aethelgard:** The fundamentalist leader of the Dawn Vigil enforcing the Reforging.
+> - **The Harath-Vault:** The massive underground forge-city, split between the Deep-Born and Ash-Dwellers.
+> - **The Sulfur Cartel:** The Korr smelting monopoly controlling geothermal coal, volcanic sulfur, and Solbrand steel.
+> - **The Obsidian Citadels:** A chain of fortresses along the Ashen Escarpment blocking the exit from Sundale.
+
 **Deep History & Strata**
-**The Pre-Deepening.** Sundale was a Tesshan-style solar theocracy around the living sun, obsidian-citadel priest-cities, blood-tribute calendars, caldera-temples, the direct ancestor of the Dawn Vigil's solar-sacrifice doctrine.
-**The Deepening & the Bargain (at the Binding, the Binding; just after the Breach, the Breach).** Sundale is the wound itself: Sol was entombed beneath Emberspire in at the Binding, and House Solvan wielded the knife that flayed Aex to weave the seal. After eight years of Keth-Amar's whispered corruption, the seal broke in just after the Breach. Emberspire erupted through the wound. The Solvan heirs were marched north and devoured, and the house stayed to tend the tomb it had made.
-**The Long Dimming.** In the first centuries of the Dimming the first Merryn-Emberth trade pact was struck at Ember Lagoon, opening the caldera to Iceheart maritime culture. From in the early centuries of the Dimming-500 the Solvan Ascendancy ran the Heir-Purge and founded the Dawn Vigil (centuries into the Dimming) to recover Monolith-fragments from every region, a crusade that hollowed Solvan legitimacy into the present Steward-regency.
-**The Present Fracture.** The Solbrand is dimming (within living memory); the Dawn Vigil secretly knows that reassembling the Monoliths would summon Keth-Amar, not Sol; and as the caldera cools the Thrask Berserkers are driven toward Scathrach's deeper vents, the Pyrofiend crisis is the far end of the chain that began when the Glacier Bargain drove the Bloodhammer south.`
+
+**The Pre-Deepening.** Sundale was a Tesshan-style solar theocracy around the living sun. Its obsidian-citadel priest-cities kept blood-tribute calendars and caldera-temples. This is the direct ancestor of the Dawn Vigil's solar-sacrifice doctrine.
+
+**The Deepening & the Bargain — the wound itself, at the Binding and just after the Breach.** Sol was entombed beneath Emberspire at the Binding, and House Solvan wielded the knife that flayed Aex to weave the seal. After eight years of Keth-Amar's whispered corruption, the seal broke just after the Breach. Emberspire erupted through the wound. The Solvan heirs were marched north and devoured, and the house stayed to tend the tomb it had made.
+
+**The Long Dimming.** In the first centuries of the Dimming, the first Merryn-Emberth trade pact was struck at Ember Lagoon, opening the caldera to Iceheart maritime culture. From the early centuries of the Dimming, the Solvan Ascendancy ran the Heir-Purge and founded the Dawn Vigil to recover Monolith-fragments from every region. That crusade hollowed Solvan legitimacy into the present Steward-regency.
+
+**The Present Fracture.** The Solbrand is dimming. The Dawn Vigil secretly knows that reassembling the Monoliths would summon Keth-Amar, not Sol. As the caldera cools, the Thrask Berserkers are driven toward Scathrach's deeper vents. The Pyrofiend crisis is the far end of the chain that began when the Glacier Bargain drove the Bloodhammer south. The Dawn Vigil has a timetable. The caldera does not.`
  },
  {
  title: 'The Iceheart Sea',
- content: `> **Key Terms in the Iceheart Sea:**
-> - **Iceheart Sea:** A violent, churning ocean of city-sized icebergs and perpetual storms.
-> - **House Mereval:** The noble house led by Grand Admiral Varis, enforcing the Sea-Charter.
-> - **The Unfreezing Booms:** Basalt and cold-iron checkpoints verifying Sea-Passes in navigable currents.
-> - **The Brine-Bond Syndicate:** The merchant monopoly trading fractional voyage bonds for Voyage-Shares.
-> - **The Press-Warrants:** Legal conscription of undocumented refugees into lifetime naval servitude.
-> - **The Luck-Ledger:** State-enforced luck-tithes that outlawed traditional sea-spirit animism.
-
+ content: `
 **The Regional Landscape & Current Vibe**
 
 The Iceheart Sea is a violent, churning fury of freezing waves and thick, icy foam, where true sailors test their mettle against an ocean that never sleeps. Storms outnumber still days ten to one. Icebergs the size of cities drift through shipping lanes, calved from glaciers that groan and shift along northern coastlines. 
@@ -569,27 +575,32 @@ In Merrowport, taverns (like *The Pitching Hull*) are constructed within the car
 **Native Traditions & Founders**
 The Iceheart is the home water of two traditions. The **Gambit** art was born here when the Merryn pirate **Jax** wagered his lifeline against a storm-spirit at Merrowport, winning the wind but losing his blood's warmth. The **Minstrel** Tide-Choir was founded by **Lyris the Tide-Singer**, whose storm-symphony calmed the gales at the cost of her spoken voice. The Gambit tradition's other root, **Lyra's** Kessen Neth probability-web reading, developed in the Bryngloom, refined itself at Merrowport's tables when the two traditions recognized each other across the Ancestor-Spans.
 
+> **Key Terms in the Iceheart Sea:**
+> - **Iceheart Sea:** A violent, churning ocean of city-sized icebergs and perpetual storms.
+> - **House Mereval:** The noble house led by Grand Admiral Varis, enforcing the Sea-Charter.
+> - **The Unfreezing Booms:** Basalt and cold-iron checkpoints verifying Sea-Passes in navigable currents.
+> - **The Brine-Bond Syndicate:** The merchant monopoly trading fractional voyage bonds for Voyage-Shares.
+> - **The Press-Warrants:** Legal conscription of undocumented refugees into lifetime naval servitude.
+> - **The Luck-Ledger:** State-enforced luck-tithes that outlawed traditional sea-spirit animism.
+
 **Deep History & Strata**
-**The Pre-Deepening.** The Iceheart was a Briaran maritime culture of free-sailing clans under sea-law, treating each ship as its own polity and worshipping Mareth, the root of the voyage-share contracts and the Board of Trade's Sea-Charter.
-**The Deepening & the Bargain.** House Mereval traded calm water for never-freezing lanes, meaning perpetual storm. The trauma-site is the First Shore, where the skeletal archers of the original landfall still stand their eternal watch. The storms drove the Merryn into the debt-bondage that defines them.
-**The Long Dimming.** The in the first centuries of the Dimming Ember Lagoon pact tied the sea to Sundale's caldera economy. Later the Brine-Bond Syndicate bought Cragjaw geothermal tech for its steam-trawlers and industrialized the whale-oil trade; the boiling runoff polluted the channels, called up Wyrd sea-monsters, and maddened the Deep Myrathil.
-**The Present Fracture.** The sea has gone silent (within living memory), no tidesong, no deep-bass pulse, and the Minstrel Tide-Choir is dying with it. The Deep who fled the abyss heard something sing back: the Oceanic Rift Monolith is waking, the sea's branch of the bill now due.`
+
+**The Pre-Deepening.** The Iceheart was a Briaran maritime culture of free-sailing clans under sea-law. Each ship was its own polity. They worshipped Mareth. This is the root of the voyage-share contracts and the Board of Trade's Sea-Charter.
+
+**The Deepening & the Bargain.** House Mereval traded calm water for never-freezing lanes, which meant perpetual storm. The trauma-site is the First Shore, where the skeletal archers of the original landfall still stand their eternal watch. The storms drove the Merryn into the debt-bondage that defines them.
+
+**The Long Dimming.** In the first centuries of the Dimming, the Ember Lagoon pact tied the sea to Sundale's caldera economy. Later, the Brine-Bond Syndicate bought Cragjaw geothermal tech for its steam-trawlers and industrialized the whale-oil trade. The boiling runoff polluted the channels, called up Wyrd sea-monsters, and maddened the Deep Myrathil.
+
+**The Present Fracture.** The sea has gone silent. No tidesong. No deep-bass pulse. The Minstrel Tide-Choir is dying with it. The Deep who fled the abyss heard something sing back: the Oceanic Rift Monolith is waking. The sea's branch of the bill is now due. The Minstrel Tide-Choir still sings. The ocean no longer answers.`
  },
  {
  title: 'Cragjaw Peaks',
- content: `> **Key Terms in Cragjaw Peaks:**
-> - **Cragjaw Peaks:** A vertical wilderness of razor ridges and bottomless chasms wreathed in an eternal blizzard.
-> - **House Tesshan:** The noble house governed by Jarl-Tesshan Oda Tesshan, who enforces the Knotted Decree.
-> - **The Tesshan-knotted cord:** Knotted cords and bone-beads that replaced written script to resist the frost.
-> - **The Tesshan-Corvée:** Mandatory public labor conscription to build the cliff-terraces and bone-spans.
-> - **The Steam-Line Cartel:** The state monopoly controlling geothermal heat and runic steam pipes.
-> - **The Rope-Garrisons:** Fortified checkpoints on basalt spires controlling the rope-bridges.
-
+ content: `
 **The Regional Landscape & Current Vibe**
 
 The Cragjaw Peaks are a vertical wilderness of razor mountain ridges and bottomless wind-gaps cloaked in a perpetual, howling blizzard. The snow has not stopped falling since the dark bargain was sealed, burying every natural route. The only thoroughfares above the whiteout are the **Ancestor-Spans**: colossal bridges grown from the calcified bodies of the Groven's dead.
 
-To govern this vertical maze, **Jarl-Tesshan Oda Tesshan ("The Knot-Lord")** enforces the **Knotted Decree**. He has outlawed all written script,which rots and freezes,replacing it with the **Tesshan-knotted cord** (knotted cords and bone-beads) to record laws and lineages. To control the populace, Tesshan enforces the **Tesshan-Mit\'a**: a mandatory labor system requiring every clan to send a third of its population to excavate geothermal channels, build cliff-hanging agricultural terraces (**andenes**), and sacrifice their dead to grow the bone-spans. 
+To govern this vertical maze, **Jarl-Tesshan Oda Tesshan ("The Knot-Lord")** enforces the **Knotted Decree**. He has outlawed all written script,which rots and freezes,replacing it with the **Tesshan-knotted cord** (knotted cords and bone-beads) to record laws and lineages. To control the populace, Tesshan enforces the **Tesshan-Mit'a**: a mandatory labor system requiring every clan to send a third of its population to excavate geothermal channels, build cliff-hanging agricultural terraces (**andenes**), and sacrifice their dead to grow the bone-spans. 
 
 Movement across the peaks is tightly regulated by **The Rope-Garrisons**,fortress checkpoints built on basalt spires. The military controls the rope bridges, cutting them at the first sign of unrest or Wyrd infestation, isolating entire keeps. 
 
@@ -628,22 +639,27 @@ The economy is driven by exporting alchemical reagents under the **Steam-Line Ca
 **Native Traditions & Founders**
 The Cragjaw birthed the **Chronarch** art, born when the Kethrin engineer **Nesta** hooked a time-dilation engine of volcanic glass into her chest at Frostmaw Holdfast. The **Warden** chain-graft tradition was invented here by the Groven mine-guard **Alaric the Law-Keeper**, who drove an ore-hauling chain through his own forearm to hold a Deep Alchemist specimen for three days. The Cragjaw is also the biological root of the **Shaper** class: **Torin** developed the body-sculpting art at Frostmaw that, merged with Sylvanus's Frostwood kinetic dance by the Mimir chronicler **Veyra**, became the Shaping Forms.
 
+> **Key Terms in Cragjaw Peaks:**
+> - **Cragjaw Peaks:** A vertical wilderness of razor ridges and bottomless chasms wreathed in an eternal blizzard.
+> - **House Tesshan:** The noble house governed by Jarl-Tesshan Oda Tesshan, who enforces the Knotted Decree.
+> - **The Tesshan-knotted cord:** Knotted cords and bone-beads that replaced written script to resist the frost.
+> - **The Tesshan-Corvée:** Mandatory public labor conscription to build the cliff-terraces and bone-spans.
+> - **The Steam-Line Cartel:** The state monopoly controlling geothermal heat and runic steam pipes.
+> - **The Rope-Garrisons:** Fortified checkpoints on basalt spires controlling the rope-bridges.
+
 **Deep History & Strata**
-**The Pre-Deepening.** Cragjaw was an Tesshan-style vertical empire of knotted cord-record-keepers and terrace-engineers, threaded by Wyrd-kin-haunted high passes; beneath it the Deep Alchemists pre-date even that empire, refining living matter in the deep tunnels since before the Wyrd was named.
-**The Deepening & the Bargain.** House Tesshan traded visibility for the perpetual blizzard-veil. But the defining event is the Vat-Breakers' Revolt (in the early generations of the Dimming): the Groven shattered their vats, calcified their own dead into the Ancestor-Spans, and sealed the Alchemists into the deep tunnels.
-**The Long Dimming.** The revolt seeded two diasporas, the Groven carried the chain-graft that became the Warden art, and the biological body-work that fed the Shaper class, tying Cragjaw's deep history outward to the Frostwood and beyond. Later the Steam-Line Cartel seized the geothermal heat, selling warmth to Nordhalla's pipes and engine-tech to the Iceheart's steam-trawlers.
-**The Present Fracture.** The Dimming (within living memory) is cooling the geothermal terraces toward food-collapse, the Ancestor-Spans are cracking, and the Silence-Heat Heresy's temporal friction is corrupting the Groven's bridge-load instincts, the Cragjaw crisis is the Heresy Chain made stone.`
+
+**The Pre-Deepening.** Cragjaw was a Tesshan-style vertical empire of knotted-cord record-keepers and terrace-engineers, threaded by Wyrd-kin-haunted high passes. Beneath it, the Deep Alchemists pre-date even that empire. They have been refining living matter in the deep tunnels since before the Wyrd was named.
+
+**The Deepening & the Bargain.** House Tesshan traded visibility for the perpetual blizzard-veil. But the defining event is the Vat-Breakers' Revolt, in the early generations of the Dimming. The Groven shattered their vats, calcified their own dead into the Ancestor-Spans, and sealed the Alchemists into the deep tunnels.
+
+**The Long Dimming.** The revolt seeded two diasporas. The Groven carried the chain-graft that became the Warden art, and the biological body-work that fed the Shaper class, tying Cragjaw's deep history outward to the Frostwood and beyond. Later, the Steam-Line Cartel seized the geothermal heat, selling warmth to Nordhalla's pipes and engine-tech to the Iceheart's steam-trawlers.
+
+**The Present Fracture.** The Dimming is cooling the geothermal terraces toward food-collapse. The Ancestor-Spans are cracking. The Silence-Heat Heresy's temporal friction is corrupting the Groven's bridge-load instincts. The Cragjaw crisis is the Heresy Chain made stone. When the Ancestor-Spans begin to groan, the Groven remember what they were forged from.`
  },
  {
  title: 'Sundrift Vale',
- content: `> **Key Terms in Sundrift Vale:**
-> - **Sundrift Vale:** A wind-swept, starless steppe of dead grass where nomads follow great woolly herds.
-> - **House Ordavan:** The noble house led by Khatun Bayarmaa Ordavan, who enforces the Iron-Yurt Law.
-> - **The Steppe-Staves:** Carved bone tally sticks used to register herd-migrations and pasture rights.
-> - **The Ordan-Urtuu:** A mandatory relay post-system that clans must maintain for the Khatun's couriers.
-> - **The Herd-Tithe:** The state monopoly requiring clans to tithe a third of their foals for grazing rights.
-> - **The Cairn-Checkpoints:** Flame-lit stone towers built on basalt cairns to control steppe trade.
-
+ content: `
 **The Regional Landscape & Current Vibe**
 
 The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endlessly beneath a sky that contains nothing. No stars. No constellations. No navigable heavens. The ancestors who once mapped the firmament now navigate by memory alone, and memory is the first thing the steppe takes. Nomadic clans follow the endless herds across a landscape where the only constants are the wind and the ancestor-mounds, burial sites that still hum with the throat-sung histories of the dead. In the steppe's western reach lies **Starfall Vale**, a massive crater where the Lumia-borne fragments of the Astril's arrival struck the earth, its glass-scarred floor still faintly luminescent.
@@ -687,22 +703,27 @@ Taverns in the Mound-Camps are large yurt structures that smell of mutton fat an
 **Native Traditions & Founders**
 The Vale is the cradle of the **False Prophet** art, born when the Ordan herd-watcher **Li Wei** followed a meteor into a crystalline crater, looked into the silence where Sol once shone, and returned blind with the Voice of the Silence. The Vale also co-founded two wider traditions: **Kael** pioneered the totemic root of the **Animist** triad here (throat-sung communion through the migration-horse's mane), and **Xyris** tore the reality-hole here that, joined to Malakor's doom-arithmetic, became the **Harbinger** tradition.
 
+> **Key Terms in Sundrift Vale:**
+> - **Sundrift Vale:** A wind-swept, starless steppe of dead grass where nomads follow great woolly herds.
+> - **House Ordavan:** The noble house led by Khatun Bayarmaa Ordavan, who enforces the Iron-Yurt Law.
+> - **The Steppe-Staves:** Carved bone tally sticks used to register herd-migrations and pasture rights.
+> - **The Ordan-Urtuu:** A mandatory relay post-system that clans must maintain for the Khatun's couriers.
+> - **The Herd-Tithe:** The state monopoly requiring clans to tithe a third of their foals for grazing rights.
+> - **The Cairn-Checkpoints:** Flame-lit stone towers built on basalt cairns to control steppe trade.
+
 **Deep History & Strata**
-**The Pre-Deepening.** The Vale was a Ordan-style steppe horde-culture of throat-singing navigators who mapped the grass in overtones and buried their dead in acoustic ancestor-mounds that replay the last words of the dead on the anniversary of their dying.
-**The Deepening & the Bargain.** House Ordavan traded fertile soil for the endless migration, only grass can root, so the herds must move forever. The trauma-sites are the Ancestor Mounds, where the bargain was ratified in song and where the dead still answer.
-**The Long Dimming.** In the early centuries of the Dimming the first Unlit Veil couriers arrived at Synod Hold and within a generation owned Ordavan trade policy. In the later centuries of the Dimming three ancestral mounds fell silent in a single season, the first omen of something stirring beneath; the Cult of Forgotten Shadow's in the most recent centuries Silence Between Stars confirmed it when the deep answered, and across the Vale the dead ancestors went quiet for good.
-**The Present Fracture.** Chaos Pockets are stabilizing into permanence (within living memory), grass grows sideways, rain falls upward, the Harbinger crisis made visible; and the False Prophet's Voice is issuing specific instructions, routing its Congregation toward the same deep vaults the Cult wants opened.`
+
+**The Pre-Deepening.** The Vale was an Ordan-style steppe horde-culture of throat-singing navigators. They mapped the grass in overtones and buried their dead in acoustic ancestor-mounds that replay the last words of the dead on the anniversary of their dying.
+
+**The Deepening & the Bargain.** House Ordavan traded fertile soil for the endless migration. Only grass can root, so the herds must move forever. The trauma-sites are the Ancestor Mounds, where the bargain was ratified in song and where the dead still answer.
+
+**The Long Dimming.** In the early centuries of the Dimming, the first Unlit Veil couriers arrived at Synod Hold and within a generation owned Ordavan trade policy. In the later centuries, three ancestral mounds fell silent in a single season: the first omen of something stirring beneath. The Cult of Forgotten Shadow's Silence Between Stars confirmed it when the deep answered, and across the Vale the dead ancestors went quiet for good.
+
+**The Present Fracture.** Chaos Pockets are stabilizing into permanence. Grass grows sideways. Rain falls upward. The Harbinger crisis is made visible, and the False Prophet's Voice is issuing specific instructions, routing its Congregation toward the same deep vaults the Cult wants opened. The wind carries voices now. Whether they belong to the dead or to something waking — no one can say.`
  },
  {
  title: 'The Bryngloom Forest',
- content: `> **Key Terms in Bryngloom Forest:**
-> - **Bryngloom Forest:** A twilight canopy of ironwood trees growing above bottomless peat-sinking bogs.
-> - **House Morrath:** The noble house led by Regent Morrath Neth, who enforces the First Contract.
-> - **The Great Registry:** The central archive at Atropolis where all citizen debts and lifespans are recorded.
-> - **The Postmortem Corvée:** The legal conscription of deceased debtors resurrected as Debt-Revenants to clear balances.
-> - **The Peat-Debt Bondage:** The economic system where poor Morren mortgage their memories and lifelines for rations.
-> - **The Toll-Dikes:** Fortified living-ironwood gates across the swamp channels controlling passage.
-
+ content: `
 **The Regional Landscape & Current Vibe**
 
 The Bryngloom Forest is a continent of contradictions: semi-frozen sinking bogs give way to ancient bioluminescent woods, sacred fungal-lit groves, and cathedral-canopies of living ironwood coaxed into shape over eight centuries. The forest does not simply grow here, it is governed. An entity called the **Morvane** (the same being the Vreken call the Root-Veil) decides what the Gloom preserves and what the Gloom consumes. This is not myth. This is legal precedent. 
@@ -746,11 +767,23 @@ In Atropolis, taverns are open-air branch platforms suspended high in the canopy
 **Native Traditions & Founders**
 The Bryngloom is the deepest root of Mythrill's death-and-contract magic. The **Arcanoneer** art was founded here by **Valerius**, who weaponized Neth contract-commitment into spellcasting at Atropolis. The **Revenant** tradition was forged from two Bryngloom roots, **Kora the Veil-Speaker's** blood-covenant and **Vesper the Scribe's** frost-stasis phylactery. The **Plaguebringer** Cultivar was founded by **Vespera**, who bonded with bog-rot to cure the spore-hush. **Nyssa**, the Vreken spore-elder, pioneered the spore-inhalation root of the **Animist** triad here. The Bryngloom also co-founded two wider traditions: **Orven the Still-Handed** forged the cold-iron Vreken root of the **Inquisitor** art (sworn at the Sunken Spire), and **Lyra** the Kessen probability-weaver developed the clause-reading root of the **Gambit** tradition here before it crossed the Ancestor-Spans to Merrowport.
 
+> **Key Terms in Bryngloom Forest:**
+> - **Bryngloom Forest:** A twilight canopy of ironwood trees growing above bottomless peat-sinking bogs.
+> - **House Morrath:** The noble house led by Regent Morrath Neth, who enforces the First Contract.
+> - **The Great Registry:** The central archive at Atropolis where all citizen debts and lifespans are recorded.
+> - **The Postmortem Corvée:** The legal conscription of deceased debtors resurrected as Debt-Revenants to clear balances.
+> - **The Peat-Debt Bondage:** The economic system where poor Morren mortgage their memories and lifelines for rations.
+> - **The Toll-Dikes:** Fortified living-ironwood gates across the swamp channels controlling passage.
+
 **Deep History & Strata**
-**The Pre-Deepening.** The Bryngloom was a Thalren bog-pagan culture of peat-preserving ancestor-veneration crossed with Solbrand-style reincarnation-contract law, its dead wired into the mycelial Root-Veil, the root of the Postmortem Corvée, the Neth contract-nature, and the bog-preserved dead that still walk.
-**The Deepening & the Bargain (the First Contract).** The Neth struck the First Contract with Morvane; House Morrath was elevated to administer it. The trauma-site is the Heart-Vault beneath Atropolis. The Drun, who refused the Contract's terms, were cast down and built the Over-Shanty beneath the city.
-**The Long Dimming.** In the mid-Dimming centuries the Cult of Forgotten Shadow was founded in the Shanty's peat-crypts; its in the most recent centuries Silence Between Stars contact with the deep answered, and the contagion spread north (the Silence-Heat Heresy) and south (the Vale's Voice). In the most recent centuries the Great Fire burned a third of the Shanty, and the Cult earned its grudging hold by containing the flames.
-**The Present Fracture.** The bog-graves are waking and marching on the Sundered Monoliths (within living memory); the Root-Veil is rejecting the Marked (the Plaguebringer and Warden crises); and Vespera's founding strain is dying after eight centuries, the Bryngloom bill is the Heresy Chain's terminus, where the dead answer the call the Cult first dialed.`
+
+**The Pre-Deepening.** The Bryngloom was a Thalren bog-pagan culture of peat-preserving ancestor-veneration, crossed with Solbrand-style reincarnation-contract law. Its dead were wired into the mycelial Root-Veil. That wiring became the Postmortem Corvée, the Neth contract-nature, and the bog-preserved dead that still walk.
+
+**The Deepening & the Bargain — the First Contract.** The Neth struck the First Contract with Morvane. House Morrath was elevated to administer it. The trauma-site is the Heart-Vault beneath Atropolis. The Drun, who refused the Contract's terms, were cast down and built the Over-Shanty beneath the city.
+
+**The Long Dimming.** In the mid-Dimming centuries, the Cult of Forgotten Shadow was founded in the Shanty's peat-crypts. Its Silence Between Stars contact with the deep answered, and the contagion spread north (the Silence-Heat Heresy) and south (the Vale's Voice). In the most recent centuries, the Great Fire burned a third of the Shanty, and the Cult earned its grudging hold by containing the flames.
+
+**The Present Fracture.** The bog-graves are waking and marching on the Sundered Monoliths. The Root-Veil is rejecting the Marked — the Plaguebringer and Warden crises. Vespera's founding strain is dying after eight centuries. The Bryngloom bill is the Heresy Chain's terminus, where the dead answer the call the Cult first dialed. The Keeper is still listening. The Contract is still binding. But the terms are being rewritten in a language the Neth did not write.`
  }
  ]
  }
@@ -787,11 +820,11 @@ As an Emberth, you carry the heat of a dying star in your veins. It falls to you
   },
   {
   title: 'The Fexrick',
-  content: `Eight millennia ago, long before the first human kingdoms rose, the Fexric carved their first holdfast into the basalt spires of the Cragjaw Peaks. They are the oldest continuous civilization on Mythrill, a compact, green-skinned race of gnomish subterranean engineers who survived the death of the sun through geothermal mastery and alchemical cunning. Every Fexric carries a mechanical body graft—a brass eye, a copper ear, or clockwork fingers—earned by mastering a guild craft. But these replacements are double-edged: they act as lightning rods for the alchemical currents that hum through the mountain halls, eventually grounding the user in systemic shock.
+  content: `Eight millennia ago, long before the first human kingdoms rose, the Fexric carved their first holdfast into the basalt spires of the Cragjaw Peaks. They are the oldest continuous civilization on Mythrill, a compact, green-skinned race of gnomish subterranean engineers who survived the death of the sun through geothermal mastery and alchemical cunning. Every Fexrick carries a mechanical body graft—a brass eye, a copper ear, or clockwork fingers—earned by mastering a guild craft. But these replacements are double-edged: they act as lightning rods for the alchemical currents that hum through the mountain halls, eventually grounding the user in systemic shock.
 
 Today, the Fexric warrens are divided by a bitter social schism. The guild-bound Kethrin hoard the proprietary oral blueprints and maintenance songs of their ancestors, treating temporal mechanics and gear-craft as corporate secrets. The clan-free Drall, expelled from the guild halls, live as nomadic scavengers on the peak margins, improvising working clockwork from scrap and chardalyn. Together, they face the slow decay of their ancient holds as the blizzards deepen and the steam-lines freeze. 
 
-As a Fexric, you possess a mind built for gears and formulas in a world that is running out of time. Whether you seek to safeguard the guild-archives, trade in stolen blueprints, or repair the failing clockwork of your ancestors, it falls to you to keep the gears turning.`
+As a Fexrick, you possess a mind built for gears and formulas in a world that is running out of time. Whether you seek to safeguard the guild-archives, trade in stolen blueprints, or repair the failing clockwork of your ancestors, it falls to you to keep the gears turning.`
   },
   {
   title: 'The Neth',
@@ -1002,7 +1035,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
  },
  {
  title: 'Cragjaw Peaks (Frostmaw Holdfast)',
- content: `- **Guild-Master Fexric Keth:** A brilliant, clockwork-augmented Fexric dwarf engineer who oversees the massive geothermal pipeline network of Frostmaw Holdfast. He is cold, analytical, and views the natural world as a machine that must be optimized and regulated.\n\n**Goal:** To shut off the heat supply to the outland keeps of Nordhalla, freezing out the Skald rebels and forcing them to cede their mineral-rich territories.\n\n**Secret:** His mechanical eye-graft is actually an active fragment of the Cragjaw Monolith. It records everything he witnesses, transmitting his visual memory directly to Keth-Amar's slumbering consciousness.\n\n**Conflict:** Targets the bridge-scales of the Ancestor-Spans, whom he views as alchemical property that escaped the holdfast's breeding vats.\n\n- **Toll-Leader Ithra Groven:** A massive, smooth-scaled Groven diplomat who stands guard over the Ancestor-Spans. Her skin is calcifying into pale stone-plates, a heritage of the alchemical experiments that created her race. She is a voice of reason in a mountain range dominated by alchemical greed.\n\n**Goal:** To secure official sovereign recognition for the Groven nation from the Astril Synod, freeing her people from Fexric servitude.\n\n**Secret:** She is secretly funding the Restorer rebel raids, providing the outlaw warriors with Fexric pipeline security codes and alchemical components.\n\n**Conflict:** Clashing with Guild-Master Keth over transit tolls and the smuggling of alchemical components.`
+ content: `- **Guild-Master Fexric Keth:** A brilliant, clockwork-augmented Fexrick engineer who oversees the massive geothermal pipeline network of Frostmaw Holdfast. He is cold, analytical, and views the natural world as a machine that must be optimized and regulated.\n\n**Goal:** To shut off the heat supply to the outland keeps of Nordhalla, freezing out the Skald rebels and forcing them to cede their mineral-rich territories.\n\n**Secret:** His mechanical eye-graft is actually an active fragment of the Cragjaw Monolith. It records everything he witnesses, transmitting his visual memory directly to Keth-Amar's slumbering consciousness.\n\n**Conflict:** Targets the bridge-scales of the Ancestor-Spans, whom he views as alchemical property that escaped the holdfast's breeding vats.\n\n- **Toll-Leader Ithra Groven:** A massive, smooth-scaled Groven diplomat who stands guard over the Ancestor-Spans. Her skin is calcifying into pale stone-plates, a heritage of the alchemical experiments that created her race. She is a voice of reason in a mountain range dominated by alchemical greed.\n\n**Goal:** To secure official sovereign recognition for the Groven nation from the Astril Synod, freeing her people from Fexric servitude.\n\n**Secret:** She is secretly funding the Restorer rebel raids, providing the outlaw warriors with Fexric pipeline security codes and alchemical components.\n\n**Conflict:** Clashing with Guild-Master Keth over transit tolls and the smuggling of alchemical components.`
  },
  {
  title: 'Sundrift Vale (Synod-Hold)',
@@ -1022,7 +1055,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 - **Renn:** A young, maskless Mimir street-rat who runs a stall in the Shallows. He specializes in selling bottled "discarded memories" stolen from the Scribe-Cartel's disposal bins, acting as a key contact for locating lost relatives.
 
 **Nordhalla:**
-- **Bryn the Stoker:** A battle-scarred Bloodhammer dwarf veteran who tends the massive coal boilers heating Skalvyrhold. He knows every steam vent and secret maintenance pipe, and is willing to guide fugitives past High-King Halvar's guards.
+- **Bryn the Stoker:** A battle-scarred Bloodhammer veteran who tends the massive coal boilers heating Skalvyrhold. He knows every steam vent and secret maintenance pipe, and is willing to guide fugitives past High-King Halvar's guards.
 - **Old Kira:** A blind Frostbound shaman who gathers glacier lichen in the cavernous rifts. She brews remedies for the Hunger Winter blue-skin mutation and knows which carved runic columns are safe to touch without triggering glacier ward-bursts.
 - **Haldor Spit-Chit:** A greedy Skald human trader who deals in copper chits and forged heat-tickets. He has an extensive network of sled-dogs and informants along the fjord-keeps, serving as a master smuggler of contraband food.
 
@@ -1038,7 +1071,7 @@ To play any character in Mythrill is to play one of the debtor's heirs. The time
 
 **Cragjaw Peaks:**
 - **Murm the Bridge-Tender:** A calcified Groven bridge-warden whose stone-like skin makes it difficult for him to speak. He guards the Ancestor-Span bridges and will only grant passage to travelers who can solve the ancient riddles carved into the calcified bones of his ancestors.
-- **Drall Kess:** A Fexric dwarf outland scrap-dealer who salvages clockwork parts from abandoned pipeline junctions. She possesses detailed schematics of Guild-Master Keth's private workshops and will trade them for rare alchemical compounds.
+- **Drall Kess:** A Fexrick outland scrap-dealer who salvages clockwork parts from abandoned pipeline junctions. She possesses detailed schematics of Guild-Master Keth's private workshops and will trade them for rare alchemical compounds.
 - **Wind-Singer Cora:** A Corvani (GM-only creature race) messenger who lives in the highest spires of the peaks. She uses her trained falcons and wind-gliders to carry messages across the freezing mountain passes, charging a high price in personal memories.
 
 **Sundrift Vale:**
@@ -1384,7 +1417,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
  title: 'Street-Level NPCs',
  content: `- **Marra of the Nine:** The cynical human village elder, her hands heavily scarred from frostbite, desperate to save her grandchildren from the creeping cold.
 - **Jad the Stoker:** A retired Ithran Groven smith who tends the outpost's central heater-forge, coughing soot and warning that the furnace is on its last coal-shavings.
-- **Orl the Scout:** A young Corvani (GM-only creature race) messenger from Nordhalla\'s glacier-spires who saw the sledge\'s tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.`
+- **Orl the Scout:** A young Corvani (GM-only creature race) messenger from Nordhalla's glacier-spires who saw the sledge's tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.`
  },
  {
  title: 'The Encounter & Stakes',
@@ -2393,7 +2426,7 @@ Mix and match these systems to craft the exact tone of your campaign.`
  { icon: 'fas fa-skull-crossbones', label: 'Overburdened', value: 'Cols 10-14: -75% Speed' }
  ],
   summary: [
-  'Inventory is a spatial grid, not a weight number. Base pack: 5 columns � -  15 rows (75 slots). Quick Facts tile shows the grid dimensions, encumbrance zones, and penalties at a glance.',
+  'Inventory is a spatial grid, not a weight number. Base pack: 5 columns � -  15 rows (75 slots). Quick Facts tile shows the grid dimensions, encumbrance zones, and penalties at a glance.',
   'Every 2 points of Strength above 10 adds one column (15 more slots). Three vertical zones govern penalties: columns 0-4 are free, 5-9 slow you 25%, 10-14 slow you 75%.',
   'Tactical packing is a mini-game. Drag items on your digital sheet and the VTT updates your speed and modifiers instantly. Heavy plate centered = free. Treasure in outer columns = crawl.'
   ],
@@ -2462,13 +2495,13 @@ Tactical packing is a mini-game in itself: do you keep your heavy steel plate an
  sections: [
  {
  title: 'Dice-Based Durability System',
- content: `No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, equippable armor pieces track their physical integrity through a shifting **Dice-Based Durability** system. Rather than tracking mechanical percentages or large numbers, an armor\'s current and maximum protective values are expressed as a die size step (e.g., **d8/d10 Durability**).
+ content: `No weapon remains eternally sharp, and no steel plate remains unbent in the crucible of battle. In Mythrill, equippable armor pieces track their physical integrity through a shifting **Dice-Based Durability** system. Rather than tracking mechanical percentages or large numbers, an armor's current and maximum protective values are expressed as a die size step (e.g., **d8/d10 Durability**).
 
 When wearing armor and taking a hit, you roll your armor's current DR die (e.g., **d8**) to reduce the damage. If you roll a **1 or 2**, the structural integrity of your armor slips and it degrades by one die size step (e.g., **d8** -> **d6**). If you roll a **3 or higher**, the durability does not decrease. This provides a tactile, visual decay that can be tracked easily. If the item degrades below a **d4**, it becomes **broken**.`
  },
  {
  title: 'The Shattered State (Broken Items)',
- content: `When an item\'s durability degrades below a **d4**, it is reduced to **broken**. A broken item is completely inert and structurally useless, failing to offer any protection or damage reduction:
+ content: `When an item's durability degrades below a **d4**, it is reduced to **broken**. A broken item is completely inert and structurally useless, failing to offer any protection or damage reduction:
 
 - **Automatic Unequip**: The ruined item is instantly stripped from your active combat slot and moved to your pack's deep storage.
 - **Strict Equilibrium**: You cannot re-equip, wield, or wear the item until a crafter or rest mends it back to at least a **d4** durability.
@@ -2691,7 +2724,7 @@ Under this rule, a player who rolled a 3-6 can immediately choose to push their 
  },
  {
  title: 'Combinatorial Character Building',
- content: `The Mythrill system separates race, class, and background into distinct axes. Subject to lore-based restrictions (Hard Block, Subrace Gate, and Narrative Unlock tiers), you can combine elements to create unique characters, such as a Valdian Astril with a starboundScholar background, a Cragjaw Dwarf with a forgeWright background, or a Groven Revenant with a monolithHunter background. Non-standard combinations require DM backstory approval through the Narrative Unlock system.`
+ content: `The Mythrill system separates race, class, and background into distinct axes. Subject to lore-based restrictions (Hard Block, Subrace Gate, and Narrative Unlock tiers), you can combine elements to create unique characters, such as a Valdian Astril with a starboundScholar background, a Cragjaw Fexrick with a forgeWright background, or a Groven Revenant with a monolithHunter background. Non-standard combinations require DM backstory approval through the Narrative Unlock system.`
  }
  ]
  }
@@ -4084,7 +4117,7 @@ In Advanced Rules the Weapon Type die becomes a **d8** and ties into the full We
  },
  {
  title: 'GM Distribution & Containers',
- content: `During play, GMs have several elegant methods to distribute loot:\n\n- **Direct Grant**: Drag any item from the Session Library and drop it directly onto a player\'s character portrait in the HUD or timeline. The item instantly pops up in their inventory.\n- **Encounter Rewards**: Linking items to NPC tokens in the Creature Library guarantees they appear as lootable items on the grid when the creature is defeated. See [Combat Basics](combat-system/combat-basics).\n- **Lootable Containers**: GMs can place interactive chest, bag, or urn tokens on the grid and pre-fill them with items from the library. When a player token moves adjacent to the container and right-clicks it, an inventory split-screen opens, allowing them to drag items into their pack.`
+ content: `During play, GMs have several elegant methods to distribute loot:\n\n- **Direct Grant**: Drag any item from the Session Library and drop it directly onto a player's character portrait in the HUD or timeline. The item instantly pops up in their inventory.\n- **Encounter Rewards**: Linking items to NPC tokens in the Creature Library guarantees they appear as lootable items on the grid when the creature is defeated. See [Combat Basics](combat-system/combat-basics).\n- **Lootable Containers**: GMs can place interactive chest, bag, or urn tokens on the grid and pre-fill them with items from the library. When a player token moves adjacent to the container and right-clicks it, an inventory split-screen opens, allowing them to drag items into their pack.`
  },
  {
  title: 'The Shop System & Trading',
@@ -5287,7 +5320,7 @@ Encounter entries include:
   ['1-6', 'None', 'Uneventful travel', 'Echoing drip of water, bioluminescent fungi, the weight of stone above.'],
   ['7', 'Discovery', 'Crystal Formation', 'Arcana vs moderate die (d8). May have magical properties or resonance.'],
   ['8', 'Combat', 'Underdark Vermin Swarm', 'Spider or insect swarm. Fire and area effects disperse.'],
-  ['9', 'Social', 'Deep Dwarf Patrol', 'Suspicious of outsiders. Persuasion vs challenging die (d10) to avoid conflict.'],
+  ['9', 'Social', 'Deep Fexrick Patrol', 'Suspicious of outsiders. Persuasion vs challenging die (d10) to avoid conflict.'],
   ['10', 'Social', 'Fugitive', 'Escaped slave or prisoner. Desperate, may bargain knowledge for protection.'],
   ['11', 'Combat', 'Hook Horror', 'Echolocation, blind but accurate. Thunder damage disrupts their tracking.'],
   ['12', 'Combat', 'Mind Flayer Scout', 'Psionic blast. Intelligence vs challenging die (d10) to resist. Does not fight alone, others are near.'],
@@ -5546,7 +5579,7 @@ const buildSearchIndex = () => {
  .replace(/\*(.*?)\*/g, '$1')
  .replace(/\[(.*?)\]\(.*?\)/g, '$1')
  .replace(/\\n/g, ' ')
- .replace(/[`>\-]/g, '')
+ .replace(/[`>-]/g, '')
  .replace(/\s+/g, ' ')
  .trim();
  };

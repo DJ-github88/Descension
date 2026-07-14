@@ -6,8 +6,6 @@ import useInventoryStore from '../../store/inventoryStore';
 import MythrillWindow from '../windows/MythrillWindow';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
-import ItemTooltip from './ItemTooltip';
-import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemCard from './ItemCard';
 import ItemContextMenu from './ItemContextMenu';
 import CategoryContextMenu from './CategoryContextMenu';
@@ -22,10 +20,8 @@ import useAuthStore from '../../store/authStore';
 import { shareItemToCommunity } from '../../services/firebase/userItemsService';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
-import ExternalRecipePreview from '../crafting/ExternalRecipePreview';
 import SmartTabButton from '../common/SmartTabButton';
 
-import { STEPS, getStepOrder } from './wizardSteps';
 import { WEAPON_SUBTYPES } from './weaponTypes';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
@@ -1151,7 +1147,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                                 className="compact-clear"
                                                 title="Clear filters"
                                             >
-                                                Ã - 
+                                                ï¿½ - 
                                             </button>
                                         )}
                                     </div>

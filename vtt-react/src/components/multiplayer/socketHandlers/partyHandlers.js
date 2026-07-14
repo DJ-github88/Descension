@@ -155,6 +155,9 @@ export function registerPartyHandlers(ctx) {
                 partyStore.setLeader(resolvedLeaderId, true);
               }
               break;
+
+            default:
+              break;
           }
         }
       });

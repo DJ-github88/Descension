@@ -1,4 +1,4 @@
-﻿// History Skill Multi-Dimensional Tables
+// History Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 
 export const HISTORY_TABLES = {

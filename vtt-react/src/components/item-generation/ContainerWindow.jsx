@@ -6,13 +6,11 @@ import useInventoryStore from '../../store/inventoryStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
-import LockSettingsModal from './LockSettingsModal';
 import UnlockContainerModal from './UnlockContainerModal';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { RARITY_COLORS } from '../../constants/itemConstants';
-import DraggableWindow from '../windows/DraggableWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
 
@@ -1196,7 +1194,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                     className="close-button"
                                     onClick={onClose}
                                 >
-                                    Ã - 
+                                    ï¿½ - 
                                 </button>
                             </div>
                             <div

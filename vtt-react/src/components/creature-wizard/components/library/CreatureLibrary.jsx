@@ -8,7 +8,6 @@ import useSettingsStore from '../../../../store/settingsStore';
 import { getCreatureTokenIconUrl } from '../../../../utils/assetManager';
 import CreatureContextMenu from './CreatureContextMenu';
 import CreatureFilters from './CreatureFilters';
-import LibraryStyleCreatureCard from '../common/LibraryStyleCreatureCard';
 import SimpleCreatureTooltip from '../common/SimpleCreatureTooltip';
 import CompactCreatureCard from '../common/CompactCreatureCard';
 import EnhancedCreatureInspectView from '../common/EnhancedCreatureInspectView';

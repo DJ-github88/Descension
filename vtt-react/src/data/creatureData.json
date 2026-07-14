@@ -41,7 +41,7 @@
         },
         {
           "id": "oillipheist",
-           "name": "Oillipheist",
+          "name": "Oillipheist",
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/oillipheist.png",
           "illustrationCaption": "An Oilliph�ist coiled in a dark peat-pool, its mossy skin glistening under the cold stars",
@@ -527,7 +527,7 @@
           "dangerLevel": "High",
           "illustration": "/assets/images/creatures/banshrond.png",
           "illustrationCaption": "A Banshrond standing in the mist, her?hair trailing like coiling fog",
-           "role": "Banshee/Bean S�dhe",
+          "role": "Banshee/Bean S�dhe",
           "origin": "Born from the Briaran Banshee, whose wail foretells physical death, and the Skald Hollergeist, which mimics familiar voices to lead travelers to their doom, the Banshrond is a phantom of mental dissolution. She wanders the margins of the forest, mourning the death of lineage and recollection.",
           "nature": "This impossibly tall, slender spirit appears draped in tattered fog-shrouds woven from the ghost-pages of dissolved journals, with faint, shifting text visible in the cloth. She stands at the forest edges, combing her ankle-length silver hair with a comb carved from a rib-bone as tears of liquid memory-glass fall and shatter at her feet. Her pale, drawn face features deep hollows around the eyes and a mouth frozen in a silent, screaming circle.",
           "habitat": "She haunts the quiet borders of fog-clearings and the outskirts of Greymark settlements.",
@@ -700,7 +700,7 @@
           "illustration": "/assets/images/creatures/cailleach.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Cailleach",
           "role": "Perchta/Frau Holda",
-           "origin": "A manifestation of winter's severity and judgment, this entity is born from the Thalren winter goddess Perchta and the Skaldic winter hag Cailleach. In the Frostwood, some folk wrongly credit her with weaving the mist, though the Fog Compact is its true source, enforcing the strict social contracts of House Thalreth.",
+          "origin": "A manifestation of winter's severity and judgment, this entity is born from the Thalren winter goddess Perchta and the Skaldic winter hag Cailleach. In the Frostwood, some folk wrongly credit her with weaving the mist, though the Fog Compact is its true source, enforcing the strict social contracts of House Thalreth.",
           "nature": "This twelve-foot-tall crone presents a shifting appearance: she seems a regal woman in a gown of frost-crystals and ironwood-silk to the diligent, but appears as a skeletal horror in peat-moss rags to the lazy. She carries an ironwood distaff to spin emotion-colored memory yarn, and her face features one piercing blue eye and one hollow, fog-filled socket, with a mouth that freezes the air when she smiles.",
           "habitat": "She wanders the highest, coldest ridges of the Frostwood during winter, descending into the valleys when the fog is thickest.",
           "combat": "390 HP. Fog-Spinning (passive: generates memory-fog in a 60-ft radius; creatures inside must DC 14 SPI each round or lose one minor memory). Judgment-Gaze (special: perceives each creature's diligence; the hardworking see a radiant queen, the slothful see a skeletal horror). Distaff-Strike (melee, reach 15 ft, +6 to hit, 2d8+4 bludgeoning). Straw-Judgment (special: if she deems a household negligent, she fills their bellies with straw � DC 15 CON save or incapacitated for 24 hours with a stomach full of straw; not lethal but deeply disturbing). Vulnerable to fire.",
@@ -726,7 +726,7 @@
             "Adventurers need a component from a Cailleach to complete their quest."
           ],
           "description": "A towering winter crone who spins the memory-fog and judges the diligence of mortal record-keepers.",
-           "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Cailleach originally served the Frostwood as a way to rationalize the memory-fog that eats the Reach's histories and names. When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants' dread of forgetting. By twisting these underlying folklore patterns, the Wyrd synthesized a living hag whose song thickens the mist to cloud memory, though the Fog Compact, not Cailleach, is its true source."
+          "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Cailleach originally served the Frostwood as a way to rationalize the memory-fog that eats the Reach's histories and names. When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants' dread of forgetting. By twisting these underlying folklore patterns, the Wyrd synthesized a living hag whose song thickens the mist to cloud memory, though the Fog Compact, not Cailleach, is its true source."
         },
         {
           "id": "dullahan",
@@ -865,6 +865,74 @@
           ],
           "description": "A wiry wood sprite with a crimson moss cap that blocks forest paths with historical riddles and feeds on fear.",
           "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Waldschrat originally served as a way for the community to rationalize the forces described in local tales: \"The Waldschrat represents a merger of the Thalren Waldschrat, a hairy riddle-loving forest spirit, and the Skaldic Far Darrig, the red-capped prankster.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the shared anxieties of the region's travelers. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers."
+        },
+        {
+          "id": "gambrel",
+          "name": "Gambrel",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/gambrel.png",
+          "illustrationCaption": "A spindly, long-limbed Gambrel emerging from the mist near an empty carriage",
+          "role": "The oath-hunting horror",
+          "origin": "The Gambrel is born from the emotional fallout of broken vows and failed compacts in the Frostwood Reach. In a region where written deeds and contracts are the only things preventing total loss of identity, a broken oath is a serious spiritual crime. The Wyrd corruption feeds on this hidden guilt, molding it into a physical stalker.",
+          "nature": "It appears as a spindly, long-limbed creature that stands over eight feet tall, with joints that bend in unnatural directions. Its skin is like grey, rotting leather, and it has no face other than a wide, lipless mouth that smells of cold copper. It moves with a silent, jerky gait, and its speed is directly proportional to its prey's desperation to escape their promises.",
+          "habitat": "Gambrels haunt the foggy trails and forest paths of the Frostwood Reach, especially near border gates and ruined keeps where broken agreements were made.",
+          "combat": "240 HP. Guilt-Sense (passive: senses target's guilt; speed scales based on target's desperation). Broken Contract (melee, 2d8+3 slashing, reach 10 ft; +2d6 psychic if the target has ever broken a promise). Mist-Vanish (can teleport 30 ft into mist as a reaction). Vulnerable to ember.",
+          "stats": {
+            "strength": 14,
+            "agility": 16,
+            "constitution": 14,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 240,
+            "maxMana": 0,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "rime": 50
+            }
+          },
+          "depth": "It cannot be outrun by standard horses or clockwork vehicles, as it shifts through space using the target's guilt as a spatial tether. Slaying a Gambrel requires facing it directly, as running only increases its strength and speed.",
+          "hooks": [
+            "A merchant broke a trade oath with a Briaran hunter, and now a Gambrel is stalking his family's carriage.",
+            "The players are contracted to slay a Gambrel that has locked down a local trade crossing."
+          ],
+          "heritage": "Derived from the folklore of early settlers regarding the spiritual weight of covenants, literalized by Wyrd anomaly into a relentless hunter of debtors.",
+          "description": "A spindly, long-limbed Wyrd-horror that hunts down those who have broken oaths or carry hidden guilt."
+        },
+        {
+          "id": "the_revel",
+          "name": "The Revel",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/the_revel.png",
+          "illustrationCaption": "A glowing, phantom celebration in a forest clearing, composed of hollow wooden puppets",
+          "role": "The phantom festival",
+          "origin": "Before the sun died, the Revel was a seasonal celebration of the Seelie court. When the Wyrd seeped into the forest, it trapped the echoes of this celebration, turning the dancers into mindless puppets and the music into a lethal sensory trap.",
+          "nature": "The Revel appears as a collection of wood-carved, mask-wearing puppets that dance in a circle around a cold bonfire. The air smells of sweet wine and damp earth, and their music is a compelling, beautiful song that echoes through the trees.",
+          "habitat": "Deep ironwood groves and clearing ruins of the Frostwood Reach, especially during moonlit nights.",
+          "combat": "310 HP. Endless Dance (aura, 30 ft: DC 14 SPI or forced to dance, losing 1 AP per turn). Joyous Cacophony (ranged, 2d6 psychic, targets up to 3 enemies). Fey-Step (teleports 40 ft as a free action once per turn). Vulnerable to necrotic.",
+          "stats": {
+            "strength": 10,
+            "agility": 14,
+            "constitution": 12,
+            "intelligence": 12,
+            "spirit": 16,
+            "charisma": 18,
+            "maxHp": 310,
+            "maxMana": 40,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "radiant": 50
+            }
+          },
+          "depth": "Those who enter the circle are caught in the melody and join the dance until their lungs collapse from exhaustion. The puppets themselves are hollow, filled with writhing black thorns that lash out when damaged.",
+          "hooks": [
+            "A group of young archer-initiates disappeared after following music into the woods; they have been dancing for three days.",
+            "A Briaran clan needs a magical lute that was captured by the Revel's lead puppet."
+          ],
+          "heritage": "Formed from Seelie festival memories, twisted by Wyrd corruption into a predatory trap.",
+          "description": "A phantom court of wooden puppets that forces travelers into an endless, exhausting dance."
         }
       ]
     },
@@ -1363,7 +1431,7 @@
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/nidhoggr.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary N��h�ggr",
-           "role": "N��h�ggr",
+          "role": "N��h�ggr",
           "origin": "The Nidhoggr is inspired by the Skaldic N��h�ggr, the dragon that gnaws the roots of the World Tree, and the highland Schrat-Root, a subterranean spirit that undermines buildings. In Nordhalla, it is a blind, burrowing menace that feasts on foundations and magical pacts alike.",
           "nature": "This creature appears as a tangle of black, rope-thick coils that resemble petrified roots, covered in matte black scales that are warm to the touch. It has no distinct head, instead terminating in a circular, lamprey-like maw lined with rotating rings of translucent amber teeth that act as a boring machine. Each tooth is a fragment of a consumed rune, and the tunnels it leaves behind are filled with fine black ash that smells of burnt magical energy.",
           "habitat": "It tunnels deep beneath the frozen bedrock, keep foundations, and glacial vaults of Nordhalla.",
@@ -1433,7 +1501,7 @@
           "dangerLevel": "Very High",
           "illustration": "/assets/images/creatures/landvaettir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Landv�ttir",
-           "role": "Landv�ttir",
+          "role": "Landv�ttir",
           "origin": "The Landv,ttir-Peak stems from the Skaldic Landv,ttir, protective spirits of the land who could be offended by hostiles, and the highland Salvanel, the wild guardians of mountain passes. In the high ridges of Nordhalla, these giants are the living embodiment of the mountains themselves.",
           "nature": "Standing fifteen to twenty feet tall, this humanoid is composed entirely of the mountain it inhabits, featuring granite skin, snow-white hair, and clothing made of living lichen. Its texture matches the local geology so perfectly that it is invisible when still, with bird-nests in its stone shoulders and mountain goats sheltered at its feet under a ring of clear sky. Its face is an ancient cliff-face with a brow like an overhang, a nose like a broken spire, and slow-blinking eyes of glacier-blue.",
           "habitat": "It resides on the high mountain peaks, cliff faces, and highland passes of Nordhalla.",
@@ -1538,7 +1606,7 @@
           "dangerLevel": "High",
           "illustration": "/assets/images/creatures/fenris.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Fenris",
-           "role": "Fenrir/Fenris�lfr",
+          "role": "Fenrir/Fenris�lfr",
           "origin": "The Fenris is a juvenile manifestation of the Skaldic Fenrir, the apocalyptic wolf bound by the spirits until Ragnar�k, mixed with the highland Barbegazi who navigate deep snow with ease. It manifests the restless, bound fury of the end times, hunting the frozen wastes of Nordhalla.",
           "nature": "Though only a pup, this creature is the size of a pony, with fur that shifts between frost-white and shadow-black and giant, shield-wide paws that glide over snow drifts. It wears a collar of braided silk ribbon that glows with the golden magic of Gleipnir, and its thick tail leaves a distinct drag-mark behind it. Its face displays a puppy's oversized ears and lolling tongue, but its eyes can suddenly flash with an ancient, predatory intelligence, turning from warm brown to molten gold when it senses an oath-breaker.",
           "habitat": "It hunts across the windswept tundra and frozen plains of Nordhalla.",
@@ -1573,7 +1641,7 @@
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/disir.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Disir Wraith",
-           "role": "D�sir",
+          "role": "D�sir",
           "origin": "The Disir represents the Skaldic D,sir, female ancestral guardians honored during the D,sabl,t who bless or curse their descendants, and the highland Perchta's Retinue, who punish sloth and household neglect. They manifest during the deep winter to ensure ancestral traditions are upheld.",
           "nature": "This entity appears as a procession of tall, pale women in flowing white gowns who glide over the snow without leaving footprints. Each figure carries a ritual object,a distaff, a bloody spindle, a sheaf of wheat, or an iron knife,and holds a tallow candle that burns with a constant, unmeltable blue flame. They share identical, sorrowful faces with solid white, unblinking eyes, their mouths slightly parted to emit a continuous, low hum.",
           "habitat": "They travel between the longhouses and settlements of Nordhalla during the winter solstice.",
@@ -1739,6 +1807,111 @@
           ],
           "description": "A shifting marine entity that oscillates between a beautiful mermaid and a terrifying frost serpent, blessing or cursing catches while guiding ships to safety or crushing them in ice.",
           "heritage": "Derived from merfolk legends, the Havgammel was a maritime warning story used to explain why fishing catches suddenly turned to stone and why anchors snagged. The Wyrd anomaly materialized the coastal villagers' fear of ocean anger, shaping their anxieties into an ancient, shape-shifting seal-spirit that dictates the fate of catches."
+        },
+        {
+          "id": "skreika",
+          "name": "Skreika",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/skreika.png",
+          "illustrationCaption": "A blue-skinned drowned warrior climbing onto a frozen pier, ice forming on its shoulders",
+          "role": "The drowned fjord-feeder",
+          "origin": "The Skreika are drowned sailors who have been resurrected by the freezing cold and the residual Wyrd-seepage of the Iceheart Sea. They are the personification of the Skaldic fear of cold water and frozen graves.",
+          "nature": "These creatures are blue-skinned, bloated humanoids covered in frost and seaweed. They speak in a choked, gurgling whisper and emit a freezing chill that lowers the surrounding temperature by twenty degrees.",
+          "habitat": "Frozen bays, ice-locked canals, and shoreline caves of Nordhalla and the Iceheart borders.",
+          "combat": "280 HP. Frost-Fever (passive: melee attacks infect target with DC 14 CON or contract Frost-Fever, taking 1d6 cold/turn and halved speed). Drowned Grip (melee, +5 to hit, 2d8+4 physical + grappled). Re-rise (regenerates 15 HP/turn unless hit by fire damage). Vulnerable to ember.",
+          "stats": {
+            "strength": 16,
+            "agility": 10,
+            "constitution": 18,
+            "intelligence": 8,
+            "spirit": 10,
+            "charisma": 6,
+            "maxHp": 280,
+            "maxMana": 0,
+            "maxActionPoints": 3,
+            "speed": 25,
+            "resistances": {
+              "rime": 100,
+              "cold": 100
+            }
+          },
+          "depth": "They wander in small packs, searching for fires and warmth to extinguish, driven by a bitter hatred of the living's warmth. They are not entirely mindless, and some remember fragment of their past ship duties.",
+          "hooks": [
+            "A pack of Skreika has blockaded the fjord gate of a Skald village, cutting off their heating coal.",
+            "The player characters must retrieve a captain's log from a Skreika who was once the ship's navigator."
+          ],
+          "heritage": "Derived from the Skaldic dread of the Sunken Voyage and returning ancestors who died at sea.",
+          "description": "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever."
+        },
+        {
+          "id": "rimor",
+          "name": "Rimor",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/rimor.png",
+          "illustrationCaption": "A small, soot-colored hearth-parasite feeding on the embers of a dying fire",
+          "role": "The warmth-thief",
+          "origin": "The Rimor is a Wyrd-parasite born from the fear of cold-lock. It crawls into chimneys and firepits, quietly devouring the heat and the family's capacity for warmth.",
+          "nature": "It is a small, insectoid creature with a body resembling gnarled coal. Its eyes glow with a dull, dying orange light, and its mouth is a siphon that sucks in heat, freezing the surrounding ash in seconds.",
+          "habitat": "Commonly found in hearths, chimneys, and coal piles in northern settlements and outposts.",
+          "combat": "110 HP. Heat Siphon (ranged, 1d8 cold, heals Rimor for the same amount). Cold Hearth (passive aura, 15 ft: all fire damage is reduced by 50% and creatures take 1d4 cold/turn). Hide-in-Coals (gains total cover when occupying an active hearth). Vulnerable to radiant.",
+          "stats": {
+            "strength": 6,
+            "agility": 14,
+            "constitution": 10,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 110,
+            "maxMana": 20,
+            "maxActionPoints": 3,
+            "speed": 20,
+            "resistances": {
+              "cold": 100,
+              "rime": 50
+            }
+          },
+          "depth": "A home occupied by a Rimor slowly loses its warmth; water freezes inside the mugs, and the occupants become lethargic and cold-hearted. It can only be driven out by intense alchemical heat.",
+          "hooks": [
+            "A village elder's house has gone cold, and his family is falling into a deep sleep; a Rimor has nested in the boiler.",
+            "The alchemists need a Rimor's coal-shell to craft a cold-isolation chamber."
+          ],
+          "heritage": "Born from the dread of cold-lock and losing fires in the deep northern winters.",
+          "description": "A small, insectoid hearth-parasite that devours fire and heat, freezing homes from within."
+        },
+        {
+          "id": "stel",
+          "name": "Stel",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/stel.png",
+          "illustrationCaption": "A towering figure of blue glacier-ice, screaming with the voices of those it has claimed",
+          "role": "The glacier-echo",
+          "origin": "The Stel is a manifestation of the glacier's memory. When an expedition is frozen solid in the valleys, the ice records their final moments, materializing a frozen revenant of ice and sorrow.",
+          "nature": "A massive, crystalline humanoid composed of ancient glacier-ice that glows with a faint blue light. It has no features other than hollow eye-sockets, and it constantly replays the final death-screams of those who died in the ice.",
+          "habitat": "Glacier crevices, high mountain passes, and ice fields of Nordhalla.",
+          "combat": "340 HP. Death-Scream (ranged, 2d8 psychic, DC 14 SPI or Frightened 1 round). Chilling Replay (passive aura, 20 ft: cold immunity, enemies take disadvantage on checks to resist fear). Frozen Maw (melee, +6 to hit, 2d10+5 cold/physical). Vulnerable to fire.",
+          "stats": {
+            "strength": 18,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 340,
+            "maxMana": 30,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "cold": 100,
+              "physical": 25
+            }
+          },
+          "depth": "The screams are not just acoustic; they are a psychic lure that drags travelers toward crevasses. The Stel itself is nearly indestructible unless melted, and its body contains the frozen skeletons of its victims.",
+          "hooks": [
+            "A group of miners followed the voice of their lost comrade into the glacier, where a Stel lies in wait.",
+            "Rune Keepers need a shard of a Prime Stel to calibrate the Archive's temperature wards."
+          ],
+          "heritage": "Born from the memories of lost expeditions frozen solid in northern glaciers.",
+          "description": "A towering creature of ancient glacier-ice that replays death-screams to lure travelers to their doom."
         }
       ]
     },
@@ -1961,7 +2134,7 @@
           "illustration": "/assets/images/creatures/tiamat.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Scale of Tiamat",
           "role": "Tiamat",
-           "origin": "In the blistering depths of the Sundale caldera, the Tiamat manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, a Wyrd-coiled volcanic glass serpent wound around the Solbrand at the Harath-Vault, revered in Solvarn and Emberth forging-lore by the Korr smiths as the mother of monsters, and Apep, the Solvarn-named chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
+          "origin": "In the blistering depths of the Sundale caldera, the Tiamat manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, a Wyrd-coiled volcanic glass serpent wound around the Solbrand at the Harath-Vault, revered in Solvarn and Emberth forging-lore by the Korr smiths as the mother of monsters, and Apep, the Solvarn-named chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
           "nature": "The Tiamat is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape,some needle-toothed and narrow, others broad and crushing,all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
           "habitat": "These massive glass serpents make their home in the slow-flowing lava rivers and molten channels that radiate from Emberspire. They swim effortlessly through the superheated rock, completely at home in the deepest, most volcanic crevices of the region.",
           "combat": "560 HP. Multi-Head-Strike (attacks with all heads each round; each head targets independently). Lava-Swim (can move through molten rock at full speed; immune to fire). Obsidian-Shed (passive: sheds scales that create fields of razor-sharp obsidian; difficult terrain that deals 1d6 slashing per square entered). Sun-Devour-Coil (special: coils around sources of concentrated sun-heat, draining them; if it reaches the Solbrand, it could extinguish the sun-spirit's last ember). Magma-Breath (AoE cone 30 ft, 4d6 fire, DC 16 CON or continue burning for 2d6/round). Vulnerable to cold (cold damage slows it, reducing AP by 1 per cold attack landed).",
@@ -2526,7 +2699,7 @@
           "illustration": "/assets/images/creatures/abzu.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Abzu",
           "role": "Abzu/Apsu",
-           "origin": "The Abzu is a mysterious anomaly of freshwater and ancient magic, combining the primal water myths of Mesopotamia and Egypt. It represents the Abzu, the sentient freshwater pool beneath the Harath-Vault in Sundale, and Nun, the Solvarn personification of the primordial waters of creation. It exists as a pocket of ancient, wise water in the middle of a dry desert.",
+          "origin": "The Abzu is a mysterious anomaly of freshwater and ancient magic, combining the primal water myths of Mesopotamia and Egypt. It represents the Abzu, the sentient freshwater pool beneath the Harath-Vault in Sundale, and Nun, the Solvarn personification of the primordial waters of creation. It exists as a pocket of ancient, wise water in the middle of a dry desert.",
           "nature": "The Abzu has no physical, solid form; it is a perfectly circular pool of clear water, fifteen feet wide, that glows with a soft, bioluminescent blue-white light. Inside the water, ancient cuneiform and hieroglyphic glyphs swim like fish, holding the secrets of the past. When it wishes to speak, it shapes a serene, water-formed face on its surface, featuring eyes of vertigo-inducing depth.",
           "habitat": "This sentient pool is located within the deep, cavernous chambers and cooling tunnels beneath the Harath-Vault in the Emberspire region.",
           "combat": "220 HP. Wisdom-Well (special: those who drink from the pool receive one piece of forgotten pre-Dimming knowledge; the pool takes a drop of blood in exchange, adding it to its eternal archive � this is a knowledge-for-blood bargain with no save). Volcanic-Coolant (passive: its underground spring feeds the cooling-channels beneath the Harath-Vault; without it, the forges overheat and the Solbrand boils dry). Glyph-Drift (passive: cuneiform and hieroglyphic glyphs drift through the water like fish; reading them requires DC 14 INT and grants +2 to one Knowledge skill for 24 hours). Water-Form (immune to physical damage; takes normal damage from cold (freezes it temporarily) and acid). Vulnerable to cold (freezes for 1d4 rounds).",
@@ -2622,6 +2795,111 @@
           ],
           "description": "A dog-sized, pale serpent-dragon with lion paws and eagle talons. It imprints on friendly creatures, using its fertility-blessed breath to double crop yields in ash-choked soil.",
           "heritage": "Derived from Babylonian dragon myths of sacred companions, the Mu�?u��u represented the hope of new creation and the taming of wild elements. The Wyrd anomaly reacted to the settlers' desire to establish order and peace in the harsh foundries, materializing these gentle, horned dragons to guide young travelers."
+        },
+        {
+          "id": "the_cinder",
+          "name": "The Cinder",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/the_cinder.png",
+          "illustrationCaption": "A burning humanoid child-shape radiating intense heat, walking among scorched basalt",
+          "role": "The caldera-child",
+          "origin": "The Cinder is born from Solvarn folklore regarding children who wandered into the volcanic rifts. The Wyrd anomaly twisted these stories, creating entities of pure ash and fire that seek out and burn liars.",
+          "nature": "It appears as a small child-shape composed of white-hot charcoal and glowing ash. It speaks in a crackling whisper that sounds like dry wood catching fire, and it leaves footprints of molten basalt behind it.",
+          "habitat": "Volcanic craters, sulfur mines, and basalt canyons of Sundale.",
+          "combat": "290 HP. Liar's Mark (passive: detects spoken lies. Attacks against liars deal +2d8 ember damage). Ash Aura (passive aura, 10 ft: block sight and deals 1d6 fire/turn). Volcanic Flash (melee, +7 to hit, 2d8 ember + DC 13 CON or Blinded 1 round). Vulnerable to cold.",
+          "stats": {
+            "strength": 12,
+            "agility": 16,
+            "constitution": 14,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 12,
+            "maxHp": 290,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 35,
+            "resistances": {
+              "fire": 100,
+              "ember": 100
+            }
+          },
+          "depth": "The Cinder is intensely hostile to anyone who has lied in its presence, ignoring all other targets to consume the liar. It is a symbol of the harsh, unforgiving justice of the Ash-Dwellers.",
+          "hooks": [
+            "A Neth contract-scribe is being hunted by a Cinder after he lied about a debt-agreement's interest rates.",
+            "The Dawn Vigil seeks to capture a Cinder to use its flame to test the purity of their penitents."
+          ],
+          "heritage": "Derived from tales of children lost to volcanic rifts, twisted by Sol's entombed distress.",
+          "description": "A small, burning humanoid child-shape of ash and fire that seeks out and consumes liars."
+        },
+        {
+          "id": "ash_woven_oracle",
+          "name": "Ash-Woven Oracle",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/ash_woven_oracle.png",
+          "illustrationCaption": "A faceless figure of compacted ash and volcanic dust, floating above a sulfur vent",
+          "role": "The soot-seer",
+          "origin": "The Ash-Woven Oracle is a manifestation of the collective fear of the final dimming. It is composed of compacted volcanic ash, held together by Wyrd currents, and speaks in fragmented prophecies.",
+          "nature": "A faceless, floating humanoid drape of ash and soot. It carries a bowl of liquid lava, and its body constantly sheds ash clouds that make breathing difficult for nearby creatures.",
+          "habitat": "Sulfur vents, active craters, and badland shrines of Sundale.",
+          "combat": "220 HP. Soot Prophecy (ranged, 3d6 psychic, DC 14 SPI or target misses next attack). Ash Cloud (creates a 15-ft cloud of ash that blocks line of sight and chokes enemies). Oracle's Sight (immune to blind, sees future movements, granting +3 to Evasion). Vulnerable to cold.",
+          "stats": {
+            "strength": 8,
+            "agility": 12,
+            "constitution": 12,
+            "intelligence": 16,
+            "spirit": 18,
+            "charisma": 10,
+            "maxHp": 220,
+            "maxMana": 50,
+            "maxActionPoints": 3,
+            "speed": 25,
+            "resistances": {
+              "fire": 100,
+              "ember": 50
+            }
+          },
+          "depth": "Its prophecies are always dark, warning of the complete freeze of the caldera and the starvation of humanity. The soot it sheds is toxic and can cause lung-scarring in miners.",
+          "hooks": [
+            "An Ash-Woven Oracle has nested near the main mining shaft, choking the workers and prophesying a cave-in.",
+            "The players need to consult the Oracle to find the location of a hidden geothermal pipe junction."
+          ],
+          "heritage": "Formed from the soot-blinded shamans who prophesied the death of Sol.",
+          "description": "A faceless creature of volcanic ash that speaks dark prophecies and chokes enemies with soot clouds."
+        },
+        {
+          "id": "husque",
+          "name": "Husque",
+          "dangerLevel": "Very High",
+          "illustration": "/assets/images/creatures/husque.png",
+          "illustrationCaption": "A tear in reality shaped like a humanoid, leaking void energy and pulling objects closer",
+          "role": "The breach-leak",
+          "origin": "The Husque is a mobile rip in spatial reality, a localized leak of Keth-Amar's hunger that has occupied a shell of basalt and mineral slag.",
+          "nature": "It appears as a humanoid silhouette made of a shifting, black void that absorbs all light. Basalt plates and copper veins float around its edges, held in place by intense gravitational pulls.",
+          "habitat": "Deep sulfur mines, badland gorges, and Monolith excavation sites in Sundale.",
+          "combat": "390 HP. Rift Pull (ranged, +6 to hit, pulls targets 15 ft closer to the Husque). Reality Leak (passive aura, 15 ft: random magical disruptions or 1d8 Wyrd damage). Devouring Breach (melee, +7 to hit, 3d8+6 physical/void damage, heals for half). Vulnerable to radiant.",
+          "stats": {
+            "strength": 20,
+            "agility": 10,
+            "constitution": 16,
+            "intelligence": 6,
+            "spirit": 12,
+            "charisma": 4,
+            "maxHp": 390,
+            "maxMana": 30,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "physical": 50,
+              "necrotic": 100
+            }
+          },
+          "depth": "It eats the gravity around it, causing pebbles and weapons to float towards its chest. If the Husque is destroyed, it collapses into a harmless heap of basalt, but it leaves a temporary spatial tear.",
+          "hooks": [
+            "A deep mine has been evacuated after a Husque appeared, swallowing ore carts and pulling miners into the shaft.",
+            "Dawn Vigil researchers want the core of a collapsed Husque to study gravity containment."
+          ],
+          "heritage": "Born from miners' dread of tunneling into unstable spatial rifts beneath the Peaks.",
+          "description": "A humanoid silhouette of absolute void that distorts gravity and leaks the Sun-Eater's hunger."
         }
       ]
     },
@@ -3498,6 +3776,76 @@
           ],
           "description": "A floating orb of warm gold light containing smiling faces, this spirit guides ships to safety during storms.",
           "heritage": "Spun from pre-Binding tales of mysterious ocean-lights, the Brine originally served to explain the bioluminescent glow of the sea and warn against following false lights. The Wyrd anomaly reacted to the sailors' dread of losing direction during dark nights, materializing these glowing lanterns to guide ships or lead them onto jagged reefs."
+        },
+        {
+          "id": "spume_of_the_drowned",
+          "name": "Spume of the Drowned",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/spume_of_the_drowned.png",
+          "illustrationCaption": "A mass of frothing, glowing sea-spume shaped like screaming faces, floating over the water",
+          "role": "The foam-clot memory",
+          "origin": "When ships sink during silt-tides, the final panic and thoughts of the crew form a memory-colony inside the freezing sea-foam, materialized by Wyrd energy.",
+          "nature": "It is a floating mass of glowing sea-spume and ice crystals, approximately ten feet wide, that continuously shifts to project the screaming faces of drowning sailors. It makes a wet, choking sound.",
+          "habitat": "Open channels, harbor walls, and shipwreck sites of the Iceheart Sea.",
+          "combat": "320 HP. Drowning Foam (melee, +5 to hit, DC 13 CON or target cannot breathe, suffocating). Last Thoughts (passive: targets hit by foam must DC 13 SPI or witness drowning memories, disadvantage on attacks). Foam Split (splits into 2 smaller foam clots at 50% HP). Vulnerable to fire.",
+          "stats": {
+            "strength": 14,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 10,
+            "spirit": 14,
+            "charisma": 8,
+            "maxHp": 320,
+            "maxMana": 20,
+            "maxActionPoints": 3,
+            "speed": 20,
+            "resistances": {
+              "cold": 100,
+              "rime": 50
+            }
+          },
+          "depth": "It seeks out ships and coastal watchposts, hoping to merge with living minds to experience their warmth. It leaves a thick, freezing slime on anything it touches, which freezes solid within minutes.",
+          "hooks": [
+            "A Spume has coated the dock of a merchant company, freezing their shipping vessels and choking dockhands.",
+            "A Deep Listener wants the players to capture a Spume to record the final words of a lost Admiral."
+          ],
+          "heritage": "Born from sea-captains' fear of ships lost to sudden silt-tide freezes.",
+          "description": "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors."
+        },
+        {
+          "id": "writ_of_passage",
+          "name": "Writ of Passage",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/writ_of_passage.png",
+          "illustrationCaption": "A glowing contract made of ice and parchment, floating above the freezing waves",
+          "role": "The drifting contract",
+          "origin": "The Writ of Passage is a Wyrd-construct born from the Neth obsession with contracts and maritime charters. It is a literal contract made of ice and parchment that drifts on the ocean currents.",
+          "nature": "It appears as a large, floating sheet of glowing parchment, its edges rimmed with ice. Runic script moves across its surface, writing and rewriting the terms of a maritime transit compact.",
+          "habitat": "Shipping lanes, harbor entrances, and ocean reefs of the Iceheart Sea.",
+          "combat": "130 HP. Ink Slash (melee, +5 to hit, 1d8+3 slashing). Binding Clause (ranged, target is Restrained, DC 14 SPI to break). Contractual Immunity (immune to mind-affecting spells). Vulnerable to fire.",
+          "stats": {
+            "strength": 6,
+            "agility": 16,
+            "constitution": 10,
+            "intelligence": 14,
+            "spirit": 14,
+            "charisma": 12,
+            "maxHp": 130,
+            "maxMana": 40,
+            "maxActionPoints": 3,
+            "speed": 35,
+            "resistances": {
+              "cold": 50,
+              "rime": 50
+            }
+          },
+          "depth": "It seeks out vessels and forces the captain to agree to its terms before allowing safe passage. If the terms are violated, it lashes out with blades of frozen ink that slice through timber.",
+          "hooks": [
+            "A merchant vessel is trapped in a harbor by a Writ of Passage that demands a tax in memories.",
+            "The players need to rewrite a clause on a floating Writ of Passage to open a closed shipping lane."
+          ],
+          "heritage": "Born from sailors' anxiety about signing predatory, life-binding contracts with the Syndicate.",
+          "description": "A sentient, floating contract of ice and parchment that binds vessels to its runic terms."
         }
       ]
     },
@@ -3617,8 +3965,8 @@
           "illustration": "/assets/images/creatures/tengu_scout.png",
           "illustrationCaption": "A Storm-Crow Scout perched on a pipeline girder, its wings folded and beak sharp",
           "role": "The peak-dwelling scout",
-          "origin": "The Storm-Crow Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Storm-Crow Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Storm-Crow's presence,a wind that blows from nowhere, and the sound of a bird's cry in the air.",
-          "nature": "A small, raven-winged humanoid sprite with a long bird-beak and glossy eyes like mountain obsidian. It is highly agile, leaping between pipelines and girders, carrying a wind-copper staff that hums with the energy of the mountain. It is defensive and gathers copper and shiny minerals, and it will attack any who come near its nest. The Storm-Crow Scout is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
+          "origin": "The Storm-Crow Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Storm-Crow Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. They possess a dangerous voice-mimicking capability, stealing the spoken words of travelers and echoing them back through the wind to lure others into hazards or traps. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Storm-Crow's presence,a wind that blows from nowhere, and the sound of a bird's cry in the air.",
+          "nature": "A small, raven-winged humanoid sprite with a long bird-beak and glossy eyes like mountain obsidian. It is highly agile, leaping between pipelines and girders, carrying a wind-copper staff that hums with the energy of the mountain. It is defensive and gathers copper and shiny minerals, and it will attack any who come near its nest. The Storm-Crow Scout is a master of mimicry, using stolen voices of lost miners to distract and confuse intruders. It is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
           "habitat": "The Storm-Crow Scout inhabits the pipeline scaffolds, high mountain bridges, and mine entries of the Cragjaw Peaks, particularly in the Fexric Pipeline where the scaffolds are tallest and the bridges are narrowest. It is most active during the stormy season, when the winds are strong and the air is charged with electricity, and during the spring, when the snow melts and the air is warm. The Storm-Crow's nest is always near a source of wind, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
           "combat": "130 HP. Wind-Copper strike (melee, 1d8+4 physical, plus DC 12 AGI save or slowed by copper resonance). Gale Jump (as a reaction, can jump 20 ft to avoid an attack, DC 12 AGI to hit). Flight (can fly up to 45 ft). Vulnerable to rime.",
           "stats": {
@@ -3636,13 +3984,13 @@
               "physical": 25
             }
           },
-          "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry. The Storm-Crow's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
+          "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry or shouting warnings using stolen, mimicked human voices. The Storm-Crow's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
           "hooks": [
             "A Storm-Crow Scout has blockaded a pipeline bridge, claiming it is private peak territory. The party must bargain with it using shiny copper ores.",
-            "A Fexric engineer wants to retrieve the obsidian eyes of a Storm-Crow Scout, believing they can be used to craft lenses of wind-sight."
+            "A Fexrick engineer wants to retrieve the obsidian eyes of a Storm-Crow Scout, believing they can be used to craft lenses of wind-sight."
           ],
           "heritage": "Born from Tesshan winged mountain-protector legends, the Storm-Crow Scout myth was created to enforce respect for territorial borders in the high passes. The Wyrd anomaly reacted to the Fexric engineers' fear of losing cargo along the pipeline scaffolds, materializing these winged sentinels to aggressively guard the bridges.",
-          "description": "A raven-winged peak Wyrd-kin sprite with obsidian eyes that leaps between pipeline scaffolds and carries a wind-copper staff."
+          "description": "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff."
         },
         {
           "id": "rime_bride",
@@ -3680,15 +4028,15 @@
         },
         {
           "id": "kappa",
-          "name": "Kappa",
+          "name": "Sump-Scrab",
           "dangerLevel": "Medium",
           "illustration": "/assets/images/creatures/kappa.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Kappa",
-          "role": "Kappa",
-          "origin": "The Kappa traces its lineage to the ancient water-sprites of old folklore, which were said to carry a shallow bowl of life-giving water upon their crowns and possessed an eccentric obsession with cucumbers, politeness, and the extraction of mythical soul-organs. In the frozen peaks of this land, these roots intermingle with tales of the Yacuruna, the seductive and powerful water-people who dwell in the depths of rivers and lakes, occasionally drawing mortal mates down into their sub-aquatic realms to never return. Here, they have become geothermal sentinels, bound to the steaming waters that keep the freezing wilderness at bay.",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Sump-Scrab",
+          "role": "Sump-Scrab",
+          "origin": "The Sump-Scrab traces its lineage to the ancient water-sprites of old folklore, which were said to carry a shallow bowl of life-giving water upon their crowns and possessed an eccentric obsession with cucumbers, politeness, and the extraction of mythical soul-organs. In the frozen peaks of this land, these roots intermingle with tales of the Yacuruna, the seductive and powerful water-people who dwell in the depths of rivers and lakes, occasionally drawing mortal mates down into their sub-aquatic realms to never return. Here, they have become geothermal sentinels, bound to the steaming waters that keep the freezing wilderness at bay, while simultaneously acting as steam-draining pests that nest inside and disrupt pipeline junctions.",
           "nature": "Standing roughly three feet tall, this humanoid creature possesses a rough, dark shell of volcanic basalt pitted with mineral deposits, suggesting a form birthed from both stone and water. Its crown bears a shallow depression filled with glowing blue water and ringed by tough mountain reeds, while its deceptively long, webbed limbs echo the anatomy of a frog. Its beaked, turtle-like face features round, obsidian-black eyes that blink with slow deliberation, and its mouth curves downward in a perpetual, judgmental frown as it clutches a pouch of smooth geothermal river-stones gathered from the holdfasts.",
           "habitat": "These stone-shelled sprites are found exclusively within the geothermal pools and steamy thermal corridors of the Cragjaw Peaks, where they cluster around volcanic vents.",
-          "combat": "130 HP. Bow-Debt (passive: if you bow to a Kappa, it MUST bow back, spilling the water from its head-bowl and losing all power until it refills from a geothermal vent; exploit by bowing then sprinting past). Geothermal-Guard (passive: guards geothermal pools that heat Frostmaw Holdfast; a pool it guards never freezes and never runs dry). Beak-Snap (melee, +5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool). River-Stone-Hurl (ranged 30 ft, +5 to hit, 1d6+2 bludgeoning). Cucumber-Lure (special: can be bribed with cucumber; any cucumber offering DC 13 CHA to persuade it to move aside). Vulnerable to fire.",
+          "combat": "130 HP. Bow-Debt (passive: if you bow to a Sump-Scrab, it MUST bow back, spilling the water from its head-bowl and losing all power until it refills from a geothermal vent; exploit by bowing then sprinting past). Geothermal-Guard (passive: guards geothermal pools that heat Frostmaw Holdfast; a pool it guards never freezes and never runs dry). Beak-Snap (melee, +5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool). River-Stone-Hurl (ranged 30 ft, +5 to hit, 1d6+2 bludgeoning). Cucumber-Lure (special: can be bribed with cucumber; any cucumber offering DC 13 CHA to persuade it to move aside). Vulnerable to fire.",
           "stats": {
             "strength": 10,
             "agility": 16,
@@ -3705,13 +4053,13 @@
               "lightning": 50
             }
           },
-          "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Kappa is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, which prompts the Kethrin guilds to leave costly offerings of imported cucumbers at pool-side shrines to appease them. Lately, rumors of a rogue Kappa spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems.",
+          "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Sump-Scrab is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, though Fexrick engineers often complain of them acting as pests, nesting inside pipeline junctions to drain steam for their pools. Lately, rumors of a rogue Sump-Scrab spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems.",
           "hooks": [
-            "A rumor spreads of a Kappa spotted near the area.",
-            "Adventurers need a component from a Kappa to complete their quest."
+            "A rumor spreads of a Sump-Scrab spotted near the area.",
+            "Adventurers need a component from a Sump-Scrab to complete their quest."
           ],
-          "description": "A stone-shelled, turtle-like humanoid that guards geothermal pools, carrying a bowl of glowing water on its head and bound by an unbreakable code of politeness.",
-          "heritage": "Derived from water-sprite myths carrying life-giving water in their crowns, the Kappa was a warning to keep children from playing near deep, slippery geothermal pools. The Wyrd anomaly reacted to the travelers' encounters in volcanic thermal springs, materializing this turtle-shelled sprite to drag victims beneath the boiling waters."
+          "description": "A stone-shelled, turtle-like humanoid that guards geothermal pools and nests as a steam-draining pest inside pipe junctions, carrying a bowl of glowing water on its head and bound by an unbreakable code of politeness.",
+          "heritage": "Derived from water-sprite myths carrying life-giving water in their crowns, the Sump-Scrab was a warning to keep children from playing near deep, slippery geothermal pools. The Wyrd anomaly reacted to the travelers' encounters in volcanic thermal springs, materializing this turtle-shelled sprite to drag victims beneath the boiling waters."
         },
         {
           "id": "kitsune",
@@ -3791,8 +4139,8 @@
           "role": "Nopperabo",
           "origin": "The Nopperabo represents a chilling synthesis of the faceless spirits of Wyrd-kin lore, which terrify travelers by turning to reveal blank, featureless visages, and the Pishtaco, the pale-skinned bogeyman of Tesshan legend who drains the fat from human bodies. In the high bridges of this cold world, they embody a quiet, transactional horror, rendering the flesh of travelers into a commodity to preserve the setting's ancient structures.",
           "nature": "Appearing from behind as a normal traveler wrapped in a pale, hooded cloak, the creature reveals a smooth, featureless oval of pale skin with no eyes, nose, or mouth when it turns to face its prey. From beneath its heavy sleeves, it extends long, surgeon-precise fingers tipped with thin, hollow needles designed for extracting body fat without leaving a visible wound. A calm, measured, and chillingly reasonable voice projects directly from the flat plane of its blank face.",
-           "habitat": "These faceless figures haunt the narrowest corridors and drafty Spans of the Cragjaw Peaks, standing like silent sentinels in the wind.",
-           "combat": "A faceless ambusher that strikes from blind angles, using Pishtaco-like theft of facial identity to unmake its prey. It relies on confusion and misdirection rather than brute force, slipping away into the Spans before victims can rally.",
+          "habitat": "These faceless figures haunt the narrowest corridors and drafty Spans of the Cragjaw Peaks, standing like silent sentinels in the wind.",
+          "combat": "A faceless ambusher that strikes from blind angles, using Pishtaco-like theft of facial identity to unmake its prey. It relies on confusion and misdirection rather than brute force, slipping away into the Spans before victims can rally.",
           "stats": {
             "strength": 10,
             "agility": 10,
@@ -3823,8 +4171,8 @@
           "role": "Tesshan ogre",
           "origin": "The Supayoni is born of the ancient ogre-horrors of Wyrd-kin lore, who carry iron clubs to bring ruin and disaster, merged with the Sovereign of the Shadow-Veins, the Cragjaw lord of the underworld who rules the deep earth and the mineral veins beneath the mountains. They are massive, imposing figures of the peaks, representing both the violent fury of the elements and a stern, subterranean justice.",
           "nature": "Standing twelve feet tall, this massively muscled humanoid possesses skin the color of deep glacier-ice and two sharp, crystalline horns that sweep upward from its temples, emitting a low, subsonic hum of terror when it prepares to strike. It carries a heavy iron club, or kanabo, made of petrified ice harder than steel, and its broad, feral face features a fanged grin, crystalline teeth, and two glowing red eyes, supplemented by a third eye on its forehead that pierces absolute darkness.",
-           "habitat": "They claim the deep, dark mine-shafts and ancient volcanic chambers beneath the Cragjaw Peaks as their personal domains.",
-           "combat": "The Sovereign of the Shadow-Veins commands the mountain's underdark passages, draining light and heat from the tunnels. It engulfs prey in crushing dark before dragging them into the vein-network, ruling the deep earth as a stern, subterranean lord.",
+          "habitat": "They claim the deep, dark mine-shafts and ancient volcanic chambers beneath the Cragjaw Peaks as their personal domains.",
+          "combat": "The Sovereign of the Shadow-Veins commands the mountain's underdark passages, draining light and heat from the tunnels. It engulfs prey in crushing dark before dragging them into the vein-network, ruling the deep earth as a stern, subterranean lord.",
           "stats": {
             "strength": 10,
             "agility": 10,
@@ -4373,6 +4721,76 @@
           ],
           "description": "A thirty-foot strip of living embroidered cloth that carries messages across mountain chasms and wraps around travelers to protect them from the cold.",
           "heritage": "Derived from flying cotton-cloth Yokai, the ittan originally served to warn travelers against suffocating blizzards and strong winds in narrow passes. The Wyrd anomaly reacted to the mountain guides' fear of sudden windstorms, materializing this flying textile spirit to wrap around faces and drag victims over cliffs."
+        },
+        {
+          "id": "storm_crows",
+          "name": "Storm-Crows",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/storm_crows.png",
+          "illustrationCaption": "A raven-like humanoid perched on a pipeline pipe, its wings crackling with static energy",
+          "role": "The voice-mimic",
+          "origin": "The Storm-Crows are mountain spirits born from Tesshan folklore. They are winged mountain dwellers that steal the voices of travelers to confuse and distract.",
+          "nature": "A humanoid raven with a wingspan of eight feet, its feathers crackling with static electricity and cold-iron dust. Its head is a bird's skull, and it speak in the voices of those it has heard, mimicking them perfectly.",
+          "habitat": "Highest spires, pipeline bridges, and mountain ravines of Cragjaw Peaks.",
+          "combat": "180 HP. Voice Mimicry (passive: mimics allies' voices to disrupt spelling, DC 13 SPI or lose verbal components). Gale Strike (melee, +6 to hit, 1d8+4 physical). Fly (can fly, avoids melee opportunity attacks). Vulnerable to poison.",
+          "stats": {
+            "strength": 10,
+            "agility": 18,
+            "constitution": 12,
+            "intelligence": 12,
+            "spirit": 14,
+            "charisma": 12,
+            "maxHp": 180,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 40,
+            "resistances": {
+              "lightning": 50,
+              "cold": 50
+            }
+          },
+          "depth": "They hunt in small flocks, mimicking the screams of lost children or the orders of commanders to lead travelers into ambushes or off cliffs. They are highly protective of their high-spire nests.",
+          "hooks": [
+            "A flock of Storm-Crows is nesting on the main pipeline bridge, mimicking the maintenance crew's signals and causing pipeline blockages.",
+            "The players need to capture a live Storm-Crow to retrieve a voice it stole from an important diplomat."
+          ],
+          "heritage": "Derived from the mountain raven-goblins that mimic prey sounds to coordinate hunts.",
+          "description": "A winged raven-like mountain spirit that steals voices to confuse and lure travelers."
+        },
+        {
+          "id": "sump_scrabs",
+          "name": "Sump-Scrabs",
+          "dangerLevel": "Low",
+          "illustration": "/assets/images/creatures/sump_scrabs.png",
+          "illustrationCaption": "A beetle-like insectoid crawling on a steam pipe, draining heat from a valve",
+          "role": "The boiler-tick",
+          "origin": "Sump-Scrabs are alchemical insectoids that nested in the early holdfast boilers. The Wyrd anomaly twisted their biology, turning them into pests that drain heat from pipes.",
+          "nature": "A beetle-like creature the size of a dog, its shell made of black basalt plates and copper veins. It has a long, tube-like siphon that it uses to drain heat and steam directly from pipes.",
+          "habitat": "Geothermal pipes, boiler rooms, and sump tunnels of Frostmaw and Gearworks.",
+          "combat": "85 HP. Steam Siphon (melee, drains target's fire resistance or deals 1d8 cold). Pipe Burrow (can hide inside pipe systems, gaining total cover). Swarm Tactics (+1 to hit for each adjacent Sump-Scrab). Vulnerable to fire.",
+          "stats": {
+            "strength": 8,
+            "agility": 14,
+            "constitution": 12,
+            "intelligence": 4,
+            "spirit": 8,
+            "charisma": 4,
+            "maxHp": 85,
+            "maxMana": 0,
+            "maxActionPoints": 3,
+            "speed": 25,
+            "resistances": {
+              "cold": 50,
+              "rime": 50
+            }
+          },
+          "depth": "A Sump-Scrab infestation can cause entire pipeline sections to freeze, locking down heat to keeps. They are attracted to any source of combustion, making campfire travelers prime targets.",
+          "hooks": [
+            "The lower foundries of Gearworks have gone cold due to a Sump-Scrab infestation in the main valve chamber.",
+            "A Fexrick dealer will trade clockwork parts for ten Sump-Scrab copper shells."
+          ],
+          "heritage": "Born from engineers' fears of boiler malfunctions and steam leaks in holdfasts.",
+          "description": "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze."
         }
       ]
     },
@@ -5256,6 +5674,111 @@
           ],
           "description": "A tiny, six-inch guide of pure starlight, trailing a thread of fate that connects the world below to the lost stars.",
           "heritage": "Rooted in Ordan sky-spirit beliefs, the Tengri was a symbol of cosmic destiny and the supreme authority of the sky. The Wyrd anomaly reacted to the shamans' and leaders' prayers for safe passage under the dark skies, materializing these glowing shards of fate to guide the caravans."
+        },
+        {
+          "id": "lien",
+          "name": "Lien",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/lien.png",
+          "illustrationCaption": "A spindly debt-tracker wrapped in parchment contracts, walking across the steppe",
+          "role": "The debt-tracker",
+          "origin": "The Lien is a Wyrd-horror born from the Ordan/steppe customs regarding tribal debts. It is a physical manifestation of unpaid promises, hunting down those who refuse to honor their compacts.",
+          "nature": "It appears as a tall, skeletal humanoid wrapped in old parchment contracts that rustle when it moves. Its fingers are long, quill-like claws that drip black ink, and its face is a blank sheet of parchment.",
+          "habitat": "Gravity-warped steppe paths, Mound-Camps, and ruins of the Sundrift Vale.",
+          "combat": "270 HP. Debt Weigh (melee, 2d8+3 physical + targets take damage equal to current debt level). Binding Thread (ranged, target's speed reduced to 10 ft, DC 14 STR to break). Contract Guard (immune to spell effects of level 2 or lower). Vulnerable to radiant.",
+          "stats": {
+            "strength": 14,
+            "agility": 14,
+            "constitution": 14,
+            "intelligence": 12,
+            "spirit": 16,
+            "charisma": 8,
+            "maxHp": 270,
+            "maxMana": 20,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "physical": 25,
+              "psychic": 50
+            }
+          },
+          "depth": "It tracks debtors through gravity storms, its movement unaffected by the steppe's spatial distortions. It only ceases its hunt if the contract's terms are fulfilled or the debt is paid in blood.",
+          "hooks": [
+            "An Ordan elder is being hunted by a Lien after he broke a marriage-compact with a neighboring clan.",
+            "The players must retrieve an ancient treaty that is held in a Lien's parchment-woven body."
+          ],
+          "heritage": "Born from the steppe-people's legal customs regarding tribal debts.",
+          "description": "A spindly, scroll-wrapped horror that tracks down those with unpaid debts or broken promises."
+        },
+        {
+          "id": "hungry_child_creature",
+          "name": "Hungry Child",
+          "dangerLevel": "Medium",
+          "illustration": "/assets/images/creatures/hungry_child.png",
+          "illustrationCaption": "A hollow-eyed child spirit floating over a grass mound, its mouth open in silent hunger",
+          "role": "The story-eater",
+          "origin": "Those recently dead are left at the Ancestor-Mounds; if their souls are found wanting, they are rejected by the ancestors and become Hungry Children — Wyrd-occupied spirits that devour star-stories.",
+          "nature": "A small, translucent child spirit floating inches above the grass. Its eyes are hollow wells of darkness, and it constantly whispers fragments of forgotten star-stories, seeking to hear a complete legend.",
+          "habitat": "Ancestor burial mounds, steppe ruins, and caravan routes of Sundrift.",
+          "combat": "120 HP. Starless Hunger (melee, +5 to hit, 2d6 psychic + DC 13 SPI or target loses one star-story memory). Serene face (enemies hit with melee must DC 12 SPI or refuse to damage the child for 1 round). Vulnerable to radiant.",
+          "stats": {
+            "strength": 6,
+            "agility": 12,
+            "constitution": 10,
+            "intelligence": 8,
+            "spirit": 14,
+            "charisma": 10,
+            "maxHp": 120,
+            "maxMana": 20,
+            "maxActionPoints": 3,
+            "speed": 20,
+            "resistances": {
+              "psychic": 100,
+              "necrotic": 50
+            }
+          },
+          "depth": "If it encounters travelers who cannot tell a star-story, it attacks, devouring their memories of warmth and light. It can be appeased by telling a complete, genuine setting legend.",
+          "hooks": [
+            "A caravan was stopped by a group of Hungry Children who refuse to let them pass until they hear a star-story.",
+            "An Ordan shaman asks the players to find a Hungry Child that was once her grandchild, helping to lay it to rest."
+          ],
+          "heritage": "Derived from the spirits of those judged unworthy at the Mound-Camps.",
+          "description": "A hollow-eyed child spirit that devours travelers' memories of light and star-stories."
+        },
+        {
+          "id": "sere_khan",
+          "name": "Sere-Khan",
+          "dangerLevel": "Extreme",
+          "illustration": "/assets/images/creatures/sere_khan.png",
+          "illustrationCaption": "A skeletal khan in rusted scale armor riding a spectral horse across the steppe",
+          "role": "The steppe-adjudicator",
+          "origin": "The Sere-Khan is a legendary Wyrd-horror born from Ordan ancestor-worship. It is a skeletal judge who rides the steppe, trying cases brought by the spirits of the dead.",
+          "nature": "A towering, skeletal warrior clad in rusted scale-armor and riding a spectral horse. It carries a heavy jade gavel and a scroll of judgment, speaking in a low, resonant throat-singing tone.",
+          "habitat": "Ancestor-Mounds, steppe valleys, and Monolith sites of Sundrift Vale.",
+          "combat": "450 HP. Verdict (ranged, 3d10+5 radiant/psychic, bypasses armor of targets with broken oaths). Ride Down (melee, +8 to hit, 3d8+6 bludgeoning, knocks target prone). Undead steed (immune to fear, bleed). Vulnerable to radiant.",
+          "stats": {
+            "strength": 18,
+            "agility": 14,
+            "constitution": 18,
+            "intelligence": 14,
+            "spirit": 18,
+            "charisma": 16,
+            "maxHp": 450,
+            "maxMana": 40,
+            "maxActionPoints": 5,
+            "speed": 40,
+            "resistances": {
+              "physical": 25,
+              "necrotic": 100
+            }
+          },
+          "depth": "He represents the absolute, unyielding authority of ancestor-law. Those who face the Sere-Khan are put on trial; their defense must be presented in ancestral terms, or they are condemned to execution.",
+          "hooks": [
+            "A Sere-Khan has arrived at a Mound-Camp, demanding the execution of a chief who betrayed his ancestors' pact.",
+            "The players must defend themselves in a trial before the Sere-Khan to prove their right to dig Monolith shards."
+          ],
+          "heritage": "Born from steppe traditions of ancestor trials and divine khan judgment.",
+          "description": "A skeletal judge on a spectral horse that puts travelers on trial for ancestral compacts."
         }
       ]
     },
@@ -5621,7 +6144,7 @@
           "illustration": "/assets/images/creatures/zmey_bog.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Zmey",
           "role": "Zmey Gorynych",
-           "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing swamp-dragon Zmey Gorynych of Neth and Vreken folklore with the Makara, a composite Root-Veil monster of Atropolis's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
+          "origin": "The Zmey-Bog merges the legendary three-headed, fire-breathing swamp-dragon Zmey Gorynych of Neth and Vreken folklore with the Makara, a composite Root-Veil monster of Atropolis's watery domain. Anchored in the deep peat-marshes of Mythrill, this creature acts as an ancient guardian of sunken secrets and lost documents.",
           "nature": "This thirty-foot serpentine dragon features a body of mud-caked crocodile hide and fish scales, ending in a peacock-like tail capable of fanning poison-gas and iron claws forged of actual metal on its feet. Its three heads are colored red, green, and blue, breathing fire, poison, and water respectively. Each head has a unique disposition,feral, sly, and serene,yet all three share the same ancient golden eyes that remember everything with merciless clarity.",
           "habitat": "This swamp-dwelling beast hides in the deepest, muddiest pools of the Bryngloom Forest terrain.",
           "combat": "130 HP. Fever-Touch (melee, +5 to hit, 1d6+3 necrotic + DC 14 CON or gain 1 level of exhaustion � the target feels the fever of its own death). Disease-Spreader (passive: any creature that takes necrotic damage from the Utukku must DC 14 CON or contract a random disease � fever, blindness, paralysis, or wasting). Grave-Reflection (passive: appears as the target's own face, distorted in agony; DC 13 SPI or Frightened 1 round). Spirit-Drain (melee, +5 to hit, 2d6+3 psychic � drains willpower, DC 14 CON or fatigued for 8 hours). Vulnerable to radiant.",
@@ -5692,7 +6215,7 @@
           "illustration": "/assets/images/creatures/naga_root.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Naga",
           "role": "Naga",
-           "origin": "The Naga-Root is inspired by the sacred serpent-beings of Vedic mythology who guarded waters and subterranean treasures, combined with the deep earth-dwelling aspect of the Bryngloom swamp-dragon Zmey Gorynych. In Mythrill's depths, it acts as a primordial manager of the forest's hydrology and a keeper of buried secrets.",
+          "origin": "The Naga-Root is inspired by the sacred serpent-beings of Vedic mythology who guarded waters and subterranean treasures, combined with the deep earth-dwelling aspect of the Bryngloom swamp-dragon Zmey Gorynych. In Mythrill's depths, it acts as a primordial manager of the forest's hydrology and a keeper of buried secrets.",
           "nature": "This forty-foot-long serpent features a powerful humanoid torso and arms emerging from its coiled, scale-covered lower body, with scales the deep green of wet ironwood leaves. A cobra-like hood spreads permanently around its head like an elaborate headdress, topped by a crown of root-fiber and bog-iron, while its eight-digited hands are built for burrowing. Its face is a mix of human and serpent, marked by molten-gold eyes with vertical pupils and a jaw that unhinges to reveal fangs, set in a calm, regal expression.",
           "habitat": "This subterranean ruler crawls through the deepest root-systems of the Bryngloom Forest terrain.",
           "combat": "440 HP. World-Circle (passive: coils around the entire world; its head and tail nearly touch beneath the sea). Ocean-Maw (melee, +8 to hit, 3d8+6 piercing � a single bite can swallow ships). Venom-Drip (passive: venom drips from its fangs into the ocean, poisoning sea-water for miles; DC 14 CON or poisoned 3 rounds). Tidal-Wave (passive: when it moves, it creates tsunamis; all creatures within 1 mile must DC 15 AGI or swept away). Regeneration (regenerates 15 HP per round; only radiant or lightning damage stops regeneration). Vulnerable to radiant.",
@@ -6144,6 +6667,111 @@
           ],
           "description": "A dark bird of twilight with a heart-breaking face, the Sirin-Song sings a melody of absolute melancholy that pulls listeners toward their final rest.",
           "heritage": "Rooted in dark bird-of-paradise legends, the Sirin represented the personification of deep, overwhelming sorrow that drove listeners to surrender their lifelines. The Wyrd anomaly consolidated the raw wails of grief from mourning households, materializing this bird-like entity to sing perfect, heart-breaking songs of mortality."
+        },
+        {
+          "id": "grandmother_of_the_bog",
+          "name": "Grandmother of the Bog",
+          "dangerLevel": "Very High",
+          "illustration": "/assets/images/creatures/grandmother_of_the_bog.png",
+          "illustrationCaption": "An ancient, moss-covered hag standing in a dark peat-pool, holding a wooden spoon",
+          "role": "The memory-lender",
+          "origin": "The Grandmother of the Bog is an ancient fey entity born from Thalren peat-bog folklore. She offers extensions on life to dying mortals in exchange for their most precious memories.",
+          "nature": "A massive, moss-covered hag standing over seven feet tall, wrapped in peat-moss and willow roots. Her eyes are glowing amber points, and she carries a wooden spoon and a pot of boiling bog-soup.",
+          "habitat": "Widow's Quagmire, peat-bogs, and willow groves of the Bryngloom Forest.",
+          "combat": "380 HP. Memory Loan (ranged, DC 15 SPI or lose 1 memory; targets take 3d6 psychic). Peat Graft (heals 20 HP/turn when standing in bog water). Peat Curse (slows all targets in 30-ft area). Vulnerable to fire.",
+          "stats": {
+            "strength": 12,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 18,
+            "spirit": 20,
+            "charisma": 14,
+            "maxHp": 380,
+            "maxMana": 60,
+            "maxActionPoints": 4,
+            "speed": 20,
+            "resistances": {
+              "cold": 50,
+              "rime": 50
+            }
+          },
+          "depth": "She is a master negotiator, signing contracts that grant travelers safety in the bog but leave them unable to recall their childhoods. The soup she boils is made of memories and bog-lichen.",
+          "hooks": [
+            "A grieving sister traded her memory of her brother to the Grandmother in exchange for his survival from a peat-collapse.",
+            "The players need to retrieve a memory from the Grandmother's soup-pot to solve a succession crisis in Atropolis."
+          ],
+          "heritage": "Born from ancient Thalren folklore of swamp-hags trading lifetimes for memories.",
+          "description": "An ancient, moss-covered bog-hag that trades years of life for travelers' memories."
+        },
+        {
+          "id": "debt_revenant",
+          "name": "Debt-Revenant",
+          "dangerLevel": "High",
+          "illustration": "/assets/images/creatures/debt_revenant.png",
+          "illustrationCaption": "A peat-preserved corpse in rusted scale armor, rising from the marsh holding a contract",
+          "role": "The unreleased debtor",
+          "origin": "When a Neth debtor dies with unfulfilled contract obligations, their spirit is denied rest by the Neth pacts, rising as a peat-revenant to complete the terms of their agreement.",
+          "nature": "A peat-preserved corpse clad in rusted Neth scale-armor and wrapped in rotting peat-bonds. Its eyes glow with a cold, blue light, and it carries the contract that binds it in its chest cavity.",
+          "habitat": "Peat-bogs, marshlands, and scriptorium ruins of the Bryngloom Forest.",
+          "combat": "290 HP. Peat Grip (melee, +6 to hit, 2d8+4 physical + target is restrained). Binding Oath (melee, target cannot cast spells until they move 30 ft away). Rise from Bog (resurrects at 50% HP after 2 rounds unless decapitated). Vulnerable to radiant.",
+          "stats": {
+            "strength": 16,
+            "agility": 12,
+            "constitution": 16,
+            "intelligence": 8,
+            "spirit": 12,
+            "charisma": 6,
+            "maxHp": 290,
+            "maxMana": 0,
+            "maxActionPoints": 4,
+            "speed": 25,
+            "resistances": {
+              "necrotic": 100,
+              "cold": 50
+            }
+          },
+          "depth": "It cannot rest until its contract is legally fulfilled or the document is burned by a Neth pact-mage. It is intensely hostile to anyone who attempts to block its path or salvage its armor.",
+          "hooks": [
+            "A pack of Debt-Revenants is attacking a peat-cutting camp, claiming the workers are violating an ancestral compact.",
+            "The players must find a loophole in a Debt-Revenant's contract to lay it to rest before it destroys a village."
+          ],
+          "heritage": "Derived from the fear of Neth debt collectors returning after death to claim outstanding payments.",
+          "description": "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract."
+        },
+        {
+          "id": "cycle_eater",
+          "name": "Cycle-Eater",
+          "dangerLevel": "Very High",
+          "illustration": "/assets/images/creatures/cycle_eater.png",
+          "illustrationCaption": "A grotesque, worm-like creature with insectoid limbs, feeding on a glowing willow root",
+          "role": "The cycle-eater",
+          "origin": "The Cycle-Eater is a grotesque aberration born from the fear that Keth-Amar will devour the forest's reincarnation cycle entirely. It crawls beneath the marshes, feeding on the roots of sacred willows.",
+          "nature": "A massive, worm-like horror with multiple insectoid limbs and a circular mouth lined with needle-like teeth. Its body is covered in a glowing, purple slime that drains magic from the surrounding area.",
+          "habitat": "Deep peat-pools, hollow roots, and convergence shrines of Bryngloom.",
+          "combat": "400 HP. Devour Cycle (melee, +7 to hit, 3d8+5 necrotic; target cannot be resurrected/healed for 3 rounds). Cycle Aura (passive aura, 20 ft: healing spells cast in area are reduced by 50%). Void Burst (ranged, 2d10 void). Vulnerable to fire.",
+          "stats": {
+            "strength": 18,
+            "agility": 14,
+            "constitution": 18,
+            "intelligence": 12,
+            "spirit": 16,
+            "charisma": 6,
+            "maxHp": 400,
+            "maxMana": 40,
+            "maxActionPoints": 4,
+            "speed": 30,
+            "resistances": {
+              "necrotic": 100,
+              "psychic": 50
+            }
+          },
+          "depth": "It feeds on the life-force of dying creatures, preventing their spirits from returning to the loop of rebirth. A grove occupied by a Cycle-Eater slowly turns grey and sterile, its trees unable to bud.",
+          "hooks": [
+            "A sacred willow grove is dying, and the local Druids believe a Cycle-Eater is nesting in the roots.",
+            "The players must retrieve the glowing slime of a Cycle-Eater to craft a ward against necrotic magic."
+          ],
+          "heritage": "Born from the fear that Keth-Amar will consume the forest's rebirth cycle entirely.",
+          "description": "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing."
         }
       ]
     }

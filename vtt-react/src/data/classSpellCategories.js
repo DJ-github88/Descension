@@ -544,9 +544,9 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'frostbound_tyrant',
+        id: 'frost_sovereign',
 
-        name: 'Frostbound Tyrant',
+        name: 'Frost Sovereign',
 
         description: 'The Deep Ice answers the Archive\'s call. Masters of freezing enemies and controlling the battlefield through ice',
 
@@ -558,37 +558,9 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'spectral_reaper',
+        id: 'sanguine_harvest',
 
-        name: 'Spectral Reaper',
-
-        description: 'Rime and blight wedded in blight ascension. Combines rime and blight damage for devastating hybrid attacks and minions',
-
-        color: '#9370DB',
-
-        icon: 'spell_shadow_soulleech_3'
-
-      },
-
-      {
-
-        id: 'phylactery_guardian',
-
-        name: 'Phylactery Guardian',
-
-        description: 'The Frozen Archive preserves what death would claim. Enhanced phylactery mechanics and survivability with resurrection',
-
-        color: '#2D1B69',
-
-        icon: 'spell_frost_frozencore'
-
-      },
-
-      {
-
-        id: 'blood_reaver',
-
-        name: 'Blood Reaver',
+        name: 'Sanguine Harvest',
 
         description: 'Blood tokens paid in crimson tribute. Aggressive life drain specialist who uses health as a resource for devastating attacks',
 
@@ -600,27 +572,15 @@ export const CLASS_SPECIALIZATIONS = {
 
       {
 
-        id: 'spectral_master',
+        id: 'phylactery_anchor',
 
-        name: 'Spectral Master',
+        name: 'Phylactery Anchor',
 
-        description: 'The Frozen Archive\'s legions rise at a word. Master of undead legions who commands spectral armies and controls the battlefield',
+        description: 'The Frozen Archive preserves what death would claim. Enhanced phylactery mechanics and survivability with resurrection',
 
-        color: '#4B0082',
+        color: '#2D1B69',
 
-        icon: 'spell_shadow_raisedead'
-
-      },
-
-      {
-
-        id: 'silence_speaker',
-        name: 'Silence-Speaker',
-        description: 'The Silence between the stars hungers back. Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
-
-        color: '#1C1C1C',
-
-        icon: 'spell_shadow_shadowwordpain'
+        icon: 'spell_frost_frozencore'
 
       }
 

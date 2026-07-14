@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Legacy Discipline Data, backward-compatibility shim
  *
  * The "disciplines" (mystic, zealot, trickster, harrow, arcanist, hexer,

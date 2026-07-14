@@ -49,6 +49,19 @@ module.exports = {
     {
       files: ['*.js'],
       excludedFiles: ['node_modules/**', 'logs/**']
+    },
+    {
+      files: ['tests/**/*.js', '**/*.test.js'],
+      env: { mocha: true, node: true },
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        before: 'readonly',
+        after: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        sinon: 'readonly'
+      }
     }
   ]
 };

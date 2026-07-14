@@ -53,6 +53,16 @@ export function registerRoomLifecycleHandlers(ctx) {
             return selfIds.has(m.id) || selfIds.has(m.userId);
           });
 
+          // Build allRoomPlayers from server data before using it
+          const allRoomPlayers = [];
+          if (data.room.gm) allRoomPlayers.push({ ...data.room.gm, isGM: true });
+          if (data.room.players) {
+            const players = Array.isArray(data.room.players)
+              ? data.room.players
+              : Object.values(data.room.players || {});
+            allRoomPlayers.push(...players);
+          }
+
           if (existingSelf && currentSocketId) {
             usePartyStore.getState().updatePartyMember(existingSelf.id, {
               socketId: currentSocketId,
@@ -89,16 +99,6 @@ export function registerRoomLifecycleHandlers(ctx) {
             if (activeChar?.classResource?.max) selfMember.character.classResource = activeChar.classResource;
             usePartyStore.getState().addPartyMember(selfMember);
             console.log('ðŸ”„ [Reconnect] Self not found in partyMembers, added:', selfMember.name);
-          }
-
-          // Re-add/update all room players from server data
-          const allRoomPlayers = [];
-          if (data.room.gm) allRoomPlayers.push({ ...data.room.gm, isGM: true });
-          if (data.room.players) {
-            const players = Array.isArray(data.room.players)
-              ? data.room.players
-              : Object.values(data.room.players || {});
-            allRoomPlayers.push(...players);
           }
 
           allRoomPlayers.forEach(player => {

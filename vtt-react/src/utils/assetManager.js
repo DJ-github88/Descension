@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Asset Manager - Handles custom game assets
  * 
  * This utility provides a centralized way to manage game assets using
@@ -484,7 +484,6 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'inv_misc_coin_05': 'Utility/Utility',
     'inv_misc_coin_17': 'Utility/Utility',
     'inv_misc_coin_18': 'Utility/Utility',
-    'inv_misc_dice_01': 'Social/Dice Roll',
     'inv_misc_dice_02': 'Social/Dice Roll',
     'inv_misc_enggizmos_25': 'Utility/Strange Brew',
     'inv_misc_enggizmos_27': 'Utility/Utility Tool',
@@ -677,7 +676,6 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'ability_rogue_quickrecovery': 'Healing/Renewal',
     'ability_rogue_stealth': 'Utility/Hide',
     'ability_rogue_trip': 'General/Trip',
-    'ability_rogue_disembowel': 'Piercing/Piercing Pierce',
 
     // ===== ADDITIONAL ABILITY - DRUID =====
     'ability_druid_challenge': 'Nature/Roar',
@@ -832,7 +830,6 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_frost_chainsofice': 'Frost/Frozen in Ice',
     'spell_frost_glaciershield': 'Frost/Icy Shield',
     'spell_holy_auramastery': 'Radiant/Divine Blessing',
-    'spell_holy_devotionaura': 'Radiant/Divine Blessing',
     'spell_holy_divinefavor': 'Radiant/Divine Blessing',
     'spell_magnet': 'Force/Force Field',
     'spell_nature_astralrecalgroup': 'Nature/Teleport',
@@ -1170,7 +1167,7 @@ export const convertWowIconToCustom = (wowIconId, category) => {
 };
 
 // Export for backward compatibility
-export default {
+const assetManager = {
   getIconUrl,
   getCustomIconUrl,
   getWowIconUrl,
@@ -1184,3 +1181,4 @@ export default {
   ASSET_PATHS,
   FALLBACK_ICONS
 };
+export default assetManager;

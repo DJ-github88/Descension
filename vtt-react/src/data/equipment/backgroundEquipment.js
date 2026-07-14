@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Background-Specific Starting Equipment
  * 
  * Items that are only available to specific character backgrounds.
@@ -354,7 +354,7 @@ export const SYNOD_ACADEMIC_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A codex of Synod-Hold issue, its pages ruled for cross-referencing across seven archives.',
+        description: 'A codex of Synod Hold issue, its pages ruled for cross-referencing across seven archives.',
         iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 2,
@@ -392,7 +392,7 @@ export const SYNOD_ACADEMIC_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'The dark scholar-robe of Synod-Hold, pockets weighted for carrying rolled charts.',
+        description: 'The dark scholar-robe of Synod Hold, pockets weighted for carrying rolled charts.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 3,
@@ -1338,7 +1338,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A crystal-threaded pouch containing 10 gold pieces from Synod-Hold research grants. Can be sold for its full value.',
+        description: 'A crystal-threaded pouch containing 10 gold pieces from Synod Hold research grants. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,

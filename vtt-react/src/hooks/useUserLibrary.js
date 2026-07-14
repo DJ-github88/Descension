@@ -13,10 +13,27 @@ import {
   addDownloadedPack,
   addToFavorites,
   removeFromFavorites,
-  getDownloadHistory,
   syncUserLibrary,
   clearUserLibrary
 } from '../services/firebase/userLibraryService';
+
+function getLocalLibrary(userId) {
+  try {
+    const stored = localStorage.getItem(`userLibrary_${userId}`);
+    return stored ? JSON.parse(stored) : null;
+  } catch (error) {
+    console.error('Error reading local library:', error);
+    return null;
+  }
+}
+
+function saveLocalLibrary(userId, libraryData) {
+  try {
+    localStorage.setItem(`userLibrary_${userId}`, JSON.stringify(libraryData));
+  } catch (error) {
+    console.error('Error saving local library:', error);
+  }
+}
 
 export function useUserLibrary(userId) {
   // State management
@@ -37,6 +54,7 @@ export function useUserLibrary(userId) {
     if (userId) {
       loadUserLibrary();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const loadUserLibrary = useCallback(async () => {
@@ -50,7 +68,7 @@ export function useUserLibrary(userId) {
       setLibrary(libraryData);
       
       // Also load from local storage and merge
-      const localLibrary = getLocalLibrary();
+      const localLibrary = getLocalLibrary(userId);
       if (localLibrary && Object.keys(localLibrary).length > 0) {
         await syncLibraryData(localLibrary);
       }
@@ -59,14 +77,15 @@ export function useUserLibrary(userId) {
       console.error('Failed to load user library:', err);
       
       // Fallback to local storage
-      const localLibrary = getLocalLibrary();
+      const localLibrary = getLocalLibrary(userId);
       if (localLibrary) {
         setLibrary(localLibrary);
       }
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  // eslint-disable-next-line no-use-before-define
+  }, [userId, syncLibraryData]);
 
   const syncLibraryData = useCallback(async (localData = null) => {
     if (!userId) return;
@@ -79,7 +98,7 @@ export function useUserLibrary(userId) {
       const syncedLibrary = await syncUserLibrary(userId, dataToSync);
       
       setLibrary(syncedLibrary);
-      saveLocalLibrary(syncedLibrary);
+      saveLocalLibrary(userId, syncedLibrary);
       
     } catch (err) {
       setError(err.message);
@@ -120,7 +139,7 @@ export function useUserLibrary(userId) {
       }));
       
       // Save to local storage
-      saveLocalLibrary(library);
+      saveLocalLibrary(userId, library);
       
     } catch (err) {
       setError(err.message);
@@ -160,7 +179,7 @@ export function useUserLibrary(userId) {
       }));
       
       // Save to local storage
-      saveLocalLibrary(library);
+      saveLocalLibrary(userId, library);
       
     } catch (err) {
       setError(err.message);
@@ -202,7 +221,7 @@ export function useUserLibrary(userId) {
       }));
       
       // Save to local storage
-      saveLocalLibrary(library);
+      saveLocalLibrary(userId, library);
       
     } catch (err) {
       setError(err.message);
@@ -251,7 +270,7 @@ export function useUserLibrary(userId) {
       }
       
       // Save to local storage
-      saveLocalLibrary(library);
+      saveLocalLibrary(userId, library);
       
     } catch (err) {
       setError(err.message);
@@ -286,25 +305,6 @@ export function useUserLibrary(userId) {
       throw err;
     }
   }, [userId]);
-
-  // Helper functions for local storage
-  const getLocalLibrary = () => {
-    try {
-      const stored = localStorage.getItem(`userLibrary_${userId}`);
-      return stored ? JSON.parse(stored) : null;
-    } catch (error) {
-      console.error('Error reading local library:', error);
-      return null;
-    }
-  };
-
-  const saveLocalLibrary = (libraryData) => {
-    try {
-      localStorage.setItem(`userLibrary_${userId}`, JSON.stringify(libraryData));
-    } catch (error) {
-      console.error('Error saving local library:', error);
-    }
-  };
 
   // Check if content is in user's library
   const isDownloaded = useCallback((contentType, contentId) => {

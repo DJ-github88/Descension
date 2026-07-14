@@ -1,5 +1,5 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
-import { FaDiceD20, FaClone, FaCoins, FaPlus, FaTable } from 'react-icons/fa';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FaDiceD20, FaClone, FaCoins, FaPlus } from 'react-icons/fa';
 
 import InlineEffectBuilder from './InlineEffectBuilder';
 

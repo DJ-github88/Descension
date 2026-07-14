@@ -136,7 +136,7 @@ function validateRoomMembership(socket, roomId, requireGM, players, rooms) {
  * @returns {Object} Merged game state
  */
 function mergeRoomGameStateForResume(baseState, resumeState) {
-  if (!resumeState || typeof resumeState !== 'object') return baseState;
+  if (!resumeState || typeof resumeState !== 'object') {return baseState;}
 
   const merged = { ...baseState };
 
@@ -414,7 +414,7 @@ function cleanupInactiveRooms(rooms, players, inactiveThresholdMs = 30 * 60 * 10
       });
     }
 
-    if (room.isPermanent) return;
+    if (room.isPermanent) {return;}
 
     if (!room.isActive || (room.gmDisconnectedAt && now - new Date(room.gmDisconnectedAt).getTime() > inactiveThresholdMs)) {
       if (room.players.size === 0) {

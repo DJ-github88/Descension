@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Consumables - All consumable items
  * 
  * Starter consumables with Dark Souls-esque philosophy:

@@ -21,10 +21,10 @@ function registerCharacterHandlers(ctx) {
     firebaseBatchWriter
   } = ctx;
 
-  socket.on('character_moved', async (data) => {
+  socket.on('character_moved', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -51,10 +51,10 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_resource_delta', async (data) => {
+  socket.on('character_resource_delta', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -91,8 +91,8 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_updated', async (data) => {
-    logger.debug(`character_updated received`, {
+  socket.on('character_updated', async(data) => {
+    logger.debug('character_updated received', {
       socketId: socket.id,
       characterId: data.characterId,
       hasCharacter: !!data.character
@@ -100,12 +100,12 @@ function registerCharacterHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
-        logger.warn(`character_updated validation failed:`, { error: validation.error });
+        logger.warn('character_updated validation failed:', { error: validation.error });
         return;
       }
 
       const { room, player } = validation;
-      logger.debug(`character_updated validated`, { playerId: player.id, roomId: room.id });
+      logger.debug('character_updated validated', { playerId: player.id, roomId: room.id });
 
       if (data.character) {
         player.character = {
@@ -125,7 +125,7 @@ function registerCharacterHandlers(ctx) {
 
       // CRITICAL FIX: Use room.id instead of data.roomId (which may be undefined)
       const broadcastRoomId = room.id;
-      logger.debug(`Broadcasting character_updated`, {
+      logger.debug('Broadcasting character_updated', {
         roomId: broadcastRoomId,
         playerId: player.id,
         isGM: player.isGM || room.gm?.socketId === socket.id
@@ -153,10 +153,10 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_equipment_updated', async (data) => {
+  socket.on('character_equipment_updated', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -183,10 +183,10 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('character_resource_updated', async (data) => {
+  socket.on('character_resource_updated', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player: senderPlayer } = validation;
 
@@ -203,7 +203,7 @@ function registerCharacterHandlers(ctx) {
       }
 
       if (!targetPlayer && data.senderSocketId) {
-        for (const [pid, p] of room.players) {
+        for (const [, p] of room.players) {
           if (p.socketId === data.senderSocketId) {
             targetPlayer = p;
             break;
@@ -292,15 +292,15 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('buff_update', async (data) => {
+  socket.on('buff_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId || data.data?.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const roomId = data.roomId || data.data?.roomId;
       const room = rooms.get(roomId);
       if (room) {
-        if (!room.gameState.buffs) room.gameState.buffs = {};
+        if (!room.gameState.buffs) {room.gameState.buffs = {};}
         if (data.tokenId && data.buff) {
           room.gameState.buffs[data.tokenId] = data.buff;
         } else if (data.buffs) {
@@ -318,15 +318,15 @@ function registerCharacterHandlers(ctx) {
     }
   });
 
-  socket.on('debuff_update', async (data) => {
+  socket.on('debuff_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId || data.data?.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const roomId = data.roomId || data.data?.roomId;
       const room = rooms.get(roomId);
       if (room) {
-        if (!room.gameState.debuffs) room.gameState.debuffs = {};
+        if (!room.gameState.debuffs) {room.gameState.debuffs = {};}
         if (data.tokenId && data.debuff) {
           room.gameState.debuffs[data.tokenId] = data.debuff;
         } else if (data.debuffs) {

@@ -215,6 +215,8 @@ class StorageLimitService {
           throw new Error(`Audio file too large: ${(dataSize / 1024 / 1024).toFixed(2)}MB (max: ${(ITEM_SIZE_LIMITS.MAX_AUDIO_FILE_SIZE / 1024 / 1024).toFixed(2)}MB)`);
         }
         break;
+      default:
+        break;
     }
 
     return dataSize;

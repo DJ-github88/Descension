@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
-import { getEnv, isProduction, getPublicUrl } from './config/env';
+import { isProduction, getPublicUrl } from './config/env';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||

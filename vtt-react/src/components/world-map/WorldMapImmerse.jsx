@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MapCanvas from './MapCanvas';
 import LoreSidebar from './LoreSidebar';
 import DevEditor from './DevEditor';
@@ -9,7 +9,7 @@ import AnnotationToolbar from './AnnotationToolbar';
 import AnnotationPopup from './AnnotationPopup';
 import ShareDialog from './ShareDialog';
 import AnnotationCollisionMenu from './AnnotationCollisionMenu';
-import MapNotificationContainer, { notify, confirmDialog } from './MapNotify';
+import MapNotificationContainer, { notify } from './MapNotify';
 
 // Stores & Services
 import useMapAnnotationStore from '../../store/mapAnnotationStore';

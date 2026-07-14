@@ -27,17 +27,17 @@ function registerEnvironmentHandlers(ctx) {
     stripUndefined
   } = ctx;
 
-  socket.on('container_update', async (data) => {
+  socket.on('container_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
       const map = validateMapExists(room, mapId);
 
       if (data.container) {
-        if (!map.containers) map.containers = {};
+        if (!map.containers) {map.containers = {};}
         map.containers[data.container.id] = data.container;
       }
 
@@ -54,16 +54,16 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('creature_added', async (data) => {
+  socket.on('creature_added', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
       const map = validateMapExists(room, mapId);
 
-      if (!map.creatures) map.creatures = {};
+      if (!map.creatures) {map.creatures = {};}
       const creatureId = data.creature.id || uuidv4();
       map.creatures[creatureId] = {
         ...data.creature,
@@ -84,10 +84,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('creature_updated', async (data) => {
+  socket.on('creature_updated', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -116,10 +116,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('wall_update', async (data) => {
+  socket.on('wall_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -165,10 +165,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('door_state_changed', async (data) => {
+  socket.on('door_state_changed', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -192,10 +192,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('light_source_update', async (data) => {
+  socket.on('light_source_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -244,10 +244,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('fog_update', async (data) => {
+  socket.on('fog_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -284,12 +284,12 @@ function registerEnvironmentHandlers(ctx) {
   socket.on('weather_update', (data) => {
     try {
       const player = players.get(socket.id);
-      if (!player || !player.isGM) return;
+      if (!player || !player.isGM) {return;}
 
       const room = rooms.get(player.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
-      if (!room.gameState.weather) room.gameState.weather = {};
+      if (!room.gameState.weather) {room.gameState.weather = {};}
       room.gameState.weather = { ...data };
 
       socket.to(player.roomId).emit('weather_update', data);
@@ -300,10 +300,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('drawing_update', async (data) => {
+  socket.on('drawing_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -331,10 +331,10 @@ function registerEnvironmentHandlers(ctx) {
     }
   });
 
-  socket.on('environmental_object_update', async (data) => {
+  socket.on('environmental_object_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';

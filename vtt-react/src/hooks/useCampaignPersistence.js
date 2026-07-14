@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Campaign Persistence Hook
  *
  * Automatically saves and loads GM campaign data to/from Firebase.
@@ -82,12 +82,12 @@ export const useCampaignPersistence = (campaignId) => {
    console.error('Failed to save campaign:', error);
    return { success: false, error: error.message };
   }
- }, [user, campaignId, collectCampaignState]);
+  }, [user, campaignId, collectCampaignState, persistenceService]);
 
- /**
-  * Load campaign data from Firebase (for authenticated users)
-  */
- const loadCampaign = useCallback(async () => {
+  /**
+   * Load campaign data from Firebase (for authenticated users)
+   */
+  const loadCampaign = useCallback(async () => {
   if (!user || user.isGuest || !campaignId) {
    return { success: false, reason: 'No authenticated user or campaign' };
   }
@@ -115,11 +115,11 @@ export const useCampaignPersistence = (campaignId) => {
    console.error('Failed to load campaign:', error);
    return { success: false, error: error.message };
   }
- }, [user, campaignId]);
-
- /**
-  * Auto-save campaign when it changes
-  */
+  }, [user, campaignId, persistenceService]);
+ 
+  /**
+   * Auto-save campaign when it changes
+   */
  const scheduleAutoSave = useCallback(() => {
   // Clear existing timer
   if (campaignTimerRef.current) {
@@ -197,9 +197,9 @@ export const useCampaignPersistence = (campaignId) => {
    console.error('Failed to delete campaign from Firebase:', error);
    return { success: false, error: error.message };
   }
- }, [user]);
+  }, [user, persistenceService]);
 
- return {
+  return {
   // State
   isGuestUser: user?.isGuest || false,
   isAuthenticated: !!user && !user.isGuest,

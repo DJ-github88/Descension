@@ -1,9 +1,9 @@
-﻿/**
+/**
  * Lighting Calculations for shifting Lighting System
  * Professional VTT implementation with realistic light falloff and shifting shadows
  */
 
-import { getLineOfSight, hasLineOfSight } from './VisibilityCalculations';
+import { hasLineOfSight } from './VisibilityCalculations';
 
 /**
  * Calculate light intensity at a specific point from a light source with advanced features
@@ -142,6 +142,8 @@ function calculateAtmosphericEffect(lightX, lightY, targetX, targetY, distance, 
     case 'sunlight':
       // Sunlight has minimal atmospheric effects at this scale
       atmosphericFactor *= 0.99;
+      break;
+    default:
       break;
   }
 

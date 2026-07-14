@@ -11,7 +11,6 @@ import usePresenceStore from '../store/presenceStore';
 import MythrillWindow from './windows/MythrillWindow';
 import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
-import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './common/ErrorBoundary';
 import { useWindowIntros } from '../hooks/useWindowIntros';
@@ -25,8 +24,6 @@ const Skills = lazy(() => import('./character-sheet/Skills'));
 const Lore = lazy(() => import('./character-sheet/Lore'));
 const InventoryWindow = lazy(() => import('./windows/InventoryWindow'));
 const LibraryWindow = lazy(() => import('./windows/LibraryWindow'));
-const SocialEncounterGenerator = lazy(() => import('./gm-tools/SocialEncounterGenerator'));
-const JukeboxPanel = lazy(() => import('./jukebox/JukeboxPanel'));
 const Toolkit = lazy(() => import('./windows/Toolkit'));
 const SpellbookWindow = lazy(() => import('./windows/SpellbookWindow'));
 const CampaignManagerWindow = lazy(() => import('./windows/CampaignManagerWindow'));
@@ -66,20 +63,6 @@ const CraftingWindow = lazy(() =>
                 <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
                     <h3>🔨 Crafting Window Unavailable</h3>
                     <p>The crafting system is temporarily unavailable.</p>
-                    <p>Please try refreshing the page.</p>
-                </div>
-            )
-        };
-    })
-);
-const TravelTrackerWindow = lazy(() =>
-    import('./windows/TravelTrackerWindow').catch(err => {
-        console.error('Failed to load TravelTrackerWindow:', err);
-        return {
-            default: () => (
-                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
-                    <h3>Travel Tracker Unavailable</h3>
-                    <p>The travel system is temporarily unavailable.</p>
                     <p>Please try refreshing the page.</p>
                 </div>
             )
@@ -595,7 +578,7 @@ export default function Navigation({ onReturnToLanding }) {
     const [isNavCollapsed, setIsNavCollapsed] = useState(() => {
         try { return localStorage.getItem('mythrill-nav-collapsed') === 'true'; } catch { return false; }
     });
-    const [isNavHovered, setIsNavHovered] = useState(false);
+    const [ setIsNavHovered] = useState(false);
     const [orbPosition, setOrbPosition] = useState(() => {
         try {
             const saved = localStorage.getItem('mythrill-nav-orb');
@@ -1259,8 +1242,7 @@ export default function Navigation({ onReturnToLanding }) {
     const totalPages = Math.ceil(buttons.filter(b => b && b.id).length / itemsPerPage);
 
     // On mobile, position at bottom center
-    const mobilePosition = isMobile ? { x: 0, y: window.innerHeight - 60 } : position;
-
+    
     // Get buttons for current page (mobile pagination)
     const getMobileVisibleButtons = () => {
         const allButtons = buttons.filter(button => button && button.id);

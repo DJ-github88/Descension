@@ -44,7 +44,7 @@ export default function useFeatureFlag(featureName) {
     }
 
     return () => { cancelled = true; };
-  }, [featureName, user?.uid]);
+  }, [featureName, user]);
 
   return { allowed, loading };
 }
@@ -95,7 +95,7 @@ export function useMultipleFeatureFlags(featureNames) {
     }
 
     return () => { cancelled = true; };
-  }, [JSON.stringify(featureNames), user?.uid]);
+  }, [featureNames, user]);
 
   return { flags, loading };
 }

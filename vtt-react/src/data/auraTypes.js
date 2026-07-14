@@ -132,7 +132,8 @@ export const calculateAuraEffect = (aura, casterLevel, attributes = {}) => {
             case 'movement_speed':
                 baseEffect.effects[effectType] = 10 + Math.floor(casterLevel * 0.5);
                 break;
-            // Add more effect calculations as needed
+            default:
+                break;
         }
     }
 

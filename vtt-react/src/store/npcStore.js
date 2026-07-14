@@ -24,6 +24,28 @@ const NPC_DATA = {
     ]
   },
 
+  'kaelen-thalreth': {
+    id: 'kaelen-thalreth',
+    name: 'Kaelen Thalreth',
+    title: 'Jarl-Archivist of House Thalreth (De Facto Leader)',
+    race: 'Thalren human',
+    gender: 'Male',
+    factionIds: ['house-thalreth', 'scribe-sentinels'],
+    locationIds: ['greymark-keep', 'scribes-tower'],
+    age: '41',
+    status: 'Active',
+    appearance:
+      'A sharp-featured man with intense dark eyes and silver-threaded hair kept close. He wears the formal, dark leather robes of a Master Archivist, with several quill-cases secured to his forearms. His fingers are permanently ink-stained.',
+    personality:
+      'Calculating, pragmatic, and fiercely protective of his house\'s standing. Unlike his father, Kaelen is not paralyzed by memory loss; he manages the revisions to the Ledger with absolute, cold resolve.',
+    backstory:
+      'As the de facto leader of House Thalreth (often called the Quill-Lord), Kaelen governs while his father Aldren suffers from advanced memory-fog. He coordinates the Scribe-Sentinels and directly oversees the Revisionists, determining which historical facts must be rewritten to preserve the stability of the Reach. He believes that historical truth is a luxury the freezing world cannot afford.',
+    hooks: [
+      'Kaelen is looking for a lost ledger containing the original, unrevised census of the first generation',
+      'He is secretly attempting to establish a trade blockade against the Fexric guilds to force concessions on geothermal fuel'
+    ]
+  },
+
   'elara-thalreth': {
     id: 'elara-thalreth',
     name: 'Elara Thalreth',
@@ -68,25 +90,47 @@ const NPC_DATA = {
     ]
   },
 
-  'sigurd-skalvyr': {
-    id: 'sigurd-skalvyr',
-    name: 'Sigurd Skalvyr',
-    title: 'Jarl of Nordhalla',
+  'halvar-skalvyr': {
+    id: 'halvar-skalvyr',
+    name: 'Halvar Skalvyr',
+    title: 'High King-Jarl of Nordhalla (Jarn-Tand)',
     race: 'Skald human',
     gender: 'Male',
     factionIds: ['house-skalvyr'],
-    locationIds: ['frozen-archive'],
+    locationIds: ['fjord-gate'],
     age: '61',
     status: 'Active',
     appearance:
       'A man carved from glacier ice: tall, broad-shouldered, with a lined face, pale blue eyes, and a thick white beard that he keeps braided with iron rings. He wears a coat of white bear fur over chainmail. His voice is a low rumble that seems to come from somewhere deeper than his chest.',
     personality:
-      'Sigurd speaks rarely and decides slowly. Once a decision is made, he never reverses it. He is respected rather than loved, feared rather than admired. He carries the weight of Nordhalla\'s survival like a physical burden, and it shows in every line of his face.',
+      'Halvar (Iron-Tooth) speaks rarely and decides slowly. Once a decision is made, he never reverses it. He is respected rather than loved, feared rather than admired. He carries the weight of Nordhalla\'s survival like a physical burden, and it shows in every line of his face.',
     backstory:
-      'Sigurd has been Jarl for 34 years, longer than any Skalvyr ruler in recent memory. He has kept Nordhalla stable through the longest winter in recorded history, but the geothermal sumps are failing, and he knows his people cannot survive another generation without heat. His secret negotiations with the Cult of Forgotten Shadow weigh on him: he is a man of old oaths making deals with something that does not honor them.',
+      'Halvar has been King-Jarl for 34 years, longer than any Skalvyr ruler in recent memory. He has kept Nordhalla stable through the longest winter in recorded history, but the geothermal sumps are failing, and he knows his people cannot survive another generation without heat. His secret negotiations with the Cult of Forgotten Shadow weigh on him: he is a man of old oaths making deals with something that does not honor them.',
     hooks: [
-      'Sigurd\'s youngest daughter, Frigga, has become deeply involved with the Cult: more deeply than he knows',
+      'Halvar\'s youngest daughter, Frigga, has become deeply involved with the Cult: more deeply than he knows',
       'He has the only map that shows the hidden geothermal vents beneath the Frozen Archive'
+    ]
+  },
+
+  'sigurd-skalvyr': {
+    id: 'sigurd-skalvyr',
+    name: 'Sigurd Skalvyr',
+    title: 'Custodian of the Frozen Archive',
+    race: 'Skald human',
+    gender: 'Male',
+    factionIds: ['house-skalvyr'],
+    locationIds: ['frozen-archive'],
+    age: '58',
+    status: 'Active',
+    appearance:
+      'A slender man with a scholar\'s stoop, wearing simple grey wool robes over a fine steel mail shirt. His beard is shorter than Halvar\'s, braided with copper rings. His eyes are sharp and dark, always scanning the room like a man reading a page.',
+    personality:
+      'Quiet, observant, and deeply calculating. Sigurd believes the past is a tool to shape the present, and he hoards access to the Archive\'s secrets with fierce jealousy.',
+    backstory:
+      'Sigurd keeps the Frozen Archive\'s physical and runic collections. Where his brother Halvar rules the fjord-keeps through military force, Sigurd rules the library through access. He is more powerful than the High King-Jarl, because while Halvar controls the present, Sigurd controls the past, and in Nordhalla, where the glacier preserves everything, the past is negotiable.',
+    hooks: [
+      'Sigurd has discovered a discrepancy in the genealogies of the northern houses that could invalidate House Skalvyr\'s claims',
+      'He knows the location of the deeper vaults that contain records from before the sky went dark'
     ]
   },
 
@@ -140,7 +184,7 @@ const NPC_DATA = {
     title: 'Doomsayer-Priestess of the Frozen Archive',
     race: 'Solvarn human',
     gender: 'Female',
-    factionIds: ['house-thalreth'],
+    factionIds: ['doom-choir'],
     locationIds: ['frozen-archive'],
     age: 'Unknown: at least 200 years',
     status: 'Sealed in meditation',
@@ -149,7 +193,7 @@ const NPC_DATA = {
     personality:
       'Valeria is the last living person who studied under Malakor the Finite, the original Doomsayer. She is blunt, unsentimental, and brutally honest. She does not offer comfort because she believes comfort is a lie. She offers truth, which is cold but reliable.',
     backstory:
-      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, in time, his successor as the keeper of the Doom-Choir's calculations. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results (she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber) a form of deliberate temporal stasis: suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
+      'Valeria was a young Solvarn priestess when Malakor found her. He recognized in her the same cold clarity that had driven him mad. She became his apprentice and, in time, his successor as the keeper of the Doom-Choir\'s calculations. She sealed herself in the deepest vault of the Frozen Archive after her calculations began returning contradictory results (she believes she is close to a truth that will either save or doom everything, and she will not emerge until she knows which. Valeria\'s unnatural longevity mirrors that of her teacher, Malakor the Finite: decades sealed in the Frozen Archive\'s deepest ice-chamber) a form of deliberate temporal stasis: suspended her biological aging, though at the cost of her connection to the outside world. She emerged having aged only a decade while two centuries passed beyond the Archive\'s walls.',
     hooks: [
       'Valeria\'s calculations, if completed, would reveal the exact timeline of the world\'s extinction: including how much time is left',
       'The contradictory results she obtained suggest someone or something is actively interfering with the Doomsayer\'s equations'
@@ -256,7 +300,7 @@ const NPC_DATA = {
     race: 'Skald human',
     gender: 'Male',
     factionIds: ['bloodhammer-line'],
-    locationIds: ['harath-vault', 'emberspire'],
+    locationIds: ['harath-vault', 'emberspire-caldera'],
     age: '67',
     status: 'Active',
     appearance: 'A massive, scarred Skald elder whose every exhale steams in all but forge-heat. He carries a blacksmith\'s hammer too heavy for any living Berserker to lift, and his forearms are latticed with old burn-scars that flush dull red when his Blood-Heat rises in his sleep.',
@@ -299,7 +343,7 @@ const NPC_DATA = {
     locationIds: ['atropolis'],
     age: '412',
     status: 'Active',
-    appearance: 'The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused eight generations of refinement ago. He has not spoken an unplanned word in thirty years.',
+    appearance: 'The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused thirty generations of refinement ago. He has not spoken an unplanned word in thirty years.',
     personality: 'Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Velun Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.',
     backstory: 'Ledger-Prime of the Canopy-Ledger, Vel-Otharan presides over the Arcanoneer order from Atropolis\'s Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.',
     hooks: [
@@ -321,7 +365,7 @@ const NPC_DATA = {
     status: 'Active',
     appearance: 'A tall, frost-scarred Skald woman with one eye clouded to milky glass by a childhood vision-burn. She wears the grey robes of the Augur order over chainmail and carries a carved elk-horn staff she uses as much for walking the glacier-halls as for ritual.',
     personality: 'Steady, unsentimental, and privately frantic. Skadi has presided over the accuracy collapse from 93% to 41% without flinching: at least where the junior augurs can see. She believes the elk are still true and something is editing the future they can see.',
-    backstory: 'A distant descendant of Cassia's bloodline, Skadi learned the augury from a woman preserved in the glacier-ice who no longer remembers who she was in life. She maintains the elk-herds and the ritual calendar at the Frozen Archive, defending her founder\'s method against contradictory readings. Privately she has begun a secret cross-reference suggesting the interference is temporal: the Chronarchs\' stitching.',
+    backstory: 'A distant descendant of Cassia\'s bloodline, Skadi learned the augury from a woman preserved in the glacier-ice who no longer remembers who she was in life. She maintains the elk-herds and the ritual calendar at the Frozen Archive, defending her founder\'s method against contradictory readings. Privately she has begun a secret cross-reference suggesting the interference is temporal: the Chronarchs\' stitching.',
     hooks: [
       'Skadi will pay handsomely for any Chronarch temporal-log that overlaps a failed elk-reading',
       'She has not told the Archive council that the founder Cassia\'s preserved lips have begun moving again',
@@ -416,7 +460,7 @@ const NPC_DATA = {
     race: 'Thalren human',
     gender: 'Female',
     factionIds: ['barbed-vow'],
-    locationIds: ['sunken-spire'],
+    locationIds: ['the-sunken-spire'],
     age: '52',
     status: 'Active: half-erased',
     appearance: 'A lean, scar-wrapped Thalren woman whose Bait-Vow scars glow faintly with the broken promises she has sworn to lure the Wyrd. She is translucent at the edges: the Sovereign Ledger is half-done striking her name, and she is visibly becoming a ghost in her own lifetime.',
@@ -441,7 +485,7 @@ const NPC_DATA = {
     status: 'Active: acting',
     appearance: 'A senior Trueborn Briaran whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene\'s whispers reach her. She wears the ghost-metal regent\'s token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.',
     personality: 'Reluctant, theological, and increasingly frightened. Bri-Vessela is a scholar forced into power by Selene\'s silence. She spends her nights transcribing whispers she does not understand and her days pretending she does.',
-    backstory: 'Regent of the Lunar Communion in Selene\'s silence, Bri-Vessela leads only because the alternative was civil war between the caste-factions. The elder parasites are synchronizing every Lunarch\'s phases toward an unknown convergence, and Selene\'s whispers are, she has begun to suspect, not madness but instructions: the hatching-song of the dead moon.',
+    backstory: 'Regent of the Lunar Communion in Selene\'s silence, Bri-Vessela leads only because the alternative was civil war between the caste-factions. The elder parasites are synchronizing every Lunarch\'s phases toward an unknown convergence, and Selene\'s whispers are, she has begun to suspect, not madness but instructions: the hatching-song of the fallen star.',
     hooks: [
       'Bri-Vessela desperately needs a translator for the dead-language whispers; she will fund any expedition to find one',
       'She can be convinced to either halt the convergence or accelerate it: depending on what the party learns',
@@ -455,8 +499,8 @@ const NPC_DATA = {
     title: 'Keeper of the First Scar (Vigil-Mother of the Covenant of the Scar)',
     race: 'Solvarn human',
     gender: 'Female',
-    factionIds: ['covenant-of-the-scar', 'dawn-vigil'],
-    locationIds: ['emberspire'],
+    factionIds: ['covenant-of-the-scar', 'dawn-vigil', 'the-risen'],
+    locationIds: ['emberspire-caldera'],
     age: '47',
     status: 'Active',
     appearance: 'A Solvarn woman who has absorbed so much allied suffering that she glows faintly in the dark: the Devotion Gauge made visible. Her forearms bear the original scar-pattern of the Covenant, and a fainter, newer set of marks she refuses to explain.',
@@ -515,8 +559,8 @@ const NPC_DATA = {
     title: 'The Most-Converted (Last-Ember of the Ashen Communion)',
     race: 'Solvarn human',
     gender: 'Male',
-    factionIds: ['ashen-communion'],
-    locationIds: ['emberspire'],
+    factionIds: ['ashen-communion', 'the-sunderers'],
+    locationIds: ['emberspire-caldera'],
     age: '34 (effective; the conversion has aged him further)',
     status: 'Active: on a known countdown',
     appearance: 'More char-vessel than flesh: bones visible through translucent magma-skin, heat radiating from him in visible waves. He marks the estimated day of his final collection on a calendar of scar-tissue renewed each morning.',
@@ -576,7 +620,7 @@ const NPC_DATA = {
     race: 'Thrask Emberth',
     gender: 'Male',
     factionIds: ['aegis'],
-    locationIds: ['emberspire'],
+    locationIds: ['emberspire-caldera'],
     age: '51',
     status: 'Active',
     appearance: 'A Thrask Emberth veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.',
@@ -646,6 +690,44 @@ const NPC_DATA = {
       'Sylas will hire the party to retrieve Unwoven trackers who dissolved into the fog to find the hider and did not return',
       'He can teach the tactile sign-language and the sensory-sacrifice initiation to any qualifying Apex',
       'He believes the hider is the thing the mist is protecting: and that it has noticed him'
+    ]
+  },
+
+  'dawn-vigil-commander': {
+    id: 'dawn-vigil-commander',
+    name: 'The First Dawn',
+    title: 'Commander of the Dawn Vigil',
+    race: 'Unknown',
+    region: 'sundale',
+    status: 'Identity sealed',
+    appearance: 'No one has seen the First Dawn\'s face. Commands arrive only as sealed basalt tablets delivered by silent Martyrs. Theories abound: a council, a ghost, a pre-written set of orders, or a survivor so old they have become the institution.',
+    personality: 'Unknown. The basalt tablets speak in imperatives, never in questions. Whatever the First Dawn feels, if they feel anything, has not been committed to stone.',
+    backstory: 'The First Dawn commands the Dawn Vigil from behind an absolute veil of anonymity. Their identity is a secret kept even from most of the order\'s own Hierophants. According to the Vigil\'s deepest kept secret, the First Dawn died eighty years ago — their final orders now being executed by an Augur who glimpsed them in a death-vision and has been carrying out those instructions ever since, forging the tablets in the original hand.',
+    factionIds: ['dawn-vigil'],
+    locationIds: ['emberspire-caldera'],
+    hooks: [
+      'The party receives a basalt tablet that contradicts a previous order — was the First Dawn\'s hand forged, or are there two sources?',
+      'A Martyr courier breaks their vow of silence to whisper one word before dying: a name no one recognizes',
+      'The Augur executing the orders has run out of the original tablets and is beginning to improvise'
+    ]
+  },
+
+  'saren-vel': {
+    id: 'saren-vel',
+    name: 'Saren-Vel',
+    title: 'The Nameless Flame',
+    race: 'Velun Neth (Drun)',
+    region: 'bryngloom-forest',
+    status: 'Historical — died centuries ago',
+    appearance: 'Depicted in Drun oral tradition as a tall woman with ink-burned hands and eyes the color of bog water. The burning she used to erase her name from the First Contract removed her from all visual records simultaneously — no accurate portrait survived.',
+    personality: 'Decisive to the point of self-sacrifice. She was a woman who saw a systemic injustice, calculated the exact cost of refusing it, and paid the cost without hesitation. She did not ask whether her children would approve of her choice.',
+    backstory: 'Saren-Vel was the most powerful Velun Neth mage of her generation. When Morvane\'s pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Drun have no single leader; the closest is her memory.',
+    factionIds: ['drun-outcasts'],
+    locationIds: ['over-shanty', 'black-fen'],
+    hooks: [
+      'A Drun elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name',
+      'Something in the bog where she died still burns with her flame — it has never gone out in three centuries',
+      'A new First Contract clause has appeared that specifically targets the Drun — which means Morvane noticed them after all'
     ]
   }
 };

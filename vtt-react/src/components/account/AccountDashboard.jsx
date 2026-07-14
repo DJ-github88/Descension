@@ -1,11 +1,9 @@
 // Account dashboard - main account management page
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {  useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
-import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER, canUseFeature } from '../../services/subscriptionService';
-import { RACE_DATA } from '../../data/raceData';
-import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
+import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER } from '../../services/subscriptionService';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
 import { getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
@@ -15,7 +13,6 @@ import AccountJournalManager from './AccountJournalManager';
 import ProfileEditModal from './ProfileEditModal';
 // Note: canAccessCampaignManager is available for future access control:
 // import CampaignManager, { canAccessCampaignManager, CAMPAIGN_ACCESS_CONFIG } from './CampaignManager';
-import ClassResourceBar from '../hud/ClassResourceBar';
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
 import AccountSocialManager from './AccountSocialManager';

@@ -15,13 +15,12 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import ClassResourceBar from './ClassResourceBar';
 import SummonTokenBar from './SummonTokenBar';
-import { getTokensForCharacter } from '../../data/summonableTokens';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
-import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getIconUrl } from '../../utils/assetManager';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -99,7 +98,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0, transformX: -50, transformY: -100 });
-    const [forceUpdate, setForceUpdate] = useState(0);
+    const [ setForceUpdate] = useState(0);
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);
@@ -141,8 +140,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             t.playerId === memberSocketId ||
             t.id === memberId
         );
-        const memberConditions = memberToken?.state?.conditions || [];
-
+        
         // Always return a cleanup function to ensure consistent hook count
         const interval = setInterval(() => {
             // Global condition cleanup only needs to run once per client; gate to the
@@ -170,19 +168,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         onContextMenu(e, member);
     };
 
-    const handleTargetMember = () => {
-        if (isTargeted) {
-            clearTarget();
-        } else {
-            setTarget({
-                id: member.id,
-                name: member.name,
-                type: 'party_member',
-                data: member
-            }, 'party_member');
-        }
-    };
-
+    
     // Calculate resource percentages and colors
     const healthPercent = (member.character?.health?.current || 0) / (member.character?.health?.max || 1) * 100;
     const manaPercent = (member.character?.mana?.current || 0) / (member.character?.mana?.max || 1) * 100;
@@ -434,7 +420,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 gap: '6px'
                             }}
                         >
-                            <span style={{ minWidth: '12px' }}>{isCurrent ? '‚ñ∂' : (isActive ? '‚ - è' : '‚ - ã')}</span>
+                            <span style={{ minWidth: '12px' }}>{isCurrent ? '‚ñ∂' : (isActive ? 'ÔøΩ - ÔøΩ' : 'ÔøΩ - ÔøΩ')}</span>
                             <span>{text}</span>
                         </div>
                     );
@@ -670,16 +656,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     };
 
     // Condition context menu handler
-    const handleConditionRightClick = (e, condition) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setConditionContextMenu({
-            show: true,
-            condition: { ...condition, type: 'condition' },
-            position: { x: e.clientX, y: e.clientY } // Use mouse position
-        });
-    };
-
+    
     // Remove condition handler
     const handleRemoveCondition = () => {
         if (!conditionContextMenu.condition) return;
@@ -832,16 +809,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         const borderColor = member.character?.tokenSettings?.borderColor;
                         const hasImage = !!(customIcon || charImage || charIcon);
 
-                        const iconBg = member.character?.lore?.iconBackgroundImage;
-                        const iconBgColor = member.character?.lore?.iconBackgroundColor;
-                        const iconBorderColor = member.character?.lore?.iconBorderColor;
-                        const iconScale = member.character?.lore?.iconScale || 1;
-                        const iconOffsetX = member.character?.lore?.iconOffsetX || 0;
+                                                                        const iconBorderColor = member.character?.lore?.iconBorderColor;
+                                                const iconOffsetX = member.character?.lore?.iconOffsetX || 0;
                         const iconOffsetY = member.character?.lore?.iconOffsetY || 0;
-                        const iconBgScale = member.character?.lore?.iconBackgroundScale || 2.5;
-                        const iconBgOffsetX = member.character?.lore?.iconBackgroundOffsetX || 0;
-                        const iconBgOffsetY = member.character?.lore?.iconBackgroundOffsetY || 0;
-
+                                                                        
                         const hasCustomStyling = !!(member.character?.lore?.iconBackgroundImage || member.character?.lore?.iconBackgroundColor || member.character?.lore?.iconBorderColor);
 
                         let imageUrl = null;
@@ -1301,21 +1272,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 const playerDebuffs = finalDebuffs;
 
                 // Format time helper for conditions
-                const formatConditionTime = (condition) => {
-                    if (!condition.duration && !condition.durationType) return '‚àû';
-                    if (condition.durationType === 'rounds') {
-                        const rounds = condition.remainingRounds ?? condition.durationValue ?? 0;
-                        return `${rounds}r`;
-                    }
-                    if (condition.appliedAt && condition.duration) {
-                        const remaining = Math.max(0, Math.floor((condition.appliedAt + condition.duration - Date.now()) / 1000));
-                        const mins = Math.floor(remaining / 60);
-                        const secs = remaining % 60;
-                        return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}s`;
-                    }
-                    return '‚àû';
-                };
-
+                
                 return (
                     <div className="character-buffs-debuffs" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px' }}>
                         {/* Buffs Row */}
@@ -1427,7 +1384,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 })}
                             </div>
                         )}
-
                         {/* Debuffs Row */}
                         {playerDebuffs.length > 0 && (
                             <div className="character-debuffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
@@ -1516,12 +1472,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 })}
                             </div>
                         )}
-
                         {/* Conditions Row merged into buffs/debuffs row above */}
                     </div>
                 );
             })()}
-
             {/* Buff/Debuff/Condition Tooltip - Match TargetHUD - Rendered via Portal to avoid transform issues */}
             {showTooltip && tooltipData && createPortal(
                 <div
@@ -1582,7 +1536,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 </div>,
                 document.body
             )}
-
             {/* Condition Context Menu - Rendered via Portal to avoid transform issues */}
             {conditionContextMenu.show && createPortal(
                 <>
@@ -1626,7 +1579,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 </>,
                 document.body
             )}
-
             {/* Duration Modal */}
             {showDurationModal && durationModalCondition && (
                 <ConditionDurationModal
@@ -1798,11 +1750,15 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         removeCondition,
         updateConditionDuration,
         getRemainingTime,
-        getConditionsForTarget,
-        activeBuffs
+        getConditionsForTarget
     } = useConditionStore();
     const { addNotification, addCombatNotification } = useChatStore();
-    const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer, multiplayerRoom } = useGameStore();
+    const {
+        isGMMode,
+        toggleGMMode,
+        isInMultiplayer,
+        multiplayerRoom
+    } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const alignment = useCharacterStore(state => state.alignment);
     const exhaustionLevel = useCharacterStore(state => state.exhaustionLevel);
@@ -2003,58 +1959,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    const handleUninviteMember = () => {
-        if (!contextMenuMember) return;
-
-        // Don't allow removing the current player (check by name, ID, and userId)
-        if (contextMenuMember.name === currentPlayerData.name ||
-            isSelfId(contextMenuMember.userId, contextMenuMember.userId, myIds) ||
-            isSelfId(contextMenuMember.id, contextMenuMember.userId, myIds)) {
-
-            setShowContextMenu(false);
-            return;
-        }
-
-        // Show leave notification with fade-out effect (same as real multiplayer)
-        showPlayerLeaveNotification(contextMenuMember.name, currentParty?.name || 'Party');
-
-        // Add visual fade-out effect before removing (same as simulator)
-        const memberElement = document.querySelector(`.party-frame-${contextMenuMember.id}`);
-        if (memberElement) {
-            memberElement.style.transition = 'opacity 0.5s ease-out';
-            memberElement.style.opacity = '0';
-
-            // Remove after animation completes
-            setTimeout(() => {
-                removePartyMember(contextMenuMember.id);
-
-                // Clear target if we're targeting the removed member
-                if (currentTarget?.id === contextMenuMember.id) {
-                    clearTarget();
-                }
-            }, 500);
-        } else {
-            // Fallback: remove immediately if element not found
-            removePartyMember(contextMenuMember.id);
-
-            // Clear target if we're targeting the removed member
-            if (currentTarget?.id === contextMenuMember.id) {
-                clearTarget();
-            }
-        }
-
-        // Add chat notification about player being uninvited
-        addNotification('social', {
-            sender: { name: 'System', class: 'system', level: 0 },
-            content: `${contextMenuMember.name} was removed from the party`,
-            type: 'system',
-            timestamp: new Date().toISOString()
-        });
-
-        setShowContextMenu(false);
-        console.log(`üö´ Uninvited player: ${contextMenuMember.name}`);
-    };
-
+    
     const handleTransferLeadership = () => {
         if (!contextMenuMember) return;
 
@@ -2993,8 +2898,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
-        const characterName = getCharacterName(memberId);
-
+        
         // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
         if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
@@ -3039,8 +2943,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
-        const characterName = getCharacterName(memberId);
-
+        
         // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
         if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();
@@ -3083,8 +2986,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         if (!contextMenuMember) return;
 
         const memberId = contextMenuMember.id;
-        const characterName = getCharacterName(memberId);
-
+        
         // CRITICAL FIX: Use isSelfId instead of just checking 'current-player' literal
         if (isSelfId(memberId, undefined, myIds)) {
             const charState = useCharacterStore.getState();

@@ -452,7 +452,7 @@ export function registerMapGridHandlers(ctx) {
       const currentMapId = useMapStore.getState().currentMapId || 'default';
 
       try {
-        const { addCharacterTokenFromServer, clearCharacterTokens } = useCharacterTokenStore.getState();
+        const { addCharacterTokenFromServer } = useCharacterTokenStore.getState();
 
         // Don't clear tokens here, just add matching ones
         // If we want a full sync, we should clear first, but this might run incrementally
@@ -503,6 +503,9 @@ export function registerMapGridHandlers(ctx) {
                 itemStore.moveItem(data.data.itemId, data.data.categoryId);
               }
               break;
+
+            default:
+              break;
           }
         }
       });
@@ -543,7 +546,7 @@ export function registerMapGridHandlers(ctx) {
               if (data.data && data.data.containerId !== undefined) {
                 // We need to check if the container exists and update its state
                 // Since toggleOpen checks if it's not locked, we need to directly set the state
-                const containerStore = useContainerStore.getState();
+
                 // For now, we'll trust the sync - in a full implementation we'd verify
               }
               break;
@@ -573,6 +576,9 @@ export function registerMapGridHandlers(ctx) {
               if (data.data && data.data.containerId && data.data.position) {
                 containerStore.updateContainerPosition(data.data.containerId, data.data.position);
               }
+              break;
+
+            default:
               break;
           }
         }

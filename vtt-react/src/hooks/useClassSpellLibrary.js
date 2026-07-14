@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class Spell Library Hook
  * 
  * Manages shifting loading of class-specific spells based on active character
@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import useCharacterStore from '../store/characterStore';
 import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
-import { createSpellLibraryCategoriesForClass, getClassSpecializations } from '../data/classSpellCategories';
+import { createSpellLibraryCategoriesForClass } from '../data/classSpellCategories';
 
 export const useClassSpellLibrary = () => {
  const [classSpells, setClassSpells] = useState([]);

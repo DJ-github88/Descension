@@ -16,7 +16,7 @@
  */
 
 function isPrimitiveLeaf(v) {
-  return v != null && typeof v === 'object' && v.__type === 'primitive';
+  return v !== null && typeof v === 'object' && v.__type === 'primitive';
 }
 
 function unwrap(v) {
@@ -32,10 +32,10 @@ function wrap(v) {
 
 function policyFor(numericFn) {
   return function policy(value1, value2, context) {
-    if (!isPrimitiveLeaf(value1) || !isPrimitiveLeaf(value2)) return undefined;
+    if (!isPrimitiveLeaf(value1) || !isPrimitiveLeaf(value2)) {return undefined;}
     const a = unwrap(value1);
     const b = unwrap(value2);
-    if (typeof a !== 'number' || typeof b !== 'number') return undefined;
+    if (typeof a !== 'number' || typeof b !== 'number') {return undefined;}
     if (context && context.path) {
       // Hook for future per-path logging or telemetry.
     }
@@ -56,8 +56,8 @@ function sumValue() {
 function clamped(min, max) {
   return policyFor((a, b) => {
     const pick = b;
-    if (pick < min) return min;
-    if (pick > max) return max;
+    if (pick < min) {return min;}
+    if (pick > max) {return max;}
     return pick;
   });
 }
@@ -65,8 +65,8 @@ function clamped(min, max) {
 function boundedMin(min, max) {
   return policyFor((a, b) => {
     const pick = Math.min(a, b);
-    if (pick < min) return min;
-    if (pick > max) return max;
+    if (pick < min) {return min;}
+    if (pick > max) {return max;}
     return pick;
   });
 }
@@ -74,8 +74,8 @@ function boundedMin(min, max) {
 function boundedMax(min, max) {
   return policyFor((a, b) => {
     const pick = Math.max(a, b);
-    if (pick < min) return min;
-    if (pick > max) return max;
+    if (pick < min) {return min;}
+    if (pick > max) {return max;}
     return pick;
   });
 }

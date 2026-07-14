@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Weapon Integration System
  * 
  * Handles shifting loading of weapon data into spells, particularly the Attack spell.
@@ -152,9 +152,11 @@ export const getWeaponProperties = (weapon) => {
   properties.reach = true;
   break;
  case 'THROWN':
-  properties.thrown = true;
-  properties.ranged = true;
-  break;
+   properties.thrown = true;
+   properties.ranged = true;
+   break;
+ default:
+   break;
  }
  
  return properties;

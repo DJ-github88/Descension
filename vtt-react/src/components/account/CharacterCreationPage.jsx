@@ -1,6 +1,6 @@
 // Character creation page - wrapper for character creation with routing
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import CharacterCreationWizard from '../character-creation-wizard/CharacterCreationWizard';
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';

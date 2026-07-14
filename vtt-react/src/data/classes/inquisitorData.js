@@ -5,7 +5,7 @@ export const INQUISITOR_DATA = {
            "clean_vreken",
            "thalren_human",
            "morren_human",
-           "woven_mimir"
+            "tethered_mimir"
        ],
       "hardBlocks": [
           "emberth",
@@ -89,8 +89,8 @@ export const INQUISITOR_DATA = {
      }
    },
 
-   woven_mimir: {
-     subraceName: 'Woven Mimir',
+   tethered_mimir: {
+     subraceName: 'Tethered Mimir',
      title: 'The Fog-Sentinel',
      reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the <LoreLink termId="ironwood-palisade">Ironwood Palisade</LoreLink> against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Righteous Authority builds from patience, not pursuit.`,
      signatureAbility: {
@@ -611,33 +611,6 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       description:
         "Every 3rd weapon attack against a supernatural target deals 1d6 ember damage that bypasses resistance and immunity. This damage cannot be reduced by any means.",
       level: 2,
-    },
-  ],
-
-  talentTrees: [
-    { id : "witch_hammer",
-      name: "Witch Hammer - Shadow Swarm",
-      description:
-        "Masters of darkness and horror swarm tactics, striking from shadows while loosing packs of chained horrors.",
-      icon: "Utility/Hide",
-      color: "#2F2F4F",
-      talents: [],
-    },
-    { id : "iron_verdict",
-      name: "Iron Verdict - Anti-Magic Bulwark",
-      description:
-        "Specialists in disrupting magic and commanding a single apocalyptic horror through iron resolve.",
-      icon: "Arcane/Magical Cross Emblem 2",
-      color: "#4F2F2F",
-      talents: [],
-    },
-    { id : "hollow_saint",
-      name: "Hollow Saint - Relentless Channeler",
-      description:
-        "Fanatical pursuers who channel Wyrd-essence internally, becoming unstoppable engines of pursuit and execution.",
-      icon: "Piercing/Targeted Strike",
-      color: "#4F4F2F",
-      talents: [],
     },
   ],
 

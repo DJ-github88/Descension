@@ -1,4 +1,4 @@
-﻿import { getAbilityIconUrl } from '../utils/assetManager';
+import { getAbilityIconUrl } from '../utils/assetManager';
 
 export const GUIDE_CHARACTER = {
     name: 'The Lamplighter',

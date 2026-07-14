@@ -278,7 +278,7 @@ const SEEDED_FACTIONS = [
 
    { npcId: 'sigurd-skalvyr', role: 'Jarl of the Archive (Custodian)', locationId: 'frozen-archive' },
 
-   { npcId: 'frigga-skalvyr', role: 'Geothermal Negotiator', locationId: 'fjord-gate' }
+   { npcId: 'frigga-skalvyr', role: 'Geothermal Negotiator', locationId: 'frozen-archive' }
 
   ],
 
@@ -776,7 +776,7 @@ const SEEDED_FACTIONS = [
   publicDescription:
    'House Tesshan governs the vertical labyrinth of the Cragjaw Peaks from Frostmaw Holdfast. Their bargain traded visibility for a perpetual blizzard: a snow-veil that hides their fortress-keeps from starving lowland raiders but buries all natural landmarks.',
   hiddenAgenda:
-   'The Tessen high council has been secretly negotiating with a faction of Groven separatists who want to break from the Vat-Breakers\' Guild and establish their own Ancestor-Span authority: directly under Tesshan control.',
+   'The Tesshan high council has been secretly negotiating with a faction of Groven separatists who want to break from the Vat-Breakers\' Guild and establish their own Ancestor-Span authority: directly under Tesshan control.',
   leader: {
    npcId: 'tesshan-lord',
    title: 'Jarl-Tesshan of the Peaks',
@@ -1068,10 +1068,10 @@ const SEEDED_FACTIONS = [
   territory: ['ironwood-heart'],
    relationships: [
     { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Trueborn guard.' },
-    { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a silence the Lunarchs say is devouring the moon.' }
+    { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a silence the Lunarchs say is devouring the fallen star from the inside.' }
    ],
    classAffinities: ['lunarch'],
-   lore: 'Founded by Selene of House Viridane, who bound the dead-moon parasite. The elder parasites are synchronizing every Lunarchs phases toward an unknown convergence the hatching-song of the dead moon.',
+   lore: 'Founded by Selene of House Viridane, who bound a fragment of a dormant fallen star to her bones. The elder parasites — brood of the same stellar fragment — are synchronizing every Lunarch\'s phases toward an unknown convergence scholars call the hatching-song of the fallen star.',
    secrets: 'The Communion has decoded part of the hatching-song and believes it names a Briaran Lunarch who must be sacrificed to complete the convergence.',
   quests: []
  },
@@ -1377,7 +1377,7 @@ const SEEDED_FACTIONS = [
    territory: ['frostmaw-holdfast', 'gearworks-gulch'],
    relationships: [
     { targetFactionId: 'vat-breakers-guild', type: 'rival', description: 'The Groven built the spans the pipes run across; the Cartel charges them transit tolls on their own stone.' },
-    { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tessen high council licenses the Cartel\'s pipeline monopoly in exchange for guaranteed warmth.' }
+    { targetFactionId: 'house-tesshan', type: 'allied', description: 'The Tesshan high council licenses the Cartel\'s pipeline monopoly in exchange for guaranteed warmth.' }
    ],
    classAffinities: ['chronarch', 'warden'],
    lore: 'The Steam-Line Cartel emerged from the First Thermal War\'s wreckage, consolidating control of the surviving geothermal pipes. Where the vents fail, the Cartel throttles what remains, and the Cragjaw\'s population learns which settlements matter.',
@@ -1482,12 +1482,15 @@ const SEEDED_FACTIONS = [
    publicGoal: 'Tend the Solbrand and keep the faith that Sol will return',
    publicDescription: 'The old Emberth faithful of Sundale who hold the Harath-Vault and tend the Solbrand, believing Sol will rise when the seal is whole again, not when the Vigil forces it.',
    leader: { npcId: 'sol-kaessen', title: 'Vigil-Mother of the Risen', description: 'The Risen gather around the Covenant of the Scar\'s Sol-Kaessen, who still calls the Solbrand Sol\'s warmth.' },
-   members: [],
+    members: [
+     { npcId: 'sol-kaessen', role: 'High Priestess of the Risen' }
+    ],
    headquarters: 'harath-vault',
    territory: ['harath-vault', 'emberspire-caldera'],
    relationships: [
     { targetFactionId: 'house-solvan', type: 'allied', description: 'The Risen are the living heart of Solvan faith; the house protects the vault they tend.' },
-    { targetFactionId: 'the-sunderers', type: 'rival', description: 'The Sunderer call the Solbrand Keth-Amar\'s feeding-line and would put it out; the Risen call them heretics and mean it.' }
+    { targetFactionId: 'the-sunderers', type: 'rival', description: 'The Sunderer call the Solbrand Keth-Amar\'s feeding-line and would put it out; the Risen call them heretics and mean it.' },
+    { targetFactionId: 'the-scoured', type: 'hostile', description: 'The Scoured deface their forge-marks and seek to seal the Breach entirely, refusing to tend the Solbrand.' }
    ],
    classAffinities: ['martyr', 'pyrofiend'],
    lore: 'The Risen hold to the original Emberth theology: keep the Solbrand at any cost, hide the Monolith shards, and Sol will rise the day the seal is whole. They are the largest of the three Solbrand factions and the slowest to raise a hand against a brother.',
@@ -1504,16 +1507,42 @@ const SEEDED_FACTIONS = [
    publicGoal: 'Tear out the Solbrand and starve Keth-Amar rather than feed the dying star',
    publicDescription: 'The heretical schism within the Scoured who believe the Solbrand is Keth-Amar\'s tether, draining Sol\'s last warmth one swallow at a time. Their answer is to put the flame out and let Sol go.',
    leader: { npcId: 'sol-vareths', title: 'Last-Ember of the Sunderer', description: 'The Ashen Communion\'s Sol-Vareths preaches the Sunderer gospel among the younger Thrask and Vigil defectors.' },
-   members: [],
+    members: [
+     { npcId: 'sol-vareths', role: 'Last-Ember / Firebrand Preacher' }
+    ],
    headquarters: 'emberspire-caldera',
    territory: ['emberspire-caldera', 'basalt-shyr'],
    relationships: [
     { targetFactionId: 'the-risen', type: 'hostile', description: 'The Risen tend what the Sunderer call a mouth; the two fight over every ember of the failing flame.' },
-    { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil has named the Sunderer anathema for preaching that the Solbrand must be extinguished.' }
+    { targetFactionId: 'dawn-vigil', type: 'rival', description: 'The Vigil has named the Sunderer anathema for preaching that the Solbrand must be extinguished.' },
+    { targetFactionId: 'the-scoured', type: 'rival', description: 'Both factions oppose the Risen, but the Sunderer seek to put the fire out while the Scoured seek to rebuild the original seal.' }
    ],
    classAffinities: ['pyrofiend', 'martyr'],
    lore: 'The Sunderer began as a radical wing of the Scoured who read the Solbrand not as Sol\'s warmth but as Keth-Amar\'s tether, the line through which the Sun-Eater drinks the dying star. They gather among younger Thrask, Vigil defectors, and Ash-Dweller conscripts who have never felt Sol\'s warmth.',
    secrets: 'The Sunderer have identified the precise vent where the Solbrand connects to the partial seal, and a cell is already preparing to collapse it.',
+   quests: []
+  },
+  {
+   id: 'the-scoured',
+   name: 'The Scoured',
+   type: 'cult',
+   regionId: 'sundale',
+   icon: '/assets/icons/factions/the-scoured.png',
+   colors: { primary: '#bfa37a', secondary: '#4a3728' },
+   publicGoal: 'Reassemble the Monolith Shards into the original seal to close the Breach',
+   publicDescription: 'The shard-hunting faction of the Sundale Civil War, whose members cut the forge-marks from their skin to dedicate themselves to sealing the Breach and letting the sun die in peace.',
+   leader: { npcId: 'none', title: 'Decentralized Cell Network', description: 'The Scoured have no single leader, operating in small, independent cells across all seven regions.' },
+   members: [],
+   headquarters: 'none',
+   territory: ['basalt-shyr', 'cinder-badlands', 'slag-gulch'],
+   relationships: [
+    { targetFactionId: 'the-risen', type: 'hostile', description: 'The Scoured believe tending the Solbrand is a fool\'s errand that keeps the door open for Keth-Amar.' },
+    { targetFactionId: 'the-sunderers', type: 'rival', description: 'The Sunderer seek to extinguish the flame, but the Scoured believe only sealing the Breach with the shards will prevent total consumption.' },
+    { targetFactionId: 'dawn-vigil', type: 'hostile', description: 'The Dawn Vigil hunts the Scoured as dangerous heretics who disrupt the reassembly of the Monoliths.' }
+   ],
+   classAffinities: ['pyrofiend', 'berserker'],
+   lore: 'The Scoured deface their forge-marks to sever their ties to Korr and Thrask alike. They believe reassembling the Monoliths will summon Keth-Amar back, so they hunt the scattered shards to build the original seal, choosing a clean death for their sun over its consumption.',
+   secrets: 'The Scoured have discovered a safe house network that spans all seven regions, allowing them to smuggle Monolith shards under the noses of the noble houses.',
    quests: []
   },
   {

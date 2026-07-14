@@ -234,7 +234,7 @@ export default class PyrofiendInfernoRenderer {
       const x = padX + i * (segW + gap);
       const y = padY;
       const isFilled = level >= i + 1;
-      const segIntensity = isFilled ? (0.3 + (i / maxLevel) * 0.7) : 0;
+
       const isLastFilled = isFilled && i === level - 1;
 
       ctx.save();

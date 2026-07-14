@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { FaImage, FaCopy, FaTrash, FaExchangeAlt, FaUsers, FaUserAlt } from 'react-icons/fa';
 import MythrillWindow from './MythrillWindow';
@@ -12,8 +12,6 @@ import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
-import './styles/MapLibraryWindow.css';
-import '../character-creation-wizard/styles/CharacterAppearanceModal.css'; // Reuse background grid styles
 
 const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     const [selectedMapId, setSelectedMapId] = useState(null);
@@ -41,10 +39,8 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     const {
         maps,
         currentMapId,
-        createMap,
         createMapWithoutSwitching,
         updateMap,
-        deleteMap,
         duplicateMap,
         switchToMap,
         saveCurrentMapState,
@@ -71,8 +67,8 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     const { partyMembers, playerMapAssignments } = usePartyStore();
 
     // Get real-time data from stores for reactive updates
-    const { dndElements } = useLevelEditorStore();
-    const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
+    const {} = useLevelEditorStore();
+    const {} = useCreatureStore(); // Use tokens to count creatures on the map
 
     // Background management from game store
     const addBackground = useGameStore(state => state.addBackground);
@@ -435,7 +431,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Switch to new map - but SKIP local switch if in multiplayer (server handles it)
             let success = false;
             if (gameStoreState.isInMultiplayer && gameStoreState.isGMMode) {
-                console.log('ðŸ - ºï¸ GM in multiplayer mode - updating currentMapId locally AND waiting for server data');
+                console.log('ï¿½ - ï¿½ï¸ GM in multiplayer mode - updating currentMapId locally AND waiting for server data');
                 // CRITICAL FIX: We MUST update currentMapId locally immediately, otherwise
                 // the batcher will continue sending terrain updates to the old map!
                 useMapStore.setState({ currentMapId: mapId });
@@ -502,7 +498,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                     };
                 }
             } else {
-                console.log('ðŸ - ºï¸ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
+                console.log('ï¿½ - ï¿½ï¸ Multiplayer GM mode - loading local items from mapStore, server will merge via gm_view_changed');
                 // CRITICAL FIX: Even in multiplayer mode, load local items from mapStore to avoid losing them
                 // The server's gm_view_changed will handle merging with server state
                 mapState = await loadMapState();
@@ -735,9 +731,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
         // Get updated maps list after creation
         const updatedMaps = useMapStore.getState().maps;
         console.log('[Map Creation] Maps in store:', updatedMaps);
-        const newMap = updatedMaps.find(m => m.id === newMapId);
-        const currentMap = updatedMaps.find(m => m.id === currentMapId);
-
+                
         // Success message or feedback could go here if needed
         console.log(`Successfully created map: ${mapData.name}`);
 
@@ -778,7 +772,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('ðŸ–¼ï¸ Compressing background image for map creation... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
-            console.log('ðŸ - œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+            console.log('ï¿½ - ï¿½ï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -875,14 +869,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     };
 
     // Handle background assignment to existing maps
-    const handleAssignBackground = (mapId) => {
-        setShowBackgroundAssignment(mapId);
-        // Trigger file input
-        if (backgroundFileInputRef.current) {
-            backgroundFileInputRef.current.click();
-        }
-    };
-
+    
     // Handle Asset Selection
     const handleOpenAssetSelector = (type, mapId = null) => {
         setAssetSelectorType(type);
@@ -950,7 +937,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
             // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
             console.log('ðŸ–¼ï¸ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
             const compressedFile = await compressImage(file, 1920, null, 0.85);
-            console.log('ðŸ - œï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+            console.log('ï¿½ - ï¿½ï¸ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -1312,7 +1299,7 @@ const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
                                 className="character-appearance-modal-close"
                                 onClick={() => setShowAssetSelector(false)}
                             >
-                                Ã - 
+                                ï¿½ - 
                             </button>
                         </div>
                         <div className="character-appearance-modal-body">

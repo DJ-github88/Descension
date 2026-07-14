@@ -1,11 +1,11 @@
-﻿/**
+/**
  * Party Panel Component
  *
  * Displays party chat interface for community window.
  * Shows party members list and chat messages when user is in a party.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, {  useRef } from 'react';
 import usePartyStore from '../../store/partyStore';
 import usePresenceStore from '../../store/presenceStore';
 import useSettingsStore from '../../store/settingsStore';

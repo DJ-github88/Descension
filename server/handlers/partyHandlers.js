@@ -7,10 +7,6 @@
  * - accept_party_invite / decline_party_invite: invitation response
  * - party_message: party-scoped chat
  * - promote_to_leader / remove_party_member: member management
- *
- * NOTE: Four internal helpers (getPartyMemberCount, emitPartyUpdated,
- * createSocialParty, autoDisbandIfTooSmall) appear to be unused after
- * extraction audit: candidates for future cleanup.
  */
 
 function registerPartyHandlers(ctx) {
@@ -26,101 +22,15 @@ function registerPartyHandlers(ctx) {
     sanitizeChatMessage,
     handlePartyLeave,
     getSocketsByUserId,
-    emitToUserId,
-    getUserDisplayName,
-    buildPartyMemberData,
-    emitToPartyMembers
+    buildPartyMemberData
   } = ctx;
 
-  const getPartyMemberCount = (party) => Object.keys(party?.members || {}).length;
-
   const normalizePartyForClient = (party) => {
-    if (!party) return null;
+    if (!party) {return null;}
     return {
       ...party,
       members: { ...(party.members || {}) }
     };
-  };
-
-  const emitPartyUpdated = (party) => {
-    if (!party) return;
-    emitToPartyMembers(party, 'party_updated', normalizePartyForClient(party));
-  };
-
-  const createSocialParty = ({ leaderUserId, partyName, leaderData = {} }) => {
-    const fallbackName = `${getUserDisplayName(leaderUserId, 'Party Leader')}'s Party`;
-    const normalizedName =
-      typeof partyName === 'string' && partyName.trim().length > 0
-        ? partyName.trim()
-        : fallbackName;
-
-    const partyId = uuidv4();
-    const createdAt = Date.now();
-    const leaderMember = buildPartyMemberData(leaderUserId, {
-      ...leaderData,
-      isGM: true,
-      joinedAt: createdAt
-    });
-
-    const party = {
-      id: partyId,
-      name: normalizedName,
-      leaderId: leaderUserId,
-      maxMembers: 6,
-      isActive: true,
-      members: {
-        [leaderUserId]: leaderMember
-      },
-      createdAt,
-      updatedAt: createdAt
-    };
-
-    parties.set(partyId, party);
-    userToParty.set(leaderUserId, partyId);
-
-    return party;
-  };
-
-  const autoDisbandIfTooSmall = (party, context = {}) => {
-    if (!party) return false;
-
-    const memberIds = Object.keys(party.members || {});
-    if (memberIds.length === 0) {
-      parties.delete(party.id);
-      return true;
-    }
-
-    if (memberIds.length === 1) {
-      const lastMemberId = memberIds[0];
-      const lastMember = party.members[lastMemberId];
-      const disbandPayload = {
-        partyId: party.id,
-        partyName: party.name,
-        disbandedBy: context.triggerUserId || null
-      };
-
-      emitToUserId(lastMemberId, 'party_auto_disbanded', {
-        ...disbandPayload,
-        message: `${party.name} has been disbanded because only one member remained.`
-      });
-
-      emitToUserId(lastMemberId, 'party_disbanded', disbandPayload);
-
-      userToParty.delete(lastMemberId);
-      parties.delete(party.id);
-
-      logger.info('[party] Auto-disbanded party with a single remaining member', {
-        partyId: party.id,
-        partyName: party.name,
-        lastMemberId,
-        lastMemberName: lastMember?.name,
-        triggeredBy: context.triggerUserId || null
-      });
-
-      return true;
-    }
-
-    return false;
   };
 
   socket.on('create_party', ({ partyName, leaderData }) => {
@@ -180,20 +90,17 @@ function registerPartyHandlers(ctx) {
   socket.on('join_party', ({ partyId }) => {
     try {
       let userId = socket.data.userId;
-      let userName = 'Unknown';
 
       const player = players.get(socket.id);
       const socialUser = onlineSocialUsers.get(socket.id);
 
       if (player) {
         userId = player.userId || userId || player.id;
-        userName = player.name;
       } else if (socialUser) {
         userId = socialUser.userId;
-        userName = socialUser.name;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const party = parties.get(partyId);
       if (!party) {
@@ -321,7 +228,7 @@ function registerPartyHandlers(ctx) {
       }
 
       const userEntry = Array.from(onlineSocialUsers.entries())
-        .find(([socketId, user]) => user.userId === userId);
+        .find(([_socketId, user]) => user.userId === userId);
 
       if (userEntry) {
         const [socketId, userData] = userEntry;
@@ -380,7 +287,7 @@ function registerPartyHandlers(ctx) {
         userName = socialUser.name;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const existingPartyId = userToParty.get(userId);
       if (existingPartyId && existingPartyId !== invitation.partyId) {
@@ -447,7 +354,7 @@ function registerPartyHandlers(ctx) {
   socket.on('decline_party_invite', ({ invitationId }) => {
     try {
       const invitation = partyInvitations.get(invitationId);
-      if (!invitation) return;
+      if (!invitation) {return;}
 
       let declinerName = invitation.toUserId;
       const socialUser = onlineSocialUsers.get(socket.id);
@@ -487,10 +394,10 @@ function registerPartyHandlers(ctx) {
         userName = socialUser.name;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const party = parties.get(partyId);
-      if (!party) return;
+      if (!party) {return;}
 
       const isMember = !!party.members[userId];
       if (!isMember) {
@@ -499,7 +406,7 @@ function registerPartyHandlers(ctx) {
       }
 
       const sanitizedMessage = sanitizeChatMessage(message);
-      if (!sanitizedMessage) return;
+      if (!sanitizedMessage) {return;}
 
       Object.keys(party.members).forEach(memberId => {
         const memberSockets = getSocketsByUserId(memberId);
@@ -534,10 +441,10 @@ function registerPartyHandlers(ctx) {
         userId = socialUser.userId;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const party = parties.get(partyId);
-      if (!party) return;
+      if (!party) {return;}
 
       if (party.leaderId !== userId) {
         socket.emit('party_error', { error: 'Only the leader can promote members' });
@@ -584,10 +491,10 @@ function registerPartyHandlers(ctx) {
         userId = socialUser.userId;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const party = parties.get(partyId);
-      if (!party) return;
+      if (!party) {return;}
 
       if (party.leaderId !== userId) {
         socket.emit('party_error', { error: 'Only the leader can remove members' });
@@ -627,7 +534,7 @@ function registerPartyHandlers(ctx) {
         userId = socialUser.userId;
       }
 
-      if (!userId) return;
+      if (!userId) {return;}
 
       const party = parties.get(partyId);
       if (!party) {

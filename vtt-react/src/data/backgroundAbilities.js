@@ -1,4 +1,4 @@
-﻿export const BACKGROUND_ABILITIES = {
+export const BACKGROUND_ABILITIES = {
   emberspirePilgrim: [
     {
       name: "Dawn's Favor",
@@ -72,7 +72,7 @@
       name: 'Arcane Insight',
       type: 'Passive',
       usage: 'Always Active',
-      description: "The Synod-Hold's crystal-lattice archives taught you to read resonance the way a scribe reads ink. Cast Detect Magic at will and gain advantage on checks to identify spells.",
+      description: "The Synod Hold's crystal-lattice archives taught you to read resonance the way a scribe reads ink. Cast Detect Magic at will and gain advantage on checks to identify spells.",
       details: "You can cast Detect Magic at will without expending a spell slot. You have advantage on Intelligence (Arcana) checks to identify spells, magical items, and magical phenomena."
     },
     {
@@ -334,7 +334,7 @@
       name: 'Lumian Surge',
       type: 'Active',
       usage: '1/Long Rest',
-      description: "Lumia\'s echo in every Astril host remembers the lost sun. Enter a surge state for 1 minute, reducing spell costs and casting one spell for free.",
+      description: "Lumia's echo in every Astril host remembers the lost sun. Enter a surge state for 1 minute, reducing spell costs and casting one spell for free.",
       details: "For 1 minute, all spell costs are reduced by 1 (minimum 1), and you can cast one spell of 3rd level or lower without expending a spell slot."
     }
   ],

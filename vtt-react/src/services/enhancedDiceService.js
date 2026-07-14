@@ -3,7 +3,6 @@
  * Provides Roll20-like dice rolling functionality with multiplayer integration
  */
 
-import useDiceStore from '../store/diceStore';
 import useChatStore from '../store/chatStore';
 import useGameStore from '../store/gameStore';
 

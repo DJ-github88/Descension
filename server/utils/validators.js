@@ -281,7 +281,7 @@ function checkRateLimit(identifier, rateLimitStore, maxRequests = 100, windowMs 
  * @returns {string} Sanitized string
  */
 function sanitizeString(input, maxLength = 1000) {
-  if (typeof input !== 'string') return '';
+  if (typeof input !== 'string') {return '';}
   
   return input
     .slice(0, maxLength)
@@ -296,12 +296,12 @@ function sanitizeString(input, maxLength = 1000) {
  * @returns {Object|null} Sanitized position or null if invalid
  */
 function validatePosition(position) {
-  if (!position || typeof position !== 'object') return null;
+  if (!position || typeof position !== 'object') {return null;}
 
   const x = parseFloat(position.x);
   const y = parseFloat(position.y);
 
-  if (isNaN(x) || isNaN(y)) return null;
+  if (isNaN(x) || isNaN(y)) {return null;}
 
   return {
     x: Math.round(x * 100) / 100, // Round to 2 decimal places
@@ -315,7 +315,7 @@ function validatePosition(position) {
  * @returns {boolean} Whether UUID is valid
  */
 function isValidUUID(uuid) {
-  if (!uuid || typeof uuid !== 'string') return false;
+  if (!uuid || typeof uuid !== 'string') {return false;}
   
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(uuid);
@@ -328,8 +328,6 @@ function isValidUUID(uuid) {
  */
 function createValidationMiddleware(options = {}) {
   const {
-    validateRoom = true,
-    validatePlayer = true,
     logErrors = true
   } = options;
 

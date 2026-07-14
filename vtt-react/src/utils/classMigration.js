@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Legacy class-name migration helper.
  *
  * Several classes were merged during Phase 1.8-1.10 consolidation:

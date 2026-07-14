@@ -1,4 +1,4 @@
-﻿
+
 const DAMAGE_TYPES = [
     {
       id: 'physical',

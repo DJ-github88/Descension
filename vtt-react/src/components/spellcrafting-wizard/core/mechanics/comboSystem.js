@@ -1,4 +1,4 @@
-﻿/**
+/**
  * comboSystem.js
  * A complete system for managing combo points and stacking resources
  * for various character classes in a game.
@@ -1087,7 +1087,7 @@ const COMBO_POINT_SYSTEMS = {
   }
   
   // Apply threshold bonuses
-  const systemConfig = COMBO_POINT_SYSTEMS[system];
+
   
   // Different threshold effects for different systems
   if (system === "STANDARD") {
@@ -1132,10 +1132,12 @@ const COMBO_POINT_SYSTEMS = {
     case 3:
      updatedEffect.areaEffect = true;
      updatedEffect.stunDuration = 1.5;
-     updatedEffect.extraDescription = "Area of effect attack with stun";
-     break;
+      updatedEffect.extraDescription = "Area of effect attack with stun";
+      break;
+     default:
+      break;
+    }
    }
-  }
   
   // Add general threshold information
   updatedEffect.thresholdReached = highestThreshold;

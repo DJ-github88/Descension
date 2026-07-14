@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Effect Processing Service
  * Handles processing of buff/debuff effects including:
  * - Damage over time (DOT)
@@ -157,7 +157,6 @@ const processEffectTick = (effect, targetId, targetType) => {
       return result;
     }
     
-    const originalAmount = amount;
     amount = Math.floor(amount * resistanceMultiplier);
     
     if (resistanceMultiplier < 1.0) {
@@ -217,6 +216,8 @@ const processEffectTick = (effect, targetId, targetType) => {
         result.message = `${effect.name} restores ${amount} mana`;
         break;
       }
+      default:
+        break;
     }
   } else {
     // Apply to creature token
@@ -262,6 +263,8 @@ const processEffectTick = (effect, targetId, targetType) => {
           result.message = `${effect.name} restores ${amount} mana to ${creatureName}`;
           break;
         }
+        default:
+          break;
       }
     }
   }
@@ -506,7 +509,7 @@ export const cleanupEffectTracking = (effectId) => {
   lastTickTimes.delete(effectId);
 };
 
-export default {
+const effectProcessingService = {
   processOverTimeEffectsForTarget,
   processRealtimeEffects,
   getStatModifiersForTarget,
@@ -517,4 +520,5 @@ export default {
   isRealtimeProcessingActive,
   cleanupEffectTracking
 };
+export default effectProcessingService;
 

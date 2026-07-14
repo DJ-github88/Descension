@@ -1706,7 +1706,7 @@ export const TRIGGER_EXAMPLES = {
 };
 
 // Export everything for direct use
-export default {
+const triggerSystem = {
   TRIGGER_EVALUATION_CONTEXTS,
   TRIGGER_COMPARISON_OPERATORS,
   TRIGGER_COMPOSITE_LOGIC,
@@ -1724,3 +1724,4 @@ export default {
   deserializeTrigger,
   createCompositeTrigger
 };
+export default triggerSystem;

@@ -1,4 +1,4 @@
-﻿export const mimir = {
+export const mimir = {
     id: 'mimir',
     name: 'Mimir',
     essence: 'The Mask-Bound',

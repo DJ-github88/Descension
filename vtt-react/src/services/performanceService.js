@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Performance Monitoring Service
  *
  * complete performance monitoring with Firebase usage tracking,
@@ -7,17 +7,7 @@
 
 import { getPerformance } from 'firebase/performance';
 import { getApp } from 'firebase/app';
-import { db } from '../config/firebase';
 
-// Performance metrics storage
-const PERFORMANCE_METRICS = {
- PAGE_LOADS: 'page_loads',
- API_CALLS: 'api_calls',
- FIREBASE_USAGE: 'firebase_usage',
- ERROR_REPORTS: 'error_reports',
- USER_INTERACTIONS: 'user_interactions',
- MEMORY_USAGE: 'memory_usage'
-};
 
 // Metrics storage keys
 const METRICS_STORAGE = {
@@ -33,7 +23,7 @@ export function initializePerformanceMonitoring() {
  try {
   // Initialize Firebase Performance Monitoring
   const app = getApp();
-  const performance = getPerformance(app);
+  getPerformance(app);
   console.log('Firebase Performance Monitoring initialized');
 
   // Set up global error handlers
@@ -446,10 +436,12 @@ export function getPerformanceStats(timeRange = '24h') {
      } else {
       stats.apiCallStats.failure++;
      }
-     stats.apiCallStats.averageDuration += metric.data.duration;
-     break;
-   }
-  });
+      stats.apiCallStats.averageDuration += metric.data.duration;
+      break;
+     default:
+      break;
+    }
+   });
 
   // Group errors by type
   recentErrors.forEach(error => {

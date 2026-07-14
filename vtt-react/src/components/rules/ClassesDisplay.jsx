@@ -7,6 +7,7 @@ import './ClassesDisplay.css';
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 
 import ClassIcon from '../common/ClassIcon';
+import ClassRowBackdrop from './ClassRowBackdrop';
 
 
 
@@ -27,6 +28,8 @@ const DAMAGE_COLORS = {
     blight: '#3D1F4E',
 
     wyrd: '#7A2040',
+
+    sacred: '#C9A227',
 
     healing: '#2E8B57'
 
@@ -83,6 +86,10 @@ const getFilterKey = (role) => {
     return 'hybrid';
 
 };
+
+
+
+const slugify = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 
 
@@ -252,19 +259,25 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
             <div className="classes-list">
 
-                {filteredClasses.map(cls => (
+                {filteredClasses.map(cls => {
+
+                    const slug = slugify(cls.name);
+
+                    return (
 
                     <div
 
                         key={cls.name}
 
-                        className="class-row"
+                        className={`class-row class-row-${slug}`}
 
                         style={{ '--role-color': cls.roleColor }}
 
                         onClick={() => onSelectClass(cls.name)}
 
                     >
+
+                        <ClassRowBackdrop slug={slug} />
 
                         <div className="class-row-icon">
 
@@ -340,7 +353,9 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                     </div>
 
-                ))}
+                    );
+
+                })}
 
 
 

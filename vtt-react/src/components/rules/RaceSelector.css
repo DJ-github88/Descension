@@ -495,6 +495,214 @@
     align-items: start;
 }
 
+/* ===== HERO ROW: Illustration + Subrace/Appearance ===== */
+
+.details-body {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    align-items: start;
+}
+
+.details-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 1rem;
+}
+
+.sidebar-illustration .guide-illustration-frame {
+    background: #fcf8ee;
+    border: 1px solid #c8b99d;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-illustration .guide-illustration-image {
+    width: 100%;
+    border-radius: 2px;
+    display: block;
+}
+
+.sidebar-illustration .guide-illustration-caption {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: #5a3a1a;
+    text-align: center;
+    padding: 0.5rem 0.25rem 0.25rem;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.sidebar-physical {
+    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
+    border: 2px solid #c8a96e;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 3px 10px rgba(139, 90, 60, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.sidebar-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.75rem;
+    padding: 0.15rem 0;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.12);
+}
+
+.sidebar-stat-row:last-child {
+    border-bottom: none;
+}
+
+.sidebar-stat-row span {
+    color: #8a6d3b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.68rem;
+    font-weight: 600;
+}
+
+.sidebar-stat-row strong {
+    color: #2c1a08;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    text-align: right;
+}
+
+.sidebar-stat-row-full {
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.sidebar-stat-row-full strong {
+    text-align: left;
+}
+
+/* RIGHT CONTENT FLOW */
+.details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.content-section {
+    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
+    border: 2px solid #c8a96e;
+    border-radius: 10px;
+    padding: 1rem 1.25rem 1.25rem;
+    box-shadow: 0 3px 10px rgba(139, 90, 60, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    position: relative;
+}
+
+.content-section::before {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px; right: 3px; bottom: 3px;
+    border: 1px dashed rgba(180, 140, 80, 0.2);
+    border-radius: 7px;
+    pointer-events: none;
+}
+
+.content-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #5a3a1a;
+    margin: 0.25rem 0 0.6rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.4rem;
+    position: relative;
+}
+
+.content-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200,169,110,0.4) 0%, transparent 100%);
+}
+
+.content-section-title i {
+    color: #b8941f;
+    font-size: 0.8rem;
+}
+
+.content-section-text {
+    font-size: 0.88rem;
+    color: #5d4037;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Description expand/collapse */
+.description-intro {
+    font-style: italic;
+    color: #4a3020;
+}
+
+.description-remainder {
+    margin-top: 0.6rem !important;
+    animation: fadeInDown 0.2s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.description-expand-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.55rem;
+    padding: 0.2rem 0.55rem;
+    background: transparent;
+    border: 1px solid rgba(200, 169, 110, 0.5);
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #8a6a30;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.description-expand-toggle:hover {
+    background: rgba(200, 169, 110, 0.15);
+    border-color: #c8a96e;
+    color: #5a3a1a;
+}
+
+/* Culture section — subtle left-border accent to visually separate from description */
+.content-section--culture {
+    border-left: 4px solid #8a9e6a;
+    background: linear-gradient(145deg, #f7faf0 0%, #f0f5e8 40%, #e8f0d8 100%);
+}
+
+.content-section--culture .content-section-title {
+    color: #3a5a1a;
+}
+
+.content-section--culture .content-section-title i {
+    color: #6a8a3a;
+}
+
+.content-section--culture .content-section-title::after {
+    background: linear-gradient(90deg, rgba(138, 158, 106, 0.4) 0%, transparent 100%);
+}
+
 /* ===== LEFT COLUMN: STATS & INFO ===== */
 
 .details-left {
@@ -1024,9 +1232,17 @@
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 1024px) {
-    .details-layout {
+    .details-body {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+    }
+
+    .details-sidebar {
+        position: static;
+    }
+
+    .sidebar-illustration {
+        max-width: 320px;
+        margin: 0 auto;
     }
 }
 
@@ -1331,23 +1547,25 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    background: rgba(139, 90, 60, 0.05);
-    border: 1.5px solid rgba(212, 175, 55, 0.3);
-    border-radius: 8px;
-    padding: 0.75rem 1.25rem;
+    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
+    border: 2px solid #c8a96e;
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
     flex-wrap: wrap;
+    box-shadow: 0 3px 10px rgba(139, 90, 60, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .variant-details-switcher .switcher-label {
     font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #8b6914;
+    color: #5a3a1a;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    white-space: nowrap;
 }
 
 .variant-details-switcher .switcher-buttons {
@@ -1458,13 +1676,13 @@
 .race-card-mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 0 200 L 0 170 L 20 150 L 40 175 L 70 140 L 90 165 L 120 130 L 150 170 L 180 145 L 210 175 L 240 135 L 270 165 L 300 120 L 300 200 Z' fill='%23080403' opacity='0.8'/%3E%3Cpath d='M 0 200 L 0 180 L 15 165 L 35 185 L 55 155 L 85 180 L 115 145 L 140 180 L 175 160 L 200 185 L 230 150 L 265 180 L 300 145 L 300 200 Z' fill='%23030101'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120 M-20 -20 A 150 150 0 0 1 180 180' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
 }
-.variant-card-masked_mimir {
+.variant-card-veiled_mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3Cpath d='M 230 160 Q 230 140, 245 125 Q 260 110, 270 125 Q 280 140, 280 160 Q 280 180, 255 190 Q 230 180, 230 160 Z' fill='%23080403' stroke='%2325160f' stroke-width='1.5'/%3E%3Ccircle cx='247' cy='155' r='2.5' fill='%23150d0a'/%3E%3Ccircle cx='263' cy='155' r='2.5' fill='%23150d0a'/%3E%3C/svg%3E") !important;
 }
-.variant-card-woven_mimir {
+.variant-card-tethered_mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 10 0 L 10 200 M 40 0 L 40 200 M 70 0 L 70 200 M 100 0 L 100 200 M 130 0 L 130 200 M 160 0 L 160 200 M 190 0 L 190 200 M 220 0 L 220 200 M 250 0 L 250 200 M 280 0 L 280 200' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 0 20 L 300 20 M 0 50 L 300 50 M 0 80 L 300 80 M 0 110 L 300 110 M 0 140 L 300 140 M 0 170 L 300 170' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
 }
-.variant-card-unwoven_mimir {
+.variant-card-untethered_mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 80 C 60 40, 140 100, 320 60 L 320 200 L -20 200 Z' fill='%23080403' opacity='0.7'/%3E%3C/svg%3E") !important;
 }
 .race-card-mimir,
@@ -1575,13 +1793,13 @@
 .race-card-myrathil {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss%29'/%3E%3Cpath d='M 0 80 Q 75 120, 150 60 T 300 110' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.25'/%3E%3Cpath d='M 0 100 Q 80 50, 160 110 T 300 80' fill='none' stroke='%2300b0ff' stroke-width='1.5' stroke-opacity='0.2'/%3E%3Ccircle cx='40' cy='50' r='3' fill='%2300e5ff' opacity='0.6' filter='blur%281px%29'/%3E%3Ccircle cx='260' cy='140' r='4' fill='%2300e5ff' opacity='0.5' filter='blur%281px%29'/%3E%3Ccircle cx='120' cy='160' r='2' fill='%2300e5ff' opacity='0.7'/%3E%3Ccircle cx='210' cy='40' r='2.5' fill='%2300b0ff' opacity='0.6'/%3E%3C/svg%3E") !important;
 }
-.variant-card-shore_myrathil {
+.variant-card-shoreling_myrathil {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-shore' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-shore%29'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190 L 300 200 L 0 200 Z' fill='%2300e5ff' opacity='0.25'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
 }
-.variant-card-deep_myrathil {
+.variant-card-deepling_myrathil {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-deep' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23001e28'/%3E%3Cstop offset='100%25' stop-color='%2300090e'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-deep%29'/%3E%3Ccircle cx='60' cy='140' r='12' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 60 152 Q 58 165, 53 175 M 60 152 Q 62 165, 67 175' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='230' cy='60' r='8' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 230 68 Q 228 75, 225 82 M 230 68 Q 232 75, 235 82' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
 }
-.variant-card-brook_myrathil {
+.variant-card-riverling_myrathil {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-brook' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23013a40'/%3E%3Cstop offset='100%25' stop-color='%23011317'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-brook%29'/%3E%3Ccircle cx='40' cy='180' r='15' fill='%23011c21'/%3E%3Ccircle cx='90' cy='190' r='12' fill='%23011c21'/%3E%3Ccircle cx='150' cy='185' r='18' fill='%23011c21'/%3E%3Cpath d='M 200 40 Q 220 30, 230 50 Q 210 60, 200 40 Z' fill='%2300e5ff' opacity='0.25'/%3E%3C/svg%3E") !important;
 }
 .race-card-myrathil,

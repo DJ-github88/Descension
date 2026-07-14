@@ -1,11 +1,11 @@
-﻿/**
+/**
  * Cooldown Management System
  * 
  * A complete system for tracking and managing spell cooldowns
  * based on the cooldown types defined in cooldownTypes.js
  */
 
-import { COOLDOWN_TYPES, COOLDOWN_MODIFIERS, COOLDOWN_CATEGORIES, CooldownUtils } from '../data/cooldownTypes.js';
+import {COOLDOWN_TYPES, COOLDOWN_CATEGORIES, CooldownUtils} from '../data/cooldownTypes.js';
 
 // ====================================================
 // COOLDOWN STATES - Track the current status of cooldowns
@@ -138,13 +138,16 @@ export function initializeSpellCooldown(spellId, cooldownTypeId, duration, optio
   
  case 'encounter':
   _cooldowns.encounter[spellId] = {
-  remainingUses: (options.uses || cooldownTypeInfo.defaultValue) - 1,
-  maxUses: options.uses || cooldownTypeInfo.defaultValue
-  };
-  break;
- }
- 
- // Record in history
+   remainingUses: (options.uses || cooldownTypeInfo.defaultValue) - 1,
+   maxUses: options.uses || cooldownTypeInfo.defaultValue
+   };
+   break;
+   
+  default:
+   break;
+  }
+  
+  // Record in history
  if (!_cooldowns.history[spellId]) {
  _cooldowns.history[spellId] = [];
  }
@@ -216,12 +219,15 @@ export function checkCooldownRemaining(spellId) {
   
  case 'encounter':
   if (_cooldowns.encounter[spellId]) {
-  return _cooldowns.encounter[spellId].remainingUses <= 0 ? 1 : 0;
+   return _cooldowns.encounter[spellId].remainingUses <= 0 ? 1 : 0;
+   }
+   break;
+   
+  default:
+   break;
   }
-  break;
- }
- 
- return 0;
+  
+  return 0;
 }
 
 /**
@@ -253,11 +259,12 @@ export function isCooldownActive(spellId) {
   return !_cooldowns.diceBased[spellId]?.isReady;
   
  case 'encounter':
-  return _cooldowns.encounter[spellId]?.remainingUses <= 0;
- }
- 
- return false;
-}
+   return _cooldowns.encounter[spellId]?.remainingUses <= 0;
+   
+   default:
+    return false;
+   }
+  }
 
 /**
  * Apply cooldown reduction to a spell
@@ -357,11 +364,14 @@ export function reduceCooldown(spellId, amount, options = {}) {
    _cooldowns.encounter[spellId].remainingUses = 
    Math.min(_cooldowns.encounter[spellId].maxUses, _cooldowns.encounter[spellId].remainingUses + amount);
    
-   wasReduced = original !== _cooldowns.encounter[spellId].remainingUses;
+    wasReduced = original !== _cooldowns.encounter[spellId].remainingUses;
+   }
+   }
+   break;
+   
+  default:
+   break;
   }
-  }
-  break;
- }
  
  if (wasReduced) {
  onCooldownReduced(spellId, amount);
@@ -414,12 +424,15 @@ export function resetCooldown(spellId) {
   
  case 'encounter':
   if (_cooldowns.encounter[spellId]) {
-  _cooldowns.encounter[spellId].remainingUses = _cooldowns.encounter[spellId].maxUses;
+   _cooldowns.encounter[spellId].remainingUses = _cooldowns.encounter[spellId].maxUses;
+   }
+   break;
+   
+  default:
+   break;
   }
-  break;
- }
- 
- // Keep the active reference but mark as reset
+  
+  // Keep the active reference but mark as reset
  cooldown.isReset = true;
  
  // Trigger cooldown end event
@@ -796,12 +809,15 @@ export function getCooldownVisualState(spellId) {
   if (_cooldowns.encounter[spellId]) {
   visualData.encounter = {
    uses: _cooldowns.encounter[spellId].remainingUses,
-   maxUses: _cooldowns.encounter[spellId].maxUses
-  };
+    maxUses: _cooldowns.encounter[spellId].maxUses
+   };
+   }
+   break;
+   
+  default:
+   break;
   }
-  break;
- }
- 
+  
  return {
  id: spellId,
  state,
@@ -931,7 +947,7 @@ export function generateCooldownTooltip(spellId) {
  */
 function findCooldownCategory(cooldownTypeId) {
  // Look for a category that applies to this type
- const globalCategory = COOLDOWN_CATEGORIES.find(cat => cat.id === 'global');
+
  
  // For elemental types or defensive types, try to find matching categories
  // This is just an example - would need to be customized based on actual game mechanics
@@ -1111,34 +1127,35 @@ export function handleRest(restType) {
 }
 
 // Export main API
-export default {
- // Core cooldown functions
- initializeSpellCooldown,
- checkCooldownRemaining,
- isCooldownActive,
- reduceCooldown,
- resetCooldown,
- refreshCooldown,
- addCooldownCharge,
- 
- // Cooldown management functions
- processTurnBasedCooldowns,
- handleRest,
- 
- // Calculation utilities
- calculateBaseCooldown,
- applyHasteToCooldown,
- applyCooldownReduction,
- calculateCharges,
- predictCooldownEnd,
- 
- // Visualization utilities
- formatCooldownTime,
- getCooldownProgressPercentage,
- getCooldownVisualState,
- generateCooldownTooltip,
- 
- // Constants
- COOLDOWN_STATES,
- COOLDOWN_CATEGORY_TYPES
+const cooldownSystem = {
+  // Core cooldown functions
+  initializeSpellCooldown,
+  checkCooldownRemaining,
+  isCooldownActive,
+  reduceCooldown,
+  resetCooldown,
+  refreshCooldown,
+  addCooldownCharge,
+  
+  // Cooldown management functions
+  processTurnBasedCooldowns,
+  handleRest,
+  
+  // Calculation utilities
+  calculateBaseCooldown,
+  applyHasteToCooldown,
+  applyCooldownReduction,
+  calculateCharges,
+  predictCooldownEnd,
+  
+  // Visualization utilities
+  formatCooldownTime,
+  getCooldownProgressPercentage,
+  getCooldownVisualState,
+  generateCooldownTooltip,
+  
+  // Constants
+  COOLDOWN_STATES,
+  COOLDOWN_CATEGORY_TYPES
 };
+export default cooldownSystem;

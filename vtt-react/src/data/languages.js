@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Mythrill Languages Data Module
  *
  * Single source of truth for all languages available in Mythrill VTT.
@@ -30,7 +30,7 @@ export const LANGUAGES = [
     name: 'Synod-Speak',
     icon: 'fa-tree',
     category: 'standard',
-    description: 'The resonant harmonic language of the Synod-Hold\'s crystal-lattice archives in Sundrift Vale. Lumian echo-signatures speak in its overtones; Astril scholars use it for formal discourse. Each word vibrates at a frequency that memory-glass can store.',
+    description: 'The resonant harmonic language of the Synod Hold\'s crystal-lattice archives in Sundrift Vale. Lumian echo-signatures speak in its overtones; Astril scholars use it for formal discourse. Each word vibrates at a frequency that memory-glass can store.',
     sound: 'Harmonic and crystalline, with overtones that shimmer like light through prismatic glass. Words ring and sustain.',
     example: 'Syl-velen aeth-mir',
     translation: 'Light remembers, spirit endures'
@@ -68,7 +68,7 @@ export const LANGUAGES = [
     name: 'Celestial',
     icon: 'fa-sun',
     category: 'exotic',
-    description: 'The harmonious language of Lumia\'s echo that fled with the Astril refugees and resonated in willing Astril vessels. Carries the memory of stars in its cadence. The Synod-Hold\'s archives resonate with it.',
+    description: 'The harmonious language of Lumia\'s echo that fled with the Astril refugees and resonated in willing Astril vessels. Carries the memory of stars in its cadence. The Synod Hold\'s archives resonate with it.',
     sound: 'Pure and luminous, with clear tones that resonate like crystal bells struck by starlight.',
     example: 'Ael\'drin sol\'athiel val\'mor',
     translation: 'Blessed light of the dying star endures'

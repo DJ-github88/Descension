@@ -12,14 +12,14 @@ const axios = require('axios');
 const TEST_PORT = 3099;
 const TEST_URL = `http://localhost:${TEST_PORT}`;
 
-describe('Mythrill VTT Integration Tests (CI-runnable)', function () {
+describe('Mythrill VTT Integration Tests (CI-runnable)', function() {
   this.timeout(15000);
 
   let serverInstance = null;
   let client1 = null;
   let client2 = null;
 
-  before(async () => {
+  before(async() => {
     // 1. Clear local module cache to force re-evaluation of all server modules
     Object.keys(require.cache).forEach((key) => {
       if (key.includes('server') && !key.includes('node_modules')) {
@@ -31,19 +31,19 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function () {
     const firebaseService = require('../services/firebaseService');
     const tierService = require('../services/tierService');
 
-    firebaseService.verifyIdToken = async (token) => {
+    firebaseService.verifyIdToken = async(token) => {
       if (token === 'valid-test-token') {
         return { uid: 'test-user-123', email: 'test-user@mythrill.com' };
       }
       return null;
     };
 
-    tierService.canCreateRoom = async () => ({ 
+    tierService.canCreateRoom = async() => ({ 
       allowed: true, 
       limits: { roomLimit: 5, characterLimit: 15, maxPlayersPerRoom: 6 } 
     });
 
-    tierService.canJoinRoom = async () => ({ 
+    tierService.canJoinRoom = async() => ({ 
       allowed: true, 
       effectiveMax: 6 
     });
@@ -62,10 +62,10 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function () {
     }
   });
 
-  after(async () => {
+  after(async() => {
     // Disconnect clients
-    if (client1 && client1.connected) client1.disconnect();
-    if (client2 && client2.connected) client2.disconnect();
+    if (client1 && client1.connected) {client1.disconnect();}
+    if (client2 && client2.connected) {client2.disconnect();}
 
     // Close server
     if (serverInstance && serverInstance.listening) {
@@ -75,7 +75,7 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function () {
     }
   });
 
-  it('verifies socket connection and ping/pong', async () => {
+  it('verifies socket connection and ping/pong', async() => {
     client1 = io(TEST_URL, {
       transports: ['websocket'],
       forceNew: true,
@@ -103,13 +103,13 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function () {
     expect(pongData.timestamp).to.be.a('number');
   });
 
-  it('verifies HTTP /health endpoint', async () => {
+  it('verifies HTTP /health endpoint', async() => {
     const res = await axios.get(`${TEST_URL}/health`);
     expect(res.status).to.equal(200);
     expect(res.data.status).to.equal('ok');
   });
 
-  it('verifies Room Creation and Join flow', async () => {
+  it('verifies Room Creation and Join flow', async() => {
     let roomId = null;
 
     const roomCreated = new Promise((resolve, reject) => {

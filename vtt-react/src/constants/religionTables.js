@@ -1,4 +1,4 @@
-﻿// Religion Skill Multi-Dimensional Tables
+// Religion Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 
 export const RELIGION_TABLES = {

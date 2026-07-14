@@ -1,16 +1,11 @@
-﻿import { getStore } from '../storeRegistry';
+import { getStore } from '../storeRegistry';
 import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
-import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers, getFullRaceData, getRaceData } from '../../data/raceData';
-import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
+import { updateClassResourceMax } from '../../data/classResources';
+import { applyRacialModifiers } from '../../data/raceData';
+import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import useGameStore from '../gameStore';
-import characterPersistenceService from '../../services/firebase/characterPersistenceService';
-import characterSessionService from '../../services/firebase/characterSessionService';
-import characterMigrationService from '../../services/firebase/characterMigrationService';
-import localStorageManager from '../../utils/localStorageManager';
-import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase } from '../characterHelpers';
+import { getEncumbranceState } from '../characterHelpers';
 
 // Stats Slice: Stats, equipment, derived calculations, resistances, spell power.
 // State properties and action bodies are copied verbatim from characterStore.js.
@@ -282,7 +277,6 @@ export const createStatsSlice = (set, get) => ({
     updateEquipment: (slot, item) => {
         set(state => {
             const newEquipment = { ...state.equipment, [slot]: item };
-            const oldEquipmentBonuses = calculateEquipmentBonuses(state.equipment);
             const equipmentBonuses = calculateEquipmentBonuses(newEquipment);
 
             // Fetch buff/debuff effects for derived stats
@@ -332,6 +326,24 @@ export const createStatsSlice = (set, get) => ({
             const encumbranceState = getEncumbranceState();
             const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
 
+            let newHealth = { ...state.health };
+            let newMana = { ...state.mana };
+
+            // Update health and mana max values from derivedStats to ensure 
+            // equipment changes are reflected immediately regardless of which slot changed
+            const newMaxHealth = Math.round(derivedStats.maxHealth);
+            newHealth.max = newMaxHealth;
+            newHealth.current = Math.min(newHealth.current, newMaxHealth);
+
+            const newMaxMana = Math.round(derivedStats.maxMana);
+            newMana.max = newMaxMana;
+            newMana.current = Math.min(newMana.current, newMaxMana);
+
+            let newActionPoints = { ...state.actionPoints };
+            const newMaxAP = Math.round(derivedStats.actionPoints);
+            newActionPoints.max = newMaxAP;
+            newActionPoints.current = Math.min(newActionPoints.current, newMaxAP);
+
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
@@ -350,24 +362,6 @@ export const createStatsSlice = (set, get) => ({
                     }
                 });
             }
-
-            let newHealth = { ...state.health };
-            let newMana = { ...state.mana };
-
-            // Update health and mana max values from derivedStats to ensure 
-            // equipment changes are reflected immediately regardless of which slot changed
-            const newMaxHealth = Math.round(derivedStats.maxHealth);
-            newHealth.max = newMaxHealth;
-            newHealth.current = Math.min(newHealth.current, newMaxHealth);
-
-            const newMaxMana = Math.round(derivedStats.maxMana);
-            newMana.max = newMaxMana;
-            newMana.current = Math.min(newMana.current, newMaxMana);
-
-            let newActionPoints = { ...state.actionPoints };
-            const newMaxAP = Math.round(derivedStats.actionPoints);
-            newActionPoints.max = newMaxAP;
-            newActionPoints.current = Math.min(newActionPoints.current, newMaxAP);
 
             // Update resistances from equipment
             let newResistances = { ...state.resistances };

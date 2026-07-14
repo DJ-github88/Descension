@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
-import { SKILL_ABILITIES, getSkillAbilities } from '../../data/skillAbilitiesData';
+import {  getSkillAbilities } from '../../data/skillAbilitiesData';
 import { getIconUrl } from '../../utils/assetManager';
 
 /**

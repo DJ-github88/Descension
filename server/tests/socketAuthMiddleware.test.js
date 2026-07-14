@@ -27,7 +27,7 @@ const makeLogger = () => ({
   error: () => {}
 });
 
-describe('socketAuthMiddleware', function () {
+describe('socketAuthMiddleware', function() {
   this.timeout(10000);
 
   const origNodeEnv = process.env.NODE_ENV;
@@ -35,7 +35,7 @@ describe('socketAuthMiddleware', function () {
   let logger;
 
   beforeEach(() => {
-    firebaseService = { verifyIdToken: async () => null };
+    firebaseService = { verifyIdToken: async() => null };
     logger = makeLogger();
     delete process.env.RAILWAY_ENVIRONMENT;
   });
@@ -45,7 +45,7 @@ describe('socketAuthMiddleware', function () {
     delete process.env.RAILWAY_ENVIRONMENT;
   });
 
-  it('allows a missing token as a guest (anonymous multiplayer)', async () => {
+  it('allows a missing token as a guest (anonymous multiplayer)', async() => {
     process.env.NODE_ENV = 'production';
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket(null);
@@ -58,9 +58,9 @@ describe('socketAuthMiddleware', function () {
     expect(socket.data.userId).to.equal(null);
   });
 
-  it('authenticates a valid token', async () => {
+  it('authenticates a valid token', async() => {
     process.env.NODE_ENV = 'production';
-    firebaseService.verifyIdToken = async () => ({ uid: 'user-123', email: 'a@b.c' });
+    firebaseService.verifyIdToken = async() => ({ uid: 'user-123', email: 'a@b.c' });
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket('valid-token');
     let nextArg = 'not-called';
@@ -73,7 +73,7 @@ describe('socketAuthMiddleware', function () {
     expect(socket.data.isGuest).to.equal(false);
   });
 
-  it('rejects an invalid token in production', async () => {
+  it('rejects an invalid token in production', async() => {
     process.env.NODE_ENV = 'production';
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket('expired');
@@ -84,7 +84,7 @@ describe('socketAuthMiddleware', function () {
     expect(nextArg.message).to.match(/invalid token/);
   });
 
-  it('downgrades an invalid token to guest in development', async () => {
+  it('downgrades an invalid token to guest in development', async() => {
     process.env.NODE_ENV = 'development';
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket('expired');
@@ -96,9 +96,9 @@ describe('socketAuthMiddleware', function () {
     expect(socket.data.authenticated).to.equal(false);
   });
 
-  it('rejects on verification error in production', async () => {
+  it('rejects on verification error in production', async() => {
     process.env.NODE_ENV = 'production';
-    firebaseService.verifyIdToken = async () => { throw new Error('network failure'); };
+    firebaseService.verifyIdToken = async() => { throw new Error('network failure'); };
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket('any-token');
     let nextArg = 'not-called';
@@ -108,9 +108,9 @@ describe('socketAuthMiddleware', function () {
     expect(nextArg.message).to.match(/Authentication error/);
   });
 
-  it('downgrades to guest on verification error in development', async () => {
+  it('downgrades to guest on verification error in development', async() => {
     process.env.NODE_ENV = 'development';
-    firebaseService.verifyIdToken = async () => { throw new Error('network failure'); };
+    firebaseService.verifyIdToken = async() => { throw new Error('network failure'); };
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = makeSocket('any-token');
     let nextArg = 'not-called';
@@ -121,7 +121,7 @@ describe('socketAuthMiddleware', function () {
     expect(socket.data.authenticated).to.equal(false);
   });
 
-  it('treats RAILWAY_ENVIRONMENT as production', async () => {
+  it('treats RAILWAY_ENVIRONMENT as production', async() => {
     process.env.NODE_ENV = 'development';
     process.env.RAILWAY_ENVIRONMENT = 'production';
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
@@ -133,17 +133,16 @@ describe('socketAuthMiddleware', function () {
     expect(nextArg.message).to.match(/invalid token/);
   });
 
-  it('accepts an Authorization Bearer header as the token source', async () => {
+  it('accepts an Authorization Bearer header as the token source', async() => {
     process.env.NODE_ENV = 'production';
-    firebaseService.verifyIdToken = async () => ({ uid: 'bearer-user' });
+    firebaseService.verifyIdToken = async() => ({ uid: 'bearer-user' });
     const mw = createSocketAuthMiddleware({ firebaseService, logger });
     const socket = {
       id: 's2',
       data: {},
       handshake: { auth: {}, headers: { authorization: 'Bearer bearer-token' } }
     };
-    let nextArg = 'not-called';
-    await mw(socket, (err) => { nextArg = err; });
+    await mw(socket, () => {});
 
     expect(socket.data.authenticated).to.equal(true);
     expect(socket.data.userId).to.equal('bearer-user');

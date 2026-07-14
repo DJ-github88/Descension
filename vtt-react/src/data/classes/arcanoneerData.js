@@ -40,7 +40,7 @@ export const ARCANONEER_DATA = {
    velun_neth: {
     subraceName: 'Velun Neth',
     title: 'The Contract-Weaver',
-    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane\'s silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Velun Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite.`,
+    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Velun Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite.`,
     signatureAbility: {
      name: 'Mnemonic Shard',
      description: `Silver blood crystallizes into volatile spell-anchors, held in suspension around the weaver's crystal focus. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
@@ -747,7 +747,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
      "Spheres + Mana. You need **both**. A full bank is useless without mana.",
     manaRegeneration: {
      title: "Mana Regeneration",
-     content: `You have a **Mana Pool** equal to 10 + (Intelligence � -  2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
+     content: `You have a **Mana Pool** equal to 10 + (Intelligence × 2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`,
     },
    actionPointsRule: {
     title: "Action Points",
@@ -896,7 +896,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 - **4d8 dice** (for sphere generation)
 - **Colored tokens or glass beads** (8 colors, at least 4 of each)
 - **A reference card** with the d8-to-element chart (see below)
-- **A printed Combination Matrix** (see the 8Ã,8 table below)
+- **A printed Combination Matrix** (see the 8×8 table below)
 
 **Recommended Token Colors**:
 - Arcane (1): Purple
@@ -925,14 +925,14 @@ All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see
 | **Arcane** | Arcane Pulse | Radiant Bolt | Silence Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
 | **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
 | **blight+blight** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
-| **Fire** | → | → | → | Flame Burst | Steam â€  | Wildfire | Cauterizing Slag | Chaos Flame ★ |
+| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
 | **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
 | **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
 | **Flesh** | → | → | → | → | → | → | Gristle Blockade | Amorphous Gristle Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo, each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
-â€  = Steam is a 20ft cone (only non-single-target base combo)
+† = Steam is a 20ft cone (only non-single-target base combo)
 
 **Matrix Reading Guide** (use the upper-right triangle):
 - Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
@@ -1180,7 +1180,7 @@ MAX BANKED SPHERES: 12
 
   entries: [
    // ========================================
-   // PURE PAIRS (Same Element Ã,2), 8 combos
+   // PURE PAIRS (Same Element ×2), 8 combos
    // Focused, reliable, elementally pure
    // ========================================
    {
@@ -1311,7 +1311,7 @@ MAX BANKED SPHERES: 12
      {
       name: "Entropy Drain",
       description:
-       "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. âš ï¸ NOT healing, you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
+       "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. ⚠️ NOT healing, you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
       damageTypes: ["wyrd"],
       targetType: "single",
       selfHeal: false,

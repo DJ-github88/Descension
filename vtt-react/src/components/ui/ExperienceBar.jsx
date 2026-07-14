@@ -1,5 +1,5 @@
 import React from 'react';
-import { getXPProgress, formatXP, getXPSegments } from '../../utils/experienceUtils';
+import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import './ExperienceBar.css';
 
 /**

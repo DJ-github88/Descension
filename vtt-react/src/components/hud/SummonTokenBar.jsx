@@ -5,7 +5,6 @@ import CraftCustomSummonModal from './craftCustomSummonModal';
 import CreatureIconSelector from '../creature-wizard/components/common/CreatureIconSelector';
 import { getTokensForCharacter, resolveClassId, registerCustomSummonTemplates } from '../../data/summonableTokens';
 import { summonTokenFromTemplate } from '../../services/tokenSummonService';
-import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCustomSummonStore from '../../store/customSummonStore';
@@ -67,8 +66,7 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
     return getTokensForCharacter(character);
   }, [character?.characterClass, character?.race, character?.subrace, character?.level, customTemplates]);
 
-  const accentColor = CLASS_COLORS[classId] || '#7a3b2e';
-  const hasRaceTokens = all.some(t => t.race);
+    const hasRaceTokens = all.some(t => t.race);
 
   const classTokens = all.filter(t => !t.race);
   const raceTokens = all.filter(t => t.race);
@@ -193,7 +191,7 @@ const SummonTokenBar = ({ isOpen, onClose, character }) => {
   }, [iconPickerFor, updateCustomTemplate, classId, character]);
 
   const handleDeleteCustom = useCallback((templateId) => {
-    if (confirm('Delete this custom summon?')) {
+    if (window.confirm('Delete this custom summon?')) {
       useCustomSummonStore.getState().deleteTemplate(templateId);
     }
   }, []);

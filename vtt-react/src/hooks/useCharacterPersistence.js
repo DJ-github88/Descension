@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Character Persistence Hook
  *
  * Automatically saves and loads character runtime state to/from Firebase.
@@ -87,8 +87,8 @@ export const useCharacterPersistence = () => {
   skillPointsAvailable: characterState.skillPointsAvailable || 0,
 
   version: 1
- };
- }, [currentCharacterId, user]);
+  };
+ }, [currentCharacterId, user, useCharacterStore, useConditionStore, useInventoryStore, useQuestStore]);
 
  /**
  * Generate a hash of the current character state for efficient change detection
@@ -149,11 +149,11 @@ export const useCharacterPersistence = () => {
   console.error('Failed to save character state:', error);
   return { success: false, error: error.message };
  }
- }, [user, currentCharacterId, collectCharacterState]);
+  }, [user, currentCharacterId, collectCharacterState, persistenceService]);
 
- /**
- * Load character state from Firebase
- */
+  /**
+   * Load character state from Firebase
+   */
  const loadCharacterState = useCallback(async () => {
  if (!user || user.isGuest || !currentCharacterId) {
   return { success: false, reason: 'No authenticated user or character' };
@@ -222,11 +222,11 @@ export const useCharacterPersistence = () => {
   console.error('Failed to load character state:', error);
   return { success: false, error: error.message };
  }
- }, [user, currentCharacterId]);
+  }, [user, currentCharacterId, persistenceService, useCharacterStore]);
 
- /**
- * Auto-save character state when it changes
- */
+  /**
+   * Auto-save character state when it changes
+   */
  const scheduleAutoSave = useCallback(() => {
  // Clear existing timer
  if (characterStateTimerRef.current) {
@@ -269,10 +269,10 @@ export const useCharacterPersistence = () => {
  useCharacterStore?.setState(resources);
 
  // Save immediately for critical resources
- await saveCharacterState();
- }, [saveCharacterState]);
+  await saveCharacterState();
+  }, [saveCharacterState, useCharacterStore]);
 
- // Load character state when character changes
+  // Load character state when character changes
  useEffect(() => {
  if (user && !user.isGuest && currentCharacterId) {
   loadCharacterState();
@@ -356,8 +356,8 @@ export const useCharacterPersistence = () => {
   }
 
   console.log('✅ Character state updated from remote changes');
- }
- }, []);
+  }
+  }, [useCharacterStore, useConditionStore, useInventoryStore, useQuestStore]);
 
  const realtimeSyncRef = useRef(null);
 

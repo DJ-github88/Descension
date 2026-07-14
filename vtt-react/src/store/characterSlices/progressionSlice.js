@@ -1,15 +1,6 @@
-import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
-import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
-import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers, getFullRaceData, getRaceData } from '../../data/raceData';
-import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
-import useGameStore from '../gameStore';
-import characterPersistenceService from '../../services/firebase/characterPersistenceService';
-import characterSessionService from '../../services/firebase/characterSessionService';
-import characterMigrationService from '../../services/firebase/characterMigrationService';
-import localStorageManager from '../../utils/localStorageManager';
-import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase } from '../characterHelpers';
+import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
+import { applyRacialModifiers } from '../../data/raceData';
+import { getEncumbranceState } from '../characterHelpers';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { checkLevelUp, getXPForLevel } from '../../utils/experienceUtils';

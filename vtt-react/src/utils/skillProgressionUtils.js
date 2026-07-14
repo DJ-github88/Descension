@@ -1,4 +1,4 @@
-﻿// Utility functions for the task-based skills progression system
+// Utility functions for the task-based skills progression system
 
 import { SKILL_RANKS } from '../constants/taskBasedSkillDefinitions';
 import { SKILL_TASKS } from '../constants/skillTaskDefinitions';

@@ -100,7 +100,7 @@ export const ANIMIST_DATA = {
         name: 'Skin-Rune Anchoring',
         description: `Spirits are bound to carved runes on the Animist's own body; the more runes, the more ancestors on call, but each rune is a permanent open wound that re-opens and bleeds during invocation. A Skald Animist's power is written, visibly, in their scars.`
       },
-      currentCrisisAngle: `The Skald's runic dialect is the most rigid, carved in flesh, it cannot adapt. When the ancestral language shifted, the runes did not shift with it. Carved ancestors are now speaking a dialect no living practitioner matches, and the runes, cut in good faith eight generations ago, are beginning to itch, warm, and, some swear, migrate.`,
+      currentCrisisAngle: `The Skald's runic dialect is the most rigid, carved in flesh, it cannot adapt. When the ancestral language shifted, the runes did not shift with it. Carved ancestors are now speaking a dialect no living practitioner matches, and the runes, cut in good faith twenty-five generations ago, are beginning to itch, warm, and, some swear, migrate.`,
       signatureQuote: {
         text: '"My great-grandmother carved this name into her own arm so it would outlast the glacier. It has. She has not been so cooperative."',
         speaker: 'Hakon Scar-List',
@@ -111,7 +111,7 @@ export const ANIMIST_DATA = {
     velun_neth: {
       subraceName: 'Velun Neth',
       title: 'The Ledger-Summoner',
-      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> carry Morvane\'s authority in every word they speak, and Morvane does not forget. Adapted from the Ordan ancestor-compass technique through archival synthesis: the Velun Neth took the concept of summoning the dead and made it legally binding. A Velun Neth Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
+      reframe: `The <LoreLink termId="neth">Velun Neth</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordan ancestor-compass technique through archival synthesis: the Velun Neth took the concept of summoning the dead and made it legally binding. A Velun Neth Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
       signatureAbility: {
         name: 'Ledger-Citation',
         description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor, and the Velun Neth cannot legally dismiss what they have invoked.`

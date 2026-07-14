@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Serializer
  *
  * Handles serialization and deserialization of spell configurations,
@@ -8,12 +8,12 @@
 import { formatResourceName } from '../../../../utils/formatUtils';
 import {
   EFFECT_TYPES,
-  ENHANCED_EFFECT_TYPES,
+
   TARGETING_TYPES,
   DURATION_TYPES,
-  SPELL_TEMPLATES,
-  EnhancedEffectUtils,
-  isValidDiceNotation,
+
+
+
   DAMAGE_TYPES,
   AOE_SHAPES,
   CRITICAL_EFFECT_MODIFIERS,
@@ -506,7 +506,7 @@ import {
    if (Object.keys(config._validation.warnings).length > 0) {
     description += '\nWarnings:\n';
 
-    for (const [key, value] of Object.entries(config._validation.warnings)) {
+for (const [value] of Object.entries(config._validation.warnings)) {
      description += `• ${value}\n`;
     }
    }
@@ -906,27 +906,4 @@ import {
    .replace(/_/g, ' ') // Replace marks with spaces
    .replace(/^\w/, c => c.toUpperCase()) // Capitalize first letter
    .trim();
- }
-
- /**
-  * Convert a string to camelCase
-  */
- function camelCase(str) {
-  return str
-   .replace(/[^\w\s]/g, '') // Remove special characters
-   .replace(/\s+(.)/g, (match, chr) => chr.toUpperCase()) // Convert spaces + next char to upper case
-   .replace(/\s/g, '') // Remove remaining spaces
-   .replace(/^(.)/, match => match.toLowerCase()); // Make first char lowercase
- }
-
- /**
-  * Convert a string to slug format (lowercase with hyphens)
-  */
- function slugify(str) {
-  return str
-   .toLowerCase()
-   .replace(/[^\w\s-]/g, '') // Remove special characters
-   .replace(/\s+/g, '-') // Replace spaces with hyphens
-   .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-   .trim();
- }
+  }

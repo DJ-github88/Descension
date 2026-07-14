@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const EternalFrostPhylacteryResourceBar = ({
-  lichborneState,
-  setLichborneState,
+  phylacteryState,
+  setPhylacteryState,
   uiState,
   setUiState,
   finalClassResource,
@@ -16,16 +16,20 @@ const EternalFrostPhylacteryResourceBar = ({
   phylacteryBarRef,
   logClassResourceChange,
 }) => {
-  const { localPhylacteryHP, eternalFrostActive, lichborneSpec, showPhylacteryMenu, lichborneHoverSection } = lichborneState;
-  const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;
+  const {
+      localPhylacteryHP,
+      eternalFrostActive,
+      lichborneSpec,
+      showPhylacteryMenu
+  } = phylacteryState;
+  const {} = uiState;
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalPhylacteryHP = (value) => setLichborneState(prev => ({ ...prev, localPhylacteryHP: value }));
-  const setEternalFrostActive = (value) => setLichborneState(prev => ({ ...prev, eternalFrostActive: value }));
-  const setLichborneSpec = (value) => setLichborneState(prev => ({ ...prev, lichborneSpec: value }));
-  const setShowPhylacteryMenu = (value) => setLichborneState(prev => ({ ...prev, showPhylacteryMenu: value }));
-  const setLichborneHoverSection = (value) => setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
+    const setLocalPhylacteryHP = (value) => setPhylacteryState(prev => ({ ...prev, localPhylacteryHP: value }));
+  const setEternalFrostActive = (value) => setPhylacteryState(prev => ({ ...prev, eternalFrostActive: value }));
+  const setLichborneSpec = (value) => setPhylacteryState(prev => ({ ...prev, lichborneSpec: value }));
+  const setShowPhylacteryMenu = (value) => setPhylacteryState(prev => ({ ...prev, showPhylacteryMenu: value }));
+  const setPhylacteryHoverSection = (value) => setPhylacteryState(prev => ({ ...prev, phylacteryHoverSection: value }));
 
         // Get specialization config
         const specs = finalConfig.visual;
@@ -34,8 +38,7 @@ const EternalFrostPhylacteryResourceBar = ({
         const segments = currentSpec.segments;
         const specColor = currentSpec.color;
         const specGlow = currentSpec.glow;
-        const specIcon = currentSpec.icon;
-
+        
         const phylacteryValue = localPhylacteryHP;
         const auraActive = eternalFrostActive;
 
@@ -45,21 +48,17 @@ const EternalFrostPhylacteryResourceBar = ({
             // Hide tooltip when menu opens
             if (!showPhylacteryMenu) {
                 setShowTooltip(false);
-                setLichborneHoverSection(null);
+                setPhylacteryHoverSection(null);
             }
         };
 
         const handlePhylacteryBarEnter = (e) => {
             if (showPhylacteryMenu) return; // Don't show tooltip if menu is open
-            setLichborneHoverSection('phylactery');
+            setPhylacteryHoverSection('phylactery');
             const rect = e.currentTarget.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const viewportWidth = window.innerWidth;
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
+                                                
             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
             setShowTooltip(true);
         };
@@ -67,7 +66,7 @@ const EternalFrostPhylacteryResourceBar = ({
 
         const handleBarLeave = () => {
             if (showPhylacteryMenu) return;
-            setLichborneHoverSection(null);
+            setPhylacteryHoverSection(null);
             setShowTooltip(false);
         };
 

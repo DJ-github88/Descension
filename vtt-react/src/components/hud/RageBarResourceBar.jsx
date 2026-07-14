@@ -23,16 +23,11 @@ const RageBarResourceBar = ({
     showRageMenu
   } = berserkerState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-
+  
   const berserkerRage = finalClassResource?.current ?? 0;
   const berserkerRageMax = finalClassResource?.max ?? 100;
   const setRageInputValue = (value) => setUiState(prev => ({ ...prev, rageInputValue: value }));
@@ -50,9 +45,7 @@ const RageBarResourceBar = ({
 
         const rageValue = berserkerRage;
         const isOverheated = rageValue > 100;
-        const percentage = Math.min((rageValue / 100) * 100, 100);
-        const overheatedAmount = Math.max(rageValue - 100, 0);
-
+                
         // Determine rage state
         let rageState = 'Smoldering';
         let stateColor = '#4A0000';

@@ -267,7 +267,7 @@ export function useCommunitySpells() {
     if (!searchTerm) {
       loadSpells();
     }
-  }, [sortBy]);
+  }, [sortBy, loadFeaturedSpells, loadSpells, searchTerm]);
 
   // Load spells when search term changes
   useEffect(() => {
@@ -276,7 +276,7 @@ export function useCommunitySpells() {
     } else {
       loadSpells();
     }
-  }, [searchTerm]);
+  }, [searchTerm, loadSpells, performSearch]);
 
   return {
     // Data

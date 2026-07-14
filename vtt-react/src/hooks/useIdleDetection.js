@@ -5,7 +5,7 @@
  * Restores previous status when user becomes active again.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRoomContext } from '../contexts/RoomContext';
 import usePresenceStore from '../store/presenceStore';
@@ -22,7 +22,7 @@ const useIdleDetection = () => {
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const updateStatus = usePresenceStore((state) => state.updateStatus);
 
-  const resetIdleTimer = () => {
+  const resetIdleTimer = useCallback(() => {
     // Clear existing timer
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
@@ -65,7 +65,7 @@ const useIdleDetection = () => {
         updateStatus('away', null);
       }
     }, IDLE_TIMEOUT);
-  };
+  }, [isInRoom, updateStatus, location]);
 
   useEffect(() => {
     // Only track idle if user is logged in and has presence
@@ -123,7 +123,7 @@ const useIdleDetection = () => {
         clearTimeout(mouseMoveTimeout);
       }
     };
-  }, [currentUserPresence?.userId]); // Only re-run if user changes
+  }, [currentUserPresence, resetIdleTimer]); // Only re-run if user changes
 
   return null; // This hook doesn't return anything, it just manages state
 };

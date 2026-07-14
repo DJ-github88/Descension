@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Content Moderation Service
  *
  * Handles content reporting, filtering, and moderation for community features

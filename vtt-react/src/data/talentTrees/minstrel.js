@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // MINSTREL TALENT TREES
 // Rewritten to synergize with Musical Notes (I-VII) and Cadence system
 // ============================================

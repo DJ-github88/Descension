@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class-Specific Starting Equipment
  * 
  * Items that are only available to specific character classes.

@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getTokenTemplateById, getTokensForCharacter, getUnlockedTokens } from '../data/summonableTokens';
+import { getTokenTemplateById, getTokensForCharacter } from '../data/summonableTokens';
 import useCreatureStore from '../store/creatureStore';
-import useCharacterStore from '../store/characterStore';
 import useGameStore from '../store/gameStore';
 
 const SUMMON_SOURCE_TYPE = 'summon';
@@ -240,12 +239,13 @@ export const getSummonableTokensForCharacter = (character) => {
   return { unlocked, locked, all: allTokens };
 };
 
-export default {
+const tokenSummonService = {
   summonTokenFromTemplate,
   dismissSummonedToken,
   getActiveSummonsForPlayer,
   getActiveSummonCountByTemplate,
   decrementSummonDurations,
   getSummonableTokensForCharacter,
-  templateToCreatureData,
+  templateToCreatureData
 };
+export default tokenSummonService;

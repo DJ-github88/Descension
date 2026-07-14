@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS } from './itemConstants';
+import React, { useState } from 'react';
+import { ITEM_TYPES, QUALITY_TYPES } from './itemConstants';
 
 const PREFIXES = {
     weapon: ['Deadly', 'Savage', 'Cursed', 'Blessed', 'Ancient'],

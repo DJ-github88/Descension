@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useMemo, useState } from 'react';
-import useGameStore from '../../store/gameStore';
 import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
+import useGameStore from '../../store/gameStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useGridItemStore from '../../store/gridItemStore';

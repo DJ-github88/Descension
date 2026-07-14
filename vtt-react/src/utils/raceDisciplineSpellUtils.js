@@ -5,7 +5,7 @@
  */
 
 // Import race data
-import { RACE_DATA, getFullRaceData, getSubraceData } from '../data/raceData';
+import { RACE_DATA, getSubraceData } from '../data/raceData';
 
 // Import spell library context (avoid circular import by importing at top)
 import { libraryActionCreators } from '../components/spellcrafting-wizard/context/SpellLibraryContext';
@@ -92,37 +92,7 @@ export function isPassiveStatModifier(trait) {
     // If it's PASSIVE and only has stat modifiers (no triggers, no active effects)
     if (trait.spellType === 'PASSIVE') {
         // Check if it has stat modifiers in buffConfig or debuffConfig
-        const hasStatModifiers = (
-            (trait.buffConfig?.effects?.some(effect => effect.statModifier)) ||
-            (trait.debuffConfig?.effects?.some(effect => effect.statModifier))
-        );
-        
-        // Check if it has immunity-granting statusEffects (these are stat modifiers, not active effects)
-        // Immunities are statusEffects that grant permanent immunities (check by name/description, any level)
-        const hasImmunityStatusEffects = trait.buffConfig?.effects?.some(effect => {
-            if (!effect.statusEffect) return false;
-            const statusEffect = effect.statusEffect;
-            const effectName = (effect.name || '').toLowerCase();
-            const effectDesc = (effect.description || '').toLowerCase();
-            
-            // Check if this is an immunity-related effect (by name/description, any level)
-            // Also check if it's extreme level (which often indicates immunity)
-            const isImmunity = (
-                (effectName.includes('immunity') || 
-                 effectName.includes('immune') ||
-                 effectDesc.includes('immune') ||
-                 effectDesc.includes('immunity')) ||
-                (statusEffect.level === 'extreme' && (
-                    effectName.includes('immunity') || 
-                    effectName.includes('immune') ||
-                    effectDesc.includes('immune') ||
-                    effectDesc.includes('immunity')
-                ))
-            );
-            
-            return isImmunity;
-        });
-        
+
         // Must not have action points (triggers are allowed for passives)
         const hasNoActionPoints = (!trait.resourceCost?.actionPoints || trait.resourceCost.actionPoints === 0);
         

@@ -1,4 +1,4 @@
-﻿import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBolt, faGem, faFire, faRunning, faEye, faHeart,
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
@@ -450,48 +450,43 @@ const useResourceFormatters = ({ spell, variant, className, library }) => {
       Object.entries(sphereCounts).forEach(([sphereType, count]) => {
         const nameMap = {
           'Arcane': 'Arcane Sphere',
-          'ember': 'Fire Sphere',
+          'Fire': 'Fire Sphere',
           'Ice': isArcanoneer ? 'Frost Sphere' : 'Ice Sphere',
           'Healing': isArcanoneer ? 'Flesh Sphere' : 'Healing Sphere',
           'Nature': 'Nature Sphere',
-          'blight': isArcanoneer ? 'Necrotic Sphere' : 'Shadow Sphere',
+          'Shadow': isArcanoneer ? 'Necrotic Sphere' : 'Shadow Sphere',
           'Chaos': 'Chaos Sphere',
-          'ember': isArcanoneer ? 'Radiant Sphere' : 'Holy Sphere',
+          'Holy': isArcanoneer ? 'Radiant Sphere' : 'Holy Sphere',
           // Fallback direct keys if they are already translated
           'rime': 'Frost Sphere',
           'blight': 'Necrotic Sphere',
-          'ember': 'Radiant Sphere',
           'Flesh': 'Flesh Sphere'
         };
 
         const colorMap = {
           'Arcane': '#9370DB',
-          'ember': '#FF4500',
+          'Fire': '#FF4500',
           'Ice': '#4169E1',
           'rime': '#4169E1',
           'Healing': isArcanoneer ? '#C62828' : '#FFFF00',
           'Flesh': '#C62828',
           'Nature': '#32CD32',
-          'blight': '#1C1C1C',
-          'blight': '#1C1C1C',
+          'Shadow': '#1C1C1C',
           'Chaos': '#FF00FF',
-          'ember': '#FFD700',
-          'ember': '#FFD700'
+          'Holy': '#FFD700'
         };
 
         const iconMap = {
           'Arcane': faAtom,
-          'ember': faFire,
+          'Fire': faFire,
           'Ice': faSnowflake,
           'rime': faSnowflake,
           'Healing': faHeart,
           'Flesh': faHeart,
           'Nature': faLeaf,
-          'blight': faMoon,
-          'blight': faMoon,
+          'Shadow': faMoon,
           'Chaos': faBolt,
-          'ember': faSun,
-          'ember': faSun
+          'Holy': faSun
         };
 
         // Check if already added to avoid duplicates

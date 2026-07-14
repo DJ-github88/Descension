@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TooltipPortal from '../tooltips/TooltipPortal';
 
 const ResourceTooltip = ({
@@ -12,8 +11,8 @@ const ResourceTooltip = ({
   animistHoverSection,
   shaperHoverSection,
   chronarchHoverSection,
-  covenbaneHoverSection,
-  deathcallerHoverSection,
+  hexbreakerHoverSection,
+  ascensionHoverSection,
   falseProphetHoverSection,
   fateWeaverHoverSection,
   gamblerHoverSection,
@@ -32,10 +31,10 @@ const ResourceTooltip = ({
   covenbaneAttackCounter,
   localAscensionPaths,
   localBloodTokens,
-  dreadnaughtHoverSection,
+  resilienceHoverSection,
   localDRP,
   selectedResistanceType,
-  exorcistHoverSection,
+  dominanceHoverSection,
   boundDemons,
   selectedDemonIndex,
   localDominanceDie,
@@ -49,22 +48,19 @@ const ResourceTooltip = ({
   localQuarryMarks,
   companionHP,
   companionMaxHP,
-  lichborneHoverSection,
+  phylacteryHoverSection,
   lichborneSpec,
   localPhylacteryHP,
   currentLunarPhase,
   roundsInPhase,
   lunarchSpec,
   localNotes,
-  oracleHoverSection,
+  visionsHoverSection,
   oracleSpec,
   localVisions,
   berserkerRage,
 }) => {
-  const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
-  const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
-  const isAugur = finalConfig.visual?.type === 'dual-omen';
-
+      
     const getRageState = (rageValue) => {
         if (rageValue > 100) return 'Obliteration';
         if (rageValue >= 81) return 'Cataclysm';
@@ -135,8 +131,8 @@ const ResourceTooltip = ({
             (finalConfig.type === 'spheres') ||
             (finalConfig.type === 'dual-resource' && shaperHoverSection) ||
             (finalConfig.visual?.type === 'time-shards-strain' && chronarchHoverSection) ||
-            (finalConfig.visual?.type === 'hexbreaker-charges' && covenbaneHoverSection) ||
-            (finalConfig.visual?.type === 'ascension-blood' && deathcallerHoverSection) ||
+            (finalConfig.visual?.type === 'hexbreaker-charges' && hexbreakerHoverSection) ||
+            (finalConfig.visual?.type === 'ascension-blood' && ascensionHoverSection) ||
             (finalConfig.visual?.type === 'madness-gauge' && falseProphetHoverSection === 'madness') ||
             (finalConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection) ||
             (finalConfig.visual?.type === 'fortune-points-gambling' && gamblerHoverSection === 'fp') ||
@@ -447,9 +443,9 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Covenbane Hexbreaker Charges Tooltips */}
-                    {finalConfig.visual?.type === 'hexbreaker-charges' && covenbaneHoverSection && (
+                    {finalConfig.visual?.type === 'hexbreaker-charges' && hexbreakerHoverSection && (
                         <div>
-                            {covenbaneHoverSection === 'charges' && (() => {
+                            {hexbreakerHoverSection === 'charges' && (() => {
                                 const maxCharges = finalConfig.mechanics?.max || 8;
                                 const chargesValue = covenbaneHexbreakerCharges;
                                 const getPassiveBonuses = (charges) => {
@@ -509,7 +505,7 @@ const ResourceTooltip = ({
                                 );
                             })()}
 
-                            {covenbaneHoverSection === 'counter' && (
+                            {hexbreakerHoverSection === 'counter' && (
                                 <>
                                     <div className="tooltip-header">Attack Counter</div>
 
@@ -550,9 +546,9 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Deathcaller Ascension Paths & Blood Tokens Tooltips */}
-                    {finalConfig.visual?.type === 'ascension-blood' && deathcallerHoverSection && (
+                    {finalConfig.visual?.type === 'ascension-blood' && ascensionHoverSection && (
                         <div>
-                            {deathcallerHoverSection === 'paths' && (() => {
+                            {ascensionHoverSection === 'paths' && (() => {
                                 const pathsArray = Array.isArray(localAscensionPaths) ? localAscensionPaths : [true, false, false, false, false, false, false];
                                 const activePaths = pathsArray.filter(p => p).length;
                                 const activePathsList = finalConfig.paths.filter((_, i) => pathsArray[i]);
@@ -600,7 +596,7 @@ const ResourceTooltip = ({
                                     </>
                                 );
                             })()}
-                            {deathcallerHoverSection === 'tokens' && (() => {
+                            {ascensionHoverSection === 'tokens' && (() => {
                                 const tokensValue = localBloodTokens;
                                 const warningThreshold = finalConfig.bloodTokens?.warningThreshold || 10;
                                 const dangerThreshold = finalConfig.bloodTokens?.dangerThreshold || 20;
@@ -661,7 +657,7 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Dreadnaught DRP Tooltip */}
-                    {finalConfig.visual?.type === 'drp-resilience' && dreadnaughtHoverSection === 'drp' && (
+                    {finalConfig.visual?.type === 'drp-resilience' && resilienceHoverSection === 'drp' && (
                         <>
                             <div className="tooltip-header">Damage Resilience Points</div>
                             <div className="tooltip-section">
@@ -721,7 +717,7 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Exorcist Dominance Tooltip */}
-                    {finalConfig.visual?.type === 'dominance-die' && exorcistHoverSection === 'dominance' && (
+                    {finalConfig.visual?.type === 'dominance-die' && dominanceHoverSection === 'dominance' && (
                         <div>
                             {(() => {
                                 const currentDemon = boundDemons[selectedDemonIndex];
@@ -1073,15 +1069,14 @@ const ResourceTooltip = ({
                     )}
 
                     {/* Lichborne Phylactery Tooltip - Only shows phylactery info, no aura content */}
-                    {finalConfig.visual?.type === 'eternal-frost-phylactery' && lichborneHoverSection === 'phylactery' && lichborneHoverSection !== 'aura' && (
+                    {finalConfig.visual?.type === 'eternal-frost-phylactery' && phylacteryHoverSection === 'phylactery' && phylacteryHoverSection !== 'aura' && (
                         <div>
                             {(() => {
                                 const specs = finalConfig.visual;
                                 const currentSpec = specs[lichborneSpec] || specs.frostbound_tyrant;
                                 const maxPhylactery = currentSpec.maxPhylactery;
                                 const specName = currentSpec.name;
-                                const specGlow = currentSpec.glow || '#6495ED';
-
+                                
                                 return (
                                     <>
                                         <div className="tooltip-header">Phylactery</div>
@@ -1285,9 +1280,9 @@ const ResourceTooltip = ({
                     })()}
 
                     {/* Oracle Prophetic Visions Tooltip */}
-                    {finalConfig.visual?.type === 'prophetic-visions' && oracleHoverSection && (
+                    {finalConfig.visual?.type === 'prophetic-visions' && visionsHoverSection && (
                         <div>
-                            {oracleHoverSection === 'visions' && (() => {
+                            {visionsHoverSection === 'visions' && (() => {
                                 const specs = finalConfig.visual;
                                 const currentSpec = specs[oracleSpec] || specs.seer;
                                 const specName = currentSpec.name;
@@ -1453,24 +1448,7 @@ const ResourceTooltip = ({
         );
     };
 
-    const isShaper = finalConfig.type === 'dual-resource';
-    const isBerserker = finalConfig.type === 'rage';
-    const isHarbinger = finalConfig.visual?.type === 'mayhem-gauge';
-    const isChronarch = finalConfig.visual?.type === 'time-shards-strain';
-    const isRevenant = finalConfig.visual?.type === 'ascension-blood';
-    const isFalseProphet = finalConfig.visual?.type === 'madness-gauge';
-    const isGambitThreads = modifiedConfig.visual?.type === 'threads-of-destiny';
-    const isGambit = finalConfig.visual?.type === 'fortune-points-gambling';
-    const isApex = finalConfig.visual?.type === 'quarry-marks-companion';
-    const isAnimist = finalConfig.visual?.type === 'ancestral-resonance';
-    const isInquisitor = finalConfig.visual?.type === 'hexbreaker-charges';
-    const isLunarch = finalConfig.visual?.type === 'lunar-phases';
-    const isMinstrel = finalConfig.visual?.type === 'musical-notes-combo';
-    const isPlaguebringer = finalConfig.visual?.type === 'virulence-bar';
-    const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
-    const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
-    const isWarden = finalConfig.visual?.type === 'vengeance-points';
-
+                                                                    
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
     if (!finalClassResource.max || finalClassResource.max === 0) {

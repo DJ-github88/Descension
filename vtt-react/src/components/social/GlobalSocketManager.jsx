@@ -9,7 +9,7 @@
  * without needing to open the Community window.
  */
 
-import React, { useEffect, useRef } from 'react';
+import  { useEffect, useRef } from 'react';
 import useAuthStore from '../../store/authStore';
 import usePresenceStore from '../../store/presenceStore';
 import useCharacterStore from '../../store/characterStore';

@@ -3,7 +3,6 @@ import PartyHUD from './PartyHUD';
 import TargetHUD from './TargetHUD';
 import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
-import useCharacterStore from '../../store/characterStore';
 import MythrillWindow from '../windows/MythrillWindow';
 import { InspectionProvider } from '../../contexts/InspectionContext';
 import ChatBubbleManager from '../chat/ChatBubbleManager';
@@ -90,7 +89,7 @@ const HUDContainer = () => {
     const [isInspectingSelf, setIsInspectingSelf] = useState(false);
 
     // Store data
-    const { hudSettings, partyMembers } = usePartyStore();
+    const {} = usePartyStore();
     const { currentTarget } = useTargetingStore();
     const { restOverlayOpen, restOverlayType, restOverlayText, hideRestOverlay } = useGameStore();
 

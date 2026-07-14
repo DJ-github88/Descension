@@ -1,5 +1,4 @@
 import React from 'react';
-import { OBJECT_TYPES, WALL_TYPES } from '../../store/levelEditorStore';
 import './styles/TileTooltip.css';
 
 const ObjectTooltip = ({ 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LocalStorage Manager
  * 
  * Handles localStorage quota management and cleanup to prevent storage exceeded errors.

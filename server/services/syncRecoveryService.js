@@ -1,6 +1,5 @@
-const { applyPatch, createPatch } = require('fast-json-patch');
+const { createPatch } = require('fast-json-patch');
 const objectHash = require('object-hash');
-const logger = require('./logger');
 
 const MAX_BUFFER_SIZE = 500;
 
@@ -25,7 +24,7 @@ class SyncRecoveryService {
 
     let patch = null;
     if (previousState && newState) {
-        patch = createPatch(previousState, newState);
+      patch = createPatch(previousState, newState);
     }
 
     room.buffer.push({ sequenceId: currentSequenceId, action, patch });
@@ -55,10 +54,10 @@ class SyncRecoveryService {
 
     // Check if client is up to date
     if (clientSequenceId === room.sequenceId) {
-       const serverChecksum = this.computeChecksum(currentState);
-       if (serverChecksum === clientChecksum) {
-           return { type: 'in_sync', sequenceId: room.sequenceId };
-       }
+      const serverChecksum = this.computeChecksum(currentState);
+      if (serverChecksum === clientChecksum) {
+        return { type: 'in_sync', sequenceId: room.sequenceId };
+      }
     }
 
     // Check if client is within buffer range
@@ -68,12 +67,12 @@ class SyncRecoveryService {
         // Return accumulated patches
         const startIndex = room.buffer.findIndex(b => b.sequenceId === clientSequenceId + 1);
         if (startIndex !== -1) {
-            const missedActions = room.buffer.slice(startIndex);
-            // Combine patches or just send full state if patch creation failed
-            if (missedActions.every(m => m.patch)) {
-                 const combinedPatches = missedActions.flatMap(m => m.patch);
-                 return { type: 'delta_sync', patches: combinedPatches, sequenceId: room.sequenceId };
-            }
+          const missedActions = room.buffer.slice(startIndex);
+          // Combine patches or just send full state if patch creation failed
+          if (missedActions.every(m => m.patch)) {
+            const combinedPatches = missedActions.flatMap(m => m.patch);
+            return { type: 'delta_sync', patches: combinedPatches, sequenceId: room.sequenceId };
+          }
         }
       }
     }

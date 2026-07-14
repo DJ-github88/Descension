@@ -114,10 +114,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
   setInterval(() => {
     const now = Date.now();
     for (const [id, req] of roomJoinRequests) {
-      if (now > (req.expiresAt || 0)) roomJoinRequests.delete(id);
+      if (now > (req.expiresAt || 0)) {roomJoinRequests.delete(id);}
     }
     for (const [id, inv] of partyInvitations) {
-      if (now > (inv.expiresAt || 0)) partyInvitations.delete(id);
+      if (now > (inv.expiresAt || 0)) {partyInvitations.delete(id);}
     }
   }, 5 * 60 * 1000);
 
@@ -146,20 +146,20 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     const getSocialUserIdFromSocket = (targetSocket = socket) => {
       const directUserId = targetSocket?.data?.userId;
-      if (directUserId) return directUserId;
+      if (directUserId) {return directUserId;}
 
       const socialUser = onlineSocialUsers.get(targetSocket.id);
-      if (socialUser?.originalUserId) return socialUser.originalUserId;
-      if (socialUser?.userId) return socialUser.userId;
+      if (socialUser?.originalUserId) {return socialUser.originalUserId;}
+      if (socialUser?.userId) {return socialUser.userId;}
 
       const roomPlayer = players.get(targetSocket.id);
-      if (roomPlayer?.id) return roomPlayer.id;
+      if (roomPlayer?.id) {return roomPlayer.id;}
 
       return null;
     };
 
     const getOnlineUserById = (userId) => {
-      if (!userId) return null;
+      if (!userId) {return null;}
 
       for (const socialUser of onlineSocialUsers.values()) {
         if (socialUser?.userId === userId || socialUser?.originalUserId === userId) {
@@ -170,17 +170,17 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       return null;
     };
 
-        const getSocketsByUserId = (userId) => {
-      if (!userId) return [];
+    const getSocketsByUserId = (userId) => {
+      if (!userId) {return [];}
 
       return Array.from(io.sockets.sockets.values()).filter((s) => {
         const socialUser = onlineSocialUsers.get(s.id);
-        if (socialUser && (socialUser.userId === userId || socialUser.originalUserId === userId)) return true;
+        if (socialUser && (socialUser.userId === userId || socialUser.originalUserId === userId)) {return true;}
 
         const player = players.get(s.id);
-        if (player && (player.id === userId || player.userId === userId)) return true;
+        if (player && (player.id === userId || player.userId === userId)) {return true;}
 
-        if (s.data && s.data.userId === userId) return true;
+        if (s.data && s.data.userId === userId) {return true;}
 
         return false;
       });
@@ -194,7 +194,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     const getUserDisplayName = (userId, fallback = 'Unknown') => {
       const socialUser = getOnlineUserById(userId);
-      if (!socialUser) return fallback;
+      if (!socialUser) {return fallback;}
 
       return (
         socialUser.name ||
@@ -280,7 +280,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     const getPartyByUserId = (userId) => {
       const partyId = userToParty.get(userId);
-      if (!partyId) return null;
+      if (!partyId) {return null;}
 
       const party = parties.get(partyId);
       if (!party) {
@@ -292,7 +292,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     };
 
     const emitToPartyMembers = (party, eventName, payload) => {
-      if (!party?.members) return;
+      if (!party?.members) {return;}
 
       Object.keys(party.members).forEach((memberUserId) => {
         emitToUserId(memberUserId, eventName, payload);
@@ -498,8 +498,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     // Utility to strip undefined values from objects before Firestore write
     // Firestore crashes with "invalid data" error if fields are explicitly undefined
     const stripUndefined = (obj) => {
-      if (obj === null || typeof obj !== 'object') return obj;
-      if (Array.isArray(obj)) return obj.map(stripUndefined);
+      if (obj === null || typeof obj !== 'object') {return obj;}
+      if (Array.isArray(obj)) {return obj.map(stripUndefined);}
 
       const newObj = {};
       for (const [key, value] of Object.entries(obj)) {

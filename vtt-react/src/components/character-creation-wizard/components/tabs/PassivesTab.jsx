@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import { getIconUrl } from '../../../../utils/assetManager';
 
 const getPassiveSummary = (benefit = {}) => {
     const parts = [];

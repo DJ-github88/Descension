@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Preview Generator
  * 
  * Utilities for generating different preview formats of spells, specialized preview generators
@@ -16,11 +16,11 @@ import {
 
 import {
   EFFECT_TYPES,
-  ENHANCED_EFFECT_TYPES,
-  TARGETING_TYPES,
-  DURATION_TYPES,
-  SPELL_TEMPLATES,
-  EnhancedEffectUtils
+
+
+
+
+
  } from '../../data/enhancedEffectSystemData';
  
  import { calculateTotalResources } from '../mechanics/resourceManager';
@@ -461,6 +461,9 @@ import {
        };
       }
       break;
+      
+     default:
+      break;
     }
     
     effects.push(effect);
@@ -620,11 +623,13 @@ import {
     case 'holy_power':
      icon = 'sun';
      break;
-    case 'arcane_charges':
-     icon = 'bolt';
-     break;
-   }
-   
+     case 'arcane_charges':
+      icon = 'bolt';
+      break;
+    default:
+      break;
+    }
+    
    resourcesData.push({
     type: resourceType,
     icon,
@@ -1071,12 +1076,14 @@ import {
        break;
       default:
        results.targets = Math.ceil(areaSize / 5);
-     }
-     break;
+      }
+      break;
+    default:
+      break;
+    }
    }
-  }
-  
-  // Calculate control rating
+   
+   // Calculate control rating
   // Base on control type severity, duration, and targets
   let typeFactor = 1;
   switch (results.controlType) {

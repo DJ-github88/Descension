@@ -18,12 +18,11 @@ describe('RateLimitService', () => {
     service.destroy();
   });
 
-  it('uses the MemoryRateLimitStore by default', async () => {
+  it('uses the MemoryRateLimitStore by default', async() => {
     expect(service.store).to.be.instanceOf(MemoryRateLimitStore);
   });
 
-  it('applies GM multiplier to limits', async () => {
-    const now = Date.now();
+  it('applies GM multiplier to limits', async() => {
     const playerLimit = { maxPerMinute: 10, maxPerSecond: 2 };
     service.updateEventLimits('custom_event', playerLimit);
 
@@ -38,17 +37,17 @@ describe('RateLimitService', () => {
     expect(gmAllowed.allowed).to.equal(true);
   });
 
-  it('falls back to default limits for unknown events', async () => {
+  it('falls back to default limits for unknown events', async() => {
     const r = await service.checkRateLimit('c1', 'totally_unknown_event_xyz', false);
     expect(r.allowed).to.equal(true);
   });
 
-  it('can swap stores at runtime', async () => {
+  it('can swap stores at runtime', async() => {
     const customStore = {
-      isAllowed: async () => ({ allowed: false, resetTime: Date.now(), remaining: 0, reason: 'custom_store' }),
-      getStatus: async () => null,
-      resetClient: async () => {},
-      cleanup: async () => {},
+      isAllowed: async() => ({ allowed: false, resetTime: Date.now(), remaining: 0, reason: 'custom_store' }),
+      getStatus: async() => null,
+      resetClient: async() => {},
+      cleanup: async() => {},
       getStats: () => ({ totalClients: 42, totalEvents: 99 }),
       destroy: () => {}
     };
@@ -63,13 +62,13 @@ describe('RateLimitService', () => {
     expect(stats.totalEvents).to.equal(99);
   });
 
-  it('resetClientLimits delegates to the store', async () => {
+  it('resetClientLimits delegates to the store', async() => {
     let resetCalled = false;
     service.setStore({
-      isAllowed: async () => ({ allowed: true, resetTime: Date.now(), remaining: 0 }),
-      getStatus: async () => null,
-      resetClient: async (clientId) => { resetCalled = clientId; },
-      cleanup: async () => {},
+      isAllowed: async() => ({ allowed: true, resetTime: Date.now(), remaining: 0 }),
+      getStatus: async() => null,
+      resetClient: async(clientId) => { resetCalled = clientId; },
+      cleanup: async() => {},
       getStats: () => ({}),
       destroy: () => {}
     });
@@ -78,13 +77,13 @@ describe('RateLimitService', () => {
     expect(resetCalled).to.equal('c1');
   });
 
-  it('cleanupOldEntries delegates to the store', async () => {
+  it('cleanupOldEntries delegates to the store', async() => {
     let cleanupCalled = false;
     service.setStore({
-      isAllowed: async () => ({ allowed: true, resetTime: Date.now(), remaining: 0 }),
-      getStatus: async () => null,
-      resetClient: async () => {},
-      cleanup: async (maxAgeMs) => { cleanupCalled = maxAgeMs; },
+      isAllowed: async() => ({ allowed: true, resetTime: Date.now(), remaining: 0 }),
+      getStatus: async() => null,
+      resetClient: async() => {},
+      cleanup: async(maxAgeMs) => { cleanupCalled = maxAgeMs; },
       getStats: () => ({}),
       destroy: () => {}
     });
@@ -93,14 +92,14 @@ describe('RateLimitService', () => {
     expect(cleanupCalled).to.equal(30 * 60 * 1000);
   });
 
-  it('getRateLimitStatus returns zeroed defaults for unseen clients', async () => {
+  it('getRateLimitStatus returns zeroed defaults for unseen clients', async() => {
     const status = await service.getRateLimitStatus('new-client', 'chat_message');
     expect(status.minuteCount).to.equal(0);
     expect(status.secondCount).to.equal(0);
     expect(status.limits).to.deep.equal(service.rateLimits.chat_message);
   });
 
-  it('getRateLimitStatus includes timestamps from the memory store', async () => {
+  it('getRateLimitStatus includes timestamps from the memory store', async() => {
     const now = Date.now();
     await service.checkRateLimit('c1', 'chat_message', false);
     const status = await service.getRateLimitStatus('c1', 'chat_message');

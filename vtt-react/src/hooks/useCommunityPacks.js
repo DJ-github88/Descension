@@ -34,6 +34,7 @@ export function useCommunityPacks() {
   // Load featured packs on mount
   useEffect(() => {
     loadFeaturedPacks();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadFeaturedPacks = useCallback(async () => {

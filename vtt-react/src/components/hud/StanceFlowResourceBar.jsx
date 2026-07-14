@@ -49,9 +49,7 @@ const StanceFlowResourceBar = ({
             : shaperFlourish;
         const momentumMax = finalConfig.mechanics?.momentum?.max || 20;
         const flourishMax = finalConfig.mechanics?.flourish?.max || 5;
-        const momentumPercentage = (momentumValue / momentumMax) * 100;
-        const flourishPercentage = (flourishValue / flourishMax) * 100;
-
+                
         const stances = finalConfig.visual?.stances || {};
         const stanceNetwork = finalConfig.stanceNetwork || {};
         const transitionCosts = finalConfig.transitionCosts || {};
@@ -96,52 +94,9 @@ const StanceFlowResourceBar = ({
         const currentStanceData = stances[stanceValue] || {};
 
         // Stance data with detailed bonuses/penalties
-        const stanceDetails = {
-            'Ataxic Flow': {
-                bonuses: ['+2 dodge', '+10 ft movement', 'Advantage on Disengage'],
-                penalties: ['No offensive bonuses']
-            },
-            'Arterial Strike': {
-                bonuses: ['+2 attack rolls', 'Expanded crit range'],
-                penalties: ['No defensive bonuses']
-            },
-            'Centrifugal Fury': {
-                bonuses: ['Attacks cleave to adjacent enemies', '+5 ft reach'],
-                penalties: ['Cannot parry']
-            },
-            'Deadened Bastion': {
-                bonuses: ['Reaction parry', '+20 temp HP', 'Immune to knockback'],
-                penalties: ['-15 ft movement', 'Cannot dash']
-            },
-            'Fluid Apex': {
-                bonuses: ['+1 all rolls', 'Can transition to any form (4 Flux)'],
-                penalties: ['No stance-specific defensive bonuses']
-            },
-            'Silence Predator': {
-                bonuses: ['Advantage on first attack', '+2d6 damage from stealth', '+10 ft movement'],
-                penalties: ['Penalties in bright light']
-            }
-        };
-
+        
         // Get specialization passive based on selected spec
-        const getSpecPassive = () => {
-            const passives = {
-                'Flow Master': {
-                    name: 'Chimeric Current',
-                    description: 'All transitions cost 1 less Flux (min 1). Next attack after shift deals +1d6 bonus damage.'
-                },
-                'Iron Dancer': {
-                    name: 'Steely Harvest',
-                    description: 'In Arterial Strike or Deadened Bastion: +2 attack, reroll 1s on damage. On killing blow, harvest one trait from enemy for rest of combat at +1 Body Toll.'
-                },
-                'Primal Shadow': {
-                    name: 'Shadow Affinity',
-                    description: 'Enter Silence Predator from ANY form for 3 Flux. Silence Predator: lightly obscured, +1d6 bonus damage. Stealth attacks generate +1 extra Flux and +1 Body Toll.'
-                }
-            };
-            return passives[selectedSpecialization] || passives['Flow Master'];
-        };
-
+        
         return (
             <div className={`class-resource-bar stance-flow ${size}`}>
                 <div className="stance-flow-compact">

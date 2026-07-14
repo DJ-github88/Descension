@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { UNIVERSAL_SPELL_MAP } from '../../data/universalCombatSpells';
 import { ALL_GENERAL_SPELLS } from '../../data/generalSpellsData';
-import { getAbilityIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import {  getCustomIconUrl } from '../../utils/assetManager';
 
 /**
  * SpellIconTooltip Component

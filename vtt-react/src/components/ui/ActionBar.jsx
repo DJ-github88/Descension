@@ -7,7 +7,6 @@ import useCombatStore from '../../store/combatStore';
 import useGameStore from '../../store/gameStore';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import Button from '../common/Button';
-import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
@@ -18,7 +17,7 @@ import SpellCastConfirmation from './SpellCastConfirmation';
 import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import ExperienceBar from './ExperienceBar';
-import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects

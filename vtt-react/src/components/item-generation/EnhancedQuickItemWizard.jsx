@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ITEM_TYPES, QUALITY_TYPES } from './itemConstants';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from './wowIcons';

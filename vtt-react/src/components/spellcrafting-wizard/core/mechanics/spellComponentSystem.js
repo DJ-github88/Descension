@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Component System
  * 
  * Provides support for spell components:

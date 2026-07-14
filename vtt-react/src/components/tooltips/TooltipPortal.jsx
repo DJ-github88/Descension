@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 // Retrieve or create the portal root synchronously so that the portal is immediately ready on first render,

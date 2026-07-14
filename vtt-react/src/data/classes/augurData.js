@@ -215,7 +215,7 @@ The augur's foresight was born in the Frozen Archive of <LoreLink termId="nordha
 The price of this feedback loop was memory-loss. Cassia had to trade away her own personal memories to glimpse the future, leaving her runes scarred and her mind disoriented.
 
 **CITIES & CIVIL RECEPTION**
-Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod-Hold</LoreLink>.
+Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod Hold</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
 The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Korr <LoreLink termId="emberth">Emberth</LoreLink> who read the Solbrand's dying pulse.

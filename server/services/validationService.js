@@ -269,8 +269,8 @@ function createValidationMiddleware(options = {}) {
     // Override the socket.on method to add validation
     const originalOn = socket.on.bind(socket);
 
-    socket.on = function (event, handler) {
-      const validatedHandler = async (data) => {
+    socket.on = function(event, handler) {
+      const validatedHandler = async(data) => {
         const clientId = socket.id;
         const validation = validateSocketEvent(event, data);
 

@@ -5,7 +5,7 @@
  */
 
 // Import element data for formula generation
-import { getDamageTypeById } from '../data/damageTypes';
+
 
 // Basic resolution types
 export const RESOLUTION_TYPES = {
@@ -422,6 +422,47 @@ export const parseDiceNotation = (diceNotation) => {
 };
 
 /**
+ * Safely evaluate a simple arithmetic expression (no Function constructor)
+ * Supports +, -, *, /, parentheses, and decimal numbers
+ */
+const safeEval = (expr) => {
+  const tokens = expr.match(/\d+\.?\d*|[+\-*/()]/g) || [];
+  let pos = 0;
+
+  const parseExpr = () => {
+    let result = parseTerm();
+    while (pos < tokens.length && (tokens[pos] === '+' || tokens[pos] === '-')) {
+      const op = tokens[pos++];
+      const right = parseTerm();
+      result = op === '+' ? result + right : result - right;
+    }
+    return result;
+  };
+
+  const parseTerm = () => {
+    let result = parseFactor();
+    while (pos < tokens.length && (tokens[pos] === '*' || tokens[pos] === '/')) {
+      const op = tokens[pos++];
+      const right = parseFactor();
+      result = op === '*' ? result * right : result / right;
+    }
+    return result;
+  };
+
+  const parseFactor = () => {
+    if (tokens[pos] === '(') {
+      pos++;
+      const result = parseExpr();
+      pos++;
+      return result;
+    }
+    return parseFloat(tokens[pos++]) || 0;
+  };
+
+  return parseExpr();
+};
+
+/**
  * Evaluate a formula with variables specific to a resolution type
  * @param {string} formula - Formula to evaluate
  * @param {object} variables - Variables to substitute
@@ -443,13 +484,13 @@ export const evaluateFormula = (formula, variables = {}) => {
     });
     
     // Safety check - only allow basic math operations
-    if (!/^[0-9\s\+\-\*\/\(\)\.]+$/.test(processedFormula)) {
+    if (!/^[0-9\s+*/().-]+$/.test(processedFormula)) {
       throw new Error("Invalid characters in formula");
     }
     
-    // Use Function constructor for evaluation (safer than eval)
-    // Note: This is still not completely safe for untrusted input
-    return Function(`"use strict"; return (${processedFormula})`)();
+    // Safe arithmetic evaluation using a simple parser
+    // The formula has already been validated to only contain [0-9\s\+\-\*\/\(\)\.]
+    return safeEval(processedFormula);
   } catch (error) {
     console.error("Error evaluating formula:", error);
     return 0;
@@ -490,7 +531,7 @@ export const getAvailableResolutionTypes = (effectType) => {
   */
 };
 
-export default {
+const resolutionEngine = {
   RESOLUTION_TYPES,
   RESOLUTION_NAMES,
   RESOLUTION_DESCRIPTIONS,
@@ -505,3 +546,4 @@ export default {
   evaluateFormula,
   getAvailableResolutionTypes
 };
+export default resolutionEngine;

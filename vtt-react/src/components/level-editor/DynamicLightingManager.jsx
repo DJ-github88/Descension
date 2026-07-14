@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import  { useEffect, useCallback, useRef } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
-import { calculateAreaLighting, isTileIlluminated } from '../../utils/LightingCalculations';
+import { calculateAreaLighting } from '../../utils/LightingCalculations';
 
 /**
  * DynamicLightingManager - Handles real-time lighting calculations and updates

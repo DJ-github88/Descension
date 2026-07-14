@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import { saveUserMap, loadUserMaps, updateUserMap, deleteUserMap } from '../services/firebase/userMapsService';
+import { saveUserMap, loadUserMaps } from '../services/firebase/userMapsService';
 import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
@@ -33,7 +33,7 @@ export const useUserMapsPersistence = () => {
     if (!mapStore || !mapStore.maps) return [];
     // Get maps from the maps array (not just the current map)
     return mapStore.maps.filter(isUserCreatedMap);
-  }, [isUserCreatedMap]);
+  }, [isUserCreatedMap, useMapStore]);
 
   /**
    * Save a user-created map to Firebase
@@ -117,7 +117,7 @@ export const useUserMapsPersistence = () => {
     } catch (error) {
       console.error('Failed to load user maps from Firebase:', error);
     }
-  }, [user, isUserCreatedMap]);
+  }, [user, isUserCreatedMap, useMapStore]);
 
   /**
    * Sync newly created maps to Firebase

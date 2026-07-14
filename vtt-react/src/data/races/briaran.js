@@ -5,6 +5,7 @@ export const briaran = {
  illustration: '/assets/images/races/briaran_illustration.png',
  illustrationCaption: 'A resilient Briaran sentinel standing in a misty, moonlit grove, complex thorns tracing along their forearms and shoulders.',
  cardFlavor: 'The exiled eighth house, thorn-blooded survivors who traded their humanity to the fae for a second chance.',
+ visualDescription: `Standing between 5'8" and 6'4", with a rugged yet graceful build. Fine, dark briar thorns grow where other races grow hair — across the forearms, shoulders, and the long curve of the spine. The thorns lie flat when calm but bristle upright under strong emotion, and shed seasonally like antlers. They migrate slowly across the body over a lifetime, drifting toward the site of the oldest unfulfilled promise. Trueborn Briaran wear their thorns openly as marks of identity. Shorn Briaran shave them flat and conceal the stubble beneath heavy cloaks to pass as human. Their skin is otherwise unremarkable, weathered by life in the deep groves. They favor dark, practical clothing and cloaks woven from the dead hair of their own thorns.`,
  description: `**[The Fae-Thorned Exiles]**, *Deep in the moonlit groves of the Frostwood Reach, a Briaran Apex draws a bow of living oak, wood-thorns growing along her arms in place of hair, tracing her ancestral vows in flesh.*
 
 There were eight houses, not seven. The histories, those written by the seven who sealed the dark bargain with the Keth-Amar and marched their firstborn to the northern peaks, will tell you otherwise. But the eighth house existed. House Viridane. They were the ones who did not march north. While the other families heard Keth's whispers and prepared their children for the peaks, House Viridane heard a different voice, something watching from the mist, older than the Sun-Eater's hunger. It reached them before Keth could, offering a way that did not end with their children's blood on northern stone. They took it. They fled south through the Frostwood Reach while the sacrifice fires still burned for the other houses, their children hidden beneath cloaks woven from the hair of their own dead, their future unwritten and their name already being sanded from every record. In the moonlit groves, starving and hunted, they fulfilled the contract with the fae entities who had watched the world's death from the mist, and in exchange for protection, they became something new. The Briaran are their heirs: a people whose very bodies carry the proof of a lineage the world pretends never existed.`,
@@ -90,7 +91,8 @@ Children are raised communally. The concept of a nuclear family withered during 
   id: 'oathbreaker_sense',
   name: 'Thorn-Sense',
   description: 'Your thorns prickle upright near oathbreakers. +2 to Insight checks against creatures who have broken a spoken promise within the last hour.',
-  statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { targetBrokePromise: true, window: 1, windowUnit: 'hour' } }
+  statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { eventTrigger: 'target_broke_promise', windowHours: 1 } },
+  mechanicsText: '+2 to Insight checks against creatures who broke a spoken promise within the last hour.'
   }
  ],
  durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -102,7 +104,8 @@ Children are raised communally. The concept of a nuclear family withered during 
   id: 'thorn_betrayal',
   name: 'Thorn-Betrayed',
   description: 'Disadvantage on Deception checks. Your thorns react visibly to your own lies, prickling, flushing faintly, shifting against your skin in patterns that any observer can read as dishonesty.',
-  statModifier: { stat: 'deception', magnitude: -99, magnitudeType: 'disadvantage' }
+  statModifier: { stat: 'deception', magnitude: 0, magnitudeType: 'disadvantage' },
+  mechanicsText: 'Disadvantage on Deception checks.'
   }
  ],
  durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -127,7 +130,8 @@ Children are raised communally. The concept of a nuclear family withered during 
   id: 'oral_recitation',
   name: 'Spoken Archive',
   description: 'Once per long rest, recite a fragment of House Viridane\'s oral history. Gain advantage on one History check related to noble lineages, fae contracts, or the Frostwood Reach\'s hidden past.',
-  statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditional: 'once_per_long_rest' }
+  statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditions: { usesPerRest: 1, restType: 'long_rest' } },
+  mechanicsText: 'Once per long rest, gain advantage on a single History check regarding noble lineages, fae contracts, or the Frostwood Reach.'
   }
  ],
  durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -139,7 +143,8 @@ Children are raised communally. The concept of a nuclear family withered during 
   id: 'cannot_read',
   name: 'The Burned Word',
   description: 'You cannot read. Written text, maps, journals, ledgers, road signs, spell scrolls, is incomprehensible to you. Disadvantage on any check that requires reading. The seven families burned every record of your house. Your bloodline learned the lesson too well.',
-  statusEffect: { level: 'severe', description: 'Cannot read. Disadvantage on all checks involving written text.' }
+  statusEffect: { level: 'severe', description: 'Cannot read. Disadvantage on all checks involving written text.' },
+  mechanicsText: 'You cannot read; all checks involving written text (maps, journals, ledgers, signs, scrolls) are made with disadvantage.'
   }
  ],
  durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -277,6 +282,7 @@ Death rites are simple and oral. The dying Briaran speaks their last words to wh
  name: 'Trueborn',
  illustration: '/assets/images/races/trueborn_illustration.png',
  illustrationCaption: 'An Trueborn Briaran traditionalist in a moonlit grove, thick briar thorns growing wild across forearms and shoulders.',
+ visualDescription: `The Trueborn wear their heritage openly. Their briar thorns grow thick and unshaped across the shoulders, forearms, and the long curve of the spine, a visible declaration that House Viridane existed and refused. Their skin carries the faint green-grey undertone of people who have lived for centuries in moonlight rather than sun, and their eyes are slightly too large, adapted to the dim light of the deep groves. They dress in ghost-metal worn openly, collars and bracers and rings of the pale alloy, and their cloaks are cut with the negative-space heraldry of the house that was erased. The thorns bristle upright under strong emotion and shed seasonally like antlers.`,
  tooltipSummary: 'Thorn-blooded fae-touched who retained their briar heritage, immortal sleepers bound to thorn-lineage memory and grove-step magic.',
  description: `The traditionalists. The ones who stayed in the groves. Their thorns grow thick and uncut across their shoulders and forearms, a visible declaration that House Viridane existed, that someone said no, that the seventh house was never the last. Their skin carries the faint green-grey undertone of people who have spent centuries in moonlight rather than sun, and their eyes have the slightly too-large quality of eyes adapted to the dim grove-light. They wear ghost-metal openly, collars, bracers, rings, and their cloaks are cut with the negative-space heraldry of the house that was erased. When they speak, their words are chosen with the care of people who know that every sentence they utter aloud may be the only surviving record of the thought it contains. The flaw they carry is insularity hardening into xenophobia: a Trueborn who marries outside the bloodline is seen as diluting the last trace of Viridane. Their population is shrinking. They call it "the honorable thinning" and refuse to change.`,
  culturalBackground: `The Trueborn trace their lineage directly to the elders who stayed in the Hollow-Court after the counter-bargain was sealed. Their tradition is the spoken archive: an unbroken oral history of House Viridane, recited from elder to apprentice, never written, never inscribed, carried entirely in memory and the physical record of their thorns.
@@ -307,7 +313,8 @@ The Trueborn rarely leave the groves. When they do, they travel cloaked and hood
   name: 'Recognized Blood',
   description: '+2 to Insight and Persuasion checks against Briaran NPCs. Your thorns tell them exactly who you descend from, no introduction is necessary.',
   statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { npcRace: 'briaran' } },
-  additionalStatModifier: { stat: 'persuasion', magnitude: 2, magnitudeType: 'flat', conditions: { npcRace: 'briaran' } }
+  additionalStatModifier: { stat: 'persuasion', magnitude: 2, magnitudeType: 'flat', conditions: { npcRace: 'briaran' } },
+  mechanicsText: '+2 to Insight and +2 to Persuasion checks against Briaran NPCs.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -319,7 +326,8 @@ The Trueborn rarely leave the groves. When they do, they travel cloaked and hood
   id: 'oathbreaker_stain',
   name: 'The Oathbreaker\'s Stain',
   description: 'Disadvantage on Persuasion checks against noble-blooded NPCs and those who believe the seven families\' official history. They recognize Viridane thorns, and they remember what their tutors taught them about your house.',
-  statModifier: { stat: 'persuasion', magnitude: -99, magnitudeType: 'disadvantage', conditions: { npcKnowsOathbreakerStain: true } }
+  statModifier: { stat: 'persuasion', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcFaction: ['seven_families', 'nobility'] } },
+  mechanicsText: 'Disadvantage on Persuasion checks against NPCs of the seven families or nobility who believe the official history of House Viridane.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -365,13 +373,15 @@ The Trueborn rarely leave the groves. When they do, they travel cloaked and hood
   id: 'sleep_immunity',
   name: 'Waking Mind',
   description: 'Immune to magical sleep effects. You have trained your mind to stay conscious through conditions that would drop anyone else.',
-  statusEffect: { level: 'moderate', description: 'Immune to magical sleep.' }
+  statusEffect: { level: 'moderate', description: 'Immune to magical sleep.' },
+  mechanicsText: 'Immunity to all magical sleep effects.'
   },
   {
   id: 'exhaustion_resistance',
   name: 'Endless Vigil',
   description: 'Advantage on saving throws against exhaustion. The Recitation taught you to endure.',
-  statModifier: { stat: 'exhaustion_saves', magnitude: 1, magnitudeType: 'advantage' }
+  statModifier: { stat: 'exhaustion_saves', magnitude: 1, magnitudeType: 'advantage' },
+  mechanicsText: 'Advantage on saving throws against exhaustion.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -383,7 +393,8 @@ The Trueborn rarely leave the groves. When they do, they travel cloaked and hood
   id: 'daily_recitation',
   name: 'The Silence Debt',
   description: 'You must spend 1 hour each day in silent recitation, speaking the oral history aloud, even if only to yourself. If you miss a day, suffer -1 to all Intelligence checks until the recitation is performed. The debt accumulates: two missed days = -2, maximum -3. Three consecutive days of recitation clears the debt entirely.',
-  statModifier: { stat: 'intelligence', magnitude: -1, magnitudeType: 'flat', conditions: { missedRecitation: true, stacks: 3, resolvedBy: '1_hour_recitation' } }
+  statModifier: { stat: 'intelligence', magnitude: -1, magnitudeType: 'flat', conditions: { dailyRitualMissed: 'recitation', stacks: 3, resolvedBy: '1_hour_recitation' } },
+  mechanicsText: '-1 to all Intelligence checks for each missed daily recitation, stacking to a maximum of -3; cleared by three consecutive days of recitation.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -404,6 +415,7 @@ The Trueborn rarely leave the groves. When they do, they travel cloaked and hood
  name: 'Shorn',
  illustration: '/assets/images/races/shorn_illustration.png',
  illustrationCaption: 'A Shorn Briaran in merchant clothing in a town, thorns shaved flat, holding a hidden ghost-metal token.',
+ visualDescription: `The Shorn have done to themselves what the seven families did to their history: removed every visible trace. Their thorns are shaved flat to the skin, smooth to a passing glance, but in harsh light the faint nubs show like a beard cut too close, and the skin beneath stays tender for days after each shaving. They dress in whatever regional fashion surrounds them, Frostwood wool, Sundale cotton, port-town canvas, and the only mark of what they are is a single piece of ghost-metal worn hidden against the skin. To all outward appearance they could be human, elf, anything but Briaran, and that erasure is the point.`,
  tooltipSummary: 'Those who severed the fae pact and shed their thorns, passing as human but carrying a ghost-metal token that aches for kin.',
  description: `Founded three generations after House Viridane's flight by Aurel Shorn-First, who walked out of the moonlit groves and built a life under a human name. The pragmatists. The ones who shave their thorns flat to the skin and walk the wider world in borrowed names. They are doing to themselves what the seven families did to their history, systematically removing every visible trace of House Viridane from their bodies, and they are aware of the irony. Their skin is smooth where thorns should be, faintly textured if you look close, the nubs visible in harsh light like a beard shaved too close. They dress in the fashions of whatever region they inhabit, Frostwood Reach wool, Sundale cotton, port-town canvas, and their only visible Briaran marker is a single piece of ghost-metal worn against the skin, hidden from everyone. They are the survivors who chose invisibility, and they have been surviving so long they have started to forget what visibility felt like. The flaw they carry is self-erasure: a Shorn who dies without telling their heir the truth is mourned under a false name by people who never knew them.`,
  culturalBackground: `the Shorn trace their tradition to Aurel Shorn-First, who walked out of the groves three generations after the flight and built a life under a name that was not hers. Their tradition is adaptation: learning the customs of land-folk societies, mastering the art of the quiet life, passing the oral history to their children in fragments whispered at night while the neighbors sleep.
@@ -434,7 +446,8 @@ They view the Mimir with silent recognition, another race that hides its true fa
   id: 'false_identity_buff',
   name: 'Constructed Self',
   description: 'Advantage on Deception checks made to maintain your false identity. You have lived this lie for years, the details are consistent, rehearsed, and backed by quiet confidence.',
-  statModifier: { stat: 'deception', magnitude: 1, magnitudeType: 'advantage', conditions: { maintainingFalseIdentity: true } }
+  statModifier: { stat: 'deception', magnitude: 1, magnitudeType: 'advantage', conditions: { activityType: 'maintaining_disguise' } },
+  mechanicsText: 'Advantage on Deception checks made to maintain your false identity.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -446,7 +459,8 @@ They view the Mimir with silent recognition, another race that hides its true fa
   id: 'identity_strain_debuff',
   name: 'The Mask\'s Weight',
   description: 'After spending 24 continuous hours maintaining your false identity without a moment of genuine privacy, suffer -1 to all Charisma checks until you have 1 hour alone to let the mask rest. The lie can be sustained, but not forever.',
-  statModifier: { stat: 'charisma', magnitude: -1, magnitudeType: 'flat', conditions: { sustainedDisguise: 24, sustainedDisguiseUnit: 'hours', resolvedBy: '1_hour_privacy' } }
+  statModifier: { stat: 'charisma', magnitude: -1, magnitudeType: 'flat', conditions: { activityType: 'maintaining_disguise', continuousHours: 24, resolvedBy: '1_hour_privacy' } },
+  mechanicsText: 'After 24 continuous hours in disguise, -1 to all Charisma checks until you spend 1 hour alone in private.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -477,7 +491,8 @@ They view the Mimir with silent recognition, another race that hides its true fa
   id: 'cold_comfort_token',
   name: 'Ancestral Cold',
   description: 'Advantage on saving throws against heat-based effects and extreme environmental heat. The ghost-metal has never known warmth and will not learn it from your skin.',
-  statModifier: { stat: 'heat_saves', magnitude: 1, magnitudeType: 'advantage' }
+  statModifier: { stat: 'heat_saves', magnitude: 1, magnitudeType: 'advantage' },
+  mechanicsText: 'Advantage on saving throws against heat-based effects and extreme environmental heat.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -489,7 +504,8 @@ They view the Mimir with silent recognition, another race that hides its true fa
   id: 'token_loss_penalty',
   name: 'Irreplaceable Relic',
   description: 'If your ghost-metal token is lost, stolen, or destroyed, suffer -2 to all Charisma checks until it is replaced. A new token must be obtained from the Ghost-Metal Vein in the deep groves, nowhere else produces this alloy. Other Briaran will not recognize you without it.',
-  statModifier: { stat: 'charisma', magnitude: -2, magnitudeType: 'flat', conditions: { tokenLost: true } }
+  statModifier: { stat: 'charisma', magnitude: -2, magnitudeType: 'flat', conditions: { itemLost: 'ghost_metal_token' } },
+  mechanicsText: '-2 to all Charisma checks while your ghost-metal token is lost, stolen, or destroyed, until a replacement is obtained.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -514,7 +530,7 @@ They view the Mimir with silent recognition, another race that hides its true fa
   id: 'name_spoken_buff',
   name: 'The Name Given',
   description: 'Once per campaign, speak your true Viridane name to a non-Briaran character. They are permanently bound by the fae old laws: if they ever betray your secret, they suffer the Thorn-Curse, disadvantage on Charisma checks with any fae-touched creature until they atone. You gain their permanent trust.',
-  conditions: { oncePerCampaign: true }
+  conditions: { usesPerCampaign: 1 }
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false

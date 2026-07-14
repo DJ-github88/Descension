@@ -1,11 +1,11 @@
-﻿/**
+/**
  * Offline Support Service
  *
  * Manages offline data storage, synchronization, and conflict resolution
  * Provides unbroken offline editing with automatic sync when online
  */
 
-import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import usePresenceStore from '../store/presenceStore';
 

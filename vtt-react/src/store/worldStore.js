@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { ZONE_DATA } from '../data/zoneData';
 import { getEnrichedZone, getEnrichedZonesByRegion } from '../data/deepLocationData';
 import useFactionStore from './factionStore';
 import useTimelineStore from './timelineStore';

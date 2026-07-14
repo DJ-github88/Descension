@@ -1,4 +1,4 @@
-﻿const getInfernoStageName = (level) => {
+const getInfernoStageName = (level) => {
   const stageNames = {
     0: 'Mortal',
     1: 'Ember',
@@ -85,7 +85,7 @@ const cleanFormula = (formula) => {
 
   let cleanedFormula = formula
     .replace(/\s*\+\s*/g, ' + ')
-    .replace(/\s*\-\s*/g, ' - ')
+    .replace(/\s*-\s*/g, ' - ')
     .replace(/\s*\*\s*/g, ' * ')
     .replace(/\s*\/\s*/g, ' / ')
     .replace(/\s+/g, ' ')
@@ -630,7 +630,7 @@ const getEnhancedStatName = (statName, magnitude, magnitudeType) => {
 
   const baseName = statName.toLowerCase();
   const isPositive = magnitude > 0;
-  const isPercentage = magnitudeType === 'percentage';
+
 
   const statEnhancements = {
     'strength': isPositive ? 'Might' : 'Strength Drain',

@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import MythrillWindow from '../windows/MythrillWindow';
-import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import usePresenceStore from '../../store/presenceStore';
 import UserCard from './UserCard';
 import '../../styles/party-hud.css';
 import useAuthStore from '../../store/authStore';
+import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 
 const PartyManagementWindow = ({ isOpen, onClose }) => {
     const [invitePlayerName, setInvitePlayerName] = useState('');

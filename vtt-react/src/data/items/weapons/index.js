@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Weapons - All weapon items
  * 
  * Starter weapons with Dark Souls-esque philosophy:

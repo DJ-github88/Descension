@@ -24,7 +24,7 @@ function registerSessionInvitationHandlers(ctx) {
     getOnlineUserById
   } = ctx;
 
-  socket.on('request_to_join_session', async (data) => {
+  socket.on('request_to_join_session', async(data) => {
     try {
       const { leaderId, roomId, requesterId, requesterName } = data;
 
@@ -80,7 +80,7 @@ function registerSessionInvitationHandlers(ctx) {
     }
   });
 
-  socket.on('respond_to_join_request', async (data) => {
+  socket.on('respond_to_join_request', async(data) => {
     try {
       const { requestId, accepted } = data;
 
@@ -148,7 +148,7 @@ function registerSessionInvitationHandlers(ctx) {
     }
   });
 
-  socket.on('invite_member_to_session', async (data) => {
+  socket.on('invite_member_to_session', async(data) => {
     try {
       const { memberId, roomId } = data;
       const userId = socket.data?.userId;
@@ -213,7 +213,7 @@ function registerSessionInvitationHandlers(ctx) {
     }
   });
 
-  socket.on('invite_to_party', async ({ partyId, fromUserId, toUserId }) => {
+  socket.on('invite_to_party', async({ partyId, fromUserId, toUserId }) => {
     try {
       logger.info('📢 [invite_to_party] Received invite request', { partyId, fromUserId, toUserId, socketId: socket.id });
 

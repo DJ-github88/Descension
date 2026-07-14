@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class Spell Templates
  *
  * CLEARED FOR TESTING

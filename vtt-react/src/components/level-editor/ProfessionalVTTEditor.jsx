@@ -6,10 +6,8 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useMapStore from '../../store/mapStore';
 import MythrillWindow from '../windows/MythrillWindow';
-import { getIconUrl } from '../../utils/assetManager';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
-import { rafThrottle } from '../../utils/performanceUtils';
 
 import DrawingTools from './tools/DrawingTools';
 import TerrainTools from './tools/TerrainTools';
@@ -2739,7 +2737,7 @@ const ProfessionalVTTEditor = () => {
                             onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
                             title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
                         >
-                            {isLayersPanelCollapsed ? 'â - €' : 'â–¶'}
+                            {isLayersPanelCollapsed ? 'ï¿½ - ï¿½' : 'â–¶'}
                         </button>
 
                         {/* Render tool-specific components */}

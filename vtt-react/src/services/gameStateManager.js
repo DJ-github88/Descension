@@ -1,4 +1,4 @@
-import { saveCompleteGameState, loadCompleteGameState, updateGameStateSection } from './roomService';
+import { saveCompleteGameState, loadCompleteGameState } from './roomService';
 
 class GameStateManager {
   constructor() {

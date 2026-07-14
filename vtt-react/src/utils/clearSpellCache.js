@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Unified Spell Cache Management Utility
  * Consolidates all spell cache clearing functionality into a single, complete utility
  * This forces application to reload spells from hardcoded data files
@@ -71,8 +71,7 @@ export const checkSpellCacheStatus = () => {
   const data = localStorage.getItem(key);
   if (data) {
    try {
-    const parsed = JSON.parse(data);
-    // Check spell cache status
+     // Check spell cache status
    } catch (error) {
     // Not JSON data
    }

@@ -20,17 +20,12 @@ const ThreadsOfDestinyResourceBar = ({
   getThreadLevel,
 }) => {
   const {
-    localThreads,
-    showThreadsMenu,
-    fateWeaverHoverSection,
-    selectedFateWeaverSpec
+      localThreads,
+      showThreadsMenu,
+      selectedFateWeaverSpec
   } = fateWeaverState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
@@ -44,8 +39,7 @@ const ThreadsOfDestinyResourceBar = ({
         const currentThreads = localThreads ?? finalClassResource?.current ?? 0;
         const maxThreads = modifiedConfig.mechanics?.max ?? 13;
 
-        const threadLevel = getThreadLevel(currentThreads);
-
+        
         // Get card suit symbol for segment (cycles through specialization-specific symbols)
         const getCardSuit = (index) => {
             const spec = selectedFateWeaverSpec;

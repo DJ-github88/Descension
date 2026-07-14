@@ -1,8 +1,7 @@
-﻿import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
-import { isPositionVisible } from '../../../utils/VisibilityCalculations';
 import { debounce } from '../../../utils/performanceUtils';
 
 // Image cache for tile variations

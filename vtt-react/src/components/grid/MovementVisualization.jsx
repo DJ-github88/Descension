@@ -19,7 +19,11 @@ const MovementVisualization = ({
         feetPerTile
     } = useGameStore();
 
-    const { isInCombat, validateMovement, turnMovementUsed, getTotalUnlockedMovement } = useCombatStore();
+    const {
+        isInCombat,
+        validateMovement,
+        getTotalUnlockedMovement
+    } = useCombatStore();
     const { tokens, creatures } = useCreatureStore();
     const { characterTokens } = useCharacterTokenStore();
     const characterData = useCharacterStore();
@@ -124,7 +128,6 @@ const MovementVisualization = ({
                 isValid,
                 needsConfirmation,
                 totalMovementAfterThis,
-                movementUsedThisTurn,
                 creatureSpeed,
                 additionalAPNeeded
             } = movementValidation;

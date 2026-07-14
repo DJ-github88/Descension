@@ -2,7 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import useGameStore from './gameStore';
-import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
+import { processCreatureLoot } from '../utils/lootItemUtils';
 import { normalizeTokenData } from '../utils/tokenStateUtils';
 
 // CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Arcanoneer Elemental Spheres: save migration helper.
  *
  * Older saves may contain inconsistent sphere IDs from the 6-way naming schism.
@@ -50,7 +50,6 @@ const LEGACY_TO_CANONICAL = {
     'chaos':   'wyrd',
     // Canonical pass-throughs (for safety)
     'arcane':  'arcane',
-    'sacred':  'sacred',
     'blight':  'blight',
     'ember':   'ember',
     'rime':    'rime',

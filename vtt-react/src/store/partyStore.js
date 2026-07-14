@@ -14,7 +14,6 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import presenceService from '../services/firebase/presenceService';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { v4 as uuidv4 } from 'uuid';
 import usePresenceStore from './presenceStore';
 
 const getSocket = () => {
@@ -70,113 +69,6 @@ const getSelfIdentifiers = () => {
 const isSelfMemberId = (memberId, userId) => {
   const selfIds = getSelfIdentifiers();
   return selfIds.has(memberId) || (userId && selfIds.has(userId));
-};
-
-const ensureSelfMember = (members) => {
-  const membersArray = members || [];
-
-  // If there are already members being added, check if WE are one of them
-  const selfIds = getSelfIdentifiers();
-  const hasSelf = membersArray.some(member =>
-    selfIds.has(member.id) || selfIds.has(member.userId) || selfIds.has(member.uid) || selfIds.has(member.socketId)
-  );
-
-  // If we already have a representation in the members list, don't inject a fallback
-  if (hasSelf) {
-    return membersArray;
-  }
-
-  // Only inject fallback when no members exist OR no self representation exists
-  // Primary target for selfId is the Firebase UID if available
-  let selfId = null;
-  let selfName = 'Current Player';
-  let selfClass = 'Unknown';
-  let selfLevel = 1;
-  let isGM = false;
-
-  // Try authStore first for most stable identity
-  try {
-    const authStore = getStore('authStore').getState();
-    if (authStore?.user?.uid) {
-      selfId = authStore.user.uid;
-    }
-  } catch (e) { }
-
-  // Try presenceStore
-  try {
-    const presenceStore = getStore('presenceStore').getState();
-    const presence = presenceStore.currentUserPresence;
-    if (presence?.userId) {
-      selfId = selfId || presence.userId;
-      selfName = presence.characterName || presence.accountName || selfName;
-      selfClass = presence.class || selfClass;
-      selfLevel = presence.level || selfLevel;
-    }
-  } catch (e) { }
-
-  // Fallback to gameStore
-  if (!selfId || selfName === 'Current Player') {
-    try {
-      const gameStore = getStore('gameStore').getState();
-      selfId = selfId || gameStore?.currentPlayer?.id || gameStore?.multiplayerSocket?.id;
-      if (selfId && selfName === 'Current Player') {
-        selfName = gameStore?.currentPlayer?.name || selfName;
-      }
-      isGM = gameStore?.isGMMode || false;
-    } catch (e) { }
-  }
-
-  // Still no identity â€” don't add phantom member
-  if (!selfId) return membersArray;
-
-  // Try to get actual character data from characterStore instead of using defaults
-  let healthData = null;
-  let manaData = null;
-  let apData = { current: 0, max: 0 };
-
-  try {
-    const characterStore = getStore('characterStore').getState();
-    if (characterStore?.health?.max > 0) {
-      healthData = { current: characterStore.health.current || 0, max: characterStore.health.max };
-    }
-    if (characterStore?.mana?.max > 0) {
-      manaData = { current: characterStore.mana.current || 0, max: characterStore.mana.max };
-    }
-    if (characterStore?.actionPoints?.max > 0) {
-      apData = { current: characterStore.actionPoints.current || 0, max: characterStore.actionPoints.max };
-    }
-    // Also get class/level from characterStore if available
-    if (characterStore?.class) selfClass = characterStore.class;
-    if (characterStore?.level) selfLevel = characterStore.level;
-    if (characterStore?.name && characterStore.name !== 'Character Name') {
-      selfName = characterStore.name;
-    }
-    // Update selfId to UID if available from store logic
-    const userId = characterStore.userId || characterStore.uid;
-    if (userId) selfId = userId;
-  } catch (e) { }
-
-  return [
-    ...membersArray,
-    {
-      id: selfId,
-      userId: selfId, // Ensure both are identical for the self fallback
-      name: selfName,
-      isGM: isGM,
-      isConnected: true, // Self is always connected
-      status: PARTY_STATUS.ONLINE,
-      joinedAt: Date.now(),
-      characterClass: selfClass,
-      characterLevel: selfLevel,
-      character: {
-        class: selfClass,
-        level: selfLevel,
-        health: healthData,
-        mana: manaData,
-        actionPoints: apData
-      }
-    }
-  ];
 };
 
 // Initial state

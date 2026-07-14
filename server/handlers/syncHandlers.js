@@ -25,10 +25,10 @@ function registerSyncHandlers(ctx) {
 
   socket.on('request_full_sync', () => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     socket.emit('full_sync', {
       room: {
@@ -45,9 +45,9 @@ function registerSyncHandlers(ctx) {
 
   socket.on('sync_tokens', (data) => {
     const sender = players.get(socket.id);
-    if (!sender) return;
+    if (!sender) {return;}
     const room = rooms.get(sender.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     const payload = { tokens: data.tokens, mapId: data.mapId };
 
@@ -63,9 +63,9 @@ function registerSyncHandlers(ctx) {
 
   socket.on('sync_grid_items', (data) => {
     const sender = players.get(socket.id);
-    if (!sender) return;
+    if (!sender) {return;}
     const room = rooms.get(sender.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     const payload = { gridItems: data.gridItems, mapId: data.mapId };
 
@@ -81,9 +81,9 @@ function registerSyncHandlers(ctx) {
 
   socket.on('sync_character_tokens', (data) => {
     const sender = players.get(socket.id);
-    if (!sender) return;
+    if (!sender) {return;}
     const room = rooms.get(sender.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     const payload = { characterTokens: data.characterTokens, mapId: data.mapId };
 
@@ -99,9 +99,9 @@ function registerSyncHandlers(ctx) {
 
   socket.on('request_combat_sync', () => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     socket.emit('full_game_state_sync', {
       combat: room.gameState.combat || null,
@@ -110,11 +110,11 @@ function registerSyncHandlers(ctx) {
     });
   });
 
-  socket.on('save_room_state_request', async (data) => {
+  socket.on('save_room_state_request', async(data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     try {
       await firebaseService.updateRoomGameState(room.id, room.gameState);
@@ -125,10 +125,10 @@ function registerSyncHandlers(ctx) {
     }
   });
 
-  socket.on('resolve_state_conflict', async (data) => {
+  socket.on('resolve_state_conflict', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
 

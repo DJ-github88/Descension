@@ -10,10 +10,7 @@ import {
   doc,
   getDoc,
   getDocs,
-  addDoc,
   setDoc,
-  updateDoc,
-  deleteDoc,
   query,
   where,
   orderBy,
@@ -177,7 +174,7 @@ export async function getCharacterRollHistory(userId, characterId, options = {})
       return [];
     }
 
-    const { limit: resultLimit = 50, rollType, startDate, endDate } = options;
+    const { limit: resultLimit = 50, rollType } = options;
 
     let queryConstraints = [
       where('userId', '==', userId),
@@ -259,7 +256,7 @@ export async function getRoomRollHistory(roomId, options = {}) {
       return [];
     }
 
-    const { limit: resultLimit = 100, startDate, endDate } = options;
+    const { limit: resultLimit = 100 } = options;
 
     const rollsQuery = query(
       collection(db, COLLECTIONS.DICE_ROLLS),

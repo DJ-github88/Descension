@@ -1,4 +1,4 @@
-﻿export const EXPLORATION_RULES = {
+export const EXPLORATION_RULES = {
   sundrift_vale: {
     id: 'sundrift_vale',
     name: 'Sundrift Vale Exploration',

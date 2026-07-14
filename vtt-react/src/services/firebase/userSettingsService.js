@@ -1,4 +1,4 @@
-﻿/**
+/**
  * User Settings Service
  *
  * Manages user preferences and settings persistence to Firebase.

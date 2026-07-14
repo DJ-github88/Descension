@@ -1,4 +1,4 @@
-﻿/**
+/**
  * SpellCardUtils.js
  *
  * Utility functions for spell cards that don't depend on any other modules
@@ -155,7 +155,7 @@ export const formatFormulaToPlainEnglish = (formula, type = 'damage') => {
 
  // Clean up mathematical operators spacing
  cleanedFormula = cleanedFormula.replace(/\s*\+\s*/g, ' + ');
- cleanedFormula = cleanedFormula.replace(/\s*\-\s*/g, ' - ');
+  cleanedFormula = cleanedFormula.replace(/\s*-\s*/g, ' - ');
  cleanedFormula = cleanedFormula.replace(/\s*\*\s*/g, ' * ');
  cleanedFormula = cleanedFormula.replace(/\s*\/\s*/g, ' / ');
 
@@ -470,7 +470,7 @@ export const formatFormulaToReadableText = (formula, drawCount = 4) => {
 
  // Handle mathematical operators more thematically
  readableText = readableText.replace(/\s*\+\s*/g, ' + ');
- readableText = readableText.replace(/\s*\-\s*/g, ' - ');
+  readableText = readableText.replace(/\s*-\s*/g, ' - ');
  readableText = readableText.replace(/\s*\*\s*/g, ' × ');
  readableText = readableText.replace(/\s*\/\s*/g, ' ÷ ');
 
@@ -657,7 +657,7 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
  
  let cleanedFormula = formula
   .replace(/\s*\+\s*/g, ' + ')
-  .replace(/\s*\-\s*/g, ' - ')
+   .replace(/\s*-\s*/g, ' - ')
   .replace(/\s*\*\s*/g, ' * ')
   .replace(/\s*\/\s*/g, ' / ')
   .replace(/\s+/g, ' ')
@@ -699,7 +699,7 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
 
  const damageType = damageConfig.damageType || 'direct';
  const elementType = damageConfig.elementType || 'ember';
- const elementName = elementType.charAt(0).toUpperCase() + elementType.slice(1);
+
  
  // Get damage types array
  let damageTypesArray = spell.damageTypes || damageConfig.damageTypes;
@@ -758,7 +758,7 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
   }
  } else if (subType === 'damage_combined' || (subType === null && damageType === 'combined')) {
   const instantFormula = damageConfig.formula || '1d6 + INT';
-  const dotFormula = damageConfig.dotConfig?.dotFormula || damageConfig.formula || '1d4 + INT/2';
+
   return `${cleanFormula(instantFormula)}${damageTypeText} (Instant + DoT)`;
  }
  }
@@ -845,7 +845,6 @@ const DAMAGE_TYPE_COLORS = {
  psychic: '#87206f',
  force: '#6c3dbf',
  // Other legacy types
- sacred: '#DAA520',
  radiant: '#DAA520',
  poison: '#2D6A3F',
  acid: '#2D6A3F',

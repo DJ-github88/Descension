@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS, CURRENCY_TYPES } from './itemConstants';
+import React, { useState } from 'react';
+import { ITEM_TYPES, QUALITY_TYPES, CURRENCY_TYPES } from './itemConstants';
 import { WEAPON_SUBTYPES } from './weaponTypes';
 import { getIconUrl } from '../../utils/assetManager';
 

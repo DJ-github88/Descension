@@ -1,5 +1,4 @@
-﻿// Local Room Service - Manages offline/local rooms using localStorage
-import { v4 as uuidv4 } from 'uuid';
+// Local Room Service - Manages offline/local rooms using localStorage
 import roomStateService from './roomStateService';
 import campaignService from './campaignService';
 import { validateRoomName } from '../utils/validationUtils';

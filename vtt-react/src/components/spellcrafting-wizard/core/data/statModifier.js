@@ -591,7 +591,7 @@ export function getBaseStatsForLevel(level) {
 }
 
 // Export a default object for easier importing
-export default {
+const statModifier = {
   PRIMARY_STAT_MODIFIERS,
   SECONDARY_STAT_MODIFIERS,
   COMBAT_STAT_MODIFIERS,
@@ -604,3 +604,4 @@ export default {
   calculateAttributeModifier,
   getStatModifierDescription
 };
+export default statModifier;

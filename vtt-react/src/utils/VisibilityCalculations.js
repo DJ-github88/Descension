@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Visibility and Line-of-Sight Calculations for shifting Fog of War
  * Professional VTT implementation with Bresenham's line algorithm and wall detection
  */

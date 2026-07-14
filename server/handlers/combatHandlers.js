@@ -32,7 +32,7 @@ function registerCombatHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
-        if (typeof ackCallback === 'function') ackCallback({ success: false, error: 'Not a room member' });
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, error: 'Not a room member' });}
         return;
       }
 
@@ -43,7 +43,7 @@ function registerCombatHandlers(ctx) {
         logger.warn('[combat_started] rejected by authority check', {
           playerId: player?.id, reason: auth.reason
         });
-        if (typeof ackCallback === 'function') ackCallback({ success: false, error: auth.reason });
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, error: auth.reason });}
         return;
       }
 
@@ -73,7 +73,7 @@ function registerCombatHandlers(ctx) {
 
     } catch (error) {
       logger.error('[combat_started] Error:', { error: error.message });
-      if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
+      if (typeof ackCallback === 'function') {ackCallback({ success: false, error: error.message });}
     }
   });
 
@@ -81,7 +81,7 @@ function registerCombatHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
-        if (typeof ackCallback === 'function') ackCallback({ success: false, error: 'Not a room member' });
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, error: 'Not a room member' });}
         return;
       }
 
@@ -92,7 +92,7 @@ function registerCombatHandlers(ctx) {
         logger.warn('[combat_ended] rejected by authority check', {
           playerId: player?.id, reason: auth.reason
         });
-        if (typeof ackCallback === 'function') ackCallback({ success: false, error: auth.reason });
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, error: auth.reason });}
         return;
       }
 
@@ -113,14 +113,14 @@ function registerCombatHandlers(ctx) {
 
     } catch (error) {
       logger.error('[combat_ended] Error:', { error: error.message });
-      if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
+      if (typeof ackCallback === 'function') {ackCallback({ success: false, error: error.message });}
     }
   });
 
   socket.on('combat_log', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const sanitized = {
         playerId: socket.player?.id || socket.id,
@@ -138,7 +138,7 @@ function registerCombatHandlers(ctx) {
   socket.on('combat_turn_changed', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -192,10 +192,10 @@ function registerCombatHandlers(ctx) {
     }
   });
 
-  socket.on('item_looted', async (data) => {
+  socket.on('item_looted', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
       const mapId = data.mapId || player.currentMapId || 'default';
@@ -232,12 +232,12 @@ function registerCombatHandlers(ctx) {
     }
   });
 
-  socket.on('inventory_update', async (data) => {
+  socket.on('inventory_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
-      const { room, player } = validation;
+      const { room } = validation;
 
       socket.to(room.id).emit('inventory_update', {
         playerId: data.playerId,

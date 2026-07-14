@@ -1,7 +1,6 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { rafThrottle } from '../../utils/performanceUtils';
 
 const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX, screenY }) => {
     const {

@@ -62,8 +62,8 @@ function makeCtx(overrides = {}) {
 
 describe('combatHandlers', () => {
   afterEach(() => {
-    if (originalAuthFlag === undefined) delete process.env.COMBAT_AUTHORITY_ENFORCEMENT;
-    else process.env.COMBAT_AUTHORITY_ENFORCEMENT = originalAuthFlag;
+    if (originalAuthFlag === undefined) {delete process.env.COMBAT_AUTHORITY_ENFORCEMENT;}
+    else {process.env.COMBAT_AUTHORITY_ENFORCEMENT = originalAuthFlag;}
   });
 
   describe('combat_started', () => {

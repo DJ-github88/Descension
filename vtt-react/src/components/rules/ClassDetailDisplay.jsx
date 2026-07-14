@@ -173,164 +173,158 @@ const CLASS_REGIONS = {
  //  glowColor: 'rgba(22, 160, 133, 0.15)',
  //  icon: 'fas fa-skull'
  // },
- pyrofiend: {
-  regionId: 'sundale',
-  regionName: 'Sundale Badlands',
-  accentColor: '#d35400', // fire-amber
-  bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
-  borderColor: '#d35400',
-  glowColor: 'rgba(211, 84, 0, 0.15)',
-  icon: 'fas fa-fire'
- },
- berserker: {
-  regionId: 'sundale',
-  regionName: 'Sundale Badlands',
-  accentColor: '#d35400',
-  bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
-  borderColor: '#d35400',
-  glowColor: 'rgba(211, 84, 0, 0.15)',
-  icon: 'fas fa-gavel'
- },
- // 'titan' removed (absorbed into Warden as Monolith specialization)
- spellguard: {
-  regionId: 'sundale',
-  regionName: 'Sundale Badlands',
-  accentColor: '#d35400',
-  bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
-  borderColor: '#d35400',
-  glowColor: 'rgba(211, 84, 0, 0.15)',
-  icon: 'fas fa-shield-alt'
- },
- martyr: {
-  regionId: 'sundale',
-  regionName: 'Sundale Badlands',
-  accentColor: '#d35400',
-  bgGradient: 'linear-gradient(135deg, rgba(211, 84, 0, 0.06) 0%, rgba(230, 126, 34, 0.02) 100%)',
-  borderColor: '#d35400',
-  glowColor: 'rgba(211, 84, 0, 0.15)',
-  icon: 'fas fa-heart'
- },
- augur: {
-  regionId: 'nordhalla',
-  regionName: 'Nordhalla Tundra',
-  accentColor: '#2980b9', // frosty blue
-  bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
-  borderColor: '#2980b9',
-  glowColor: 'rgba(41, 128, 185, 0.15)',
-  icon: 'fas fa-eye'
- },
+  pyrofiend: {
+   regionId: 'sundale',
+   regionName: 'Sundale Badlands',
+   accentColor: '#e67e22', // ember orange
+   bgGradient: 'linear-gradient(135deg, rgba(230, 126, 34, 0.06) 0%, rgba(243, 156, 18, 0.02) 100%)',
+   borderColor: '#e67e22',
+   glowColor: 'rgba(230, 126, 34, 0.15)',
+   icon: 'fas fa-fire'
+  },
+  berserker: {
+   regionId: 'sundale',
+   regionName: 'Sundale Badlands',
+   accentColor: '#c0392b', // battle crimson
+   bgGradient: 'linear-gradient(135deg, rgba(192, 57, 43, 0.06) 0%, rgba(231, 76, 60, 0.02) 100%)',
+   borderColor: '#c0392b',
+   glowColor: 'rgba(192, 57, 43, 0.15)',
+   icon: 'fas fa-gavel'
+  },
+  // 'titan' removed (absorbed into Warden as Monolith specialization)
+  spellguard: {
+   regionId: 'sundale',
+   regionName: 'Sundale Badlands',
+   accentColor: '#b7950b', // shield bronze
+   bgGradient: 'linear-gradient(135deg, rgba(183, 149, 11, 0.06) 0%, rgba(214, 175, 20, 0.02) 100%)',
+   borderColor: '#b7950b',
+   glowColor: 'rgba(183, 149, 11, 0.15)',
+   icon: 'fas fa-shield-alt'
+  },
+  martyr: {
+   regionId: 'sundale',
+   regionName: 'Sundale Badlands',
+   accentColor: '#922b50', // martyr wine
+   bgGradient: 'linear-gradient(135deg, rgba(146, 43, 80, 0.06) 0%, rgba(169, 50, 76, 0.02) 100%)',
+   borderColor: '#922b50',
+   glowColor: 'rgba(146, 43, 80, 0.15)',
+   icon: 'fas fa-heart'
+  },
+  augur: {
+   regionId: 'nordhalla',
+   regionName: 'Nordhalla Tundra',
+   accentColor: '#2980b9', // frosty blue
+   bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
+   borderColor: '#2980b9',
+   glowColor: 'rgba(41, 128, 185, 0.15)',
+   icon: 'fas fa-eye'
+  },
 
- animist: {
-  regionId: 'bryngloom-forest',
-  regionName: 'Bryngloom Forest',
-  accentColor: '#2e8b57',
-  bgGradient: 'linear-gradient(135deg, rgba(46, 139, 87, 0.06) 0%, rgba(80, 200, 120, 0.02) 100%)',
-  borderColor: '#2e8b57',
-  glowColor: 'rgba(46, 139, 87, 0.15)',
-  icon: 'fas fa-wind'
- },
- warden: {
-  regionId: 'nordhalla',
-  regionName: 'Nordhalla Tundra',
-  accentColor: '#2980b9',
-  bgGradient: 'linear-gradient(135deg, rgba(41, 128, 185, 0.06) 0%, rgba(52, 152, 219, 0.02) 100%)',
-  borderColor: '#2980b9',
-  glowColor: 'rgba(41, 128, 185, 0.15)',
-  icon: 'fas fa-compass'
- },
- apex: {
-  regionId: 'frostwood-reach',
-  regionName: 'Frostwood Reach',
-  accentColor: '#27ae60', // ancient pine
-  bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
-  borderColor: '#27ae60',
-  glowColor: 'rgba(39, 174, 96, 0.15)',
-  icon: 'fas fa-leaf'
- },
- shaper: {
-  regionId: 'frostwood-reach',
-  regionName: 'Frostwood Reach',
-  accentColor: '#27ae60',
-  bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
-  borderColor: '#27ae60',
-  glowColor: 'rgba(39, 174, 96, 0.15)',
-  icon: 'fas fa-yin-yang'
- },
- lunarch: {
-  regionId: 'frostwood-reach',
-  regionName: 'Frostwood Reach',
-  accentColor: '#27ae60',
-  bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
-  borderColor: '#27ae60',
-  glowColor: 'rgba(39, 174, 96, 0.15)',
-  icon: 'fas fa-moon'
- },
- inquisitor: {
-  primaryColor: '#8B0000',
-  secondaryColor: '#4F2F2F',
-  gradientFrom: '#2F0F0F',
-  gradientTo: '#0F0F2F',
- },
- toxicologist: {
-  regionId: 'frostwood-reach',
-  regionName: 'Frostwood Reach',
-  accentColor: '#27ae60',
-  bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
-  borderColor: '#27ae60',
-  glowColor: 'rgba(39, 174, 96, 0.15)',
-  icon: 'fas fa-skull-crossbones'
- },
+  animist: {
+   regionId: 'bryngloom-forest',
+   regionName: 'Bryngloom Forest',
+   accentColor: '#a04000', // ancestral ochre
+   bgGradient: 'linear-gradient(135deg, rgba(160, 64, 0, 0.06) 0%, rgba(190, 80, 10, 0.02) 100%)',
+   borderColor: '#a04000',
+   glowColor: 'rgba(160, 64, 0, 0.15)',
+   icon: 'fas fa-wind'
+  },
+  warden: {
+   regionId: 'nordhalla',
+   regionName: 'Nordhalla Tundra',
+   accentColor: '#2471a3', // steel blue
+   bgGradient: 'linear-gradient(135deg, rgba(36, 113, 163, 0.06) 0%, rgba(52, 142, 193, 0.02) 100%)',
+   borderColor: '#2471a3',
+   glowColor: 'rgba(36, 113, 163, 0.15)',
+   icon: 'fas fa-compass'
+  },
+  apex: {
+   regionId: 'frostwood-reach',
+   regionName: 'Frostwood Reach',
+   accentColor: '#27ae60', // ancient pine
+   bgGradient: 'linear-gradient(135deg, rgba(39, 174, 96, 0.06) 0%, rgba(46, 204, 113, 0.02) 100%)',
+   borderColor: '#27ae60',
+   glowColor: 'rgba(39, 174, 96, 0.15)',
+   icon: 'fas fa-leaf'
+  },
+  shaper: {
+   regionId: 'frostwood-reach',
+   regionName: 'Frostwood Reach',
+   accentColor: '#148f77', // teal
+   bgGradient: 'linear-gradient(135deg, rgba(20, 143, 119, 0.06) 0%, rgba(26, 168, 141, 0.02) 100%)',
+   borderColor: '#148f77',
+   glowColor: 'rgba(20, 143, 119, 0.15)',
+   icon: 'fas fa-yin-yang'
+  },
+  lunarch: {
+   regionId: 'frostwood-reach',
+   regionName: 'Frostwood Reach',
+   accentColor: '#5dade2', // moonlight
+   bgGradient: 'linear-gradient(135deg, rgba(93, 173, 226, 0.06) 0%, rgba(133, 193, 233, 0.02) 100%)',
+   borderColor: '#5dade2',
+   glowColor: 'rgba(93, 173, 226, 0.15)',
+   icon: 'fas fa-moon'
+  },
+  toxicologist: {
+   regionId: 'frostwood-reach',
+   regionName: 'Frostwood Reach',
+   accentColor: '#0e6655', // toxic teal-green
+   bgGradient: 'linear-gradient(135deg, rgba(14, 102, 85, 0.06) 0%, rgba(20, 130, 110, 0.02) 100%)',
+   borderColor: '#0e6655',
+   glowColor: 'rgba(14, 102, 85, 0.15)',
+   icon: 'fas fa-skull-crossbones'
+  },
 
- // 'formbender' removed (consolidated into Shaper)
+  // 'formbender' removed (consolidated into Shaper)
 
- // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
- // 'fate_weaver' removed (consolidated into Gambit, which uses the Iceheart Sea config below)
- chronarch: {
-  regionId: 'cragjaw-peaks',
-  regionName: 'Cragjaw Peaks',
-  accentColor: '#8e44ad',
-  bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
-  borderColor: '#8e44ad',
-  glowColor: 'rgba(142, 68, 173, 0.15)',
-  icon: 'fas fa-history'
- },
- gambit: {
-  regionId: 'iceheart-sea',
-  regionName: 'Iceheart Sea',
-  accentColor: '#2c3e50', // deep indigo
-  bgGradient: 'linear-gradient(135deg, rgba(44, 62, 80, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
-  borderColor: '#2c3e50',
-  glowColor: 'rgba(44, 62, 80, 0.15)',
-  icon: 'fas fa-dice'
- },
- minstrel: {
-  regionId: 'iceheart-sea',
-  regionName: 'Iceheart Sea',
-  accentColor: '#2c3e50',
-  bgGradient: 'linear-gradient(135deg, rgba(44, 62, 80, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
-  borderColor: '#2c3e50',
-  glowColor: 'rgba(44, 62, 80, 0.15)',
-  icon: 'fas fa-music'
- },
- // oracle config removed (absorbed into Augur)
- harbinger: {
-  regionId: 'sundrift-vale',
-  regionName: 'Sundrift Vale',
-  accentColor: '#6c5ce7',
-  bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
-  borderColor: '#6c5ce7',
-  glowColor: 'rgba(108, 92, 231, 0.15)',
-  icon: 'fas fa-hourglass-half'
- },
- false_prophet: {
-  regionId: 'sundrift-vale',
-  regionName: 'Sundrift Vale',
-  accentColor: '#6c5ce7',
-  bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
-  borderColor: '#6c5ce7',
-  glowColor: 'rgba(108, 92, 231, 0.15)',
-  icon: 'fas fa-exclamation-triangle'
- }
+  // 'dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
+  // 'fate_weaver' removed (consolidated into Gambit, which uses the Iceheart Sea config below)
+  chronarch: {
+   regionId: 'cragjaw-peaks',
+   regionName: 'Cragjaw Peaks',
+   accentColor: '#8e44ad', // chrono purple
+   bgGradient: 'linear-gradient(135deg, rgba(142, 68, 173, 0.06) 0%, rgba(155, 89, 182, 0.02) 100%)',
+   borderColor: '#8e44ad',
+   glowColor: 'rgba(142, 68, 173, 0.15)',
+   icon: 'fas fa-history'
+  },
+  gambit: {
+   regionId: 'iceheart-sea',
+   regionName: 'Iceheart Sea',
+   accentColor: '#2c3e50', // deep indigo
+   bgGradient: 'linear-gradient(135deg, rgba(44, 62, 80, 0.06) 0%, rgba(52, 73, 94, 0.02) 100%)',
+   borderColor: '#2c3e50',
+   glowColor: 'rgba(44, 62, 80, 0.15)',
+   icon: 'fas fa-dice'
+  },
+  minstrel: {
+   regionId: 'iceheart-sea',
+   regionName: 'Iceheart Sea',
+   accentColor: '#154360', // abyssal navy
+   bgGradient: 'linear-gradient(135deg, rgba(21, 67, 96, 0.06) 0%, rgba(32, 92, 130, 0.02) 100%)',
+   borderColor: '#154360',
+   glowColor: 'rgba(21, 67, 96, 0.15)',
+   icon: 'fas fa-music'
+  },
+  // oracle config removed (absorbed into Augur)
+  harbinger: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#6c5ce7', // harbinger violet
+   bgGradient: 'linear-gradient(135deg, rgba(108, 92, 231, 0.06) 0%, rgba(162, 155, 254, 0.02) 100%)',
+   borderColor: '#6c5ce7',
+   glowColor: 'rgba(108, 92, 231, 0.15)',
+   icon: 'fas fa-hourglass-half'
+  },
+  false_prophet: {
+   regionId: 'sundrift-vale',
+   regionName: 'Sundrift Vale',
+   accentColor: '#a569bd', // prophet amethyst
+   bgGradient: 'linear-gradient(135deg, rgba(165, 105, 189, 0.06) 0%, rgba(190, 140, 208, 0.02) 100%)',
+   borderColor: '#a569bd',
+   glowColor: 'rgba(165, 105, 189, 0.15)',
+   icon: 'fas fa-exclamation-triangle'
+  }
 };
 
 // Robust scanner/tokenizer that converts markdown and LoreLink markup into clickable React nodes

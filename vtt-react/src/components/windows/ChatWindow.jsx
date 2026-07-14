@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import lazy from '../../utils/lazyWithRetry';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
-import '../../styles/social-window.css';
-import '../../styles/chat-window.css';
 
 // Lazy load the ItemTooltip component
 const ItemTooltip = lazy(() => import('../item-generation/ItemTooltip'));
@@ -34,9 +32,7 @@ const getClassColor = (className) => {
 const ChatWindow = () => {
   const {
     activeTab,
-    setActiveTab,
     notifications,
-    unreadCounts,
     sendMessage,
     clearNotifications
   } = useChatStore(state => ({
@@ -104,8 +100,7 @@ const ChatWindow = () => {
     // Calculate position for tooltip - position above the chat window
     const rect = e.currentTarget.getBoundingClientRect();
     const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
+    
     // Get the chat window container to position tooltip above it
     const chatWindow = e.currentTarget.closest('.draggable-window') || e.currentTarget.closest('.chat-window');
     const chatWindowRect = chatWindow ? chatWindow.getBoundingClientRect() : rect;

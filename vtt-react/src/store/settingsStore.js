@@ -7,8 +7,7 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { DEFAULT_USER_SETTINGS, saveUserSettings, loadUserSettings, updateUserSettings } from '../services/firebase/userSettingsService';
-import useAuthStore from './authStore';
+import { DEFAULT_USER_SETTINGS, saveUserSettings, loadUserSettings } from '../services/firebase/userSettingsService';
 
 // Default settings (fallback for when Firebase is unavailable)
 const initialState = DEFAULT_USER_SETTINGS;

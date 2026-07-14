@@ -472,7 +472,7 @@ DEEP_LOCATIONS['mirror-mere'] = {
  ],
  connectedMaps: [],
  factionPresence: [
-  { factionId: 'masked-mimir', influence: 'dominant', description: 'Founders and custodians of the mere' },
+  { factionId: 'veiled-mimir', influence: 'dominant', description: 'Founders and custodians of the mere' },
   { factionId: 'scribe-sentinels', influence: 'moderate', description: 'Maintain a small presence for memory-glass procurement and cross-referencing' }
  ],
  travelConnections: [

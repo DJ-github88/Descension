@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -230,7 +230,7 @@ const MapSwitcher = () => {
         <div className="map-switcher">
             <div className="map-switcher-header">
                 <div className="current-map-display">
-                    <span className="map-icon">ğŸ - ºï¸</span>
+                    <span className="map-icon">ï¿½ - ï¿½ï¸</span>
                     <div className="map-info">
                         <div className="map-name">{currentMap?.name || 'No Map'}</div>
                         <div className="map-stats">
@@ -238,7 +238,7 @@ const MapSwitcher = () => {
                                 const stats = formatMapStats(currentMap);
                                 return (
                                     <>
-                                        <span title="Connections">ğŸ” -  {stats.connections}</span>
+                                        <span title="Connections">ï¿½ -  {stats.connections}</span>
                                         <span title="Creatures">ğŸ‘¹ {stats.creaturesCount}</span>
                                     </>
                                 );
@@ -286,7 +286,7 @@ const MapSwitcher = () => {
                                     <div className="map-item-info">
                                         <div className="map-item-name">{map.name}</div>
                                         <div className="map-item-stats">
-                                            <span>ğŸ” -  {stats.connections}</span>
+                                            <span>ï¿½ -  {stats.connections}</span>
                                             <span>ğŸ‘¹ {stats.creaturesCount}</span>
                                         </div>
                                     </div>

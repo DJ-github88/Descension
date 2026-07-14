@@ -10,12 +10,10 @@ import {
   doc,
   addDoc,
   updateDoc,
-  getDoc,
   query,
   where,
   getDocs,
-  serverTimestamp,
-  runTransaction
+  serverTimestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import characterPersistenceService from './characterPersistenceService';

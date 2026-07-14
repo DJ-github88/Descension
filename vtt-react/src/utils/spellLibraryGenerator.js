@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Library Generator
  * 
  * This utility generates high-quality, original spells that fully use

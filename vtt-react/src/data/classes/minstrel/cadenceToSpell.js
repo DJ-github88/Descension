@@ -1,4 +1,4 @@
-﻿/**
+/**
  * cadenceToSpell, adapts a Minstrel cadence entry
  * (from MINSTREL_DATA.cadenceMatrix.entries) into the spell-shaped
  * object that UnifiedSpellCard / SpellTooltip expect.

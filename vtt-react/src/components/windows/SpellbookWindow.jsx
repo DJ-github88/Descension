@@ -1,42 +1,22 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
-import ReactDOM from 'react-dom';
 import MythrillWindow from './MythrillWindow';
 import useSpellbookStore from '../../store/spellbookStore';
 import useGameStore from '../../store/gameStore';
-import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
-import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators, SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import {    SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { SpellWizardProvider } from '../spellcrafting-wizard/context/spellWizardContext';
-import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
 import CommunitySpellsTab from '../spellcrafting-wizard/components/library/CommunitySpellsTab';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
-import { formatFormulaToPlainEnglish } from '../spellcrafting-wizard/components/common/SpellCardUtils';
 
 // Pathfinder-themed styles are now imported globally in App.jsx
-import { clearAllSpellCache } from '../../utils/clearSpellCache';
 
 import SpellWizard from '../spellcrafting-wizard/SpellWizardWrapper';
 
 // Icons removed for cleaner tab design
-const BoltIcon = () => <span style={{ fontSize: '12px' }}></span>;
-const PlusIcon = () => <span style={{ fontSize: '12px' }}></span>;
 
 // Pre-load SpellWizard for better development experience
 
 // Simple wrapper that uses UnifiedSpellCard for spellbook display
-const SpellCardWrapper = ({ spell, onClick }) => {
-  return (
-    <UnifiedSpellCard
-      spell={spell}
-      variant="spellbook"
-      onClick={onClick}
-      showActions={false}
-      showDescription={true}
-      showStats={true}
-      showTags={true}
-    />
-  );
-};
 
 const SpellWizardTab = () => {
   // No local state, just render the wizard (pre-loaded)
@@ -64,8 +44,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
     setActiveTab,
     windowPosition,
     windowSize,
-    setWindowPosition,
-    setWindowSize
+    setWindowPosition
   } = useSpellbookStore();
   const { isGMMode } = useGameStore();
   const [isLoaded, setIsLoaded] = useState(false);

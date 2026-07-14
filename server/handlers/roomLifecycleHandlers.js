@@ -33,7 +33,7 @@ function registerRoomHandlers(ctx) {
     handlePartyLeave
   } = ctx;
 
-  socket.on('create_room', requireAuth(async (data) => {
+  socket.on('create_room', requireAuth(async(data) => {
     let room = null;
 
     try {
@@ -91,8 +91,8 @@ function registerRoomHandlers(ctx) {
             logger.info('[create_room] Merged Firestore gameState into existing room');
           }
 
-          if (persistedRoomData.gmId) existingRoom.gmId = persistedRoomData.gmId;
-          if (persistedRoomData.members) existingRoom.members = persistedRoomData.members;
+          if (persistedRoomData.gmId) {existingRoom.gmId = persistedRoomData.gmId;}
+          if (persistedRoomData.members) {existingRoom.members = persistedRoomData.members;}
 
           room = existingRoom;
         } else {
@@ -166,7 +166,7 @@ function registerRoomHandlers(ctx) {
         );
 
         if (room && data.description) {
-          if (!room.settings) room.settings = {};
+          if (!room.settings) {room.settings = {};}
           room.settings.description = data.description;
           logger.info('[create_room] Added description to temporary room', { description: data.description });
         }
@@ -264,7 +264,7 @@ function registerRoomHandlers(ctx) {
     }
   }));
 
-  socket.on('join_room', requireAuth(async (data) => {
+  socket.on('join_room', requireAuth(async(data) => {
     try {
       const { roomId, playerName, password, playerColor, character } = data;
 
@@ -393,12 +393,12 @@ function registerRoomHandlers(ctx) {
   socket.on('leave_room', (ackCallback) => {
     const player = players.get(socket.id);
     if (!player) {
-      if (typeof ackCallback === 'function') ackCallback();
+      if (typeof ackCallback === 'function') {ackCallback();}
       return;
     }
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     const roomId = player.roomId;
 
@@ -434,7 +434,7 @@ function registerRoomHandlers(ctx) {
 
     logger.info('[leave_room] Player left room', { playerId: player.id, roomId, isGM: player.isGM });
 
-    if (typeof ackCallback === 'function') ackCallback();
+    if (typeof ackCallback === 'function') {ackCallback();}
   });
 
   socket.on('disconnect', () => {
@@ -488,7 +488,7 @@ function registerRoomHandlers(ctx) {
         });
       } else {
         if (player.userId) {
-          if (!room.disconnectedPlayers) room.disconnectedPlayers = {};
+          if (!room.disconnectedPlayers) {room.disconnectedPlayers = {};}
           room.disconnectedPlayers[player.userId] = {
             playerId: player.id,
             playerName: player.name,

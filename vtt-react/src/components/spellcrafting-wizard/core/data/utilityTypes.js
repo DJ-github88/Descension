@@ -570,7 +570,7 @@ export const UTILITY_EFFECT_TYPES = [
     }
     
     // Check general parameters that apply to multiple contexts
-    for (const [contextKey, contextParams] of Object.entries(UTILITY_PARAMETERS)) {
+for (const [contextParams] of Object.entries(UTILITY_PARAMETERS)) {
       if (contextParams[paramName]) {
         return contextParams[paramName];
       }
@@ -872,6 +872,9 @@ export const UTILITY_EFFECT_TYPES = [
             description += ` even through solid barriers`;
           }
           break;
+
+        default:
+          break;
       }
     }
     
@@ -909,7 +912,7 @@ export const UTILITY_EFFECT_TYPES = [
     const { 
       environment = 'dungeon',
       task = 'exploration',
-      priority = 'versatility',
+
       danger = 'low',
       complexity = 'medium'
     } = situation;

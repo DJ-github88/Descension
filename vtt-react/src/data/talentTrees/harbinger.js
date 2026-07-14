@@ -1,4 +1,4 @@
-﻿export const HARBINGER_WILD_PROPHET = [
+export const HARBINGER_WILD_PROPHET = [
  {
   id: 'wp_t0_surge_attunement',
   name: 'Surge Attunement',

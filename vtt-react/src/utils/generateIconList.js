@@ -3,7 +3,6 @@
  * This allows us to include all 3000+ icons without manually listing them
  */
 
-import { getIconUrl } from './assetManager';
 
 /**
  * Generate icon entries from a folder path

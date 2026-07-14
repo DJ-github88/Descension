@@ -30,8 +30,8 @@ describe('deltaSyncCapabilities', () => {
 
   after(() => {
     for (const [flag, value] of Object.entries(saved)) {
-      if (value === undefined) delete process.env[flag];
-      else process.env[flag] = value;
+      if (value === undefined) {delete process.env[flag];}
+      else {process.env[flag] = value;}
     }
   });
 

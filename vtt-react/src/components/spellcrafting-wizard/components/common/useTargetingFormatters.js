@@ -955,6 +955,9 @@ const useTargetingFormatters = ({ spell }) => {
       case 'ACTION':
         // No bullets for ACTION type - removed to reduce header clutter
         break;
+
+      default:
+        break;
     }
 
     // Add propagation information as bullets (applies to all spell types)
@@ -999,6 +1002,9 @@ const useTargetingFormatters = ({ spell }) => {
             bullets.push(`seeks targets within ${parameters.range}ft`);
           }
           break;
+
+        default:
+          break;
       }
 
       // Add behavior-specific information
@@ -1027,6 +1033,9 @@ const useTargetingFormatters = ({ spell }) => {
             break;
           case 'ricocheting':
             bullets.push('ricochets off surfaces');
+            break;
+
+          default:
             break;
         }
       }

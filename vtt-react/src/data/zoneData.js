@@ -919,14 +919,14 @@ export const ZONE_DATA = [
  {
  "id": "synod-hold",
  "regionId": "sundrift-vale",
- "name": "The Synod-Hold",
+ "name": "The Synod Hold",
  "type": "city",
  "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first Lumian echo-vessels arrived just after the Breach.",
  "dangerLevel": "low",
- "factions": [
-  "house-ordavan",
-  "Synod Scribes"
- ],
+  "factions": [
+   "house-ordavan",
+   "unlit-veil"
+  ],
  "connections": [
   "mound-camps",
   "ancestor-mounds"

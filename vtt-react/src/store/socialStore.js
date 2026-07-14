@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import socialService from '../services/socialService';
 import authService from '../services/authService';
@@ -25,12 +25,6 @@ const presenceSubscriptions = new Map();
 const processedAcceptedRequestIds = new Set();
 
 // Track Firestore subscription unsubscribe functions for cleanup
-let socialUnsubscribers = {
-  incoming: null,
-  sent: null,
-  friends: null,
-  accepted: null
-};
 
 // Store cleanup functions returned by initialize()
 let initializeCleanupFn = null;

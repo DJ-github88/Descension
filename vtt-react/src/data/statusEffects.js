@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Status effects and conditions with details for the spell wizard
  */
 

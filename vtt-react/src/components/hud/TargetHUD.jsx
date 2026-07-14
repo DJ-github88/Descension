@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Draggable from 'react-draggable';
 import { createPortal } from 'react-dom';
 import useTargetingStore from '../../store/targetingStore';
@@ -20,9 +20,6 @@ import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyD
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
 import Button from '../common/Button';
 import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
-// REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
-// REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
-import './styles/ClassResourceBar.css';
 
 // Helper function to get background display name
 const getBackgroundDisplayName = (backgroundId, backgroundDisplayName) => {
@@ -142,7 +139,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const [showOverhealModal, setShowOverhealModal] = useState(false);
   const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, overhealAmount, currentValue, maxValue }
 
-  const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
+  const {
+    currentTarget,
+    targetType,
+    clearTarget,
+    targetHUDPosition,
+    setTargetHUDPosition
+  } = useTargetingStore();
   const { isGMMode } = useGameStore();
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
@@ -159,8 +162,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     getRemainingTime,
     updateConditionTimers,
     getActiveEffects,
-    activeBuffs,
-    activeDebuffs,
     removeCondition
   } = useConditionStore();
 
@@ -703,7 +704,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   // Use these consolidated lists for rendering
   const targetBuffs = finalBuffs;
   const targetDebuffs = finalDebuffs;
-  const targetConditions = []; // This will now be empty as they are merged into buffs/debuffs
+   // This will now be empty as they are merged into buffs/debuffs
 
   // Calculate resource percentages and colors
   const healthPercent = safeHealth.max > 0 ? Math.min(100, Math.max(0, (Number(safeHealth.current) / Number(safeHealth.max)) * 100)) : 0;
@@ -791,45 +792,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
 
   // Handler for class resource updates (e.g., Inferno Veil)
-  const handleClassResourceUpdate = (field, value) => {
-    if (targetType === 'party_member' || targetType === 'player') {
-      const memberId = currentTarget?.id;
-
-      if (memberId === 'current-player') {
-        // Update current player's class resource in character store
-        updateClassResource(field, value);
-      } else if (memberId) {
-        // Update party member's class resource in party store
-        const partyState = usePartyStore.getState();
-        const member = partyState.partyMembers.find(m => m.id === memberId);
-        if (member && member.character?.classResource) {
-          let updatedClassResource;
-          const existingField = member.character.classResource[field];
-          const isNestedField = existingField && typeof existingField === 'object' && !Array.isArray(existingField) && 'current' in existingField && (value === null || typeof value !== 'object');
-          if (isNestedField) {
-            updatedClassResource = {
-              ...member.character.classResource,
-              [field]: { ...existingField, current: value },
-              lastUpdate: Date.now()
-            };
-          } else {
-            updatedClassResource = {
-              ...member.character.classResource,
-              [field]: value,
-              lastUpdate: Date.now()
-            };
-          }
-          updatePartyMember(memberId, {
-            character: {
-              ...member.character,
-              classResource: updatedClassResource
-            }
-          });
-        }
-      }
-    }
-  };
-
+  
   // Helper function to get character name from target
   const getTargetName = () => {
     if (!currentTarget) return 'Unknown';
@@ -1483,8 +1446,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const handleFullHeal = () => {
     if (!currentTarget || !targetData) return;
 
-    const characterName = getTargetName();
-
+    
     if (targetType === 'party_member' || targetType === 'player') {
       const memberId = currentTarget.id;
 
@@ -1559,8 +1521,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const handleDrainMana = () => {
     if (!currentTarget || !targetData) return;
 
-    const characterName = getTargetName();
-
+    
     if (targetType === 'party_member' || targetType === 'player') {
       const memberId = currentTarget.id;
 
@@ -1599,8 +1560,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const handleFullRestoreMana = () => {
     if (!currentTarget || !targetData) return;
 
-    const characterName = getTargetName();
-
+    
     if (targetType === 'party_member' || targetType === 'player') {
       const memberId = currentTarget.id;
 
@@ -1642,8 +1602,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const handleDrainAP = () => {
     if (!currentTarget || !targetData) return;
 
-    const characterName = getTargetName();
-
+    
     if (targetType === 'party_member' || targetType === 'player') {
       const memberId = currentTarget.id;
 
@@ -2312,21 +2271,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
               }
 
               // Format time helper for conditions
-              const formatConditionTime = (condition) => {
-                if (!condition.duration && !condition.durationType) return '∞';
-                if (condition.durationType === 'rounds') {
-                  const rounds = condition.remainingRounds ?? condition.durationValue ?? 0;
-                  return `${rounds}r`;
-                }
-                if (condition.appliedAt && condition.duration) {
-                  const remaining = Math.max(0, Math.floor((condition.appliedAt + condition.duration - Date.now()) / 1000));
-                  const mins = Math.floor(remaining / 60);
-                  const secs = remaining % 60;
-                  return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}s`;
-                }
-                return '∞';
-              };
-
+              
               return (targetBuffs.length > 0 || targetDebuffs.length > 0 || targetConditions.length > 0) && (
                 <div
                   className="target-conditions-beneath"
@@ -2484,7 +2429,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           </div>
         </Draggable>
       </div>
-
       {/* Context Menu - Outside draggable container */}
       {showContextMenu && (() => {
         const menuItems = [];
@@ -2960,8 +2904,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           </div>
         );
       })()}
-
-
       {/* Condition Duration Modal */}
       {showDurationModal && durationModalCondition && (
         <ConditionDurationModal
@@ -2976,7 +2918,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           initialDurationValue={durationModalCondition.initialDurationValue || 10}
         />
       )}
-
       {/* Condition Tooltip */}
       {tooltip.show && (
         <div
@@ -3092,7 +3033,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           </div>
         </div>
       )}
-
       {/* Condition Context Menu */}
       {conditionContextMenu.show && (
         <>
@@ -3133,7 +3073,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           </div>
         </>
       )}
-
       {/* Creature Inspection Window */}
       {showCreatureInspect && targetType === 'creature' && inspectCreatureData && (
         <EnhancedCreatureInspectView

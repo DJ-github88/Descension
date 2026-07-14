@@ -4,7 +4,7 @@ import { LORE_DICTIONARY } from '../data/loreDictionary';
 const dictionaryTerms = Object.values(LORE_DICTIONARY).map(entry => ({
   id: entry.id,
   term: entry.term,
-  pattern: entry.term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') // escape regex characters
+  pattern: entry.term.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') // escape regex characters
 })).sort((a, b) => b.term.length - a.term.length);
 
 /**

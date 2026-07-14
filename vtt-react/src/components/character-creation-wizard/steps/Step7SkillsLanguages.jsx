@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { getBackgroundData } from '../../../data/backgroundData';
 import { getRaceData, getSubraceData } from '../../../data/raceData';
-import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../../data/languages';
+import { LANGUAGES } from '../../../data/languages';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../../constants/rollableTables';

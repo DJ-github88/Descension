@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Balance Calculator Module
  * 
  * A complete system for evaluating and balancing spell power,
@@ -9,19 +9,19 @@
  */
 
 import { 
- DAMAGE_TYPES, 
- EFFECT_TYPES,
- TARGETING_TYPES,
- DURATION_TYPES,
+
+
+
+
  COMBAT_STAT_MODIFIERS,
  POSITIVE_STATUS_EFFECTS,
- NEGATIVE_STATUS_EFFECTS,
- UTILITY_EFFECT_TYPES,
- AOE_SHAPES,
- CRITICAL_EFFECT_MODIFIERS,
- ABSORPTION_SHIELD_TYPES,
- REFLECTION_DAMAGE_TYPES,
- getAverageRoll
+
+
+
+
+
+
+
 } from '../../data/enhancedEffectSystemData';
 
 // =======================================================================
@@ -93,7 +93,7 @@ export const DAMAGE_METRICS = {
   
   // Calculate resource efficiency
   const resourceCost = getSpellResourceCost(spell);
-  const resourcePerSec = resourceCost / cooldownTime;
+
   
   // Standard combat duration (30 seconds)
   const combatDuration = context.combatDuration || 30;
@@ -152,7 +152,7 @@ export const DAMAGE_METRICS = {
   const penetration = spell.penetration || 0;
   
   // Consider damage type
-  const damageType = spell.damageType || 'physical';
+
   
   // Get resistances for typical targets
   const standardResistance = context.standardResistance || 30;
@@ -230,7 +230,7 @@ export const HEALING_METRICS = {
   
   // Calculate resource efficiency
   const resourceCost = getSpellResourceCost(spell);
-  const resourcePerSec = resourceCost / cooldownTime;
+
   
   // Standard combat duration (30 seconds)
   const combatDuration = context.combatDuration || 30;
@@ -1546,7 +1546,7 @@ export const COMPARATIVE_BALANCE = {
   underpowered: []
  };
  
- for (const [key, spells] of Object.entries(spellGroups)) {
+for (const [spells] of Object.entries(spellGroups)) {
   // Skip groups with too few spells for meaningful comparison
   if (spells.length < 3) continue;
   
@@ -1625,7 +1625,7 @@ export const POWER_ADJUSTMENT_RECOMMENDATIONS = {
  }
  
  // Calculate resource efficiency
- const efficiency = RESOURCE_EFFICIENCY_CALCULATORS.calculateCostEfficiency(spell, context);
+
  
  // Determine direction and magnitude of adjustment
  const isOverpowered = tierComparison.overallRatio > 1.2;
@@ -1759,22 +1759,25 @@ export const POWER_ADJUSTMENT_RECOMMENDATIONS = {
    suggestions.push(`Add limitations or conditions to spell usage`);
    break;
    
-  case 'defense':
-   const currentReduction = spell.damageReductionPercent || 0;
-   const adjustedReduction = Math.floor(currentReduction * (1 - reductionFactor));
+   case 'defense':
+    const currentReduction = spell.damageReductionPercent || 0;
+    const adjustedReduction = Math.floor(currentReduction * (1 - reductionFactor));
+    
+    suggestions.push(`Reduce defensive strength by ${Math.round(reductionFactor * 100)}%`);
+    effectAdjustments.damageReduction = {
+     current: currentReduction,
+     suggested: adjustedReduction
+    };
+    break;
+
+   default:
+    break;
+   }
    
-   suggestions.push(`Reduce defensive strength by ${Math.round(reductionFactor * 100)}%`);
-   effectAdjustments.damageReduction = {
-   current: currentReduction,
-   suggested: adjustedReduction
-   };
-   break;
-  }
-  
-  // For all overpowered spells, suggest adding limitations
-  suggestions.push(`Consider adding a weakness or counter-condition`);
-  
- } else if (isUnderpowered) {
+   // For all overpowered spells, suggest adding limitations
+   suggestions.push(`Consider adding a weakness or counter-condition`);
+   
+  } else if (isUnderpowered) {
   const increaseFactor = Math.min(0.4, 1 - tierComparison.overallRatio);
   
   switch (spellType) {
@@ -1818,24 +1821,27 @@ export const POWER_ADJUSTMENT_RECOMMENDATIONS = {
    suggestions.push(`Add secondary beneficial effects`);
    break;
    
-  case 'defense':
-   const currentReduction = spell.damageReductionPercent || 0;
-   const adjustedReduction = Math.ceil(currentReduction * (1 + increaseFactor));
+   case 'defense':
+    const currentReduction = spell.damageReductionPercent || 0;
+    const adjustedReduction = Math.ceil(currentReduction * (1 + increaseFactor));
+    
+    suggestions.push(`Increase defensive strength by ${Math.round(increaseFactor * 100)}%`);
+    effectAdjustments.damageReduction = {
+     current: currentReduction,
+     suggested: adjustedReduction
+    };
+    break;
+
+   default:
+    break;
+   }
    
-   suggestions.push(`Increase defensive strength by ${Math.round(increaseFactor * 100)}%`);
-   effectAdjustments.damageReduction = {
-   current: currentReduction,
-   suggested: adjustedReduction
-   };
-   break;
+   // For all underpowered spells, suggest adding benefits
+   suggestions.push(`Consider adding a secondary benefit or effect`);
   }
   
-  // For all underpowered spells, suggest adding benefits
-  suggestions.push(`Consider adding a secondary benefit or effect`);
- }
- 
- return {
-  adjustmentNeeded: true,
+  return {
+   adjustmentNeeded: true,
   spellType,
   powerRatio: tierComparison.overallRatio,
   isOverpowered,
@@ -1996,8 +2002,11 @@ export const POWER_ADJUSTMENT_RECOMMENDATIONS = {
    suggestions.push("Prevent stacking with similar effects");
   }
   break;
+
+ default:
+  break;
  }
- 
+
  // Filter out duplicate suggestions
  const uniqueSuggestions = [...new Set(suggestions)];
  
@@ -2245,7 +2254,7 @@ export const BALANCE_VISUALIZATION_DATA = {
  // Calculate values for each metric
  const dataPoints = [];
  
- for (const [metricId, metric] of Object.entries(metrics)) {
+for (const [metric] of Object.entries(metrics)) {
   // Calculate value for spell
   const value = metric.calculate(spell, context);
   
@@ -3535,7 +3544,7 @@ function calculateOverallPowerScore(spell, context = {}) {
  let totalScore = 0;
  let totalWeight = 0;
  
- for (const [metricId, metric] of Object.entries(metrics)) {
+for (const [metric] of Object.entries(metrics)) {
  // Calculate value for spell
  const value = metric.calculate(spell, context);
  

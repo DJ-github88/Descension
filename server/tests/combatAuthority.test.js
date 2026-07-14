@@ -16,8 +16,8 @@ const originalFlag = process.env.COMBAT_AUTHORITY_ENFORCEMENT;
 
 describe('combatAuthority', () => {
   afterEach(() => {
-    if (originalFlag === undefined) delete process.env.COMBAT_AUTHORITY_ENFORCEMENT;
-    else process.env.COMBAT_AUTHORITY_ENFORCEMENT = originalFlag;
+    if (originalFlag === undefined) {delete process.env.COMBAT_AUTHORITY_ENFORCEMENT;}
+    else {process.env.COMBAT_AUTHORITY_ENFORCEMENT = originalFlag;}
   });
 
   describe('when authority is disabled (default)', () => {
@@ -65,7 +65,7 @@ describe('combatAuthority', () => {
     });
 
     describe('canChangeTurn', () => {
-      const room = (turnOverride) => ({
+      const room = (_turnOverride) => ({
         gm: { id: 'gm-1' },
         gameState: {
           combat: {

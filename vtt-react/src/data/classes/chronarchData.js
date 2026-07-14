@@ -23,7 +23,7 @@
 export const CHRONARCH_DATA = {
  restrictions: {
    "allowedSubraces": [
-    "kethrin_fexric",
+    "kethrin_fexrick",
     "ithran_groven",
     "tessen_human",
     "velun_neth"
@@ -52,7 +52,7 @@ export const CHRONARCH_DATA = {
  * machine, body, or anchor.
  */
  subraceVariants: {
- kethrin_fexric: {
+ kethrin_fexrick: {
   subraceName: 'Kethrin Fexrick',
   title: 'The Gear-Stitcher',
   reframe: `The guild-bound <LoreLink termId="fexrick">Kethrin</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Kethrin Chronarch treats time as a mechanism with replaceable parts, and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)`,
@@ -184,7 +184,7 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The chronarch's temporal manipulation was first manifested in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Fexric clockwork engineer named **Nesta** sought to repair an alchemical engine and accidentally trapped her own timeline in a feedback loop of temporal friction.
+The chronarch's temporal manipulation was first manifested in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Fexrick clockwork engineer named **Nesta** sought to repair an alchemical engine and accidentally trapped her own timeline in a feedback loop of temporal friction.
 
 The price of this chronal mastery was rapid localized aging and memory displacement. Every time she manipulated time to prolong an ally's lifespan or delay a threat, her own personal history decayed, leaving her past as blank grey stone.
 

@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // AUGUR TALENT TREES
 // Benediction & Malediction fuel all talents.
 // Each tree focuses on one aspect of omen

@@ -35,7 +35,7 @@ describe('Room Handlers', () => {
   describe('hashPassword', () => {
     const { hashPassword } = require('../handlers/roomHandlers');
 
-    it('should hash a password', async () => {
+    it('should hash a password', async() => {
       const password = 'testpassword123';
       const hash = await hashPassword(password);
 
@@ -44,17 +44,17 @@ describe('Room Handlers', () => {
       expect(hash.length).to.be.greaterThan(50);
     });
 
-    it('should return null for empty password', async () => {
+    it('should return null for empty password', async() => {
       const hash = await hashPassword('');
       expect(hash).to.be.null;
     });
 
-    it('should return null for null password', async () => {
+    it('should return null for null password', async() => {
       const hash = await hashPassword(null);
       expect(hash).to.be.null;
     });
 
-    it('should produce different hashes for same password', async () => {
+    it('should produce different hashes for same password', async() => {
       const hash1 = await hashPassword('password');
       const hash2 = await hashPassword('password');
 
@@ -66,7 +66,7 @@ describe('Room Handlers', () => {
   describe('verifyPassword', () => {
     const { hashPassword, verifyPassword } = require('../handlers/roomHandlers');
 
-    it('should verify correct password', async () => {
+    it('should verify correct password', async() => {
       const password = 'correctpassword';
       const hash = await hashPassword(password);
 
@@ -74,7 +74,7 @@ describe('Room Handlers', () => {
       expect(result).to.be.true;
     });
 
-    it('should reject incorrect password', async () => {
+    it('should reject incorrect password', async() => {
       const password = 'correctpassword';
       const hash = await hashPassword(password);
 
@@ -82,17 +82,17 @@ describe('Room Handlers', () => {
       expect(result).to.be.false;
     });
 
-    it('should allow access when room has no password and user provides none', async () => {
+    it('should allow access when room has no password and user provides none', async() => {
       const result = await verifyPassword(null, null);
       expect(result).to.be.true;
     });
 
-    it('should allow access when room has no password and user provides empty string', async () => {
+    it('should allow access when room has no password and user provides empty string', async() => {
       const result = await verifyPassword('', null);
       expect(result).to.be.true;
     });
 
-    it('should deny access when room has password and user provides none', async () => {
+    it('should deny access when room has password and user provides none', async() => {
       const hash = await hashPassword('roompassword');
 
       const result = await verifyPassword(null, hash);
@@ -153,7 +153,7 @@ describe('Room Handlers', () => {
         id: 'test-1',
         isActive: true,
         gm: { id: 'gm-1', name: 'GM 1' },
-        players: new Map([['p1', {}]]),
+        players: new Map([['p1', {}]])
       });
 
       // Case 2: GM IS in players map (e.g. after color update)
@@ -161,7 +161,7 @@ describe('Room Handlers', () => {
         id: 'test-2',
         isActive: true,
         gm: { id: 'gm-2', name: 'GM 2' },
-        players: new Map([['p2', {}], ['gm-2', {}]]),
+        players: new Map([['p2', {}], ['gm-2', {}]])
       });
 
       const publicRooms = getPublicRooms(rooms);

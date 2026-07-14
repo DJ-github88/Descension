@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../data/languages';
 import './BackgroundSelector.css';
 
@@ -201,7 +201,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Synod-Speak' && (
                 <>
-                  <li><i className="fas fa-check"></i> Astril scholars of the Synod-Hold</li>
+                  <li><i className="fas fa-check"></i> Astril scholars of the Synod Hold</li>
                   <li><i className="fas fa-check"></i> Lumian echo-signatures and their vessels</li>
                   <li><i className="fas fa-check"></i> Crystal-lattice archivists and historians</li>
                   <li><i className="fas fa-check"></i> Those who study spirit-genealogies</li>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
-import useItemStore from '../../store/itemStore';
 import { CURRENCY_TYPES } from '../item-generation/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
 import '../../styles/currency-withdraw-modal.css';
@@ -127,8 +126,7 @@ const UnifiedCurrencyWithdrawModal = ({ onClose }) => {
         // Create a single combined currency item
         if (platinum > 0 || gold > 0 || silver > 0 || copper > 0) {
             // Calculate total value in copper for display
-            const totalValueInCopper = (platinum * 1000000) + (gold * 10000) + (silver * 100) + copper;
-
+            
             // Determine which icon to use based on the highest denomination
             let iconId, primaryType;
             if (platinum > 0) {
@@ -221,54 +219,13 @@ const UnifiedCurrencyWithdrawModal = ({ onClose }) => {
     };
 
     // Create a currency item based on type and amount
-    const createCurrencyItem = (type, value) => {
-        // Determine which currency preset to use based on amount
-        let currencyKey = '';
-        let displayName = '';
-
-        if (type === 'copper') {
-            if (value <= 10) currencyKey = 'HANDFUL_OF_COINS';
-            else currencyKey = 'SMALL_POUCH';
-            displayName = value === 1 ? 'Copper Coin' : `${value} Copper Coins`;
-        } else if (type === 'silver') {
-            if (value <= 10) currencyKey = 'MODEST_SUM';
-            else currencyKey = 'MERCHANT_PURSE';
-            displayName = value === 1 ? 'Silver Coin' : `${value} Silver Coins`;
-        } else { // gold
-            if (value <= 5) currencyKey = 'ADVENTURER_EARNINGS';
-            else if (value <= 10) currencyKey = 'NOBLE_PAYMENT';
-            else currencyKey = 'ROYAL_BOUNTY';
-            displayName = value === 1 ? 'Gold Coin' : `${value} Gold Coins`;
-        }
-
-        const currencyInfo = CURRENCY_TYPES[currencyKey] || CURRENCY_TYPES.HANDFUL_OF_COINS;
-        const iconId = 'Container/Coins/golden-coin-single-isometric';
-
-        return {
-            id: crypto.randomUUID(),
-            name: displayName,
-            quality: 'common',
-            description: `${displayName} that can be spent or traded.`,
-            type: 'currency',
-            subtype: currencyKey,
-            iconId: iconId,
-            imageUrl: getIconUrl(iconId, 'items'),
-            currencyType: type,
-            currencyValue: value,
-            isCurrency: true,
-            value: { [type]: value },
-            width: 1,
-            height: 1,
-            rotation: 0
-        };
-    };
 
     return ReactDOM.createPortal(
         <div className="pf-modal-backdrop modal-backdrop" style={{ zIndex: 9999999999, top: 0, left: 0 }}>
             <div ref={modalRef} className="pf-currency-withdraw-modal" style={{ zIndex: 9999999999 }}>
                 <div className="pf-modal-header">
                     <h3>Withdraw Currency</h3>
-                    <button className="pf-close-button" onClick={onClose}>Ã - </button>
+                    <button className="pf-close-button" onClick={onClose}>ï¿½ - </button>
                 </div>
                 <div className="pf-modal-content">
                     <div className="pf-currency-available-section">

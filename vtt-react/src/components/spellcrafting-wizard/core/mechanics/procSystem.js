@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Proc System
  * 
  * Provides support for proc-based effects:
@@ -449,6 +449,9 @@ export function calculateProcEffect(procConfig, triggerEvent, baseEffect) {
           target: effect.targetSelection,
           description: effect.description
         });
+        break;
+        
+      default:
         break;
         
       // Add other effect types as needed

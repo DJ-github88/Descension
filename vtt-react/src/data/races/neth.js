@@ -1,10 +1,11 @@
-﻿export const neth = {
+export const neth = {
  id: 'neth',
  name: 'Neth',
  essence: 'The Silver-Touched',
  illustration: '/assets/images/races/neth_illustration.png',
  illustrationCaption: 'A tall, pale-skinned Neth in ghost-silk robes, dark pool-like eyes reflecting the canopy-light, utterly still between breaths.',
  cardFlavor: 'The pale-skinned Pact-Lords, bound by an ancient contract to Morvane, writing new agreements to sustain their pale skin and stilled breath.',
+ visualDescription: `Tall and slender, standing 5'10" to 6'6", with pale, almost luminous skin preserved by an ancient pact. Their eyes are dark and pool-like, reflecting canopy-light like still water. Their hair is colorless, the texture of fine spider-silk. They dress in flowing ghost-silk robes, pale and minimal. Their most striking feature: they are utterly, unnervingly still. Their chests do not visibly rise and fall with breath — the stilled breath is a visible marker of the pact that sustains them. The overall impression is frozen elegance, beautiful and unchanging, like a manuscript illustration given flesh.`,
  description: `**[The pale-skinned Pact-Lords]**, *Inside the quiet canopy-libraries of Atropolis, a tall, pale-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
 
 There is a city in the Bryngloom Forest built from living ironwood coaxed into cathedral-shapes over a thousand years. It is not a ruin. It is not a monument. It is an archive, the oldest archive in the known world, and the people who live there have been writing in it since before the sun was stolen. The Neth are what happens when a dying clan of scribes looks at an ancient forest-boundary entity and presents a legal argument for their own survival. The argument was accepted. The terms were binding. The silver in their skin, the stillness in their lungs, the pact written in the blood of every descendant, all of it is a contract. And the Neth have been honoring it for eight centuries, because the alternative is the silence that waits for anyone who breaks the terms.`,
@@ -89,12 +90,13 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
       "id": "fraying_neth",
       "name": "Fraying",
       "description": "Each deliberate contract breach: -1 Charisma checks (stacking, max -3). After 3 unresolved breaches, Fading: -1 Intelligence, Archive-Tether range halved.",
-      "statusEffect": {
-       "level": "severe",
-       "frayingStage": { "stat": "charisma", "magnitude": -1, "magnitudeType": "flat_per_breach", "maxStacks": 3 },
-       "fadingStage": { "trigger": "3_unresolved_breaches", "stat": "intelligence", "magnitude": -1, "magnitudeType": "flat", "additionalEffect": "archive_tether_range_halved" }
-      }
-     }],
+       "statusEffect": {
+        "level": "severe",
+        "frayingStage": { "stat": "charisma", "magnitude": -1, "magnitudeType": "flat_per_breach", "maxStacks": 3 },
+        "fadingStage": { "trigger": "3_unresolved_breaches", "stat": "intelligence", "magnitude": -1, "magnitudeType": "flat", "additionalEffect": "archive_tether_range_halved" }
+       },
+       "mechanicsText": "Each deliberate contract breach imposes -1 to Charisma checks (stacking, max -3). After 3 unresolved breaches, the Fading begins: -1 to Intelligence checks and the Archive-Tether range is halved until the contracts are resolved."
+      }],
      "durationValue": 0,
      "durationType": "conditional",
      "durationUnit": "until_contract_resolved",
@@ -117,15 +119,17 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    id: 'stillness_trance',
    name: 'Eternal Vigil',
    description: 'You require no food, water, or sleep. Four hours of trance (the Stillness) restores you as fully as eight hours of sleep. You are conscious of your surroundings during the trance, eyes open, body still, mind adrift in Morvane\'s archive.',
-   statusEffect: { level: 'major', description: 'No food, water, or sleep required. 4-hour trance restores fully.' }
-   },
+    statusEffect: { level: 'major', description: 'No food, water, or sleep required. 4-hour trance restores fully.' },
+    mechanicsText: 'You require no food, water, or sleep. A 4-hour trance (the Stillness) restores you as fully as a normal night\'s rest, and you remain conscious of your surroundings during it.'
+    },
    {
    id: 'preserved_body',
    name: 'The Preserved Form',
    description: 'Advantage on saving throws against disease and poison. The pact preserves what should decay, your body resists corruption the way a contract resists amendment.',
-   statModifier: { stat: 'disease_saves', magnitude: 1, magnitudeType: 'advantage' },
-   additionalStatModifier: { stat: 'poison_saves', magnitude: 1, magnitudeType: 'advantage' }
-   }
+    statModifier: { stat: 'disease_saves', magnitude: 1, magnitudeType: 'advantage' },
+    additionalStatModifier: { stat: 'poison_saves', magnitude: 1, magnitudeType: 'advantage' },
+    mechanicsText: 'You have advantage on saving throws against disease and poison, as the pact preserves what should decay.'
+    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
   },
@@ -136,8 +140,9 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    id: 'archive_tether',
    name: 'The Archive-Tether',
    description: 'You must remain within one week\'s travel of a copy of the First Contract. Beyond this, the Fading begins: after 3 days, disadvantage on Intelligence and Spirit checks. After 7 days, pale skin dulls and hunger returns. After 14 days, total cognitive dissolution, you become a pale-skinned husk with nothing behind the eyes. Major Neth outposts (Ironjaw Port, Frostwood embassy, Sundale crossroads) each house a weaker copy. Return to any copy\'s range to halt the Fading; full recovery requires 24 hours of uninterrupted trance.',
-   statusEffect: { level: 'severe', description: 'Must remain within 1 week of a First Contract copy. Fading escalates: 3 days (mental disadvantage), 7 days (physical deterioration), 14 days (cognitive dissolution).' }
-   }
+    statusEffect: { level: 'severe', description: 'Must remain within 1 week of a First Contract copy. Fading escalates: 3 days (mental disadvantage), 7 days (physical deterioration), 14 days (cognitive dissolution).' },
+    mechanicsText: 'You must remain within one week\'s travel of a copy of the First Contract. Beyond that range the Fading escalates, ending in total cognitive dissolution after 14 days; returning to a copy halts it and full recovery takes 24 hours of trance.'
+    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
   },
@@ -158,11 +163,12 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
   buffType: 'custom',
   effects: [
    {
-   id: 'pact_recall',
-   name: 'Morvane Remembers',
-   description: 'Advantage on death saving throws. The pact does not release you easily, Morvane has invested too much precedent in your continued existence, and death is a clause that must be renegotiated, not accepted.',
-   statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'advantage' }
-   }
+    id: 'pact_recall',
+    name: 'Morvane Remembers',
+    description: 'Advantage on death saving throws. The pact does not release you easily, Morvane has invested too much precedent in your continued existence, and death is a clause that must be renegotiated, not accepted.',
+    statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'advantage' },
+    mechanicsText: 'You have advantage on death saving throws, as Morvane has invested too much precedent in your continued existence to release you easily.'
+    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
   },
@@ -173,8 +179,9 @@ The Neth operate from their grave-city Atropolis, a cathedral-grove woven into t
    id: 'remembered_death',
    name: 'The Known Threshold',
    description: 'Disadvantage on saving throws against fear effects caused by a damage type or circumstance that has killed you before. You remember exactly what drowning feels like, or frostbite, or the blade, and the memory is not abstract. It is the last thing you felt before Morvane pulled you back.',
-   statModifier: { stat: 'fear_saves', magnitude: -99, magnitudeType: 'disadvantage', conditions: { familiarDeathMethod: true } }
-   }
+    statModifier: { stat: 'fear_saves', magnitude: 0, magnitudeType: 'disadvantage', conditions: { eventTrigger: 'familiar_death' } },
+    mechanicsText: 'Disadvantage on fear saving throws against a damage type or circumstance that has killed you before.'
+    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
   },
@@ -384,6 +391,7 @@ The Neth do not love Morvane. They respect it the way a debtor respects a credit
   name: 'Velun',
   illustration: '/assets/images/races/velun_illustration.png',
   illustrationCaption: 'A Velun arcanist in layered ghost-silk robes, pale skin catching canopy-light, dark eyes reflecting the contract-glyph that spirals around the pupil.',
+  visualDescription: `The inheritors of Morvane's authority carry the pact in their bearing. Like all Neth they are tall and slender, pale to the point of luminousness, with dark pool-like eyes, but a Velun's eyes are often described as reflecting a contract-glyph spiraling slowly around the pupil that only they can see. Their colorless spider-silk hair is worn long under layered ghost-silk robes of pale, authoritative cut. Their chests do not visibly rise and fall with breath, the stilled mark of the pact made visible, and they move with the unhurried certainty of people whose every word may be enforced by a god.`,
   tooltipSummary: 'Contract-lords whose words carry binding weight, commanding authority through the Pact\'s enforceable legacy.',
   description: 'The original Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of Morvane\'s authority. When a Velun speaks the pact\'s words, the universe listens, their voice carries Morvane\'s cosmic weight, and their contracts are enforceable by the same entity that preserves their species. In exchange, their tongue is bound not to truth but to commitment: every promise they make, every statement of intent they utter, is a potential contract. Morvane does not care whether a Velun speaks truth or falsehood; it cares whether the Velun honors what was spoken. A lie that contradicts no prior commitment passes without notice. A promise broken, even one made casually, carries the full weight of the pact.',
   culturalBackground: `The Velun trace their bloodline to the original scribes who presented the First Contract to Morvane, Vaelis the Scribe's direct descendants, generation by generation, clause by clause. They run Atropolis. They write the contracts that govern Neth society. They negotiate with the Emberth, the humans, the Mimir, anyone who needs Neth preservation-craft or Neth memory-glass, and their negotiations are always, always binding.
@@ -392,7 +400,7 @@ Velun children are educated in the contract-halls from the moment their pale ski
 
 A Velun's power is their voice. When they invoke a clause aloud, a binding, a sealing, a cosmic enforcement, the pact responds. The air thickens. The light shifts. Everyone in the room feels Morvane's attention settle on the proceedings like a held breath. A Velun who has perfected their craft can seal a contract with a single spoken sentence that no signatory can ever break, not without consequences that ripple across generations.
 
-The flaw is inseparable from the gift. A Velun\'s words carry weight: any statement made with intent becomes a potential contract, and Morvane enforces commitments rigorously. This does not mean they cannot lie. It means they think carefully before speaking, because a careless promise, a hypothetical casually offered, or a statement of intent uttered in passing may be treated by the pact as a binding clause. The oldest Velun speak rarely. They choose every word like it costs them something, because it does. The youngest Velun learn silence before they learn magic.
+The flaw is inseparable from the gift. A Velun's words carry weight: any statement made with intent becomes a potential contract, and Morvane enforces commitments rigorously. This does not mean they cannot lie. It means they think carefully before speaking, because a careless promise, a hypothetical casually offered, or a statement of intent uttered in passing may be treated by the pact as a binding clause. The oldest Velun speak rarely. They choose every word like it costs them something, because it does. The youngest Velun learn silence before they learn magic.
 
 They view the Kessen with a mixture of admiration and unease, the Kessen see the web behind the text, the implications the Velun cannot perceive, and that makes them useful and unpredictable. They view the Drun with something closer to horror, the Drun are what happens when a Neth decides the pact's weight is heavier than the silence, and the Velun cannot process a choice that results in legal non-existence.`,
   statModifiers: { spirit: 2, intelligence: 1, strength: -1 },
@@ -413,8 +421,9 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     id: 'velun_authority',
     name: 'Morvane\'s Voice',
     description: 'Advantage on Persuasion checks when making a formal agreement or negotiating contract terms. The pact echoes behind your words, the person across the table can feel the weight of the entity that enforces what you negotiate.',
-    statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { negotiatingContracts: true } }
-    }
+     statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'advantage', conditions: { activityType: 'contract_negotiation' } },
+     mechanicsText: 'You have advantage on Persuasion checks when negotiating contract terms or entering formal agreements.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -425,8 +434,9 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     id: 'bound_commitment_velun',
     name: 'The Bound Commitment',
     description: 'Disadvantage on Deception checks when speaking about matters covered by an existing contract. A spoken promise, even casual, even hypothetical, may be treated by Morvane as a binding contract; the GM decides if and when the pact enforces a given statement. Breaking a commitment you previously made aloud deals 1d4 wyrd damage. (Your words are contracts; what you speak, the pact may hold you to.)',
-    statusEffect: { level: 'severe', description: 'Disadvantage on Deception where contracts exist. Spoken promises may bind. Broken commitments deal 1d4 wyrd.' }
-    }
+     statusEffect: { level: 'severe', description: 'Disadvantage on Deception where contracts exist. Spoken promises may bind. Broken commitments deal 1d4 wyrd.' },
+     mechanicsText: 'You have disadvantage on Deception checks about matters covered by an existing contract. A spoken promise may be treated by Morvane as binding, and breaking a commitment you made aloud deals 1d4 wyrd damage.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -463,8 +473,9 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     id: 'binding_recoil',
     name: 'The Binder Bound',
     description: 'If you yourself break the sealed promise, you suffer the same penalty, 2d6 wyrd damage and disadvantage on your next d20 roll. Morvane does not distinguish between signatories. A contract binds all parties equally.',
-    statusEffect: { level: 'moderate', description: 'Breaking your own sealed promise deals 2d6 psychic and imposes disadvantage on next d20 roll.' }
-    }
+     statusEffect: { level: 'moderate', description: 'Breaking your own sealed promise deals 2d6 psychic and imposes disadvantage on next d20 roll.' },
+     mechanicsText: 'If you break a promise you sealed with Clause of Binding, you suffer the same penalty as the target: 2d6 wyrd damage and disadvantage on your next d20 roll.'
+     }
    ],
    durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
    },
@@ -488,9 +499,10 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     id: 'archive_knowledge',
     name: 'Ledger-Trained',
     description: '+2 to History and Arcana checks related to the Bryngloom Forest, contract law, Morvane, Neth genealogy, or the Wyrd. You have spent decades reading memory-glass in the canopy, the archive is not a place you visit. It is where you live.',
-    statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
-    additionalStatModifier: { stat: 'arcana', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
-    }
+     statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { subject: ['bryngloom_forest', 'contract_law', 'morvane', 'neth_genealogy', 'wyrd'] } },
+     additionalStatModifier: { stat: 'arcana', magnitude: 2, magnitudeType: 'flat', conditions: { subject: ['bryngloom_forest', 'contract_law', 'morvane', 'neth_genealogy', 'wyrd'] } },
+     mechanicsText: 'You gain +2 to History and Arcana checks involving the Bryngloom Forest, contract law, Morvane, Neth genealogy, or the Wyrd.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -501,8 +513,9 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
     id: 'archive_maintenance',
     name: 'The Unfiled Record',
     description: 'You must spend 1 hour per long rest maintaining your personal archive-record, reviewing contracts, updating genealogies, filing new observations in memory-glass. If you miss this maintenance, lose the Canopy-Scholar bonus until you spend 1 hour catching up. Two missed days = the bonus remains lost for 2 hours after resuming.',
-    statusEffect: { level: 'minor', description: 'Lose Canopy-Scholar bonus after 24 hours without maintenance. Recover by spending 1+ hours updating records.' }
-    }
+     statusEffect: { level: 'minor', description: 'Lose Canopy-Scholar bonus after 24 hours without maintenance. Recover by spending 1+ hours updating records.' },
+     mechanicsText: 'If you miss 1 hour of archive maintenance per long rest, you lose the Canopy-Scholar bonus until you spend 1+ hours catching up.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -526,8 +539,9 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
      id: 'pact_flame_damage',
      name: 'The Collector\'s Flame',
      description: 'Target a creature within 30 feet that has broken a promise, contract, or oath within the last 24 hours. The target takes 2d6 wyrd damage with no saving throw. Morvane does not forgive debts.',
-     statusEffect: { level: 'severe', description: '2d6 wyrd damage to an oath-breaker within 30 feet. No save.' }
-     }
+      statusEffect: { level: 'severe', description: '2d6 wyrd damage to an oath-breaker within 30 feet. No save.' },
+      mechanicsText: 'Once per long rest, target a creature within 30 feet that broke a promise, contract, or oath in the last 24 hours, dealing 2d6 wyrd damage with no saving throw.'
+      }
     ],
     durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
     },
@@ -547,6 +561,7 @@ They view the Kessen with a mixture of admiration and unease, the Kessen see the
   name: 'Kessen',
   illustration: '/assets/images/races/kessen_illustration.png',
   illustrationCaption: 'A Kessen weaver in close-fitting silver-grey silks, eyes unfocused on the obligation-web, probability-glyphs visible only to them tracing the air around their fingers.',
+  visualDescription: `The inheritors of Morvane's sight. The Kessen share the tall, pale, stilled frame of all Neth, but their eyes rarely focus on the speaker, turned inward to trace the obligation-web and the probability-tendrils of contracts not yet signed. Where the Velun dress in authoritative layers, the Kessen favor close-fitting silver-grey silks that do not catch or distract, and their long fingers move unconsciously, tracing invisible probability-glyphs in the air around them. To meet a Kessen's gaze is to feel read: not your face, but the shape of every promise you have ever made or will.`,
   tooltipSummary: 'Fate-thread readers who weave probability from the temporal ledger, riding the razor edge between insight and temporal paralysis.',
   description: 'The second Neth bloodline, predating the Drun Severing, in the fourth century of the Dimming. The inheritors of Morvane\'s sight. Where the Velun see the text, the Kessen see the implications, the web of obligation connecting every signatory across time, the probability-tendrils of contracts not yet signed, the future clauses that will exist if certain choices are made. They manipulate fate by tugging the right thread at the right moment. Every tug snaps something elsewhere.',
   culturalBackground: `The Kessen are the Neth who read between the lines. Their bloodline inherited Morvane's sight, not the authority to enforce contracts, but the perception to see what contracts *imply.* They perceive the obligation-web: a visible, shimmering network of debt-threads connecting every living thing who has ever promised anything to anyone. The web extends across time, a Kessen can see the ghost-threads of promises not yet made, the probability-tendrils of contracts that will exist if certain choices are taken.
@@ -578,8 +593,9 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     id: 'thread_reading',
     name: 'The Obligation-Web',
     description: 'Advantage on Insight checks made to detect deception, determine a creature\'s true loyalties, or identify whether a promise is sincerely intended. You see the threads connecting speakers to their obligations, a lie is a broken thread, a sincere promise is a bright one.',
-    statModifier: { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { detectingDeceptionOrLoyalty: true } }
-    }
+     statModifier: { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { activityType: ['detecting_deception', 'assessing_loyalty'] } },
+     mechanicsText: 'You have advantage on Insight checks made to detect deception or assess a creature\'s true loyalties.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -590,15 +606,17 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     id: 'thread_blindness',
     name: 'Thread-Blindness',
     description: 'In any social situation involving more than 10 people, crowded markets, court proceedings, battle councils, the obligation-web becomes overwhelming. Disadvantage on Spirit and Charisma checks as the threads of every promise, debt, and potential future clause compete for your attention. You see too much to focus on any one thing.',
-    statModifier: { stat: 'spirit', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } },
-    additionalStatModifier: { stat: 'charisma', magnitude: -99, magnitudeType: 'disadvantage', conditions: { largeCrowds: true } }
-    },
+     statModifier: { stat: 'spirit', magnitude: 0, magnitudeType: 'disadvantage', conditions: { environmentDensity: 'crowded' } },
+     additionalStatModifier: { stat: 'charisma', magnitude: 0, magnitudeType: 'disadvantage', conditions: { environmentDensity: 'crowded' } },
+     mechanicsText: 'In social situations of more than 10 people, you have disadvantage on Spirit and Charisma checks as the overwhelming obligation-web fragments your focus.'
+     },
     {
     id: 'web_presence',
     name: 'The Thread That Shows',
     description: 'Other creatures with supernatural perception, other Kessen, certain Wyrd-creatures, Morvane itself, can see the threads connecting you to your obligations. Your loyalties, your debts, your broken promises are visible in the web to anyone who knows how to look.',
-    statusEffect: { level: 'minor', description: 'Obligation-threads visible to supernatural perception. Your debts and loyalties can be read.' }
-    }
+     statusEffect: { level: 'minor', description: 'Obligation-threads visible to supernatural perception. Your debts and loyalties can be read.' },
+     mechanicsText: 'Creatures with supernatural perception can see the obligation-threads connecting you to your debts and loyalties, reading them like an open ledger.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -634,8 +652,9 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     id: 'web_snap',
     name: 'The Snapped Thread',
     description: 'When you use Probability-Weave, the GM secretly records a "snapped thread." At a future moment, within the same session, something unlucky happens to an NPC, a piece of the environment, or a distant event. A stranger\'s luck sours. A deal collapses. A message never arrives. You never know what broke, but you felt it break. The GM will tell you when you sense the snap, the location, never the consequence.',
-    statusEffect: { level: 'moderate', description: 'Each use of Probability-Weave snaps a thread elsewhere in the world. Consequences manifest at the GM\'s discretion.' }
-    }
+     statusEffect: { level: 'moderate', description: 'Each use of Probability-Weave snaps a thread elsewhere in the world. Consequences manifest at the GM\'s discretion.' },
+     mechanicsText: 'Each use of Probability-Weave secretly snaps a thread elsewhere in the world, producing an unlucky event for an NPC, the environment, or a distant event at the GM\'s discretion.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -659,9 +678,10 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     id: 'temporal_reading',
     name: 'The Approaching Due-Date',
     description: '+2 to initiative rolls. You can feel the imminence of events before they arrive, the weight of a consequence about to land, the tension of a promise about to be called in. and, once per long rest, you may ask the GM one question about the approaching consequences of a current situation: "What is about to catch up with us?" The GM gives a truthful but cryptic answer based on what the obligation-web reveals.',
-    statModifier: { stat: 'initiative', magnitude: 2, magnitudeType: 'flat' },
-    conditions: { divinationUsesPerRest: 1, restType: 'long_rest' }
-    }
+     statModifier: { stat: 'initiative', magnitude: 2, magnitudeType: 'flat' },
+     conditions: { divinationUsesPerRest: 1, restType: 'long_rest' },
+     mechanicsText: 'You gain +2 to initiative rolls and may ask the GM one truthful but cryptic question about approaching consequences once per long rest.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -672,8 +692,9 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
     id: 'temporal_paralysis',
     name: 'Paralysis of Foresight',
     description: 'When you fail the Temporal Ledger divination (ask a question and receive an unclear or ominous answer), you suffer disadvantage on your next initiative roll as the weight of approaching consequences clouds your reactions. You know something is coming. You cannot tell what.',
-    statusEffect: { level: 'minor', description: 'Disadvantage on next initiative roll after a failed or ominous Temporal Ledger divination.' }
-    }
+     statusEffect: { level: 'minor', description: 'Disadvantage on next initiative roll after a failed or ominous Temporal Ledger divination.' },
+     mechanicsText: 'After a failed or ominous Temporal Ledger divination, you suffer disadvantage on your next initiative roll as the weight of approaching consequences clouds your reactions.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -709,8 +730,9 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
      id: 'web_recoil',
      name: 'The Recoil',
      description: 'When you use Thread-Snap, you take 1d4 wyrd damage as the obligation-web recoils through your consciousness. You felt the thread snap, and it snapped through you.',
-     statusEffect: { level: 'minor', description: 'Take 1d4 wyrd damage on use. The web recoils through the weaver.' }
-     }
+      statusEffect: { level: 'minor', description: 'Take 1d4 wyrd damage on use. The web recoils through the weaver.' },
+      mechanicsText: 'When you use Thread-Snap, you take 1d4 wyrd damage as the obligation-web recoils through your consciousness.'
+      }
     ],
     durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
     },
@@ -730,6 +752,7 @@ They view the Velun with a mixture of respect and pity, the Velun have power, bu
   name: 'Drun',
   illustration: '/assets/images/races/drun_illustration.png',
   illustrationCaption: 'A Drun outcast in simple, unmarked fabrics, pale skin slightly dulled from distance to the pact, dark eyes watching something the pact-bound cannot perceive.',
+  visualDescription: `The severed. The Drun bear the tall pale frame of their kin, but the pact no longer preserves them, and it shows. Their once-luminous skin has dulled to a flat, slightly grey pallor that deepens the further they travel from the First Contract, and unlike other Neth their chests rise and fall with real breath, for they must now eat, drink, and sleep like the mortal things they have become. They dress in simple, deliberately unmarked fabrics, stripped of sigil and house-color, and their dark eyes watch the world with the wary attention of people whom no god will pull back from death.`,
   tooltipSummary: 'Severed silence-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent silence-walkers who bear the pact-sickness as their price.',
   description: 'Founded in Year ~380 of the Dimming by Saren-Vel, who walked into the deepest bog with a flame that consumed only ink and burned her name from every active copy of the First Contract. The Drun have been legally nonexistent for ~420 years. The inheritors of Morvane\'s silence. Through the Severing, a traumatic fire-ritual that burns their name from every active copy of the First Contract, the Drun have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to Morvane\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Neth court. Their freedom is absolute. Their vulnerability is absolute.',
   culturalBackground: `The Drun were not meant to exist. The original pact made no provision for Neth who might wish to leave it, the terms were binding in perpetuity, and "perpetuity," in Neth contract law, means "until Morvane releases you, and Morvane has never released anyone."
@@ -760,11 +783,12 @@ They view the Velun with something between pity and contempt, the Velun are powe
    buffType: 'custom',
    effects: [
     {
-    id: 'magic_resistance_drun',
-    name: 'The Pact\'s Silence',
-    description: 'Advantage on saving throws against spells and magical effects. The pact cannot reach you, magic that would bind, enforce, or compel a Velun or Kessen slides off you like water off still glass. and, you are immune to Morvane\'s enforcement mechanisms (the Debt-Revenant cannot target you, you cannot be bound by a Velun\'s Clause of Binding, and the Unraveling cannot affect you).',
-    statModifier: { stat: 'magic_saves', magnitude: 1, magnitudeType: 'advantage' }
-    }
+     id: 'magic_resistance_drun',
+     name: 'The Pact\'s Silence',
+     description: 'Advantage on saving throws against spells and magical effects. The pact cannot reach you, magic that would bind, enforce, or compel a Velun or Kessen slides off you like water off still glass. and, you are immune to Morvane\'s enforcement mechanisms (the Debt-Revenant cannot target you, you cannot be bound by a Velun\'s Clause of Binding, and the Unraveling cannot affect you).',
+     statModifier: { stat: 'magic_saves', magnitude: 1, magnitudeType: 'advantage' },
+     mechanicsText: 'You have advantage on saving throws against spells and magical effects, and are immune to Morvane\'s enforcement (Debt-Revenant, Clause of Binding, and the Unraveling cannot affect you).'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -775,14 +799,16 @@ They view the Velun with something between pity and contempt, the Velun are powe
     id: 'legal_nonexistence',
     name: 'Legal Non-Existence',
     description: 'You are not a person under Neth law. Disadvantage on all social checks made with Velun Neth, who cannot legally acknowledge your testimony, property claims, or contractual standing. and, you cannot benefit from Neth social institutions (inheritance, marriage, formal trade). Among the Drun and in the wider world, this carries no penalty, but in any Neth jurisdiction, you are a ghost.',
-    statModifier: { stat: 'social_velun', magnitude: -99, magnitudeType: 'disadvantage', conditions: { interactingWithVelunNeth: true } }
-    },
+     statModifier: { stat: 'social_velun', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcSubrace: 'velun' } },
+     mechanicsText: 'You have disadvantage on social checks made with Velun Neth, who cannot legally acknowledge your existence, testimony, or property.'
+     },
     {
     id: 'severed_preservation',
     name: 'The Unpreserved Form',
     description: 'You no longer benefit from the pact\'s preservation. You must eat, drink, and sleep normally. You age, slowly, but irreversibly. The silver in your skin will eventually dull to grey, and you will die of age in a way no other Neth ever has. No Drun has lived long enough yet to know how long that takes.',
-    statusEffect: { level: 'severe', description: 'Must eat, drink, and sleep normally. Ages slowly but irreversibly. Will eventually die of old age.' }
-    }
+     statusEffect: { level: 'severe', description: 'Must eat, drink, and sleep normally. Ages slowly but irreversibly. Will eventually die of old age.' },
+     mechanicsText: 'Severed from the pact\'s preservation, you must eat, drink, and sleep normally, and you age slowly but irreversibly until you eventually die of old age.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -806,8 +832,9 @@ They view the Velun with something between pity and contempt, the Velun are powe
     id: 'untraceable',
     name: 'Beyond the Web',
     description: 'Advantage on Stealth checks. You leave no tracks on soft ground, no scent-trail, and no magical residue that can be traced. Creatures using supernatural tracking (fungal perception, mycelial sense, the obligation-web) cannot detect your passage.',
-    statModifier: { stat: 'stealth', magnitude: 1, magnitudeType: 'advantage' }
-    }
+     statModifier: { stat: 'stealth', magnitude: 1, magnitudeType: 'advantage' },
+     mechanicsText: 'You have advantage on Stealth checks and leave no tracks, scent, or magical residue traceable by supernatural means.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -818,8 +845,9 @@ They view the Velun with something between pity and contempt, the Velun are powe
     id: 'silence_witness',
     name: 'The Witnessed Absence',
     description: 'You cannot give testimony in a Neth court. Your voice carries no pact-weight. Among the Velun, your words are legally meaningless, you cannot serve as a witness, sign a contract, or testify to anything. Among non-Neth, this carries no penalty, but among the pact-bound, you are a silence where a voice should be.',
-    statusEffect: { level: 'moderate', description: 'Cannot serve as witness, sign contracts, or provide legal testimony within Neth jurisdictions.' }
-    }
+     statusEffect: { level: 'moderate', description: 'Cannot serve as witness, sign contracts, or provide legal testimony within Neth jurisdictions.' },
+     mechanicsText: 'Within Neth jurisdictions you cannot serve as a witness, sign contracts, or provide legal testimony, as your voice carries no pact-weight.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -843,8 +871,9 @@ They view the Velun with something between pity and contempt, the Velun are powe
     id: 'bog_resistance',
     name: 'Deep Bog Endurance',
     description: 'Resistance to blight damage. Advantage on Survival checks made in swamps, bogs, or the Bryngloom Forest. You have survived the Severing and the bog that followed, the deep wild is not your home, but it has stopped trying to kill you.',
-    statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { swampEnvironment: true } }
-    }
+     statModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { terrain: ['swamp', 'bog', 'marsh'] } },
+     mechanicsText: 'You have resistance to blight damage and advantage on Survival checks made in swamps, bogs, or the Bryngloom Forest.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -855,8 +884,9 @@ They view the Velun with something between pity and contempt, the Velun are powe
     id: 'pact_sickness',
     name: 'The Pact-Sickness',
     description: 'When you enter a location with a strong copy of the First Contract (Atropolis, Ironjaw Port), you must make a DC 12 Constitution saving throw. On a failure, you are sickened for 1 hour, nausea, headache, a sense of being watched by something that cannot quite see you. The pact\'s presence is physically uncomfortable to a severed Neth, like a sound just below hearing, like a light just beyond vision. You can push through, but you will not enjoy it.',
-    statusEffect: { level: 'minor', description: 'DC 12 CON save when near strong First Contract copies. Failure: sickened for 1 hour.' }
-    }
+     statusEffect: { level: 'minor', description: 'DC 12 CON save when near strong First Contract copies. Failure: sickened for 1 hour.' },
+     mechanicsText: 'When you enter a location holding a strong First Contract copy (Atropolis, Ironjaw Port), you must make a DC 12 Constitution save or be sickened for 1 hour.'
+     }
    ],
    durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
    },
@@ -880,14 +910,16 @@ They view the Velun with something between pity and contempt, the Velun are powe
      id: 'null_strike_damage',
      name: 'Severed Edge',
      description: 'Make a melee attack. On hit, the attack deals +1d4 arcane damage. Your severed nature unravels magic on contact.',
-     statusEffect: { level: 'moderate', description: 'Melee attack deals +1d4 arcane damage on hit.' }
-     },
+      statusEffect: { level: 'moderate', description: 'Melee attack deals +1d4 arcane damage on hit.' },
+      mechanicsText: 'On a hit, your melee attack deals an additional +1d4 arcane damage.'
+      },
      {
      id: 'magic_dispelling',
      name: 'The Unraveling Touch',
      description: 'On a hit, dispel one magical effect currently active on the target. If multiple magical effects are active, the GM chooses which is dispelled. The pact cannot feel you, and neither can its spells.',
-     statusEffect: { level: 'moderate', description: 'On hit, dispel one magical effect on the target (GM chooses if multiple).' }
-     }
+      statusEffect: { level: 'moderate', description: 'On hit, dispel one magical effect on the target (GM chooses if multiple).' },
+      mechanicsText: 'On a hit, dispel one magical effect currently active on the target (the GM chooses if multiple are present).'
+      }
     ],
     durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
     },

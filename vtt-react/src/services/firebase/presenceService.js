@@ -13,8 +13,7 @@ import {
   getDoc,
   getDocs,
   collection,
-  serverTimestamp,
-  deleteDoc
+  serverTimestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 

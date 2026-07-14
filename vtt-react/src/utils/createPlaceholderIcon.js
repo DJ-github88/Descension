@@ -76,8 +76,9 @@ export const generateTestIcons = () => {
   });
 };
 
-export default {
+const placeholderIconUtils = {
   createPlaceholderIcon,
   downloadPlaceholderIcon,
   generateTestIcons
 };
+export default placeholderIconUtils;

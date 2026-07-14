@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const DRPResilienceResourceBar = ({
-  dreadnaughtState,
-  setDreadnaughtState,
+  resilienceState,
+  setResilienceState,
   uiState,
   setUiState,
   finalClassResource,
@@ -18,34 +18,27 @@ const DRPResilienceResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    localDRP,
-    selectedResistanceType,
-    showDRPMenu,
-    dreadnaughtHoverSection
-  } = dreadnaughtState;
+      localDRP,
+      selectedResistanceType,
+      showDRPMenu
+  } = resilienceState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
-  const setSelectedResistanceType = (value) => setDreadnaughtState(prev => ({ ...prev, selectedResistanceType: value }));
-  const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
-  const setDreadnaughtHoverSection = (value) => setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
+    const setLocalDRP = (value) => setResilienceState(prev => ({ ...prev, localDRP: value }));
+  const setSelectedResistanceType = (value) => setResilienceState(prev => ({ ...prev, selectedResistanceType: value }));
+  const setShowDRPMenu = (value) => setResilienceState(prev => ({ ...prev, showDRPMenu: value }));
+  const setResilienceHoverSection = (value) => setResilienceState(prev => ({ ...prev, resilienceHoverSection: value }));
 
         const drpValue = localDRP;
         const drpMax = finalClassResource.max || 50;
-        const drpPercentage = (drpValue / drpMax) * 100;
-
+        
         // Calculate passive benefits
         const hasPassiveBenefits = drpValue >= 10;
-        const regenAmount = Math.floor(drpValue / 10); // 1 HP per 10 DRP
-        const emergencyHP = drpValue * 2; // Dark Rebirth potential
+         // 1 HP per 10 DRP
+         // Dark Rebirth potential
 
         // Get DRP color based on level
         const getDRPColor = (drp) => {
@@ -111,7 +104,7 @@ const DRPResilienceResourceBar = ({
 
         const handleDRPBarEnter = (e) => {
             if (drpBarRef.current) {
-                setDreadnaughtHoverSection('drp');
+                setResilienceHoverSection('drp');
                 const rect = drpBarRef.current.getBoundingClientRect();
                 setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                 setShowTooltip(true);
@@ -119,7 +112,7 @@ const DRPResilienceResourceBar = ({
         };
 
         const handleDRPBarLeave = () => {
-            setDreadnaughtHoverSection(null);
+            setResilienceHoverSection(null);
             setShowTooltip(false);
         };
 

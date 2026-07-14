@@ -1,8 +1,7 @@
-﻿import { getStore } from './storeRegistry';
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
 import { createStorageConfig } from '../utils/storageUtils';
 
 // CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets
@@ -12,7 +11,6 @@ import { createStorageConfig } from '../utils/storageUtils';
 if (!window.recentTokenMovements) {
  window.recentTokenMovements = new Map();
 }
-const recentTokenMovements = window.recentTokenMovements;
 
 // Echo Prevention Window - standardized across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;

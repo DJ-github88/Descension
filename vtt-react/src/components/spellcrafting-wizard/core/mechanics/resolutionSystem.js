@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Resolution System
  *
  * Provides complete support for various resolution mechanics:
@@ -201,9 +201,9 @@ export function getCriticalHitSystem(systemId) {
 export function generateDefaultFormula(resolutionType, options = {}) {
  const {
   spellLevel = 1,
-  casterLevel = 1,
+
   primaryAttribute = 'INT',
-  damageType = 'ember',
+
   isAoe = false,
   isSingleTarget = true,
   isDot = false
@@ -307,7 +307,7 @@ export function calculateDamage(formula, resolutionType, options = {}) {
   attributeValues = {},
   isCritical = false,
   criticalConfig = {},
-  advantageType = 'none' // 'none', 'advantage', 'disadvantage'
+  // 'none', 'advantage', 'disadvantage'
  } = options;
 
  const result = {
@@ -370,7 +370,7 @@ export function calculateDamage(formula, resolutionType, options = {}) {
 
    // Draw cards
    const deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-   const faceCards = ['J', 'Q', 'K', 'A'];
+
 
    for (let i = 0; i < cardCount; i++) {
     const cardIndex = Math.floor(Math.random() * deck.length);

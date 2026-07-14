@@ -243,7 +243,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to Synod-Hold crystal archives and steppe scholarship. Both Vashir and Silath Astril study at the Synod, just on different paths."
+      "justification": "Requires access to Synod Hold crystal archives and steppe scholarship. Both Vashir and Silath Astril study at the Synod, just on different paths."
     },
     classHooks: [
       { classId: 'augur', bridge: 'Celestial-archive study and constellation arithmetic are the Astril path into the augury.' },
@@ -254,7 +254,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'A scholar tempered by crystal archives and throat-sung theory rarely survives the Blood-Heat.' }
     ],
     name: 'Scholar',
-    description: 'The Synod-Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, the walls singing when the wind finds the right key. You studied there, learning to read the echo-lineages that the Astril (descendants of refugees from the devoured world Lumia) have carried since their first ancestors knelt in the stone circles and opened themselves to the resonance of a dead world. The crystal-lattice archives preserve every echo-signature that still resonates. You learned the forbidden Echo-Songs, the throat-sung maps of lineages that went dark when the echo overwhelmed the host. You catalogued echo-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the crystalline remnants of Lumia\'s memory fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The echo is fading. Every season, another vessel goes silent, another song loses its referent. The Synod studies the archives while the memories go dark. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the echoes is the choice the steppe has laid at your feet.',
+    description: 'The Synod Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, the walls singing when the wind finds the right key. You studied there, learning to read the echo-lineages that the Astril (descendants of refugees from the devoured world Lumia) have carried since their first ancestors knelt in the stone circles and opened themselves to the resonance of a dead world. The crystal-lattice archives preserve every echo-signature that still resonates. You learned the forbidden Echo-Songs, the throat-sung maps of lineages that went dark when the echo overwhelmed the host. You catalogued echo-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the crystalline remnants of Lumia\'s memory fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The echo is fading. Every season, another vessel goes silent, another song loses its referent. The Synod studies the archives while the memories go dark. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the echoes is the choice the steppe has laid at your feet.',
     skillProficiencies: ['Arcana', 'History'],
     languages: 2,
     equipment: [
@@ -569,9 +569,9 @@ export const BACKGROUND_DATA = {
       ],
       "allowedSubraces": [
         "merryn_human",
-        "shore_myrathil",
-        "deep_myrathil",
-        "brook_myrathil"
+        "shoreling_myrathil",
+        "deepling_myrathil",
+        "riverling_myrathil"
       ],
       "hardBlocks": [
         "vashir_astril",
@@ -814,9 +814,9 @@ export const BACKGROUND_DATA = {
         "frostwood-reach"
       ],
       "allowedSubraces": [
-        "masked_mimir",
-        "woven_mimir",
-        "unwoven_mimir"
+        "veiled_mimir",
+        "tethered_mimir",
+        "untethered_mimir"
       ],
       "narrativeUnlock": true,
       "justification": "Mask-Wardens train in the Fog-Vales to recover stolen masks and turn back the Hunters. A non-Mimir could be sworn in only through a deep act of protection, and even then, the mistrust outlasts the oath."
@@ -1007,9 +1007,9 @@ export const BACKGROUND_DATA = {
         "iceheart-sea"
       ],
       "allowedSubraces": [
-        "shore_myrathil",
-        "deep_myrathil",
-        "brook_myrathil"
+        "shoreling_myrathil",
+        "deepling_myrathil",
+        "riverling_myrathil"
       ],
       "narrativeUnlock": true,
       "justification": "The deep currents and pressure-dark are Myrathil-specific environments. Merryn sailors stay surface-level; Myrathil descend."
@@ -1056,14 +1056,14 @@ export const BACKGROUND_DATA = {
         "frostwood-reach"
       ],
       "allowedSubraces": [
-        "masked_mimir",
-        "woven_mimir",
-        "unwoven_mimir",
+        "veiled_mimir",
+        "tethered_mimir",
+        "untethered_mimir",
         "thalren_human",
         "trueborn_briaran"
       ],
       "narrativeUnlock": true,
-      "justification": "Fog-reading requires intimate knowledge of the Frostwood\'s living fog, its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
+      "justification": "Fog-reading requires intimate knowledge of the Frostwood's living fog, its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
     },
     classHooks: [
       { classId: 'apex', bridge: 'Tracing Wyrd-trails through the fog by touch and scent is the Woven and Mimir foundation of the Silent Hunt.' },
@@ -1204,7 +1204,7 @@ export const BACKGROUND_FLAVOR_TEXT = {
   shyrRunner: 'Ninety miles of volcanic road, and the Sulfur Cartel taxes every step. You ran the basalt pillars and magma-fractures, learning which ground kills the careless. The Cartel has your name in their ledgers, and the debt compounds.',
   ledgerKeeper: 'In the Frostwood Reach, the fog eats memory. You kept the identity-ledgers at Greymark Keep, deciding who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
   bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth-Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
-  synodAcademic: 'The Synod-Hold sings when the wind finds the right key. You learned the forbidden Echo-Songs and the echo-lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
+  synodAcademic: 'The Synod Hold sings when the wind finds the right key. You learned the forbidden Echo-Songs and the echo-lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
   sumpsVeteran: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You carry the Hunger Pact in your blood: ancestral starvation turned to fury. The glaciers are advancing again, and the dead want you to survive.',
   debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Neth contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
   frostChanter: "Jarn-Tand's Academies burn every old drum they find, so the old ways moved into the voice. You weave animist history into drinking-songs that inquisitors never suspect are heresies eight centuries old. Your voice is a covert hearth.",
@@ -1250,7 +1250,7 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   synodAcademic: [
     'The echoes are fading, and you can read the patterns. What did the last echo-signature you charted reveal?',
     'You learned forbidden Echo-Songs. Which song do you sing when no one is listening, and what happens when you do?',
-    'The Synod-Hold expelled you, or you left. Which version is true, and what did you take with you?'
+    'The Synod Hold expelled you, or you left. Which version is true, and what did you take with you?'
   ],
   sumpsVeteran: [
     'The Hunger Pact lives in your blood. What was the worst deprivation you survived, and what did it cost the person next to you?',

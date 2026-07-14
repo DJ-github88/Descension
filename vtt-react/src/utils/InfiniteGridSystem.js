@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Unified Infinite Grid System
  *
  * This utility provides a single source of truth for all grid calculations,
@@ -299,9 +299,6 @@ export class InfiniteGridSystem {
    * Returns an array of world coordinate points that form a hex boundary around the rectangle
    */
   getHexBoundary(minQ, maxQ, minR, maxR) {
-    const { gridSize } = this.getGridState();
-    const sqrt3 = Math.sqrt(3);
-    const hexRadius = gridSize / sqrt3;
 
     // Create a set of hexes in the rectangle for fast lookup
     const hexSet = new Set();
@@ -435,7 +432,7 @@ export class InfiniteGridSystem {
    * Takes into account the gridMovesWithBackground setting
    */
   gridWorldToScreen(worldX, worldY, viewportWidth, viewportHeight) {
-    const { cameraX, cameraY, effectiveZoom, gridMovesWithBackground } = this.getGridState();
+    const { effectiveZoom, gridMovesWithBackground } = this.getGridState();
 
     if (gridMovesWithBackground) {
       // Grid moves with background - don't apply camera offset
@@ -556,7 +553,7 @@ export class InfiniteGridSystem {
    * Get the visible grid bounds for rendering optimization
    */
   getVisibleGridBounds(viewportWidth, viewportHeight) {
-    const { cameraX, cameraY, effectiveZoom, gridSize, gridOffsetX, gridOffsetY } = this.getGridState();
+    const { cameraX, cameraY, effectiveZoom } = this.getGridState();
 
     // Calculate visible world area with extra padding using effective zoom
     const visibleWorldWidth = viewportWidth / effectiveZoom;
@@ -586,7 +583,7 @@ export class InfiniteGridSystem {
    * Generate grid tiles for rendering with full viewport coverage
    */
   generateGridTiles(viewportWidth, viewportHeight) {
-    const { gridSize, cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY, gridMovesWithBackground } = this.getGridState();
+    const { gridSize, cameraX, cameraY, effectiveZoom, gridOffsetX, gridOffsetY } = this.getGridState();
 
     // Add null checks and default values
     const safeGridSize = gridSize || 50;
@@ -769,7 +766,6 @@ export class InfiniteGridSystem {
     }
 
     // Square grid (original behavior)
-    const { gridSize, zoomLevel } = this.getGridState();
     const bounds = this.getVisibleGridBounds(viewportWidth, viewportHeight);
     const lines = [];
 

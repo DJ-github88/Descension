@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Journal Persistence Hook
  *
  * Automatically saves and loads player journal data to/from Firebase.
@@ -62,11 +62,11 @@ export const useJournalPersistence = () => {
 
    version: 1
   };
- }, [user]);
+  }, [user, useShareableStore]);
 
- /**
-  * Save journal data to Firebase
-  */
+  /**
+   * Save journal data to Firebase
+   */
  const saveJournal = useCallback(async (journalData = null) => {
   if (!user || user.isGuest) {
    return { success: false, reason: 'No authenticated user' };
@@ -90,11 +90,11 @@ export const useJournalPersistence = () => {
    console.error('Failed to save journal:', error);
    return { success: false, error: error.message };
   }
- }, [user, collectJournalState]);
+  }, [user, collectJournalState, persistenceService]);
 
- /**
-  * Load journal data from Firebase
-  */
+  /**
+   * Load journal data from Firebase
+   */
  const loadJournal = useCallback(async () => {
   if (!user || user.isGuest) {
    return { success: false, reason: 'No authenticated user' };
@@ -138,11 +138,11 @@ export const useJournalPersistence = () => {
    console.error('Failed to load journal:', error);
    return { success: false, error: error.message };
   }
- }, [user]);
+  }, [user, persistenceService, useShareableStore]);
 
- /**
-  * Auto-save journal when it changes
-  */
+  /**
+   * Auto-save journal when it changes
+   */
  const scheduleAutoSave = useCallback(() => {
   // Clear existing timer
   if (journalTimerRef.current) {

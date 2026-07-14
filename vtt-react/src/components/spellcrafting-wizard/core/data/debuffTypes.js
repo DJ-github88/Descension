@@ -5,7 +5,7 @@
  * penalties and disadvantages on targets.
  */
 
-import { NEGATIVE_STATUS_EFFECTS, COMBAT_DISADVANTAGES } from './statusEffects';
+
 
 /**
  * Debuff effect categories with detailed descriptions

@@ -563,7 +563,7 @@ export function registerGmHandlers(ctx) {
             return import('../../../store/gridItemStore').then(({ default: useGridItemStore }) => {
               const currentGridItems = useGridItemStore.getState().gridItems || [];
               const mapGridItems = gridItemsRaw ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw)) : [];
-              const oldMapId = previousMapId;
+
 
               // CRITICAL FIX: Always replace target map's items with payload (deduped),
               // and keep non-target maps intact.

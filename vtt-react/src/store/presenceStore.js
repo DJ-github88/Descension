@@ -173,7 +173,7 @@ const usePresenceStore = create((set, get) => ({
    * Initialize presence tracking for current user
    */
   initializePresence: async (userId, characterData, sessionData = {}, accountName = null, isGuest = false, friendId = null) => {
-    const success = await presenceService.setOnline(userId, characterData, { ...sessionData, accountName, isGuest, friendId });
+    await presenceService.setOnline(userId, characterData, { ...sessionData, accountName, isGuest, friendId });
 
     // Always set local state, even if Firebase fails (for dev mode without Firebase)
     const presenceData = {
@@ -391,7 +391,7 @@ const usePresenceStore = create((set, get) => ({
     }
 
     // Try to update in Firebase (will fail gracefully if not configured)
-    const success = await presenceService.updateStatus(
+    await presenceService.updateStatus(
       currentUserPresence.userId,
       status,
       statusComment
@@ -1233,41 +1233,6 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // Party joined or updated (used for initial state sync)
-      const handlePartySync = (payload) => {
-        const partyData = payload.party || payload;
-        if (!partyData) return;
-
-        console.log('ðŸ”„ Party sync received:', partyData.name || partyData.id);
-
-        const members = partyData.members ? (
-          Array.isArray(partyData.members) ? partyData.members : Object.values(partyData.members)
-        ) : [];
-
-        set(state => ({
-          currentParty: partyData,
-          isInParty: true,
-          partyMembers: members
-        }));
-
-        try {
-          const gameStore = getStore('gameStore');
-          const isInMultiplayerRoom = gameStore.getState().isInMultiplayer;
-          const isEnteringMultiplayer = sessionStorage.getItem('enteringMultiplayer') === 'true';
-
-          if (!isInMultiplayerRoom && !isEnteringMultiplayer) {
-            const partyStore = getStore('partyStore');
-            partyStore.setState({
-              currentParty: partyData,
-              isInParty: true,
-              partyMembers: members,
-              leaderId: partyData.leaderId || null
-            });
-          }
-        } catch (e) {
-          console.warn('âš ï¸ Failed to sync party update to partyStore:', e);
-        }
-      };
-
       socket.on('party_joined', (payload) => {
         const partyData = payload.party || payload;
         if (!partyData) return;
@@ -1952,7 +1917,7 @@ const usePresenceStore = create((set, get) => ({
       socket.on('join_request_accepted', (data) => {
         console.log('âœ… Join request accepted:', data);
 
-        const { invitation, roomId } = data;
+        const { invitation } = data;
 
         sessionStorage.setItem('enteringMultiplayer', 'true');
 

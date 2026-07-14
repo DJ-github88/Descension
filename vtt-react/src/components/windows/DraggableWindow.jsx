@@ -86,7 +86,7 @@ const DraggableWindow = forwardRef(({
         return defaultPosition;
     });
 
-    const [isDragging, setIsDragging] = useState(false);
+    const [ setIsDragging] = useState(false);
 
     const hasBeenCentered = useRef(false);
     const initialCenteredValue = useRef(centered);
@@ -142,8 +142,7 @@ const DraggableWindow = forwardRef(({
                     const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
                     const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
                     const visualW = w * scale;
-                    const visualH = h * scale;
-                    const minVisible = 100;
+                                        const minVisible = 100;
                     const leftBound = Math.min(0, minVisible - visualW);
                     const rightBound = Math.max(0, vw - minVisible);
                     const bottomBound = Math.max(0, vh - minVisible);
@@ -297,8 +296,7 @@ const DraggableWindow = forwardRef(({
         const w = nodeRef.current?.offsetWidth || defaultSize?.width || 400;
         const h = nodeRef.current?.offsetHeight || defaultSize?.height || 600;
         const visualW = w * windowScale;
-        const visualH = h * windowScale;
-        const minVisible = 100;
+                const minVisible = 100;
 
         return {
             left: Math.min(0, minVisible - visualW),

@@ -125,7 +125,7 @@ describe('Socket Handlers', function() {
   });
 
   describe('Room Creation', () => {
-    it('should create room successfully', async () => {
+    it('should create room successfully', async() => {
       const mockRoom = {
         id: 'room-123',
         name: 'Test Room',
@@ -142,7 +142,7 @@ describe('Socket Handlers', function() {
       expect(result.name).to.equal('Test Room');
     });
 
-    it('should fail without GM name', async () => {
+    it('should fail without GM name', async() => {
       helpers.createRoom.resolves(null);
       
       const result = await helpers.createRoom('', '', 'socket-1', '', '#d4af37', false);
@@ -182,7 +182,7 @@ describe('Socket Handlers', function() {
       socket = getConnectedSocket('socket-1');
     });
 
-    it('should create token successfully', async () => {
+    it('should create token successfully', async() => {
       const ackCallback = sinon.stub();
       const tokenData = {
         id: 'token-1',
@@ -201,7 +201,7 @@ describe('Socket Handlers', function() {
       expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should queue token movement', async () => {
+    it('should queue token movement', async() => {
       mockMap.tokens['token-1'] = { id: 'token-1', position: { x: 100, y: 100 } };
       
       await socket.handlers['token_moved']({
@@ -218,7 +218,7 @@ describe('Socket Handlers', function() {
       }))).to.be.true;
     });
 
-    it('should update token state', async () => {
+    it('should update token state', async() => {
       mockMap.tokens['token-1'] = { id: 'token-1', name: 'Old Name' };
       
       await socket.handlers['token_updated']({
@@ -231,7 +231,7 @@ describe('Socket Handlers', function() {
       expect(mockMap.tokens['token-1'].name).to.equal('New Name');
     });
 
-    it('should remove token successfully', async () => {
+    it('should remove token successfully', async() => {
       mockMap.tokens['token-1'] = { id: 'token-1' };
       
       await socket.handlers['token_removed']({
@@ -275,7 +275,7 @@ describe('Socket Handlers', function() {
       socket = getConnectedSocket('socket-1');
     });
 
-    it('should update resource state via character_resource_updated', async () => {
+    it('should update resource state via character_resource_updated', async() => {
       await socket.handlers['character_resource_updated']({
         roomId: 'room-1',
         playerId: 'player-1',
@@ -287,7 +287,7 @@ describe('Socket Handlers', function() {
       expect(mockPlayer.character.health.current).to.equal(30);
     });
 
-    it('should apply positive resource delta', async () => {
+    it('should apply positive resource delta', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'health',
@@ -297,7 +297,7 @@ describe('Socket Handlers', function() {
       expect(mockPlayer.character.health.current).to.equal(47);
     });
 
-    it('should apply negative resource delta and clamp to 0', async () => {
+    it('should apply negative resource delta and clamp to 0', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'mana',
@@ -307,7 +307,7 @@ describe('Socket Handlers', function() {
       expect(mockPlayer.character.mana.current).to.equal(0);
     });
 
-    it('should clamp resource delta to max health', async () => {
+    it('should clamp resource delta to max health', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'health',
@@ -348,7 +348,7 @@ describe('Socket Handlers', function() {
       });
     });
 
-    it('should add chat message to history', async () => {
+    it('should add chat message to history', async() => {
       await socket.handlers['chat_message']({
         roomId: 'room-1',
         message: 'Hello!',
@@ -359,7 +359,7 @@ describe('Socket Handlers', function() {
       expect(mockRoom.chatHistory[0].content).to.equal('Hello!');
     });
 
-    it('should limit chat history to 500 messages', async () => {
+    it('should limit chat history to 500 messages', async() => {
       // Pre-fill history with 499 messages
       for (let i = 0; i < 499; i++) {
         mockRoom.chatHistory.push({ id: `msg-${i}`, content: `Msg ${i}` });
@@ -409,7 +409,7 @@ describe('Socket Handlers', function() {
       socket = getConnectedSocket('socket-1');
     });
 
-    it('should start combat', async () => {
+    it('should start combat', async() => {
       const ackCallback = sinon.stub();
       const turnOrder = [
         { tokenId: 't1', name: 'Legolas' },
@@ -429,7 +429,7 @@ describe('Socket Handlers', function() {
       expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should end combat', async () => {
+    it('should end combat', async() => {
       mockRoom.gameState.combat.isActive = true;
       const ackCallback = sinon.stub();
 
@@ -441,7 +441,7 @@ describe('Socket Handlers', function() {
       expect(ackCallback.calledWith(sinon.match({ success: true }))).to.be.true;
     });
 
-    it('should advance turn', async () => {
+    it('should advance turn', async() => {
       mockRoom.gameState.combat = {
         isActive: true,
         currentTurnIndex: 0,
@@ -461,7 +461,7 @@ describe('Socket Handlers', function() {
       expect(mockRoom.gameState.combat.currentTurnIndex).to.equal(1);
     });
 
-    it('should increment round when turn order cycles', async () => {
+    it('should increment round when turn order cycles', async() => {
       mockRoom.gameState.combat = {
         isActive: true,
         currentTurnIndex: 1,
@@ -491,7 +491,7 @@ describe('Socket Handlers', function() {
       socket.data.userId = 'player-1';
     });
 
-    it('should create party', async () => {
+    it('should create party', async() => {
       await socket.handlers['create_party']({
         partyName: 'Adventure Party',
         leaderData: { name: 'Leader' }
@@ -503,7 +503,7 @@ describe('Socket Handlers', function() {
       expect(parties.get(partyId).name).to.equal('Adventure Party');
     });
 
-    it('should add member to party', async () => {
+    it('should add member to party', async() => {
       const partyId = 'party-1';
       parties.set(partyId, {
         id: partyId,
@@ -525,7 +525,7 @@ describe('Socket Handlers', function() {
       expect(userToParty.get('player-2')).to.equal(partyId);
     });
 
-    it('should remove member from party', async () => {
+    it('should remove member from party', async() => {
       const partyId = 'party-1';
       parties.set(partyId, {
         id: partyId,
@@ -550,7 +550,7 @@ describe('Socket Handlers', function() {
       expect(userToParty.get('player-2')).to.be.undefined;
     });
 
-    it('should disband party when leader leaves', async () => {
+    it('should disband party when leader leaves', async() => {
       const partyId = 'party-1';
       parties.set(partyId, {
         id: partyId,
@@ -618,7 +618,7 @@ describe('Socket Handlers', function() {
       writer.stop();
     });
 
-    it('should flush on max batch size', async () => {
+    it('should flush on max batch size', async() => {
       const { FirebaseBatchWriter } = require('../services/syncService');
       const writer = new FirebaseBatchWriter(50000, 3); // Max 3
       

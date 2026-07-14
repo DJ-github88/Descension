@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { RULES_CATEGORIES } from '../../data/rulesData';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
@@ -43,7 +43,7 @@ const NPC_PORTRAITS = {
   },
   'Guild-Master Fexric Keth': {
     url: '/assets/images/portraits/fexric_keth.png',
-    caption: 'Guild-Master Fexric Keth, a Fexric dwarf engineer with a clockwork eye-graft wearing an alchemical leather vest.'
+    caption: 'Guild-Master Fexric Keth, a Fexric engineer with a clockwork eye-graft wearing an alchemical leather vest.'
   },
   'Arch-Sun Speaker Kaelen': {
     url: '/assets/images/portraits/sun_kaelen.png',

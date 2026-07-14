@@ -4,8 +4,6 @@ import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
-import useMapStore from '../../store/mapStore';
-import useInventoryStore from '../../store/inventoryStore';
 import useTravelStore from '../../store/travelStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useChatStore, { setCombatSyncSocket } from '../../store/chatStore';
@@ -16,31 +14,29 @@ import gameStateManager from '../../services/gameStateManager';
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
-    socket, currentRoom, isGM, isJoiningRoom, isFadingOut, isRoomReady,
-    joinStartTime, pendingRoomData, connectionStatus, currentPlayer,
-    setIsConnecting, setConnectionQuality, setConnectionStatus, setIsJoiningRoom,
-    setPendingRoomData, setIsRoomReady, setPendingGameSessionInvitations,
+    socket,
+    setConnectionStatus, setIsJoiningRoom,
     setError, setActualPlayerCount, setConnectedPlayers, setIsGM,
-    setLoadingStatusMessage, setPendingControlOffer, setPlayerCurrentMapId,
-    setMapTransition, setCurrentPlayer, setCurrentRoom, setSocket,
-    setLoadingProgress, setShowContinue, setJoinStartTime, setIsFadingOut,
-    isJoiningRoomRef, currentRoomRef, currentPlayerRef, pendingRoomDataRef,
-    activeJoinIdRef, autoJoinAttemptedRef, isAutoJoinSequenceRef,
-    isGMRef, addNotificationRef, addUserRef, removeUserRef,
-    addPartyMemberRef, removePartyMemberRef, playerCurrentMapIdRef,
-    isInitialMapLoadRef, joinStartTimeRef, roomPasswordRef,
+    setPlayerCurrentMapId,
+    setCurrentPlayer, setCurrentRoom, setSocket,
+
+    currentPlayerRef,
+
+    addNotificationRef,
+
+    roomPasswordRef,
     startJoiningRoom, getActiveCharacter, clearAllMultiplayerStores,
-    navigate, showMapTransitions, showCursorTracking,
-    clearCreatureTokens, clearCharacterTokens, updateCreatureTokenPosition,
-    addCreature, addToken, removeToken, addPartyMember, removePartyMember,
-    addUser, removeUser, updatePartyMember, addNotification,
-    showPlayerJoinNotification, showPlayerLeaveNotification,
-    showGMDisconnectedNotification, getGridSystem, playerCurrentMapId,
+
+    clearCreatureTokens, clearCharacterTokens,
+    addCreature, addToken, addPartyMember,
+    addUser, addNotification,
+
+
     loadActiveCharacter, startCharacterSession, setRoomName,
-    updateCharacterInfo, tokenUpdateThrottleRef, cursorThrottleRef,
-    updateBatchRef, batchTimeoutRef,
-    THROTTLE_CLEANUP_INTERVAL, THROTTLE_ENTRY_LIFETIME,
-    PLAYER_THROTTLE_MS, GM_THROTTLE_MS
+    updateCharacterInfo,
+
+
+
   } = ctx;
     // Declare currentUserId at the top scope of handleJoinRoom to avoid ReferenceErrors in subsequent blocks
     let currentUserId = null;
@@ -910,12 +906,6 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       }
 
       // CRITICAL: Get character resources with proper fallbacks
-      const createHealth = (activeCharacter?.health?.max > 0) ? activeCharacter.health :
-        (characterStore.health?.max > 0) ? characterStore.health : { current: 45, max: 50 };
-      const createMana = (activeCharacter?.mana?.max > 0) ? activeCharacter.mana :
-        (characterStore.mana?.max > 0) ? characterStore.mana : { current: 45, max: 50 };
-      const createActionPoints = (activeCharacter?.actionPoints?.max > 0) ? activeCharacter.actionPoints :
-        (characterStore.actionPoints?.max > 0) ? characterStore.actionPoints : { current: 1, max: 3 };
 
       // Set party basics in store directly instead of createParty() which is async/unreliable in this flow
       usePartyStore.setState({

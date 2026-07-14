@@ -1,8 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getSubraceData, getRaceData } from '../../data/raceData';
-import { getIconUrl } from '../../utils/assetManager';
 import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../data/languages';
 import '../../styles/character-sheet.css';
 

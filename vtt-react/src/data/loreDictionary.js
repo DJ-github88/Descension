@@ -14,7 +14,7 @@ export const LORE_DICTIONARY = {
  type: 'region',
  region: 'frostwood-reach',
  summary: 'A dense, fog-choked ironwood forest in the western hemisphere, governed under the Sovereign Ledger and policed by the Sunder-Palisade check-posts.',
- fullEntry: 'For eight centuries, the Frostwood Reach has been hidden beneath a <LoreLink termId="memory_fog_mechanics">fog that eats memories</LoreLink>. House Thalreth traded the Reach\'s clarity for that insulating mist to keep it from freezing. Recently, Jarl-Archivist Kaelen Thalreth enforced the Sovereign Ledger, declaring unrecorded property rights silence. The region is policed by Mist-Sentinels along the Ironwood Palisade and choked by the Scribe-Cartel monopoly on ink and parchment. Society is split between the registered Ledgered and the outlawed, undocumented Forgotten.',
+ fullEntry: 'For eight centuries, the Frostwood Reach has been hidden beneath a <LoreLink termId="memory_fog_mechanics">fog that eats memories</LoreLink>. House Thalreth traded the Reach\'s clarity for that insulating mist to keep it from freezing. Jarl-Archivist Kaelen Thalreth later enforced the Sovereign Ledger, declaring unrecorded property rights silence. The region is policed by Mist-Sentinels along the Ironwood Palisade and choked by the Scribe-Cartel monopoly on ink and parchment. Society is split between the registered Ledgered and the outlawed, undocumented Forgotten.',
  relatedTerms: ['apex', 'bladedancer', 'bramble_heath', 'briaran', 'drunhold', 'gambrel', 'gref', 'greymark_keep', 'greythorn_copse', 'grimmwood', 'house_thalreth', 'house_viridane', 'ironwood_heart', 'ledger_halls', 'lunarch', 'mimir', 'mirror_mere', 'mistbarrow', 'rite-of-masks', 'scribes_tower', 'shaper', 'siltmire_flats', 'skalds_landing', 'the_shallows', 'the_shifting_fen', 'toxicologist', 'wraithfen', 'inquisitor', 'veyra', 'sylvanus', 'elias', 'vrael-forty-seventh', 'bri-vessela', 'varis', 'sylas', 'kaelen-thalreth', 'aldren-thalreth', 'elara-thalreth', 'caedren-thalreth', 'thorn-speaker', 'vellan-archivist', 'selene', 'memory_fog_mechanics']
   },
   'nordhalla': {
@@ -41,7 +41,7 @@ export const LORE_DICTIONARY = {
  type: 'region',
  region: 'iceheart-sea',
  summary: 'A violent, churning ocean of city-sized icebergs, governed by the Sea-Charter and policed by the Unfreezing Booms.',
- fullEntry: 'Storms and city-sized icebergs rule the Iceheart Sea, and the channels between them never freeze. Recently, Grand Admiral Varis Mereval enforced the Sea-Charter, mandating ship registry with the Mereval Board of Trade. The region is policed by patrol ironclads along the Unfreezing Booms and controlled by the Brine-Bond Syndicate. Undocumented refugees are pressed into lifetime servitude under Press-Warrants. Society is split between the Deck-Born officers and pressed Bilge-Dwellers, while traditional Tide-Speak animism is suppressed under the Luck-Ledger.',
+ fullEntry: 'Storms and city-sized icebergs rule the Iceheart Sea, and the channels between them never freeze. Grand Admiral Varis Mereval enforces the Sea-Charter, mandating ship registry with the Mereval Board of Trade. The region is policed by patrol ironclads along the Unfreezing Booms and controlled by the Brine-Bond Syndicate. Undocumented refugees are pressed into lifetime servitude under Press-Warrants. Society is split between the Deck-Born officers and pressed Bilge-Dwellers, while traditional Tide-Speak animism is suppressed under the Luck-Ledger.',
  relatedTerms: ['deepwell_archipelago', 'first_shore', 'gale_storm_shallows', 'house_mereval', 'ironjaw_port', 'brinehorse_cove', 'merrowport', 'merryns_drift', 'minstrel', 'myrathil', 'skalds_longport', 'spindrift_lagoon', 'the_saltmaw_estuary', 'the_shivering_bight', 'treakous_rift', 'wraithsound', 'gambit', 'jax', 'merr-cael', 'mer-lyrisa', 'mereval-admiral', 'lyris']
   },
   'cragjaw-peaks': {
@@ -88,7 +88,7 @@ export const LORE_DICTIONARY = {
  type: 'noble_house',
  region: 'nordhalla',
  summary: 'The northern lords of Nordhalla who halted the glaciers at the price of eternal winter, now represented by King-Jarl Jarn-Tand.',
- fullEntry: 'House Skalvyr traded summer to freeze the grinding glaciers of Nordhalla in place, and the cold has been theirs ever since. Recently, the house consolidated its rule under King-Jarl Halvar Skalvyr (Jarn-Tand), who unified the clans by force. To fund his mercenaries, Jarn-Tand mortgaged regional resources to southern syndicates, establishing the Icechamber Syndicate trade monopoly. The house enforces its rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism in favor of controlled runic calculations.',
+ fullEntry: 'House Skalvyr traded summer to freeze the grinding glaciers of Nordhalla in place, and the cold has been theirs ever since. The house later consolidated its rule under King-Jarl Halvar Skalvyr (Jarn-Tand), who unified the clans by force. To fund his mercenaries, Jarn-Tand mortgaged regional resources to southern syndicates, establishing the Icechamber Syndicate trade monopoly. The house enforces its rule through the Sunder-Wall and the Runic Academies, suppressing ancestral animism in favor of controlled runic calculations.',
  relatedTerms: ['augur', 'bloodhammer_sump', 'corvani', 'fjord_gate', 'frozen_archive', 'harbinger', 'hunger_glaciers', 'nordhalla', 'rime_born', 'skald', 'skalds_landing', 'stel', 'the_warden', 'vargtor', 'vesperas_perch', 'warden', 'skadis_col', 'halvar-skalvyr', 'sigurd-skalvyr', 'frigga-skalvyr']
   },
   'house_solvan': {
@@ -109,7 +109,7 @@ export const LORE_DICTIONARY = {
  region: 'sundale',
  summary: 'The legendary forge-blacksmith of Emberspire in Sundale who first manifested the Berserker\'s Blood-Heat by surrendering to the volcanic forge during a wyrm attack.',
  fullEntry: 'When the ice-wyrm burst into the Emberspire mining-chambers, every Emberth ran. Grum Bloodhammer didn\'t. The master forge-blacksmith threw down his tools and surrendered to the forge-heat instead, igniting his own blood and muscles past anything a living body should survive. His bare fists shattered the wyrm\'s glacial hide. The workers lived. And the Berserker\'s Blood-Heat was born in that moment: the path of a man who chose to burn rather than flee.',
- relatedTerms: ['berserker', 'blood_heat', 'emberspire', 'sundale', 'hark-ash-hammer']
+ relatedTerms: ['berserker', 'blood_heat', 'emberspire', 'sundale', 'hark-ash-hammer', 'torra-bloodhammer']
   },
   'sera': {
  id: 'sera',
@@ -127,7 +127,7 @@ export const LORE_DICTIONARY = {
   region: 'sundale',
   summary: 'A fragment of Aex\'s flayed hide that fell into Emberspire\'s deepest vent during the Binding itself, corrupted by the Wyrd and grown sentient.',
   fullEntry: 'Something nests in the molten vents beneath Emberspire, and the Emberth have a name for it: Scathrach, the Ashen Sovereign. It is not older than the Binding — it was born during it. A fragment of Aex\'s flayed hide fell into Emberspire\'s deepest vent while the seal was being woven, and the Wyrd, already leaking through Aex\'s stretched body, corrupted it. For centuries Scathrach was Keth-Amar\'s emissary, a rooting tendril through the wound, feeding the Sun-Eater information and despair from within the world. But Aex\'s nature was too strong. The fragment rejected the corruption.\n\nNow Scathrach despises Keth-Amar for what it was made into. It calls in Pyrofiend debts not to serve the Sun-Eater but to hoard power to wound it back. Keth-Amar cannot reach into that vent anymore — Scathrach sealed it from within. The Ashen Sovereign always collects its bargains, but the fire is no longer the Sun-Eater\'s. Every Pyrofiend ends in the furnace, and the next bargain is already being struck, and somewhere below the magma, Scathrach waits for the strike that will finally mean something.',
-  relatedTerms: ['emberspire', 'pyrofiend', 'sundale']
+  relatedTerms: ['emberspire', 'pyrofiend', 'sundale', 'keth_amar', 'aex', 'berserker', 'blood_heat', 'harath_vault', 'first-cabal']
   },
 
   // RACES
@@ -1036,13 +1036,13 @@ export const LORE_DICTIONARY = {
   },
 
   'deep_alchemists': {
- id: 'deep_alchemists',
- term: 'Deep Alchemists',
- type: 'faction',
- region: 'cragjaw-peaks',
- summary: 'Older than the Dark Bargains, older than human fire, the Fexric research sect that forged the Groven from Thrumm blood, lost them to revolt, and retreated beneath Frostmaw Crag to keep working.',
- fullEntry: 'For long ages before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexric who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists\' surface operations.\n\nThe guild didn\'t die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexric with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.',
- relatedTerms: ['fexrick', 'frostmaw_holdfast', 'groven', 'lost_brood_vats', 'thrumm', 'vat_breakers_guild', 'alaric', 'vat-breaker-foreman']
+	id: 'deep_alchemists',
+	term: 'Deep Alchemists',
+	type: 'faction',
+	region: 'cragjaw-peaks',
+	summary: 'Older than the Dark Bargains, older than human fire, the Fexric research sect that forged the Groven from Thrumm blood, lost them to revolt, and retreated beneath Frostmaw Crag to keep working.',
+	fullEntry: 'For long ages before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexrick who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists\' surface operations.\n\nThe guild didn\'t die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexrick with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.',
+	relatedTerms: ['fexrick', 'frostmaw_holdfast', 'groven', 'lost_brood_vats', 'thrumm', 'vat_breakers_guild', 'alaric', 'vat-breaker-foreman']
   },
 
   'keeper_of_the_last_threshold': {
@@ -1053,6 +1053,16 @@ export const LORE_DICTIONARY = {
  summary: 'The death-boundary guardian who enforces every Neth contract. Honored clauses extend the Fading; broken ones wake the Debt-Revenant.',
  fullEntry: 'At the boundary between life and death waits Morvane. Neither power nor spirit, it exists at the last threshold any soul must cross, and it does not move from that place.\n\nWhen the Neth ancestors sought to preserve themselves against the Fading, it was Morvane they approached. Their proposition was precise: if Morvane would sustain their bodies and halt their decay, the Neth would serve as the eternal record-keepers of every contract Morvane\'s substrate absorbed. Morvane considered the argument and accepted. Every Neth contract since has been enforced by Morvane\'s authority.\n\nBreak an agreement and Morvane sends the Debt-Revenant. Honor an agreement and the Fading deadline extends. Seal an oath with Morvane\'s own mark and even the bog cannot easily claim you. The Drun, Neth who have severed every contract, are invisible to Morvane, existing in a state of legal non-existence that is simultaneously freedom and exile. Morvane does not hunt them. It no longer sees them.\n\nMorvane does not punish. It does not reward. It remembers every clause of every contract, and it enforces them without exception. Those who have encountered what they believe to be Morvane describe only a sensation: the certainty that a debt has just been recognized.\n\nSign a Neth contract and your name is now in Morvane\'s keeping. Morvane is patient. Morvane does not forget. Your breath is the collateral, and the threshold does not close.',
  relatedTerms: ['black_fen', 'bryngloom-forest', 'neth', 'root_veil', 'root_veil_scriptorium', 'valerius', 'vel-otharen', 'morrath-steward']
+   },
+
+  'morvane': {
+ id: 'morvane',
+ term: 'Morvane',
+ type: 'concept',
+ region: 'bryngloom-forest',
+ summary: 'The death-boundary guardian and enforcer of all Neth contracts. "Keeper of the Last Threshold" in formal contract-law; "Morvane" in daily Neth speech. Both names, one entity.',
+ fullEntry: 'Morvane is the name the Neth use in daily speech for the entity formally called the Keeper of the Last Threshold in contract-law. The two names refer to the same presence.\n\nAt the boundary between life and death waits Morvane. It exists at the last threshold any soul must cross. When the Neth ancestors sought to preserve themselves against the Fading, it was Morvane they approached — and the contract they sealed with it has sustained the Neth tradition ever since. Break an agreement and Morvane sends the Debt-Revenant. Honor it and the Fading deadline extends.\n\nThe Drun, who severed every contract, are invisible to Morvane. It no longer sees them — simultaneously freedom and exile. Morvane does not punish. It does not reward. It enforces, without exception.',
+ relatedTerms: ['keeper_of_the_last_threshold', 'black_fen', 'bryngloom-forest', 'neth', 'root_veil', 'valerius', 'vel-otharen', 'the_watcher']
   },
 
   'vault_breath': {
@@ -1072,7 +1082,7 @@ export const LORE_DICTIONARY = {
  region: 'sundale',
  summary: 'Born in the Dimming as quiet Monolith-trackers, the Dawn Vigil now marches under Hierophant Aethelgard, sending Solvarn Martyrs and Pyrofiends across the world to seize Sundered fragments: publicly to relight Sol, privately to keep anyone from summoning Keth-Amar back.',
  fullEntry: 'For generations after the Dimming, the Dawn Vigil were quiet. A monastic order of Martyrs, they tracked the scattered Sundered Monoliths in secret, marking locations on ash-paper maps and praying for the day Sol would relight. They kept the old faith and asked nothing of anyone.\n\nThen Hierophant Aethelgard took the chair. Within two decades she had militarized the order, seized the keeps of Sundale, and turned a cloister into an army on the march. Now bands of Solvarn Martyrs, Pyrofiends, and Augurs march into every region under a sigil of a rising sun pierced by obsidian, taking Sundered fragments by whatever means the moment requires. Publicly, the Vigil serves the restoration of House Solvan.\n\nThe Vigil\'s inner council has done the math, and the answer is worse than the faithful fear. Reassembling the Monoliths will not bring Sol back. It will summon Keth-Amar to finish what was started at the Breach. They keep marching anyway, because if they do not assemble the fragments first, someone else will.\n\nThe ash keeps falling on Sundale. The keeps fly the obsidian sun. If you carry Martyr scars or Augur sight, the Vigil has a use for you, and the work isn\'t done.',
- relatedTerms: ['emberspire', 'house_solvan', 'keth_amar', 'solbrand', 'sundale', 'the_ashen_escarpment']
+ relatedTerms: ['emberspire', 'house_solvan', 'keth_amar', 'solbrand', 'sundale', 'the_ashen_escarpment', 'sundered_monoliths', 'martyr', 'pyrofiend', 'augur', 'aex', 'dawn-vigil-commander']
   },
 
   'vat_breakers_guild': {
@@ -1932,7 +1942,7 @@ export const LORE_DICTIONARY = {
  role: 'Regent of the Lunar Communion',
  region: 'frostwood-reach',
  summary: 'Keeper of the Phases, tending the lunar parasite as elder specimens synchronize toward an unknown convergence.',
- fullEntry: 'Bri-Vessela tends the dead-moon parasite in the Frostwood\'s moonlit groves, Regent of the Lunar Communion and Voice of the Moonlit Groves, the Briaran custodian of House Viridane\'s hidden sanctuaries. She serves in Selene\'s silence; the founder of the Lunarch path has not spoken in centuries, and Bri-Vessela speaks for her. The elder parasites, across all hosts, are now synchronizing, every Lunarch\'s phase-cycle aligning toward an unknown convergence the scholars are calling the hatching-song of the dead moon. Stand in the moonlit groves when the cycles align and you\'ll feel the parasite hum before you hear it, and Bri-Vessela is the one who decides whether that hum is a song or a warning.',
+ fullEntry: 'Bri-Vessela tends the lunar parasite in the Frostwood\'s moonlit groves, Regent of the Lunar Communion and Voice of the Moonlit Groves, the Briaran custodian of House Viridane\'s hidden sanctuaries. She serves in Selene\'s silence; three weeks ago the founder of the Lunarch path stopped speaking Briaran and began whispering in a language older than the fae-contract, and Bri-Vessela has transcribed every syllable. The elder parasites, across all hosts, are now synchronizing, every Lunarch\'s phase-cycle aligning toward an unknown convergence the scholars are calling the hatching-song of the fallen star. Stand in the moonlit groves when the cycles align and you\'ll feel the parasite hum before you hear it, and Bri-Vessela is the one who decides whether that hum is a song or a warning.',
  relatedTerms: ['ironwood_heart', 'frostwood-reach', 'briaran', 'house_viridane'],
  worldFriction: 'Elder parasites synchronizing across all hosts toward a convergence.'
   },
@@ -2262,14 +2272,25 @@ export const LORE_DICTIONARY = {
   // Founders of the 19 class traditions who are not already covered above
 
   'grum-bloodhammer': {
- id: 'grum-bloodhammer',
- term: 'Grum Bloodhammer',
- type: 'character',
- role: 'Founder of the Berserker Path',
- region: 'sundale',
- summary: 'The first Berserker, who ignited the Blood-Heat in Emberspire\'s caldera. His forge still burns in the Harath-Vault.',
- fullEntry: 'Grum Bloodhammer was the first to ignite the Blood-Heat, the metabolic fury that converts the body into a self-destructive engine of war. Where the Skald say the Hunger Pact originated in Nordhalla\'s three-winter blizzard, when ancestors consumed their own fallen to survive, Grum channeled that ancestral fire into something deliberate: a weapon. He lit the first Blood-Heat in the caldera of Emberspire, and his fury was so bright the Solvarn Vigil thought the buried star was returning. The Forge of Grum in the Harath-Vault, where Berserkers still train beneath the volcanic stone, carries the impression of his hammer in the floor. Strike the floor and you\'ll feel where he stood; the stone still remembers the heat of the first Berserker who burned himself into it.',
- relatedTerms: ['harath_vault', 'blood_heat', 'emberspire', 'sundale', 'skald']
+    id: 'grum-bloodhammer',
+    term: 'Grum Bloodhammer',
+    type: 'character',
+    role: 'Founder of the Berserker Path',
+    region: 'sundale',
+    summary: 'The first Berserker, who ignited the Blood-Heat in Emberspire\'s caldera. His forge still burns in the Harath-Vault.',
+    fullEntry: 'Grum Bloodhammer was the first to ignite the Blood-Heat, the metabolic fury that converts the body into a self-destructive engine of war. Where the Skald say the Hunger Pact originated in Nordhalla\'s three-winter blizzard, when ancestors consumed their own fallen to survive, Grum channeled that ancestral fire into something deliberate: a weapon. He lit the first Blood-Heat in the caldera of Emberspire, and his fury was so bright the Solvarn Vigil thought the buried star was returning. The Forge of Grum in the Harath-Vault, where Berserkers still train beneath the volcanic stone, carries the impression of his hammer in the floor. Strike the floor and you\'ll feel where he stood; the stone still remembers the heat of the first Berserker who burned himself into it.',
+    relatedTerms: ['harath_vault', 'blood_heat', 'emberspire', 'sundale', 'skald', 'torra-bloodhammer']
+  },
+
+  'torra-bloodhammer': {
+    id: 'torra-bloodhammer',
+    term: 'Torra Bloodhammer',
+    type: 'character',
+    role: 'Chieftain of the Bloodhammer Migration',
+    region: 'nordhalla',
+    summary: 'The Skald chieftain who led the Bloodhammer clans south into the volcanic tunnels of Emberspire after the Glacier Bargain, making Grum\'s founding act possible.',
+    fullEntry: 'Torra Bloodhammer was the chieftain who answered the Glacier Bargain with survival rather than grief. When House Skalvyr\'s compact with Keth-Amar halted the advancing glaciers at the price of all summer, the Skald were left in a land of absolute cold — cold that would not end, cold that could not be bargained with a second time. The noble houses told them to endure. Torra refused. She gathered the Bloodhammer clans and marched them south through the Cragjaw Peaks and over the Ancestor-Spans into the volcanic tunnel-systems of Sundale, where the heat of Emberspire\'s caldera could replace the summer that was stolen.\n\nThe migration cost a third of her people to exposure, Kappa-guarded geothermal corridors, and ice-wyrm attacks from the cooling volcanic vents. When the colossal ice-wyrm burst from a vent at the caldera\'s threshold, it was the smith Grum who answered it with the furnace-heat — but it was Torra who got the clans there, alive enough for Grum to matter. She died of cold-water exposure three days after arriving, her body calcifying in the Emberspire warmth in a mockery of the Still-Claiming she had crossed Groven bridges to reach.\n\nThe Berserker order remembers Grum because he founded the art. The Bloodhammer clans remember Torra because without her, Grum never would have had a forge to stand in.',
+    relatedTerms: ['nordhalla', 'emberspire', 'berserker', 'grum-bloodhammer', 'house_skalvyr', 'harath_vault']
   },
 
   'valerius': {
@@ -2301,7 +2322,7 @@ export const LORE_DICTIONARY = {
  role: 'Founder of the Chronarch Path',
  region: 'cragjaw-peaks',
  summary: 'The first Chronarch, who hooked a volcanic-glass time-engine into her own chest. She is now disappearing from history.',
- fullEntry: 'Nesta, a Fexric engineer in a Frostmaw workshop, hooked a volcanic-glass time-engine directly into her own chest to test whether a living body could house a temporal mechanism. It could. The clockwork chest-engine every Chronarch now inherits descends from her prototype, and so does the price: the engine kills its host over years, the body\'s natural decay accelerated by the paradox of operating outside linear time. Nesta is disappearing from history. Records of her fade, memories slip, as though her existence is being reclaimed by the very mechanism she invented. Wear the engine she built and you may outlive your own name; Nesta is proving that a Chronarch can run out of time in a direction no one expected.',
+ fullEntry: 'Nesta, a Fexrick engineer in a Frostmaw workshop, hooked a volcanic-glass time-engine directly into her own chest to test whether a living body could house a temporal mechanism. It could. The clockwork chest-engine every Chronarch now inherits descends from her prototype, and so does the price: the engine kills its host over years, the body\'s natural decay accelerated by the paradox of operating outside linear time. Nesta is disappearing from history. Records of her fade, memories slip, as though her existence is being reclaimed by the very mechanism she invented. Wear the engine she built and you may outlive your own name; Nesta is proving that a Chronarch can run out of time in a direction no one expected.',
  relatedTerms: ['frostmaw_holdfast', 'cragjaw-peaks'],
  worldFriction: 'Disappearing from history. If she ceases to exist, every Chronarch absorbs her temporal friction.'
   },
@@ -2353,15 +2374,15 @@ export const LORE_DICTIONARY = {
   },
 
   'selene': {
- id: 'selene',
- term: 'Selene of House Viridane',
- type: 'character',
- role: 'Founder of the Lunarch Path',
- region: 'frostwood-reach',
- summary: 'The Briaran noble who bound the dead-moon parasite to herself. She has not spoken in centuries.',
- fullEntry: 'Selene of House Viridane bound a fragment of the dead moon to her own body in the Frostwood\'s moonlit groves, and founded the Lunarch tradition in that binding. The parasite feeds on the host\'s vitality in exchange for lunar-phase abilities tied to the dead moon\'s cycle. The thing that died when its moon shattered now lives inside a Briaran noble who carries Viridane\'s blood.\n\nSelene entered silence centuries ago, retreating into a state between life and undeath where the parasite sustains her without her active participation. The groves she left behind are now tended by Bri-Vessela, and no one, not even the Regent, knows whether Selene is still capable of waking. The dead moon\'s cycle still turns, and the parasite still feeds. Walk the moonlit groves and you may hear what the silence is hiding, and learn whether the thing inside Selene is waiting for her to wake or waiting for her to finish dying.',
- relatedTerms: ['ironwood_heart', 'frostwood-reach', 'house_viridane', 'briaran'],
- worldFriction: 'Has not spoken in centuries. No one knows if she can still wake.'
+    id: 'selene',
+    term: 'Selene of House Viridane',
+    type: 'character',
+    role: 'Founder of the Lunarch Path',
+    region: 'frostwood-reach',
+    summary: 'The Briaran noble who bound a fragment of a dormant fallen star to her bones, founding the Lunarch tradition. She fell silent three weeks ago.',
+    fullEntry: 'Selene of House Viridane bound a fragment of a dormant fallen star to her own bones in the Frostwood\'s moonlit groves, and founded the Lunarch tradition in that binding. The parasite — one of many brood-siblings hatched from the great stellar fragment — feeds on the host\'s vitality in exchange for lunar-phase abilities tied to the star\'s dormant cycle. The celestial predator nesting inside a Briaran noble who carries Viridane\'s blood is not a ghost of something dead. It is a sleeping thing beginning to stir.\n\nSelene has fallen silent. Three weeks ago she stopped speaking Briaran and began whispering in a language older than the fae-contract — the elder parasites communicating across their hosts are synchronizing toward an unknown convergence, and the waking-song is routing through Selene first. The groves she left behind are now tended by Bri-Vessela, and no one, not even the Regent, knows what wakes when the convergence completes. Walk the moonlit groves and you may hear what the silence is hiding, and learn whether the thing inside Selene is waiting for her to wake or waiting for her to finish being needed.',
+    relatedTerms: ['ironwood_heart', 'frostwood-reach', 'house_viridane', 'briaran'],
+    worldFriction: 'Fell silent three weeks ago. The Briaran Regent transcribes her whispers every night. No one knows if they are madness or instructions.'
   },
 
   'sera-solvan': {
@@ -2488,13 +2509,13 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
   },
 
   'the-war-of-thousand-screams': {
- id: 'the-war-of-thousand-screams',
- term: 'The War of Thousand Screams',
- type: 'event',
- region: 'cragjaw-peaks',
- summary: 'The largest war of the mid-Diming centuries. Twenty years of screams beneath Frostmaw Holdfast, and when it ended the Deep Alchemists were gone, the Chronarch tradition was born, and the Groven had walled the Spans.',
- fullEntry: 'Centuries into the Dimming, two catastrophes met beneath Frostmaw Holdfast, and the war that followed lasted twenty years.\n\nThe Deep Alchemists had been pushing experiments in the lowest tunnels until the experiments pushed back. Containment failed. Warped biological constructs and raw alchemical runoff flooded the lower galleries, and at the same moment the last geothermal vents across the Cragjaw Peaks began to fail. Every major hold fought every other for the few warm zones that remained. The surface war was fought over heat. The war beneath was fought against things that had once been alchemy.\n\nFour things survived that war, and none of them can be undone. Nesta, a Fexric engineer, built her time-dilation engine in the ruins of a collapsed alchemy-vat. Her first successful stitch rewound a tunnel collapse by forty seconds, and three hundred trapped miners walked out alive. The Chronarch tradition traces itself to that stitch. The Steam-Line Cartel came through the chaos holding every geothermal pipe in the Peaks, and no challenger has risen since. The Deep Alchemists, knowing their work could never again be safe near the surface, sealed themselves into the lowest tunnels and were never recorded again. And the Groven walled the Ancestor-Spans as permanent military checkpoints, a posture they have held through every war since.\n\nThe war takes its name from the sound the escaped constructs made, a chorus of synthetic, echoing screams that the sealed galleries have never stopped repeating. Miners who work the deep claims say the screaming still rises through the rock on quiet nights.\n\nThe lower tunnels are closed. The screams are not. Descend into Frostmaw Holdfast far enough and you will hear what the Deep Alchemists left behind, and you will understand why the Groven won\'t lower the Spans, no matter who asks.',
- relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'deepchasm_keep', 'chronarch', 'groven', 'ancestor_gaps', 'fexrick', 'nesta']
+	id: 'the-war-of-thousand-screams',
+	term: 'The War of Thousand Screams',
+	type: 'event',
+	region: 'cragjaw-peaks',
+	summary: 'The largest war of the mid-Diming centuries. Twenty years of screams beneath Frostmaw Holdfast, and when it ended the Deep Alchemists were gone, the Chronarch tradition was born, and the Groven had walled the Spans.',
+	fullEntry: 'Centuries into the Dimming, two catastrophes met beneath Frostmaw Holdfast, and the war that followed lasted twenty years.\n\nThe Deep Alchemists had been pushing experiments in the lowest tunnels until the experiments pushed back. Containment failed. Warped biological constructs and raw alchemical runoff flooded the lower galleries, and at the same moment the last geothermal vents across the Cragjaw Peaks began to fail. Every major hold fought every other for the few warm zones that remained. The surface war was fought over heat. The war beneath was fought against things that had once been alchemy.\n\nFour things survived that war, and none of them can be undone. Nesta, a Fexrick engineer, built her time-dilation engine in the ruins of a collapsed alchemy-vat. Her first successful stitch rewound a tunnel collapse by forty seconds, and three hundred trapped miners walked out alive. The Chronarch tradition traces itself to that stitch. The Steam-Line Cartel came through the chaos holding every geothermal pipe in the Peaks, and no challenger has risen since. The Deep Alchemists, knowing their work could never again be safe near the surface, sealed themselves into the lowest tunnels and were never recorded again. And the Groven walled the Ancestor-Spans as permanent military checkpoints, a posture they have held through every war since.\n\nThe war takes its name from the sound the escaped constructs made, a chorus of synthetic, echoing screams that the sealed galleries have never stopped repeating. Miners who work the deep claims say the screaming still rises through the rock on quiet nights.\n\nThe lower tunnels are closed. The screams are not. Descend into Frostmaw Holdfast far enough and you will hear what the Deep Alchemists left behind, and you will understand why the Groven won\'t lower the Spans, no matter who asks.',
+	relatedTerms: ['cragjaw-peaks', 'frostmaw_holdfast', 'deepchasm_keep', 'chronarch', 'groven', 'ancestor_gaps', 'fexrick', 'nesta']
   },
 
   'the-toll-wars': {
@@ -2626,8 +2647,8 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
   term: 'Sundered Monoliths',
   type: 'concept',
   region: 'sundale',
-  summary: 'Seven fragments of Aex\'s body scattered when the seal cracked — six true Monoliths and one false echo, all parts of Sol\'s binding seal.',
-  fullEntry: 'When the six houses fed their firstborn heirs to Keth-Amar at the Breach, the binding seal — woven from Aex\'s flayed hide — fractured into seven fragments. But only six are real. Viridane\'s signature was never placed, so the seventh Monolith is a hollow echo, a stone with no binding power.\n\nThe six true Monoliths are parts of Aex\'s body, scattered across the continent:\n\n**Fog-Hand** — House Thalreth. The right hand, skin. Lodged in the Frostwood Reach, where its presence thickens the memory-fog.\n\n**Ice-Crown** — House Skalvyr. A fragment of forehead and skull. Buried in Nordhalla\'s glaciers, radiating cold that compounds the eternal winter.\n\n**Wind-Bone** — House Tesshan. A rib bone. Embedded in the Cragjaw Peaks, howling through the blizzard-veil.\n\n**Depth-Breath** — House Mereval. The lungs. Sunk beneath the Iceheart Sea, broadcasting a low-frequency command signal that certain Wyrd-creatures obey.\n\n**Grass-Spine** — House Ordavan. The spine. Lodged in the Sundrift Vale, its presence intensifying the Silt-Tide\'s restless rhythm.\n\n**Still-Heart** — House Solvan. The heart. But this is the false decoy. Solvan\'s Monolith was deliberately misidentified; the true heart lies elsewhere, hidden even from the houses.\n\n**False Monolith** — House Viridane. No body part. No binding power. A hollow echo where Viridane\'s signature was meant to be.\n\nFor nearly eight centuries these stones lay dormant. Now they are waking. Aex can no longer hold them still. The Dawn Vigil publicly claims reassembling them will restart Sol. Their inner council has calculated it will summon Keth-Amar instead.',
+  summary: 'Seven fragments scattered when the seal cracked — six identified Monoliths and one hollow echo where Viridane\'s signature was meant to be. The histories say six are true. The histories may be incomplete.',
+  fullEntry: 'When the six houses fed their firstborn heirs to Keth-Amar at the Breach, the binding seal — woven from Aex\'s flayed hide — fractured into seven fragments. But only six are real. Viridane\'s signature was never placed, so the seventh Monolith is a hollow echo, a stone with no binding power.\\n\\nThe six true Monoliths are parts of Aex\'s body, scattered across the continent:\\n\\n**Fog-Hand** — House Thalreth. The right hand, skin. Lodged in the Frostwood Reach, where its presence thickens the memory-fog.\\n\\n**Ice-Crown** — House Skalvyr. A fragment of forehead and skull. Buried in Nordhalla\'s glaciers, radiating cold that compounds the eternal winter.\\n\\n**Wind-Bone** — House Tesshan. A rib bone. Embedded in the Cragjaw Peaks, howling through the blizzard-veil.\\n\\n**Depth-Breath** — House Mereval. The lungs. Sunk beneath the Iceheart Sea, broadcasting a low-frequency command signal that certain Wyrd-creatures obey.\\n\\n**Grass-Spine** — House Ordavan. The spine. Lodged in the Sundrift Vale, its presence intensifying the Silt-Tide\'s restless rhythm.\\n\\n**Still-Heart** — House Solvan. The heart. But this is the false decoy. Solvan\'s Monolith was deliberately misidentified; the true heart lies elsewhere, hidden even from the houses.\\n\\n**False Monolith** — House Viridane. No body part. No binding power. A hollow echo where Viridane\'s signature was meant to be.\\n\\nFor nearly eight centuries these stones lay dormant. Now they are waking. Aex can no longer hold them still. The Dawn Vigil publicly claims reassembling them will restart Sol. Their inner council has calculated it will summon Keth-Amar instead.',
   relatedTerms: ['the_breach', 'aex', 'keth_amar', 'emberspire', 'dawn_vigil', 'treakous_rift', 'cragjaw-peaks', 'sundrift-vale', 'iceheart-sea', 'wyrd']
   },
 
@@ -2817,14 +2838,22 @@ summary: 'Outdated theory. The twelve-year pulse was Aex screaming, not Sol reki
   relatedTerms: ['merrowport', 'iceheart-sea', 'house_mereval', 'gambit', 'minstrel']
  },
  'scribe_sentinels': {
-  id: 'scribe_sentinels',
-  term: 'Scribe-Sentinels',
-  type: 'faction',
-  region: 'frostwood-reach',
-  summary: 'The quill-armed patrol order of Greymark Keep that enforces the Sovereign Ledger and records every disturbance in the Frostwood Reach.',
-  fullEntry: 'The Scribe-Sentinels are the enforcement arm of Jarl-Archivist Kaelen Thalreth\'s Sovereign Ledger at Greymark Keep. They patrol the timber keeps in shifts of six, their quills always ready to record any disturbance. Part watch, part archive, they ensure that every interaction in the Reach is documented, every right registered, and every unrecorded person marked as one of the Forgotten. Their authority derives from the Ledger itself: if an event is not written down, the Scribe-Sentinels ensure it is, and if it cannot be written, it did not happen.',
-  relatedTerms: ['greymark_keep', 'frostwood-reach', 'house_thalreth', 'sovereign-ledger']
- }
-
-
+   id: 'scribe_sentinels',
+   term: 'Scribe-Sentinels',
+   type: 'faction',
+   region: 'frostwood-reach',
+   summary: 'The quill-armed patrol order of Greymark Keep that enforces the Sovereign Ledger and records every disturbance in the Frostwood Reach.',
+   fullEntry: 'The Scribe-Sentinels are the enforcement arm of Jarl-Archivist Kaelen Thalreth\'s Sovereign Ledger at Greymark Keep. They patrol the timber keeps in shifts of six, their quills always ready to record any disturbance. Part watch, part archive, they ensure that every interaction in the Reach is documented, every right registered, and every unrecorded person marked as one of the Forgotten. Their authority derives from the Ledger itself: if an event is not written down, the Scribe-Sentinels ensure it is, and if it cannot be written, it did not happen.',
+   relatedTerms: ['greymark_keep', 'frostwood-reach', 'house_thalreth', 'sovereign-ledger']
+  },
+  'cult_of_forgotten_shadow': {
+   id: 'cult_of_forgotten_shadow',
+   term: 'Cult of Forgotten Shadow',
+   type: 'faction',
+   region: 'bryngloom-forest',
+   aliases: ['cult-of-forgotten-shadow'],
+   summary: 'A shadow-state of Vreken exiles and heretical animists based in Over-Shanty, communing with the silence devouring the ancestor-mounds.',
+   fullEntry: 'The Cult of Forgotten Shadow is a shadow-state and religious movement composed of Vreken exiles, coven-mages, and heretical animists based at Over-Shanty in the Bryngloom Forest. Founded in Year 412 of the Dimming, the cult rejects the Neth-Vreken Reincarnation Bargain and the traditional ancestor-veneration of the Vreken elders, arguing that the deep silence creeping through the burial mounds is not a disease but the natural return to a primordial, starless dark. They use ghost-mycelium spores to mask their bioluminescent skin-glow and hide from Neth telepathic sweeps. They actively recruit outcasts, debt-slaves, and disillusionment-plagued casters, preparing their souls to embrace the convergence when the continental binding seal fails entirely.',
+   relatedTerms: ['bryngloom-forest', 'over_shanty', 'neth', 'vreken', 'root_veil', 'revenant', 'animist']
+  }
 };

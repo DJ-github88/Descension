@@ -365,4 +365,5 @@ class DemoAuthService {
   }
 }
 
-export default new DemoAuthService();
+const demoAuthService = new DemoAuthService();
+export default demoAuthService;

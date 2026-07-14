@@ -257,18 +257,31 @@
     border: 1.5px solid rgba(139, 105, 20, 0.15);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     position: relative;
+    overflow: hidden;
+}
+
+/* Themed animated backdrop layer */
+.class-row-bg-effects {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+/* All foreground content sits above the animated backdrop */
+.class-row-icon,
+.class-row-body,
+.class-row-meta {
+    position: relative;
+    z-index: 2;
 }
 
 .class-row:hover {
     border-color: var(--role-color, #d4af37);
-    background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 252, 240, 0.95) 100%);
-    box-shadow:
-        0 4px 16px rgba(139, 105, 20, 0.1),
-        0 0 0 1px color-mix(in srgb, var(--role-color) 15%, transparent);
     transform: translateX(2px);
 }
 
@@ -562,3 +575,729 @@
         font-size: 0.8rem;
     }
 }
+
+/* =====================================================================
+   THEMATIC CLASS BACKDROPS  (hand-built animated SVG per class)
+   The SVG scene lives in .class-row-bg-effects (rendered by
+   ClassRowBackdrop.jsx); keyframes here drive the .cbd-* elements.
+   ===================================================================== */
+
+/* --- the SVG fills its backdrop layer --- */
+.cbd-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+}
+
+/* default: transforms resolve against the SVG viewBox so a plain
+   transform-origin of 50% 50% == the scene centre (600,70). Elements
+   that must spin around their own centre opt into fill-box below. */
+.cbd-svg * {
+    transform-box: view-box;
+    transform-origin: 600px 70px;
+}
+
+/* light edge-weighted scrim keeps text legible over the moving art
+   without burying it */
+.class-row-bg-effects::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.05) 30%,
+        rgba(0, 0, 0, 0.05) 70%,
+        rgba(0, 0, 0, 0.40) 100%);
+    z-index: 2;
+}
+
+/* Foreground text recoloured for the dark themed backdrops */
+.classes-list .class-row .class-row-name {
+    color: #fbf3e0;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.classes-list .class-row .class-row-resource {
+    color: #ead7b0;
+}
+
+.classes-list .class-row .class-row-resource i {
+    color: #ffd479;
+}
+
+.classes-list .class-row .class-row-playstyle {
+    color: #e8dcc4;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.classes-list .class-row .class-row-cta {
+    color: #ffd479;
+}
+
+/* Role-coloured glow on hover, layered above the base hover */
+.classes-list .class-row:hover {
+    transform: translateX(4px);
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.6),
+        0 0 0 1px color-mix(in srgb, var(--role-color) 45%, transparent),
+        0 0 32px color-mix(in srgb, var(--role-color) 26%, transparent);
+}
+
+/* --- per-class dark base + themed border (fallback behind the SVG) --- */
+.class-row-arcanoneer { background-color: #160e0a; border-color: rgba(230, 126, 34, 0.35); }
+.class-row-berserker { background-color: #1e0506; border-color: rgba(231, 76, 60, 0.35); }
+.class-row-shaper { background-color: #17100d; border-color: rgba(205, 163, 122, 0.3); }
+.class-row-harbinger { background-color: #191021; border-color: rgba(155, 89, 182, 0.35); }
+.class-row-chronarch { background-color: #13101e; border-color: rgba(184, 150, 64, 0.35); }
+.class-row-inquisitor { background-color: #160405; border-color: rgba(139, 0, 0, 0.45); }
+.class-row-revenant { background-color: #15110b; border-color: rgba(55, 184, 108, 0.3); }
+.class-row-false-prophet { background-color: #140a1a; border-color: rgba(155, 89, 182, 0.35); }
+.class-row-gambit { background-color: #17140a; border-color: rgba(241, 196, 15, 0.35); }
+.class-row-apex { background-color: #17100e; border-color: rgba(231, 76, 60, 0.35); }
+.class-row-animist { background-color: #0e160e; border-color: rgba(46, 204, 113, 0.35); }
+.class-row-lunarch { background-color: #10140a; border-color: rgba(241, 196, 15, 0.35); }
+.class-row-martyr { background-color: #0a1218; border-color: rgba(52, 152, 219, 0.35); }
+.class-row-minstrel { background-color: #0e1612; border-color: rgba(46, 204, 113, 0.3); }
+.class-row-plaguebringer { background-color: #12140a; border-color: rgba(168, 184, 74, 0.35); }
+.class-row-pyrofiend { background-color: #1a0a06; border-color: rgba(224, 52, 13, 0.4); }
+.class-row-spellguard { background-color: #0a121a; border-color: rgba(52, 152, 219, 0.35); }
+.class-row-toxicologist { background-color: #0f1608; border-color: rgba(124, 179, 66, 0.35); }
+.class-row-warden { background-color: #14100c; border-color: rgba(138, 122, 90, 0.35); }
+.class-row-augur { background-color: #15101a; border-color: rgba(155, 89, 182, 0.35); }
+
+/* elements that should spin/grow around their OWN centre, not the scene */
+.cbd-shap-shard,
+.cbd-gamb-card,
+.cbd-gamb-die,
+.cbd-plag-spore,
+.cbd-aug-bone {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+/* elements that should scale from their base */
+.cbd-pyr-flame,
+.cbd-tox-bubble {
+    transform-box: fill-box;
+    transform-origin: bottom;
+}
+
+/* fixed off-centre rotation pivots */
+.cbd-chron-gear--cw { transform-origin: 300px 70px; }
+.cbd-chron-gear--ccw { transform-origin: 900px 70px; }
+.cbd-anim-ring { transform-origin: 600px 130px; }
+.cbd-fp-tendril { transform-box: fill-box; transform-origin: left center; }
+
+/* ------------------------------------------------------------------- */
+/* 1. ARCANONEER - atom: elemental electrons orbit a pulsing nucleus   */
+.cbd-arc-orbit { animation: cbd-arc-orbit 6s linear infinite; }
+.cbd-arc-nucleus { animation: cbd-arc-nucleus 3s ease-in-out infinite; }
+.cbd-arc-flash { animation: cbd-arc-flash 6s ease-in-out infinite; }
+@keyframes cbd-arc-orbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes cbd-arc-nucleus {
+    0%, 100% { transform: scale(0.86); opacity: 0.85; }
+    50% { transform: scale(1.12); opacity: 1; }
+}
+@keyframes cbd-arc-flash {
+    0%, 86%, 100% { opacity: 0; transform: scale(0.3); }
+    93% { opacity: 0.9; transform: scale(1.4); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 2. BERSERKER - blood drips fall + heartbeat pulse                   */
+.cbd-bers-drip { animation: cbd-bers-drip 3.4s ease-in infinite; }
+.cbd-bers-pulse { animation: cbd-bers-pulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: top; }
+@keyframes cbd-bers-drip {
+    0% { transform: translateY(0); opacity: 0.35; }
+    8% { opacity: 1; }
+    82% { opacity: 1; }
+    100% { transform: translateY(92px); opacity: 0; }
+}
+@keyframes cbd-bers-pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.34; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 3. SHAPER - yin-yang slowly turns; shaping ring counter-rotates     */
+.cbd-shap-yin { animation: cbd-shap-spin 16s linear infinite; }
+.cbd-shap-ring { animation: cbd-shap-spin 30s linear infinite reverse; }
+@keyframes cbd-shap-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 4. HARBINGER - ash vortex spins, entropy bolts crack                */
+.cbd-harb-spiral { animation: cbd-harb-spiral 18s linear infinite; }
+.cbd-harb-bolt { animation: cbd-harb-bolt 5s steps(1) infinite; }
+.cbd-harb-bolt--b { animation-delay: 2.4s; }
+@keyframes cbd-harb-spiral {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes cbd-harb-bolt {
+    0%, 88%, 100% { opacity: 0; }
+    90%, 96% { opacity: 0.95; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 5. CHRONARCH - gears grind opposite ways, clock hand sweeps          */
+.cbd-chron-gear--cw { animation: cbd-chron-cw 22s linear infinite; }
+.cbd-chron-gear--ccw { animation: cbd-chron-ccw 16s linear infinite; }
+.cbd-chron-hand { animation: cbd-chron-hand 12s linear infinite; transform-origin: 600px 70px; }
+@keyframes cbd-chron-cw { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes cbd-chron-ccw { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+@keyframes cbd-chron-hand { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* ------------------------------------------------------------------- */
+/* 6. INQUISITOR - barbed wire sways, cold-iron seal throbs            */
+.cbd-inq-wire { animation: cbd-inq-wire 6s ease-in-out infinite; }
+.cbd-inq-wire--b { animation-delay: 1.5s; }
+.cbd-inq-seal { animation: cbd-inq-seal 4.5s ease-in-out infinite; }
+.cbd-inq-cross { animation: cbd-inq-cross 4.5s ease-in-out infinite; }
+@keyframes cbd-inq-wire {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+}
+@keyframes cbd-inq-seal {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 0.85; transform: scale(1.06); }
+}
+@keyframes cbd-inq-cross {
+    0%, 100% { stroke-opacity: 0.4; }
+    50% { stroke-opacity: 0.95; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 7. REVENANT - souls spiral inward, phylactery gem pulses            */
+.cbd-rev-spiral { animation: cbd-rev-spiral 6s linear infinite; }
+.cbd-rev-gem { animation: cbd-rev-gem 3.2s ease-in-out infinite; }
+@keyframes cbd-rev-spiral {
+    0% { transform: rotate(0deg) scale(1); opacity: 0.85; }
+    100% { transform: rotate(-360deg) scale(0.35); opacity: 0; }
+}
+@keyframes cbd-rev-gem {
+    0%, 100% { opacity: 0.7; transform: scale(0.94); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 8. FALSE PROPHET - iris scans, tendrils writhe                      */
+.cbd-fp-iris { animation: cbd-fp-iris 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.cbd-fp-tendril { animation: cbd-fp-tendril 7s ease-in-out infinite; }
+@keyframes cbd-fp-iris {
+    0%, 100% { transform: translateX(-7px); }
+    50% { transform: translateX(7px); }
+}
+@keyframes cbd-fp-tendril {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(6deg); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 9. GAMBIT - cards & dice tumble down through probability webs       */
+.cbd-gamb-card { animation: cbd-gamb-card 5.5s linear infinite; }
+.cbd-gamb-die { animation: cbd-gamb-die 4.8s linear infinite; }
+@keyframes cbd-gamb-card {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.95; }
+    88% { opacity: 0.95; }
+    100% { transform: translateY(180px) rotate(170deg); opacity: 0; }
+}
+@keyframes cbd-gamb-die {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.95; }
+    88% { opacity: 0.95; }
+    100% { transform: translateY(180px) rotate(-220deg); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 10. APEX - crosshair tracks across the fog                          */
+.cbd-apx-cross { animation: cbd-apx-cross 8s ease-in-out infinite; }
+.cbd-apx-fog { animation: cbd-apx-fog 12s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.cbd-apx-fog--b { animation-delay: 3s; }
+@keyframes cbd-apx-cross {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(1100px); }
+    100% { transform: translateX(0); }
+}
+@keyframes cbd-apx-fog {
+    0%, 100% { transform: translateX(0); opacity: 0.8; }
+    50% { transform: translateX(50px); opacity: 1; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 11. ANIMIST - resonance rings expand, ancestor spirits rise         */
+.cbd-anim-ring { animation: cbd-anim-ring 4s ease-out infinite; }
+.cbd-anim-spirit { animation: cbd-anim-spirit 6s ease-out infinite; }
+@keyframes cbd-anim-ring {
+    0% { transform: scale(0.3); opacity: 0.7; }
+    100% { transform: scale(4.2); opacity: 0; }
+}
+@keyframes cbd-anim-spirit {
+    0% { transform: translateY(0); opacity: 0; }
+    18% { opacity: 0.85; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-92px); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 12. LUNARCH - moon glides through its phases                        */
+.cbd-lun-moon { animation: cbd-lun-moon 14s linear infinite; }
+@keyframes cbd-lun-moon {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(1200px); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 13. MARTYR - obsidian cracks flare in sequence, sparks blink        */
+.cbd-mart-crack--0 { animation: cbd-mart-crack 4s ease-in-out infinite; }
+.cbd-mart-crack--1 { animation: cbd-mart-crack 4s ease-in-out infinite 1.3s; }
+.cbd-mart-crack--2 { animation: cbd-mart-crack 4s ease-in-out infinite 2.6s; }
+.cbd-mart-spark { animation: cbd-mart-spark 4s ease-in-out infinite; }
+.cbd-mart-spark--0 { animation-delay: 0s; }
+.cbd-mart-spark--1 { animation-delay: 1.3s; }
+.cbd-mart-spark--2 { animation-delay: 2.6s; }
+@keyframes cbd-mart-crack {
+    0%, 100% { stroke-opacity: 0.12; }
+    50% { stroke-opacity: 0.95; }
+}
+@keyframes cbd-mart-spark {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 14. MINSTREL - music notes bob on a warm stage glow                 */
+.cbd-min-stage { animation: cbd-min-stage 5s ease-in-out infinite; }
+.cbd-min-note { animation: cbd-min-note 4.5s ease-in-out infinite; }
+@keyframes cbd-min-stage {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes cbd-min-note {
+    0%, 100% { transform: translate(0, 0); opacity: 0.78; }
+    25% { transform: translate(3px, -4px); opacity: 1; }
+    50% { transform: translate(0, -7px); opacity: 0.95; }
+    75% { transform: translate(-3px, -4px); opacity: 1; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 15. PLAGUEBRINGER - mycelium pulses, spore puffs bloom              */
+.cbd-plag-net--a { animation: cbd-plag-net 7s ease-in-out infinite; }
+.cbd-plag-net--b { animation: cbd-plag-net 7s ease-in-out infinite 2s; }
+.cbd-plag-spore { animation: cbd-plag-spore 5s ease-in-out infinite; }
+@keyframes cbd-plag-net {
+    0%, 100% { stroke-opacity: 0.18; }
+    50% { stroke-opacity: 0.6; }
+}
+@keyframes cbd-plag-spore {
+    0% { transform: scale(0.4); opacity: 0.2; }
+    50% { transform: scale(1.7); opacity: 0.95; }
+    100% { transform: scale(0.4); opacity: 0.2; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 16. PYROFIEND - flames flicker, embers rise                         */
+.cbd-pyr-flame { animation: cbd-pyr-flame 1.6s ease-in-out infinite; }
+.cbd-pyr-ember { animation: cbd-pyr-ember 3.4s ease-out infinite; }
+@keyframes cbd-pyr-flame {
+    0%, 100% { transform: scaleY(0.78); opacity: 0.5; }
+    50% { transform: scaleY(1.18); opacity: 0.95; }
+}
+@keyframes cbd-pyr-ember {
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(-130px); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 17. SPELLGUARD - prismatic sweep across the hex-barrier, bolt flares */
+.cbd-spg-sweep { animation: cbd-spg-sweep 5s linear infinite; }
+.cbd-spg-bolt { animation: cbd-spg-bolt 4s ease-in-out infinite; }
+@keyframes cbd-spg-sweep {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(1500px); }
+}
+@keyframes cbd-spg-bolt {
+    0%, 65%, 100% { opacity: 0; transform: scale(0.4); }
+    72%, 88% { opacity: 0.9; transform: scale(1.3); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 18. TOXICOLOGIST - acid surface undulates, bubbles rise & pop       */
+.cbd-tox-surface { animation: cbd-tox-surface 7s linear infinite; }
+.cbd-tox-bubble { animation: cbd-tox-bubble 4.2s ease-in infinite; }
+@keyframes cbd-tox-surface {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(400px); }
+}
+@keyframes cbd-tox-bubble {
+    0% { transform: translateY(0) scale(0.6); opacity: 0; }
+    15% { opacity: 0.9; }
+    85% { opacity: 0.7; }
+    100% { transform: translateY(-92px) scale(1.25); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------- */
+/* 19. WARDEN - heavy chain sways, shackle settles                     */
+.cbd-wd-chain { animation: cbd-wd-chain 5s ease-in-out infinite; }
+.cbd-wd-shackle { animation: cbd-wd-shackle 5s ease-in-out infinite; transform-box: fill-box; transform-origin: top center; }
+@keyframes cbd-wd-chain {
+    0%, 100% { transform: rotate(-1.6deg); }
+    50% { transform: rotate(1.6deg); }
+}
+@keyframes cbd-wd-shackle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+}
+
+/* ------------------------------------------------------------------- */
+/* 20. AUGUR - bones tumble down, rune glows                           */
+.cbd-aug-bone { animation: cbd-aug-bone 5s linear infinite; }
+.cbd-aug-rune { animation: cbd-aug-rune 3.6s ease-in-out infinite; }
+@keyframes cbd-aug-bone {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    12% { opacity: 0.95; }
+    88% { opacity: 0.9; }
+    100% { transform: translateY(160px) rotate(360deg); opacity: 0; }
+}
+@keyframes cbd-aug-rune {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.85; }
+}
+
+/* Respect reduced-motion preferences: freeze the scenes */
+@media (prefers-reduced-motion: reduce) {
+    .cbd-svg *,
+    .class-row-bg-effects::after,
+    .class-row-bg-effects::before {
+        animation: none !important;
+    }
+}
+
+/* =====================================================================
+   EMISSIVE FINISH  - glow/bloom on light-emitting elements + a slow
+   class-coloured aura so each row actually radiates its identity.
+   ===================================================================== */
+
+/* Slow pulsing aura layer (sits above the art, below the scrim, blended
+   additively so it adds coloured light instead of darkening) */
+.class-row-bg-effects::before {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    z-index: 1;
+    mix-blend-mode: screen;
+    animation: cbd-aura 7s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes cbd-aura {
+    0%, 100% { opacity: 0.45; transform: scale(1); }
+    50% { opacity: 0.95; transform: scale(1.1); }
+}
+
+/* per-class aura colour + position */
+.class-row-arcanoneer  .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(255,140,40,0.4), transparent 55%); }
+.class-row-berserker   .class-row-bg-effects::before { background: radial-gradient(circle at 30% 0%, rgba(200,25,25,0.5), transparent 55%); }
+.class-row-shaper      .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(220,190,140,0.28), transparent 60%); }
+.class-row-harbinger   .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(150,90,210,0.4), transparent 55%); }
+.class-row-chronarch   .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(225,195,90,0.36), transparent 55%); }
+.class-row-inquisitor  .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(210,30,30,0.42), transparent 50%); }
+.class-row-revenant    .class-row-bg-effects::before { background: radial-gradient(circle at 50% 60%, rgba(60,220,130,0.4), transparent 55%); }
+.class-row-false-prophet .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(160,100,210,0.4), transparent 55%); }
+.class-row-gambit      .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(245,200,60,0.38), transparent 55%); }
+.class-row-apex        .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(220,60,50,0.34), transparent 55%); }
+.class-row-animist     .class-row-bg-effects::before { background: radial-gradient(circle at 50% 80%, rgba(60,220,120,0.38), transparent 55%); }
+.class-row-lunarch     .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(245,225,150,0.4), transparent 55%); }
+.class-row-martyr      .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(255,110,60,0.4), transparent 55%); }
+.class-row-minstrel    .class-row-bg-effects::before { background: radial-gradient(circle at 50% 70%, rgba(60,220,130,0.34), transparent 55%); }
+.class-row-plaguebringer .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(180,200,70,0.36), transparent 55%); }
+.class-row-pyrofiend   .class-row-bg-effects::before { background: radial-gradient(circle at 50% 90%, rgba(255,110,40,0.5), transparent 55%); }
+.class-row-spellguard  .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(90,180,255,0.4), transparent 55%); }
+.class-row-toxicologist .class-row-bg-effects::before { background: radial-gradient(circle at 50% 85%, rgba(150,220,70,0.4), transparent 55%); }
+.class-row-warden      .class-row-bg-effects::before { background: radial-gradient(circle at 50% 50%, rgba(150,130,90,0.26), transparent 60%); }
+.class-row-augur       .class-row-bg-effects::before { background: radial-gradient(circle at 50% 60%, rgba(180,140,250,0.38), transparent 55%); }
+
+/* bloom on the actual light sources (drop-shadow reads as a glow halo) */
+.class-row-arcanoneer .cbd-arc-orbit   { filter: drop-shadow(0 0 9px rgba(255,210,140,0.95)); }
+.class-row-arcanoneer .cbd-arc-nucleus { filter: drop-shadow(0 0 16px rgba(200,150,255,0.95)); }
+.class-row-arcanoneer .cbd-arc-flash { filter: drop-shadow(0 0 22px rgba(255,255,255,0.95)); }
+
+.class-row-berserker .cbd-bers-drip  { filter: drop-shadow(0 0 7px rgba(220,30,30,0.95)); }
+.class-row-berserker .cbd-bers-pool  { filter: drop-shadow(0 0 8px rgba(150,10,15,0.8)); }
+
+.class-row-shaper .cbd-shap-yin    { filter: drop-shadow(0 0 9px rgba(240,226,192,0.85)); }
+.class-row-shaper .cbd-shap-ring   { filter: drop-shadow(0 0 6px rgba(201,168,106,0.7)); }
+
+.class-row-harbinger .cbd-harb-spiral { filter: drop-shadow(0 0 5px rgba(180,140,225,0.85)); }
+.class-row-harbinger .cbd-harb-bolt   { filter: drop-shadow(0 0 9px rgba(205,165,245,1)); }
+
+.class-row-chronarch .cbd-chron-gear--cw,
+.class-row-chronarch .cbd-chron-gear--ccw,
+.class-row-chronarch .cbd-chron-hand { filter: drop-shadow(0 0 6px rgba(235,200,95,0.85)); }
+
+.class-row-inquisitor .cbd-inq-seal,
+.class-row-inquisitor .cbd-inq-cross { filter: drop-shadow(0 0 10px rgba(255,45,40,0.95)); }
+
+.class-row-revenant .cbd-rev-spiral,
+.class-row-revenant .cbd-rev-gem     { filter: drop-shadow(0 0 9px rgba(85,235,145,0.9)); }
+
+.class-row-false-prophet .cbd-fp-iris { filter: drop-shadow(0 0 14px rgba(255,220,80,0.95)); }
+
+.class-row-gambit .cbd-gamb-card,
+.class-row-gambit .cbd-gamb-die       { filter: drop-shadow(0 0 8px rgba(255,220,80,0.85)); }
+
+.class-row-apex .cbd-apx-cross        { filter: drop-shadow(0 0 9px rgba(255,75,60,0.95)); }
+
+.class-row-animist .cbd-anim-spirit,
+.class-row-animist .cbd-anim-ring     { filter: drop-shadow(0 0 9px rgba(95,240,150,0.9)); }
+
+.class-row-lunarch .cbd-lun-moon      { filter: drop-shadow(0 0 18px rgba(255,240,180,0.95)); }
+
+.class-row-martyr .cbd-mart-crack,
+.class-row-martyr .cbd-mart-spark     { filter: drop-shadow(0 0 8px rgba(255,125,65,0.95)); }
+
+.class-row-minstrel .cbd-min-note,
+.class-row-minstrel .cbd-min-stage     { filter: drop-shadow(0 0 7px rgba(240,194,123,0.9)); }
+
+.class-row-plaguebringer .cbd-plag-bio { filter: drop-shadow(0 0 12px rgba(160,220,50,0.95)); }
+.class-row-plaguebringer .cbd-plag-acid { filter: drop-shadow(0 0 8px rgba(190,240,90,0.85)); }
+
+.class-row-pyrofiend .cbd-pyr-flame,
+.class-row-pyrofiend .cbd-pyr-ember  { filter: drop-shadow(0 0 11px rgba(255,120,40,0.95)); }
+
+.class-row-spellguard .cbd-spg-sweep,
+.class-row-spellguard .cbd-spg-bolt   { filter: drop-shadow(0 0 11px rgba(150,215,255,0.95)); }
+
+.class-row-toxicologist .cbd-tox-bubble { filter: drop-shadow(0 0 8px rgba(165,235,85,0.9)); }
+
+.class-row-warden .cbd-wd-chain       { filter: drop-shadow(0 0 4px rgba(170,150,100,0.55)); }
+
+.class-row-augur .cbd-aug-bone,
+.class-row-augur .cbd-aug-rune        { filter: drop-shadow(0 0 9px rgba(205,165,255,0.9)); }
+
+/* =====================================================================
+   V2 REDESIGN  - hand-built iconography per class (round 4)
+   Element classes here override / extend the originals above.
+   NOTE: elements positioned via an SVG `transform` attribute only get
+   opacity/filter animations (a CSS transform would displace them).
+   ===================================================================== */
+
+/* scale-from-own-centre elements */
+.cbd-gamb-coin,
+.cbd-mart-halo,
+.cbd-aug-orb,
+.cbd-aug-halo,
+.cbd-aug-threads,
+.cbd-spg-ring,
+.cbd-spg-flash,
+.cbd-spg-shield,
+.cbd-min-strings {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+/* scale/rise-from-base elements */
+.cbd-bers-pool,
+.cbd-plag-gas,
+.cbd-plag-bubble,
+.cbd-pyr-glow {
+    transform-box: fill-box;
+    transform-origin: bottom;
+}
+
+/* --- BERSERKER: rising blood pool --- */
+.cbd-bers-pool { animation: cbd-bers-pool 5s ease-in-out infinite; }
+@keyframes cbd-bers-pool {
+    0%, 100% { transform: scaleY(0.7); opacity: 0.75; }
+    50% { transform: scaleY(1); opacity: 0.95; }
+}
+
+/* --- GAMBIT: spinning coins --- */
+.cbd-gamb-coin { animation: cbd-gamb-coin 4.5s ease-in infinite; }
+@keyframes cbd-gamb-coin {
+    0%   { transform: translateY(0) scaleX(1); opacity: 0; }
+    10%  { opacity: 1; }
+    25%  { transform: translateY(40px) scaleX(0); }
+    50%  { transform: translateY(92px) scaleX(-1); }
+    75%  { transform: translateY(140px) scaleX(0); }
+    88%  { opacity: 0.9; }
+    100% { transform: translateY(182px) scaleX(1); opacity: 0; }
+}
+
+/* --- MARTYR: sacred rays, halo, crown, heart, blood --- */
+.cbd-mart-rays { animation: cbd-mart-rayspin 44s linear infinite; }
+@keyframes cbd-mart-rayspin { to { transform: rotate(360deg); } }
+
+.cbd-mart-halo { animation: cbd-mart-halopulse 5s ease-in-out infinite; }
+@keyframes cbd-mart-halopulse {
+    0%, 100% { opacity: 0.55; transform: scale(0.92); }
+    50% { opacity: 1; transform: scale(1.08); }
+}
+
+.cbd-mart-crown { animation: cbd-mart-crownpulse 5s ease-in-out infinite; }
+@keyframes cbd-mart-crownpulse {
+    0%, 100% { opacity: 0.75; filter: drop-shadow(0 0 3px rgba(120, 70, 20, 0.5)); }
+    50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(160, 100, 35, 0.85)); }
+}
+
+.cbd-mart-heart { animation: cbd-mart-heartglow 3s ease-in-out infinite; }
+@keyframes cbd-mart-heartglow {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 110, 60, 0.6)); }
+    50% { filter: drop-shadow(0 0 14px rgba(255, 150, 80, 0.95)); }
+}
+
+.cbd-mart-blood { animation: cbd-mart-blood 3s ease-in infinite; }
+@keyframes cbd-mart-blood {
+    0% { transform: translateY(0); opacity: 0.3; }
+    10% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(72px); opacity: 0; }
+}
+
+/* --- MINSTREL: vibrating lute strings --- */
+.cbd-min-strings { animation: cbd-min-strum 0.16s ease-in-out infinite alternate; }
+@keyframes cbd-min-strum {
+    0% { transform: scaleX(1); }
+    100% { transform: scaleX(0.982); }
+}
+
+/* --- PLAGUEBRINGER: biohazard trefoil pulse, acid, gas, bubbles, drips --- */
+.cbd-plag-bio { animation: cbd-plag-bio 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes cbd-plag-bio {
+    0%, 100% { transform: scale(1); opacity: 0.92; }
+    50% { transform: scale(1.06); opacity: 1; }
+}
+.cbd-plag-acid { animation: cbd-plag-acid 7s linear infinite; }
+@keyframes cbd-plag-acid {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(400px); }
+}
+
+.cbd-plag-gas { animation: cbd-plag-gas 6s ease-out infinite; }
+@keyframes cbd-plag-gas {
+    0% { transform: translateY(0) scale(0.6); opacity: 0; }
+    20% { opacity: 0.85; }
+    100% { transform: translateY(-92px) scale(1.4); opacity: 0; }
+}
+
+.cbd-plag-bubble { animation: cbd-plag-bubble 4.2s ease-in infinite; }
+@keyframes cbd-plag-bubble {
+    0% { transform: translateY(0) scale(0.6); opacity: 0; }
+    15% { opacity: 0.95; }
+    85% { opacity: 0.7; }
+    100% { transform: translateY(-92px) scale(1.3); opacity: 0; }
+}
+
+.cbd-plag-drip { animation: cbd-plag-drip 3.4s ease-in infinite; }
+@keyframes cbd-plag-drip {
+    0% { transform: translateY(0); opacity: 0.4; }
+    10% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(74px); opacity: 0; }
+}
+
+/* --- PYROFIEND: base glow + slower back flames --- */
+.cbd-pyr-glow { animation: cbd-pyr-glow 3s ease-in-out infinite; }
+@keyframes cbd-pyr-glow {
+    0%, 100% { opacity: 0.6; transform: scaleY(0.9); }
+    50% { opacity: 1; transform: scaleY(1.06); }
+}
+.cbd-pyr-flame--back { animation-duration: 2.6s !important; opacity: 0.7; }
+
+/* --- SPELLGUARD: arcane ring, shield recoil+glow, impact flash, bolts --- */
+.cbd-spg-ring { animation: cbd-spg-ring 30s linear infinite; }
+@keyframes cbd-spg-ring { to { transform: rotate(360deg); } }
+
+.cbd-spg-shield {
+    animation: cbd-spg-glow 3.6s ease-in-out infinite, cbd-spg-shake 3.6s linear infinite;
+}
+@keyframes cbd-spg-glow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(126, 200, 255, 0.6)); }
+    50% { filter: drop-shadow(0 0 13px rgba(126, 200, 255, 0.95)); }
+}
+@keyframes cbd-spg-shake {
+    0%, 44%, 56%, 100% { transform: translateX(0); }
+    48% { transform: translateX(2.5px); }
+    52% { transform: translateX(-2.5px); }
+}
+
+.cbd-spg-flash { animation: cbd-spg-flash 3.6s ease-out infinite; }
+@keyframes cbd-spg-flash {
+    0%, 44%, 60%, 100% { opacity: 0; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1.6); }
+}
+
+.cbd-spg-in { animation: cbd-spg-in 3.6s linear infinite; }
+@keyframes cbd-spg-in {
+    0% { transform: translateX(-240px); opacity: 0; }
+    8% { opacity: 1; }
+    44% { transform: translateX(0); opacity: 1; }
+    48% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.cbd-spg-out { animation: cbd-spg-out 3.6s linear infinite; }
+@keyframes cbd-spg-out {
+    0%, 50% { transform: translateX(0); opacity: 0; }
+    54% { opacity: 1; }
+    90% { transform: translateX(280px); opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* --- WARDEN: heavy chain settles/sways, manacle trembles (opacity) --- */
+.cbd-wd-chain { animation: cbd-wd-sway2 5.5s ease-in-out infinite; transform-origin: 600px 40px; }
+@keyframes cbd-wd-sway2 {
+    0%, 100% { transform: translateY(0) skewX(0deg); }
+    50% { transform: translateY(2px) skewX(1.3deg); }
+}
+.cbd-wd-shackle { animation: cbd-wd-shackle2 5.5s ease-in-out infinite; }
+@keyframes cbd-wd-shackle2 {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+/* --- AUGUR: stars twinkle, fate-threads rotate, orb/halo pulse --- */
+.cbd-aug-star { animation: cbd-aug-star 3.4s ease-in-out infinite; }
+@keyframes cbd-aug-star {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+.cbd-aug-threads { animation: cbd-aug-threads 26s linear infinite; }
+@keyframes cbd-aug-threads { to { transform: rotate(360deg); } }
+.cbd-aug-halo { animation: cbd-aug-halo 5s ease-in-out infinite; }
+@keyframes cbd-aug-halo {
+    0%, 100% { opacity: 0.5; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+.cbd-aug-orb { animation: cbd-aug-orb 4s ease-in-out infinite; }
+@keyframes cbd-aug-orb {
+    0%, 100% { transform: scale(0.96); }
+    50% { transform: scale(1.05); }
+}
+.cbd-aug-bone { animation: cbd-aug-boneshimmer 4s ease-in-out infinite; }
+@keyframes cbd-aug-boneshimmer {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* glows for the new light sources */
+.class-row-gambit .cbd-gamb-coin      { filter: drop-shadow(0 0 8px rgba(255, 210, 70, 0.9)); }
+.class-row-martyr .cbd-mart-blood     { filter: drop-shadow(0 0 6px rgba(220, 30, 40, 0.9)); }
+.class-row-plaguebringer .cbd-plag-gas,
+.class-row-plaguebringer .cbd-plag-bubble { filter: drop-shadow(0 0 8px rgba(170, 220, 70, 0.85)); }
+.class-row-plaguebringer .cbd-plag-drip { filter: drop-shadow(0 0 6px rgba(190, 240, 90, 0.9)); }
+.class-row-pyrofiend .cbd-pyr-glow    { filter: drop-shadow(0 0 24px rgba(255, 120, 40, 0.8)); }
+.class-row-spellguard .cbd-spg-flash,
+.class-row-spellguard .cbd-spg-in,
+.class-row-spellguard .cbd-spg-out    { filter: drop-shadow(0 0 9px rgba(150, 215, 255, 0.95)); }
+.class-row-warden .cbd-wd-shackle     { filter: drop-shadow(0 0 4px rgba(120, 110, 90, 0.6)); }
+.class-row-augur .cbd-aug-orb,
+.class-row-augur .cbd-aug-halo        { filter: drop-shadow(0 0 14px rgba(190, 150, 250, 0.9)); }

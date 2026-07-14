@@ -130,6 +130,9 @@ export function registerCombatHandlers(ctx) {
             combatStore.updateInitiative(data.combatantId, data.newInitiative);
           }
           break;
+
+        default:
+          break;
       }
     });
 

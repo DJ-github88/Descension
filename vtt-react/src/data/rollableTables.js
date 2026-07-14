@@ -1,4 +1,4 @@
-﻿const ROLLABLE_TABLES = {
+const ROLLABLE_TABLES = {
   encounters: {
     id: 'encounters',
     name: 'Random Encounters',

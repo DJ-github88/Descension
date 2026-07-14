@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Universal Combat Spells
  * 
  * These are basic combat actions and reactions available to all classes.

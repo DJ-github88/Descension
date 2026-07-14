@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const PropheticVisionsResourceBar = ({
-  oracleState,
-  setOracleState,
+  visionsState,
+  setVisionsState,
   uiState,
   setUiState,
   finalClassResource,
@@ -18,29 +18,22 @@ const PropheticVisionsResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    localVisions,
-    oracleSpec,
-    predictionAccuracy,
-    lastVisionGain,
-    showVisionsMenu,
-    oracleHoverSection
-  } = oracleState;
+      localVisions,
+      oracleSpec,
+      showVisionsMenu
+  } = visionsState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalVisions = (value) => setOracleState(prev => ({ ...prev, localVisions: value }));
-  const setOracleSpec = (value) => setOracleState(prev => ({ ...prev, oracleSpec: value }));
-  const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: typeof value === 'function' ? value(prev.predictionAccuracy) : value }));
-  const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: typeof value === 'function' ? value(prev.lastVisionGain) : value }));
-  const setShowVisionsMenu = (value) => setOracleState(prev => ({ ...prev, showVisionsMenu: value }));
-  const setOracleHoverSection = (value) => setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
+  const setLocalVisions = (value) => setVisionsState(prev => ({ ...prev, localVisions: value }));
+  const setOracleSpec = (value) => setVisionsState(prev => ({ ...prev, oracleSpec: value }));
+  const setPredictionAccuracy = (value) => setVisionsState(prev => ({ ...prev, predictionAccuracy: typeof value === 'function' ? value(prev.predictionAccuracy) : value }));
+  const setLastVisionGain = (value) => setVisionsState(prev => ({ ...prev, lastVisionGain: typeof value === 'function' ? value(prev.lastVisionGain) : value }));
+  const setShowVisionsMenu = (value) => setVisionsState(prev => ({ ...prev, showVisionsMenu: value }));
+  const setVisionsHoverSection = (value) => setVisionsState(prev => ({ ...prev, visionsHoverSection: value }));
 
         const specs = finalConfig.visual || {};
         const currentSpec = specs[oracleSpec] || specs['seer'];
@@ -49,8 +42,7 @@ const PropheticVisionsResourceBar = ({
         const specColor = currentSpec.activeColor || '#9370DB';
         const specGlow = currentSpec.glowColor || '#DDA0DD';
         const specIcon = currentSpec.icon || 'fa-eye';
-        const specName = currentSpec.name || 'Seer';
-
+        
         // Calculate visual state based on Vision count
         const getVisionState = () => {
             if (visionsValue >= 8) return 'clarity'; // 8-10: Fully aligned
@@ -70,7 +62,7 @@ const PropheticVisionsResourceBar = ({
 
         const handleBarClick = () => {
             if (!showVisionsMenu) {
-                setOracleHoverSection(null);
+                setVisionsHoverSection(null);
                 setShowTooltip(false);
             }
             setShowVisionsMenu(!showVisionsMenu);
@@ -79,7 +71,7 @@ const PropheticVisionsResourceBar = ({
         const handleVisionsBarEnter = (e) => {
             if (showVisionsMenu) return;
 
-            setOracleHoverSection('visions');
+            setVisionsHoverSection('visions');
             const rect = visionsBarRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const spaceBelow = viewportHeight - rect.bottom;
@@ -92,7 +84,7 @@ const PropheticVisionsResourceBar = ({
 
         const handleVisionsBarLeave = () => {
             if (showVisionsMenu) return;
-            setOracleHoverSection(null);
+            setVisionsHoverSection(null);
             setShowTooltip(false);
         };
 

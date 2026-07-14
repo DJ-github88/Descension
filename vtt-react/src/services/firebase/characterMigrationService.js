@@ -304,7 +304,7 @@ class CharacterMigrationService {
       
       if (summary.isComplete && summary.failedCount === 0) {
         // Keep a final backup before cleanup
-        const backupKey = this.createBackup();
+        this.createBackup();
         
         // Clear the characters from localStorage
         localStorage.removeItem('mythrill-characters');

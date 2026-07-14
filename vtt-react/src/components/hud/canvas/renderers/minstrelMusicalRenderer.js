@@ -1,4 +1,4 @@
-import { SparkParticle } from './fluidPhysics';
+
 
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -134,7 +134,6 @@ export default class MinstrelMusicalRenderer {
     if (width < 30 || height < 10) { ctx.restore(); return; }
 
     const notes = config.notes || [0, 0, 0, 0, 0, 0, 0];
-    const maxPerNote = config.maxPerNote || 5;
     const spec = config.spec || 'battlechoir';
     const isLarge = size === 'large';
     const isSmall = size === 'small';
@@ -164,7 +163,7 @@ export default class MinstrelMusicalRenderer {
     this.particles = this.particles.filter(p => p.life > 0);
 
     const layout = this._computeLayout(width, height, size);
-    const { gridX, cellW, cellH, gap, rowGap, labelW, labelH, gridH } = layout;
+    const { gridX, cellW, cellH, gap, rowGap, labelH, gridH } = layout;
 
     this._drawBackground(ctx, width, height, layout, specTheme);
     this._drawGridLines(ctx, width, height, layout, specTheme);

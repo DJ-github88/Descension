@@ -51,8 +51,8 @@ class Logger {
     // Always log to console in development
     if (process.env.NODE_ENV === 'development') {
       const consoleMethod = level === 'error' ? console.error : 
-                           level === 'warn' ? console.warn : 
-                           level === 'info' ? console.info : console.log;
+        level === 'warn' ? console.warn : 
+          level === 'info' ? console.info : console.log;
       consoleMethod(`[${level.toUpperCase()}] ${message}`, context);
     }
     
@@ -69,7 +69,7 @@ class Logger {
    * Flush buffer to disk (async, non-blocking)
    */
   async flush() {
-    if (this.logBuffer.length === 0) return;
+    if (this.logBuffer.length === 0) {return;}
 
     const logsToWrite = [...this.logBuffer];
     this.logBuffer = [];

@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const HexbreakerChargesResourceBar = ({
-  covenbaneState,
-  setCovenbaneState,
+  hexbreakerState,
+  setHexbreakerState,
   uiState,
   setUiState,
   finalClassResource,
@@ -19,21 +19,15 @@ const HexbreakerChargesResourceBar = ({
   logClassResourceChange
 }) => {
   const {
-    showChargesMenu,
-    covenbaneHoverSection
-  } = covenbaneState;
+      showChargesMenu
+  } = hexbreakerState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
-  const setCovenbaneHoverSection = (value) => setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
+    const setShowChargesMenu = (value) => setHexbreakerState(prev => ({ ...prev, showChargesMenu: value }));
+  const setHexbreakerHoverSection = (value) => setHexbreakerState(prev => ({ ...prev, hexbreakerHoverSection: value }));
 
   const covenbaneHexbreakerCharges = finalClassResource?.hexbreakerCharges ?? 4;
   const covenbaneAttackCounter = finalClassResource?.attackCounter ?? 2;
@@ -58,8 +52,7 @@ const HexbreakerChargesResourceBar = ({
             return bonuses[charges] || bonuses[charges > 8 ? 8 : 0];
         };
 
-        const currentBonuses = getPassiveBonuses(chargesValue);
-        const isMaxCharges = chargesValue === maxCharges;
+                const isMaxCharges = chargesValue === maxCharges;
 
         return (
             <div className={`class-resource-bar hexbreaker-charges ${size}`}>
@@ -73,13 +66,13 @@ const HexbreakerChargesResourceBar = ({
                             setShowChargesMenu(!showChargesMenu);
                         }}
                         onMouseEnter={(e) => {
-                            setCovenbaneHoverSection('charges');
+                            setHexbreakerHoverSection('charges');
                             const rect = e.currentTarget.getBoundingClientRect();
                             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                             setShowTooltip(true);
                         }}
                         onMouseLeave={() => {
-                            setCovenbaneHoverSection(null);
+                            setHexbreakerHoverSection(null);
                             setShowTooltip(false);
                         }}
                     >
@@ -114,13 +107,13 @@ const HexbreakerChargesResourceBar = ({
                             if (onClassResourceUpdate) onClassResourceUpdate('attackCounter', newValue);
                         }}
                         onMouseEnter={(e) => {
-                            setCovenbaneHoverSection('counter');
+                            setHexbreakerHoverSection('counter');
                             const rect = e.currentTarget.getBoundingClientRect();
                             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                             setShowTooltip(true);
                         }}
                         onMouseLeave={() => {
-                            setCovenbaneHoverSection(null);
+                            setHexbreakerHoverSection(null);
                             setShowTooltip(false);
                         }}
                     >

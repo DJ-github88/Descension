@@ -1,4 +1,4 @@
-﻿const useTriggerFormatters = ({ spell, library }) => {
+const useTriggerFormatters = ({ spell, library }) => {
 
  const formatChanceOnHit = () => {
   const chanceConfig = spell.damageConfig?.chanceOnHitConfig || spell.healingConfig?.chanceOnHitConfig || spell.chanceOnHitConfig;
@@ -157,7 +157,7 @@
      let fearDetails = `${effectName} (target is frightened`;
      if (duration) {
       // Fix pluralization - don't add 's' if durationUnit already ends with 's' (like 'rounds')
-      const isPlural = durationUnit.endsWith('s') || duration !== 1;
+
       const durationText = duration === 1 
        ? `1 ${durationUnit.replace(/s$/, '')}` // Remove 's' for singular
        : `${duration} ${durationUnit}`; // Use as-is if already plural

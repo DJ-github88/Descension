@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useEffect, useState, Suspense } from 'react';
+import React, { useCallback, useEffect, useState, Suspense } from 'react';
 import lazy from './utils/lazyWithRetry';
 import { shouldReduceMotion } from './utils/accessibility';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
@@ -234,7 +234,7 @@ function GameScreen() {
 
   // Enable auto-save for local rooms
   const { forceSave, setLoading } = useLocalRoomAutoSave();
-  const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
+  const [, setCurrentLocalRoomId] = useState(null);
 
   const initializePartyForCharacter = async (character, isGM = true) => {
     localStorage.removeItem('party-store');

@@ -1,10 +1,11 @@
-﻿export const vreken = {
+export const vreken = {
  id: 'vreken',
  name: 'Vreken',
  essence: 'The Gloom-Lit',
  illustration: '/assets/images/races/vreken_illustration.png',
  illustrationCaption: 'A compact Vreken keeper in gothic monastic vestments, rust-amber lantern-eyes glowing beneath a vaulted crypt-ceiling.',
   cardFlavor: 'Amber-eyed crypt-keepers who tended the wounded bog-deity\'s cathedrals long before the sun perished above.',
+  visualDescription: `Compact and wiry, standing only 4'10" to 5'6", with the vestigial architecture of an elven people still visible in their elegant cheekbones, long tapered limbs, and the graceful arch of their now-curling ears. Their eyes are their most unmistakable feature — bioluminescent, glowing with rust-amber (Clean) or silver-white (Marked) light in the dark. Their skin ranges from pale to translucent, and their long-fingered hands are built for the delicate work of harvesting fungal filaments. They wear gothic monastic vestments in dark earth tones, hooded and layered for the damp cold of their underground cathedrals.`,
   description: `**[The Lantern-Eyed Crypt-Speakers]**, *Leaning into the damp peat-stone of the Sunken Spire, a keeper with wide, glowing amber eyes traces a fingertip along the bioluminescent threading of a fungal filament in the lightless catacombs.*
 
 You can still see what they were, if you look. The elegant architecture of their cheekbones. The long, tapered lines of their limbs. The graceful arch of their now-curling ears. The Vreken were an elven people, once, contemplative, monastic, devoted to Morvane, the ancient bog-deity who governs the threshold between life and decay. They built their cathedral-monasteries deep in the earth, beneath the peat-bogs, singing to Morvane in the fungal-lit dark. They were elegant, peaceful, and old.
@@ -92,7 +93,8 @@ To the humans of the Bryngloom Forest, the Vreken are the grave-lights: lantern-
      "vulnerabilityPercent": 25,
      "conditions": { "source": "fungal" },
      "savingThrow": { "stat": "constitution", "dc": 12, "trigger": "concentrated_fungal_exposure_1min", "failureEffect": "perception_disadvantage_1hr" }
-    }
+    },
+    "mechanicsText": "+25% blight damage from fungal sources; on 1+ min concentrated fungal spore exposure, DC 12 Constitution save or Perception disadvantage for 1 hour."
    }],
    "durationValue": 0,
    "durationType": "permanent",
@@ -116,7 +118,8 @@ To the humans of the Bryngloom Forest, the Vreken are the grave-lights: lantern-
    id: 'glowing_eyes_detectable',
    name: 'The Betraying Light',
    description: 'Your lantern-eyes are visible in darkness from up to 60 feet. Disadvantage on Stealth checks made in dim light or darkness, your own eyes illuminate you, and no hood or shadow can fully extinguish the glow.',
-   statModifier: { stat: 'stealth', magnitude: -99, magnitudeType: 'disadvantage', conditions: { lowLightOrDarkness: true } }
+   statModifier: { stat: 'stealth', magnitude: 0, magnitudeType: 'disadvantage', conditions: { lightLevel: ['dim', 'darkness'] } },
+   mechanicsText: 'Disadvantage on Stealth checks in dim light or darkness; lantern-eyes visible up to 60 ft.'
    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -141,8 +144,9 @@ To the humans of the Bryngloom Forest, the Vreken are the grave-lights: lantern-
    id: 'spore_sight',
    name: 'Spore-Sight',
    description: 'Advantage on Nature and Survival checks made in underground environments or areas of heavy fungal growth. You read the health of the mycelial network and the terrain it threads through.',
-   statModifier: { stat: 'nature', magnitude: 1, magnitudeType: 'advantage', conditions: { undergroundOrFungal: true } },
-   additionalStatModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { undergroundOrFungal: true } }
+   statModifier: { stat: 'nature', magnitude: 1, magnitudeType: 'advantage', conditions: { terrain: ['underground', 'fungal'] } },
+   additionalStatModifier: { stat: 'survival', magnitude: 1, magnitudeType: 'advantage', conditions: { terrain: ['underground', 'fungal'] } },
+   mechanicsText: 'Advantage on Nature and Survival checks in underground environments or areas of heavy fungal growth.'
    }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -275,6 +279,7 @@ Death rites are simple and grueling. The dying Vreken is carried to the nearest 
  name: 'Clean',
  illustration: '/assets/images/races/clean_illustration.png',
   illustrationCaption: 'A Clean Vreken crypt-keeper in monastic vestments, rust-amber lantern-eyes steady and controlled beneath a vaulted crypt-ceiling.',
+  visualDescription: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, the Clean bear their transformation lightly. Their features are closer to the original elven forms than any other Vreken, elegant cheekbones, long tapered limbs, ears that curl only gently, and their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. They favor dark monastic cassocks embroidered with fungal-thread that marks bloodline and vocation. Pale-skinned and composed, they move with the quiet authority of people whose biology has never been a war, and they are accustomed to being stared at but never to being doubted.`,
   tooltipSummary: 'Steadfast crypt-keepers whose stable Deep-Glow blood leaves them closer to the old elven forms, moving through the world with composed rust-amber sight and quiet authority.',
   description: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, bonded to their ancestors in the deep caves before the Wyrd wounded Morvane. Their transformation was less severe: their features are closer to their original elven forms, their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. The Deep-Glow strain threads less deeply through their nervous systems, leaves their minds more stable, their bodies more composed. They are near-total immune to the Over-Lit addiction: not morally superior, merely less entangled in Morvane's wound, carrying a strain that does not intoxicate. Disproportionately represented in trade delegations, crypt-councils, scriptorium gatekeeping, and every position that faces the outside world. Their privilege is invisible to them, they have never had to fight the hush, so they do not understand why the Marked cannot simply resist it. The flaw they carry is the quiet assumption that their biological luck is a form of virtue.`,
   culturalBackground: `The Clean trace their bloodline to the first Vreken who carried Deep-Glow, the stable, warm-amber fungal strain that threads least deeply through the nervous system and produces steady light with minimal intoxication. Their tradition is continuity: the scriptoriums, the crypt-councils, the trade routes, the diplomatic missions to Neth grave-cities and Emberth forge-halls. The Clean are the face the Vreken show to outsiders, and they have been the face for so long that they have begun to forget there are other Vreken in the dark who look nothing like them.
@@ -302,7 +307,8 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
   id: 'overlit_immunity',
   name: 'Hush-Immunity',
   description: 'Immune to the Over-Lit addiction and resistant to blight damage. Your Deep-Glow blood is stable, ancient, and cannot be intoxicated by the fungal strains that consume the Marked.',
-  statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to blight damage.' }
+  statusEffect: { level: 'moderate', description: 'Immune to Over-Lit addiction. Resistant to blight damage.' },
+  mechanicsText: 'Immune to the Over-Lit (hush) addiction and resistant to blight damage from the stable Deep-Glow bloodline.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -314,13 +320,15 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
   id: 'dimmed_root_veil',
   name: 'The Dim Root',
    description: 'Your darkvision is limited to 30 feet. Your perception of the Root-Veil is fainter than the Marked\'s, you sense less of the mycelial network\'s pulse, and what you do sense arrives slower and dimmer.',
-  statModifier: { stat: 'darkvision', magnitude: 30, magnitudeType: 'flat' }
+  statModifier: { stat: 'darkvision', magnitude: 30, magnitudeType: 'flat' },
+  mechanicsText: 'Darkvision capped at 30 feet; fainter, slower perception of the Root-Veil than the Marked.'
   },
   {
   id: 'unintimidating_eyes',
   name: 'Warm Eyes',
    description: 'Disadvantage on Intimidation checks against non-Vreken. Your rust-amber eyes are warm, steady, and unmistakably gentle, a crypt-keeper\'s light, not a predator\'s.',
-  statModifier: { stat: 'intimidation', magnitude: -99, magnitudeType: 'disadvantage', conditions: { targetNotVreken: true } }
+  statModifier: { stat: 'intimidation', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcRaceNot: 'vreken' } },
+  mechanicsText: 'Disadvantage on Intimidation checks against non-Vreken targets due to warm, gentle lantern-eyes.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -345,8 +353,9 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
   id: 'crypt_lore',
   name: 'Scriptorium-Trained',
   description: '+2 to History and Medicine checks related to Bryngloom Forest, the Neth, fungal substrate, crypt-genealogies, or death-related lore. You have spent years reading what the dead left written.',
-  statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } },
-  additionalStatModifier: { stat: 'medicine', magnitude: 2, magnitudeType: 'flat', conditions: { relevantLore: true } }
+  statModifier: { stat: 'history', magnitude: 2, magnitudeType: 'flat', conditions: { subject: ['bryngloom_forest', 'neth', 'fungal_substrate', 'crypt_genealogies', 'death_lore'] } },
+  additionalStatModifier: { stat: 'medicine', magnitude: 2, magnitudeType: 'flat', conditions: { subject: ['bryngloom_forest', 'neth', 'fungal_substrate', 'crypt_genealogies', 'death_lore'] } },
+  mechanicsText: '+2 to History and Medicine checks involving Bryngloom Forest, the Neth, fungal substrate, crypt-genealogies, or death-lore; lost without daily record maintenance.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -358,7 +367,8 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
   id: 'record_maintenance',
   name: 'The Unwritten Debt',
   description: 'You must spend 1 hour per long rest maintaining your personal crypt-record, reciting names, updating genealogies, recording new deaths you have witnessed. If you miss this maintenance, lose the Crypt-Record bonus until you spend 1 hour catching up. The backlog accumulates: two missed days = the bonus remains lost for 2 hours after you resume. Three missed days = you must spend a full long rest catching up before the bonus returns.',
-  statusEffect: { level: 'minor', description: 'Lose Crypt-Record bonus after 24 hours without maintenance. Recover by spending 1+ hours reciting records.' }
+  statusEffect: { level: 'minor', description: 'Lose Crypt-Record bonus after 24 hours without maintenance. Recover by spending 1+ hours reciting records.' },
+  mechanicsText: 'Lose the Crypt-Record bonus after 24 hours without 1 hour of maintenance; recover by catching up, with backlog scaling.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -376,8 +386,8 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
   spellType: 'ACTION',
   effectTypes: ['buff', 'debuff'],
   typeConfig: { school: 'blight', icon: 'spell_holy_divinefavor', tags: ['chant', 'ancestral', 'support', 'clean'] },
-  buffConfig: { buffType: 'statEnhancement', effects: [{ id: 'ancestral_blessing', name: 'Ancestral Blessing', description: 'One ally within 30ft gains advantage on their next saving throw before end of your next long rest.', statModifier: { stat: 'savingThrow', magnitude: 1, magnitudeType: 'advantage', conditions: { nextSavingThrow: true, allyWithinRange: true } } }], durationValue: 0, durationType: 'next_long_rest', durationUnit: 'long_rest', canBeDispelled: false },
-  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'lantern_bloom', name: 'Lantern-Bloom', description: 'Your lantern-eyes brighten for the chant duration, all within 120ft know your location.', statusEffect: { level: 'minor', description: 'Announced location within 120ft during chanting.' } }], durationValue: 1, durationType: 'minute', durationUnit: 'minute', canBeDispelled: false },
+  buffConfig: { buffType: 'statEnhancement', effects: [{ id: 'ancestral_blessing', name: 'Ancestral Blessing', description: 'One ally within 30ft gains advantage on their next saving throw before end of your next long rest.', statModifier: { stat: 'savingThrow', magnitude: 1, magnitudeType: 'advantage', conditions: { targetType: 'ally', range: 30, rangeUnit: 'feet', timing: 'next_saving_throw' } }, mechanicsText: 'One ally within 30 ft gains advantage on their next saving throw before the end of your next long rest.' }], durationValue: 0, durationType: 'next_long_rest', durationUnit: 'long_rest', canBeDispelled: false },
+  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'lantern_bloom', name: 'Lantern-Bloom', description: 'Your lantern-eyes brighten for the chant duration, all within 120ft know your location.', statusEffect: { level: 'minor', description: 'Announced location within 120ft during chanting.' }, mechanicsText: 'All creatures within 120 ft learn your exact location while you chant, and your lantern-eyes brighten involuntarily.' }], durationValue: 1, durationType: 'minute', durationUnit: 'minute', canBeDispelled: false },
   targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
   resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] },
   cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
@@ -408,6 +418,7 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
  name: 'Marked',
  illustration: '/assets/images/races/vreken_illustration.png',
   illustrationCaption: 'A compact Marked Vreken keeper in gothic monastic vestments with curled ear tips and blazing silver-white lantern-eyes.',
+  visualDescription: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic. The Marked share the compact wiry frame and vestigial elven architecture of their kin, but their lantern-eyes burn silver-white and will not dim easily, flaring with anger, flickering with grief, brightening under any strong emotion so that their hearts are readable across a room. Their ear-tips curl more sharply. The volatile strain threads deeper through them: their presence is impossible to hide in darkness, and the brilliant light that makes their perception extraordinary is the same light that consumes them from within.`,
   tooltipSummary: 'Ghost-sighted beacon-carriers whose branded eyes blaze with Morvane\'s wounded nerve-tissue, perceiving the Root-Veil most keenly even as the Hush tempts them with every step.',
   description: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic, the volatile, brilliant, painful strain that amplifies perception and sensitivity at the cost of stability. Their lantern-eyes burn silver-white and do not dim easily; their emotions are readable from across a room, their presence impossible to hide in darkness. Their perception of the Root-Veil is extraordinary: they sense the mycelial network's pulse more clearly than any Clean, read the spore-signatures of the underground, detect things other Vreken cannot. They are also the most vulnerable to the Over-Lit addiction, their sensitivity is both gift and curse, and every Marked family carries at least one Over-Lit relative. Stigmatized by the Clean as unreliable, dangerous, the bloodline most deeply entangled in the wounded god. The flaw they carry is their own biology: the light that makes them extraordinary is the same light that consumes them from within.`,
   culturalBackground: `The Marked trace their bloodline to the Vreken most deeply touched by Morvane's wound, those who carry Ghost-Mycelium, the brilliant, silver-white fungal strain that is the deity's injured nerve-tissue made symbiotic. Their tradition is sensitivity: the Root-Veil read at acute depth, the spore-signatures of the underground sensed where the Clean perceive only faint hum, the Over-Lit kin tracked into the deep caves by the same bond that will one day betray the tracker.
@@ -437,7 +448,8 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   id: 'extended_root_veil',
   name: 'The Long Root',
    description: 'Darkvision 90 feet. Advantage on Perception checks made to track creatures or detect hidden objects, passages, and traps, your Ghost-Mycelium bond reads the Root-Veil\'s pulse and senses what the underground has tried to hide.',
-   statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { trackingOrDetecting: true } }
+   statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { activityType: ['tracking', 'detecting'] } },
+   mechanicsText: 'Darkvision 90 ft; advantage on Perception checks to track creatures or detect hidden objects, passages, and traps.'
   },
   {
   id: 'death_sense',
@@ -455,7 +467,8 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   id: 'beacon_eyes',
   name: 'The Unhidden Light',
   description: 'Disadvantage on Stealth checks in any lighting condition. Your silver-white lantern-eyes are visible in darkness from 120 feet away, a beacon that cannot be hooded, cloaked, or extinguished. Creatures have advantage on Perception checks to detect you in dim light or darkness.',
-  statModifier: { stat: 'stealth', magnitude: -99, magnitudeType: 'disadvantage' }
+  statModifier: { stat: 'stealth', magnitude: 0, magnitudeType: 'disadvantage' },
+  mechanicsText: 'Disadvantage on Stealth checks in all lighting; eyes visible from 120 ft in darkness; enemies have advantage to detect you in dim light or darkness.'
   }
   ],
   durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -480,11 +493,12 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   id: 'amplified_root_veil',
   name: 'The Brightening',
    description: 'For 10 minutes, your Root-Veil perception reaches its maximum potential: advantage on Perception, Insight, and Investigation checks. Your lantern-eyes blaze silver-white, visible from 300 feet in darkness, and the mycelial network\'s deep currents open to you like a book written in a language you were born to read.',
-  statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } },
+  statModifier: { stat: 'perception', magnitude: 1, magnitudeType: 'advantage', conditions: { eventTrigger: 'amplified_state' } },
   additionalStatModifiers: [
-   { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } },
-   { stat: 'investigation', magnitude: 1, magnitudeType: 'advantage', conditions: { amplified: true } }
+   { stat: 'insight', magnitude: 1, magnitudeType: 'advantage', conditions: { eventTrigger: 'amplified_state' } },
+   { stat: 'investigation', magnitude: 1, magnitudeType: 'advantage', conditions: { eventTrigger: 'amplified_state' } }
   ],
+  mechanicsText: 'For 10 minutes while amplified: advantage on Perception, Insight, and Investigation checks; lantern-eyes blaze silver-white, visible from 300 ft.',
   duration: 10, durationUnit: 'minutes'
   }
   ],
@@ -497,7 +511,8 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   id: 'hush_save',
   name: 'The Hush\'s Pull',
   description: 'When the Brightening ends, make a DC 14 Spirit saving throw. On a failure, the Over-Lit\'s hunger surfaces: you suffer -2 to all d20 rolls until you complete a short rest, as the hush screams in the back of your skull and every fungal light you pass whispers your name. On a success, you resist, the pull was there, but it was not strong enough. This time.',
-  statusEffect: { level: 'moderate', description: 'DC 14 Spirit save after Brightening. On failure: -2 to all d20 rolls until short rest.' }
+  statusEffect: { level: 'moderate', description: 'DC 14 Spirit save after Brightening. On failure: -2 to all d20 rolls until short rest.' },
+  mechanicsText: 'When the Brightening ends, make a DC 14 Spirit saving throw; on failure, suffer -2 to all d20 rolls until the next short rest.'
   }
   ],
   durationValue: 0, durationType: 'until_rest', durationUnit: 'short_rest', canBeDispelled: false
@@ -517,7 +532,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
    typeConfig: { school: 'blight', icon: 'spell_shadow_deathanddecay', tags: ['root-veil', 'echo', 'sensing', 'marked'] },
    utilityConfig: { utilityType: 'sensing', selectedEffects: [{ id: 'root_veil_echo', name: 'Root-Veil Echo', description: '1/long rest: touch surface to sense creatures present in last hour, their emotional states, and shadow of intent. No faces or words.' }] },
   buffConfig: { buffType: 'custom', effects: [{ id: 'echo_insight', name: 'Echo Insight', description: 'Learn presence, emotional state, and intent-shadow of creatures who were at this location within 1 hour.' }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'root_burn', name: 'Root-Burn', description: 'Gain 1 level of Exhaustion after using Root-Veil Echo, the fungal bond must regrow the tendril burned by reaching backward.', statusEffect: { level: 'severe', description: '1 level of Exhaustion after use.' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'root_burn', name: 'Root-Burn', description: 'Gain 1 level of Exhaustion after using Root-Veil Echo, the fungal bond must regrow the tendril burned by reaching backward.', statusEffect: { level: 'severe', description: '1 level of Exhaustion after use.' }, mechanicsText: 'Gain 1 level of Exhaustion after using Root-Veil Echo as the burned fungal tendril regrows.' }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
   targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['surface'] },
   resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
   cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
@@ -532,7 +547,7 @@ The Marked rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   effectTypes: ['buff', 'debuff'],
   typeConfig: { school: 'blight', icon: 'spell_shadow_deathcoil', tags: ['mark', 'tracking', 'death-sight', 'marked'] },
   buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'death_mark_tracking', name: 'Death-Marked', description: 'For 1 minute, you know the target\'s exact location even through walls, and your attacks against them deal +1d4 blight damage.', damageBonus: { formula: '1d4', type: 'blight' }, trackingType: 'absolute' }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true },
-  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'death_marked_debuff', name: 'Marked for Death', description: 'The target is marked by Ghost-Mycelium sight: their location is known to the Marked Vreken, and attacks against them deal +1d4 blight damage.', statusEffect: { level: 'minor', description: 'Location always known to the marker. +1d4 blight damage from their attacks.' } }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true },
+  debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'death_marked_debuff', name: 'Marked for Death', description: 'The target is marked by Ghost-Mycelium sight: their location is known to the Marked Vreken, and attacks against them deal +1d4 blight damage.', statusEffect: { level: 'minor', description: 'Location always known to the marker. +1d4 blight damage from their attacks.' }, mechanicsText: 'Marked target location is always known to the marker, even through walls; marker attacks deal +1d4 blight damage for 1 minute.' }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true },
   targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
   resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
   cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }

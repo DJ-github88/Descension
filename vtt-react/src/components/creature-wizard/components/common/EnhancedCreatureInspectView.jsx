@@ -18,8 +18,6 @@ import BESTIARY_DATA from '../../../../data/creatureData.json';
 import { calculateStatModifier } from '../../../../utils/characterUtils';
 import useCreatureStore from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
-import useGameStore from '../../../../store/gameStore';
-import useChatStore from '../../../../store/chatStore';
 import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
 import useDiceStore from '../../../../store/diceStore';
@@ -1470,7 +1468,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             onClick={() => setShowLabels(!showLabels)}
             title={showLabels ? 'Hide Labels' : 'Show Labels'}
           >
-            <span className="stats-toggle-icon">{showLabels ? 'â - €' : 'â–¶'}</span>
+            <span className="stats-toggle-icon">{showLabels ? 'ï¿½ - ï¿½' : 'â–¶'}</span>
           </button>
           {Object.entries(statGroups).map(([key, group]) => (
             <button
@@ -2281,7 +2279,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                       }}
                     />
                     {item.quantity && item.quantity > 1 && (
-                      <div className="loot-quantity">Ã - {item.quantity}</div>
+                      <div className="loot-quantity">ï¿½ - {item.quantity}</div>
                     )}
                   </div>
                   <div

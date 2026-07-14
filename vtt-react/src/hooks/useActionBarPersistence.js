@@ -17,8 +17,6 @@ export const useActionBarPersistence = (roomId = 'global') => {
 
   // Get current character ID from character store
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
-  const characterName = useCharacterStore(state => state.name);
-
   // Auto-save timer ref
   const autoSaveTimerRef = useRef(null);
   const lastActionSlotsRef = useRef(null);
@@ -64,7 +62,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentCharacterId, roomId, characterName]);
+  }, [currentCharacterId, roomId, EMPTY_SLOTS, actionSlots]);
 
   /**
    * Save action bar configuration
@@ -89,7 +87,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
       console.error('Error saving action bar config:', error);
       return false;
     }
-  }, [currentCharacterId, roomId, actionSlots, characterName]);
+  }, [currentCharacterId, roomId, actionSlots]);
 
   /**
    * Update action slots with automatic persistence

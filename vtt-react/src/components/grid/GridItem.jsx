@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import useItemStore from '../../store/itemStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useGameStore from '../../store/gameStore';
@@ -203,11 +203,7 @@ const GridItem = ({ gridItem }) => {
     setShowTooltip(false);
   };
 
-  const handleLoot = () => {
-    console.log('🎁 Manually triggering loot for:', gridItem.id);
-    lootItem(gridItem.id);
-  };
-
+  
   const handlePointerDown = (e) => {
     // Track start position and time for click detection
     dragStartPositionRef.current = { x: e.clientX, y: e.clientY };

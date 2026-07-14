@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Consumable Utility Functions
  * 
  * Shared utility for handling consumable item usage across the application.
@@ -583,7 +583,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
     const combatStats = item.combatStats || {};
     
     const pendingOverheals = [];
-    let hasInstantEffects = false;
 
     if (combatStats.healthRestore) {
         const healAmount = combatStats.healthRestore.value || 0;
@@ -596,7 +595,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     item
                 });
                 if (result.applied) {
-                    hasInstantEffects = true;
                     applyResourceChange({
                         resourceType: 'health',
                         amount: healAmount,
@@ -607,7 +605,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     pendingOverheals.push(result.pendingOverheal);
                 }
             } else {
-                hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'health',
                     amount: healAmount,
@@ -629,7 +626,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     item
                 });
                 if (result.applied) {
-                    hasInstantEffects = true;
                     applyResourceChange({
                         resourceType: 'mana',
                         amount: manaAmount,
@@ -640,7 +636,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     pendingOverheals.push(result.pendingOverheal);
                 }
             } else {
-                hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'mana',
                     amount: manaAmount,
@@ -662,7 +657,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     item
                 });
                 if (result.applied) {
-                    hasInstantEffects = true;
                     applyResourceChange({
                         resourceType: 'actionPoints',
                         amount: apAmount,
@@ -673,7 +667,6 @@ export const useConsumable = ({ item, stores, onOverheal, onSuccess }) => {
                     pendingOverheals.push(result.pendingOverheal);
                 }
             } else {
-                hasInstantEffects = true;
                 applyResourceChange({
                     resourceType: 'actionPoints',
                     amount: apAmount,
@@ -773,7 +766,7 @@ export const completeConsumableUsage = ({ overheals, item, stores, asTemporary, 
     return { remainingOverheals };
 };
 
-export default {
+const consumableUtils = {
     calculateResourceAdjustment,
     extractConsumableDuration,
     collectBuffEffects,
@@ -787,3 +780,4 @@ export default {
     useConsumable,
     completeConsumableUsage
 };
+export default consumableUtils;

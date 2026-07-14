@@ -18,8 +18,11 @@ const MadnessGaugeResourceBar = ({
   logClassResourceChange,
   getDangerLevel,
 }) => {
-  const { localMadness, showMadnessMenu, falseProphetHoverSection } = falseProphetState;
-  const { showTooltip, tooltipPosition, tooltipPlacement } = uiState;
+  const {
+      localMadness,
+      showMadnessMenu
+  } = falseProphetState;
+  const {} = uiState;
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
   const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
@@ -31,8 +34,7 @@ const MadnessGaugeResourceBar = ({
         const currentMadness = localMadness ?? finalClassResource?.current ?? 0;
         const maxMadness = finalConfig.mechanics?.max ?? 20;
 
-        const dangerLevel = getDangerLevel(currentMadness);
-
+        
         // Get segment color based on index
         const getSegmentColor = (index) => {
             if (index < 6) return finalConfig.visual.safeColor;

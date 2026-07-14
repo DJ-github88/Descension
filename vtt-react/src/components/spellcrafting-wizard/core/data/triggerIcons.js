@@ -83,13 +83,12 @@ export const TRIGGER_ICONS = {
     immunity: 'Utility/Bound Shield',
 
     // Trap triggers
-    proximity: 'Utility/All Seeing Eye',
     stepped_on: 'Utility/Trapped',
     interaction: 'Utility/Utility Tool',
     line_of_sight: 'Utility/Watchful Eye',
     detection_attempt: 'Utility/Peep',
     disarm_attempt: 'Utility/Jigsaw Saw Tool',
-    timer: 'Arcane/Sands of Time',
+    trap_timer: 'Arcane/Sands of Time',
     weight_pressure: 'Utility/Falling Block',
     magical_trigger: 'Arcane/Orb Manipulation',
     trap_chain: 'Utility/Metal Chain',
@@ -110,7 +109,6 @@ export const TRIGGER_ICONS = {
     turn_end: 'Utility/Sleep',
     round_start: 'Arcane/Rewind Time',
     round_end: 'Arcane/Sands of Time',
-    timer: 'Utility/Rest',
     cooldown_ready: 'Utility/Glowing Orb Star',
     duration_threshold: 'Utility/Rest'
   }

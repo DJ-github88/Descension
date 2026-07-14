@@ -1,15 +1,7 @@
-import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
-import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
+import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
 import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers, getFullRaceData, getRaceData } from '../../data/raceData';
-import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
-import useGameStore from '../gameStore';
-import characterPersistenceService from '../../services/firebase/characterPersistenceService';
-import characterSessionService from '../../services/firebase/characterSessionService';
-import characterMigrationService from '../../services/firebase/characterMigrationService';
-import localStorageManager from '../../utils/localStorageManager';
-import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
+import { applyRacialModifiers } from '../../data/raceData';
+import { getEncumbranceState, triggerCharacterAutoSave } from '../characterHelpers';
 
 export const createResourceSlice = (set, get) => ({
     // Resources

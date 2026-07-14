@@ -18,11 +18,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 
-import { RACE_DATA, getRacialBaseStats, getRacialSavingThrowModifiers, applyRacialModifiers } from '../../../data/raceData';
+import { RACE_DATA, applyRacialModifiers } from '../../../data/raceData';
 
 import { BACKGROUND_DATA } from '../../../data/backgroundData';
 
-import { formatCurrency } from '../../../data/startingCurrencyData';
 
 import { getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
 
@@ -440,11 +439,11 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Myrathil
 
-    shore_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
+    shoreling_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
 
-    deep_myrathil: ['Chronarch', 'Augur', 'Animist', 'Spellguard', 'Lunarch', 'Shaper'],
+    deepling_myrathil: ['Chronarch', 'Augur', 'Animist', 'Spellguard', 'Lunarch', 'Shaper'],
 
-    brook_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
+    riverling_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
 
     // Briaran
 
@@ -472,11 +471,11 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Mimir
 
-    masked_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
+    veiled_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
 
-    woven_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
+    tethered_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
 
-    unwoven_mimir: ['Martyr (Ironclad)', 'Harbinger', 'Augur', 'Chronarch', 'Toxicologist', 'Gambit', 'Arcanoneer'],
+    untethered_mimir: ['Martyr (Ironclad)', 'Harbinger', 'Augur', 'Chronarch', 'Toxicologist', 'Gambit', 'Arcanoneer'],
 
     // Neth
 
@@ -697,11 +696,11 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Myrathil
 
-        shore_myrathil: 'shore_illustration.png',
+        shoreling_myrathil: 'shore_illustration.png',
 
-        deep_myrathil: 'deep_illustration.png',
+        deepling_myrathil: 'deep_illustration.png',
 
-        brook_myrathil: 'brook_illustration.png',
+        riverling_myrathil: 'brook_illustration.png',
 
         // Briaran
 
@@ -729,11 +728,11 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Mimir
 
-        masked_mimir: 'masked_illustration.png',
+        veiled_mimir: 'masked_illustration.png',
 
-        woven_mimir: 'woven_illustration.png',
+        tethered_mimir: 'woven_illustration.png',
 
-        unwoven_mimir: 'unwoven_illustration.png',
+        untethered_mimir: 'unwoven_illustration.png',
 
         // Neth
 
@@ -2315,9 +2314,39 @@ const Step1CoreDraft = () => {
 
                                             <p className="grimoire-flavor-quote">"{selectedRace.cardFlavor}"</p>
 
-                                            <div className="grimoire-markdown-body" dangerouslySetInnerHTML={{ __html: selectedRace.overview }} />
+                                            {/* Subrace Details — shown FIRST so players know their subrace before reading general lore */}
+                                            {selectedSubrace && (
 
-                                            
+                                                <>
+
+                                                    <h4 className="grimoire-section-header">{selectedSubrace.name}</h4>
+
+                                                    <div className="grimoire-markdown-body">
+
+                                                        <p>{selectedSubrace.description}</p>
+
+                                                    </div>
+
+                                                </>
+
+                                            )}
+
+                                            {/* Appearance Section */}
+                                            {selectedRace.visualDescription && (
+
+                                                <>
+
+                                                    <h4 className="grimoire-section-header">Appearance</h4>
+
+                                                    <div className="grimoire-markdown-body">
+
+                                                        <p>{selectedRace.visualDescription}</p>
+
+                                                    </div>
+
+                                                </>
+
+                                            )}
 
                                             <h4 className="grimoire-section-header">Base Attributes</h4>
 
@@ -2375,57 +2404,38 @@ const Step1CoreDraft = () => {
 
 
 
-                                            {/* Subrace Specific Details & Traits */}
-
-                                            {selectedSubrace && (
+                                            {/* Racial Traits */}
+                                            {selectedSubrace && selectedSubrace.traits && selectedSubrace.traits.length > 0 && (
 
                                                 <>
 
-                                                    <h4 className="grimoire-section-header">{selectedSubrace.name} Details</h4>
+                                                    <h4 className="grimoire-section-header">Racial Traits</h4>
 
-                                                    <div className="grimoire-markdown-body">
+                                                    <div className="grimoire-traits-list">
 
-                                                        <p>{selectedSubrace.description}</p>
+                                                        {selectedSubrace.traits.map(trait => (
 
-                                                    </div>
+                                                            <div key={trait.id} className="grimoire-trait-card">
 
-                                                    
+                                                                <div className="grimoire-trait-header">
 
-                                                    {selectedSubrace.traits && selectedSubrace.traits.length > 0 && (
+                                                                    <div className="grimoire-trait-icon">
 
-                                                        <>
-
-                                                            <h4 className="grimoire-section-header">Racial Traits</h4>
-
-                                                            <div className="grimoire-traits-list">
-
-                                                                {selectedSubrace.traits.map(trait => (
-
-                                                                    <div key={trait.id} className="grimoire-trait-card">
-
-                                                                        <div className="grimoire-trait-header">
-
-                                                                            <div className="grimoire-trait-icon">
-
-                                                                                <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
-
-                                                                            </div>
-
-                                                                            <span className="grimoire-trait-title">{trait.name}</span>
-
-                                                                        </div>
-
-                                                                        <span className="grimoire-trait-desc">{trait.description}</span>
+                                                                        <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
 
                                                                     </div>
 
-                                                                ))}
+                                                                    <span className="grimoire-trait-title">{trait.name}</span>
+
+                                                                </div>
+
+                                                                <span className="grimoire-trait-desc">{trait.description}</span>
 
                                                             </div>
 
-                                                        </>
+                                                        ))}
 
-                                                    )}
+                                                    </div>
 
                                                 </>
 

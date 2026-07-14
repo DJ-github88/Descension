@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Buff Types Module
  *
  * Defines categories and configurations for buff effects that provide
@@ -9,7 +9,7 @@ import {
  faArrowUp,
  faGauge,
  faShield,
- faHeart
+
 } from '@fortawesome/free-solid-svg-icons';
 
 /**
@@ -512,8 +512,8 @@ export function checkBuffConflicts(buffIdA, buffIdB) {
   'movementBuff': ['movementPenalty']
  };
 
- if (knownConflicts[buffIdA] && knownConflicts[buffIdA].includes(buffIdB) ||
-   knownConflicts[buffIdB] && knownConflicts[buffIdB].includes(buffIdA)) {
+  if ((knownConflicts[buffIdA] && knownConflicts[buffIdA].includes(buffIdB)) ||
+    (knownConflicts[buffIdB] && knownConflicts[buffIdB].includes(buffIdA))) {
   return {
    conflict: true,
    reason: 'Opposing effects',

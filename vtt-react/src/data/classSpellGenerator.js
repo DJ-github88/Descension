@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Class Spell Generator - COMPLETELY REWRITTEN
  *
  * Generates properly formatted showcase spells for all classes
@@ -55,8 +55,7 @@ export const CLASS_DATA_MAP = {
  'Spellguard': SPELLGUARD_DATA,
  'Toxicologist': TOXICOLOGIST_DATA,
  'Warden': WARDEN_DATA,
- 'Augur': AUGUR_DATA,
- 'Harbinger': HARBINGER_DATA
+  'Augur': AUGUR_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====
@@ -149,17 +148,6 @@ function processMartyrSpells(spells) {
    devotionRequired: spell.devotionRequired || spell.specialMechanics?.devotionLevel?.required,
    devotionCost: spell.devotionCost || spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
    devotionGain: spell.devotionGain || spell.specialMechanics?.devotionLevel?.gain
-  }));
-}
-
-/**
- * Process Harbinger spells - emphasizes chaos_sphere and rollable tables
- */
-function processChaosWeaverSpells(spells) {
- return spells
-  .map(spell => normalizeClassSpell(spell, 'Harbinger', determineChaosWeaverSpecialization))
-  .map(spell => ({
-   ...spell
   }));
 }
 
@@ -606,16 +594,6 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
 });
 
 // Summary
-const totalSpells = Object.values(validationResults).reduce((sum, v) => sum + v.totalSpells, 0);
-const totalValid = Object.values(validationResults).reduce((sum, v) => sum + v.validSpells, 0);
-const totalInvalid = Object.values(validationResults).reduce((sum, v) => sum + v.invalidSpells.length, 0);
-
-// Log summary of loaded spells by class
-// console.log('?? SPELL GENERATOR SUMMARY:', {
-//  totalSpells,
-//  totalValid,
-//  totalInvalid,
-//  classesWithSpells: Object.entries(validationResults).map(([className, results]) => ({
 //   className,
 //   totalSpells: results.totalSpells,
 //   validSpells: results.validSpells

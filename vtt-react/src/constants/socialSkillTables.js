@@ -1,4 +1,4 @@
-﻿// Leadership Skill Multi-Dimensional Tables
+// Leadership Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 
 export const LEADERSHIP_TABLES = {

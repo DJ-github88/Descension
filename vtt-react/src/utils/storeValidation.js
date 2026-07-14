@@ -207,7 +207,7 @@ export const wrapStoreAction = (action, actionName) => {
  * @returns {Function} Safe store creator
  */
 export const createSafeStore = (storeCreator, options = {}) => {
-  const { schema, name = 'unknown' } = options;
+  const { name = 'unknown' } = options;
   
   return (set, get) => {
     const originalStore = storeCreator(set, get);

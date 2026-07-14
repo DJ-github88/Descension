@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 // Default map structure
@@ -66,10 +66,8 @@ const createDefaultMap = (name = 'New Map') => ({
 const handleStorageQuotaExceeded = (name, value) => {
     try {
         // Calculate current storage usage
-        let totalSize = 0;
         for (let key in localStorage) {
             if (localStorage.hasOwnProperty(key)) {
-                totalSize += localStorage[key].length;
             }
         }
 
@@ -367,15 +365,6 @@ const useMapStore = create(
                 return duplicatedMap.id;
             },
 
-            // Map navigation
-            switchToMap: (mapId) => {
-                const state = get();
-                const targetMap = (state.maps || []).find(map => map.id === mapId);
-                if (!targetMap) return false;
-
-                set({ currentMapId: mapId });
-                return true;
-            },
 
             // Map library UI
             setMapLibraryOpen: (isOpen) => set({ isMapLibraryOpen: isOpen }),
@@ -619,8 +608,6 @@ const useMapStore = create(
                     let socket = null;
                     let originalOnevent = null;
                     const pausedEvents = [];
-                    let switchComplete = false; // NEW: Track switch completion
-
                     if (wasInMultiplayer) {
                         socket = useGameStore.getState().multiplayerSocket;
                         if (socket && socket.connected) {
@@ -693,9 +680,6 @@ const useMapStore = create(
                     if (useGridItemStore && mapState.gridItems) {
                         useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
                     }
-
-                    // Mark switch as complete before resuming events
-                    switchComplete = true;
 
                     // CRITICAL FIX: Resume event processing after map switch
                     // Filter and process only events that are relevant to the new map

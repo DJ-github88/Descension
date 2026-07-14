@@ -161,6 +161,9 @@ export function registerConditionHandlers(ctx) {
                 conditionStore.removeCondition('buff', data.data.buffId, true);
               }
               break;
+
+            default:
+              break;
           }
         }
       });
@@ -205,6 +208,9 @@ export function registerConditionHandlers(ctx) {
                 conditionStore.removeCondition('debuff', data.data.debuffId, true);
               }
               break;
+
+            default:
+              break;
           }
         }
       });
@@ -243,13 +249,12 @@ export function registerConditionHandlers(ctx) {
               // Show dice roll results from other players
               if (data.data && data.data.results) {
                 // Add to roll history without triggering local roll
-                const rollEntry = {
-                  ...data.data,
-                  playerName: data.playerName,
-                  fromNetwork: true
-                };
+
                 // This could trigger a notification or add to a shared roll history
               }
+              break;
+
+            default:
               break;
           }
         }

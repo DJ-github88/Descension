@@ -1,4 +1,4 @@
-﻿export const ANIMIST_THORNWARDEN = [
+export const ANIMIST_THORNWARDEN = [
   {
     id: 'tw_t0_calcified_skeleton',
     name: 'Calcified Skeleton',

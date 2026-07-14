@@ -1,4 +1,4 @@
-﻿// Rollable Tables for Skills - Unlocked through quest completion
+// Rollable Tables for Skills - Unlocked through quest completion
 // Each table provides different outcomes based on skill usage
 
 import { LEADERSHIP_TABLES } from './socialSkillTables.js';

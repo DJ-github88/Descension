@@ -10,9 +10,9 @@ export const MINSTREL_DATA = {
  restrictions: {
   "allowedSubraces": [
    "merryn_human",
-   "shore_myrathil",
-   "brook_myrathil",
-   "deep_myrathil",
+    "shoreling_myrathil",
+    "riverling_myrathil",
+    "deepling_myrathil",
    "clean_vreken"
   ],
   "hardBlocks": [
@@ -48,8 +48,8 @@ export const MINSTREL_DATA = {
   }
  },
 
- shore_myrathil: {
-  subraceName: 'Shore Myrathil',
+  shoreling_myrathil: {
+   subraceName: 'Shoreling Myrathil',
   title: 'The Shore-Conductor',
   reframe: `The <LoreLink termId="myrathil">Shore</LoreLink>, the shore-dwelling diplomats of the Myrathil, conduct the *surf*, not the storm. Their Cadence is the rhythm of the tide-line, the negotiation between sea and shore. Where the Merryn command the deep water, the Shore mediate the boundary, and their sound-work is gentler, more diplomatic, and far more versatile on land.`,
   signatureAbility: {
@@ -64,8 +64,8 @@ export const MINSTREL_DATA = {
   }
  },
 
- brook_myrathil: {
-  subraceName: 'Brook Myrathil',
+  riverling_myrathil: {
+   subraceName: 'Riverling Myrathil',
   title: 'The Freshwater-Voice',
   reframe: `The <LoreLink termId="myrathil">Brook</LoreLink>, the inland swimmers who traded ocean-depth for freshwater mobility, conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.
 
@@ -82,8 +82,8 @@ The Thaw-Run is the longest continuous river on Mythrill, flowing from the Cragj
   }
  },
 
- deep_myrathil: {
-  subraceName: 'Deep Myrathil',
+  deepling_myrathil: {
+   subraceName: 'Deepling Myrathil',
   title: 'The Abyss-Resonant',
   reframe: `The <LoreLink termId="myrathil">Deep</LoreLink>, the abyssal pressure-forgers of the ocean trench, conduct frequencies no surface ear can parse. Their Cadence is subsonic, felt in the bone rather than heard, the deep-water pressure-wave made musical. A Deep Minstrel is, to surface-dwellers, unsettling rather than beautiful: you do not hear them play so much as *vibrate* in sympathy.`,
   signatureAbility: {
@@ -201,9 +201,9 @@ The class is heavily practiced by the Merryn humans and the <LoreLink termId="my
   paradox: 'The Minstrel seeks the perfect Cadence, the combination of notes that will produce the most beautiful sound ever heard. But the most beautiful sounds come from the most catastrophic collapses. The Minstrel is therefore incentivized to seek out destruction, to position themselves at the epicenter of collapsing realities, to drink in the death-rattle of dying timelines. They are artists of catastrophe, and their masterpiece is always someone else\'s tragedy.'
  },
 
- currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean\'s frequency report total silence, no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
+ currentCrisis: `The Iceheart Sea has fallen silent. For the first time in recorded history, the tides have stopped singing. The Merryn sailors who navigate by the ocean's frequency report total silence, no subsonic rhythm, no deep-bass pulse, nothing. The sea is still moving, but it makes no sound.
 
-The Minstrels of Merrowport are terrified. The ocean\'s song was the oldest continuous frequency in the known world, it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.
+The Minstrels of Merrowport are terrified. The ocean's song was the oldest continuous frequency in the known world, it had been playing for longer than any Minstrel could measure. Its silence means something. Lyris the Tide-Singer, who understood the sea better than anyone, has not been seen since the silence began. Some Minstrels believe she dove into the silent water to find the lost note. Others believe she fled because she knew what the silence meant: the Iceheart Sea is dying. And if a body of water that large can die, so can everything else.
 
 The Tide-Choir numbers sixty-four active Minstrels  —  one for every note in the old scale  —  divided into four sections. The Storm-Singers (Merryn, led by Mer-Lyrisa herself) conduct open-water cadences. The Shore-Chorus (Shore Myrathil) mediate the boundary. The River-Voice (Brook Myrathil) carry the work inland. The Deep-Chamber (Deep Myrathil) produce the subsonic frequencies no surface ear can detect. The Deep Myrathil section has had no active members since the silence began  —  every single one surfaced within the same week.`,
 

@@ -8,7 +8,6 @@ import BlacksmithingInterface from '../crafting/BlacksmithingInterface';
 import useChatStore from '../../store/chatStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
-import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('recipes');
@@ -17,8 +16,6 @@ function CraftingWindow({ isOpen, onClose }) {
         selectedProfession,
         setSelectedProfession,
         getProfessionLevel,
-        getProfessionExperience,
-        getExperienceForNextLevel,
         getRecipesForProfession,
         learnRecipe,
         professionLevels,
@@ -30,15 +27,7 @@ function CraftingWindow({ isOpen, onClose }) {
 
     // Note: Use the "Add Test Materials" button to populate inventory with crafting materials
 
-    const getSkillLevelColor = (level) => {
-        if (level === 0) return '#9d9d9d';
-        if (level <= 2) return '#ffffff';
-        if (level <= 4) return '#1eff00';
-        if (level <= 6) return '#0070dd';
-        if (level <= 8) return '#a335ee';
-        return '#ff8000';
-    };
-
+    
     // Safe wrapper for setSelectedProfession with fallback
     const safeSetSelectedProfession = (professionId) => {
         if (typeof setSelectedProfession === 'function') {

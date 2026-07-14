@@ -15,7 +15,7 @@
  *   - onClick:   Click handler
  */
 
-import React, { useState, useRef, useEffect, memo } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import './ClassIcon.css';
 
 // Map size hints to thumbnail directory and fallback sizes

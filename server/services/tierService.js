@@ -18,15 +18,15 @@ const tierCache = new Map();
 const CACHE_TTL = 5 * 60 * 1000;
 
 function resolveTierId(rawTier) {
-  if (!rawTier) return 'free';
+  if (!rawTier) {return 'free';}
   const lower = rawTier.toLowerCase();
-  if (LEGACY_MAP[lower]) return LEGACY_MAP[lower];
-  if (TIER_LIMITS[lower]) return lower;
+  if (LEGACY_MAP[lower]) {return LEGACY_MAP[lower];}
+  if (TIER_LIMITS[lower]) {return lower;}
   return 'free';
 }
 
 async function getUserTier(userId) {
-  if (!userId) return { tierId: 'guest', limits: TIER_LIMITS.guest };
+  if (!userId) {return { tierId: 'guest', limits: TIER_LIMITS.guest };}
 
   const cached = tierCache.get(userId);
   if (cached && Date.now() - cached.cachedAt < CACHE_TTL) {

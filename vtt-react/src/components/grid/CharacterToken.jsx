@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -19,7 +19,7 @@ import Button from '../common/Button';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
-import { isPointInPolygon, feetToTiles } from '../../utils/VisibilityCalculations';
+import {  feetToTiles } from '../../utils/VisibilityCalculations';
 
 const CharacterToken = ({
   tokenId,
@@ -1402,8 +1402,7 @@ const CharacterToken = ({
       const currentPlayer = useGameStore.getState().currentPlayer;
       const myId = currentPlayer?.id || 'current-player';
       const isSelf = tokenPlayerId === 'current-player' || (myId && tokenPlayerId === myId);
-      const isOtherPlayer = tokenPlayerId && !isSelf && isInMultiplayer;
-      onInspect(characterData, isSelf); // true if it's our own token
+            onInspect(characterData, isSelf); // true if it's our own token
     }
 
     setShowContextMenu(false);
@@ -1978,16 +1977,9 @@ const CharacterToken = ({
   }, [token.state?.conditions, tokenId]);
 
   // Calculate health percentage for health bar
-  const healthPercentage = (characterData.health.current / characterData.health.max) * 100;
-
+  
   // Get health bar color based on percentage
-  const getHealthBarColor = (percentage) => {
-    if (percentage > 75) return '#506e30';
-    if (percentage > 50) return '#7a6812';
-    if (percentage > 25) return '#9a5e15';
-    return '#8b3a2a';
-  };
-
+  
   // Don't render if not visible (unless in GM mode or not viewing from a token)
   if (!isTokenVisible) {
     return null;

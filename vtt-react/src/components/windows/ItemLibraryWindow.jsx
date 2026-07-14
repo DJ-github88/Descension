@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import MythrillWindow from './MythrillWindow';
 import ItemLibrary from '../item-generation/ItemLibrary';
 
 const ItemLibraryWindow = ({ isOpen, onClose }) => {

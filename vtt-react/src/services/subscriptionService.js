@@ -1,4 +1,4 @@
-﻿import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../config/firebase';
 
 // Tier Feature Flags: gates GM tool CONTROLS only.

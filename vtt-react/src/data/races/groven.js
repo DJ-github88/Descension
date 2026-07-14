@@ -1,10 +1,11 @@
-﻿export const groven = {
+export const groven = {
   id: 'groven',
   name: 'Groven',
   essence: 'Humanoid bridge-trolls of the Cragjaw Peaks',
   illustration: '/assets/images/races/groven_illustration.png',
   illustrationCaption: 'A long-limbed Ithran toll-keeper standing on an Ancestor-Span above the blizzard-wrapped Cragjaw Peaks, woven lichen-fiber wraps trailing in the wind.',
   cardFlavor: 'Alchemically forged from ancient Thrumm blood, these stone-scaled bridge-keepers span the Cragjaw\'s deadliest chasms.',
+  visualDescription: `Tall and long-limbed, standing 6'6" to 7'6", with fine stone-scales covering living flesh in a stoic carapace. Tusks curve upward from their lower jaws, relics of their bestial Thrumm ancestry. A tufted tail trails behind for counterbalance on cliff faces. Their skin between scales is rough with mineral growth, moss and lichen creeping in the crevices. Knuckles are hardened to obsidian points. Their faces are craggy but recognizably humanoid, with small, dark, patient eyes. Morgh Groven are heavier with thicker scales; Ithran Groven are finer-scaled with longer limbs. They dress in woven lichen-fiber wraps, practical and weathered.`,
   description: `**[The Bridge-Scales]**, *Strung across a bottomless chasm in a howling whiteout, a massive reptilian sentinel stands stoically on a bridge of calcified bone, his heavy tail anchored to the rock face against the gale.*
 
 The Groven are the children of the vats and the crags, humanoid troll-kin forged by Fexric alchemy from the ancient, primordial blood of the Thrumm. Tall, slender, and long of limb, they carry the stone-scales of their parent race grown fine and close over living flesh, a stoic, unyielding carapace that turns the razor winds of the peaks. Tusks curve from their lower jaws, relics of a bestial lineage the serums thinned but could never erase. A tufted tail trails behind them, serving as a counterbalance for the sheer cliff faces where their children learn to climb before they learn to walk. Their skin is rough with mineral growth, moss and lichen creeping in the crevices between scales as the mountain slowly claims them back. Their knuckles are hardened to obsidian points by generations of spanning the vertical world, and their small, dark, patient eyes peer from craggy faces that are recognizably people. They are not monsters or statues, but something suspended between stone and flesh, vat and crag. They are the bridge-keepers and the toll-takers, shaped by the forge and claimed by the mountain.`,
@@ -85,7 +86,7 @@ Her relationship with the Fexric is famously complicated. She negotiates salt an
       title: 'The Bridge Between',
       portraitIcon: 'Dwarf/Icon12',
       backstory: `
-Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran, a Murmur-Blood, the rare product of mixed-bloodline parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them \'half-voiced.\' The Ithran called them \'half-stone.\' Both meant the same thing: you do not fully belong.
+Geth-Run was born with scales too fine for the Morgh warrens but too coarse for the Ithran bridge-tops, limbs longer than Morgh but shorter than Ithran, a Murmur-Blood, the rare product of mixed-bloodline parentage. Neither warren accepted them. No elder vouched for their name. The Morgh called them 'half-voiced.' The Ithran called them 'half-stone.' Both meant the same thing: you do not fully belong.
 
 Geth-Run chose exile rather than a lifetime of straddling a divide that had no place for them. For forty years, they have walked the highest, narrowest Ancestor-Spans, the ones too dangerous for toll-caravans, the ones that Groven society has forgotten. They maintain these spans alone, replacing frayed cables, shoring cracked stone, ensuring that the bridge that no one uses is still there when someone needs it.
 
@@ -171,7 +172,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                                       "id": "vat_hangover_initiative",
                                       "name": "Vat-Sleep Hangover",
                                       "description": "Disadvantage on Initiative in the first combat after a long rest.",
-                                      "statModifier": { "stat": "initiative", "magnitude": -99, "magnitudeType": "disadvantage", "conditions": { "first_combat_after_long_rest": true } }
+                                      "statModifier": { "stat": "initiative", "magnitude": -99, "magnitudeType": "disadvantage", "conditions": { "first_combat_after_long_rest": true } }, "mechanicsText": "You roll Initiative with disadvantage in the first combat after a long rest, reflecting lingering disorientation from the Vat-Sleep."
                             }],
                             "durationValue": 0,
                             "durationType": "conditional",
@@ -190,12 +191,12 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       typeConfig: { category: 'racial', school: 'physical', tags: ['vat-sleep', 'ancestral', 'passive', 'shared'] },
       buffConfig: {
         buffType: 'statEnhancement',
-        effects: [{ id: 'vat_sleep_knowledge', name: 'Ancestral Memory', description: 'Once per long rest, advantage on Intelligence (History) checks related to the Cragjaw Peaks, ancient Thrumm, Groven ancestors, or Fexric alchemy.', statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditions: { grovenLore: true, usesPerRest: 1 } } }],
+        effects: [{ id: 'vat_sleep_knowledge', name: 'Ancestral Memory', description: 'Once per long rest, advantage on Intelligence (History) checks related to the Cragjaw Peaks, ancient Thrumm, Groven ancestors, or Fexric alchemy.', statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditions: { subject: ['cragjaw_peaks', 'thrumm', 'groven_ancestors', 'fexric_alchemy'], usesPerRest: 1 } }, mechanicsText: 'Once per long rest, you gain advantage on Intelligence (History) checks about the Cragjaw Peaks, the Thrumm, Groven ancestors, or Fexric alchemy.' }],
         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
       },
       debuffConfig: {
         debuffType: 'statusEffect',
-        effects: [{ id: 'vat_sleep_hangover', name: 'Disoriented', description: '-2 to all Perception checks for 10 minutes upon waking from the Vat-Sleep.', statModifier: { stat: 'perception', magnitude: -2, magnitudeType: 'flat', duration: 10, durationUnit: 'minutes' } }],
+        effects: [{ id: 'vat_sleep_hangover', name: 'Disoriented', description: '-2 to all Perception checks for 10 minutes upon waking from the Vat-Sleep.', statModifier: { stat: 'perception', magnitude: -2, magnitudeType: 'flat', duration: 10, durationUnit: 'minutes' }, mechanicsText: 'For 10 minutes after waking from the Vat-Sleep, you take a -2 penalty to all Perception checks as the dream\'s haze lingers.' }],
         durationValue: 10, durationType: 'timed', durationUnit: 'minutes', canBeDispelled: false
       },
       targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
@@ -228,8 +229,9 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       name: 'Morgh',
       illustration: '/assets/images/races/groven_illustration.png',
       illustrationCaption: 'A massive Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.',
+      visualDescription: `Heavy-scaled and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. They are broad-shouldered, deep-chested, and hunched under the weight of their own mineral mass, built to stand their ground rather than move from it. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes, the mouth a thin line in rock \u2014 the troll ancestry is in the brow, the silence, the patience, not in any tooth. Their stone-scales grow in dense overlapping plates across the shoulders, spine, and outer limbs \u2014 the thickest plates fused to their joints like natural bracers, mineral plating dense enough to turn blades and shed frost. Their knuckles are hardened to obsidian points, and when a Morgh stands still among the boulders of the high crags they vanish: living stone indistinguishable from dead stone. Moss and lichen creep into the crevices of their scales. They dress in tattered, wind-torn lichen-fiber wraps \u2014 hooded, layered, frayed at every hem \u2014 and carry a long mountain-ash walking-staff, a sentinel's tool for footing on the ice-slick spans and the high crags in a killing blizzard.`,
       tooltipSummary: 'Stone-scaled bridge-trolls with ancestral thrumm mass, built as living siege walls who guard the spans of Cragjaw Peaks.',
-       description: 'Heavy-scaled and thick-tusked, the Morgh carry the old Thrumm blood closest to the surface. Their stone-scales grow in dense, overlapping plates across shoulders, spine, and outer limbs \u2014 dense mineral plating that turns blades and sheds frost. Their tusks are heavy, their frames powerful, their speech deliberate with long silences between words. They inhabit the mid-crag warrens and work the bridges with their hands, tending cables, reinforcing spans, and standing guard against Draskar raids. When a Morgh stands still among the boulders of the high crags, they vanish \u2014 living stone indistinguishable from dead stone, patient as the mountain that shaped them. This is the heart of the Morgh way: the bridge is the body, and stone-camouflage is not hiding but becoming, the moment a Morgh stops pretending to be separate from the mountain and simply is it. The Morgh believe the Groven were made to serve, not the Fexric, never the Fexric, but the mountain, the spans, the crossing itself, and that belief is so complete it has become invisible to them. Their flaw is the quiet one of any tool that has forgotten it was made: they have internalized their makers\u2019 design so thoroughly that they cannot imagine being anything other than what the crossing requires. The Morgh have been the Groven\u2019s laborers, warriors, and bridge-builders since the Vat-Breakers\u2019 Revolt, in the earliest generations of the Deepening, and they have a saying they do not speak so much as live: the bridge is the body. The body is the bridge.',
+       description: 'Heavy-scaled and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. They are broad-shouldered, deep-chested, and hunched under the weight of their own mineral mass, broad and slow where the Ithran are long and quick. Their stone-scales grow in dense, overlapping plates across shoulders, spine, and outer limbs \u2014 the thickest plates fused to their joints like natural bracers, dense mineral plating that turns blades and sheds frost. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes and a thin, lipless mouth \u2014 the troll ancestry is in the brow, the silence, the patience, not in any tooth. Their frames are powerful, their speech deliberate with long silences between words. They inhabit the mid-crag warrens and work the bridges with their hands, tending cables, reinforcing spans, and standing guard against Draskar raids. A Morgh on watch in a mountain blizzard pulls a lichen-fiber hood low over their stony face, leans on a mountain-ash staff, and does not move \u2014 the wind parts around the stone-plated shoulders the way it parts around a boulder, and the figure at the span-head is, for hours at a time, indistinguishable from the rock it stands among. This is the heart of the Morgh way: the bridge is the body, and stone-camouflage is not hiding but becoming, the moment a Morgh stops pretending to be separate from the mountain and simply is it. The Morgh believe the Groven were made to serve, not the Fexric, never the Fexric, but the mountain, the spans, the crossing itself, and that belief is so complete it has become invisible to them. Their flaw is the quiet one of any tool that has forgotten it was made: they have internalized their makers\u2019 design so thoroughly that they cannot imagine being anything other than what the crossing requires. The Morgh have been the Groven\u2019s laborers, warriors, and bridge-builders since the Vat-Breakers\u2019 Revolt, in the earliest generations of the Deepening, and they have a saying they do not speak so much as live: the bridge is the body. The body is the bridge.',
       culturalBackground: 'The Morgh trace their lineage to the Groven who fled the vats but could not shed the old Thrumm instincts, the need to build, to guard, to bear weight in silence. Their warren-hearths are communal caverns heated by geothermal vents, shared among extended family with one great central fire. They speak the old troll tongue in the warren depths, reserving Common for dealings with Ithran and outsiders. Their children learn bridge-tending before they learn bridge-tolling. Their elders die in the chasms, becoming the foundations of spans their grandchildren will walk.',
       statModifiers: {
         constitution: 2
@@ -258,7 +260,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 stat: 'physical',
                 magnitude: 25,
                 magnitudeType: 'resistance'
-              }
+              },
+              mechanicsText: 'You resist 25% of all incoming physical damage from your dense mineral scale plating.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -278,7 +281,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 maxResistanceLoss: 15,
                 affectedStat: 'physical',
                 recoveryCondition: '1_hour_on_natural_stone'
-              }
+              },
+              mechanicsText: 'You are fully vulnerable to ember damage, and each ember hit cracks your plates, lowering physical resistance by 5% (up to 15%) until you rest on natural stone for an hour.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -343,7 +347,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 type: 'rooted',
                 duration: 1,
                 triggerCondition: 'wall_destroyed'
-              }
+              },
+              mechanicsText: 'When your summoned stone wall is destroyed, you are rooted in place for 1 round, unable to move but still able to attack adjacent foes.'
             }],
             durationValue: 1,
             durationType: 'rounds',
@@ -403,7 +408,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 stat: 'movement_speed',
                 magnitude: -5,
                 magnitudeType: 'flat'
-              }
+              },
+              mechanicsText: 'Your dense stone-bones permanently reduce your movement speed by 5 feet.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -444,7 +450,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               id: 'chain_strike',
               name: 'Chain-Strike',
               description: '1d6 + Strength physical damage and pull target 5ft toward you (or you toward Large+ targets).',
-              statModifier: { stat: 'physical_damage', magnitude: 1, magnitudeType: 'dice', diceFormula: '1d6+STR', pullDistance: 5, pullDirection: 'toward_caster', largeTargetReversal: true }
+              statModifier: { stat: 'physical_damage', magnitude: 1, magnitudeType: 'dice', diceFormula: '1d6+STR', pullDistance: 5, pullDirection: 'toward_caster', largeTargetReversal: true }, mechanicsText: 'You deal 1d6 plus Strength physical damage and pull the target 5 feet toward you (or are pulled toward Large or larger targets).'
             }],
             durationValue: 0,
             durationType: 'instant',
@@ -457,7 +463,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               id: 'chain_pulled',
               name: 'Chained',
               description: 'Pulled 5 feet toward the Morgh. The chain holds.',
-              statusEffect: { type: 'pull', distance: 5, direction: 'toward_caster' }
+              statusEffect: { type: 'pull', distance: 5, direction: 'toward_caster' }, mechanicsText: 'You are yanked 5 feet toward the Morgh as the chain bites in, shifting your position against your will.'
             }],
             targetRestriction: 'single_enemy'
           },
@@ -494,6 +500,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       name: 'Ithran',
       illustration: '/assets/images/races/ithran_illustration.png',
       illustrationCaption: 'A slender, long-limbed Ithran Groven walking gracefully along an ancient stone bridge above a frozen chasm.',
+      visualDescription: `Slender and impossibly long of limb, the Ithran are the Fexric's most refined design made flesh. Their stone-scales grow fine as tessellated mail over lean frames, their tusks reduced to elegant points, and their fingers are long enough to tie a bridge-knot from a body-length away. Their movements are fluid and deliberate, the gait of a creature whose limbs were meant to span chasms, and when an Ithran gestures the whole hall watches the arc of those impossible arms. They favor finer woven garments than the Morgh and carry themselves with the bearing of diplomats who happen to be eight feet tall.`,
       tooltipSummary: 'Vat-born bridge-keepers with span-reaching agility, restlessly echoing the forging vat that gave them life.',
        description: 'Slender and impossibly long of limb, the Ithran are the children of the Fexric\u2019s design \u2014 stone-scales grown fine as tessellated mail over lean humanoid frames, tusks reduced to elegant points, fingers long enough to tie a bridge-knot from a body-length away. Their movements are fluid, deliberate, the gait of a creature whose limbs were meant to span chasms. They dwell in the bridge-top settlements, woven hide-panel homes suspended above the void, where they negotiate tolls, keep fiber-cord records, and speak for the clans in the Stone-Moots. When an Ithran gestures while speaking, the whole hall watches the arc of those impossible arms. The Ithran emerged as the Groven\u2019s diplomats and toll-negotiators during the First Thermal War (Years 100-120), their finer scales and longer limbs making them the face the Groven present to outsiders. But beneath the diplomacy is a creed the Ithran will state plainly to anyone who asks: we built the bridge, the bridge is ours. Where the Morgh offer the body to the crossing, the Ithran claim the labor of the crossing as their own, and freedom, to an Ithran, means owning what you built. The toll they collect is not greed; it is sovereignty, proof that the hands that spanned the chasm decide who walks it. Their flaw is the sharp one: to control who crosses is to become the gatekeeper, which is exactly the role the Fexric designed them to fill. The Ithran escaped their makers only to rebuild the toll-booth at the top of the world and staff it themselves. Their saying is quieter than the Morgh\u2019s, and sharper: we built the bridge. The bridge remembers whose hands.',
       culturalBackground: 'The Ithran trace their lineage to the broodlings most thoroughly transformed by the Fexric serums, the ones the Deep Alchemists considered their greatest success. They inherited the long reach, the fine scales, the quick mind, and the curse of knowing exactly what was done to them. Their bridge-top settlements are marvels of woven engineering, multi-level dwellings hanging from the undersides of the widest Ancestor-Spans, accessible only to those with Groven reach. They speak Common as their first tongue, learning the old Thrumm words only as a scholarly pursuit. Their children are taught diplomacy before they are taught survival, the bridge-top is safe, the warren is not, and the Ithran have built their lives around the space between those truths.',
@@ -525,7 +532,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 stat: 'movement_speed',
                 magnitude: 10,
                 magnitudeType: 'flat'
-              }
+              },
+              mechanicsText: 'Your permanent movement speed increases by 10 feet, for a total of 40 feet.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -551,7 +559,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 triggerCondition: 'stationary_in_combat',
                 damagePerRound: 1,
                 damageType: 'wyrd'
-              }
+              },
+              mechanicsText: 'Each full round you remain stationary in combat, you suffer 1 wyrd damage as the serums\' restlessness burns through your blood.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -610,7 +619,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 autoDetectRange: 30,
                 autoDetectBy: 'groven',
                 otherEffect: 'advantage_on_insight_vs_deception'
-              }
+              },
+              mechanicsText: 'When you tell a direct lie, your scales grind audibly; any Groven within 30 feet automatically detects it, and others gain advantage on Insight against your Deception.'
             }],
             durationValue: 0,
             durationType: 'permanent',
@@ -672,7 +682,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                   type: 'self_damage',
                   damage: 1,
                   damageTypes: ['blight']
-                }
+                },
+                mechanicsText: 'Each bone reading costs you 1 HP of blight damage as the Ancestor-Span claims its toll.'
               },
               {
                 id: 'eye_bleed_ithran',
@@ -684,7 +695,8 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                   duration: 1,
                   durationUnit: 'rounds',
                   penalties: ['disadvantage_all_attacks']
-                }
+                },
+                mechanicsText: 'If you read bones more than twice per short rest, your eyes bleed for 1 round, imposing disadvantage on all attacks.'
               }
             ],
             durationValue: 0,
@@ -727,7 +739,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               id: 'cable_snared',
               name: 'Cable-Snared',
               description: 'Rooted for 1 round. The bridge-cable coils around your legs with the tensile strength of an Ancestor-Span.',
-              statusEffect: { type: 'root', duration: 1, durationUnit: 'rounds', savingThrow: { stat: 'agility', dc: 12, successEffect: 'none' } }
+              statusEffect: { type: 'root', duration: 1, durationUnit: 'rounds', savingThrow: { stat: 'agility', dc: 12, successEffect: 'none' } }, mechanicsText: 'You are rooted in place for 1 round unless you succeed on a DC 12 Agility save, as the bridge-cable coils around your legs.'
             }],
             targetRestriction: 'single_enemy'
           },

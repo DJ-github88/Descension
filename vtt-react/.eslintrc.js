@@ -8,7 +8,7 @@ module.exports = {
     }
   },
   rules: {
-    'no-unused-vars': 'warn',
+    'no-unused-vars': ['warn', { args: 'none', ignoreRestSiblings: true, varsIgnorePattern: '^_' }],
     'no-console': 'off'
   },
   settings: {

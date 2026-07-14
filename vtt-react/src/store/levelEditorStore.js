@@ -1,43 +1,9 @@
-﻿import { getStore } from './storeRegistry';
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 import { getGridSystem } from '../utils/InfiniteGridSystem';
-import useMapStore from './mapStore';
-
 // CRITICAL: Helper functions to get current map's data from mapStore
 // This prevents map-specific data bleeding between maps
-const getCurrentMapDrawings = () => {
-  try {
-    const mapStore = getStore('mapStore');
-    const currentMap = mapStore.getState().getCurrentMap();
-    return currentMap?.drawingPaths || [];
-  } catch (error) {
-    console.warn('Failed to get current map drawings:', error);
-    return [];
-  }
-};
-
-const getCurrentMapFogPaths = () => {
-  try {
-    const mapStore = getStore('mapStore');
-    const currentMap = mapStore.getState().getCurrentMap();
-    return currentMap?.fogOfWarPaths || [];
-  } catch (error) {
-    console.warn('Failed to get current map fog paths:', error);
-    return [];
-  }
-};
-
-const getCurrentMapFogErasePaths = () => {
-  try {
-    const mapStore = getStore('mapStore');
-    const currentMap = mapStore.getState().getCurrentMap();
-    return currentMap?.fogErasePaths || [];
-  } catch (error) {
-    console.warn('Failed to get current map fog erase paths:', error);
-    return [];
-  }
-};
 
 // CRITICAL FIX: Map update batcher to prevent socket flooding during rapid editing (e.g. painting)
 // This prevents "Connection Error" and disconnections when painting terrain
@@ -48,6 +14,8 @@ let batchSequenceNumber = 0; // Sequence number for ordering
 
 const mapUpdateBatcher = {
   pendingUpdates: {},
+  outgoingQueue: [],
+  isProcessingQueue: false,
   timeout: null,
   lastEmitTime: null,
   isEmitting: false,
@@ -64,6 +32,8 @@ const mapUpdateBatcher = {
         mapUpdateBatcher.timeout = null;
       }
       mapUpdateBatcher.pendingUpdates = {};
+      mapUpdateBatcher.outgoingQueue = [];
+      mapUpdateBatcher.isProcessingQueue = false;
       mapUpdateBatcher.isEmitting = false;
       mapUpdateBatcher.lastEmittedData = null;
       mapUpdateBatcher.capturedMapId = null; // Clear captured mapId
@@ -80,23 +50,18 @@ const mapUpdateBatcher = {
     }
 
     // CRITICAL FIX: Reject updates during map switch to prevent data bleeding
-    // When switching maps, we must not queue updates that will be sent to wrong map
     if (window._isMapSwitching) {
-      console.warn('âš ï¸ [Batcher] Ignoring update during map switch - would cause data bleeding');
+      console.warn('⚠️ [Batcher] Ignoring update during map switch - would cause data bleeding');
       return;
     }
 
-    // CRITICAL: Capture mapId when update is queued, not when emitted
-    // This prevents map switch race conditions where old updates are sent to new map
-    // Determine what map ID this update is for
+    // CRITICAL: Reject updates while applying incoming update from other clients to avoid loops
+    if (window._isReceivingMapUpdate) {
+      // console.log('[Batcher] 🛑 Blocked addUpdate while receiving incoming update');
+      return;
+    }
+
     let incomingMapId = targetMapId;
-
-    // CRITICAL FIX: If map is switching, COMPLETELY BLOCK any new updates from being queued
-    // This prevents "trailing" mouse events from Map A being sent with Map B's ID
-    if (typeof window !== 'undefined' && window._isMapSwitching) {
-      // console.log('[Batcher] ðŸš« Blocked update during map switch');
-      return;
-    }
 
     if (!incomingMapId) {
       try {
@@ -164,10 +129,8 @@ const mapUpdateBatcher = {
     }
   },
 
-  // Emit batched updates to multiplayer server
+  // Emit batched updates by adding them to the outgoing queue
   emit: async (overrideTargetMapId = null) => {
-    if (mapUpdateBatcher.isEmitting) return;
-
     // CRITICAL FIX: Do NOT emit during map switch to prevent data bleeding
     if (typeof window !== 'undefined' && window._isMapSwitching) {
       return;
@@ -177,119 +140,139 @@ const mapUpdateBatcher = {
     const updateKeys = Object.keys(updates);
     if (updateKeys.length === 0) return;
 
-    // PERFORMANCE FIX: Check multiplayer status BEFORE doing expensive work like JSON.stringify
+    const targetMapId = overrideTargetMapId || mapUpdateBatcher.capturedMapId;
+    
+    // Clear current batch state immediately so new inputs accumulate in a fresh batch
+    mapUpdateBatcher.pendingUpdates = {};
+    mapUpdateBatcher.capturedMapId = null;
+    if (mapUpdateBatcher.timeout) {
+      clearTimeout(mapUpdateBatcher.timeout);
+      mapUpdateBatcher.timeout = null;
+    }
+
+    // Now resolve final targetMapId
+    let finalTargetMapId = targetMapId;
+    if (!finalTargetMapId) {
+      try {
+        const { default: useMapStore } = await import('./mapStore');
+        finalTargetMapId = useMapStore.getState().currentMapId || 'default';
+      } catch (e) {
+        finalTargetMapId = 'default';
+      }
+    }
+
+    if (finalTargetMapId === 'undefined' || !finalTargetMapId) {
+      console.error('❌ [Batcher] CRITICAL ERROR: finalTargetMapId is invalid! Dropping update.');
+      return;
+    }
+
+    // Queue the updates
+    mapUpdateBatcher.outgoingQueue.push({
+      updates,
+      targetMapId: finalTargetMapId
+    });
+
+    // Track the last emitted map ID to use as a fallback if needed
+    mapUpdateBatcher.lastEmittedMapId = finalTargetMapId;
+
+    // Start processing queue
+    mapUpdateBatcher.processQueue();
+  },
+
+  // Process outgoingQueue sequentially
+  processQueue: async () => {
+    if (mapUpdateBatcher.isProcessingQueue) return;
+    if (mapUpdateBatcher.outgoingQueue.length === 0) {
+      mapUpdateBatcher.isEmitting = false;
+      return;
+    }
+
+    mapUpdateBatcher.isProcessingQueue = true;
+    mapUpdateBatcher.isEmitting = true; // Sync for compatibility with any external checks
+
     try {
+      const nextBatch = mapUpdateBatcher.outgoingQueue[0];
       const { default: useGameStore } = await import('./gameStore');
       const gameStore = useGameStore.getState();
-      
+
       if (!gameStore.isInMultiplayer || !gameStore.multiplayerSocket?.connected || !gameStore.isGMMode) {
-        // If not in multiplayer, we don't need to emit anything.
-        // Clear the batch and return.
-        mapUpdateBatcher.pendingUpdates = {};
-        mapUpdateBatcher.capturedMapId = null;
-        if (mapUpdateBatcher.timeout) {
-          clearTimeout(mapUpdateBatcher.timeout);
-          mapUpdateBatcher.timeout = null;
-        }
+        // Clear queue if we disconnected or left multiplayer
+        mapUpdateBatcher.outgoingQueue = [];
         return;
       }
 
-      // If we are receiving an update, wait for it to finish
+      // If we are currently receiving a map update from other clients, delay sending
       if (window._isReceivingMapUpdate) {
+        // Wait 50ms and try again
+        setTimeout(() => {
+          mapUpdateBatcher.isProcessingQueue = false;
+          mapUpdateBatcher.processQueue();
+        }, 50);
         return;
       }
 
-      // Continue with emission...
-      const targetMapId = overrideTargetMapId || mapUpdateBatcher.capturedMapId;
-      const dataHash = JSON.stringify({ updates, targetMapId }); 
-      
+      const sequence = ++batchSequenceNumber;
+      const emitData = {
+        roomId: gameStore.multiplayerRoom?.id,
+        mapUpdates: nextBatch.updates,
+        targetMapId: nextBatch.targetMapId,
+        sequence: sequence
+      };
+
+      const dataHash = JSON.stringify({ updates: nextBatch.updates, targetMapId: nextBatch.targetMapId });
       if (dataHash === mapUpdateBatcher.lastEmittedData) {
-        mapUpdateBatcher.pendingUpdates = {};
+        // Skip duplicate
+        mapUpdateBatcher.outgoingQueue.shift();
         return;
       }
 
-      mapUpdateBatcher.isEmitting = true;
-      mapUpdateBatcher.pendingUpdates = {};
-      mapUpdateBatcher.capturedMapId = null; 
-      
-      if (mapUpdateBatcher.timeout) {
-        clearTimeout(mapUpdateBatcher.timeout);
-        mapUpdateBatcher.timeout = null;
-      }
-      
       mapUpdateBatcher.lastEmitTime = Date.now();
       mapUpdateBatcher.lastEmittedData = dataHash;
 
-      const { default: useMapStore } = await import('./mapStore');
-      const mapStore = useMapStore.getState();
-
-      // CRITICAL FIX: Use mapId captured when updates were queued (capturedMapId)
-      // If capturedMapId is missing (e.g. emitted manually), fallback to currentMapId
-      const mapStoreMapId = mapStore.currentMapId;
-
-      // CRITICAL: If targetMapId is missing and we're not sure which map it belongs to, 
-      // DO NOT default to 'default' if we are in the middle of a switch.
-      const finalTargetMapId = targetMapId || mapStoreMapId;
-
-      if (!finalTargetMapId) {
-        console.error('âŒ [Batcher] CRITICAL ERROR: Could not resolve targetMapId! Dropping update.');
-        return;
+      if (nextBatch.updates.terrainData || nextBatch.updates.wallData || nextBatch.updates.fogOfWarPaths) {
+        console.log(`🌍 [Batcher] Emitting sequence ${sequence} to map: ${emitData.targetMapId}`);
       }
 
-      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket?.connected && gameStore.isGMMode) {
-        // IMPORTANT: Only emit if we're not currently receiving an update to avoid sync loops
-        if (!window._isReceivingMapUpdate) {
-          const sequence = ++batchSequenceNumber;
-          const emitData = {
-            roomId: gameStore.multiplayerRoom?.id, // CRITICAL: Include roomId for server validation
-            mapUpdates: updates,
-            targetMapId: finalTargetMapId, // CRITICAL: This MUST be present
-            sequence: sequence
-          };
+      // Send with socket.io callback acknowledgment
+      let ackReceived = false;
 
-          // CRITICAL FIX: Ensure targetMapId is never a string 'undefined' or empty
-          if (finalTargetMapId === 'undefined' || !finalTargetMapId) {
-            console.error('âŒ [Batcher] CRITICAL ERROR: finalTargetMapId is invalid!', finalTargetMapId);
-            return; // Drop rather than leak
+      // Promise wrapper for socket emit with a timeout fallback
+      const sendPromise = new Promise((resolve) => {
+        const timeoutId = setTimeout(() => {
+          if (!ackReceived) {
+            console.warn(`[Batcher] Sequence ${sequence} acknowledgment timed out after 500ms. Proceeding.`);
+            resolve();
           }
+        }, 500);
 
-          if (updates.terrainData || updates.wallData || updates.fogOfWarPaths) {
-            console.log(`ðŸŒ [Batcher] Emitting ${Object.keys(updates).join(', ')} to map: ${emitData.targetMapId} (Captured: ${targetMapId}, Store: ${mapStoreMapId})`);
-            // Explicitly log the packet structure to verify presence of targetMapId
-            console.log('ðŸ“¤ [Batcher] Packet Structure:', {
-              roomId: emitData.roomId,
-              hasUpdates: !!emitData.mapUpdates,
-              targetMapId: emitData.targetMapId,
-              sequence: emitData.sequence
-            });
+        gameStore.multiplayerSocket.emit('map_update', emitData, (response) => {
+          ackReceived = true;
+          clearTimeout(timeoutId);
+          if (response && !response.success) {
+            console.error(`[Batcher] Server failed to process sequence ${sequence}:`, response.error);
           }
-
-          gameStore.multiplayerSocket.emit('map_update', emitData);
-
-          // CRITICAL FIX: Track the last emitted map ID to use as a fallback for the next batch
-          mapUpdateBatcher.lastEmittedMapId = finalTargetMapId;
-        } else {
-          console.log(`[Batcher] â¸ï¸ Skipped emit - receiving update`);
-        }
-      } else {
-        console.log(`[Batcher] â¸ï¸ Skipped emit - not multiplayer/connected/GM`, {
-          isInMultiplayer: gameStore.isInMultiplayer,
-          connected: gameStore.multiplayerSocket?.connected,
-          isGMMode: gameStore.isGMMode
+          resolve();
         });
-      }
+      });
+
+      await sendPromise;
+
+      // Remove the successfully sent/processed batch from the queue
+      mapUpdateBatcher.outgoingQueue.shift();
+
     } catch (error) {
-      console.error('Failed to emit map update:', error);
-      mapUpdateBatcher.lastEmittedData = null; // Reset on error to allow retry
+      console.error('[Batcher] Error in processQueue:', error);
+      // Wait a bit before retrying on error to avoid hot loops
+      await new Promise(r => setTimeout(r, 200));
     } finally {
-      mapUpdateBatcher.isEmitting = false;
-      // If more updates arrived during emission, trigger another emit shortly
-      if (Object.keys(mapUpdateBatcher.pendingUpdates).length > 0 && !mapUpdateBatcher.timeout) {
-        mapUpdateBatcher.timeout = setTimeout(() => {
-          // CRITICAL FIX: Pass the last emitted map ID to the next batch 
-          // if it was triggered by updates that arrived during the previous emit
-          mapUpdateBatcher.emit(mapUpdateBatcher.lastEmittedMapId);
-        }, 50);
+      mapUpdateBatcher.isProcessingQueue = false;
+      // Continue processing the queue asynchronously if there are items left
+      if (mapUpdateBatcher.outgoingQueue.length > 0) {
+        setTimeout(() => {
+          mapUpdateBatcher.processQueue();
+        }, 10);
+      } else {
+        mapUpdateBatcher.isEmitting = false;
       }
     }
   }
@@ -1029,6 +1012,8 @@ const useLevelEditorStore = create((set, get) => ({
       case 'grid':
         set({ showGridLines: !state.showGridLines });
         break;
+      default:
+        break;
     }
   },
 
@@ -1152,22 +1137,6 @@ const useLevelEditorStore = create((set, get) => ({
 
   setFogOfWarData: (fogOfWarData) => {
     set({ fogOfWarData: fogOfWarData || {} });
-  },
-
-  setExploredAreas: (exploredAreas) => {
-    set({ exploredAreas: exploredAreas || {} });
-  },
-
-  setLightSources: (lightSources) => {
-    set({ lightSources: lightSources || {} });
-  },
-
-  setDynamicFogEnabled: (enabled) => {
-    set({ dynamicFogEnabled: !!enabled });
-  },
-
-  setRespectLineOfSight: (enabled) => {
-    set({ respectLineOfSight: !!enabled });
   },
 
   setFogOfWarPaths: (paths) => {
@@ -2199,7 +2168,6 @@ const useLevelEditorStore = create((set, get) => ({
 
   // Calculate all revealed areas based on current tokens and settings
   updateAllRevealedAreas: () => {
-    const state = get();
     // This will be called by DynamicFogManager
     // Implementation handled in DynamicFogManager component
   },
@@ -3110,8 +3078,8 @@ const useLevelEditorStore = create((set, get) => ({
   // CRITICAL FIX: Add tile change detection to prevent redundant updates
   // This prevents unnecessary socket emissions and terrain flickering when painting
   paintTerrainBrush: (gridX, gridY, terrainType, brushSize = 1, mapId = null) => {
-    // CRITICAL GUARD: Prevent painting while map is switching
-    if (typeof window !== 'undefined' && window._isMapSwitching) return;
+    // CRITICAL GUARD: Prevent painting while map is switching or processing incoming update
+    if (typeof window !== 'undefined' && (window._isMapSwitching || window._isReceivingMapUpdate)) return;
 
     const state = get();
     const newTerrainData = { ...state.terrainData };
@@ -3167,8 +3135,8 @@ const useLevelEditorStore = create((set, get) => ({
 
   // NEW: paintTerrainLine to handle interpolated painting in a single state update
   paintTerrainLine: (x1, y1, x2, y2, terrainType, brushSize = 1, mapId = null) => {
-    // CRITICAL GUARD: Prevent painting while map is switching
-    if (typeof window !== 'undefined' && window._isMapSwitching) return;
+    // CRITICAL GUARD: Prevent painting while map is switching or processing incoming update
+    if (typeof window !== 'undefined' && (window._isMapSwitching || window._isReceivingMapUpdate)) return;
 
     const state = get();
     const newTerrainData = { ...state.terrainData };
@@ -3237,6 +3205,8 @@ const useLevelEditorStore = create((set, get) => ({
 
   // NEW: removeTerrainLine to handle interpolated erasing in a single state update
   removeTerrainLine: (x1, y1, x2, y2, brushSize = 1, mapId = null) => {
+    // CRITICAL GUARD: Prevent painting while map is switching or processing incoming update
+    if (typeof window !== 'undefined' && (window._isMapSwitching || window._isReceivingMapUpdate)) return;
     const state = get();
     const newTerrainData = { ...state.terrainData };
     const removedTiles = {};
@@ -3425,6 +3395,8 @@ const useLevelEditorStore = create((set, get) => ({
         break;
       case 'backward':
         objects.splice(Math.max(0, index - 1), 0, obj);
+        break;
+      default:
         break;
     }
     

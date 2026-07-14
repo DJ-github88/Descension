@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Spell Templates - Predefined templates for quick spell creation
  * These templates provide starting points for different spell types across classes.
  */

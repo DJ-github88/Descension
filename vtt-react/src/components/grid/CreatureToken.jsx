@@ -29,33 +29,13 @@ import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { isPointInPolygon, getPolygonBBox } from '../../utils/VisibilityCalculations';
-import { feetToTiles } from '../../utils/VisibilityCalculations';
 import CreatureTooltip from '../tooltips/CreatureTooltip';
 
 // Helper function to calculate ability modifier (D&D style)
-const calculateModifier = (abilityScore) => {
-  return Math.floor((abilityScore - 10) / 2);
-};
 
 // Helper function to format modifier for display
-const formatModifier = (mod) => {
-  return mod >= 0 ? `+${mod}` : `${mod}`;
-};
 
 // Helper function to get quality color
-const getQualityColor = (quality) => {
-  const qualityColors = {
-    poor: '#9d9d9d',
-    common: '#ffffff',
-    uncommon: '#1eff00',
-    rare: '#0070dd',
-    epic: '#a335ee',
-    legendary: '#ff8000',
-    artifact: '#e6cc80'
-  };
-
-  return qualityColors[quality?.toLowerCase()] || '#ffffff';
-};
 
 // Helper function to log movement to combat chat
 const logMovementToCombat = (tokenId, creatures, distance, startPos, endPos) => {
@@ -137,7 +117,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [pendingControlOffer, setPendingControlOffer] = useState(null); // { tokenId, tokenName, offeredBy }
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState(null);
-  const [mouseDownPosition, setMouseDownPosition] = useState(null);
+  const [ setMouseDownPosition] = useState(null);
   const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
 
 
@@ -409,8 +389,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const gridOffsetX = useGameStore(state => state.gridOffsetX);
   const gridOffsetY = useGameStore(state => state.gridOffsetY);
   const gridSize = useGameStore(state => state.gridSize);
-  const tokenGridSize = gridSize;
-  const isViewingFrom = viewingFromToken && (
+    const isViewingFrom = viewingFromToken && (
     (viewingFromToken.type === 'creature' && (viewingFromToken.creatureId === token.creatureId || viewingFromToken.id === token.id)) ||
     (viewingFromToken.id === token.id)
   );
@@ -470,8 +449,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       }
 
       // Use visibilityPolygon from scope (extracted via hook for reactivity)
-      const levelEditorStore = useLevelEditorStore.getState();
-
+      
       // FIXED: Include a stable identifier for the vision area content to detect changes even if size is same
       const visionAreaKey = visibleArea && visibleArea.length > 0
         ? `${visibleArea[0]}_${visibleArea[visibleArea.length - 1]}_${visibleArea.length}`
@@ -1067,8 +1045,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const healthPercentage = useMemo(() => {
     if (!token || !creature) return 0;
     // Force recalculation when forceUpdate changes
-    const _ = forceUpdate;
-    return ((token.state?.currentHp || 0) / (creature.stats?.maxHp || 1)) * 100;
+        return ((token.state?.currentHp || 0) / (creature.stats?.maxHp || 1)) * 100;
   }, [token?.state?.currentHp, creature?.stats?.maxHp, forceUpdate]);
   // Handle context menu
   const handleContextMenu = (e) => {
@@ -1337,7 +1314,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (addCombatNotification) {
       addCombatNotification({
         type: 'system',
-        content: `ğŸ - ï¸ ${creatureName} command bestowed to ${playerName}`,
+        content: `ï¿½ - ï¿½ï¸ ${creatureName} command bestowed to ${playerName}`,
         timestamp: new Date().toISOString()
       });
     }
@@ -1347,7 +1324,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Handle view creature details (Inspect)
   const [showDetailsWindow, setShowDetailsWindow] = useState(false);
-  const [activeTab, setActiveTab] = useState('stats');
+  const [ setActiveTab] = useState('stats');
 
   const handleViewDetails = () => {
     // Close the context menu first
@@ -1362,10 +1339,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowDetailsWindow(false);
   };
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
-
+  
   // Handle duplicate token
   const handleDuplicateToken = () => {
     duplicateToken(tokenId);
@@ -1896,12 +1870,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
 
   // Determine health bar color based on percentage
-  const getHealthBarColor = (percentage) => {
-    if (percentage > 60) return '#506e30';
-    if (percentage > 30) return '#7a6812';
-    return '#8b3a2a';
-  };
-
+  
   // Handle mouse down for dragging or combat selection
   const handleMouseDown = (e) => {
     if (e.button !== 0) return; // Only left mouse button
@@ -4000,7 +3969,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             {/* Decorative top border */}
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(to right, transparent, #8b4513, #d4af37, #8b4513, transparent)', borderRadius: '12px 12px 0 0' }} />
 
-            <div style={{ fontSize: '40px', marginBottom: '12px' }}>ğŸ - ¡ï¸</div>
+            <div style={{ fontSize: '40px', marginBottom: '12px' }}>ï¿½ - ï¿½ï¸</div>
             <h2 style={{ margin: '0 0 8px', fontSize: '22px', color: '#5a1e12', textTransform: 'uppercase', letterSpacing: '1px' }}>
               Command Bestowed
             </h2>

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { getFirstTool } from './editorTools';
 
 /**
  * Custom hook for editor keyboard shortcuts.
@@ -110,6 +109,8 @@ export const useEditorKeyboard = ({
                         selectedDrawings.forEach(id => removeDrawingPath(id));
                         clearDrawingSelection();
                     }
+                    break;
+                default:
                     break;
             }
         };

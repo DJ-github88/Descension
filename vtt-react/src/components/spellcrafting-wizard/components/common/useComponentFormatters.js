@@ -52,6 +52,9 @@ const useComponentFormatters = ({ spell, library, className }) => {
               });
             }
             break;
+
+          default:
+            break;
         }
       });
     }
@@ -282,7 +285,7 @@ const useComponentFormatters = ({ spell, library, className }) => {
             let mechanicsText = '';
 
             // Determine match type and requirements
-            const matchType = effect.matchType || 'count';
+
             const requiredToxics = effect.requiredToxicTypes || {};
             const requiredToxicNames = Object.keys(requiredToxics).map(toxicId => {
               const toxicName = toxicId.charAt(0).toUpperCase() + toxicId.slice(1);

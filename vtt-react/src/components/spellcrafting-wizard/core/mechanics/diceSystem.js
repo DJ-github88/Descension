@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Dice System - Core mechanics for dice notation parsing and manipulation
  *
  * This module provides complete utilities for working with dice notation,
@@ -46,7 +46,7 @@ export const DICE_TYPES = {
   const cleanNotation = notation.replace(/\s+/g, '');
 
   // Handle complex expressions with operators and parentheses
-  if (/[\+\-\*\/\(\)]/.test(cleanNotation)) {
+  if (/[-+*/()]/.test(cleanNotation)) {
    return parseComplexDiceExpression(cleanNotation);
   }
 
@@ -193,7 +193,7 @@ export const DICE_TYPES = {
   const cleanNotation = notation.replace(/\s+/g, '');
 
   // Handle complex expressions
-  if (/[\+\-\*\/\(\)]/.test(cleanNotation)) {
+  if (/[-+*/()]/.test(cleanNotation)) {
    try {
     const tokens = tokenizeDiceExpression(cleanNotation);
     parseTokensToAST(tokens);
@@ -1158,7 +1158,7 @@ export const DICE_TYPES = {
 
   for (const point of data) {
    const barLength = Math.round(point.percentage * scale);
-   const bar = '#'.repeat(barLength);
+
    chart += `${point.outcome.toString().padStart(3)}: ${'█'.repeat(barLength)} ${point.percentage.toFixed(2)}%\n`;
   }
 
@@ -1182,21 +1182,19 @@ export const DICE_TYPES = {
 
   // Variance preferences affect dice size and count
   let preferredDiceSizes;
-  let preferredDiceCounts;
 
   switch (targetVariance) {
-   case 'low':
-    preferredDiceSizes = [4, 6, 8];
-    preferredDiceCounts = [3, 4, 5, 6];
-    break;
+    case 'low':
+     preferredDiceSizes = [4, 6, 8];
+     break;
    case 'high':
     preferredDiceSizes = [10, 12, 20];
-    preferredDiceCounts = [1, 2, 3];
+
     break;
    case 'medium':
    default:
     preferredDiceSizes = [6, 8, 10];
-    preferredDiceCounts = [2, 3, 4];
+
     break;
   }
 
@@ -1416,10 +1414,10 @@ export const DICE_TYPES = {
    maxDiceCount = 20,
    explodingDice = false,
    explodingDiceType = 'reroll_add',
-   cardCritResolution = 'draw_add',
-   extraCardDraw = 2,
-   coinCritResolution = 'flip_add',
-   extraCoinFlips = 3
+
+
+
+
   } = options;
 
   const parsed = parseDiceNotation(baseNotation);
@@ -1922,10 +1920,9 @@ export const DICE_TYPES = {
    allowCustomDice = true,
    maxDiceCount = 100,
    maxSides = 1000,
-   includeAdvancedFunctions = true,
-   defaultNotation = '1d20',
-   formatOptions = {}
-  } = config;
+
+    defaultNotation = '1d20'
+   } = config;
 
   return {
    builder: new DiceBuilder(defaultNotation),

@@ -1,11 +1,11 @@
-﻿import { getStore } from './storeRegistry';
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
-import { ensureArray, safeLog, safeGet } from '../utils/prodDevParity';
+import { ensureArray, safeGet } from '../utils/prodDevParity';
 import { getIconUrl } from '../utils/assetManager';
 import '../styles/item-notification.css';
 
@@ -588,15 +588,6 @@ const useGridItemStore = create((set, get) => ({
      } else {
       // For simple currency with enhanced formatting
       const currencyType = itemToUse.currencyType || 'gold';
-      const currencyColors = {
-       'platinum': '#e5e4e2',
-       'gold': '#ffd700',
-       'silver': '#c0c0c0',
-       'copper': '#cd7f32'
-      };
-
-      const currencyColor = currencyColors[currencyType] || '#ffd700';
-
       notificationHTML = `
         <div class="currency-notification-content">
          <img src="${getIconUrl(iconId, 'items')}" alt="Currency" class="currency-coin-icon coin-${currencyType}" />

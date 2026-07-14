@@ -1,4 +1,4 @@
-﻿// Character management page - view and manage all characters
+// Character management page - view and manage all characters
 
 import React, { useState, useEffect } from 'react';
 

@@ -15,11 +15,7 @@ const MayhemModifiersResourceBar = ({
   renderStatusFlavor,
 }) => {
   const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-    showModifierMenu,
-    chaosWeaverHoverSection,
+      showModifierMenu
   } = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
@@ -37,12 +33,11 @@ const MayhemModifiersResourceBar = ({
         // Calculate bar fill percentage
         const modifierPercentage = (modifierCount / maxModifiers) * 100;
         const intensity = Math.min(modifierCount / maxModifiers, 1);
-        const vortexScale = 1 + (intensity * 0.3); // Grows up to 30% larger
-        const spinSpeed = 3 - (intensity * 1.5); // Spins faster with more modifiers
+         // Grows up to 30% larger
+         // Spins faster with more modifiers
 
         // Determine specialization colors (if available)
-        const specColors = finalConfig.visual?.specializations || {};
-        const defaultColors = {
+                const defaultColors = {
             vortex: finalConfig.visual?.vortexColor || '#7C3AED',
             glow: finalConfig.visual?.glowColor || '#D946EF',
             active: finalConfig.visual?.activeColor || '#9333EA'

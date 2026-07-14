@@ -1,8 +1,6 @@
 import useCombatStore from '../combatStore';
 import { registerStore } from '../storeRegistry';
-import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { processTurnBasedCooldowns } from '../../components/spellcrafting-wizard/core/mechanics/cooldownSystem';
-import { processOverTimeEffectsForTarget } from '../../services/effectProcessingService';
 
 // Mock dependencies
 jest.mock('../../services/effectProcessingService', () => ({

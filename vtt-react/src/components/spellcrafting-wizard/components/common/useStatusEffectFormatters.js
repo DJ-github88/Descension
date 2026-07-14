@@ -1,4 +1,4 @@
-﻿import { cleanFormula, extractDamageTypeFromResistanceName, getThematicResistanceDescription, normalizeSaveType } from './spellFormatterUtils';
+import { cleanFormula, extractDamageTypeFromResistanceName, getThematicResistanceDescription, normalizeSaveType } from './spellFormatterUtils';
 import { GLOBAL_STAT_MAP, mapStatKeyToLabel, getAdvantageDisadvantageText } from './UnifiedSpellCard';
 
 const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThrow }) => {
@@ -468,7 +468,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
     const isAbsorptionStat = statName.includes('absorption');
 
     // Check for incomplete stat data and show warning
-    const hasIncompleteName = !stat.name || stat.name.toLowerCase().includes('stat') && !stat.name.toLowerCase().includes('strength') && !stat.name.toLowerCase().includes('agility');
+    const hasIncompleteName = !stat.name || (stat.name.toLowerCase().includes('stat') && !stat.name.toLowerCase().includes('strength') && !stat.name.toLowerCase().includes('agility'));
 
     const rawStatId = (stat.name || stat.id || '').toLowerCase();
     const statNameFromMap = GLOBAL_STAT_MAP[rawStatId] || stat.name || 'Stat Modifier';
@@ -550,7 +550,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
       statDisplay.class = 'vulnerable';
      } else {
       // Create thematic description for any other percentage values
-      const sign = percentage >= 0 ? '' : '';
+
       if (percentage > 0) {
        // Positive resistance values - create thematic descriptions
        if (percentage < 25) {
@@ -573,7 +573,7 @@ const useStatusEffectFormatters = ({ spell, library, categories, formatSavingThr
     } else {
      // Enhanced standard number or percentage display with thematic descriptions
      const magnitude = stat.magnitude || 0;
-     const sign = magnitude >= 0 ? '+' : '';
+
      const isPercentage = stat.magnitudeType === 'percentage';
 
      if (isPercentage) {

@@ -18,24 +18,15 @@ const FortunePointsResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    localFortunePoints,
-    gamblerSpec,
-    showFPMenu,
-    showSpecMenu,
-    gamblerHoverSection,
-    menuPosition
+      localFortunePoints,
+      showFPMenu
   } = gamblerState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
+    const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
   const setShowFPMenu = (value) => setGamblerState(prev => ({ ...prev, showFPMenu: value }));
   const setGamblerHoverSection = (value) => setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
 

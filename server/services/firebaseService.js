@@ -1,6 +1,5 @@
 // Firebase Admin SDK service for server-side operations
 const admin = require('firebase-admin');
-const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const logger = require('./logger');
 
@@ -89,7 +88,7 @@ db = initializeFirebase();
  * @param {string} roomId - Room ID
  * @returns {Promise<Object|null>} - Room data or null
  */
-const getRoomData = async (roomId) => {
+const getRoomData = async(roomId) => {
   if (!db) {
     logger.warn('⚠️ getRoomData called but Firebase is not initialized. Permanent rooms cannot be retrieved.');
     throw new Error('Database connection error: Firebase Admin SDK not correctly initialized. Please check server logs for service account configuration.');
@@ -142,7 +141,7 @@ const getRoomData = async (roomId) => {
     if (!mapsSnapshot.empty) {
       roomData.gameState.maps = roomData.gameState.maps || {};
       mapsSnapshot.docs.forEach(doc => {
-        if (doc.id === 'current') return; // Skip the metadata/global fragment
+        if (doc.id === 'current') {return;} // Skip the metadata/global fragment
         roomData.gameState.maps[doc.id] = doc.data();
       });
 
@@ -198,7 +197,7 @@ const getRoomData = async (roomId) => {
  * @param {Object} roomData - Full room data
  * @returns {Promise<boolean>} - Success status
  */
-const saveRoomDataSplit = async (roomId, roomData) => {
+const saveRoomDataSplit = async(roomId, roomData) => {
   if (!db) {
     logger.debug('Firebase not initialized, skipping split save (local fallback should handle)', { roomId });
     return true;
@@ -284,7 +283,7 @@ const saveRoomDataSplit = async (roomId, roomData) => {
  * @param {Object} mapData - Map data to update
  * @ @returns {Promise<boolean>} - Success status
  */
-const updateMapData = async (roomId, mapId, mapData) => {
+const updateMapData = async(roomId, mapId, mapData) => {
   if (!db) {
     return false;
   }
@@ -305,7 +304,7 @@ const updateMapData = async (roomId, mapId, mapData) => {
  * @param {string} mapId - Map ID to get
  * @returns {Promise<Object|null>} - Map data or null
  */
-const getMapData = async (roomId, mapId) => {
+const getMapData = async(roomId, mapId) => {
   if (!db) {
     logger.debug('Firebase not initialized, using in-memory rooms only');
     return null;
@@ -335,7 +334,7 @@ const getMapData = async (roomId, mapId) => {
  * @param {Object} gameState - Game state update
  * @returns {Promise<boolean>} - Success status
  */
-const updateRoomGameState = async (roomId, gameState) => {
+const updateRoomGameState = async(roomId, gameState) => {
   if (!db) {
     return true; // Allow caller to proceed (local persistence will handle in dev)
   }
@@ -395,7 +394,7 @@ const updateRoomGameState = async (roomId, gameState) => {
  * @param {Object} roomData - Room data
  * @returns {Promise<boolean>} - Success status
  */
-const saveRoomData = async (roomId, roomData) => {
+const saveRoomData = async(roomId, roomData) => {
   if (!db) {
     logger.debug('Firebase not initialized, room data not persisted');
     return false;
@@ -445,7 +444,7 @@ const saveRoomData = async (roomId, roomData) => {
  * @param {Object} message - Chat message
  * @returns {Promise<boolean>} - Success status
  */
-const addChatMessage = async (roomId, message) => {
+const addChatMessage = async(roomId, message) => {
   if (!db) {
     return false;
   }
@@ -481,7 +480,7 @@ const addChatMessage = async (roomId, message) => {
  * @param {boolean} isActive - Active status
  * @returns {Promise<boolean>} - Success status
  */
-const setRoomActiveStatus = async (roomId, isActive) => {
+const setRoomActiveStatus = async(roomId, isActive) => {
   if (!db) {
     return false;
   }
@@ -503,7 +502,7 @@ const setRoomActiveStatus = async (roomId, isActive) => {
  * @param {string} roomId - Room ID
  * @returns {Promise<boolean>} - Success status
  */
-const deleteRoom = async (roomId) => {
+const deleteRoom = async(roomId) => {
   if (!db) {
     return false;
   }
@@ -534,7 +533,7 @@ const deleteRoom = async (roomId) => {
  * @param {string} userId - User ID (owner of the character)
  * @returns {Promise<boolean>} - Success status
  */
-const saveCharacterDocument = async (characterId, characterData, userId) => {
+const saveCharacterDocument = async(characterId, characterData, userId) => {
   if (!db) {
     logger.debug('Firebase not initialized, character document not persisted');
     return false;
@@ -610,7 +609,7 @@ const saveCharacterDocument = async (characterId, characterData, userId) => {
  * @param {string} userId - User ID
  * @returns {Promise<Object|null>} - User data or null
  */
-const getUserData = async (userId) => {
+const getUserData = async(userId) => {
   if (!db) {
     return null;
   }
@@ -632,7 +631,7 @@ const getUserData = async (userId) => {
  * @param {string} idToken - Firebase ID token
  * @returns {Promise<Object|null>} - Decoded token or null
  */
-const verifyIdToken = async (idToken) => {
+const verifyIdToken = async(idToken) => {
   if (!admin.apps.length) {
     return null;
   }
@@ -652,7 +651,7 @@ const verifyIdToken = async (idToken) => {
  * @param {Object} nestedCharacters - Characters from room.gameState.characters
  * @returns {Promise<number>} - Number of characters migrated
  */
-const migrateNestedCharacters = async (roomId, nestedCharacters) => {
+const migrateNestedCharacters = async(roomId, nestedCharacters) => {
   if (!db || !nestedCharacters) {
     return 0;
   }
@@ -690,7 +689,7 @@ const migrateNestedCharacters = async (roomId, nestedCharacters) => {
  * Load persistent rooms from Firestore on server startup
  * @returns {Promise<Array>} - Array of room data
  */
-const loadPersistentRooms = async () => {
+const loadPersistentRooms = async() => {
   if (!db) {
     logger.debug('Firebase not initialized, skipping persistent room loading');
     return [];
@@ -714,7 +713,7 @@ const loadPersistentRooms = async () => {
         delete roomData.password;
       }
       // Ensure passwordHash exists (or null for no password)
-      if (!roomData.hasOwnProperty('passwordHash')) {
+      if (!Object.prototype.hasOwnProperty.call(roomData, 'passwordHash')) {
         roomData.passwordHash = null;
       }
 
@@ -743,7 +742,7 @@ const loadPersistentRooms = async () => {
           if (!mapsSnapshot.empty) {
             gameState.maps = gameState.maps || {};
             mapsSnapshot.docs.forEach(mapDoc => {
-              if (mapDoc.id === 'current') return;
+              if (mapDoc.id === 'current') {return;}
               gameState.maps[mapDoc.id] = mapDoc.data();
             });
           }
@@ -808,8 +807,8 @@ module.exports = {
   verifyIdToken,
   loadPersistentRooms,
   saveCharacterDocument,
-  validateConnection: async () => {
-    if (!db) return { success: false, message: 'Firebase not initialized' };
+  validateConnection: async() => {
+    if (!db) {return { success: false, message: 'Firebase not initialized' };}
     try {
       const testRef = db.collection('_server_health_check').doc('write_test');
       await testRef.set({

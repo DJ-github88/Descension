@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import MythrillWindow from './MythrillWindow';
-import '../../styles/campaign-manager.css';
 import LibraryBrowserModal, { LIBRARY_TYPES } from '../account/LibraryBrowserModal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
@@ -83,12 +82,17 @@ function CampaignManagerWindow({ isOpen, onClose }) {
     const { adjustedPosition, tooltipRef: positionTooltipRef } = useTooltipPosition(mousePosition, !!(hoveredItem || hoveredCreature || hoveredSpell));
 
     // Shareables state
-    const { shareables, addShareable, updateShareable, removeShareable, showToPlayers } = useShareableStore();
-    const [newShareableType, setNewShareableType] = useState('text');
+    const {
+        shareables,
+        addShareable,
+        removeShareable,
+        showToPlayers
+    } = useShareableStore();
+    const [] = useState('text');
     const [newShareableContent, setNewShareableContent] = useState('');
     const [newShareableTitle, setNewShareableTitle] = useState('');
     const [newShareableBackground, setNewShareableBackground] = useState('parchment');
-    const [editingShareable, setEditingShareable] = useState(null);
+    const [,,] = useState(null);
     const shareableFileInputRef = useRef(null);
     const tooltipDelayRef = useRef(null);
     const tooltipRef = useRef(null);

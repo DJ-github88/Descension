@@ -1,4 +1,4 @@
-﻿// Polyfills for browser compatibility
+// Polyfills for browser compatibility
 
 // Immediate process polyfill - must be first to avoid circular references
 (function() {
@@ -115,6 +115,7 @@
 
 
 // Additional polyfills for older browsers
+/* eslint-disable no-extend-native */
 if (!Array.prototype.includes) {
   Array.prototype.includes = function(searchElement, fromIndex) {
     return this.indexOf(searchElement, fromIndex) !== -1;
@@ -134,6 +135,7 @@ if (!String.prototype.includes) {
     }
   };
 }
+/* eslint-enable no-extend-native */
 
 // Drag and Drop API polyfills for better browser compatibility
 (function() {

@@ -1,4 +1,4 @@
-﻿import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';

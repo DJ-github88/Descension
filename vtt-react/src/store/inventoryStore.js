@@ -4,10 +4,8 @@ import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { getInventoryGridDimensions } from '../utils/characterUtils';
 import {
-    convertLegacyItemToShape,
     getShapeBounds,
     createRectangularShape,
-    isCellOccupied,
     getOccupiedCells,
     rotateShape
 } from '../utils/itemShapeUtils';
@@ -926,10 +924,6 @@ const useInventoryStore = create(persist((set, get) => ({
         if (!item) return { items: state.items };
 
         // Check if the new position is valid for this item
-        const width = item.width || 1;
-        const height = item.height || 1;
-        const rotation = item.rotation || 0;
-
         if (!isValidPosition(state.items, newPosition.row, newPosition.col, item, itemId)) {
             return { items: state.items };
         }
@@ -1120,10 +1114,6 @@ const useInventoryStore = create(persist((set, get) => ({
         };
 
         // Find an empty position for the new item
-        const width = item.width || 1;
-        const height = item.height || 1;
-        const rotation = item.rotation || 0;
-
         const currentGridSize = getCurrentGridSize();
         const emptyPosition = findEmptyPosition(state.items, currentGridSize, item);
         if (!emptyPosition) {

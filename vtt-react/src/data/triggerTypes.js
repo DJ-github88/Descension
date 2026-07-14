@@ -1,4 +1,4 @@
-﻿export const TRIGGER_TYPES = {
+export const TRIGGER_TYPES = {
     COMBAT: {
         on_hit: {
             name: 'On Hit',

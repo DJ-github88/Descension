@@ -310,7 +310,7 @@ export function registerTokenHandlers(ctx) {
     });
 
     socket.on('creature_added', (data) => {
-      const { id, creatureId, position, velocity, createdBy, createdByName, mapId, token, state } = data;
+      const { id, creatureId, position, createdBy, mapId, token, state } = data;
 
       // Skip if we are the one who added it (GM adding creature)
       if (createdBy === socket?.id) return;

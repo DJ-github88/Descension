@@ -38,19 +38,19 @@ const connected = (socket) => new Promise((resolve, reject) => {
   socket.once('connect', () => { clearTimeout(t); resolve(); });
 });
 
-describe('Multiplayer integration (real socket.io transport)', function () {
+describe('Multiplayer integration (real socket.io transport)', function() {
   this.timeout(15000);
 
   let server;
   let opened;
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     server = createIntegrationServer();
     await server.start();
     opened = [];
   });
 
-  afterEach(async () => {
+  afterEach(async() => {
     for (const s of opened) {
       try { s.disconnect(); } catch (_) { /* noop */ }
     }
@@ -64,7 +64,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     return c;
   };
 
-  it('rejects create_room from a guest socket and emits auth_error', async () => {
+  it('rejects create_room from a guest socket and emits auth_error', async() => {
     const guest = openClient({ guest: true });
     await connected(guest);
 
@@ -78,7 +78,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     expect(server.rooms.size).to.equal(0);
   });
 
-  it('creates a room for an authenticated GM and emits room_created + room_joined', async () => {
+  it('creates a room for an authenticated GM and emits room_created + room_joined', async() => {
     const gm = openClient();
     await connected(gm);
 
@@ -99,7 +99,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     expect(server.rooms.has(created.room.id)).to.equal(true);
   });
 
-  it('broadcasts token_created to every room member (convergence)', async () => {
+  it('broadcasts token_created to every room member (convergence)', async() => {
     const gm = openClient();
     await connected(gm);
 
@@ -129,7 +129,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     expect(stored.gameState.maps.default.tokens[evt.token.id]).to.exist;
   });
 
-  it('rejects token_created for a non-member of the room', async () => {
+  it('rejects token_created for a non-member of the room', async() => {
     const gm = openClient();
     await connected(gm);
 
@@ -153,7 +153,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     expect(Object.keys(server.rooms.get(room.id).gameState.tokens).length).to.equal(0);
   });
 
-  describe('tokens_delta (ENABLE_TOKENS_DELTA=true)', function () {
+  describe('tokens_delta (ENABLE_TOKENS_DELTA=true)', function() {
     let origEnv;
 
     before(() => {
@@ -169,7 +169,7 @@ describe('Multiplayer integration (real socket.io transport)', function () {
       }
     });
 
-    it('emits tokens_delta instead of token_created when delta sync is enabled', async () => {
+    it('emits tokens_delta instead of token_created when delta sync is enabled', async() => {
       const gm = openClient();
       await connected(gm);
 
@@ -201,8 +201,8 @@ describe('Multiplayer integration (real socket.io transport)', function () {
     });
   });
 
-  describe('room_joined carries deltaSyncCapabilities', function () {
-    it('reports tokens=true when ENABLE_TOKENS_DELTA=true', async () => {
+  describe('room_joined carries deltaSyncCapabilities', function() {
+    it('reports tokens=true when ENABLE_TOKENS_DELTA=true', async() => {
       const origEnv = process.env.ENABLE_TOKENS_DELTA;
       process.env.ENABLE_TOKENS_DELTA = 'true';
       try {
@@ -216,12 +216,12 @@ describe('Multiplayer integration (real socket.io transport)', function () {
         expect(room).to.have.property('deltaSyncCapabilities');
         expect(room.deltaSyncCapabilities).to.have.property('tokens', true);
       } finally {
-        if (origEnv === undefined) delete process.env.ENABLE_TOKENS_DELTA;
-        else process.env.ENABLE_TOKENS_DELTA = origEnv;
+        if (origEnv === undefined) {delete process.env.ENABLE_TOKENS_DELTA;}
+        else {process.env.ENABLE_TOKENS_DELTA = origEnv;}
       }
     });
 
-    it('reports tokens=false when ENABLE_TOKENS_DELTA is unset', async () => {
+    it('reports tokens=false when ENABLE_TOKENS_DELTA is unset', async() => {
       const origEnv = process.env.ENABLE_TOKENS_DELTA;
       delete process.env.ENABLE_TOKENS_DELTA;
       try {
@@ -235,12 +235,12 @@ describe('Multiplayer integration (real socket.io transport)', function () {
         expect(room).to.have.property('deltaSyncCapabilities');
         expect(room.deltaSyncCapabilities).to.have.property('tokens', false);
       } finally {
-        if (origEnv !== undefined) process.env.ENABLE_TOKENS_DELTA = origEnv;
+        if (origEnv !== undefined) {process.env.ENABLE_TOKENS_DELTA = origEnv;}
       }
     });
   });
 
-  describe('deltaSync conflict resolution (engine policy hook)', function () {
+  describe('deltaSync conflict resolution (engine policy hook)', function() {
     it('concurrent HP updates from two players converge via the minValue policy', () => {
       // This test exercises the engine directly, not the socket path -
       // the production socket path for state updates is not yet wired

@@ -3,7 +3,7 @@
  * Simple dice renderer
  */
 
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 
 const DiceRenderer = ({
   isVisible,

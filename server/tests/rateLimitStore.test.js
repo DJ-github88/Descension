@@ -17,13 +17,13 @@ describe('rate limit stores', () => {
       store.destroy();
     });
 
-    it('allows the first event under a fresh window', async () => {
+    it('allows the first event under a fresh window', async() => {
       const result = await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, Date.now());
       expect(result.allowed).to.equal(true);
       expect(result.remaining).to.equal(0);
     });
 
-    it('blocks the second event when per-second limit is 1', async () => {
+    it('blocks the second event when per-second limit is 1', async() => {
       const now = Date.now();
       await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, now);
       const result = await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, now);
@@ -31,7 +31,7 @@ describe('rate limit stores', () => {
       expect(result.reason).to.equal('second_limit_exceeded');
     });
 
-    it('blocks when per-minute limit is exhausted', async () => {
+    it('blocks when per-minute limit is exhausted', async() => {
       const limits = { maxPerMinute: 2, maxPerSecond: 10 };
       await store.isAllowed('c1', 'chat_message', limits, false, Date.now());
       await store.isAllowed('c1', 'chat_message', limits, false, Date.now());
@@ -40,7 +40,7 @@ describe('rate limit stores', () => {
       expect(result.reason).to.equal('minute_limit_exceeded');
     });
 
-    it('resets counters after the window elapses', async () => {
+    it('resets counters after the window elapses', async() => {
       const limits = { maxPerMinute: 10, maxPerSecond: 1 };
       const t0 = Date.now();
       await store.isAllowed('c1', 'chat_message', limits, false, t0);
@@ -52,7 +52,7 @@ describe('rate limit stores', () => {
       expect(allowed.allowed).to.equal(true);
     });
 
-    it('isolates counters by client and event', async () => {
+    it('isolates counters by client and event', async() => {
       const limits = { maxPerMinute: 10, maxPerSecond: 1 };
       await store.isAllowed('c1', 'chat_message', limits, false, Date.now());
       const otherClient = await store.isAllowed('c2', 'chat_message', limits, false, Date.now());
@@ -61,7 +61,7 @@ describe('rate limit stores', () => {
       expect(otherEvent.allowed).to.equal(true);
     });
 
-    it('resetClient clears counters for a single client', async () => {
+    it('resetClient clears counters for a single client', async() => {
       const limits = { maxPerMinute: 10, maxPerSecond: 1 };
       const now = Date.now();
       await store.isAllowed('c1', 'chat_message', limits, false, now);
@@ -74,7 +74,7 @@ describe('rate limit stores', () => {
       expect(c2Again.allowed).to.equal(false);
     });
 
-    it('cleanup removes stale entries', async () => {
+    it('cleanup removes stale entries', async() => {
       const now = Date.now();
       await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, now - 200);
       await store.cleanup(100);
@@ -82,7 +82,7 @@ describe('rate limit stores', () => {
       expect(status).to.equal(null);
     });
 
-    it('getStats returns client and event counts', async () => {
+    it('getStats returns client and event counts', async() => {
       await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, Date.now());
       await store.isAllowed('c1', 'join_room', { maxPerMinute: 10, maxPerSecond: 1 }, false, Date.now());
       await store.isAllowed('c2', 'chat_message', { maxPerMinute: 10, maxPerSecond: 1 }, false, Date.now());
@@ -97,17 +97,17 @@ describe('rate limit stores', () => {
       const state = new Map();
       const client = {
         state,
-        incr: async (k) => {
+        incr: async(k) => {
           state.set(k, (state.get(k) || 0) + 1);
           return state.get(k);
         },
-        expire: async () => {},
+        expire: async() => {},
         multi: () => {
           const commands = [];
           return {
             incr: (k) => { commands.push(['incr', k]); },
             expire: (k, ttl) => { commands.push(['expire', k, ttl]); },
-            exec: async () => {
+            exec: async() => {
               for (const [cmd, k] of commands) {
                 if (cmd === 'incr') {
                   state.set(k, (state.get(k) || 0) + 1);
@@ -117,10 +117,10 @@ describe('rate limit stores', () => {
             }
           };
         },
-        get: async (k) => String(state.get(k) || 0),
-        keys: async (pattern) => Array.from(state.keys()).filter(k => k.startsWith(pattern.replace(/\*/g, ''))),
-        del: async (keys) => { keys.forEach(k => state.delete(k)); },
-        quit: async () => {},
+        get: async(k) => String(state.get(k) || 0),
+        keys: async(pattern) => Array.from(state.keys()).filter(k => k.startsWith(pattern.replace(/\*/g, ''))),
+        del: async(keys) => { keys.forEach(k => state.delete(k)); },
+        quit: async() => {},
         ...overrides
       };
       return client;
@@ -131,7 +131,7 @@ describe('rate limit stores', () => {
       expect(() => new RedisRateLimitStore({})).to.throw(TypeError);
     });
 
-    it('allows events until per-second limit is exceeded', async () => {
+    it('allows events until per-second limit is exceeded', async() => {
       const redis = makeRedisClient();
       const store = new RedisRateLimitStore(redis);
       const limits = { maxPerMinute: 10, maxPerSecond: 2 };
@@ -150,7 +150,7 @@ describe('rate limit stores', () => {
       store.destroy();
     });
 
-    it('uses fallback incr+expire when multi() is unavailable', async () => {
+    it('uses fallback incr+expire when multi() is unavailable', async() => {
       const redis = makeRedisClient();
       delete redis.multi;
       const store = new RedisRateLimitStore(redis);
@@ -159,7 +159,7 @@ describe('rate limit stores', () => {
       store.destroy();
     });
 
-    it('resetClient deletes matching keys', async () => {
+    it('resetClient deletes matching keys', async() => {
       const redis = makeRedisClient();
       const store = new RedisRateLimitStore(redis);
       await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 10 }, false, Date.now());
@@ -172,7 +172,7 @@ describe('rate limit stores', () => {
       store.destroy();
     });
 
-    it('getStatus returns current bucket counts', async () => {
+    it('getStatus returns current bucket counts', async() => {
       const redis = makeRedisClient();
       const store = new RedisRateLimitStore(redis);
       await store.isAllowed('c1', 'chat_message', { maxPerMinute: 10, maxPerSecond: 10 }, false, Date.now());

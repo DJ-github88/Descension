@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // BERSERKER TALENT TREES
 // ============================================
 
@@ -152,7 +152,7 @@ export const BERSERKER_PRIMAL_RAGE = [
 
   // Final Fury - Apex of Rage
   {
-    id: 'primal_rage_t7_berserker_god',
+    id: 'primal_rage_t6_berserker_god',
     name: 'Berserker God',
     description: 'To become a spirit of rage is to freeze eternity in a single moment of battle. Permanently locked in Obliteration state. Overheat no longer triggers. Instead, take 1d6 damage per round. Rage-spending abilities still consume Rage as normal, if Rage drops below 101, you leave Obliteration until you build back up.',
     icon: 'spell_shadow_unholystrength',
@@ -248,7 +248,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     description: 'When death grazes close, Nordhalla\'s warriors find their most savage fury. While below 25% HP, attacks generate +1d6 Rage per rank.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
-    position: { x: 1, y: 6 },
+    position: { x: 1, y: 5 },
     requires: 'blood_frenzy_t3_life_steal',
   },
 
@@ -286,7 +286,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     description: 'Nordhalla\'s death-goddess refuses those who still burn with frost-rage. Cannot be reduced below 1 HP by attacks. Excess damage becomes Rage instead.',
     icon: 'spell_shadow_deathscream',
     maxRanks: 1,
-    position: { x: 3, y: 6 },
+    position: { x: 3, y: 5 },
     requires: 'blood_frenzy_t3_berserk_healing',
   },
 
@@ -337,7 +337,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     description: 'Under the pale moon of Nordhalla, the Skalds chant while the blood-price is paid. Sacrifice HP to gain Rage. Spend 10 HP to gain 20 Rage per rank.',
     icon: 'spell_shadow_soulleech',
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2, y: 5 },
     requires: ['blood_frenzy_t4_blood_fury', 'blood_frenzy_t4_deathless_fury'],
     requiresAll: false,
   },
@@ -349,7 +349,7 @@ export const BERSERKER_BLOOD_FRENZY = [
     description: 'To ascend as Nordhalla\'s Blood God is to become the frozen heart of war itself. Unlocks Blood God Ascension - transform into a blood spirit, dealing damage equal to HP lost this combat.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 1,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 6 },
     requires: ['blood_frenzy_t5_blood_god', 'blood_frenzy_t5_eternal_frenzy', 'blood_frenzy_t5_blood_ritual'],
     requiresAll: false,
   }

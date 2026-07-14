@@ -45,9 +45,9 @@ jest.mock('../storageLimitService', () => ({
   }
 }));
 
-import { saveUserItem, deleteUserItem } from '../userItemsService';
-import { getDoc, setDoc, deleteDoc } from 'firebase/firestore';
-import storageLimitService from '../storageLimitService';
+const { saveUserItem, deleteUserItem } = require('../userItemsService');
+const { getDoc, setDoc, deleteDoc } = require('firebase/firestore');
+const storageLimitService = require('../storageLimitService').default;
 
 const USER_ID = 'user-123';
 

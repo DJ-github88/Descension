@@ -7,21 +7,6 @@ function hexToRgba(hex, alpha) {
   return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
 }
 
-function drawRoundRect(ctx, x, y, w, h, r) {
-  r = Math.max(0, Math.min(r, w / 2, h / 2));
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.arcTo(x + w, y, x + w, y + r, r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
-  ctx.lineTo(x + r, y + h);
-  ctx.arcTo(x, y + h, x, y + h - r, r);
-  ctx.lineTo(x, y + r);
-  ctx.arcTo(x, y, x + r, y, r);
-  ctx.closePath();
-}
-
 function drawHalfRoundRect(ctx, x, y, w, h, r, side) {
   // Draws a rect with rounded outer corners and a straight inner edge
   // side: 'left' means straight right edge, 'right' means straight left edge
@@ -45,15 +30,6 @@ function drawHalfRoundRect(ctx, x, y, w, h, r, side) {
     ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
     ctx.lineTo(x, y + h);
   }
-  ctx.closePath();
-}
-
-function drawDiamond(ctx, cx, cy, size) {
-  ctx.beginPath();
-  ctx.moveTo(cx, cy - size);
-  ctx.lineTo(cx + size * 0.7, cy);
-  ctx.lineTo(cx, cy + size);
-  ctx.lineTo(cx - size * 0.7, cy);
   ctx.closePath();
 }
 

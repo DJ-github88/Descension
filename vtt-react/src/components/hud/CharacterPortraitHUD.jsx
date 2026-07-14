@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useSettingsStore from '../../store/settingsStore';
-import useTargetingStore from '../../store/targetingStore';
 import ClassResourceBar from './ClassResourceBar';
 import '../../styles/party-hud.css';
 import './styles/ClassResourceBar.css';

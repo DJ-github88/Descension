@@ -1,4 +1,4 @@
-﻿import { cleanFormula, mapSpellIcon } from './spellFormatterUtils';
+import { cleanFormula, mapSpellIcon } from './spellFormatterUtils';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 
 const useSpellMeta = ({ spell }) => {

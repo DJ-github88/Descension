@@ -403,7 +403,7 @@ export const parseDiceString = (diceString) => {
     return `${diceFormula} (${procString})`;
   };
   
-  export default {
+  const diceUtils = {
     parseDiceString,
     calculateDiceAverage,
     calculateDiceMinimum,
@@ -416,3 +416,4 @@ export const parseDiceString = (diceString) => {
     rollProc,
     buildDiceWithProc
   };
+  export default diceUtils;

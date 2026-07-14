@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import { saveUserItem, loadUserItems, updateUserItem, deleteUserItem } from '../services/firebase/userItemsService';
+import { saveUserItem, loadUserItems } from '../services/firebase/userItemsService';
 import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
@@ -32,7 +32,7 @@ export const useUserItemsPersistence = () => {
     const itemStore = useItemStore?.getState();
     if (!itemStore || !itemStore.items) return [];
     return itemStore.items.filter(isUserCreatedItem);
-  }, [isUserCreatedItem]);
+  }, [isUserCreatedItem, useItemStore]);
 
   /**
    * Save a user-created item to Firebase
@@ -116,7 +116,7 @@ export const useUserItemsPersistence = () => {
     } catch (error) {
       console.error('Failed to load user items from Firebase:', error);
     }
-  }, [user, isUserCreatedItem]);
+  }, [user, isUserCreatedItem, useItemStore]);
 
   /**
    * Sync newly created items to Firebase

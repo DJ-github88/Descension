@@ -1,4 +1,3 @@
-﻿import { logger } from './logger';
 
 /**
  * Flatten buff/debuff effects from array format to simple numeric values
@@ -90,6 +89,8 @@ export function calculateEquipmentBonuses(equipment = {}) {
             break;
           case 'skills':
             processObjectValue(bonuses, key, val, 'skills');
+            break;
+          default:
             break;
         }
       });
@@ -589,6 +590,8 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     case 'overencumbered':
       // Speed -75% (specific penalty for movement)
       derivedStats.moveSpeed = Math.floor(derivedStats.moveSpeed * 0.25);
+      break;
+    default:
       break;
   }
 

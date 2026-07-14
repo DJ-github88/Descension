@@ -146,23 +146,7 @@ const ResourceAdjustmentModal = ({
         }
     };
 
-    const formatResourceName = () => {
-        // Check if it's a class resource
-        if (characterClass && resourceType !== 'health' && resourceType !== 'mana' && resourceType !== 'actionPoints') {
-            const classConfig = getClassResourceConfig(characterClass);
-            if (classConfig) {
-                return classConfig.name;
-            }
-        }
-
-        switch (resourceType) {
-            case 'health': return 'Health';
-            case 'mana': return 'Mana';
-            case 'actionPoints': return 'Action Points';
-            default: return 'Resource';
-        }
-    };
-
+    
     if (!show) return null;
 
     const modalStyle = {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Community Creature Service
  * 
  * This service handles all interactions with the Firebase Firestore database

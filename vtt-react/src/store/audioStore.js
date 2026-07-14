@@ -9,8 +9,7 @@ import {
   deleteAudioTrack,
   saveAudioPlaylist,
   getAudioPlaylists,
-  deleteAudioPlaylist,
-  extractYouTubeId
+  deleteAudioPlaylist
 } from '../services/firebase/audioService';
 import storageLimitService from '../services/firebase/storageLimitService';
 

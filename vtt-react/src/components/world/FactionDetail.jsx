@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import LoreLink from '../common/LoreLink';
-import { MiniCalendar, TimelineView } from './TimelineView';
+import {  TimelineView } from './TimelineView';
 
 const FactionDetail = ({ factionId, onBack }) => {
   const { getFaction, getFactionRelationships } = useFactionStore();

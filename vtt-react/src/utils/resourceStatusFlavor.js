@@ -1,4 +1,4 @@
-﻿import { getClassResourceConfig } from '../data/classResources';
+import { getClassResourceConfig } from '../data/classResources';
 
 const pct = (cur, max) => (max > 0 ? cur / max : 0);
 

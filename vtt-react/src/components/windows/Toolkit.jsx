@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MythrillWindow from './MythrillWindow';
 import { TravelTrackerContent } from './TravelTrackerWindow';
 import SocialEncounterGenerator from '../gm-tools/SocialEncounterGenerator';

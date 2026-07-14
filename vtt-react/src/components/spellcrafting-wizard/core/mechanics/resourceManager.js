@@ -6,13 +6,13 @@
  */
 
 import {
-    EFFECT_TYPES,
-    ENHANCED_EFFECT_TYPES,
+
+
     ENHANCED_EFFECT_TYPES_DATA,
     TARGETING_TYPES,
     DURATION_TYPES,
-    RESOURCE_INTERACTIONS,
-    EnhancedEffectUtils
+
+
   } from '../../data/enhancedEffectSystemData';
 
   /**
@@ -224,6 +224,9 @@ import {
           // Complex effects cost more
           baseMana += 10;
           break;
+          
+        default:
+          break;
       }
     }
 
@@ -370,6 +373,9 @@ import {
         case 'transformation':
           // Powerful effects have long cooldowns
           baseCooldown = Math.max(baseCooldown, 5);
+          break;
+          
+        default:
           break;
       }
     }

@@ -4,7 +4,6 @@ import useItemStore from '../../store/itemStore';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
-import ExternalRecipePreview from './ExternalRecipePreview';
 import { getIconUrl } from '../../utils/assetManager';
 
 const LazyItemTooltip = React.lazy(() => import('../item-generation/ItemTooltip'));
@@ -396,7 +395,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                                         <div className="material-icon"><img src={getIconUrl(item?.iconId || 'inv_misc_questionmark', 'items')} alt={item?.name} /></div>
                                         <span className="material-name">{item?.name}</span>
                                         <input type="number" className="quantity-input" value={material.quantity} onChange={(e) => updateMaterialQuantity(material.itemId, parseInt(e.target.value))} min="1" />
-                                        <button className="remove-btn" onClick={() => removeMaterial(material.itemId)}>Ã - </button>
+                                        <button className="remove-btn" onClick={() => removeMaterial(material.itemId)}>ï¿½ - </button>
                                     </div>
                                 );
                             })}

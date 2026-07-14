@@ -20,7 +20,6 @@ export const convertToCreatureIcon = (iconId, creatureType) => {
   ];
 
   if (iconId && iconId.includes('/')) {
-    const firstSegment = iconId.split('/')[0];
     if (creatureFolders.some(folder => iconId.startsWith(folder + '/'))) {
       // Already a creature icon, return as-is
       return iconId;

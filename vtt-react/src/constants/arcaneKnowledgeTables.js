@@ -1,4 +1,4 @@
-﻿// Arcane Knowledge Skill Multi-Dimensional Tables
+// Arcane Knowledge Skill Multi-Dimensional Tables
 // 7 proficiency levels × 6 dice types = 42 tables total
 // This skill represents study and recognition of magic, runes, enchantments, and arcane structures
 

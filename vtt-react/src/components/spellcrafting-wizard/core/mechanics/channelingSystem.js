@@ -1,4 +1,4 @@
-﻿// core/mechanics/channelingSystem.js
+// core/mechanics/channelingSystem.js
 
 /**
  * Channeling System
@@ -7,13 +7,13 @@
  * including concentration checks, ticking effects, and break handling.
  */
 
-import { POSITIVE_STATUS_EFFECTS, NEGATIVE_STATUS_EFFECTS, isImmuneToStatusEffect } from '../data/statusEffects';
-import { DURATION_TYPES, calculateDurationTime } from '../data/durationTypes';
-import { EFFECT_TYPES, calculateEffectActionPointCost } from '../data/effectTypes';
-import { SPELL_TYPES } from './spellTypeSystem';
-import { TURN_PHASES, processTurnStartEffects, processTurnEndEffects } from './turnSequenceSystem';
-import { calculateActionPoints, calculateManaCost, applyResourceModifiers } from './resourceManager';
-import { rollDice, ROLL_MODES } from './diceSystem';
+
+
+
+
+import {TURN_PHASES} from './turnSequenceSystem';
+import {calculateActionPoints, calculateManaCost} from './resourceManager';
+import {rollDice} from './diceSystem';
 
 // ===========================================================================
 // CHANNELING MECHANICS CONSTANTS
@@ -307,6 +307,9 @@ export function breakChannel(channelState, breakReason, gameState) {
   if (breakReason === 'voluntary') {
   breakEffect = applyControlledBreakEffect(channelState, gameState);
   }
+  break;
+  
+ default:
   break;
  }
  
@@ -799,6 +802,9 @@ export function synchronizeWithTurnSequence(channelState, turnState) {
   // Continuous effects apply throughout the turn
   // No specific tick, but might need to update effects
   break;
+  
+ default:
+  break;
  }
  }
  
@@ -937,10 +943,13 @@ export function integrateWithStatusEffects(channelState, statusState) {
   
   case 'unstable_magic':
   // Example: Unstable Magic changes scaling type
-  modifications.newScalingType = 'fluctuating';
-  break;
- }
- }
+   modifications.newScalingType = 'fluctuating';
+   break;
+   
+  default:
+   break;
+  }
+  }
  
  return {
  shouldBreak: breakingEffects.length > 0,
@@ -999,12 +1008,13 @@ export function calculateResourceDrain(channelState, tickType) {
   
   return {
   actionPoints: maxAP,
-  mana: maxMana
-  };
- }
- 
- return null;
-}
+   mana: maxMana
+   };
+   
+   default:
+    return null;
+   }
+  }
 
 // ===========================================================================
 // HELPER FUNCTIONS

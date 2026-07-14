@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // PLAGUEBRINGER TALENT TREES, v2
 // Each spec changes HOW you garden, not just which buttons you press.
 // Virulent Spreader = Field Farmer (play WIDE)

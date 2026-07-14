@@ -24,10 +24,10 @@ function registerMapHandlers(ctx) {
     realtimeSync
   } = ctx;
 
-  socket.on('update_current_map', async (data) => {
+  socket.on('update_current_map', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -46,25 +46,25 @@ function registerMapHandlers(ctx) {
     }
   });
 
-  socket.on('sync_level_editor_state', async (data) => {
+  socket.on('sync_level_editor_state', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
       const map = validateMapExists(room, mapId, data.mapName);
 
-      if (data.terrainData) map.terrainData = data.terrainData;
-      if (data.wallData) map.wallData = data.wallData;
-      if (data.windowOverlays !== undefined) map.windowOverlays = data.windowOverlays;
-      if (data.environmentalObjects) map.environmentalObjects = data.environmentalObjects;
-      if (data.drawingPaths) map.drawingPaths = data.drawingPaths;
-      if (data.drawingLayers) map.drawingLayers = data.drawingLayers;
-      if (data.fogOfWarData) map.fogOfWarData = data.fogOfWarData;
-      if (data.fogOfWarPaths) map.fogOfWarPaths = data.fogOfWarPaths;
-      if (data.lightSources) map.lightSources = data.lightSources;
-      if (data.dndElements) map.dndElements = data.dndElements;
+      if (data.terrainData) {map.terrainData = data.terrainData;}
+      if (data.wallData) {map.wallData = data.wallData;}
+      if (data.windowOverlays !== undefined) {map.windowOverlays = data.windowOverlays;}
+      if (data.environmentalObjects) {map.environmentalObjects = data.environmentalObjects;}
+      if (data.drawingPaths) {map.drawingPaths = data.drawingPaths;}
+      if (data.drawingLayers) {map.drawingLayers = data.drawingLayers;}
+      if (data.fogOfWarData) {map.fogOfWarData = data.fogOfWarData;}
+      if (data.fogOfWarPaths) {map.fogOfWarPaths = data.fogOfWarPaths;}
+      if (data.lightSources) {map.lightSources = data.lightSources;}
+      if (data.dndElements) {map.dndElements = data.dndElements;}
 
       socket.to(room.id).emit('level_editor_state_synced', {
         mapId,
@@ -88,14 +88,14 @@ function registerMapHandlers(ctx) {
     }
   });
 
-  socket.on('map_update', async (data) => {
+  socket.on('map_update', async(data, callback) => {
     try {
       const sequence = data?.sequence || 'no-seq';
       const hasTargetId = !!data?.targetMapId;
       logger.debug(`[map_update] Received [Seq: ${sequence}, TargetID: ${hasTargetId ? data.targetMapId : 'N/A'}]`);
 
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -231,7 +231,7 @@ function registerMapHandlers(ctx) {
         let broadcastCount = 0;
 
         for (const [sid, p] of players.entries()) {
-          if (sid === socket.id || p.roomId !== player.roomId) continue;
+          if (sid === socket.id || p.roomId !== player.roomId) {continue;}
 
           const isOnSameMap = p.currentMapId === targetMapId;
           const shouldReceive = isStructuralUpdate || isOnSameMap;
@@ -252,15 +252,21 @@ function registerMapHandlers(ctx) {
 
       firebaseBatchWriter.queueWrite(room.id, room.gameState);
 
+      if (typeof callback === 'function') {
+        callback({ success: true, sequence });
+      }
     } catch (error) {
       logger.error('[map_update] Error:', { error: error.message });
+      if (typeof callback === 'function') {
+        callback({ success: false, error: error.message });
+      }
     }
   });
 
-  socket.on('request_full_map_sync', async (data) => {
+  socket.on('request_full_map_sync', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       if (realtimeSync) {
         logger.info(`🔄 [request_full_map_sync] Forcing map sync for room ${data.roomId}`);
@@ -276,10 +282,10 @@ function registerMapHandlers(ctx) {
     }
   });
 
-  socket.on('grid_item_update', async (data) => {
+  socket.on('grid_item_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || data.targetMapId || room.gameState.defaultMapId || 'default';
@@ -349,10 +355,10 @@ function registerMapHandlers(ctx) {
     }
   });
 
-  socket.on('sync_map_state', async (data) => {
+  socket.on('sync_map_state', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
       const mapId = player.currentMapId || room.gameState.defaultMapId || 'default';

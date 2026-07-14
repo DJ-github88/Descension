@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Enhanced Combo System
  * 
  * Provides complete support for various combo point and resource accumulation systems

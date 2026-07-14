@@ -3,8 +3,6 @@ import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
-import { CLASS_RESOURCE_TYPES } from '../../data/classResources';
-import { getBackgroundNames } from '../../data/backgroundData';
 import SocialContextMenu from './SocialContextMenu';
 import '../../styles/social-window.css';
 

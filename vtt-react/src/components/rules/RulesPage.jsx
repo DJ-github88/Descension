@@ -97,7 +97,6 @@ import RulesSectionCard from './components/RulesSectionCard';
 
 
 
-import RulesCollapsible from './components/RulesCollapsible';
 
 
 

@@ -2149,12 +2149,12 @@ export const LIBRARY_CREATURES = [
  },
  {
  "id": "tengu_scout",
- "name": "Tengu Scout",
- "description": "A raven-winged peak Wyrd-kin sprite with obsidian eyes that leaps between pipeline scaffolds and carries a wind-copper staff.",
- "origin": "The Tengu Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Tengu Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Tengu's presence,a wind that blows from nowhere, and the sound of a bird's cry in the air.",
- "nature": "A small, raven-winged humanoid sprite with a long bird-beak and glossy eyes like mountain obsidian. It is highly agile, leaping between pipelines and girders, carrying a wind-copper staff that hums with the energy of the mountain. It is defensive and gathers copper and shiny minerals, and it will attack any who come near its nest. The Tengu Scout is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
- "habitat": "The Tengu Scout inhabits the pipeline scaffolds, high mountain bridges, and mine entries of the Cragjaw Peaks, particularly in the Fexric Pipeline where the scaffolds are tallest and the bridges are narrowest. It is most active during the stormy season, when the winds are strong and the air is charged with electricity, and during the spring, when the snow melts and the air is warm. The Tengu's nest is always near a source of wind, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
- "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry. The Tengu's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
+ "name": "Storm-Crow Scout",
+ "description": "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff.",
+ "origin": "The Storm-Crow Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Storm-Crow Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. They possess a dangerous voice-mimicking capability, stealing the spoken words of travelers and echoing them back through the wind to lure others into hazards or traps. The Wyrd's corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Storm-Crow's presence,a wind that blows from nowhere, and the sound of a bird's cry in the air.",
+ "nature": "A small, raven-winged humanoid sprite with a long bird-beak and glossy eyes like mountain obsidian. It is highly agile, leaping between pipelines and girders, carrying a wind-copper staff that hums with the energy of the mountain. It is defensive and gathers copper and shiny minerals, and it will attack any who come near its nest. The Storm-Crow Scout is a master of mimicry, using stolen voices of lost miners to distract and confuse intruders. It is a creature of the wind, and it is most active during the stormy season, when the winds are strong and the air is charged with electricity.",
+ "habitat": "The Storm-Crow Scout inhabits the pipeline scaffolds, high mountain bridges, and mine entries of the Cragjaw Peaks, particularly in the Fexric Pipeline where the scaffolds are tallest and the bridges are narrowest. It is most active during the stormy season, when the winds are strong and the air is charged with electricity, and during the spring, when the snow melts and the air is warm. The Storm-Crow's nest is always near a source of wind, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
+ "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry or shouting warnings using stolen, mimicked human voices. The Storm-Crow's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
  "type": CREATURE_TYPES.FEY,
  "size": CREATURE_SIZES.SMALL,
  "tags": [
@@ -10652,98 +10652,98 @@ export const LIBRARY_CREATURES = [
  {
  "id": "kappa",
  "name": "Kappa",
- "description": "A stone-shelled, turtle-like humanoid that guards geothermal pools, carrying a bowl of glowing water on its head and bound by an unbreakable code of politeness.",
+ "description": "A stone-shelled, turtle-like humanoid that guards geothermal pools and nests as a steam-draining pest inside pipe junctions, carrying a bowl of glowing water on its head and bound by an unbreakable code of politeness.",
  "type": CREATURE_TYPES.ELEMENTAL,
  "size": CREATURE_SIZES.SMALL,
- "tags": [
- "cragjaw",
- "kappa",
- "elemental"
- ],
- "tokenIcon": "Bestiary/kappa",
- "tokenBorder": "#7209b7",
- "stats": {
- "strength": 10,
- "agility": 16,
- "constitution": 14,
- "intelligence": 10,
- "spirit": 12,
- "charisma": 10,
- "maxHp": 130,
- "currentHp": 130,
- "maxMana": 20,
- "currentMana": 20,
- "maxActionPoints": 3,
- "currentActionPoints": 3,
- "initiative": 4,
- "speed": 30,
- "flying": 30,
- "swimming": 30,
- "sightRange": 60,
- "darkvision": 60
- },
- "resistances": {
- "cold": 50,
- "lightning": 50
- },
- "vulnerabilities": {
- "fire": 25
- },
- "abilities": [
- {
- "name": "Beak-Snap",
- "description": "+5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool",
- "type": "melee",
- "icon": "ability_physical_taunt",
- "range": 5,
- "actionPointCost": 2,
- "cooldown": 0,
- "effects": [
- {
- "type": "DAMAGE",
- "value": "1d6+3"
- },
- {
- "type": "SAVE",
- "attribute": "agility",
- "dc": 13,
- "onFail": {
- "type": "CONDITION",
- "condition": "slowed",
- "duration": 1
- }
- }
- ]
- }
- ],
- "lootTable": {
- "currency": {
- "platinum": {
- "min": 0,
- "max": 0
- },
- "gold": {
- "min": 1,
- "max": 5
- },
- "silver": {
- "min": 5,
- "max": 15
- },
- "copper": {
- "min": 0,
- "max": 0
- }
- },
- "items": []
- },
- "dateCreated": "2026-06-13T18:00:00Z",
- "lastModified": "2026-06-13T18:00:00Z",
- "origin": "The Kappa traces its lineage to the ancient water-sprites of old folklore, which were said to carry a shallow bowl of life-giving water upon their crowns and possessed an eccentric obsession with cucumbers, politeness, and the extraction of mythical soul-organs. In the frozen peaks of this land, these roots intermingle with tales of the Yacuruna, the seductive and powerful water-people who dwell in the depths of rivers and lakes, occasionally drawing mortal mates down into their sub-aquatic realms to never return. Here, they have become geothermal sentinels, bound to the steaming waters that keep the freezing wilderness at bay.",
- "nature": "Standing roughly three feet tall, this humanoid creature possesses a rough, dark shell of volcanic basalt pitted with mineral deposits, suggesting a form birthed from both stone and water. Its crown bears a shallow depression filled with glowing blue water and ringed by tough mountain reeds, while its deceptively long, webbed limbs echo the anatomy of a frog. Its beaked, turtle-like face features round, obsidian-black eyes that blink with slow deliberation, and its mouth curves downward in a perpetual, judgmental frown as it clutches a pouch of smooth geothermal river-stones gathered from the holdfasts.",
- "habitat": "These stone-shelled sprites are found exclusively within the geothermal pools and steamy thermal corridors of the Cragjaw Peaks, where they cluster around volcanic vents.",
- "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Kappa is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, which prompts the Kethrin guilds to leave costly offerings of imported cucumbers at pool-side shrines to appease them. Lately, rumors of a rogue Kappa spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems."
- },
+   "tags": [
+  "cragjaw",
+  "sump-scrab",
+  "elemental"
+  ],
+  "tokenIcon": "Bestiary/kappa",
+  "tokenBorder": "#7209b7",
+  "stats": {
+  "strength": 10,
+  "agility": 16,
+  "constitution": 14,
+  "intelligence": 10,
+  "spirit": 12,
+  "charisma": 10,
+  "maxHp": 130,
+  "currentHp": 130,
+  "maxMana": 20,
+  "currentMana": 20,
+  "maxActionPoints": 3,
+  "currentActionPoints": 3,
+  "initiative": 4,
+  "speed": 30,
+  "flying": 30,
+  "swimming": 30,
+  "sightRange": 60,
+  "darkvision": 60
+  },
+  "resistances": {
+  "cold": 50,
+  "lightning": 50
+  },
+  "vulnerabilities": {
+  "fire": 25
+  },
+  "abilities": [
+  {
+  "name": "Beak-Snap",
+  "description": "+5 to hit, 1d6+3 piercing + DC 13 AGI or grappled, pulled into pool",
+  "type": "melee",
+  "icon": "ability_physical_taunt",
+  "range": 5,
+  "actionPointCost": 2,
+  "cooldown": 0,
+  "effects": [
+  {
+  "type": "DAMAGE",
+  "value": "1d6+3"
+  },
+  {
+  "type": "SAVE",
+  "attribute": "agility",
+  "dc": 13,
+  "onFail": {
+  "type": "CONDITION",
+  "condition": "slowed",
+  "duration": 1
+  }
+  }
+  ]
+  }
+  ],
+  "lootTable": {
+  "currency": {
+  "platinum": {
+  "min": 0,
+  "max": 0
+  },
+  "gold": {
+  "min": 1,
+  "max": 5
+  },
+  "silver": {
+  "min": 5,
+  "max": 15
+  },
+  "copper": {
+  "min": 0,
+  "max": 0
+  }
+  },
+  "items": []
+  },
+  "dateCreated": "2026-06-13T18:00:00Z",
+  "lastModified": "2026-06-13T18:00:00Z",
+  "origin": "The Sump-Scrab traces its lineage to the ancient water-sprites of old folklore, which were said to carry a shallow bowl of life-giving water upon their crowns and possessed an eccentric obsession with cucumbers, politeness, and the extraction of mythical soul-organs. In the frozen peaks of this land, these roots intermingle with tales of the Yacuruna, the seductive and powerful water-people who dwell in the depths of rivers and lakes, occasionally drawing mortal mates down into their sub-aquatic realms to never return. Here, they have become geothermal sentinels, bound to the steaming waters that keep the freezing wilderness at bay, while simultaneously acting as steam-draining pests that nest inside and disrupt pipeline junctions.",
+  "nature": "Standing roughly three feet tall, this humanoid creature possesses a rough, dark shell of volcanic basalt pitted with mineral deposits, suggesting a form birthed from both stone and water. Its crown bears a depression filled with glowing blue water and ringed by tough mountain reeds, while its deceptively long, webbed limbs echo the anatomy of a frog. Its beaked, turtle-like face features round, obsidian-black eyes that blink with slow deliberation, and its mouth curves downward in a perpetual, judgmental frown as it clutches a pouch of smooth geothermal river-stones gathered from the holdfasts.",
+  "habitat": "These stone-shelled sprites are found exclusively within the geothermal pools and steamy thermal corridors of the Cragjaw Peaks, where they cluster around volcanic vents.",
+  "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Sump-Scrab is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, though Fexrick engineers often complain of them acting as pests, nesting inside pipeline junctions to drain steam for their pools. Lately, rumors of a rogue Sump-Scrab spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems."
+  },
  {
  "id": "kitsune",
  "name": "Kitsune",
@@ -15727,13 +15727,1072 @@ export const LIBRARY_CREATURES = [
  },
  "items": []
  },
+"resistances": {
+ "psychic": 75,
+ "necrotic": 25
+ },
+ "vulnerabilities": {
+ "radiant": 25
+ },
+ "abilities": [],
+ "lootTable": {
+ "currency": {
+ "platinum": {
+ "min": 0,
+ "max": 0
+ },
+ "gold": {
+ "min": 1,
+ "max": 5
+ },
+ "silver": {
+ "min": 5,
+ "max": 15
+ },
+ "copper": {
+ "min": 0,
+ "max": 0
+ }
+ },
+ "items": []
+ },
+ "dateCreated": "2026-06-13T18:00:00Z",
+ "lastModified": "2026-06-13T18:00:00Z",
+ "origin": "The Dziwozona-Wild stems from the Polish Dziwozona, a wild, green-haired swamp-nymph who drowned men and swapped infants, and Putana, the Vedic demoness who posed as a wet-nurse to poison the baby Krishna. In Mythrill's wetlands, she represents the cruel archetype of the false-mother who preys on grief.",
+ "nature": "Standing seven feet tall, this massive, barrel-chested woman has wild green hair dripping with bog-water and large breasts that leak a luminescent fluid. Her skin resembles waterlogged grey-green wood, with webbed hands and feet, and she carries a swaddled bundle of stolen memories wrapped in Neth silk. Her face is flat and frog-like, featuring nose-holes, a wide mouth, and small pig-like eyes, though she can project an illusion of beauty that can fool even Neth truth-sense.",
+ "habitat": "This deceptive swamp-dweller resides in the pools and rivers of the Bryngloom Forest terrain.",
+ "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Neth households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers."
+ },
+ {
+ "id": "upir_root",
+ "name": "Upir-Root",
+ "description": "An underground network of pulsing, parasitic tendrils, the Upir-Root drains the life of the forest and travelers above it.",
+ "type": CREATURE_TYPES.FEY,
+ "size": CREATURE_SIZES.MEDIUM,
+ "tags": [
+ "bryngloom",
+ "upir_root",
+ "fey"
+ ],
+ "tokenIcon": "Bestiary/upir_root",
+ "tokenBorder": "#2d6a4f",
+ "stats": {
+ "strength": 18,
+ "agility": 14,
+ "constitution": 18,
+ "intelligence": 16,
+ "spirit": 18,
+ "charisma": 14,
+ "maxHp": 650,
+ "currentHp": 650,
+ "maxMana": 50,
+ "currentMana": 50,
+ "maxActionPoints": 5,
+ "currentActionPoints": 5,
+ "initiative": 3,
+ "speed": 30,
+ "flying": 0,
+ "swimming": 0,
+ "sightRange": 60,
+ "darkvision": 60
+ },
+ "resistances": {
+ "necrotic": 100,
+ "cold": 50,
+ "physical": 25
+ },
+ "vulnerabilities": {
+ "radiant": 25
+ },
+ "abilities": [
+ {
+ "name": "Life-Force-Drain",
+ "description": "+6 to hit, 2d6+4 necrotic + DC 14 CON or lose 1d4 CON permanently",
+ "type": "melee",
+ "icon": "ability_physical_taunt",
+ "range": 5,
+ "actionPointCost": 2,
+ "cooldown": 0,
+ "effects": [
+ {
+ "type": "DAMAGE",
+ "value": "2d6+4"
+ },
+ {
+ "type": "SAVE",
+ "attribute": "constitution",
+ "dc": 14,
+ "onFail": {
+ "type": "CONDITION",
+ "condition": "slowed",
+ "duration": 1
+ }
+ }
+ ]
+ }
+ ],
+ "lootTable": {
+ "currency": {
+ "platinum": {
+ "min": 0,
+ "max": 0
+ },
+ "gold": {
+ "min": 1,
+ "max": 5
+ },
+ "silver": {
+ "min": 5,
+ "max": 15
+ },
+ "copper": {
+ "min": 0,
+ "max": 0
+ }
+ },
+ "items": []
+ },
+ "dateCreated": "2026-06-13T18:00:00Z",
+ "lastModified": "2026-06-13T18:00:00Z",
+ "origin": "The Upir-Root draws from the ancient Thalren Upir, a blood-drinking vampire blamed for blighted fields and agricultural ruin, combined with the parasitic Vedic Bhuta, a restless spirit that anchored itself to the soil to drain the vitality of the living. In Mythrill's depths, it manifests as a literal blight upon the forest's hydrology.",
+ "nature": "This creature appears as a skeletal, underground network of dark tendrils that spread from a central burial point, mimicking ironwood roots but pulsing with a slow heartbeat. Where they touch living roots, they leech nutrients to wither the tree above. At the center of the network, buried six feet deep, lies the original peat-preserved corpse with its eyes open, its mouth stretched in a silent scream, and root-tendrils sprouting from its mouth, eyes, and fingertips.",
+ "habitat": "This parasitic entity spreads beneath the soil of the Bryngloom Forest terrain.",
+ "depth": "Operating as a Root-Parasite, the Upir-Root drains the life force of everything within a fifty-foot radius, causing trees to yellow and inducing severe fatigue in Neth travelers walking above. As the primary Blight-Cause in the forest, these infestations are targeted by the Neth Velun using contract-rituals to legally release the spirit's attachments, though adventurers are often needed to locate the buried center of the network or protect the ritualists from the spirit's defensive tendrils, especially if a component from the core is required."
+ },
+ {
+ "id": "sirin_song",
+ "name": "Sirin-Song",
+ "description": "A dark bird of twilight with a heart-breaking face, the Sirin-Song sings a melody of absolute melancholy that pulls listeners toward their final rest.",
+ "type": CREATURE_TYPES.HUMANOID,
+ "size": CREATURE_SIZES.TINY,
+ "tags": [
+ "bryngloom",
+ "sirin_song",
+ "humanoid"
+ ],
+ "tokenIcon": "Bestiary/sirin_song",
+ "tokenBorder": "#7209b7",
+ "stats": {
+ "strength": 6,
+ "agility": 16,
+ "constitution": 10,
+ "intelligence": 16,
+ "spirit": 22,
+ "charisma": 18,
+ "maxHp": 380,
+ "currentHp": 380,
+ "maxMana": 60,
+ "currentMana": 60,
+ "maxActionPoints": 3,
+ "currentActionPoints": 3,
+ "initiative": 4,
+ "speed": 10,
+ "flying": 30,
+ "swimming": 0,
+ "sightRange": 60,
+ "darkvision": 60
+ },
+ "resistances": {
+ "radiant": 100,
+ "psychic": 100,
+ "necrotic": 25
+ },
+ "vulnerabilities": {
+ "necrotic": 25
+ },
+ "abilities": [],
+ "lootTable": {
+ "currency": {
+ "platinum": {
+ "min": 0,
+ "max": 0
+ },
+ "gold": {
+ "min": 1,
+ "max": 5
+ },
+ "silver": {
+ "min": 5,
+ "max": 15
+ },
+ "copper": {
+ "min": 0,
+ "max": 0
+ }
+ },
+ "items": []
+ },
  "dateCreated": "2026-06-13T18:00:00Z",
  "lastModified": "2026-06-13T18:00:00Z",
  "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the nine cosmic forces the Solbrand faith calls the Navagraha, that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
  "nature": "Having a twenty-foot wingspan, this bird-like entity has the head and upper torso of a gorgeous woman, with dark twilight plumage of indigo, violet, and black shot with silver threads. Her song projects ribbons of shadow that dim all light and drop the temperature, while she holds nine silver threads representing the aspects of fate. Her face is the most beautiful in the world, permanently still with eyes closed to hide the overwhelming sight of all time, her lips constantly moving to hum her terrible, perfect song.",
  "habitat": "This mournful singer resides at the convergence of the bog and forest in the Bryngloom Forest terrain.",
  "depth": "Performing the Death-Song at the forest's deepest core, her voice is the sound of Morvane, driving listeners to sit down and peacefully surrender to the swamp. As the Fate-Weaver, she manipulates nine threads representing elements like birth, contract, and dissolution to shape destinies, prompting the Neth to avoid her at all costs and providing a legendary challenge for any adventurers who dare seek her tears or seek to alter a predetermined doom, or if a sighting prompts a high-stakes investigation."
- }
+ },
+ {
+  "id": "gambrel",
+  "name": "Gambrel",
+  "description": "A spindly, long-limbed Wyrd-horror that hunts down those who have broken oaths or carry hidden guilt.",
+  "origin": "The Gambrel is born from the emotional fallout of broken vows and failed compacts in the Frostwood Reach. In a region where written deeds and contracts are the only things preventing total loss of identity, a broken oath is a serious spiritual crime. The Wyrd corruption feeds on this hidden guilt, molding it into a physical stalker.",
+  "nature": "It appears as a spindly, long-limbed creature that stands over eight feet tall, with joints that bend in unnatural directions. Its skin is like grey, rotting leather, and it has no face other than a wide, lipless mouth that smells of cold copper. It moves with a silent, jerky gait, and its speed is directly proportional to its prey's desperation to escape their promises.",
+  "habitat": "Gambrels haunt the foggy trails and forest paths of the Frostwood Reach, especially near border gates and ruined keeps where broken agreements were made.",
+  "depth": "It cannot be outrun by standard horses or clockwork vehicles, as it shifts through space using the target's guilt as a spatial tether. Slaying a Gambrel requires facing it directly, as running only increases its strength and speed.",
+  "type": CREATURE_TYPES.FEY,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["fey","frostwood","wyrd-creature",""],
+  "tokenIcon": "Bestiary/gambrel",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 14,
+    "agility": 16,
+    "constitution": 14,
+    "intelligence": 8,
+    "spirit": 12,
+    "charisma": 6,
+    "maxHp": 240,
+    "currentHp": 240,
+    "maxMana": 0,
+    "currentMana": 0,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 35,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.619Z",
+  "lastModified": "2026-07-14T20:33:48.619Z"
+  },
+  {
+  "id": "the_revel",
+  "name": "The Revel",
+  "description": "A phantom court of wooden puppets that forces travelers into an endless, exhausting dance.",
+  "origin": "Before the sun died, the Revel was a seasonal celebration of the Seelie court. When the Wyrd seeped into the forest, it trapped the echoes of this celebration, turning the dancers into mindless puppets and the music into a lethal sensory trap.",
+  "nature": "The Revel appears as a collection of wood-carved, mask-wearing puppets that dance in a circle around a cold bonfire. The air smells of sweet wine and damp earth, and their music is a compelling, beautiful song that echoes through the trees.",
+  "habitat": "Deep ironwood groves and clearing ruins of the Frostwood Reach, especially during moonlit nights.",
+  "depth": "Those who enter the circle are caught in the melody and join the dance until their lungs collapse from exhaustion. The puppets themselves are hollow, filled with writhing black thorns that lash out when damaged.",
+  "type": CREATURE_TYPES.FEY,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["fey","frostwood","wyrd-creature",""],
+  "tokenIcon": "Bestiary/the_revel",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 10,
+    "agility": 14,
+    "constitution": 12,
+    "intelligence": 12,
+    "spirit": 16,
+    "charisma": 18,
+    "maxHp": 310,
+    "currentHp": 310,
+    "maxMana": 40,
+    "currentMana": 40,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 30,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"radiant":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.620Z",
+  "lastModified": "2026-07-14T20:33:48.620Z"
+  },
+  {
+  "id": "skreika",
+  "name": "Skreika",
+  "description": "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever.",
+  "origin": "The Skreika are drowned sailors who have been resurrected by the freezing cold and the residual Wyrd-seepage of the Iceheart Sea. They are the personification of the Skaldic fear of cold water and frozen graves.",
+  "nature": "These creatures are blue-skinned, bloated humanoids covered in frost and seaweed. They speak in a choked, gurgling whisper and emit a freezing chill that lowers the surrounding temperature by twenty degrees.",
+  "habitat": "Frozen bays, ice-locked canals, and shoreline caves of Nordhalla and the Iceheart borders.",
+  "depth": "They wander in small packs, searching for fires and warmth to extinguish, driven by a bitter hatred of the living's warmth. They are not entirely mindless, and some remember fragment of their past ship duties.",
+  "type": CREATURE_TYPES.UNDEAD,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["undead","nordhalla","wyrd-creature",""],
+  "tokenIcon": "Bestiary/skreika",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 16,
+    "agility": 10,
+    "constitution": 18,
+    "intelligence": 8,
+    "spirit": 10,
+    "charisma": 6,
+    "maxHp": 280,
+    "currentHp": 280,
+    "maxMana": 0,
+    "currentMana": 0,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 25,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"rime":100,"cold":100},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.621Z",
+  "lastModified": "2026-07-14T20:33:48.621Z"
+  },
+  {
+  "id": "rimor",
+  "name": "Rimor",
+  "description": "A small, insectoid hearth-parasite that devours fire and heat, freezing homes from within.",
+  "origin": "The Rimor is a Wyrd-parasite born from the fear of cold-lock. It crawls into chimneys and firepits, quietly devouring the heat and the family's capacity for warmth.",
+  "nature": "It is a small, insectoid creature with a body resembling gnarled coal. Its eyes glow with a dull, dying orange light, and its mouth is a siphon that sucks in heat, freezing the surrounding ash in seconds.",
+  "habitat": "Commonly found in hearths, chimneys, and coal piles in northern settlements and outposts.",
+  "depth": "A home occupied by a Rimor slowly loses its warmth; water freezes inside the mugs, and the occupants become lethargic and cold-hearted. It can only be driven out by intense alchemical heat.",
+  "type": CREATURE_TYPES.ABERRATION,
+  "size": CREATURE_SIZES.SMALL,
+  "tags": ["aberration","nordhalla","wyrd-creature",""],
+  "tokenIcon": "Bestiary/rimor",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 6,
+    "agility": 14,
+    "constitution": 10,
+    "intelligence": 10,
+    "spirit": 14,
+    "charisma": 8,
+    "maxHp": 110,
+    "currentHp": 110,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 20,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":100,"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.622Z",
+  "lastModified": "2026-07-14T20:33:48.622Z"
+  },
+  {
+  "id": "stel",
+  "name": "Stel",
+  "description": "A towering creature of ancient glacier-ice that replays death-screams to lure travelers to their doom.",
+  "origin": "The Stel is a manifestation of the glacier's memory. When an expedition is frozen solid in the valleys, the ice records their final moments, materializing a frozen revenant of ice and sorrow.",
+  "nature": "A massive, crystalline humanoid composed of ancient glacier-ice that glows with a faint blue light. It has no features other than hollow eye-sockets, and it constantly replays the final death-screams of those who died in the ice.",
+  "habitat": "Glacier crevices, high mountain passes, and ice fields of Nordhalla.",
+  "depth": "The screams are not just acoustic; they are a psychic lure that drags travelers toward crevasses. The Stel itself is nearly indestructible unless melted, and its body contains the frozen skeletons of its victims.",
+  "type": CREATURE_TYPES.MONSTER,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["monster","nordhalla","wyrd-creature",""],
+  "tokenIcon": "Bestiary/stel",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 18,
+    "agility": 12,
+    "constitution": 16,
+    "intelligence": 10,
+    "spirit": 14,
+    "charisma": 8,
+    "maxHp": 340,
+    "currentHp": 340,
+    "maxMana": 30,
+    "currentMana": 30,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 30,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":100,"physical":25},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.623Z",
+  "lastModified": "2026-07-14T20:33:48.623Z"
+  },
+  {
+  "id": "the_cinder",
+  "name": "The Cinder",
+  "description": "A small, burning humanoid child-shape of ash and fire that seeks out and consumes liars.",
+  "origin": "The Cinder is born from Solvarn folklore regarding children who wandered into the volcanic rifts. The Wyrd anomaly twisted these stories, creating entities of pure ash and fire that seek out and burn liars.",
+  "nature": "It appears as a small child-shape composed of white-hot charcoal and glowing ash. It speaks in a crackling whisper that sounds like dry wood catching fire, and it leaves footprints of molten basalt behind it.",
+  "habitat": "Volcanic craters, sulfur mines, and basalt canyons of Sundale.",
+  "depth": "The Cinder is intensely hostile to anyone who has lied in its presence, ignoring all other targets to consume the liar. It is a symbol of the harsh, unforgiving justice of the Ash-Dwellers.",
+  "type": CREATURE_TYPES.MONSTER,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["monster","sundale","wyrd-creature",""],
+  "tokenIcon": "Bestiary/the_cinder",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 12,
+    "agility": 16,
+    "constitution": 14,
+    "intelligence": 10,
+    "spirit": 14,
+    "charisma": 12,
+    "maxHp": 290,
+    "currentHp": 290,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 35,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"fire":100,"ember":100},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.623Z",
+  "lastModified": "2026-07-14T20:33:48.623Z"
+  },
+  {
+  "id": "ash_woven_oracle",
+  "name": "Ash-Woven Oracle",
+  "description": "A faceless creature of volcanic ash that speaks dark prophecies and chokes enemies with soot clouds.",
+  "origin": "The Ash-Woven Oracle is a manifestation of the collective fear of the final dimming. It is composed of compacted volcanic ash, held together by Wyrd currents, and speaks in fragmented prophecies.",
+  "nature": "A faceless, floating humanoid drape of ash and soot. It carries a bowl of liquid lava, and its body constantly sheds ash clouds that make breathing difficult for nearby creatures.",
+  "habitat": "Sulfur vents, active craters, and badland shrines of Sundale.",
+  "depth": "Its prophecies are always dark, warning of the complete freeze of the caldera and the starvation of humanity. The soot it sheds is toxic and can cause lung-scarring in miners.",
+  "type": CREATURE_TYPES.ABERRATION,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["aberration","sundale","wyrd-creature",""],
+  "tokenIcon": "Bestiary/ash_woven_oracle",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 8,
+    "agility": 12,
+    "constitution": 12,
+    "intelligence": 16,
+    "spirit": 18,
+    "charisma": 10,
+    "maxHp": 220,
+    "currentHp": 220,
+    "maxMana": 50,
+    "currentMana": 50,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 25,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"fire":100,"ember":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.623Z",
+  "lastModified": "2026-07-14T20:33:48.623Z"
+  },
+  {
+  "id": "husque",
+  "name": "Husque",
+  "description": "A humanoid silhouette of absolute void that distorts gravity and leaks the Sun-Eater's hunger.",
+  "origin": "The Husque is a mobile rip in spatial reality, a localized leak of Keth-Amar's hunger that has occupied a shell of basalt and mineral slag.",
+  "nature": "It appears as a humanoid silhouette made of a shifting, black void that absorbs all light. Basalt plates and copper veins float around its edges, held in place by intense gravitational pulls.",
+  "habitat": "Deep sulfur mines, badland gorges, and Monolith excavation sites in Sundale.",
+  "depth": "It eats the gravity around it, causing pebbles and weapons to float towards its chest. If the Husque is destroyed, it collapses into a harmless heap of basalt, but it leaves a temporary spatial tear.",
+  "type": CREATURE_TYPES.ABERRATION,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["aberration","sundale","wyrd-creature",""],
+  "tokenIcon": "Bestiary/husque",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 20,
+    "agility": 10,
+    "constitution": 16,
+    "intelligence": 6,
+    "spirit": 12,
+    "charisma": 4,
+    "maxHp": 390,
+    "currentHp": 390,
+    "maxMana": 30,
+    "currentMana": 30,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 30,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"physical":50,"necrotic":100},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.624Z",
+  "lastModified": "2026-07-14T20:33:48.624Z"
+  },
+  {
+  "id": "spume_of_the_drowned",
+  "name": "Spume of the Drowned",
+  "description": "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors.",
+  "origin": "When ships sink during silt-tides, the final panic and thoughts of the crew form a memory-colony inside the freezing sea-foam, materialized by Wyrd energy.",
+  "nature": "It is a floating mass of glowing sea-spume and ice crystals, approximately ten feet wide, that continuously shifts to project the screaming faces of drowning sailors. It makes a wet, choking sound.",
+  "habitat": "Open channels, harbor walls, and shipwreck sites of the Iceheart Sea.",
+  "depth": "It seeks out ships and coastal watchposts, hoping to merge with living minds to experience their warmth. It leaves a thick, freezing slime on anything it touches, which freezes solid within minutes.",
+  "type": CREATURE_TYPES.UNDEAD,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["undead","iceheart","wyrd-creature",""],
+  "tokenIcon": "Bestiary/spume_of_the_drowned",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 14,
+    "agility": 12,
+    "constitution": 16,
+    "intelligence": 10,
+    "spirit": 14,
+    "charisma": 8,
+    "maxHp": 320,
+    "currentHp": 320,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 20,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":100,"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.625Z",
+  "lastModified": "2026-07-14T20:33:48.625Z"
+  },
+  {
+  "id": "writ_of_passage",
+  "name": "Writ of Passage",
+  "description": "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.",
+  "origin": "The Writ of Passage is a Wyrd-construct born from the Neth obsession with contracts and maritime charters. It is a literal contract made of ice and parchment that drifts on the ocean currents.",
+  "nature": "It appears as a large, floating sheet of glowing parchment, its edges rimmed with ice. Runic script moves across its surface, writing and rewriting the terms of a maritime transit compact.",
+  "habitat": "Shipping lanes, harbor entrances, and ocean reefs of the Iceheart Sea.",
+  "depth": "It seeks out vessels and forces the captain to agree to its terms before allowing safe passage. If the terms are violated, it lashes out with blades of frozen ink that slice through timber.",
+  "type": CREATURE_TYPES.CONSTRUCT,
+  "size": CREATURE_SIZES.SMALL,
+  "tags": ["construct","iceheart","wyrd-creature",""],
+  "tokenIcon": "Bestiary/writ_of_passage",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 6,
+    "agility": 16,
+    "constitution": 10,
+    "intelligence": 14,
+    "spirit": 14,
+    "charisma": 12,
+    "maxHp": 130,
+    "currentHp": 130,
+    "maxMana": 40,
+    "currentMana": 40,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 35,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":50,"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.626Z",
+  "lastModified": "2026-07-14T20:33:48.626Z"
+  },
+  {
+  "id": "storm_crows",
+  "name": "Storm-Crows",
+  "description": "A winged raven-like mountain spirit that steals voices to confuse and lure travelers.",
+  "origin": "The Storm-Crows are mountain spirits born from Tesshan folklore. They are winged mountain dwellers that steal the voices of travelers to confuse and distract.",
+  "nature": "A humanoid raven with a wingspan of eight feet, its feathers crackling with static electricity and cold-iron dust. Its head is a bird's skull, and it speak in the voices of those it has heard, mimicking them perfectly.",
+  "habitat": "Highest spires, pipeline bridges, and mountain ravines of Cragjaw Peaks.",
+  "depth": "They hunt in small flocks, mimicking the screams of lost children or the orders of commanders to lead travelers into ambushes or off cliffs. They are highly protective of their high-spire nests.",
+  "type": CREATURE_TYPES.MONSTER,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["monster","cragjaw","wyrd-creature",""],
+  "tokenIcon": "Bestiary/storm_crows",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 10,
+    "agility": 18,
+    "constitution": 12,
+    "intelligence": 12,
+    "spirit": 14,
+    "charisma": 12,
+    "maxHp": 180,
+    "currentHp": 180,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 40,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"lightning":50,"cold":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.626Z",
+  "lastModified": "2026-07-14T20:33:48.626Z"
+  },
+  {
+  "id": "sump_scrabs",
+  "name": "Sump-Scrabs",
+  "description": "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze.",
+  "origin": "Sump-Scrabs are alchemical insectoids that nested in the early holdfast boilers. The Wyrd anomaly twisted their biology, turning them into pests that drain heat from pipes.",
+  "nature": "A beetle-like creature the size of a dog, its shell made of black basalt plates and copper veins. It has a long, tube-like siphon that it uses to drain heat and steam directly from pipes.",
+  "habitat": "Geothermal pipes, boiler rooms, and sump tunnels of Frostmaw and Gearworks.",
+  "depth": "A Sump-Scrab infestation can cause entire pipeline sections to freeze, locking down heat to keeps. They are attracted to any source of combustion, making campfire travelers prime targets.",
+  "type": CREATURE_TYPES.MONSTER,
+  "size": CREATURE_SIZES.SMALL,
+  "tags": ["monster","cragjaw","wyrd-creature",""],
+  "tokenIcon": "Bestiary/sump_scrabs",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 8,
+    "agility": 14,
+    "constitution": 12,
+    "intelligence": 4,
+    "spirit": 8,
+    "charisma": 4,
+    "maxHp": 85,
+    "currentHp": 85,
+    "maxMana": 0,
+    "currentMana": 0,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 25,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":50,"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.627Z",
+  "lastModified": "2026-07-14T20:33:48.627Z"
+  },
+  {
+  "id": "lien",
+  "name": "Lien",
+  "description": "A spindly, scroll-wrapped horror that tracks down those with unpaid debts or broken promises.",
+  "origin": "The Lien is a Wyrd-horror born from the Ordan/steppe customs regarding tribal debts. It is a physical manifestation of unpaid promises, hunting down those who refuse to honor their compacts.",
+  "nature": "It appears as a tall, skeletal humanoid wrapped in old parchment contracts that rustle when it moves. Its fingers are long, quill-like claws that drip black ink, and its face is a blank sheet of parchment.",
+  "habitat": "Gravity-warped steppe paths, Mound-Camps, and ruins of the Sundrift Vale.",
+  "depth": "It tracks debtors through gravity storms, its movement unaffected by the steppe's spatial distortions. It only ceases its hunt if the contract's terms are fulfilled or the debt is paid in blood.",
+  "type": CREATURE_TYPES.MONSTER,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["monster","sundrift","wyrd-creature",""],
+  "tokenIcon": "Bestiary/lien",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 14,
+    "agility": 14,
+    "constitution": 14,
+    "intelligence": 12,
+    "spirit": 16,
+    "charisma": 8,
+    "maxHp": 270,
+    "currentHp": 270,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 30,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"physical":25,"psychic":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.627Z",
+  "lastModified": "2026-07-14T20:33:48.627Z"
+  },
+  {
+  "id": "hungry_child_creature",
+  "name": "Hungry Child",
+  "description": "A hollow-eyed child spirit that devours travelers' memories of light and star-stories.",
+  "origin": "Those recently dead are left at the Ancestor-Mounds; if their souls are found wanting, they are rejected by the ancestors and become Hungry Children — Wyrd-occupied spirits that devour star-stories.",
+  "nature": "A small, translucent child spirit floating inches above the grass. Its eyes are hollow wells of darkness, and it constantly whispers fragments of forgotten star-stories, seeking to hear a complete legend.",
+  "habitat": "Ancestor burial mounds, steppe ruins, and caravan routes of Sundrift.",
+  "depth": "If it encounters travelers who cannot tell a star-story, it attacks, devouring their memories of warmth and light. It can be appeased by telling a complete, genuine setting legend.",
+  "type": CREATURE_TYPES.UNDEAD,
+  "size": CREATURE_SIZES.SMALL,
+  "tags": ["undead","sundrift","wyrd-creature",""],
+  "tokenIcon": "Bestiary/hungry_child_creature",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 6,
+    "agility": 12,
+    "constitution": 10,
+    "intelligence": 8,
+    "spirit": 14,
+    "charisma": 10,
+    "maxHp": 120,
+    "currentHp": 120,
+    "maxMana": 20,
+    "currentMana": 20,
+    "maxActionPoints": 3,
+    "currentActionPoints": 3,
+    "initiative": 2,
+    "speed": 20,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"psychic":100,"necrotic":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.628Z",
+  "lastModified": "2026-07-14T20:33:48.628Z"
+  },
+  {
+  "id": "sere_khan",
+  "name": "Sere-Khan",
+  "description": "A skeletal judge on a spectral horse that puts travelers on trial for ancestral compacts.",
+  "origin": "The Sere-Khan is a legendary Wyrd-horror born from Ordan ancestor-worship. It is a skeletal judge who rides the steppe, trying cases brought by the spirits of the dead.",
+  "nature": "A towering, skeletal warrior clad in rusted scale-armor and riding a spectral horse. It carries a heavy jade gavel and a scroll of judgment, speaking in a low, resonant throat-singing tone.",
+  "habitat": "Ancestor-Mounds, steppe valleys, and Monolith sites of Sundrift Vale.",
+  "depth": "He represents the absolute, unyielding authority of ancestor-law. Those who face the Sere-Khan are put on trial; their defense must be presented in ancestral terms, or they are condemned to execution.",
+  "type": CREATURE_TYPES.UNDEAD,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["undead","sundrift","wyrd-creature",""],
+  "tokenIcon": "Bestiary/sere_khan",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 18,
+    "agility": 14,
+    "constitution": 18,
+    "intelligence": 14,
+    "spirit": 18,
+    "charisma": 16,
+    "maxHp": 450,
+    "currentHp": 450,
+    "maxMana": 40,
+    "currentMana": 40,
+    "maxActionPoints": 5,
+    "currentActionPoints": 5,
+    "initiative": 2,
+    "speed": 40,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"physical":25,"necrotic":100},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.629Z",
+  "lastModified": "2026-07-14T20:33:48.629Z"
+  },
+  {
+  "id": "grandmother_of_the_bog",
+  "name": "Grandmother of the Bog",
+  "description": "An ancient, moss-covered bog-hag that trades years of life for travelers' memories.",
+  "origin": "The Grandmother of the Bog is an ancient fey entity born from Thalren peat-bog folklore. She offers extensions on life to dying mortals in exchange for their most precious memories.",
+  "nature": "A massive, moss-covered hag standing over seven feet tall, wrapped in peat-moss and willow roots. Her eyes are glowing amber points, and she carries a wooden spoon and a pot of boiling bog-soup.",
+  "habitat": "Widow's Quagmire, peat-bogs, and willow groves of the Bryngloom Forest.",
+  "depth": "She is a master negotiator, signing contracts that grant travelers safety in the bog but leave them unable to recall their childhoods. The soup she boils is made of memories and bog-lichen.",
+  "type": CREATURE_TYPES.FEY,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["fey","bryngloom","wyrd-creature",""],
+  "tokenIcon": "Bestiary/grandmother_of_the_bog",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 12,
+    "agility": 12,
+    "constitution": 16,
+    "intelligence": 18,
+    "spirit": 20,
+    "charisma": 14,
+    "maxHp": 380,
+    "currentHp": 380,
+    "maxMana": 60,
+    "currentMana": 60,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 20,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"cold":50,"rime":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.630Z",
+  "lastModified": "2026-07-14T20:33:48.630Z"
+  },
+  {
+  "id": "debt_revenant",
+  "name": "Debt-Revenant",
+  "description": "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract.",
+  "origin": "When a Neth debtor dies with unfulfilled contract obligations, their spirit is denied rest by the Neth pacts, rising as a peat-revenant to complete the terms of their agreement.",
+  "nature": "A peat-preserved corpse clad in rusted Neth scale-armor and wrapped in rotting peat-bonds. Its eyes glow with a cold, blue light, and it carries the contract that binds it in its chest cavity.",
+  "habitat": "Peat-bogs, marshlands, and scriptorium ruins of the Bryngloom Forest.",
+  "depth": "It cannot rest until its contract is legally fulfilled or the document is burned by a Neth pact-mage. It is intensely hostile to anyone who attempts to block its path or salvage its armor.",
+  "type": CREATURE_TYPES.UNDEAD,
+  "size": CREATURE_SIZES.MEDIUM,
+  "tags": ["undead","bryngloom","wyrd-creature",""],
+  "tokenIcon": "Bestiary/debt_revenant",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 16,
+    "agility": 12,
+    "constitution": 16,
+    "intelligence": 8,
+    "spirit": 12,
+    "charisma": 6,
+    "maxHp": 290,
+    "currentHp": 290,
+    "maxMana": 0,
+    "currentMana": 0,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 25,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"necrotic":100,"cold":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.630Z",
+  "lastModified": "2026-07-14T20:33:48.630Z"
+  },
+  {
+  "id": "cycle_eater",
+  "name": "Cycle-Eater",
+  "description": "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing.",
+  "origin": "The Cycle-Eater is a grotesque aberration born from the fear that Keth-Amar will devour the forest's reincarnation cycle entirely. It crawls beneath the marshes, feeding on the roots of sacred willows.",
+  "nature": "A massive, worm-like horror with multiple insectoid limbs and a circular mouth lined with needle-like teeth. Its body is covered in a glowing, purple slime that drains magic from the surrounding area.",
+  "habitat": "Deep peat-pools, hollow roots, and convergence shrines of Bryngloom.",
+  "depth": "It feeds on the life-force of dying creatures, preventing their spirits from returning to the loop of rebirth. A grove occupied by a Cycle-Eater slowly turns grey and sterile, its trees unable to bud.",
+  "type": CREATURE_TYPES.ABERRATION,
+  "size": CREATURE_SIZES.LARGE,
+  "tags": ["aberration","bryngloom","wyrd-creature",""],
+  "tokenIcon": "Bestiary/cycle_eater",
+  "tokenBorder": "#CD7F32",
+  "stats": {
+    "strength": 18,
+    "agility": 14,
+    "constitution": 18,
+    "intelligence": 12,
+    "spirit": 16,
+    "charisma": 6,
+    "maxHp": 400,
+    "currentHp": 400,
+    "maxMana": 40,
+    "currentMana": 40,
+    "maxActionPoints": 4,
+    "currentActionPoints": 4,
+    "initiative": 2,
+    "speed": 30,
+    "flying": 0,
+    "swimming": 0,
+    "sightRange": 60,
+    "darkvision": 60
+  },
+  "resistances": {"necrotic":100,"psychic":50},
+  "vulnerabilities": {},
+  "abilities": [],
+  "lootTable": {
+    "currency": {
+      "platinum": { "min": 0, "max": 0 },
+      "gold": { "min": 0, "max": 2 },
+      "silver": { "min": 2, "max": 10 },
+      "copper": { "min": 10, "max": 50 }
+    },
+    "items": []
+  },
+  "dateCreated": "2026-07-14T20:33:48.631Z",
+  "lastModified": "2026-07-14T20:33:48.631Z"
+  },
 ];;;;
 
 export const getCreatureById = (id) => {

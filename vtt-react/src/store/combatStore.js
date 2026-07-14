@@ -1150,12 +1150,6 @@ const useCombatStore = create((set, get) => ({
         });
     },
 
-    // Check if it's the token's turn
-    isTokensTurn: (tokenId) => {
-        const state = get();
-        const combatant = state.turnOrder[state.currentTurnIndex];
-        return combatant?.tokenId === tokenId;
-    },
 
     // Initialize store with proper Map/Set types
     initializeStore: () => {

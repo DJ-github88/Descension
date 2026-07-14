@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { generateSpellId } from '../data/spellUtils';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';

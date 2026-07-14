@@ -150,9 +150,10 @@ window.testClassResources = () => {
     validateAllClassConfigurations();
 };
 
-export default {
+const classResourceUtils = {
     validateAllClassConfigurations,
     testClassResourceUpdates,
     getClassResourceSummary,
     simulateClassResourceEffect
 };
+export default classResourceUtils;

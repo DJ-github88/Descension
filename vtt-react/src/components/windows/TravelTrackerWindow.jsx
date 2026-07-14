@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import MythrillWindow from './MythrillWindow';
 import useTravelStore from '../../store/travelStore';
 import usePartyStore from '../../store/partyStore';
-import { BIOMES, getBiome, getAtmosphere, getEncounterTable } from '../../data/biomeData';
+import { BIOMES, getBiome, getEncounterTable } from '../../data/biomeData';
 import useGameStore from '../../store/gameStore';
 import { FaSnowflake, FaSun, FaTree, FaWater, FaAnchor, FaDungeon, FaWind } from 'react-icons/fa';
 import './TravelTrackerWindow.css';

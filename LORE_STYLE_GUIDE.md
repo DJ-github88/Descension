@@ -673,7 +673,30 @@ These events are fixed. Every race, region, and background must fit within this 
 | Cragjaw Peaks | Industrial, vertical, groaning | forges, gears, bone-bridges, Fexric warrens, Groven ancestors |
 | Sundrift Vale | Windy, nomadic, starless | steppe, herds, wind, Unlit Veil, ancestral mounds, the Shard-Window |
 
-### 6.5 What Not To Do
+### 6.5A Structural Pattern: Deep History & Strata (rulesData.js regions)
+
+The 7 region entries in `rulesData.js` each have a **Deep History & Strata** block. These have been standardized to the following format:
+
+```
+**Deep History & Strata**
+
+**The Pre-Deepening.** Short declarative sentence. Another short sentence. A third that completes the thought.
+
+**The Deepening & the Bargain — the Pact Type, just after the Binding.** The deal in one sentence. The consequence in the next sentence. What it cost.
+
+**The Long Dimming.** Trigger event. Consequence. Spread over time.
+
+**The Present Fracture.** Two short sentences about what's failing. A third sentence naming the crisis. The Heresy Chain terminus.
+```
+
+Rules for this block:
+- **Every era heading uses an em dash** for the pact/secondary name (e.g., "the Deepening & the Bargain — the Fog Compact, just after the Binding"). This is the ONE place per entry where em dashes are structurally required.
+- **Every era's body is 2-4 short declarative sentences.** No comma-spliced run-ons. Each sentence contains 1-2 named entities at most.
+- **Blank line between eras** for scannability.
+- **"The Present Fracture" ends the block.** It names the current crisis and, if applicable, ties it to the chain of consequences from earlier eras. No separate "now" pivot needed — the Fracture IS the now.
+- **Key Terms blockquotes** (`> **Key Terms in [Region]:**`) are placed BEFORE the Deep History block, not at the beginning of the region entry. Readers encounter narrative prose first, then definitions, then the deep timeline.
+
+### 6.5B What Not To Do
 
 - **Don't contradict the timeline.** If the Mimir Purge is ~Year 220, you can't refer to "recent Purge" in present-day entries.
 - **Don't use real-world religions or mythologies.** No "gods," "heaven," "hell," "angels," "demons" — use Mythrill equivalents: the Warden, the Keeper, the Wyrd, Keth-Amar.

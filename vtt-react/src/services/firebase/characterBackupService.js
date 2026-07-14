@@ -7,7 +7,7 @@
 
 import characterPersistenceService from './characterPersistenceService';
 import { db, isFirebaseConfigured } from '../../config/firebase';
-import { collection, doc, addDoc, getDocs, query, where, orderBy, limit, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, orderBy, limit, deleteDoc } from 'firebase/firestore';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Backup configuration
@@ -334,7 +334,7 @@ class CharacterBackupService {
           await deleteDoc(backup.ref);
         }
 
-        console.log(`ü - ëÔ∏è Cleaned up ${toDelete.length} old backups for character ${characterId}`);
+        console.log(`ÔøΩ - ÔøΩÔ∏è Cleaned up ${toDelete.length} old backups for character ${characterId}`);
       }
 
     } catch (error) {
@@ -356,7 +356,7 @@ class CharacterBackupService {
           localStorage.removeItem(backup.id);
         });
 
-        console.log(`ü - ëÔ∏è Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
+        console.log(`ÔøΩ - ÔøΩÔ∏è Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
       }
 
     } catch (error) {

@@ -16,14 +16,12 @@ import {
   getDocs,
   addDoc,
   updateDoc,
-  deleteDoc,
   query,
   where,
   orderBy,
   limit,
   startAfter,
-  getDoc,
-  setDoc
+  getDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
@@ -155,7 +153,6 @@ export async function getCommunityMaps(options = {}) {
 
     const {
       category,
-      searchQuery,
       sortBy = 'uploadDate',
       sortOrder = 'desc',
       limit: resultLimit = 20,

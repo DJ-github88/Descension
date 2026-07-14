@@ -1,4 +1,4 @@
-﻿// Quest-Based Skills System - Pathfinder Style
+// Quest-Based Skills System - Pathfinder Style
 // Each skill has quests that unlock rollable tables and abilities
 
 export const SKILL_CATEGORIES = {

@@ -1,4 +1,4 @@
-﻿import { getIconUrl as getAssetIconUrl } from '../../utils/assetManager';
+import { getIconUrl as getAssetIconUrl } from '../../utils/assetManager';
 
 // List of item icons from items folder categorized by type
 export const WOW_ICONS = {

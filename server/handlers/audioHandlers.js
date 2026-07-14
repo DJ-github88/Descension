@@ -111,12 +111,12 @@ function registerAudioHandlers(ctx) {
       }
 
       const player = players.get(socket.id);
-      if (!player || !player.roomId) return;
+      if (!player || !player.roomId) {return;}
 
       const room = rooms.get(player.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
-      if (room.gm && room.gm.socketId !== socket.id) return;
+      if (room.gm && room.gm.socketId !== socket.id) {return;}
 
       const stopData = {
         trackIds: data.trackIds,
@@ -156,12 +156,12 @@ function registerAudioHandlers(ctx) {
       }
 
       const player = players.get(socket.id);
-      if (!player || !player.roomId) return;
+      if (!player || !player.roomId) {return;}
 
       const room = rooms.get(player.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
-      if (room.gm && room.gm.socketId !== socket.id) return;
+      if (room.gm && room.gm.socketId !== socket.id) {return;}
 
       if (data && data.targetPlayers && Array.isArray(data.targetPlayers) && data.targetPlayers.length > 0) {
         const targetSockets = new Set(data.targetPlayers);
@@ -186,13 +186,13 @@ function registerAudioHandlers(ctx) {
     }
   });
 
-  socket.on('audio_sync_request', (data) => {
+  socket.on('audio_sync_request', (_data) => {
     try {
       const player = players.get(socket.id);
-      if (!player || !player.roomId) return;
+      if (!player || !player.roomId) {return;}
 
       const room = rooms.get(player.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
       const audioState = room.gameState.audioState || { playingTracks: [] };
 

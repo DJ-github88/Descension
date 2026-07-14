@@ -1,6 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
+import { getCreatureTokenIconUrl } from '../../utils/assetManager';
 import { isTokenUnlocked } from '../../data/summonableTokens';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useElementTooltipPosition } from '../common/useElementTooltipPosition';

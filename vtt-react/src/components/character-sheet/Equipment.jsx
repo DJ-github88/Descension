@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -15,7 +15,7 @@ import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
-import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory, normalizeDisciplineAbility } from '../../utils/raceDisciplineSpellUtils';
+import {   getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
 import { getBackgroundData } from '../../data/backgroundData';
 import '../../styles/character-sheet.css';
@@ -421,7 +421,7 @@ const BottleResource = ({ current, max, temp = 0, label, resourceType, onUpdate,
                             className="resource-controls-close"
                             onClick={() => setShowControls(false)}
                         >
-                            Ã - 
+                            ï¿½ - 
                         </button>
                     </div>
                     <div className="resource-adjustment-buttons">
@@ -707,7 +707,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     // Remove each racial spell individually to ensure they're deleted
                     uniqueSpellsToRemove.forEach(spell => {
                         if (spell && spell.id) {
-                            // console.log('ðŸ - ‘ï¸ [Equipment] Deleting racial spell:', spell.id, spell.name);
+                            // console.log('ï¿½ - ï¿½ï¸ [Equipment] Deleting racial spell:', spell.id, spell.name);
                             libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
                         }
                     });
@@ -1832,7 +1832,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? 'â - €' : 'â–¶'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? 'ï¿½ - ï¿½' : 'â–¶'}</span>
                 </button>
                 {Object.entries(SECTIONS).map(([key, section]) => (
                     <button

@@ -11,7 +11,6 @@ import useItemStore from '../../store/itemStore';
 import { useCreatureLibraryDispatch, libraryActionCreators } from '../creature-wizard/context/CreatureLibraryContext';
 import PackCard from './PackCard';
 import PackDetailsModal from './PackDetailsModal';
-import { getIconUrl } from '../../utils/assetManager';
 import './PackBrowser.css';
 
 const PackBrowser = () => {

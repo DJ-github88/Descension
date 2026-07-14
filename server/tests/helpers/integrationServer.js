@@ -46,7 +46,7 @@ function createIntegrationServer() {
   });
 
   const helpers = {
-    createRoom: async (roomName, gmName, socketId, password, color, isPermanent) => {
+    createRoom: async(roomName, gmName, socketId, password, color, isPermanent) => {
       const roomId = `room-${uuidv4()}`;
       const gmId = socketId;
       const gmPlayer = {
@@ -95,8 +95,8 @@ function createIntegrationServer() {
       players.set(socketId, gmPlayer);
       return room;
     },
-    hashPassword: async (pw) => pw || '',
-    verifyPassword: async () => true,
+    hashPassword: async(pw) => pw || '',
+    verifyPassword: async() => true,
     getPublicRooms: () => [],
     validateRoomMembership: (socket, roomId, requireGM = false) => {
       const player = players.get(socket.id);
@@ -104,14 +104,14 @@ function createIntegrationServer() {
         return { valid: false, error: 'Not a member of room' };
       }
       const room = rooms.get(roomId);
-      if (!room) return { valid: false, error: 'Room not found' };
-      if (requireGM && !player.isGM) return { valid: false, error: 'GM permission required' };
+      if (!room) {return { valid: false, error: 'Room not found' };}
+      if (requireGM && !player.isGM) {return { valid: false, error: 'GM permission required' };}
       return { valid: true, player, room };
     },
     mergeRoomGameStateForResume: (existing) => existing
   };
 
-  const noopAsync = async () => {};
+  const noopAsync = async() => {};
   const services = {
     firebaseBatchWriter: { queueWrite: () => {}, flush: noopAsync },
     movementDebouncer: { queueMove: () => {}, flush: () => {}, flushCallback: null },
@@ -141,7 +141,7 @@ function createIntegrationServer() {
       return port;
     },
     url() {
-      if (port === null) throw new Error('Server not started');
+      if (port === null) {throw new Error('Server not started');}
       return `http://localhost:${port}`;
     },
     connect(opts = {}) {
@@ -152,7 +152,7 @@ function createIntegrationServer() {
       });
     },
     async stop() {
-      for (const s of io.sockets.sockets.values()) s.disconnect(true);
+      for (const s of io.sockets.sockets.values()) {s.disconnect(true);}
       await new Promise((resolve) => { io.close(resolve); });
       await new Promise((resolve) => { httpServer.close(() => resolve()); });
     }

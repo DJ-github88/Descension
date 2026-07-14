@@ -426,7 +426,7 @@ export const ASTREN_BASE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A cloak of crystal-thread that refracts the light of dying stars. The Synod-Hold weavers stitch them for scholars who walk the Starfall Vale.',
+        description: 'A cloak of crystal-thread that refracts the light of dying stars. The Synod Hold weavers stitch them for scholars who walk the Starfall Vale.',
         iconId: 'inv_misc_cape_14',
         value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
         weight: 2,
@@ -477,7 +477,7 @@ agility: { value: 1, isPercentage: false }
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'A belt hung with the guild-vault tools a Fexric carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
+        description: 'A belt hung with the guild-vault tools a Fexrick carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
         iconId: 'inv_belt_05',
         value: { platinum: 0, gold: 4, silver: 75, copper: 50 },
         weight: 2,
@@ -516,7 +516,7 @@ export const MYRATHIL_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['shore_myrathil']
+            subraces: ['shoreling_myrathil']
         }
     },
 
@@ -538,7 +538,7 @@ export const MYRATHIL_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['deep_myrathil']
+            subraces: ['deepling_myrathil']
         }
     },
 
@@ -560,7 +560,7 @@ export const MYRATHIL_SUBRACE_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['brook_myrathil']
+            subraces: ['riverling_myrathil']
         }
     }
 ];
@@ -585,7 +585,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['masked_mimir']
+            subraces: ['veiled_mimir']
         }
     },
     {
@@ -607,7 +607,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['woven_mimir']
+            subraces: ['tethered_mimir']
         }
     },
     {
@@ -628,7 +628,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['masked_mimir']
+            subraces: ['veiled_mimir']
         }
     },
     {
@@ -648,7 +648,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['unwoven_mimir']
+            subraces: ['untethered_mimir']
         }
     }
 ];
@@ -1236,6 +1236,90 @@ export const HUMAN_SUBRACE_ITEMS = [
         },
         availableFor: {
             subraces: ['merryn_human']
+        }
+    },
+    {
+        id: 'skald-mammoth-tusk-amulet',
+        name: 'Skald Mammoth-Tusk Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet carved from primeval mammoth tusk by Nordhalla\'s glacier-weavers. It holds the chill of the peaks and keeps the wearer\'s focus sharp.',
+        iconId: 'inv_jewelry_necklace_11',
+        value: { platinum: 0, gold: 6, silver: 50, copper: 0 },
+        weight: 0.3,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['skald_human']
+        }
+    },
+    {
+        id: 'solvarn-ash-glass-brooch',
+        name: 'Solvarn Ash-Glass Brooch',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A brooch of dark volcanic ash-glass from Sundale. It reflects the orange glow of the calderas and warms the skin.',
+        iconId: 'inv_misc_gem_pearl_05',
+        value: { platinum: 0, gold: 7, silver: 25, copper: 0 },
+        weight: 0.2,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            charisma: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['solvarn_human']
+        }
+    },
+    {
+        id: 'ordan-steppe-stave-fitting',
+        name: 'Ordan Steppe-Stave Fitting',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A bronze fitting carved with the wind-symbols of the Sundrift Vale, attached to the head of a traveling stave.',
+        iconId: 'inv_jewelry_ring_05',
+        value: { platinum: 0, gold: 6, silver: 80, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            agility: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['ordan_human']
+        }
+    },
+    {
+        id: 'morren-bog-wood-charm',
+        name: 'Morren Bog-Wood Charm',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'A charm carved from petrified bog-wood from the Bryngloom, smelling of moss and wet peat. It wards off the memory-stealing fog.',
+        iconId: 'inv_jewelry_necklace_18',
+        value: { platinum: 0, gold: 8, silver: 40, copper: 0 },
+        weight: 0.2,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            constitution: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['morren_human']
         }
     }
 ];

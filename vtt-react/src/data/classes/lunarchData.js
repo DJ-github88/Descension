@@ -12,9 +12,9 @@ export const LUNARCH_DATA = {
       "allowedSubraces": [
           "trueborn_briaran",
           "shorn_briaran",
-          "masked_mimir",
-          "woven_mimir",
-          "unwoven_mimir",
+          "veiled_mimir",
+          "tethered_mimir",
+          "untethered_mimir",
           "thalren_human"
       ],
       "hardBlocks": [
@@ -76,8 +76,8 @@ export const LUNARCH_DATA = {
       }
     },
 
-    masked_mimir: {
-      subraceName: 'Masked Mimir',
+    veiled_mimir: {
+      subraceName: 'Veiled Mimir',
       title: 'The Moon-Masked',
       reframe: `The <LoreLink termId="mimir">Masked</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Masked are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
       signatureAbility: {
@@ -92,8 +92,8 @@ export const LUNARCH_DATA = {
       }
     },
 
-    woven_mimir: {
-      subraceName: 'Woven Mimir',
+    tethered_mimir: {
+      subraceName: 'Tethered Mimir',
       title: 'The Sentinel-Moon',
       reframe: `The <LoreLink termId="mimir">Woven</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Woven host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
       signatureAbility: {
@@ -108,8 +108,8 @@ export const LUNARCH_DATA = {
       }
     },
 
-    unwoven_mimir: {
-      subraceName: 'Unwoven Mimir',
+    untethered_mimir: {
+      subraceName: 'Untethered Mimir',
       title: 'The Moon-Saved',
       reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> are the maskless floor-dwellers, already dissolving, their forms blurring into the fog, their identities fading by the hour. For the Unwoven, the lunar parasite is not a curse but a *salvation*: an identity-anchor that arrives when all others have failed. An Unwoven Lunarch clings to the parasite the way a drowning person clings to driftwood, and they will surrender anything, memory, sensation, sanity, to keep it.`,
       signatureAbility: {
@@ -203,7 +203,7 @@ No other class can manipulate the passage of rounds on the battlefield. No other
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The lunarch's crescent aura was born in the moonlit groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A sister of House Viridane named **Selene** fled the noble armies and bargained with the wildwood fae to capture the moon's light. The price of this celestial aura was a permanent chill in her bones. Selene could never feel warmth again, even next to volcanic vents, her flesh glowing with a pale, sympathetic silver.
+The lunarch's crescent aura was born in the moonlit groves of the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. A scion of House Viridane named **Selene** fled the noble armies and bargained with the wildwood fae to capture the moon's light. The price of this celestial aura was a permanent chill in her bones. Selene could never feel warmth again, even next to volcanic vents, her flesh glowing with a pale, sympathetic silver.
 
 **CITIES & CIVIL RECEPTION**
 Lunarchs are celebrated as spiritual leaders among the Briaran, but they are hunted as heretics by the noble houses of the north.
@@ -212,7 +212,7 @@ Lunarchs are celebrated as spiritual leaders among the Briaran, but they are hun
 The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</LoreLink> descendants of House Viridane.
 
 **NOTABLE FIGURES**
-* **Selene of House Viridane**: The founding sister of the Lunarch order who led her house's escape from the north.
+* **Selene of House Viridane**: The founding scion of the Lunarch order who led her house's escape from the north.
 * **Eldrin the Moon-Touched**: A Briaran elder who established the first moonlit sanctuaries in the Frostwood Reach.`
     },
 

@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { getCustomIconUrl } from '../../../utils/assetManager';
 import '../styles/CharacterIconSelector.css';

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Status Effects Module
  *
  * Contains positive and negative status effects, combat advantages/disadvantages,

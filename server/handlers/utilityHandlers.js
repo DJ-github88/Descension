@@ -25,7 +25,7 @@ function registerUtilityHandlers(ctx) {
 
   socket.on('cursor_move', (data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     socket.to(player.roomId).emit('cursor_moved', {
       playerId: player.id,

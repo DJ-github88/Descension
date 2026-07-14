@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Card System - Core mechanics for card-based spell effects
  * 
  * This module provides complete utilities for working with standard playing cards
@@ -690,22 +690,8 @@ export const CARD_SUITS = {
   * @param {Array} hand - Hand of cards
   * @returns {boolean} - Whether the hand contains a flush
   */
- function hasFlush(hand) {
-  if (hand.length < 5) return false;
-  
-  const suitGroups = groupCardsBySuit(hand);
-  
-  for (const suit in suitGroups) {
-   if (suitGroups[suit].length >= 5) {
-    return true;
-   }
-  }
-  
-  return false;
- }
- 
- /**
-  * Get the highest ranked cards from a hand (for tiebreakers)
+  /**
+   * Get the highest ranked cards from a hand (for tiebreakers)
   * 
   * @param {Array} hand - Hand of cards
   * @param {number} count - Number of cards to get
@@ -2154,7 +2140,7 @@ export const CARD_SUITS = {
  export function createCardSystem(config = {}) {
   const {
    defaultDeckType = DECK_TYPES.STANDARD,
-   includeJokers = false,
+
    customSuitBonuses = {},
    customComboRules = {},
    useAdvancedProbabilities = false

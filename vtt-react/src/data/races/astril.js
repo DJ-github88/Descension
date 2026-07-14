@@ -1,10 +1,11 @@
-﻿export const astril = {
+export const astril = {
     id: 'astril',
     name: 'Astril',
     essence: 'The Fire-Carried',
     illustration: '/assets/images/races/astril_illustration.png',
     illustrationCaption: 'An Astril farmer standing watch over moonlit fields, reptilian eyes catching a glow that belongs to another world.',
     cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
+    visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual — crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. Vashir Astril tend toward scaled skin, cold-blooded and more physically grounded. Silath Astril are paler, carrying Lumia's stellar memory in their bearing, more sky-focused. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
     description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
 
 Lumia is gone. It was a star, once, the sun of a world that orbited it and grew warm beneath it and learned to call it home. The Astril were that world's children. They farmed its soil. They hunted its forests. They sang beneath its light. They were not special. They were not chosen. They were a people, and their star was their star.
@@ -90,6 +91,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
                         id: 'night_clarity_astril',
                         name: 'Night Clarity',
                         description: 'Advantage on Perception checks made in darkness or dim light, your eyes were made for a different sun, and Mythrill\'s night is your morning.',
+                        mechanicsText: 'You gain advantage on Perception checks while in darkness or dim light, making you far more aware of your surroundings than others in the dark.',
                         statusEffect: { level: 'moderate', description: 'The dark is where you see best' }
                     }
                 ],
@@ -102,6 +104,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
                         id: 'day_blindness_astril',
                         name: 'Day-Blind',
                         description: 'Disadvantage on Perception checks in bright daylight, what the natives call morning, you experience as a blinding noon.',
+                        mechanicsText: 'In bright daylight you suffer disadvantage on Perception checks, sharply reducing your ability to notice things in the sun\'s glare.',
                         statusEffect: {
                             level: 'moderate',
                             description: 'The daylight of an alien sun is blinding',
@@ -137,6 +140,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
                         id: 'glowing_eyes_astril',
                         name: 'Glowing Eyes',
                         description: 'Disadvantage on Stealth checks in darkness, your faintly luminous eyes are visible from far away. The light of a dead star shines in them whether you will it or not.',
+                        mechanicsText: 'In darkness you suffer disadvantage on Stealth checks, as your luminous eyes make you easy to spot.',
                         statusEffect: {
                             level: 'moderate',
                             description: 'Your eyes betray you in the dark',
@@ -172,6 +176,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
                         id: 'alien_resilience_astril',
                         name: 'Alien Resilience',
                         description: 'Advantage on Survival and Nature checks. Resistance to environmental extremes (extreme cold and extreme heat). The fragment of Lumia in your blood remembers how to survive a dying world.',
+                        mechanicsText: 'You gain advantage on Survival and Nature checks and resist extreme cold and heat, letting you endure environments that would harm others.',
                         statusEffect: { level: 'moderate', description: 'A dead world\'s biology keeps you alive in this one' }
                     }
                 ],
@@ -201,12 +206,14 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
                         id: 'lunar_steadfast_astril',
                         name: 'Lunar Steadfast',
                         description: 'Advantage on Spirit saving throws made at night. The dreamer beneath the moon holds you steady when the dark is yours.',
+                        mechanicsText: 'At night you gain advantage on Spirit saving throws, making you better able to resist fear, possession, and other spirit-based effects.',
                         statusEffect: { level: 'moderate', description: 'Selunis\'s dream shields you by moonlight' }
                     },
                     {
                         id: 'moonlit_insight_astril',
                         name: 'Moonlit Insight',
                         description: 'Once per long rest, a 1-minute ritual under moonlight grants advantage on your next ability check, attack roll, or saving throw within 1 hour.',
+                        mechanicsText: 'Once per long rest, a brief moonlit ritual lets your next ability check, attack, or saving throw within an hour be made with advantage.',
                         statusEffect: { level: 'moderate', description: 'The sleeper whispers a thread of the future' }
                     }
                 ],
@@ -292,6 +299,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             name: 'Vashir',
             illustration: '/assets/images/races/vashir_illustration.png',
             illustrationCaption: 'A Vashir Astril farmer, scaled patterns tracing the forearms, claw-like nails resting on a hoe, slit-pupil eyes watching a field by moonlight.',
+            visualDescription: `The most physically grounded of the Astril, the Vashir carry Lumia's reptilian heritage plainly in their skin. Faint geometric scale-patterns trace their forearms and the backs of their necks, personal markings unique to each individual that flush darker with exertion or cold. Their hands end in prominent claw-like nails, thick and dark, built for digging and gripping, and their slit-pupiled eyes carry a faint luminous glow behind a protective nictitating membrane. They run cooler than any Mythrill-born people, cold-blooded and slow-metabolized, and favor practical layered work-clothes stained with the soil of moonlit fields.`,
             tooltipSummary: 'Bloodlines carrying Lumia\'s reptilian heritage, the scaled farmers, hunters, and builders whose patience and hide root the Astril in the physical world.',
             description: 'The Vashir are the Astril bloodlines that carry Lumia\'s reptilian heritage. Scaled patterns trace their forearms and the backs of their necks, faint geometric markings that flush darker with exertion or cold. Their hands end in prominent claw-like nails, thick and dark, suited to digging and gripping and the hard labor of a farming life. Their eyes are slit-pupiled and faintly luminous, protected by a nictitating membrane that slides across the iris in wind or rain. Their body temperature runs cooler than a Mythrill native\'s, a relic of cold-blooded ancestors who survived a frozen world. They are sturdy, grounded, territorial, patient in the way that only a people who measure their work in centuries can be. The Vashir are the farmers, the hunters, the builders, the ones whose hands are always in the soil or on the kill. Their flaw is the mirror of their strength: they are so rooted in the physical world, so attuned to the land and the season and the harvest, that they sometimes forget the ritual. A Vashir who forgets the rite is not punished. They are simply reminded, gently, by the Silath, that the land they love so much will die if the work does not get done.',
             culturalBackground: 'Vashir communities are the visible face of the Astril to the rare outsider who passes through. They are the ones in the fields at dawn, the ones who barter at distant markets, the ones whose scaled forearms and claw-nailed hands draw the stares that the Silath, paler and quieter, prefer to avoid. The Vashir do not mind the stares. They have work to do.\n\nThe Vashir farm the descendants of seeds carried across the void from Lumia\'s world, and they hunt the game of Mythrill with a patience that borders on the geological. Their reptilian heritage suits them to this: the cooler body temperature, the slow metabolism, the hide that resists claw and cold. They are territorial in the quiet way of farmers, not aggressive, simply rooted, unwilling to leave land they have tended for generations. The oldest Vashir families have worked the same soil since the Astril arrived on Mythrill.\n\nTheir geometric markings are personal, unique to each Vashir, tracing patterns that suggest scale-rows without ever quite repeating. They are not constellation-maps. They are not sacred. They are simply the way the Vashir body remembers its heritage, and most Vashir could not tell you what their pattern signifies even if they wanted to. The Vashir are philosophically rooted in the physical world. They believe the work of saving Mythrill is done with hands and soil and patience, not with ritual and moonlight. They are not wrong. They are also not entirely right, and the Silath remind them of this every night when the rite must be performed and a Vashir has to be pulled away from a half-finished fence to take their place in the moon-courtyard.',
@@ -317,6 +325,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'scaled_hide_vashir',
                                 name: 'Scaled Hide',
                                 description: '15% physical damage resistance. Resistance to cold damage. The reptilian heritage of Lumia made your ancestors hard to kill, and it makes you the same.',
+                                mechanicsText: 'You take 15% less physical damage and resist cold damage, reducing the harm from weapons and frost.',
                                 statModifier: { stat: 'physical', magnitude: 15, magnitudeType: 'resistance' },
                                 statusEffect: { level: 'moderate', description: 'Scaled hide turns claw and cold alike' }
                             }
@@ -345,6 +354,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'natural_weapon_vashir',
                                 name: 'Natural Weapon',
                                 description: 'Unarmed strikes deal 1d6 + Str slashing damage. Spend 1 AP: next melee attack deals +1d4 slashing damage.',
+                                mechanicsText: 'Your unarmed strikes deal 1d6 + Strength slashing damage, and spending 1 AP adds 1d4 slashing to your next melee attack.',
                                 statusEffect: { level: 'moderate', description: 'Your claws are the hunter\'s first tools' }
                             }
                         ],
@@ -357,6 +367,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'rend_bleed_vashir',
                                 name: 'Rend',
                                 description: 'Target bleeds for 1d4 slashing damage at the start of its next turn. The claws of Lumia\'s hunters were made to open things that did not want to be opened.',
+                                mechanicsText: 'Your target loses 1d4 slashing HP at the start of its next turn as an ongoing bleed.',
                                 statusEffect: { type: 'bleeding', damageType: 'slashing', damageFormula: '1d4', duration: 1, durationUnit: 'turns' }
                             }
                         ],
@@ -384,6 +395,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'rooted_defender_vashir',
                                 name: 'Rooted Defender',
                                 description: 'When defending a held location or protecting an ally within 30 ft: advantage on Constitution saving throws, +1 melee damage. The farmer does not leave the field while the harvest is still standing.',
+                                mechanicsText: 'While defending held ground or an ally within 30 ft, you gain advantage on Constitution saves and +1 melee damage.',
                                 statusEffect: { level: 'moderate', description: 'Rooted, patient, unwilling to yield your ground' }
                             }
                         ],
@@ -411,6 +423,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'hunters_focus_vashir',
                                 name: 'Hunter\'s Focus',
                                 description: 'Spend 1 minute observing a target: gain advantage on your next Survival, Nature, or attack roll against it within 1 hour. The cold-blooded patience of Lumia reads its quarry before it moves.',
+                                mechanicsText: 'After a minute of observation, your next Survival, Nature, or attack roll against the studied target is made with advantage.',
                                 statusEffect: { level: 'moderate', description: 'You have read the quarry; the moment will be yours' }
                             }
                         ],
@@ -427,6 +440,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             name: 'Silath',
             illustration: '/assets/images/races/silath_illustration.png',
             illustrationCaption: 'A Silath Astril star-reader, skin translucent in the moonlight, pale silver eyes turned to a sky only they can read.',
+            visualDescription: `The Silath wear Lumia's consciousness rather than its hide. Their skin is almost translucent, pale enough to reveal the violet-blue threads of blood beneath, and their body temperature runs lower even than the Vashir's. Their eyes are uniform pale silver with no visible pupil, flat and mirror-bright as moonlight caught in still water, and they blink too seldom. Where the Vashir bear geometric scales, the Silath carry softer markings: flowing wind-patterns and tidal-maps that seem to drift when viewed from the corner of the eye. Paler, quieter, and more fragile than their kin, their gaze is perpetually turned toward a sky only they can read.`,
             tooltipSummary: 'Bloodlines carrying Lumia\'s consciousness and stellar memory, the pale star-readers and ritual-tenders most connected to the dormant Selunis.',
             description: 'The Silath are the Astril bloodlines that carry Lumia\'s consciousness, the part of the dead star that remembered rather than endured. Their skin is almost translucent in certain light, pale to the point of revealing the violet-blue threads of blood beneath, and their body temperature runs lower even than the Vashir\'s. Their eyes are uniform pale silver with no visible pupil, flat and bright as a mirror catching moonlight, and they do not blink as often as they should. Their markings are softer than the Vashir\'s, flowing rather than geometric, wind-patterns and tidal-maps that seem to shift when observed from the corner of the eye. The Silath are the star-readers, the ritual-tenders, the ones most connected to Selunis. They hear the sleeper\'s dreams more clearly than any other bloodline, and they are the ones who time the rite and chant its oldest passages. Their flaw is the mirror of their strength: they are so focused on the ritual, so attuned to the moon and the sky and the slow work of waking a god, that they sometimes forget the ground. A Silath who forgets to eat, or sleep, or notice the season has turned, is gently reminded by the Vashir that the body is also part of the work.',
             culturalBackground: 'The Silath are the keepers of the rite. In every Astril community, it is the Silath who read the stars each night, who determine which phase of the Selunis-ritual may be performed, who chant the passages that the lunar deity most needs to hear. They are the most connected to Selunis, and they bear the cost of that connection: the dreams come to them whether they will it or not, pale and tidal, full of images from a god\'s long sleep, and a Silath who has tended the rite for decades sometimes forgets which world they are standing in.\n\nTheir markings are soft and flowing, tidal-maps and wind-patterns that trace the skin as if drawn by a current. Like the Vashir\'s scales, they are unique to each Silath, personal and organic, never repeating. The Silath do not read them as sacred. They read them as personal, the way the consciousness of Lumia wrote itself on the body that carried it.\n\nThe Silath are paler, quieter, and more fragile than the Vashir, and they know it. They cannot farm as long or hunt as hard, and they do not try. Their work is the rite, and the records, and the watching of the sky. They are the ones who remember that the purpose of the Astril is not merely to survive on this world but to ensure the world itself survives. The Vashir tend the soil. The Silath tend the moon. Neither can do the other\'s work, and the ritual fails without both.\n\nA Silath who leaves the community is usually a messenger, a seeker of allies, or a penitent who has decided that their guilt must be worked out in the wider world rather than in the moon-courtyard. They are easy to spot, if you know what you are looking for: the translucent skin, the silver eyes, the faintly distracted air of someone who is listening to something you cannot hear. Most Silath, however, never leave the courtyard. The work is here. The dreamer is here. The Silath will not abandon either.',
@@ -452,6 +466,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'stellar_surge_silath',
                                 name: 'Stellar Surge',
                                 description: '+2 to Spirit-based spell attack rolls and +1 to spell save DC for 1 minute. One divination or ritual effect may be cast without mana. Lumia\'s consciousness pours its memory through you.',
+                                mechanicsText: 'For 1 minute you gain +2 to Spirit spell attack rolls and +1 to spell save DC, and may cast one divination or ritual effect without spending mana.',
                                 statusEffect: { level: 'major', description: 'A dead star\'s memory floods your mind' }
                             }
                         ],
@@ -464,6 +479,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'tide_recession_silath',
                                 name: 'Tide Recession',
                                 description: 'Gain 1 level of exhaustion when the surge ends. The stellar memory withdraws, and your mortal frame pays for what it briefly held.',
+                                mechanicsText: 'When the surge ends you gain 1 level of exhaustion, imposing penalties to your checks, saves, and speed.',
                                 statusEffect: {
                                     level: 'major',
                                     description: 'The alien consciousness has gone, and you are emptied',
@@ -496,6 +512,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'dreamsight_silath',
                                 name: 'Dreamsight',
                                 description: 'Advantage on Insight and Perception checks involving dreams, omens, or Selunis. Once per long rest, commune with the dream for a cryptic answer to one question. The Silath see what the sleeper shows them.',
+                                mechanicsText: 'You gain advantage on Insight and Perception checks involving dreams, omens, or Selunis, plus one cryptic answer per long rest.',
                                 statusEffect: { level: 'moderate', description: 'Your eyes reflect the dream of a sleeping god' }
                             }
                         ],
@@ -522,6 +539,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                             id: 'stellar_intervention_silath',
                             name: 'Stellar Intervention',
                             description: 'Reroll a failed saving throw, once per long rest.',
+                            mechanicsText: 'When you fail a saving throw, you may reroll it once per long rest and must keep the new result.',
                             statusEffect: { level: 'major', description: 'The memory of Lumia floods outward to shield its bearer' }
                         }],
                         durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
@@ -532,6 +550,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                             id: 'marking_blaze_silath',
                             name: 'Marking Blaze',
                             description: 'Tidal-markings blaze with pale light for 1 minute. Disadvantage on Stealth. Position revealed to all enemies within 60 ft.',
+                            mechanicsText: 'For 1 minute you have disadvantage on Stealth and every enemy within 60 ft learns your exact position.',
                             statusEffect: { level: 'moderate', duration: 1, durationUnit: 'minutes', penaltyType: 'stealth', magnitude: 'disadvantage', revealRange: 60 }
                         }],
                         targetRestriction: 'self'
@@ -558,6 +577,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'tidal_read_silath',
                                 name: 'Tidal Read',
                                 description: 'Advantage on Insight checks against living creatures. Your silver eyes read the currents of deceit the way they read the currents of the sky.',
+                                mechanicsText: 'You gain advantage on Insight checks against living creatures, helping you detect lies and hidden intent.',
                                 statusEffect: { level: 'moderate', description: 'You see the lie before it lands' }
                             }
                         ],
@@ -570,6 +590,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                                 id: 'unsettling_gaze_silath',
                                 name: 'Unsettling Gaze',
                                 description: 'Disadvantage on Intimidation checks. Your unblinking silver eyes read to strangers as illness or wrongness, not threat.',
+                                mechanicsText: 'You suffer disadvantage on Intimidation checks, as your unblinking silver eyes unsettle rather than threaten.',
                                 statusEffect: {
                                     level: 'moderate',
                                     description: 'Your gaze unsettles rather than frightens',

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Formula Variables System
  * 
  * This file defines all the valid variables that can be used in spell formulas,

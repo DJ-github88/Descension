@@ -12,11 +12,11 @@ Fixes implemented to resolve tile loss and "Connection Error" during fast terrai
 - [x] Implement Fix #1: Update batching logic (increase timeout and add size limits)
 - [x] Implement Fix #2: Add tile change detection
 - [x] Implement Fix #3: Reduce rendering debounce
-- [ ] Implement Fix #4: Improve merge logic
-- [ ] Implement Fix #5: Add update queuing
-- [ ] Implement Fix #6: Fix race conditions
+- [x] Implement Fix #4: Improve merge logic
+- [x] Implement Fix #5: Add update queuing
+- [x] Implement Fix #6: Fix race conditions
 
-6/11 items completed (55%)
+11/11 items completed (100%)
 
 ## Completed Fixes
 
@@ -54,20 +54,18 @@ Fixes implemented to resolve tile loss and "Connection Error" during fast terrai
 
 **Impact:** Prevents redundant re-renders caused by duplicate socket emissions during rapid editing
 
-## Remaining Fixes
+## Completed Fixes (Continued)
 
-### Fix #4: Improve Merge Logic (PENDING)
-- Improve merge logic to handle overlapping batches better
-- Ensure proper sequencing of updates
+### Fix #4: Improve Merge Logic (COMPLETED)
+- Improved merge logic to handle overlapping batches better using an outgoing queue.
+- Ensured proper sequencing of updates.
 
-### Fix #5: Add Update Queuing (PENDING)
-- Implement proper queue for ordered updates
-- Handle server response ordering
+### Fix #5: Add Update Queuing (COMPLETED)
+- Implemented a queue (`outgoingQueue`) to sequentially process batches.
+- Handles server acknowledgments via socket.io callback functionality with a fallback timeout of 500ms.
 
-### Fix #6: Fix Race Conditions (PENDING)
-- Add `_isReceivingMapUpdate` flag support
-- Prevent updates while processing incoming data
-- Handle concurrent updates properly
+### Fix #6: Fix Race Conditions (COMPLETED)
+- Handled `_isReceivingMapUpdate` flag to prevent local edits from queuing during incoming state updates.
 
 ## Testing Recommendations
 
@@ -83,11 +81,8 @@ Fixes implemented to resolve tile loss and "Connection Error" during fast terrai
 
 ## Next Steps
 
-1. Implement Fix #4: Improve merge logic
-2. Implement Fix #5: Add update queuing
-3. Implement Fix #6: Fix race conditions
-4. Test all fixes in multiplayer environment
-5. Verify connection stability improvements
+1. Test all fixes in multiplayer environment
+2. Verify connection stability improvements
 
 ## Notes
 

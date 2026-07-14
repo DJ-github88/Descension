@@ -7,7 +7,6 @@
 
 import React, { useRef, useEffect } from 'react';
 import useChatStore from '../../store/chatStore';
-import { DICE_TYPES } from '../../store/diceStore';
 
 // Helper function to format timestamps
 const formatTimestamp = (timestamp) => {

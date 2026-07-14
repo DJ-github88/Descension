@@ -379,12 +379,6 @@ export const TALENT_TREES = {
     'blood_frenzy': BERSERKER_BLOOD_FRENZY,
     'savage_instincts': BERSERKER_SAVAGE_INSTINCTS
   },
-  // 'Deathcaller' and 'Lichborne' merged into Revenant as Phase 1.10 consolidation
-  'Revenant': {
-    'sanguine_harvest': REVENANT_SANGUINE_HARVEST,
-    'frost_sovereign': REVENANT_FROST_SOVEREIGN,
-    'phylactery_anchor': REVENANT_PHYLACTERY_ANCHOR
-  },
   'Augur': {
     'auspex': AUGUR_AUSPICE,
     'harbinger': AUGUR_HARBINGER,

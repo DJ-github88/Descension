@@ -21,11 +21,10 @@ const firebaseService = require('./services/firebaseService');
 const deltaSync = require('./services/deltaSync');
 const EventBatcher = require('./services/eventBatcher');
 const optimizedFirebase = require('./services/optimizedFirebase');
-const lagCompensation = require('./services/lagCompensation');
 const RealtimeSyncEngine = require('./services/realtimeSync');
 const { createValidationMiddleware } = require('./services/validationService');
 const rateLimitService = require('./services/rateLimitService');
-const { sanitizeChatMessage, sanitizeRoomName, sanitizePlayerName, createSanitizationMiddleware } = require('./services/sanitizationService');
+const { createSanitizationMiddleware } = require('./services/sanitizationService');
 const logger = require('./services/logger');
 const { createSocketAuthMiddleware } = require('./services/socketAuthMiddleware');
 const ErrorHandler = require('./services/errorHandler');
@@ -195,9 +194,6 @@ const partyInvitations = new Map(); // invitationId -> Invitation
 const onlineSocialUsers = new Map(); // socketId -> user data
 const pendingPartyCreations = new Map(); // userId -> pending creation
 
-// Viewport tracking
-const playerViewports = new Map(); // socketId -> viewport
-
 // ==================== CREATE SYNC SERVICES ====================
 
 const syncServices = createSyncServices(io, rooms, players);
@@ -209,7 +205,7 @@ setupShutdownHandlers(syncServices);
 // ==================== HELPER FUNCTIONS ====================
 
 // Wrapper functions that include the data stores
-const createRoomWithDataStores = async (...args) => {
+const createRoomWithDataStores = async(...args) => {
   return roomHandlers.createRoom(...args, rooms, players);
 };
 
@@ -282,7 +278,7 @@ app.get('/metrics', (req, res) => {
 });
 
 // Debug logs endpoint (token-gated when DEBUG_API_TOKEN is set; open in dev)
-app.get('/debug/logs', async (req, res) => {
+app.get('/debug/logs', async(req, res) => {
   const debugToken = process.env.DEBUG_API_TOKEN;
   if (debugToken && req.query.token !== debugToken) {
     return res.status(403).json({ error: 'Forbidden' });
@@ -313,7 +309,7 @@ app.use('/api/', apiLimiter);
 
 app.use((err, req, res, next) => {
   errorHandler.handleError(err, { url: req.url, method: req.method });
-  if (res.headersSent) return next(err);
+  if (res.headersSent) {return next(err);}
   res.status(500).json({ error: 'Internal server error' });
 });
 

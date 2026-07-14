@@ -1,10 +1,11 @@
-﻿export const emberth = {
+export const emberth = {
   id: 'emberth',
   name: 'Emberth',
   essence: 'Devoted cave-dwelling nomads, keepers of Sol\'s last ember',
   illustration: '/assets/images/races/emberth_illustration.png',
   illustrationCaption: 'An Emberth cinder-walker with dark brown-beige skin and dreadlocks, holding a tiny, fading ember near their chest in solemn devotion.',
   cardFlavor: 'Religious cave-dwelling nomads and devoted keepers of the Solbrand, the last ember of their sleeping god.',
+  visualDescription: `Broad-shouldered and solid, standing 5'10" to 6'4" and weighing 190 to 280 pounds. Their skin is a warm, earthy dark brown-beige with a fine grey dusting of mineral-ash that sheds when they move or under stress. Their eyes are enormous and solid black, absorbing light rather than reflecting it — on the surface, they wear thick ash-tinted eye-cloths to filter the painful daylight. Their forearms and shoulders bear deliberate burn-scars and forge-marks encoding clan affiliation, trade, and lineage in a visual language. They wear their hair in dreadlocks. Their bearing is deliberately calm and still, the discipline of the Vault-Breath made visible in every unhurried movement.`,
   description: `**[The Cinder-Born Clans]**, *Deep in the dark vaults of Sundale, a broad, still figure sits in absolute contemplation, dark brown-beige skin lit by the faint glow of the Solbrand, holding a moment of perfect silence before the last ember of Sol.*
 
 Broad-shouldered and solid, the Emberth are a people shaped by the deep. Their skin is a warm, earthy dark brown-beige, the tone of a people who have lived in volcanic landscapes for generations, running grey with a fine dusting of dry mineral-ash that sheds when they move or suffer stress. They are strong, not brutish or hulking, but solidly built from a life of navigating caves, climbing volcanic rock, and enduring the physical demands of subterranean existence. Their eyes are enormous and solid black, absorbing light rather than reflecting it, adapted to perceive the faintest heat-gradient in the absolute darkness of the subterranean vaults where they sheltered after Sol went dark. On the surface, they wear thick, ash-tinted eye-cloths to filter the daylight that pains those dark-adapted eyes.
@@ -134,16 +135,6 @@ The Solstice Vigil occurs once each year during the longest period of darkness. 
 Forge-trials settle disputes between clans. No Emberth may strike another Emberth in anger, this is the first clause of the Forge Accords, and violation means permanent exile. Disputes are instead resolved through competitions of craft, endurance, or stillness: who can forge the finest blade from raw obsidian, who can hold the Vault-Breath longest, who can recite the longest ancestor-lineage from memory without error. The nature of the trial is agreed upon by both parties. The loser accepts the verdict without appeal, because to dispute a forge-trial is to dispute the forge itself, and the forge is Sol's altar.
   `,
 
-  baseTraits: {
-    languages: ['Common', 'Sundari'],
-    lifespan: '90-130 years',
-    baseSpeed: 25,
-    size: 'Medium',
-    height: '5\'10" - 6\'4"',
-    weight: '190-280 lbs',
-    build: 'Broad-shouldered, heavy, deliberately still'
-  },
-
   sharedTraits: [
     {
     "id": "cold_vulnerability_emberth",
@@ -174,7 +165,8 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
                         "statusEffect": {
                              "vulnerabilityType": "rime",
                              "vulnerabilityPercent": 50
-                        }
+                        },
+                        "mechanicsText": "Grants vulnerability to rime damage, causing you to take +50% increased damage from all rime sources. Also imposes disadvantage on saving throws against environmental cold."
                    }
               ],
               "durationValue": 0,
@@ -203,7 +195,8 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             id: 'vault_breath_discipline',
             name: 'Forged Stillness',
             description: 'Advantage on saving throws against fear and charm effects.',
-            statusEffect: { level: 'permanent', description: 'Advantage on fear and charm saves' }
+            statusEffect: { level: 'permanent', description: 'Advantage on fear and charm saves' },
+            mechanicsText: 'Grants advantage on all saving throws against fear and charm effects, reflecting the mental discipline of the Vault-Breath.'
           }
         ],
         durationType: 'permanent',
@@ -218,7 +211,8 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             id: 'vault_breath_slowness',
             name: 'Deep-Vault Slowness',
             description: 'Disadvantage on initiative rolls. Your body needs a moment to warm up and move.',
-            statModifier: { stat: 'initiative', magnitude: -99, magnitudeType: 'disadvantage' }
+            statModifier: { stat: 'initiative', magnitude: 0, magnitudeType: 'disadvantage' },
+            mechanicsText: 'Imposes disadvantage on initiative rolls when combat begins, as your body needs a moment to transition from deep stillness to movement.'
           }
         ],
         durationType: 'permanent',
@@ -251,7 +245,8 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             id: 'ash_lung_filtration',
             name: 'Ash-Filter',
             description: 'Immune to the effects of volcanic ash, dust-choking, and gas-based environmental hazards.',
-            statusEffect: { level: 'permanent', description: 'Immune to airborne choking hazards' }
+            statusEffect: { level: 'permanent', description: 'Immune to airborne choking hazards' },
+            mechanicsText: 'Grants full immunity to volcanic ash, dust-choking, and gas-based environmental hazards that would otherwise suffocate or obstruct breathing.'
           }
         ],
         durationType: 'permanent',
@@ -266,8 +261,9 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
             id: 'humidity_fatigue',
             name: 'Humidity Fatigue',
             description: 'Disadvantage on endurance and constitution checks in humid or rainforest climates. Your lungs grow heavy in clean, damp air.',
-            statModifier: { stat: 'constitution_endurance', magnitude: -99, magnitudeType: 'disadvantage' },
-            conditions: { climate: 'humid' }
+            statModifier: { stat: 'constitution_endurance', magnitude: 0, magnitudeType: 'disadvantage' },
+            conditions: { climate: 'humid' },
+            mechanicsText: 'Imposes disadvantage on endurance and constitution checks while in humid or rainforest climates, as the ash-filtering lungs grow heavy in clean, damp air.'
           }
         ],
         durationType: 'permanent',
@@ -287,6 +283,7 @@ Forge-trials settle disputes between clans. No Emberth may strike another Embert
       name: 'Korr',
       illustration: '/assets/images/races/korr_illustration.png',
       illustrationCaption: 'A Korr Emberth forge-priest sitting in absolute, conditioned stillness before the Solbrand, deep in devotional contemplation.',
+      visualDescription: `The fewest and the most deep-adapted. Korr skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns of any Emberth bloodline, stark and crisp from centuries of proximity to the Solbrand. Their enormous solid-black eyes are enlarged to read faint heat in absolute darkness, and their metabolisms are so slow their pulses are barely perceptible. Their bodies are conditioned for absolute stillness: elongated air-conserving lungs, dense bone, and a bearing so motionless that a sitting Korr can be mistaken for a carved votive. They wear their dreadlocks long and their ash-cloths thick against a daylight that pains them.`,
       tooltipSummary: 'Deep-vault forge-priests and Sun-Speakers, contemplative and deliberate, conditioned to absolute stillness before the Solbrand.',
       description: 'The fewest and the most isolated. Korr bodies are conditioned for absolute stillness, elongated lungs that conserve air, metabolisms so slow their pulses are barely perceptible, and solid black eyes enlarged to perceive the faint heat in absolute darkness. Their skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns, stark and crisp from proximity to the Solbrand. They are contemplative, scholarly in their devotion, spending their lives deciphering the Solbrand\'s silence. They move like people who have forgotten why movement matters. Their Vault-Breath can extend to twelve hours, double the standard, and older Korr report that time itself feels different in the deep, that centuries pass like seasons, and that the silence of the Solbrand is a language they are still learning to translate.',
       culturalBackground: `The Korr trace their lineage to the Sun-Speakers who answered Sol's silence with absolute patience. When the other clans asked what they would contribute to the survival effort, the Korr answered: meaning. They would wait. For centuries, the other two clans fed them, protected them, and carried geothermal fuel down into the Deep-Vault where the air was too thin for anyone but a Korr to breathe, because the Korr were the Emberth's connection to the dying heat. Without them, the survival effort had no purpose.
@@ -320,7 +317,8 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 id: 'korr_heat_gradient',
                 name: 'Heat-Sight',
                 description: 'Treat dim light as bright within 30ft and total darkness as dim light within 60ft. Perceive residual heat traces.',
-                statusEffect: { level: 'permanent', description: 'Enhanced dark vision with heat perception' }
+                statusEffect: { level: 'permanent', description: 'Enhanced dark vision with heat perception' },
+                mechanicsText: 'Enhances vision in darkness: dim light is treated as bright within 30 ft and total darkness as dim light within 60 ft, allowing perception of residual heat traces.'
               }
             ],
             durationType: 'permanent',
@@ -335,8 +333,9 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 id: 'korr_daylight_pain',
                 name: 'Daylight Pain',
                 description: 'Disadvantage on all sight-based perception checks in bright light.',
-                statModifier: { stat: 'perception_sight', magnitude: -99, magnitudeType: 'disadvantage' },
-                conditions: { lightLevel: 'bright' }
+                statModifier: { stat: 'perception_sight', magnitude: 0, magnitudeType: 'disadvantage' },
+                conditions: { lightLevel: 'bright' },
+                mechanicsText: 'Imposes disadvantage on all sight-based perception checks while in bright light, as the dark-adapted eyes are pained by unfiltered daylight.'
               }
             ],
             durationType: 'permanent',
@@ -370,7 +369,8 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 name: 'Ember Proximity',
                 description: 'Advantage on spirit checks when within 1 mile of the Solbrand',
                 statusEffect: { level: 'conditional', description: 'Advantage on spirit checks near the Solbrand' },
-                conditions: { solbrandProximity: true }
+                conditions: { solbrandProximity: true },
+                mechanicsText: 'Grants advantage on spirit checks while within 1 mile of the Solbrand, attuned to its faint pulse.'
               }
             ],
             durationType: 'permanent',
@@ -386,7 +386,8 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 name: 'Shared Dimming',
                 description: '-2 to concentration checks when the Solbrand gutters during moments of crisis',
                 statModifier: { stat: 'concentration', magnitude: -2, magnitudeType: 'flat' },
-                conditions: { solbrandDimming: true }
+                conditions: { solbrandDimming: true },
+                mechanicsText: 'Imposes a -2 penalty to concentration checks when the Solbrand gutters during moments of crisis, as its dimming frays your focus.'
               }
             ],
             durationType: 'permanent',
@@ -418,19 +419,22 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 id: 'deep_slow',
                 name: 'Vault-Weight',
                 description: '-5ft movement speed. Your bones are dense from the deep.',
-                statModifier: { stat: 'speed', magnitude: -5, magnitudeType: 'flat' }
+                statModifier: { stat: 'speed', magnitude: -5, magnitudeType: 'flat' },
+                mechanicsText: 'Reduces your movement speed by 5 ft, as your dense, deep-vault bones weigh you down.'
               },
               {
                 id: 'deep_cold_weak',
                 name: 'Cold-Seeped',
                 description: 'Disadvantage on saving throws against cold effects.',
-                statusEffect: { level: 'permanent', description: 'Disadvantage on cold saves' }
+                statusEffect: { level: 'permanent', description: 'Disadvantage on cold saves' },
+                mechanicsText: 'Imposes disadvantage on saving throws against cold effects, due to fragile marrow left vulnerable by the oxygen-starved Deep-Vault.'
               },
               {
                 id: 'deep_sink',
                 name: 'Stone-Blood',
                 description: 'Cannot swim. You sink in water.',
-                statusEffect: { level: 'permanent', description: 'Swim speed is 0; you sink' }
+                statusEffect: { level: 'permanent', description: 'Swim speed is 0; you sink' },
+                mechanicsText: 'You cannot swim and sink in water, as your stone-dense body has no buoyancy.'
               }
             ],
             durationType: 'permanent',
@@ -462,7 +466,8 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
                 id: 'geothermal_vapor_disorient',
                 name: 'Disoriented',
                 description: 'Target must make a Constitution saving throw (DC 13) or be disoriented for 1 round. The geothermal vapor overwhelms the senses.',
-                statusEffect: { level: 'minor', description: 'Disoriented for 1 round on failed Constitution save (DC 13).' }
+                statusEffect: { level: 'minor', description: 'Disoriented for 1 round on failed Constitution save (DC 13).' },
+                mechanicsText: 'Forces affected creatures to make a DC 13 Constitution saving throw or be disoriented for 1 round, as the geothermal vapor overwhelms their senses.'
               }
             ],
             durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: true
@@ -495,6 +500,7 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Solbrand
       name: 'Thrask',
       illustration: '/assets/images/races/thrask_illustration.png',
       illustrationCaption: 'A Thrask Emberth surface badland-hunter insulated in thick ashy cloth wraps, holding an obsidian weapon and scouting for geothermal vents.',
+      visualDescription: `The surface face of the Emberth. Thrask bodies are leaner and more mobile than their deep-vault kin, built to range the volcanic ashlands rather than sit vigil in the dark. Their dark brown-beige skin is weathered from generations of surface exposure, and their ash-branding marks are fainter and blurred at the edges, softened by distance from the Solbrand. They shave their hair close and wrap themselves head to toe in heavy ash-insulating cloths against the cold of the open badlands, moving with the purposeful economy of scouts who have forgotten why stillness was ever necessary.`,
       tooltipSummary: 'Surface scouts of the volcanic ashlands, leaner and more mobile than their deep-vault kin, carrying obsidian-forged tools across the scree.',
       description: 'The most surface-adapted and the most mobile. Thrask bodies have shorn hair and are wrapped in heavy ash-insulating cloths against the cold of the open ashlands. Their skin is dark brown-beige, weathered from surface exposure, and their ash-branding marks are fainter, blurred at the edges from generational distance from the Solbrand. Their ash-filtering lungs are somewhat weaker than the Korr\'s, adapted for the thin, cold air of the surface border rather than the thick particulate of the Mid-Vault. They are the Emberth\'s connection to the surface, ranging the volcanic ashlands as scouts, messengers, and badland-hunters, mapping the thermal vents and carrying word between outposts. Leaner, faster, and more mobile than the Korr, they move like people who have forgotten why stillness was ever necessary.',
       culturalBackground: `The Thrask trace their lineage to the hunters who answered Sol's silence with vigilance. They worked the High-Vault, the tunnels nearest the frozen surface, ranging into the dead world above to hunt what survived the freeze and salvage active coal deposits. Without them, the other clans would have frozen in their sleep.
@@ -530,7 +536,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'thrask_cold_resist',
                 name: 'Cold-Grounded',
                 description: 'Advantage on saving throws against cold weather and environmental cold effects.',
-                statusEffect: { level: 'permanent', description: 'Advantage on cold saves' }
+                statusEffect: { level: 'permanent', description: 'Advantage on cold saves' },
+                mechanicsText: 'Grants advantage on saving throws against cold weather and environmental cold effects, from a body that learned to burn hotter at the border.'
               }
             ],
             durationType: 'permanent',
@@ -545,7 +552,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'thrask_heat_weak',
                 name: 'Heat-Vulnerable',
                 description: 'Disadvantage on saving throws against heat effects and extreme heat.',
-                statusEffect: { level: 'permanent', description: 'Disadvantage on heat saves' }
+                statusEffect: { level: 'permanent', description: 'Disadvantage on heat saves' },
+                mechanicsText: 'Imposes disadvantage on saving throws against heat effects and extreme heat, as the border-adapted body overcompensates against cold.'
               }
             ],
             durationType: 'permanent',
@@ -577,7 +585,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'ash_skimming',
                 name: 'Scree-Runner',
                 description: 'Ignore non-magical difficult terrain from snow, ice, ash, or loose stone. Leap up to 15ft during Dash without a start.',
-                statusEffect: { level: 'permanent', description: 'Ignore winter difficult terrain; 15ft standing leap on Dash' }
+                statusEffect: { level: 'permanent', description: 'Ignore winter difficult terrain; 15ft standing leap on Dash' },
+                mechanicsText: 'Ignores non-magical difficult terrain from snow, ice, ash, or loose stone, and allows a 15 ft standing leap as part of a Dash.'
               }
             ],
             durationType: 'permanent',
@@ -609,7 +618,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'obsidian_strikes',
                 name: 'Obsidian Blade',
                 description: 'Unarmed strikes deal 1d4 physical damage.',
-                statusEffect: { level: 'permanent', description: 'Unarmed strikes deal 1d4 slashing' }
+                statusEffect: { level: 'permanent', description: 'Unarmed strikes deal 1d4 slashing' },
+                mechanicsText: 'Your unarmed strikes deal 1d4 physical (slashing) damage instead of normal bludgeoning damage.'
               }
             ],
             durationType: 'permanent',
@@ -624,7 +634,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'obsidian_splinter_bleed',
                 name: 'Obsidian Bleeding',
                 description: 'Target takes 1d6 physical damage and 1d4 bleeding damage at start of its turn for 3 turns. You take 1d2 physical damage.',
-                statusEffect: { penaltyType: 'bleed_damage', bleedingFormula: '1d4', duration: 3, recoilFormula: '1d2' }
+                statusEffect: { penaltyType: 'bleed_damage', bleedingFormula: '1d4', duration: 3, recoilFormula: '1d2' },
+                mechanicsText: 'On a critical melee hit, deals +1d6 physical damage and applies 1d4 bleeding damage at the start of the target turn for 3 turns; the wielder takes 1d2 recoil damage.'
               }
             ],
             targetRestriction: 'critical_target'
@@ -653,7 +664,8 @@ The Thrask were the first to notice the evidence of the Solbrand's dimming. They
                 id: 'free_dash',
                 name: 'Free Dash',
                 description: 'Dash as a free action without consuming AP. Your movement does not provoke opportunity attacks until the end of your turn.',
-                statusEffect: { level: 'minor', description: 'Free Dash. Movement does not provoke opportunity attacks until end of turn.' }
+                statusEffect: { level: 'minor', description: 'Free Dash. Movement does not provoke opportunity attacks until end of turn.' },
+                mechanicsText: 'Lets you Dash as a free action without spending AP, and your movement does not provoke opportunity attacks until the end of your turn.'
               }
             ],
             durationValue: 1, durationType: 'round', durationUnit: 'round', canBeDispelled: false

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FaScroll, FaCoins, FaStar, FaBoxOpen, FaCheck, FaTimes } from 'react-icons/fa';
-import QuestReward from './QuestReward';
 import '../../styles/quest-share-dialog.css';
 
 /**
@@ -81,7 +80,7 @@ const QuestShareDialog = ({
                             <ul className="quest-share-objective-list">
                                 {quest.objectives.filter(obj => !obj.optional).slice(0, 3).map((objective, index) => (
                                     <li key={objective.id || index} className="quest-share-objective-item">
-                                        <span className="objective-marker">â - †</span>
+                                        <span className="objective-marker">ï¿½ - ï¿½</span>
                                         {objective.description}
                                         {objective.count > 1 && (
                                             <span className="objective-count"> (0/{objective.count})</span>

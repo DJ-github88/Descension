@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const DominanceDieResourceBar = ({
-  exorcistState,
-  setExorcistState,
+  dominanceState,
+  setDominanceState,
   uiState,
   setUiState,
   finalClassResource,
@@ -17,33 +17,24 @@ const DominanceDieResourceBar = ({
   renderStatusFlavor,
 }) => {
   const {
-    localDominanceDie,
-    selectedDemonIndex,
-    boundDemons,
-    showDominanceMenu,
-    exorcistHoverSection,
-    showDemonConfigModal,
-    demonConfigMode,
-    demonConfigInitialData
-  } = exorcistState;
+      localDominanceDie,
+      selectedDemonIndex,
+      boundDemons,
+      showDominanceMenu
+  } = dominanceState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setLocalDominanceDie = (value) => setExorcistState(prev => ({ ...prev, localDominanceDie: value }));
-  const setBoundDemons = (value) => setExorcistState(prev => ({ ...prev, boundDemons: value }));
-  const setSelectedDemonIndex = (value) => setExorcistState(prev => ({ ...prev, selectedDemonIndex: value }));
-  const setShowDominanceMenu = (value) => setExorcistState(prev => ({ ...prev, showDominanceMenu: value }));
-  const setExorcistHoverSection = (value) => setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
-  const setDemonConfigMode = (value) => setExorcistState(prev => ({ ...prev, demonConfigMode: value }));
-  const setDemonConfigInitialData = (value) => setExorcistState(prev => ({ ...prev, demonConfigInitialData: value }));
-  const setShowDemonConfigModal = (value) => setExorcistState(prev => ({ ...prev, showDemonConfigModal: value }));
+    const setLocalDominanceDie = (value) => setDominanceState(prev => ({ ...prev, localDominanceDie: value }));
+  const setBoundDemons = (value) => setDominanceState(prev => ({ ...prev, boundDemons: value }));
+  const setSelectedDemonIndex = (value) => setDominanceState(prev => ({ ...prev, selectedDemonIndex: value }));
+  const setShowDominanceMenu = (value) => setDominanceState(prev => ({ ...prev, showDominanceMenu: value }));
+  const setDominanceHoverSection = (value) => setDominanceState(prev => ({ ...prev, dominanceHoverSection: value }));
+  const setDemonConfigMode = (value) => setDominanceState(prev => ({ ...prev, demonConfigMode: value }));
+  const setDemonConfigInitialData = (value) => setDominanceState(prev => ({ ...prev, demonConfigInitialData: value }));
+  const setShowDemonConfigModal = (value) => setDominanceState(prev => ({ ...prev, showDemonConfigModal: value }));
 
         // Use local state for demo, fallback to classResource
         const currentDemon = boundDemons[selectedDemonIndex];
@@ -90,14 +81,14 @@ const DominanceDieResourceBar = ({
 
         // Handlers for tooltip
         const handleDominanceBarEnter = (e) => {
-            setExorcistHoverSection('dominance');
+            setDominanceHoverSection('dominance');
             const rect = e.currentTarget.getBoundingClientRect();
             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
             setShowTooltip(true);
         };
 
         const handleDominanceBarLeave = () => {
-            setExorcistHoverSection(null);
+            setDominanceHoverSection(null);
             setShowTooltip(false);
         };
 

@@ -14,7 +14,6 @@
 
 function registerJournalHandlers(ctx) {
   const {
-    io,
     socket,
     logger,
     validateRoomMembership

@@ -16,23 +16,17 @@ const LunarPhasesResourceBar = ({
   lunarPhaseBarRef
 }) => {
   const {
-    currentLunarPhase,
-    roundsInPhase,
-    lunarchSpec,
-    lunarchHoverSection,
-    showLunarPhaseMenu
+      currentLunarPhase,
+      roundsInPhase,
+      lunarchSpec,
+      showLunarPhaseMenu
   } = lunarchState;
 
-  const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
-  } = uiState;
+  const {} = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
   const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-  const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-  const setCurrentLunarPhase = (value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value }));
+    const setCurrentLunarPhase = (value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value }));
   const setRoundsInPhase = (value) => setLunarchState(prev => ({ ...prev, roundsInPhase: value }));
   const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
   const setLunarchHoverSection = (value) => setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
@@ -44,8 +38,7 @@ const LunarPhasesResourceBar = ({
         const currentPhaseConfig = phases[currentLunarPhase];
 
         // Get specialization config
-        const specConfig = phases[lunarchSpec];
-
+        
         // Handlers
         const handlePhaseClick = () => {
             setShowLunarPhaseMenu(!showLunarPhaseMenu);
@@ -63,11 +56,7 @@ const LunarPhasesResourceBar = ({
             const viewportWidth = window.innerWidth;
 
             // Calculate available space
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
+                                                
             // Adjust x position to keep tooltip in viewport
             let x = rect.left + rect.width / 2;
             const tooltipWidth = 300; // Estimated tooltip width
@@ -89,11 +78,7 @@ const LunarPhasesResourceBar = ({
             const viewportWidth = window.innerWidth;
 
             // Calculate available space
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
+                                                
             // Adjust x position to keep tooltip in viewport
             let x = rect.left + rect.width / 2;
             const tooltipWidth = 300; // Estimated tooltip width
@@ -147,19 +132,7 @@ const LunarPhasesResourceBar = ({
             }
         };
 
-        const getSpecPassive = () => {
-            switch (lunarchSpec) {
-                case 'moonlight_sentinel':
-                    return 'Critical hits during Full Moon deal +2d6 radiant damage.';
-                case 'starfall_invoker':
-                    return 'AoE spells during Full Moon affect +5 ft radius.';
-                case 'lunar_guardian':
-                    return 'Healing during Waxing Moon grants +1d6 temporary HP.';
-                default:
-                    return '';
-            }
-        };
-
+        
         return (
             <div className={`class-resource-bar lunar-phases ${size}`}>
                 <>
@@ -199,8 +172,7 @@ const LunarPhasesResourceBar = ({
                                     const phaseConfig = phases[phase];
                                     const isActive = phase === currentLunarPhase;
                                     const isPast = index < currentPhaseIndex;
-                                    const isFuture = index > currentPhaseIndex;
-
+                                    
                                     return (
                                         <div
                                             key={phase}

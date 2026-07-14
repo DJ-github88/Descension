@@ -1,4 +1,4 @@
-﻿// Room service for Firebase Firestore integration
+// Room service for Firebase Firestore integration
 import {
  collection,
  doc,
@@ -21,7 +21,6 @@ import subscriptionService from './subscriptionService';
 
 // Room collection reference
 const ROOMS_COLLECTION = 'rooms';
-const ROOM_SESSIONS_COLLECTION = 'roomSessions';
 
 /**
  * Create a new permanent room in Firestore
@@ -728,7 +727,7 @@ export const getRoomLimits = async (userId = null) => {
  }
 };
 
-export default {
+const roomService = {
  createPersistentRoom,
  getRoomData,
  updateRoomGameState,
@@ -745,3 +744,4 @@ export default {
  loadCompleteGameState,
  updateGameStateSection
 };
+export default roomService;

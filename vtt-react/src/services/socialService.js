@@ -1,4 +1,4 @@
-﻿import {
+import {
     collection,
     doc,
     setDoc,
@@ -10,8 +10,7 @@
     query,
     where,
     serverTimestamp,
-    arrayUnion,
-    arrayRemove
+    arrayUnion
 } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 

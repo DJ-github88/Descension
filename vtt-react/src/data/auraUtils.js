@@ -556,6 +556,8 @@ export const AURA_TARGETS = {
         visualization.maxRadius = aura.range;
         visualization.pulseRate = aura.pulseRate || 2000; // Default 2 second cycle
         break;
+      default:
+        break;
     }
     
     // Add color based on effect type

@@ -4,7 +4,7 @@
  * Multi-step character creation wizard with background selection and stat allocation
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ErrorBoundary from '../common/ErrorBoundary';
 import { Analytics } from '../../services/analyticsService';
 import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, WIZARD_STEPS, STEP_INFO } from './context/CharacterWizardContext';

@@ -4,7 +4,7 @@
  * Utility functions for managing the spell library storage, searching,
  * filtering, sorting, and performing other library management tasks.
  */
-import { serializeSpell, deserializeSpell } from './spellSerializer';
+
 
 // Constants
 const LIBRARY_STORAGE_KEY = 'spell_library_data';
@@ -49,7 +49,7 @@ export function saveLibraryToStorage(library) {
     localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(libraryData));
 
     // Verify the data was saved correctly
-    const savedData = localStorage.getItem(LIBRARY_STORAGE_KEY);
+
 
     return true;
   } catch (error) {
@@ -495,6 +495,9 @@ function migrateLibraryVersion(libraryData) {
     case 0:
       // Migration from version 0 to 1
       migratedData = migrateV0ToV1(migratedData);
+      break;
+
+    default:
       break;
 
     // Add more cases for future migrations

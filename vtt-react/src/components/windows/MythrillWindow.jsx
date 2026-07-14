@@ -2,7 +2,6 @@ import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, us
 import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
-import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
@@ -433,7 +432,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                 zIndex: 10
                                             }}
                                         >
-                                            Ã - 
+                                            ï¿½ - 
                                         </button>
                                     </div>
                                 </>
@@ -449,7 +448,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                     if (onClose) onClose();
                                                 }}
                                             >
-                                                Ã - 
+                                                ï¿½ - 
                                             </button>
                                             <div className="window-title centered">{safeTitle}</div>
                                             <div className="header-spacer"></div>
@@ -495,7 +494,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                                                     if (onClose) onClose();
                                                 }}
                                             >
-                                                Ã - 
+                                                ï¿½ - 
                                             </button>
                                         </>
                                     )}

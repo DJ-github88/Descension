@@ -1,9 +1,8 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useCreatureStore from '../../store/creatureStore';
-import useGameStore from '../../store/gameStore';
 import useSettingsStore from '../../store/settingsStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';

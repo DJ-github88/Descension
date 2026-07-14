@@ -23,10 +23,10 @@ function registerSessionHandlers(ctx) {
 
   socket.on('launch_game_session', (_data) => {
     const player = players.get(socket.id);
-    if (!player || !player.isGM) return;
+    if (!player || !player.isGM) {return;}
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // Notify all players that game session is starting
     io.to(player.roomId).emit('game_session_started', {
@@ -37,7 +37,7 @@ function registerSessionHandlers(ctx) {
 
   socket.on('respond_to_game_session', (data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     // Handle player response to game session invitation
     if (data.accepted) {
@@ -45,7 +45,7 @@ function registerSessionHandlers(ctx) {
     }
   });
 
-  socket.on('respond_to_room_invitation', async (data) => {
+  socket.on('respond_to_room_invitation', async(data) => {
     try {
       let player = players.get(socket.id);
       if (!player) {
@@ -157,7 +157,7 @@ function registerSessionHandlers(ctx) {
 
   socket.on('update_player_color', (data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     player.color = data.color;
 

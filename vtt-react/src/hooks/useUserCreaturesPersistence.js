@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import { saveUserCreature, loadUserCreatures, updateUserCreature, deleteUserCreature } from '../services/firebase/userCreaturesService';
+import { saveUserCreature, loadUserCreatures } from '../services/firebase/userCreaturesService';
 import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
@@ -32,7 +32,7 @@ export const useUserCreaturesPersistence = () => {
     const creatureStore = useCreatureStore?.getState();
     if (!creatureStore || !creatureStore.creatures) return [];
     return creatureStore.creatures.filter(isUserCreatedCreature);
-  }, [isUserCreatedCreature]);
+  }, [isUserCreatedCreature, useCreatureStore]);
 
   /**
    * Save a user-created creature to Firebase
@@ -116,7 +116,7 @@ export const useUserCreaturesPersistence = () => {
     } catch (error) {
       console.error('Failed to load user creatures from Firebase:', error);
     }
-  }, [user, isUserCreatedCreature]);
+  }, [user, isUserCreatedCreature, useCreatureStore]);
 
   /**
    * Sync newly created creatures to Firebase

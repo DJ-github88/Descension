@@ -5,9 +5,6 @@
  * Each spell is fully configured with proper formatting and complete effect details
  */
 
-// Helper to generate unique IDs
-const generateId = (name) => `${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now()}`;
-
 // EMPTY - Spells are now in testSpells.js
 // This file is no longer used for spell library population
 export const CUSTOM_LIBRARY_SPELLS = [];

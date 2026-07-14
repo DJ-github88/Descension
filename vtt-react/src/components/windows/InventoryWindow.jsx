@@ -20,7 +20,6 @@ import { getInventoryGridDimensions } from '../../utils/characterUtils';
 import Button from '../common/Button';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
-import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
 import {
     collectBuffEffects,
     collectDebuffEffects,
@@ -28,12 +27,11 @@ import {
     syncResourceToAll
 } from '../../utils/consumableUtils';
 import {
-    convertLegacyItemToShape,
     getShapeBounds,
     isCellOccupied as isShapeCellOccupied,
     createRectangularShape,
     getOccupiedCells,
-    rotateShape
+    rotateShape,
 } from '../../utils/itemShapeUtils';
 
 // Default grid size as fallback
@@ -71,7 +69,7 @@ const getDisplayName = (item) => {
 
 const InventoryWindow = memo(() => {
     // Force refresh mechanism
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [ setRefreshKey] = useState(0);
 
     // Get character stats for dynamic grid sizing
     const { stats, derivedStats, equipmentBonuses } = useCharacterStore(state => ({
@@ -147,7 +145,9 @@ const InventoryWindow = memo(() => {
     }));
 
     // Character store for equipment management and resource updates
-    const { equipItem, updateResource, health, mana, actionPoints, tempHealth, tempMana, tempActionPoints, updateTempResource } = useCharacterStore(state => ({
+    const {
+        equipItem
+    } = useCharacterStore(state => ({
         equipItem: state.equipItem,
         updateResource: state.updateResource,
         health: state.health,
@@ -172,14 +172,14 @@ const InventoryWindow = memo(() => {
     // Use local state for open containers instead of the item store
     const [localOpenContainers, setLocalOpenContainers] = useState(new Set());
 
-    const [showCurrencyConverter, setShowCurrencyConverter] = useState(false);
+    const [] = useState(false);
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [equipmentContextMenu, setEquipmentContextMenu] = useState({ visible: false, x: 0, y: 0, item: null });
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, itemId: null });
     const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
-    const [totalWeight, setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
+    const [ setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
     const [draggedItem, setDraggedItem] = useState(null);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
@@ -1083,33 +1083,9 @@ const InventoryWindow = memo(() => {
     };
 
     // Function to check if a container is open
-    const isContainerOpen = (containerId) => {
-        return localOpenContainers.has(containerId);
-    };
-
+    
     // Currency conversion functions
-    const convertCurrency = (from, to, amount) => {
-        if (amount <= 0) return;
-
-        const rates = {
-            copper: { silver: 0.01, gold: 0.0001, platinum: 0.000001 },
-            silver: { copper: 100, gold: 0.01, platinum: 0.0001 },
-            gold: { copper: 10000, silver: 100, platinum: 0.01 },
-            platinum: { copper: 1000000, silver: 10000, gold: 100 }
-        };
-
-        const fromValue = currency[from];
-        if (fromValue < amount) return; // Not enough currency
-
-        const toValue = currency[to] + (amount * rates[from][to]);
-        const newFromValue = fromValue - amount;
-
-        updateCurrency({
-            [from]: newFromValue,
-            [to]: toValue
-        });
-    };
-
+    
     // Helper functions for inventory management with shape support
     const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
 
@@ -1404,10 +1380,7 @@ const InventoryWindow = memo(() => {
 
 
         // Get item dimensions
-        const width = draggedItem.width || 1;
-        const height = draggedItem.height || 1;
-        const rotation = draggedItem.rotation || 0;
-
+                        
         // Check if the position is valid
         const isValid = isValidPosition(
             items.filter(i => i.id !== draggedItem.id),
@@ -1497,10 +1470,7 @@ const InventoryWindow = memo(() => {
                     }
 
                     // Get item dimensions
-                    const width = item.width || 1;
-                    const height = item.height || 1;
-                    const rotation = item.rotation || 0;
-
+                                                            
                     // Check if the position is valid
                     const isValid = isValidPosition(
                         items.filter(i => i.id !== id),
@@ -1591,10 +1561,7 @@ const InventoryWindow = memo(() => {
                     }
 
                     // Get item dimensions
-                    const width = item.width || 1;
-                    const height = item.height || 1;
-                    const rotation = item.rotation || 0;
-
+                                                            
                     // Check if the position is valid
                     const isValid = isValidPosition(
                         items,
@@ -1679,8 +1646,7 @@ const InventoryWindow = memo(() => {
                     // Get item dimensions
                     const width = libraryItem.width || 1;
                     const height = libraryItem.height || 1;
-                    const rotation = 0;
-
+                    
                     // Check if the position is valid
                     const tempItem = { ...libraryItem, width, height, rotation: 0 };
                     const isValid = isValidPosition(
@@ -2641,8 +2607,7 @@ const InventoryWindow = memo(() => {
                 const isContainer = item?.type === 'container';
                 const isLocked = item?.containerProperties?.isLocked || false;
                 const qualityColor = getQualityColor(item.quality, item.rarity);
-                const qualityLower = (item.quality || item.rarity || 'common').toLowerCase();
-                const compatibleSlots = getCompatibleSlots(item);
+                                const compatibleSlots = getCompatibleSlots(item);
                 const closePanel = () => setItemActionPanel({ visible: false, itemId: null, anchorRect: null });
 
                 return ReactDOM.createPortal(
@@ -2905,7 +2870,7 @@ const InventoryWindow = memo(() => {
                                     setItemToRename(null);
                                 }}
                             >
-                                Ã - 
+                                ï¿½ - 
                             </button>
                         </div>
                         <div className="modal-body">
@@ -2982,7 +2947,7 @@ const InventoryWindow = memo(() => {
                                     setItemToSplit(null);
                                 }}
                             >
-                                Ã - 
+                                ï¿½ - 
                             </button>
                         </div>
                         <div className="modal-body">

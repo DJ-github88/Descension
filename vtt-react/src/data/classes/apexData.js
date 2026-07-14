@@ -8,8 +8,8 @@
 export const APEX_DATA = {
  restrictions: {
   "allowedSubraces": [
-   "woven_mimir",
-   "unwoven_mimir",
+    "tethered_mimir",
+    "untethered_mimir",
    "skald_human",
    "marked_vreken",
    "vashir_astril"
@@ -31,8 +31,8 @@ export const APEX_DATA = {
  * The mist is learning to hide from all of them.
  */
  subraceVariants: {
- masked_mimir: {
-  subraceName: 'Masked Mimir',
+  veiled_mimir: {
+   subraceName: 'Veiled Mimir',
   title: 'The Mask-Hunter',
   reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Masked are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
   signatureAbility: {
@@ -48,8 +48,8 @@ export const APEX_DATA = {
   }
  },
 
- woven_mimir: {
-  subraceName: 'Woven Mimir',
+  tethered_mimir: {
+   subraceName: 'Tethered Mimir',
   title: 'The Sentinel-Tracker',
   reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Woven Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
   signatureAbility: {
@@ -64,8 +64,8 @@ export const APEX_DATA = {
   }
  },
 
- unwoven_mimir: {
-  subraceName: 'Unwoven Mimir',
+  untethered_mimir: {
+   subraceName: 'Untethered Mimir',
   title: 'The Fog-Walker',
   reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink>, maskless, dissolving, track by *becoming the fog*: their already-blurring forms merge with the mist, letting them move *inside* the very medium the prey hides in. An Unwoven Apex is the tradition's ghost, hunting from within the fog rather than against it. Their perception is fluid, unstable, and uniquely able to find things that have *become* the fog.`,
   signatureAbility: {
@@ -251,7 +251,7 @@ The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the
 
 Some Apexes believe the fog is responding to the increased activity of the Wyrd, that it is thickening to protect the incursions. Others believe something worse: the fog is not protecting them. It is hiding something else, something large, that has been moving through the Reach for months without leaving any trace. The old Apexes say the last time the fog went this still was the morning before Greythorn fell.`,
 
- meaningfulTradeoffs: `To be a Apex is to give up the world of words. The constant sensory tuning required to track Wyrd-creatures permanently alters the brain\'s auditory processing centers. Apexes gradually lose the ability to understand spoken language, not because their hearing fails, but because their brain no longer prioritizes human speech over environmental sound. They develop their own sign language, tactile gestures that can be felt through gloves. A pair of Apexes can hold a silent conversation through hand-pressure alone, but they cannot hear a friend say goodbye.`,
+ meaningfulTradeoffs: `To be a Apex is to give up the world of words. The constant sensory tuning required to track Wyrd-creatures permanently alters the brain's auditory processing centers. Apexes gradually lose the ability to understand spoken language, not because their hearing fails, but because their brain no longer prioritizes human speech over environmental sound. They develop their own sign language, tactile gestures that can be felt through gloves. A pair of Apexes can hold a silent conversation through hand-pressure alone, but they cannot hear a friend say goodbye.`,
 
  classSpecificLocations: [
   {

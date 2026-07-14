@@ -42,7 +42,7 @@ function registerTravelHandlers(ctx) {
 
       const { room } = validation;
       if (room.isPermanent && data.travelState) {
-        if (!room.gameState.travel) room.gameState.travel = {};
+        if (!room.gameState.travel) {room.gameState.travel = {};}
         room.gameState.travel = { ...room.gameState.travel, ...data.travelState };
         firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
       }
@@ -54,7 +54,7 @@ function registerTravelHandlers(ctx) {
   socket.on('travel_update', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       logger.info('[travel_update] Relaying', { socketId: socket.id, roomId: data.roomId, keys: Object.keys(data) });
       socket.to(data.roomId).emit('travel_update', data);
@@ -66,7 +66,7 @@ function registerTravelHandlers(ctx) {
   socket.on('travel_broadcast', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       socket.to(data.roomId).emit('travel_broadcast', data);
     } catch (error) {

@@ -101,6 +101,99 @@ export const useRoomPersistence = (roomId) => {
     }
   }, [currentRoomId, user]);
 
+  // Real-time sync for cross-device room synchronization
+  const handleRemoteRoomChange = useCallback((remoteData, changeType) => {
+    if (changeType === 'remote-update' || changeType === 'conflict-resolved-remote') {
+      console.log('🔄 Remote room update received:', changeType);
+
+      // Import stores dynamically and update them
+      (async () => {
+        const [
+          gridItemStoreModule,
+          creatureStoreModule,
+          levelEditorStoreModule,
+          combatStoreModule,
+          chatStoreModule,
+          conditionStoreModule
+        ] = await Promise.all([
+          import('../store/gridItemStore'),
+          import('../store/creatureStore'),
+          import('../store/levelEditorStore'),
+          import('../store/combatStore'),
+          import('../store/chatStore'),
+          import('../store/conditionStore')
+        ]);
+
+        // Update grid items
+        if (remoteData.gridItems) {
+          gridItemStoreModule.default.setState({
+            gridItems: remoteData.gridItems
+          });
+        }
+
+        // Update creature tokens
+        if (remoteData.creatureTokens) {
+          creatureStoreModule.default.setState({
+            tokens: remoteData.creatureTokens
+          });
+        }
+
+        // Update environmental objects
+        if (remoteData.environmentalObjects) {
+          levelEditorStoreModule.default.setState({
+            dndElements: remoteData.environmentalObjects
+          });
+        }
+
+        // Update combat state
+        if (remoteData.combat) {
+          combatStoreModule.default.setState({
+            isInCombat: remoteData.combat.isActive,
+            currentTurn: remoteData.combat.currentTurn,
+            turnOrder: remoteData.combat.turnOrder,
+            round: remoteData.combat.round,
+            combatLog: remoteData.combat.combatLog
+          });
+        }
+
+        // Update chat history
+        if (remoteData.chatHistory) {
+          chatStoreModule.default.setState({
+            notifications: {
+              social: remoteData.chatHistory.party || [],
+              combat: remoteData.chatHistory.combat || [],
+              loot: remoteData.chatHistory.loot || []
+            }
+          });
+        }
+
+        // Update buffs and debuffs
+        if (remoteData.buffsAndDebuffs) {
+          conditionStoreModule.default.setState({
+            activeBuffs: remoteData.buffsAndDebuffs.buffs || [],
+            activeDebuffs: remoteData.buffsAndDebuffs.debuffs || []
+          });
+        }
+
+        console.log('✅ Room state updated from remote changes');
+      })();
+    }
+  }, []);
+
+  const realtimeSync = useRealtimeSync(
+    `users/${user?.uid}/roomStates`,
+    currentRoomId,
+    handleRemoteRoomChange,
+    {
+      enabled: !!user && !user.isGuest && !!currentRoomId,
+      conflictResolution: 'remote-wins', // GM changes usually take precedence
+      onConflict: (conflictInfo) => {
+        console.warn('⚠️ Room data conflict detected - accepting remote (GM) changes');
+        conflictInfo.resolveWithRemote();
+      }
+    }
+  );
+
   /**
    * Save room state to Firebase
    */
@@ -128,7 +221,7 @@ export const useRoomPersistence = (roomId) => {
       console.error('Failed to save room state:', error);
       return { success: false, error: error.message };
     }
-  }, [user, currentRoomId, collectRoomState]);
+  }, [user, currentRoomId, collectRoomState, persistenceService, realtimeSync]);
 
   /**
    * Load room state from Firebase
@@ -230,7 +323,7 @@ export const useRoomPersistence = (roomId) => {
       console.error('Failed to load room state:', error);
       return { success: false, error: error.message };
     }
-  }, [user, currentRoomId]);
+  }, [user, currentRoomId, persistenceService]);
 
   /**
    * Auto-save room state when it changes
@@ -335,99 +428,6 @@ export const useRoomPersistence = (roomId) => {
     scheduleAutoSave,
     user
   ]);
-
-  // Real-time sync for cross-device room synchronization
-  const handleRemoteRoomChange = useCallback((remoteData, changeType) => {
-    if (changeType === 'remote-update' || changeType === 'conflict-resolved-remote') {
-      console.log('🔄 Remote room update received:', changeType);
-
-      // Import stores dynamically and update them
-      (async () => {
-        const [
-          gridItemStoreModule,
-          creatureStoreModule,
-          levelEditorStoreModule,
-          combatStoreModule,
-          chatStoreModule,
-          conditionStoreModule
-        ] = await Promise.all([
-          import('../store/gridItemStore'),
-          import('../store/creatureStore'),
-          import('../store/levelEditorStore'),
-          import('../store/combatStore'),
-          import('../store/chatStore'),
-          import('../store/conditionStore')
-        ]);
-
-        // Update grid items
-        if (remoteData.gridItems) {
-          gridItemStoreModule.default.setState({
-            gridItems: remoteData.gridItems
-          });
-        }
-
-        // Update creature tokens
-        if (remoteData.creatureTokens) {
-          creatureStoreModule.default.setState({
-            tokens: remoteData.creatureTokens
-          });
-        }
-
-        // Update environmental objects
-        if (remoteData.environmentalObjects) {
-          levelEditorStoreModule.default.setState({
-            dndElements: remoteData.environmentalObjects
-          });
-        }
-
-        // Update combat state
-        if (remoteData.combat) {
-          combatStoreModule.default.setState({
-            isInCombat: remoteData.combat.isActive,
-            currentTurn: remoteData.combat.currentTurn,
-            turnOrder: remoteData.combat.turnOrder,
-            round: remoteData.combat.round,
-            combatLog: remoteData.combat.combatLog
-          });
-        }
-
-        // Update chat history
-        if (remoteData.chatHistory) {
-          chatStoreModule.default.setState({
-            notifications: {
-              social: remoteData.chatHistory.party || [],
-              combat: remoteData.chatHistory.combat || [],
-              loot: remoteData.chatHistory.loot || []
-            }
-          });
-        }
-
-        // Update buffs and debuffs
-        if (remoteData.buffsAndDebuffs) {
-          conditionStoreModule.default.setState({
-            activeBuffs: remoteData.buffsAndDebuffs.buffs || [],
-            activeDebuffs: remoteData.buffsAndDebuffs.debuffs || []
-          });
-        }
-
-        console.log('✅ Room state updated from remote changes');
-      })();
-    }
-  }, []);
-
-  const realtimeSync = useRealtimeSync(
-    `users/${user?.uid}/roomStates`,
-    currentRoomId,
-    handleRemoteRoomChange,
-    {
-      enabled: !!user && !user.isGuest && !!currentRoomId,
-      conflictResolution: 'remote-wins', // GM changes usually take precedence
-      onConflict: (conflictInfo) => {
-        console.warn('⚠️ Room data conflict detected - accepting remote (GM) changes');
-        conflictInfo.resolveWithRemote();
-      }
-    }
-  );
 
   // Mark local changes for conflict detection
   useEffect(() => {

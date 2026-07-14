@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
-import useItemStore from '../../store/itemStore';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
 import { CURRENCY_TYPES } from '../item-generation/itemConstants';
 import '../../styles/currency-withdraw-modal.css';
@@ -108,8 +107,7 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
             displayName = value === 1 ? 'Gold Coin' : `${value} Gold Coins`;
         }
 
-        const currencyInfo = CURRENCY_TYPES[currencyKey] || CURRENCY_TYPES.HANDFUL_OF_COINS;
-
+        
         // Create a value object with the appropriate currency type
         const valueObj = { platinum: 0, gold: 0, silver: 0, copper: 0 };
         valueObj[type] = value;
@@ -146,7 +144,7 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
             <div ref={modalRef} className="currency-withdraw-modal">
                 <div className="modal-header">
                     <h3>Withdraw {getCurrencyLabel()}</h3>
-                    <button className="close-button" onClick={onClose}>Ã - </button>
+                    <button className="close-button" onClick={onClose}>ï¿½ - </button>
                 </div>
                 <div className="modal-content">
                     <div className="currency-info">

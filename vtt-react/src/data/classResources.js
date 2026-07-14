@@ -1,4 +1,4 @@
-﻿// Class-specific resource system configuration for HUD display
+// Class-specific resource system configuration for HUD display
 // Each class has a unique 4th resource bar with specific mechanics and visuals
 
 export const CLASS_RESOURCE_TYPES = {

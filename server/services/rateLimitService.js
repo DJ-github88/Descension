@@ -183,7 +183,7 @@ class RateLimitService {
       originalOn('disconnect', () => { violationCounts.delete(socket.id); });
 
       socket.on = (event, handler) => {
-        const rateLimitedHandler = async (data) => {
+        const rateLimitedHandler = async(data) => {
           const playerInfo = getPlayerInfo();
           const isGM = playerInfo?.isGM || false;
 

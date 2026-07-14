@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,99 +31,6 @@ export const DAMAGE_TYPES = {
   SLASHING: 'slashing',
   HEALING: 'healing',
 };
-
-// Sample spells for testing
-const SAMPLE_SPELLS = [
-  {
-    id: 'fireball-spell',
-    name: 'Fireball',
-    type: SPELL_TYPES.ACTION,
-    description: 'A ball of fire that explodes on impact, dealing damage to all targets in the area.',
-    damage: {
-      diceCount: 8,
-      diceType: 6,
-      bonus: 0,
-      damageType: DAMAGE_TYPES.FIRE
-    },
-    range: 120,
-    actionPointCost: 1,
-    cooldown: 0,
-    tags: ['fire', 'aoe', 'damage']
-  },
-  {
-    id: 'healing-word-spell',
-    name: 'Healing Word',
-    type: SPELL_TYPES.ACTION,
-    description: 'A word of sacred power that heals a creature you can see within range.',
-    healing: {
-      diceCount: 1,
-      diceType: 4,
-      bonus: 0
-    },
-    range: 60,
-    actionPointCost: 1,
-    cooldown: 0,
-    tags: ['healing', 'support']
-  },
-  {
-    id: 'shield-spell',
-    name: 'Shield',
-    type: SPELL_TYPES.REACTION,
-    description: 'An invisible barrier of magical force appears and protects you.',
-    effects: [
-      {
-        type: 'buff',
-        stat: 'damage_reduction',
-        value: 5,
-        duration: 1
-      }
-    ],
-    range: 0,
-    actionPointCost: 1,
-    cooldown: 0,
-    tags: ['protection', 'buff']
-  },
-  {
-    id: 'magic-missile-spell',
-    name: 'Magic Missile',
-    type: SPELL_TYPES.ACTION,
-    description: 'You create three glowing darts of magical force that unerringly strike their targets.',
-    damage: {
-      diceCount: 1,
-      diceType: 4,
-      bonus: 1,
-      damageType: DAMAGE_TYPES.FORCE
-    },
-    range: 120,
-    actionPointCost: 1,
-    cooldown: 0,
-    tags: ['force', 'damage']
-  },
-  {
-    id: 'bless-spell',
-    name: 'Bless',
-    type: SPELL_TYPES.ACTION,
-    description: 'You bless up to three creatures of your choice within range.',
-    effects: [
-      {
-        type: 'buff',
-        stat: 'attackRoll',
-        value: '1d4',
-        duration: 10
-      },
-      {
-        type: 'buff',
-        stat: 'savingThrow',
-        value: '1d4',
-        duration: 10
-      }
-    ],
-    range: 30,
-    actionPointCost: 1,
-    cooldown: 0,
-    tags: ['buff', 'support']
-  }
-];
 
 const useSpellStore = create(
   persist(

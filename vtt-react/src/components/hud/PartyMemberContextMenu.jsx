@@ -4,7 +4,6 @@ import usePartyStore from '../../store/partyStore';
 import usePresenceStore from '../../store/presenceStore';
 import useGameStore from '../../store/gameStore';
 import useAuthStore from '../../store/authStore';
-import '../../styles/unified-context-menu.css';
 
 const PartyMemberContextMenu = ({ 
   x, 
@@ -19,7 +18,10 @@ const PartyMemberContextMenu = ({
   
   const { leaveParty, partyMembers } = usePartyStore();
   const { sendSessionInvitation, requestToJoinSession } = usePresenceStore();
-  const { isInMultiplayer, multiplayerSocket, currentRoom } = useGameStore();
+  const {
+    isInMultiplayer,
+    currentRoom
+  } = useGameStore();
   const { user } = useAuthStore();
   
   useEffect(() => {

@@ -1,4 +1,4 @@
-﻿import usePresenceStore from '../presenceStore';
+import usePresenceStore from '../presenceStore';
 import { registerStore } from '../storeRegistry';
 
 // Mock dependencies

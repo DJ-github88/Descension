@@ -1,4 +1,4 @@
-﻿// Room State Service - Manages per-room and per-player state persistence
+// Room State Service - Manages per-room and per-player state persistence
 import { v4 as uuidv4 } from 'uuid';
 import campaignService from './campaignService';
 
@@ -96,17 +96,13 @@ class RoomStateService {
     creatureStoreModule,
     gridItemStoreModule,
     levelEditorStoreModule,
-    combatStoreModule,
-    inventoryStoreModule,
-    questStoreModule
+    combatStoreModule
    ] = await Promise.all([
     import('../store/gameStore'),
     import('../store/creatureStore'),
     import('../store/gridItemStore'),
     import('../store/levelEditorStore'),
-    import('../store/combatStore'),
-    import('../store/inventoryStore'),
-    import('../store/questStore')
+    import('../store/combatStore')
    ]);
 
    const gameStore = gameStoreModule.default.getState();
@@ -114,9 +110,6 @@ class RoomStateService {
    const gridItemStore = gridItemStoreModule.default.getState();
    const levelEditorStore = levelEditorStoreModule.default.getState();
    const combatStore = combatStoreModule.default.getState();
-   const inventoryStore = inventoryStoreModule.default.getState();
-   const questStore = questStoreModule.default.getState();
-
    return {
     // Map and camera
     mapData: {
@@ -184,13 +177,11 @@ class RoomStateService {
    const [
     inventoryStoreModule,
     questStoreModule,
-    actionBarModule,
     characterStoreModule,
     levelEditorStoreModule
    ] = await Promise.all([
     import('../store/inventoryStore'),
     import('../store/questStore'),
-    import('../hooks/useActionBarPersistence'),
     import('../store/characterStore'),
     import('../store/levelEditorStore')
    ]);
@@ -330,12 +321,10 @@ class RoomStateService {
    const [
     inventoryStoreModule,
     questStoreModule,
-    characterStoreModule,
     levelEditorStoreModule
    ] = await Promise.all([
     import('../store/inventoryStore'),
     import('../store/questStore'),
-    import('../store/characterStore'),
     import('../store/levelEditorStore')
    ]);
 

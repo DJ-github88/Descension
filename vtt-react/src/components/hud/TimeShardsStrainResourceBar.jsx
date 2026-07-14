@@ -19,9 +19,8 @@ const TimeShardsStrainResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    showTimeShardsMenu,
-    showTemporalStrainMenu,
-    chronarchHoverSection,
+      showTimeShardsMenu,
+      showTemporalStrainMenu
   } = chronarchState;
 
   const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
@@ -60,8 +59,7 @@ const TimeShardsStrainResourceBar = ({
         };
 
         const strainColor = getStrainColor(strainValue);
-        const strainState = getStrainState(strainValue);
-        const shouldPulse = strainValue >= 5;
+                const shouldPulse = strainValue >= 5;
         const shouldFlash = strainValue >= 9;
 
         return (

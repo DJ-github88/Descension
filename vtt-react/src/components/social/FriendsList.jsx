@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useSocialStore from '../../store/socialStore';
 import useAuthStore from '../../store/authStore';
-import authService from '../../services/authService';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useSettingsStore from '../../store/settingsStore';

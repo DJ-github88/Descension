@@ -95,13 +95,14 @@ export function useResourceBarTooltipPosition(barRef, show, deps = [], opts = {}
         raf2 = requestAnimationFrame(() => requestAnimationFrame(updatePosition));
         timeoutId = setTimeout(updatePosition, 50);
 
+        const element = tooltipRef.current;
         return () => {
             clearTimeout(timeoutId);
             if (raf1) cancelAnimationFrame(raf1);
             if (raf2) cancelAnimationFrame(raf2);
-            if (tooltipRef.current) tooltipRef.current.style.opacity = '0';
+            if (element) element.style.opacity = '0';
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show, ...deps]);
 
     return tooltipRef;

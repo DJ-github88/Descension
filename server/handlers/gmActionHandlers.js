@@ -21,10 +21,10 @@ function registerGmActionHandlers(ctx) {
     firebaseBatchWriter
   } = ctx;
 
-  socket.on('gm_switch_view', async (data) => {
+  socket.on('gm_switch_view', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -81,7 +81,7 @@ function registerGmActionHandlers(ctx) {
     }
   });
 
-  socket.on('gm_transfer_player', async (data) => {
+  socket.on('gm_transfer_player', async(data) => {
     try {
       logger.info('[gm_transfer_player] Request received', {
         roomId: data.roomId,
@@ -223,10 +223,10 @@ function registerGmActionHandlers(ctx) {
     }
   });
 
-  socket.on('gm_request_fresh_positions', async (data) => {
+  socket.on('gm_request_fresh_positions', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -244,10 +244,10 @@ function registerGmActionHandlers(ctx) {
     }
   });
 
-  socket.on('player_use_connection', async (data) => {
+  socket.on('player_use_connection', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -275,37 +275,37 @@ function registerGmActionHandlers(ctx) {
   socket.on('gm_action', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const effectiveRoomId = data.roomId || room.id;
       const actionType = data.action || data.type;
 
       switch (actionType) {
-        case 'clear_fog':
-          if (room.gameState.maps) {
-            Object.values(room.gameState.maps).forEach(map => {
-              if (map.fogOfWarData) map.fogOfWarData = {};
-            });
-          }
-          break;
-
-        case 'reset_combat':
-          room.gameState.combat = {
-            isActive: false,
-            currentTurn: null,
-            turnOrder: [],
-            round: 0
-          };
-          break;
-
-        case 'heal_all':
-          room.players.forEach(p => {
-            if (p.character?.health) {
-              p.character.health.current = p.character.health.max;
-            }
+      case 'clear_fog':
+        if (room.gameState.maps) {
+          Object.values(room.gameState.maps).forEach(map => {
+            if (map.fogOfWarData) {map.fogOfWarData = {};}
           });
-          break;
+        }
+        break;
+
+      case 'reset_combat':
+        room.gameState.combat = {
+          isActive: false,
+          currentTurn: null,
+          turnOrder: [],
+          round: 0
+        };
+        break;
+
+      case 'heal_all':
+        room.players.forEach(p => {
+          if (p.character?.health) {
+            p.character.health.current = p.character.health.max;
+          }
+        });
+        break;
       }
 
       io.to(effectiveRoomId).emit('gm_action', {
@@ -324,7 +324,7 @@ function registerGmActionHandlers(ctx) {
   socket.on('sync_gameplay_settings', (data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
 
@@ -346,14 +346,14 @@ function registerGmActionHandlers(ctx) {
     }
   });
 
-  socket.on('gm_note_update', async (data) => {
+  socket.on('gm_note_update', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
 
-      if (!room.gmNotes) room.gmNotes = {};
+      if (!room.gmNotes) {room.gmNotes = {};}
       room.gmNotes[data.noteId || 'default'] = {
         content: data.content,
         updatedAt: Date.now()

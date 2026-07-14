@@ -606,7 +606,8 @@ export const convertWowIconToLocal = (wowIconId) => {
   return null;
 };
 
-export default {
+const wowToLocalIconMap = {
   WOW_TO_LOCAL_ICON_MAP,
   convertWowIconToLocal
 };
+export default wowToLocalIconMap;

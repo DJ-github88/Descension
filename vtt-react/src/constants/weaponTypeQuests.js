@@ -1,4 +1,4 @@
-﻿// Weapon Mastery quest ladder per weapon type plus a shared default ladder
+// Weapon Mastery quest ladder per weapon type plus a shared default ladder
 // Each quest includes rank to support proficiency progression visibility.
 
 export const WEAPON_TYPE_QUEST_DATA = {

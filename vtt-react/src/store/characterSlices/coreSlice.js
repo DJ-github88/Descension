@@ -1,18 +1,15 @@
-﻿import { getStore } from '../storeRegistry';
-import { calculateEquipmentBonuses, calculateDerivedStats, flattenEffects } from '../../utils/characterUtils';
-import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../../utils/equipmentUtils';
-import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
-import { applyRacialModifiers, getFullRaceData, getRaceData } from '../../data/raceData';
+import { getStore } from '../storeRegistry';
+import { initializeClassResource } from '../../data/classResources';
+import { getFullRaceData, getRaceData } from '../../data/raceData';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
-import useGameStore from '../gameStore';
 import characterPersistenceService from '../../services/firebase/characterPersistenceService';
 import characterSessionService from '../../services/firebase/characterSessionService';
 import characterMigrationService from '../../services/firebase/characterMigrationService';
 import localStorageManager from '../../utils/localStorageManager';
-import { getCharacterData, updateCharacterData, storeCharacterOffline } from '../../services/offlineService';
+import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
-import { getEncumbranceState, getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, CHARACTER_AUTO_SAVE_DELAY, clearCharacterAutoSaveTimer, triggerCharacterAutoSave } from '../characterHelpers';
+import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
 
 export const createCoreSlice = (set, get) => ({
     // Character management for account system
@@ -63,8 +60,6 @@ export const createCoreSlice = (set, get) => ({
             // Clear characters ONLY IF we have a stable, different authenticated identity.
             // If switching account types, or if userId truly changed between stable sessions.
             const isGuest = isGuestUser();
-            const storageKey = getCharactersStorageKey();
-
             // Get current user ID to determine account type
             const currentUserId = getCurrentUserId();
             const isDevUser = currentUserId?.startsWith('dev-user-') || currentUserId === 'dev-user-123';

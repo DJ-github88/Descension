@@ -94,7 +94,8 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
         figures: { id: 'figures', label: 'Figures', icon: 'fas fa-crown' },
         locations: { id: 'locations', label: 'Locations', icon: 'fas fa-map-marked-alt' },
         crisis: { id: 'crisis', label: 'Crisis', icon: 'fas fa-fire' },
-        practices: { id: 'practices', label: 'Practices', icon: 'fas fa-book-open' }
+        practices: { id: 'practices', label: 'Practices', icon: 'fas fa-book-open' },
+        culture: { id: 'culture', label: 'Culture', icon: 'fas fa-globe-americas' }
     };
 
     // Helper for Roman Numerals
@@ -441,6 +442,19 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                 </>
                             )}
 
+                            {/* --- CULTURE LEFT PAGE --- */}
+                            {activeTab === 'culture' && (
+                                <>
+                                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
+                                    <h3 className="tome-page-title">Cultural Background</h3>
+                                    {raceData.culturalBackground ? (
+                                        formatTextWithDropCap(raceData.culturalBackground)
+                                    ) : (
+                                        <p className="tome-body-text">No cultural records found for this people.</p>
+                                    )}
+                                </>
+                            )}
+
                         </div>
                         <div className="tome-page-footer">
                             <span className="tome-page-number">Page {getRomanNumeral(currentPage * 2 + 1)}</span>
@@ -566,6 +580,39 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                         }
                                         return <p className="tome-body-text">No further details available.</p>;
                                     })()}
+                                </>
+                            )}
+
+                            {/* --- CULTURE RIGHT PAGE --- */}
+                            {activeTab === 'culture' && (
+                                <>
+                                    <div className="tome-section-header">
+                                        <i className="fas fa-globe-americas"></i>
+                                        <h4 className="tome-section-title">In the Wider World</h4>
+                                    </div>
+                                    {raceData.diasporaVariation ? (
+                                        <p className="tome-body-text">{renderLoreText(raceData.diasporaVariation)}</p>
+                                    ) : (
+                                        <p className="tome-body-text">No wider-world records found for this people.</p>
+                                    )}
+                                    {raceData.integrationNotes && (
+                                        <>
+                                            {renderDecorativeDivider()}
+                                            <div className="tome-section-header">
+                                                <i className="fas fa-link"></i>
+                                                <span className="tome-section-title">Integration with World Systems</span>
+                                            </div>
+                                            {raceData.integrationNotes.actionPointSystem && (
+                                                <p className="tome-body-text"><strong>Action Points — </strong>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
+                                            )}
+                                            {raceData.integrationNotes.backgroundSynergy && (
+                                                <p className="tome-body-text"><strong>Background Synergy — </strong>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
+                                            )}
+                                            {raceData.integrationNotes.classCompatibility && (
+                                                <p className="tome-body-text"><strong>Tradition Compatibility — </strong>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
+                                            )}
+                                        </>
+                                    )}
                                 </>
                             )}
 

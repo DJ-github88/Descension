@@ -1,9 +1,9 @@
 export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "masked_mimir",
-          "woven_mimir",
-          "unwoven_mimir",
+          "veiled_mimir",
+          "tethered_mimir",
+          "untethered_mimir",
           "morgh_groven",
           "ithran_groven",
           "marked_vreken"
@@ -26,8 +26,8 @@ export const SHAPER_DATA = {
    * body-sculpting heritage, the vats that made them, turned inward.
    */
   subraceVariants: {
-    masked_mimir: {
-      subraceName: 'Masked Mimir',
+    veiled_mimir: {
+      subraceName: 'Veiled Mimir',
       title: 'The Form-Locked',
       reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Masked are the most controlled Shapers: the mask holds the self stable while the body shifts around it, a fixed point around which transformation orbits. The most stable, and the most limited, they cannot reshape the face the mask protects.`,
       signatureAbility: {
@@ -42,8 +42,8 @@ export const SHAPER_DATA = {
       }
     },
 
-    woven_mimir: {
-      subraceName: 'Woven Mimir',
+    tethered_mimir: {
+      subraceName: 'Tethered Mimir',
       title: 'The Sentinel-Shifter',
       reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance. A Woven Shaper does not reshape for combat; they reshape for *perception*, becoming the thing that sees what the fog hides.`,
       signatureAbility: {
@@ -58,8 +58,8 @@ export const SHAPER_DATA = {
       }
     },
 
-    unwoven_mimir: {
-      subraceName: 'Unwoven Mimir',
+    untethered_mimir: {
+      subraceName: 'Untethered Mimir',
       title: 'The Dissolving',
       reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> are already dissolving, maskless, their forms blurring into the fog. For the Unwoven, the Shaper art is both curse and *temporary salvation*: each held form briefly *coheres* a self that is otherwise fading. An Unwoven Shaper reshapes not to fight but to *remember what having an edge feels like*, and every transformation buys a few more hours of definition before the dissolution resumes.`,
       signatureAbility: {

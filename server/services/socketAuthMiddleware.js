@@ -14,7 +14,7 @@
  */
 
 function createSocketAuthMiddleware({ firebaseService, logger }) {
-  return async (socket, next) => {
+  return async(socket, next) => {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
     try {
       const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.replace('Bearer ', '');

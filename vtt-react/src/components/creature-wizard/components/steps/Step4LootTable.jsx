@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from '../../context/CreatureWizardContext';
 import useItemStore from '../../../../store/itemStore';
-import { v4 as uuidv4 } from 'uuid';
 import { getIconUrl } from '../../../../utils/assetManager';
 import '../../styles/WizardSteps.css';
 import './Step4LootTable.css';

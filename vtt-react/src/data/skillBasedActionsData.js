@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Skill-Based Actions Data
  *
  * CLEARED FOR TESTING

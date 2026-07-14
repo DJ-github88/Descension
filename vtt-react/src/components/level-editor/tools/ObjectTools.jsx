@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PROFESSIONAL_OBJECTS } from '../objects/ObjectSystem';
-import { getIconUrl } from '../../../utils/assetManager';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useMapStore from '../../../store/mapStore';
 import ConnectionRenameDialog from '../ConnectionRenameDialog';
@@ -146,7 +145,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                     });
                                 }}
                             >
-                                <div className="mini-icon">â - ‰</div>
+                                <div className="mini-icon">ï¿½ - ï¿½</div>
                                 <div className="mini-info">
                                     <span className="mini-name">Connection</span>
                                     <span className="mini-badge">GM ONLY</span>
@@ -198,7 +197,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
             {/* Connections List */}
             {connections.length > 0 && (
                 <div className="tool-section">
-                    <h4>Connections (â - ‰)</h4>
+                    <h4>Connections (ï¿½ - ï¿½)</h4>
                     <div className="connections-list">
                         {connections.map((conn) => (
                             <div

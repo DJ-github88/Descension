@@ -97,23 +97,6 @@ const PROGRESSIVE_TOOLTIPS = {
 };
 
 // Helper function to generate progressive tooltips for multi-rank talents
-const generateProgressiveTooltip = (talent, currentRank) => {
-    // Split the description into sentences
-    const sentences = talent.description.split(/[.!?]+/).filter(s => s.trim().length > 0);
-
-    if (sentences.length <= 1 || talent.maxRanks === 1) {
-        // Single benefit talent or single-rank talent - show full description
-        return talent.description;
-    }
-
-    // Multi-benefit, multi-rank talent - show progressive unlocking of benefits
-    const numBenefits = sentences.length;
-    const benefitsPerRank = Math.max(1, Math.ceil(numBenefits / talent.maxRanks));
-    const benefitsToShow = Math.min(numBenefits, currentRank * benefitsPerRank);
-
-    const progressiveDescription = sentences.slice(0, benefitsToShow).join('. ').trim();
-    return progressiveDescription + (progressiveDescription ? '.' : '');
-};
 
 // Helper function to get description for a specific rank
 const getDescriptionForRank = (talent, rank) => {
@@ -339,12 +322,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }
 
         // Calculate total points spent across ALL trees in simulated state
-        const simulatedPointsSpent = trees.reduce((total, tree) => {
-            return total + tree.talents.reduce((sum, talent) => {
-                return sum + (simulatedTalents[talent.id] || 0);
-            }, 0);
-        }, 0);
-
+        
         // Check if any currently invested talents would become inaccessible
         for (const [investedTalentId, investedRanks] of Object.entries(currentTalents)) {
             if (investedRanks === 0) continue; // Skip talents with 0 ranks

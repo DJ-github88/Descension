@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Starting Equipment Data Module
  *
  * complete library of items available during character creation.

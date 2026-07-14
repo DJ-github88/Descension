@@ -1,5 +1,4 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
-const isProduction = process.env.NODE_ENV === 'production';
 
 const LOG_LEVELS = {
   ERROR: 0,

@@ -1,7 +1,6 @@
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { rafThrottle } from '../../utils/performanceUtils';
 
 /**
  * High-performance canvas-based grid renderer
@@ -124,7 +123,7 @@ const CanvasGridRenderer = ({
             // then the radius (center to corner) is gridSize / sqrt(3)
             const sqrt3 = Math.sqrt(3);
             const hexRadius = gridSize / sqrt3; // Radius for proper tiling (no gaps)
-            const hexHeight = gridSize * sqrt3 / 2; // Height (point to point)
+             // Height (point to point)
             
             // Calculate visible hex bounds by converting viewport corners to hex coordinates
             const topLeftHex = gridSystem.worldToHex(viewportBounds.left, viewportBounds.top);

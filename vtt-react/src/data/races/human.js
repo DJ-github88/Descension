@@ -1,10 +1,11 @@
-﻿export const human = {
+export const human = {
   id: 'human',
   name: 'Human',
   essence: 'The Burning Wick',
   illustration: '/assets/images/races/human_illustration.png',
   illustrationCaption: 'A diverse gathering of Humanity, a Skald warrior in rimesteel, a Merryn pirate with tattooed arms, a Solvarn sun-priest, and an Ordan herder with wind-leather cloak.',
   cardFlavor: 'The shortest-lived and most dangerous sapient on Mythrill, they survive through sheer refusal to break.',
+  visualDescription: `The most physically variable race in Mythrill, standing 5'2" to 6'2" with build and appearance shifting dramatically by region. Thalren humans of the Frostwood are fog-pale, chain journals to their belts, and dress in layered wool and leather. Skald of Nordhalla are stocky and cold-hardened in rimesteel. Tessen of the Cragjaw are pale from generations underground. Solvarn of Sundale are ash-stained forge-dwellers. Merryn of the Iceheart Sea are wiry and salt-stained with contract-tattoos covering their arms. Ordan of the Sundrift Vale are lean and wind-marked in wind-leather cloaks. Morren of the Bryngloom are bog-damp and debt-bound. What unites them: no claws, no fangs, no glowing eyes, no supernatural skin — just ordinary bodies driven by an intensity other races find exhausting to witness.`,
   description: `**[The Flame of Feudal Grit]**, *Short-lived, stubborn, and dangerous, Humans survive through an absolute refusal to accept that the sun's death is the end of their story.*
 
 The Humans of Mythrill are the shortest-lived sapient species on a dying world, and its most prolifically dangerous inhabitants. Not because they are strong. Not because they are swift. Not because any cosmic power chose them or blessed their bloodlines with longevity or magic. Because they refuse, specifically and loudly, to stop. Every human culture from the fog-choked Frostwood Reach to the ashfall cities of Sundale has developed its own particular flavor of this refusal, and every flavor is different, and every flavor is recognizably human.
@@ -196,8 +197,8 @@ Morren children receive an education in contract-law before they receive an educ
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
-          { id: 'spirit_boost', name: 'Indomitable', description: '+2 Spirit. You have spent a lifetime refusing to break.', statModifier: { stat: 'spirit', magnitude: 2, magnitudeType: 'flat' } },
-          { id: 'will_resistance', name: 'Cornered Mind', description: 'Advantage on saving throws against Fear, Charm, and Domination.', statusEffect: { level: 'major', description: 'Cornered animals are the most dangerous kind' } }
+          { id: 'spirit_boost', name: 'Indomitable', description: '+2 Spirit. You have spent a lifetime refusing to break.', mechanicsText: 'Grants a flat +2 bonus to your Spirit stat, improving Spirit-based checks, saves, and derived abilities. Permanent.', statModifier: { stat: 'spirit', magnitude: 2, magnitudeType: 'flat' } },
+          { id: 'will_resistance', name: 'Cornered Mind', description: 'Advantage on saving throws against Fear, Charm, and Domination.', mechanicsText: 'Grants advantage on saving throws against Fear, Charm, and Domination effects. Permanent.', statusEffect: { level: 'major', description: 'Cornered animals are the most dangerous kind' } }
         ],
         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
       },
@@ -217,8 +218,8 @@ Morren children receive an education in contract-law before they receive an educ
       debuffConfig: {
         debuffType: 'vulnerability',
         effects: [
-          { id: 'mortal_frailty', name: 'Mortal Frailty', description: '-10% base HP. You are the most fragile sapient species, sixty good years, and every one of them earns its keep.', statusEffect: { penaltyType: 'max_hp_reduction', magnitude: 10, magnitudeType: 'percentage' } },
-          { id: 'necrotic_vulnerability', name: 'Bargain-Debt', description: '+25% damage from necrotic, aging, and time-based effects. Keth-Amar\'s bargain touched every human bloodline.', statusEffect: { vulnerabilityType: 'blight', vulnerabilityPercent: 25, additionalTypes: ['aging', 'temporal'] } }
+          { id: 'mortal_frailty', name: 'Mortal Frailty', description: '-10% base HP. You are the most fragile sapient species, sixty good years, and every one of them earns its keep.', mechanicsText: 'Reduces your maximum HP by 10%. Permanent.', statusEffect: { penaltyType: 'max_hp_reduction', magnitude: 10, magnitudeType: 'percentage' } },
+          { id: 'necrotic_vulnerability', name: 'Bargain-Debt', description: '+25% damage from necrotic, aging, and time-based effects. Keth-Amar\'s bargain touched every human bloodline.', mechanicsText: 'Increases all damage you take from necrotic, aging, and time-based effects by 25%. Permanent.', statusEffect: { vulnerabilityType: 'blight', vulnerabilityPercent: 25, additionalTypes: ['aging', 'temporal'] } }
         ],
         durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
       },
@@ -234,6 +235,7 @@ Morren children receive an education in contract-law before they receive an educ
       name: 'Thalren (Frostwood Reach)',
       illustration: '/assets/images/races/thalren_illustration.png',
       illustrationCaption: 'A Thalren Human scholar writing in their journal within a fog-choked forest.',
+      visualDescription: `Lean and watchful, the Thalren carry the pale complexion of people who live under perpetual mist. Their hands are permanently ink-stained, the first skill a Thalren child learns is journal-keeping, before speech, before walking, and their eyes hold the particular tension of someone who has forgotten something important and knows it. They dress in heavy leather coats damp with the fog of Frostwood Reach, and every Thalren chains a journal to their belt because a life unwritten down is, by the only measure they recognize, a life that never happened.`,
       tooltipSummary: 'Fog-choked scholars of Frostwood Reach who chain journals to their belts, frantically recording every memory before the mist erases it.',
       description: `*Mist-damp scholars in heavy leather coats, currently split between the documented citizens of Greymark and the erased outcasts of the palisades.*
 
@@ -255,7 +257,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
           components: ['somatic'],
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'arcane' },
-          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'journal_recall', name: 'Journal Recall', description: 'Advantage on next INT/WIS check about a documented subject.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'journal_recall', name: 'Journal Recall', description: 'Advantage on next INT/WIS check about a documented subject.', mechanicsText: 'Grants advantage on your next Intelligence or Spirit check about a subject you have documented. Consumed on use.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }
@@ -269,8 +271,8 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'mist_comfort', name: 'Mist Comfort', description: 'Advantage on Perception and Stealth in fog, mist, smoke, or dim light.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'clarity_unease', name: 'Clarity Unease', description: 'Disadvantage on Perception and Stealth in bright, clear conditions.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['perception', 'stealth'], conditions: ['bright_light', 'clear_visibility'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'mist_comfort', name: 'Mist Comfort', description: 'Advantage on Perception and Stealth in fog, mist, smoke, or dim light.', mechanicsText: 'Grants advantage on Perception and Stealth checks while in fog, mist, smoke, or dim light. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'clarity_unease', name: 'Clarity Unease', description: 'Disadvantage on Perception and Stealth in bright, clear conditions.', mechanicsText: 'Imposes disadvantage on Perception and Stealth checks in bright, clear conditions. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['perception', 'stealth'], conditions: ['bright_light', 'clear_visibility'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -284,7 +286,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'arcane' },
-          buffConfig: { buffType: 'utilityEnhancement', effects: [{ id: 'document_expert', name: 'Document Expertise', description: 'Advantage on detecting forgery, deciphering codes, and identifying altered documents.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'utilityEnhancement', effects: [{ id: 'document_expert', name: 'Document Expertise', description: 'Advantage on detecting forgery, deciphering codes, and identifying altered documents.', mechanicsText: 'Grants advantage on checks to detect forgery, decipher codes, and identify altered documents. Permanent.', statusEffect: { level: 'minor' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -298,7 +300,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
           spellType: 'REACTION',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'fog_concealment', name: 'Fog Concealment', description: 'Reaction in fog/mist/smoke/dim light: become invisible until end of next turn, or until you attack or cast.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'fog_concealment', name: 'Fog Concealment', description: 'Reaction in fog/mist/smoke/dim light: become invisible until end of next turn, or until you attack or cast.', mechanicsText: 'You become invisible until the end of your next turn, or until you attack or cast a spell. Breaks if you act.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
@@ -310,6 +312,7 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
       name: 'Skald (Nordhalla)',
       illustration: '/assets/images/races/skald_illustration.png',
       illustrationCaption: 'A Skald Human warrior in mammoth-furs carrying a runic ice-chisel.',
+      visualDescription: `Broad-shouldered and cold-hardened, the Skald carry the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure, Skald infants are held to the fjord wind and what the cold does not break they believe it has made, and their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of those who know wasted motion costs body-heat. They dress in layered mammoth-furs and rimesteel, and the oldest bloodlines, the frost-touched, run colder still, their breath misting even in summer heat.`,
       tooltipSummary: 'Cold-forged bards of Nordhalla whose throat-songs carry glacier rage and bloodline pride, freezing enemies with ancestral fury.',
       description: `*Wind-burned endurance-purists in mammoth-furs, currently divided between those who swore fealty to the iron crown and the nomads who refuse to bend.*
 
@@ -318,7 +321,7 @@ The frozen tundra of Nordhalla forges the Skald body into a weapon. Broad-should
 Beneath the ice, the Skald carry a darker legacy. The elders speak in whispers of the Hunger Winter, a three-year blizzard in the deep past when their ancestors, cornered and starving, consumed their dead to survive. No Skald admits to this history openly. No Skald claims descent from those who ate. But the story persists, passed from grandmother to granddaughter, a shameful secret that explains why the cold has never left Skald blood, not entirely, not ever. Some Skald lineages are still called "frost-touched" (historically known as the Hrym): their skin runs colder, their breath mists even in summer heat, and they claim to hear the ice whisper. The warm-blooded Skald clans of the ruling fjord-keeps regard these frost-touched bloodlines with a complicated mixture of reverence and disgust, they carry the oldest memories of House Skalvyr, but they also carry the proof of what survival cost.
 
 The Frozen Archive, an ancient glacier-carved library-fortress held by the Skald since the first centuries of the Dimming, has become both the Skald's greatest asset and deepest fear. Its prehistoric machines still hum after ten thousand years without maintenance. Its basalt streets are paved with the bones of those who died before humans walked the world. Skald Rune Keepers occupy the Archive's library-halls, carving memory-runes into their own skin to trade personal recollections for ancient knowledge. Skald Bloodhammer warriors inhabit the forge-halls, channeling the cold fury of generations into frontline combat. And somewhere in the deepest chambers, behind doors that have never opened, something hums at a frequency that has recently changed, and no one knows what that means.`,
-      culturalBackground: `Skald culture is built on a single, brutal premise: the weak die, and this is correct. Nordhalla\'s dark bargain traded summer for survival, the glaciers were halted, but the warmth never returned. The Skald have made winter into a religion. Endurance is the highest virtue. Physical imperfection is moral failure. Children born with ailments are "summer-touched", pitied, but never trusted. The old walk into blizzards so the young can eat. The dead are encased in glacier-tombs rather than buried, preserved upright in ice where they can watch their descendants and judge. A Skald does not fear death. A Skald fears dying softly.
+      culturalBackground: `Skald culture is built on a single, brutal premise: the weak die, and this is correct. Nordhalla's dark bargain traded summer for survival, the glaciers were halted, but the warmth never returned. The Skald have made winter into a religion. Endurance is the highest virtue. Physical imperfection is moral failure. Children born with ailments are "summer-touched", pitied, but never trusted. The old walk into blizzards so the young can eat. The dead are encased in glacier-tombs rather than buried, preserved upright in ice where they can watch their descendants and judge. A Skald does not fear death. A Skald fears dying softly.
 
 Recently, Skald society has been fractured by the rise of **King-Jarl Halvar Skalvyr (Jarn-Tand)**. Having consolidated the regional clans under one crown with brutal force, Jarn-Tand constructed the **Sunder-Wall**,a colossal wall of glacier-ice and black granite cutting across the tundra to restrict and tax the movements of the nomadic clans. This has split the Skald into two hostile groups: the **Fastboende** (Settled Loyalists) who swore fealty in exchange for geothermal valleys and southern grain subsidies, and the **Fredløse** (Outlaw Clans) who live as nomads, hunted on sight.
 
@@ -337,8 +340,8 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'rime' },
-          buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'cold_resist', name: 'Cold Resistance', description: 'Resistance to rime damage. Auto-succeed environmental cold saves.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'heat_weakness', name: 'Heat Weakness', description: 'Disadvantage on heat saves. +25% ember damage above freezing.', statusEffect: { vulnerabilityType: 'ember', vulnerabilityPercent: 25, savingThrowPenalty: { type: 'heat', magnitude: 'disadvantage' } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'cold_resist', name: 'Cold Resistance', description: 'Resistance to rime damage. Auto-succeed environmental cold saves.', mechanicsText: 'Grants resistance to rime damage and automatic success on environmental cold saving throws. Permanent.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'heat_weakness', name: 'Heat Weakness', description: 'Disadvantage on heat saves. +25% ember damage above freezing.', mechanicsText: 'Imposes disadvantage on heat saving throws and increases ember damage taken above freezing by 25%. Permanent.', statusEffect: { vulnerabilityType: 'ember', vulnerabilityPercent: 25, savingThrowPenalty: { type: 'heat', magnitude: 'disadvantage' } } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -352,8 +355,8 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'rime' },
-          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'glacial_focus', name: 'Glacial Focus', description: '+1 attack rolls, ignore 1 exhaustion level, 1 minute.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'frozen_face', name: 'Frozen Face', description: 'Cannot use Charisma skills while active. 1 exhaustion level when state ends.', statusEffect: { level: 'moderate' } }], targetRestriction: 'self' },
+          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'glacial_focus', name: 'Glacial Focus', description: '+1 attack rolls, ignore 1 exhaustion level, 1 minute.', mechanicsText: 'Grants +1 to attack rolls and ignores the first level of exhaustion for 1 minute. While active you cannot use Charisma skills.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: false },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'frozen_face', name: 'Frozen Face', description: 'Cannot use Charisma skills while active. 1 exhaustion level when state ends.', mechanicsText: 'While Glacial Focus is active you cannot use Charisma-based skills, and you gain 1 level of exhaustion when it ends.', statusEffect: { level: 'moderate' } }], targetRestriction: 'self' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -367,8 +370,8 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'auraEffect', effects: [{ id: 'inspiring_endurance', name: 'Inspiring Endurance', description: 'Allies within 30ft gain advantage on next fear save when you succeed on a Con-based save/check.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'skald_honesty', name: 'Skald Honesty', description: 'Disadvantage on Deception checks. A Skald does not lie.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['deception'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'auraEffect', effects: [{ id: 'inspiring_endurance', name: 'Inspiring Endurance', description: 'Allies within 30ft gain advantage on next fear save when you succeed on a Con-based save/check.', mechanicsText: 'When you succeed on a Constitution save or check, allies within 30ft gain advantage on their next saving throw against fear. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'skald_honesty', name: 'Skald Honesty', description: 'Disadvantage on Deception checks. A Skald does not lie.', mechanicsText: 'Imposes disadvantage on Deception checks; a Skald does not lie. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['deception'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -384,8 +387,8 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           components: ['somatic'],
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'rime' },
-          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'frost_knuckle', name: 'Frost-Knuckle', description: 'Next unarmed or melee strike deals +1d6 rime damage.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'glacier_slow', name: 'Glacier-Slow', description: 'Target is slowed by 10 feet for 1 round.', statusEffect: { level: 'minor', statusType: 'slow', magnitude: 10 } }], targetRestriction: 'enemy' },
+          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'frost_knuckle', name: 'Frost-Knuckle', description: 'Next unarmed or melee strike deals +1d6 rime damage.', mechanicsText: 'Your next unarmed or melee strike deals an extra 1d6 rime damage. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'glacier_slow', name: 'Glacier-Slow', description: 'Target is slowed by 10 feet for 1 round.', mechanicsText: 'The struck target is slowed by 10 feet of movement for 1 round. Once per short rest.', statusEffect: { level: 'minor', statusType: 'slow', magnitude: 10 } }], targetRestriction: 'enemy' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
@@ -397,6 +400,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
       name: 'Tessen (Cragjaw Peaks)',
       illustration: '/assets/images/races/tessen_illustration.png',
       illustrationCaption: 'A Tessen Human survivor in dark hooded gear and an alchemical respirator.',
+      visualDescription: `Pale and slightly hunched, the Tessen bear the posture of people who spend their lives in vertical, stone-tunneled keeps. Their skin has not seen direct sunlight in generations, and their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of avalanches have made loud voices a social violation, and they record their lives not in ink, which freezes, but in knotted cord-cords. They dress in heavy dark woolens and alchemical respirators against the volcanic particulate of the Cragjaw.`,
       tooltipSummary: 'Debt-bound shadow-courtiers who trade in secrets and silence, their sealed lips carrying favors worth more than gold.',
       description: `*Pale, keep-dwelling survivalists wearing heavy woolens and carrying knotted knotted cord-cords, managing geothermal vents while avoiding mountain spirits.*
 
@@ -415,8 +419,8 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'physical' },
-          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'indoor_awareness', name: 'Indoor Awareness', description: 'Advantage on Perception indoors. Cannot be surprised inside.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'wilderness_blind', name: 'Wilderness Blind', description: 'Disadvantage on Survival in open wilderness.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['survival'], conditions: ['open_wilderness'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'indoor_awareness', name: 'Indoor Awareness', description: 'Advantage on Perception indoors. Cannot be surprised inside.', mechanicsText: 'Grants advantage on Perception checks indoors and prevents you from being surprised inside. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'sensoryPenalty', effects: [{ id: 'wilderness_blind', name: 'Wilderness Blind', description: 'Disadvantage on Survival in open wilderness.', mechanicsText: 'Imposes disadvantage on Survival checks in open wilderness. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['survival'], conditions: ['open_wilderness'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -430,8 +434,8 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'socialBonus', effects: [{ id: 'read_obligation', name: 'Read Obligation', description: 'Advantage on Insight to determine what someone wants. Once per long rest, turn a failed Persuasion into success, but incur a narrative debt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'favor_owed', name: 'Favor Owed', description: 'You incur a narrative debt the GM will collect at a time of their choosing. The debt is real, and it will come due.', statusEffect: { penaltyType: 'narrative_debt' } }], targetRestriction: 'self' },
+          buffConfig: { buffType: 'socialBonus', effects: [{ id: 'read_obligation', name: 'Read Obligation', description: 'Advantage on Insight to determine what someone wants. Once per long rest, turn a failed Persuasion into success, but incur a narrative debt.', mechanicsText: 'Grants advantage on Insight to read what someone wants; once per long rest a failed Persuasion with a confined human auto-succeeds at the cost of a narrative debt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'favor_owed', name: 'Favor Owed', description: 'You incur a narrative debt the GM will collect at a time of their choosing. The debt is real, and it will come due.', mechanicsText: 'You incur a narrative debt the GM will collect later; it cannot be ignored. Self-only.', statusEffect: { penaltyType: 'narrative_debt' } }], targetRestriction: 'self' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
@@ -445,8 +449,8 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'blight' },
-          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'keep_silence', name: 'Keep-Silence', description: 'Advantage on Stealth vs sound detection. Whisper across a room to one person.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'no_shout', name: 'No Shout', description: 'Disadvantage on Intimidation through volume. You do not shout.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['intimidation'], conditions: ['volume_based'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'keep_silence', name: 'Keep-Silence', description: 'Advantage on Stealth vs sound detection. Whisper across a room to one person.', mechanicsText: 'Grants advantage on Stealth checks vs sound detection and lets you whisper privately across a room. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'socialPenalty', effects: [{ id: 'no_shout', name: 'No Shout', description: 'Disadvantage on Intimidation through volume. You do not shout.', mechanicsText: 'Imposes disadvantage on Intimidation checks that rely on volume. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['intimidation'], conditions: ['volume_based'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -460,7 +464,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'ember' },
-          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'heat_through_stone', name: 'Heat Through Stone', description: 'Sense heat sources through stone walls within 30ft. Advantage on Perception to detect creatures, traps, or features behind solid stone.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'heat_through_stone', name: 'Heat Through Stone', description: 'Sense heat sources through stone walls within 30ft. Advantage on Perception to detect creatures, traps, or features behind solid stone.', mechanicsText: 'You sense heat sources through stone within 30ft and gain advantage on Perception to find creatures, traps, or features behind solid stone. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -472,6 +476,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
       name: 'Solvarn (Sundale)',
       illustration: '/assets/images/races/solvarn_illustration.png',
       illustrationCaption: 'A Solvarn Human martyr offering blood to the dead sun on volcanic black sand.',
+      visualDescription: `Gaunt and hardened, the Solvarn are shaped by the ashlands of Sundale. Their skin is darkened by a permanent grey-brown volcanic stain that no washing removes, their lungs adapted to thin ash-heavy air, and their eyes narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Every garment bears a sun-emblem, and they kneel often on black obsidian sand to offer blood to a sun that died eight centuries ago.`,
       tooltipSummary: 'Sun-reverent warriors who draw strength from the dying star-ember, swearing vigil oaths to hold back the endless dark.',
       description: `*Ash-stained martyrs kneeling on obsidian sands to offer blood to a sun that died eight centuries ago, currently split between the wealthy Deep-Born and the conscripted Ash-Dwellers.*
 
@@ -490,8 +495,8 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'ember' },
-          buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'ash_resist', name: 'Ash Resistance', description: 'Resistance to inhaled poison. Advantage vs airborne disease/gas. Immune to ashfall effects.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'cold_weakness', name: 'Cold Weakness', description: 'Disadvantage on cold saving throws. Your body has forgotten how to generate warmth.', statusEffect: { penaltyType: 'disadvantage', affectedSaves: ['cold'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'damageMitigation', effects: [{ id: 'ash_resist', name: 'Ash Resistance', description: 'Resistance to inhaled poison. Advantage vs airborne disease/gas. Immune to ashfall effects.', mechanicsText: 'Grants resistance to inhaled blight, advantage vs airborne disease/gas, and immunity to volcanic ashfall vision effects. Permanent.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'vulnerability', effects: [{ id: 'cold_weakness', name: 'Cold Weakness', description: 'Disadvantage on cold saving throws. Your body has forgotten how to generate warmth.', mechanicsText: 'Imposes disadvantage on saving throws against cold effects. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSaves: ['cold'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -505,8 +510,8 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'ember' },
-          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'vigil_save', name: 'The Vigil Holds', description: 'Once per long rest, remain at 1 HP instead of 0.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
-          debuffConfig: { debuffType: 'selfHarm', effects: [{ id: 'vigil_cost', name: 'The Weight of Watching', description: 'Gain 1 exhaustion level immediately.', statusEffect: { penaltyType: 'exhaustion', magnitude: 1 } }], targetRestriction: 'self' },
+          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'vigil_save', name: 'The Vigil Holds', description: 'Once per long rest, remain at 1 HP instead of 0.', mechanicsText: 'Once per long rest, if you would drop to 0 HP you remain at 1 HP instead. Instant, once per long rest.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+          debuffConfig: { debuffType: 'selfHarm', effects: [{ id: 'vigil_cost', name: 'The Weight of Watching', description: 'Gain 1 exhaustion level immediately.', mechanicsText: 'Immediately grants 1 level of exhaustion when Vigil Oath triggers. Self-only.', statusEffect: { penaltyType: 'exhaustion', magnitude: 1 } }], targetRestriction: 'self' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -520,8 +525,8 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'ember' },
-          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'faith_persists', name: 'Faith Persists', description: 'Advantage vs despair/surrender/retreat. +1 all saves near fire.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'no_retreat', name: 'No Retreat', description: 'Disadvantage on saves to abandon your post or retreat from a sworn position.', statusEffect: { penaltyType: 'disadvantage', conditions: ['abandon_post', 'retreat_from_sworn_position'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'faith_persists', name: 'Faith Persists', description: 'Advantage vs despair/surrender/retreat. +1 all saves near fire.', mechanicsText: 'Grants advantage vs despair/surrender/retreat effects and +1 to all saving throws while near fire. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'no_retreat', name: 'No Retreat', description: 'Disadvantage on saves to abandon your post or retreat from a sworn position.', mechanicsText: 'Imposes disadvantage on saves to abandon your post or retreat from a sworn position. Permanent.', statusEffect: { penaltyType: 'disadvantage', conditions: ['abandon_post', 'retreat_from_sworn_position'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -537,7 +542,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
           components: ['somatic'],
           effectTypes: ['debuff'],
           typeConfig: { category: 'racial', school: 'ember' },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'forge_fear', name: 'Forge-Fear', description: 'Enemies within 10ft must pass a Spirit save (DC 12) or be feared for 1 round.', statusEffect: { level: 'moderate', statusType: 'fear', saveType: 'spirit', saveDC: 12 } }], targetRestriction: 'enemy' },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'forge_fear', name: 'Forge-Fear', description: 'Enemies within 10ft must pass a Spirit save (DC 12) or be feared for 1 round.', mechanicsText: 'Enemies within 10ft must pass a DC 12 Spirit save or be feared for 1 round. Once per short rest.', statusEffect: { level: 'moderate', statusType: 'fear', saveType: 'spirit', saveDC: 12 } }], targetRestriction: 'enemy' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 10 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
@@ -549,6 +554,7 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
       name: 'Merryn (Iceheart Sea)',
       illustration: '/assets/images/races/merryn_illustration.png',
       illustrationCaption: 'A tattoo-covered Merryn Human mariner on a ship deck during a storm.',
+      visualDescription: `Wiry and salt-stained, the Merryn are the mariners of the Iceheart Sea. Their skin is cross-hatched with contract-tattoos covering the arms, ink-deals that the sea is witness to, and their hands are rough with rope-callus and salt-crack. They dress in waxed canvas and oilcloth cut for the deck, and they move with the rolling gait of people for whom solid ground feels wrong: too still, too dead. The wealthy Deck-Born wear finer ink and cleaner cloth; the pressed Bilge-Dwellers bear the same tattoos blurred by brine and labor.`,
       tooltipSummary: 'Salt-scarred sailors whose storm-luck and tattoo-contracts bind them to the sea\'s capricious mercy.',
       description: `*Tattoo-covered mariners whose skin is cross-hatched with ink-contracts, split between the wealthy Deck-Born and the pressed Bilge-Dwellers.*
 
@@ -567,8 +573,8 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'primal' },
-          buffConfig: { buffType: 'movementBuff', effects: [{ id: 'swim_speed', name: 'Born to the Water', description: 'Swim speed = walking speed. Advantage on climb/balance/footing at sea. Immune to seasickness.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'land_sick', name: 'Land-Sick', description: 'Disadvantage on Stealth and Acrobatics on solid, unmoving ground.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['stealth', 'acrobatics'], conditions: ['solid_unmoving_ground'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'movementBuff', effects: [{ id: 'swim_speed', name: 'Born to the Water', description: 'Swim speed = walking speed. Advantage on climb/balance/footing at sea. Immune to seasickness.', mechanicsText: 'Your swim speed equals your walking speed, grants advantage on climbing/balancing at sea, and immunity to seasickness. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'land_sick', name: 'Land-Sick', description: 'Disadvantage on Stealth and Acrobatics on solid, unmoving ground.', mechanicsText: 'Imposes disadvantage on Stealth and Acrobatics checks on solid, unmoving ground. Permanent.', statusEffect: { penaltyType: 'disadvantage', affectedSkills: ['stealth', 'acrobatics'], conditions: ['solid_unmoving_ground'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -582,8 +588,8 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'socialBonus', effects: [{ id: 'binding_deal', name: 'Binding Deal', description: 'Once per long rest, seal a contract that an NPC will honor. Sea-law binding.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'broken_contract', name: 'Broken Contract', description: 'Breaking a tattooed contract prevents long rests until amends made.', statusEffect: { penaltyType: 'no_long_rest', condition: 'contract_broken' } }], targetRestriction: 'self' },
+          buffConfig: { buffType: 'socialBonus', effects: [{ id: 'binding_deal', name: 'Binding Deal', description: 'Once per long rest, seal a contract that an NPC will honor. Sea-law binding.', mechanicsText: 'Once per long rest, seals a deal with an NPC who will instinctively honor it until completed. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'broken_contract', name: 'Broken Contract', description: 'Breaking a tattooed contract prevents long rests until amends made.', mechanicsText: 'If you break a tattooed contract you cannot take long rests until you make amends. Self-only.', statusEffect: { penaltyType: 'no_long_rest', condition: 'contract_broken' } }], targetRestriction: 'self' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
@@ -597,7 +603,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'storm' },
-          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'luck_reroll', name: "Sailor's Luck", description: 'Once per long rest, reroll a failed save that would result in death or incapacitation.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
+          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'luck_reroll', name: "Sailor's Luck", description: 'Once per long rest, reroll a failed save that would result in death or incapacitation.', mechanicsText: 'Once per long rest, reroll a failed saving throw that would cause death or incapacitation and take the new result. Instant.', statusEffect: { level: 'extreme' } }], durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -611,8 +617,8 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'physical' },
-          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'salt_wound', name: 'Salt-Wound', description: 'On melee hit: deal +1d4 physical damage. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'salt_burn', name: 'Salt-Burn', description: 'Target takes 1d4 physical damage at the start of its next turn as salt-crusted wounds burn.', statusEffect: { level: 'minor', statusType: 'bleed', damageType: 'physical' } }], targetRestriction: 'enemy' },
+          buffConfig: { buffType: 'combatAdvantage', effects: [{ id: 'salt_wound', name: 'Salt-Wound', description: 'On melee hit: deal +1d4 physical damage. Once per short rest.', mechanicsText: 'On a melee hit, deals an extra 1d4 physical damage. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'salt_burn', name: 'Salt-Burn', description: 'Target takes 1d4 physical damage at the start of its next turn as salt-crusted wounds burn.', mechanicsText: 'The target takes 1d4 physical damage at the start of its next turn from salt-crusted wounds. Once per short rest.', statusEffect: { level: 'minor', statusType: 'bleed', damageType: 'physical' } }], targetRestriction: 'enemy' },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
@@ -624,6 +630,7 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       name: 'Ordan (Sundrift Vale)',
       illustration: '/assets/images/races/ordan_illustration.png',
       illustrationCaption: 'An Ordan Human nomad herder on the starless steppe.',
+      visualDescription: `Lean and wind-marked, the Ordan are the nomad herders of the Sundrift Vale. Their skin is weathered dark by a starless sky and open steppe, and they dress in sheepskin and wind-leather layered against the cold that follows the herds. Each carries a Steppe-Stave carved with the migration routes no map records, and their throats are trained to overtone singing that carries complex messages a mile across open terrain. They move with the restless economy of people who have learned, over generations, that the herd does not stop and neither can they.`,
       tooltipSummary: 'Endless marchers of the Sundrift steppe whose throat-songs echo across the grass-sea, bearing mound-offerings to forgotten ancestors.',
       description: `*Lean, sheepskin-clad nomads throat-singing ancient maps of stars, carrying Steppe-Staves to trace migration routes under a starless sky.*
 
@@ -643,8 +650,8 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'physical' },
-          buffConfig: { buffType: 'movementBuff', effects: [{ id: 'migration_pace', name: 'Migration Pace', description: '+5ft speed. 2x travel before rest. Ignore 1 forced-march exhaustion. Advantage vs slow/immobilize.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'restless', name: 'Restless', description: 'Disadvantage on checks while stationary for more than 1 minute.', statusEffect: { penaltyType: 'disadvantage', conditions: ['stationary_over_1min'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'movementBuff', effects: [{ id: 'migration_pace', name: 'Migration Pace', description: '+5ft speed. 2x travel before rest. Ignore 1 forced-march exhaustion. Advantage vs slow/immobilize.', mechanicsText: 'Increases walking speed by 5ft, doubles travel before rest, ignores 1 forced-march exhaustion, and grants advantage vs being slowed/immobilized. Permanent.', statusEffect: { level: 'major' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'restless', name: 'Restless', description: 'Disadvantage on checks while stationary for more than 1 minute.', mechanicsText: 'Imposes disadvantage on checks while you remain stationary for more than 1 minute. Permanent.', statusEffect: { penaltyType: 'disadvantage', conditions: ['stationary_over_1min'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -661,7 +668,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
           effectTypes: ['utility', 'buff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
           utilityConfig: { utilityType: 'communication', selectedEffects: [{ id: 'long_song', name: 'Ancestor-Signal', description: 'Communicate across 1 mile of open terrain through throat-singing.' }], duration: 1, durationUnit: 'rounds' },
-          buffConfig: { buffType: 'auraEffect', effects: [{ id: 'song_comfort', name: 'Song-Comfort', description: 'Allies within 60ft gain advantage vs fear for 1 round.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: false },
+          buffConfig: { buffType: 'auraEffect', effects: [{ id: 'song_comfort', name: 'Song-Comfort', description: 'Allies within 60ft gain advantage vs fear for 1 round.', mechanicsText: 'Allies within 60ft who hear your song gain advantage on fear saves for 1 round. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 60 },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['verbal'] }
@@ -677,7 +684,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
           components: ['verbal', 'somatic'],
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'primal' },
-          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'ancestor_guide', name: 'Ancestor-Guide', description: '1 hour: advantage on Spirit checks, cannot be lost. Relic crumbles after.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false },
+          buffConfig: { buffType: 'skillEnhancement', effects: [{ id: 'ancestor_guide', name: 'Ancestor-Guide', description: '1 hour: advantage on Spirit checks, cannot be lost. Relic crumbles after.', mechanicsText: 'For 1 hour grants advantage on Spirit checks and makes you impossible to lose; the relic crumbles afterward. Once per long rest.', statusEffect: { level: 'major' } }], durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] }
@@ -691,7 +698,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
           spellType: 'REACTION',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'primal' },
-          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'herd_guard', name: 'Herd-Guard', description: 'Reaction when an ally within 10ft is hit: move 5ft toward them and grant +1 to their next saving throw.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
+          buffConfig: { buffType: 'triggeredEffect', effects: [{ id: 'herd_guard', name: 'Herd-Guard', description: 'Reaction when an ally within 10ft is hit: move 5ft toward them and grant +1 to their next saving throw.', mechanicsText: 'As a reaction when an ally within 10ft is hit, move 5ft toward them and grant +1 to their next save. Once per short rest.', statusEffect: { level: 'moderate' } }], durationValue: 1, durationType: 'turns', durationUnit: 'turns', canBeDispelled: true },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 10 },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -703,6 +710,7 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
       name: 'Morren (Bryngloom Forest)',
       illustration: '/assets/images/races/morren_illustration.png',
       illustrationCaption: 'A Morren Human peat-cutter from the Bryngloom Forest holding a Neth contract.',
+      visualDescription: `Sallow and bog-damp, the Morren are the peat-cutters of the Bryngloom Forest. Their skin carries the grey-green pallor of people who live in perpetual damp, their hands stained dark with peat and bog-iron, and their clothes are simple unmarked fabrics weighed down by moisture. They move with the careful, squelching tread of those who know the deep bogs by feel, and their bearing is the quiet resignation of people bound to Neth contract-houses to pay off debts older than their names. A Morren's most telling feature is the rolled contract-scroll many carry, the ledger of what they owe.`,
       tooltipSummary: 'Bog-treaders who signed their names into the mire itself, reading contract-sight in the swamp\'s living ink and surviving on debtors\' patience.',
       description: `*Sallow-skinned peat-cutters legally bound to Neth contract-houses to pay off ancient ancestral debts, split between Contracted citizens and Defaulted laborers.*
 
@@ -721,7 +729,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'fine_print', name: 'Fine Print', description: 'Advantage on detecting deception/clauses/loopholes in agreements. 1 AP to sense magical or contractual bindings on a creature.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'sensoryEnhancement', effects: [{ id: 'fine_print', name: 'Fine Print', description: 'Advantage on detecting deception/clauses/loopholes in agreements. 1 AP to sense magical or contractual bindings on a creature.', mechanicsText: 'Grants advantage on detecting deception/hidden clauses in agreements, and for 1 AP reveals if a creature is bound by a contract. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -735,8 +743,8 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: { category: 'racial', school: 'primal' },
-          buffConfig: { buffType: 'environmentalAdaptation', effects: [{ id: 'bog_striding', name: 'Bog-Striding', description: 'Immune to spore-hush, bog-rot, and other non-magical bog-borne diseases. Full movement speed through bog, marsh, and shallow water. Advantage on Stealth in swamp, marsh, and forest.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
-          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'dry_weakness', name: 'Bog-Thirst', description: 'Disadvantage on all physical checks in dry, arid environments (steppe, desert, sun-baked stone). Your body rejects the absence of moisture.', statusEffect: { penaltyType: 'disadvantage', conditions: ['arid', 'dry', 'steppe', 'desert'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'environmentalAdaptation', effects: [{ id: 'bog_striding', name: 'Bog-Striding', description: 'Immune to spore-hush, bog-rot, and other non-magical bog-borne diseases. Full movement speed through bog, marsh, and shallow water. Advantage on Stealth in swamp, marsh, and forest.', mechanicsText: 'Grants immunity to bog-borne non-magical disease, full movement through bog/marsh/shallow water, and Stealth advantage in swamp/marsh/forest. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          debuffConfig: { debuffType: 'environmentalPenalty', effects: [{ id: 'dry_weakness', name: 'Bog-Thirst', description: 'Disadvantage on all physical checks in dry, arid environments (steppe, desert, sun-baked stone). Your body rejects the absence of moisture.', mechanicsText: 'Imposes disadvantage on all physical checks in dry, arid environments like the steppe or desert. Permanent.', statusEffect: { penaltyType: 'disadvantage', conditions: ['arid', 'dry', 'steppe', 'desert'] } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
@@ -750,7 +758,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'immovable_calm', name: 'Immovable Calm', description: 'Advantage vs rash/impulsive effects. Once per long rest, auto-negate an Intimidation attempt.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+          buffConfig: { buffType: 'statusEffectBuff', effects: [{ id: 'immovable_calm', name: 'Immovable Calm', description: 'Advantage vs rash/impulsive effects. Once per long rest, auto-negate an Intimidation attempt.', mechanicsText: 'Grants advantage vs rash/impulsive effects and once per long rest automatically foils an Intimidation attempt. Permanent.', statusEffect: { level: 'moderate' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
           cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] }
@@ -766,7 +774,7 @@ The sinking bogs of the Bryngloom Forest shape the Morren into a sallow, watchfu
           components: ['somatic'],
           effectTypes: ['debuff'],
           typeConfig: { category: 'racial', school: 'wyrd' },
-          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'debt_mark', name: 'Debt-Mark', description: 'Mark an enemy within 30ft (no save). Next time any ally damages them: +1d4 wyrd damage, then the mark fades.', statusEffect: { level: 'moderate', statusType: 'marked', damageType: 'wyrd' } }], targetRestriction: 'enemy' },
+          debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'debt_mark', name: 'Debt-Mark', description: 'Mark an enemy within 30ft (no save). Next time any ally damages them: +1d4 wyrd damage, then the mark fades.', mechanicsText: 'Marks an enemy within 30ft; the next time any ally damages them they take +1d4 wyrd damage, then the mark fades. Once per short rest.', statusEffect: { level: 'moderate', statusType: 'marked', damageType: 'wyrd' } }], targetRestriction: 'enemy' },
           targetingConfig: { targetingType: 'enemy', rangeType: 'ranged', range: 30 },
           cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
           resourceCost: { actionPoints: 1, mana: 0, components: ['somatic'] }

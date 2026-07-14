@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Point-Buy Stat Allocation System
  *
  * Implements a D&D 5e inspired point-buy system for character creation

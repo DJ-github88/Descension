@@ -1,4 +1,4 @@
-﻿/**
+/**
  * formulationToSpell, adapts an Arcanoneer Building Block formulation
  * (from ARCANONEER_DATA.combinationMatrix.entries) into the spell-shaped
  * object that UnifiedSpellCard / SpellTooltip expect.

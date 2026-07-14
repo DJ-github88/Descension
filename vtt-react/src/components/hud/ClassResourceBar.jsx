@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
-import TooltipPortal from '../tooltips/TooltipPortal';
 import useChatStore from '../../store/chatStore';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -40,7 +39,6 @@ import MinstrelResourceBar from '../../data/classes/minstrel/components/Minstrel
 // separate import (and without creating a circular dep with minstrelData.js).
 import { MINSTREL_DATA } from '../../data/classes/minstrelData';
 import { getResourceStatusFlavor } from '../../utils/resourceStatusFlavor';
-import '../../styles/unified-context-menu.css';
 
 const ARCANONEER_COMBINATION_MATRIX = ARCANONEER_DATA?.combinationMatrix || null;
 const MINSTREL_CADENCE_MATRIX = MINSTREL_DATA?.resourceSystem?.cadenceMatrix || MINSTREL_DATA?.cadenceMatrix || null;
@@ -75,16 +73,10 @@ const ClassResourceBar = ({
     // Destructure uiState for easier access
     const {
         showTooltip,
-        tooltipPosition,
-        tooltipPlacement,
-        showRageMenu,
         rageInputValue,
         showModifierMenu,
         chaosWeaverHoverSection,
-        activeSpecialization,
-        rerollsUsed,
-        swapMode,
-        selectedForSwap
+        activeSpecialization
     } = uiState;
 
     // Helper functions for updating uiState
@@ -93,21 +85,14 @@ const ClassResourceBar = ({
         setUiState(prev => ({ ...prev, showTooltip: value }));
     };
     const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
-    const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
-    const setShowRageMenu = (value) => setUiState(prev => ({ ...prev, showRageMenu: value }));
-    const setRageInputValue = (value) => setUiState(prev => ({ ...prev, rageInputValue: value }));
-    const setShowModifierMenu = (value) => setUiState(prev => ({ ...prev, showModifierMenu: value }));
+                const setShowModifierMenu = (value) => setUiState(prev => ({ ...prev, showModifierMenu: value }));
     const setChaosWeaverHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
         setUiState(prev => ({ ...prev, chaosWeaverHoverSection: value }));
     };
-    const setActiveSpecialization = (value) => setUiState(prev => ({ ...prev, activeSpecialization: value }));
-    const setRerollsUsed = (value) => setUiState(prev => ({ ...prev, rerollsUsed: value }));
-    const setSwapMode = (value) => setUiState(prev => ({ ...prev, swapMode: value }));
-    const setSelectedForSwap = (value) => setUiState(prev => ({ ...prev, selectedForSwap: value }));
-
+                
     // Arcanoneer state
-    const [arcanoneerState, setArcanoneerState] = useState({
+    const [arcanoneerState] = useState({
         localSpheres: [],
         isRolling: false,
         showControls: false,
@@ -134,8 +119,7 @@ const ClassResourceBar = ({
     });
     // BERSERKER FIX: Read directly from classResource prop
     const berserkerRage = classResource?.current ?? 0;
-    const berserkerRageMax = classResource?.max ?? 100;
-
+    
     const [shaperState, setShaperState] = useState({
         currentStance: 'Ataxic Flow',
         showStanceMenu: false,
@@ -157,41 +141,39 @@ const ClassResourceBar = ({
     });
     // CHRONARCH FIX: Read directly from classResource prop instead of local state
     const chronarchTimeShards = classResource?.timeShards?.current ?? 0;
-    const chronarchTimeShardsMax = classResource?.timeShards?.max ?? 10;
-    const chronarchTemporalStrain = classResource?.temporalStrain?.current ?? 0;
-    const chronarchTemporalStrainMax = classResource?.temporalStrain?.max ?? 10;
-
-    const [covenbaneState, setCovenbaneState] = useState({
+        const chronarchTemporalStrain = classResource?.temporalStrain?.current ?? 0;
+    
+    const [hexbreakerState, setHexbreakerState] = useState({
         showChargesMenu: false,
-        covenbaneHoverSection: null // 'charges' | 'counter' | null
+        hexbreakerHoverSection: null // 'charges' | 'counter' | null
     });
     // COVENBANE FIX: Read directly from classResource prop
     const covenbaneHexbreakerCharges = classResource?.hexbreakerCharges ?? 4;
     const covenbaneAttackCounter = classResource?.attackCounter ?? 2;
     const chargesDisplayRef = useRef(null);
 
-    const [deathcallerState, setDeathcallerState] = useState({
+    const [ascensionState, setAscensionState] = useState({
         localAscensionPaths: [true, false, false, false, false, false, false], // Start with 1 path active (first path only)
         localBloodTokens: 12, // Start with 12 tokens for demo
         showPathsMenu: false,
         showTokensMenu: false,
-        deathcallerHoverSection: null // 'paths' | 'tokens' | null
+        ascensionHoverSection: null // 'paths' | 'tokens' | null
     });
 
-    const [dreadnaughtState, setDreadnaughtState] = useState({
+    const [resilienceState, setResilienceState] = useState({
         localDRP: 30, // Start with 30 for demo
         selectedResistanceType: 'Slashing', // Default resistance type
         showDRPMenu: false,
-        dreadnaughtHoverSection: null // 'drp' | 'resistance' | 'rebirth' | null
+        resilienceHoverSection: null // 'drp' | 'resistance' | 'rebirth' | null
     });
     const drpBarRef = useRef(null);
 
-    const [exorcistState, setExorcistState] = useState({
+    const [dominanceState, setDominanceState] = useState({
         localDominanceDie: 0, // Start with no demon
         selectedDemonIndex: 0, // Which demon is currently displayed
         boundDemons: [null, null], // Demo: 2 slots (base Exorcist), both empty by default
         showDominanceMenu: false,
-        exorcistHoverSection: null, // 'dominance' | null
+        dominanceHoverSection: null, // 'dominance' | null
         showDemonConfigModal: false,
         demonConfigMode: 'create', // 'create' | 'edit'
         demonConfigInitialData: null
@@ -240,27 +222,18 @@ const ClassResourceBar = ({
     });
 
     // Helper functions for huntress state
-    const setLocalQuarryMarks = (value) => {
-        setHuntressState(prev => ({ ...prev, localQuarryMarks: value }));
-    };
-
-    const setHuntressSpec = (value) => {
-        setHuntressState(prev => ({ ...prev, huntressSpec: value }));
-    };
-
-    const setLocalCompanionHP = (value) => {
-        setHuntressState(prev => ({ ...prev, companionHP: value }));
-    };
-
+    
+    
+    
     const qmBarRef = useRef(null);
     const wiBarRef = useRef(null); // Wild Instinct (Formbender merged into Shaper - JSX removed, ref kept for legacy position calcs)
 
-    const [lichborneState, setLichborneState] = useState({
+    const [phylacteryState, setPhylacteryState] = useState({
         localPhylacteryHP: 25, // Start with 25 for demo
         eternalFrostActive: false, // Aura state
         lichborneSpec: 'frostbound_tyrant', // 'frostbound_tyrant' | 'spectral_reaper' | 'phylactery_guardian'
         showPhylacteryMenu: false,
-        lichborneHoverSection: null // 'phylactery' | null
+        phylacteryHoverSection: null // 'phylactery' | null
     });
     const phylacteryBarRef = useRef(null);
 
@@ -292,19 +265,46 @@ const ClassResourceBar = ({
         showMinstrelSpecMenu: false
     });
     const minstrelBarRef = useRef(null);
-    const [minstrelPositions, setMinstrelPositions] = useState({});
+    const [ setMinstrelPositions] = useState({});
+
+    // Class states for specs whose resource UIs were consolidated into the
+    // generic classResource renderer. The setters below still drive menu toggles.
+    const [ setDeathcallerState] = useState({
+        showPathsMenu: false,
+        showTokensMenu: false,
+        localAscensionPaths: [],
+        localBloodTokens: 0
+    });
+    const [ setDreadnaughtState] = useState({
+        showDRPMenu: false,
+        localDRP: 0,
+        selectedResistanceType: null
+    });
+    const [ setExorcistState] = useState({
+        showDominanceMenu: false,
+        localDominanceDie: 0,
+        selectedDemonIndex: 0,
+        boundDemons: [null, null],
+        showDemonConfigModal: false,
+        demonConfigMode: null,
+        demonConfigInitialData: null
+    });
+    const [ setLichborneState] = useState({
+        showPhylacteryMenu: false
+    });
+
     const timeShardsBarRef = useRef(null);
     const temporalStrainBarRef = useRef(null);
-    const [chronarchPositions, setChronarchPositions] = useState({});
-    const [mayhemPositions, setMayhemPositions] = useState({});
-    const [dominancePositions, setDominancePositions] = useState({});
-    const [madnessPositions, setMadnessPositions] = useState({});
-    const [threadsPositions, setThreadsPositions] = useState({});
-    const [fortunePointsPositions, setFortunePointsPositions] = useState({});
-    const [wildInstinctPositions, setWildInstinctPositions] = useState({});
-    const [quarryMarksPositions, setQuarryMarksPositions] = useState({});
+    const [ setChronarchPositions] = useState({});
+    const [ setMayhemPositions] = useState({});
+    const [ setDominancePositions] = useState({});
+    const [ setMadnessPositions] = useState({});
+    const [ setThreadsPositions] = useState({});
+    const [ setFortunePointsPositions] = useState({});
+    const [ setWildInstinctPositions] = useState({});
+    const [ setQuarryMarksPositions] = useState({});
 
-    const [oracleState, setOracleState] = useState({
+    const [visionsState, setVisionsState] = useState({
         localVisions: 6, // Start with 6 for demo
         oracleSpec: 'seer', // 'seer' | 'truthseeker' | 'fateseer'
         predictionAccuracy: { total: 5, correct: 4, chain: 2 }, // Tracking predictions
@@ -314,7 +314,7 @@ const ClassResourceBar = ({
             { source: 'Revelation', amount: 1 }
         ], // Last 3 Vision gains
         showVisionsMenu: false,
-        oracleHoverSection: null // 'visions' | null
+        visionsHoverSection: null // 'visions' | null
     });
     const visionsBarRef = useRef(null);
     const pathsBarRef = useRef(null);
@@ -329,105 +329,75 @@ const ClassResourceBar = ({
 
     // Destructure local variables from state objects for easier access
     // BERSERKER FIX: Using prop-based berserkerRage instead of local state
-    const {
-        showRageMenu: berserkerShowRageMenu
-    } = berserkerState;
-    // BERSERKER FIX: rageInputValue comes from uiState, not berserkerState
-    const berserkerRageInputValue = rageInputValue;
-
+        // BERSERKER FIX: rageInputValue comes from uiState, not berserkerState
+    
     const {
         currentStance,
-        showStanceMenu,
-        showMomentumMenu,
-        showFlourishMenu,
-        momentumInputValue,
         shaperHoverSection,
-        showSpecPassiveMenu,
         selectedSpecialization
     } = shaperState;
 
     const {
-        showTimeShardsMenu,
-        showTemporalStrainMenu,
         chronarchHoverSection
     } = chronarchState;
 
     const {
-        showChargesMenu,
-        covenbaneHoverSection
-    } = covenbaneState;
+        hexbreakerHoverSection
+    } = hexbreakerState;
 
     const {
         localAscensionPaths,
         localBloodTokens,
-        showPathsMenu,
-        showTokensMenu,
-        deathcallerHoverSection
-    } = deathcallerState;
+        ascensionHoverSection
+    } = ascensionState;
 
     const {
         localDRP,
         selectedResistanceType,
         showDRPMenu,
-        dreadnaughtHoverSection
-    } = dreadnaughtState;
+        resilienceHoverSection
+    } = resilienceState;
 
     const {
         localDominanceDie,
         selectedDemonIndex,
         boundDemons,
-        showDominanceMenu,
-        exorcistHoverSection,
-        showDemonConfigModal,
-        demonConfigMode,
-        demonConfigInitialData
-    } = exorcistState;
+        dominanceHoverSection
+    } = dominanceState;
 
     const {
         localMadness,
-        showMadnessMenu,
         falseProphetHoverSection
     } = falseProphetState;
 
     const {
         localThreads,
-        showThreadsMenu,
         fateWeaverHoverSection,
         selectedFateWeaverSpec
     } = fateWeaverState;
 
     const {
         localFortunePoints,
-        gamblerSpec,
-        showFPMenu,
-        showSpecMenu,
-        gamblerHoverSection,
-        menuPosition
+        gamblerHoverSection
     } = gamblerState;
 
     const {
         localQuarryMarks,
-        huntressSpec,
         companionHP,
         companionMaxHP,
-        showQMMenu,
-        showHuntressSpecMenu,
         huntressHoverSection
     } = huntressState;
 
     const {
         localPhylacteryHP,
-        eternalFrostActive,
         lichborneSpec,
-        showPhylacteryMenu,
-        lichborneHoverSection
-    } = lichborneState;
+        phylacteryHoverSection
+    } = phylacteryState;
 
     const {
         currentLunarPhase,
         roundsInPhase,
         lunarchSpec,
-        showLunarPhaseMenu,
         lunarchHoverSection
     } = lunarchState;
 
@@ -435,16 +405,11 @@ const ClassResourceBar = ({
         localDevotionLevel,
         localDevotionDamage,
         martyrSpec,
-        showDevotionMenu,
-        showMartyrSpecMenu,
         martyrHoverSection
     } = martyrState;
 
     const {
         localNotes,
-        minstrelSpec,
-        showNoteMenus,
-        showMinstrelSpecMenu,
         minstrelHoverSection
     } = minstrelState;
 
@@ -452,134 +417,20 @@ const ClassResourceBar = ({
         if (value === null && isMouseOverWrapperRef.current) return;
         setMinstrelState(prev => ({ ...prev, minstrelHoverSection: value }));
     };
-    const setShowMinstrelSpecMenu = (value) => setMinstrelState(prev => ({ ...prev, showMinstrelSpecMenu: value }));
-    const setShowNoteMenus = (value) => setMinstrelState(prev => ({ ...prev, showNoteMenus: value }));
-    const setLocalNotes = (value) => setMinstrelState(prev => ({ ...prev, localNotes: value }));
-    const setMinstrelSpec = (value) => setMinstrelState(prev => ({ ...prev, minstrelSpec: value }));
-
+                
     // Setter functions for menu toggles in class-specific states
-    const setShowStanceMenu = (value) => setShaperState(prev => ({ ...prev, showStanceMenu: value }));
-    const setShowMomentumMenu = (value) => setShaperState(prev => ({ ...prev, showMomentumMenu: value }));
-    const setShowFlourishMenu = (value) => setShaperState(prev => ({ ...prev, showFlourishMenu: value }));
-    const setShowSpecPassiveMenu = (value) => setShaperState(prev => ({ ...prev, showSpecPassiveMenu: value }));
+                
 
+        // BERSERKER FIX: Removed setLocalRage - now reading from props. Using setShowRageMenu from uiState.
+            // CHRONARCH FIX: Removed setLocalTimeShards and setLocalTemporalStrain - now reading from props
 
-    const setCurrentStance = (value) => setShaperState(prev => ({ ...prev, currentStance: value }));
-    // BERSERKER FIX: Removed setLocalRage - now reading from props. Using setShowRageMenu from uiState.
-    const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
-    const setShowTemporalStrainMenu = (value) => setChronarchState(prev => ({ ...prev, showTemporalStrainMenu: value }));
-    // CHRONARCH FIX: Removed setLocalTimeShards and setLocalTemporalStrain - now reading from props
-
-    const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
-    const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
-    const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({
-        ...prev,
-        localAscensionPaths: typeof valueOrFn === 'function' ? valueOrFn(prev.localAscensionPaths) : valueOrFn
-    }));
-    const setLocalBloodTokens = (valueOrFn) => setDeathcallerState(prev => ({
-        ...prev,
-        localBloodTokens: typeof valueOrFn === 'function' ? valueOrFn(prev.localBloodTokens) : valueOrFn
-    }));
     const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
-    const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
-    const setSelectedResistanceType = (value) => setDreadnaughtState(prev => ({ ...prev, selectedResistanceType: value }));
-    const setShowDominanceMenu = (value) => setExorcistState(prev => ({ ...prev, showDominanceMenu: value }));
     const setLocalDominanceDie = (value) => setExorcistState(prev => ({ ...prev, localDominanceDie: value }));
-    const setSelectedDemonIndex = (value) => setExorcistState(prev => ({ ...prev, selectedDemonIndex: value }));
     const setBoundDemons = (value) => setExorcistState(prev => ({ ...prev, boundDemons: value }));
     const setShowDemonConfigModal = (value) => setExorcistState(prev => ({ ...prev, showDemonConfigModal: value }));
-    const setDemonConfigMode = (value) => setExorcistState(prev => ({ ...prev, demonConfigMode: value }));
-    const setDemonConfigInitialData = (value) => setExorcistState(prev => ({ ...prev, demonConfigInitialData: value }));
-    const setShowMadnessMenu = (value) => setFalseProphetState(prev => ({ ...prev, showMadnessMenu: value }));
-    const setLocalMadness = (value) => setFalseProphetState(prev => ({ ...prev, localMadness: value }));
-    const setShowFPMenu = (value) => setGamblerState(prev => ({ ...prev, showFPMenu: value }));
-    const setShowSpecMenu = (value) => setGamblerState(prev => ({ ...prev, showSpecMenu: value }));
-    const setGamblerSpec = (value) => setGamblerState(prev => ({ ...prev, gamblerSpec: value }));
-    const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
-
-    const calculateMenuPosition = () => {
-        if (!fpBarRef.current) return;
-
-        const rect = fpBarRef.current.getBoundingClientRect();
-        const menuWidth = 340; // Menu max-width from CSS
-        const menuHeight = 350; // Estimated menu height
-        const margin = 10;
-
-        // Check vertical space
-        const spaceBelow = window.innerHeight - rect.bottom;
-        const spaceAbove = rect.top;
-
-        // Check horizontal space
-        const spaceRight = window.innerWidth - rect.right;
-        const spaceLeft = rect.left;
-
-        let verticalPosition = 'below';
-        let horizontalPosition = 'left';
-
-        // Determine vertical position
-        if (spaceBelow >= menuHeight + margin) {
-            verticalPosition = 'below';
-        } else if (spaceAbove >= menuHeight + margin) {
-            verticalPosition = 'above';
-        } else {
-            verticalPosition = 'below'; // Default to below even if it overflows
-        }
-
-        // Determine horizontal position - try to center first, then adjust if needed
-        if (rect.left + rect.width / 2 - menuWidth / 2 < margin) {
-            // Not enough space on left, align to left edge
-            horizontalPosition = 'left';
-        } else if (rect.right - rect.width / 2 + menuWidth / 2 > window.innerWidth - margin) {
-            // Not enough space on right, align to right edge
-            horizontalPosition = 'right';
-        } else {
-            // Enough space, center the menu
-            horizontalPosition = 'center';
-        }
-
-        // Set position styles based on calculations
-        let position = {};
-        if (verticalPosition === 'below') {
-            position.top = '100%';
-            position.bottom = 'auto';
-        } else {
-            position.top = 'auto';
-            position.bottom = '100%';
-        }
-
-        if (horizontalPosition === 'left') {
-            position.left = '0';
-            position.right = 'auto';
-        } else if (horizontalPosition === 'right') {
-            position.left = 'auto';
-            position.right = '0';
-        } else { // center
-            position.left = '50%';
-            position.right = 'auto';
-            position.transform = 'translateX(-50%)';
-        }
-
-        setGamblerState(prev => ({ ...prev, menuPosition: position }));
-    };
-
-    const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
-    const setShowHuntressSpecMenu = (value) => setHuntressState(prev => ({ ...prev, showHuntressSpecMenu: value }));
-    const setShowPhylacteryMenu = (value) => setLichborneState(prev => ({ ...prev, showPhylacteryMenu: value }));
-    const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
     const setCurrentLunarPhase = useCallback((value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value })), []);
     const setRoundsInPhase = useCallback((value) => setLunarchState(prev => ({ ...prev, roundsInPhase: value })), []);
     const setLunarchSpec = useCallback((value) => setLunarchState(prev => ({ ...prev, lunarchSpec: value })), []);
-    const setShowDevotionMenu = (value) => setMartyrState(prev => ({ ...prev, showDevotionMenu: value }));
-    const setShowMartyrSpecMenu = (value) => setMartyrState(prev => ({ ...prev, showMartyrSpecMenu: value }));
-    const setMartyrSpec = (value) => setMartyrState(prev => ({ ...prev, martyrSpec: value }));
-    const setLocalDevotionLevel = (value) => setMartyrState(prev => ({ ...prev, localDevotionLevel: value }));
-    const setLocalDevotionDamage = (value) => setMartyrState(prev => ({ ...prev, localDevotionDamage: value }));
-    const setShowVisionsMenu = (value) => setOracleState(prev => ({ ...prev, showVisionsMenu: value }));
-    const setLocalVisions = (value) => setOracleState(prev => ({ ...prev, localVisions: value }));
-    const setOracleSpec = (value) => setOracleState(prev => ({ ...prev, oracleSpec: value }));
-    const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: value }));
-    const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: value }));
-    const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
 
     // Setter functions for hover sections in class-specific states
     const setShaperHoverSection = (value) => {
@@ -592,21 +443,13 @@ const ClassResourceBar = ({
     };
     const setCovenbaneHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
-        setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
+        setHexbreakerState(prev => ({ ...prev, hexbreakerHoverSection: value }));
     };
     const setDeathcallerHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
-        setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
+        setAscensionState(prev => ({ ...prev, ascensionHoverSection: value }));
     };
-    const setDreadnaughtHoverSection = (value) => {
-        if (value === null && isMouseOverWrapperRef.current) return;
-        setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
-    };
-    const setExorcistHoverSection = (value) => {
-        if (value === null && isMouseOverWrapperRef.current) return;
-        setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
-    };
-    const setFalseProphetHoverSection = (value) => {
+            const setFalseProphetHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
         setFalseProphetState(prev => ({ ...prev, falseProphetHoverSection: value }));
     };
@@ -614,10 +457,7 @@ const ClassResourceBar = ({
         if (value === null && isMouseOverWrapperRef.current) return;
         setFateWeaverState(prev => ({ ...prev, fateWeaverHoverSection: value }));
     };
-    const setSelectedFateWeaverSpec = (value) => setFateWeaverState(prev => ({ ...prev, selectedFateWeaverSpec: value }));
-    const setShowThreadsMenu = (value) => setFateWeaverState(prev => ({ ...prev, showThreadsMenu: value }));
-    const setLocalThreads = (value) => setFateWeaverState(prev => ({ ...prev, localThreads: value }));
-    const setGamblerHoverSection = (value) => {
+                const setGamblerHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
         setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
     };
@@ -627,22 +467,15 @@ const ClassResourceBar = ({
     };
     const setLichborneHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
-        setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
+        setPhylacteryState(prev => ({ ...prev, phylacteryHoverSection: value }));
     };
-    const setLocalPhylacteryHP = (value) => setLichborneState(prev => ({ ...prev, localPhylacteryHP: value }));
-    const setEternalFrostActive = (value) => setLichborneState(prev => ({ ...prev, eternalFrostActive: value }));
-    const setLichborneSpec = (value) => setLichborneState(prev => ({ ...prev, lichborneSpec: value }));
-    const setLunarchHoverSection = (value) => {
+                const setLunarchHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
         setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
     };
-    const setMartyrHoverSection = (value) => {
+        const setOracleHoverSection = (value) => {
         if (value === null && isMouseOverWrapperRef.current) return;
-        setMartyrState(prev => ({ ...prev, martyrHoverSection: value }));
-    };
-    const setOracleHoverSection = (value) => {
-        if (value === null && isMouseOverWrapperRef.current) return;
-        setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
+        setVisionsState(prev => ({ ...prev, visionsHoverSection: value }));
     };
 
     const renderIcon = (icon) => {
@@ -656,22 +489,12 @@ const ClassResourceBar = ({
     const {
         localVisions,
         oracleSpec,
-        predictionAccuracy,
-        lastVisionGain,
-        showVisionsMenu,
-        oracleHoverSection
-    } = oracleState;
+        visionsHoverSection
+    } = visionsState;
 
-    const {
-        localSpheres,
-        isRolling,
-        showControls,
-        diceButtonMode
-    } = arcanoneerState;
+    const {} = arcanoneerState;
 
-    const {
-        localModifiers
-    } = chaosWeaverState;
+    const {} = chaosWeaverState;
 
     // Get chat store for combat notifications (must be before early return)
     const { addCombatNotification } = useChatStore();
@@ -765,14 +588,7 @@ const ClassResourceBar = ({
     };
 
     // Rage bar anchored tooltip handlers
-    const handleRageBarEnter = () => {
-        if (rageBarRef.current) {
-            const rect = rageBarRef.current.getBoundingClientRect();
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-            setShowTooltip(true);
-        }
-    };
-    // Keep tooltip inside viewport using measurement after render
+        // Keep tooltip inside viewport using measurement after render
     // Reset modifier menu when character class changes
     useEffect(() => {
         setShowModifierMenu(false);
@@ -926,7 +742,7 @@ const ClassResourceBar = ({
             }
         };
 
-    }, [showTooltip, berserkerRage, shaperMomentum, shaperFlourish, shaperHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, covenbaneHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, size, minstrelHoverSection, gamblerHoverSection, huntressHoverSection, lunarchHoverSection, fateWeaverHoverSection, falseProphetHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
+    }, [showTooltip, berserkerRage, shaperMomentum, shaperFlourish, shaperHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, hexbreakerHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, size, minstrelHoverSection, gamblerHoverSection, huntressHoverSection, lunarchHoverSection, fateWeaverHoverSection, falseProphetHoverSection, ascensionHoverSection, arcanoneerState.showRollTooltip]);
 
     // Dedicated Martyr tooltip positioning (avoids TooltipPortal render delay)
     useEffect(() => {
@@ -1008,8 +824,7 @@ const ClassResourceBar = ({
         };
     }, [showTooltip, martyrHoverSection, localDevotionLevel, localDevotionDamage, martyrSpec]);
 
-    const handleRageBarLeave = () => setShowTooltip(false);
-
+    
 
     // Create specialization-specific visual and mechanical configurations for Fate Weaver
     const getFateWeaverConfig = (spec) => {
@@ -1319,14 +1134,7 @@ const ClassResourceBar = ({
     };
 
     // Handle demon config modal save (Exorcist)
-    const handleDemonConfigSave = (demonData) => {
-        const updatedDemons = [...boundDemons];
-        updatedDemons[selectedDemonIndex] = demonData;
-        setBoundDemons(updatedDemons);
-        setLocalDominanceDie(demonData.dd);
-        setShowDemonConfigModal(false);
-    };
-
+    
     // Dynamic, informal status flavor line shown under each resource menu title.
     // Reflects the live state of the resource bar (calm / warm / danger / critical).
     const renderStatusFlavor = () => {
@@ -1455,8 +1263,8 @@ const ClassResourceBar = ({
                 />;
             case 'hexbreaker-charges':
                 return <HexbreakerChargesResourceBar
-                    covenbaneState={covenbaneState}
-                    setCovenbaneState={setCovenbaneState}
+                    hexbreakerState={hexbreakerState}
+                    setHexbreakerState={setHexbreakerState}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -1473,8 +1281,8 @@ const ClassResourceBar = ({
                 />;
             case 'ascension-blood':
                 return <AscensionBloodResourceBar
-                    deathcallerState={deathcallerState}
-                    setDeathcallerState={setDeathcallerState}
+                    ascensionState={ascensionState}
+                    setAscensionState={setAscensionState}
                     finalClassResource={finalClassResource}
                     finalConfig={finalConfig}
                     character={character}
@@ -1491,8 +1299,8 @@ const ClassResourceBar = ({
                 />;
             case 'drp-resilience':
                 return <DRPResilienceResourceBar
-                    dreadnaughtState={dreadnaughtState}
-                    setDreadnaughtState={setDreadnaughtState}
+                    resilienceState={resilienceState}
+                    setResilienceState={setResilienceState}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -1508,8 +1316,8 @@ const ClassResourceBar = ({
                 />;
             case 'dominance-die':
                 return <DominanceDieResourceBar
-                    exorcistState={exorcistState}
-                    setExorcistState={setExorcistState}
+                    dominanceState={dominanceState}
+                    setDominanceState={setDominanceState}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -1613,8 +1421,8 @@ const ClassResourceBar = ({
                 />;
             case 'eternal-frost-phylactery':
                 return <EternalFrostPhylacteryResourceBar
-                    lichborneState={lichborneState}
-                    setLichborneState={setLichborneState}
+                    phylacteryState={phylacteryState}
+                    setPhylacteryState={setPhylacteryState}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -1675,8 +1483,8 @@ const ClassResourceBar = ({
                 />;
             case 'prophetic-visions':
                 return <PropheticVisionsResourceBar
-                    oracleState={oracleState}
-                    setOracleState={setOracleState}
+                    visionsState={visionsState}
+                    setVisionsState={setVisionsState}
                     uiState={uiState}
                     setUiState={setUiState}
                     finalClassResource={finalClassResource}
@@ -2216,25 +2024,8 @@ const ClassResourceBar = ({
     // Helper function to get Berserker rage state
 
     const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
-    const isShaper = finalConfig.type === 'dual-resource';
-    const isBerserker = finalConfig.type === 'rage';
-    const isHarbinger = finalConfig.visual?.type === 'mayhem-gauge';
-    const isChronarch = finalConfig.visual?.type === 'time-shards-strain';
-    const isRevenant = finalConfig.visual?.type === 'ascension-blood';
-    const isFalseProphet = finalConfig.visual?.type === 'madness-gauge';
-    const isGambitThreads = modifiedConfig.visual?.type === 'threads-of-destiny';
-    const isGambit = finalConfig.visual?.type === 'fortune-points-gambling';
-    const isApex = finalConfig.visual?.type === 'quarry-marks-companion';
-    const isAnimist = finalConfig.visual?.type === 'ancestral-resonance';
-    const isInquisitor = finalConfig.visual?.type === 'hexbreaker-charges';
-    const isLunarch = finalConfig.visual?.type === 'lunar-phases';
-    const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
-    const isMinstrel = finalConfig.visual?.type === 'musical-notes-combo';
-    const isPlaguebringer = finalConfig.visual?.type === 'virulence-bar';
-    const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
-    const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
-    const isWarden = finalConfig.visual?.type === 'vengeance-points';
-    const isAugur = finalConfig.visual?.type === 'dual-omen';
+                                                    const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
+                        const isAugur = finalConfig.visual?.type === 'dual-omen';
 
     // Hide CR bar if class has no resource system (max === 0)
     // This prevents showing "0/0" bars for GMs or characters without class resources
@@ -2265,8 +2056,8 @@ const ClassResourceBar = ({
                         animistHoverSection={animistHoverSection}
                         shaperHoverSection={shaperHoverSection}
                         chronarchHoverSection={chronarchHoverSection}
-                        covenbaneHoverSection={covenbaneHoverSection}
-                        deathcallerHoverSection={deathcallerHoverSection}
+                        hexbreakerHoverSection={hexbreakerHoverSection}
+                        ascensionHoverSection={ascensionHoverSection}
                         falseProphetHoverSection={falseProphetHoverSection}
                         fateWeaverHoverSection={fateWeaverHoverSection}
                         gamblerHoverSection={gamblerHoverSection}
@@ -2285,10 +2076,10 @@ const ClassResourceBar = ({
                         covenbaneAttackCounter={covenbaneAttackCounter}
                         localAscensionPaths={localAscensionPaths}
                         localBloodTokens={localBloodTokens}
-                        dreadnaughtHoverSection={dreadnaughtHoverSection}
+                        resilienceHoverSection={resilienceHoverSection}
                         localDRP={localDRP}
                         selectedResistanceType={selectedResistanceType}
-                        exorcistHoverSection={exorcistHoverSection}
+                        dominanceHoverSection={dominanceHoverSection}
                         boundDemons={boundDemons}
                         selectedDemonIndex={selectedDemonIndex}
                         localDominanceDie={localDominanceDie}
@@ -2302,14 +2093,14 @@ const ClassResourceBar = ({
                         localQuarryMarks={localQuarryMarks}
                         companionHP={companionHP}
                         companionMaxHP={companionMaxHP}
-                        lichborneHoverSection={lichborneHoverSection}
+                        phylacteryHoverSection={phylacteryHoverSection}
                         lichborneSpec={lichborneSpec}
                         localPhylacteryHP={localPhylacteryHP}
                         currentLunarPhase={currentLunarPhase}
                         roundsInPhase={roundsInPhase}
                         lunarchSpec={lunarchSpec}
                         localNotes={localNotes}
-                        oracleHoverSection={oracleHoverSection}
+                        visionsHoverSection={visionsHoverSection}
                         oracleSpec={oracleSpec}
                         localVisions={localVisions}
                         berserkerRage={berserkerRage}

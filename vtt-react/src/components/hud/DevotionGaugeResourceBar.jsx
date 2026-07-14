@@ -19,18 +19,15 @@ const DevotionGaugeResourceBar = ({
   getTooltipHeaderColor,
 }) => {
   const {
-    localDevotionLevel,
-    localDevotionDamage,
-    martyrSpec,
-    showDevotionMenu,
-    showMartyrSpecMenu,
-    martyrHoverSection
+      localDevotionLevel,
+      localDevotionDamage,
+      martyrSpec,
+      showDevotionMenu,
+      martyrHoverSection
   } = martyrState;
 
   const {
-    showTooltip,
-    tooltipPosition,
-    tooltipPlacement,
+      showTooltip
   } = uiState;
 
   const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));

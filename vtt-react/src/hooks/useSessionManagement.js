@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Session Management Hook
  *
  * complete session management with:
@@ -129,7 +129,7 @@ export const useSessionManagement = () => {
     window.location.href = '/';
    }
   }, 100);
- }, [signOut, updateStatus, clearTimers]);
+  }, [signOut, clearTimers]);
 
  /**
   * Show session warning modal

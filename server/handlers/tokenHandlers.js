@@ -47,12 +47,12 @@ function registerTokenHandlers(ctx) {
     stripUndefined
   } = ctx;
 
-  socket.on('token_created', async (data, ackCallback) => {
+  socket.on('token_created', async(data, ackCallback) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
         socket.emit('error', { message: validation.error });
-        if (typeof ackCallback === 'function') ackCallback({ success: false, error: validation.error });
+        if (typeof ackCallback === 'function') {ackCallback({ success: false, error: validation.error });}
         return;
       }
 
@@ -93,14 +93,14 @@ function registerTokenHandlers(ctx) {
 
     } catch (error) {
       logger.error('[token_created] Error:', { error: error.message });
-      if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
+      if (typeof ackCallback === 'function') {ackCallback({ success: false, error: error.message });}
     }
   });
 
-  socket.on('token_moved', async (data) => {
+  socket.on('token_moved', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -135,10 +135,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_updated', async (data) => {
+  socket.on('token_updated', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -178,7 +178,7 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_control_granted', async (data) => {
+  socket.on('token_control_granted', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
@@ -231,10 +231,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_control_response', async (data) => {
+  socket.on('token_control_response', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room, player } = validation;
 
@@ -263,10 +263,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('character_token_created', async (data) => {
+  socket.on('character_token_created', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || data.targetMapId || room.gameState.defaultMapId || 'default';
@@ -302,10 +302,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_removed', async (data) => {
+  socket.on('token_removed', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -331,10 +331,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('token_dismissed', async (data) => {
+  socket.on('token_dismissed', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
@@ -360,10 +360,10 @@ function registerTokenHandlers(ctx) {
     }
   });
 
-  socket.on('character_token_removed', async (data) => {
+  socket.on('character_token_removed', async(data) => {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) return;
+      if (!validation.valid) {return;}
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';

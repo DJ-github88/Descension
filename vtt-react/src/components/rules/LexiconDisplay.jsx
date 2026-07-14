@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { RULES_CATEGORIES } from '../../data/rulesData';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';

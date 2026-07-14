@@ -4,7 +4,6 @@ import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
-import { ASSET_PATHS } from '../../utils/assetManager';
 import './PlayerJournalWindow.css';
 
 // List of available background images (from /assets/Backgrounds/)
@@ -158,9 +157,9 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showAddOrbFolderDropdown, setShowAddOrbFolderDropdown] = useState(false);
   const addOrbFolderDropdownRef = useRef(null);
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
-  const [backgroundInput, setBackgroundInput] = useState('');
-  const [availableBackgrounds, setAvailableBackgrounds] = useState([]);
-  const [loadingBackgrounds, setLoadingBackgrounds] = useState(false);
+  const [ setBackgroundInput] = useState('');
+  const [] = useState([]);
+  const [] = useState(false);
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
   const [orbEditorLabel, setOrbEditorLabel] = useState('');
   const [draggedOverFolder, setDraggedOverFolder] = useState(null);
@@ -372,8 +371,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     
     const knowledgeId = e.dataTransfer.getData('knowledge/id');
     const noteId = e.dataTransfer.getData('note/id');
-    const sourceType = e.dataTransfer.getData('source/type');
-    
+        
     if (!knowledgeId && !noteId) return;
     
     const boardRect = boardRef.current?.getBoundingClientRect();

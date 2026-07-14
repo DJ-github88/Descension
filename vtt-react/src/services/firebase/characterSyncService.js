@@ -6,7 +6,6 @@
  */
 
 import characterPersistenceService from './characterPersistenceService';
-import characterSessionService from './characterSessionService';
 
 // Sync status tracking
 const SYNC_STATUS_KEY = 'mythrill-sync-status';

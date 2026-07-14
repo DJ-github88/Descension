@@ -923,7 +923,6 @@ const CLASS_ID_MAP = {
   'berserker': 'berserker',
   'shaper': 'shaper',
   'harbinger': 'harbinger',
-  'harbinger': 'harbinger',
   'chronarch': 'chronarch',
   // 'covenbane' merged into inquisitor as Phase 1.9 consolidation
   'inquisitor': 'inquisitor',
@@ -942,7 +941,6 @@ const CLASS_ID_MAP = {
   'martyr': 'martyr',
   'minstrel': 'minstrel',
   'plaguebringer': 'plaguebringer',
-  'animist': 'animist',
   'pyrofiend': 'pyrofiend',
   'spellguard': 'spellguard',
   // 'titan' removed from CLASS_ID_MAP (absorbed into Warden as Monolith specialization)

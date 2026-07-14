@@ -963,6 +963,7 @@ const RaceSelector = () => {
   const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
   const [showEpicLore, setShowEpicLore] = useState(false);
   const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(true);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [customIllustration, setCustomIllustration] = useState(null);
   const [traitTooltip, setTraitTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
   const raceGridRef = useRef(null);
@@ -1044,6 +1045,13 @@ const RaceSelector = () => {
   const gatherIllustrations = useCallback(() => {
     if (!raceData) return [];
     const images = [];
+    // Always include the base race illustration as the general image option
+    if (raceData.illustration) {
+      images.push({
+        src: raceData.illustration,
+        caption: raceData.illustrationCaption || raceData.name
+      });
+    }
     if (raceData.subraces) {
       Object.values(raceData.subraces).forEach(sub => {
         if (sub.illustration) {
@@ -1054,13 +1062,6 @@ const RaceSelector = () => {
             });
           }
         }
-      });
-    }
-    // If no subraces have illustrations, fall back to the base race illustration
-    if (images.length === 0 && raceData.illustration) {
-      images.push({
-        src: raceData.illustration,
-        caption: raceData.illustrationCaption || raceData.name
       });
     }
     return images;
@@ -1083,7 +1084,7 @@ const RaceSelector = () => {
   const handleRaceSelect = useCallback((raceId) => {
     setSelectedRace(raceId);
     setSelectedVariant(null);
-    setRaceOverviewExpanded(false);
+    setRaceOverviewExpanded(true);
     setCustomIllustration(null); // Reset when active race changes
 
     const currentIndex = allRaces.findIndex(r => r.id === raceId);
@@ -1140,6 +1141,7 @@ const RaceSelector = () => {
 
   const handleVariantSelect = (variantId) => {
     setSelectedVariant(variantId);
+    setDescriptionExpanded(false);
   };
 
   const handleTraitClick = (trait, event) => {
@@ -1294,6 +1296,16 @@ const RaceSelector = () => {
               {raceData.variantDiversity && (
                 <p className="race-variant-diversity">{renderLoreText(raceData.variantDiversity)}</p>
               )}
+
+              {/* Appearance */}
+              {raceData.visualDescription && (
+                <div className="content-section">
+                  <h4 className="content-section-title">
+                    <i className="fas fa-eye"></i> Appearance
+                  </h4>
+                  <p className="content-section-text">{renderLoreText(raceData.visualDescription)}</p>
+                </div>
+              )}
             </div>
 
             {/* Variant Selection */}
@@ -1356,6 +1368,7 @@ const RaceSelector = () => {
                       onClick={() => {
                         setSelectedVariant(variantId);
                         setSelectedTrait(null);
+                        setDescriptionExpanded(false);
                       }}
                     >
                       <span className="variant-name">{variant.name}</span>
@@ -1374,12 +1387,13 @@ const RaceSelector = () => {
             </div>
           )}
 
-          <div className="details-layout">
-            {/* Left Column: Stats & Basic Info */}
-            <div className="details-left">
-              {/* Race Illustration in Guidebook Frame (checks for subrace-specific illustration first) */}
+          {/* ===== MAIN BODY: Sidebar (illus+stats) + Content flow ===== */}
+          <div className="details-body">
+
+            {/* LEFT SIDEBAR: Illustration + Stats (sticky) */}
+            <aside className="details-sidebar">
               {(variantData.illustration || raceData.illustration) && (
-                <div className="guide-illustration-wrapper race-illustration-wrapper">
+                <div className="sidebar-illustration">
                   <div className="guide-illustration-frame">
                     <img
                       src={variantData.illustration || raceData.illustration}
@@ -1395,10 +1409,8 @@ const RaceSelector = () => {
                 </div>
               )}
 
-              {/* Stat Block */}
               <StatModifiersFull statModifiers={variantData.statModifiers} />
 
-              {/* Base Stats Block */}
               {(() => {
                 const baseStats = getRacialBaseStats(raceData.id, variantData.id);
                 if (baseStats && Object.keys(baseStats).length > 0) {
@@ -1426,25 +1438,25 @@ const RaceSelector = () => {
                         )}
                         {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
                           <div className="info-row info-row-no-bg">
-                            <span className="info-label">PASSIVE PERCEPTION:</span>
+                            <span className="info-label">PASSIVE PERC.:</span>
                             <span className="info-value">{baseStats.passivePerception > 0 ? '+' : ''}{baseStats.passivePerception}</span>
                           </div>
                         )}
                         {baseStats.swimSpeed !== undefined && baseStats.swimSpeed !== 0 && (
                           <div className="info-row info-row-no-bg">
-                            <span className="info-label">SWIM SPEED:</span>
+                            <span className="info-label">SWIM:</span>
                             <span className="info-value">{baseStats.swimSpeed > 0 ? '+' : ''}{baseStats.swimSpeed} ft</span>
                           </div>
                         )}
                         {baseStats.climbSpeed !== undefined && baseStats.climbSpeed !== 0 && (
                           <div className="info-row info-row-no-bg">
-                            <span className="info-label">CLIMB SPEED:</span>
+                            <span className="info-label">CLIMB:</span>
                             <span className="info-value">{baseStats.climbSpeed > 0 ? '+' : ''}{baseStats.climbSpeed} ft</span>
                           </div>
                         )}
                         {baseStats.visionRange !== undefined && baseStats.visionRange !== 60 && (
                           <div className="info-row info-row-no-bg">
-                            <span className="info-label">VISION RANGE:</span>
+                            <span className="info-label">VISION:</span>
                             <span className="info-value">{baseStats.visionRange} ft</span>
                           </div>
                         )}
@@ -1467,13 +1479,12 @@ const RaceSelector = () => {
                 return null;
               })()}
 
-              {/* Saving Throw Modifiers Block */}
               {(() => {
                 const savingThrowMods = getRacialSavingThrowModifiers(raceData.id, variantData.id);
                 if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
                   return (
                     <div className="info-block">
-                      <h4 className="info-block-title">SAVING THROW MODIFIERS</h4>
+                      <h4 className="info-block-title">SAVE MODIFIERS</h4>
                       <div className="info-grid">
                         {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
                           <div className="info-row info-row-full info-row-no-bg">
@@ -1483,7 +1494,7 @@ const RaceSelector = () => {
                         )}
                         {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
                           <div className="info-row info-row-full info-row-no-bg">
-                            <span className="info-label">DISADVANTAGE:</span>
+                            <span className="info-label">DISADV.:</span>
                             <span className="info-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
                           </div>
                         )}
@@ -1494,46 +1505,80 @@ const RaceSelector = () => {
                 return null;
               })()}
 
-              {/* Basic Information */}
-              <div className="info-block">
-                <h4 className="info-block-title">BASIC INFORMATION</h4>
-                <div className="info-grid">
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">SIZE:</span>
-                    <span className="info-value">{raceData.baseTraits.size}</span>
-                  </div>
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">HEIGHT:</span>
-                    <span className="info-value">{raceData.baseTraits.height || 'MISSING'}</span>
-                  </div>
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">WEIGHT:</span>
-                    <span className="info-value">{raceData.baseTraits.weight || 'MISSING'}</span>
-                  </div>
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">BUILD:</span>
-                    <span className="info-value">{raceData.baseTraits.build || 'MISSING'}</span>
-                  </div>
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">SPEED:</span>
-                    <span className="info-value">{raceData.baseTraits.baseSpeed} ft</span>
-                  </div>
-                  <div className="info-row info-row-no-bg">
-                    <span className="info-label">LIFESPAN:</span>
-                    <span className="info-value">{raceData.baseTraits.lifespan}</span>
-                  </div>
-                  <div className="info-row info-row-full info-row-no-bg">
-                    <span className="info-label">LANGUAGES:</span>
-                    <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
-                  </div>
+              {raceData.baseTraits && (
+                <div className="sidebar-physical">
+                  {raceData.baseTraits.size && <div className="sidebar-stat-row"><span>Size</span><strong>{raceData.baseTraits.size}</strong></div>}
+                  {raceData.baseTraits.height && <div className="sidebar-stat-row"><span>Height</span><strong>{raceData.baseTraits.height}</strong></div>}
+                  {raceData.baseTraits.weight && <div className="sidebar-stat-row"><span>Weight</span><strong>{raceData.baseTraits.weight}</strong></div>}
+                  {raceData.baseTraits.baseSpeed && <div className="sidebar-stat-row"><span>Speed</span><strong>{raceData.baseTraits.baseSpeed} ft</strong></div>}
+                  {raceData.baseTraits.lifespan && <div className="sidebar-stat-row"><span>Lifespan</span><strong>{raceData.baseTraits.lifespan}</strong></div>}
+                  {raceData.baseTraits.languages && <div className="sidebar-stat-row sidebar-stat-row-full"><span>Languages</span><strong>{raceData.baseTraits.languages.join(', ')}</strong></div>}
                 </div>
-              </div>
-            </div>
+              )}
+            </aside>
 
-            {/* Right Column: Traits + Cultural Background */}
-            <div className="details-right">
-              <div className="traits-block">
-                <h4 className="traits-block-title">Racial Traits</h4>
+            {/* RIGHT CONTENT: Subrace + Appearance + Traits + Lore */}
+            <div className="details-content">
+
+              {variantData?.description && (() => {
+                const fullText = variantData.description;
+                // Split on sentence boundary — show first 2 sentences as the intro
+                const sentenceEnd = (() => {
+                  let count = 0;
+                  for (let i = 0; i < fullText.length; i++) {
+                    if (fullText[i] === '.' && fullText[i + 1] === ' ') {
+                      count++;
+                      if (count === 2) return i + 1;
+                    }
+                  }
+                  return fullText.length;
+                })();
+                const intro = fullText.slice(0, sentenceEnd).trim();
+                const remainder = fullText.slice(sentenceEnd).trim();
+                const hasMore = remainder.length > 0;
+                return (
+                  <div className="content-section">
+                    <h4 className="content-section-title">
+                      <i className="fas fa-dna"></i> {variantData.name}
+                    </h4>
+                    <p className="content-section-text description-intro">{renderLoreText(intro)}</p>
+                    {hasMore && descriptionExpanded && (
+                      <p className="content-section-text description-remainder">{renderLoreText(remainder)}</p>
+                    )}
+                    {hasMore && (
+                      <button
+                        className="description-expand-toggle"
+                        onClick={() => setDescriptionExpanded(prev => !prev)}
+                      >
+                        {descriptionExpanded ? '▲ Show less' : '▼ Read more'}
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {(variantData.visualDescription || raceData.visualDescription) && (
+                <div className="content-section">
+                  <h4 className="content-section-title">
+                    <i className="fas fa-eye"></i> Appearance
+                  </h4>
+                  <p className="content-section-text">{renderLoreText(variantData.visualDescription || raceData.visualDescription)}</p>
+                </div>
+              )}
+
+              {(variantData.culturalBackground || raceData.culturalBackground) && (
+                <div className="content-section content-section--culture">
+                  <h4 className="content-section-title">
+                    <i className="fas fa-users"></i> Culture
+                  </h4>
+                  <p className="content-section-text">{renderLoreText(variantData.culturalBackground || raceData.culturalBackground)}</p>
+                </div>
+              )}
+
+              <div className="content-section">
+                <h4 className="content-section-title">
+                  <i className="fas fa-star"></i> Racial Traits
+                </h4>
                 <div className="traits-icons">
                   {variantData.traits.map((trait, index) => (
                     <TraitIcon
@@ -1564,22 +1609,7 @@ const RaceSelector = () => {
                 )}
               </div>
 
-              {raceData.culturalBackground && (
-                <div className="cultural-section">
-                  <h4 className="cultural-title">
-                    <i className="fas fa-book"></i> Cultural Background
-                  </h4>
-                  <p className="cultural-text">{renderLoreText(raceData.culturalBackground)}</p>
-                  {variantData?.description && (
-                    <div className="cultural-subrace-section">
-                      <h5 className="cultural-subrace-title">
-                        <i className="fas fa-dna"></i> {variantData.name}
-                      </h5>
-                      <p className="cultural-subrace-text">{variantData.description}</p>
-                    </div>
-                  )}
-                </div>
-              )}
+
             </div>
           </div>
 
@@ -1590,50 +1620,6 @@ const RaceSelector = () => {
               onMouseEnter={() => {}}
               onMouseLeave={handleTraitTooltipClose}
             />
-          )}
-
-          {/* Integration Notes */}
-          {raceData.integrationNotes && (
-            <div className="integration-section">
-              <h4 className="integration-title">
-                <i className="fas fa-link"></i> Integration with World Systems
-              </h4>
-              <div className="integration-grid">
-                {raceData.integrationNotes.actionPointSystem && (
-                  <div className="integration-card">
-                    <h5>Action Points</h5>
-                    <p>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
-                  </div>
-                )}
-                {raceData.integrationNotes.backgroundSynergy && (
-                  <div className="integration-card">
-                    <h5>Background Synergy</h5>
-                    <p>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
-                  </div>
-                )}
-                {raceData.integrationNotes.classCompatibility && (
-                  <div className="integration-card">
-                    <h5>Tradition Compatibility</h5>
-                    <p>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Diaspora: In the Wider World */}
-          {raceData.diasporaVariation && (
-            <div className="integration-section">
-              <h4 className="integration-title">
-                <i className="fas fa-globe"></i> In the Wider World
-              </h4>
-              <div className="integration-grid">
-                <div className="integration-card">
-                  <h5>Diaspora</h5>
-                  <p>{renderLoreText(raceData.diasporaVariation)}</p>
-                </div>
-              </div>
-            </div>
           )}
 
         </div>
@@ -1652,7 +1638,7 @@ const RaceSelector = () => {
         <div className="epic-lore-overlay">
           <RaceEpicLore
             raceData={raceData}
-            availableTabs={['history', 'figures', 'locations', 'crisis', 'practices']}
+            availableTabs={['history', 'figures', 'locations', 'crisis', 'practices', 'culture']}
             onClose={() => setShowEpicLore(false)}
           />
         </div>

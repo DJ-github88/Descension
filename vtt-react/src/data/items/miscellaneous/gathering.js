@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Gathering & Botany Materials
  * 
  * Common Plants, Medicinal/Potent Plants, and Rare/Dangerous Plants

@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useMemo } from 'react';
 
 // Action types
 export const ACTION_TYPES = {
@@ -362,6 +362,9 @@ function validateEffectConfigurations(state) {
   case 'restoration':
   if (!state.restorationConfig) return false;
   break;
+
+  default:
+  break;
  }
  }
 
@@ -724,6 +727,9 @@ function spellWizardReducer(state, action) {
    break;
   case 'restoration':
    newState.restorationConfig = null;
+   break;
+
+  default:
    break;
   }
 
@@ -1325,15 +1331,16 @@ function SpellWizardProvider({ children }) {
  ]);
 
  // Initialize wizard flow once
- useEffect(() => {
- if (!state.wizardFlow || state.wizardFlow.length === 0) {
-  const flow = determineWizardFlow(state);
-  dispatch({
-  type: ACTION_TYPES.UPDATE_WIZARD_FLOW,
-  payload: flow
-  });
- }
- }, [state.wizardFlow]);
+  useEffect(() => {
+  if (!state.wizardFlow || state.wizardFlow.length === 0) {
+   const flow = determineWizardFlow(state);
+   dispatch({
+   type: ACTION_TYPES.UPDATE_WIZARD_FLOW,
+   payload: flow
+   });
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.wizardFlow]);
 
  // Validate state when validation-relevant properties change
  useEffect(() => {
@@ -1350,7 +1357,8 @@ function SpellWizardProvider({ children }) {
   payload: { errors, warnings }
   });
  }
- }, [validationState]); // Remove state.errors and state.warnings from dependencies
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [validationState]);
 
  return (
  <SpellWizardStateContext.Provider value={state}>

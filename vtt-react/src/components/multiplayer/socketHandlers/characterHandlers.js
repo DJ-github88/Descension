@@ -251,7 +251,7 @@ export function registerCharacterHandlers(ctx) {
       const senderUserId = data.character?.userId || data.userId; // Firebase UID - MOST RELIABLE
       const characterName = data.character?.name;
       const updatedBy = data.updatedBy; // Player ID of sender from server
-      const isFromGM = data.isGM || false; // Server may indicate if this is from GM
+
 
       console.info('ðŸ“¡ [character_updated] Received:', {
         senderSocketId,

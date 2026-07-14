@@ -16,7 +16,7 @@ const deltaSync = require('../services/deltaSync');
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
-describe('DeltaSyncEngine', function () {
+describe('DeltaSyncEngine', function() {
   this.timeout(10000);
 
   const created = { rooms: [], clients: [] };
@@ -28,8 +28,8 @@ describe('DeltaSyncEngine', function () {
   };
 
   afterEach(() => {
-    for (const id of created.rooms) deltaSync.removeRoom(id);
-    for (const id of created.clients) deltaSync.removeClient(id);
+    for (const id of created.rooms) {deltaSync.removeRoom(id);}
+    for (const id of created.clients) {deltaSync.removeClient(id);}
     created.rooms.length = 0;
     created.clients.length = 0;
   });
@@ -143,7 +143,7 @@ describe('DeltaSyncEngine', function () {
   });
 
   describe('createStateUpdate + versioning', () => {
-    it('throws if the room was not initialized', async () => {
+    it('throws if the room was not initialized', async() => {
       let err;
       try {
         await deltaSync.createStateUpdate('does-not-exist', { a: 1 });
@@ -154,14 +154,14 @@ describe('DeltaSyncEngine', function () {
       expect(err.message).to.match(/not initialized/);
     });
 
-    it('returns null when the state is unchanged', async () => {
+    it('returns null when the state is unchanged', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { a: 1 });
       const result = await deltaSync.createStateUpdate(roomId, { a: 1 });
       expect(result).to.equal(null);
     });
 
-    it('creates a versioned delta linked to its parent', async () => {
+    it('creates a versioned delta linked to its parent', async() => {
       const roomId = newRoomId();
       const initVersionId = deltaSync.initializeRoom(roomId, { hp: 10 });
       const result = await deltaSync.createStateUpdate(roomId, { hp: 7 });
@@ -173,7 +173,7 @@ describe('DeltaSyncEngine', function () {
       expect(result.id).to.be.a('string');
     });
 
-    it('caps version history at maxVersionHistory', async () => {
+    it('caps version history at maxVersionHistory', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { n: 0 });
       const over = deltaSync.maxVersionHistory + 5;
@@ -189,7 +189,7 @@ describe('DeltaSyncEngine', function () {
   });
 
   describe('getDeltaForClient', () => {
-    it('delivers a full_state payload to a brand-new client', async () => {
+    it('delivers a full_state payload to a brand-new client', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { hp: 10 });
       await deltaSync.createStateUpdate(roomId, { hp: 7 });
@@ -202,7 +202,7 @@ describe('DeltaSyncEngine', function () {
       expect(payload.state).to.deep.equal({ hp: 7 });
     });
 
-    it('returns null when the client is already up to date', async () => {
+    it('returns null when the client is already up to date', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { hp: 10 });
       await deltaSync.createStateUpdate(roomId, { hp: 7 });
@@ -214,7 +214,7 @@ describe('DeltaSyncEngine', function () {
       expect(deltaSync.getDeltaForClient(roomId, clientId)).to.equal(null);
     });
 
-    it('delivers a delta_update when the client is behind', async () => {
+    it('delivers a delta_update when the client is behind', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { hp: 10 });
       const clientId = 'client-behind';
@@ -405,7 +405,7 @@ describe('DeltaSyncEngine', function () {
   });
 
   describe('createStateUpdateWithConflictResolution', () => {
-    it('delegates to createStateUpdate when there are no concurrent updates', async () => {
+    it('delegates to createStateUpdate when there are no concurrent updates', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { hp: 10 });
 
@@ -420,7 +420,7 @@ describe('DeltaSyncEngine', function () {
       expect(result.metadata.conflictsResolved).to.equal(undefined);
     });
 
-    it('records resolved conflicts for concurrent updates from different players', async () => {
+    it('records resolved conflicts for concurrent updates from different players', async() => {
       const roomId = newRoomId();
       deltaSync.initializeRoom(roomId, { hp: 10, mp: 5 });
 

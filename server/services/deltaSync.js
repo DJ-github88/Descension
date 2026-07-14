@@ -48,7 +48,7 @@ class DeltaSyncEngine {
    * @param {Object<string, Function>} map
    */
   registerPolicies(map) {
-    if (map == null || typeof map !== 'object') {
+    if (!map || typeof map !== 'object') {
       throw new TypeError('registerPolicies: map must be an object');
     }
     for (const [field, policy] of Object.entries(map)) {
@@ -605,7 +605,7 @@ class DeltaSyncEngine {
    * @returns {Array} - Updated array
    */
   applyArrayDelta(array, delta) {
-    let result = [...array];
+    const result = [...array];
     
     if (delta.__length !== undefined) {
       result.length = delta.__length;

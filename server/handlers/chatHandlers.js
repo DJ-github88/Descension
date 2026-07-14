@@ -23,16 +23,16 @@ function registerChatHandlers(ctx) {
     emitToUserId
   } = ctx;
 
-  socket.on('chat_message', async (data) => {
+  socket.on('chat_message', async(data) => {
     try {
       const player = players.get(socket.id);
-      if (!player) return;
+      if (!player) {return;}
 
       const room = rooms.get(player.roomId);
-      if (!room) return;
+      if (!room) {return;}
 
       const sanitizedMessage = sanitizeChatMessage(data.message);
-      if (!sanitizedMessage) return;
+      if (!sanitizedMessage) {return;}
 
       const chatMessage = {
         id: data.id || data.messageId || uuidv4(),
@@ -68,11 +68,11 @@ function registerChatHandlers(ctx) {
       const player = players.get(socket.id);
       const socialUser = onlineSocialUsers.get(socket.id);
 
-      if (!player && !socialUser) return;
+      if (!player && !socialUser) {return;}
 
       const rawContent = data.content || data.message || '';
       const sanitizedMessage = sanitizeChatMessage(rawContent);
-      if (!sanitizedMessage) return;
+      if (!sanitizedMessage) {return;}
 
       let senderId, senderName;
       if (player) {

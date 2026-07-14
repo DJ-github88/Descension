@@ -20,7 +20,7 @@ const CreatureWindow = memo(function CreatureWindow({
 }) {
   const [activeView, setActiveView] = useState(propActiveView || initialView);
   const [editingCreatureId, setEditingCreatureId] = useState(propEditingCreatureId || initialCreatureId);
-  const [communityRefreshKey, setCommunityRefreshKey] = useState(0);
+  const [communityRefreshKey] = useState(0);
 
   const { user } = useAuthStore();
 

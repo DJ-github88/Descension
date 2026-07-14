@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const AscensionBloodResourceBar = ({
-  deathcallerState,
-  setDeathcallerState,
+  ascensionState,
+  setAscensionState,
   finalClassResource,
   finalConfig,
   character,
@@ -19,24 +19,22 @@ const AscensionBloodResourceBar = ({
   logClassResourceChange,
 }) => {
   const {
-    localAscensionPaths,
-    localBloodTokens,
-    showPathsMenu,
-    showTokensMenu,
-    deathcallerHoverSection,
-  } = deathcallerState;
+      localAscensionPaths,
+      showPathsMenu,
+      showTokensMenu
+  } = ascensionState;
 
-  const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
-  const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
-  const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({
+  const setShowPathsMenu = (value) => setAscensionState(prev => ({ ...prev, showPathsMenu: value }));
+  const setShowTokensMenu = (value) => setAscensionState(prev => ({ ...prev, showTokensMenu: value }));
+  const setLocalAscensionPaths = (valueOrFn) => setAscensionState(prev => ({
     ...prev,
     localAscensionPaths: typeof valueOrFn === 'function' ? valueOrFn(prev.localAscensionPaths) : valueOrFn
   }));
-  const setLocalBloodTokens = (valueOrFn) => setDeathcallerState(prev => ({
+  const setLocalBloodTokens = (valueOrFn) => setAscensionState(prev => ({
     ...prev,
     localBloodTokens: typeof valueOrFn === 'function' ? valueOrFn(prev.localBloodTokens) : valueOrFn
   }));
-  const setDeathcallerHoverSection = (value) => setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
+  const setAscensionHoverSection = (value) => setAscensionState(prev => ({ ...prev, ascensionHoverSection: value }));
 
         const pathsMax = finalConfig.visual?.ascensionPaths?.max || 7;
         const tokensMax = finalConfig.visual?.bloodTokens?.max || 30;
@@ -125,13 +123,13 @@ const AscensionBloodResourceBar = ({
                             setShowTokensMenu(false);
                         }}
                         onMouseEnter={(e) => {
-                            setDeathcallerHoverSection('paths');
+                            setAscensionHoverSection('paths');
                             const rect = e.currentTarget.getBoundingClientRect();
                             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                             setShowTooltip(true);
                         }}
                         onMouseLeave={() => {
-                            setDeathcallerHoverSection(null);
+                            setAscensionHoverSection(null);
                             setShowTooltip(false);
                         }}
                         style={{
@@ -200,13 +198,13 @@ const AscensionBloodResourceBar = ({
                             setShowPathsMenu(false);
                         }}
                         onMouseEnter={(e) => {
-                            setDeathcallerHoverSection('tokens');
+                            setAscensionHoverSection('tokens');
                             const rect = e.currentTarget.getBoundingClientRect();
                             setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
                             setShowTooltip(true);
                         }}
                         onMouseLeave={() => {
-                            setDeathcallerHoverSection(null);
+                            setAscensionHoverSection(null);
                             setShowTooltip(false);
                         }}
                         style={{
@@ -278,8 +276,7 @@ const AscensionBloodResourceBar = ({
                                         const isDisabled = !currentPaths[i] && i > 0 && !currentPaths[i - 1];
 
                                         // Path can be activated if: it's the first path OR all previous paths are active
-                                        const canActivate = i === 0 || currentPaths.slice(0, i).every(p => p === true);
-
+                                        
                                         return (
                                             <button
                                                 key={i}

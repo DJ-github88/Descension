@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Creature Ability Builders
  *
  * Compact helpers that expand to the FULL advanced spell-card format defined in

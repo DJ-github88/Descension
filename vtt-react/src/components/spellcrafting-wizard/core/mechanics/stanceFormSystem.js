@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Stance/Form System
  * 
  * Provides support for stance and form mechanics:
@@ -492,6 +492,9 @@ export function applyFormModifiersToSpell(spellConfig, formConfig) {
           break;
         case 'mana':
           // No adjustment needed for mana
+          break;
+          
+        default:
           break;
       }
     }

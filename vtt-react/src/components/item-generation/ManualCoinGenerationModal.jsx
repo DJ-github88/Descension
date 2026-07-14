@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { WOW_ICON_BASE_URL } from './wowIcons';
-import { CURRENCY_TYPES } from './itemConstants';
 
 
 const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
@@ -172,7 +171,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
             <div ref={modalRef} className="pf-currency-withdraw-modal" style={{ zIndex: 9999999999 }}>
                 <div className="pf-modal-header">
                     <h3>Generate Coins</h3>
-                    <button className="pf-close-button" onClick={onClose}>Ã - </button>
+                    <button className="pf-close-button" onClick={onClose}>ï¿½ - </button>
                 </div>
                 <div className="pf-modal-content">
                     <div className="pf-currency-input-section">

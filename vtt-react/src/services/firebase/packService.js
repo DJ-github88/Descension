@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Pack Management Service
  * 
  * This service handles all interactions with the Firebase Firestore database
@@ -18,15 +18,13 @@ import {
  getDocs,
  addDoc,
  updateDoc,
- deleteDoc,
  query,
  where,
  orderBy,
  limit,
  startAfter,
  getDoc,
- setDoc,
- writeBatch
+ setDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 

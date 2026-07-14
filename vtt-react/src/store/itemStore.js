@@ -1,10 +1,10 @@
-﻿import { getStore } from './storeRegistry';
+import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import useGameStore from './gameStore';
 import useAuthStore from './authStore';
 import { COMPREHENSIVE_ITEMS } from '../data/items/index.js';
-import { saveUserItem, loadUserItems, updateUserItem as firebaseUpdateUserItem, deleteUserItem as firebaseDeleteUserItem } from '../services/firebase/userItemsService';
+import { saveUserItem, loadUserItems } from '../services/firebase/userItemsService';
 
 // Constants
 export const BASE_CATEGORY = {
@@ -648,9 +648,6 @@ const categorizeItems = (items) => {
      case 'FIST_WEAPON':
       categories.push('weapons-fist-weapons');
       break;
-     case 'CROSSBOW':
-      categories.push('weapons-crossbows');
-      break;
      case 'THROWN':
      case 'BOOMERANG':
      case 'CHAKRAM':
@@ -664,13 +661,15 @@ const categorizeItems = (items) => {
      case 'SLING':
       categories.push('weapons-slings');
       break;
-     case 'WARHAMMER':
-     case 'MAIN_HAND_MACE':
-      categories.push('weapons-warhammers');
-      break;
-    }
-    break;
-   case 'armor':
+      case 'WARHAMMER':
+      case 'MAIN_HAND_MACE':
+       categories.push('weapons-warhammers');
+       break;
+      default:
+       break;
+     }
+     break;
+    case 'armor':
     categories.push('armor');
     // Add subcategory based on armor subtype
     switch (item.subtype) {
@@ -701,12 +700,14 @@ const categorizeItems = (items) => {
      case 'TRINKET':
       categories.push('accessories', 'accessories-trinkets');
       break;
-     case 'CLOAK':
-      categories.push('accessories', 'accessories-cloaks');
-      break;
-    }
-    break;
-   case 'consumable':
+      case 'CLOAK':
+       categories.push('accessories', 'accessories-cloaks');
+       break;
+      default:
+       break;
+     }
+     break;
+    case 'consumable':
     categories.push('consumables');
     switch (item.subtype) {
      case 'POTION':
@@ -723,12 +724,14 @@ const categorizeItems = (items) => {
      case 'SCROLL':
       categories.push('consumables-scrolls');
       break;
-     case 'POISON':
-      categories.push('consumables-poisons');
-      break;
-    }
-    break;
-   case 'accessory':
+      case 'POISON':
+       categories.push('consumables-poisons');
+       break;
+      default:
+       break;
+     }
+     break;
+    case 'accessory':
     categories.push('accessories');
     // Add subcategory based on accessory subtype
     switch (item.subtype) {
@@ -745,13 +748,15 @@ const categorizeItems = (items) => {
      case 'CLOAK':
       categories.push('accessories-cloaks');
       break;
-     case 'CROWN':
-     case 'BELT':
-      // Add these to general accessories for now
-      break;
-    }
-    break;
-   case 'container':
+      case 'CROWN':
+      case 'BELT':
+       // Add these to general accessories for now
+       break;
+      default:
+       break;
+     }
+     break;
+    case 'container':
     categories.push('containers');
     switch (item.subtype) {
      case 'BAG':
@@ -874,13 +879,17 @@ const categorizeItems = (items) => {
         if (profLower === 'jewelcrafting') categories.push('materials-jewelcrafting');
         if (profLower === 'mining') categories.push('materials-mining');
        });
-      }
-      break;
-    }
-    break;
-  }
+       }
+       break;
+      default:
+       break;
+     }
+     break;
+    default:
+     break;
+   }
 
-  itemCategories[item.id] = categories;
+   itemCategories[item.id] = categories;
  });
 
  return itemCategories;
@@ -987,7 +996,8 @@ const useItemStore = create(
       selectCategory: (categoryId) => set({ selectedCategory: categoryId }),
 
       // Item actions
-      addItem: (item, categories = null) => set(state => {
+      addItem: (item, categories = null) => {
+        const state = get();
         const currentUser = useAuthStore.getState().user;
         const newItem = {
           id: item.id || Date.now().toString(),
@@ -1013,13 +1023,13 @@ const useItemStore = create(
         // Create new itemCategories state with the updated categories
         const newItemCategories = {
           ...state.itemCategories,
-          [newItem.id]: Array.from(categorySet) // Convert Set to Array
+          [newItem.id]: Array.from(categorySet)
         };
 
-        return {
+        set({
           items: [...state.items, newItem],
           itemCategories: newItemCategories
-        };
+        });
 
         // Sync with multiplayer
         get().syncItemUpdate('item_added', { item: newItem, categories: Array.from(categorySet) });
@@ -1028,23 +1038,24 @@ const useItemStore = create(
         if (newItem.createdBy) {
           get().saveItemToFirebase(newItem);
         }
-      }),
+      },
 
-      updateItem: (itemId, updates) => set(state => {
+      updateItem: (itemId, updates) => {
+        const state = get();
         const itemIndex = state.items.findIndex(item => item.id === itemId);
-        if (itemIndex === -1) return state;
+        if (itemIndex === -1) return;
 
         const updatedItems = [...state.items];
         updatedItems[itemIndex] = { ...updatedItems[itemIndex], ...updates };
 
-        return {
+        set({
           items: updatedItems,
           selectedItem: state.selectedItem?.id === itemId ? updatedItems[itemIndex] : state.selectedItem
-        };
+        });
 
         // Sync with multiplayer
         get().syncItemUpdate('item_updated', { itemId, updates });
-      }),
+      },
 
       updateItemDurability: (itemId, newDurability) => {
         const state = get();

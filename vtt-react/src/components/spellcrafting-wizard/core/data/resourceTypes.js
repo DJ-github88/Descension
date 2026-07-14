@@ -298,8 +298,6 @@ export const STANDARD_RESOURCE_TYPES = [
       classRestriction: 'harbinger',
       affectedBy: ['prophecyAccuracy', 'targets'],
       formula: 'Earned from Prophesized outcomes (2-5), Base outcomes (1), area per target (1). Max 15.',
-      affectedBy: ['prophecyAccuracy', 'targets'],
-      formula: 'Earned from Prophesized outcomes (2-5), Base outcomes (1), area per target (1). Max 15.',
       useVerb: 'spend',
       gainVerb: 'earn',
       vital: false,

@@ -287,7 +287,8 @@ export const useLevelEditorPersistence = () => {
     levelEditorState.lightSources,
     isInRoom,
     currentRoomId,
-    scheduleAutoSave
+    scheduleAutoSave,
+    useGameStore
   ]);
 
   // Save state when component unmounts or room changes

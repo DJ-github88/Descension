@@ -1,4 +1,4 @@
-﻿import { generateIconMarkup } from '../../core/utils/previewGenerator';
+
 import { isValidDiceNotation } from '../../data/enhancedEffectSystemData';
 
 // =====================================================================
@@ -508,7 +508,7 @@ export const CooldownUtils = {
   },
   
   isAbilityReady: (ability, gameState) => {
-    const { cooldownType, cooldownValue, currentCooldown, charges, maxCharges } = ability;
+    const { cooldownType, currentCooldown, charges } = ability;
     
     // Handle different cooldown types
     switch (cooldownType) {
@@ -579,6 +579,9 @@ export const CooldownUtils = {
           updatedAbility.nextAvailableTime = Math.max(Date.now(), newTime);
         }
         break;
+
+      default:
+        break;
     }
     
     return updatedAbility;
@@ -616,6 +619,9 @@ export const CooldownUtils = {
         
       case 'dice_based':
         updatedAbility.currentCooldown = 0;
+        break;
+
+      default:
         break;
     }
     
@@ -695,6 +701,9 @@ export const CooldownUtils = {
       case 'dice_based':
         result.dice = ability.cooldownValue;
         result.threshold = ability.rechargeThreshold;
+        break;
+
+      default:
         break;
     }
     

@@ -1,4 +1,4 @@
-﻿import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
+import { cleanFormula, normalizeSaveType } from './spellFormatterUtils';
 
 const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) => {
 
@@ -543,7 +543,7 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
    // Check if both use the same resolution method to avoid redundancy
    const bothUseCards = spell.resolution === 'CARDS' && damageText.includes('Draw') && dotText.includes('Draw');
    const bothUseCoins = spell.resolution === 'COINS' && damageText.includes('Flip') && dotText.includes('Flip');
-   const bothUseDice = spell.resolution === 'DICE' || (!bothUseCards && !bothUseCoins);
+
 
    if (bothUseCards) {
     // Extract formulas from both instant and DoT
@@ -624,10 +624,6 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
   // }
 
   // Return the final text (string case)
-  return finalText;
-
-
-
   return finalText;
  };
 
@@ -978,21 +974,18 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
 
   // Valid damage types (normalize old types to new 8-type schema)
   const validDamageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred',
-               'ember', 'rime', 'storm', 'arcane', 'storm', 'ember', 'nature',
-               'blight', 'blight', 'blight', 'blight', 'wyrd', 'chaos',
-               'physical', 'physical', 'physical',
-               'electric', 'ember', 'magical', 'rime', 'ice', 'blight', 'viscera'];
+               'nature', 'electric', 'magical', 'ice', 'chaos', 'viscera'];
 
   // Normalize similar types to new 8-type schema
   const normalizedTypes = Array.from(damageTypesSet).map(type => {
    const legacyMap = {
-    'ember': 'ember', 'ember': 'ember', 'ember': 'ember',
-    'rime': 'rime', 'rime': 'rime', 'ice': 'rime',
+    'ember': 'ember',
+    'rime': 'rime', 'ice': 'rime',
     'storm': 'storm', 'arcane': 'arcane', 'electric': 'storm',
     'nature': 'primal', 'viscera': 'primal',
-    'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight', 'blight': 'blight',
+    'blight': 'blight',
     'wyrd': 'wyrd', 'chaos': 'wyrd',
-    'physical': 'physical', 'physical': 'physical', 'physical': 'physical',
+    'physical': 'physical',
    };
    return legacyMap[type] || type;
   });

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Utility functions for calculating stat modifications based on conditions
  */
 
@@ -40,14 +40,10 @@ export function calculateEffectiveMovementSpeed(baseSpeed, conditions = []) {
  // Exhausted: already handled in characterUtils for character tokens,
  // but if it's also applied as a condition, we should respect it
  // Level 2 exhaustion halves speed, level 5 sets to 0
- if (conditionIds.includes('exhausted')) {
-  // Check if there's a severity or level indicator
-  const exhaustedCondition = conditions.find(c => 
-   (c.id || c.name?.toLowerCase()) === 'exhausted'
-  );
-  // For now, we'll assume it halves speed (level 2)
-  // If level 5, it would be handled by the stunned/paralyzed check above
-  effectiveSpeed = effectiveSpeed * 0.5;
+  if (conditionIds.includes('exhausted')) {
+   // For now, we'll assume it halves speed (level 2)
+   // If level 5, it would be handled by the stunned/paralyzed check above
+   effectiveSpeed = effectiveSpeed * 0.5;
  }
 
  // Return the effective speed, ensuring it's at least 0
@@ -66,10 +62,9 @@ export function applyConditionStatModifiers(baseStats, conditions = []) {
   return { ...baseStats };
  }
 
- const modifiedStats = { ...baseStats };
- const conditionIds = conditions.map(c => c.id || c.name?.toLowerCase());
+  const modifiedStats = { ...baseStats };
 
- // Apply movement speed modifications
+  // Apply movement speed modifications
  if (baseStats.speed !== undefined) {
   modifiedStats.speed = calculateEffectiveMovementSpeed(baseStats.speed, conditions);
  }

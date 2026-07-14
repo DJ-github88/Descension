@@ -1,9 +1,9 @@
 // core/mechanics/castTimeSystem.js
 
-import { getDurationTypeById } from '../data/durationTypes';
+
 import { getEffectTypeById } from '../data/effectTypes';
 import { findStatusEffectById } from '../data/statusEffects';
-import { SPELL_TYPES } from './spellTypeSystem';
+
 import { TURN_PHASES, calculateTurnsRemaining, getNextTurnFor, isSameTurn } from './turnSequenceSystem';
 import { calculateActionPoints } from './resourceManager';
 import { DiceBuilder } from './diceSystem';
@@ -378,6 +378,9 @@ export function progressCastTime(castState, turnData) {
         updatedCastState.status = 'ready_to_complete';
       }
       break;
+      
+    default:
+      break;
   }
   
   return updatedCastState;
@@ -441,9 +444,10 @@ export function checkInterruption(castState, interruptionType, magnitude) {
         castState.spellConfig.level
       );
       return checkSaveVsInterruption(castState, 'concentration', concentrationDC, magnitude);
+      
+    default:
+      return { interrupted: false, reason: 'unknown_interruption_type' };
   }
-  
-  return { interrupted: false, reason: 'unhandled_interruption_type' };
 }
 
 export function completeCasting(castState, gameState) {
@@ -678,6 +682,9 @@ export function estimateCastCompletion(castState, turnState) {
         ...turnState,
         estimatedCompletionTime: completionTime
       };
+      
+    default:
+      break;
   }
   
   return { ...turnState }; // Default fallback
@@ -829,6 +836,9 @@ export function getInterruptionChance(castState, interruptionType, magnitude) {
         castState.spellConfig.level
       );
       baseChance = calculateInterruptionProbability(castState, 'concentration', concentrationDC);
+      break;
+      
+    default:
       break;
   }
   
@@ -1018,7 +1028,7 @@ function applyCastTimeModifiers(baseCastTime, castTimeType, spellConfig, casterS
   
   // Apply item modifiers
   if (casterState.equipment) {
-    for (const [slot, item] of Object.entries(casterState.equipment)) {
+for (const [item] of Object.entries(casterState.equipment)) {
       if (item && CAST_TIME_MECHANICS.ITEM_BONUSES[item.id]) {
         const bonus = CAST_TIME_MECHANICS.ITEM_BONUSES[item.id];
         if (typeof bonus === 'function') {
@@ -1287,6 +1297,9 @@ function updateProgressPercentage(castState, turnData) {
     case 'REAL_TIME':
       // For real-time, calculated in progressCastTime
       break;
+      
+    default:
+      break;
   }
 }
 
@@ -1337,9 +1350,9 @@ function generateDiceNotationForValue(value, originalNotation) {
     return `${Math.ceil(value / 5)}d10`;
   }
   
-  const origDiceCount = parseInt(match[1]);
+
   const origDiceSides = parseInt(match[2]);
-  const origModifier = match[3] ? parseInt(match[3]) : 0;
+
   
   // Try to maintain similar structure
   const avgDieValue = (origDiceSides + 1) / 2;

@@ -54,7 +54,7 @@ const usePresenceSync = (sessionType = null, roomData = null) => {
     // Update presence
     updateSession(sessionData);
 
-  }, [sessionType, roomData?.id, roomData?.name, user, character, currentUserPresence]);
+  }, [sessionType, roomData, user, character, currentUserPresence, updateSession]);
 };
 
 export default usePresenceSync;
