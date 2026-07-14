@@ -173,6 +173,42 @@ module.exports = {
               priority: 10,
               minChunks: 2,
             },
+            // Static data chunks to prevent main bundle bloating
+            dataRules: {
+              test: /[\\/]src[\\/]data[\\/]rulesData\.js/,
+              name: 'data-rules',
+              chunks: 'all',
+              priority: 9,
+              enforce: true,
+            },
+            dataCreatures: {
+              test: /[\\/]src[\\/]data[\\/](creatureLibraryData\.js|creatureData\.json)/,
+              name: 'data-creatures',
+              chunks: 'all',
+              priority: 9,
+              enforce: true,
+            },
+            dataClasses: {
+              test: /[\\/]src[\\/]data[\\/]classes[\\/]/,
+              name: 'data-classes',
+              chunks: 'all',
+              priority: 9,
+              enforce: true,
+            },
+            dataTalents: {
+              test: /[\\/]src[\\/]data[\\/]talentTrees[\\/]/,
+              name: 'data-talents',
+              chunks: 'all',
+              priority: 9,
+              enforce: true,
+            },
+            dataOther: {
+              test: /[\\/]src[\\/]data[\\/]/,
+              name: 'data-other',
+              chunks: 'all',
+              priority: 8,
+              enforce: true,
+            },
             // Services - split into separate chunk
             services: {
               test: /[\\/]src[\\/]services[\\/]/,
