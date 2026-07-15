@@ -30,7 +30,7 @@ const processedAcceptedRequestIds = new Set();
 let initializeCleanupFn = null;
 
 // Create the store
-export const useSocialStore = create((set, get) => ({
+const useSocialStore = create((set, get) => ({
   ...initialState,
 
   // Initialization and Listeners

@@ -1,76 +1,74 @@
-import { LIBRARY_CREATURES, CREATURE_LIBRARY_VERSION } from '../data/creatureLibraryData';
-import { ADVANCED_ABILITIES } from '../data/creatureAbilitiesAdvanced';
+import { DATA_VERSIONS, DATA_FILES } from '../data/versions';
 import useCreatureStore from '../store/creatureStore';
+import { getCachedData, setCachedData } from '../services/dataCache';
 
 const STORAGE_VERSION_KEY = 'creature-library-version';
 
-/**
- * Initialize the creature store with sample creatures
- * This is the single point of initialization to prevent duplicates
- * 
- * Now replaces old creatures with new library creatures to ensure the library is up to date
- */
-const initCreatureStore = () => {
+const fetchJSON = (url) => fetch(url).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
 
+const initCreatureStore = async () => {
   const creatureStore = useCreatureStore.getState();
-  
-  // Check stored version
+  const expectedVersion = DATA_VERSIONS.creatures;
+
   const storedVersion = localStorage.getItem(STORAGE_VERSION_KEY);
-  const versionChanged = storedVersion !== CREATURE_LIBRARY_VERSION;
+  const versionChanged = storedVersion !== expectedVersion;
 
-  // Get IDs of creatures in the library
-  const libraryCreatureIds = new Set(LIBRARY_CREATURES.map(c => c.id));
-  
-  // Get IDs of creatures currently in the store
-  const storeCreatureIds = new Set(creatureStore.creatures.map(c => c.id));
-  
-  // Check if we need to update (if library has different creatures or version changed)
-  const needsUpdate = 
+  const libraryCreatureIds = new Set(creatureStore.creatures.map(c => c.id));
+
+  const needsUpdate =
     versionChanged ||
-    creatureStore.creatures.length === 0 || 
-    LIBRARY_CREATURES.length !== creatureStore.creatures.length ||
-    ![...libraryCreatureIds].every(id => storeCreatureIds.has(id)) ||
-    ![...storeCreatureIds].every(id => libraryCreatureIds.has(id));
+    creatureStore.creatures.length === 0;
 
-  if (needsUpdate) {
-    console.log('🔄 Updating creature store with new library creatures...');
-    if (versionChanged) {
-      console.log(`📦 Library version changed: ${storedVersion} -> ${CREATURE_LIBRARY_VERSION}`);
+  if (!needsUpdate) return;
+
+  console.log('Updating creature store from JSON data...');
+  if (versionChanged) {
+    console.log(`Library version changed: ${storedVersion} -> ${expectedVersion}`);
+  }
+
+  try {
+    let LIBRARY_CREATURES = null;
+    let ADVANCED_ABILITIES = null;
+    const expectedAbilitiesVersion = DATA_VERSIONS.abilities;
+
+    // Check IndexedDB cache for creatures
+    const cachedCreatures = await getCachedData('creatures');
+    if (cachedCreatures && cachedCreatures.version === expectedVersion) {
+      LIBRARY_CREATURES = cachedCreatures.data;
+    } else {
+      LIBRARY_CREATURES = await fetchJSON(DATA_FILES.creatures);
+      setCachedData('creatures', expectedVersion, LIBRARY_CREATURES).catch(() => {});
     }
-    
-    // Clear existing creatures and add new ones in a single batch
-    let addedCount = 0;
-    const newCreatures = [];
-    
-    LIBRARY_CREATURES.forEach(creature => {
-      // If an advanced spell-card abilities set exists for this creature, use it
-      // (overrides the legacy single-ability format so UnifiedSpellCard renders richly).
-      const advancedAbilities = ADVANCED_ABILITIES[creature.id];
-      newCreatures.push({
+
+    // Check IndexedDB cache for abilities
+    const cachedAbilities = await getCachedData('abilities');
+    if (cachedAbilities && cachedAbilities.version === expectedAbilitiesVersion) {
+      ADVANCED_ABILITIES = cachedAbilities.data;
+    } else {
+      ADVANCED_ABILITIES = await fetchJSON(DATA_FILES.abilities);
+      setCachedData('abilities', expectedAbilitiesVersion, ADVANCED_ABILITIES).catch(() => {});
+    }
+
+    const newCreatures = LIBRARY_CREATURES.map(creature => {
+      const advancedAbilities = ADVANCED_ABILITIES?.[creature.id];
+      return {
         ...creature,
         ...(advancedAbilities ? { abilities: advancedAbilities } : {}),
         id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         dateCreated: new Date().toISOString(),
-        lastModified: new Date().toISOString()
-      });
-      addedCount++;
+        lastModified: new Date().toISOString(),
+      };
     });
-    
+
     creatureStore.setCreatures(newCreatures);
-    
-    // Store the new version
-    localStorage.setItem(STORAGE_VERSION_KEY, CREATURE_LIBRARY_VERSION);
-    
-    console.log(`✅ Loaded ${addedCount} creatures from library`);
+    localStorage.setItem(STORAGE_VERSION_KEY, expectedVersion);
+    console.log(`Loaded ${newCreatures.length} creatures`);
+  } catch (err) {
+    console.error('Failed to load creature data:', err);
   }
 };
 
-/**
- * Remove duplicate creatures from the store
- * This can be called to clean up any existing duplicates
- */
 export const removeDuplicateCreatures = () => {
-
   const creatureStore = useCreatureStore.getState();
   const uniqueCreatures = [];
   const seenIds = new Set();
@@ -83,9 +81,7 @@ export const removeDuplicateCreatures = () => {
   });
 
   if (uniqueCreatures.length !== creatureStore.creatures.length) {
-    // Update the store with unique creatures only
     creatureStore.setCreatures(uniqueCreatures);
-  } else {
   }
 };
 

@@ -33,6 +33,8 @@ const ErrorHandler = require('./services/errorHandler');
 const { registerSocketHandlers } = require('./handlers/socketHandlers');
 const roomHandlers = require('./handlers/roomHandlers');
 
+const { CLEANUP_INTERVAL_MS } = require('./utils/constants');
+
 // Import sync services
 const { createSyncServices, setupShutdownHandlers } = require('./services/syncService');
 
@@ -318,7 +320,7 @@ app.use((err, req, res, next) => {
 // Clean up inactive rooms every 5 minutes
 setInterval(() => {
   roomHandlers.cleanupInactiveRooms(rooms, players);
-}, 5 * 60 * 1000);
+}, CLEANUP_INTERVAL_MS);
 
 
 
@@ -336,6 +338,18 @@ initializeServer()
     logger.error('Server initialization failed', { error: error.message });
     process.exit(1);
   });
+
+// ==================== PROCESS ERROR HANDLERS ====================
+
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught exception:', { error: error.message, stack: error.stack });
+  // Give the logger time to flush, then exit
+  setTimeout(() => process.exit(1), 1000);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled promise rejection:', { reason: reason?.message || reason });
+});
 
 // ==================== EXPORTS FOR TESTING ====================
 

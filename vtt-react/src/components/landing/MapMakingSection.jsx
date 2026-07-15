@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LORE_DICTIONARY } from '../../data/loreDictionary';
+import useGameData from '../../hooks/useGameData';
 import { SUBREGIONS } from '../../data/subregions';
 import useAuthStore from '../../store/authStore';
 import './styles/MapMakingSection.css';
@@ -1299,8 +1299,8 @@ const enrichChecklist = (parsedData) => {
 
           let whyText = templateItem ? templateItem.why : (item.why || '');
           
-          // Try to enrich using LORE_DICTIONARY if the text matches a known term
-          for (const [, entry] of Object.entries(LORE_DICTIONARY || {})) {
+          // Try to enrich using loreDictionary if the text matches a known term
+          for (const [, entry] of Object.entries(loreDictionary || {})) {
             if (entry && entry.term) {
               const termLower = entry.term.toLowerCase();
               if (termLower.length > 3 && textLower.includes(termLower)) {
@@ -1363,6 +1363,8 @@ const getItemScope = (item) => {
 const MapMakingSection = () => {
   const { isAdminBypass, user } = useAuthStore();
   const isAdmin = isAdminBypass || !!user?.isAdmin;
+
+  const { data: loreDictionary } = useGameData('lore');
 
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [notes, setNotes] = useState(() => {
@@ -1468,7 +1470,7 @@ const MapMakingSection = () => {
 
   const regionLore = useMemo(() => {
     if (!selectedRegion) return null;
-    const originalLore = LORE_DICTIONARY[selectedRegion];
+    const originalLore = loreDictionary[selectedRegion];
     if (!originalLore) return null;
 
     // Clean and strip HTML/code tags like LoreLink

@@ -15,8 +15,7 @@ import GameSurface from './GameSurface';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
-import useChatStore from '../../store/chatStore';
-import { setCombatSyncSocket, clearCombatSyncSocket } from '../../store/chatStore';
+import useChatStore, { setCombatSyncSocket, clearCombatSyncSocket } from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -370,7 +369,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         lastMapId = currentMapId;
         setPlayerCurrentMapId(currentMapId);
         playerCurrentMapIdRef.current = currentMapId;
-        console.log(`ðŸ - ºï¸ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
+        console.log(`ï¿½ - ï¿½ï¸ [MapSync] Synced playerCurrentMapId with mapStore: ${currentMapId}`);
       }
     });
     return () => unsubscribe();

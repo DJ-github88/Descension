@@ -138,7 +138,7 @@ export const SPELLGUARD_DATA = {
   orderName: 'The Aegis',
   founder: {
    name: '<LoreLink termId="damon">Damon</LoreLink>',
-   status: `Dead, five centuries. The <LoreLink termId="emberth">Emberth</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
+       status: `Dead, eight centuries. The <LoreLink termId="emberth">Emberth</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
    note: `<LoreLink termId="damon">Damon</LoreLink> treated magical defense as engineering, not artistry. The Aegis still trains in his method: identify the spell's structure, dismantle it before it arrives, redirect the residue. His one unbreakable rule, *a Spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line*, is now being violated daily.`
   },
   currentLeader: {

@@ -1,0 +1,23 @@
+/**
+ * Shared constants used across the server.
+ */
+
+const CLEANUP_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
+const INVITATION_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+const DEFAULT_MAX_PLAYERS = 6;
+const DEFAULT_GM_COLOR = '#d4af37';
+const DEFAULT_PLAYER_COLOR = '#4a90e2';
+const BCRYPT_SALT_ROUNDS = 10;
+const CHAT_HISTORY_LIMIT = 500;
+const TOKEN_DELTA_DEBOUNCE_MS = 50;
+
+module.exports = {
+  CLEANUP_INTERVAL_MS,
+  INVITATION_EXPIRY_MS,
+  DEFAULT_MAX_PLAYERS,
+  DEFAULT_GM_COLOR,
+  DEFAULT_PLAYER_COLOR,
+  BCRYPT_SALT_ROUNDS,
+  CHAT_HISTORY_LIMIT,
+  TOKEN_DELTA_DEBOUNCE_MS
+};

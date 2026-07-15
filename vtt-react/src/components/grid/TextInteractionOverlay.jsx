@@ -7,7 +7,7 @@ const TextInteractionOverlay = ({ gridRef }) => {
     const [selectedTextId, setSelectedTextId] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [setLastMousePos] = useState({ x: 0, y: 0 });
+    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
     const dragTimeoutRef = useRef(null);
 
 

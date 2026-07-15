@@ -1,6 +1,6 @@
 // Account dashboard - main account management page
 import React, { useState, useEffect } from 'react';
-import {  useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER } from '../../services/subscriptionService';
@@ -11,8 +11,7 @@ import RoomManager from './RoomManager';
 import CampaignManager, { canAccessCampaignManager } from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
 import ProfileEditModal from './ProfileEditModal';
-// Note: canAccessCampaignManager is available for future access control:
-// import CampaignManager, { canAccessCampaignManager, CAMPAIGN_ACCESS_CONFIG } from './CampaignManager';
+
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
 import AccountSocialManager from './AccountSocialManager';

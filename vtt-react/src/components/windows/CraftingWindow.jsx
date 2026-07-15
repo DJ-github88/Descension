@@ -8,6 +8,7 @@ import BlacksmithingInterface from '../crafting/BlacksmithingInterface';
 import useChatStore from '../../store/chatStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
+import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('recipes');
@@ -206,9 +207,26 @@ function CraftingWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
             customHeader={
-                <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex' }}>
-                        <button className="spellbook-tab-button active">
+                <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', height: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'stretch', height: '100%' }}>
+                        {selectedProfession && (
+                            <button 
+                                className="spellbook-tab-button"
+                                style={{ 
+                                    flex: '0 0 auto',
+                                    minWidth: 'auto',
+                                    padding: '0 20px',
+                                    borderRight: '1px solid rgba(255, 255, 255, 0.12)',
+                                    background: 'rgba(255, 255, 255, 0.04)'
+                                }}
+                                onClick={handleBackToProfessions}
+                                title="Back to professions list"
+                            >
+                                <i className="fas fa-arrow-left" style={{ marginRight: '8px' }}></i>
+                                <span>Back</span>
+                            </button>
+                        )}
+                        <button className="spellbook-tab-button active" style={{ flex: '0 0 auto', minWidth: 'auto', padding: '0 24px' }}>
                             <i className="fas fa-hammer" style={{ marginRight: '8px' }}></i>
                             <span>
                                 {selectedProfession ? (
@@ -229,25 +247,24 @@ function CraftingWindow({ isOpen, onClose }) {
                     </div>
 
                     {selectedProfession && (
-                        <div className="crafting-header-actions" style={{ display: 'flex', gap: '8px', marginRight: '48px' }}>
+                        <div className="crafting-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '48px' }}>
                             <button
                                 className="wow-button crafting-action-button"
+                                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '12px' }}
+                                onClick={handleLearnAllRecipes}
+                                title="Learn all recipes for this profession"
+                            >
+                                <i className="fas fa-book-open"></i>
+                                <span>Learn All</span>
+                            </button>
+                            <button
+                                className="wow-button crafting-action-button"
+                                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '12px' }}
                                 onClick={handleAddTestMaterials}
                                 title={`Add test ${Object.values(PROFESSIONS).find(p => p.id === selectedProfession)?.name?.toLowerCase() || 'crafting'} materials to inventory`}
                             >
-                                Add Test Materials
-                            </button>
-                            <button
-                                className="wow-button crafting-action-button"
-                                onClick={handleLearnAllRecipes}
-                            >
-                                Learn All Recipes
-                            </button>
-                            <button
-                                className="wow-button crafting-action-button"
-                                onClick={handleBackToProfessions}
-                            >
-                                Back to Professions
+                                <i className="fas fa-flask"></i>
+                                <span>Test Materials</span>
                             </button>
                         </div>
                     )}

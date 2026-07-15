@@ -135,8 +135,8 @@ const CreatureFilters = ({ filteredCount, totalCount }) => {
     { field: 'dateCreated', label: 'Date' }
   ];
 
-  const typeOptions = Object.values(CREATURE_TYPES);
-  const sizeOptions = Object.values(CREATURE_SIZES);
+  const typeOptions = Object.values(CREATURE_TYPES || {});
+  const sizeOptions = Object.values(CREATURE_SIZES || {});
 
   // Get display text for filter buttons
   const getTypeButtonText = () => {

@@ -18,7 +18,7 @@ import { useWindowIntros } from '../hooks/useWindowIntros';
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
 const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));
 
-const CharacterPanel = lazy(() => import('./character-sheet/Equipment'));
+const CharacterPanel = lazy(() => import('./character-sheet/CharacterPanel'));
 const CharacterStats = lazy(() => import('./character-sheet/CharacterStats'));
 const Skills = lazy(() => import('./character-sheet/Skills'));
 const Lore = lazy(() => import('./character-sheet/Lore'));
@@ -578,7 +578,7 @@ export default function Navigation({ onReturnToLanding }) {
     const [isNavCollapsed, setIsNavCollapsed] = useState(() => {
         try { return localStorage.getItem('mythrill-nav-collapsed') === 'true'; } catch { return false; }
     });
-    const [ setIsNavHovered] = useState(false);
+    const [isNavHovered, setIsNavHovered] = useState(false);
     const [orbPosition, setOrbPosition] = useState(() => {
         try {
             const saved = localStorage.getItem('mythrill-nav-orb');

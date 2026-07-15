@@ -1,16 +1,4 @@
 import { getStore } from './storeRegistry';
-/**
- * Party Store
- * 
- * Manages party state including:
- * - Current party information
- * - Party members list
- * - Pending party invitations
- * - Party chat messages
- * - Party settings
- * - Integration with presence system for party HUD
- */
-
 import { create } from 'zustand';
 import presenceService from '../services/firebase/presenceService';
 import { subscribeWithSelector } from 'zustand/middleware';

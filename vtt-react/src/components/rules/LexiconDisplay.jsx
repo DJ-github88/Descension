@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react';
-import { RULES_CATEGORIES } from '../../data/rulesData';
+import useGameData from '../../hooks/useGameData';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import './LexiconDisplay.css';
@@ -70,10 +70,12 @@ const LexiconDisplay = () => {
  const letterRefs = useRef({});
  const mainRef = useRef(null);
 
- const allTerms = useMemo(() => {
-  const lexiconSub = RULES_CATEGORIES
-   .find(c => c.id === 'world-lore')
-   ?.subcategories?.find(s => s.id === 'lexicon');
+  const { data: rulesCategories } = useGameData('rules');
+
+  const allTerms = useMemo(() => {
+   const lexiconSub = (rulesCategories || [])
+    .find(c => c.id === 'world-lore')
+    ?.subcategories?.find(s => s.id === 'lexicon');
   const sections = lexiconSub?.content?.sections || [];
   return sections.map(parseTerm);
  }, []);

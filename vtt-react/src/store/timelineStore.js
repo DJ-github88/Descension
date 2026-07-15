@@ -546,8 +546,7 @@ const SEEDED_EVENTS = [
     ],
     "classIds": [
       "pyrofiend",
-      "martyr",
-      "harbinger"
+      "martyr"
     ],
     "causes": [
       "event-entombment"
@@ -583,7 +582,6 @@ const SEEDED_EVENTS = [
       "martyr",
       "inquisitor",
       "apex",
-      "revenant",
       "lunarch"
     ],
     "causes": [
@@ -709,7 +707,7 @@ const SEEDED_EVENTS = [
       "event-emberspire-eruption"
     ],
     "effects": [
-      "event-augur-readings"
+      "event-augur-collapse"
     ]
   },
   {
@@ -732,8 +730,7 @@ const SEEDED_EVENTS = [
       "scribe-sentinels"
     ],
     "classIds": [
-      "apex",
-      "toxicologist"
+      "apex"
     ],
     "causes": [
       "event-entombment"
@@ -763,7 +760,6 @@ const SEEDED_EVENTS = [
     ],
     "classIds": [
       "berserker",
-      "harbinger",
       "augur"
     ],
     "causes": [
@@ -861,8 +857,7 @@ const SEEDED_EVENTS = [
       "house-ordavan"
     ],
     "classIds": [
-      "augur",
-      "harbinger"
+      "augur"
     ],
     "causes": [
       "event-remaining-bargains"
@@ -897,7 +892,7 @@ const SEEDED_EVENTS = [
       "event-remaining-bargains"
     ],
     "effects": [
-      "event-arcanoneer-founding"
+      "event-contraction-traditions"
     ],
     "narrative": "A dying, memory-starved clan of human scribes walks into the dark boundary where the Bryngloom's ancient ironwood meets the preserving bog. Rather than offering prayers, they present the **Morvane** with a calculated legal argument for their own survival, formatted as a contract. Morvane, bound by its own cosmic drive for order, accepts the terms. The **Neth** rise from the peat-bog with stilled breath, pure-pale skin, and a contract written in blood. Death becomes a clause to renegotiate rather than an ending. In exchange, every contract written by the **Velun Neth** carries Morvane's absolute authority, and every broken contract is enforced by the entity that preserves them, while the **Drun** undergo a painful ritual to sever their names from the First Ledger, living debt-free but legally non-existent.",
     "dmHook": "The original First Contract is preserved in the heartwood of Atropolis. It is a living document (it grows, it changes, and it remembers every Neth who has ever signed it. A Neth character who touches the First Contract sees every ancestor's signature glowing beneath their own) and realizes that one signature, near the bottom, has been deliberately burned away. Someone was erased from the contract. The Drun know who it was. They are not answering.",
@@ -1266,10 +1261,7 @@ const SEEDED_EVENTS = [
       "house-thalreth",
       "scribe-cartel"
     ],
-    "classIds": [
-      "toxicologist",
-      "inquisitor"
-    ],
+    "classIds": [],
     "causes": [
       "event-sovereign-ledger"
     ],
@@ -1316,8 +1308,7 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [],
     "classIds": [
-      "augur",
-      "harbinger"
+      "augur"
     ],
     "causes": [
       "event-astril-first-vessels"
@@ -1435,8 +1426,7 @@ const SEEDED_EVENTS = [
     "factionIds": [],
     "classIds": [
       "apex",
-      "shaper",
-      "toxicologist"
+      "shaper"
     ],
     "causes": [
       "event-mimir-purge"
@@ -1484,9 +1474,7 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [],
     "classIds": [
-      "augur",
-      "harbinger",
-      "falseProphet"
+      "augur"
     ],
     "causes": [
       "event-synod-founded"
@@ -1509,7 +1497,6 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [],
     "classIds": [
-      "revenant",
       "gambit"
     ],
     "causes": [
@@ -1691,7 +1678,7 @@ const SEEDED_EVENTS = [
       "event-brine-bond-syndicate"
     ],
     "effects": [
-      "event-inquisitor-merge"
+      "event-squeeze-traditions"
     ]
   },
   {
@@ -1715,7 +1702,6 @@ const SEEDED_EVENTS = [
       "inquisitor"
     ],
     "causes": [
-      "event-vreken-overlit-epidemic",
       "event-memory-wars"
     ],
     "effects": []
@@ -1862,8 +1848,7 @@ const SEEDED_EVENTS = [
     ],
     "classIds": [
       "martyr",
-      "harbinger",
-      "falseProphet"
+      "harbinger"
     ],
     "causes": [
       "event-fortieth-rebirth"
@@ -2056,7 +2041,7 @@ const SEEDED_EVENTS = [
     "title": "The Nethering",
     "type": "disaster",
     "phase": "intrusion",
-    "description": "Morvane (the death-boundary entity that had enforced the Neth's First Contract for seven centuries) became so distracted by whatever force Keth-Amar had unleashed that the pact began to fray. The Unraveling accelerated: Neth who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Drun numbers swelled as Neth voluntarily severed their names from the Contract. Morvane had been the metaphysical glue holding one of the world's foundational bargains together, and it was coming undone.",
+    "description": "Morvane (the death-boundary entity that had enforced the Neth's First Contract for nearly eight centuries) became so distracted by whatever force Keth-Amar had unleashed that the pact began to fray. The Unraveling accelerated: Neth who broke contracts on purpose to force change began experiencing the Fading, a slow dissipation into nothingness. The First Contract itself began to reject previously accepted clauses: the Arcanoneer crisis. Drun numbers swelled as Neth voluntarily severed their names from the Contract. Morvane had been the metaphysical glue holding one of the world's foundational bargains together, and it was coming undone.",
     "locationIds": [
       "bryngloom-forest",
       "atropolis"
@@ -2092,8 +2077,7 @@ const SEEDED_EVENTS = [
       "house-skalvyr"
     ],
     "classIds": [
-      "augur",
-      "chronarch"
+      "augur"
     ],
     "causes": [
       "event-skalyvr-silence",

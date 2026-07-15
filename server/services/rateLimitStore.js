@@ -274,7 +274,11 @@ class RedisRateLimitStore {
 
   destroy() {
     if (this.redis && typeof this.redis.quit === 'function') {
-      this.redis.quit().catch(() => {});
+      this.redis.quit().catch((err) => {
+        if (err && err.message !== 'Connection is closed.') {
+          console.warn('Redis quit error:', err.message);
+        }
+      });
     }
   }
 }

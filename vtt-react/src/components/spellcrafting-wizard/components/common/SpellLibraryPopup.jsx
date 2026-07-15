@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { List } from 'react-window';
 import MythrillWindow from '../../../windows/MythrillWindow';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
@@ -29,6 +29,23 @@ const SpellLibraryPopup = ({
 
   // State for search
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Measure container width for react-window (must be numeric, not "100%")
+  const listContainerRef = useRef(null);
+  const [listWidth, setListWidth] = useState(0);
+
+  useEffect(() => {
+    const node = listContainerRef.current;
+    if (!node) return;
+    const updateWidth = () => {
+      const w = node.getBoundingClientRect().width;
+      if (w > 0) setListWidth(Math.floor(w));
+    };
+    updateWidth();
+    const observer = new ResizeObserver(() => updateWidth());
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   // Apply filters to the spells
   const filteredSpells = useMemo(() => {
@@ -138,15 +155,17 @@ const SpellLibraryPopup = ({
               </button>
             </div>
           ) : (
-            <div className="spell-cards-container" style={{ overflow: 'hidden', maxHeight: 'none', height: '540px', padding: 0 }}>
-              <List
-                height={540}
-                itemCount={filteredSpells.length}
-                itemSize={380}
-                width="100%"
-              >
-                {Row}
-              </List>
+            <div ref={listContainerRef} className="spell-cards-container" style={{ overflow: 'hidden', maxHeight: 'none', height: '540px', padding: 0 }}>
+              {listWidth > 0 && (
+                <List
+                  key={filteredSpells.length}
+                  rowComponent={Row}
+                  rowCount={filteredSpells.length}
+                  rowHeight={380}
+                  rowProps={{}}
+                  style={{ height: 540, width: listWidth }}
+                />
+              )}
             </div>
           )}
         </div>

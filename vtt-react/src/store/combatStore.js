@@ -668,14 +668,12 @@ const useCombatStore = create((set, get) => ({
 
     // Debug function to log current state
     debugCombatState: () => {
-        get();
-        // Combat store state debug
+      get();
     },
 
     // Clear localStorage for combat store
     clearCombatStorage: () => {
         localStorage.removeItem('combat-store');
-        // Combat store localStorage cleared
     },
 
     // Update timeline position

@@ -130,11 +130,11 @@ function createSanitizationMiddleware(options = {}) {
     const originalOn = socket.on.bind(socket);
 
     socket.on = function(event, handler) {
-      const sanitizedHandler = async(data) => {
+      const sanitizedHandler = async(data, ...args) => {
         // Skip sanitization for internal events
         const internalEvents = ['connect', 'disconnect', 'error', 'ping', 'pong'];
         if (internalEvents.includes(event)) {
-          return handler(data);
+          return handler(data, ...args);
         }
 
         // Sanitize the data
@@ -156,7 +156,7 @@ function createSanitizationMiddleware(options = {}) {
 
         // Process the event with sanitized data
         try {
-          await handler(sanitizedData);
+          await handler(sanitizedData, ...args);
         } catch (error) {
           logger.error(`Error in sanitized handler for event '${event}':`, error);
         }

@@ -34,13 +34,13 @@ import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
-import CookieConsent from "./components/common/CookieConsent";
-import { hasConsent } from "./components/common/CookieConsent";
+import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import { clearLocalRoom } from "./utils/localRoom";
 import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
+import { preloadGameData } from './hooks/useGameData';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary } from './utils/clearSpellCache';
 import './services/roomService';
@@ -776,6 +776,8 @@ export default function App() {
 
     initChatStore();
     initCreatureStore();
+    preloadGameData('lore');
+    preloadGameData('rules');
 
     // Clean up any duplicate creatures that might exist
     // Deferred to 2.5s: after auth and creature store are settled

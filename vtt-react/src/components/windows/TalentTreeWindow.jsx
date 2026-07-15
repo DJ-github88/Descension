@@ -214,6 +214,9 @@ const GRID_ROWS = 8;     // Number of rows in the grid (reduced for more compact
 const TALENT_SIZE = 56;  // Size of talent icon (optimized for perfect fit)
 
 const TalentTreeWindow = ({ isOpen, onClose }) => {
+    console.log('[DEBUG] MythrillWindow:', MythrillWindow);
+    console.log('[DEBUG] TalentArrowRenderer:', TalentArrowRenderer);
+    console.log('[DEBUG] UnifiedTooltip:', UnifiedTooltip);
     const { class: characterClass, level, currentCharacterId } = useCharacterStore();
     const [selectedTree, setSelectedTree] = useState(0);
     const [talents, setTalents] = useState({});

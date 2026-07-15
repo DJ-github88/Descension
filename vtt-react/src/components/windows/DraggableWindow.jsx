@@ -86,7 +86,7 @@ const DraggableWindow = forwardRef(({
         return defaultPosition;
     });
 
-    const [ setIsDragging] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
 
     const hasBeenCentered = useRef(false);
     const initialCenteredValue = useRef(centered);

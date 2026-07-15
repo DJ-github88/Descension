@@ -34,6 +34,9 @@ const { registerAudioHandlers } = require('./audioHandlers');
 const { registerRoomHandlers } = require('./roomLifecycleHandlers');
 const { registerPartyHandlers } = require('./partyHandlers');
 const { registerSessionInvitationHandlers } = require('./sessionInvitationHandlers');
+const { registerJournalHandlers } = require('./journalHandlers');
+
+const { INVITATION_EXPIRY_MS } = require('../utils/constants');
 
 // Echo Prevention Window - standardized timeout across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;
@@ -119,7 +122,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     for (const [id, inv] of partyInvitations) {
       if (now > (inv.expiresAt || 0)) {partyInvitations.delete(id);}
     }
-  }, 5 * 60 * 1000);
+  }, INVITATION_EXPIRY_MS);
 
   io.on('connection', (socket) => {
     logger.info('Player connected', { socketId: socket.id, authenticated: socket.data.authenticated, isGuest: socket.data.isGuest });
@@ -459,7 +462,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
                   })),
                   status: 'pending',
                   createdAt: Date.now(),
-                  expiresAt: Date.now() + (5 * 60 * 1000)
+                  expiresAt: Date.now() + INVITATION_EXPIRY_MS
                 };
 
                 partyInvitations.set(invitation.id, invitation);
@@ -602,6 +605,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ===== AUDIO / JUKEBOX EVENTS =====
     registerAudioHandlers(handlerCtx);
+
+    // ===== JOURNAL EVENTS =====
+    registerJournalHandlers(handlerCtx);
 
   });
 }

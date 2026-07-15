@@ -265,22 +265,22 @@ const ClassResourceBar = ({
         showMinstrelSpecMenu: false
     });
     const minstrelBarRef = useRef(null);
-    const [ setMinstrelPositions] = useState({});
+    const [minstrelPositions, setMinstrelPositions] = useState({});
 
     // Class states for specs whose resource UIs were consolidated into the
     // generic classResource renderer. The setters below still drive menu toggles.
-    const [ setDeathcallerState] = useState({
+    const [deathcallerState, setDeathcallerState] = useState({
         showPathsMenu: false,
         showTokensMenu: false,
         localAscensionPaths: [],
         localBloodTokens: 0
     });
-    const [ setDreadnaughtState] = useState({
+    const [dreadnaughtState, setDreadnaughtState] = useState({
         showDRPMenu: false,
         localDRP: 0,
         selectedResistanceType: null
     });
-    const [ setExorcistState] = useState({
+    const [exorcistState, setExorcistState] = useState({
         showDominanceMenu: false,
         localDominanceDie: 0,
         selectedDemonIndex: 0,
@@ -289,20 +289,20 @@ const ClassResourceBar = ({
         demonConfigMode: null,
         demonConfigInitialData: null
     });
-    const [ setLichborneState] = useState({
+    const [lichborneState, setLichborneState] = useState({
         showPhylacteryMenu: false
     });
 
     const timeShardsBarRef = useRef(null);
     const temporalStrainBarRef = useRef(null);
-    const [ setChronarchPositions] = useState({});
-    const [ setMayhemPositions] = useState({});
-    const [ setDominancePositions] = useState({});
-    const [ setMadnessPositions] = useState({});
-    const [ setThreadsPositions] = useState({});
-    const [ setFortunePointsPositions] = useState({});
-    const [ setWildInstinctPositions] = useState({});
-    const [ setQuarryMarksPositions] = useState({});
+    const [chronarchPositions, setChronarchPositions] = useState({});
+    const [mayhemPositions, setMayhemPositions] = useState({});
+    const [dominancePositions, setDominancePositions] = useState({});
+    const [madnessPositions, setMadnessPositions] = useState({});
+    const [threadsPositions, setThreadsPositions] = useState({});
+    const [fortunePointsPositions, setFortunePointsPositions] = useState({});
+    const [wildInstinctPositions, setWildInstinctPositions] = useState({});
+    const [quarryMarksPositions, setQuarryMarksPositions] = useState({});
 
     const [visionsState, setVisionsState] = useState({
         localVisions: 6, // Start with 6 for demo

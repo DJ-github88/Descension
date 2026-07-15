@@ -10,6 +10,9 @@ import QuestReward from '../quest-log/QuestReward';
 import QuestCard from '../quest-log/QuestCard';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import SmartTabButton from '../common/SmartTabButton';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
+import '../../styles/quest-log-new.css';
+import '../../styles/quest-log-fixes.css';
 
 // Import icons
 import { FaScroll, FaUser, FaShieldAlt } from 'react-icons/fa';
@@ -17,6 +20,7 @@ import { FaScroll, FaUser, FaShieldAlt } from 'react-icons/fa';
 const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propActiveTab, contentOnly = false }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab || 'active');
   const { isGMMode } = useGameStore();
+  const { allowed: questSharingAllowed } = useFeatureFlag('questSharing');
 
   // Update activeTab when prop changes
   useEffect(() => {
@@ -459,11 +463,17 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
             </button>
             {isGMMode && (
               <button
-                className="quest-button quest-button-share"
-                onClick={() => handleShareQuest(selectedQuestObj.id)}
-                title="Share this quest with all players"
+                className={`quest-button quest-button-share ${!questSharingAllowed ? 'locked-btn' : ''}`}
+                onClick={() => {
+                  if (!questSharingAllowed) {
+                    alert("Quest sharing is a Dungeon Master tier feature. Please upgrade to Dungeon Master (Pro) or higher to share quests directly with your players.");
+                  } else {
+                    handleShareQuest(selectedQuestObj.id);
+                  }
+                }}
+                title={questSharingAllowed ? "Share this quest with all players" : "Unlock Quest Sharing (Dungeon Master+)"}
               >
-                Share Quest
+                Share Quest {!questSharingAllowed && ' 🔒'}
               </button>
             )}
           </div>
@@ -479,11 +489,17 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
             </button>
             {isGMMode && (
               <button
-                className="quest-button quest-button-share"
-                onClick={() => handleShareQuest(selectedQuestObj.id)}
-                title="Share this quest with all players"
+                className={`quest-button quest-button-share ${!questSharingAllowed ? 'locked-btn' : ''}`}
+                onClick={() => {
+                  if (!questSharingAllowed) {
+                    alert("Quest sharing is a Dungeon Master tier feature. Please upgrade to Dungeon Master (Pro) or higher to share quests directly with your players.");
+                  } else {
+                    handleShareQuest(selectedQuestObj.id);
+                  }
+                }}
+                title={questSharingAllowed ? "Share this quest with all players" : "Unlock Quest Sharing (Dungeon Master+)"}
               >
-                Share Quest
+                Share Quest {!questSharingAllowed && ' 🔒'}
               </button>
             )}
           </div>

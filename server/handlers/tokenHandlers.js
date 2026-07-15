@@ -51,7 +51,7 @@ function registerTokenHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {
-        socket.emit('error', { message: validation.error });
+        socket.emit('token_error', { message: validation.error });
         if (typeof ackCallback === 'function') {ackCallback({ success: false, error: validation.error });}
         return;
       }

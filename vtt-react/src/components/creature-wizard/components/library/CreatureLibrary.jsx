@@ -102,24 +102,34 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
   const [shareDialog, setShareDialog] = useState(null);
   const dragFromHandleRef = useRef(false);
   const suppressCardClickUntilRef = useRef(0);
-  const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState(null);
+  const observerRef = useRef(null);
+  const containerRef = useCallback((node) => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
+    if (node) {
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const width = entry.borderBoxSize?.[0]?.inlineSize || entry.contentRect.width;
+          const height = entry.borderBoxSize?.[0]?.blockSize || entry.contentRect.height;
+          if (width > 0 && height > 0) {
+            setDimensions({ width: Math.floor(width), height: Math.floor(height) });
+          }
+        }
+      });
+      observer.observe(node);
+      observerRef.current = observer;
+    }
+  }, []);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const width = entry.borderBoxSize?.[0]?.inlineSize || entry.contentRect.width;
-        const height = entry.borderBoxSize?.[0]?.blockSize || entry.contentRect.height;
-        if (width > 0 && height > 0) {
-          setDimensions({ width: Math.floor(width), height: Math.floor(height) });
-        }
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
       }
-    });
-    observer.observe(container);
-    return () => observer.disconnect();
+    };
   }, []);
 
   // Auth store for community sharing
@@ -593,14 +603,13 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
             <div ref={containerRef} style={{ width: '100%', height: '100%', minHeight: '300px', overflow: 'hidden' }}>
               {dimensions && (
                 <List
-                  height={dimensions.height}
-                  itemCount={ROW_COUNT}
-                  itemSize={ROW_HEIGHT}
-                  width={dimensions.width}
-                  style={{ overflowX: 'hidden' }}
-                >
-                  {Row}
-                </List>
+                  key={`${viewMode}-${COLUMN_COUNT}-${filteredCreatures.length}`}
+                  rowComponent={Row}
+                  rowCount={ROW_COUNT}
+                  rowHeight={ROW_HEIGHT}
+                  rowProps={{}}
+                  style={{ width: dimensions.width, height: dimensions.height, overflowX: 'hidden' }}
+                />
               )}
             </div>
           )}

@@ -5,7 +5,7 @@ import BalanceDisplay from '../mechanics/BalanceDisplay';
 import { Card, Alert, Button, ListGroup, Badge, Row, Col, ProgressBar } from 'react-bootstrap';
 import { FaCheckCircle, FaExclamationTriangle, FaArrowRight, FaInfoCircle } from 'react-icons/fa';
 
-const Step11Balance = () => {
+const Step9Balance = () => {
  const state = useSpellWizardState();
  const dispatch = useSpellWizardDispatch();
  const [balanceReport, setBalanceReport] = useState(null);
@@ -408,4 +408,4 @@ const Step11Balance = () => {
  );
 };
 
-export default Step11Balance;
+export default Step9Balance;

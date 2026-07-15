@@ -30,6 +30,7 @@ import {
 
 
 import { RULES_CATEGORIES, getRuleContent, searchRulesIndex } from '../../data/rulesData';
+import useGameData from '../../hooks/useGameData';
 
 
 
@@ -3620,6 +3621,8 @@ const RulesPage = () => {
 
   const [showSearch, setShowSearch] = useState(false);
 
+  const { data: rulesCategories, isLoading: rulesLoading } = useGameData('rules');
+
 
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -4337,77 +4340,41 @@ const RulesPage = () => {
 
   const currentContent = useMemo(() => {
 
-
-
     return getRuleContent(selectedCategory, selectedSubcategory);
 
-
-
-  }, [selectedCategory, selectedSubcategory]);
-
-
-
-
+  }, [selectedCategory, selectedSubcategory, rulesCategories]);
 
 
 
   // Get breadcrumbs
 
-
-
   const breadcrumbs = useMemo(() => {
 
-
-
-    const category = RULES_CATEGORIES.find(c => c.id === selectedCategory);
-
-
+    const category = (rulesCategories || []).find(c => c.id === selectedCategory);
 
     const subcategory = category?.subcategories.find(s => s.id === selectedSubcategory);
 
-
-
     return {
-
-
 
       category: category?.name || '',
 
-
-
       subcategory: subcategory?.name || ''
-
-
 
     };
 
-
-
-  }, [selectedCategory, selectedSubcategory]);
-
-
-
-
+  }, [selectedCategory, selectedSubcategory, rulesCategories]);
 
 
 
   // Filter rules based on search
 
-
-
   const filteredCategories = useMemo(() => {
-
-
 
     // For now, just return all categories since search is not implemented in UI
 
+    return rulesCategories || [];
 
-
-    return RULES_CATEGORIES;
-
-
-
-  }, []);
+  }, [rulesCategories]);
 
 
 
@@ -4551,7 +4518,7 @@ const RulesPage = () => {
 
 
 
-    const currentSubcategory = RULES_CATEGORIES
+    const currentSubcategory = (rulesCategories || [])
 
 
 
@@ -4959,7 +4926,7 @@ const RulesPage = () => {
 
 
 
-    const currentCategory = RULES_CATEGORIES
+    const currentCategory = (rulesCategories || [])
 
 
 

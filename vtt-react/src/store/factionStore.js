@@ -1159,7 +1159,7 @@ const SEEDED_FACTIONS = [
     { targetFactionId: 'house-morrath', type: 'rival', description: 'Morrath registry taxes the disease-hosts the Cultivar will not register.' }
    ],
    classAffinities: ['plaguebringer'],
-   lore: 'Founded by Vespera, who injected Sunken Spire decay-moss into her own veins. Her eight-century foundational strain is dying and every Plaguebringer trained from her blood carries a failing inheritance.',
+    lore: 'Founded by Vespera, who injected Sunken Spire decay-moss into her own veins. Her three-century foundational strain is dying and every Plaguebringer trained from her blood carries a failing inheritance.',
    secrets: 'Vesperas foundational strain is dying because the bog-rot has learned to fear something in the waking graves, and is abandoning its hosts.',
   quests: []
  },

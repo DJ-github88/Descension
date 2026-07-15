@@ -4,6 +4,7 @@ import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
 import './PlayerJournalWindow.css';
 
 // List of available background images (from /assets/Backgrounds/)
@@ -157,7 +158,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showAddOrbFolderDropdown, setShowAddOrbFolderDropdown] = useState(false);
   const addOrbFolderDropdownRef = useRef(null);
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
-  const [ setBackgroundInput] = useState('');
+  const [backgroundInput, setBackgroundInput] = useState('');
   const [] = useState([]);
   const [] = useState(false);
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
@@ -169,6 +170,8 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const boardRef = useRef(null);
   
   const isGMMode = useGameStore(state => state.isGMMode);
+  const { allowed: journalBasicAllowed, loading: journalBasicLoading } = useFeatureFlag('journalBasic');
+  const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
   
   const {
     playerKnowledge,
@@ -1179,10 +1182,48 @@ Drag notes to the Knowledge Board to create visual connections!"
     </div>
   );
 
+  const renderBoardLockedView = () => {
+    return (
+      <div className="journal-locked-container">
+        <div className="journal-locked-card">
+          <div className="journal-locked-icon-wrapper">
+            <i className="fas fa-crown journal-locked-icon"></i>
+          </div>
+          <h2>Knowledge Board</h2>
+          <div className="premium-badge">Dungeon Master & Archmage Feature</div>
+          <p className="journal-locked-subtitle">
+            Visualize your campaign's secrets, lore, and connections on an interactive canvas.
+          </p>
+          <div className="journal-locked-features">
+            <div className="locked-feature-item">
+              <i className="fas fa-check-circle"></i>
+              <span>Create interactive visual orbs from your notes and lore</span>
+            </div>
+            <div className="locked-feature-item">
+              <i className="fas fa-check-circle"></i>
+              <span>Draw connections between people, places, and events</span>
+            </div>
+            <div className="locked-feature-item">
+              <i className="fas fa-check-circle"></i>
+              <span>Set custom backgrounds for different maps or campaigns</span>
+            </div>
+            <div className="locked-feature-item">
+              <i className="fas fa-check-circle"></i>
+              <span>Track complex plots and clues dynamically</span>
+            </div>
+          </div>
+          <p className="journal-locked-hint">
+            Upgrade your account to Dungeon Master (Pro) or higher to unlock the visual Knowledge Board.
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'board':
-        return renderBoardTab();
+        return journalFullAllowed ? renderBoardTab() : renderBoardLockedView();
       case 'received':
         return renderReceivedTab();
       case 'notes':
@@ -1191,6 +1232,35 @@ Drag notes to the Knowledge Board to create visual connections!"
         return null;
     }
   };
+
+  // Don't show if journalBasic is restricted (e.g. Guest accounts)
+  if (!journalBasicLoading && !journalBasicAllowed && !isGMMode) {
+    return (
+      <MythrillWindow
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Player Journal"
+        defaultSize={{ width: 600, height: 450 }}
+        defaultPosition={{ x: 100, y: 100 }}
+      >
+        <div className="journal-locked-container basic-lock">
+          <div className="journal-locked-card">
+            <div className="journal-locked-icon-wrapper basic">
+              <i className="fas fa-lock journal-locked-icon"></i>
+            </div>
+            <h2>Player Journal Restricted</h2>
+            <div className="premium-badge free">Adventurer Feature</div>
+            <p className="journal-locked-subtitle">
+              Guest accounts do not support permanent player journals.
+            </p>
+            <p className="journal-locked-hint">
+              Please sign up or log in to a free Adventurer account to access journals, save notes, and receive knowledge from your GM!
+            </p>
+          </div>
+        </div>
+      </MythrillWindow>
+    );
+  }
 
   // Don't show to GM
   if (isGMMode) {
@@ -1221,15 +1291,20 @@ Drag notes to the Knowledge Board to create visual connections!"
         defaultPosition={{ x: 100, y: 100 }}
         customHeader={
           <div className="spellbook-tab-container">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                <span>{tab.label}</span>
-              </button>
-            ))}
+            {tabs.map(tab => {
+              const isLocked = tab.id === 'board' && !journalFullAllowed;
+              return (
+                <button
+                  key={tab.id}
+                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''} ${isLocked ? 'locked-tab' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span>
+                    {tab.label} {isLocked && <i className="fas fa-lock tab-lock-icon" style={{ marginLeft: '4px', fontSize: '11px', color: '#ff9800' }}></i>}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         }
       >

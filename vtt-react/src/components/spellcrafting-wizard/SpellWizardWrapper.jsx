@@ -2,7 +2,7 @@ import React from 'react';
 import ErrorBoundary from '../common/ErrorBoundary';
 import { SpellLibraryProvider } from './context/SpellLibraryContext';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext.js';
-import SpellwizardApp from './SpellwizardApp';
+import SpellWizardApp from './SpellwizardApp';
 
 
 
@@ -59,7 +59,7 @@ const SpellWizardWrapper = (props) => {
     <ErrorBoundary name="SpellWizard">
       <CreatureLibraryProvider>
         <SpellLibraryProvider>
-          <SpellwizardApp {...props} />
+          <SpellWizardApp {...props} />
         </SpellLibraryProvider>
       </CreatureLibraryProvider>
     </ErrorBoundary>

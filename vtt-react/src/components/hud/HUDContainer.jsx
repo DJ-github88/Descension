@@ -10,7 +10,7 @@ import useGameStore from '../../store/gameStore';
 import RestOverlay from '../rest/RestOverlay';
 
 // Lazy-loaded character sheet components to avoid circular bundling with ClassResourceBar
-const CharacterPanel = lazy(() => import('../character-sheet/Equipment'));
+const CharacterPanel = lazy(() => import('../character-sheet/CharacterPanel'));
 const CharacterStats = lazy(() => import('../character-sheet/CharacterStats'));
 const Skills = lazy(() => import('../character-sheet/Skills'));
 const Lore = lazy(() => import('../character-sheet/Lore'));

@@ -1,6 +1,5 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
-import { Creature } from "../game/creatures";
 import { handleRest } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
 
 const initialState = {
@@ -115,139 +114,8 @@ const useGameStore = create((set, get) => ({
     resetStore: () => set(initialState),
 
     // REMOVED: updateTokenPosition - deprecated function removed
-    // All token position updates should go through creatureStore
-
-    // Remove token
-    removeToken: (creatureId) => {
-        set(state => ({
-            tokens: state.tokens.filter(token => token.creatureId !== creatureId)
-        }));
-    },
-
-    // Add new creature with optional abilities
-    addCreature: (name, type, abilities = []) => {
-        const creature = new Creature(name, type);
-        abilities.forEach(ability => creature.addAbility(ability));
-
-        set(state => {
-            // Check if creature already exists
-            if (state.creatures.some(c => c.id === creature.id)) {
-                return state;
-            }
-
-            return {
-                creatures: [...state.creatures, creature],
-                tokens: [
-                    ...state.tokens,
-                    {
-                        creatureId: creature.id,
-                        position: { x: 100, y: 100 }
-                    }
-                ]
-            };
-        });
-    },
-
-    // Update creature stats
-    updateCreature: (id, updates) => {
-        set(state => ({
-            creatures: state.creatures.map(c =>
-                c.id === id ? { ...c, ...updates } : c
-            )
-        }));
-    },
-
-    // Add ability to creature
-    addAbilityToCreature: (creatureId, ability) => {
-        const state = get();
-        const creature = state.creatures.find(c => c.id === creatureId);
-        if (creature && !creature.abilities.some(a => a.id === ability.id)) {
-            creature.addAbility(ability);
-            set({
-                creatures: state.creatures.map(c =>
-                    c.id === creatureId ? creature : c
-                )
-            });
-        }
-    },
-
-    // Use ability
-    useAbility: (creatureId, abilityId, targetId) => {
-        const state = get();
-        const creature = state.creatures.find(c => c.id === creatureId);
-        const target = state.creatures.find(c => c.id === targetId);
-        const ability = creature?.abilities.find(a => a.id === abilityId);
-
-        if (!creature || !target || !ability || !ability.canUse(creature)) {
-            return;
-        }
-
-        const damage = ability.calculateDamage(creature, target);
-        const healing = ability.calculateHealing(creature);
-
-        set(state => ({
-            creatures: state.creatures.map(c => {
-                if (c.id === targetId) {
-                    c.takeDamage(damage);
-                }
-                if (c.id === creatureId && healing > 0) {
-                    c.heal(healing);
-                }
-                return c;
-            })
-        }));
-    },
-
-    // Start combat
-    startCombat: (combatantIds) => {
-        const state = get();
-        const combatants = state.creatures.filter(c =>
-            combatantIds.includes(c.id)
-        );
-
-        if (combatants.length === 0) return;
-
-        const turnOrder = combatants
-            .map(c => ({
-                id: c.id,
-                initiative: c.rollInitiative()
-            }))
-            .sort((a, b) => b.initiative - a.initiative);
-
-        set({
-            inCombat: true,
-            turnOrder,
-            currentTurn: turnOrder[0]?.id
-        });
-    },
-
-    // End current turn
-    endTurn: () => {
-        const state = get();
-        if (!state.inCombat || state.turnOrder.length === 0) return;
-
-        const currentIndex = state.turnOrder.findIndex(
-            c => c.id === state.currentTurn
-        );
-        const nextIndex = (currentIndex + 1) % state.turnOrder.length;
-        const nextCreature = state.creatures.find(
-            c => c.id === state.turnOrder[nextIndex].id
-        );
-
-        if (nextCreature) {
-            nextCreature.resetActionPoints();
-            set({ currentTurn: state.turnOrder[nextIndex].id });
-        }
-    },
-
-    // End combat
-    endCombat: () => {
-        set({
-            inCombat: false,
-            turnOrder: [],
-            currentTurn: null
-        });
-    },
+    // (addCreature, updateCreature, addAbilityToCreature, useAbility, startCombat, endTurn, endCombat, removeToken)
+    // All creature and combat operations now go through creatureStore and combatStore respectively
 
     // Legacy background image management (for backwards compatibility)
     setBackgroundImage: (imageData) => {
@@ -857,11 +725,7 @@ const useGameStore = create((set, get) => ({
         });
     },
 
-    // Multiplayer token movement (deprecated - use creatureStore instead)
-    updateTokenPositionMultiplayer: (creatureId, position) => {
-        // This method is deprecated to avoid dual store conflicts
-        console.warn('gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
-    },
+    // Multiplayer token movement is handled by creatureStore
 
     setCooldown: (slotIndex, cooldownData) => {
         set(state => {

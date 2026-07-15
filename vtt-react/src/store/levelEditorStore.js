@@ -1034,7 +1034,9 @@ const useLevelEditorStore = create((set, get) => ({
           mapUpdateBatcher.addUpdate('terrainData', {}, targetMapId);
         }
       }
-    }).catch(() => { });
+    }).catch((error) => {
+      console.warn('Failed to batch terrain update:', error?.message || error);
+    });
   },
 
   // Terrain operations
@@ -1579,8 +1581,8 @@ const useLevelEditorStore = create((set, get) => ({
           mapUpdateBatcher.addUpdate('exploredAreas', newExploredAreas, targetMapId);
         }
       }
-    }).catch(() => {
-      // Ignore errors if gameStore not available
+    }).catch((error) => {
+      console.warn('Failed to batch explored areas update:', error?.message || error);
     });
   },
 

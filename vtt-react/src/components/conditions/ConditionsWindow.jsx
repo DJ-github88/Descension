@@ -114,7 +114,9 @@ const ConditionsWindow = ({ isOpen, onClose, tokenId, creature }) => {
     setIconsLoading(true);
     loadAllIcons()
       .then(icons => setStatusIcons(icons))
-      .catch(() => {})
+      .catch((error) => {
+        console.warn('Failed to load status icons:', error?.message || error);
+      })
       .finally(() => setIconsLoading(false));
   }, [showIconPicker, statusIcons.length, iconsLoading]);
 

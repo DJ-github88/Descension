@@ -878,7 +878,7 @@ const Step2Statistics = () => {
 
           <div className="skills-category-list">
             {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
-              const categoryData = Object.values(SKILL_CATEGORIES).find(cat => cat.name === categoryName);
+              const categoryData = Object.values(SKILL_CATEGORIES || {}).find(cat => cat.name === categoryName);
               const isCollapsed = collapsedCategories[categoryName];
 
               return (

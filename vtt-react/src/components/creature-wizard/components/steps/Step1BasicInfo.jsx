@@ -285,7 +285,7 @@ const Step1BasicInfo = () => {
                   onChange={handleTypeChange}
                   className="enhanced-select"
                 >
-                  {Object.values(CREATURE_TYPES).map(type => (
+                  {Object.values(CREATURE_TYPES || {}).map(type => (
                     <option key={type} value={type}>
                       {formatTypeName(type)}
                     </option>
@@ -304,7 +304,7 @@ const Step1BasicInfo = () => {
                   onChange={handleSizeChange}
                   className="enhanced-select"
                 >
-                  {Object.values(CREATURE_SIZES).map(size => (
+                  {Object.values(CREATURE_SIZES || {}).map(size => (
                     <option key={size} value={size}>
                       {formatSizeName(size)}
                     </option>

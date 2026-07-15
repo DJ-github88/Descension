@@ -1,6 +1,6 @@
 
 import { getDefaultCreatureIconByType } from './assetManager';
-import { CREATURE_LIBRARY_VERSION } from '../data/creatureLibraryData';
+import { DATA_VERSIONS } from '../data/versions';
 
 // localStorage key tracking which library version was last icon-migrated
 const ICON_MIGRATION_VERSION_KEY = 'creature-icon-migration-version';
@@ -94,8 +94,8 @@ export const migrateCreatureIcons = (creatures) => {
 export const runCreatureIconMigration = () => {
   // PERFORMANCE: Skip migration if already done for this library version
   const lastMigratedVersion = localStorage.getItem(ICON_MIGRATION_VERSION_KEY);
-  if (lastMigratedVersion === CREATURE_LIBRARY_VERSION) {
-    console.log(`[Icon Migration] Already up-to-date (v${CREATURE_LIBRARY_VERSION}), skipping.`);
+  if (lastMigratedVersion === DATA_VERSIONS.creatures) {
+    console.log(`[Icon Migration] Already up-to-date (v${DATA_VERSIONS.creatures}), skipping.`);
     return;
   }
 
@@ -109,11 +109,11 @@ export const runCreatureIconMigration = () => {
     if (creatures.length === 0) {
       console.log('[Icon Migration] No creatures to migrate');
       // Still mark as done so we don't retry on empty library
-      localStorage.setItem(ICON_MIGRATION_VERSION_KEY, CREATURE_LIBRARY_VERSION);
+      localStorage.setItem(ICON_MIGRATION_VERSION_KEY, DATA_VERSIONS.creatures);
       return;
     }
 
-    console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures (v${CREATURE_LIBRARY_VERSION})...`);
+    console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures (v${DATA_VERSIONS.creatures})...`);
     const results = migrateCreatureIcons(creatures);
 
     if (results.migrated > 0) {
@@ -134,7 +134,7 @@ export const runCreatureIconMigration = () => {
     }
 
     // Mark this version as migrated so we skip on future startups
-    localStorage.setItem(ICON_MIGRATION_VERSION_KEY, CREATURE_LIBRARY_VERSION);
+    localStorage.setItem(ICON_MIGRATION_VERSION_KEY, DATA_VERSIONS.creatures);
   }).catch(error => {
     console.error('[Icon Migration] Failed to run migration:', error);
   });

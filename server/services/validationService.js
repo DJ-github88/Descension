@@ -270,7 +270,7 @@ function createValidationMiddleware(options = {}) {
     const originalOn = socket.on.bind(socket);
 
     socket.on = function(event, handler) {
-      const validatedHandler = async(data) => {
+      const validatedHandler = async(data, ...args) => {
         const clientId = socket.id;
         const validation = validateSocketEvent(event, data);
 
@@ -302,10 +302,10 @@ function createValidationMiddleware(options = {}) {
 
         // Data is valid, proceed with handler
         try {
-          await handler(validation.value);
+          await handler(validation.value, ...args);
         } catch (error) {
           logger.error(`Error in socket handler for event '${event}':`, error);
-          socket.emit('error', {
+          socket.emit('socket_error', {
             message: 'Internal server error',
             event: event
           });

@@ -650,7 +650,9 @@ export function registerRoomLifecycleHandlers(ctx) {
         import('../../../store/partyStore').then(({ default: usePartyStore }) => {
           const { removePartyMember: removeFromStore } = usePartyStore.getState();
           removeFromStore(playerId);
-        }).catch(() => {});
+        }).catch((error) => {
+          console.warn('Failed to remove party member from store:', error?.message || error);
+        });
       } catch (error) {
         console.error('Error removing party member:', error);
       }

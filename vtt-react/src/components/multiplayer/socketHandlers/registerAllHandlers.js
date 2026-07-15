@@ -10,6 +10,7 @@ import { registerMapGridHandlers } from './mapGridHandlers';
 import { registerQuestHandlers } from './questHandlers';
 import { registerGmHandlers } from './gmHandlers';
 import { registerAudioGameSessionHandlers } from './audioGameSessionHandlers';
+import { registerErrorHandlers } from './errorHandlers';
 
 export function registerAllSocketHandlers(ctx) {
   const cleanupFns = [
@@ -24,7 +25,8 @@ export function registerAllSocketHandlers(ctx) {
     registerMapGridHandlers(ctx),
     registerQuestHandlers(ctx),
     registerGmHandlers(ctx),
-    registerAudioGameSessionHandlers(ctx)
+    registerAudioGameSessionHandlers(ctx),
+    registerErrorHandlers(ctx)
   ];
 
   return () => {

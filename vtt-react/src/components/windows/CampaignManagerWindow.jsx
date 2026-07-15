@@ -10,6 +10,8 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
 import campaignService from '../../services/campaignService';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
+import '../../styles/campaign-manager.css';
 
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
@@ -32,6 +34,7 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 
 // Campaign Management Window with tabbed interface
 function CampaignManagerWindow({ isOpen, onClose }) {
+    const { allowed: campaignManagerFullAllowed, loading: campaignManagerFullLoading } = useFeatureFlag('campaignManagerFull');
     const [activeTab, setActiveTab] = useState('overview');
 
     // Modal state
@@ -88,11 +91,11 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         removeShareable,
         showToPlayers
     } = useShareableStore();
-    const [] = useState('text');
+    const [newShareableType, setNewShareableType] = useState('text');
     const [newShareableContent, setNewShareableContent] = useState('');
     const [newShareableTitle, setNewShareableTitle] = useState('');
     const [newShareableBackground, setNewShareableBackground] = useState('parchment');
-    const [,,] = useState(null);
+    const [newShareableFile, setNewShareableFile] = useState(null);
     const shareableFileInputRef = useRef(null);
     const tooltipDelayRef = useRef(null);
     const tooltipRef = useRef(null);
@@ -2538,6 +2541,58 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             setInputValue('');
         }
     };
+
+    const renderCampaignManagerLockedView = () => {
+        return (
+            <div className="journal-locked-container">
+                <div className="journal-locked-card">
+                    <div className="journal-locked-icon-wrapper">
+                        <i className="fas fa-crown journal-locked-icon"></i>
+                    </div>
+                    <h2>Campaign Manager</h2>
+                    <div className="premium-badge">Dungeon Master & Archmage Feature</div>
+                    <p className="journal-locked-subtitle">
+                        Organize your campaign lore, plot threads, NPCs, and session logs in one place.
+                    </p>
+                    <div className="journal-locked-features">
+                        <div className="locked-feature-item">
+                            <i className="fas fa-check-circle"></i>
+                            <span>Track session logs, summaries, and quest progress</span>
+                        </div>
+                        <div className="locked-feature-item">
+                            <i className="fas fa-check-circle"></i>
+                            <span>Manage NPCs, locations, and lore encyclopedias</span>
+                        </div>
+                        <div className="locked-feature-item">
+                            <i className="fas fa-check-circle"></i>
+                            <span>Manage custom homebrew items, spells, and creatures</span>
+                        </div>
+                        <div className="locked-feature-item">
+                            <i className="fas fa-check-circle"></i>
+                            <span>Link maps and prepared shareable player handouts</span>
+                        </div>
+                    </div>
+                    <p className="journal-locked-hint">
+                        Upgrade your account to Dungeon Master (Pro) or higher to unlock the Campaign Manager.
+                    </p>
+                </div>
+            </div>
+        );
+    };
+
+    if (!campaignManagerFullLoading && !campaignManagerFullAllowed) {
+        return (
+            <MythrillWindow
+                isOpen={isOpen}
+                onClose={onClose}
+                title="Campaign Manager"
+                defaultSize={{ width: 800, height: 600 }}
+                defaultPosition={{ x: 100, y: 100 }}
+            >
+                {renderCampaignManagerLockedView()}
+            </MythrillWindow>
+        );
+    }
 
 
     return (

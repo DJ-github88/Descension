@@ -305,15 +305,9 @@ const VirtualizedItemGrid = memo(({
     onDragOver, 
     onDrop
 }) => {
-    const gridRef = useRef(null);
-    const containerRef = useRef(null);
-    const [dimensions, setDimensions] = useState(() => {
-        // Try to get initial dimensions if window is available
-        if (typeof window !== 'undefined') {
-            return { width: 800, height: 600 }; // Better default than null
-        }
-        return null;
-    });
+  const gridRef = useRef(null);
+  const containerRef = useRef(null);
+  const [dimensions, setDimensions] = useState(null);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -374,8 +368,9 @@ const VirtualizedItemGrid = memo(({
 
     return (
         <div ref={containerRef} className="item-grid" style={{ position: 'relative' }}>
-            {dimensions && (
+            {dimensions && items.length > 0 && (
                 <VirtualGrid
+                    key={`${COLUMN_COUNT}-${items.length}`}
                     gridRef={gridRef}
                     columnCount={COLUMN_COUNT}
                     columnWidth={COLUMN_WIDTH}

@@ -117,7 +117,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [pendingControlOffer, setPendingControlOffer] = useState(null); // { tokenId, tokenName, offeredBy }
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState(null);
-  const [ setMouseDownPosition] = useState(null);
+  const [mouseDownPosition, setMouseDownPosition] = useState(null);
   const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
 
 
@@ -1324,7 +1324,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Handle view creature details (Inspect)
   const [showDetailsWindow, setShowDetailsWindow] = useState(false);
-  const [ setActiveTab] = useState('stats');
+  const [activeTab, setActiveTab] = useState('stats');
 
   const handleViewDetails = () => {
     // Close the context menu first

@@ -43,7 +43,7 @@ const LUTE_SVG = () => (
   </svg>
 );
 
-export default function LuteboxPanel({ isGM = false }) {
+export default function JukeboxPanel({ isGM = false }) {
   const user = useAuthStore(s => s.user);
   const userId = user?.uid;
   const isOffline = !useGameStore(s => s.isInMultiplayer);

@@ -9,7 +9,7 @@ import ClassIcon from '../common/ClassIcon';
 import './ClassDetailDisplay.css';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
-import { RULES_CATEGORIES } from '../../data/rulesData';
+import useGameData from '../../hooks/useGameData';
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 
 
@@ -837,7 +837,9 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [currentPage, setCurrentPage] = useState(0);
  const [loadedImages, setLoadedImages] = useState(new Set());
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
- const contentContainerRef = useRef(null);
+  const contentContainerRef = useRef(null);
+
+  const { data: rulesCategories } = useGameData('rules');
 
   const classId = (classData?.id || classData?.name || '').toLowerCase().replace(/\s+/g, '_');
   const [activeIllusIndex, setActiveIllusIndex] = useState(0);
@@ -1408,7 +1410,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    }
   }
 
-  const classOriginsSub = RULES_CATEGORIES
+  const classOriginsSub = (rulesCategories || [])
    .find(cat => cat.id === 'world-lore')
    ?.subcategories?.find(sub => sub.id === 'class-origins');
 

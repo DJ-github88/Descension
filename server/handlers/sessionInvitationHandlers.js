@@ -3,10 +3,12 @@
  *
  * Join-request and invitation flow for game sessions:
  * - request_to_join_session: player asks leader for entry (creates roomJoinRequest)
- * - respond_to_join_request: leader accepts/declines (creates partyInvitation on accept)
- * - invite_member_to_session: in-room member invites outsider (GM or party member)
- * - invite_to_party: party-scoped invitation with auto-leave detection
+ * - respond_to_join_request: leader accepts/declines
+ * - subscribe_to_invitations: player subscribes to notification channel
+ * - respond_to_room_invitation: player accepts/declines a room invite
  */
+
+const { INVITATION_EXPIRY_MS } = require('../utils/constants');
 
 function registerSessionInvitationHandlers(ctx) {
   const {
@@ -267,7 +269,7 @@ function registerSessionInvitationHandlers(ctx) {
         fromUserId,
         toUserId,
         createdAt: Date.now(),
-        expiresAt: Date.now() + (5 * 60 * 1000)
+        expiresAt: Date.now() + INVITATION_EXPIRY_MS
       };
 
       partyInvitations.set(invitationId, invitation);

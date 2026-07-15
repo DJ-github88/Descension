@@ -89,7 +89,7 @@ class ErrorBoundary extends React.Component {
 }
 
 // Main App component with error boundary
-const App = ({ hideHeader = false }) => {
+const SpellwizardApp = ({ hideHeader = false }) => {
   return (
     <ErrorBoundary>
       <AppContent hideHeader={hideHeader} />
@@ -1333,4 +1333,4 @@ const LoadSpellModal = ({ onClose, onLoadSpell, spells = [] }) => {
   );
 };
 
-export default App;
+export default SpellwizardApp;

@@ -22,6 +22,9 @@ const useCharacterTokenStore = create(
    // Character tokens on the grid
    characterTokens: [],
 
+   // Window state
+   windowSize: { width: 900, height: 650 },
+
    // Helper to ensure position objects always have x and y
    normalizePosition: (pos, fallback = { x: 0, y: 0 }) => {
     if (!pos) return { x: fallback.x ?? 0, y: fallback.y ?? 0 };

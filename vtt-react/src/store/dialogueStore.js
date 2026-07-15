@@ -198,9 +198,8 @@ const useDialogueStore = create(
           const pId = gameStore.multiplayerRoom?.gm?.id || gameStore.currentPlayer?.id;
           console.log('📨 [DialogueStore] Fallback player ID from gameStore:', pId);
           processDialogue(pId);
-        }).catch(() => {
-          console.log('⚠️ [DialogueStore] Could not get player ID, showing dialogue anyway');
-          // If we can't get current player ID, show the dialogue anyway
+        }).catch((error) => {
+          console.warn('[DialogueStore] Could not import gameStore, showing dialogue anyway:', error?.message || error);
           processDialogue(null);
         });
       }

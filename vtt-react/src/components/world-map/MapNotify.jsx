@@ -54,7 +54,7 @@ const ICON_COLORS = {
   success: '#66bb6a'
 };
 
-const MapNotificationContainer = () => {
+const MapNotify = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -109,4 +109,4 @@ const MapNotificationContainer = () => {
   );
 };
 
-export default MapNotificationContainer;
+export default MapNotify;

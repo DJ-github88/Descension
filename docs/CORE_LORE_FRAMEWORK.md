@@ -173,13 +173,13 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | Race | Origin | Timeline |
 |------|--------|----------|
 | **Humans** (7 subraces) | Was already there. 7 noble houses made bargains. | Pre-existed |
-| **Astril** | Were steppe herders; constellations fled Keth-Amar into their blood. | During Binding |
+| **Astril** | Extraterrestrial refugees from a world orbiting the star Lumia. When Keth-Amar devoured their sun, they fled across the void, carrying Lumia's biosphere in their blood. Arrived on Mythrill before the Binding. | Pre-existed, arrived before Binding |
 | **Briaran** | House Viridane. Refused Keth-Amar. Fae counter-bargain. | During Breach |
 | **Emberth** | Already underground. Surfaces when vents erupt. | Pre-existed. Surfaced at Breach. |
 | **Myrathil** | Spawned from volcanic foam + glacial meltwater. | Created at Breach |
-| **Neth** | Dying scribe-clan. Contracted with the Keeper. Petitioned for immortality. | During freeze (1st century) |
-| **Mimir** | Forester Sylvain + doppelganger merger. Mask-bound shapeshifters. | Pre-existed |
-| **Vreken** | Fungal-lit cave species. Bioluminescent. | Pre-existed (oldest besides Fexric) |
+| **Neth** | Dying scribe-clan. Contracted with Morvane the Keeper. Petitioned for immortality. | During freeze (1st century) |
+| **Mimir** | Created by Sereth, an ancient world-bound deity of creation and perfection, who shaped and reshaped them across centuries before dying of its own contradictions. Mask-bound shapeshifters who wear carved heartwood or storm-glass masks as identity anchors. | Pre-existed |
+| **Vreken** | Originally an elegant elven people, monastic devotees of Morvane. When the Wyrd wounded their deity during the Deepening, fungal networks invaded their nervous systems and physically transformed them. Bioluminescent. | Pre-existed (oldest besides Fexric) |
 | **Fexric** | Goblinoid engineers. 8,000+ years. | Pre-existed |
 | **Groven** | Alchemical experiments on Thrumm trolls. Bridge-builders. | Created ~800 years ago by the Fexric Deep Alchemists, who forged them from Thrumm blood as a servile caste of tireless warren-laborers. The Vat-Breakers rebelled and fled into the crags; the Groven remain the Fexric-bred, alchemically reshaped descendants of the Thrumm. (An experiment, unrelated to cosmic events.) |
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { RULES_CATEGORIES } from '../../data/rulesData';
+import useGameData from '../../hooks/useGameData';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
 import './DramatisPersonaeDisplay.css';
@@ -192,7 +192,9 @@ const DramatisPersonaeDisplay = () => {
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'secret' | 'clash'
   const [secretRevealed, setSecretRevealed] = useState(false);
 
-  const worldLore = RULES_CATEGORIES.find(c => c.id === 'world-lore');
+  const { data: rulesCategories } = useGameData('rules');
+
+  const worldLore = (rulesCategories || []).find(c => c.id === 'world-lore');
   const sub = worldLore?.subcategories?.find(s => s.id === 'dramatis-personae');
   const allSections = sub?.content?.sections || [];
 

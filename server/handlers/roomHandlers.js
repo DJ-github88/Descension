@@ -13,6 +13,7 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const logger = require('../services/logger');
 const firebaseService = require('../services/firebaseService');
+const { BCRYPT_SALT_ROUNDS, DEFAULT_MAX_PLAYERS, DEFAULT_GM_COLOR } = require('../utils/constants');
 
 /**
  * Hash a room password
@@ -23,8 +24,7 @@ async function hashPassword(password) {
   if (!password || password.trim() === '') {
     return null;
   }
-  const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
+  return await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 }
 
 /**
@@ -81,7 +81,7 @@ function getPublicRooms(rooms) {
       id: room.id,
       name: room.name,
       playerCount: (room.players?.size || 0) + (room.gm && room.players && room.players.has(room.gm.id) ? 0 : 1),
-      maxPlayers: room.settings?.maxPlayers || 6,
+      maxPlayers: room.settings?.maxPlayers || DEFAULT_MAX_PLAYERS,
       gm: room.gm?.name || 'Unknown',
       createdAt: room.createdAt,
       hasPassword: !!room.passwordHash,
@@ -238,11 +238,11 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
       name: gmName,
       socketId: gmSocketId,
       isGM: true,
-      color: playerColor || '#d4af37'
+      color: playerColor || DEFAULT_GM_COLOR
     },
     players: new Map(),
     settings: {
-      maxPlayers: 6,
+      maxPlayers: DEFAULT_MAX_PLAYERS,
       isPrivate: true,
       allowSpectators: true
     },

@@ -10,6 +10,7 @@
  */
 
 const { getDeltaSyncCapabilities } = require('../services/deltaSyncCapabilities');
+const { DEFAULT_GM_COLOR, DEFAULT_PLAYER_COLOR } = require('../utils/constants');
 
 function registerRoomHandlers(ctx) {
   const {
@@ -120,7 +121,7 @@ function registerRoomHandlers(ctx) {
             data.gmName,
             socket.id,
             data.password || '',
-            data.playerColor || '#d4af37',
+            data.playerColor || DEFAULT_GM_COLOR,
             true,
             firestoreRoomId,
             persistedRoomData.gameState,
@@ -310,7 +311,7 @@ function registerRoomHandlers(ctx) {
         socketId: socket.id,
         roomId: roomId,
         isGM: isGMReclaim,
-        color: playerColor || (isGMReclaim ? '#d4af37' : '#4a90e2'),
+        color: playerColor || (isGMReclaim ? DEFAULT_GM_COLOR : DEFAULT_PLAYER_COLOR),
         character: character || null,
         currentMapId: room.gameState.defaultMapId || 'default',
         userId: joiningUserId
@@ -322,7 +323,7 @@ function registerRoomHandlers(ctx) {
           name: sanitizePlayerName(playerName) || 'GM',
           socketId: socket.id,
           isGM: true,
-          color: playerColor || '#d4af37',
+          color: playerColor || DEFAULT_GM_COLOR,
           character: character || null,
           userId: joiningUserId
         };

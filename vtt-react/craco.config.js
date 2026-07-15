@@ -174,15 +174,8 @@ module.exports = {
               minChunks: 2,
             },
             // Static data chunks to prevent main bundle bloating
-            dataRules: {
-              test: /[\\/]src[\\/]data[\\/]rulesData\.js/,
-              name: 'data-rules',
-              chunks: 'all',
-              priority: 9,
-              enforce: true,
-            },
             dataCreatures: {
-              test: /[\\/]src[\\/]data[\\/](creatureLibraryData\.js|creatureData\.json)/,
+              test: /[\\/]src[\\/]data[\\/]creatureData\.json/,
               name: 'data-creatures',
               chunks: 'all',
               priority: 9,

@@ -7,6 +7,8 @@
  * - whisper_message: private 1:1 message (requires auth; broadcasts to all of recipient's sockets)
  */
 
+const { CHAT_HISTORY_LIMIT } = require('../utils/constants');
+
 function registerChatHandlers(ctx) {
   const {
     io,
@@ -51,7 +53,7 @@ function registerChatHandlers(ctx) {
 
       // Keep only last 500 messages
       if (room.chatHistory.length > 500) {
-        room.chatHistory = room.chatHistory.slice(-500);
+        room.chatHistory = room.chatHistory.slice(-CHAT_HISTORY_LIMIT);
       }
 
       io.to(player.roomId).emit('chat_message', chatMessage);

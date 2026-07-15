@@ -98,7 +98,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0, transformX: -50, transformY: -100 });
-    const [ setForceUpdate] = useState(0);
+    const [forceUpdate, setForceUpdate] = useState(0);
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);

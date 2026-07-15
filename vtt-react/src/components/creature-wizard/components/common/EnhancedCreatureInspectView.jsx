@@ -1684,7 +1684,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       <div className="skills-container">
         <div className="skills-sidebar">
           {Object.entries(creatureSkills).map(([categoryName, skills]) => {
-            const categoryData = Object.values(SKILL_CATEGORIES).find(cat => cat.name === categoryName);
+            const categoryData = Object.values(SKILL_CATEGORIES || {}).find(cat => cat.name === categoryName);
             const isCollapsed = collapsedCategories[categoryName];
 
             // Map skill categories to gem icons for the right side

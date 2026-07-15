@@ -271,19 +271,25 @@ const useTargetingStore = create(
                 return null;
             },
 
-            // Quick targeting functions
+            // Quick targeting functions (to be implemented)
             targetNearestEnemy: () => {
-                // This would need to be implemented with actual game logic
-                // to find the nearest enemy creature
+                const state = get();
+                if (!state.currentTarget) return;
             },
 
             targetNearestFriend: () => {
-                // This would need to be implemented with actual game logic
-                // to find the nearest friendly creature
+                const state = get();
+                if (!state.currentTarget) return;
             },
 
             targetPartyMember: (memberIndex) => {
-                // This would integrate with the party store to target a specific party member
+                const state = get();
+                const partyStore = getStore('partyStore');
+                if (!partyStore) return;
+                const members = partyStore.getState().partyMembers;
+                if (members && memberIndex >= 0 && memberIndex < members.length) {
+                    set({ currentTarget: members[memberIndex].id, targetType: 'character' });
+                }
             },
 
             resetStore: () => {

@@ -3,17 +3,12 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
-let _multiplayerSocket = null;
-let _roomId = null;
-
 export function setCombatSyncSocket(socket, roomId) {
- _multiplayerSocket = socket;
- _roomId = roomId;
+  useChatStore.getState().setCombatSyncSocket(socket, roomId);
 }
 
 export function clearCombatSyncSocket() {
- _multiplayerSocket = null;
- _roomId = null;
+  useChatStore.getState().clearCombatSyncSocket();
 }
 
 // Initial state for the store
@@ -52,6 +47,8 @@ const initialState = {
  // Multiplayer integration
  multiplayerSocket: null,
  sendMultiplayerMessage: null,
+ combatSyncSocket: null,
+ combatSyncRoomId: null,
 
  // Typing indicators
  typingUsers: {} // userId -> { name, timestamp, isTyping }
@@ -141,16 +138,16 @@ const useChatStore = create(
 
    // Add a combat notification
    addCombatNotification: (notification) => {
-    const { addNotification } = get();
+    const { addNotification, combatSyncSocket, combatSyncRoomId } = get();
     addNotification('combat', notification);
 
-    if (_multiplayerSocket && _multiplayerSocket.connected && _roomId) {
+    if (combatSyncSocket && combatSyncSocket.connected && combatSyncRoomId) {
      try {
       const presenceStore = getStore('presenceStore');
       const presenceState = presenceStore.getState();
       const playerName = presenceState.currentUser?.name || presenceState.displayName || 'Player';
-      _multiplayerSocket.emit('combat_log', {
-       roomId: _roomId,
+      combatSyncSocket.emit('combat_log', {
+       roomId: combatSyncRoomId,
        playerName,
        notification,
        timestamp: new Date().toISOString()
@@ -280,6 +277,18 @@ const useChatStore = create(
     sendMultiplayerMessage: null
    }),
 
+   // Set combat sync socket and room ID
+   setCombatSyncSocket: (socket, roomId) => set({
+    combatSyncSocket: socket,
+    combatSyncRoomId: roomId
+   }),
+
+   // Clear combat sync socket and room ID
+   clearCombatSyncSocket: () => set({
+    combatSyncSocket: null,
+    combatSyncRoomId: null
+   }),
+
    // Typing indicators
    setUserTyping: (userId, userName, isTyping) => set(state => {
     const typingUsers = { ...state.typingUsers };
@@ -334,6 +343,7 @@ const useChatStore = create(
        // Exclude socket objects, functions, and other non-serializable types
        if (key === 'multiplayerSocket' ||
         key === 'sendMultiplayerMessage' ||
+        key === 'combatSyncSocket' ||
         typeof val === 'function' ||
         (val && typeof val === 'object' && val.constructor &&
          (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
 import { getSubraceData } from '../../data/raceData';
-import CharacterPanel from '../character-sheet/Equipment';
+import CharacterPanel from '../character-sheet/CharacterPanel';
 import CharacterStats from '../character-sheet/CharacterStats';
 import Skills from '../character-sheet/Skills';
 import Lore from '../character-sheet/Lore';
@@ -312,7 +312,7 @@ const CharacterViewPage = () => {
                   {openVialPopup === 'exhaustion' && 'Adjust Exhaustion'}
                   {openVialPopup === 'level' && 'Adjust Level'}
                 </span>
-                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)}>Ã - </button>
+                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)}>ï¿½ - </button>
               </div>
               <div className="vial-popup-buttons">
                 {openVialPopup === 'health' && (

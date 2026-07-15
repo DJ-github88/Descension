@@ -69,7 +69,7 @@ const getDisplayName = (item) => {
 
 const InventoryWindow = memo(() => {
     // Force refresh mechanism
-    const [ setRefreshKey] = useState(0);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // Get character stats for dynamic grid sizing
     const { stats, derivedStats, equipmentBonuses } = useCharacterStore(state => ({
@@ -179,7 +179,7 @@ const InventoryWindow = memo(() => {
     const [itemActionPanel, setItemActionPanel] = useState({ visible: false, itemId: null, anchorRect: null });
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showItemTooltip.visible);
-    const [ setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
+    const [totalWeight, setTotalWeight] = useState({ normal: 0, encumbered: 0, overencumbered: 0, total: 0 });
     const [draggedItem, setDraggedItem] = useState(null);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const [showUnlockModal, setShowUnlockModal] = useState(false);

@@ -9,7 +9,7 @@ import { getCreatureTokenIconUrl, getIconUrl } from '../../utils/assetManager';
 import './CombatSelectionOverlay.css';
 // import '../../styles/combat-selection-window.css'; // Removed redundant/conflicting import
 
-const CombatSelectionWindow = () => {
+const CombatSelectionOverlay = () => {
     const {
         isSelectionMode,
         selectedTokens,
@@ -164,4 +164,4 @@ const CombatSelectionWindow = () => {
     );
 };
 
-export default CombatSelectionWindow;
+export default CombatSelectionOverlay;

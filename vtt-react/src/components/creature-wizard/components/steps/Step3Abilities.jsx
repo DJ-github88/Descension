@@ -994,7 +994,7 @@ const Step3Abilities = () => {
               value={currentAbility.type}
               onChange={(e) => handleAbilityChange('type', e.target.value)}
             >
-              {Object.values(ABILITY_TYPES).map(type => (
+              {Object.values(ABILITY_TYPES || {}).map(type => (
                 <option key={type} value={type}>
                   {formatAbilityType(type)}
                 </option>

@@ -2114,3 +2114,133 @@ button.campaign-input:hover {
 .shareable-actions .action-btn.delete:hover {
     background: rgba(231, 76, 60, 0.25);
 }
+
+/* Premium Gated & Restricted Styles for Campaign Manager */
+.journal-locked-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #2b251f 0%, #15110e 100%);
+  color: #ede4d3;
+  box-sizing: border-box;
+}
+
+.journal-locked-container.basic-lock {
+  background: linear-gradient(135deg, #1f252b 0%, #0e1115 100%);
+}
+
+.journal-locked-card {
+  max-width: 500px;
+  width: 100%;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.journal-locked-container.basic-lock .journal-locked-card {
+  border-color: rgba(74, 158, 255, 0.15);
+}
+
+.journal-locked-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.journal-locked-icon-wrapper.basic {
+  background: rgba(74, 158, 255, 0.1);
+  border-color: rgba(74, 158, 255, 0.3);
+  box-shadow: 0 0 15px rgba(74, 158, 255, 0.2);
+}
+
+.journal-locked-icon {
+  font-size: 32px;
+  color: #d4af37;
+}
+
+.journal-locked-icon-wrapper.basic .journal-locked-icon {
+  color: #4a9eff;
+}
+
+.journal-locked-card h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  margin: 0 0 10px 0;
+  letter-spacing: 1px;
+}
+
+.premium-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: #d4af37;
+  color: #1a1512;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.premium-badge.free {
+  background: #4a9eff;
+  color: #ffffff;
+}
+
+.journal-locked-subtitle {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #c5bba7;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.journal-locked-features {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+.locked-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #e5dec9;
+}
+
+.locked-feature-item i {
+  color: #d4af37;
+  font-size: 14px;
+}
+
+.journal-locked-hint {
+  font-size: 12px;
+  color: #8a8270;
+  line-height: 1.4;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  margin: 0;
+  width: 100%;
+}

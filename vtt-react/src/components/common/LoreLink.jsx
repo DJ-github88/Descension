@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LORE_DICTIONARY } from '../../data/loreDictionary';
+import useGameData from '../../hooks/useGameData';
 import LoreTooltip from './LoreTooltip';
 
 const LoreLink = ({ termId, children }) => {
@@ -24,7 +24,9 @@ const LoreLink = ({ termId, children }) => {
     };
   }, []);
 
-  const entry = LORE_DICTIONARY[termId];
+  const { data: loreDictionary } = useGameData('lore');
+
+  const entry = loreDictionary?.[termId];
 
   // If the term is not in the dictionary, render plain text safely
   if (!entry) {
