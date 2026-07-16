@@ -499,7 +499,17 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       id: 'ithran_groven',
       name: 'Ithran',
       illustration: '/assets/images/races/ithran_illustration.png',
-      illustrationCaption: 'A slender, long-limbed Ithran Groven walking gracefully along an ancient stone bridge above a frozen chasm.',
+      illustrationCaption: 'An elegant, slate-grey Ithran Groven in green traveler robes and leather boots, standing on an Ancestor-Span bridge woven from massive calcified bones in the snowy Cragjaw Peaks.',
+      illustrations: [
+        {
+          src: '/assets/images/races/ithran_illustration.png',
+          caption: 'An elegant, slate-grey Ithran Groven in green traveler robes and leather boots, standing on an Ancestor-Span bridge woven from massive calcified bones in the snowy Cragjaw Peaks.'
+        },
+        {
+          src: '/assets/images/races/ithran_illustration_2.png',
+          caption: 'Ithran Groven diplomats of both genders operating a wooden customs and toll checkpoint on a suspended bridge-top settlement in the snowy Cragjaw Peaks, using knotted fiber records.'
+        }
+      ],
       visualDescription: `Slender and impossibly long of limb, the Ithran are the Fexric's most refined design made flesh. Their stone-scales grow fine as tessellated mail over lean frames, their tusks reduced to elegant points, and their fingers are long enough to tie a bridge-knot from a body-length away. Their movements are fluid and deliberate, the gait of a creature whose limbs were meant to span chasms, and when an Ithran gestures the whole hall watches the arc of those impossible arms. They favor finer woven garments than the Morgh and carry themselves with the bearing of diplomats who happen to be eight feet tall.`,
       tooltipSummary: 'Vat-born bridge-keepers with span-reaching agility, restlessly echoing the forging vat that gave them life.',
        description: 'Slender and impossibly long of limb, the Ithran are the children of the Fexric\u2019s design \u2014 stone-scales grown fine as tessellated mail over lean humanoid frames, tusks reduced to elegant points, fingers long enough to tie a bridge-knot from a body-length away. Their movements are fluid, deliberate, the gait of a creature whose limbs were meant to span chasms. They dwell in the bridge-top settlements, woven hide-panel homes suspended above the void, where they negotiate tolls, keep fiber-cord records, and speak for the clans in the Stone-Moots. When an Ithran gestures while speaking, the whole hall watches the arc of those impossible arms. The Ithran emerged as the Groven\u2019s diplomats and toll-negotiators during the First Thermal War (Years 100-120), their finer scales and longer limbs making them the face the Groven present to outsiders. But beneath the diplomacy is a creed the Ithran will state plainly to anyone who asks: we built the bridge, the bridge is ours. Where the Morgh offer the body to the crossing, the Ithran claim the labor of the crossing as their own, and freedom, to an Ithran, means owning what you built. The toll they collect is not greed; it is sovereignty, proof that the hands that spanned the chasm decide who walks it. Their flaw is the sharp one: to control who crosses is to become the gatekeeper, which is exactly the role the Fexric designed them to fill. The Ithran escaped their makers only to rebuild the toll-booth at the top of the world and staff it themselves. Their saying is quieter than the Morgh\u2019s, and sharper: we built the bridge. The bridge remembers whose hands.',

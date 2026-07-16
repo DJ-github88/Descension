@@ -594,8 +594,11 @@ export default function Navigation({ onReturnToLanding }) {
     // Level editor store
     const { isEditorMode, setEditorMode } = useLevelEditorStore();
 
-    // Window manager store to check for open windows/modals
-    const windowManagerWindows = useWindowManagerStore(state => state.windows);
+    // Window manager store to check for open windows/modals.
+    // Subscribe to a derived boolean (not the whole `windows` Map) so we only
+    // re-render when a window is actually added/removed, not on every
+    // z-index bump (bringToFront) which would cause excessive re-renders.
+    const hasRegisteredWindows = useWindowManagerStore(state => state.windows.size > 0);
 
     // Game store for GM mode and camera position - granular selectors to prevent excessive re-renders
     const isGMMode = useGameStore(state => state.isGMMode);
@@ -905,8 +908,6 @@ export default function Navigation({ onReturnToLanding }) {
         if (e.key === 'Escape' && onReturnToLanding) {
             // Check if any Navigation windows are open
             const hasOpenWindows = openWindows.size > 0;
-            // Check if any registered windows/modals are open
-            const hasRegisteredWindows = windowManagerWindows.size > 0;
 
             if (hasOpenWindows) {
                 // Close all Navigation windows

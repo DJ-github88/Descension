@@ -2,8 +2,8 @@ export const myrathil = {
     id: 'myrathil',
     name: 'Myrathil',
     essence: 'Free-born children of the sea',
-    illustration: '/assets/images/races/myrathil_illustration.png',
-    illustrationCaption: 'A lean Myrathil standing ankle-deep in tide pools, webbed fingers loose at their sides, enormous ocean-blue eyes squinting into sunlight, vein-colors shifting to storm-grey against bronze skin.',
+    illustration: null,
+    illustrationCaption: null,
     cardFlavor: 'Sea-spawned from volcanic foam and storm-surge, their bioluminescent skin shifts with every tide and mood.',
     visualDescription: `Lean and fluid, standing 5'3" to 5'9", with bronze skin marked by shifting bioluminescent color along the vein-lines — teal in calm, storm-grey when the pressure drops, brighter when emotions run high. Their eyes are enormous and ocean-blue, too large for their faces, perpetually squinting against light they were not built for. Webbing connects their fingers, flushing with blood when their marine nature surfaces. Their hair is dark and salt-crusted. They wear kelp-weave body-wraps that tighten when wet, net-knot shawls laced with sea-glass beads, and waxed canvas storm-capes. Salt dries on their lashes when newly spawned from the sea-foam.`,
     description: `**[The Bioluminescent Foam-Born]**, *Lashed to the bowsprit of an ice-locked clipper, a slender Myrathil navigator with bioluminescent teal skin guides the ship through a shifting channel in the frozen sea.*
@@ -449,7 +449,13 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         id: 'deepling_myrathil',
         name: 'Deepling',
         illustration: '/assets/images/races/deep_illustration.png',
-        illustrationCaption: 'A Deepling Myrathil swimming in the abyssal oceanic rift, accompanied by small glowing light-squid.',
+        illustrationCaption: 'A Deepling Myrathil floating in the abyssal oceanic rift before a cracked crystal monolith glowing with sonar waveforms, surrounded by bioluminescent jellyfish and light-squid.',
+        illustrations: [
+          {
+            src: '/assets/images/races/deep_illustration.png',
+            caption: 'A Deepling Myrathil floating in the abyssal oceanic rift before a cracked crystal monolith glowing with sonar waveforms, surrounded by bioluminescent jellyfish and light-squid.'
+          }
+        ],
         visualDescription: `The abyss-adapted. Deepling biology skews further toward sea than their Shoreling kin: longer submersion tolerance, stronger swimming muscle, and less comfort with the spoken word. Their eyes are larger and darker, built for the absolute black of the deep, and their vein-colors run cooler and dimmer, calibrated for the abyssal current rather than the sunlit tide. They arrive on beaches already half-grown, salt-crusted, speaking only the low-frequency hum Myrathil use underwater, and their skin dries and cracks painfully without frequent hydration. They favor loose kelp-weave that floats free in the current and little else.`,
         tooltipSummary: 'Abyss-born mystics who hum into the ocean trench and speak a language older than words, finding the surface world unbearably loud.',
         description: 'Emerged in the first century of the Dimming as the Iceheart Sea reached thermal equilibrium. Abyss-adapted mystics who hum into the Treakous Rift. Born from foam in the open Iceheart Sea during moonless gales, far from any coast. Sometimes they drift for weeks before finding land, arriving on beaches already half-grown, salt-crusted, speaking only the low-frequency hum that Myrathil use underwater. Their biology skews further toward sea than their Shoreling kin: longer submersion tolerance, stronger swimming muscles, less comfort with spoken language. They must hydrate frequently; prolonged dryness is exhausting, and after 24 hours in arid conditions cumulative fatigue sets in. Moist or humid environments suffice for comfort, but they need proximity to water for a true long rest. Being dry is not dangerous, but it is draining, like holding your breath: they can do it, but they would rather not. They are the mystics who hum into the Treakous Rift and record what answers, the sea-herders who tend the deep kelp-forests and migration routes, the guardians of knowledge the surface world would call madness and they call home. The flaw they carry is distance: land-folk feel alien and exhausting to them, their customs incomprehensible, their desperate need to fill silence with speech a constant irritation. A Deepling who spends too long on land begins to feel their own heartbeat as an intrusion, a reminder that they carry something warm inside them, and warmth is not what the deep prepared them for.',

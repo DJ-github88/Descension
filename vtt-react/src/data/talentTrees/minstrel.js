@@ -14,7 +14,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t0_tonic_resonance',
   name: 'Tonic Resonance',
-  description: 'A sylvan breeze carries the first note of harmony through the ancient grove. Your builder spells that generate Note I (Tonic) also generate +1 Note IV (Subdominant) per rank. The foundation of every healing melody.',
+  description: 'A salt wind carries the first note of harmony across the open water. Your builder spells that generate Note I (Tonic) also generate +1 Note IV (Subdominant) per rank. The foundation of every healing melody.',
   icon: 'spell_holy_silence',
   maxRanks: 3,
   position: { x: 0, y: 0 },
@@ -23,7 +23,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t0_restorative_chord',
   name: 'Restorative Chord',
-  description: 'The woodland\'s own rhythm pulses through your fingertips as you weave restorative sound. Your healing builder spells restore +1d4 HP per rank to the lowest-health ally within 30 feet when cast.',
+  description: 'The tide\'s own rhythm pulses through your fingertips as you weave restorative sound. Your healing builder spells restore +1d4 HP per rank to the lowest-health ally within 30 feet when cast.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 3,
   position: { x: 2, y: 0 },
@@ -32,7 +32,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t0_gentle_tempo',
   name: 'Gentle Tempo',
-  description: 'Like a gentle stream finding its pace, your melody flows with effortless grace. Reduce the mana cost of your builder spells by 1 per rank. A calm performer plays longer.',
+  description: 'Like a slack tide finding its pace, your melody flows with effortless grace. Reduce the mana cost of your builder spells by 1 per rank. A calm performer plays longer.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 2,
   position: { x: 4, y: 0 },
@@ -43,7 +43,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t1_soothing_voice',
   name: 'Soothing Voice',
-  description: 'The mediant chord resonates with the soothing whisper of Revel Sylvan\'s sacred glades. When you generate Note III (Mediant), the nearest ally within 20 feet heals for 1d4 per rank. Emotion heals.',
+  description: 'The mediant chord resonates with the soothing whisper of Lyris\'s calm shallows. When you generate Note III (Mediant), the nearest ally within 20 feet heals for 1d4 per rank. Emotion heals.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 3,
   position: { x: 1, y: 1 },
@@ -52,7 +52,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t1_submediant_shield',
   name: 'Submediant Shield',
-  description: 'Submediant tones drift like autumn leaves, soft yet unyielding, wrapping allies in comfort. When you generate Note VI (Submediant), grant the nearest ally 1d4 temporary HP per rank. Melancholy becomes armor.',
+  description: 'Submediant tones drift like tide-foam, soft yet unyielding, wrapping allies in comfort. When you generate Note VI (Submediant), grant the nearest ally 1d4 temporary HP per rank. Melancholy becomes armor.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 2,
   position: { x: 3, y: 1 },
@@ -63,7 +63,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t2_authentic_mastery',
   name: 'Authentic Mastery',
-  description: 'The authentic finality of your cadence echoes through Revel Sylvan like a hymn to the forest itself. Your Authentic Cadence heals for an additional 1d6 per rank. The grand finale resonates deeper.',
+  description: 'The authentic finality of your cadence echoes across the Iceheart like a hymn to the sea itself. Your Authentic Cadence heals for an additional 1d6 per rank. The grand finale resonates deeper.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 3,
   position: { x: 0, y: 2 },
@@ -72,7 +72,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t2_cadence_echo',
   name: 'Cadence Echo',
-  description: 'In Revel Sylvan, no song truly fades; its echoes linger in the leaves. When you resolve a 4-note cadence, retain 1 random note from the consumed set per rank. Nothing truly ends.',
+  description: 'On the Mereval deep, no song truly fades; its echoes linger in the swell. When you resolve a 4-note cadence, retain 1 random note from the consumed set per rank. Nothing truly ends.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 2,
   position: { x: 2, y: 2 },
@@ -81,7 +81,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t2_plagal_bounty',
   name: 'Plagal Bounty',
-  description: 'The plagal cadence flows like a blessing from the Sylvan springs, abundant and generous. Your Plagal Cadence grants affected allies +1d6 temporary HP per rank in addition to its speed bonus.',
+  description: 'The plagal cadence flows like a blessing from the deep current, abundant and generous. Your Plagal Cadence grants affected allies +1d6 temporary HP per rank in addition to its speed bonus.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 3,
   position: { x: 4, y: 2 },
@@ -92,7 +92,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t3_healing_chorus',
   name: 'Healing Chorus',
-  description: 'When many voices rise as one, the forest itself joins the chorus of healing. Unlocks Healing Chorus, resolve a cadence targeting all allies within 20 feet. Each ally is healed for 2d6 + your spirit modifier per rank. Consumes 3 notes of any type. Once per combat.',
+  description: 'When many voices rise as one, the storm-sea itself joins the chorus of healing. Unlocks Healing Chorus, resolve a cadence targeting all allies within 20 feet. Each ally is healed for 2d6 + your spirit modifier per rank. Consumes 3 notes of any type. Once per combat.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 2,
   position: { x: 0, y: 3 },
@@ -101,7 +101,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t3_picardy_enhancement',
   name: 'Picardy Enhancement',
-  description: 'The Picardy Third shines like sunlight breaking through the canopy, purifying all it touches. Your Picardy Third also removes 1 debuff per rank from all affected allies. Light purifies as it heals.',
+  description: 'The Picardy Third shines like sunlight breaking through the storm\'s eye, purifying all it touches. Your Picardy Third also removes 1 debuff per rank from all affected allies. Light purifies as it heals.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 2,
   position: { x: 2, y: 3 },
@@ -110,7 +110,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t3_lullaby_ward',
   name: 'Lullaby Ward',
-  description: 'A lullaby carried on sylvan winds fortifies the mind against intrusions. When you complete any healing cadence, all allies within 15 feet gain +2 to saving throws for 2 rounds per rank. Your melody shields the mind.',
+  description: 'A lullaby carried on the offshore gale fortifies the mind against intrusions. When you complete any healing cadence, all allies within 15 feet gain +2 to saving throws for 2 rounds per rank. Your melody shields the mind.',
   icon: 'spell_holy_silence',
   maxRanks: 2,
   position: { x: 4, y: 3 },
@@ -121,7 +121,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t4_tonic_overflow',
   name: 'Tonic Overflow',
-  description: 'The tonic note swells with the relentless power of Revel Sylvan\'s deepest wellsprings. When you reach max stacks (5) of Note I, your next cadence resolves for 150% healing per rank. The tonic cannot be contained.',
+  description: 'The tonic note swells with the relentless power of the Mereval\'s deepest currents. When you reach max stacks (5) of Note I, your next cadence resolves for 150% healing per rank. The tonic cannot be contained.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 2,
   position: { x: 0, y: 4 },
@@ -130,7 +130,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t4_renewing_resolution',
   name: 'Renewing Resolution',
-  description: 'Like moss regrowing on ancient stone, your song mends what time would wear away. Your healing cadences also grant regeneration: 1d4 HP per round for 2 rounds per rank. The song lingers.',
+  description: 'Like kelp regrowing on the tideline, your song mends what time would wear away. Your healing cadences also grant regeneration: 1d4 HP per round for 2 rounds per rank. The song lingers.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 3,
   position: { x: 2, y: 4 },
@@ -141,7 +141,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t5_death_defying_aria',
   name: 'Death-Defying Aria',
-  description: 'Even at death\'s door, a sylvan melody can persuade the soul to return. Unlocks Death-Defying Aria, when an ally drops to 0 HP, you may immediately consume 5 notes of any type to revive them with 3d10 HP. Once per ally per day.',
+  description: 'Even at death\'s door, a tide-song can persuade the soul to return. Unlocks Death-Defying Aria, when an ally drops to 0 HP, you may immediately consume 5 notes of any type to revive them with 3d10 HP. Once per ally per day.',
   icon: 'spell_holy_resurrection',
   maxRanks: 1,
   position: { x: 0, y: 5 },
@@ -150,7 +150,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t5_grand_symphony',
   name: 'Grand Symphony',
-  description: 'The grand symphony calls upon every voice of Revel Sylvan, a chorus of unyielding harmony. Unlocks Grand Symphony, consume 7 notes of any type to heal all allies within 30 feet for 3d8 + spirit modifier per rank and grant +2 Armor for 3 rounds. Once per combat.',
+  description: 'The grand symphony calls upon every voice of the Iceheart, a chorus of unyielding harmony. Unlocks Grand Symphony, consume 7 notes of any type to heal all allies within 30 feet for 3d8 + spirit modifier per rank and grant +2 Armor for 3 rounds. Once per combat.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 2,
   position: { x: 2, y: 5 },
@@ -161,7 +161,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
  {
   id: 'minstrel_t6_maestro_of_mending',
   name: 'Maestro of Mending',
-  description: 'You become a conduit for Revel Sylvan\'s purest musical essence, the orchestra of the world entire. For 1 minute, all your builder spells generate double notes, and your healing cadences affect double the radius. When you complete a cadence, generate 2 random notes. You become the instrument of restoration itself.',
+  description: 'You become a conduit for Lyris\'s purest musical essence, the orchestra of the storm-sea entire. For 1 minute, all your builder spells generate double notes, and your healing cadences affect double the radius. When you complete a cadence, generate 2 random notes. You become the instrument of restoration itself.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 1,
   position: { x: 1, y: 6 },
@@ -181,7 +181,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t0_dominant_fury',
   name: 'Dominant Fury',
-  description: 'The dominant chord strikes with the fury of a tempest through the Sylvan boughs. Your builder spells that generate Note V (Dominant) also deal +1d4 damage per rank. The dominant demands violence.',
+  description: 'The dominant chord strikes with the fury of a gale across the open water. Your builder spells that generate Note V (Dominant) also deal +1d4 damage per rank. The dominant demands violence.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 3,
   position: { x: 2, y: 0 },
@@ -190,7 +190,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t0_power_chord',
   name: 'Power Chord',
-  description: 'Tension coils like a serpent in the grass; the perfect strike follows without mercy. When you generate Note V, your next attack roll gains +1 per rank. Build tension, then strike.',
+  description: 'Tension coils like a breaker gathering offshore; the perfect strike follows without mercy. When you generate Note V, your next attack roll gains +1 per rank. Build tension, then strike.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 3,
   position: { x: 1, y: 0 },
@@ -199,7 +199,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t0_battle_rhythm',
   name: 'Battle Rhythm',
-  description: 'The subdominant drives forward like a hunting horn through Revel Sylvan\'s deep woods. When you generate Note IV (Subdominant), grant all allies within 15 feet +1 to damage rolls per rank for 1 round. Forward motion empowers.',
+  description: 'The subdominant drives forward like a hunting horn across the Mereval\'s grey swells. When you generate Note IV (Subdominant), grant all allies within 15 feet +1 to damage rolls per rank for 1 round. Forward motion empowers.',
   icon: 'spell_arcane_arcanetorrent',
   maxRanks: 2,
   position: { x: 3, y: 0 },
@@ -210,7 +210,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t1_perfect_strike',
   name: 'Perfect Strike',
-  description: 'The perfect cadence lands with the precision of a sylvan arrow finding its mark. When you resolve Perfect Cadence, the guaranteed critical hit also deals +1d8 bonus damage per rank. The perfect progression hits harder.',
+  description: 'The perfect cadence lands with the precision of a gull cutting the breaker-line. When you resolve Perfect Cadence, the guaranteed critical hit also deals +1d8 bonus damage per rank. The perfect progression hits harder.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 3,
   position: { x: 0, y: 1 },
@@ -219,7 +219,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t1_cadence_momentum',
   name: 'Cadence Momentum',
-  description: 'Momentum builds like a cascading waterfall, each note propelling the next. After resolving any cadence, your next builder spell costs 2 less mana and generates +1 note per rank. The composition never stops.',
+  description: 'Momentum builds like a wave climbing the shoal, each note propelling the next. After resolving any cadence, your next builder spell costs 2 less mana and generates +1 note per rank. The composition never stops.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 2,
   position: { x: 2, y: 1 },
@@ -228,7 +228,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t1_war_cry',
   name: 'War Cry',
-  description: 'Your war cry rings through Revel Sylvan, stirring the heartwood of every ally who hears. Your offensive builder spells also grant +1 to ally attack rolls within 10 feet per rank for 1 round. Your music is a call to arms.',
+  description: 'Your war cry rings across the Iceheart, stirring the salt-blood of every ally who hears. Your offensive builder spells also grant +1 to ally attack rolls within 10 feet per rank for 1 round. Your music is a call to arms.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 3,
   position: { x: 4, y: 1 },
@@ -239,7 +239,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t2_circle_mastery',
   name: 'Circle Mastery',
-  description: 'The Circle of Fifths spins endlessly, a wheel of harmonious destruction carved from Revel Sylvan\'s ancient oaks. Your Circle of Fifths deals +1d6 damage per rank per tick and lasts 1 additional round per rank. Eternal torment, indeed.',
+  description: 'The Circle of Fifths spins endlessly, a wheel of harmonious destruction whittled from the driftwood of the Mereval wreck-coast. Your Circle of Fifths deals +1d6 damage per rank per tick and lasts 1 additional round per rank. Eternal torment, indeed.',
   icon: 'spell_shadow_requiem',
   maxRanks: 3,
   position: { x: 0, y: 2 },
@@ -268,7 +268,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t3_neapolitan_precision',
   name: 'Neapolitan Precision',
-  description: 'Neapolitan precision cuts with the fine edge of a sylvan blade, each note a perfectly aimed strike. Your Neapolitan Sixth also grants +1d8 bonus damage on the next critical hit per rank. Precision compounds into devastation.',
+  description: 'Neapolitan precision cuts with the fine edge of a sea-glass shard, each note a perfectly aimed strike. Your Neapolitan Sixth also grants +1d8 bonus damage on the next critical hit per rank. Precision compounds into devastation.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 3,
   position: { x: 1, y: 3 },
@@ -277,7 +277,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t3_harmonic_cascade',
   name: 'Harmonic Cascade',
-  description: 'Like ripples on a sylvan pond, resolved harmonics spread outward to empower all they touch. When you resolve a 4-note cadence, all allies within 20 feet gain +1d4 to their next damage roll per rank. Resolved harmonics cascade outward.',
+  description: 'Like ripples on a glassy calm, resolved harmonics spread outward to empower all they touch. When you resolve a 4-note cadence, all allies within 20 feet gain +1d4 to their next damage roll per rank. Resolved harmonics cascade outward.',
   icon: 'spell_holy_prayerofhealing',
   maxRanks: 3,
   position: { x: 2, y: 3 },
@@ -297,7 +297,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t4_dominant_supremacy',
   name: 'Dominant Supremacy',
-  description: 'The dominant note stands unbowed as an ancient oak, its power undeniable and absolute. When you reach max stacks (5) of Note V, your next offensive cadence deals 150% damage per rank. The dominant cannot be denied.',
+  description: 'The dominant note stands unbowed as a sea-stack against the breaker, its power undeniable and absolute. When you reach max stacks (5) of Note V, your next offensive cadence deals 150% damage per rank. The dominant cannot be denied.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 2,
   position: { x: 1, y: 4 },
@@ -306,7 +306,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t4_war_drums',
   name: 'War Drums',
-  description: 'War drums thunder through Revel Sylvan, a rhythm that quickens the blood and steadies the hand. Unlocks War Drums, consume 4 notes of any type to grant all allies within 30 feet +1d8 damage per rank on all attacks for 3 rounds. Once per combat.',
+  description: 'War drums thunder over the Iceheart, a rhythm that quickens the blood and steadies the hand. Unlocks War Drums, consume 4 notes of any type to grant all allies within 30 feet +1d8 damage per rank on all attacks for 3 rounds. Once per combat.',
   icon: 'spell_holy_powerwordbarrier',
   maxRanks: 2,
   position: { x: 3, y: 4 },
@@ -317,7 +317,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t5_cacophonous_ending',
   name: 'Cacophonous Ending',
-  description: 'The cacophonous ending splits the air like lightning through the forest canopy. Unlocks Cacophonous Ending, consume ALL remaining notes. Deal 1d8 thunder damage per note consumed in a 40-foot radius to enemies. Allies are healed for the same amount. The louder the ending, the greater the impact.',
+  description: 'The cacophonous ending splits the air like lightning over the open water. Unlocks Cacophonous Ending, consume ALL remaining notes. Deal 1d8 thunder damage per note consumed in a 40-foot radius to enemies. Allies are healed for the same amount. The louder the ending, the greater the impact.',
   icon: 'spell_shadow_requiem',
   maxRanks: 2,
   position: { x: 1, y: 5 },
@@ -326,7 +326,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t5_orchestral_mastery',
   name: 'Orchestral Mastery',
-  description: 'Your orchestral mastery weaves every note of Revel Sylvan into a tapestry of sound. Your builder spells now generate +1 note of a random type per rank. Your compositions grow richer with every measure.',
+  description: 'Your orchestral mastery weaves every note of the storm-sea into a tapestry of sound. Your builder spells now generate +1 note of a random type per rank. Your compositions grow richer with every measure.',
   icon: 'spell_holy_divinehymn',
   maxRanks: 2,
   position: { x: 3, y: 5 },
@@ -337,7 +337,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
  {
   id: 'chord_t6_symphony_of_destruction',
   name: 'Symphony of Destruction',
-  description: 'The symphony of destruction speaks in the language of thunder and falling boughs, a song of Revel Sylvan\'s untamed fury. Unlocks Symphony of Destruction, consume 8 notes of any type to conduct a devastating symphony. All enemies in 50 feet take 4d8 + spirit modifier thunder damage and are deafened for 2 rounds. All allies in range gain +3 to attack rolls and +2d6 damage for 5 rounds. Once per long rest.',
+  description: 'The symphony of destruction speaks in the language of thunder and the breaking wave, a song of the Mereval\'s untamed fury. Unlocks Symphony of Destruction, consume 8 notes of any type to conduct a devastating symphony. All enemies in 50 feet take 4d8 + spirit modifier thunder damage and are deafened for 2 rounds. All allies in range gain +3 to attack rolls and +2d6 damage for 5 rounds. Once per long rest.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 1,
   position: { x: 2, y: 6 },
@@ -357,7 +357,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t0_dissonant_awareness',
   name: 'Dissonant Awareness',
-  description: 'The leading tone cries out with urgent dissonance, a bird of ill omen through the Sylvan dark. Your builder spells that generate Note VII (Leading Tone) also generate +1 Note II (Supertonic) per rank. Urgency breeds tension.',
+  description: 'The leading tone cries out with urgent dissonance, a gull of ill omen through the gathering dark. Your builder spells that generate Note VII (Leading Tone) also generate +1 Note II (Supertonic) per rank. Urgency breeds tension.',
   icon: 'spell_arcane_arcanetorrent',
   maxRanks: 3,
   position: { x: 1, y: 0 },
@@ -366,7 +366,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t0_unsettling_vibration',
   name: 'Unsettling Vibration',
-  description: 'The supertonic grates like stone upon stone, and the forest shivers at its discord. When you generate Note II (Supertonic), enemies within 10 feet take 1d4 psychic damage per rank. Dissonance hurts.',
+  description: 'The supertonic grates like hull upon shoal, and the tide shivers at its discord. When you generate Note II (Supertonic), enemies within 10 feet take 1d4 psychic damage per rank. Dissonance hurts.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 3,
   position: { x: 3, y: 0 },
@@ -375,7 +375,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t0_echoing_tension',
   name: 'Echoing Tension',
-  description: 'A single wrong note can unsettle the mind; Revel Sylvan knows this better than most. Your control-effect builder spells have their save DC increased by 1 per rank. The mind cannot resist the wrong note.',
+  description: 'A single wrong note can unsettle the mind; the Mereval storm knows this better than most. Your control-effect builder spells have their save DC increased by 1 per rank. The mind cannot resist the wrong note.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 2,
   position: { x: 2, y: 1 },
@@ -386,7 +386,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t1_deceptive_mastery',
   name: 'Deceptive Mastery',
-  description: 'The deceptive cadence tricks the ear like a will-o\'-wisp leading travelers astray. Your Deceptive Cadence stun duration increases by 1 round per rank. The trick lingers longer than expected.',
+  description: 'The deceptive cadence tricks the ear like a fog-bank leading sailors astray. Your Deceptive Cadence stun duration increases by 1 round per rank. The trick lingers longer than expected.',
   icon: 'spell_arcane_arcanetorrent',
   maxRanks: 2,
   position: { x: 0, y: 1 },
@@ -395,7 +395,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t1_dissonant_spread',
   name: 'Dissonant Spread',
-  description: 'Dissonance spreads through the battlefield like rot through fallen timber, each wrong note a contagion. When an enemy fails a save against your cadence, all enemies within 10 feet take 1d6 psychic damage per rank. Wrong notes echo.',
+  description: 'Dissonance spreads through the battlefield like an oil-slick on the swell, each wrong note a contagion. When an enemy fails a save against your cadence, all enemies within 10 feet take 1d6 psychic damage per rank. Wrong notes echo.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 3,
   position: { x: 4, y: 1 },
@@ -415,7 +415,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t2_tritone_amplification',
   name: 'Tritone Amplification',
-  description: 'The tritone cuts through harmony like a blade through silk, amplified by Revel Sylvan\'s most unsettling echoes. Your Tritone Substitution save DC increases by +2 per rank. and, on a failed save, the target also becomes frightened for 1 round per rank.',
+  description: 'The tritone cuts through harmony like a blade through kelp-cord, amplified by the deep\'s most unsettling echoes. Your Tritone Substitution save DC increases by +2 per rank. and, on a failed save, the target also becomes frightened for 1 round per rank.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 2,
   position: { x: 2, y: 2 },
@@ -424,7 +424,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t2_chaos_resonance',
   name: 'Chaos Resonance',
-  description: 'Chaos resonance whispers in the spaces between notes, where anything might bloom. When you generate Note VII (Leading Tone), there is a 25% chance per rank to also generate +1 random note. Chaos breeds possibility.',
+  description: 'Chaos resonance whispers in the spaces between notes, where anything might surface. When you generate Note VII (Leading Tone), there is a 25% chance per rank to also generate +1 random note. Chaos breeds possibility.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 3,
   position: { x: 4, y: 2 },
@@ -435,7 +435,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t3_cacophony',
   name: 'Cacophony',
-  description: 'Cacophony erupts like the shattering of crystal in Revel Sylvan\'s silent glades. Unlocks Cacophony, consume 4 notes of any type to create a 30-foot radius of discordant sound. Enemies take 2d8 psychic damage and must make a Spirit save (DC 14 + rank) or be stunned for 1 round. Once per combat.',
+  description: 'Cacophony erupts like the shattering of sea-ice across the frozen Mereval. Unlocks Cacophony, consume 4 notes of any type to create a 30-foot radius of discordant sound. Enemies take 2d8 psychic damage and must make a Spirit save (DC 14 + rank) or be stunned for 1 round. Once per combat.',
   icon: 'spell_shadow_requiem',
   maxRanks: 2,
   position: { x: 1, y: 3 },
@@ -455,7 +455,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t4_note Corruption',
   name: 'Note Corruption',
-  description: 'The submediant\'s melancholy drips like cold rain, seeping into the will of those who hear it. When you generate Note VI (Submediant), the nearest enemy within 20 feet suffers -1 to their next saving throw per rank. Melancholy weakens resolve.',
+  description: 'The submediant\'s melancholy drips like cold spray, seeping into the will of those who hear it. When you generate Note VI (Submediant), the nearest enemy within 20 feet suffers -1 to their next saving throw per rank. Melancholy weakens resolve.',
   icon: 'spell_arcane_arcanetorrent',
   maxRanks: 3,
   position: { x: 0, y: 4 },
@@ -473,7 +473,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t4_reality_warping',
   name: 'Reality Warping',
-  description: 'In Revel Sylvan, sound bends around ancient stones; so too does your magic warp reality. Your control cadences that target a single enemy now also affect 1 additional enemy within 15 feet per rank at half duration. Sound bends space.',
+  description: 'On the Iceheart, sound bends around the sea-stacks; so too does your magic warp reality. Your control cadences that target a single enemy now also affect 1 additional enemy within 15 feet per rank at half duration. Sound bends space.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 2,
   position: { x: 4, y: 4 },
@@ -484,7 +484,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t5_sonic_annihilation',
   name: 'Sonic Annihilation',
-  description: 'Sonic annihilation roars through Revel Sylvan like the fury of a thousand collapsing trees. Unlocks Sonic Annihilation, consume 6 notes of any type to unleash a shockwave in a 40-foot cone. Deals 3d8 thunder damage per rank and knocks all enemies prone. Deafened enemies take double damage.',
+  description: 'Sonic annihilation roars across the Iceheart like the fury of a thousand breaking waves. Unlocks Sonic Annihilation, consume 6 notes of any type to unleash a shockwave in a 40-foot cone. Deals 3d8 thunder damage per rank and knocks all enemies prone. Deafened enemies take double damage.',
   icon: 'spell_arcane_arcanetorrent',
   maxRanks: 2,
   position: { x: 1, y: 5 },
@@ -493,7 +493,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t5_void_melody',
    name: 'Silence Melody',
-  description: 'The leading tone cuts off all sound, a silence that descends like a predator from the canopy. When you consume Note VII as part of a cadence, all enemies within 20 feet lose their reaction until the start of their next turn per rank. The leading tone silences.',
+  description: 'The leading tone cuts off all sound, a silence that descends like the hush after the wave breaks. When you consume Note VII as part of a cadence, all enemies within 20 feet lose their reaction until the start of their next turn per rank. The leading tone silences.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 2,
   position: { x: 3, y: 5 },
@@ -504,7 +504,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
  {
   id: 'magic_t6_arcane_serenade',
   name: 'Arcane Serenade',
-  description: 'The arcane serenade balances between order and chaos, the song that holds Revel Sylvan\'s deepest secrets. Unlocks Arcane Serenade, consume ALL remaining notes. For each note consumed, all enemies in 50 feet take 1d6 psychic damage and are silenced for 1 round (Spirit save DC 18). For each note consumed, all allies in range heal 1d4 HP. The song between order and chaos reshapes reality. Once per long rest.',
+  description: 'The arcane serenade balances between order and chaos, the song that holds the Mereval\'s deepest secrets. Unlocks Arcane Serenade, consume ALL remaining notes. For each note consumed, all enemies in 50 feet take 1d6 psychic damage and are silenced for 1 round (Spirit save DC 18). For each note consumed, all allies in range heal 1d4 HP. The song between order and chaos reshapes reality. Once per long rest.',
   icon: 'spell_holy_divineprovidence',
   maxRanks: 1,
   position: { x: 2, y: 6 },

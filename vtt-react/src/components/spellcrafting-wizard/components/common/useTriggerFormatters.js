@@ -1,7 +1,7 @@
 const useTriggerFormatters = ({ spell, library }) => {
 
  const formatChanceOnHit = () => {
-  const chanceConfig = spell.damageConfig?.chanceOnHitConfig || spell.healingConfig?.chanceOnHitConfig || spell.chanceOnHitConfig;
+  const chanceConfig = spell.damageConfig?.chanceOnHitConfig || spell.healingConfig?.chanceOnHitConfig || spell.chanceOnHitConfig || spell.procConfig;
   if (!chanceConfig?.enabled) return null;
 
   const { procType, procChance, diceThreshold, cardProcRule, coinProcRule, coinCount,

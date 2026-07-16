@@ -153,6 +153,41 @@ const cleanFormula = (formula) => {
 
   cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
 
+  // Convert card/coin resolution variables to readable text
+  const cardCoinMap = {
+    'CARD_VALUE': 'Card Value',
+    'FACE_CARD_COUNT': 'Face Cards',
+    'SAME_SUIT': 'Same Suit',
+    'POKER_HAND_RANK': 'Poker Hand Rank',
+    'HEADS_COUNT': 'Heads',
+    'TAILS_COUNT': 'Tails',
+    'LONGEST_STREAK': 'Longest Streak',
+    'ALL_HEADS': 'All Heads',
+    'ALL_TAILS': 'All Tails',
+    'ALTERNATING_PATTERN': 'Alternating Pattern',
+    'HEA': 'Healing Power',
+    'HEALINGPOWER': 'Healing Power',
+    'healingPower': 'Healing Power',
+    'healing_power': 'Healing Power'
+  };
+  Object.entries(cardCoinMap).forEach(([variable, properName]) => {
+    const regex = new RegExp(`\\b${variable}\\b`, 'g');
+    cleanedFormula = cleanedFormula.replace(regex, properName);
+  });
+
+  // Convert ternary operators to readable "if/otherwise" format
+  // Match patterns like: (condition ? trueValue : falseValue) or condition ? trueValue : falseValue
+  // Handle common pattern: variable ? value : value where the ternary is a standalone expression
+  cleanedFormula = cleanedFormula.replace(
+    /\(?\b(\w+(?:\s+\w+)*)\s*\?\s*([\d.]+)\s*:\s*([\d.]+)\)?/g,
+    (match, condition, trueVal, falseVal) => {
+      if (parseFloat(falseVal) === 1) {
+        return `${trueVal} if ${condition}, otherwise unchanged`;
+      }
+      return `${trueVal} if ${condition}, otherwise ${falseVal}`;
+    }
+  );
+
   const preservedPlaceholders = ['weapon_die', 'weapon_damage', 'attribute_modifier'];
   let hasPlaceholder = false;
   preservedPlaceholders.forEach(placeholder => {

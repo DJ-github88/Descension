@@ -3,7 +3,7 @@ import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getFullRaceData, getSubraceData, getRaceData, getRaceList, getSubraceList } from '../../data/raceData';
-import { LORE_PLACEHOLDERS } from '../../constants/loreConstants';
+import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../constants/loreConstants';
 // import { ENHANCED_PATHS } from '../../data/enhancedPathData'; // Disciplines removed
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
@@ -134,7 +134,7 @@ export default function Lore() {
             ],
             rightFields: [
                 { key: 'background', label: 'Social Background', type: 'backgroundSelect' },
-                { key: 'backstory', label: 'Origin Story', placeholder: LORE_PLACEHOLDERS.backstory, type: 'textarea', fullPage: true }
+                { key: 'backstory', label: 'Origin Story', hint: LORE_FIELD_HINTS.backstory, placeholder: LORE_PLACEHOLDERS.backstory, type: 'textarea', fullPage: true }
             ]
         },
         personality: {
@@ -142,12 +142,12 @@ export default function Lore() {
             label: 'Demeanor',
             icon: getIconUrl('Utility/Meditative Figure', 'abilities'),
             leftFields: [
-                { key: 'personalityTraits', label: 'Demeanor & Nature', placeholder: LORE_PLACEHOLDERS.personalityTraits, type: 'textarea' },
-                { key: 'ideals', label: 'Convictions', placeholder: LORE_PLACEHOLDERS.ideals, type: 'textarea' }
+                { key: 'personalityTraits', label: 'Demeanor & Nature', hint: LORE_FIELD_HINTS.personalityTraits, placeholder: LORE_PLACEHOLDERS.personalityTraits, type: 'textarea' },
+                { key: 'ideals', label: 'Convictions', hint: LORE_FIELD_HINTS.ideals, placeholder: LORE_PLACEHOLDERS.ideals, type: 'textarea' }
             ],
             rightFields: [
-                { key: 'bonds', label: 'Oaths & Tethers', placeholder: LORE_PLACEHOLDERS.bonds, type: 'textarea' },
-                { key: 'flaws', label: 'Fractures & Weakness', placeholder: LORE_PLACEHOLDERS.flaws, type: 'textarea' }
+                { key: 'bonds', label: 'Oaths & Tethers', hint: LORE_FIELD_HINTS.bonds, placeholder: LORE_PLACEHOLDERS.bonds, type: 'textarea' },
+                { key: 'flaws', label: 'Fractures & Weakness', hint: LORE_FIELD_HINTS.flaws, placeholder: LORE_PLACEHOLDERS.flaws, type: 'textarea' }
             ]
         },
         appearance: {
@@ -159,7 +159,7 @@ export default function Lore() {
                 ...(tokenSettings ? [{ key: 'tokenBorder', label: 'Token Border Color', type: 'borderColor' }] : [])
             ],
             rightFields: [
-                { key: 'appearance', label: 'Bearing & Aspect', placeholder: LORE_PLACEHOLDERS.appearance, type: 'textarea', fullPage: true }
+                { key: 'appearance', label: 'Bearing & Aspect', hint: LORE_FIELD_HINTS.appearance, placeholder: LORE_PLACEHOLDERS.appearance, type: 'textarea', fullPage: true }
             ]
         },
         relationships: {
@@ -167,11 +167,11 @@ export default function Lore() {
             label: 'Bonds',
             icon: getIconUrl('Social/Party Gathering', 'abilities'),
             leftFields: [
-                { key: 'allies', label: 'Allies & Kin', placeholder: LORE_PLACEHOLDERS.allies, type: 'textarea', fullPage: true }
+                { key: 'allies', label: 'Allies & Kin', hint: LORE_FIELD_HINTS.allies, placeholder: LORE_PLACEHOLDERS.allies, type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'enemies', label: 'Adversaries & Blood-Debts', placeholder: LORE_PLACEHOLDERS.enemies, type: 'textarea' },
-                { key: 'organizations', label: 'Factions & Guilds', placeholder: LORE_PLACEHOLDERS.organizations, type: 'textarea' }
+                { key: 'enemies', label: 'Adversaries & Blood-Debts', hint: LORE_FIELD_HINTS.enemies, placeholder: LORE_PLACEHOLDERS.enemies, type: 'textarea' },
+                { key: 'organizations', label: 'Factions & Guilds', hint: LORE_FIELD_HINTS.organizations, placeholder: LORE_PLACEHOLDERS.organizations, type: 'textarea' }
             ]
         },
         goals: {
@@ -179,10 +179,10 @@ export default function Lore() {
             label: 'Purpose',
             icon: getIconUrl('Utility/Comet Trail', 'abilities'),
             leftFields: [
-                { key: 'goals', label: 'Purpose & Ambition', placeholder: LORE_PLACEHOLDERS.goals, type: 'textarea', fullPage: true }
+                { key: 'goals', label: 'Purpose & Ambition', hint: LORE_FIELD_HINTS.goals, placeholder: LORE_PLACEHOLDERS.goals, type: 'textarea', fullPage: true }
             ],
             rightFields: [
-                { key: 'fears', label: 'Dreads', placeholder: LORE_PLACEHOLDERS.fears, type: 'textarea', fullPage: true }
+                { key: 'fears', label: 'Dreads', hint: LORE_FIELD_HINTS.fears, placeholder: LORE_PLACEHOLDERS.fears, type: 'textarea', fullPage: true }
             ]
         },
         notes: {
@@ -191,7 +191,7 @@ export default function Lore() {
             icon: getIconUrl('Utility/Utility', 'abilities'),
             leftFields: [],
             rightFields: [
-                { key: 'notes', label: 'Marginalia', placeholder: LORE_PLACEHOLDERS.notes, type: 'textarea', fullPage: true }
+                { key: 'notes', label: 'Marginalia', hint: LORE_FIELD_HINTS.notes, placeholder: LORE_PLACEHOLDERS.notes, type: 'textarea', fullPage: true }
             ]
         },
         heritage: {
@@ -396,11 +396,18 @@ export default function Lore() {
         );
     };
 
+    const renderFieldLabel = (field) => (
+        <>
+            <label className="lore-field-label">{field.label}</label>
+            {field.hint && <span className="lore-field-hint">{field.hint}</span>}
+        </>
+    );
+
     const renderField = (field) => {
         if (field.type === 'characterName') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <input
                         type="text"
                         className="lore-input"
@@ -423,7 +430,7 @@ export default function Lore() {
             ];
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={characterClass || ''}
@@ -440,7 +447,7 @@ export default function Lore() {
         } else if (field.type === 'raceSelect') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={race || ''}
@@ -459,7 +466,7 @@ export default function Lore() {
         } else if (field.type === 'subraceSelect') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={subrace || ''}
@@ -483,7 +490,7 @@ export default function Lore() {
             ];
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={alignment || ''}
@@ -500,7 +507,7 @@ export default function Lore() {
         } else if (field.type === 'backgroundSelect') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={background || ''}
@@ -530,7 +537,7 @@ export default function Lore() {
         } else if (field.type === 'textarea') {
             return (
                 <div key={field.key} className="lore-field has-textarea">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <textarea
                         className="lore-textarea"
                         value={lore[field.key] || ''}
@@ -544,7 +551,7 @@ export default function Lore() {
         } else if (field.type === 'select') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <select
                         className="lore-select"
                         value={lore[field.key] || ''}
@@ -562,7 +569,7 @@ export default function Lore() {
         } else if (field.type === 'image') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <div className="character-image-section">
                         <div className="portrait-options">
                             <div className="portrait-option-label">Customize your portrait or paste an image URL:</div>
@@ -729,7 +736,7 @@ export default function Lore() {
         } else if (field.type === 'borderColor') {
             return (
                 <div key={field.key} className="lore-field">
-                    <label className="lore-field-label">{field.label}</label>
+                    {renderFieldLabel(field)}
                     <div className="border-color-selector">
                         <div className="color-options" style={{
                             display: 'flex',
@@ -995,7 +1002,7 @@ export default function Lore() {
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? 'â - €' : 'â–¶'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? 'ï¿½ - ï¿½' : 'â–¶'}</span>
                 </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button

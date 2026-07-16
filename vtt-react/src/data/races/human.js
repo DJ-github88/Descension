@@ -234,7 +234,12 @@ Morren children receive an education in contract-law before they receive an educ
       id: 'thalren_human',
       name: 'Thalren (Frostwood Reach)',
       illustration: '/assets/images/races/thalren_illustration.png',
-      illustrationCaption: 'A Thalren Human scholar writing in their journal within a fog-choked forest.',
+      illustrationCaption: 'A Thalren human scholar writing in their journal within a fog-choked forest.',
+      cultureIllustration: '/assets/images/races/thalren_culture_write.png',
+      cultureIllustrationCaption: 'A Thalren traveler sitting on a gnarled log in the misty Frostwood Reach, writing in their journal.',
+      domesticIllustration: '/assets/images/races/thalren_culture_home.png',
+      domesticIllustrationCaption: 'A cozy Thalren treehouse bedroom high in the canopy of the ironwood trees, decorated with maps and notes.',
+
       visualDescription: `Lean and watchful, the Thalren carry the pale complexion of people who live under perpetual mist. Their hands are permanently ink-stained, the first skill a Thalren child learns is journal-keeping, before speech, before walking, and their eyes hold the particular tension of someone who has forgotten something important and knows it. They dress in heavy leather coats damp with the fog of Frostwood Reach, and every Thalren chains a journal to their belt because a life unwritten down is, by the only measure they recognize, a life that never happened.`,
       tooltipSummary: 'Fog-choked scholars of Frostwood Reach who chain journals to their belts, frantically recording every memory before the mist erases it.',
       description: `*Mist-damp scholars in heavy leather coats, currently split between the documented citizens of Greymark and the erased outcasts of the palisades.*
@@ -311,7 +316,12 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
       id: 'skald_human',
       name: 'Skald (Nordhalla)',
       illustration: '/assets/images/races/skald_illustration.png',
-      illustrationCaption: 'A Skald Human warrior in mammoth-furs carrying a runic ice-chisel.',
+      illustrationCaption: 'A Skald human warrior standing before a freezing mountain fjord.',
+      cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
+      cultureIllustrationCaption: 'A Skald father holding a swaddled infant out to the freezing gale of a snowy Nordhalla mountain cliff.',
+      domesticIllustration: '/assets/images/races/skald_culture_home.png',
+      domesticIllustrationCaption: 'A Skald family gathering inside their longhouse around a stone fire pit, listening to a bard play the lyre.',
+
       visualDescription: `Broad-shouldered and cold-hardened, the Skald carry the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure, Skald infants are held to the fjord wind and what the cold does not break they believe it has made, and their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of those who know wasted motion costs body-heat. They dress in layered mammoth-furs and rimesteel, and the oldest bloodlines, the frost-touched, run colder still, their breath misting even in summer heat.`,
       tooltipSummary: 'Cold-forged bards of Nordhalla whose throat-songs carry glacier rage and bloodline pride, freezing enemies with ancestral fury.',
       description: `*Wind-burned endurance-purists in mammoth-furs, currently divided between those who swore fealty to the iron crown and the nomads who refuse to bend.*
@@ -399,7 +409,12 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
       id: 'tessen_human',
       name: 'Tessen (Cragjaw Peaks)',
       illustration: '/assets/images/races/tessen_illustration.png',
-      illustrationCaption: 'A Tessen Human survivor in dark hooded gear and an alchemical respirator.',
+      illustrationCaption: 'A Tessen human scholar with a pale complexion and soot smudges, carrying a large knotted cord-ledger on their back.',
+      cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
+      cultureIllustrationCaption: 'A bustling multi-level marketplace with catwalks and bridges inside the vertical stone chasm of a Tessen keep.',
+      domesticIllustration: '/assets/images/races/tessen_culture_home.png',
+      domesticIllustrationCaption: 'A Tessen family in their stone keep chamber, a scribe writing at a desk while a child looks out at the chasm bridges.',
+
       visualDescription: `Pale and slightly hunched, the Tessen bear the posture of people who spend their lives in vertical, stone-tunneled keeps. Their skin has not seen direct sunlight in generations, and their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of avalanches have made loud voices a social violation, and they record their lives not in ink, which freezes, but in knotted cord-cords. They dress in heavy dark woolens and alchemical respirators against the volcanic particulate of the Cragjaw.`,
       tooltipSummary: 'Debt-bound shadow-courtiers who trade in secrets and silence, their sealed lips carrying favors worth more than gold.',
       description: `*Pale, keep-dwelling survivalists wearing heavy woolens and carrying knotted knotted cord-cords, managing geothermal vents while avoiding mountain spirits.*
@@ -468,6 +483,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeSize: 30 },
           resourceCost: { actionPoints: 0, mana: 0, components: [] },
           cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+
         }
       ]
     },
@@ -475,13 +491,18 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
       id: 'solvarn_human',
       name: 'Solvarn (Sundale)',
       illustration: '/assets/images/races/solvarn_illustration.png',
-      illustrationCaption: 'A Solvarn Human martyr offering blood to the dead sun on volcanic black sand.',
-      visualDescription: `Gaunt and hardened, the Solvarn are shaped by the ashlands of Sundale. Their skin is darkened by a permanent grey-brown volcanic stain that no washing removes, their lungs adapted to thin ash-heavy air, and their eyes narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Every garment bears a sun-emblem, and they kneel often on black obsidian sand to offer blood to a sun that died eight centuries ago.`,
+      illustrationCaption: 'An older Solvarn devotee in tattered robes holding a staff, standing before a desolate ash valley under a ringed black sun.',
+      cultureIllustration: '/assets/images/races/solvarn_culture_rain.png',
+      cultureIllustrationCaption: 'A Solvarn human collecting rainwater flowing from a stone spout into ceramic jars within castle ruins.',
+      domesticIllustration: '/assets/images/races/solvarn_culture_home.png',
+      domesticIllustrationCaption: 'A Solvarn family gathered around a campfire outside their draped pavilion tent pitched in a ruined castle courtyard.',
+      visualDescription: `Gaunt and hardened, the Solvarn are shaped by the ashlands of Sundale. Their skin is darkened by a permanent grey-brown volcanic stain that no washing removes, their lungs adapted to thin ash-heavy air, and their eyes narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them. They live on the surface in large hide pavilion tents pitched inside ancient castle ruins, collecting precious rainwater in ceramic jars to survive. Every garment bears a sun-emblem, and their eyes remain fixed on the ringed, eclipsed sun above.`,
       tooltipSummary: 'Sun-reverent warriors who draw strength from the dying star-ember, swearing vigil oaths to hold back the endless dark.',
-      description: `*Ash-stained martyrs kneeling on obsidian sands to offer blood to a sun that died eight centuries ago, currently split between the wealthy Deep-Born and the conscripted Ash-Dwellers.*
+      description: `*Ash-stained nomads living on the surface inside castle ruins, filtering collected rainwater while keeping their sun-vigil, currently split between the wealthy Deep-Born and the conscripted Ash-Dwellers.*
 
 The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darkened by volcanic particulate, a permanent grey-brown stain that no amount of washing removes. Their lungs are adapted to thin, ash-heavy air. Their eyes are narrowed against the constant particulate drift. They carry themselves with the solemn dignity of people who know their home is killing them and have made peace with it. Sun-emblems are worn on every garment. The vigil is never broken, because the vigil is not a duty the Solvarn perform, it is the thing they are, existence defined as devotion to a light no living Solvarn has ever seen. The sun they worship has been buried for eight centuries, and they pray to it anyway, because to the Solvarn faith is not the hope that the thing will return but the evidence, legible in the act of kneeling, that the thing was real. House Solvan wielded the knife that flayed Aex during the Binding, in the earliest generations of the Deepening. The Solvarn have lived in Emberspire's shadow, tending the tomb they helped build, for eight centuries, and they will tend it for eight more, because a vigil is not proven by the dawn; it is proven by the watch.`,
       culturalBackground: 'Solvarn culture is a death-cult turned martial-theocracy under Hierophant Aethelgard and the Dawn Vigil. They worship the memory of the sun, Sol, enforcing the vigil under penalty of heresy. The region is fractured by class conflict: the wealthy Deep-Born live in climate-controlled luxury within the Harath-Vault, while the Ash-Dwellers live in toxic surface shanties, conscripted into the Caldera Labor-Levies to mine sulfur and clear magma-lines. The Dawn Vigil defends this exploitation as sacred service for the "Reforging," using the Obsidian Escarpment fortresses to prevent refugees from fleeing to cleaner lands.',
+
       statModifiers: { spirit: 2, constitution: 1, agility: -1 },
       baseStats: { hp: 24, mana: 7, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['ember', 'disease'], disadvantage: ['rime'] },
@@ -553,13 +574,18 @@ The ashlands of Sundale produce a gaunt, hardened people. Solvarn skin is darken
       id: 'merryn_human',
       name: 'Merryn (Iceheart Sea)',
       illustration: '/assets/images/races/merryn_illustration.png',
-      illustrationCaption: 'A tattoo-covered Merryn Human mariner on a ship deck during a storm.',
+      illustrationCaption: 'A rugged Merryn mariner with dark hair holding three dice in his hand, with sailing ships in the harbor.',
+      cultureIllustration: '/assets/images/races/merryn_culture_sail.png',
+      cultureIllustrationCaption: 'A Merryn deckhand hauling a thick frozen rope on a ship deck during an arctic storm.',
+      domesticIllustration: '/assets/images/races/merryn_culture_home.png',
+      domesticIllustrationCaption: 'Merryn sailors studying a sea map and rolling dice inside a ship\'s below-deck cabin with sleeping hammocks.',
+
       visualDescription: `Wiry and salt-stained, the Merryn are the mariners of the Iceheart Sea. Their skin is cross-hatched with contract-tattoos covering the arms, ink-deals that the sea is witness to, and their hands are rough with rope-callus and salt-crack. They dress in waxed canvas and oilcloth cut for the deck, and they move with the rolling gait of people for whom solid ground feels wrong: too still, too dead. The wealthy Deck-Born wear finer ink and cleaner cloth; the pressed Bilge-Dwellers bear the same tattoos blurred by brine and labor.`,
       tooltipSummary: 'Salt-scarred sailors whose storm-luck and tattoo-contracts bind them to the sea\'s capricious mercy.',
       description: `*Tattoo-covered mariners whose skin is cross-hatched with ink-contracts, split between the wealthy Deck-Born and the pressed Bilge-Dwellers.*
 
 The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas, every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn's body is a legal document, and a Merryn's self is the sum of the obligations written there: to be Merryn is not to carry a name or a bloodline first, but to carry the contracts you have kept and the ones you have yet to honor, and a contract made is a contract kept, full stop, inked into the skin so the sea cannot wash it away and the holder cannot pretend to forget. Their hands are callused from rope and salt. They walk with the rolling gait of people who spent their lives on pitching decks, and they distrust anyone who cannot swim, and they distrust, more deeply still, anyone who speaks of a promise as if a promise were a flexible thing. House Mereval's Sea-Charter, in the early generations of the Dimming, traded calm seas for navigable storm-lanes. The Merryn tattooing tradition, skin as legal document, evolved over seven centuries of storm trade.`,
-      culturalBackground: 'Merryn culture is a floating hierarchy governed by the Mereval Board of Trade and Grand Admiral Varis. While captains traditionally voted on the Drift-Council at Merrowport, the rise of the Brine-Bond Syndicate has split the populace: wealthy Deck-Born officers control the trade ships, while pressed Bilge-Dwellers crew the heavy coal-clads under legal Press-Warrants. Traditional "Tide-Speak" animism has been outlawed under the state-enforced Luck-Ledger, forcing mariners to purchase temple luck-coins to protect against Rime-Bride-like storm wraiths. Meanwhile, steam-trawling engines pollute the unfreezing currents, driving the amphibious Deep-Born Myrathil to madness.',
+      culturalBackground: 'Merryn culture is a floating hierarchy governed by the Mereval Board of Trade and Grand Admiral Osric. While captains traditionally voted on the Drift-Council at Merrowport, the rise of the Brine-Bond Syndicate has split the populace: wealthy Deck-Born officers control the trade ships, while pressed Bilge-Dwellers crew the heavy coal-clads under legal Press-Warrants. Traditional "Tide-Speak" animism has been outlawed under the state-enforced Luck-Ledger, forcing mariners to purchase temple luck-coins to protect against Rime-Bride-like storm wraiths. Meanwhile, steam-trawling engines pollute the unfreezing currents, driving the amphibious Deep-Born Myrathil to madness.',
       statModifiers: { agility: 2, charisma: 1, spirit: -1 },
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 2 },
       savingThrowModifiers: { advantage: ['water', 'navigation'], disadvantage: ['restraint'] },
@@ -629,7 +655,12 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       id: 'ordan_human',
       name: 'Ordan (Sundrift Vale)',
       illustration: '/assets/images/races/ordan_illustration.png',
-      illustrationCaption: 'An Ordan Human nomad herder on the starless steppe.',
+      illustrationCaption: 'An Ordan shepherd with braided hair holding a carved wooden Steppe-Stave, with yurts and grazing herds behind him.',
+      cultureIllustration: '/assets/images/races/ordan_culture_herd.png',
+      cultureIllustrationCaption: 'An Ordan shepherd watching over a massive flock of sheep grazing across the vast open steppe under storm clouds.',
+      domesticIllustration: '/assets/images/races/ordan_culture_home.png',
+      domesticIllustrationCaption: 'An Ordan family gathered around a fire pit inside their circular wooden lattice yurt, drinking tea.',
+
       visualDescription: `Lean and wind-marked, the Ordan are the nomad herders of the Sundrift Vale. Their skin is weathered dark by a starless sky and open steppe, and they dress in sheepskin and wind-leather layered against the cold that follows the herds. Each carries a Steppe-Stave carved with the migration routes no map records, and their throats are trained to overtone singing that carries complex messages a mile across open terrain. They move with the restless economy of people who have learned, over generations, that the herd does not stop and neither can they.`,
       tooltipSummary: 'Endless marchers of the Sundrift steppe whose throat-songs echo across the grass-sea, bearing mound-offerings to forgotten ancestors.',
       description: `*Lean, sheepskin-clad nomads throat-singing ancient maps of stars, carrying Steppe-Staves to trace migration routes under a starless sky.*
@@ -709,7 +740,10 @@ The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runne
       id: 'morren_human',
       name: 'Morren (Bryngloom Forest)',
       illustration: '/assets/images/races/morren_illustration.png',
-      illustrationCaption: 'A Morren Human peat-cutter from the Bryngloom Forest holding a Neth contract.',
+      illustrationCaption: 'A weary Morren peat-cutter in a patched brown tunic holding a rolled Neth contract-scroll with a wax seal, standing in a bog-village.',
+      domesticIllustration: '/assets/images/races/morren_culture_home.png',
+      domesticIllustrationCaption: 'A Morren family eating inside their simple peat-sod cabin with a central stone hearth fire, looking out to the swamp.',
+
       visualDescription: `Sallow and bog-damp, the Morren are the peat-cutters of the Bryngloom Forest. Their skin carries the grey-green pallor of people who live in perpetual damp, their hands stained dark with peat and bog-iron, and their clothes are simple unmarked fabrics weighed down by moisture. They move with the careful, squelching tread of those who know the deep bogs by feel, and their bearing is the quiet resignation of people bound to Neth contract-houses to pay off debts older than their names. A Morren's most telling feature is the rolled contract-scroll many carry, the ledger of what they owe.`,
       tooltipSummary: 'Bog-treaders who signed their names into the mire itself, reading contract-sight in the swamp\'s living ink and surviving on debtors\' patience.',
       description: `*Sallow-skinned peat-cutters legally bound to Neth contract-houses to pay off ancient ancestral debts, split between Contracted citizens and Defaulted laborers.*

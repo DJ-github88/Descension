@@ -154,20 +154,17 @@
   transform: rotate(180deg);
 }
 
-/* Lore Link styles */
 .lore-link {
   color: #b89c72;
   text-decoration: none;
-  border-bottom: 1px dotted #b89c72;
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease;
+  transition: color 150ms ease;
   display: inline;
   font-weight: 500;
 }
 
 .lore-link:hover {
   color: #dfd5c6;
-  border-bottom-color: #dfd5c6;
 }
 
 .lore-link-icon {

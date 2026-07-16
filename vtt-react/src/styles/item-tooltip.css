@@ -22,7 +22,6 @@
         0 0 20px rgba(139, 69, 19, 0.1) !important;
     pointer-events: none;
     margin: 0;
-    backdrop-filter: blur(4px);
     text-align: left !important;
 }
 
@@ -179,7 +178,6 @@
     font-family: 'Bookman Old Style', 'Garamond', serif;
     border-bottom: 1px solid rgba(139, 69, 19, 0.4);
     padding-bottom: 8px;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
 /* Scrolling animation for long item names */

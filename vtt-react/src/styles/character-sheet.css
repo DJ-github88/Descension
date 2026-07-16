@@ -2785,6 +2785,17 @@
     text-transform: uppercase;
 }
 
+/* Plain-language D&D subtitle shown beneath the flavorful lore labels */
+.lore-field-hint {
+    font-family: 'Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #a8947a;
+    margin-top: -2px;
+    margin-bottom: 2px;
+    letter-spacing: 0.3px;
+}
+
 /* parchment style textarea */
 .lore-textarea {
     background: rgba(139, 115, 85, 0.04) !important;

@@ -8,10 +8,17 @@ import { getIconUrl } from '../../utils/assetManager';
 import { CONDITIONS } from '../../data/conditionsData';
 
 const getQualityColor = (quality) => {
-    // Check for null or undefined and provide a default
     const qualityValue = quality || 'common';
     const qualityLower = qualityValue.toLowerCase();
-    return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
+    const colors = {
+        poor: '#9d9d9d',
+        common: '#f0e6d2',
+        uncommon: '#1eff00',
+        rare: '#0070dd',
+        epic: '#a335ee',
+        legendary: '#ff8000'
+    };
+    return colors[qualityLower] || colors.common;
 };
 
 const formatCurrency = (value) => {
@@ -1531,7 +1538,7 @@ function ItemTooltip({ item }) {
                     if (multiplier < 0) {
                         // Healing from damage
                         const healMultiplier = Math.abs(multiplier);
-                        formatted = `${type.charAt(0).toUpperCase() + type.slice(1)} damage heals you for ${healMultiplier}Ã -  the damage taken, instead of damaging you.`;
+                        formatted = `${type.charAt(0).toUpperCase() + type.slice(1)} damage heals you for ${healMultiplier}ï¿½ -  the damage taken, instead of damaging you.`;
                         resistanceType = 'vampiric';
                     } else if (multiplier === 0.0 || level === 0) {
                         // Immune
@@ -1540,19 +1547,19 @@ function ItemTooltip({ item }) {
                     } else if (multiplier < 1.0) {
                         // Resistant
                         if (multiplier <= 0.5) {
-                            formatted = `Highly resistant to ${type.toLowerCase()} damage, taking only ${multiplier}Ã -  the damage taken.`;
+                            formatted = `Highly resistant to ${type.toLowerCase()} damage, taking only ${multiplier}ï¿½ -  the damage taken.`;
                         } else {
-                            formatted = `Resistant to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
+                            formatted = `Resistant to ${type.toLowerCase()} damage, taking ${multiplier}ï¿½ -  the damage taken.`;
                         }
                         resistanceType = 'resistant';
                     } else if (multiplier > 1.0) {
                         // Vulnerable
                         if (multiplier >= 2.0) {
-                            formatted = `Extremely vulnerable to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
+                            formatted = `Extremely vulnerable to ${type.toLowerCase()} damage, taking ${multiplier}ï¿½ -  the damage taken.`;
                         } else if (multiplier >= 1.5) {
-                            formatted = `Exposed to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
+                            formatted = `Exposed to ${type.toLowerCase()} damage, taking ${multiplier}ï¿½ -  the damage taken.`;
                         } else {
-                            formatted = `Susceptible to ${type.toLowerCase()} damage, taking ${multiplier}Ã -  the damage taken.`;
+                            formatted = `Susceptible to ${type.toLowerCase()} damage, taking ${multiplier}ï¿½ -  the damage taken.`;
                         }
                         resistanceType = 'vulnerable';
                     }
@@ -1820,10 +1827,12 @@ function ItemTooltip({ item }) {
                         lineHeight: '1.2',
                         maxWidth: '100%',
                         minWidth: 0,
-                        color: qualityColor, // Apply rarity color directly to the name
-                        textShadow: qualityLower === 'uncommon'
-                            ? '0 0 8px rgba(74, 147, 74, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)'
-                            : `0 0 5px ${qualityColor}80, 0 1px 2px rgba(0, 0, 0, 0.8)`, // Add glow effect with better contrast
+                        color: qualityColor,
+                        textShadow: qualityLower === 'common'
+                            ? '0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.7)'
+                            : qualityLower === 'uncommon'
+                                ? '0 0 8px rgba(74, 147, 74, 0.6), 0 1px 2px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)'
+                                : `0 0 5px ${qualityColor}80, 0 1px 2px rgba(0, 0, 0, 0.8)`,
                         flex: 1
                     }}
                 >
@@ -1894,10 +1903,12 @@ function ItemTooltip({ item }) {
                     <span>
                         {item.weaponSlot === 'TWO_HANDED' ? 'Two-Handed' :
                             item.weaponSlot === 'RANGED' ? 'Ranged' :
-                                item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND' ? 'Off Hand' :
-                                    item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
-                                        item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND' ? 'Main Hand' :
-                                            'Main Hand'}
+                                item.weaponSlot === 'OFF_HAND' || 
+                                (item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND') ? 'Off Hand' :
+                                    item.weaponSlot === 'MAIN_HAND' ||
+                                    (item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND') ? 'Main Hand' :
+                                        item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
+                                            item.weaponSlot || 'Main Hand'}
                     </span>
                     <span>
                         {item.subtype ? (() => {
@@ -1917,15 +1928,14 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>
                         {item.slots?.[0] === 'off_hand' ? 'Off Hand' :
-                            item.slots?.[0]?.split('_').map(word =>
+                            item.slots?.[0] ? item.slots[0].split('_').map(word =>
                                 word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                            ).join(' ')}
+                            ).join(' ') : 'Armor'}
                     </span>
                     <span>
                         {item.slots?.[0] === 'off_hand' ?
                             (() => {
                                 if (!item.offHandType) return 'Shield';
-                                // Map off-hand types properly
                                 const offHandMap = {
                                     SHIELD: 'Shield',
                                     SPHERE: 'Sphere',
@@ -1940,7 +1950,7 @@ function ItemTooltip({ item }) {
                                 (item.subtype.split('_').map(word =>
                                     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
                                 ).join(' ')) :
-                                ''
+                                'Armor'
                             )}
                     </span>
                 </div>
@@ -1956,7 +1966,6 @@ function ItemTooltip({ item }) {
                             const slot = item.slots?.[0];
                             if (!slot) return 'Accessory';
 
-                            // Handle specific accessory slots
                             const slotMap = {
                                 'ring1': 'Ring',
                                 'ring2': 'Ring',
@@ -1972,7 +1981,13 @@ function ItemTooltip({ item }) {
                             ).join(' ');
                         })()}
                     </span>
-                    <span>Accessory</span>
+                    <span>
+                        {item.subtype ?
+                            item.subtype.split('_').map(word =>
+                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            ).join(' ') : 'Accessory'
+                        }
+                    </span>
                 </div>
             ) : item.type === 'consumable' ? (
                 <div className="item-type" style={{
@@ -1996,11 +2011,17 @@ function ItemTooltip({ item }) {
                     alignItems: 'center'
                 }}>
                     <span>
-                        {item.slots?.[0]?.split('_').map(word =>
+                        {item.slots?.[0] ? item.slots[0].split('_').map(word =>
                             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                        ).join(' ')}
+                        ).join(' ') : 'Clothing'}
                     </span>
-                    <span>Clothing</span>
+                    <span>
+                        {item.subtype ?
+                            item.subtype.split('_').map(word =>
+                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            ).join(' ') : 'Clothing'
+                        }
+                    </span>
                 </div>
             ) : item.type === 'currency' ? (
                 <div className="item-type" style={{

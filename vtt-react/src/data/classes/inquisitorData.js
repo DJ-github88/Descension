@@ -92,7 +92,7 @@ export const INQUISITOR_DATA = {
    tethered_mimir: {
      subraceName: 'Tethered Mimir',
      title: 'The Fog-Sentinel',
-     reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the <LoreLink termId="ironwood-palisade">Ironwood Palisade</LoreLink> against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Righteous Authority builds from patience, not pursuit.`,
+     reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the Ironwood Palisade against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Righteous Authority builds from patience, not pursuit.`,
      signatureAbility: {
        name: 'Fog-Reading',
        description: `Wyrd-incursions are detected through the fog's memory-shifts before they physically manifest; the Woven Inquisitor reads the mist like a seismograph, feeling the corruption as a wrongness in the fog's texture. Their Authority builds from the waiting itself  -  each silent hour on the Palisade is a vigil that deepens their power.`

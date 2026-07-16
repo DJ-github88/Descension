@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback, memo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback, memo, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
-import { Grid as VirtualGrid } from 'react-window';
 import useItemStore, { BASE_CATEGORY } from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import MythrillWindow from '../windows/MythrillWindow';
@@ -26,9 +25,22 @@ import { WEAPON_SUBTYPES } from './weaponTypes';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
 
+const LazyItemTooltip = lazy(() => import('./ItemTooltip'));
+
 const getQualityColor = (quality) => {
     const qualityLower = quality?.toLowerCase() || 'common';
     return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
+};
+
+const formatSubtype = (subtype) => {
+    if (!subtype) return '';
+    if (WEAPON_SUBTYPES[subtype]) {
+        return WEAPON_SUBTYPES[subtype].name;
+    }
+    return subtype
+        .replace(/_/g, ' ')
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase());
 };
 
 const CategoryTree = memo(({ categories, selectedCategory, onSelect, onAddSubcategory, onDelete, onDrop }) => {
@@ -203,32 +215,175 @@ const CategoryTree = memo(({ categories, selectedCategory, onSelect, onAddSubcat
     );
 });
 
-const ItemCell = memo(({ columnIndex, rowIndex, style, items, COLUMN_COUNT, selectedItem, isDraggingGlobal, onDragStartGlobal, onDragEndGlobal, onClick, onContextMenu, onDragOver, onDrop }) => {
-    const index = rowIndex * COLUMN_COUNT + columnIndex;
-    const item = items[index];
-    
-    if (!item) return <div style={style} />;
+const ListItemRow = memo(({ item, isSelected, isDraggingGlobal, onClick, onContextMenu, onDragOver, onDrop }) => {
+    const rowRef = useRef(null);
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+    const tooltipDelayRef = useRef(null);
+
+    const getQualityColor = (quality) => {
+        const qualityLower = quality?.toLowerCase() || 'common';
+        const colors = {
+            poor: '#8b7355',
+            common: '#5a4a3a',
+            uncommon: '#2d8a2d',
+            rare: '#b8722a',
+            epic: '#7a2d9e',
+            legendary: '#cc6600'
+        };
+        return colors[qualityLower] || colors.common;
+    };
+
+    const computeTooltipPosition = () => {
+        if (!rowRef.current) return;
+        const rect = rowRef.current.getBoundingClientRect();
+        const TOOLTIP_WIDTH = 290;
+        const GAP = 10;
+
+        let x = rect.right + GAP;
+        let y = rect.top;
+
+        if (x + TOOLTIP_WIDTH > window.innerWidth - 10) {
+            x = rect.left - TOOLTIP_WIDTH - GAP;
+        }
+        if (x < 10) x = 10;
+        if (y + 400 > window.innerHeight - 10) {
+            y = window.innerHeight - 410;
+        }
+        if (y < 10) y = 10;
+
+        setTooltipPos({ x, y });
+    };
+
+    const handleMouseEnter = () => {
+        if (!isDraggingGlobal) {
+            if (tooltipDelayRef.current) clearTimeout(tooltipDelayRef.current);
+            tooltipDelayRef.current = setTimeout(() => {
+                computeTooltipPosition();
+                setShowTooltip(true);
+            }, 300);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (!isDraggingGlobal) {
+            setShowTooltip(false);
+            if (tooltipDelayRef.current) {
+                clearTimeout(tooltipDelayRef.current);
+                tooltipDelayRef.current = null;
+            }
+        }
+    };
+
+    useEffect(() => {
+        return () => {
+            if (tooltipDelayRef.current) clearTimeout(tooltipDelayRef.current);
+        };
+    }, []);
 
     return (
-        <div style={{
-            ...style,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            paddingTop: '5px'
-        }}>
-            <ItemCard
-                item={item}
-                isSelected={selectedItem === item.id}
-                isDraggingGlobal={isDraggingGlobal}
-                onDragStartGlobal={onDragStartGlobal}
-                onDragEndGlobal={onDragEndGlobal}
-                onClick={onClick}
-                onContextMenu={onContextMenu}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-            />
-        </div>
+        <>
+            <div
+                ref={rowRef}
+                className={`item-list-row ${isSelected ? 'selected' : ''}`}
+                onClick={(e) => onClick?.(e, item)}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    onContextMenu?.(e, item);
+                }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                draggable="true"
+                onDragStart={(e) => {
+                    e.stopPropagation();
+                    document.body.classList.add('dragging');
+                    try {
+                        const dragData = {
+                            type: 'item',
+                            id: item.id,
+                            item: item
+                        };
+                        e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+                        window.isDraggingItem = true;
+                        window.draggedItemInfo = {
+                            item: item,
+                            width: item.width || 1,
+                            height: item.height || 1,
+                            rotation: item.rotation || 0
+                        };
+                        e.dataTransfer.effectAllowed = 'copy';
+                    } catch (error) {
+                        console.error('Error in drag start:', error);
+                    }
+                }}
+                onDragEnd={() => {
+                    document.body.classList.remove('dragging');
+                    window.isDraggingItem = false;
+                    if (window.draggedItemInfo) {
+                        window.draggedItemInfo = null;
+                    }
+                }}
+                onDragOver={item.type === 'container' ? (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'copy';
+                    if (onDragOver) onDragOver(e, item);
+                } : null}
+                onDrop={item.type === 'container' ? (e) => {
+                    e.preventDefault();
+                    if (onDrop) onDrop(e, item);
+                } : null}
+            >
+                <div className="item-list-icon">
+                    <img
+                        src={(item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) ? item.imageUrl : (item.iconId ? getIconUrl(item.iconId, 'items', true) : getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true))}
+                        alt={item.name}
+                        draggable={false}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true);
+                        }}
+                    />
+                </div>
+                <div className="item-list-info">
+                    <span className="item-list-name" style={{ color: getQualityColor(item.quality) }}>
+                        {item.name}
+                    </span>
+                    <span className="item-list-type">{item.type}{item.subtype ? ` - ${formatSubtype(item.subtype)}` : ''}</span>
+                </div>
+                {item.description && (
+                    <div className="item-list-desc">
+                        {item.description.length > 150 ? item.description.substring(0, 150) + '...' : item.description}
+                    </div>
+                )}
+                <div className="item-list-stats">
+                    {item.type === 'weapon' && item.weaponStats?.baseDamage && (
+                        <span className="item-list-stat">
+                            {item.weaponStats.baseDamage.diceCount}{item.weaponStats.baseDamage.diceType}
+                            {item.weaponStats.baseDamage.bonusDamage > 0 ? ` +${item.weaponStats.baseDamage.bonusDamage}` : ''}
+                        </span>
+                    )}
+                    {item.type === 'armor' && item.combatStats?.armor?.value > 0 && (
+                        <span className="item-list-stat">{item.combatStats.armor.value} AC</span>
+                    )}
+                </div>
+            </div>
+            {showTooltip && createPortal(
+                <div
+                    style={{
+                        position: 'fixed',
+                        left: tooltipPos.x,
+                        top: tooltipPos.y,
+                        pointerEvents: 'none',
+                        zIndex: 999999999
+                    }}
+                >
+                    <Suspense fallback={null}>
+                        <LazyItemTooltip item={item} />
+                    </Suspense>
+                </div>,
+                document.body
+            )}
+        </>
     );
 });
 
@@ -241,7 +396,8 @@ const SimpleItemGrid = memo(({
     onClick, 
     onContextMenu, 
     onDragOver, 
-    onDrop
+    onDrop,
+    viewMode = 'grid'
 }) => {
     if (items.length === 0) {
         return (
@@ -253,6 +409,38 @@ const SimpleItemGrid = memo(({
                 <div className="item-library-empty-subtext">
                     Try selecting a different category or create new items using Quick Create
                 </div>
+            </div>
+        );
+    }
+
+    const getQualityColor = (quality) => {
+        const qualityLower = quality?.toLowerCase() || 'common';
+        const colors = {
+            poor: '#8b7355',
+            common: '#5a4a3a',
+            uncommon: '#2d8a2d',
+            rare: '#b8722a',
+            epic: '#7a2d9e',
+            legendary: '#cc6600'
+        };
+        return colors[qualityLower] || colors.common;
+    };
+
+    if (viewMode === 'list') {
+        return (
+            <div className="item-list-view">
+                {items.map((item) => (
+                    <ListItemRow
+                        key={item.id}
+                        item={item}
+                        isSelected={selectedItem === item.id}
+                        isDraggingGlobal={isDraggingGlobal}
+                        onClick={onClick}
+                        onContextMenu={onContextMenu}
+                        onDragOver={onDragOver}
+                        onDrop={onDrop}
+                    />
+                ))}
             </div>
         );
     }
@@ -282,7 +470,8 @@ const SimpleItemGrid = memo(({
         prevProps.selectedItem === nextProps.selectedItem &&
         prevProps.isDraggingGlobal === nextProps.isDraggingGlobal &&
         prevProps.onClick === nextProps.onClick &&
-        prevProps.onContextMenu === nextProps.onContextMenu
+        prevProps.onContextMenu === nextProps.onContextMenu &&
+        prevProps.viewMode === nextProps.viewMode
     );
 });
 
@@ -292,102 +481,6 @@ const MemoizedItemCard = memo(ItemCard, (prevProps, nextProps) => {
     if (prevProps.isSelected !== nextProps.isSelected) return false;
     if (prevProps.isDraggingGlobal !== nextProps.isDraggingGlobal) return false;
     return true;
-});
-
-const VirtualizedItemGrid = memo(({ 
-    items, 
-    selectedItem, 
-    isDraggingGlobal, 
-    onDragStartGlobal, 
-    onDragEndGlobal, 
-    onClick, 
-    onContextMenu, 
-    onDragOver, 
-    onDrop
-}) => {
-  const gridRef = useRef(null);
-  const containerRef = useRef(null);
-  const [dimensions, setDimensions] = useState(null);
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        // Try to get actual dimensions immediately
-        const rect = container.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-            setDimensions({ width: Math.floor(rect.width), height: Math.floor(rect.height) });
-        }
-
-        const observer = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                // Use borderBoxSize for more accurate measurement of the container
-                const width = entry.borderBoxSize?.[0]?.inlineSize || entry.contentRect.width;
-                const height = entry.borderBoxSize?.[0]?.blockSize || entry.contentRect.height;
-                
-                if (width > 0 && height > 0) {
-                    setDimensions({ width: Math.floor(width), height: Math.floor(height) });
-                }
-            }
-        });
-        observer.observe(container);
-        return () => observer.disconnect();
-    }, []);
-
-    const COLUMN_WIDTH = 100;
-    const ROW_HEIGHT = 125;
-    const COLUMN_COUNT = dimensions ? Math.max(1, Math.floor(dimensions.width / COLUMN_WIDTH)) : 1;
-    const ROW_COUNT = dimensions ? Math.ceil(items.length / COLUMN_COUNT) : 1;
-
-    const cellProps = useMemo(() => ({
-        items,
-        COLUMN_COUNT,
-        selectedItem,
-        isDraggingGlobal,
-        onDragStartGlobal,
-        onDragEndGlobal,
-        onClick,
-        onContextMenu,
-        onDragOver,
-        onDrop
-    }), [items, COLUMN_COUNT, selectedItem, isDraggingGlobal, onDragStartGlobal, onDragEndGlobal, onClick, onContextMenu, onDragOver, onDrop]);
-
-    if (items.length === 0) {
-        return (
-            <div className="item-library-empty">
-                <div className="item-library-empty-icon">
-                    <i className="fas fa-box-open"></i>
-                </div>
-                <div className="item-library-empty-text">No items in this category</div>
-                <div className="item-library-empty-subtext">
-                    Try selecting a different category or create new items using Quick Create
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <div ref={containerRef} className="item-grid" style={{ position: 'relative' }}>
-            {dimensions && items.length > 0 && (
-                <VirtualGrid
-                    key={`${COLUMN_COUNT}-${items.length}`}
-                    gridRef={gridRef}
-                    columnCount={COLUMN_COUNT}
-                    columnWidth={COLUMN_WIDTH}
-                    rowCount={ROW_COUNT}
-                    rowHeight={ROW_HEIGHT}
-                    cellComponent={ItemCell}
-                    cellProps={cellProps}
-                    style={{ 
-                        width: dimensions.width,
-                        height: dimensions.height,
-                        overflowY: 'auto',
-                        overflowX: 'hidden'
-                    }}
-                />
-            )}
-        </div>
-    );
 });
 
 const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
@@ -424,6 +517,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
     const [unlockModalItem, setUnlockModalItem] = useState(null);
     const [shareDialog, setShareDialog] = useState(null);
     const [ownFilter, setOwnFilter] = useState(false);
+    const [viewMode, setViewMode] = useState('grid');
 
     const { user } = useAuthStore();
 
@@ -538,26 +632,30 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
             const formattedItem = {
                 ...itemToEdit,
                 weaponSlot: itemToEdit.type === 'weapon' ? (
-                    itemToEdit.slots?.includes('mainHand') && itemToEdit.slots?.includes('offHand')
-                        ? 'TWO_HANDED'
-                        : itemToEdit.slots?.includes('ranged')
-                            ? 'RANGED'
-                            : 'ONE_HANDED'
+                    // Handle legacy format (mainHand, offHand, ranged)
+                    itemToEdit.slots?.includes('mainHand') && itemToEdit.slots?.includes('offHand') ? 'TWO_HANDED' :
+                    itemToEdit.slots?.includes('ranged') ? 'RANGED' :
+                    itemToEdit.slots?.includes('mainHand') ? 'ONE_HANDED' :
+                    itemToEdit.slots?.includes('offHand') ? 'ONE_HANDED' :
+                    // Handle new format (ONE_HANDED, TWO_HANDED, RANGED)
+                    itemToEdit.slots?.includes('TWO_HANDED') ? 'TWO_HANDED' :
+                    itemToEdit.slots?.includes('RANGED') ? 'RANGED' :
+                    itemToEdit.slots?.includes('ONE_HANDED') ? 'ONE_HANDED' :
+                    itemToEdit.weaponSlot || 'ONE_HANDED'
                 ) : null,
                 hand: itemToEdit.type === 'weapon' ? (
-                    itemToEdit.slots?.includes('mainHand')
-                        ? 'MAIN_HAND'
-                        : itemToEdit.slots?.includes('offHand')
-                            ? 'OFF_HAND'
-                            : itemToEdit.slots?.includes('ranged')
-                                ? null
-                                : 'ONE_HAND'
+                    itemToEdit.weaponSlot === 'TWO_HANDED' || 
+                    (itemToEdit.slots?.includes('mainHand') && itemToEdit.slots?.includes('offHand')) ? 'BOTH' :
+                    itemToEdit.slots?.includes('mainHand') ? 'MAIN_HAND' :
+                    itemToEdit.slots?.includes('offHand') ? 'OFF_HAND' :
+                    itemToEdit.hand || 'ONE_HAND'
                 ) : null,
                 slots: itemToEdit.slots || [],
                 subtype: itemToEdit.type === 'weapon' ? (
+                    WEAPON_SUBTYPES[itemToEdit.subtype] ? itemToEdit.subtype :
                     Object.keys(WEAPON_SUBTYPES).find(key =>
                         WEAPON_SUBTYPES[key].name.toLowerCase() === (itemToEdit.subtype || '').toLowerCase()
-                    ) || Object.keys(WEAPON_SUBTYPES)[0]
+                    ) || itemToEdit.subtype || 'SWORD'
                 ) : itemToEdit.subtype,
                 weaponStats: itemToEdit.type === 'weapon' ? {
                     baseDamage: {
@@ -1142,9 +1240,24 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                                 className="compact-clear"
                                                 title="Clear filters"
                                             >
-                                                � - 
                                             </button>
                                         )}
+                                        <div className="view-mode-toggle">
+                                            <button
+                                                className={`view-mode-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                                                onClick={() => setViewMode('grid')}
+                                                title="Grid view"
+                                            >
+                                                <i className="fas fa-th"></i>
+                                            </button>
+                                            <button
+                                                className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
+                                                onClick={() => setViewMode('list')}
+                                                title="List view"
+                                            >
+                                                <i className="fas fa-list"></i>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div className="header-actions">
@@ -1175,7 +1288,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                     </div>
                                 </div>
                             </div>
-                            <VirtualizedItemGrid
+                            <SimpleItemGrid
                                 items={currentItems}
                                 selectedItem={selectedItem}
                                 isDraggingGlobal={isDraggingGlobal}
@@ -1185,6 +1298,7 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                                 onContextMenu={handleItemContextMenu}
                                 onDragOver={handleItemDragOver}
                                 onDrop={handleItemDrop}
+                                viewMode={viewMode}
                             />
                         </div>
                 ) : activeTab === 'designer' ? (

@@ -133,9 +133,9 @@ export const SHAPER_DATA = {
   livingOrder: {
     orderName: 'The Form-Convergence',
     founder: {
-      name: '<LoreLink termId="torin">Torin</LoreLink>',
-      status: `Deceased. Torin was a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War (Years 100-120, Dimming). With his limbs too short to brace the widening crack, he drank a cask of raw alchemical sulfur-clay  -  the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before  -  and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came. The Morgh elders recognized what he had done: he had turned the Deep Alchemists' violation into a choice. The Shaping Hall was established at Frostmaw Crag, and Torin became its first master.`,
-      note: `Torin did not invent body modification  -  the Deep Alchemists did, when they reshaped the Thrumm into Groven. What Torin did was reclaim it. He took the alchemist's tools and used them on his own terms, and that act of reclamation is the Shaper's founding principle.`
+      name: 'Veyra',
+      status: `Deceased. Veyra founded the Shaper tradition by fusing two older arts: the fluid dance-form of Sylvanus and the bone-sculpting discipline pioneered by Torin, a Morgh Groven miner. During the First Thermal War (Years 100-120, Dimming), Torin was trapped in a collapsing Deep Alchemist tunnel; with his limbs too short to brace the widening crack, he drank a cask of raw alchemical sulfur-clay  -  the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before  -  and commanded his skeleton to grow. His arms lengthened, his spine thickened, his bones calcified into load-bearing pillars, and he held the tunnel for six hours until rescue came. Veyra recognized in Torin's act a reclamation of the Deep Alchemists' violation, merged his sculpting discipline with Sylvanus's kinetic dance-form, and established the Shaping Hall at Frostmaw Crag as its first master.`,
+      note: `The Shaper's founding principle is reclamation: the Deep Alchemists reshaped the Thrumm into Groven by force; Veyra taught that the body could be reshaped by choice. Torin's tunnel-collapse survival is the founding act; Veyra's synthesis is the founding of the tradition.`
     },
     currentLeader: {
       name: '<LoreLink termId="veyra">Form-Matriarch Veyra the Merged</LoreLink>',

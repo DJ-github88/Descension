@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import useWindowManagerStore from '../../store/windowManagerStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
 import { getSafePortalTarget } from '../../utils/portalUtils';
+import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
 
 
 const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
@@ -13,16 +13,15 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
     const posRef = useRef(null);
 
     const windowId = useRef(`qig-${Date.now()}`).current;
-    const registerWindow = useWindowManagerStore(s => s.registerWindow);
-    const unregisterWindow = useWindowManagerStore(s => s.unregisterWindow);
 
     const [zIndex, setZIndex] = useState(2001);
 
+    // Register modal once with a stable onClose wrapper (avoids infinite loop
+    // when `onCancel` is an inline handler recreated every render).
+    const base = useStableWindowRegistration(windowId, 'modal', onCancel);
     useEffect(() => {
-        const base = registerWindow(windowId, 'modal', onCancel);
         setZIndex(base + 1);
-        return () => unregisterWindow(windowId);
-    }, [windowId, registerWindow, unregisterWindow, onCancel]);
+    }, [base]);
 
     const handleMouseDown = useCallback((e) => {
         if (e.target.closest('.qig-close')) return;

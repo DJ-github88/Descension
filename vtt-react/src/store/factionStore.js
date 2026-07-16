@@ -625,7 +625,7 @@ const SEEDED_FACTIONS = [
   publicDescription:
    'The Dawn Vigil is the most militant of the Solvarn restoration factions (a fighting order that believes the Sundered Monoliths can be reassembled to restart Sol. Their expeditionary companies) small bands of Solvarn Martyrs, Pyrofiends, and Augurs: operate across all seven regions, recovering Monolith fragments by any means necessary.',
   hiddenAgenda:
-   'The Vigil\'s inner council has calculated that reassembling the Monoliths will not restart Sol: it will summon Keth-Amar back to finish the meal. They continue the expeditions not for restoration, but to ensure no one else assembles them first.',
+       'The Vigil\'s inner council has calculated that reassembling the Monoliths will not restart Sol: it will summon Keth-Amar back to finish the meal. They continue the expeditions in full knowledge of this, for the inner council means to draw the Sun-Eater down deliberately and bind the predator as Aex once bound Sol — caging it with another sacrifice rather than letting the seal fail on its own terms.',
   leader: {
    npcId: 'dawn-vigil-commander',
    title: 'First Dawn',
@@ -732,10 +732,47 @@ const SEEDED_FACTIONS = [
   classAffinities: ['martyr', 'pyrofiend', 'spellguard'],
   lore: 'Sera Solvan carved her child\'s name into her flesh with volcanic obsidian. The wound glowed rather than healed. She became the first Martyr, and the Solvan bloodline has been stained by sacrifice ever since.',
   secrets: 'The Steward has found records suggesting the "lost heir" fled to the Sundrift Vale and intermarried with the Ordavan. If true, the Solvan bloodline survives in a house that does not know its own inheritance.',
-  quests: []
- },
+quests: []
+  },
 
- {
+  {
+  id: 'order-of-solbrand',
+  name: 'The Order of Solbrand',
+  type: 'military_order',
+  regionId: 'sundale',
+  icon: '/assets/icons/factions/solbrand.png',
+  colors: { primary: '#e8c440', secondary: '#1a0a00' },
+  publicGoal: 'Guard Emberspire, the Harath Vault, and the approaches to Sundale; hold the line against Wyrd incursions and Monolith-seekers alike',
+  publicDescription:
+   'The Order of Solbrand is the ancient military order of Sundale: sun-knights who have held the line at Emberspire since the first century of the Dimming. They are not theologians, not missionaries, not zealots — they are the wall between the vault of Aex and the Wyrd that presses against it. Their oath: "The star sleeps; we wake for it." They recruit from the ash-dwelling commoners of the badlands and the Solvan bloodlines, forging them into heavy infantry who fight in silence, their helms sealed against the ash-choked wind. Their sigil is a white sun on black basalt, the colors of the Binding seal.',
+  hiddenAgenda:
+   'The Order\'s inner circle knows the Dawn Vigil intends to reassemble the Monoliths — which will summon Keth-Amar, not Sol. The Solbrand intends to be the wall that stops the Sun-Eater when it comes, buying the world time at the cost of their own annihilation. They have quietly fortified the Ashen Escarpment into a kill-zone of overlapping fields of fire, trap-canyons, and pre-positioned Monolith-shards as Wyrd-bait.',
+  leader: {
+    npcId: 'grandmaster-solbrand',
+    title: 'Grandmaster of the Sun',
+    description: 'The Grandmaster of the Sun is elected by the Chapter of Ten for a seven-year term, or until death. The current Grandmaster, a Solvan noble who carved his own sun-sword from a fragment of Emberspire\'s caldera glass, has held the post for seventeen years — longer than any predecessor since the Dimming began.'
+  },
+  members: [
+    { npcId: 'grandmaster-solbrand', role: 'Grandmaster of the Sun', locationId: 'sun-keep' },
+    { npcId: 'solbrand-captain-ashen', role: 'Captain of the Ashen Escarpment', locationId: 'the-ashen-escarpment' },
+    { npcId: 'solbrand-captain-vault', role: 'Captain of the Vault Watch', locationId: 'harath-vault' },
+    { npcId: 'solbrand-captain-badlands', role: 'Captain of the Badlands Patrol', locationId: 'slag-gulch' }
+  ],
+  headquarters: 'sun-keep',
+  territory: ['sun-keep', 'the-ashen-escarpment', 'harath-vault', 'basalt-shyr', 'cinder-badlands', 'slag-gulch', 'vulkars-karst'],
+  relationships: [
+    { targetFactionId: 'house-solvan', type: 'allied', description: 'The Order guards the house\'s ancestral duty: the vault and the seal. The Steward funds the Order; the Order defends the house\'s claim to legitimacy.' },
+    { targetFactionId: 'dawn-vigil', type: 'tense_allied', description: 'The Vigil is the Order\'s most capable ally against the Wyrd — but the Order knows the Vigil\'s true purpose is to draw Keth-Amar down. They cooperate on Monolith-shard recovery but never share intelligence on the seal.' },
+    { targetFactionId: 'covenant-of-the-scar', type: 'allied', description: 'The Martyrs of the Scar are the Order\'s most reliable battlefield companions; their ability to absorb punishment complements the Order\'s hold-the-line doctrine.' },
+    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The Cult seeks to wake Keth-Amar; the Order exists to keep it asleep. Kill on sight.' }
+  ],
+  classAffinities: ['martyr', 'spellguard', 'warden'],
+  lore: 'The Order was founded in Year 47 of the Dimming by a Solvan captain who watched his entire company burn holding the Emberspire approaches while the first Monolith cracked. He swore the Order would never again let the seal be challenged without a shield in front of it. Eight centuries later, the Order still holds the Ashen Escarpment — the only stretch of the Sundale frontier where the Wyrd has never breached the first line.',
+  secrets: 'The Order has quietly acquired three Sundered Monolith fragments (from the Ashen Escarpment, the Harath Vault, and a failed Vigil expedition). They do not seek to reassemble the Monoliths; they study the fragments to understand Keth-Amar\'s resonance, preparing a targeted counter-ritual to shatter the predator\'s connection to the seal when it comes.',
+  quests: []
+  },
+
+  {
   id: 'house-mereval',
   name: 'House Mereval',
   type: 'noble_house',

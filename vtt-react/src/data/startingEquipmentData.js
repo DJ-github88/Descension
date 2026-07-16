@@ -1001,7 +1001,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
   },
 
   {
-    id: 'starter-oil-flask',
+    id: 'starter-lantern-oil',
     name: 'Lantern Bog-Oil',
     type: 'consumable',
     subtype: 'POTION',

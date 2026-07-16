@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import { getIconUrl } from '../../utils/assetManager';
+import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
 
 const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onClose, x, y }) => {
     const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -13,20 +13,14 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
     const [overlayZIndex, setOverlayZIndex] = useState(2000);
     const [modalZIndex, setModalZIndex] = useState(2001);
 
-    // Window manager store actions
-    const registerWindow = useWindowManagerStore(state => state.registerWindow);
-    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
-
-    // Register modal with window manager on mount
+    // Register modal with window manager exactly once (stable onClose wrapper).
+    // Depending on `onClose` here previously caused an infinite render loop
+    // because an inline handler would re-register/unregister every render.
+    const baseZIndex = useStableWindowRegistration(windowId, 'modal', onClose);
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal', onClose);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
-
-        return () => {
-            unregisterWindow(windowId);
-        };
-    }, [windowId, registerWindow, unregisterWindow, onClose]);
+    }, [baseZIndex]);
 
     // Position the modal near the cursor but ensure it stays on screen
     const modalStyle = {
@@ -57,7 +51,7 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
             <div className="categorize-modal" style={modalStyle} onClick={(e) => e.stopPropagation()}>
                 <div className="categorize-modal-header">
                     <h3>Select Category</h3>
-                    <button className="close-button" onClick={onClose}>Ã - </button>
+                    <button className="close-button" onClick={onClose}><i className="fas fa-times"></i></button>
                 </div>
 
                 <div className="categorize-modal-content">

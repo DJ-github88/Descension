@@ -50,6 +50,11 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
     const [selectedFigure, setSelectedFigure] = useState(raceData.notableFigures?.[0] || null);
     const [selectedLocation, setSelectedLocation] = useState(raceData.majorLocations?.[0] || null);
     const [contentVisible, setContentVisible] = useState(true);
+    const [hasImageError, setHasImageError] = useState(false);
+
+    useEffect(() => {
+        setHasImageError(false);
+    }, [raceData]);
     
     // Book Page Spreads Pagination States
     const [historySpread, setHistorySpread] = useState(0);
@@ -156,15 +161,15 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                     <h2 className="tome-page-title">{raceData.name}</h2>
                     
                     {/* Styled base illustration under-frame */}
-                    {raceData.illustration && (
+                    {raceData.illustration && !hasImageError && (
                         <div className="tome-illustration-container">
                             <div className="tome-illustration-frame">
                                 <img
                                     src={raceData.illustration}
                                     alt={raceData.name}
                                     className="tome-illustration-image"
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
+                                    onError={() => {
+                                        setHasImageError(true);
                                     }}
                                 />
                             </div>
@@ -172,7 +177,7 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                     )}
 
                     {/* Illustration caption completely outside the image frame container */}
-                    {raceData.illustration && raceData.illustrationCaption && (
+                    {raceData.illustration && !hasImageError && raceData.illustrationCaption && (
                         <div className="tome-illustration-caption">
                             {raceData.illustrationCaption}
                         </div>

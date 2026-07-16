@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import useWindowManagerStore from '../../store/windowManagerStore';
 import { getIconUrl } from '../../utils/assetManager';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
 
 function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingContainer, isEditing: isEditingProp }) {
     const resolvedOnCancel = onCancel || onClose;
@@ -13,15 +13,13 @@ function ContainerWizard({ onComplete, onCancel, onClose, initialData, editingCo
     const [securityExpanded, setSecurityExpanded] = useState(false);
     const [activeTab, setActiveTab] = useState('type');
 
-    const registerWindow = useWindowManagerStore(state => state.registerWindow);
-    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
-
+    // Register modal once with a stable onClose wrapper. Depending on
+    // `resolvedOnCancel` here previously caused an infinite render loop.
+    const baseZIndex = useStableWindowRegistration(windowId, 'modal', resolvedOnCancel);
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal', resolvedOnCancel);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
-        return () => unregisterWindow(windowId);
-    }, [windowId, registerWindow, unregisterWindow, resolvedOnCancel]);
+    }, [baseZIndex]);
 
     const containerIcons = [
         { id: 'inv_box_01', name: 'Wooden Chest', defaultName: 'Wooden Storage Chest', defaultDesc: 'A sturdy wooden chest with iron fittings.', defaultRows: 4, defaultCols: 6 },

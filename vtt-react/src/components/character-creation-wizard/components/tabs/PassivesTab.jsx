@@ -43,15 +43,20 @@ const getPassiveSummary = (benefit = {}) => {
         return `${stat} ${mag}`;
     };
 
+    const getEffectLabel = (effect = {}) => {
+        if (effect.statModifier) return formatStatMod(effect.statModifier);
+        if (effect.mechanicsText) return effect.mechanicsText.replace(/\.$/, '');
+        if (effect.statusEffect?.description) return effect.statusEffect.description.replace(/\.$/, '');
+        return effect.name || effect.statusEffect?.type || 'Status effect';
+    };
+
     const statMods = [];
     const otherEffects = [];
 
     if (benefit.buffConfig?.effects) {
         benefit.buffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            if (effect.statModifier || effect.statusEffect) {
+                statMods.push(getEffectLabel(effect));
             }
         });
     }
@@ -64,10 +69,8 @@ const getPassiveSummary = (benefit = {}) => {
 
     if (benefit.debuffConfig?.effects) {
         benefit.debuffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            if (effect.statModifier || effect.statusEffect) {
+                otherEffects.push(getEffectLabel(effect));
             }
         });
     }

@@ -880,6 +880,13 @@ const getPassiveSummary = (trait = {}) => {
     return `${stat} ${mag}`;
   };
 
+  const getEffectLabel = (effect = {}) => {
+    if (effect.statModifier) return formatStatMod(effect.statModifier);
+    if (effect.mechanicsText) return effect.mechanicsText.replace(/\.$/, '');
+    if (effect.statusEffect?.description) return effect.statusEffect.description.replace(/\.$/, '');
+    return effect.name || effect.statusEffect?.type || 'Status effect';
+  };
+
   // Group benefits and drawbacks separately for clarity
   const benefits = [];
   const drawbacks = [];
@@ -887,10 +894,8 @@ const getPassiveSummary = (trait = {}) => {
   // Process buff effects
   if (trait.buffConfig?.effects) {
     trait.buffConfig.effects.forEach(effect => {
-      if (effect.statModifier) {
-        benefits.push(formatStatMod(effect.statModifier));
-      } else if (effect.statusEffect) {
-        benefits.push(effect.name || effect.statusEffect.type || 'Status effect');
+      if (effect.statModifier || effect.statusEffect) {
+        benefits.push(getEffectLabel(effect));
       }
     });
   }
@@ -898,10 +903,8 @@ const getPassiveSummary = (trait = {}) => {
   // Process debuff effects
   if (trait.debuffConfig?.effects) {
     trait.debuffConfig.effects.forEach(effect => {
-      if (effect.statModifier) {
-        drawbacks.push(formatStatMod(effect.statModifier));
-      } else if (effect.statusEffect) {
-        drawbacks.push(effect.name || effect.statusEffect.type || 'Status effect');
+      if (effect.statModifier || effect.statusEffect) {
+        drawbacks.push(getEffectLabel(effect));
       }
     });
   }
@@ -965,8 +968,15 @@ const RaceSelector = () => {
   const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(true);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [customIllustration, setCustomIllustration] = useState(null);
+  const [subraceImageIndex, setSubraceImageIndex] = useState(0);
   const [traitTooltip, setTraitTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
+  const [imageErrors, setImageErrors] = useState({});
   const raceGridRef = useRef(null);
+
+  // Reset subrace image index when the selection changes
+  useEffect(() => {
+    setSubraceImageIndex(0);
+  }, [selectedVariant, selectedRace]);
 
   // Load race list on component mount
   useEffect(() => {
@@ -1040,6 +1050,41 @@ const RaceSelector = () => {
     selectedVariant && raceData ? raceData.subraces[selectedVariant] : null,
     [selectedVariant, raceData]
   );
+
+  // Memoize subrace images list to support multiple illustrations
+  const subraceImages = useMemo(() => {
+    if (!variantData) return [];
+    if (variantData.illustrations && Array.isArray(variantData.illustrations)) {
+      return variantData.illustrations;
+    }
+    const images = [];
+    if (variantData.illustration) {
+      images.push({
+        src: variantData.illustration,
+        caption: variantData.illustrationCaption || variantData.name
+      });
+    }
+    if (variantData.illustration2) {
+      images.push({
+        src: variantData.illustration2,
+        caption: variantData.illustration2Caption || variantData.name
+      });
+    }
+    if (variantData.cultureIllustration) {
+      images.push({
+        src: variantData.cultureIllustration,
+        caption: variantData.cultureIllustrationCaption || variantData.name
+      });
+    }
+    if (variantData.domesticIllustration) {
+      images.push({
+        src: variantData.domesticIllustration,
+        caption: variantData.domesticIllustrationCaption || variantData.name
+      });
+    }
+    return images;
+  }, [variantData]);
+
 
   // Helper to gather all unique illustrations for cycling
   const gatherIllustrations = useCallback(() => {
@@ -1232,7 +1277,7 @@ const RaceSelector = () => {
 
               {/* Race Overview Container with floated illustration */}
               <div className="race-overview-container">
-                {(variantData?.illustration || customIllustration?.src || raceData.illustration) && (
+                {(variantData?.illustration || customIllustration?.src || raceData.illustration) && !imageErrors[variantData?.illustration || customIllustration?.src || raceData.illustration] && (
                   <div className="race-overview-illustration-wrapper">
                     <div 
                       className={`guide-illustration-frame ${gatherIllustrations().length > 1 ? 'interactive-illustration' : ''}`}
@@ -1243,6 +1288,10 @@ const RaceSelector = () => {
                         src={variantData?.illustration || customIllustration?.src || raceData.illustration}
                         alt={variantData?.illustrationCaption || customIllustration?.caption || raceData.illustrationCaption || raceData.name}
                         className="guide-illustration-image"
+                        onError={(e) => {
+                          const src = variantData?.illustration || customIllustration?.src || raceData.illustration;
+                          setImageErrors(prev => ({ ...prev, [src]: true }));
+                        }}
                       />
                       {gatherIllustrations().length > 1 && (
                         <div className="illustration-cycle-badge">
@@ -1392,20 +1441,73 @@ const RaceSelector = () => {
 
             {/* LEFT SIDEBAR: Illustration + Stats (sticky) */}
             <aside className="details-sidebar">
-              {(variantData.illustration || raceData.illustration) && (
+              {(subraceImages.length > 0 || raceData.illustration) && !imageErrors[subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.src : raceData.illustration] && (
                 <div className="sidebar-illustration">
-                  <div className="guide-illustration-frame">
+                  <div 
+                    className={`guide-illustration-frame ${subraceImages.length > 1 ? 'interactive-illustration' : ''}`}
+                    onClick={subraceImages.length > 1 ? () => {
+                      setSubraceImageIndex(prev => (prev + 1) % subraceImages.length);
+                    } : undefined}
+                    title={subraceImages.length > 1 ? 'Click to cycle illustrations' : ''}
+                  >
+                    {subraceImages.length > 1 && (
+                      <>
+                        <button 
+                          className="illustration-nav-btn prev"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSubraceImageIndex(prev => (prev - 1 + subraceImages.length) % subraceImages.length);
+                          }}
+                          aria-label="Previous image"
+                        >
+                          <i className="fas fa-chevron-left"></i>
+                        </button>
+                        <button 
+                          className="illustration-nav-btn next"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSubraceImageIndex(prev => (prev + 1) % subraceImages.length);
+                          }}
+                          aria-label="Next image"
+                        >
+                          <i className="fas fa-chevron-right"></i>
+                        </button>
+                      </>
+                    )}
                     <img
-                      src={variantData.illustration || raceData.illustration}
-                      alt={variantData.illustrationCaption || raceData.illustrationCaption || variantData.name || raceData.name}
+                      src={subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.src : raceData.illustration}
+                      alt={subraceImages.length > 0 ? (subraceImages[subraceImageIndex]?.caption || variantData.name) : (raceData.illustrationCaption || raceData.name)}
                       className="guide-illustration-image"
+                      onError={(e) => {
+                        const src = subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.src : raceData.illustration;
+                        setImageErrors(prev => ({ ...prev, [src]: true }));
+                      }}
                     />
-                    {(variantData.illustrationCaption || raceData.illustrationCaption) && (
+                    {subraceImages.length > 1 && (
+                      <div className="illustration-cycle-badge">
+                        <i className="fas fa-sync-alt"></i> Image {subraceImageIndex + 1}/{subraceImages.length}
+                      </div>
+                    )}
+                    {((subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.caption : raceData.illustrationCaption)) && (
                       <div className="guide-illustration-caption">
-                        {variantData.illustrationCaption || raceData.illustrationCaption}
+                        {subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.caption : raceData.illustrationCaption}
                       </div>
                     )}
                   </div>
+                  {subraceImages.length > 1 && (
+                    <div className="illustration-dots">
+                      {subraceImages.map((_, idx) => (
+                        <span 
+                          key={idx} 
+                          className={`illustration-dot ${idx === subraceImageIndex ? 'active' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSubraceImageIndex(idx);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 

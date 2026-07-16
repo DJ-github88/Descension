@@ -50,7 +50,7 @@ export const MARTYR_DATA = {
   korr_emberth: {
    subraceName: 'Korr Emberth',
    title: 'The Vault-Silent',
-   reframe: `The <LoreLink termId="emberth">Korr Emberth</LoreLink> tend the <LoreLink termId="solbrand">Solbrand</LoreLink> in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Korr Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
+   reframe: `The <LoreLink termId="emberth">Korr Emberth</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Korr Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
    signatureAbility: {
     name: 'Vigil-Absorption',
     description: `Devotion-generation is amplified by absolute physical stillness, a Korr Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`

@@ -776,13 +776,50 @@
       "keeper_of_the_last_threshold"
     ]
   },
+  "sols_breath": {
+    "id": "sols_breath",
+    "term": "Sol's Breath",
+    "type": "resource",
+    "region": "sundale",
+    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Korr Emberth in sacred silence.",
+    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Korr Emberth, the vault-dwelling caste of the Emberth race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Emberth smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
+    "relatedTerms": [
+      "damon",
+      "dawn_vigil",
+      "emberspire",
+      "emberth",
+      "harath_vault",
+      "house_solvan",
+      "sols_anvil_mesa",
+      "spellguard",
+      "sundale",
+      "the_deepening"
+    ]
+  },
   "solbrand": {
     "id": "solbrand",
     "term": "Solbrand",
+    "type": "faction",
+    "region": "sundale",
+    "summary": "The Order of Solbrand — a human Solvan military order of sun-knights, sworn to defend Sundale and the vault of Sol as the sworn sword of House Solvan.",
+    "fullEntry": "The Order of Solbrand is a human Solvan military order of sun-knights, distinct from Sol (the bound star), the Embers of Sol (the parent faith: Dawn Vigil / Risen / Scoured), and Aex (Sol's firstborn). Where the Dawn Vigil worships, the Order of Solbrand rides: heavy cavalry on ash-stallions, their plate lacquered in solar gold, their oaths older than the Vigil itself. They are the last surviving Solvan knightly tradition, proud, austere, and increasingly at odds with a theocracy that claims authority over everything Sol touches.\n\nFounded shortly after the Breach when House Solvan's surviving heirs needed a martial arm that could operate where the Dawn Vigil's theocracy could not openly go, the Order took its name from the ancient Solvan word for \"sun's shield.\" Their sigil is a rising sun pierced by an obsidian blade — the knife that flayed Aex, the knife that broke. Their plate is lacquered in sun-gold over blackened steel; their steeds are ash-stallions bred in Emberspire's caldera. They do not worship Sol; they guard what remains of Sol's legacy.\n\nThe Order maintains chapters at the Great Forge (Sundale), the Sun-Keep (Sundale), and the Ashen Escarpment. Their Grandmaster is elected by the Chapter of Ten for a seven-year term, or until death. Current Grandmaster: Vael Ardent-Sun, a Solvan noble who carved his own sun-sword from a fragment of Emberspire's caldera glass.",
+    "relatedTerms": [
+      "house_solvan",
+      "sundale",
+      "dawn_vigil",
+      "emberspire",
+      "sol",
+      "aex",
+      "sols_breath"
+    ]
+  },
+  "sols_breath": {
+    "id": "sols_breath",
+    "term": "Sol's Breath",
     "type": "resource",
     "region": "sundale",
-    "summary": "The sacred, searing thermal current that radiates from Sol's buried vault beneath Emberspire, tended by the Korr Emberth in sacred silence.",
-    "fullEntry": "The Solbrand is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Korr Emberth, the vault-dwelling caste of the Emberth race, have tended the Solbrand in sacred, wordless silence since the day Sol was bound. They believe the Solbrand is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, the Solbrand heats the deep-cavern settlements, powers the forge-caldera used by the Emberth smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
+    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Korr Emberth in sacred silence.",
+    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Korr Emberth, the vault-dwelling caste of the Emberth race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Emberth smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
     "relatedTerms": [
       "damon",
       "dawn_vigil",

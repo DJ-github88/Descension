@@ -885,17 +885,17 @@
    ========================================================================== */
 
 .library-section-card {
-    width: 280px;
-    height: 180px;
-    border-radius: 10px;
+    width: 230px;
+    height: 138px;
+    border-radius: 9px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 7px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    padding: 24px;
+    padding: 16px;
     position: relative;
     overflow: hidden;
     color: #e8dcc8;
@@ -938,9 +938,9 @@
 
 .library-section-card .section-label {
     font-family: 'Cinzel', 'Bookman Old Style', serif;
-    font-size: 21px;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
     position: relative;
@@ -954,7 +954,7 @@
 
 .library-section-card .section-subtitle {
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 12px;
+    font-size: 11px;
     color: #8b7d6b;
     font-style: italic;
     transition: all 0.3s ease;

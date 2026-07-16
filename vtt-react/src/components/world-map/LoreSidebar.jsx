@@ -38,12 +38,12 @@ const categorize = (type) => {
 
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
-// ╔══════════════════════════════════════════════════════════════════════� - 
+// ╔══════════════════════════════════════════════════════════════════════� - 
 // ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.  ║
 // ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when     ║
 // ║  you're done looking. Example entries are tagged `__example: true`.   ║
 // ╚══════════════════════════════════════════════════════════════════════╝
-const EXAMPLES_ENABLED = true;
+const EXAMPLES_ENABLED = false;
 const EXAMPLE_LOCATIONS = [
   { id: '__ex_blackiron',   name: 'Example: Blackiron City',     type: 'city',       description: 'A smog-laden smelting capital built around a dying volcanic vent. Bells ring shift-changes every six hours.' },
   { id: '__ex_mossford',    name: 'Example: Mossford Village',    type: 'settlement', description: 'A moss-roofed farming village on a slow river. Famous for its honey-fermented ale.' },

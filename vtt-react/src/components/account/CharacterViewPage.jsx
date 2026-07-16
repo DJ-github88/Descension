@@ -312,7 +312,7 @@ const CharacterViewPage = () => {
                   {openVialPopup === 'exhaustion' && 'Adjust Exhaustion'}
                   {openVialPopup === 'level' && 'Adjust Level'}
                 </span>
-                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)}>� - </button>
+                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)}><i className="fas fa-times"></i></button>
               </div>
               <div className="vial-popup-buttons">
                 {openVialPopup === 'health' && (

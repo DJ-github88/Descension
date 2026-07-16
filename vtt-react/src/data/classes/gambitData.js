@@ -208,7 +208,7 @@ The Gambit's power was born from two founding events. In the floating alleys of 
 Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Neth pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Drall Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="solvarn">Solvarn</LoreLink> who bet on Sol's return.
+The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Drall Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solvarn</LoreLink> who bet on Sol's return.
 
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.

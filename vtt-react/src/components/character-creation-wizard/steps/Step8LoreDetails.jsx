@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { LORE_PLACEHOLDERS } from '../../../constants/loreConstants';
+import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../../constants/loreConstants';
 
 const LORE_GROUPS = [
     {
@@ -14,7 +14,7 @@ const LORE_GROUPS = [
         label: 'Origin',
         icon: 'fas fa-book-open',
         fields: [
-            { key: 'backstory', label: 'Origin Story', icon: 'fas fa-feather-alt', placeholder: LORE_PLACEHOLDERS.backstory, rows: 6 }
+            { key: 'backstory', label: 'Origin Story', hint: LORE_FIELD_HINTS.backstory, icon: 'fas fa-feather-alt', placeholder: LORE_PLACEHOLDERS.backstory, rows: 6 }
         ]
     },
     {
@@ -23,10 +23,10 @@ const LORE_GROUPS = [
         icon: 'fas fa-brain',
         twoCol: true,
         fields: [
-            { key: 'personalityTraits', label: 'Demeanor & Nature', icon: 'fas fa-smile', placeholder: LORE_PLACEHOLDERS.personalityTraits, rows: 3 },
-            { key: 'ideals', label: 'Convictions', icon: 'fas fa-star', placeholder: LORE_PLACEHOLDERS.ideals, rows: 3 },
-            { key: 'bonds', label: 'Oaths & Tethers', icon: 'fas fa-heart', placeholder: LORE_PLACEHOLDERS.bonds, rows: 3 },
-            { key: 'flaws', label: 'Fractures & Weakness', icon: 'fas fa-exclamation-triangle', placeholder: LORE_PLACEHOLDERS.flaws, rows: 3 }
+            { key: 'personalityTraits', label: 'Demeanor & Nature', hint: LORE_FIELD_HINTS.personalityTraits, icon: 'fas fa-smile', placeholder: LORE_PLACEHOLDERS.personalityTraits, rows: 3 },
+            { key: 'ideals', label: 'Convictions', hint: LORE_FIELD_HINTS.ideals, icon: 'fas fa-star', placeholder: LORE_PLACEHOLDERS.ideals, rows: 3 },
+            { key: 'bonds', label: 'Oaths & Tethers', hint: LORE_FIELD_HINTS.bonds, icon: 'fas fa-heart', placeholder: LORE_PLACEHOLDERS.bonds, rows: 3 },
+            { key: 'flaws', label: 'Fractures & Weakness', hint: LORE_FIELD_HINTS.flaws, icon: 'fas fa-exclamation-triangle', placeholder: LORE_PLACEHOLDERS.flaws, rows: 3 }
         ]
     },
     {
@@ -35,8 +35,8 @@ const LORE_GROUPS = [
         icon: 'fas fa-bullseye',
         twoCol: true,
         fields: [
-            { key: 'goals', label: 'Purpose & Ambition', icon: 'fas fa-bullseye', placeholder: LORE_PLACEHOLDERS.goals, rows: 3 },
-            { key: 'fears', label: 'Dreads', icon: 'fas fa-ghost', placeholder: LORE_PLACEHOLDERS.fears, rows: 3 }
+            { key: 'goals', label: 'Purpose & Ambition', hint: LORE_FIELD_HINTS.goals, icon: 'fas fa-bullseye', placeholder: LORE_PLACEHOLDERS.goals, rows: 3 },
+            { key: 'fears', label: 'Dreads', hint: LORE_FIELD_HINTS.fears, icon: 'fas fa-ghost', placeholder: LORE_PLACEHOLDERS.fears, rows: 3 }
         ]
     },
     {
@@ -44,7 +44,7 @@ const LORE_GROUPS = [
         label: 'Bearing & Aspect',
         icon: 'fas fa-user-circle',
         fields: [
-            { key: 'appearance', label: 'Bearing & Aspect', icon: 'fas fa-user-circle', placeholder: LORE_PLACEHOLDERS.appearance, rows: 4 }
+            { key: 'appearance', label: 'Bearing & Aspect', hint: LORE_FIELD_HINTS.appearance, icon: 'fas fa-user-circle', placeholder: LORE_PLACEHOLDERS.appearance, rows: 4 }
         ]
     },
     {
@@ -53,10 +53,10 @@ const LORE_GROUPS = [
         icon: 'fas fa-users',
         twoCol: true,
         fields: [
-            { key: 'allies', label: 'Allies & Kin', icon: 'fas fa-users', placeholder: LORE_PLACEHOLDERS.allies, rows: 3 },
-            { key: 'enemies', label: 'Adversaries & Blood-Debts', icon: 'fas fa-skull-crossbones', placeholder: LORE_PLACEHOLDERS.enemies, rows: 3 },
-            { key: 'organizations', label: 'Factions & Guilds', icon: 'fas fa-flag', placeholder: LORE_PLACEHOLDERS.organizations, rows: 3 },
-            { key: 'notes', label: 'Marginalia', icon: 'fas fa-sticky-note', placeholder: LORE_PLACEHOLDERS.notes, rows: 3 }
+            { key: 'allies', label: 'Allies & Kin', hint: LORE_FIELD_HINTS.allies, icon: 'fas fa-users', placeholder: LORE_PLACEHOLDERS.allies, rows: 3 },
+            { key: 'enemies', label: 'Adversaries & Blood-Debts', hint: LORE_FIELD_HINTS.enemies, icon: 'fas fa-skull-crossbones', placeholder: LORE_PLACEHOLDERS.enemies, rows: 3 },
+            { key: 'organizations', label: 'Factions & Guilds', hint: LORE_FIELD_HINTS.organizations, icon: 'fas fa-flag', placeholder: LORE_PLACEHOLDERS.organizations, rows: 3 },
+            { key: 'notes', label: 'Marginalia', hint: LORE_FIELD_HINTS.notes, icon: 'fas fa-sticky-note', placeholder: LORE_PLACEHOLDERS.notes, rows: 3 }
         ]
     }
 ];
@@ -120,6 +120,7 @@ const Step8LoreDetails = () => {
                                             <i className={field.icon}></i>
                                             {field.label}
                                         </label>
+                                        {field.hint && <span className="lore-field-hint">{field.hint}</span>}
                                         <textarea
                                             className="lore-field-input"
                                             placeholder={field.placeholder}

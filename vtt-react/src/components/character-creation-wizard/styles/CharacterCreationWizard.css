@@ -217,7 +217,7 @@
     background: linear-gradient(135deg, #d4c4a8 0%, #c4b499 50%, #b4a485 100%) !important;
 }
 
-.header-left {
+.character-wizard-container .header-left {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -280,7 +280,7 @@
     text-overflow: ellipsis;
 }
 
-.header-center {
+.character-wizard-container .header-center {
     flex: 1 1 auto;
     display: flex;
     justify-content: center;
@@ -416,7 +416,7 @@
     background: #8b4513;
 }
 
-.header-right {
+.character-wizard-container .header-right {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
@@ -6246,7 +6246,7 @@ button.gender-option.selected {
 
 /* For screens smaller than 1600px - start reducing sizes */
 @media (max-width: 1600px) {
-    .header-center {
+    .character-wizard-container .header-center {
         padding: 0 0.75rem;
     }
 
@@ -6281,7 +6281,7 @@ button.gender-option.selected {
 
 /* For screens smaller than 1400px - further reduce */
 @media (max-width: 1400px) {
-    .header-center {
+    .character-wizard-container .header-center {
         padding: 0 0.5rem;
     }
 
@@ -6385,14 +6385,14 @@ button.gender-option.selected {
         display: none !important;
     }
 
-    .header-left {
+    .character-wizard-container .header-left {
         flex: 0 0 auto !important;
         width: auto !important;
         min-width: 44px !important;
         justify-content: flex-start !important;
     }
 
-    .header-center {
+    .character-wizard-container .header-center {
         flex: 1 1 auto !important;
         width: auto !important;
         min-width: 0 !important;
@@ -6416,7 +6416,7 @@ button.gender-option.selected {
         transform: none !important;
     }
 
-    .header-right {
+    .character-wizard-container .header-right {
         flex: 0 0 auto !important;
         width: auto !important;
         justify-content: flex-end !important;
@@ -6431,21 +6431,21 @@ button.gender-option.selected {
         padding: 0 !important;
     }
 
-    .header-center::-webkit-scrollbar {
+    .character-wizard-container .header-center::-webkit-scrollbar {
         height: 6px;
     }
 
-    .header-center::-webkit-scrollbar-track {
+    .character-wizard-container .header-center::-webkit-scrollbar-track {
         background: rgba(212, 175, 55, 0.2);
         border-radius: 3px;
     }
 
-    .header-center::-webkit-scrollbar-thumb {
+    .character-wizard-container .header-center::-webkit-scrollbar-thumb {
         background: #d4af37;
         border-radius: 3px;
     }
 
-    .header-center::-webkit-scrollbar-thumb:hover {
+    .character-wizard-container .header-center::-webkit-scrollbar-thumb:hover {
         background: #b8941f;
     }
 
@@ -11284,6 +11284,16 @@ button.gender-option.selected {
 .lore-field-label i {
     color: #d4af37;
     font-size: 0.85rem;
+}
+
+.lore-field-hint {
+    display: block;
+    font-family: 'Garamond', serif;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #b08d57;
+    margin: -0.35rem 0 0.5rem 0;
+    letter-spacing: 0.3px;
 }
 
 .lore-field-input {

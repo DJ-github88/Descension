@@ -129,7 +129,7 @@ Each class's subrace variants include a `currentCrisisAngle` tying the class to 
 
 ## 5. MERGED CLASS DOCUMENTATION
 
-The class index (`classes/index.js`) documents 6 merged concepts:
+The class index (`classes/index.js`) documents 8 merged concepts:
 
 | Original | Merged Into | Phase |
 |---|---|---|

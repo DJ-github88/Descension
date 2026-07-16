@@ -22,7 +22,8 @@ Keth-Amar does not personally create most Wyrd-Spawns. It seeds the soil (Wyrd-T
 
 Six principal entities (with the Dead Moon treated separately). Clear roles. No overlap.
 
-### 1.1  -  The Warden
+### 1.1  -  The Warden (true name: Aethil)
+- **True name: Aethil** (pronounced AY-thil). "The Warden" is the common title/descriptor. Ratified 16 Jul 2026 (see DECISIONS D1). This entity is distinct from the **Warden class** (the chain-surgeon tradition founded by Alaric).
 - Not a god, not a person, not a force. The **language reality speaks**. The grammar of consequence.
 - Every bargain has a price. The Warden does not *choose* the price  -  the price simply *is*. Naming Aex wasn't a decision; that's the exchange rate for caging a star.
 - The Warden has no will, no agenda, no preference. It is the rule that a cost exists.
@@ -65,6 +66,7 @@ Six principal entities (with the Dead Moon treated separately). Clear roles. No 
 - It hid the false Monolith once, folding it into a pocket of forgotten memory at the moment of the Breach. Now it cannot find it either. The erasure worked too well. The false Monolith is *lost inside the Watcher's own territory*  -  a splinter it cannot extract without unmaking itself.
 - It cannot fight Keth-Amar directly. It cannot protect the living from what happens. It can only *weigh*  -  and what it weighs, it remembers. The Wyrd is psychological terror because the Watcher is the world's *memory*  -  and Keth-Amar poisons memories to feed.
 - Its attention is strained. Keth-Amar's presence presses on the boundary. The Watcher is fracturing under the pressure  -  and if it fractures, death and memory disappear as categories.
+- **Entity boundaries (ratified 16 Jul 2026 — see DECISIONS D3):** The Watcher / Morvane / Keeper of the Last Threshold is **ONE entity**. The **Root-Veil is NOT this entity** — it is the Vreken sacred mycelial ancestor-network (a substrate, not a being). **Solbrand** is the Solvan knightly order (not Sol, not the faith, not a deity). The **Dead Moon** is a distinct dormant star, unconnected to Keth-Amar's origin. None of these are each other, and none is Sol.
 
 ### 1.6  -  Scathrach the Ashen Sovereign
 - A **fragment of Aex's flayed hide** that fell into Emberspire's deepest vent *during the Binding itself* (not the Breach).
@@ -162,7 +164,7 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | Ordavan | Sundrift Vale | Fertile soil | Endless grass | Dark sky, constellations flee |
 | **Viridane** | Frostwood | Refused agreement | Watcher's protection | Erased from history |
 
-**Note on "Eight Houses":** The official record names 7 houses. Viridane was the original 7th. After the Breach, the 6 remaining houses elevated House Morrath as a substitute 7th, making 7 official signatures. The Briaran call themselves the "8th house" because they count Viridane as the 7th and themselves as the 8th  -  the living proof that one house refused. From the objective standpoint: there were 7 original houses including Viridane, and after the Breach there are 7 "official" houses including Morrath. The "8th house" is a folk truth, not a factual contradiction.
+**Note on "Eight Houses" (ratified 16 Jul 2026 — DECISIONS D5; HARD CANON = 7):** The official record names 7 houses. Viridane was the original 7th. After the Breach, the 6 remaining houses elevated House Morrath as a substitute 7th, making 7 official signatures. The Briaran call themselves the "8th house" because they count Viridane as the 7th and themselves as the 8th  -  the living proof that one house refused. From the objective standpoint: there were 7 original houses including Viridane, and after the Breach there are 7 "official" houses including Morrath. The "8th house" is a **folk self-title / partisan belief only, never narrator fact.** Any objective statement that "eight houses signed the Binding" is an error to correct to 7.
 
 ---
 
@@ -211,8 +213,11 @@ The Dawn Vigil broke from them 300 years later, when the 12th pulse (then still 
 
 **The Scoured**  -  Heretics who cut their own forge-marks (the ritual scars of Emberth identity). They hunt Monolith Shards to **seal the Breach permanently**  -  not to restart Sol, but to kill it gently. "Sol is gone. It has been gone since Binding year 3. What bleeds through the vents is a ghost. Seal the door. Let the star die in peace rather than be eaten." They are scattered, hunted by both Vigil and Risen. They carry the truth even the Vigil won't admit: **Aex's sacrifice was for nothing if Sol is still trapped.** Let go. The Scoured are tragic, desperate, and some of them have already made their own bargains with Scathrach.
 
+### The Cult of Forgotten Shadow (canonical origin — ratified 16 Jul 2026, DECISIONS D4)
+Founded at **Over-Shanty** (Bryngloom) by **Vreken exiles, coven-mages, and heretical animists** who reject the Neth–Vreken Reincarnation Bargain, later joined by **Dawn Vigil defectors** who learned that Monolith reassembly summons Keth-Amar rather than Sol. Their doctrine: the deep silence creeping through the burial mounds is the natural return to a primordial, starless dark. They **channel Keth-Amar's whispers** through the cracked seal and prepare for the convergence when the binding fails entirely. (Base/leadership = Vreken-exile & heretic; recent infusion = Vigil defectors; relationship to Keth-Amar = willing channel, not a separate Voice. The Warcraft-derived name "Natalie Seline" is non-canonical and removed.)
+
 ### Relationship to the Cult of Forgotten Shadow
-The Vigil is **self-corrupted**  -  Keth-Amar's Wyrd seeping into existing zealotry, not a separate infiltration. The Cult of Forgotten Shadow, if it exists in this setting, is a Vigil splinter that went too far  -  openly worshipping Keth-Amar as inevitable rather than as an enemy to be bound.
+The Vigil is **self-corrupted**  -  Keth-Amar's Wyrd seeping into existing zealotry, not a separate infiltration. The Cult of Forgotten Shadow is the Over-Shanty shadow-state described above; the Vigil defectors who joined it are the bridge between the two.
 
 ---
 

@@ -272,6 +272,9 @@ const CLASS_DATA_LOADERS = {
 
 };
 
+const publicUrl = process.env.PUBLIC_URL || '';
+
+
 
 
 
@@ -2712,13 +2715,11 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
           <div className="rules-divider">
-
-
-
-            <span className="rules-divider-icon">✥</span>
-
-
-
+            <img 
+              src={`${publicUrl}/assets/images/watercolor_sword_divider.png`} 
+              alt="Section Divider" 
+              className="rules-divider-img" 
+            />
           </div>
 
 
@@ -2808,13 +2809,11 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
         <div className="rules-divider">
-
-
-
-          <span className="rules-divider-icon">✥</span>
-
-
-
+          <img 
+            src={`${publicUrl}/assets/images/watercolor_sword_divider.png`} 
+            alt="Section Divider" 
+            className="rules-divider-img" 
+          />
         </div>
 
 
@@ -4959,8 +4958,11 @@ const RulesPage = () => {
 
 
         <div className="rules-content-area class-detail-view">
-
-
+          <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner top-left" />
+          <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner top-right" />
+          <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner bottom-left" />
+          <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner bottom-right" />
+          <img src={`${publicUrl}/assets/images/watercolor_bottom_trim.png`} alt="" className="rules-bottom-trim" />
 
           {isLoadingClassData ? (
 
@@ -5059,8 +5061,11 @@ const RulesPage = () => {
 
 
       <div className={`rules-content-area ${isUsingCustomComponent ? 'custom-component-view' : ''}`}>
-
-
+        <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner top-left" />
+        <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner top-right" />
+        <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner bottom-left" />
+        <img src={`${publicUrl}/assets/images/watercolor_page_corner.png`} alt="" className="rules-page-corner bottom-right" />
+        <img src={`${publicUrl}/assets/images/watercolor_bottom_trim.png`} alt="" className="rules-bottom-trim" />
 
         <RulesHeroBanner
 

@@ -12,6 +12,7 @@ import { TRANSITION_TIMINGS } from '../multiplayer/UnifiedTransitionOverlay';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import { ALL_BACKGROUND_ASSETS, getBackgroundUrl } from '../../data/backgroundAssets';
+import './styles/MapLibraryWindow.css';
 
 const MapLibraryWindow = ({ isOpen, onClose, contentOnly = false }) => {
     const [selectedMapId, setSelectedMapId] = useState(null);

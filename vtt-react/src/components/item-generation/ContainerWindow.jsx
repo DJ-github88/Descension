@@ -5,6 +5,7 @@ import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useSettingsStore from '../../store/settingsStore';
+import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import UnlockContainerModal from './UnlockContainerModal';
 import ItemTooltip from './ItemTooltip';
@@ -51,19 +52,14 @@ const ContainerWindow = ({ container, onClose }) => {
     const [forceRender, setForceRender] = useState(0);
 
     // Window manager store actions
-    const registerWindow = useWindowManagerStore(state => state.registerWindow);
     const bringToFront = useWindowManagerStore(state => state.bringToFront);
-    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
 
-    // Register window with window manager on mount
+    // Register window once with a stable onClose wrapper. Depending on `onClose`
+    // here previously caused an infinite render loop.
+    const initialZIndex = useStableWindowRegistration(windowId, 'window', onClose);
     useEffect(() => {
-        const initialZIndex = registerWindow(windowId, 'window', onClose);
         setZIndex(initialZIndex);
-
-        return () => {
-            unregisterWindow(windowId);
-        };
-    }, [windowId, registerWindow, unregisterWindow, onClose]);
+    }, [initialZIndex]);
 
     // Debug: Log window scale changes
     useEffect(() => {

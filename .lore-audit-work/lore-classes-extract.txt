@@ -1,0 +1,552 @@
+=== arcanoneer ===
+{
+  "nativeWeaving": "**Ecological.** The Bryngloom's peat-bogs preserve everything, including clauses, so a magic that operates as filed law could only arise here. **Cultural.** The Velun archive-city and the Neth's biological inability to lie are the substrate of contract-syntax spellcasting. **Founder.** Valerius, a Neth archivist, drafted the First Contract with Morvane, a direct product of the Bryngloom's reincarnation-contract-law Stratum. **Subrace-native.** Only the Velun Neth carry the contract-locked neurology that can submit a clause without breaching.",
+  "id": "arcanoneer",
+  "term": "Arcanoneer",
+  "type": "class",
+  "region": "bryngloom-forest",
+  "summary": "A contract-mage who crystallizes their silver Neth blood into volatile shards, anchoring spells in legal precision rather than instinct.",
+  "fullEntry": "Valerius drafted the First Contract in the early centuries of the Dimming, and the Arcanoneer tradition was born the moment he realized the Bryngloom's ambient magic obeyed the same syntax as Neth contract law. Offer, consideration, consequence. An Arcanoneer files an incantation like a legal document and watches their own silver blood crystallize into volatile Mnemonic Shards that anchor the spell with extraordinary precision. The cost is rigidity. An Arcanoneer cannot improvise. Every spell must be prepared, structured, and filed before it can be cast. Within that prepared repertoire they are absolutely devastating. Outside it, they're nearly helpless.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "neth",
+    "valerius"
+  ]
+}
+
+=== augur ===
+{
+  "nativeWeaving": "**Ecological.** Nordhalla's glacier-preserved dead keep the ancestral evidence legible for centuries, entrail-reading works nowhere else. **Cultural.** The saga-culture's glacier-entombment ancestor-veneration is the literal practice the art refines. **Founder.** Cassia, a Skald star-watcher, read the Deepening in a sacrificed elk at the Frozen Archive, a product of the pre-Deepening clockwork-genealogy culture. **Subrace-native.** Rune Keeper Skald and Astril; cultures without burial-preservation (Ordan, Merryn) cannot maintain the connection.",
+  "id": "augur",
+  "term": "Augur",
+  "type": "class",
+  "region": "nordhalla",
+  "summary": "A death-touched seer who reads the future in the entrails of the present, trading years of their own lifespan for visions.",
+  "fullEntry": "At the Binding, Cassia read the Deepening's hour in the entrails of a glacier-elk at the Frozen Archive, and the Augur tradition grew from that reading in the glacier-tombs of Nordhalla, where the dead stand upright in the ice as permanent witnesses. The first Augurs found that standing close to the preserved dead brought a resonance: flashes of the deceased's final visions, caught at the edge of death. They learned to court it deliberately, burning their own life-years to pull usable foresight from what the dead had seen last. An Augur sees probabilities, not certainties. They'll tell you which path has fewer corpses, not which path has none.",
+  "relatedTerms": [
+    "frozen_archive",
+    "house_skalvyr",
+    "nordhalla"
+  ]
+}
+
+=== berserker ===
+{
+  "nativeWeaving": "**Ecological.** Blood-Heat is the body's last-ditch survival protocol weaponized against two extremities, Nordhalla's starvation-cold and Sundale's forge-heat. **Cultural.** The Hunger Pact (consuming the dead) is the deepest scar of the Skald saga-culture; the Thrask reframe is forge-cult. **Founder.** Grum ignited in Sundale's caldera, but the Bloodhammer line marched from Nordhalla's Glacier Bargain starvation. **Subrace-native.** Skald (Hunger-Pact ancestry), Thrask (geothermal resonance), Morgh Groven (Vat-Overclock), each subrace's biology is a different Heat source.",
+  "id": "berserker",
+  "term": "Berserker",
+  "type": "class",
+  "region": "nordhalla",
+  "secondaryRegions": [
+    "sundale"
+  ],
+  "summary": "A warrior of dual heritage, Skald ancestry from Nordhalla and the volcanic founding of Grum Bloodhammer in Sundale, who ignites their Blood-Heat to overdrive their physiology, trading control for catastrophic, self-burning strength.",
+  "fullEntry": "The Berserker carries two regions in their blood and one terrible inheritance. The Hunger Pact was forged in Nordhalla during the worst winter of the Glacier Bargain, when the ancestors of the Bloodhammer line consumed their own fallen so the bloodline could persist, and that act entered their marrow. The Blood-Heat itself was born in Sundale, when the Bloodhammer clans migrated south under Torra Bloodhammer into the volcanic tunnels of Emberspire and the smith Grum surrendered to the forge's heat to shatter an ice-wyrm bare-handed. Nordhalla gave the Berserker its ancestry. Sundale gave it its fire.\n\nBerserkers don't resist pain. They use it as fuel. The Blood-Heat tracks their thermal pressure as it builds from wounds and exertion: at low heat, fast and strong; at high heat, apocalyptic but self-damaging; at Metabolic Burnout, they collapse in systemic shock. The tradition trains in the Harath-Vault arenas of Sundale and pilgrimages to the Forge of Grum beneath Emberspire, while the Skald elders of the Frozen Archive still claim the right to decide who may carry the Pact.",
+  "relatedTerms": [
+    "blood_heat",
+    "grum",
+    "harath_vault",
+    "nordhalla",
+    "sundale"
+  ]
+}
+
+=== shaper ===
+{
+  "nativeWeaving": "**Ecological.** Form-shifting requires biology that can reshape, Mimir crystalline skin and Groven calcifiable bone, evolved in the Frostwood mists and Cragjaw vats. **Cultural.** Sylvanus's kinetic momentum dance (Frostwood fae-grove movement) fused with Torin's biological adaptation (Cragjaw alchemical body-work). **Founder.** Veyra the Mimir chronicler merged both, a product of the Frostwood grove-culture and Cragjaw Vat-Breakers Strata. **Subrace-native.** Woven Mimir and Morgh Groven only; Humans, Emberth, Neth, and Myrathil biologically cannot hold a shape.",
+  "id": "shaper",
+  "term": "Shaper",
+  "type": "class",
+  "region": "frostwood-reach",
+  "secondaryRegions": [
+    "cragjaw-peaks"
+  ],
+  "summary": "A master of kinetic biology of dual origin, the Frostwood Reach momentum dance (Sylvanus) fused with the Frostmaw Holdfast biological body-sculpting (Torin) by the Mimir chronicler Veyra, who treats their body as a malleable weapon.",
+  "fullEntry": "The Shaper tradition was born when the Mimir chronicler Veyra proved two regional arts were one dance seen from two angles. In the Frostwood Reach, the kinetic momentum dance was born among the ironwood canopy: a hyper-accelerated combat art of wind-synced striking. In the Cragjaw Peaks, the biological body-sculpting art arose at Frostmaw Holdfast, where practitioners drank raw alchemical sulfur-clay to calcify and reshape their own skeletons. Veyra fused them centuries into the Dimming, proving that momentum shapes form and form directs momentum. A Shaper navigates six Shaping Forms that blend kinetic stances with physical adaptation, building Kinetic Flux through combat and accumulating Body Toll from every transformation. The tradition is taught at the Shaping Hall in Frostmaw Holdfast and in the deep ironwood groves of the Frostwood Reach. The price is absolute: every shift erodes identity, calcifies skin, and frays the nervous system. The dance is killing them. They can't stop.",
+  "relatedTerms": [
+    "bladedancer",
+    "cragjaw-peaks",
+    "formbender",
+    "frostmaw_holdfast",
+    "frostwood-reach",
+    "groven",
+    "mimir",
+    "veyra",
+    "sylvanus",
+    "torin"
+  ]
+}
+
+=== bladedancer ===
+{
+  "id": "bladedancer",
+  "term": "Bladedancer",
+  "type": "concept",
+  "region": "frostwood-reach",
+  "summary": "A dead Frostwood tradition whose kinetic momentum dance survives only inside the Shaper class.",
+  "fullEntry": "For centuries, the Bladedancers of the Frostwood Reach drilled a hyper-accelerated momentum dance on mossed-over ironwood platforms beneath the canopy. They synchronized their strikes with wind-swept branches, weaving kinetic form into blade-work so fast the fog could not keep up. The tradition was old. The fog that ate memories could not eat motion.\n\nThen the Formbenders of Frostmaw Holdfast proved their biological body-sculpting was the same art seen from another angle: momentum shaping form, form directing momentum. The two were merged into the Shaper class. The last Bladedancer master walked into the Shaping Hall at Frostmaw and never came back.\n\nNow the only place to learn the momentum dance is inside a Shaper's training. Former Bladedancers who refused the merger drill their old forms alone, or in mercenary bands, or in Mimir canopy-defense. They are respected, dying out, and unable to match a converging Shaper in a fight.\n\nPick up a Shaper's blade and you carry two traditions in one hand. The Old Dance-Floor is still mossed over in the deep Frostwood, and purist Shapers still pilgrimage there to drill the single-tradition forms that started everything.",
+  "transition": {
+    "aftermath": "The last formal Bladedancer dojo in the <LoreLink termId=\"frostwood-reach\">Frostwood Reach</LoreLink> closed sixty years ago; its master walked into the Shaping Hall at <LoreLink termId=\"frostmaw_holdfast\">Frostmaw</LoreLink> and never returned. Former Bladedancers who refused the merge were absorbed into Mimir canopy-defense or faded into mercenary work.",
+    "legacySite": "The Old Dance-Floor, a mossed-over ironwood platform in the deep Frostwood where the kinetic forms were once drilled, is now a pilgrimage site for purist Shapers who practice single-tradition momentum work.",
+    "survivorNote": "A handful of elderly \"pure-dancers\" still refuse biological adaptation, arguing the merged art dilutes the momentum discipline. They are respected, dying out, and cannot match a converging Shaper in combat."
+  },
+  "relatedTerms": [
+    "frostwood-reach",
+    "shaper"
+  ]
+}
+
+=== harbinger ===
+{
+  "nativeWeaving": "**Ecological.** Entropy-reading arises in cultures that have waited for extinction long enough to weaponize it, Nordhalla's glacier-stasis and the Sundrift's darkened sky. **Cultural.** Skald doom-saga crossed with Ordan steppe-nihilism. **Founder.** Xyris tore reality in the Sundrift and Malakor calculated the doom-arithmetic in Nordhalla, products of the Glacier Bargain and the Ordavan migration-bargain. **Subrace-native.** Vashir Astril, Solvarn, Rune Keeper Skald, Ord, the cultures proximate to entropy.",
+  "id": "harbinger",
+  "term": "Harbinger",
+  "type": "class",
+  "region": "nordhalla",
+  "secondaryRegions": [
+    "sundrift-vale"
+  ],
+  "summary": "An entropy prophet of dual origin, Xyris's reality-tearing in the Sundrift Vale and Malakor's doom-arithmetic in Nordhalla, who channels entropic friction and prophetic certainty into living bomb prophecies.",
+  "fullEntry": "The Harbinger was forged in two regions that share one conviction: the world is ending, and the ending can be wielded. In the Sundrift Vale, the nomad Xyris spliced temporal friction into her veins and tore a hole in reality, and the hole killed her. In Nordhalla, the archivist Malakor did the colder work, calculating the arithmetic of doom, working out exactly when Xyris's holes would consume everything. The Harbinger tradition is their merger: the chaos-weaver's surrender to the Wyrd joined to the doomsayer's certainty.\n\nA Harbinger doesn't simply predict doom. They orchestrate it, channeling entropic friction through prophetic visions into living bomb prophecies that detonate across the battlefield. Their Mayhem pressure gauge amplifies every spell as it rises, a self-reinforcing cycle of chaos that can only be released through catastrophic Wild Surges. The arithmetic is honed in the Frozen Archive of Nordhalla. The chaos-work is field-tested in the permanent Chaos Pockets stabilizing across the Sundrift Vale.",
+  "relatedTerms": [
+    "frozen_archive",
+    "house_skalvyr",
+    "nordhalla",
+    "sundrift-vale",
+    "xyris",
+    "malakor"
+  ]
+}
+
+=== chronarch ===
+{
+  "nativeWeaving": "**Ecological.** Time-stitching requires the volcanic-glass, gear-craft, and bone-knowledge found only in Cragjaw's vertical engineering tunnels. **Cultural.** Groven knot-record-keeping crossed with Fexric time-suspension folklore. **Founder.** Nesta, a Kethrin engineer, built the engine at Frostmaw during the War of Thousand Screams, a product of the Vat-Breakers' deep-alchemical legacy. **Subrace-native.** Kethrin Fexric and Ithran Groven only; outsiders have never learned the technique.",
+  "id": "chronarch",
+  "term": "Chronarch",
+  "type": "class",
+  "region": "cragjaw-peaks",
+  "summary": "A time-manipulator who unravels small loops of causality to reverse, delay, or accelerate moments, at the cost of temporal echoes.",
+  "fullEntry": "During the War of Thousand Screams, a Kethrin engineer named Nesta built a time-dilation engine at Frostmaw, and the Chronarch tradition came out of that engine. It is the most demanding craft in the known world: a Chronarch must hold in mind not just what is, but what was and what could be, all at once. The eternal blizzard of the Cragjaw Peaks created pockets of temporal suspension, and Nesta's engine learned to pull at them. A Chronarch doesn't travel through time. They stitch it, pulling a thread of the past forward or pushing a thread of the present back by seconds or minutes. Each stitch leaves a temporal echo, a ghost-impression of the unraveled moment that lingers and sometimes acts on its own.",
+  "relatedTerms": [
+    "cragjaw-peaks",
+    "house_tesshan"
+  ]
+}
+
+=== inquisitor ===
+{
+  "nativeWeaving": "**Ecological.** Anti-Wyrd hunting requires dense supernatural exposure, the Bryngloom's Root-Veil and the Frostwood's face-trading Wyrd. **Cultural.** Vreken bog-sainthood meets Briaran fae-resistance. **Founder.** Orven forged the cold-iron blade in the Bryngloom and Elias opened his veins to bait face-stealers in the Frostwood, products of both regions' Deep Strata. **Subrace-native.** Marked Vreken, Thalren, Unwoven Mimir, the peoples with direct Wyrd-exposure density.",
+  "id": "inquisitor",
+  "term": "Inquisitor",
+  "type": "class",
+  "region": "bryngloom-forest",
+  "secondaryRegions": [
+    "frostwood-reach"
+  ],
+  "summary": "A witch-hunter of dual root, Orven's cold-iron Vreken tradition in the Bryngloom and Elias the Salt-Scarred's anti-Wyrd Thalren tradition in the Frostwood Reach, who severs magical bindings and commands bound fiends.",
+  "fullEntry": "The Inquisitor has two roots in two regions, both born from the same necessity: policing the supernatural when it turns predatory. In the Bryngloom Forest, Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken whose ancestral spirit-bonds had gone rogue, and Drun Neth whose silence-sealed contracts defied conventional magic. In the Frostwood Reach, Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors, the Gref and the Gambrel, into living flesh where they could be named and cut. The two traditions merged when the supernatural incursion rate tripled and neither regional order could contain it alone.\n\nAn Inquisitor specializes in identifying, disrupting, and severing magical contracts. They aren't magic-resistant by nature; they are magic-literate in the way a surgeon is anatomy-literate. The tradition also encompasses the binding and commanding of fiends through sacred dominance ritual. The Bryngloom order is seated at the Sunken Spire. The Frostwood order operates out of Greymark Keep. The two stay in contact through a chain of border-shrines.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "covenbane",
+    "elias",
+    "exorcist",
+    "frostwood-reach",
+    "greymark_keep",
+    "neth",
+    "sunken_spire",
+    "vreken",
+    "orven"
+  ]
+}
+
+=== revenant ===
+{
+  "nativeWeaving": "**Ecological.** Undeath-as-obligation requires the bog-preservation and mycelial Root-Veil that keep the Bryngloom dead \"available\" rather than gone. **Cultural.** Vreken-Neth reincarnation-contract law; the Postmortem Corvée treats death as a renegotiated clause. **Founder.** Kora's blood-covenant and Vesper's frost-stasis phylactery, both products of the First Contract Stratum. **Subrace-native.** Clean Vreken, Drun Neth, Morren, the peoples whose cultures accept undeath as continuation of obligation.",
+  "id": "revenant",
+  "term": "Revenant",
+  "type": "class",
+  "region": "bryngloom-forest",
+  "summary": "A death caster who has returned from the grave, combining blood-magic sacrifice (Kora's covenant) with frost-stasis harvest (Vesper's phylactery) into a unified economy of death.",
+  "fullEntry": "In the later centuries of the Dimming, the bog-graves of the Bryngloom began waking on their own, and two death-magic schools recognized they'd been fighting the same war. Kora the Veil-Speaker had sacrificed her own life-force to keep the ancestral lights burning, and the curse for it was hearing the dead scream. Vesper the Scribe had bound his soul to a basalt phylactery and negotiated perpetual dying to escape the lung-rot of the sumps. Their traditions merged into the Revenant: a caster who carries both a volatile Death Toll of blood-derived necrotic energy and a kill-charged Phylactery for frost-stasis resurrection, toggling between Rest Mode and Death Shroud to burn their own HP for devastating power.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "deathcaller",
+    "kora",
+    "lichborne",
+    "neth",
+    "vesper",
+    "vreken"
+  ]
+}
+
+=== deathcaller ===
+{
+  "id": "deathcaller",
+  "term": "Deathcaller",
+  "type": "concept",
+  "region": "bryngloom-forest",
+  "summary": "A dead Bryngloom blood-magic art that fed the caster's life-force to luminous ancestors. Lives on only inside the Revenant class.",
+  "fullEntry": "In the deep peat-bogs of the Bryngloom Forest, Kora the Veil-Speaker taught her covenant to feed their own blood to the ancestral lights. The dead rewarded them with luminous counsel and volatile Blood Tokens that could be spent on necrotic workings. It cost them their health. Kora could hear the dead screaming. By the end, she could hear little else.\n\nWhen Vesper the Scribe fused his basalt phylactery to the same bargain, the two traditions recognized they were fighting the same war. They merged into the Revenant class. The last pure Deathcaller covenant dissolved when its senior member could no longer hear the ancestors over the merged chorus.\n\nFormer Deathcallers who refused the merger were absorbed into Vreken ancestral-rite roles, or driven into the Over-Shanty as unlicensed blood-workers. The Veil-Speaker Shrine in the deep peat still marks where Kora first fed the lights, and Revenants of the blood-covenant inclination still make offerings there before major workings.\n\nIf you walk the Revenant's path, you carry Kora's blood-debt and Vesper's frost-chain both. A few blood-purists still run a hotter Death Toll and refuse the Death Shroud, burning out faster but hitting harder. The choice is yours.",
+  "transition": {
+    "aftermath": "Kora's blood-covenant practitioners who refused the merge were gradually absorbed into Vreken ancestral-rite roles or driven into the Over-Shanty as unlicensed blood-workers. The last pure Deathcaller covenant dissolved when its senior member could no longer hear the ancestors over the merged chorus.",
+    "legacySite": "The Veil-Speaker Shrine in the deep peat-bogs marks where <LoreLink termId=\"kora\">Kora</LoreLink> first fed the ancestral lights; Revenants of the blood-covenant inclination still make offerings here before major workings.",
+    "survivorNote": "A few \"blood-purists\" maintain that the phylactery frost-mode dilutes the blood-covenant volatility; they run hotter Death Toll and refuse the Death Shroud, burning out faster but hitting harder."
+  },
+  "relatedTerms": [
+    "bryngloom-forest",
+    "neth",
+    "revenant",
+    "vreken"
+  ]
+}
+
+=== dreadnaught ===
+{
+  "id": "dreadnaught",
+  "term": "Dreadnaught",
+  "type": "concept",
+  "region": "cragjaw-peaks",
+  "summary": "A dead Cragjaw tradition of steam-powered iron juggernauts. The Groven furnace-armor guilds still stamp the old sigil on every plate of Ironclad Martyr-issue.",
+  "fullEntry": "In the vertical warrens of the Cragjaw Peaks, Groven troll-kin welded heating pipes to their own bodies and sealed themselves in iron plate to fight the Skreika. They became steam-powered juggernauts: slow, furnace-hot, and impossible to move from a corridor once they anchored. The Dreadnaughts held the deep tunnels when nothing else could.\n\nThe tradition did not die. It re-licensed. The old Dreadnaught foundries at Frostmaw now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors. What was once a Groven defense-rite is now a specialization of the Martyr class, the furnace-bound path where penitents combine willing sacrifice with combustion-engine mechanics.\n\nA few elder pure-furnace Groven insist the Martyr theology corrupts the engineering. They run their boilers cold, without the Devotion Gauge, and there are fewer of them every winter. The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil, a pipe-crossed fist, onto every plate of Ironclad-issue as a maker-mark. It is the only public acknowledgment that the original tradition ever existed.\n\nWalk the Ironclad path and you wear a hundred years of Groven engineering on your back. The boiler still answers the old commands. The furnace still hungers.",
+  "transition": {
+    "aftermath": "The <LoreLink termId=\"groven\">Groven</LoreLink> furnace-armor guilds did not dissolve, they re-licensed. The old Dreadnaught foundries at <LoreLink termId=\"frostmaw_holdfast\">Frostmaw</LoreLink> now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors.",
+    "legacySite": "The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil (a pipe-crossed fist) onto Ironclad plate as a maker-mark, the only surviving public acknowledgment of the original tradition.",
+    "survivorNote": "Elder \"pure-furnace\" Groven insist the Martyr theology corrupts the engineering; they maintain the original combustion-mechanics without the Devotion Gauge, running their boilers cold. They are fewer each winter."
+  },
+  "relatedTerms": [
+    "cragjaw-peaks",
+    "groven",
+    "martyr"
+  ]
+}
+
+=== exorcist ===
+{
+  "id": "exorcist",
+  "term": "Exorcist",
+  "type": "concept",
+  "region": "bryngloom-forest",
+  "summary": "A dead Bryngloom purification art. Its cleansing rites survive only as the defensive half of the Inquisitor's curriculum.",
+  "fullEntry": "The density of Neth contract-magic and Vreken spirit-bonds in the Bryngloom made the Exorcist tradition necessary. Practitioners codified cleansing rites to dispel the supernatural disruptions that bled out of corrupted contracts and rogue ancestral bonds. Their fonts ran with clean water. Their chants could unmake a haunting.\n\nWhen the supernatural incursion rate tripled, the Exorcists merged with the Covenbane witch-hunters into the Inquisitor class. The purification rites were not lost. They became the defensive half of the Inquisitor curriculum. The Cleansing Chapels of the mid-Bryngloom, where the Exorcist canon was first written, still serve as Inquisitor chapterhouses, and their old fonts are still in daily use.\n\nExorcists who could not swear the Inquisitor's Barbed Vow retreated into temple-priest roles or went itinerant. The Hedge-Cleansers walk village to village, performing attenuated rites for settlements too small to attract a full Inquisitor. The order tolerates them as rural first-responders and quietly resents them as unlicensed practitioners.\n\nTake up the Inquisitor's cold-iron blade and you inherit the Exorcist's font as well as the Covenbane's cage. The water still remembers how to be clean.",
+  "transition": {
+    "aftermath": "The Exorcist purification rites were not lost, they became the defensive half of the Inquisitor curriculum. Former Exorcists who could not swear the Barbed Vow retreated into temple-priest roles or became Hedge-Cleansers, itinerant ritual-workers for villages too small to attract a full Inquisitor.",
+    "legacySite": "The Cleansing Chapels of the mid-Bryngloom, where Exorcist rites were codified, now serve as Inquisitor chapterhouses; the old purification fonts are still in daily use.",
+    "survivorNote": "Hedge-Cleansers preserve the pure Exorcist art in attenuated form; they are tolerated by the Inquisitors as rural first-responders and quietly resented as unlicensed practitioners."
+  },
+  "relatedTerms": [
+    "bryngloom-forest",
+    "covenbane",
+    "inquisitor"
+  ]
+}
+
+=== covenbane ===
+{
+  "id": "covenbane",
+  "term": "Covenbane",
+  "type": "concept",
+  "region": "bryngloom-forest",
+  "summary": "A dead Bryngloom witch-hunting order. Its cold-iron blade and Barbed Vow are the martial spine of the modern Inquisitor.",
+  "fullEntry": "Rogue Neth contracts, corrupted Vreken ancestral bonds, and unbound fiends kept the Covenbane order in business for generations. They formed to identify, hunt, and neutralize the supernatural threats that the Bryngloom's dense magical substrate kept producing. The Covenbane forged the first cold-iron blade and swore the Barbed Vow, the hunter's promise that no contracted horror would walk free while a Covenbane still drew breath.\n\nWhen the incursion rate overwhelmed either regional order alone, the Covenbane merged with the Exorcist purification art into the Inquisitor class. The merger was total. The Covenbane's martial structure became the Inquisitor chain-of-command. The Covenbane Stronghold in the eastern Bryngloom now serves as the regional Inquisitor seat, and its hanging-cages, once for bound witches awaiting trial, are preserved as grim heritage.\n\nA Covenbane purist is a contradiction in terms. The order defined itself by its willingness to adopt any new anti-supernatural technique that worked, and the Inquisitor is the working continuation of that willingness.\n\nSwear the Barbed Vow and you carry every cold-iron blade the Covenbane ever forged. The cages still hang. The blade still cuts.",
+  "transition": {
+    "aftermath": "The Covenbane order was the more martial of the two roots, and its membership transitioned most cleanly into the Inquisitor, the cold-iron blade and the Barbed Vow are Covenbane inheritances. The order's formal structure became the Inquisitor chain-of-command.",
+    "legacySite": "The Covenbane Stronghold in the eastern <LoreLink termId=\"bryngloom-forest\">Bryngloom</LoreLink> is now the regional Inquisitor seat; its hanging-cages (once for bound witches awaiting trial) are preserved as grim heritage.",
+    "survivorNote": "None meaningful, the Covenbane did not survive as a distinct identity. The merger was total; a \"Covenbane purist\" is a contradiction, since the order defined itself by its willingness to adopt new anti-supernatural techniques."
+  },
+  "relatedTerms": [
+    "bryngloom-forest",
+    "exorcist",
+    "inquisitor"
+  ]
+}
+
+=== false_prophet ===
+{
+  "nativeWeaving": "**Ecological.** Manufactured meaning arises on a steppe where the sky went dark and the herds must move forever, desperation cosmology. **Cultural.** Ordan steppe-shamanism weaponized into nihilist gospel; the silent ancestral mounds. **Founder.** Li Wei, an Ordan herd-watcher, followed a meteor into a Sundered Monolith crater, a product of the Ordavan migration-bargain and the Silence Between Stars. **Subrace-native.** Ordan, Astril, Morren, the desperate and the heritageless.",
+  "id": "false_prophet",
+  "term": "False Prophet",
+  "type": "class",
+  "region": "sundrift-vale",
+  "summary": "A manipulator who weaponizes faith, creating and exploiting constructed belief systems to accumulate political power and sacred-adjacent ability.",
+  "fullEntry": "Li Wei followed a meteor into a Sundered Monolith crater in the most recent centuries and witnessed what he called the Silence Between Stars. The False Prophet tradition came out of that witness, but the False Prophet does not believe their own gospel. They understand that belief itself is a resource: a people who believe something with sufficient intensity generate a spiritual resonance that can be harvested. The tradition took root in the Sundrift Vale, where the starless sky and the nomadic migrations created a desperate demand for meaning. A False Prophet engineers that meaning with the cold precision of an architect. They aren't necessarily malicious. Some build their constructed faiths to protect people, knowing the lie is more useful than the truth. The power comes from the congregation, not the prophet.",
+  "relatedTerms": [
+    "astril",
+    "sundrift-vale",
+    "synod_hold"
+  ]
+}
+
+=== gambit ===
+{
+  "nativeWeaving": "**Ecological.** Risk-calculation arises in maritime-debt and vertical-toll economies where every survival is a wager. **Cultural.** Merryn sea-omen gambling, Groven knot-probability, and Neth clause-reading. **Founder.** Jax wagered his lifeline against a storm-spirit at Merrowport and Lyra wove probability-webs in the Bryngloom, products of the Mereval storm-bargain and the First Contract. **Subrace-native.** Merryn, Shore Myrathil, Kessen Neth, Ithran Groven, the risk-cultures.",
+  "id": "gambit",
+  "term": "Gambit",
+  "type": "class",
+  "region": "cragjaw-peaks",
+  "secondaryRegions": [
+    "iceheart-sea",
+    "bryngloom-forest"
+  ],
+  "summary": "A probability-manipulator of tri-regional origin, Jax's sea-omen gambling on the Iceheart Sea and Lyra's Kessen Neth probability-web reading in the Bryngloom, refined in the toll-negotiations of the Cragjaw Peaks.",
+  "fullEntry": "The Gambit tradition was born twice, in two regions, and refined in a third. On the Iceheart Sea, the Merryn pirate Jax wagered his lifeline against a storm-spirit at Merrowport, winning the wind but losing his blood's warmth, and proving that probability itself could be staked and won. In the Bryngloom Forest, the Kessen Neth probability-weaver Lyra read the threads of consequence through rune-etched cards, plucking the single timeline in which her caravan survived, at the cost of fracturing her consciousness. The two traditions recognized each other when Lyra's caravan crossed the Ancestor-Spans into the Cragjaw Peaks, where the high-stakes toll-negotiations refined both arts into the modern Gambit.\n\nA Gambit doesn't control fate. They nudge it, the power of compound interest: small adjustments made early that accumulate into dramatically different outcomes. They win battles before they start by ensuring the terrain, weather, and morale are all marginally more favorable. The sea-work is headquartered at the Last Table in Merrowport. The contract-work is at Ironjaw Port. The toll-craft is among the Groven bridge-keepers of the Cragjaw.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "cragjaw-peaks",
+    "iceheart-sea",
+    "ironjaw_port",
+    "merrowport",
+    "neth",
+    "jax",
+    "lyra"
+  ]
+}
+
+=== formbender ===
+{
+  "id": "formbender",
+  "term": "Formbender",
+  "type": "concept",
+  "region": "cragjaw-peaks",
+  "summary": "A dead Frostmaw body-sculpting art. Its calcifying vats still train Shaper initiates before they ever learn the momentum dance.",
+  "fullEntry": "In the deep laboratories of Frostmaw Holdfast, practitioners learned to drink raw alchemical sulfur-clay and force their own skeletons to calcify and reshape. The Formbender tradition turned biology into a weapon: bone-density on command, limb-extension for tool-use, skin that hardened to stone-scale. The art was old Deep Alchemist heritage turned inward.\n\nWhen the Mimir chronicler Veyra proved that Formbender body-sculpting and the Bladedancer momentum dance were one art seen from two angles, the two were merged into the Shaper class. The Frostmaw biological-sculpting studios did not close. They became the biological half of the Shaping Hall, where Shaper initiates still learn the calcifying forms before they ever touch a blade.\n\nFormbenders who rejected the kinetic merge continued as body-sculptors, doing Groven civil engineering and medical bone-work. A faction of bone-purists still practices the art without kinetic integration. They are the biological-sculptors who keep the Ancestor-Spans repaired.\n\nChoose the Shaper's path and you inherit the Calcifying Vats of Frostmaw before you ever learn the dance. Your bones are the first weapon you forge.",
+  "transition": {
+    "aftermath": "The Frostmaw biological-sculpting studios did not close, they became the biological half of the Shaping Hall. Former Formbenders who rejected the kinetic merge continued as body-sculptors for Groven construction and medical bone-work.",
+    "legacySite": "The Calcifying Vats of <LoreLink termId=\"frostmaw_holdfast\">Frostmaw</LoreLink> (re-purposed from the old <LoreLink termId=\"deep_alchemists\">Deep Alchemist</LoreLink> heritage) are where Formbender techniques are still taught in isolation to Shaper initiates before they learn the momentum dance.",
+    "survivorNote": "A faction of \"bone-purists\" practices Formbender arts without kinetic integration, serving as Groven civil engineers and healers. They are the biological-sculptors who keep the Ancestor-Spans repaired."
+  },
+  "relatedTerms": [
+    "frostmaw_holdfast",
+    "groven",
+    "shaper"
+  ]
+}
+
+=== apex ===
+{
+  "nativeWeaving": "**Biological.** The Apex art predates external magic entirely, it is pure physiology, anatomy, and sensory refinement. **Cultural.** Thalren tracker lore, Mimir silent-hunt traditions, and the clinical precision of canopy-martial discipline. **Founder.** Sylas, a Mimir tracker who traded his hearing for vibration-sense and built the Silent Hunt on the principle of sensory sacrifice. **Subrace-native.** Maskborne Mimir, Mistwoven Mimir, Unwoven Mimir, Skald, Clean Vreken, Marked Vreken, Ordan.",
+  "id": "apex",
+  "type": "class",
+  "region": "frostwood-reach",
+  "term": "Apex",
+  "aliases": [],
+  "summary": "The oldest tradition in the Frostwood Reach, a predator's art older than the fog, rooted in hunting blind through mist-choked timber with anatomical precision and sensory sacrifice.",
+  "fullEntry": "The Apex tradition is older than any noble house in the Frostwood Reach. It predates the fog and the bargains, rooted in the one necessity the early foresters could not avoid: hunting blind through mist-choked timber. Sylas formalized the Silent Hunt in the years before the Breach, trading his hearing for vibration-sense until he could feel a heartbeat through the moss. An Apex doesn't fight in any conventional sense. They identify, track, position, and resolve targets with the minimum force required, and every debilitating strike finds a specific nerve cluster, joint, or blood vessel. They are not warriors. They are problems solved.",
+  "relatedTerms": [
+    "frostwood-reach",
+    "mimir",
+    "sylas",
+    "ironwood_heart"
+  ]
+}
+
+=== animist ===
+{
+  "nativeWeaving": "**Ecological.** Ancestral spirit-channeling requires three biomes, steppe totemic communion, bog spore-inhalation, glacier runic inscription, hence three roots. **Cultural.** Ordan throat-song, Vreken bog-spirit communion, and Skald runic ancestor-veneration. **Founder.** Kael (Ordan), Nyssa (Vreken), and Theron (Skald) each pioneered a root, each a product of their region's Deep Stratum. **Subrace-native.** Ordan, Vashir Astril, Clean Vreken, Morren, Rune Keeper Skald, Velun Neth.",
+  "id": "animist",
+  "term": "Animist",
+  "type": "class",
+  "region": "bryngloom-forest",
+  "secondaryRegions": [
+    "sundrift-vale",
+    "nordhalla"
+  ],
+  "summary": "A spirit-channeler of tri-regional origin, three independent discoveries fused: Kael's totemic communion (Sundrift Vale), Nyssa's spore-inhalation (Bryngloom), and Theron's runic inscription (Nordhalla).",
+  "fullEntry": "The Animist tradition is not one art but three, fused at a crossroads by carriers who recognized each other's scars. In the Sundrift Vale, the Ordan totem-singer Kael discovered ancestral communion through bone-eruption, the spirit called through a totem woven from the migration-horse's mane. In the Bryngloom Forest, the Vreken spore-elder Nyssa inhaled the spirits on bioluminescent spores, the dead speaking through shifting glow on her skin. In Nordhalla, the Skald rune-carver Theron inscribed his ancestors' names into his own skin at the Frozen Archive, the rune itself becoming the house of the dead. The three merged when their carriers met and realized they spoke dialects of a single ancestral language.\n\nAn Animist doesn't summon spirits. They open channels that already exist, drawing power from negotiated bonds with ancestral lineages, spirit courts, and the memory-echoes embedded in the land. Where others see death as an ending, an Animist sees a change of state. The Convergence rotates its seat between the three regions and keeps its archive-records at the Frozen Archive.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "frozen_archive",
+    "neth",
+    "nordhalla",
+    "sundrift-vale",
+    "vreken",
+    "kael",
+    "nyssa",
+    "theron"
+  ]
+}
+
+=== lichborne ===
+{
+  "id": "lichborne",
+  "term": "Lichborne",
+  "type": "concept",
+  "region": "bryngloom-forest",
+  "summary": "A dead Bryngloom undeath art. Vesper's basalt phylactery still pulses in the Cold Hearth once an hour.",
+  "fullEntry": "Vesper the Scribe bound his soul to a basalt phylactery in the deep peat-bogs of the Bryngloom Forest to escape the lung-rot of the sumps. He called the result perpetual dying. His followers, the Lichborne, achieved a cold undeath in exchange for cold flesh and constant life-force harvesting.\n\nWhen the bog-graves began waking on their own, the Lichborne recognized their war was the same as Kora's Deathcaller covenant. The two traditions merged into the Revenant class. Lichborne who refused the blood-covenant merge retreated into deep peat-bog hermitage. A few cold-purists still maintain solitary phylacteries in the deep sumps, refusing the volatile Death Toll in favor of slow, cold unlife.\n\nVesper's own basalt stone is enshrined in the Cold Hearth and still pulses once per hour. Revenants of the frost-stasis inclination touch it before long operations. The cold-purists run colder and slower than merged Revenants, with less burst power but dramatically longer unlife. Several have been in continuous frost-stasis since before the merger and remember the Bryngloom before the Root-Veil began rejecting the Marked.\n\nWalk the Revenant's road and you carry Vesper's stone and Kora's blood in the same chest. The pulse still keeps time.",
+  "transition": {
+    "aftermath": "<LoreLink termId=\"vesper\">Vesper</LoreLink>'s frost-stasis practitioners who refused the blood-covenant merge retreated into deep peat-bog hermitage; a few \"cold-purists\" still maintain solitary phylacteries in the deep sumps, refusing the volatile Death Toll in favor of slow, cold undeath.",
+    "legacySite": "Vesper's Basalt-Phylactery (the founder's own stone) is enshrined in the Cold Hearth and still pulses once per hour; Revenants of the frost-stasis inclination touch it before long operations.",
+    "survivorNote": "The cold-purists run colder and slower than merged Revenants, less burst power, but dramatically longer unlife. Several have been in continuous frost-stasis since before the merger and remember the Bryngloom before the Root-Veil began rejecting the Marked."
+  },
+  "relatedTerms": [
+    "bryngloom-forest",
+    "neth",
+    "revenant",
+    "vreken"
+  ]
+}
+
+=== lunarch ===
+{
+  "nativeWeaving": "**Ecological.** The lunar parasite requires the Frostwood's moonlit groves where the insulating fog thins and fae old-law still holds. **Cultural.** Briaran fae-pacts and the Viridane refusal bloodline. **Founder.** Selene of House Viridane bound the parasite, a direct product of the Refusal and the Silent Seventh Stratum. **Subrace-native.** Briaran (Viridane blood) and Mimir (fetch-bond compatibility); non-Briaran may be chosen but the bloodline is native.",
+  "id": "lunarch",
+  "term": "Lunarch",
+  "type": "class",
+  "region": "frostwood-reach",
+  "summary": "A silence-touched mage who draws power from the absent sky, channeling the dark between the stars that Sol's absence left exposed.",
+  "fullEntry": "Selene of House Viridane bargained with the wildwood fae in the moonlit groves where the Frostwood fog thins, and the Lunarch tradition came out of that bargain in the first centuries of the Dimming. The canopy she walked was fog-shrouded and starless, a place where sunlight never reached even before the Deepening. But Sol's absence hadn't left the sky empty. It had left the sky exposed to whatever lay beyond Sol: the cold, vast dark between stars that Keth-Amar itself travels through. Lunarchs learned to channel that ambient silence-light, which is not darkness but the specific quality of space that darkness reveals. Their power is strongest at night, in low light, in areas of high Wyrd-density, which is to say: most of the world.",
+  "relatedTerms": [
+    "frostwood-reach",
+    "keth_amar",
+    "the_deepening"
+  ]
+}
+
+=== martyr ===
+{
+  "nativeWeaving": "**Ecological.** Willing-suffering theology arises at Sol's tomb, where the volcanic theocracy demands sacrifice to feed the failing Solbrand. **Cultural.** Solbrand solar-sacrifice cosmology and the Solvan Heir-Purge. **Founder.** Sera Solvan carved her sacrificed child's name into her arm, a product of the ur-bargain (Sundale is the wound itself). **Subrace-native.** Solvarn (sun-vigil), Korr Emberth (Vault-Breath), Velun Neth (contract-martyrdom).",
+  "id": "martyr",
+  "term": "Martyr",
+  "type": "class",
+  "region": "sundale",
+  "summary": "A self-sacrificing healer and shield who absorbs the suffering of allies into their own body, converting it into protective power through the Devotion Gauge.",
+  "fullEntry": "Sera Solvan carved her sacrificed child's name into her forearm with volcanic obsidian just after the Binding, and the wound glowed instead of healing. That scar became the first Martyr's mark. A Martyr doesn't protect allies by standing between them and danger. They absorb what reaches allies into themselves, metabolizing kinetic and magical damage into spiritual resonance tracked in the Devotion Gauge. At low Devotion, a Martyr is a walking wound. At high Devotion, they are a radiant engine of protection that makes the whole party harder to harm. The tradition selects heavily for those who find meaning in suffering.",
+  "relatedTerms": [
+    "devotion_gauge",
+    "dreadnaught",
+    "house_solvan",
+    "sera",
+    "sundale"
+  ]
+}
+
+=== minstrel ===
+{
+  "nativeWeaving": "**Ecological.** The tide-song requires a maritime culture whose perpetual-storm sea can be bargained with via performance. **Cultural.** Merryn sea-shanty and the ship-as-polity oral tradition. **Founder.** Lyris sang the gales calm at Merrowport, a product of the Mereval storm-bargain. **Subrace-native.** Merryn and Shore Myrathil; landlocked or vertical cultures lack the oral-maritime substrate.",
+  "id": "minstrel",
+  "term": "Minstrel",
+  "type": "class",
+  "region": "iceheart-sea",
+  "summary": "A sonic-resonance practitioner who weaponizes, heals with, and manipulates the world through structured sound and narrative.",
+  "fullEntry": "Lyris sang the Iceheart calms at Merrowport in the first centuries of the Dimming, and the storm held while she sang. The Minstrel tradition grew from that discovery among the Merryn storm-sailors: certain rhythms synchronized the body's responses to waves and wind, enabling sustained effort that would otherwise exhaust a crew within hours. A Minstrel is not a bard. Their sound-work is precise, technical, and physically demanding. They accelerate healing, sharpen focus, disrupt coordination, or shatter stone at the correct resonant frequency. The tradition demands perfect pitch and the nerve to hold a complex rhythm while someone's trying to kill you.",
+  "relatedTerms": [
+    "house_mereval",
+    "iceheart-sea",
+    "merrowport",
+    "skald"
+  ]
+}
+
+=== plaguebringer ===
+{
+  "nativeWeaving": "**Ecological.** Disease-hosting requires the Bryngloom's unique fungal-bog substrate, the spore-hush and the bog-rot. **Cultural.** Vreken bog-plague sainthood. **Founder.** Vespera bonded with bog-rot to cure the spore-hush, a product of the First Contract and Root-Veil Stratum. **Subrace-native.** Drun Neth (partial-death allows hosting), Morren (desperation), Clean Vreken.",
+  "id": "plaguebringer",
+  "term": "Plaguebringer",
+  "type": "class",
+  "region": "bryngloom-forest",
+  "summary": "A biological-vector specialist who cultivates, directs, and weaponizes living disease with the precision of a mycologist.",
+  "fullEntry": "Vespera bonded with bog-rot to cure the spore-hush in the later centuries of the Dimming, and the Plaguebringer tradition grew from what she learned weaponizing the Bryngloom's fungal substrate. The forest she worked in was alive in ways other regions weren't: bioluminescent mycelium connected the roots of every ironwood, and the bog-preserved dead occasionally reanimated with fungal intelligence rather than necromantic will. A Plaguebringer is not a chaos agent. They are a cultivator with very specific targets, engineering diseases for selective transmission, predictable progression, and controllable severity. The tradition demands deep biochemical knowledge and the kind of comfort with causing suffering that most medical traditions train specifically against.",
+  "relatedTerms": [
+    "bryngloom-forest",
+    "neth",
+    "vreken"
+  ]
+}
+
+=== pyrofiend ===
+{
+  "nativeWeaving": "**Ecological.** The fire-pact requires proximity to Scathrach's influence beneath Emberspire and a culture that frames self-destruction as power. **Cultural.** Solbrand volcanic forge-cult and solar-sacrifice. **Founder.** A cabal of Solvarn occultists swallowed Scathrach's coals beneath Emberspire, products of the ur-bargain's wound. **Subrace-native.** Thrask Emberth and Solvarn outcasts; cold-adapted cultures reject fire-pacts.",
+  "id": "pyrofiend",
+  "term": "Pyrofiend",
+  "type": "class",
+  "region": "sundale",
+  "summary": "A volcanic pact-mage who channels Scathrach's Wyrd-touched fire at the cost of their body being slowly remade into a cracking char-vessel of magma and bone.",
+  "fullEntry": "When the first rebirth failed, seven Solvarn occultists swallowed Scathrach's coals in an obsidian cavern beneath Emberspire, and the Pyrofiend tradition was born in that fire. It is the most viscerally destructive craft in the known world and the shortest in average practitioner lifespan. Scathrach, the Ashen Sovereign nesting in Emberspire's deepest vent, answers desperation with uncontrollable combustion, and the Pyrofiend's art is making that combustion controllable enough to survive. The Inferno Veil tracks how much of that heat the practitioner channels; at high levels it burns the caster along with everything else. The body shifts from flesh to volcanic material, year by year, until the conversion completes and Scathrach claims what's left.",
+  "relatedTerms": [
+    "cinderhoodoo",
+    "emberspire",
+    "emberspire_caldera",
+    "inferno_veil",
+    "scathrach",
+    "sundale"
+  ]
+}
+
+=== spellguard ===
+{
+  "nativeWeaving": "**Ecological.** Magical-defense engineering requires the volcanic forge-tradition and the Solbrand's residual energy. **Cultural.** Forge-cult precision crossed with anti-Wyrd paranoia. **Founder.** Damon the Emberth smith blocked a solar flare with an alchemical tower shield during the entombment, a product of the Emberspire wound. **Subrace-native.** Velun Neth (magical cancellation), Thalren, Solvarn, Korr Emberth.",
+  "id": "spellguard",
+  "term": "Spellguard",
+  "type": "class",
+  "region": "sundale",
+  "summary": "A defensive combat-mage who specializes in identifying, neutralizing, and reflecting incoming magical threats, a living counterspell.",
+  "fullEntry": "At the Binding, the Emberth smith Damon blocked a solar flare with an alchemical tower shield during Sol's entombment, and the Spellguard tradition grew from that shield in the forge-caldera keeps of Sundale. The smiths who worked near the Solbrand needed practitioners who could intercept and defuse the magical eruptions that bled from Sol's imprisoned resonance. A Spellguard doesn't cast offensive spells. They read the structure of incoming magic and dismantle it before it arrives, redirect it, or reshape it into something that serves a different purpose. They are the tradition that looks most like engineering and least like art.",
+  "relatedTerms": [
+    "damon",
+    "emberth",
+    "solbrand",
+    "sundale"
+  ]
+}
+
+=== titan ===
+{
+  "id": "titan",
+  "term": "Titan",
+  "type": "concept",
+  "region": "sundale",
+  "summary": "A dead Sundale juggernaut art. The forge-clans' calcified bone-density technique survives as the Warden's Monolith specialization.",
+  "fullEntry": "The Sundale forge-clans bred their own answer to overwhelming force. Drawing on the geothermal resonance of the volcanic badlands, practitioners of the Titan tradition calcified their skeletons until they could anchor a corridor that nothing short of a glacier-wyrm could move them from. They were not fast. They did not need to be.\n\nThe tradition has been absorbed into the Warden class as the Monolith specialization. Wardens graft volcanic iron into their skeletons alongside their penitent jailer chains and become living stone sentinels. The old Titan strong-points along the Ashen Escarpment are now manned by Monolith Wardens. Sol's Anvil Mesa, where the calcification rites were first performed, remains the initiation site for the Monolith path: the geothermal resonance that enables bone-calcification is strongest there.\n\nA few pure-mass Titans keep the original art without the chain-graft, serving as immovable garrison-anchors in Sundale keeps. They cannot tether like a Warden, but they can hold a corridor that nothing short of a glacier-wyrm can move them from. Their numbers thin each generation.\n\nTake up the Warden's chains and choose the Monolith path, and the volcanic iron finds your bones. The Mesa remembers how to calcify. The corridor holds.",
+  "transition": {
+    "aftermath": "The Sundale Titan-juggernauts did not vanish, they became the Monolith specialization of the Warden, grafting volcanic iron into their skeletons alongside the jailer chains. The old Titan strong-points along the Ashen Escarpment are now manned by Monolith Wardens.",
+    "legacySite": "Sol's Anvil Mesa, where the Titan calcification rites were first performed, remains the initiation site for the Monolith path; the geothermal resonance that enables bone-calcification is strongest there.",
+    "survivorNote": "A few \"pure-mass\" Titans maintain the original art without the chain-graft, serving as immovable garrison-anchors in <LoreLink termId=\"sundale\">Sundale</LoreLink> keeps. They cannot tether like a Warden but can hold a corridor that nothing short of a glacier-wyrm can move them from."
+  },
+  "relatedTerms": [
+    "emberth",
+    "groven",
+    "sundale",
+    "the_warden",
+    "warden"
+  ]
+}
+
+=== toxicologist ===
+{
+  "nativeWeaving": "**Ecological.** Venom-distillation requires reagents unique to the Frostwood's Wyrd-dense, fog-predator mists. **Cultural.** Thalren-Briaran forest-alchemy and the practical defense against face-traders. **Founder.** Varis the Thalren alchemist extracted fog-predator venom, a product of the Fog Compact's mutated substrate. **Subrace-native.** Thalren and Unwoven Mimir; the reagents do not exist outside the Frostwood.",
+  "id": "toxicologist",
+  "term": "Toxicologist",
+  "type": "class",
+  "region": "frostwood-reach",
+  "summary": "A poison-crafter and delivery specialist who fights through careful preparation rather than direct confrontation, the most premeditated tradition in Mythrill.",
+  "fullEntry": "Varis the Trembling systematized venom extraction from the fog-predator reagents unique to the Frostwood Reach in the mid-Diming centuries, and the Toxicologist tradition grew in the fog-choked timber where those reagents lived. The dense undergrowth produced extraordinary pharmacological resources and the tactical conditions that made slow-acting, area-denial poisons more useful than swords. A Toxicologist isn't an assassin. They are a chemist, engineering poisons for specific physiological effects, specific target populations, and specific durations. The tradition demands extraordinary patience and the stomach for outcomes that unfold over hours rather than seconds.",
+  "relatedTerms": [
+    "frostwood-reach",
+    "house_thalreth"
+  ]
+}
+
+=== warden ===
+{
+  "nativeWeaving": "**Ecological.** Chain-graft containment requires the ore-hauling and surgical tradition of Frostmaw's mining tunnels. **Cultural.** Groven vertical-engineering and the Vat-Breakers' legacy of containment. **Founder.** Alaric the Groven mine-guard drove an ore-chain through his own forearm to hold a specimen for three days, a product of the Vat-Breakers' Revolt Stratum. **Subrace-native.** Morgh Groven and Fexric Drall natively; Kessen Neth, Skald, Vreken via the surgical graft (narrative unlock).",
+  "id": "warden",
+  "term": "Warden",
+  "type": "class",
+  "region": "cragjaw-peaks",
+  "secondaryRegions": [
+    "nordhalla"
+  ],
+  "summary": "A grim, penitent jailer of dual seat, the chain-graft tradition invented by the Groven Alaric in Frostmaw Holdfast (Cragjaw Peaks) and secondarily practiced through the surgical school of the Frozen Archive (Nordhalla).",
+  "fullEntry": "When the Deep Alchemists' vat-laboratories collapsed and their experiments poured into the tunnels, the Groven mine-guard Alaric drove an ore-hauling chain through his own forearm into the largest specimen and held for three days. The chain rusted into his bone. He wouldn't let them remove it. From that act came the Warden tradition: heavy-martial lockdown specialists who anchor themselves to the battlefield's greatest horrors by driving rusted hooks and chains directly into their own flesh, forcing abominations into a brutal duel of meat and bone while they build Tether Tension for devastating counter-strikes. Born in the Cragjaw, the tradition spread to Nordhalla, where the surgical school of the Frozen Archive learned the graft-rite and adapted it for glacier-hunting, producing the cold-iron Skald Wardens who tether the things that crawl from the fjords. The primary seat is the Chain-Hold at Frostmaw. The secondary is the Frozen Archive.",
+  "relatedTerms": [
+    "cragjaw-peaks",
+    "frozen_archive",
+    "frostmaw_holdfast",
+    "house_skalvyr",
+    "nordhalla",
+    "titan",
+    "the_warden",
+    "alaric"
+  ]
+}
+

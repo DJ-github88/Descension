@@ -100,7 +100,7 @@ export const FALSE_PROPHET_DATA = {
  solvarn_human: {
   subraceName: 'Solvarn Human',
   title: 'The Honest Heretic',
-  reframe: `Preaches the Silence to exhausted <LoreLink termId="solvarn">Ash-Dwellers</LoreLink> who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  —  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solvarn False Prophet does not lie. That is what makes them a prophet.
+  reframe: `Preaches the Silence to exhausted Ash-Dwellers who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  —  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solvarn False Prophet does not lie. That is what makes them a prophet.
 
 The faith reached Sundale through the Hunger Road  —  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Morren debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Emberth. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
   signatureAbility: {
@@ -203,7 +203,7 @@ The false prophet's blinding fervor was born in the starless steppe of the <Lore
 False Prophets are viewed with deep suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> humans, <LoreLink termId="solvarn">Solvarn</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
+The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> humans, <LoreLink termId="house_solvan">Solvarn</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
 
 **NOTABLE FIGURES**
 * **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the silence in the constellations.

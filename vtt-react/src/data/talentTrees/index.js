@@ -89,22 +89,10 @@ export {
 } from './spellguard.js';
 
 export {
-  INSCRIPTOR_RUNEBINDER,
-  INSCRIPTOR_ENCHANTER,
-  INSCRIPTOR_GLYPHWEAVER
-} from './inscriptor.js';
-
-export {
   ARCANONEER_PRISM_MAGE,
   ARCANONEER_ENTROPY_WEAVER,
   ARCANONEER_SPHERE_ARCHITECT
 } from './arcanoneer.js';
-
-export {
-  WITCH_DOCTOR_BOKOR,
-  WITCH_DOCTOR_MAMBO,
-  WITCH_DOCTOR_HOUNGAN
-} from './witchdoctor.js';
 
 export {
   SHAPER_FLOW_MASTER,
@@ -117,12 +105,6 @@ export {
   BERSERKER_BLOOD_FRENZY,
   BERSERKER_SAVAGE_INSTINCTS
 } from './berserker.js';
-
-export {
-  PRIMALIST_EARTHWARDEN,
-  PRIMALIST_STORMBRINGER,
-  PRIMALIST_SPIRITCALLER
-} from './primalist.js';
 
 export {
   AUGUR_AUSPICE,

@@ -6,8 +6,8 @@
 export const INQUISITOR_WITCH_HAMMER = [
  {
   id: 'whammer_t0_shadow_legion',
-  name: 'Shadow Legion',
-  description: 'You can bind up to 4 demons simultaneously. While you have 3+ Authority and are in stealth, stealth attacks automatically crit. Authority decays 50% slower while at least one horror is bound.',
+  name: 'Wyrd Pack',
+  description: 'You can bind up to 4 Wyrd-spawn simultaneously. While you have 3+ Authority and are in stealth, stealth attacks automatically crit. Authority decays 50% slower while at least one Wyrd-hound is bound.',
   icon: 'spell_shadow_summonfelguard',
   maxRanks: 5,
   position: { x: 2, y: 0 },
@@ -15,8 +15,8 @@ export const INQUISITOR_WITCH_HAMMER = [
  },
  {
   id: 'whammer_t1_legion_mind',
-  name: 'Legion Mind',
-  description: 'Your mind splits to track multiple demons. +1 horror slot per rank (max 4 total). Managing the swarm becomes second nature.',
+  name: 'Pack Mind',
+  description: 'Your mind splits to track multiple Wyrd-spawn. +1 Wyrd-hound slot per rank (max 4 total). Managing the swarm becomes second nature.',
   icon: 'spell_shadow_enslavedemon',
   maxRanks: 2,
   position: { x: 0, y: 1 },
@@ -25,7 +25,7 @@ export const INQUISITOR_WITCH_HAMMER = [
  {
   id: 'whammer_t1_shadow_mastery',
   name: 'Shadow Mastery',
-  description: 'The Covenbane purges with fire that remembers Sol. gain advantage on attacks from stealth. At 3+ Authority, stealth attacks deal +2d6 necrotic damage per rank and reduce enemy movement speed by 10ft for 1 round.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. gain advantage on attacks from stealth. At 3+ Authority, stealth attacks deal +2d6 necrotic damage per rank and reduce enemy movement speed by 10ft for 1 round.',
   icon: 'spell_shadow_shadowform',
   maxRanks: 3,
   position: { x: 4, y: 1 },
@@ -34,7 +34,7 @@ export const INQUISITOR_WITCH_HAMMER = [
  {
   id: 'whammer_t2_steady_rein',
   name: 'Steady Rein',
-  description: 'Dominance Die degrades every 2 actions instead of every action for demons you command. Your grip holds longer under pressure.',
+  description: 'Dominance Die degrades every 2 actions instead of every action for Wyrd-spawn you command. Your grip holds longer under pressure.',
   icon: 'spell_holy_exorcism',
   maxRanks: 2,
   position: { x: 1, y: 2 },
@@ -43,7 +43,7 @@ export const INQUISITOR_WITCH_HAMMER = [
  {
   id: 'whammer_t2_swarm_tactics',
   name: 'Swarm Tactics',
-  description: 'The Covenbane purges with fire that remembers Sol. when 3+ demons attack the same target, each deals +1d6 radiant damage per rank. The legion overwhelms through coordinated violence.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. when 3+ Wyrd-spawn attack the same target, each deals +1d6 radiant damage per rank. The pack overwhelms through coordinated violence.',
   icon: 'spell_shadow_curseofsargeras',
   maxRanks: 3,
   position: { x: 3, y: 2 },
@@ -52,7 +52,7 @@ export const INQUISITOR_WITCH_HAMMER = [
  {
   id: 'whammer_t3_mass_restoration',
   name: 'Mass Restoration',
-  description: 'The Covenbane purges with fire that remembers Sol. when you cast a DD restoration spell, all bound demons gain +1 DD step as well (half effect on non-targeted demons). One lash fortifies the whole pack.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. when you cast a DD restoration spell, all bound Wyrd-spawn gain +1 DD step as well (half effect on non-targeted Wyrd-spawn). One lash fortifies the whole pack.',
   icon: 'spell_holy_circleofrenewal',
   maxRanks: 2,
   position: { x: 0, y: 3 },
@@ -69,8 +69,8 @@ export const INQUISITOR_WITCH_HAMMER = [
  },
  {
   id: 'whammer_t4_demon_cyclone',
-  name: 'Demon Cyclone',
-  description: 'Once per combat: Command all demons to attack simultaneously. Each degrades DD by 1 step but deals +2d6 radiant damage.',
+  name: 'Wyrd Cyclone',
+  description: 'Once per combat: Command all Wyrd-spawn to attack simultaneously. Each degrades DD by 1 step but deals +2d6 radiant damage.',
   icon: 'spell_shadow_lifedrain',
   maxRanks: 1,
   position: { x: 2, y: 4 },
@@ -78,8 +78,8 @@ export const INQUISITOR_WITCH_HAMMER = [
  },
  {
   id: 'whammer_t5_infernal_general',
-  name: 'Infernal General',
-  description: 'Your demons no longer degrade DD on the first action each turn. Stealth attacks while commanding 2+ demons gain +3d6 bonus radiant. You are the undisputed commander of the shadow legion.',
+  name: 'Pack Alpha',
+  description: 'Your Wyrd-spawn no longer degrade DD on the first action each turn. Stealth attacks while commanding 2+ Wyrd-spawn gain +3d6 bonus radiant. You are the undisputed commander of the Wyrd pack.',
   icon: 'spell_shadow_demonicempathy',
   maxRanks: 1,
   position: { x: 2, y: 5 },
@@ -91,7 +91,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t0_covenant_of_iron',
   name: 'Covenant of Iron',
-  description: 'Your single bound horror\'s DD only degrades every 2 actions. Your horror gains +1d6 damage per rank and you gain resistance to its damage type. The singular bond yields iron control.',
+  description: 'Your single bound Wyrd-hound\'s DD only degrades every 2 actions. Your Wyrd-hound gains +1d6 damage per rank and you gain resistance to its damage type. The singular bond yields iron control.',
   icon: 'ability_warlock_demonicpower',
   maxRanks: 5,
   position: { x: 2, y: 0 },
@@ -109,7 +109,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t1_iron_grip',
   name: 'Iron Grip',
-  description: 'Your horror\'s DD degrades every 2 actions instead of every action. Your singular focus yields stronger control.',
+  description: 'Your Wyrd-hound\'s DD degrades every 2 actions instead of every action. Your singular focus yields stronger control.',
   icon: 'spell_shadow_felarmour',
   maxRanks: 2,
   position: { x: 4, y: 1 },
@@ -118,7 +118,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t2_mana_vortex',
   name: 'Mana Vortex',
-  description: 'The Covenbane purges with fire that remembers Sol. when you counter a spell, create a vortex that drains 2d6 mana per rank from the caster. If they have no mana remaining, they take psychic damage instead.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. when you counter a spell, create a vortex that drains 2d6 mana per rank from the caster. If they have no mana remaining, they take psychic damage instead.',
   icon: 'spell_shadow_manafeed',
   maxRanks: 3,
   position: { x: 1, y: 2 },
@@ -127,7 +127,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t2_empowered_strikes',
   name: 'Empowered Strikes',
-  description: 'Your horror\'s attacks deal +1d8 radiant damage per rank. When your horror crits, restore 1 DD step and gain +1 Authority.',
+  description: 'Your Wyrd-hound\'s attacks deal +1d8 radiant damage per rank. When your Wyrd-hound crits, restore 1 DD step and gain +1 Authority.',
   icon: 'spell_fire_firebolt',
   maxRanks: 3,
   position: { x: 3, y: 2 },
@@ -145,7 +145,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t3_dominant_wrath',
   name: 'Dominant Wrath',
-  description: 'The Covenbane purges with fire that remembers Sol. when your horror is at d8 DD or lower, it deals +2d8 radiant damage. Desperation sharpens its fury and your grip.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. when your Wyrd-hound is at d8 DD or lower, it deals +2d8 radiant damage. Desperation sharpens its fury and your grip.',
   icon: 'spell_shadow_metamorphosis',
   maxRanks: 2,
   position: { x: 4, y: 3 },
@@ -163,7 +163,7 @@ export const INQUISITOR_IRON_VERDICT = [
  {
   id: 'iverdict_t5_arcane_dominator',
   name: 'Arcane Dominator',
-  description: 'You can maintain concentration on two anti-magic effects simultaneously. Spells cast at you or allies within 30ft have disadvantage. Your horror cannot escape while you have more than 50% HP.',
+  description: 'You can maintain concentration on two anti-magic effects simultaneously. Spells cast at you or allies within 30ft have disadvantage. Your Wyrd-hound cannot escape while you have more than 50% HP.',
   icon: 'spell_shadow_antishadow',
   maxRanks: 1,
   position: { x: 2, y: 5 },
@@ -175,7 +175,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  {
   id: 'hsaint_t0_hollow_pursuit',
   name: 'Hollow Pursuit',
-  description: 'The Covenbane purges with fire that remembers Sol. gain +2 Strength, +2 Constitution, and +10 movement speed permanently. Melee attacks deal +1d6 necrotic damage per rank. Track supernatural targets by scent within 60ft. Cannot be slowed or rooted while 3+ Authority.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. gain +2 Strength, +2 Constitution, and +10 movement speed permanently. Melee attacks deal +1d6 necrotic damage per rank. Track supernatural targets by scent within 60ft. Cannot be slowed or rooted while 3+ Authority.',
   icon: 'ability_hunter_markedfordeath',
   maxRanks: 5,
   position: { x: 2, y: 0 },
@@ -184,7 +184,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  {
   id: 'hsaint_t1_demonic_embrace',
    name: 'Wyrd Embrace',
-  description: 'Channel a horror within yourself. Your Internal DD starts at d10. Melee attacks deal +1d6 necrotic damage per rank but degrade your Internal DD by 1 step per rank.',
+  description: 'Channel a Wyrd-hound within yourself. Your Internal DD starts at d10. Melee attacks deal +1d6 necrotic damage per rank but degrade your Internal DD by 1 step per rank.',
   icon: 'spell_shadow_possession',
   maxRanks: 3,
   position: { x: 0, y: 1 },
@@ -202,7 +202,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  {
   id: 'hsaint_t2_corruption_aura',
   name: 'Corruption Aura',
-  description: 'Enemies within 10ft take 1d6 necrotic damage per rank at start of their turn. The internal horror bleeds into the world around you.',
+  description: 'Enemies within 10ft take 1d6 necrotic damage per rank at start of their turn. The internal Wyrd-hound bleeds into the world around you.',
   icon: 'spell_shadow_contagion',
   maxRanks: 3,
   position: { x: 1, y: 2 },
@@ -220,7 +220,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  {
   id: 'hsaint_t3_inner_peace',
   name: 'Inner Peace',
-  description: 'The Covenbane purges with fire that remembers Sol. when your Internal DD reaches 0 and the horror takes control, you regain control after 1 turn instead of 2. The horror\'s turn deals +2d6 damage to enemies (not allies) per rank.',
+  description: 'The Inquisitor purges with cold iron that remembers the Wyrd\'s first name. when your Internal DD reaches 0 and the Wyrd-hound takes control, you regain control after 1 turn instead of 2. The Wyrd-hound\'s turn deals +2d6 damage to enemies (not allies) per rank.',
   icon: 'spell_shadow_mindrot',
   maxRanks: 2,
   position: { x: 0, y: 3 },
@@ -238,7 +238,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  {
   id: 'hsaint_t4_corruption_nova',
   name: 'Corruption Nova',
-  description: 'Unleash the horror\'s fury in a 20ft burst. Deal 3d6 necrotic damage per rank. Resets Internal DD to d6 regardless of current level.',
+  description: 'Unleash the Wyrd-hound\'s fury in a 20ft burst. Deal 3d6 necrotic damage per rank. Resets Internal DD to d6 regardless of current level.',
   icon: 'spell_shadow_shadowfury',
   maxRanks: 2,
   position: { x: 2, y: 4 },
@@ -246,7 +246,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
  },
  {
   id: 'hsaint_t5_demon_prince',
-  name: 'Demon Prince',
+  name: 'Hollow Sovereign',
   description: 'You no longer lose control when Internal DD reaches 0. Instead, enter Ascended Form for 3 rounds: +8 Str, +6 Con, attacks deal 4d10 necrotic. After Ascended Form ends, take 4d10 psychic damage and Internal DD resets to d6.',
   icon: 'spell_shadow_summonfelguard',
   maxRanks: 1,

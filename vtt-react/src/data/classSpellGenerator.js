@@ -311,18 +311,26 @@ const getElementTypeForSpecialization = (specializationId) => {
 
   // Healing/Restoration
   'soulsinger': 'sacred',
-  'redeemer': 'sacred',
+  'redemption': 'sacred',
   'rewinding': 'sacred',
 
   // Control/Debuff
   'dissonance': 'wyrd',
   'stasis': 'storm',
-  'protector': 'sacred',
+  'ascetic': 'sacred',
 
   // Damage/Offense
   'battlechoir': 'storm',
-  'avenger': 'sacred',
-  'displacement': 'storm'
+  'zealot': 'ember',
+  'displacement': 'storm',
+
+  // Harbinger (Entropy Path)
+  'wild_prophet': 'wyrd',
+  'deaths_seer': 'wyrd',
+  'fate_rift': 'storm',
+
+  // Martyr (Ironclad furnace spec)
+  'ironclad': 'ember'
  };
 
  return elementMap[specializationId] || 'arcane';
@@ -742,47 +750,61 @@ function determineChronarchSpecialization(spell) {
  * Avenger: Damage and retribution spells
  */
 function determineMartyrSpecialization(spell) {
- // Check tags for specialization hints
+ // Prefer an explicit canonical Martyr spec tag on the spell itself
  if (spell.tags) {
-  if (spell.tags.includes('healing') || spell.tags.includes('restoration') || spell.tags.includes('redeemer')) {
-   return 'redeemer';
+  if (spell.tags.includes('redemption')) return 'redemption';
+  if (spell.tags.includes('zealot')) return 'zealot';
+  if (spell.tags.includes('ascetic')) return 'ascetic';
+  if (spell.tags.includes('ironclad')) return 'ironclad';
+ }
+ // Fallback heuristics mapped to canonical Martyr specs
+ if (spell.tags) {
+  if (spell.tags.includes('healing') || spell.tags.includes('restoration')) {
+   return 'redemption';
   }
-  if (spell.tags.includes('damage') || spell.tags.includes('retribution') || spell.tags.includes('avenger')) {
-   return 'avenger';
+  if (spell.tags.includes('damage') || spell.tags.includes('retribution')) {
+   return 'zealot';
   }
-  if (spell.tags.includes('protection') || spell.tags.includes('shield') || spell.tags.includes('protector')) {
-   return 'protector';
+  if (spell.tags.includes('protection') || spell.tags.includes('shield')) {
+   return 'ascetic';
   }
  }
 
  // Check for healing effects
  if (spell.healingConfig || spell.effects?.healing || spell.restorationConfig) {
-  return 'redeemer';
+  return 'redemption';
  }
 
  // Check for damage effects
  if (spell.damageConfig || spell.effects?.damage) {
-  return 'avenger';
+  return 'zealot';
  }
 
  // Check for defensive/buff effects
  if (spell.buffConfig || spell.effects?.buff || spell.targetingConfig?.targetingType === 'self') {
-  return 'protector';
+  return 'ascetic';
  }
 
- // Default to Protector
- return 'protector';
+ // Default to Ascetic
+ return 'ascetic';
 }
 
 /**
  * Determine Harbinger specialization based on spell properties
  */
 function determineChaosWeaverSpecialization(spell) {
+ // Prefer an explicit canonical Harbinger spec tag on the spell itself
+ if (spell.tags) {
+  if (spell.tags.includes('wild_prophet')) return 'wild_prophet';
+  if (spell.tags.includes('deaths_seer')) return 'deaths_seer';
+  if (spell.tags.includes('fate_rift')) return 'fate_rift';
+ }
+ // Fallback heuristics mapped to canonical Harbinger specs
  if (spell.rollableTable?.enabled || (spell.tags && spell.tags.includes('chaos_dice'))) {
-  return 'chaos_dice';
+  return 'wild_prophet';
  }
  if (spell.controlConfig || spell.debuffConfig || (spell.tags && spell.tags.includes('control'))) {
-  return 'entropy_control';
+  return 'deaths_seer';
  }
- return 'reality_bending';
+ return 'fate_rift';
 }

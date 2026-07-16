@@ -313,7 +313,7 @@ export const CLASS_SPECIALIZATIONS = {
 
   'Martyr': {
 
-    path: 'Solbrand Path',
+    path: 'Sol\'s Path',
 
     specializations: [
 
@@ -356,6 +356,20 @@ export const CLASS_SPECIALIZATIONS = {
         color: '#4169E1',
 
         icon: 'spell_holy_prayerofmendingtga'
+
+      },
+
+      {
+
+        id: 'ironclad',
+
+        name: 'Ironclad',
+
+        description: 'The furnace-armor Martyr. Sealed in superheated iron plating that converts absorbed suffering into combustion, an immovable frontline tank and area denial through furnace heat',
+
+        color: '#d35400',
+
+        icon: 'spell_fire_selfdestruct'
 
       }
 

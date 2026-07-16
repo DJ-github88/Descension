@@ -15,7 +15,7 @@ import '../../styles/quest-log-new.css';
 import '../../styles/quest-log-fixes.css';
 
 // Import icons
-import { FaScroll, FaUser, FaShieldAlt } from 'react-icons/fa';
+import { FaScroll, FaUser, FaShieldAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propActiveTab, contentOnly = false }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab || 'active');
@@ -37,6 +37,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
   }, [isGMMode, activeTab]);
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Context menu state
   const [showContextMenu, setShowContextMenu] = useState(false);
@@ -146,8 +147,24 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
   // Handle tab change (memoized)
   const handleTabChange = useCallback((tab) => {
     setActiveTab(tab);
-    setSelectedQuest(null);
   }, []);
+
+  // Auto-select the first quest in the new tab's list, or keep selection if still valid
+  useEffect(() => {
+    if (activeTab === 'create') {
+      setSelectedQuest(null);
+      return;
+    }
+
+    if (filteredQuests.length > 0) {
+      const isStillValid = filteredQuests.some(q => q.id === selectedQuest);
+      if (!isStillValid) {
+        setSelectedQuest(filteredQuests[0].id);
+      }
+    } else {
+      setSelectedQuest(null);
+    }
+  }, [activeTab, filteredQuests, selectedQuest]);
 
   // Handle quest selection (memoized)
   const handleQuestSelect = useCallback((questId) => {
@@ -529,7 +546,7 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
 
     return (
       <div className="quest-log-content">
-        <div className="quest-list-sidebar">
+        <div className={`quest-list-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
           <div className="quest-list-header">
             <h3 className="quest-list-title">
               {activeTab === 'active' && 'Active Quests'}
@@ -556,6 +573,13 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
             )}
           </div>
         </div>
+        <button
+          className={`quest-sidebar-toggle ${isSidebarCollapsed ? 'collapsed' : ''}`}
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {isSidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+        </button>
         {renderQuestDetails()}
       </div>
     );

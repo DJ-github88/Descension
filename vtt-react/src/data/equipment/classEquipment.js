@@ -2865,7 +2865,7 @@ export const JUSTICAR_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Justicar']
+            classes: ['Spellguard']
         }
     },
 
@@ -2887,7 +2887,7 @@ export const JUSTICAR_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Justicar']
+            classes: ['Spellguard']
         }
     },
     {
@@ -2911,7 +2911,7 @@ export const JUSTICAR_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Justicar']
+            classes: ['Spellguard']
         }
     },
     {
@@ -2932,7 +2932,7 @@ export const JUSTICAR_ITEMS = [
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Justicar']
+            classes: ['Spellguard']
         }
     },
     {
@@ -2950,7 +2950,7 @@ export const JUSTICAR_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Justicar']
+            classes: ['Spellguard']
         }
     }
 ];
@@ -2984,7 +2984,7 @@ export const OATHKEEPER_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oathkeeper']
+            classes: ['Spellguard']
         }
     },
     {
@@ -3008,7 +3008,7 @@ export const OATHKEEPER_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oathkeeper']
+            classes: ['Spellguard']
         }
     },
     {
@@ -3029,7 +3029,7 @@ export const OATHKEEPER_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oathkeeper']
+            classes: ['Spellguard']
         }
     },
     {
@@ -3047,7 +3047,7 @@ export const OATHKEEPER_ITEMS = [
         rotation: 0,
         stackable: false,
         availableFor: {
-            classes: ['Oathkeeper']
+            classes: ['Spellguard']
         }
     },
     {
@@ -3067,7 +3067,7 @@ export const OATHKEEPER_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Oathkeeper']
+            classes: ['Spellguard']
         }
     }
 ];

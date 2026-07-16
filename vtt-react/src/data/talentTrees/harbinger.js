@@ -127,7 +127,7 @@ export const HARBINGER_WILD_PROPHET = [
  {
   id: 'wp_t5_wild_sovereignty',
   name: 'Wild Sovereignty',
-  description: 'Keth-Amar grants dominion over the very chaos it manifests. You are immune to the negative effects of your own Wild Magic Surges. Allies within 20ft take 50% less damage from your surges per rank. Area prophecy dice are upgraded: d6 to d8, d8 to d10, d10 to d12 per rank. Spell modifier.',
+  description: 'You leech dominion over the chaos Keth-Amar manifests, turning the leakage of the predator against it. You are immune to the negative effects of your own Wild Magic Surges. Allies within 20ft take 50% less damage from your surges per rank. Area prophecy dice are upgraded: d6 to d8, d8 to d10, d10 to d12 per rank. Spell modifier.',
   icon: 'spell_nature_mirrorimage',
   maxRanks: 2,
   position: { x: 1, y: 5 },
@@ -298,7 +298,7 @@ export const HARBINGER_DEATHS_SEER = [
  {
   id: 'ds_t6_death_incarnate',
   name: 'Death Incarnate',
-  description: 'Keth-Amar incarnates through you as the final prophet of death. For 3 rounds: all entropy spells gain +3d8 necrotic damage, all stat reductions are doubled, all single-target Prophesied effects deal maximum damage, and you generate 2 Mayhem per enemy damaged. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
+  description: 'You become the final prophet of death, forcing the entropy Keth-Amar bleeds into the world to incarnate through you. For 3 rounds: all entropy spells gain +3d8 necrotic damage, all stat reductions are doubled, all single-target Prophesied effects deal maximum damage, and you generate 2 Mayhem per enemy damaged. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
   icon: 'spell_shadow_curseofsargeras',
   maxRanks: 1,
   position: { x: 2, y: 6 },
@@ -436,7 +436,7 @@ export const HARBINGER_FATE_RIFT = [
  {
   id: 'fr_t4_double_down',
   name: 'Double Down',
-  description: 'Keth-Amar rewards those who gamble everything on the precipice of chaos. When you spend 5+ Mayhem on a single table adjustment, gain a free chaos die and deal +1d8 random damage per rank. Your delayed prophecies cannot be dispelled or removed early. Damage + Spell modifier.',
+  description: 'The precipice of chaos rewards those reckless enough to gamble everything — you harvest the entropy Keth-Amar spills. When you spend 5+ Mayhem on a single table adjustment, gain a free chaos die and deal +1d8 random damage per rank. Your delayed prophecies cannot be dispelled or removed early. Damage + Spell modifier.',
   icon: 'spell_shadow_possession',
   maxRanks: 2,
   position: { x: 3, y: 4 },
@@ -447,7 +447,7 @@ export const HARBINGER_FATE_RIFT = [
  {
   id: 'fr_t5_dice_god',
   name: 'Dice God',
-  description: 'Keth-Amar elevates its prophets to godhood over the random and the fated. Your Mayhem Modifier cap increases by +5 per rank. Whenever you reach your cap, your next chaos spell auto-hits and cannot be saved against. Doom aura is always active (no concentration). Mayhem economy.',
+  description: 'You seize a parasite godhood over the random and the fated, ascending not by the grace of Keth-Amar but by draining its essence. Your Mayhem Modifier cap increases by +5 per rank. Whenever you reach your cap, your next chaos spell auto-hits and cannot be saved against. Doom aura is always active (no concentration). Mayhem economy.',
   icon: 'spell_arcane_arcaneresilience',
   maxRanks: 2,
   position: { x: 0, y: 5 },
@@ -468,7 +468,7 @@ export const HARBINGER_FATE_RIFT = [
  {
   id: 'fr_t6_fate_deity',
   name: 'Fate Deity',
-  description: 'Keth-Amar ascends through you, a deity of chaos made manifest. For 3 rounds: all chaos table results automatically shift up by 2 tiers, you gain unlimited Mayhem spending (no cap per roll), all delayed prophecies deal double damage on detonation, and chaos spells cost 50% less mana. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
+  description: 'You make a deity of chaos manifest — not by the grace of Keth-Amar, but by holding its own entropy hostage in your flesh. For 3 rounds: all chaos table results automatically shift up by 2 tiers, you gain unlimited Mayhem spending (no cap per roll), all delayed prophecies deal double damage on detonation, and chaos spells cost 50% less mana. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
   icon: 'spell_shadow_curseofsargeras',
   maxRanks: 1,
   position: { x: 2, y: 6 },

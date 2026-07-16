@@ -581,10 +581,10 @@ const NPC_DATA = {
     gender: 'Male',
     factionIds: ['twice-born'],
     locationIds: ['bryngloom-forest'],
-    age: '431',
-    status: 'Active: frightened for the first time in four centuries',
+    age: '247',
+    status: 'Active: frightened for the first time in two centuries',
     appearance: 'An ancient Revenant of mixed Vreken-Neth descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Neth, the other amber-Vreken: both traditions visible in his body.',
-    personality: 'Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in four centuries.',
+    personality: 'Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in two centuries.',
     backstory: 'Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders\' arts, Kora\'s Death Toll and Vesper\'s Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.',
     hooks: [
       'Kor-Vasseth hires the party to escort a Drun Neth Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead',

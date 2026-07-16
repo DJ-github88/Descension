@@ -171,7 +171,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
             <div ref={modalRef} className="pf-currency-withdraw-modal" style={{ zIndex: 9999999999 }}>
                 <div className="pf-modal-header">
                     <h3>Generate Coins</h3>
-                    <button className="pf-close-button" onClick={onClose}>� - </button>
+                    <button className="pf-close-button" onClick={onClose}><i className="fas fa-times"></i></button>
                 </div>
                 <div className="pf-modal-content">
                     <div className="pf-currency-input-section">

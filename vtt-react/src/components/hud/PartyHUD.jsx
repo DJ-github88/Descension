@@ -404,9 +404,29 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '6px' }}>
                 <div style={{ fontWeight: 'bold', color: '#5c4033', marginBottom: '2px', borderBottom: '1px solid rgba(139, 115, 85, 0.2)', paddingBottom: '2px' }}>Exhaustion Effects:</div>
+                {level > 0 && (
+                    <div style={{ fontSize: '10.5px', color: '#8b5a2b', fontStyle: 'italic', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <i className="fas fa-info-circle" style={{ color: '#8b5a2b' }}></i>
+                        <span>Effects stack: Levels 1 to {level} are active.</span>
+                    </div>
+                )}
                 {levels.map((text, idx) => {
                     const isCurrent = level === idx + 1;
                     const isActive = level >= idx + 1;
+                    
+                    let icon;
+                    if (isCurrent) {
+                        if (idx === 5) {
+                            icon = <i className="fas fa-skull" style={{ color: '#b30000', fontSize: '11px' }}></i>;
+                        } else {
+                            icon = <i className="fas fa-exclamation-circle" style={{ color: '#b30000', fontSize: '11px' }}></i>;
+                        }
+                    } else if (isActive) {
+                        icon = <i className="fas fa-check" style={{ color: '#704a38', fontSize: '11px' }}></i>;
+                    } else {
+                        icon = <i className="far fa-circle" style={{ color: '#a0a0a0', fontSize: '11px' }}></i>;
+                    }
+
                     return (
                         <div 
                             key={idx} 
@@ -420,7 +440,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 gap: '6px'
                             }}
                         >
-                            <span style={{ minWidth: '12px' }}>{isCurrent ? '▶' : (isActive ? '� - �' : '� - �')}</span>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '14px' }}>{icon}</span>
                             <span>{text}</span>
                         </div>
                     );

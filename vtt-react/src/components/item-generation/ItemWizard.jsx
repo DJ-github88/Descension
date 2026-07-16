@@ -5,7 +5,7 @@ import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibra
 import ExternalItemPreview from './ExternalItemPreview';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import useSettingsStore from '../../store/settingsStore';
-import useWindowManagerStore from '../../store/windowManagerStore';
+import { useStableWindowRegistration } from '../../hooks/useStableWindowRegistration';
 import { STEPS } from './wizardSteps';
 import { getStepInfo, DAMAGE_TYPES } from './itemWizardConfig';
 import StepItemType from './steps/StepItemType';
@@ -488,22 +488,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     const [overlayZIndex, setOverlayZIndex] = useState(2000);
     const [modalZIndex, setModalZIndex] = useState(2001);
 
-    // Window manager store actions
-    const registerWindow = useWindowManagerStore(state => state.registerWindow);
-    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
-
     const resolvedOnClose = onCancel || onClose;
 
-    // Register modal with window manager on mount
+    // Register modal once with a stable onClose wrapper. Depending on
+    // `resolvedOnClose` here previously caused an infinite render loop.
+    const baseZIndex = useStableWindowRegistration(windowId, 'modal', resolvedOnClose);
     useEffect(() => {
-        const baseZIndex = registerWindow(windowId, 'modal', resolvedOnClose);
         setOverlayZIndex(baseZIndex);
         setModalZIndex(baseZIndex + 1);
-
-        return () => {
-            unregisterWindow(windowId);
-        };
-    }, [windowId, registerWindow, unregisterWindow, resolvedOnClose]);
+    }, [baseZIndex]);
 
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState(() => ({
@@ -720,7 +713,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             e.preventDefault();
                             e.stopPropagation();
                             handleClose();
-                        }}>Ã - </button>
+                        }}><i className="fas fa-times"></i></button>
                     </div>
                     {/* Single column layout - Preview is now external */}
                     <div className="wizard-main-content">

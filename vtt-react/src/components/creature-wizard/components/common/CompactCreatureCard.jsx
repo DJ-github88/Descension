@@ -89,15 +89,26 @@ const CompactCreatureCard = ({ creature }) => {
         </div>
       </div>
 
-      {/* Main stats (HP, Initiative) */}
+      {/* Short description snippet */}
+      {creature.description && (
+        <p className="compact-creature-description">{creature.description}</p>
+      )}
+
+      {/* Main stats (HP, Mana, Initiative) */}
       <div className="compact-creature-main-stats">
-        <div className="compact-main-stat">
+        <div className="compact-main-stat compact-main-stat--hp">
           <div className="compact-main-stat-value">
-            {creature.stats?.currentHp || creature.stats?.maxHp || 0}/{creature.stats?.maxHp || 0}
+            {creature.stats?.currentHp ?? creature.stats?.maxHp ?? 0}/{creature.stats?.maxHp || 0}
           </div>
           <div className="compact-main-stat-label">HP</div>
         </div>
-        <div className="compact-main-stat">
+        <div className="compact-main-stat compact-main-stat--mana">
+          <div className="compact-main-stat-value">
+            {creature.stats?.currentMana ?? creature.stats?.maxMana ?? 0}/{creature.stats?.maxMana || 0}
+          </div>
+          <div className="compact-main-stat-label">MANA</div>
+        </div>
+        <div className="compact-main-stat compact-main-stat--init">
           <div className="compact-main-stat-value">{formatModifier(creature.stats?.initiative || 0)}</div>
           <div className="compact-main-stat-label">INIT</div>
         </div>

@@ -180,17 +180,17 @@ const LibraryWindow = ({ isOpen, onClose }) => {
           alignItems: 'center',
           justifyContent: 'center',
           flex: 1,
-          padding: '40px 60px',
-          gap: '32px',
+          padding: '28px 40px',
+          gap: '22px',
         }}>
           <div style={{
             textAlign: 'center',
-            marginBottom: '8px',
+            marginBottom: '4px',
           }}>
             <h2 style={{
               fontFamily: "'Bookman Old Style', 'Garamond', serif",
               color: '#4a3b2d',
-              fontSize: '28px',
+              fontSize: '24px',
               fontWeight: '700',
               margin: 0,
               letterSpacing: '1px',
@@ -199,16 +199,16 @@ const LibraryWindow = ({ isOpen, onClose }) => {
               Grand Library
             </h2>
             <div style={{
-              width: '120px',
+              width: '100px',
               height: '2px',
               background: 'linear-gradient(90deg, transparent, #a08c70, transparent)',
-              margin: '12px auto 0',
+              margin: '10px auto 0',
             }} />
             <p style={{
               fontFamily: "'Bookman Old Style', 'Garamond', serif",
               color: '#8b7d6b',
-              fontSize: '14px',
-              marginTop: '8px',
+              fontSize: '13px',
+              marginTop: '6px',
               fontStyle: 'italic',
             }}>
               Choose a section to explore
@@ -217,7 +217,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
 
           <div style={{
             display: 'flex',
-            gap: '24px',
+            gap: '20px',
             flexWrap: 'wrap',
             justifyContent: 'center',
           }}>
@@ -254,7 +254,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
                   <i className={section.icon} style={{
                     color: section.accentColor,
                     filter: `drop-shadow(0 0 8px ${section.accentColor}60)`,
-                    fontSize: '42px'
+                    fontSize: '30px'
                   }} />
                 </div>
                 <span className="section-label">

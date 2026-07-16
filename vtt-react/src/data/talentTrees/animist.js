@@ -124,8 +124,8 @@ export const ANIMIST_SPIRIT_BINDER = [
   },
   {
     id: 'sb_t3_death_loa_bargain',
-    name: 'Death Wyrd Bargain',
-    description: 'Ancient Wyrd stir in the Bryngloom depths, offering power to those who dare negotiate. Wyrd invocations cost 1 less resonance per rank. When you invoke Baron Samedi, heal 2d8 HP per rank from the necrotic overflow. Win condition.',
+    name: 'Bone-Choir Bargain',
+    description: 'Ancient ancestors stir in the Bryngloom depths, offering power to those who dare negotiate. Spirit invocations cost 1 less resonance per rank. When you invoke the Bone-Choir, heal 2d8 HP per rank from the necrotic overflow. Win condition.',
     icon: 'ability_rogue_deadliness',
     maxRanks: 2,
     position: { x: 2, y: 3 },
@@ -134,8 +134,8 @@ export const ANIMIST_SPIRIT_BINDER = [
   },
   {
     id: 'sb_t4_spirit_binder_capstone',
-    name: 'The Triune Devourer',
-    description: 'The Bryngloom\'s eldest spirit feasts on death to return what was taken. Once per long rest, when a cursed enemy dies, automatically invoke Baron Samedi at half resonance cost and resurrect up to 2 fallen allies within 30ft. Cost: 5 Resonance. Win condition.',
+    name: 'The Triune Ancestors',
+    description: 'The Bryngloom\'s eldest spirits return what death took. Once per long rest, when a cursed enemy dies, automatically invoke the Bone-Choir at half resonance cost and resurrect up to 2 fallen allies within 30ft. Cost: 5 Resonance. Win condition.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -198,7 +198,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: 'ss_t3_spirit_burst',
     name: 'Spirit Burst',
-    description: 'The Bryngloom\'s ancient voices surge forth, demanding less tribute for their mighty favor. Simbi and Erzulie invocations cost 1 less resonance per rank. After a spirit invocation, your next rune carving generates double resonance. Win condition.',
+    description: 'The Bryngloom\'s ancient voices surge forth, demanding less tribute for their mighty favor. Spore-Mother and Rune-Singer invocations cost 1 less resonance per rank. After a spirit invocation, your next rune carving generates double resonance. Win condition.',
     icon: 'spell_arcane_arcane04',
     maxRanks: 2,
     position: { x: 2, y: 3 },
@@ -208,7 +208,7 @@ export const ANIMIST_STORMSCRIBE = [
   {
     id: 'ss_t4_stormscribe_capstone',
     name: 'The Ancestral Convergence',
-    description: 'Every Bryngloom ancestor rises as one to weave storm, bone, and spirit into a single cataclysmic harmony. Once per long rest, channel all three traditions simultaneously. Erupt 3 totems, inscribe all allies within 20ft, and invoke Simbi for a massive heal, all in a single turn. Cost: 15 Resonance. Win condition.',
+    description: 'Every Bryngloom ancestor rises as one to weave storm, bone, and spirit into a single cataclysmic harmony. Once per long rest, channel all three traditions simultaneously. Erupt 3 totems, inscribe all allies within 20ft, and invoke the Spore-Mothers for a massive heal, all in a single turn. Cost: 15 Resonance. Win condition.',
     icon: 'inv_misc_platnumdisks',
     maxRanks: 1,
     position: { x: 2, y: 4 },

@@ -46,25 +46,28 @@ const getPassiveSummary = (trait = {}) => {
         return `${stat} ${mag}`;
     };
 
+    const getEffectLabel = (effect = {}) => {
+        if (effect.statModifier) return formatStatMod(effect.statModifier);
+        if (effect.mechanicsText) return effect.mechanicsText.replace(/\.$/, '');
+        if (effect.statusEffect?.description) return effect.statusEffect.description.replace(/\.$/, '');
+        return effect.name || effect.statusEffect?.type || 'Status effect';
+    };
+
     const benefits = [];
     const drawbacks = [];
 
     if (trait.buffConfig?.effects) {
         trait.buffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                benefits.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                benefits.push(effect.name || effect.statusEffect.type || 'Status effect');
+            if (effect.statModifier || effect.statusEffect) {
+                benefits.push(getEffectLabel(effect));
             }
         });
     }
 
     if (trait.debuffConfig?.effects) {
         trait.debuffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                drawbacks.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                drawbacks.push(effect.name || effect.statusEffect.type || 'Status effect');
+            if (effect.statModifier || effect.statusEffect) {
+                drawbacks.push(getEffectLabel(effect));
             }
         });
     }

@@ -2687,3 +2687,71 @@
     80% { opacity: 0.8; transform: scale(0.96) translate(-1px, 0.5px); }
     100% { opacity: 0.9; transform: scale(1) translate(0, 0); }
 }
+
+/* Subrace Illustration Navigation Controls */
+.illustration-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(44, 36, 22, 0.75);
+    color: #fcf8ee;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.illustration-nav-btn:hover {
+    background: rgba(212, 175, 55, 0.95);
+    color: #2c2416;
+    border-color: #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+}
+
+.illustration-nav-btn.prev {
+    left: 12px;
+}
+
+.illustration-nav-btn.next {
+    right: 12px;
+}
+
+.guide-illustration-frame:hover .illustration-nav-btn {
+    opacity: 1;
+}
+
+.illustration-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.illustration-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(139, 69, 19, 0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.illustration-dot:hover {
+    background: rgba(139, 69, 19, 0.5);
+}
+
+.illustration-dot.active {
+    background: #d4af37;
+    border-color: #8b4513;
+    transform: scale(1.15);
+}

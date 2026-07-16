@@ -718,28 +718,30 @@ const getSpellIconUrl = (spell) => {
  return getCustomIconUrl('Utility/Utility', 'abilities');
 };
 
-// Fallback watercolor image assets map based on class ID for an authentic guidebook feel
 const classFallbacks = {
- arcanoneer: [
-  { url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Vault Custodian Arcanoneer with a heavy pig-iron forearm graft.' },
-  { url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kessen Neth Clause-Weaver Arcanoneer weaving obligation lines.' },
-  { url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Drall Fexric Arcanoneer with copper filaments carrying a heavy steam pig-iron rifle.' }
- ],
- berserker: [
-  { url: '/assets/images/classes/berserker_illustration.png', caption: 'A Skald Human Iceheart Outcast Berserker holding a massive blood-rusted axe.' },
-  { url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Korr Emberth Berserker wielding a massive greataxe wreathed in embers.' },
-  { url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Thalren Human Berserker holding two heavy hand-axes wreathed in blood-spatter washes.' }
- ],
+	arcanoneer: [
+		{ url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Arcanoneer weaving fire and ice spheres in front of gothic spires.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kethrin Fexric Arcanoneer channeling lightning and steam through a clockwork brass regulator gauntlet on a mountain cliff.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Drall Fexric Arcanoneer unleashing a chaotic elemental surge of fire and gale from a jury-rigged gauntlet in a warzone.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration_4.png', caption: 'A Drun Neth Arcanoneer venting green acid and steam through gnarled oak pipes in a peat bog.' }
+	],
+	berserker: [
+		{ url: '/assets/images/classes/berserker_illustration.png', caption: 'A Morgh Groven Berserker with grey, stone-scale skin charging forward with a heavy stone-head battleaxe.' },
+		{ url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Thrask Emberth Berserker with sallow grey-pale skin and solid pale-blue eyes, leaping with a stone-bladed spear.' },
+		{ url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Skald Human Berserker in heavy mammoth-furs lunging with a double-bitted ice-covered waraxe.' }
+	],
+
  false_prophet: [
   { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic Silence.' },
   { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' },
   { url: '/assets/images/classes/false_prophet_illustration_3.png', caption: 'A Mistwoven Mimir False Prophet wearing a storm-glass mask holding a cosmic lantern.' }
  ],
- shaper: [
-  { url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Bone-Reader Shaper reshaping bone and sinew.' },
-  { url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Shore Myrathil Shaper with curved bone-swords and water-force.' },
-  { url: '/assets/images/classes/shaper_illustration_3.png', caption: 'A Korr Emberth Shaper reshaping glowing lava-infused bones with their hands.' }
- ],
+	shaper: [
+		{ url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Shaper with grey, stone-scale skin, actively growing sharp stone spurs from their forearm to defend themselves.' },
+		{ url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Maskborne Mimir Shaper wearing a wooden mask (representing lower nobility), striking a knight with a gnarled, mossy branch arm in the forest.' },
+		{ url: '/assets/images/classes/shaper_illustration_3.png', caption: 'An Ithran Groven Shaper with weathered grey rocky skin, actively weaving white mineral fibers into a defensive mesh shield to block arrows.' }
+	],
+
  revenant: [
   { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
   { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Velun Neth Revenant with blank pool eyes holding a glowing soul-lantern.' },

@@ -164,12 +164,12 @@ export const ANIMIST_DATA = {
       note: `The Ordan throat-singer who first discovered that the dead remember migration routes when the living no longer can. The name was never written  —  the Ordan had no script, and the throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to this lost origin.`
     },
     currentLeader: {
-      name: '<LoreLink termId="bayar-wind-throat">Bayar Wind-Throat</LoreLink>',
+      name: 'Bayar Wind-Throat',
       title: 'Last Singer of the Old Route',
       characterization: `An Ordan elder who still sings the migration-routes in the pre-Deepening tongue  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually.`
     },
     headquarters: { name: 'The Sundrift Wind-Shrine (moving camp)', locationId: 'sundrift-vale' },
-    crisisConnection: `Bayar Wind-Throat is the only living Animist who still sings the pre-fracture language. The dialect-fracture is a problem of the dead themselves  —  the oldest dead (those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke) speak clearly. The newer dead are confused, their voices layered with static no throat-singer can parse. Bayar suspects something is wrong with the threshold of death itself, and the Monoliths' awakening is not a cause but a symptom. He cannot prove this, because the evidence is in a language no one else remembers how to hear.`
+    crisisConnection: `Bayar Wind-Throat is the only living Animist who still sings the pre-fracture language. The dialect-fracture is a problem of the dead themselves  —  the oldest dead (those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke) speak clearly. The newer dead are confused, their voices layered with static no throat-singer can parse. Bayar suspects something is wrong with the threshold of death itself, and the Monoliths' awakening is not a cause but a symptom. He cannot prove this, because the evidence is in a language no one else remembers how to hear.`
   },
 
   worldFriction: [
@@ -231,7 +231,7 @@ The root technique originated among the <LoreLink termId="house_ordavan">Ordan</
 * **The First Singer (name lost)**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Navigation, not worship.
 * **The Groven Carver (name lost)**: The Skald trader who heard Ordan songs at a span-crossing and became the first to carve an ancestor-rune into living flesh.
 * **The Bog-Walker (name lost)**: The Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with deliberate intent.
-* **<LoreLink termId="bayar-wind-throat">Bayar Wind-Throat</LoreLink>**: The Ordan elder who still sings the pre-fracture tongue and watches the younger traditions drift.`
+* **Bayar Wind-Throat**: The Ordan elder who still sings the pre-fracture tongue and watches the younger traditions drift.`
     },
     signatureQuote: {
       text: '"The stars went dark. The herds still moved. The wind still blew. But no one knew where we were going. So I asked the dead. They remembered. They always remember."',
@@ -247,7 +247,7 @@ The root technique originated among the <LoreLink termId="house_ordavan">Ordan</
 
     currentCrisis: `The ancestral language is fragmenting  —  but not because the traditions have drifted apart. Something is wrong with death itself.
 
-The oldest dead  —  those who died before the <LoreLink termId="monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for pre-Deepening ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
+The oldest dead  —  those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for pre-Deepening ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
 
 The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Morren debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
 

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import usePresenceStore from '../../store/presenceStore';
 import { useIsPhone } from '../../hooks/useIsPhone';
+import useNavOverflow from '../../hooks/useNavOverflow';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import MapMakingSection from './MapMakingSection';
@@ -410,6 +411,24 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
  ];
 
+ // Total items in main-nav: navigation items + Community button
+ const totalNavItems = navigation.length + 1;
+ const headerRef = React.useRef(null);
+ const headerLeftRef = React.useRef(null);
+ const headerRightRef = React.useRef(null);
+ const { containerRef: navContainerRef, setItemRef, overflowCount } = useNavOverflow(totalNavItems, headerRef, headerLeftRef, headerRightRef);
+ const [overflowOpen, setOverflowOpen] = useState(false);
+
+ // Close overflow dropdown on Escape
+ useEffect(() => {
+  if (!overflowOpen) return;
+  const handleKey = (e) => {
+   if (e.key === 'Escape') setOverflowOpen(false);
+  };
+  document.addEventListener('keydown', handleKey);
+  return () => document.removeEventListener('keydown', handleKey);
+ }, [overflowOpen]);
+
  // Map background path
  const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
 
@@ -422,8 +441,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     }}
    >
     <header className="landing-header">
-      <div className="header-content">
-       <div className="header-left">
+      <div className="header-content" ref={headerRef}>
+       <div className="header-left" ref={headerLeftRef}>
         <div className="logo">
          <i className="fas fa-gem"></i>
          <span>Mythrill</span>
@@ -431,20 +450,26 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        </div>
 
        <div className="header-center">
-        <nav className="main-nav">
-         {navigation.map(item => (
-          <button
-           key={item.id}
-           className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-           onClick={() => handleNavClick(item.id)}
-          >
-           <i className={item.icon}></i>
-           {item.label}
-          </button>
-         ))}
+        <nav className="main-nav" ref={navContainerRef}>
+         {navigation.map((item, i) => {
+          const totalItems = navigation.length + 1;
+          const hidden = overflowCount > 0 && i >= totalItems - overflowCount;
+          return (
+           <button
+            key={item.id}
+            ref={setItemRef(i)}
+            className={`nav-item ${hidden ? 'nav-item-overflow-hidden' : ''} ${activeSection === item.id ? 'active' : ''}`}
+            onClick={() => handleNavClick(item.id)}
+           >
+            <i className={item.icon}></i>
+            {item.label}
+           </button>
+          );
+         })}
 
          <button
-          className={`nav-item community-nav-btn ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
+          ref={setItemRef(navigation.length)}
+          className={`nav-item community-nav-btn ${overflowCount > 0 ? 'nav-item-overflow-hidden' : ''} ${isInParty ? 'in-party' : ''} ${showCommunity ? 'active' : ''}`}
           onClick={handleCommunityClick}
           title={isInParty ? `Community Chat (In Party${isPartyLeader ? ' - Leader' : ''})` : "Community Chat"}
          >
@@ -460,10 +485,58 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           )}
           Community
          </button>
+
+         {overflowCount > 0 && (
+          <div className="nav-overflow-wrapper">
+           <button
+            className={`nav-overflow-btn ${overflowOpen ? 'active' : ''}`}
+            onClick={() => setOverflowOpen(prev => !prev)}
+             aria-label="More navigation items"
+            >
+             <i className="fas fa-plus"></i>
+            </button>
+          </div>
+         )}
         </nav>
        </div>
 
-       <div className="header-right header-actions">
+       {overflowOpen && overflowCount > 0 && (
+        <>
+         <div className="nav-overflow-backdrop" onClick={() => setOverflowOpen(false)} />
+         <div className="nav-overflow-dropdown">
+          {(() => {
+           const totalItems = navigation.length + 1;
+           const overflowedNavItems = navigation.slice(totalItems - overflowCount);
+           const communityItem = { id: 'community', label: 'Community', icon: 'fas fa-users', isCommunity: true };
+           const items = overflowedNavItems.length > 0 ? [...overflowedNavItems, communityItem] : [communityItem];
+           return items.map(item => (
+            <button
+             key={item.id}
+             className={`nav-overflow-item ${activeSection === item.id ? 'active' : ''}`}
+             onClick={() => {
+              if (item.isCommunity) {
+               handleCommunityClick();
+              } else {
+               handleNavClick(item.id);
+              }
+              setOverflowOpen(false);
+             }}
+            >
+             <i className={item.icon}></i>
+             {item.label}
+             {item.isCommunity && totalCommunityUnread > 0 && (
+              <span className="community-notification-badge">
+               {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
+              </span>
+             )}
+            </button>
+           ));
+          })()}
+         </div>
+        </>
+       )}
+
+       <div className="header-right header-actions" ref={headerRightRef}>
         <button
          type="button"
          className="privacy-btn"

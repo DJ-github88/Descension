@@ -466,8 +466,7 @@ const SEEDED_EVENTS = [
       "house-ordavan"
     ],
     "classIds": [
-      "augur",
-      "harbinger"
+      "augur"
     ],
     "causes": [],
     "effects": [
@@ -512,7 +511,7 @@ const SEEDED_EVENTS = [
       "event-glacier-bargain",
       "event-keth-amar-corruption"
     ],
-    "narrative": "In an act of desperate, terrifying genius, the eight noble houses of Mythrill pool their bloodlines and forbidden rituals to entomb the dying star beneath the volcanic crust of **Sundale**. High **Inscriptors** engrave the mathematical terms of the binding directly into memory-glass and the burning flesh of volunteers, while massive **Korr Emberth Titans** stand sentinel along the volcanic catwalks to hold the boundaries. But a cosmic star cannot be bound by stone alone; the seal requires a vessel woven from pure, living solar radiance (the hide of **Aex**, Sol's firstborn and the guardian of the sun. Aex does not volunteer for this torment. The noble houses, led by the legalistic sorcery of the **Velun Neth**, hunt Aex through the volcanic throat of Emberspire. They flay the radiant child of the sun alive, weaving its burning hide into the foundation of the seal. The **Spellguards** of later ages trace their blood-oath to this first sacrificial magic: the acts of arcanists who absorbed the solar backdraft to prevent their lords from being vaporized. The seal is set) a monumental, one-way vault with no key, protecting the slumbering sun from the Silence at the cost of freezing the surface world.",
+    "narrative": "In an act of desperate, terrifying genius, the seven noble houses of Mythrill pool their bloodlines and forbidden rituals to entomb the dying star beneath the volcanic crust of **Sundale**. High **Inscriptors** engrave the mathematical terms of the binding directly into memory-glass and the burning flesh of volunteers, while massive **Korr Emberth Titans** stand sentinel along the volcanic catwalks to hold the boundaries. But a cosmic star cannot be bound by stone alone; the seal requires a vessel woven from pure, living solar radiance — the hide of **Aex**, Sol's firstborn. Aex volunteered; no coerced binding could hold a being of pure stellar radiance, and Aex knew this and consented. House **Solvan** wielded a blade of crystallized starlight and flayed Aex's living hide in a single unbroken sheet; the firstborn did not scream but sang — Sol's own frequency, a harmonic matched to the star's death-throes — and that singing hide was woven into the seal while Aex bled stellar plasma onto the ritual ground. (The **Spellguards** of later ages trace their blood-oath to this first sacrificial magic: the acts of arcanists who absorbed the solar backdraft to prevent their lords from being vaporized.) The seal was set, a monumental, one-way vault with no key, protecting the slumbering sun from the Silence at the cost of freezing the surface world.",
     "dmHook": "A fragment of Aex's hide (a scrap that was cut away during the ritual and discarded) survives in a hidden reliquary beneath the Harath-Vault. It still burns. The tending-clan has never told anyone it exists. An Emberth Titan who discovers it must choose: reveal the evidence of the original sin, or protect the faith that keeps the forge-clans united.",
     "dateDisplay": "Year 3, Deepening"
   },
@@ -580,9 +579,7 @@ const SEEDED_EVENTS = [
     ],
     "classIds": [
       "martyr",
-      "inquisitor",
-      "apex",
-      "lunarch"
+      "apex"
     ],
     "causes": [
       "event-keth-amar-corruption"
@@ -616,8 +613,7 @@ const SEEDED_EVENTS = [
       "house-solvan"
     ],
     "classIds": [
-      "pyrofiend",
-      "berserker"
+      "pyrofiend"
     ],
     "causes": [
       "event-keth-amar-breach"
@@ -641,9 +637,7 @@ const SEEDED_EVENTS = [
       "iceheart-sea"
     ],
     "factionIds": [],
-    "classIds": [
-      "minstrel"
-    ],
+    "classIds": [],
     "causes": [
       "event-emberspire-eruption"
     ],
@@ -826,11 +820,7 @@ const SEEDED_EVENTS = [
       "house-mereval",
       "house-tesshan"
     ],
-    "classIds": [
-      "animist",
-      "gambit",
-      "shaper"
-    ],
+    "classIds": [],
     "causes": [
       "event-emberspire-eruption"
     ],
@@ -1284,9 +1274,7 @@ const SEEDED_EVENTS = [
       "iceheart-sea"
     ],
     "factionIds": [],
-    "classIds": [
-      "gambit"
-    ],
+    "classIds": [],
     "causes": [
       "event-myrathil-spawning"
     ],
@@ -1425,8 +1413,7 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [],
     "classIds": [
-      "apex",
-      "shaper"
+      "apex"
     ],
     "causes": [
       "event-mimir-purge"
@@ -1585,8 +1572,7 @@ const SEEDED_EVENTS = [
       "house-solvan"
     ],
     "classIds": [
-      "warden",
-      "shaper"
+      "warden"
     ],
     "causes": [
       "event-first-thermal-war"
@@ -1614,10 +1600,7 @@ const SEEDED_EVENTS = [
       "house-thalreth",
       "mist-sentinels"
     ],
-    "classIds": [
-      "toxicologist",
-      "inquisitor"
-    ],
+    "classIds": [],
     "causes": [
       "event-fogwood-schism"
     ],
@@ -1671,8 +1654,7 @@ const SEEDED_EVENTS = [
     ],
     "factionIds": [],
     "classIds": [
-      "inquisitor",
-      "plaguebringer"
+      "inquisitor"
     ],
     "causes": [
       "event-brine-bond-syndicate"
@@ -1787,10 +1769,7 @@ const SEEDED_EVENTS = [
       "drun-outcasts",
       "cult-of-forgotten-shadow"
     ],
-    "classIds": [
-      "falseProphet",
-      "revenant"
-    ],
+    "classIds": [],
     "causes": [
       "event-drun-severing",
       "event-vreken-overlit-epidemic"
@@ -1984,7 +1963,7 @@ const SEEDED_EVENTS = [
     "title": "The Last Rebirth Window: 0%",
     "type": "cosmic",
     "phase": "intrusion",
-    "description": "The fifty-fifth pulse. For the first time in history, no output was detected. Aex was exhausted. The Augurs at the Frozen Archive recorded: \"The scream has stopped.\" No pulse since has produced measurable output. The remaining Augurs (those whose accuracy had not yet collapsed) quietly removed the pulse measurements from public record. The Frozen Archive sealed the lower chambers where the sixty-five-pulse data set is held.",
+    "description": "The sixty-fifth pulse. For the first time in history, no output was detected. Aex was exhausted. The Augurs at the Frozen Archive recorded: \"The scream has stopped.\" No pulse since has produced measurable output. The remaining Augurs (those whose accuracy had not yet collapsed) quietly removed the pulse measurements from public record. The Frozen Archive sealed the lower chambers where the sixty-five-pulse data set is held.",
     "locationIds": [
       "frozen-archive",
       "sundale"

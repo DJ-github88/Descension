@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, memo, Suspense, lazy } from 'react';
-import TooltipPortal from '../tooltips/TooltipPortal';
-import { useTooltipPosition } from '../common/useTooltipPosition';
+import { createPortal } from 'react-dom';
 import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from '../../utils/assetManager';
@@ -30,60 +29,60 @@ const getDiceValue = (die) => {
 
 const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop, isDraggingGlobal = false, onDragStartGlobal, onDragEndGlobal }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, showTooltip);
+    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const cardRef = useRef(null);
+    const tooltipRef = useRef(null);
 
-    // State to track if we're currently dragging
     const [isDragging, setIsDragging] = useState(false);
 
-    // Animation frame ref for mouse move optimization
     const mouseMoveAnimationRef = useRef(null);
-
-    // Tooltip delay timer to prevent rapid showing/hiding
     const tooltipDelayRef = useRef(null);
 
-    // State for quantity (for stackable items)
     const [quantity, setQuantity] = useState(item.quantity || 1);
 
+    const computeTooltipPosition = () => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const TOOLTIP_WIDTH = 290;
+        const GAP = 10;
 
-    // Simple tooltip handlers (matching character sheet pattern) - optimized for drag performance
-    const handleMouseEnter = (e) => {
+        let x = rect.right + GAP;
+        let y = rect.top;
+
+        if (x + TOOLTIP_WIDTH > window.innerWidth - 10) {
+            x = rect.left - TOOLTIP_WIDTH - GAP;
+        }
+        if (x < 10) {
+            x = 10;
+        }
+        if (y + 400 > window.innerHeight - 10) {
+            y = window.innerHeight - 410;
+        }
+        if (y < 10) {
+            y = 10;
+        }
+
+        setTooltipPos({ x, y });
+    };
+
+    const handleMouseEnter = () => {
         if (!isDraggingGlobal) {
-            // Clear any existing delay
             if (tooltipDelayRef.current) {
                 clearTimeout(tooltipDelayRef.current);
             }
 
-            // Add delay before showing tooltip to prevent rapid showing/hiding
             tooltipDelayRef.current = setTimeout(() => {
+                computeTooltipPosition();
                 setShowTooltip(true);
-                setMousePosition({ x: e.clientX, y: e.clientY });
-            }, 300); // 300ms delay
+            }, 300);
         }
     };
 
-    const handleMouseMove = (e) => {
-        if (showTooltip && !isDraggingGlobal) {
-            // Use requestAnimationFrame for smoother performance
-            if (mouseMoveAnimationRef.current) {
-                cancelAnimationFrame(mouseMoveAnimationRef.current);
-            }
-            mouseMoveAnimationRef.current = requestAnimationFrame(() => {
-                setMousePosition({ x: e.clientX, y: e.clientY });
-            });
-        }
-    };
+    const handleMouseMove = () => {};
 
     const handleMouseLeave = () => {
         if (!isDraggingGlobal) {
             setShowTooltip(false);
-            // Clear any pending animation frame
-            if (mouseMoveAnimationRef.current) {
-                cancelAnimationFrame(mouseMoveAnimationRef.current);
-                mouseMoveAnimationRef.current = null;
-            }
-            // Clear any pending tooltip delay
             if (tooltipDelayRef.current) {
                 clearTimeout(tooltipDelayRef.current);
                 tooltipDelayRef.current = null;
@@ -91,7 +90,6 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
         }
     };
 
-    // Cleanup animation frame and tooltip delay on unmount
     useEffect(() => {
         return () => {
             if (mouseMoveAnimationRef.current) {
@@ -372,23 +370,22 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 </div>
 
             </div>
-            {showTooltip && (
-                <TooltipPortal>
-                    <div
-                        ref={tooltipRef}
-                        style={{
-                            position: 'fixed',
-                            left: adjustedPosition.x,
-                            top: adjustedPosition.y,
-                            pointerEvents: 'none',
-                            zIndex: 999999999
-                        }}
-                    >
-                        <Suspense fallback={null}>
-                            <LazyItemTooltip item={item} />
-                        </Suspense>
-                    </div>
-                </TooltipPortal>
+            {showTooltip && createPortal(
+                <div
+                    ref={tooltipRef}
+                    style={{
+                        position: 'fixed',
+                        left: tooltipPos.x,
+                        top: tooltipPos.y,
+                        pointerEvents: 'none',
+                        zIndex: 999999999
+                    }}
+                >
+                    <Suspense fallback={null}>
+                        <LazyItemTooltip item={item} />
+                    </Suspense>
+                </div>,
+                document.body
             )}
         </>
     );
