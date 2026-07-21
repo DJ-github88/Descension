@@ -4,14 +4,14 @@ export const BACKGROUND_ABILITIES = {
       name: "Dawn's Favor",
       type: 'Passive',
       usage: '1/Long Rest',
-      description: "The Solbrand's warmth lingers in the faithful long after the pilgrimage ends. Gain resistance to radiant damage and advantage on one roll per long rest.",
+      description: "Sol's Breath's warmth lingers in the faithful long after the pilgrimage ends. Gain resistance to radiant damage and advantage on one roll per long rest.",
       details: "You have resistance to radiant damage. Once per long rest, you can choose to have advantage on any d20 roll you make."
     },
     {
       name: 'Smite the Unfaithful',
       type: 'Active',
       usage: '1/Short Rest',
-      description: 'The Dawn Vigil brands its weapons with captured Solbrand-light. Imbue your weapon with sacred energy for bonus radiant damage on your next attack.',
+      description: "The Dawn Vigil brands its weapons with captured Sol's Breath-light. Imbue your weapon with sacred energy for bonus radiant damage on your next attack.",
       details: "For 1 AP, your next weapon attack deals an additional 1d8 radiant damage. If the target is undead or a fiend, the damage increases to 2d8."
     }
   ],
@@ -300,7 +300,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Field Improvisation',
       type: 'Active',
       usage: '1/Short Rest',
-      description: "A Drall dropout or Kethrin scholar, you can jury-rig anything. Modify a spell or device by changing one aspect of its function for a single use.",
+      description: "A Caustic Fexric dropout or Clockwork Fexric scholar, you can jury-rig anything. Modify a spell or device by changing one aspect of its function for a single use.",
       details: "When you cast a spell or use a device, you can change one aspect: damage type (to any other type), double or halve the range, or reduce its resource cost by 1 (minimum 0)."
     }
   ],

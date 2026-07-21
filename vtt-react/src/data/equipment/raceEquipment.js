@@ -252,7 +252,7 @@ export const GROVEN_BASE_ITEMS = [
     }
 ];
 
-// Emberth base items
+// Solari base items
 export const EMBERTH_BASE_ITEMS = [
     {
         id: 'emberth-flame-bracers',
@@ -260,7 +260,7 @@ export const EMBERTH_BASE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'Bracers of Solbrand-tempered cloth that hold the Emberspires warmth against the frost. The faithful wear them at the vigil-fires.',
+        description: 'Bracers of Sol\'s Breath-tempered cloth that hold the Emberspires warmth against the frost. The faithful wear them at the vigil-fires.',
         iconId: 'inv_bracer_02',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 1,
@@ -285,7 +285,7 @@ export const EMBERTH_BASE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'Boots soled with Basalt-Shyr grit that grip where the caldera-glass runs molten. Forge-born Emberth feet do not slip.',
+        description: 'Boots soled with Basalt-Shyr grit that grip where the caldera-glass runs molten. Forge-born Solari feet do not slip.',
         iconId: 'inv_boots_05',
         value: { platinum: 0, gold: 6, silver: 50, copper: 75 },
         weight: 2,
@@ -477,7 +477,7 @@ agility: { value: 1, isPercentage: false }
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'A belt hung with the guild-vault tools a Fexrick carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
+        description: 'A belt hung with the guild-vault tools a Fexric carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
         iconId: 'inv_belt_05',
         value: { platinum: 0, gold: 4, silver: 75, copper: 50 },
         weight: 2,
@@ -648,7 +648,7 @@ export const MIMIR_SUBRACE_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['untethered_mimir']
+            subraces: ['tethered_mimir']
         }
     }
 ];
@@ -808,7 +808,7 @@ export const GROVEN_SUBRACE_ITEMS = [
     }
 ];
 
-// Emberth subrace items
+// Solari subrace items
 export const EMBERTH_SUBRACE_ITEMS = [
     {
         id: 'forgeborn-hammer',
@@ -816,7 +816,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
         type: 'weapon',
         subtype: 'MACE',
         quality: 'uncommon',
-        description: 'A hammer tempered at Harath-Vault beneath the Emberspire. The Solbrands heat still lives in the striking-face.',
+        description: 'A hammer tempered at Harath-Vault beneath the Emberspire. The Sol\'s Breath heat still lives in the striking-face.',
         iconId: 'inv_hammer_05',
         value: { platinum: 0, gold: 10, silver: 75, copper: 25 },
         weight: 4,
@@ -846,7 +846,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'An ash-cloth cloak from the Thrask forges. The caldera-wind taught the weave to shed cinder and ember alike.',
+        description: 'An ash-cloth cloak from the Waste-Solari forges. The caldera-wind taught the weave to shed cinder and ember alike.',
         iconId: 'inv_misc_cape_18',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 3,
@@ -870,7 +870,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'uncommon',
-        description: 'A Korr-forged blade quenched in Solbrand-light. The Dawn Vigil issues these to its most devoted sworn-swords.',
+        description: 'A Hollow-Solari-forged blade quenched in Sol\'s Breath-light. The Dawn Vigil issues these to its most devoted sworn-swords.',
         iconId: 'inv_sword_48',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 3,
@@ -1068,7 +1068,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Silath crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
+        description: 'A Stellar Astril crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
         iconId: 'inv_helmet_31',
         value: { platinum: 0, gold: 10, silver: 75, copper: 25 },
         weight: 1,
@@ -1089,7 +1089,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Vashir crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
+        description: 'A Earthen Astril crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
         iconId: 'inv_crown_01',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 1,
@@ -1135,7 +1135,7 @@ export const FERRICK_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A Drall toolkit assembled from stolen guild-vault fragments. Every tool is improvised from half-understood blueprints, and most of them work.',
+        description: 'A Caustic Fexric toolkit assembled from stolen guild-vault fragments. Every tool is improvised from half-understood blueprints, and most of them work.',
         iconId: 'inv_misc_enggizmos_27',
         value: { platinum: 0, gold: 7, silver: 75, copper: 50 },
         weight: 2,
@@ -1155,7 +1155,7 @@ export const FERRICK_SUBRACE_ITEMS = [
         type: 'weapon',
         subtype: 'MACE',
         quality: 'uncommon',
-        description: 'Kethrin-forged knuckle-guards stamped with a Master Craft-Guild seal. The guild-vaults teach that every mechanism, including a fist, benefits from reinforcement.',
+        description: 'Clockwork Fexric-forged knuckle-guards stamped with a Master Craft-Guild seal. The guild-vaults teach that every mechanism, including a fist, benefits from reinforcement.',
         iconId: 'inv_gauntlets_08',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 2,

@@ -45,7 +45,7 @@ export const PATH_DATA = {
     bound: {
         id: 'bound',
         name: 'The Bound',
-        description: 'You have sworn a binding oath, to Morvane, to the Astril Synod, to the Solbrand, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
+        description: 'You have sworn a binding oath, to Morvane, to the Astril Synod, to Sol\'s Breath, or to a personal vow so deep it has become metaphysical. A contract is the most sincere form of love because it says you are willing to be bound in a way the world must enforce. Your word is iron. Your debt is eternal.',
         icon: 'fas fa-scroll',
         statModifiers: {
             strength: 1,
@@ -73,7 +73,7 @@ export const PATH_DATA = {
     unseen: {
         id: 'unseen',
         name: 'The Unseen',
-        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Veil can lie without their skin betraying them. The Fexrick Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
+        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Veil can lie without their skin betraying them. The Fexric Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
         icon: 'fas fa-mask',
         statModifiers: {
             agility: 2,
@@ -129,7 +129,7 @@ export const PATH_DATA = {
     archive_sworn: {
         id: 'archive_sworn',
         name: 'The Archive-Sworn',
-        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Emberth sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
+        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Neth Canopy-Ledger holds contracts in crystallized tree-sap. The Solari sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
         icon: 'fas fa-book',
         statModifiers: {
             intelligence: 2,
@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Silath who maintains their rituals is a fortress; a Silath who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Stellar Astril who maintains their rituals is a fortress; a Stellar Astril who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,

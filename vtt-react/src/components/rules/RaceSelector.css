@@ -1625,6 +1625,32 @@
     border-radius: inherit;
 }
 
+/* Dedicated per-race hover FX layer (mask overlay, vines, cracks, gears, etc.) */
+.race-card-fx,
+.variant-card-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    overflow: visible;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.race-card:hover .race-card-fx,
+.variant-card:hover .variant-card-fx {
+    opacity: 1;
+}
+
+.race-card.selected .race-card-fx,
+.variant-card.selected .variant-card-fx {
+    opacity: 0.85;
+}
+
 .race-card, .variant-card {
     position: relative;
     z-index: 1;
@@ -1681,9 +1707,6 @@
 }
 .variant-card-tethered_mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 10 0 L 10 200 M 40 0 L 40 200 M 70 0 L 70 200 M 100 0 L 100 200 M 130 0 L 130 200 M 160 0 L 160 200 M 190 0 L 190 200 M 220 0 L 220 200 M 250 0 L 250 200 M 280 0 L 280 200' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 0 20 L 300 20 M 0 50 L 300 50 M 0 80 L 300 80 M 0 110 L 300 110 M 0 140 L 300 140 M 0 170 L 300 170' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
-}
-.variant-card-untethered_mimir {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 80 C 60 40, 140 100, 320 60 L 320 200 L -20 200 Z' fill='%23080403' opacity='0.7'/%3E%3C/svg%3E") !important;
 }
 .race-card-mimir,
 .variant-card-mimir {
@@ -2754,4 +2777,301 @@
     background: #d4af37;
     border-color: #8b4513;
     transform: scale(1.15);
+}
+
+
+/* ============================================================
+   PER-RACE HOVER FX OVERLAYS  (themed, not button rotation)
+   The .race-card-fx / .variant-card-fx layer stacks several
+   inline-SVG textures (wash + motif + particles) that blend into
+   the card and animate on hover / when selected.
+   ============================================================ */
+
+/* shared base for all fx layers */
+.race-card-fx, .variant-card-fx {
+    background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+
+/* 1. MIMIR - Fog wisps drift while a heartwood MASK surfaces,
+      amber eye-slits burning through. Screen blend lifts the glow. */
+.race-card-mimir .race-card-fx,
+.variant-card-mimir .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* mask motif */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3ClinearGradient id='mg' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23d9a75f' stop-opacity='0.9'/%3E%3Cstop offset='100%25' stop-color='%237a4a1e' stop-opacity='0.6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M150 6 C 96 6, 72 52, 80 100 C 84 134, 108 174, 150 188 C 192 174, 216 134, 220 100 C 228 52, 204 6, 150 6 Z' fill='url(%23mg)' fill-opacity='0.5' stroke='%23e8c98a' stroke-opacity='0.5' stroke-width='1.5'/%3E%3Cpath d='M150 6 C 118 20, 110 44, 116 62 M150 6 C 182 20, 190 44, 184 62' fill='none' stroke='%23e8c98a' stroke-opacity='0.35' stroke-width='1'/%3E%3Cpath d='M118 96 C 108 90, 102 104, 112 112 C 120 118, 128 108, 122 100 Z' fill='%23ffb347'/%3E%3Cpath d='M182 96 C 192 90, 198 104, 188 112 C 180 118, 172 108, 178 100 Z' fill='%23ffb347'/%3E%3C/svg%3E"),
+        /* fog wisps */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='none' stroke='%23e6d9c4' stroke-opacity='0.25' stroke-width='8' filter='blur%286px%29'%3E%3Cpath d='M-20 150 Q 80 120 160 150 T 340 140'/%3E%3Cpath d='M-20 60 Q 100 40 200 70 T 340 50'/%3E%3C/g%3E%3C/svg%3E"),
+        /* warm wash */
+        radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.22) 0%, transparent 60%);
+    background-size: 62% 86%, 160% 100%, 100% 100%;
+    background-position: center 40%, 50% 50%, center;
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 6px rgba(255, 179, 71, 0.35));
+}
+
+.race-card-mimir:hover .race-card-fx,
+.variant-card-mimir:hover .variant-card-fx {
+    animation: mimir-mask 4.5s ease-in-out infinite;
+    transform: scale(1);
+}
+
+@keyframes mimir-mask {
+    0%, 100% { opacity: 0.55; filter: drop-shadow(0 0 4px rgba(255, 179, 71, 0.3)) brightness(1); background-position: center 40%, 50% 50%, center; }
+    50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(255, 179, 71, 0.7)) brightness(1.2); background-position: center 40%, 46% 50%, center; }
+}
+
+
+/* 2. GROVEN - Basalt CRACKS split the button with hot runes seeping. */
+.race-card-groven .race-card-fx,
+.variant-card-groven .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* crack web */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg stroke='%23b0bec5' stroke-width='1.5' fill='none' stroke-opacity='0.95'%3E%3Cpath d='M40 0 L70 60 L55 95 L90 150 L70 200'/%3E%3Cpath d='M70 60 L112 75'/%3E%3Cpath d='M55 95 L24 112'/%3E%3Cpath d='M260 0 L230 55 L250 100 L215 150 L240 200'/%3E%3Cpath d='M230 55 L188 70'/%3E%3Cpath d='M250 100 L286 120'/%3E%3Cpath d='M150 -10 L160 60 L140 110 L165 160 L150 210'/%3E%3Cpath d='M160 60 L202 65'/%3E%3Cpath d='M140 110 L98 116'/%3E%3C/g%3E%3Cg fill='%23ffca28'%3E%3Ccircle cx='70' cy='60' r='2'/%3E%3Ccircle cx='230' cy='55' r='2'/%3E%3Ccircle cx='160' cy='60' r='2'/%3E%3Ccircle cx='165' cy='160' r='2'/%3E%3Ccircle cx='140' cy='110' r='1.6'/%3E%3Ccircle cx='250' cy='100' r='1.6'/%3E%3C/g%3E%3C/svg%3E"),
+        /* inner basalt glow */
+        radial-gradient(circle at 50% 50%, rgba(158, 158, 158, 0.18) 0%, transparent 65%);
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    transform: scale(0.92);
+}
+
+.race-card-groven:hover .race-card-fx,
+.variant-card-groven:hover .variant-card-fx {
+    animation: groven-cracks 2.4s ease-in-out infinite;
+    transform: scale(1.03);
+}
+
+@keyframes groven-cracks {
+    0%, 100% { opacity: 0.4; filter: drop-shadow(0 0 0 rgba(255, 202, 40, 0)); }
+    30% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 202, 40, 0.7)); }
+    50% { opacity: 0.6; }
+    70% { opacity: 1; filter: drop-shadow(0 0 9px rgba(255, 202, 40, 0.9)); }
+}
+
+
+/* 3. BRIARAN - Shadowy thorns & vines creep from the corners,
+      spilling OVER and OUTSIDE the button (multiply = overgrowth). */
+.race-card-briaran .race-card-fx,
+.variant-card-briaran .variant-card-fx {
+    overflow: visible;
+    mix-blend-mode: multiply;
+    background-image:
+        /* creeping vines with leaves + thorns */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='240' viewBox='0 0 340 240'%3E%3Cg stroke='%23143516' stroke-width='4' fill='none' stroke-linecap='round'%3E%3Cpath d='M-10 -10 C 40 30, 20 70, 45 110 C 65 145, 30 175, 80 220'/%3E%3Cpath d='M-10 250 C 35 210, 15 165, 50 120 C 70 95, 40 60, 90 30'/%3E%3Cpath d='M350 -10 C 300 30, 325 70, 300 110 C 280 145, 315 175, 265 220'/%3E%3Cpath d='M350 250 C 305 210, 325 165, 290 120 C 270 95, 300 60, 250 30'/%3E%3C/g%3E%3Cg stroke='%231b5e20' stroke-width='2' fill='none'%3E%3Cpath d='M-10 -10 L-2 0 M40 30 L33 22 M20 70 L30 64 M45 110 L38 102 M80 220 L74 210'/%3E%3Cpath d='M350 -10 L342 0 M300 30 L307 22 M325 70 L315 64 M300 110 L307 102 M265 220 L271 210'/%3E%3C/g%3E%3Cg fill='%2338893c'%3E%3Cpath d='M45 110 q 14 -7 20 5 q -12 9 -20 -5 Z'/%3E%3Cpath d='M50 120 q -14 7 -20 -5 q 12 -9 20 5 Z'/%3E%3Cpath d='M300 110 q -14 -7 -20 5 q 12 9 20 -5 Z'/%3E%3Cpath d='M290 120 q 14 7 20 -5 q -12 -9 -20 5 Z'/%3E%3Cpath d='M70 60 q 12 -6 16 4 q -10 8 -16 -4 Z'/%3E%3Cpath d='M270 180 q -12 6 -16 -4 q 10 -8 16 4 Z'/%3E%3C/g%3E%3C/svg%3E"),
+        /* dark soil shadow at edges */
+        radial-gradient(ellipse at 0% 0%, rgba(10, 30, 10, 0.35) 0%, transparent 45%),
+        radial-gradient(ellipse at 100% 100%, rgba(10, 30, 10, 0.35) 0%, transparent 45%);
+    background-size: 118% 122%, 60% 60%, 60% 60%;
+    background-position: center, 0% 0%, 100% 100%;
+    transform: scale(0.96);
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
+}
+
+.race-card-briaran:hover .race-card-fx,
+.variant-card-briaran:hover .variant-card-fx {
+    animation: briaran-creep 5.5s ease-in-out infinite;
+    transform: scale(1.03);
+}
+
+@keyframes briaran-creep {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(56, 142, 60, 0.45)) brightness(1.08); }
+}
+
+
+/* 4. FEXRICK - Clockwork GEARS mesh (drift) + rising CHEMICAL bubbles. */
+.race-card-fexrick .race-card-fx,
+.variant-card-fexrick .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* gears */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='none' stroke='%23a1887f' stroke-width='2' stroke-opacity='0.6'%3E%3Ccircle cx='55' cy='55' r='26'/%3E%3Ccircle cx='55' cy='55' r='10'/%3E%3Cg stroke='%23a1887f' stroke-width='3' stroke-opacity='0.6'%3E%3Cpath d='M55 21 L55 33 M55 77 L55 89 M21 55 L33 55 M77 55 L89 55 M32 32 L41 41 M78 32 L69 41 M32 78 L41 69 M78 78 L69 69'/%3E%3C/g%3E%3Ccircle cx='245' cy='150' r='20'/%3E%3Ccircle cx='245' cy='150' r='7'/%3E%3Cg stroke='%23bcaaa4' stroke-width='2.5' stroke-opacity='0.55'%3E%3Cpath d='M245 122 L245 132 M245 168 L245 178 M217 150 L227 150 M263 150 L273 150 M227 132 L234 139 M263 132 L256 139 M227 168 L234 161 M263 168 L256 161'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        /* chemical bubbles + drips */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='%2364dd17' fill-opacity='0.75'%3E%3Ccircle cx='120' cy='165' r='3'/%3E%3Ccircle cx='150' cy='185' r='2'/%3E%3Ccircle cx='180' cy='155' r='2.5'/%3E%3Ccircle cx='200' cy='178' r='2'/%3E%3Ccircle cx='135' cy='145' r='1.6'/%3E%3C/g%3E%3Cg stroke='%2364dd17' stroke-width='1.5' stroke-opacity='0.55' fill='none'%3E%3Cpath d='M120 165 q -4 -22 0 -44'/%3E%3Cpath d='M180 155 q 4 -26 0 -52'/%3E%3C/g%3E%3C/svg%3E"),
+        /* chemical puddle glow bottom */
+        radial-gradient(ellipse at 50% 110%, rgba(100, 221, 23, 0.2) 0%, transparent 60%);
+    background-size: 64% 64%, 56% 56%, 100% 100%;
+    background-position: 12% 18%, 70% 80%, center;
+    transform: scale(0.92);
+}
+
+.race-card-fexrick:hover .race-card-fx,
+.variant-card-fexrick:hover .variant-card-fx {
+    animation: fexrick-mesh 4s ease-in-out infinite, fexrick-bubbles 3.5s ease-in-out infinite;
+    transform: scale(1);
+}
+
+@keyframes fexrick-mesh {
+    0%, 100% { background-position: 12% 18%, 70% 80%, center; }
+    50% { background-position: 14% 16%, 72% 76%, center; }
+}
+
+@keyframes fexrick-bubbles {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; filter: drop-shadow(0 0 5px rgba(100, 221, 23, 0.6)); }
+}
+
+
+/* 5. MYRATHIL - Caustic ripples sweep across, bioluminescent shimmer. */
+.race-card-myrathil .race-card-fx,
+.variant-card-myrathil .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* ripples */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.55'%3E%3Cpath d='M0 100 Q 75 60 150 100 T 300 100'/%3E%3Cpath d='M0 120 Q 75 80 150 120 T 300 120'/%3E%3Cpath d='M0 80 Q 75 40 150 80 T 300 80'/%3E%3Cpath d='M0 140 Q 75 100 150 140 T 300 140'/%3E%3Cpath d='M0 60 Q 75 20 150 60 T 300 60'/%3E%3C/g%3E%3Cg fill='%2300e5ff' fill-opacity='0.8'%3E%3Ccircle cx='70' cy='90' r='2'/%3E%3Ccircle cx='180' cy='120' r='2'/%3E%3Ccircle cx='240' cy='80' r='2'/%3E%3C/g%3E%3C/svg%3E"),
+        /* deep water wash */
+        radial-gradient(circle at 50% 120%, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
+    background-size: 150% 150%, 100% 100%;
+    background-position: center, center;
+    transform: scale(1.08);
+}
+
+.race-card-myrathil:hover .race-card-fx,
+.variant-card-myrathil:hover .variant-card-fx {
+    animation: myrathil-ripple 4.5s ease-in-out infinite;
+    transform: scale(1);
+}
+
+@keyframes myrathil-ripple {
+    0%, 100% { opacity: 0.4; background-position: 0% 50%, center; }
+    50% { opacity: 0.95; background-position: 100% 50%, center; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.5)); }
+}
+
+
+/* 6. EMBERTH - Glowing magma cracks + heat shimmer. */
+.race-card-emberth .race-card-fx,
+.variant-card-emberth .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* magma veins */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='none' stroke='%23ff3d00' stroke-width='4' stroke-opacity='0.85' filter='blur%280.5px%29'%3E%3Cpath d='M-10 150 Q 80 120 160 70 T 320 20'/%3E%3Cpath d='M-10 175 Q 90 145 170 95 T 320 45'/%3E%3C/g%3E%3Cg fill='none' stroke='%23ffea00' stroke-width='1.5' stroke-opacity='0.95'%3E%3Cpath d='M-10 150 Q 80 120 160 70 T 320 20'/%3E%3Cpath d='M-10 175 Q 90 145 170 95 T 320 45'/%3E%3C/g%3E%3C/svg%3E"),
+        /* heat glow */
+        radial-gradient(circle at 50% 110%, rgba(255, 61, 0, 0.22) 0%, transparent 70%);
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    transform: scale(0.95);
+}
+
+.race-card-emberth:hover .race-card-fx,
+.variant-card-emberth:hover .variant-card-fx {
+    animation: emberth-heat 2.6s ease-in-out infinite;
+    transform: scale(1.02);
+}
+
+@keyframes emberth-heat {
+    0%, 100% { opacity: 0.6; filter: brightness(1) blur(0); }
+    40% { opacity: 1; filter: brightness(1.4) blur(0.4px) drop-shadow(0 0 9px rgba(255, 61, 0, 0.75)); }
+    70% { opacity: 0.8; filter: brightness(0.95) blur(0); }
+}
+
+
+/* 7. VREKEN - Glowing mushroom spores drift, mossy gloom pulses. */
+.race-card-vreken .race-card-fx,
+.variant-card-vreken .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* spores */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='%2369f0ae' fill-opacity='0.85'%3E%3Ccircle cx='60' cy='60' r='3'/%3E%3Ccircle cx='120' cy='40' r='2'/%3E%3Ccircle cx='200' cy='70' r='2.5'/%3E%3Ccircle cx='250' cy='50' r='3'/%3E%3Ccircle cx='90' cy='120' r='2'/%3E%3Ccircle cx='170' cy='140' r='2.5'/%3E%3Ccircle cx='230' cy='130' r='2'/%3E%3Ccircle cx='150' cy='95' r='1.6'/%3E%3C/g%3E%3Cg fill='%2369f0ae' fill-opacity='0.45'%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3Ccircle cx='250' cy='50' r='9'/%3E%3Ccircle cx='200' cy='70' r='7'/%3E%3C/g%3E%3C/svg%3E"),
+        /* gloom wash */
+        radial-gradient(circle at 20% 20%, rgba(105, 240, 174, 0.15) 0%, transparent 55%);
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    transform: scale(0.9);
+}
+
+.race-card-vreken:hover .race-card-fx,
+.variant-card-vreken:hover .variant-card-fx {
+    animation: vreken-spores 5s ease-in-out infinite;
+    transform: scale(1.04);
+}
+
+@keyframes vreken-spores {
+    0%, 100% { opacity: 0.4; filter: blur(0.5px); }
+    50% { opacity: 1; filter: blur(0) drop-shadow(0 0 6px rgba(105, 240, 174, 0.8)) brightness(1.25); }
+}
+
+
+/* 8. ASTRIL - Starbursts sparkle across the nebula. */
+.race-card-astril .race-card-fx,
+.variant-card-astril .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* starbursts */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='%23fff' fill-opacity='0.9'%3E%3Cg transform='translate(70,50)'%3E%3Cpath d='M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z'/%3E%3C/g%3E%3Cg transform='translate(230,150)'%3E%3Cpath d='M0 -6 L1.2 -1.2 L6 0 L1.2 1.2 L0 6 L-1.2 1.2 L-6 0 L-1.2 -1.2 Z'/%3E%3C/g%3E%3Cg transform='translate(150,30)'%3E%3Cpath d='M0 -4 L1 -1 L4 0 L1 1 L0 4 L-1 1 L-4 0 L-1 -1 Z'/%3E%3C/g%3E%3Cg transform='translate(40,140)'%3E%3Cpath d='M0 -4 L1 -1 L4 0 L1 1 L0 4 L-1 1 L-4 0 L-1 -1 Z'/%3E%3C/g%3E%3Cg transform='translate(260,80)'%3E%3Cpath d='M0 -5 L1 -1 L5 0 L1 1 L0 5 L-1 1 L-5 0 L-1 -1 Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        /* nebula wash */
+        radial-gradient(circle at 30% 30%, rgba(255, 171, 64, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 75% 70%, rgba(124, 77, 255, 0.15) 0%, transparent 60%);
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    background-position: center, center, center;
+    transform: scale(0.95);
+}
+
+.race-card-astril:hover .race-card-fx,
+.variant-card-astril:hover .variant-card-fx {
+    animation: astril-twinkle 3s ease-in-out infinite;
+    transform: scale(1.02);
+}
+
+@keyframes astril-twinkle {
+    0%, 100% { opacity: 0.35; }
+    25% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 200, 128, 0.9)); }
+    50% { opacity: 0.5; }
+    75% { opacity: 1; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)); }
+}
+
+
+/* 9. NETH - Silver contract sigil slowly rotates over a cold wash. */
+.race-card-neth .race-card-fx,
+.variant-card-neth .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* sigil */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg fill='none' stroke='%23e0e0e0' stroke-width='1.5' stroke-opacity='0.6'%3E%3Ccircle cx='150' cy='100' r='58'/%3E%3Ccircle cx='150' cy='100' r='40'/%3E%3Cpath d='M150 42 L150 158 M92 100 L208 100 M106 56 L194 144 M194 56 L106 144'/%3E%3Cpath d='M120 70 q 30 -12 60 0 q -12 30 0 60 q -30 12 -60 0 q 12 -30 0 -60 Z'/%3E%3Ccircle cx='150' cy='100' r='6'/%3E%3C/g%3E%3C/svg%3E"),
+        /* cold silver wash */
+        radial-gradient(circle at 50% 50%, rgba(224, 224, 224, 0.12) 0%, transparent 65%);
+    background-size: 55% 55%, 100% 100%;
+    background-position: center, center;
+    transform: scale(0.9);
+}
+
+.race-card-neth:hover .race-card-fx,
+.variant-card-neth:hover .variant-card-fx {
+    animation: neth-seal 14s linear infinite;
+    transform: scale(1);
+}
+
+@keyframes neth-seal {
+    0% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { transform: scale(1) rotate(360deg); opacity: 0.6; }
+}
+
+
+/* 10. HUMAN - A candle flame glows warm in the corner, flickering. */
+.race-card-human .race-card-fx,
+.variant-card-human .variant-card-fx {
+    mix-blend-mode: screen;
+    background-image:
+        /* candle */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cg transform='translate(255,150)'%3E%3Crect x='-6' y='0' width='12' height='42' rx='2' fill='%236d4c41' fill-opacity='0.55'/%3E%3Cpath d='M0 0 C 6 -4, 8 -14, 0 -30 C -8 -14, -6 -4, 0 0 Z' fill='%23ffb300' fill-opacity='0.95'/%3E%3Cpath d='M0 -2 C 3 -5, 4 -11, 0 -18 C -4 -11, -3 -5, 0 -2 Z' fill='%23fff3b0'/%3E%3C/g%3E%3C/svg%3E"),
+        /* warm glow */
+        radial-gradient(circle at 90% 75%, rgba(255, 179, 0, 0.25) 0%, transparent 55%);
+    background-size: 62% 62%, 100% 100%;
+    background-position: 90% 75%, center;
+    transform: scale(0.92);
+}
+
+.race-card-human:hover .race-card-fx,
+.variant-card-human:hover .variant-card-fx {
+    animation: human-flame 1.8s ease-in-out infinite;
+    transform: scale(1);
+}
+
+@keyframes human-flame {
+    0%, 100% { opacity: 0.6; filter: brightness(1) drop-shadow(0 0 4px rgba(255, 179, 0, 0.6)); }
+    35% { opacity: 1; filter: brightness(1.3) drop-shadow(0 0 12px rgba(255, 179, 0, 0.9)); }
+    60% { opacity: 0.8; filter: brightness(0.95) drop-shadow(0 0 6px rgba(255, 179, 0, 0.6)); }
+    80% { opacity: 1; filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 179, 0, 0.8)); }
 }

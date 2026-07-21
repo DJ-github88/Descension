@@ -958,7 +958,7 @@ export const ACCESSORIES = [
     subtype: 'CLOAK',
     quality: 'poor',
     description: 'A worn cloak that has seen better days. Offers minimal protection from the elements, but barely.',
-    iconId: 'Armor/Back/back-cape-brown-tattered',
+    iconId: 'Armor/Cloak/cloak-simple-brown-cape',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
     durability: 'd4',
@@ -984,7 +984,7 @@ export const ACCESSORIES = [
     subtype: 'CLOAK',
     quality: 'common',
     description: 'A practical cloak designed for long journeys. Keeps the wind and rain at bay, but weighs you down slightly.',
-    iconId: 'Armor/Back/back-cape-brown-tattered',
+    iconId: 'Armor/Cloak/cloak-simple-brown-cape',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
     durability: 'd6',
@@ -1010,7 +1010,7 @@ export const ACCESSORIES = [
     subtype: 'CLOAK',
     quality: 'uncommon',
     description: 'A dark cloak that seems to drink the light. Makes you harder to see, but feels unsettling to wear.',
-    iconId: 'Armor/Back/back-cape-brown-tattered',
+    iconId: 'Armor/Cloak/cloak-simple-brown-cape',
     value: { gold: 0, silver: 8, copper: 0 },
     stackable: false,
     durability: 'd8',
@@ -1235,3 +1235,7 @@ export const ACCESSORIES = [
     }
   }
 ];
+
+import { ENRICHED_ACCESSORIES } from './enrichedAccessories.js';
+
+export const ALL_ACCESSORIES = [...ACCESSORIES, ...ENRICHED_ACCESSORIES];

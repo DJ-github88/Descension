@@ -121,7 +121,7 @@ Check EVERY mention of a year/date in every file against the canonical timeline 
 - [ ] **The Glacier Bargain**: Year 7  -  consistent everywhere?
 - [ ] **The Vat-Breakers' Revolt**: Year ~40  -  used consistently?
 - [ ] **The Over-Shanty**: Year 412  -  consistent?
-- [ ] **The Solbrand Dimming**: ~Year 780  -  consistent?
+- [ ] **Sol's Breath Dimming**: ~Year 780  -  consistent?
 - [ ] **The Monoliths Waking**: ~Year 795  -  consistent?
 
 ### 2.2  -  Are the "800 years" references coherent?
@@ -218,7 +218,7 @@ For each of the 20 class files, verify:
 ### 4.4  -  Class-crisis consistency
 
 - [ ] Does the class's `currentCrisis` description align with the timeline's present-era events (~Year 795-800)?
-- [ ] Are crisis descriptions from different classes contradictory? (e.g., does one class say the Solbrand is failing while another says it's stable?)
+- [ ] Are crisis descriptions from different classes contradictory? (e.g., does one class say Sol's Breath is failing while another says it's stable?)
 
 ### 4.5  -  Timeline event cross-reference
 
@@ -420,7 +420,7 @@ For each of the 22 backgrounds:
 - [ ] Is the decline of geothermal warmth traceable through the five phases?
 - [ ] Do race/class/location narratives acknowledge the gradual nature of the decline?
 - [ ] Are there narrative claims that warmth "appeared suddenly" or "disappeared suddenly" when the timeline shows it was gradual?
-- [ ] Is the Solbrand's dimming (~Year 780) consistently described as the CULMINATION of decline, not the beginning?
+- [ ] Is Sol's Breath's dimming (~Year 780) consistently described as the CULMINATION of decline, not the beginning?
 
 ### 10.3  -  The rebirth cycle integration
 
@@ -453,7 +453,7 @@ For each of the 7 regions:
 ### 11.1  -  Damage type lore
 
 - [ ] Do the 9 damage types' in-world descriptions (damageTypes.js) align with the cosmology?
-- [ ] "Ember = Sol's buried warmth"  -  is this consistent with the Solbrand-dimming narrative?
+- [ ] "Ember = Sol's buried warmth"  -  is this consistent with the Sol's Breath-dimming narrative?
 - [ ] "Wyrd = Keth-Amar's corruption"  -  does the Wyrd's behavior in creature descriptions match this?
 - [ ] "Rime = Nordhalla's bargained cold"  -  consistent with the Glacier Bargain description?
 
@@ -466,7 +466,7 @@ For each of the 7 regions:
 
 ### 11.3  -  Equipment lore
 
-- [ ] Do equipment descriptions with lore references (Keth-Amar contract-seals, Solbrand embers, etc.) reference valid entities?
+- [ ] Do equipment descriptions with lore references (Keth-Amar contract-seals, Sol's Breath embers, etc.) reference valid entities?
 - [ ] Does equipment that claims a specific origin (e.g., "forged at Harath-Vault") align with the location's description?
 
 ### 11.4  -  Language lore

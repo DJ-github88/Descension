@@ -16,7 +16,7 @@ export const WEAPONS = [
     type: 'weapon',
     subtype: 'SWORD',
     quality: 'poor',
-    description: 'A blade that has wept rust for years. Its edge is dulled by sorrow, but still remembers how to cut.',
+    description: 'A blade that has wept rust for years in the ironwood groves of Frostwood Reach. Its edge is dulled by sorrow, but still remembers how to cut.',
     iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
@@ -39,7 +39,12 @@ export const WEAPONS = [
       agility: { value: -1, isPercentage: false }
     },
     durability: 'd8',
-    maxDurability: 'd8'
+    maxDurability: 'd8',
+    lore: {
+      origin: 'frostwood-reach',
+      loreText: 'The Thalren militias arm their rank-and-file with these rust-blooded blades, forged from ironwood-bog ore that House Thalreth has mined since the Memory Wars.',
+      relatedLore: ['frostwood-reach', 'house_thalreth', 'the-memory-wars']
+    }
   },
   {
     id: 'wanderers-edge',
@@ -69,7 +74,12 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false }
     },
     durability: 'd10',
-    maxDurability: 'd10'
+    maxDurability: 'd10',
+    lore: {
+      origin: 'sundrift-vale',
+      loreText: 'Nomadic Ordavan traders carry these unassuming blades across the starless steppe. Each nick and scar tells a story of the Silt-Tide road, where a blade must serve as tool, weapon, and bargaining chip.',
+      relatedLore: ['sundrift-vale', 'house_ordavan', 'silt_tide']
+    }
   },
   {
     id: 'soulthirst',
@@ -100,7 +110,12 @@ export const WEAPONS = [
       constitution: { value: -1, isPercentage: false }
     },
     durability: 'd8',
-    maxDurability: 'd8'
+    maxDurability: 'd8',
+    lore: {
+      origin: 'bryngloom-forest',
+      loreText: 'Neth shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in the ichor of ancestor-mounds, giving it an unnatural hunger.',
+      relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
+    }
   },
 
   // === TWO-HANDED WEAPONS ===
@@ -110,7 +125,7 @@ export const WEAPONS = [
     type: 'weapon',
     subtype: 'GREATSWORD',
     quality: 'poor',
-    description: 'A massive blade whose tip was broken in some forgotten battle. Too heavy for most, but devastating when it connects.',
+    description: 'A massive blade whose tip was shattered during the Sundale Civil War. Too heavy for most, but devastating when it connects.',
     iconId: 'Weapons/Swords/sword-basic-straight-beige-blade-brown-hilt',
     value: { gold: 0, silver: 3, copper: 0 },
     stackable: false,
@@ -144,7 +159,12 @@ export const WEAPONS = [
       agility: { value: -2, isPercentage: false }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'sundale',
+      loreText: 'Solvan greatswords were once the pride of Sundale\'s cavalry. This broken relic was pulled from the ash-fields after a skirmish between the Dawn Vigil and The Sunderer — a reminder that even the mightiest blade can be unmade by the Wyrd.',
+      relatedLore: ['sundale', 'house_solvan', 'the_sunderers', 'dawn_vigil', 'wyrd']
+    }
   },
   {
     id: 'grave-axe',
@@ -185,7 +205,12 @@ export const WEAPONS = [
       agility: { value: -1, isPercentage: false }
     },
     durability: 'd10',
-    maxDurability: 'd10'
+    maxDurability: 'd10',
+    lore: {
+      origin: 'nordhalla',
+      loreText: 'Skalvyr burial rites demand that the dead carry an axe into the afterlife. These rough-hewn blades are laid in ice-graves across Nordhalla\'s frozen fjords, their edges meant more for the journey than the battle.',
+      relatedLore: ['nordhalla', 'house_skalvyr', 'frost_tithe']
+    }
   },
   {
     id: 'cleaver',
@@ -226,7 +251,12 @@ export const WEAPONS = [
       agility: { value: -2, isPercentage: false }
     },
     durability: 'd8',
-    maxDurability: 'd8'
+    maxDurability: 'd8',
+    lore: {
+      origin: 'bryngloom-forest',
+      loreText: 'Vreken cleavers are repurposed peat-cutting tools, their broad blades still stained with bog-iron. The Cult of Forgotten Shadow favours these for their crude, silent efficiency in the twilight groves.',
+      relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_the_silent_dark']
+    }
   },
   {
     id: 'battle-axe',
@@ -267,7 +297,12 @@ export const WEAPONS = [
       agility: { value: -1, isPercentage: false }
     },
     durability: 'd10',
-    maxDurability: 'd10'
+    maxDurability: 'd10',
+    lore: {
+      origin: 'cragjaw-peaks',
+      loreText: 'The Groven of Cragjaw Peaks forge battle-axes in geothermal vents beneath Frostmaw Holdfast, their double-edged heads etched with the Ancestor-Spans of those who came before.',
+      relatedLore: ['cragjaw-peaks', 'vat_breakers_guild', 'the-first-thermal-war']
+    }
   },
 
   // === MACE & BLUNT ===
@@ -310,7 +345,12 @@ export const WEAPONS = [
       agility: { value: -1, isPercentage: false }
     },
     durability: 'd10',
-    maxDurability: 'd10'
+    maxDurability: 'd10',
+    lore: {
+      origin: 'sundale',
+      loreText: 'The Dawn Vigil uses these weighted maces during zealotry purges in the ashlands. Each swing carries the judgement of Sol — heavy, final, and without mercy.',
+      relatedLore: ['sundale', 'dawn_vigil', 'sol']
+    }
   },
   {
     id: 'bone-hunger',
@@ -340,7 +380,12 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'nordhalla',
+      loreText: 'Skald bone-carvers craft these clubs from the femurs of great beasts hunted across the ice-fields. The Corvani believe the animal\'s spirit lingers in the bone, lending its strength to the wielder.',
+      relatedLore: ['nordhalla', 'corvani', 'skald']
+    }
   },
 
   // === RANGED WEAPONS ===
@@ -383,7 +428,12 @@ export const WEAPONS = [
       strength: { value: -1, isPercentage: false }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'bryngloom-forest',
+      loreText: 'Bryngloom ironwood is notoriously difficult to shape, but the Mimir rangers have mastered bows carved from its weeping branches. A single misfire means the bow snaps — but on target, it sings true through the mist.',
+      relatedLore: ['bryngloom-forest', 'mimir', 'the_wyrd']
+    }
   },
   {
     id: 'hunters-whisper',
@@ -424,7 +474,12 @@ export const WEAPONS = [
       agility: { value: 2, isPercentage: false }
     },
     durability: 'd10',
-    maxDurability: 'd10'
+    maxDurability: 'd10',
+    lore: {
+      origin: 'frostwood-reach',
+      loreText: 'The Mimir hunt-masters of Frostwood Reach craft these shortbows from laminated ironwood sinew, their strings braided from the gut of gref stalkers. Each bow is named and blessed before its first hunt.',
+      relatedLore: ['frostwood-reach', 'mimir', 'gref']
+    }
   },
 
   // === STAFFS & MAGIC ===
@@ -475,7 +530,12 @@ export const WEAPONS = [
       }
     },
     durability: 'd8',
-    maxDurability: 'd8'
+    maxDurability: 'd8',
+    lore: {
+      origin: 'cragjaw-peaks',
+      loreText: 'The Chronarch Conclave twists gnarled mountain-root into focus-staves, each knot supposedly capturing a splinter of frozen time. Fex-Vestara claims the finest staves are grown, not carved.',
+      relatedLore: ['cragjaw-peaks', 'fex-vestara', 'silent_seventh']
+    }
   },
   {
     id: 'fractured-dream',
@@ -512,7 +572,12 @@ export const WEAPONS = [
       }
     },
     durability: 'd4',
-    maxDurability: 'd4'
+    maxDurability: 'd4',
+    lore: {
+      origin: 'frostwood-reach',
+      loreText: 'Lunarch Regent Bri-Vessela is said to have shattered her first focus-wand during the Silence-Heat Heresy. These fractured relics are salvaged from the fog-banks of Frostwood Reach, their cores still humming with unstable magic.',
+      relatedLore: ['frostwood-reach', 'bri-vessela', 'the-silence-heat-heresy']
+    }
   },
 
   // === OFF-HAND WEAPONS ===
@@ -547,7 +612,12 @@ export const WEAPONS = [
       armor: { value: 1, isPercentage: false }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'bryngloom-forest',
+      loreText: 'Neth duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
+      relatedLore: ['bryngloom-forest', 'neth', 'root_veil', 'cult_of_the_silent_dark']
+    }
   },
   {
     id: 'warding-dagger',
@@ -613,7 +683,12 @@ export const WEAPONS = [
       armor: { value: 1, isPercentage: false }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'frostwood-reach',
+      loreText: 'Thalren skirmishers favour these small wooden bucklers for their speed. The Scribe-Sentinels issue them to patrol keepers who must navigate the fog-banks around Greymark Keep.',
+      relatedLore: ['frostwood-reach', 'scribe_sentinels', 'kaelen-thalreth']
+    }
   },
   {
     id: 'iron-buckler',
@@ -647,7 +722,12 @@ export const WEAPONS = [
       armor: { value: 2, isPercentage: false }
     },
     durability: 'd8',
-    maxDurability: 'd8'
+    maxDurability: 'd8',
+    lore: {
+      origin: 'nordhalla',
+      loreText: 'Skalvyr iron-shields are dented from a thousand border disputes with the Brine-Bond Syndicate\'s privateers. Each bash-groove is a treaty negotiation that failed.',
+      relatedLore: ['nordhalla', 'house_skalvyr', 'brine-bond-syndicate']
+    }
   },
   {
     id: 'tattered-tome',
@@ -685,7 +765,12 @@ export const WEAPONS = [
       }
     },
     durability: 'd6',
-    maxDurability: 'd6'
+    maxDurability: 'd6',
+    lore: {
+      origin: 'frostwood-reach',
+      loreText: 'The Scribe-Cartel\'s monopoly on Soot-Resin Ink and Peat-Parchment means that even a tattered tome is a valuable commodity in Frostwood Reach. Many contain fragments of the Sovereign Ledger.',
+      relatedLore: ['frostwood-reach', 'scribe-cartel', 'sovereign-ledger']
+    }
   },
   {
     id: 'ancient-tome',
@@ -1283,11 +1368,11 @@ export const WEAPONS = [
   // === KATANAS ===
   {
     id: 'chipped-katana',
-    name: 'Chipped Katana',
+    name: 'Chipped Curved-Blade',
     type: 'weapon',
-    subtype: 'KATANA',
+    subtype: 'SWORD',
     quality: 'poor',
-    description: 'A katana with a chipped edge, its blade dulled by countless battles. Still cuts, but the steel remembers its failures.',
+    description: 'A curved blade with a chipped edge, its blade dulled by countless battles. Still cuts, but the steel remembers its failures.',
     iconId: 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
     value: { gold: 0, silver: 3, copper: 0 },
     stackable: false,
@@ -1316,9 +1401,9 @@ export const WEAPONS = [
     id: 'wandering-blade',
     name: 'Wandering Blade',
     type: 'weapon',
-    subtype: 'KATANA',
+    subtype: 'SWORD',
     quality: 'common',
-    description: 'A curved katana that has traveled many roads. Its edge is sharp, and it remembers the way of the warrior.',
+    description: 'A curved blade that has traveled many roads. Its edge is sharp, and it remembers the way of the warrior.',
     iconId: 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
@@ -3221,10 +3306,10 @@ export const WEAPONS = [
     id: 'honor-blade',
     name: 'Honor Blade',
     type: 'weapon',
-    subtype: 'KATANA',
+    subtype: 'SWORD',
     quality: 'uncommon',
-    description: 'A katana forged with honor and precision. Its edge is razor-sharp, and it moves like water.',
-    iconId: 'Weapons/Katana/katana-curved-blade-brown-handle-wrapped',
+    description: 'A curved blade forged with honor and precision. Its edge is razor-sharp, and it moves like water.',
+    iconId: 'Weapons/Saber/saber-curved-blade-tan-beige-brown-hilt',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3255,7 +3340,7 @@ export const WEAPONS = [
     subtype: 'SABER',
     quality: 'uncommon',
     description: 'A curved saber designed for mounted combat. Its blade is weighted for slashing, perfect for cutting down enemies.',
-    iconId: 'Weapons/Saber/saber-curved-blade-brown-handle-wrapped',
+    iconId: 'Weapons/Saber/saber-curved-blade-tan-beige-brown-hilt',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3286,7 +3371,7 @@ export const WEAPONS = [
     subtype: 'SICKLE',
     quality: 'uncommon',
     description: 'A sickle that has harvested both crops and lives. Its curved blade is sharp, designed for quick, precise cuts.',
-    iconId: 'Weapons/Sickle/sickle-curved-blade-brown-handle-wrapped',
+    iconId: 'Weapons/Sickles/sickle-curved-blade-beige-brown-handle-simple',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 1,
@@ -3316,7 +3401,7 @@ export const WEAPONS = [
     subtype: 'FLAIL',
     quality: 'uncommon',
     description: 'A flail with a chain connecting the handle to the head. Unpredictable in motion, it strikes from unexpected angles.',
-    iconId: 'Weapons/Flail/flail-spiked-ball-chain-brown-handle',
+    iconId: 'Weapons/Flail/flail-wooden-handle-chain-spiked-ball',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3347,7 +3432,7 @@ export const WEAPONS = [
     subtype: 'FIST_WEAPON',
     quality: 'uncommon',
     description: 'A metal gauntlet designed for unarmed combat. It turns your fists into weapons, allowing you to strike with metal.',
-    iconId: 'Weapons/Fist Weapon/fist-weapon-gauntlet-brown-leather-metal',
+    iconId: 'Weapons/Fist Weapon/fist-weapon-claw-brown-green-red-blades',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 1,
@@ -3416,7 +3501,7 @@ export const WEAPONS = [
     subtype: 'WAND',
     quality: 'uncommon',
     description: 'A wand that crackles with fire. It enhances fire magic and can channel flames through its tip.',
-    iconId: 'Weapons/Wand/wand-wooden-golden-tip-brown-handle',
+    iconId: 'Weapons/Wand/wand-wooden-reddish-brown-club-hook-glowing-yellow-tip',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 1,
@@ -3453,7 +3538,7 @@ export const WEAPONS = [
     subtype: 'WAND',
     quality: 'uncommon',
     description: 'A wand that radiates cold. It enhances ice magic and can channel frost through its tip.',
-    iconId: 'Weapons/Wand/wand-wooden-golden-tip-brown-handle',
+    iconId: 'Weapons/Wand/wand-wooden-reddish-brown-club-hook-glowing-yellow-tip',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 1,
@@ -3550,7 +3635,7 @@ export const WEAPONS = [
     subtype: 'BLOWGUN',
     quality: 'uncommon',
     description: 'A blowgun designed for poison darts. Silent and deadly, it can take down enemies without alerting others.',
-    iconId: 'Weapons/Blowgun/blowgun-wooden-tube-brown-simple',
+    iconId: 'Weapons/Blowgun/blowgun-wooden-stick-simple',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
     width: 1,
@@ -3586,7 +3671,7 @@ export const WEAPONS = [
     subtype: 'SLING',
     quality: 'common',
     description: 'A simple sling for hurling stones. Basic but effective, it can strike enemies from a distance.',
-    iconId: 'Weapons/Sling/sling-leather-brown-simple',
+    iconId: 'Weapons/Sling/sling-rope-brown-coiled-organic-textured',
     value: { gold: 0, silver: 2, copper: 0 },
     stackable: false,
     width: 1,
@@ -3615,7 +3700,7 @@ export const WEAPONS = [
     subtype: 'POLEARM',
     quality: 'common',
     description: 'A long spear designed for warfare. Its reach is its greatest advantage, keeping enemies at bay.',
-    iconId: 'Weapons/Spear/spear-wooden-shaft-bronze-tip',
+    iconId: 'Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip',
     value: { gold: 0, silver: 5, copper: 0 },
     stackable: false,
     width: 1,
@@ -3646,7 +3731,7 @@ export const WEAPONS = [
     subtype: 'POLEARM',
     quality: 'common',
     description: 'A long pike, longer than most spears. Its extreme reach makes it deadly in formation, but unwieldy alone.',
-    iconId: 'Weapons/Spear/spear-wooden-shaft-bronze-tip',
+    iconId: 'Weapons/Polearm/polearm-spear-staff-brown-wrapped-light-tip',
     value: { gold: 0, silver: 6, copper: 0 },
     stackable: false,
     width: 1,
@@ -3677,7 +3762,7 @@ export const WEAPONS = [
     subtype: 'POLEARM',
     quality: 'uncommon',
     description: 'A glaive with a curved blade on a long pole. Versatile and deadly, it can both slash and thrust.',
-    iconId: 'Weapons/Halberd/halberd-wooden-shaft-bronze-blade',
+    iconId: 'Weapons/Halberd/halberd-axe-brown-shaft-tan-blade',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3770,7 +3855,7 @@ export const WEAPONS = [
     subtype: 'HALBERD',
     quality: 'uncommon',
     description: 'A halberd designed for battle. Its combination of axe, spear, and hook makes it versatile in combat.',
-    iconId: 'Weapons/Halberd/halberd-wooden-shaft-bronze-blade',
+    iconId: 'Weapons/Halberd/halberd-axe-brown-shaft-tan-blade',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3801,7 +3886,7 @@ export const WEAPONS = [
     subtype: 'SCYTHE',
     quality: 'uncommon',
     description: 'A scythe that has reaped both crops and lives. Its curved blade is sharp, designed for sweeping strikes.',
-    iconId: 'Weapons/Scythe/scythe-curved-blade-wooden-shaft',
+    iconId: 'Weapons/Scythe/scythe-curved-blade-light-beige-brown-handle',
     value: { gold: 0, silver: 7, copper: 0 },
     stackable: false,
     width: 1,
@@ -3826,3 +3911,8 @@ export const WEAPONS = [
     maxDurability: 'd10'
   }
 ];
+
+import { FACTION_WEAPONS } from './factionWeapons.js';
+import { ENRICHED_WEAPONS } from './enrichedWeapons.js';
+
+export const ALL_WEAPONS = [...WEAPONS, ...FACTION_WEAPONS, ...ENRICHED_WEAPONS];

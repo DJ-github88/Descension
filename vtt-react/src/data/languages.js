@@ -181,7 +181,7 @@ export const LANGUAGES = [
     name: 'Ignan',
     icon: 'fa-fire',
     category: 'racial',
-    description: 'The crackling, volatile language of fire elementals, Emberspire\'s magma-children, and flame-touched beings. The Korr Sun-Speakers use it in their six-hour silent vigils, speaking it only in their minds. Scathrach\'s voice corrupts Ignan into Abyssal.',
+    description: 'The crackling, volatile language of fire elementals, Emberspire\'s magma-children, and flame-touched beings. The Hollow-Solari Sun-Speakers use it in their six-hour silent vigils, speaking it only in their minds. Scathrach\'s voice corrupts Ignan into Abyssal.',
     sound: 'Sharp explosive stops and sibilant hisses, crackling with rhythmic intensity like magma meeting ice.',
     example: 'Kra\'shek tar\'vek iss',
     translation: 'Flame crackles hot. The ember endures.'
@@ -235,7 +235,7 @@ export const LANGUAGES = [
     name: 'Sundari',
     icon: 'fa-sun',
     category: 'racial',
-    description: 'The ember-tongue of the Emberth people, forged in the shadow of Emberspire. Incorporates heat-gradations as grammatical markers, a word spoken at one temperature means something different at another. The Korr Sun-Speakers elevate it to sacred silence.',
+    description: 'The ember-tongue of the Solari people, forged in the shadow of Emberspire. Incorporates heat-gradations as grammatical markers, a word spoken at one temperature means something different at another. The Hollow-Solari Sun-Speakers elevate it to sacred silence.',
     sound: 'Warm and layered, with tonal shifts that suggest temperature. Ranges from forge-hot consonants to ash-cool vowels.',
     example: 'Soth\'keth vir\'rash thrask\'dhel',
     translation: 'The sun\'s ember. The priest tends. The ranger guards.'
@@ -244,9 +244,9 @@ export const LANGUAGES = [
     name: 'Fexric',
     icon: 'fa-cog',
     category: 'racial',
-    description: 'The industrial tongue of the Fexrick, developed in the vertical subterranean city of Frostmaw Holdfast around geothermal chimneys. Incorporates pipe-resonance harmonics and pressure-hiss modifiers. The Deep Alchemists\' oldest formulae are written in Fexric.',
+    description: 'The industrial tongue of the Fexric, developed in the vertical subterranean city of Frostmaw Holdfast around geothermal chimneys. Incorporates pipe-resonance harmonics and pressure-hiss modifiers. The Deep Alchemists\' oldest formulae are written in Fexric.',
     sound: 'Mechanical and resonant, with pipe-harmonics and pressure-hiss consonants. Echoes like a foundry at work.',
-    example: 'Drall\'vek keth\'syrin dhav\'holm',
+    example: 'Caustic Fexric\'vek keth\'syrin dhav\'holm',
     translation: 'The guild binds. The clan roams. The vat holds.'
   },
 

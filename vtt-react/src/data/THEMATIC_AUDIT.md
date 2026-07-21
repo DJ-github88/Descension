@@ -79,9 +79,8 @@ Every subrace from the race files appears in at least one class's `allowedSubrac
 | merryn_human | Gambit, Minstrel |
 | morren_human | Animist, False Prophet, Inquisitor, Plaguebringer, Revenant, Toxicologist |
 | tessen_human | Augur, Chronarch, Harbinger, Revenant |
-| maskborne_mimir | Apex, Lunarch, Shaper |
-| mistwoven_mimir | Apex, Lunarch, Shaper |
-| unwoven_mimir | Apex, Lunarch, Shaper, Toxicologist |
+| veiled_mimir | Apex, Lunarch, Shaper |
+| tethered_mimir | Apex, Lunarch, Shaper, Toxicologist |
 | breaker_myrathil | Gambit, Minstrel |
 | river_myrathil | Minstrel |
 | deep_myrathil | Minstrel |

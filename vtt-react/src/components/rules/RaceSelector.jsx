@@ -766,6 +766,7 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
       style={{ '--race-gradient': race.gradient }}
     >
         <div className="race-card-bg-effects"></div>
+        <div className="race-card-fx" aria-hidden="true"></div>
         {RACE_WATERCOLOR[race.id] && (
           <img
             className="race-card-watermark"
@@ -805,6 +806,7 @@ const VariantCard = React.memo(({ raceId, variantId, variant, isSelected, onSele
       onClick={() => onSelect(variantId)}
     >
       <div className="variant-card-bg-effects"></div>
+      <div className="variant-card-fx" aria-hidden="true"></div>
       <h4 className="variant-card-name">{variant.name}</h4>
       <p className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</p>
       <StatModifiersMini statModifiers={variant.statModifiers} />

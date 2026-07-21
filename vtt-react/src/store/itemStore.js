@@ -38,7 +38,7 @@ export const ITEM_RARITIES = {
 };
 
 // Version for complete items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 7;
+const COMPREHENSIVE_ITEMS_VERSION = 9;
 
 const CATEGORY_ICON_MIGRATION = {
  'inv_sword_04': 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',

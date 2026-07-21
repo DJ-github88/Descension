@@ -123,7 +123,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     category: 'defensive'
   },
   {
-    id: 'sb_t3_death_loa_bargain',
+    id: 'sb_t3_death_bargain',
     name: 'Bone-Choir Bargain',
     description: 'Ancient ancestors stir in the Bryngloom depths, offering power to those who dare negotiate. Spirit invocations cost 1 less resonance per rank. When you invoke the Bone-Choir, heal 2d8 HP per rank from the necrotic overflow. Win condition.',
     icon: 'ability_rogue_deadliness',
@@ -139,7 +139,7 @@ export const ANIMIST_SPIRIT_BINDER = [
     icon: 'inv_misc_platnumdisks',
     maxRanks: 1,
     position: { x: 2, y: 4 },
-    requires: 'sb_t3_death_loa_bargain',
+        requires: 'sb_t3_death_bargain',
     category: 'win_condition'
   }
 ];

@@ -97,7 +97,7 @@ const NPC_DATA = {
     race: 'Skald human',
     gender: 'Male',
     factionIds: ['house-skalvyr'],
-    locationIds: ['fjord-gate'],
+    locationIds: ['fjord-gate', 'frozen-archive'],
     age: '61',
     status: 'Active',
     appearance:
@@ -160,7 +160,7 @@ const NPC_DATA = {
     id: 'the-first-liar',
     name: 'The First Liar',
     title: 'Unknown',
-    race: 'Astril (Silath)',
+     race: 'Astril (Unlit Astril)',
     gender: 'Unknown',
     factionIds: ['unlit-veil'],
     locationIds: ['synod-hold'],
@@ -275,7 +275,7 @@ const NPC_DATA = {
     factionIds: ['house-ordavan'],
     locationIds: ['synod-hold'],
     age: '44',
-    status: 'Active: figurehead',
+     status: 'Deposed: figurehead for the Unlit Veil',
     appearance:
       'A handsome man in his middle years, dressed in fine steppe-leathers and silver jewelry. He has a warm smile and an easy manner, but his eyes flick toward his advisors before he answers any question of substance.',
     personality:
@@ -285,6 +285,182 @@ const NPC_DATA = {
     hooks: [
       'If someone could prove to Loras that he is being manipulated, he would be genuinely grateful: and genuinely dangerous to the Unlit Veil',
       'His wife, Lady Mira Ordavan, suspects the truth and has begun her own quiet investigation'
+    ]
+  },
+
+  'bayarmaa-ordavan': {
+    id: 'bayarmaa-ordavan',
+    name: 'Bayarmaa Ordavan',
+    title: 'Khatun of the Sundrift Vale (The Steel-Voiced)',
+    race: 'Solvarn human',
+    gender: 'Female',
+    factionIds: ['house-ordavan'],
+    locationIds: ['synod-hold'],
+    age: '41',
+    status: 'Active',
+    appearance:
+      'A broad-shouldered woman with sun-weathered skin, silver-threaded black braids, and the bearing of someone who has spent more years on horseback than in council. She wears a wolf-felt cloak pinned with the Ordavan sun-wheel and carries a curved steel saber at all times.',
+    personality:
+      'Bayarmaa is direct, impatient, and utterly uninterested in the courtly games the Unlit Veil play. She deposed Loras because she could no longer watch her house surrender its will by degrees, and she rules the same way she rides: straight at the obstacle, saber drawn.',
+    backstory:
+      'The previous Steppe-Lord, Loras Ordavan, ruled for decades as an Unlit Veil puppet, trading away Ordavan sovereignty one clause at a time. Bayarmaa — his cousin — called a war-council on the Ancestor Mounds, presented evidence of the Veil\'s embedded advisors, and demanded his abdication. Loras, to his credit, surrendered without bloodshed. Bayarmaa now governs from Synod-Hold, fighting a quiet war against the Veil\'s entrenched interests while fending off pressure from the neighbouring houses who preferred Loras\'s predictability.',
+    hooks: [
+      'Bayarmaa needs allies she can trust — the Unlit Veil have infiltrated every Ordavan ministry, and she cannot tell which ministers are loyal',
+      'The Veil\'s leaders have offered her a deal: full autonomy in exchange for continuing Loras\'s trade agreements. She suspects the fine print is lethal.'
+    ]
+  },
+
+  'deep-alchemist-prime': {
+    id: 'deep-alchemist-prime',
+    name: 'The Prime Alchemist',
+    title: 'Leader of the Deep Alchemists',
+    race: 'Unknown (heavily grafted)',
+    gender: 'Unknown',
+    factionIds: ['deep-alchemists'],
+    locationIds: ['lost-brood-vats'],
+    age: 'Unknown',
+    status: 'Active',
+    appearance:
+      'No two visitors describe the Prime the same way: some see a figure draped in alchemical tubing, others a walking assemblage of brass and preserved flesh. Their voice issues from a grille where a mouth should be, and the scent of preservative resins precedes them by several paces.',
+    personality:
+      'The Prime is clinical, ancient in patience, and entirely remorseless about the cost of progress. They regard the Groven who broke free of the vats as unfinished work, not as a moral failure.',
+    backstory:
+      'The Prime has led the Deep Alchemists from the Lost Brood-Vats beneath Frostmaw Holdfast for so long that no living person remembers their original race or gender. They have replaced so much of their body with alchemical grafts that they have become a living catalogue of their own experiments. The Vat-Breakers\' guild above them is a constant irritant: the Alchemists still consider the Thrumm root-stock their finest creation, and the Groven who shattered their vats consider that statement an indictment.',
+    hooks: [
+      'The Prime recently lost a crucial research subject to the Vat-Breakers and wants it recovered intact',
+      'A Deep Alchemist defector has offered the party access to the Lost Brood-Vats in exchange for extraction'
+    ]
+  },
+
+  'vat-breaker-foreman': {
+    id: 'vat-breaker-foreman',
+    name: 'The First Foreman',
+    title: 'Elected Leader of the Vat-Breakers Guild',
+    race: 'Groven',
+    gender: 'Ambiguous',
+    factionIds: ['vat-breakers-guild'],
+    locationIds: ['frostmaw-holdfast'],
+    age: 'Unknown (Groven aging is non-linear)',
+    status: 'Active (slowly calcifying)',
+    appearance:
+      'A figure of grey, cracked stone-flesh whose joints grind audibly with every movement. Their face is a mask of basalt-grain, and their eyes are chips of obsidian that catch torchlight. Veins of pale quartz trace the pattern of original blood vessels.',
+    personality:
+      'The First Foreman is the calmest Groven in the guild, which is to say they are not constantly enraged. They speak slowly, choose words with care, and have not raised their voice since the day they shattered the vats.',
+    backstory:
+      'The First Foreman was the first Groven to break free of the Deep Alchemists\' brood-vats, an act that killed the original Foreman and ended the Thrumm root-stock program. Every Vat-Breaker since has been elected to continue their legacy of freedom. Like all Groven, they are slowly petrifying, calcifying from the inside out, and the stone will claim them within the decade.',
+    hooks: [
+      'The First Foreman knows the location of every hidden entrance to the Lost Brood-Vats, and has been waiting for someone worth sharing them with',
+      'The calcification is accelerating. The Foreman wants to train a successor before the stone reaches their lungs.'
+    ]
+  },
+
+  'solvan-steward': {
+    id: 'solvan-steward',
+    name: 'The Steward of Emberspire',
+    title: 'Caretaker of House Solvan',
+    race: 'Solvarn human',
+    gender: 'Female',
+    factionIds: ['house-solvan'],
+    locationIds: ['emberspire-caldera'],
+    age: '64',
+    status: 'Active',
+    appearance:
+      'A gaunt woman wrapped in sun-bleached linen, her throat branded with the circular scar of the Dawn Vigil pilgrimage. She wears no House Solvan heraldry, refusing to claim a title she considers forfeit until the sun returns.',
+    personality:
+      'Steadfast, grief-haunted, and theologically stubborn. She will not call herself Lord, will not sit in the Lord\'s seat, and will not bend to the Dawn Vigil\'s insistence that House Solvan must choose an heir.',
+    backstory:
+      'The Steward has kept House Solvan\'s affairs in order since the last acknowledged Lord disappeared into the Harath-Vault seventy years ago. She refuses to assume the title, insisting that no one may call themselves Lord of House Solvan until the sun rises again. The Dawn Vigil has pressured her to name a successor, but she treats their entreaties with the same patient silence she gives the ash-fall.',
+    hooks: [
+      'The Steward knows what the last Lord discovered in the Harath-Vault, but she has never told anyone',
+      'A claimant has appeared, bearing a signet ring that matches the lost Lord\'s. The Steward suspects forgery but cannot prove it.'
+    ]
+  },
+
+  'morrath-steward': {
+    id: 'morrath-steward',
+    name: 'The Steward of the Seventh Seat',
+    title: 'Acting Steward of House Morrath',
+    race: 'Velun Neth',
+    gender: 'Unknown',
+    factionIds: ['house-morrath'],
+    locationIds: ['synod-hold'],
+    age: 'Unknown (at least three centuries)',
+    status: 'Active (acting)',
+    appearance:
+      'A Velun Neth whose contract-syntax neurology is visible as faint silver tracings beneath their skin. They dress in the formal grey of a Bryngloom scrivener, and their ledger-book is chained to their wrist.',
+    personality:
+      'Meticulous, patient, and constitutionally incapable of lying. The Steward answers every question with the precision of a filed affidavit, and they have been waiting three centuries for someone to ask the right one.',
+    backstory:
+      'No Morrath heir has claimed the seventh seat in living memory. The Velun Neth steward was appointed "temporarily" after the last Morrath Lord vanished without naming a successor, and has administered the house\'s estates, contracts, and blood-debts with flawless legality ever since. The neighbouring houses have stopped asking when a real Morrath will appear; the Steward\'s tenure is simply accepted.',
+    hooks: [
+      'The Steward\'s ledger contains an unbroken record of House Morrath\'s debts, and some of those creditors are still collecting',
+      'The last Morrath Lord\'s contract of disappearance was drafted by the Steward themselves, and they will not say who dictated the terms.'
+    ]
+  },
+
+  'vellan-archivist': {
+    id: 'vellan-archivist',
+    name: 'Vellan the Archivist',
+    title: 'Senior Quill-Keeper of the Scribe-Sentinels',
+    race: 'Solvarn human',
+    gender: 'Male',
+    factionIds: ['scribe-sentinels'],
+    locationIds: ['greymark-keep', 'frozen-archive'],
+    age: '81',
+    status: 'Active',
+    appearance:
+      'A stooped man whose fingers are permanently stained with iron-gall ink. He wears the grey wool of the Scribe-Sentinels and carries a brass-bound ledger that he updates hourly, even during conversation.',
+    personality:
+      'Vellan is the soul of institutional patience. He has outlived three High Confessors and remembers the edits each one authorized. He will tell you what the records say, and what they used to say, and he will not tell you which version is true, because he genuinely no longer knows.',
+    backstory:
+      'Vellan has kept the Scribe-Sentinels\' records for fifty years. He has seen the Fog Compact\'s terms amended, the Ledger Purge authorized, and the edits to the Frozen Archive\'s catalogue that Caedren Thalreth quietly ordered. He has never protested an edit. He has never forgotten one either.',
+    hooks: [
+      'Vellan is the only person alive who knows what the Ledger Purge of Y330 actually removed, and he has kept a private copy',
+      'The memory-fog is starting to take him. He wants to pass his knowledge to someone before he forgets what he knows.'
+    ]
+  },
+
+  'mereval-steward': {
+    id: 'mereval-steward',
+    name: 'The Steward of Merrowport',
+    title: 'Caretaker of House Mereval',
+    race: 'Merryn human',
+    gender: 'Female',
+    factionIds: ['house-mereval'],
+    locationIds: ['merrowport'],
+    age: '58',
+    status: 'Active',
+    appearance:
+      'A seaworn woman in salt-stained oilskins, her face crosshatched with fine wrinkles from decades of brine-spray. She wears a brass harbor-master medallion and carries a hooked boarding sabre.',
+    personality:
+      'Practical, sharp-tongued, and allergic to ceremony. The Steward runs Merrowport\'s harbour, its ledgers, and its grudges with the same blunt efficiency.',
+    backstory:
+      'The Grand Admiral of Merrowport rules from a ship that has not docked in forty years, leaving the day-to-day governance of the floating city to the Steward. She manages trade licenses, berth fees, and the delicate dance between the Brine-Bond Syndicate and House Mereval\'s Board of Trade. She has never met the Admiral face to face and suspects the Admiral prefers it that way.',
+    hooks: [
+      'The Steward has been diverting a portion of berth fees to a private account for twenty years, and the Syndicate has just noticed',
+      'A letter arrived from the Admiral ordering the Steward to prepare Merrowport for a guest who debarks at no known dock'
+    ]
+  },
+
+  'tesshan-steward': {
+    id: 'tesshan-steward',
+    name: 'The Steward of Frostmaw',
+    title: 'Caretaker of House Tesshan',
+    race: 'Tessen human',
+    gender: 'Male',
+    factionIds: ['house-tesshan'],
+    locationIds: ['frostmaw-holdfast'],
+    age: '71',
+    status: 'Active',
+    appearance:
+      'A gaunt man wrapped in grey felt and furs, his breath visible even indoors. He wears the iron collar of Tesshan administration and carries a set of tally-sticks for every keep in the Cragjaw.',
+    personality:
+      'Meticulous to the point of obsession, the Steward keeps the vertical labyrinth running through sheer force of administrative will. He has not left Frostmaw Holdfast in twelve years and does not intend to start.',
+    backstory:
+      'The Jarl-Tesshan rules from the uppermost gallery, where altitude sickness keeps visitors brief and decisions are relayed down through a chain of stewards. The Steward of Frostmaw is the most senior of these, responsible for the coal-iron quotas, the geothermal pipe allocations, and the Groven Ancestor-Span tolls. He has watched three Jarls ascend and two descend early, and he has outlasted them all.',
+    hooks: [
+      'The Steward has been quietly adjusting the Ancestor-Span tolls in favour of the Groven separatists, and the Jarl is beginning to suspect',
+      'A tunnel collapse has sealed the lower keeps, and the Steward must decide whether to dig toward the survivors or the coal seams'
     ]
   },
 
@@ -309,7 +485,7 @@ const NPC_DATA = {
     hooks: [
       'Hark knows the Unbound settlement\'s location but has not yet struck; a party could be hired by either side of the schism',
       'He alone can lift Grum\'s hammer; if he dies or defects, the line\'s claim to legitimacy dies with him',
-      'A Thrask Emberth Berserker in Hark\'s confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate'
+      'A Waste-Solari Berserker in Hark\'s confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate'
     ]
   },
 
@@ -345,7 +521,7 @@ const NPC_DATA = {
     status: 'Active',
     appearance: 'The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused thirty generations of refinement ago. He has not spoken an unplanned word in thirty years.',
     personality: 'Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Velun Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.',
-    backstory: 'Ledger-Prime of the Canopy-Ledger, Vel-Otharan presides over the Arcanoneer order from Atropolis\'s Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.',
+    backstory: 'Ledger-Prime of the Canopy-Ledger, Vel-Otharen presides over the Arcanoneer order from Atropolis\'s Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.',
     hooks: [
       'Vel-Otharen can grant a party access to the Heart-Vault\'s deepest contracts: for a filed consideration they must honor',
       'A faction of junior Arcanoneers believe Vel-Otharen himself is the breach and want him deposed',
@@ -377,18 +553,18 @@ const NPC_DATA = {
     id: 'fex-vestara',
     name: 'Fex-Vestara',
     title: 'Keeper of the Reconstruction Schematics (Conclave-Prime of the Frostmaw Conclave)',
-    race: 'Kethrin Fexrick',
+    race: 'Clockwork Fexric - Fexric',
     gender: 'Female',
     factionIds: ['frostmaw-conclave'],
     locationIds: ['frostmaw-holdfast'],
     age: '88',
     status: 'Active: racing the clock',
-    appearance: 'A compact, oil-stained Kethrin engineer whose chest is partly open, the rebuilt time-dilation engine visible behind a glass plate: her own prototype. Her gear-tattoos chart the reconstruction in real-time, new ones appearing as each subsystem completes.',
+    appearance: 'A compact, oil-stained Clockwork Fexric engineer whose chest is partly open, the rebuilt time-dilation engine visible behind a glass plate: her own prototype. Her gear-tattoos chart the reconstruction in real-time, new ones appearing as each subsystem completes.',
     personality: 'Driven, methodical, and grieving in advance. Fex-Vestara refuses to accept that Nesta\'s disappearance is unpreventable and considers the reconstruction either genius or the product of grief: she is no longer sure which.',
     backstory: 'Conclave-Prime of the Frostmaw Conclave, Fex-Vestara has spent six years rebuilding Nesta\'s original Chronarch engine from recorded schematics, arguing that if the machine persists, its inventor will too. She is three weeks from completion; Nesta is estimated at four weeks from final collapse.',
     hooks: [
       'Fex-Vestara needs a rare volcanic-glass component only recoverable from a Deep Alchemist sealed lab',
-      'The Kethrin guilds consider her project heresy: a team has been sent to halt her',
+      'The Clockwork Fexric guilds consider her project heresy: a team has been sent to halt her',
       'If she succeeds and Nesta persists inside the new engine, Nesta may not be grateful'
     ]
   },
@@ -499,9 +675,9 @@ const NPC_DATA = {
     title: 'Keeper of the First Scar (Vigil-Mother of the Covenant of the Scar)',
     race: 'Solvarn human',
     gender: 'Female',
-    factionIds: ['covenant-of-the-scar', 'dawn-vigil', 'the-risen'],
-    locationIds: ['emberspire-caldera'],
-    age: '47',
+     factionIds: ['covenant-of-the-scar', 'dawn-vigil', 'the-risen'],
+     locationIds: ['emberspire-caldera', 'harath-vault'],
+     age: '47',
     status: 'Active',
     appearance: 'A Solvarn woman who has absorbed so much allied suffering that she glows faintly in the dark: the Devotion Gauge made visible. Her forearms bear the original scar-pattern of the Covenant, and a fainter, newer set of marks she refuses to explain.',
     personality: 'Gentle, fierce, and torn in half. Sol-Kaessen genuinely believes in the willing sacrifice and has presided over the houses\' conscription program without intervening, because the conscripted Martyrs keep Sundale\'s people alive. She has not decided whether she is a saint or a collaborator.',
@@ -565,7 +741,7 @@ const NPC_DATA = {
     status: 'Active: on a known countdown',
     appearance: 'More char-vessel than flesh: bones visible through translucent magma-skin, heat radiating from him in visible waves. He marks the estimated day of his final collection on a calendar of scar-tissue renewed each morning.',
     personality: 'Serene, terrifying, and entirely resigned. Sol-Vareths leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He considers the Apostate\'s Path mercy.',
-    backstory: 'Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate\'s Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Thrask consider a death sentence.',
+    backstory: 'Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate\'s Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Waste-Solari consider a death sentence.',
     hooks: [
       'Sol-Vareths knows the precise terms of every Pyrofiend\'s pact with Scathrach and can negotiate extensions: for a price',
       'He is searching for a way to die before Scathrach can claim him whole; he would trade all his knowledge for it',
@@ -617,13 +793,13 @@ const NPC_DATA = {
     id: 'thrak-damos',
     name: 'Thrak-Damos',
     title: 'Warden of the Silence-Scars (Bulwark-Captain of the Aegis)',
-    race: 'Thrask Emberth',
+    race: 'Waste-Solari - Thyrm',
     gender: 'Male',
     factionIds: ['aegis'],
     locationIds: ['emberspire-caldera'],
     age: '51',
     status: 'Active',
-    appearance: 'A Thrask Emberth veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.',
+    appearance: 'A Waste-Solari veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.',
     personality: 'A pragmatist drill-sergeant watching his engineering discipline fail against a threat it was never built for. Thrak-Damos is precise, blunt, and deeply frustrated.',
     backstory: 'Bulwark-Captain of the Aegis, Thrak-Damos leads from the Emberspire forge-keeps and enforces Damon\'s method with drill-sergeant discipline. The rising ambient magic has no structure to dismantle and no vector to redirect; he has begun ordering Spellguards to absorb (Damon\'s forbidden technique) because there is nothing left to dismantle.',
     hooks: [
@@ -687,7 +863,7 @@ const NPC_DATA = {
     personality: 'Predatory, still, and realizing he has become the hunted. Sylas has tracked the same conceptual Wyrd-entity on and off for forty years; lately it has begun circling him.',
     backstory: 'Silent-Master and founder of the Silent Hunt, Sylas tuned his senses to silent vibrations and paid with his hearing to achieve absolute focus. The mist is now learning to hide (not randomly but deliberately) and Sylas has concluded something large has moved through the Reach for months without trace. He is preparing to dissolve into the fog himself, knowing he may not return.',
     hooks: [
-      'Sylas will hire the party to retrieve Unwoven trackers who dissolved into the fog to find the hider and did not return',
+      'Sylas will hire the party to retrieve Fractured trackers who dissolved into the fog to find the hider and did not return',
       'He can teach the tactile sign-language and the sensory-sacrifice initiation to any qualifying Apex',
       'He believes the hider is the thing the mist is protecting: and that it has noticed him'
     ]
@@ -723,16 +899,243 @@ const NPC_DATA = {
     personality: 'Decisive to the point of self-sacrifice. She was a woman who saw a systemic injustice, calculated the exact cost of refusing it, and paid the cost without hesitation. She did not ask whether her children would approve of her choice.',
     backstory: 'Saren-Vel was the most powerful Velun Neth mage of her generation. When Morvane\'s pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Drun subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Drun have no single leader; the closest is her memory.',
     factionIds: ['drun-outcasts'],
-    locationIds: ['over-shanty', 'black-fen'],
+    locationIds: ['over-shanty', 'the-sunken-spire'],
     hooks: [
       'A Drun elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name',
       'Something in the bog where she died still burns with her flame — it has never gone out in three centuries',
       'A new First Contract clause has appeared that specifically targets the Drun — which means Morvane noticed them after all'
     ]
+  },
+
+  // ============================================================
+  // MISSING NPCS — added from factionStore and deepLocationData
+  // cross-reference audit
+  // ============================================================
+
+  'grandmaster-solbrand': {
+    id: 'grandmaster-solbrand',
+    name: 'Grandmaster of the Sun',
+    title: 'Grandmaster of the Order of Solbrand',
+    race: 'Solvarn human',
+    gender: 'Male',
+    factionIds: ['order-of-solbrand'],
+    locationIds: ['sun-keep'],
+    age: 'Unknown',
+    status: 'Active',
+    appearance: 'A Solvan noble who carved his own sun-sword from a fragment of Emberspire\'s caldera glass. He bears the weathered, ash-stained look of someone who has spent decades on the Ashen Escarpment.',
+    personality: 'Disciplined, silent, and utterly focused on the Order\'s mission. He has held the Grandmaster post for seventeen years — longer than any predecessor since the Dimming began.',
+    backstory: 'Elected by the Chapter of Ten for a seven-year term (or until death), the current Grandmaster has been renewed twice. He knows the Dawn Vigil\'s true purpose and has quietly prepared the Order to stand against Keth-Amar itself.',
+    hooks: [
+      'The Grandmaster knows the location of three hidden Monolith fragments the Order has collected for study',
+      'He is preparing a counter-ritual he believes can sever Keth-Amar\'s connection to the seal'
+    ]
+  },
+
+  'solbrand-captain-ashen': {
+    id: 'solbrand-captain-ashen',
+    name: 'Captain of the Ashen Escarpment',
+    title: 'Captain of the Ashen Escarpment, Order of Solbrand',
+    race: 'Solvarn human',
+    gender: 'Male',
+    factionIds: ['order-of-solbrand'],
+    locationIds: ['the-ashen-escarpment'],
+    age: '40s',
+    status: 'Active',
+    appearance: 'A scarred Solvarn soldier in sun-crested basalt plate, his helm sealed against the ash-choked wind.',
+    personality: 'Vigilant, grim, and unflinching. He commands the critical stretch of the Escarpment where no Wyrd incursion has ever breached.',
+    backstory: 'A career soldier of the Order, promoted through the ranks by holding the Escarpment against three major Wyrd incursions.',
+    hooks: [
+      'He has noticed unusual activity in the ash-fields below the Escarpment — something is moving in the cinder-drifts'
+    ]
+  },
+
+  'solbrand-captain-vault': {
+    id: 'solbrand-captain-vault',
+    name: 'Captain of the Vault Watch',
+    title: 'Captain of the Vault Watch, Order of Solbrand',
+    race: 'Solvarn human',
+    gender: 'Female',
+    factionIds: ['order-of-solbrand'],
+    locationIds: ['harath-vault'],
+    age: '50s',
+    status: 'Active',
+    appearance: 'A sturdy Solvarn woman whose plate armour is scarred by decades of patrol in the vault-heat.',
+    personality: 'Methodical, suspicious of outsiders, and fiercely protective of the Vault\'s integrity.',
+    backstory: 'She has commanded the Vault Watch for fifteen years and knows every tunnel, vent, and blind corner in the Harath-Vault.',
+    hooks: [
+      'She has heard scraping in the deep vents, below the forge-levels, where no one should be'
+    ]
+  },
+
+  'solbrand-captain-badlands': {
+    id: 'solbrand-captain-badlands',
+    name: 'Captain of the Badlands Patrol',
+    title: 'Captain of the Badlands Patrol, Order of Solbrand',
+    race: 'Solvarn human',
+    gender: 'Female',
+    factionIds: ['order-of-solbrand'],
+    locationIds: ['slag-gulch'],
+    age: '30s',
+    status: 'Active',
+    appearance: 'A lean, sun-hardened Solvarn woman in lighter patrol gear, her face wrapped against cinder-dust.',
+    personality: 'Quick, resourceful, and deeply familiar with the shifting geography of the Cinder Badlands.',
+    backstory: 'She leads mobile patrols across the treacherous slag-gulch territory, intercepting Monolith-seekers before they reach the Escarpment.',
+    hooks: [
+      'Her patrol found tracks that led to a sealed vent — something is coming up from below'
+    ]
+  },
+
+  'mereval-admiral': {
+    id: 'mereval-admiral',
+    name: 'The Grand Admiral',
+    title: 'Grand Admiral of Merrowport',
+    race: 'Merryn human',
+    gender: 'Female',
+    factionIds: ['house-mereval'],
+    locationIds: ['merrowport'],
+    age: 'Deceased for 3 years (status hidden)',
+    status: 'Deceased — concealed by the first mate',
+    appearance: 'The Grand Admiral has not been seen in three years. The first mate who impersonates her voice uses a Merryn throat-singing technique from the prow of the Wave-Kept.',
+    personality: 'Unknown — the real Grand Admiral\'s personality is now a performance.',
+    backstory: 'The Grand Admiral ruled from the prow of the Wave-Kept, a ship that had not docked in forty years. She has been dead for three years; her first mate impersonates her voice and commands the fleet in her name.',
+    hooks: [
+      'The first mate\'s impersonation is beginning to falter — some captains suspect',
+      'The real Admiral\'s final orders, if discovered, could change House Mereval\'s course entirely'
+    ]
+  },
+
+  'tesshan-lord': {
+    id: 'tesshan-lord',
+    name: 'The Jarl-Tesshan',
+    title: 'Jarl-Tesshan of the Peaks',
+    race: 'Tessen human',
+    gender: 'Male',
+    factionIds: ['house-tesshan'],
+    locationIds: ['frostmaw-holdfast'],
+    age: 'Unknown',
+    status: 'Active — reclusive',
+    appearance: 'The Jarl-Tesshan rules from the uppermost gallery of Frostmaw Holdfast, where the blizzard wind is loudest. Few have seen his face clearly through the frost.',
+    personality: 'Reclusive, calculating, and sustained by the thin mountain air he has grown dependent on.',
+    backstory: 'The Jarl-Tesshan governs the vertical labyrinth from the highest gallery, where altitude sickness keeps visitors brief. He has been secretly negotiating with Groven separatists.',
+    hooks: [
+      'The Jarl is losing his hold on the lower keeps — a tunnel collapse has sealed them and he cannot decide whether to dig toward survivors or coal seams'
+    ]
+  },
+
+  'natalie-seline': {
+    id: 'natalie-seline',
+    name: 'Natalie Seline',
+    title: 'Memory-Broker of the Over-Shanty',
+    race: 'Morren human',
+    gender: 'Female',
+    factionIds: ['cult-of-forgotten-shadow'],
+    locationIds: ['over-shanty'],
+    age: '30s',
+    status: 'Active',
+    appearance: 'A sharp-featured Morren woman with dark hair braided tight, wearing a layered coat of treated bog-leather. Her fingers are stained with memory-ink.',
+    personality: 'Charismatic, shrewd, and utterly amoral in her trade. She treats memories as commodities and has no sentimentality about what she buys or sells.',
+    backstory: 'Natalie runs one of the Over-Shanty\'s most profitable memory-brokerages, buying and selling extracted memories for the Cult of Forgotten Shadow. She knows more about the Cult\'s operations than she admits.',
+    hooks: [
+      'She has a memory for sale that could compromise a noble house — if the price is right',
+      'The Cult is pressuring her to expand her operation into Greymark'
+    ]
+  },
+
+  'the-factotum': {
+    id: 'the-factotum',
+    name: 'The Factotum',
+    title: 'Unseen Administrator of Synod Hold',
+    race: 'Astril (Unlit)',
+    gender: 'Ambiguous',
+    factionIds: ['unlit-veil'],
+    locationIds: ['synod-hold'],
+    age: 'Unknown',
+    status: 'Active',
+    appearance: 'A figure always half-hidden in shadow, their Unlit Astril features giving no light-patterns to betray them. They wear the plain grey of a senior clerk.',
+    personality: 'Efficient, invisible, and utterly loyal to the Unlit Veil\'s long game.',
+    backstory: 'The Factotum is the Unlit Veil\'s eyes in Synod Hold, managing the flow of information and trade policy from behind a facade of administrative neutrality.',
+    hooks: [
+      'The Factotum maintains the network of embedded Veil agents throughout the Hold',
+      'They have begun receiving contradictory orders — suggesting a split in Veil leadership'
+    ]
+  },
+
+  'grum-bloodhammer': {
+    id: 'grum-bloodhammer',
+    name: 'Grum Bloodhammer',
+    title: 'Pit-Master of the Harath-Vault Arenas',
+    race: 'Skald human',
+    gender: 'Male',
+    factionIds: ['bloodhammer-line'],
+    locationIds: ['harath-vault'],
+    age: '50s',
+    status: 'Active',
+    appearance: 'A broad, scar-latticed Skald whose skin is crosshatched with old ignition-burns. He carries a forge-hammer over one shoulder and moves with the deliberate weight of someone who has killed more things than most people have met.',
+    personality: 'Blunt, heat-tempered, and respectful only of those who have survived the Crucible. He runs the arenas with iron discipline.',
+    backstory: 'Grum is Hark Ash-Hammer\'s second, responsible for the day-to-day operation of the Harath-Vault training pits and the Berserker arenas.',
+    hooks: [
+      'Grum has noticed that the Crucible\'s geothermal vents are running hotter than they should',
+      'He is secretly sympathetic to the Unbound Berserkers and has been feeding them forge-supplies'
+    ]
+  },
+
+  'torin': {
+    id: 'torin',
+    name: 'Torin',
+    title: 'Vat-Breaker Scout',
+    race: 'Groven',
+    gender: 'Male',
+    factionIds: ['vat-breakers-guild'],
+    locationIds: ['frostmaw-holdfast'],
+    age: 'Unknown',
+    status: 'Active',
+    appearance: 'A younger Groven whose stone-flesh has not yet fully calcified, giving him a more mobile, expressive face than his elders. He wears a patchwork of leather and salvaged iron.',
+    personality: 'Curious, restless, and increasingly disillusioned with the Guild\'s isolationism.',
+    backstory: 'Torin is a Vat-Breaker scout who ranges farther from Frostmaw than most, mapping the deeper tunnels and abandoned alchemical labs.',
+    hooks: [
+      'He has found an intact Deep Alchemist lab that the Guild does not know about',
+      'He wants to explore the surface world but fears the calcification that will come if he stays away too long'
+    ]
+  },
+
+  'jax': {
+    id: 'jax',
+    name: 'Jax',
+    title: 'The Vanished Founder',
+    race: 'Merryn human',
+    gender: 'Male',
+    factionIds: ['merrowport-house'],
+    locationIds: ['merrowport'],
+    age: 'Unknown — vanished',
+    status: 'Missing (presumed dead)',
+    appearance: 'No recent sightings. Descriptions from before his disappearance depict a weathered Merryn gambler with salt-bleached hair and an agate eye that could read any wager.',
+    personality: 'Charismatic, reckless, and convinced he had found the perfect bet.',
+    backstory: 'Jax was a co-founder of the Merrowport House, the Gambit order\'s governing body. He walked into the Iceheart Sea forty years ago following a rumour of a loaded die that could beat any odds. He never returned.',
+    hooks: [
+      'Merr-Cael believes Jax may still be alive, preserved by whatever he found in the deep',
+      'Jax\'s final wager, if discovered, could dissolve the Deck-Burner faction'
+    ]
+  },
+
+  'lyra': {
+    id: 'lyra',
+    name: 'Lyra',
+    title: 'The Radicalized Co-Founder',
+    race: 'Merryn human',
+    gender: 'Female',
+    factionIds: ['merrowport-house'],
+    locationIds: ['merrowport'],
+    age: '60s',
+    status: 'Active',
+    appearance: 'An intense Merryn woman with grey-shot hair and the bearing of someone who has won and lost fortunes in equal measure. She wears a coat weighted with luck-tokens.',
+    personality: 'Charismatic, radicalized, and increasingly convinced that the founding system of the wager is corrupt.',
+    backstory: 'Lyra co-founded the Merrowport House with Jax. After his disappearance, she became convinced that the "luck versus clause" system they built is a rigged game. She now leads a faction that wants to burn the tables and start again.',
+    hooks: [
+      'Lyra has put a price on Merr-Cael\'s head',
+      'She is gathering Deck-Burners for a raid on the House\'s contract vaults'
+    ]
   }
 };
-
-const useNpcStore = create((set, get) => ({
   npcs: Object.values(NPC_DATA),
 
   getNpc: (npcId) => NPC_DATA[npcId] || null,

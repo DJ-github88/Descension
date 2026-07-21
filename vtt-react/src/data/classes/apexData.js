@@ -9,7 +9,6 @@ export const APEX_DATA = {
  restrictions: {
   "allowedSubraces": [
     "tethered_mimir",
-    "untethered_mimir",
    "skald_human",
    "marked_vreken",
    "vashir_astril"
@@ -32,53 +31,38 @@ export const APEX_DATA = {
  */
  subraceVariants: {
   veiled_mimir: {
-   subraceName: 'Veiled Mimir',
-  title: 'The Mask-Hunter',
-  reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. The Masked are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
-  signatureAbility: {
-  name: 'Anchor-Sense',
-  description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something — hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
+   subraceName: 'Arch Mimir',
+   title: 'The Mask-Hunter',
+   reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. They are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
+   signatureAbility: {
+   name: 'Anchor-Sense',
+   description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something — hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
 
+   },
+   currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Arch Mimir feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses.`,
+   signatureQuote: {
+   text: '"My mask holds me steady so I can see what the fog hides. Lately the fog sees me back, through my own steadiness. I have become the thing I am hunting, or it has become me."',
+   speaker: 'Mask-Hunter Mir-Vassen',
+   context: 'An Arch Mimir Apex, the fourth hunt his anchored senses returned nothing'
+   }
   },
-  currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Masked feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses. Several Masked Apexes have reported the mist *looking back* through their own stabilized perception, as if the thing they are hunting is now hunting through the very clarity they rely on.`,
-  signatureQuote: {
-  text: '"My mask holds me steady so I can see what the fog hides. Lately the fog sees me back, through my own steadiness. I have become the thing I am hunting, or it has become me."',
-  speaker: 'Mask-Hunter Mir-Vassen',
-  context: 'A Masked Apex, the fourth hunt his anchored senses returned nothing'
-  }
- },
 
   tethered_mimir: {
-   subraceName: 'Tethered Mimir',
-  title: 'The Sentinel-Tracker',
-  reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Woven Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
-  signatureAbility: {
-  name: 'Perimeter-Track',
-  description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Woven are nearly infallible. Outside it, pursuing prey that has fled, their acuity drops sharply. They are guards, not pursuers.`
+   subraceName: 'Fractured Mimir',
+   title: 'The Sentinel-Tracker',
+   reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Fractured Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
+   signatureAbility: {
+   name: 'Perimeter-Track',
+   description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Fractured Mimir are nearly infallible.`
+   },
+   currentCrisisAngle: `The mist's new evasion has the Fractured sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected.`,
+   signatureQuote: {
+   text: '"I have guarded this wall for thirty years and the wall has held because the mist cooperated. Now the mist opens doors for the things I am meant to stop. I am leaving the wall to find the hand on the door."',
+   speaker: 'Sentinel-Tracker Mir-Felss',
+   context: 'A Fractured Apex, requesting leave to hunt beyond the Palisade'
+   }
   },
-  currentCrisisAngle: `The mist's new evasion has the Woven sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected. Several Woven Apexes have abandoned their posts in the Palisade to hunt whatever is teaching the mist to hide, judging the root cause more dangerous than the perimeter-breaches it causes.`,
-  signatureQuote: {
-  text: '"I have guarded this wall for thirty years and the wall has held because the mist cooperated. Now the mist opens doors for the things I am meant to stop. I am leaving the wall to find the hand on the door."',
-  speaker: 'Sentinel-Tracker Mir-Felss',
-  context: 'A Woven Apex, requesting leave to hunt beyond the Palisade'
-  }
- },
 
-  untethered_mimir: {
-   subraceName: 'Untethered Mimir',
-  title: 'The Fog-Walker',
-  reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink>, maskless, dissolving, track by *becoming the fog*: their already-blurring forms merge with the mist, letting them move *inside* the very medium the prey hides in. An Unwoven Apex is the tradition's ghost, hunting from within the fog rather than against it. Their perception is fluid, unstable, and uniquely able to find things that have *become* the fog.`,
-  signatureAbility: {
-  name: 'Fog-Merge',
-  description: `The Apex can dissolve partially into the fog, tracking prey *from inside* the mist rather than through it, the only tracking method effective against things that have adapted to hide *in* the fog. The cost: each merge costs the Unwoven more of their already-fading definition, and a prolonged hunt risks the tracker never fully re-cohering.`
-  },
-  currentCrisisAngle: `The mist's new evasion is, for the Unwoven, *entrapping*, they merge with the fog to hunt, and the fog, now actively deceptive, *keeps* them. Several Unwoven Apexes have failed to re-cohere after a deep-merge hunt, dissolving permanently into the very mist they entered. The Unwoven are the only trackers who can find what hides in the fog, and the fog is now killing them for it.`,
-  signatureQuote: {
-  text: '"I hunt by becoming the thing I hunt in. The fog used to let me leave. Now it does not want to. I am losing my edges, and the fog is gaining a hunter who will not need a body."',
-  speaker: 'Unwoven Mir-Naeth',
-  context: 'An Unwoven Apex, the morning after a hunt she barely re-cohered from'
-  }
- },
 
  skald_human: {
   subraceName: 'Skald',
@@ -145,18 +129,18 @@ export const APEX_DATA = {
  },
 
  vashir_astril: {
-  subraceName: 'Vashir Astril',
+  subraceName: 'Earthen Astril - Astril',
   title: 'The Steppe-Stalker',
-  reframe: `The <LoreLink termId="astril">Vashir</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is typically a steppe predator \u2014 a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Vashir Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice \u2014 a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
+  reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is typically a steppe predator \u2014 a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Earthen Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice \u2014 a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
   signatureAbility: {
   name: 'Heat-Sight',
-  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Vashir's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
+  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Earthen Astril's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
   },
-  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Vashir differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Vashir Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Vashir are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
+  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Earthen Astril differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Earthen Astril Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Earthen Astril are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
   signatureQuote: {
   text: '"The Ordan read the grass. The Skald read the ice. I read the heat, and the heat does not lie to me the way the wind lies to them. But the heat is fading. Something on the steppe is getting colder, and I do not think it is the season."',
   speaker: 'Sethra Heat-Eye',
-  context: 'A Vashir Apex, tracking a herd that was already dead when it arrived'
+  context: 'A Earthen Astril Apex, tracking a herd that was already dead when it arrived'
   }
  }
  },
@@ -182,7 +166,7 @@ export const APEX_DATA = {
   characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  —  the first Gref  —  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
  },
  headquarters: { name: 'The Still Blind, memorial site near Greythorn (Frostwood Reach)', locationId: 'frostwood-reach' },
- crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide, not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Unwoven trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either, because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
+ crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide, not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Apex trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either, because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
  },
 
  worldFriction: [
@@ -199,9 +183,9 @@ The Silent Hunt was founded that week at the memorial site near Greythorn. Sylas
 
 Sylas has led the Hunt ever since. He communicates through a tactile sign-language developed specifically because spoken words are unreliable in the Frostwood fog. He has tracked the same Wyrd-entity, on and off, for forty years. Lately it has begun circling him.
 
-The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Vashir Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Unwoven Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
+The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Earthen Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Fractured Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
 
-The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Unwoven trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
+The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Fractured Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
 
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
@@ -228,7 +212,7 @@ The Apex was born from the Greythorn massacre  —  forty-seven dead at a Thalre
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
 
 **RACES & CULTURAL AFFILIATION**
-The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Vashir <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
+The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Earthen Astril <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
 
 **NOTABLE FIGURES**
 * **Sylas the Silent**: Woven Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.

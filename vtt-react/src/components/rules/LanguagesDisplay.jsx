@@ -259,7 +259,7 @@ const LanguagesDisplay = () => {
                 <>
                   <li><i className="fas fa-check"></i> Lumian echo and its Astril vessels</li>
                   <li><i className="fas fa-check"></i> Solvarn martyrs who tend Emberspire's wound</li>
-                  <li><i className="fas fa-check"></i> Korr Sun-Speakers in their sacred vigil</li>
+                  <li><i className="fas fa-check"></i> Hollow-Solari Sun-Speakers in their sacred vigil</li>
                   <li><i className="fas fa-check"></i> Those who carry the memory of stars in their blood</li>
                 </>
               )}
@@ -345,7 +345,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Ignan' && (
                 <>
                   <li><i className="fas fa-check"></i> Fire elementals and Emberspire's magma-children</li>
-                  <li><i className="fas fa-check"></i> Korr Sun-Speakers (they speak it only in their minds)</li>
+                  <li><i className="fas fa-check"></i> Hollow-Solari Sun-Speakers (they speak it only in their minds)</li>
                   <li><i className="fas fa-check"></i> Salamanders and geothermal vent-creatures</li>
                   <li><i className="fas fa-check"></i> Flame-touched beings and forge-spirits</li>
                 </>
@@ -369,22 +369,22 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Vale-Speak' && (
                 <>
                   <li><i className="fas fa-check"></i> Mimir of the Frostwood Reach</li>
-                  <li><i className="fas fa-check"></i> Masked, Woven, and Unwoven alike</li>
+                  <li><i className="fas fa-check"></i> Arch and Fractured Mimir alike</li>
                   <li><i className="fas fa-check"></i> Fog-adapted communities who navigate by voice alone</li>
                   <li><i className="fas fa-check"></i> Those who lost their masks in the Purge ninety years ago</li>
                 </>
               )}
               {selectedLanguage.name === 'Sundari' && (
                 <>
-                  <li><i className="fas fa-check"></i> Emberth of Sundale: both Korr and Thrask</li>
+                  <li><i className="fas fa-check"></i> Solari of Sundale: both Hollow-Solari and Waste-Solari</li>
                   <li><i className="fas fa-check"></i> Solvarn humans who tend Emberspire's wound</li>
-                  <li><i className="fas fa-check"></i> Pilgrims who have witnessed the Solbrand's fading</li>
+                  <li><i className="fas fa-check"></i> Pilgrims who have witnessed Sol's Breath's fading</li>
                   <li><i className="fas fa-check"></i> Forge-priests of the Harath-Vault</li>
                 </>
               )}
               {selectedLanguage.name === 'Fexric' && (
                 <>
-                  <li><i className="fas fa-check"></i> Fexrick of Frostmaw Holdfast: Kethrin and Drall</li>
+                  <li><i className="fas fa-check"></i> Fexric of Frostmaw Holdfast: Clockwork Fexric and Caustic Fexric</li>
                   <li><i className="fas fa-check"></i> Deep Alchemists operating in abyssal tunnels</li>
                   <li><i className="fas fa-check"></i> Guild artificers and vat-technicians</li>
                   <li><i className="fas fa-check"></i> Anyone who works the geothermal foundries</li>

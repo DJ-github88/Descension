@@ -10,7 +10,7 @@ export const TRIGGER_TYPES = {
         on_crit: {
             name: 'On Critical Hit',
             icon: 'ability_rogue_ambush',
-            description: 'A Thrask killing-strike that splits helm and oath both. Triggers when landing a critical hit',
+            description: 'A Waste-Solari killing-strike that splits helm and oath both. Triggers when landing a critical hit',
             validTargets: ['attacker', 'target'],
             defaultChance: 100
         },
@@ -47,7 +47,7 @@ export const TRIGGER_TYPES = {
         threshold_high: {
             name: 'At High Health',
             icon: 'spell_holy_sealofsacrifice',
-            description: 'Vitality that sings like a Solbrand ember in the chest. Triggers when health is above 75%',
+            description: 'Vitality that sings like a Sol\'s Breath ember in the chest. Triggers when health is above 75%',
             validTargets: ['self'],
             defaultChance: 100,
             threshold: 75
@@ -65,7 +65,7 @@ export const TRIGGER_TYPES = {
         on_buff_gained: {
             name: 'On Buff Gained',
             icon: 'spell_holy_powerwordshield',
-            description: 'Solbrand warmth floods the wounded and willing. Triggers when gaining a beneficial effect',
+            description: 'Sol\'s Breath warmth floods the wounded and willing. Triggers when gaining a beneficial effect',
             validTargets: ['self'],
             defaultChance: 100
         },

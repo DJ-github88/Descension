@@ -215,7 +215,7 @@ const CategoryTree = memo(({ categories, selectedCategory, onSelect, onAddSubcat
     );
 });
 
-const ListItemRow = memo(({ item, isSelected, isDraggingGlobal, onClick, onContextMenu, onDragOver, onDrop }) => {
+const ListItemRow = memo(({ item, isSelected, onClick, onContextMenu, onDragOver, onDrop }) => {
     const rowRef = useRef(null);
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -256,22 +256,20 @@ const ListItemRow = memo(({ item, isSelected, isDraggingGlobal, onClick, onConte
     };
 
     const handleMouseEnter = () => {
-        if (!isDraggingGlobal) {
-            if (tooltipDelayRef.current) clearTimeout(tooltipDelayRef.current);
-            tooltipDelayRef.current = setTimeout(() => {
-                computeTooltipPosition();
-                setShowTooltip(true);
-            }, 300);
-        }
+        if (window.isDraggingItem) return;
+        if (tooltipDelayRef.current) clearTimeout(tooltipDelayRef.current);
+        tooltipDelayRef.current = setTimeout(() => {
+            if (window.isDraggingItem) return;
+            computeTooltipPosition();
+            setShowTooltip(true);
+        }, 300);
     };
 
     const handleMouseLeave = () => {
-        if (!isDraggingGlobal) {
-            setShowTooltip(false);
-            if (tooltipDelayRef.current) {
-                clearTimeout(tooltipDelayRef.current);
-                tooltipDelayRef.current = null;
-            }
+        setShowTooltip(false);
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
+            tooltipDelayRef.current = null;
         }
     };
 
@@ -390,9 +388,6 @@ const ListItemRow = memo(({ item, isSelected, isDraggingGlobal, onClick, onConte
 const SimpleItemGrid = memo(({ 
     items, 
     selectedItem, 
-    isDraggingGlobal, 
-    onDragStartGlobal, 
-    onDragEndGlobal, 
     onClick, 
     onContextMenu, 
     onDragOver, 
@@ -413,19 +408,6 @@ const SimpleItemGrid = memo(({
         );
     }
 
-    const getQualityColor = (quality) => {
-        const qualityLower = quality?.toLowerCase() || 'common';
-        const colors = {
-            poor: '#8b7355',
-            common: '#5a4a3a',
-            uncommon: '#2d8a2d',
-            rare: '#b8722a',
-            epic: '#7a2d9e',
-            legendary: '#cc6600'
-        };
-        return colors[qualityLower] || colors.common;
-    };
-
     if (viewMode === 'list') {
         return (
             <div className="item-list-view">
@@ -434,7 +416,6 @@ const SimpleItemGrid = memo(({
                         key={item.id}
                         item={item}
                         isSelected={selectedItem === item.id}
-                        isDraggingGlobal={isDraggingGlobal}
                         onClick={onClick}
                         onContextMenu={onContextMenu}
                         onDragOver={onDragOver}
@@ -446,29 +427,26 @@ const SimpleItemGrid = memo(({
     }
 
     return (
-        <div className="item-grid-inner">
-            {items.map((item) => (
-                <MemoizedItemCard
-                    key={item.id}
-                    item={item}
-                    isSelected={selectedItem === item.id}
-                    isDraggingGlobal={isDraggingGlobal}
-                    onDragStartGlobal={onDragStartGlobal}
-                    onDragEndGlobal={onDragEndGlobal}
-                    onClick={onClick}
-                    onContextMenu={onContextMenu}
-                    onDragOver={onDragOver}
-                    onDrop={onDrop}
-                />
-            ))}
+        <div className="item-grid">
+            <div className="item-grid-inner">
+                {items.map((item) => (
+                    <MemoizedItemCard
+                        key={item.id}
+                        item={item}
+                        isSelected={selectedItem === item.id}
+                        onClick={onClick}
+                        onContextMenu={onContextMenu}
+                        onDragOver={onDragOver}
+                        onDrop={onDrop}
+                    />
+                ))}
+            </div>
         </div>
     );
 }, (prevProps, nextProps) => {
-    // Custom comparison - only re-render if items actually changed or drag state changed
     return (
         prevProps.items === nextProps.items &&
         prevProps.selectedItem === nextProps.selectedItem &&
-        prevProps.isDraggingGlobal === nextProps.isDraggingGlobal &&
         prevProps.onClick === nextProps.onClick &&
         prevProps.onContextMenu === nextProps.onContextMenu &&
         prevProps.viewMode === nextProps.viewMode
@@ -476,10 +454,8 @@ const SimpleItemGrid = memo(({
 });
 
 const MemoizedItemCard = memo(ItemCard, (prevProps, nextProps) => {
-    // Only re-render if this specific item's selection state or the item itself changed
     if (prevProps.item !== nextProps.item) return false;
     if (prevProps.isSelected !== nextProps.isSelected) return false;
-    if (prevProps.isDraggingGlobal !== nextProps.isDraggingGlobal) return false;
     return true;
 });
 
@@ -502,7 +478,6 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
     const [showContainerWizard, setShowContainerWizard] = useState(false);
     const [editingContainer, setEditingContainer] = useState(null);
     const [editingContainerId, setEditingContainerId] = useState(null);
-    const [isDraggingGlobal, setIsDraggingGlobal] = useState(false);
     const [showRecipeWizard, setShowRecipeWizard] = useState(false);
     const [editingRecipe, setEditingRecipe] = useState(null);
     const [recipeWizardPosition, setRecipeWizardPosition] = useState({ x: 150, y: 50 });
@@ -1002,14 +977,6 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
         setShowContainerWizard(true);
     }, []);
 
-    const handleDragStartGlobal = useCallback(() => {
-        setIsDraggingGlobal(true);
-    }, []);
-
-    const handleDragEndGlobal = useCallback(() => {
-        setIsDraggingGlobal(false);
-    }, []);
-
     const handleItemClick = useCallback((e, item) => {
         setSelectedItem(item.id);
     }, []);
@@ -1291,9 +1258,6 @@ const ItemLibrary = ({ onClose, contentOnly = false, initialTab = null }) => {
                             <SimpleItemGrid
                                 items={currentItems}
                                 selectedItem={selectedItem}
-                                isDraggingGlobal={isDraggingGlobal}
-                                onDragStartGlobal={handleDragStartGlobal}
-                                onDragEndGlobal={handleDragEndGlobal}
                                 onClick={handleItemClick}
                                 onContextMenu={handleItemContextMenu}
                                 onDragOver={handleItemDragOver}

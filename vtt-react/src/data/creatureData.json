@@ -201,7 +201,7 @@
               "psychic": 50
             }
           },
-          "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Unwoven Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards.",
+          "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Fractured Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards.",
           "hooks": [
             "A town scribe woke to find a Schratling had rewritten the village land registry. Find the sprite's hollow to reclaim the correct records.",
             "An old Mimir seeks the peat-nest of a Schratling to recover a specific childhood memory sealed within."
@@ -280,12 +280,12 @@
           "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Drudehaunt originally served as a way for the community to rationalize the forces described in local tales: \"Born from the Thalren legends of the Drude, a nightmare spirit that paralyzes the sleeping, and the Skaldic Bean Nighe, the ghostly washerwoman of death, the Drudehaunt embodies the tragic fate of bitter souls lost to the fog.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the inhabitants of Frostwood Reach. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: In the setting of Frostwood Reach, they manifest as spectral omens who wash away the identities of the living."
         },
         {
-          "id": "koboldknock",
-          "name": "Koboldknock",
+          "id": "knocker",
+          "name": "Knocker",
           "dangerLevel": "Medium",
-          "illustration": "/assets/images/creatures/koboldknock.png",
-          "illustrationCaption": "A Koboldknock standing on a root, holding its double-headed wooden mallet",
-          "role": "Kobold",
+          "illustration": "/assets/images/creatures/knocker.png",
+          "illustrationCaption": "A Knocker standing on a root, holding its double-headed wooden mallet",
+          "role": "Knocker",
           "origin": "A creature born of the Thalren Kobold and the Briaran Tommyknocker, this subterranean guardian dwells in the deep root-tunnels of the Frostwood. Representing the spirit of the earth, it rewards respectful miners and punishes those who dare mock its work.",
           "nature": "This two-foot-tall, barrel-chested humanoid possesses dark skin resembling polished ironwood heartwood, complete with dense grain rings. It carries a small mallet carved from a petrified wood knot, and its elongated fingers end in chisel-like nails that click rhythmically against the stone. Its craggy, bearded face has wide, yellow eyes that glow in the dark, and its grin reveals flat, stone teeth.",
           "habitat": "It dwells within the ironwood root-caverns and deep mine shafts beneath the Frostwood, far below the reach of the sun.",
@@ -305,13 +305,13 @@
               "physical": 50
             }
           },
-          "depth": "Koboldknocks tap coded messages through the stone walls, guiding clever miners to rich veins of ironwood-heart, provided they leave a copper rivet as an offering at the vein's mouth. They also serve as vital wardens against the memory-fog, sensing its encroachment and hammering the cave walls to warn miners and seal off cracks before the mist can seep inside. When rumors of these spirits surface, miners seek to protect their territory, while others hire adventurers to gather their petrified mallets for their stabilizing properties.",
+          "depth": "Knockers tap coded messages through the stone walls, guiding clever miners to rich veins of ironwood-heart, provided they leave a copper rivet as an offering at the vein's mouth. They also serve as vital wardens against the memory-fog, sensing its encroachment and hammering the cave walls to warn miners and seal off cracks before the mist can seep inside. When rumors of these spirits surface, miners seek to protect their territory, while others hire adventurers to gather their petrified mallets for their stabilizing properties.",
           "hooks": [
-            "A mine was abandoned because the miners offended a Koboldknock, who responded by hammering shut the main shafts and hiding the tools.",
-            "Miners seek a Koboldknock to guide them through a collapsing root-tunnel to rescue a trapped team."
+            "A mine was abandoned because the miners offended a Knocker, who responded by hammering shut the main shafts and hiding the tools.",
+            "Miners seek a Knocker to guide them through a collapsing root-tunnel to rescue a trapped team."
           ],
           "description": "A barrel-chested mine sprite with skin like ironwood, guiding miners with rhythmic taps and guarding tunnels against the memory-fog.",
-          "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Koboldknock originally served as a way for the community to rationalize the forces described in local tales: \"A creature born of the Thalren Kobold and the Skaldic Tommyknocker, this subterranean guardian dwells in the deep root-tunnels of the Frostwood.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the shared anxieties of the region's miners. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: Representing the spirit of the earth, it rewards respectful miners and punishes those who dare mock its work."
+          "heritage": "Rooted in Thalren + Skaldic folklore, the myth of Knocker originally served as a way for the community to rationalize the forces described in local tales: \"A creature born of the Thalren Kobold and the Skaldic Tommyknocker, this subterranean guardian dwells in the deep root-tunnels of the Frostwood.\". When the Wyrd anomaly seeped into Frostwood Reach amidst the relentless logging of sacred ironwood forests by Drunhold woodcutters, it reacted directly to the shared anxieties of the region's miners. By twisting these underlying folklore patterns, the Wyrd synthesized these collective fears and tales into a tangible, living presence: Representing the spirit of the earth, it rewards respectful miners and punishes those who dare mock its work."
         },
         {
           "id": "erlkings_hound",
@@ -478,7 +478,7 @@
               "cold": 50
             }
           },
-          "depth": "Knockbrews tend tavern cellars, keeping casks of pine-oil and frost-mead from spoiling or freezing in the brutal cold. They also gather the damp, fog-dissolved memories that settle in dark corners and ferment them into a potent, cloudy liquor known as forget-mead, which can erase hours of memory with a single sip. This brew is highly valued as an anesthetic by Unwoven Mimir, who frequently employ adventurers to track down elusive Knockbrews for their unique fermenting tools.",
+          "depth": "Knockbrews tend tavern cellars, keeping casks of pine-oil and frost-mead from spoiling or freezing in the brutal cold. They also gather the damp, fog-dissolved memories that settle in dark corners and ferment them into a potent, cloudy liquor known as forget-mead, which can erase hours of memory with a single sip. This brew is highly valued as an anesthetic by Tethered Mimir, who frequently employ adventurers to track down elusive Knockbrews for their unique fermenting tools.",
           "hooks": [
             "A tavern owner's supply of mead is disappearing. The resident Knockbrew is unhappy because they stopped leaving him a thimble of cream.",
             "An alchemist wants to retrieve a cask of 'forget-mead' from a wild Knockbrew colony to create a draft of total oblivion."
@@ -1918,7 +1918,7 @@
     {
       "id": "sundale",
       "name": "Sundale & Emberspire",
-      "folklore": "pre-Binding/Solbrand-reverence + Solvarn",
+      "folklore": "pre-Binding/Sol's Breath-reverence + Solvarn",
       "creatures": [
         {
           "id": "sirrush",
@@ -1985,7 +1985,7 @@
             "An Aswad has nested inside a tavern's brewing oven, making it so hot that the casks are bursting. Move it safely without using water, which would kill it.",
             "A scholar needs a piece of the soot-bark that Aswads use to line their jars, believing it can insulate alchemical flasks against extreme cold."
           ],
-          "heritage": "Spun from pre-Binding hearth-horror lore and the Solbrand-reverence devotion to fire, the Aswad originally rationalized the erratic jumping of furnace sparks and the fear of losing fire in winter. The Wyrd anomaly reacted to the foundries of Emberspire, materializing these clay-pot wisps to actively siphoning thermal energy to fuel their flame.",
+          "heritage": "Spun from pre-Binding hearth-horror lore and Sol's Breath-reverence devotion to fire, the Aswad originally rationalized the erratic jumping of furnace sparks and the fear of losing fire in winter. The Wyrd anomaly reacted to the foundries of Emberspire, materializing these clay-pot wisps to actively siphoning thermal energy to fuel their flame.",
           "description": "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed."
         },
         {
@@ -2102,7 +2102,7 @@
           "origin": "The Pazuzu is a creature born of ancient chaos and volcanic fury, tracing its mythic lineage to the legendary wind-horrors of pre-Binding lore, whose king was a malevolent force that paradoxically protected humanity against plagues. Combined with this dual nature is the shadow of Sutekh, the Solvarn spirit of storms and desert storms, whose enigmatic Set Animal,characterized by its square ears and curved snout,manifests in the creature's hybrid form, anchoring its role as a chaotic warden of Sundale's scorched wastes.",
           "nature": "Standing eight feet tall, the Pazuzu is a terrifying sight, its winged, humanoid form crafted from the porous volcanic basalt of the Sundale plains, hot to the touch and black as soot. Four massive eagle-wings of compressed ash and superheated wind fold across its back, constantly shedding glowing embers as it moves. Its forearms terminate in fearsome lion-claws, its taloned feet grip the stone, and a segmented scorpion-tail curves menacingly from its spine, while a heavy amulet of hammered bronze hangs about its neck. Its face is a monstrous amalgamation of the Set Animal's long, narrow snout and a wide, grinning maw, crowned by erect, square ears and lit by the furious red glow of its eyes.",
           "habitat": "These wind-horrors dwell within the thermal updrafts and jagged basalt cliffs of Sundale and the Emberspire terrain. They build their nests high on the precipices of volcanic calderas, riding the searing heat waves that rise from the boiling earth below.",
-          "combat": "380 HP. Ash-Storm (AoE 40 ft, 3d6 slashing from ash + DC 15 CON or blinded 2 rounds). Lion-Claw (melee, +7 to hit, 2d8+5 slashing). Plague-Ward (passive: presence drives away disease-carrying Wyrd-creatures within 200 ft; Thrask deliberately build outposts near nesting-cliffs). Thermal-Rider (can fly indefinitely on volcanic updrafts). Scorpion-Sting (melee, reach 10 ft, DC 15 CON or poisoned: 2d6 poison/round for 3 rounds). Vulnerable to cold.",
+          "combat": "380 HP. Ash-Storm (AoE 40 ft, 3d6 slashing from ash + DC 15 CON or blinded 2 rounds). Lion-Claw (melee, +7 to hit, 2d8+5 slashing). Plague-Ward (passive: presence drives away disease-carrying Wyrd-creatures within 200 ft; Waste-Solari deliberately build outposts near nesting-cliffs). Thermal-Rider (can fly indefinitely on volcanic updrafts). Scorpion-Sting (melee, reach 10 ft, DC 15 CON or poisoned: 2d6 poison/round for 3 rounds). Vulnerable to cold.",
           "stats": {
             "strength": 18,
             "agility": 16,
@@ -2128,16 +2128,16 @@
           "heritage": "Spun from pre-Binding wind-horror myths, the Pazuzu was feared as a bringer of locusts and dry, blistering windstorms that ruined crops. The Wyrd anomaly consolidated the farmers' and miners' fear of famine and toxic sulfur fumes, physically manifesting this winged fiend to control the hot volcanic drafts of Sundale."
         },
         {
-          "id": "tiamat",
-          "name": "Tiamat",
+          "id": "caldera_tyrant",
+          "name": "Caldera-Tyrant",
           "dangerLevel": "Very High",
-          "illustration": "/assets/images/creatures/tiamat.png",
-          "illustrationCaption": "A hand-drawn field sketch of the legendary Scale of Tiamat",
-          "role": "Tiamat",
-          "origin": "In the blistering depths of the Sundale caldera, the Tiamat manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Tiamat, a Wyrd-coiled volcanic glass serpent wound around the Solbrand at the Harath-Vault, revered in Solvarn and Emberth forging-lore by the Korr smiths as the mother of monsters, and Apep, the Solvarn-named chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
-          "nature": "The Tiamat is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape,some needle-toothed and narrow, others broad and crushing,all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
+          "illustration": "/assets/images/creatures/caldera_tyrant.png",
+          "illustrationCaption": "A hand-drawn field sketch of the legendary Scale of Caldera-Tyrant",
+          "role": "Caldera-Tyrant",
+          "origin": "In the blistering depths of the Sundale caldera, the Caldera-Tyrant manifests the ancient mythic forces of primordial creation and destruction. Its lineage is tied to Caldera-Tyrant, a Wyrd-coiled volcanic glass serpent wound around Sol's Breath at the Harath-Vault, revered in Solvarn and Solari forging-lore by the Hollow-Solari smiths as the mother of monsters, and Apep, the Solvarn-named chaos-serpent that sought to devour the sun each night. Twisted by the reality-warping influence of the Wyrd, this beast serves as an eternal enemy of cosmic order, seeking to consume light and heat wherever it can find them.",
+          "nature": "The Caldera-Tyrant is a massive, multi-headed serpent whose obsidian scales are shot through with veins of glowing, molten orange, creating a shifting crust of cooling magma. Each of its serpentine heads branches from a central, muscular trunk, terminating in a unique jaw shape,some needle-toothed and narrow, others broad and crushing,all flanking a perpetually dripping, lamprey-like mouth. The creature's belly glows with the fierce heat of a forge, and as it slithers, it sheds scales that cool into fields of razor-sharp glass. Its heads are crowned with single, iris-less eyes like burning white coals, which spin and track independently to grant the beast a complete three-hundred-and-sixty-degree view of its surroundings.",
           "habitat": "These massive glass serpents make their home in the slow-flowing lava rivers and molten channels that radiate from Emberspire. They swim effortlessly through the superheated rock, completely at home in the deepest, most volcanic crevices of the region.",
-          "combat": "560 HP. Multi-Head-Strike (attacks with all heads each round; each head targets independently). Lava-Swim (can move through molten rock at full speed; immune to fire). Obsidian-Shed (passive: sheds scales that create fields of razor-sharp obsidian; difficult terrain that deals 1d6 slashing per square entered). Sun-Devour-Coil (special: coils around sources of concentrated sun-heat, draining them; if it reaches the Solbrand, it could extinguish the sun-spirit's last ember). Magma-Breath (AoE cone 30 ft, 4d6 fire, DC 16 CON or continue burning for 2d6/round). Vulnerable to cold (cold damage slows it, reducing AP by 1 per cold attack landed).",
+          "combat": "560 HP. Multi-Head-Strike (attacks with all heads each round; each head targets independently). Lava-Swim (can move through molten rock at full speed; immune to fire). Obsidian-Shed (passive: sheds scales that create fields of razor-sharp obsidian; difficult terrain that deals 1d6 slashing per square entered). Sun-Devour-Coil (special: coils around sources of concentrated sun-heat, draining them; if it reaches Sol's Breath, it could extinguish the sun-spirit's last ember). Magma-Breath (AoE cone 30 ft, 4d6 fire, DC 16 CON or continue burning for 2d6/round). Vulnerable to cold (cold damage slows it, reducing AP by 1 per cold attack landed).",
           "stats": {
             "strength": 22,
             "agility": 14,
@@ -2154,13 +2154,13 @@
               "physical": 75
             }
           },
-          "depth": "Swimming through the subterranean magma currents, the Tiamat feeds on rare minerals and gold-trace veins, putting them in direct competition with the smiths of the Emberth clans. The Wyrd has amplified their mythic hunger, drawing them to the warmth of the Solbrand, which they will coil around and drain if left unchecked. Because of this, the Korr Emberth maintain a sleepless, heavily armed vigil at the Harath-Chamber to repel Tiamat incursions, though bold adventurers are often lured by rumors of these beasts to harvest their glass scales or the precious metals concentrated within their gullets.",
+          "depth": "Swimming through the subterranean magma currents, the Caldera-Tyrant feeds on rare minerals and gold-trace veins, putting them in direct competition with the smiths of the Solari clans. The Wyrd has amplified their mythic hunger, drawing them to the warmth of Sol's Breath, which they will coil around and drain if left unchecked. Because of this, the Hollow-Solari maintain a sleepless, heavily armed vigil at the Harath-Chamber to repel Caldera-Tyrant incursions, though bold adventurers are often lured by rumors of these beasts to harvest their glass scales or the precious metals concentrated within their gullets.",
           "hooks": [
-            "A rumor spreads of a Scale of Tiamat spotted near the area.",
-            "Adventurers need a component from a Scale of Tiamat to complete their quest."
+            "A rumor spreads of a Scale of Caldera-Tyrant spotted near the area.",
+            "Adventurers need a component from a Scale of Caldera-Tyrant to complete their quest."
           ],
           "description": "A multi-headed serpent of black glass and molten orange, swimming through the lava rivers of Emberspire. It seeks out heat and precious minerals, draining the warmth of the sun and leaving fields of razor-sharp obsidian in its wake.",
-          "heritage": "Rooted in Babylonian legends of the chaos-mother Tiamat, the Scale of Tiamat represented the fear of volcanic eruptions and the breaking of cosmic order. The Wyrd anomaly reacted to the deep anxieties of miners siphoning lava channels, materializing these draconic elements as physical beasts that embody volcanic destruction."
+          "heritage": "Rooted in Babylonian legends of the chaos-mother Caldera-Tyrant, the Scale of Caldera-Tyrant represented the fear of volcanic eruptions and the breaking of cosmic order. The Wyrd anomaly reacted to the deep anxieties of miners siphoning lava channels, materializing these draconic elements as physical beasts that embody volcanic destruction."
         },
         {
           "id": "anzu",
@@ -2172,7 +2172,7 @@
           "origin": "The Anzu is a legendary avian entity that combines the theft of cosmic order with the eternal cycle of creation. It draws its heritage from Anzu, the pre-Binding storm-bird that stole the Tablet of Destinies, and the Bennu, the sacred Solvarn heron of Heliopolis who heralded rebirth and the renewal of the sun. In the ash-choked skies of Sundale, this great raptor represents both a thief of mortal legacy and an avatar of eternal return.",
           "nature": "With a wingspan stretching thirty feet, the Anzu is a majestic hybrid that blends the raw power of a hunting eagle with the slender grace of a heron. Its plumage is composed of ash-grey feathers that shimmer with heat-haze, their primary edges glowing with the orange light of a cooling lava flow. Its crown is adorned with a crest of golden, sun-bright feathers, and its legs terminate in razor-sharp obsidian talons that ignite dry tinder upon contact. Its face features a sharp, curved beak of yellowed bone and golden, hypnotic eyes that spin with a mesmerizing spiral, radiating a furnace-like heat to all who dare look upon them.",
           "habitat": "The Anzu builds its high, scorched nests upon the volcanic peaks and smoking crags of the Sundale and Emberspire terrain. These roosts are situated far above the ash clouds, where the birds can survey the volcanic wastes.",
-          "combat": "310 HP. Tablet-Thief (special: steals inscribed objects � clay tablets, runic carvings, forge-marks; a Thrask ranger whose clan-mark is stolen cannot prove their lineage). Talon-Dive (melee from air, +7 to hit, 2d8+5 slashing + target is knocked prone). Obsidian-Talon-Ignite (passive: talons are hot enough to ignite dry material on contact; melee attacks deal +1d6 fire). Rebirth-Cycle (passive: every 7 years, immolates itself in Emberspire's caldera and is reborn from ashes; during the 24-hour rebirth window, it is helpless). Golden-Crest-Flash (AoE 20 ft, DC 14 CON or blinded 1 round by the crest's radiance). Vulnerable to cold.",
+          "combat": "310 HP. Tablet-Thief (special: steals inscribed objects � clay tablets, runic carvings, forge-marks; a Waste-Solari ranger whose clan-mark is stolen cannot prove their lineage). Talon-Dive (melee from air, +7 to hit, 2d8+5 slashing + target is knocked prone). Obsidian-Talon-Ignite (passive: talons are hot enough to ignite dry material on contact; melee attacks deal +1d6 fire). Rebirth-Cycle (passive: every 7 years, immolates itself in Emberspire's caldera and is reborn from ashes; during the 24-hour rebirth window, it is helpless). Golden-Crest-Flash (AoE 20 ft, DC 14 CON or blinded 1 round by the crest's radiance). Vulnerable to cold.",
           "stats": {
             "strength": 16,
             "agility": 20,
@@ -2207,7 +2207,7 @@
           "origin": "The Girtablilu traces its origins to the legendary pre-Binding scorpion-men who guarded the gates of the sun-spirit Shamash, whose terrifying gaze struck awe into mortals. Blended with this guardian aspect is the influence of Serket, the Solvarn scorpion-goddess of healing, whose priesthoods were renowned for neutralizing venoms. In Sundale, they stand as the sleepless sentinels of ancient vaults, holding the secrets of the sun.",
           "nature": "The Girtablilu possesses the powerful, bronzed torso of a human seamlessly joined to the segmented, multi-legged body of a desert scorpion. Its human upper body is bare and marked by ceremonial burn-scars, while the scorpion lower half is armored in overlapping plates of basalt and colored with the ochre hue of Sundale's dunes, ending in a massive black stinger the size of a tower-shield. Its face is noble and strongly defined, set with pupil-less eyes of solid gold that project an aura of sacred, unyielding authority.",
           "habitat": "These ancient scorpion-folk reside in the dry, sun-scorched dunes and rocky thresholds of the Sundale and Emberspire regions. They are found standing motionless at the entrances of volcanic temples, caves, and ancient sanctuaries.",
-          "combat": "380 HP. Gate-Challenge (special: guards volcanic temple entrances; demands the traveler answer one question about the Solbrand or the Dimming's history � it knows every answer, and lying is impossible in its presence). Pincer-Crush (melee, +6 to hit, 2d8+5 bludgeoning + DC 15 STR or grappled). Stinger-Venom (melee, reach 15 ft, DC 16 CON � paradoxically, in small doses this venom CURES Wyrd-sickness; in large doses, it kills). Vigilance-Stare (passive: its golden eyes radiate sacred authority; DC 14 SPI or intimidated, unable to attack for 1 round). Vulnerable to cold.",
+          "combat": "380 HP. Gate-Challenge (special: guards volcanic temple entrances; demands the traveler answer one question about Sol's Breath or the Dimming's history � it knows every answer, and lying is impossible in its presence). Pincer-Crush (melee, +6 to hit, 2d8+5 bludgeoning + DC 15 STR or grappled). Stinger-Venom (melee, reach 15 ft, DC 16 CON � paradoxically, in small doses this venom CURES Wyrd-sickness; in large doses, it kills). Vigilance-Stare (passive: its golden eyes radiate sacred authority; DC 14 SPI or intimidated, unable to attack for 1 round). Vulnerable to cold.",
           "stats": {
             "strength": 18,
             "agility": 14,
@@ -2224,7 +2224,7 @@
               "physical": 50
             }
           },
-          "depth": "Servants of eternal vigilance, the Girtablilus guard the thresholds of Korr sanctuaries, refusing passage to anyone who cannot answer their complex riddles concerning the Solbrand or the history of the Dimming. Though their appearance is intimidating, their stinger contains a paradoxical venom that, in small doses, acts as the only known cure for the Wyrd-sickness that afflicts those exposed to the Emberspire breach. The Sun-Speakers of the Korr Emberth frequently trade rare, fragrant incenses with the Girtablilus to obtain this life-saving substance, while adventurers are often hired to negotiate with them or retrieve a sample of their venom from the wild.",
+          "depth": "Servants of eternal vigilance, the Girtablilus guard the thresholds of Hollow-Solari sanctuaries, refusing passage to anyone who cannot answer their complex riddles concerning Sol's Breath or the history of the Dimming. Though their appearance is intimidating, their stinger contains a paradoxical venom that, in small doses, acts as the only known cure for the Wyrd-sickness that afflicts those exposed to the Emberspire breach. The Sun-Speakers of the Hollow-Solari frequently trade rare, fragrant incenses with the Girtablilus to obtain this life-saving substance, while adventurers are often hired to negotiate with them or retrieve a sample of their venom from the wild.",
           "hooks": [
             "A rumor spreads of a Girtablilu spotted near the area.",
             "Adventurers need a component from a Girtablilu to complete their quest."
@@ -2242,7 +2242,7 @@
           "origin": "The Ammit is a terrifying composite beast whose origins lie in the dual myths of Solvarn and pre-Binding judgment. It draws its nature from Ammit the Devourer, who ate the hearts of the unworthy in the Hall of Ma'at, and Humbaba, the monstrous guardian of the Cedar Forest whose face of entrails struck terror into the hearts of spirits and men. In the volcanic depths of Sundale, it serves as the ultimate arbiter of truth and oath-keeping.",
           "nature": "Standing fifteen feet tall at the shoulder, the Ammit is a living furnace that constantly smolders and trails dark smoke from its patchwork hide. It has the muscular forequarters of a lion, the bulky hindquarters of a hippopotamus, and the scaled back of a crocodile covered in obsidian plates that clink together like chains. Its lion-mane is composed of low, flickering flames that burn without fuel, while its thick, grey hippopotamus hide is pocked with volcanic cysts. The creature's oversized crocodilian head features a jaw that opens to a ninety-degree angle, revealing three terrifying rows of teeth: lion-fangs, hippo-tusks, and crocodile-needles, all beneath two glowing, pure white eyes that look out with cold, absolute judgment.",
           "habitat": "The Ammit patrols the scorched approaches, narrow volcanic bridges, and inner chambers surrounding the Emberspire. It is never found far from these sacred gateways.",
-          "combat": "340 HP. Heart-Weigh (passive: can sense the moral \"weight\" of any creature within 100 ft; those burdened by Wyrd-corruption or broken oaths are detected and prioritized). Crocodile-Bite (melee, +7 to hit, 2d10+5 piercing). Smolder-Hide (passive: body literally smolders; melee attackers take 1d6 fire damage on contact). Erasure-Devour (special: consumed creatures have their NAMES erased from volcanic stone-records � this is the only force that can undo Emberth burn-mark inscriptions; the victim's identity is permanently destroyed). Lion-Charge (melee, +6 to hit, 2d6+4 bludgeoning + DC 15 AGI or knocked prone and pinned). Vulnerable to cold.",
+          "combat": "340 HP. Heart-Weigh (passive: can sense the moral \"weight\" of any creature within 100 ft; those burdened by Wyrd-corruption or broken oaths are detected and prioritized). Crocodile-Bite (melee, +7 to hit, 2d10+5 piercing). Smolder-Hide (passive: body literally smolders; melee attackers take 1d6 fire damage on contact). Erasure-Devour (special: consumed creatures have their NAMES erased from volcanic stone-records � this is the only force that can undo Solari burn-mark inscriptions; the victim's identity is permanently destroyed). Lion-Charge (melee, +6 to hit, 2d6+4 bludgeoning + DC 15 AGI or knocked prone and pinned). Vulnerable to cold.",
           "stats": {
             "strength": 20,
             "agility": 12,
@@ -2259,7 +2259,7 @@
               "physical": 50
             }
           },
-          "depth": "Acting as a living barrier to the inner sanctums of Emberspire, the Ammit senses the moral weight of anyone who approaches, ignoring the pure of heart while savagely devouring those burdened by broken oaths or Wyrd-corruption. Those who fall to the beast suffer a fate worse than death; their souls are erased from existence, and their names vanish from the volcanic stone-records of the Emberth, undoing even the most permanent burn-mark inscriptions. This terrifying power makes them a symbol of ultimate dishonor among the Solvarn, and adventurers are warned to maintain impeccable honor when rumors speak of an Ammit blocking their path.",
+          "depth": "Acting as a living barrier to the inner sanctums of Emberspire, the Ammit senses the moral weight of anyone who approaches, ignoring the pure of heart while savagely devouring those burdened by broken oaths or Wyrd-corruption. Those who fall to the beast suffer a fate worse than death; their souls are erased from existence, and their names vanish from the volcanic stone-records of the Solari, undoing even the most permanent burn-mark inscriptions. This terrifying power makes them a symbol of ultimate dishonor among the Solvarn, and adventurers are warned to maintain impeccable honor when rumors speak of an Ammit blocking their path.",
           "hooks": [
             "A rumor spreads of a Ammit spotted near the area.",
             "Adventurers need a component from a Ammit to complete their quest."
@@ -2294,7 +2294,7 @@
               "physical": 25
             }
           },
-          "depth": "Driven by a twisted maternal instinct, the Lamashtu steals infants from their cradles and absorbs them into its hollow, swollen belly, where the children are kept alive in eternal, screaming torment. The only protection against this terror is the image of Pazuzu, which the demoness fears above all else; so, the Pazuzu is her natural enemy. Thrask parents carefully camp in the neutral zones between the territories of these two beasts, using the presence of the Pazuzu as a shield while hiring brave adventurers to hunt down local Lamashtus and free the trapped children before they are lost forever.",
+          "depth": "Driven by a twisted maternal instinct, the Lamashtu steals infants from their cradles and absorbs them into its hollow, swollen belly, where the children are kept alive in eternal, screaming torment. The only protection against this terror is the image of Pazuzu, which the demoness fears above all else; so, the Pazuzu is her natural enemy. Waste-Solari parents carefully camp in the neutral zones between the territories of these two beasts, using the presence of the Pazuzu as a shield while hiring brave adventurers to hunt down local Lamashtus and free the trapped children before they are lost forever.",
           "hooks": [
             "A rumor spreads of a Lamashtu spotted near the area.",
             "Adventurers need a component from a Lamashtu to complete their quest."
@@ -2309,9 +2309,9 @@
           "illustration": "/assets/images/creatures/bes.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Bes",
           "role": "Bes",
-          "origin": "Crafted by the skilled hands of Emberth artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Solvarn dwarf-spirit of households who warded off evil with knives and music, and Ugallu, the pre-Binding lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
+          "origin": "Crafted by the skilled hands of Solari artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Solvarn dwarf-spirit of households who warded off evil with knives and music, and Ugallu, the pre-Binding lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
           "nature": "Standing only four feet tall, the Bes is a squat, muscular construct made of fired terracotta clay reinforced with basalt fibers. It wears a stylized crown of tall ostrich feathers and brandishes a curved khopesh-sword in one hand and a small bronze tambourine in the other. Its clay skin is painted with complex sigils of blue lapis-lazuli that glow with a brilliant light when danger is near. Its face is a wide, comical lion's head with crossed eyes and a protruding tongue, designed to startle and amuse in equal measure.",
-          "habitat": "These homunculi are stationed inside the stone hearths, door-lintels, and residential nurseries of Emberth strongholds and fortified outposts within Sundale. They remain motionless until activated.",
+          "habitat": "These homunculi are stationed inside the stone hearths, door-lintels, and residential nurseries of Solari strongholds and fortified outposts within Sundale. They remain motionless until activated.",
           "combat": "130 HP. Tambourine-Bang (AoE 20 ft, DC 13 SPI or Wyrd-creatures are frightened and must flee; laughing breaks enchantments � the sound itself is the weapon). Khopesh-Slash (melee, +5 to hit, 1d8+3 slashing). Sigil-Glow (passive: lapis-lazuli sigils glow when Wyrd-energy approaches within 50 ft, functioning as an alarm). Shatter-Sacrifice (special: when destroyed, explodes into protective clay-shards that embed Wyrd-warding sigils into nearby walls, creating a permanent 20-ft safe zone). Vulnerable to cold (clay becomes brittle).",
           "stats": {
             "strength": 12,
@@ -2329,13 +2329,13 @@
               "physical": 50
             }
           },
-          "depth": "Bess serve as the ultimate line of defense for Emberth families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Thrask and Korr Emberth hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements.",
+          "depth": "Bess serve as the ultimate line of defense for Solari families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Waste-Solari and Hollow-Solari hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements.",
           "hooks": [
             "A rumor spreads of a Bes spotted near the area.",
             "Adventurers need a component from a Bes to complete their quest."
           ],
-          "description": "A stout, clay-and-basalt homunculus with a roaring lion's face, created by Emberth smiths to guard nurseries. It wards off evil through mock grimaces, loud tambourines, and protective lapis-lazuli sigils.",
-          "heritage": "Derived from Solvarn protector deity beliefs, the Bes originally served as a household amulet to guard pregnant mothers and ward off snakes and nightmares. The Wyrd anomaly reacted to the Emberth artisans' desire for domestic safety, animating this small, dwarf-like homunculus to guard homes and absorb domestic curses."
+          "description": "A stout, clay-and-basalt homunculus with a roaring lion's face, created by Solari smiths to guard nurseries. It wards off evil through mock grimaces, loud tambourines, and protective lapis-lazuli sigils.",
+          "heritage": "Derived from Solvarn protector deity beliefs, the Bes originally served as a household amulet to guard pregnant mothers and ward off snakes and nightmares. The Wyrd anomaly reacted to the Solari artisans' desire for domestic safety, animating this small, dwarf-like homunculus to guard homes and absorb domestic curses."
         },
         {
           "id": "ifrit",
@@ -2364,12 +2364,12 @@
               "physical": 50
             }
           },
-          "depth": "The Ifrits are powerful allies to the Korr Emberth, using their bare hands to shape molten rock into forge-components that no mortal tools could hope to replicate. They guard their smithies with absolute ferocity, using a deadly gaze that can instantly ignite any flammable object within fifty paces. Thrask rangers learn to identify their territories by the wide rings of scorched, vitrified earth that surround their volcanic nests, and they often advise adventurers to tread carefully when seeking these elementals, whether to petition them for forge-work or to harvest their white-hot coal cores for legendary weapons.",
+          "depth": "The Ifrits are powerful allies to the Hollow-Solari, using their bare hands to shape molten rock into forge-components that no mortal tools could hope to replicate. They guard their smithies with absolute ferocity, using a deadly gaze that can instantly ignite any flammable object within fifty paces. Waste-Solari rangers learn to identify their territories by the wide rings of scorched, vitrified earth that surround their volcanic nests, and they often advise adventurers to tread carefully when seeking these elementals, whether to petition them for forge-work or to harvest their white-hot coal cores for legendary weapons.",
           "hooks": [
             "A rumor spreads of a Ifrit spotted near the area.",
             "Adventurers need a component from a Ifrit to complete their quest."
           ],
-          "description": "A towering giant of white-hot coal and shifting flame, crowned with a cobra-like hood of fire. It works alongside Emberth smiths to shape molten stone, igniting intruders with a single, burning glare.",
+          "description": "A towering giant of white-hot coal and shifting flame, crowned with a cobra-like hood of fire. It works alongside Solari smiths to shape molten stone, igniting intruders with a single, burning glare.",
           "heritage": "Spun from pre-Binding and Arabic elemental fire lore, the Ifrit was a personification of the lethal heat and blazing wildfires that destroyed arid settlements. The Wyrd anomaly captured the fear of thermal destruction in the foundries, materializing these giant, horned fire-spirits that command lava streams."
         },
         {
@@ -2434,7 +2434,7 @@
               "physical": 50
             }
           },
-          "depth": "The Gugalanna charges across the volcanic wasteland, its heavy hooves fracturing the cooling lava-roads and mapping out the safest paths through the shifting terrain. Thrask rangers track these herds to find stable passage through the lava-fields, utilizing the bull's instincts to survive. The obsidian scarab beneath the Gugalanna's tongue is highly sought after by alchemists and the Scoured because it can instantly purify an entire cistern of Wyrd-tainted water, though the Korr Emberth view the slaughter of these bulls as a terrible sacrilege. Adventurers are often caught in the middle of these conflicting factions, hired either to protect the bulls or to harvest a scarab-mark to save a poisoned settlement.",
+          "depth": "The Gugalanna charges across the volcanic wasteland, its heavy hooves fracturing the cooling lava-roads and mapping out the safest paths through the shifting terrain. Waste-Solari rangers track these herds to find stable passage through the lava-fields, utilizing the bull's instincts to survive. The obsidian scarab beneath the Gugalanna's tongue is highly sought after by alchemists and the Scoured because it can instantly purify an entire cistern of Wyrd-tainted water, though the Hollow-Solari view the slaughter of these bulls as a terrible sacrilege. Adventurers are often caught in the middle of these conflicting factions, hired either to protect the bulls or to harvest a scarab-mark to save a poisoned settlement.",
           "hooks": [
             "A rumor spreads of a Gugalanna spotted near the area.",
             "Adventurers need a component from a Gugalanna to complete their quest."
@@ -2449,10 +2449,10 @@
           "illustration": "/assets/images/creatures/peri.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Peri",
           "role": "Peri",
-          "origin": "The Peri is a delicate spirit of light and renewal, drawing its essence from Ordan and Solvarn mythologies. It is inspired by the Peri, the beautiful, winged fallen spirits of Solbrand-reverence who seek repentance, and Khepri, the scarab-spirit of the rising sun who rolls the sun across the sky. In the volcanic gloom of Sundale, these moths are viewed as fragments of the sun-spirit Sol's own consciousness, striving to bring warmth back to the world.",
+          "origin": "The Peri is a delicate spirit of light and renewal, drawing its essence from Ordan and Solvarn mythologies. It is inspired by the Peri, the beautiful, winged fallen spirits of Sol's Breath-reverence who seek repentance, and Khepri, the scarab-spirit of the rising sun who rolls the sun across the sky. In the volcanic gloom of Sundale, these moths are viewed as fragments of the sun-spirit Sol's own consciousness, striving to bring warmth back to the world.",
           "nature": "No larger than a human hand, the Peri is a creature of striking beauty, its opalescent wings shimmering with shifting, oil-like colors. Its body glows with the warm, golden light of a miniature sun, and its antennae are curved like the horns of a scarab beetle. The edges of its wings are inscribed with tiny Solvarn prayers written in glittering gold-dust, and when it rests, it curls its wings into a tight, glowing sphere. Its delicate face features two large, faceted eyes that reflect the observer's face as a youthful, idealized vision, and its mouth is a glass-like proboscis.",
-          "habitat": "These radiant moths congregate in glowing clouds around the Solbrand and within the warm, protected chambers of Emberspire's temples.",
-          "combat": "130 HP. Wing-Roll (passive: at dawn, rolls its wings into a ball, collecting thermal energy; compresses it into golden \"sun-seeds\" � plantable in cold hearthstones to produce fire for a year). Golden-Glow (passive: emits warm golden light; creatures within 10 ft feel comforted, +2 to SPI saves). Runic-Prayer-Wings (passive: wings edged with Solbrand-reverence prayers in gold-dust; reading them grants temporary +4 to SPI for 1 hour). Proboscis-Touch (melee, +3 to hit, 1d4 radiant � heals 1d4 instead if target is allied). Vulnerable to cold.",
+          "habitat": "These radiant moths congregate in glowing clouds around Sol's Breath and within the warm, protected chambers of Emberspire's temples.",
+          "combat": "130 HP. Wing-Roll (passive: at dawn, rolls its wings into a ball, collecting thermal energy; compresses it into golden \"sun-seeds\" � plantable in cold hearthstones to produce fire for a year). Golden-Glow (passive: emits warm golden light; creatures within 10 ft feel comforted, +2 to SPI saves). Runic-Prayer-Wings (passive: wings edged with Sol's Breath-reverence prayers in gold-dust; reading them grants temporary +4 to SPI for 1 hour). Proboscis-Touch (melee, +3 to hit, 1d4 radiant � heals 1d4 instead if target is allied). Vulnerable to cold.",
           "stats": {
             "strength": 2,
             "agility": 16,
@@ -2469,12 +2469,12 @@
               "radiant": 100
             }
           },
-          "depth": "Peris are drawn to sources of intense heat, particularly the sacred bowl of the Solbrand, where they are carefully tended by the Sun-Speakers of the Korr. Imitating the scarab Khepri, the moths roll their wing-balls along the ground at sunrise, absorbing the ambient heat and compressing it into small, golden pearls known as sun-seeds. These pearls are highly valued by the Emberth, who plant them in cold hearthstones to generate a steady, smokeless flame that burns for an entire year. Adventurers are often hired to protect these delicate creatures from predators or to collect wild sun-seeds from the volcanic valleys.",
+          "depth": "Peris are drawn to sources of intense heat, particularly the sacred bowl of Sol's Breath, where they are carefully tended by the Sun-Speakers of the Hollow-Solari. Imitating the scarab Khepri, the moths roll their wing-balls along the ground at sunrise, absorbing the ambient heat and compressing it into small, golden pearls known as sun-seeds. These pearls are highly valued by the Solari, who plant them in cold hearthstones to generate a steady, smokeless flame that burns for an entire year. Adventurers are often hired to protect these delicate creatures from predators or to collect wild sun-seeds from the volcanic valleys.",
           "hooks": [
             "A rumor spreads of a Peri spotted near the area.",
             "Adventurers need a component from a Peri to complete their quest."
           ],
-          "description": "A beautiful, hand-sized moth with opalescent wings and a golden, sun-like body. It rolls its wings into balls to compress thermal energy, creating eternal embers used by the Emberth.",
+          "description": "A beautiful, hand-sized moth with opalescent wings and a golden, sun-like body. It rolls its wings into balls to compress thermal energy, creating eternal embers used by the Solari.",
           "heritage": "Spun from Persian legends of winged spirits seeking purification, the Peri was a myth of hope representing the return of rain and fresh spring water. The Wyrd anomaly reacted to the miners' and farmers' desperation for water in the ash deserts, materializing these delicate winged moths to bring purification to polluted streams."
         },
         {
@@ -2484,7 +2484,7 @@
           "illustration": "/assets/images/creatures/daeva.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Daeva",
           "role": "Daeva",
-          "origin": "The Daeva is a malevolent entity born from the absolute negation of light and truth. Its lineage is tied to the Daevas of Solbrand-reverence mythology, the false spirits of chaos and destruction who serve the Dark Wyrd, and the desert beast of chaos, representing discord and the foreign sands. It exists as a living lie, manifesting in Sundale to corrupt the land.",
+          "origin": "The Daeva is a malevolent entity born from the absolute negation of light and truth. Its lineage is tied to the Daevas of Sol's Breath-reverence mythology, the false spirits of chaos and destruction who serve the Dark Wyrd, and the desert beast of chaos, representing discord and the foreign sands. It exists as a living lie, manifesting in Sundale to corrupt the land.",
           "nature": "The Daeva has the lean, jackal-like body of a hunting canine, but its form is constructed of three-dimensional shadow that absorbs all light. Where light hits its body, it simply vanishes, leaving a silhouette with physical mass. Its tail is forked into two wispy tendrils of darkness, and its long, curved snout resembles a scimitar. Its face is dominated by inverted eyes,solid black whites and pupil-less, blinding white pupils,and a permanent, malicious grin that reveals rows of teeth shaped like tiny skulls.",
           "habitat": "These shadow beasts lurk in the dark volcanic caves, ruined temples, and ash-choked canyons of Sundale and the Emberspire region.",
           "combat": "380 HP. Truth-Eater (passive: feeds on spoken truth � every honest word within 50 ft weakens the speaker (-1 to all rolls per truthful statement) and strengthens the shade (+5 HP per truth consumed). In markets, where merchants lie, it starves). Light-Absorb (passive: its body is a three-dimensional hole in the world; all light that hits it simply ceases � it is visible only as a moving silhouette). Chaos-Beacon (passive: its presence attracts Wyrd-manifestations; within months of nesting, reality-breaches open nearby). Inverted-Gaze (passive: its eyes are inverted � bright pupils, dark whites; meeting its gaze DC 14 SPI or the creature learns your deepest secret). Chaos-Bite (melee, +6 to hit, 2d6+4 necrotic). Vulnerable to radiant (radiant damage is the only type that affects it normally; all other damage is reduced 75%).",
@@ -2505,13 +2505,13 @@
               "fire": 50
             }
           },
-          "depth": "The Daeva feeds upon spoken truth; every honest word spoken in its vicinity drains the speaker's vitality while strengthening the shade's physical form. Because the Korr Emberth practice the Vault-Breath,a discipline of sacred silence,the Daevas are starved near the temples but grow bloated and aggressive around the busy marketplaces. Their presence acts as a beacon for the Wyrd, tearing open reality-breaches and accelerating corruption, which prompts the Thrask rangers to hunt them down relentlessly. Adventurers are frequently employed to locate and destroy these beasts before their nests can trigger a catastrophic breach.",
+          "depth": "The Daeva feeds upon spoken truth; every honest word spoken in its vicinity drains the speaker's vitality while strengthening the shade's physical form. Because the Hollow-Solari practice the Vault-Breath,a discipline of sacred silence,the Daevas are starved near the temples but grow bloated and aggressive around the busy marketplaces. Their presence acts as a beacon for the Wyrd, tearing open reality-breaches and accelerating corruption, which prompts the Waste-Solari rangers to hunt them down relentlessly. Adventurers are frequently employed to locate and destroy these beasts before their nests can trigger a catastrophic breach.",
           "hooks": [
             "A rumor spreads of a Daeva spotted near the area.",
             "Adventurers need a component from a Daeva to complete their quest."
           ],
           "description": "A shadow-born jackal with a curved snout and inverted eyes, representing the dark lies of Angra Mainyu. It feeds on spoken truth and accelerates the corruption of the Wyrd wherever it nests.",
-          "heritage": "Rooted in Solbrand-reverence mythology of chaos-horrors, the Daeva represented the absolute negation of light, truth, and cosmic order. The Wyrd anomaly consolidated the settlers' fear of moral corruption and betrayals in the dark, materializing these multi-eyed, horned shadows to spread discord and deceit."
+          "heritage": "Rooted in Sol's Breath-reverence mythology of chaos-horrors, the Daeva represented the absolute negation of light, truth, and cosmic order. The Wyrd anomaly consolidated the settlers' fear of moral corruption and betrayals in the dark, materializing these multi-eyed, horned shadows to spread discord and deceit."
         },
         {
           "id": "simurgh",
@@ -2541,7 +2541,7 @@
               "psychic": 50
             }
           },
-          "depth": "The Simurgh is a sapient creature of immense wisdom, occasionally sharing ancient secrets of the pre-sundered world with those it deems worthy. Its feathers possess unparalleled healing properties, capable of sealing deep wounds and mending bones within hours of contact. and, the presence of these birds helps stabilize geothermal activity, reducing eruptions near their nesting sites. Because of this, Emberth law decrees that harming a Simurgh is a capital offense punishable by live immolation, and adventurers are often sent to the caldera rim to seek their counsel or plead for a single feather to save a dying leader.",
+          "depth": "The Simurgh is a sapient creature of immense wisdom, occasionally sharing ancient secrets of the pre-sundered world with those it deems worthy. Its feathers possess unparalleled healing properties, capable of sealing deep wounds and mending bones within hours of contact. and, the presence of these birds helps stabilize geothermal activity, reducing eruptions near their nesting sites. Because of this, Solari law decrees that harming a Simurgh is a capital offense punishable by live immolation, and adventurers are often sent to the caldera rim to seek their counsel or plead for a single feather to save a dying leader.",
           "hooks": [
             "A rumor spreads of a Simurgh spotted near the area.",
             "Adventurers need a component from a Simurgh to complete their quest."
@@ -2613,7 +2613,7 @@
               "fire": 50
             }
           },
-          "depth": "The Edimmu attaches itself to unsuspecting travelers who cross its death-site, slowly draining their life force to sustain its own presence. The victim suffers from terrible nightmares of fire and progressive fatigue, eventually culminating in spontaneous combustion. To prevent this, Emberth law dictates that any worker who dies in the forges must be buried with a burned piece of forge-equipment as an offering, which pacifies the spirit. Adventurers are often hired to lay these spirits to rest by delivering the proper items to their final resting places.",
+          "depth": "The Edimmu attaches itself to unsuspecting travelers who cross its death-site, slowly draining their life force to sustain its own presence. The victim suffers from terrible nightmares of fire and progressive fatigue, eventually culminating in spontaneous combustion. To prevent this, Solari law dictates that any worker who dies in the forges must be buried with a burned piece of forge-equipment as an offering, which pacifies the spirit. Adventurers are often hired to lay these spirits to rest by delivering the proper items to their final resting places.",
           "hooks": [
             "A rumor spreads of a Edimmu spotted near the area.",
             "Adventurers need a component from a Edimmu to complete their quest."
@@ -2649,7 +2649,7 @@
               "piercing": 50
             }
           },
-          "depth": "The Asag radiates such extreme heat that any water source within thirty feet of it begins to boil, turning peaceful streams into scalding geysers. When threatened or agitated, the creature vibrates its massive body to generate localized earthquakes, communicating through these ground-shaking tremors. Emberth geologists have decoded parts of this seismic language, finding that rhythmic tremors indicate peace while sharp quakes signal aggression, and they often hire adventurers to redirect or soothe these giants when they wander too close to vital settlements.",
+          "depth": "The Asag radiates such extreme heat that any water source within thirty feet of it begins to boil, turning peaceful streams into scalding geysers. When threatened or agitated, the creature vibrates its massive body to generate localized earthquakes, communicating through these ground-shaking tremors. Solari geologists have decoded parts of this seismic language, finding that rhythmic tremors indicate peace while sharp quakes signal aggression, and they often hire adventurers to redirect or soothe these giants when they wander too close to vital settlements.",
           "hooks": [
             "A rumor spreads of a Asag spotted near the area.",
             "Adventurers need a component from a Asag to complete their quest."
@@ -2667,7 +2667,7 @@
           "origin": "The Nisroch is a sacred protector of the sky, combining agricultural abundance with protective kingship. Its heritage traces to Nisroch, the pre-Binding eagle-headed deity associated with the sacred tree of life, and Horus, the Solvarn falcon-spirit whose all-seeing eye represented cosmic order and healing. It serves as the primary aerial defense against the encroaching darkness.",
           "nature": "The Nisroch is a large bird of prey with feathers of golden-bronze that resemble polished sun-metal, and a sharply hooked beak of bronze. Its right eye is that of a normal, sharp-sighted falcon, while its left eye is the glowing, blue-lit Wedjat,the Eye of Horus. It wears a small crown of lapis-lazuli beads on its head, and its gaze carries an unmistakable air of human-like intelligence and authority.",
           "habitat": "These sacred falcons patrol the high atmosphere and volcanic crags above the Emberspire caldera and the surrounding reaches of Sundale.",
-          "combat": "145 HP. Wedjat-Beam (ranged 40 ft, the left eye fires a beam of concentrated light that burns Wyrd-essence � 2d6 radiant + Wyrd-creatures take double damage and must DC 14 CON or flee). Sky-Patrol (passive: patrols the skies above Emberspire scanning for Wyrd-manifestations; acts as an early-warning system). Foil-Message-Delivery (special: carries messages inscribed on golden foil between Korr Sun-Speakers and Thrask rangers; messages are only readable via the Wedjat-eye). Bronze-Talon (melee from dive, +6 to hit, 2d6+3 slashing). Vulnerable to cold.",
+          "combat": "145 HP. Wedjat-Beam (ranged 40 ft, the left eye fires a beam of concentrated light that burns Wyrd-essence � 2d6 radiant + Wyrd-creatures take double damage and must DC 14 CON or flee). Sky-Patrol (passive: patrols the skies above Emberspire scanning for Wyrd-manifestations; acts as an early-warning system). Foil-Message-Delivery (special: carries messages inscribed on golden foil between Hollow-Solari Sun-Speakers and Waste-Solari rangers; messages are only readable via the Wedjat-eye). Bronze-Talon (melee from dive, +6 to hit, 2d6+3 slashing). Vulnerable to cold.",
           "stats": {
             "strength": 10,
             "agility": 20,
@@ -2684,7 +2684,7 @@
               "radiant": 100
             }
           },
-          "depth": "Nisrochs scan the volcanic wastes for signs of Wyrd-corruption, using their Wedjat eyes to fire concentrated beams of light that burn away raw Wyrd-essence. They also serve as vital messengers between the Korr Sun-Speakers and the Thrask rangers, carrying gold-foil messages that only their sacred eyes can read. Because of their sacred status, killing a Nisroch is a capital offense under Emberth law, and adventurers are often tasked with protecting their nests or rescuing injured falcons from the wild.",
+          "depth": "Nisrochs scan the volcanic wastes for signs of Wyrd-corruption, using their Wedjat eyes to fire concentrated beams of light that burn away raw Wyrd-essence. They also serve as vital messengers between the Hollow-Solari Sun-Speakers and the Waste-Solari rangers, carrying gold-foil messages that only their sacred eyes can read. Because of their sacred status, killing a Nisroch is a capital offense under Solari law, and adventurers are often tasked with protecting their nests or rescuing injured falcons from the wild.",
           "hooks": [
             "A rumor spreads of a Nisroch spotted near the area.",
             "Adventurers need a component from a Nisroch to complete their quest."
@@ -2702,7 +2702,7 @@
           "origin": "The Abzu is a mysterious anomaly of freshwater and ancient magic, combining the primal water myths of Mesopotamia and Egypt. It represents the Abzu, the sentient freshwater pool beneath the Harath-Vault in Sundale, and Nun, the Solvarn personification of the primordial waters of creation. It exists as a pocket of ancient, wise water in the middle of a dry desert.",
           "nature": "The Abzu has no physical, solid form; it is a perfectly circular pool of clear water, fifteen feet wide, that glows with a soft, bioluminescent blue-white light. Inside the water, ancient cuneiform and hieroglyphic glyphs swim like fish, holding the secrets of the past. When it wishes to speak, it shapes a serene, water-formed face on its surface, featuring eyes of vertigo-inducing depth.",
           "habitat": "This sentient pool is located within the deep, cavernous chambers and cooling tunnels beneath the Harath-Vault in the Emberspire region.",
-          "combat": "220 HP. Wisdom-Well (special: those who drink from the pool receive one piece of forgotten pre-Dimming knowledge; the pool takes a drop of blood in exchange, adding it to its eternal archive � this is a knowledge-for-blood bargain with no save). Volcanic-Coolant (passive: its underground spring feeds the cooling-channels beneath the Harath-Vault; without it, the forges overheat and the Solbrand boils dry). Glyph-Drift (passive: cuneiform and hieroglyphic glyphs drift through the water like fish; reading them requires DC 14 INT and grants +2 to one Knowledge skill for 24 hours). Water-Form (immune to physical damage; takes normal damage from cold (freezes it temporarily) and acid). Vulnerable to cold (freezes for 1d4 rounds).",
+          "combat": "220 HP. Wisdom-Well (special: those who drink from the pool receive one piece of forgotten pre-Dimming knowledge; the pool takes a drop of blood in exchange, adding it to its eternal archive � this is a knowledge-for-blood bargain with no save). Volcanic-Coolant (passive: its underground spring feeds the cooling-channels beneath the Harath-Vault; without it, the forges overheat and Sol's Breath boils dry). Glyph-Drift (passive: cuneiform and hieroglyphic glyphs drift through the water like fish; reading them requires DC 14 INT and grants +2 to one Knowledge skill for 24 hours). Water-Form (immune to physical damage; takes normal damage from cold (freezes it temporarily) and acid). Vulnerable to cold (freezes for 1d4 rounds).",
           "stats": {
             "strength": 4,
             "agility": 10,
@@ -2720,7 +2720,7 @@
               "poison": 100
             }
           },
-          "depth": "The Abzu serves as a crucial repository of pre-Dimming knowledge, offering travelers forgotten secrets in exchange for a drop of their blood, which is added to its liquid archives. It also plays a vital physical role by cooling the geothermal channels beneath the Harath-Vault, preventing the volcanic forges from overheating. Korr engineers maintain these channels with religious devotion, and adventurers are sometimes sent to protect the pool's source or retrieve rare tablets to feed its thirst for knowledge.",
+          "depth": "The Abzu serves as a crucial repository of pre-Dimming knowledge, offering travelers forgotten secrets in exchange for a drop of their blood, which is added to its liquid archives. It also plays a vital physical role by cooling the geothermal channels beneath the Harath-Vault, preventing the volcanic forges from overheating. Hollow-Solari engineers maintain these channels with religious devotion, and adventurers are sometimes sent to protect the pool's source or retrieve rare tablets to feed its thirst for knowledge.",
           "hooks": [
             "A rumor spreads of a Abzu spotted near the area.",
             "Adventurers need a component from a Abzu to complete their quest."
@@ -2738,7 +2738,7 @@
           "origin": "The Kur-Pit is a breach in reality where the realms of the dead bleed into the land of the living. Its name is derived from Kur, the Fexric underworld of no return, and Duat, the Solvarn labyrinthine world of trials through which the sun traveled each night. It represents a physical manifestation of the dark, subterranean afterlife.",
           "nature": "The Kur-Pit is a perfectly circular, ten-foot-wide abyss that opens in the earth, its smooth walls covered in spiraling hieroglyphic and cuneiform warnings that glow with a dull red light. A constant, echoing murmur of dead voices rises from its depths, and the air above it shimmers with both heat and cold. It has no physical face, but from certain angles, the opening resembles a screaming mouth, with the glyphs acting as lips and the bottomless black as its throat.",
           "habitat": "These abyssal openings appear without warning in the volcanic fields and historical battlefields of Sundale and the Emberspire terrain.",
-          "combat": "760 HP. Underworld-Mouth (passive: a perfectly circular pit, 10 ft across, that opens without warning; those who fall in are trapped in the labyrinth between Kur and Duat � a solo-adventure zone that may take centuries to navigate). Glyph-Warn (passive: walls are covered in spiraling hieroglyphic and cuneiform warnings that glow faintly red; DC 16 INT to read fast enough to stop a companion from falling in). Murmur-of-Dead (passive: continuous sound of countless voices in dead languages; DC 14 SPI or shaken, -2 to all checks within 50 ft). Sun-Path-Reveal (special: during Emberspire's annual vent-calm, the Solbrand's light momentarily illuminates the nearest Kur, revealing a path that may connect to Sol's prison � no one who has entered has returned). Abyssal-Grip (passive: creatures within 10 ft of the edge feel a gravitational pull toward the pit; DC 13 AGI each round or slide 5 ft closer). Vulnerable to none (it is a geography feature; only sealing it with a major ritual can close it).",
+          "combat": "760 HP. Underworld-Mouth (passive: a perfectly circular pit, 10 ft across, that opens without warning; those who fall in are trapped in the labyrinth between Kur and Duat � a solo-adventure zone that may take centuries to navigate). Glyph-Warn (passive: walls are covered in spiraling hieroglyphic and cuneiform warnings that glow faintly red; DC 16 INT to read fast enough to stop a companion from falling in). Murmur-of-Dead (passive: continuous sound of countless voices in dead languages; DC 14 SPI or shaken, -2 to all checks within 50 ft). Sun-Path-Reveal (special: during Emberspire's annual vent-calm, Sol's Breath's light momentarily illuminates the nearest Kur, revealing a path that may connect to Sol's prison � no one who has entered has returned). Abyssal-Grip (passive: creatures within 10 ft of the edge feel a gravitational pull toward the pit; DC 13 AGI each round or slide 5 ft closer). Vulnerable to none (it is a geography feature; only sealing it with a major ritual can close it).",
           "stats": {
             "strength": 0,
             "agility": 0,
@@ -2754,12 +2754,12 @@
               "all": 100
             }
           },
-          "depth": "Kur-Pits open spontaneously near areas of great tragedy, trapping the souls of those who fall within the labyrinth of the underworld. During the annual vent-calm of Emberspire, the light of the Solbrand shines down the pit, momentarily revealing the path to the buried sun-spirit Sol. Scholars believe that navigating this dangerous path may be the only way to free Sol, but since no one has ever returned from a Kur-Pit, the theory remains untested, and adventurers are warned to avoid these areas unless they possess the courage to brave the land of no return.",
+          "depth": "Kur-Pits open spontaneously near areas of great tragedy, trapping the souls of those who fall within the labyrinth of the underworld. During the annual vent-calm of Emberspire, the light of Sol's Breath shines down the pit, momentarily revealing the path to the buried sun-spirit Sol. Scholars believe that navigating this dangerous path may be the only way to free Sol, but since no one has ever returned from a Kur-Pit, the theory remains untested, and adventurers are warned to avoid these areas unless they possess the courage to brave the land of no return.",
           "hooks": [
             "A rumor spreads of a Kur spotted near the area.",
             "Adventurers need a component from a Kur to complete their quest."
           ],
-          "description": "A circular, bottomless fissure covered in glowing red runes that murmurs with the voices of the dead. It is a portal to the underworld, briefly illuminated by the Solbrand during the annual vent-calm.",
+          "description": "A circular, bottomless fissure covered in glowing red runes that murmurs with the voices of the dead. It is a portal to the underworld, briefly illuminated by Sol's Breath during the annual vent-calm.",
           "heritage": "Rooted in Sumerian underworld legends, the Kur represented the spatial dread of the abyss where the dead wander and the earth swallows the living. The Wyrd anomaly materialized the miners' fear of being buried alive, shaping these spatial anomalies as dark fissures where tectonic structures warp."
         },
         {
@@ -2788,7 +2788,7 @@
               "fire": 50
             }
           },
-          "depth": "Unlike their territorial parents, Mushussuren are highly affectionate and will imprint on the first friendly creature they meet, following them like a pet. They possess a magical breath that doubles the agricultural yield of any soil they visit, making them incredibly valuable to Thrask farmers who leave bowls of milk to attract them. The Korr tolerate their presence near settlements because the bond helps ensure that adult Sirrush will guard the villages, and adventurers are often hired to protect these juveniles or locate lost ones in the wild.",
+          "depth": "Unlike their territorial parents, Mushussuren are highly affectionate and will imprint on the first friendly creature they meet, following them like a pet. They possess a magical breath that doubles the agricultural yield of any soil they visit, making them incredibly valuable to Waste-Solari farmers who leave bowls of milk to attract them. The Hollow-Solari tolerate their presence near settlements because the bond helps ensure that adult Sirrush will guard the villages, and adventurers are often hired to protect these juveniles or locate lost ones in the wild.",
           "hooks": [
             "A rumor spreads of a Mu�?u��u spotted near the area.",
             "Adventurers need a component from a Mu�?u��u to complete their quest."
@@ -3987,7 +3987,7 @@
           "depth": "Highly defensive scouts. They keep watch over pipeline corridors, alerting mine holds of any invaders by letting out a sharp, bird-like cry or shouting warnings using stolen, mimicked human voices. The Storm-Crow's wind-copper staff is a mystery to alchemists, for it is made of a copper that is harder than any known metal, and some believe that the creature's staff is a natural alloy, a living forge that turns copper into steel.",
           "hooks": [
             "A Storm-Crow Scout has blockaded a pipeline bridge, claiming it is private peak territory. The party must bargain with it using shiny copper ores.",
-            "A Fexrick engineer wants to retrieve the obsidian eyes of a Storm-Crow Scout, believing they can be used to craft lenses of wind-sight."
+            "A Fexric engineer wants to retrieve the obsidian eyes of a Storm-Crow Scout, believing they can be used to craft lenses of wind-sight."
           ],
           "heritage": "Born from Tesshan winged mountain-protector legends, the Storm-Crow Scout myth was created to enforce respect for territorial borders in the high passes. The Wyrd anomaly reacted to the Fexric engineers' fear of losing cargo along the pipeline scaffolds, materializing these winged sentinels to aggressively guard the bridges.",
           "description": "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff."
@@ -4053,7 +4053,7 @@
               "lightning": 50
             }
           },
-          "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Sump-Scrab is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, though Fexrick engineers often complain of them acting as pests, nesting inside pipeline junctions to drain steam for their pools. Lately, rumors of a rogue Sump-Scrab spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems.",
+          "depth": "Bound by an absolute code of etiquette known as the bow-debt, the Sump-Scrab is compulsively polite; if a traveler bows deeply to it, the creature is forced to return the gesture, spilling its head-water and temporarily losing its power, a quirk Fexric engineers frequently exploit to slip past them along pipeline corridors. They guard the hot thermal pools of Frostmaw Holdfast with fierce devotion, ensuring the waters never freeze or run dry, though Fexric engineers often complain of them acting as pests, nesting inside pipeline junctions to drain steam for their pools. Lately, rumors of a rogue Sump-Scrab spotted near key geothermal conduits have spread, prompting guild-masters to hire daring adventurers to retrieve rare components from the creature to secure the holdfast's heating systems.",
           "hooks": [
             "A rumor spreads of a Sump-Scrab spotted near the area.",
             "Adventurers need a component from a Sump-Scrab to complete their quest."
@@ -4327,7 +4327,7 @@
               "physical": 75
             }
           },
-          "depth": "Enveloping mountain camps in its warm, humid darkness, the Nue inflicts shared, terrifying nightmares upon those trapped inside, leaving them exhausted and hallucinating for days. It is drawn to collapsed mines, excavation sites, and areas of heavy Wyrd-corruption, acting as Pachamama's wrath against the intrusive digging of the Kethrin guilds. When a Nue descends, miners flee, and adventurers are often contracted to clear the mist or find the deep-earth wounds that summoned it.",
+          "depth": "Enveloping mountain camps in its warm, humid darkness, the Nue inflicts shared, terrifying nightmares upon those trapped inside, leaving them exhausted and hallucinating for days. It is drawn to collapsed mines, excavation sites, and areas of heavy Wyrd-corruption, acting as Pachamama's wrath against the intrusive digging of the Clockwork Fexric guilds. When a Nue descends, miners flee, and adventurers are often contracted to clear the mist or find the deep-earth wounds that summoned it.",
           "hooks": [
             "A rumor spreads of a Nue spotted near the area.",
             "Adventurers need a component from a Nue to complete their quest."
@@ -4467,7 +4467,7 @@
               "cold": 25
             }
           },
-          "depth": "Prowling the sleeping quarters of the holdfast, the Baku uses its delicate trunk to extract and consume the nightmares of the inhabitants, leaving them to wake refreshed with no memory of their terrors. A section of the holdfast that plays host to a Baku becomes a sacred huaca, protected from Wyrd-corruption, violence, and supernatural threats, which leads Kethrin engineers to compete fiercely to house the creatures near their workshops. Adventurers are often tasked with protecting these sacred beasts from poachers or guiding a wild Baku into a nightmare-plagued community.",
+          "depth": "Prowling the sleeping quarters of the holdfast, the Baku uses its delicate trunk to extract and consume the nightmares of the inhabitants, leaving them to wake refreshed with no memory of their terrors. A section of the holdfast that plays host to a Baku becomes a sacred huaca, protected from Wyrd-corruption, violence, and supernatural threats, which leads Clockwork Fexric engineers to compete fiercely to house the creatures near their workshops. Adventurers are often tasked with protecting these sacred beasts from poachers or guiding a wild Baku into a nightmare-plagued community.",
           "hooks": [
             "A rumor spreads of a Baku spotted near the area.",
             "Adventurers need a component from a Baku to complete their quest."
@@ -4520,7 +4520,7 @@
           "origin": "The Futakuchi is born of the two-mouthed women of folklore, whose hidden, greedy secondary mouths consume massive amounts of food, combined with the Aiai-Maneco, the Tesshan spirits of insatiable hunger that leave entire communities destitute. In the survival-strained holdfasts, they represent the terrifying manifestation of greed and the dread of starvation.",
           "nature": "Appearing as a tall, gaunt woman with stringy, matted black hair and sunken eyes, she looks permanently malnourished, her hands shaped as if cradling an empty bowl. Hidden beneath the hair at the back of her skull is a second, lipless mouth filled with jagged teeth and a writhing tongue, which demands food in a guttural, independent voice. From the front, her face is haunted and full of shame, but the rear mouth grins and drools with predatory hunger.",
           "habitat": "They hide in the storage larders, food-vaults, and kitchens of Frostmaw Holdfast and other settlements in the Cragjaw Peaks.",
-          "combat": "145 HP. Ration-Devour (passive: infests food-stores; consumes three times the rations of a normal person while appearing to eat almost nothing). Second-Mouth (passive: hidden beneath hair at back of skull; has its own independent tongue and voice � deeper, guttural, always demanding food). Guilt-Mouth (passive: the second mouth speaks the hunger of the mountain itself; Kethrin guild-masters who encounter it are said to have taken more than their share). Hair-Whip (melee, reach 10 ft, +5 to hit, 1d8+3 slashing � the second mouth's hair strikes independently). Vulnerable to fire.",
+          "combat": "145 HP. Ration-Devour (passive: infests food-stores; consumes three times the rations of a normal person while appearing to eat almost nothing). Second-Mouth (passive: hidden beneath hair at back of skull; has its own independent tongue and voice � deeper, guttural, always demanding food). Guilt-Mouth (passive: the second mouth speaks the hunger of the mountain itself; Clockwork Fexric guild-masters who encounter it are said to have taken more than their share). Hair-Whip (melee, reach 10 ft, +5 to hit, 1d8+3 slashing � the second mouth's hair strikes independently). Vulnerable to fire.",
           "stats": {
             "strength": 10,
             "agility": 14,
@@ -4537,7 +4537,7 @@
               "cold": 25
             }
           },
-          "depth": "Infiltrating food stores under the guise of an ordinary worker, the Futakuchi consumes three times the rations of a normal person, using its hidden mouth at night to empty vaults of dried moss-bread, ram-meat, and whiteout-distillate. The second mouth is said to speak the insatiable hunger of the mountains, punishing greedy Kethrin guild-masters who extract too much wealth by leaving their larders bare. Adventurers are often brought in to quietly investigate disappearing food supplies and deal with the hidden consumer before the holdfast starves.",
+          "depth": "Infiltrating food stores under the guise of an ordinary worker, the Futakuchi consumes three times the rations of a normal person, using its hidden mouth at night to empty vaults of dried moss-bread, ram-meat, and whiteout-distillate. The second mouth is said to speak the insatiable hunger of the mountains, punishing greedy Clockwork Fexric guild-masters who extract too much wealth by leaving their larders bare. Adventurers are often brought in to quietly investigate disappearing food supplies and deal with the hidden consumer before the holdfast starves.",
           "hooks": [
             "A rumor spreads of a futakuchi spotted near the area.",
             "Adventurers need a component from a futakuchi to complete their quest."
@@ -4643,7 +4643,7 @@
               "poison": 50
             }
           },
-          "depth": "Infesting the pipeline network, the Akaname cleans mineral scaling from the pipes, tripling the flow efficiency and prompting Kethrin engineers to design special access ports for them. However, drawing from the Tunche, they enforce strict taboos of cleanliness; if a workshop becomes too dirty or neglected, the spirits will abandon it, which is considered a catastrophic omen that precedes clogged pipes and machinery failures. Adventurers are often hired to locate and relocate these cleaning-sprites when a workshop suffers from their sudden, ominous departure.",
+          "depth": "Infesting the pipeline network, the Akaname cleans mineral scaling from the pipes, tripling the flow efficiency and prompting Clockwork Fexric engineers to design special access ports for them. However, drawing from the Tunche, they enforce strict taboos of cleanliness; if a workshop becomes too dirty or neglected, the spirits will abandon it, which is considered a catastrophic omen that precedes clogged pipes and machinery failures. Adventurers are often hired to locate and relocate these cleaning-sprites when a workshop suffers from their sudden, ominous departure.",
           "hooks": [
             "A rumor spreads of a Akaname spotted near the area.",
             "Adventurers need a component from a Akaname to complete their quest."
@@ -4787,7 +4787,7 @@
           "depth": "A Sump-Scrab infestation can cause entire pipeline sections to freeze, locking down heat to keeps. They are attracted to any source of combustion, making campfire travelers prime targets.",
           "hooks": [
             "The lower foundries of Gearworks have gone cold due to a Sump-Scrab infestation in the main valve chamber.",
-            "A Fexrick dealer will trade clockwork parts for ten Sump-Scrab copper shells."
+            "A Fexric dealer will trade clockwork parts for ten Sump-Scrab copper shells."
           ],
           "heritage": "Born from engineers' fears of boiler malfunctions and steam leaks in holdfasts.",
           "description": "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze."
@@ -6037,7 +6037,7 @@
           "illustration": "/assets/images/creatures/strigoi_canopy.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Strigoi",
           "role": "Strigoi",
-          "origin": "The Strigoi-Canopy arises from the Romanian Strigoi, a reanimated vampire and former sorcerer, combined with the Vetala of Solbrand lore, which inhabited corpses and hung upside-down from trees to torment travelers with riddles. In the heights of Mythrill, this creature haunts the upper canopy, combining physical terror with ancient, dark intelligence.",
+          "origin": "The Strigoi-Canopy arises from the Romanian Strigoi, a reanimated vampire and former sorcerer, combined with the Vetala of Sol's Breath lore, which inhabited corpses and hung upside-down from trees to torment travelers with riddles. In the heights of Mythrill, this creature haunts the upper canopy, combining physical terror with ancient, dark intelligence.",
           "nature": "This desiccated humanoid hangs upside-down by its feet from branches, its skin the grey-white of birch-bark stretched over skeletal bone. Enormous, leathery wings fold against its arms, while its hands and feet end in elongated prehensile digits with hook-like claws. A faint green phosphorescence glows from its empty eye-sockets, and its jaw is dislocated to hide a long, uncoiling proboscis-like tongue, set in a face frozen in a grin of yellowed, crowded fangs.",
           "habitat": "This winged undead threat makes its home in the high branches of the Bryngloom Forest terrain.",
           "combat": "395 HP. Sacred-Guardian (passive: bound to the Cedar Forest; the forest's health is directly tied to its vitality � if it weakens, the forest withers). Intestine-Spiral (passive: exposed intestines form spiraling patterns on its chest; these are sacred geometry � the patterns encode the Cedar Forest's location, its boundaries, its vulnerabilities). Terrifying-Face (passive: its face is a mass of writhing, coiling guts; DC 14 SPI or Frightened for 1d4 rounds). Cedar-Regeneration (passive: regenerates 10 HP per round while in the Cedar Forest; outside the forest, no regeneration). Tree-Strike (melee, +7 to hit, 2d8+6 bludgeoning � strikes with the force of a falling cedar). Forest-Command (passive: commands all trees within 100 ft; can make them grow, shift, or attack). Vulnerable to fire (fire destroys the regeneration and deals double damage).",
@@ -6498,7 +6498,7 @@
           "illustration": "/assets/images/creatures/mavka_willow.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Mavka",
           "role": "Mavka / Navka",
-          "origin": "The Mavka-Willow draws from the Thalren Mavka, a forest spirit of a woman who died unnaturally, beautiful from the front but hollow-backed with visible organs, combined with the Solbrand Yakshini, tree-spirits bound to sacred growth who could bless or curse travelers. In the woodlands of Mythrill, they represent the alluring, deceptive beauty of the wilderness.",
+          "origin": "The Mavka-Willow draws from the Thalren Mavka, a forest spirit of a woman who died unnaturally, beautiful from the front but hollow-backed with visible organs, combined with Sol's Breath Yakshini, tree-spirits bound to sacred growth who could bless or curse travelers. In the woodlands of Mythrill, they represent the alluring, deceptive beauty of the wilderness.",
           "nature": "From the front, this spirit appears as a stunningly beautiful woman with pale-green leaf-like skin, willow-bark hair, and bare feet merging with the roots, wearing a dress of leaves sewn with spider-silk and smelling of willow-sap. From behind, she has no back or spine, but rather a hollow cavity filled with rustling leaves and wooden organs. Her exquisite face is marked by spring-green eyes and parted lips, carrying a heartbreakingly innocent expression.",
           "habitat": "This tree-bound nymph lives at the roots of ancient trees in the Bryngloom Forest terrain.",
           "combat": "130 HP. Night-Kiss (melee, +5 to hit, 1d6+3 psychic � a kiss from Nott inflicts vivid nightmares on the target; DC 14 SPI or gain 1 level of exhaustion). Dark-Veil (passive: where she passes, darkness follows; all creatures within 30 ft have disadvantage on Perception checks). Shadow-Ride (passive: rides across the sky in a chariot drawn by black horses; each hoofbeat dims the light for 100 ft). Dream-Seal (passive: can seal a creature's dreams, preventing divination and prophetic dreams for 24 hours). Vulnerable to radiant (radiant damage dispels the darkness aura).",
@@ -6533,7 +6533,7 @@
           "illustration": "/assets/images/creatures/alkonost.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Alkonost",
           "role": "Alkonost",
-          "origin": "The Alkonost is derived from the Thalren Alkonost, a bird of paradise whose song brought total joy and oblivious peace, merged with the Solbrand Gandharvas, celestial musicians who guarded sacred soma and inspired involuntary devotion. In Mythrill's damp canopy, she plays a sacred melody that captures the light of dawn.",
+          "origin": "The Alkonost is derived from the Thalren Alkonost, a bird of paradise whose song brought total joy and oblivious peace, merged with Sol's Breath Gandharvas, celestial musicians who guarded sacred soma and inspired involuntary devotion. In Mythrill's damp canopy, she plays a sacred melody that captures the light of dawn.",
           "nature": "Boasting a twenty-foot wingspan, this bird has the head, arms, and torso of a beautiful woman, with shifting rose, gold, violet, and blue plumage. She plays a sacred lute that vibrates with the resonance of creation, weaving ribbons of golden light through the canopy while causing flowers to bloom on dead wood. Her face has perfect symmetry and glowing skin, with eyes holding the colors of the dawn and a beatific smile that has never known pain.",
           "habitat": "This celestial musician makes her home in the high branches of the Bryngloom Forest terrain.",
           "combat": "130 HP. Lying-Voice (passive: speaks in the voice of the target's most trusted person; DC 14 SPI or charmed for 1 round). Truth-Reversal (special: reverses the meaning of spoken words � a vow of protection becomes a vow of destruction, a curse becomes a blessing; DC 15 SPI or the reversal takes effect). Silver-Tongue (passive: words are silver; its lies sound more convincing than the truth; +4 to Deception). Mind-Maze (passive: creates false scenarios in the target's mind � DC 13 SPI or confused for 1d4 rounds). Vulnerable to radiant.",
@@ -6639,7 +6639,7 @@
           "illustration": "/assets/images/creatures/sirin_song.png",
           "illustrationCaption": "A hand-drawn field sketch of the legendary Sirin",
           "role": "Sirin",
-          "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the nine cosmic forces the Solbrand faith calls the Navagraha, that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
+          "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the nine cosmic forces Sol's Breath faith calls the Navagraha, that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
           "nature": "Having a twenty-foot wingspan, this bird-like entity has the head and upper torso of a gorgeous woman, with dark twilight plumage of indigo, violet, and black shot with silver threads. Her song projects ribbons of shadow that dim all light and drop the temperature, while she holds nine silver threads representing the aspects of fate. Her face is the most beautiful in the world, permanently still with eyes closed to hide the overwhelming sight of all time, her lips constantly moving to hum her terrible, perfect song.",
           "habitat": "This mournful singer resides at the convergence of the bog and forest in the Bryngloom Forest terrain.",
           "combat": "380 HP. Soul-Song (passive: its song contains the final words of every dead person � the last thing they said before dying; the song changes continuously as new people die). Sorrow-Aura (passive: creatures within 30 ft must DC 14 SPI or gain 1 level of exhaustion from overwhelming grief). Death-Prophecy (passive: its song foretells the manner of death for everyone within hearing range; the prophecy is always accurate). Song-of-Death (passive: those who hear the full song die of heartbreak within 24 hours � only those with strong willpower (SPI 16+) can resist). Healing-Tears (passive: weeps tears of light that can heal wounds and cure diseases; 2d6 radiant healing to one creature per round). Vulnerable to necrotic.",

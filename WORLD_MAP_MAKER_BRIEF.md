@@ -104,7 +104,7 @@ The Wyrd is the corruption-bleed that seeps through the cracks Keth-Amar opened.
 
 ## The Current World (Year 800 of the Dimming)
 
-Eight centuries after the Binding. Six human cultures have hardened around the consequences of their bargains. The Warden enforces every contract. Keth-Amar's debt remains collectible. The Sun-Eater is **not satisfied** — only delayed. **Keth-Amar is INSIDE the binding**, drinking Sol's light slowly, having only consumed the firstborn heirs (six of the seven monoliths scream with a stolen life; the seventh screams with a substituted name — Morrath's, a fabrication). He does not fully know why he cannot breach Sol's prison. He senses that one monolith "sings wrong" and keeps digging, clawing, frustrated.
+Eight centuries after the Binding. Six human cultures have hardened around the consequences of their bargains. The Warden enforces every contract. Keth-Amar's debt remains collectible. The Sun-Eater is **not satisfied** — only delayed. **Keth-Amar is INSIDE the binding**, drinking Sol's light slowly, having only consumed the firstborn heirs (six of the seven monolith fragments carry Aex's stolen life; the seventh is a hollow echo where Viridane's signature was never placed — Morrath's name is a fabrication stitched over the gap). He does not fully know why he cannot breach Sol's prison. He senses that one monolith "sings wrong" and keeps digging, clawing, frustrated.
 
 ---
 
@@ -166,7 +166,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 - **Greymark Keep** (city, 1,200 pop) — peat-stone fortress, the High Hearth with its 800-year perpetual flame, Mist-Sentinels patrol, the Scribe-Sentinels enforce the Sovereign Ledger
 - **Scribes' Tower** (settlement) — vertical parchment-cathedral inside a hollowed petrified ironwood
-- **Mirror Mere** (settlement, 200 pop) — lake village of the Mask-Borne Mimir; the lake never ripples
+- **Mirror Mere** (settlement, 200 pop) — lake village of the Arch Mimir; the lake never ripples
 - **Greythorn Copse** (settlement) — fortified ironwood copse jointly maintained by Thalren and Briaran
 - **Skald's Landing** (settlement) — Skald trading post on the northern river, dragon-prow longhouses
 - **Grevtholm** (settlement) — fortified stone keep, northernmost Thalren outpost against Jutul
@@ -184,10 +184,9 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 ### People & Races
 
 - **Thalren humans** — archivists, obsessed with preservation. Chained journals, written genealogies, fog-resistant documentation. Peat-stone colored clothing, fur-trimmed cloaks, quill-and-flame medallions. Pale, tall, lean.
-- **Mimir** — the Mask-Bound; tall, slender (1.78-2.13m), unnaturally fluid movement. **Masks of heartwood or storm-glass** with glowing eye-beads — their faces are NEVER shown. Wear bark-hide cloaks. Each carries a small spore-companion (Fetch-Mote) orbiting their shoulder. Three castes:
-  - **Mask-Borne** — canopy aristocrats (Mirror Mere)
-  - **Mist-Woven** — mountain sentinels
-  - **Unwoven** — maskless floor-dwellers (the Eastern Fens, Wraithfen)
+- **Mimir** — the Mask-Bound; tall, slender (1.78-2.13m), unnaturally fluid movement. **Masks of heartwood or storm-glass** with glowing eye-beads — their faces are NEVER shown. Wear bark-hide cloaks. Fractured Mimir carry a small glowing energy-companion (Mote) orbiting their shoulder. Two subraces:
+  - **Arch Mimir (Veiled)** — canopy aristocrats in Ironwood Heart & Mirror Mere
+  - **Fractured Mimir (Tethered)** — sentinels & floor-dwellers in Ironwood Palisade, Wraithfen & Shifting Fen
 - **Briaran (the "eighth house")** — thorn-blooded, fae-touched descendants of House Viridane. **Thorns grow where other races grow hair** — along forearms, shoulders, spine. The thorns lie flat when calm, prickle at broken oaths, and migrate over a lifetime toward the site of the oldest unfulfilled promise. Two kinds: **Unshorn** (thorn-cloaked traditionalists in deep groves) and **Smooth-Skinned** (shaved, passing as human in the wider world). Wear ghost-metal (cold alloy from the deep groves).
 - **Skald expatriates** — on the northern fringe, manning Skald's Landing and Grevtholm
 - **Stone-Tribal humans** — frontier dwellers in the Frostfang
@@ -351,7 +350,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 ### Cities & Settlements
 
-- **Harath-Vault** (city, 600 pop) — massive subterranean capital of the Emberth, carved into a volcanic caldera. The Great Forge in its center. The Solbrand tended in the Harath-Chamber. 100 militia.
+- **Harath-Vault** (city, 600 pop) — massive subterranean capital of the Emberth, carved into a volcanic caldera. The Great Forge in its center. The Sol's Breath tended in the Harath-Chamber. 100 militia.
 - **The Great Forge** (city) — sprawling city of black iron and basalt inside a volcanic cavern
 - **Solvan's Stand** (city) — dying capital of House Solvan, once 30,000, now under 4,000. Outer wall lost 40 feet to ashfall in the last century.
 - **Ember Lagoon** (settlement, 350 pop) — Sundale's only port, warm saltwater lagoon heated by volcanic vents. Glowing orange-red at night.
@@ -782,10 +781,10 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 ### People & Races
 
-- **Neth (Velun, Kessen, Drun)** — silver-skinned, dark pool-like eyes, colorless spider-silk hair. **Tall, slender, 5'10"-6'6"**. Cannot lie (Velun). Stilled breath — no need for food, water, or sleep (4-hour trance suffices). Divided:
-  - **Velun** — silver-skinned pact-lords, authority, can invoke the Keeper's power
-  - **Kessen** — weavers, see the obligation-web, manipulate probability
-  - **Drun** — outcasts, severed names, legally non-existent, leaden-grey skin
+- **Neth (High Neth, Pale Neth, Hallowed Neth)** — pact-bound, non-breathing legalists divided by Morvane's judgment at the Well of Youth into three marked lineages:
+  - **High Neth (The Loyalists)** — porcelain-lined translucent skin creeping beneath temples, preserving natural warmth and rare fertility in the white canopy spires of Atropolis.
+  - **Pale Neth (The Conspirators / Cold Undead)** — drow-like cold undead with ashen-grey skin, silver hair, and obsidian eyes; live in subterranean peat-caverns (The Drun Fen Vaults & Over-Shanty Deep-Quarter).
+  - **Hallowed Neth (The Profane)** — paper-white semi-translucent spirit conduits bound to Morvane's Threshold shrines.
 - **Vreken** — the Gloom-Lit. **Compact, wiry, 4'10"-5'6", long-fingered, curled ears**. **Lantern-eyes that glow** — rust-amber (Clean/Deep-Glow) or silver-white (Marked/Ghost-Mycelium). Gothic monastic vestments.
 - **Morren humans** — debtors, peat-cutters, bog-dwellers. Swamp-worn, peat-stained, exhausted. Wear roughspun fiber-cloth, leather wraps.
 
@@ -842,7 +841,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **The Lost Brood Vats** — sealed but accessible through Fexric service-shaft
 - **The Subterranean Vault** — beneath Frostmaw, where a Sundered Monolith rests
 - **The Star Caves** — lava-tubes beneath Spinstones Columns, sealed but the seals don't always hold
-- **The Wraithfen** — fog-drowned fen where the Forgotten and Mimir Unwoven hide
+- **The Wraithfen** — fog-drowned fen where the Forgotten and Fractured Mimir hide
 - **The Tide-Court Cove** — fills twice a day, the Mer-Court's hidden harbor
 - **The Root-Veil Scriptorium** — accessible only through Keeper's permission
 
@@ -887,7 +886,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **SMELLS:** superheated basalt, molten metal, sulfur, Emberth sweat, ozone
 - **LIGHT:** orange-red from forge-pits and vents; never truly dark
 - **WEATHER:** ash-fall, soot storms, heat shimmer
-- **ICONIC IMAGES:** an Emberth Korr kneeling in absolute silence around the Solbrand; a Solvarn priest with ash-stained robes praying to a buried sun; Scathrach's coals glowing in the deep
+- **ICONIC IMAGES:** an Emberth Korr kneeling in absolute silence around the Sol's Breath; a Solvarn priest with ash-stained robes praying to a buried sun; Scathrach's coals glowing in the deep
 
 ### Iceheart Sea
 - **LOOKS:** Deep ocean blue-black, storm grey, ice white, gold, coral pink, bioluminescent teal
@@ -1064,7 +1063,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 
 - **Frostwood Reach:** the ironwood, the fog, the masks, the NORTH/SOUTH divide (warm south vs. cold Frostfang north)
 - **Nordhalla:** the glaciers, the bone-tombs, the cold, the COAST on south and east
-- **Sundale:** the volcano, the ash, the Solbrand, the FORESTED HALF-ISLAND (Glitterwood)
+- **Sundale:** the volcano, the ash, the Sol's Breath, the FORESTED HALF-ISLAND (Glitterwood)
 - **Iceheart Sea:** the storm, the ships, the ink-tattoos, the LARGEST continent by area
 - **Cragjaw Peaks:** the spans, the blizzard, the gears, the JUTUL in the high peaks
 - **Sundrift Vale:** the empty sky, the endless grass, the silent mounds
@@ -1072,7 +1071,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 
 ## The world's central tension
 
-Keth-Amar is **inside the binding**, drinking Sol's light slowly. He knows six bloodlines answered, but he does not know that the seventh monolith "screams with a substituted name" — Morrath's, a fabrication. He is digging, clawing, sensing that one monolith "sings wrong" but never understanding why. The world is dying at the rate Sol is being drained. Eight centuries of slow consumption. The world ends when Sol does.
+Keth-Amar is **inside the binding**, drinking Sol's light slowly. He knows six bloodlines answered, but he does not know that the seventh monolith is a hollow echo — Viridane's signature was never placed, and Morrath's name is a fabrication stitched over the gap. He is digging, clawing, sensing that one monolith "sings wrong" but never understanding why. The world is dying at the rate Sol is being drained. Eight centuries of slow consumption. The world ends when Sol does.
 
 The hidden truth: **Keth-Amar hunts through knowledge.** He can sense what people know. To hide from him, a family must be *forgotten*. House Viridane escaped by being erased from every record — the fog that ate their name was the protection that let them flee. The Briaran are their descendants.
 

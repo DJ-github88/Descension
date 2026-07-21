@@ -3,7 +3,6 @@ export const SHAPER_DATA = {
       "allowedSubraces": [
           "veiled_mimir",
           "tethered_mimir",
-          "untethered_mimir",
           "morgh_groven",
           "ithran_groven",
           "marked_vreken"
@@ -16,7 +15,7 @@ export const SHAPER_DATA = {
           "briaran"
       ],
       "narrativeUnlock": false,
-      "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Emberth bodies are too mineral-dense. Neth bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."
+      "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Solari bodies are too mineral-dense. Neth bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."
   },
 
   /**
@@ -27,50 +26,34 @@ export const SHAPER_DATA = {
    */
   subraceVariants: {
     veiled_mimir: {
-      subraceName: 'Veiled Mimir',
+      subraceName: 'Arch Mimir',
       title: 'The Form-Locked',
-      reframe: `The <LoreLink termId="mimir">Masked</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Masked are the most controlled Shapers: the mask holds the self stable while the body shifts around it, a fixed point around which transformation orbits. The most stable, and the most limited, they cannot reshape the face the mask protects.`,
+      reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> anchor their identity to a single carved mask, and a Shaper among them must reconcile the shaping forms with an *external identity-anchor* that resists change. The Arch Mimir are the most controlled Shapers: the mask holds the self stable while the body shifts around it.`,
       signatureAbility: {
         name: 'Anchor-Form',
-        description: `Kinetic Flux builds faster when the Shaper's mask remains untouched, the mask is the fixed axis, and every transformation radiates from it. The instant the mask is struck or displaced, all held forms destabilize violently. The Masked fight to protect the one thing they cannot change.`
+        description: `Kinetic Flux builds faster when the Shaper's mask remains untouched, the mask is the fixed axis, and every transformation radiates from it. The Masked fight to protect the one thing they cannot change.`
       },
-      currentCrisisAngle: `Convergence Collapse hits the Masked as a *mask-crisis*: when young Masked attempt every form at once, the transformations begin *reaching for the mask*, trying to reshape the one thing that holds the self. Several young Masked have shattered their own masks mid-convergence, and the resulting identity-collapse is the most frightening thing the elder Shapers have ever witnessed, a Mimir without an anchor, dissolving in real time.`,
+      currentCrisisAngle: `Convergence Collapse hits the Arch Mimir as a *mask-crisis*: when young ones attempt every form at once, the transformations begin *reaching for the mask*, trying to reshape the one thing that holds the self.`,
       signatureQuote: {
         text: '"My mask is the only shape I cannot change, and the dance keeps trying to take it from me. The day I let it, I will not be anyone to remember the loss."',
         speaker: 'Form-Keeper Mir-Vassen',
-        context: 'A Masked Shaper, splinting his mask-straps before a convergence drill'
+        context: 'An Arch Mimir Shaper, splinting his mask-straps before a convergence drill'
       }
     },
 
     tethered_mimir: {
-      subraceName: 'Tethered Mimir',
+      subraceName: 'Fractured Mimir',
       title: 'The Sentinel-Shifter',
-      reframe: `The <LoreLink termId="mimir">Woven</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance. A Woven Shaper does not reshape for combat; they reshape for *perception*, becoming the thing that sees what the fog hides.`,
+      reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance.`,
       signatureAbility: {
         name: 'Vigil-Form',
-        description: `Shaping forms optimized for sensory coverage rather than offense, widened eyes, extended auditory structures, distributed nerve-endings. The Woven are the tradition's scouts, and their Kinetic Flux generates from *detection* (spotting an enemy) as much as from combat impact.`
+        description: `Shaping forms optimized for sensory coverage rather than offense. The Fractured are the tradition's scouts.`
       },
-      currentCrisisAngle: `The mist is learning to hide (the Apex crisis), and the Woven Shapers feel it most acutely, every vigil-form is returning less, the sensory adaptations hitting a fog that refuses to cooperate. The young Woven, in frustration, are pushing their vigil-forms past design limits, burning through crystalline skin to see a fog that has decided to be blind.`,
+      currentCrisisAngle: `The mist is learning to hide, and the Fractured Shapers feel it most acutely, every vigil-form is returning less.`,
       signatureQuote: {
         text: '"I reshaped my eyes to pierce the mist. The mist reshaped itself to defy my eyes. We are arguing, and I am losing, and I do not know what it is protecting."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Woven Shaper, the third night her vigil-form returned nothing'
-      }
-    },
-
-    untethered_mimir: {
-      subraceName: 'Untethered Mimir',
-      title: 'The Dissolving',
-      reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> are already dissolving, maskless, their forms blurring into the fog. For the Unwoven, the Shaper art is both curse and *temporary salvation*: each held form briefly *coheres* a self that is otherwise fading. An Unwoven Shaper reshapes not to fight but to *remember what having an edge feels like*, and every transformation buys a few more hours of definition before the dissolution resumes.`,
-      signatureAbility: {
-        name: 'Coherence-Form',
-        description: `Shaping forms temporarily *reverse* the Unwoven's dissolution, granting hours of crisp identity per transformation. The cost: every reversion to baseline loses a little more of the baseline itself. The Unwoven are buying time with the time they have left, and the exchange rate is worsening.`
-      },
-      currentCrisisAngle: `Convergence Collapse is, for the Unwoven, the most *tempting* crisis: attempting every form at once briefly produces a *super-coherent* state more defined than any single form. Young Unwoven are chasing convergence highs, burning through crystalline skin (which the Mimir cannot regenerate) for hours of feeling like a complete person. The Unwoven Shapers are, measurably, the happiest Shapers, and the fastest-dying.`,
-      signatureQuote: {
-        text: '"You fear the dance will dissolve you. I am already dissolving. The dance is the only thing that gives me edges. I will dance until there is nothing left to dance, and it will have been worth it."',
-        speaker: 'Unwoven Mir-Naeth',
-        context: 'An Unwoven Shaper, mid-convergence, more coherent than she has been in years'
+        context: 'A Fractured Shaper, the third night her vigil-form returned nothing'
       }
     },
 
@@ -166,9 +149,9 @@ The first shaper was Torin, a Morgh Groven miner trapped in a collapsing Deep Al
 
 The art should have stopped there. But the Morgh elders recognized what Torin had done: he had turned the Deep Alchemists' violation, the forced reshaping of their ancestors, into a choice. The Shaping Hall was established at Frostmaw Crag, and the tradition grew. A Groven who reshapes their body is not submitting to the Fexric's design. They are taking the alchemist's tools and using them on their own terms.
 
-The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Woven Mimir trade envoy who regularly crossed the spans, was the first to merge Cragjaw bone-sculpting with Mimir fluid transformation. She did not discover a connection. She was the bridge between two cultures who had both been modifying bodies for centuries, in different ways, for different reasons. The Masked Mimir reshape controlled by their mask, the Unwoven cling to each form as temporary identity, and the Marked Vreken reshape with their mycelium moving in synchronization, the most fluid and the most alien.
+The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Woven Mimir trade envoy who regularly crossed the spans, was the first to merge Cragjaw bone-sculpting with Mimir fluid transformation. She did not discover a connection. She was the bridge between two cultures who had both been modifying bodies for centuries, in different ways, for different reasons. The Masked Mimir reshape controlled by their mask, the Tethered Mimir use each form to ground their identity, and the Marked Vreken reshape with their mycelium moving in synchronization, the most fluid and the most alien.
 
-Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Unwoven are dying fastest, chasing convergence highs for hours of feeling complete.`,
+Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Tethered are dying fastest, chasing convergence highs for hours of feeling complete.`,
 
     quickOverview: {
       title: "Quick Overview",
@@ -192,7 +175,7 @@ Born in the Cragjaw Peaks when Morgh Groven miner Torin, trapped in a collapsing
 Celebrated in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> and at <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Common folk find their visible transformations disturbing.
 
 **RACES & CULTURAL AFFILIATION**
-The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (Torin's people, the first Shapers). From the Cragjaw it spread to the Ithran Groven (bridge-builders who adapted the art for span-running). Veyra brought it across the Ancestor-Spans to the Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction; the Masked and Unwoven learned from Veyra's school). The Marked <LoreLink termId="vreken">Vreken</LoreLink> later adapted it through Root-Veil contact, adding mycelial co-sculpting.
+The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (Torin's people, the first Shapers). From the Cragjaw it spread to the Ithran Groven (bridge-builders who adapted the art for span-running). Veyra brought it across the Ancestor-Spans to the Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction; the Masked and Tethered learned from Veyra's school). The Marked <LoreLink termId="vreken">Vreken</LoreLink> later adapted it through Root-Veil contact, adding mycelial co-sculpting.
 
 **NOTABLE FIGURES**
 * **Torin the Claimer**: Morgh Groven miner, first Shaper, who reclaimed the alchemy that made his people.

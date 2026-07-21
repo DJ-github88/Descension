@@ -244,7 +244,7 @@ Each class entry documents: origin story, founding figure(s), region, which race
 | **Origin** | Damon the Emberth blacksmith blocked a solar flare with an alchemical tower shield during Sol's entombment. Solar energy permanently scarred his flesh  -  veins hum with volatile trapped mana. Hands frozen in rigid shielding posture. |
 | **Region** | Sundale |
 | **Practiced By (lore)** | Heavily practiced by Velun Neth and Thalren humans |
-| **Implied Barriers** | Requires access to Emberspire's volcanic forge-tradition and the Solbrand's residual energy. The Neth Velun provide precise magical cancellation. Thalren provide anti-Wyrd paranoia. |
+| **Implied Barriers** | Requires access to Emberspire's volcanic forge-tradition and the Sol's Breath's residual energy. The Neth Velun provide precise magical cancellation. Thalren provide anti-Wyrd paranoia. |
 | **Current Crisis** | Ambient magic levels are rising. Spellguards' Void Resonance fills faster than they can purge it. Some Arcane Saturation causes spontaneous Radiation Bursts. |
 
 ### Toxicologist
@@ -300,7 +300,7 @@ This section applies the **WoW Classic Rule**: why can Race A be this class but 
 | **Pyrofiend** | Sundale | Neth, Mimir, Myrathil, Groven, Briaran | Solvarn, Thrask Emberth, Skald outcasts | Yes (an outcast who found Scathrach) | Requires proximity to Scathrach's influence. No Ordan/Morren would willingly pact with a demon. Cold-adapted cultures reject fire-pacts. |
 | **Revenant** | Bryngloom | Emberth, Myrathil, Astril, Fexrick | Clean Vreken, Drun Neth, Morren, Tessen | Yes | Requires cultural acceptance of undeath as obligation-continuation. Reframing undeath as contract renewal is Neth/Vreken-specific. |
 | **Shaper** | Frostwood/ Cragjaw | **Humans (all), Emberth, Neth, Myrathil, Briaran** | Mist-Woven Mimir, Morgh Groven | No (biological limit) | Requires biological form-shifting. Humans can't physically reshape. Emberth too mineral-dense. Neth contract-locked. Myrathil too fluid to hold form. |
-| **Spellguard** | Sundale | Myrathil, Ordan, Groven, Briaran | Velun Neth, Thalren, Solvarn, Emberth | Yes | Requires volcanic forge-tradition and Solbrand energy. Neth Velun provide magic cancellation. Thalren provide anti-Wyrd paranoia. |
+| **Spellguard** | Sundale | Myrathil, Ordan, Groven, Briaran | Velun Neth, Thalren, Solvarn, Emberth | Yes | Requires volcanic forge-tradition and Sol's Breath energy. Neth Velun provide magic cancellation. Thalren provide anti-Wyrd paranoia. |
 | **Toxicologist** | Frostwood | All non-Frostwood natives, Emberth, Fexrick | Thalren, Unwoven Mimir, Morren, Briaran | No (region-locked reagents) | Requires reagents unique to Frostwood. Fexrick too mechanical. Emberth too hot (toxins denature). |
 | **Warden** | Cragjaw | Merryn, Ordan, Astril, Emberth | Morgh Groven, Fexrick Drall, Neth Kessen, Skald, Vreken | Yes (must undergo surgical graft) | Requires chain-graft surgery only in Frostmaw/Frozen Archive. Non-Groven can learn but must accept surgical alteration. |
 | **Apex** | Frostwood | Emberth, Neth, Myrathil, Tessen | Mist-Woven Mimir, Skald hunters, Vreken | Yes | Requires cultures with predator-tracking traditions. Others lack sensory training. |
@@ -448,7 +448,7 @@ Zealot was never a background  -  it was a former discipline entry left behind w
 |---|---|---|---|
 | **Nordhalla** | Iron ore, mammoth skins, walrus ivory, whale oil, cold-iron, glacier ice | Grain, salt, southern manufactured goods | Iceheart Sea (maritime route via Black Firth) |
 | **Frostwood Reach** | Ironwood timber, soot-resin ink, peat-parchment, memory-glass | Whale oil (for lamps), grain | Iceheart Sea (via Skald's Longport) |
-| **Sundale** | Obsidian, high-temp alloys, volcanic sulfur, geothermal coal, Solbrand steel, fire-coral | Ice-melt water, woolly herd-hides, timber | Sundrift Vale (hides), Iceheart Sea (maritime), Cragjaw (alchemical trade) |
+| **Sundale** | Obsidian, high-temp alloys, volcanic sulfur, geothermal coal, Sol's Breath steel, fire-coral | Ice-melt water, woolly herd-hides, timber | Sundrift Vale (hides), Iceheart Sea (maritime), Cragjaw (alchemical trade) |
 | **Iceheart Sea** | Whale oil, bioluminescent organisms, thermal crystals, fire-coral, dried fish | Grain, metal goods | All regions (central maritime hub) |
 | **Cragjaw Peaks** | Alchemical reagents, bone tools, geothermal heat | Food (terraces cooling  -  may need grain imports soon) | Nordhalla (geothermal pipes), Iceheart Sea (Fexric guilds vs Neth) |
 | **Sundrift Vale** | Wool, hides, steppe-horses, fermented mare's milk, dried mutton | Metal tools, salt | Bryngloom (forest-steppe edge trade), Sundale (via Cragjaw) |
@@ -473,7 +473,7 @@ Zealot was never a background  -  it was a former discipline entry left behind w
 |---|---|---|---|
 | Scribe-Cartel | Frostwood Reach (+ maybe Bryngloom) | Ink, parchment, journals | Controls who gets recorded as a citizen. Without ink, you don't exist in the Ledger. |
 | Icechamber Syndicate | Nordhalla | Iron ore, mammoth skins, walrus ivory, grain imports | Forces low export prices, sells grain at life-threatening rates. Nordhalla is a colonial extraction economy. |
-| Sulfur Cartel | Sundale | Coal, sulfur, Solbrand steel | Priests control all heat and metal. Dawn Vigil diverts resources to Monolith reforging. |
+| Sulfur Cartel | Sundale | Coal, sulfur, Sol's Breath steel | Priests control all heat and metal. Dawn Vigil diverts resources to Monolith reforging. |
 | Brine-Bond Syndicate | Iceheart Sea | Whale oil, voyage bonds | Fractional voyage-shares lock crews in permanent debt. Steam-trawlers pollute channels. |
 | Steam-Line Cartel | Cragjaw Peaks | Geothermal heat, runic pipes | Controls who stays warm. Demands heavy tribute. Terraces cooling = food crisis looming. |
 | Peat-Debt Bondage | Bryngloom | Memory, lifeline mortgages | Neth control who exists legally. Postmortem Corvée conscripts corpses for labor. |

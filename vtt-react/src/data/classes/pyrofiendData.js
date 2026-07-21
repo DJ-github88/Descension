@@ -15,13 +15,12 @@ export const PYROFIEND_DATA = {
    "skald_human",
    "morgh_groven"
   ],
-  "hardBlocks": [
-   "neth",
-   "mimir",
-   "myrathil",
-   "groven",
-   "briaran"
-  ],
+   "hardBlocks": [
+    "neth",
+    "mimir",
+    "myrathil",
+    "briaran"
+   ],
   "narrativeUnlock": true,
   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
  },
@@ -29,7 +28,7 @@ export const PYROFIEND_DATA = {
  /**
  * Subrace Variants, the Pyrofiend pacts with Scathrach, the Ashen Sovereign, and the
  * meaning of that pact inverts depending on who makes it. For the Solvarn it is the
- * original blasphemy. For the Thrask it is the dark mirror of their forge-craft. For
+ * original blasphemy. For the Waste-Solari it is the dark mirror of their forge-craft. For
  * the Skald it is the ultimate treason, a betrayal of the cold their entire culture
  * worships.
  */
@@ -40,7 +39,7 @@ export const PYROFIEND_DATA = {
   reframe: `This is the original tradition, the cabal of <LoreLink termId="house_solvan">Solvarn</LoreLink> occultists who, in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, swallowed Scathrach's burning coals. For the Solvarn, the pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. A Solvarn Pyrofiend's fire is not foreign, it is the *perverted echo* of the star they entombed, and every spell is a small re-enactment of the crime.`,
   signatureAbility: {
   name: 'Solar-Perversion',
-  description: `Inferno-Veil generation is amplified by proximity to the Solbrand's residual warmth, the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solvarn Pyrofiends operate literally atop Sol's grave, and the grave, the Korr whisper, is dimmer for their presence.`
+   description: `Inferno-Veil generation is amplified by proximity to Sol's Breath's residual warmth, the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solvarn Pyrofiends operate literally atop Sol's grave, and the grave, the Hollow-Solari whisper, is dimmer for their presence.`
   },
   currentCrisisAngle: `Scathrach calling in all debts simultaneously reads, to the Solvarn, as the *completion of an eight-century plot*: the Ashen Sovereign nested beneath Emberspire to *feed on the buried star*, and the Pyrofiends were always the delivery mechanism. The Solvarn Pyrofiends are realizing they were never partners in the pact, they were cutlery, and the meal is ready.`,
   signatureQuote: {
@@ -51,18 +50,18 @@ export const PYROFIEND_DATA = {
  },
 
  thrask_emberth: {
-  subraceName: 'Thrask Emberth',
+   subraceName: 'Waste-Solari - Thyrm',
   title: 'The Forge-Damned',
-  reframe: `The <LoreLink termId="emberth">Thrask Emberth</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Emberth tame heat to shape metal, the Thrask Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Thrask, a perverted apprenticeship.`,
+  reframe: `The <LoreLink termId="emberth">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Solari tame heat to shape metal, the Waste-Solari Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship.`,
   signatureAbility: {
   name: 'Forge-Conversion',
-  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Thrask, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for armor. The most veteran Thrask Pyrofiends are more basalt than flesh, and fight accordingly.`
+  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for armor. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`
   },
-  currentCrisisAngle: `The mass debt-collection hits the Thrask as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Thrask Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
+  currentCrisisAngle: `The mass debt-collection hits the Waste-Solari as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Waste-Solari Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
   signatureQuote: {
   text: '"My ancestors tamed the forge. I let the forge tame me. When Scathrach comes to collect, it will find a finished blade, not ore. I will not be taken unfinished."',
   speaker: 'Forge-Damned Thrak-Vess',
-  context: 'A Thrask Pyrofiend, forging the last plate over his own ribs'
+  context: 'A Waste-Solari Pyrofiend, forging the last plate over his own ribs'
   }
  },
 
@@ -135,7 +134,7 @@ export const PYROFIEND_DATA = {
   characterization: `The oldest living Pyrofiend, more char-vessel than flesh, his bones visible through translucent magma-skin. He leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He has calculated the exact day Scathrach will finish converting him, and he marks it on a calendar of scar-tissue. He is serene, terrifying, and entirely resigned.`
  },
  headquarters: { name: 'The Obsidian Cavern, beneath Emberspire', locationId: 'emberspire' },
- crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Thrask Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
+ crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Waste-Solari Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
  },
 
  worldFriction: [
@@ -147,14 +146,14 @@ export const PYROFIEND_DATA = {
  title: "The Pyrofiend",
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
- illustrationCaption: "An Emberth Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
+ illustrationCaption: "A Solari Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
   originStory: `A pyrofiend has made a deal with Scathrach, the Ashen Sovereign, and the deal is being collected. Scathrach was born during the Binding itself, a fragment of Aex's flayed hide that fell into Emberspire's deepest vent during Sol's entombment. It was corrupted by the Wyrd, grew sentient in the volcanic dark, and served Keth-Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed its own will. It sealed the vent from within. It now despises Keth-Amar for what it was made into and hoards power to wound its former master back. Every pyrofiend pact feeds that hoard.
 
 The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of the Breach. They carved the seven sigils of the Ashen Sovereign. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire. Their bones seared black. One by one, Scathrach collected their souls. The last was taken forty years ago. No pyrofiend has ever survived to describe what happens when the horror collects a contract.
 
 The Inferno Veil measures how much of Scathrach's fire runs through the host at any moment, ascending through ten levels. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, a three-turn death clock begins, the body detonating in a thirty-foot radius and the soul claimed by Scathrach.
 
-Each subrace burns for different reasons. The Solvarn are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Thrask Emberth treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Thrask can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
+Each subrace burns for different reasons. The Solvarn are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Waste-Solari treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Waste-Solari can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
 
 The Morgh Groven discovered the fire independently, no pact, no Scathrach. They ignite the dormant alchemical serum residue still circulating in Groven veins, the same compounds the Deep Alchemists used to reshape Thrumm into servitors. A Morgh pyrofiend dies on their own terms. No entity collects their debt, so no entity can be bargained with for more time. This is both their strength and their tragedy.
 
@@ -176,18 +175,18 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. An Emberth forge-miner named **Ignis** bargained with a volcanic caldera fiend to secure a geothermal vent for his clan.
+The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of the Breach, swallowing Wyrd-touched coals of pure burning sulfur.
 
-The price of this fiery pact was a sulfurous, burning ember nesting in his chest. As the veil rose, Ignis's capillaries seared, pulling his flesh closer to the fiend's absolute claim.
+The price of this fiery pact was a sulfurous, burning ember nesting in his chest — the first of seven coals the Cabal swallowed. As the veil rose, Ignis's capillaries seared, pulling his flesh closer to the fiend's absolute claim.
 
 **CITIES & CIVIL RECEPTION**
 Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, where their destructive potential is used to clear volcanic blockades.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn humans.
+The class is heavily practiced by the Waste-Solari and hot-blooded Solvarn humans.
 
 **NOTABLE FIGURES**
-* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Korr forge-priest who catalogued the Solbrand's patterns  -  the Emberth name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): The Thrask miner who first welcomed the Sovereign to protect his deep caldera clan.
+* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Hollow-Solari forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solvarn occultists of the First Cabal who first welcomed the Sovereign by swallowing Wyrd-touched coals in the obsidian cavern beneath Emberspire.
 * **Aethelgard the Seared**: A Solvarn occultist who led the Cabal of the Ninth Flame during the solar binding.`
  },
 

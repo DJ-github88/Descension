@@ -702,7 +702,7 @@
 
 # REGION 3: SUNDALE & EMBERSPIRE  -  The World-Heart
 ### Folklore Pairing: Mesopotamian/Zoroastrian + Egyptian
-> *Setting:* Volcanic ashland desert surrounding Emberspire  -  the world-heart volcano, tomb of the sun-god Sol. House Solvan watches their lands die beneath ashfall. Emberth forge-clans tend the Solbrand. The Wyrd manifests creatures of fire, judgment, and ancient kingship.
+> *Setting:* Volcanic ashland desert surrounding Emberspire  -  the world-heart volcano, tomb of the sun-god Sol. House Solvan watches their lands die beneath ashfall. Emberth forge-clans tend the Sol's Breath. The Wyrd manifests creatures of fire, judgment, and ancient kingship.
 
 ---
 
@@ -736,7 +736,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Lava-River Dweller:** Tiamats live in the slow-moving lava channels that radiate from Emberspire, swimming through molten rock as fish swim through water. They consume rare minerals dissolved in the magma  -  particularly the gold-trace veins that Emberth smiths also covet.
-- **The Sun-Devourer:** The Wyrd has twisted Apep's mythic purpose: these creatures are drawn to the Solbrand's warmth and will attempt to coil around any source of concentrated sun-heat, draining it. The Korr Emberth maintain constant vigil against Tiamat incursions into the Harath-Chamber.
+- **The Sun-Devourer:** The Wyrd has twisted Apep's mythic purpose: these creatures are drawn to the Sol's Breath's warmth and will attempt to coil around any source of concentrated sun-heat, draining it. The Korr Emberth maintain constant vigil against Tiamat incursions into the Harath-Chamber.
 
 ---
 
@@ -769,7 +769,7 @@
 - **The Face:** A striking, strong-featured human face with eyes of solid gold  -  no pupils, no whites  -  that radiate a commanding, almost divine authority. Its expression is one of eternal vigilance.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Gate-Guardian:** Girtablilus stand motionless at the entrances to ancient volcanic temples and Korr sanctuaries, serving as living gates. They allow passage only to those who can answer a question about the Solbrand or the history of the Dimming  -  and they know every answer.
+- **The Gate-Guardian:** Girtablilus stand motionless at the entrances to ancient volcanic temples and Korr sanctuaries, serving as living gates. They allow passage only to those who can answer a question about the Sol's Breath or the history of the Dimming  -  and they know every answer.
 - **The Venom-Healer:** Their stinger-venom is paradoxical: in small doses, it cures the Wyrd-sickness that infects those who spend too long near Emberspire's breach. Korr Sun-Speakers trade rare incense for measured doses of Girtablilu venom  -  the only known treatment for Wyrd-exposure in Sundale.
 
 ---
@@ -888,7 +888,7 @@
 - **The Face:** An impossibly delicate face with two enormous, faceted eyes that reflect the observer's own face back as a golden vision of their younger self. Its proboscis is a tiny tube of spun glass.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ember-Gatherer:** Peris are drawn to the Solbrand's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Peri is a repentant fragment of Sol's consciousness  -  a piece of the sun-god seeking forgiveness. Tending the Peris is considered the highest spiritual duty.
+- **The Ember-Gatherer:** Peris are drawn to the Sol's Breath's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Peri is a repentant fragment of Sol's consciousness  -  a piece of the sun-god seeking forgiveness. Tending the Peris is considered the highest spiritual duty.
 - **The Rebirth-Cycle:** Like Khepri rolling the sun, Peris roll their wing-balls along the ground at dawn, collecting ambient thermal energy. They compress this energy into tiny golden pearls  -  "sun-seeds"  -  that the Emberth can plant in cold hearthstones to produce fire that burns for a year.
 
 ---
@@ -991,7 +991,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Sky-Watcher:** Nisrochs patrol the skies above Emberspire, scanning for Wyrd-manifestations. When they spot one, the Wedjat-eye fires a beam of concentrated light that burns Wyrd-essence like sunlight through a magnifying glass. They are Sundale's aerial defense-system.
-- **The Solbrand-Messenger:** They carry messages between the Korr Sun-Speakers in the Harath-Chamber and the Thrask rangers on the surface  -  messages inscribed on strips of golden foil that only the Wedjat-eye can read. They are trained from hatching and are considered sacred  -  killing one carries the death penalty in Emberth law.
+- **The Sol's Breath-Messenger:** They carry messages between the Korr Sun-Speakers in the Harath-Chamber and the Thrask rangers on the surface  -  messages inscribed on strips of golden foil that only the Wedjat-eye can read. They are trained from hatching and are considered sacred  -  killing one carries the death penalty in Emberth law.
 
 ---
 
@@ -1008,7 +1008,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Wisdom-Well:** The Abzu is a sentient repository of pre-Dimming knowledge. Those who drink from the pool receive a single piece of forgotten wisdom  -  but the pool takes something in exchange: a drop of the drinker's blood, which becomes part of its eternal archive.
-- **The Volcanic-Coolant:** Its waters cool the geothermal systems beneath the Harath-Vault. Without the Abzu's underground spring feeding the cooling-channels, the forges would overheat and the Solbrand would boil dry. Korr engineers maintain the channel-system with reverent precision  -  the Abzu is not a pet or a servant; it is a partner in survival.
+- **The Volcanic-Coolant:** Its waters cool the geothermal systems beneath the Harath-Vault. Without the Abzu's underground spring feeding the cooling-channels, the forges would overheat and the Sol's Breath would boil dry. Korr engineers maintain the channel-system with reverent precision  -  the Abzu is not a pet or a servant; it is a partner in survival.
 
 ---
 
@@ -1025,7 +1025,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Underworld-Mouth:** Kur-Pits are breach-points where the geography of the underworld bleeds into the surface. They open spontaneously near sites of mass death  -  old battlefields, volcanic eruption zones. Those who fall in are not merely killed; their souls are trapped in the labyrinth between Kur and Duat, navigating trials that may take centuries.
-- **The Sun-Path:** During Emberspire's annual vent-calm, the Solbrand's light momentarily illuminates the nearest Kur-Pit, revealing a glimpse of the path beneath. Korr scholars believe this path connects to the buried sun-god Sol  -  and that navigating it may be the only way to reach Sol's prison directly. No one who has entered a Kur-Pit has ever returned to confirm.
+- **The Sun-Path:** During Emberspire's annual vent-calm, the Sol's Breath's light momentarily illuminates the nearest Kur-Pit, revealing a glimpse of the path beneath. Korr scholars believe this path connects to the buried sun-god Sol  -  and that navigating it may be the only way to reach Sol's prison directly. No one who has entered a Kur-Pit has ever returned to confirm.
 
 ---
 

@@ -131,10 +131,10 @@ const getSubraceImage = (subraceId, raceId) => {
     // Briaran
     trueborn_briaran: 'trueborn_illustration.png',
     shorn_briaran: 'shorn_illustration.png',
-    // Emberth
+    // Solari
     korr_emberth: 'korr_illustration.png',
     thrask_emberth: 'thrask_illustration.png',
-    // Fexrick
+    // Fexric
     kethrin_fexric: 'kethrin_illustration.png',
     drall_fexric: 'drall_illustration.png',
     // Groven
@@ -143,7 +143,6 @@ const getSubraceImage = (subraceId, raceId) => {
     // Mimir
     veiled_mimir: 'masked_illustration.png',
     tethered_mimir: 'woven_illustration.png',
-    untethered_mimir: 'unwoven_illustration.png',
     // Neth
     velun_neth: 'velun_illustration.png',
     kessen_neth: 'kessen_illustration.png',
@@ -169,7 +168,7 @@ const getSubraceImage = (subraceId, raceId) => {
   }
   
   if (raceId) {
-    // Fexrick base race rotates between 3 illustrations randomly
+    // Fexric base race rotates between 3 illustrations randomly
     if (raceId === 'fexrick') {
       const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
       return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;

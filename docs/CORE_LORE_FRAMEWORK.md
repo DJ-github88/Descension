@@ -1,4 +1,4 @@
-﻿# CORE LORE FRAMEWORK  -  Mythrill VTT
+# CORE LORE FRAMEWORK  -  Mythrill VTT
 ## Consolidated from Worldbuilding Session, July 2026
 
 > This document is the *single source of truth* for Mythrill's cosmological framework. All other lore files (loreDictionary.js, GM_WORLD_GUIDE.md, timelineStore.js, race files, class files) should be checked against this document and corrected where they conflict.
@@ -51,7 +51,8 @@ Six principal entities (with the Dead Moon treated separately). Clear roles. No 
 - The Breach is what desecrated his sacrifice. Six houses fed him to Keth-Amar through partial corruption, violating the original terms. **The agony did not start at the flaying. It started at the Breach.** He consented to a cage. He did not consent to being eaten through.
 - Now he is not dead. **Lynched**  -  stretched across the vault in perpetual agony. Conscious. Aware. The agony is the Breach tearing at the seal he wove himself into.
 - The 7 Monoliths are **different parts of Aex's body**. Each is a piece of him, scattered when the seal cracked.
-- The false Monolith (Viridane's missing heir) means Keth-Amar has corrupted 6 of 7. If the false Monolith is also corrupted, the Wyrd reaches Aex's **heart**  -  transforming him into something worse. This is the world's ticking clock.
+- The false Monolith (House Morrath's counterfeit) is the world's ultimate trap. Reforging the seal with the fake 7th Monolith breaches Aex's heart—injecting Keth-Amar's Wyrd-parasite directly into Sol's core.
+- **The "Sol-Arthas Moment"**: When Sol awakens through the fake Monolith, it emerges not as a savior, but as **Sol the Corrupted**—a blazing, dark-fire stellar tyrant. The true 7th key survives only in the **thorn-blood of the Briaran** (House Viridane's descendants), which heroes must harvest to cleanse the sun.
 - Every pulse is Aex **screaming**  -  but he only started screaming *after* the Breach. Before that, there was only song.
 - The Augurs measure the scream's output. 40% → 0% across 65 pulses. Aex is exhausted. He has stopped screaming. The Monoliths are waking not because he wants them to, but because he can no longer hold them still.
 
@@ -113,7 +114,7 @@ The Wyrd is what leaks through the broken seal. Keth-Amar cultivates corruption 
 - The seal is neither whole nor broken. Keth-Amar is not *inside* the vault. It is pressed against it, seeping through the cracks.
 - It feeds on the energy bleeding through  -  Sol's life, Aex's pain  -  but cannot consume Sol whole.
 - The 6 houses cannot admit 1 heir refused. They erase Viridane from every record, elevate House Morrath as substitute, and pretend the signature is real.
-- The fog is not the Warden's doing. The fog **is the Warden's grief**  -  the universe weeping for Aex. Or it's the Watcher's protection. Or it's just what happens when a star's warmth fails. Scholars disagree.
+- The fog is not the Warden's doing. It is the **byproduct of Sereth's (the Mimir Creator's) iterative attempts at perfecting the Mimir species** — each failed iteration discarded into the world's fabric as a layer of forgetting. The deity of the forest (Morvane / the Watcher) weaponized this fog to keep the Briaran hidden from Keth-Amar. It is not merely weather; it is the accumulated residue of divine dissatisfaction, and it eats memory because it was born from a creator who was never satisfied with what it made.
 - The true reason Viridane was erased: **Keth-Amar hunts through knowledge.** To remember Viridane is to leave a thread it can follow. The erasure protects them. The fog that eats memory completes the hiding.
 
 ---
@@ -156,7 +157,7 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 
 | House | Region | What They Traded | What They Got | The Cost |
 |------|--------|----------------|---------------|----------|
-| Thalreth | Frostwood | Clarity | Insulating fog | Memory erasure |
+| Thalreth | Frostwood | Clarity | Insulating fog (Sereth's byproduct, redirected by Morvane to hide the Briaran) | Memory erasure |
 | Skalvyr | Nordhalla | Summer | Halted glaciers | Eternal winter, Frost-Tithe, Hunger Winter |
 | Solvan | Sundale | *Wielded the knife* | Guilt and silence | Their legacy |
 | Mereval | Iceheart Sea | Calm seas | Navigable channels | Perpetual storms |
@@ -179,8 +180,8 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 | **Briaran** | House Viridane. Refused Keth-Amar. Fae counter-bargain. | During Breach |
 | **Emberth** | Already underground. Surfaces when vents erupt. | Pre-existed. Surfaced at Breach. |
 | **Myrathil** | Spawned from volcanic foam + glacial meltwater. | Created at Breach |
-| **Neth** | Dying scribe-clan. Contracted with Morvane the Keeper. Petitioned for immortality. | During freeze (1st century) |
-| **Mimir** | Created by Sereth, an ancient world-bound deity of creation and perfection, who shaped and reshaped them across centuries before dying of its own contradictions. Mask-bound shapeshifters who wear carved heartwood or storm-glass masks as identity anchors. | Pre-existed |
+| **Neth** | High canopy cities faced fertility decline. Augurs begged forest spirit Morvane for a cure, receiving the Font Vessel for the Well of Youth. The Three Trials at the Well split the species into High Neth (Loyalists with porcelain lines), Pale Neth (Conspirators made into drow-like cold undead), and Hallowed Neth (Profane magi bound as ethereal spirit conduits). | During freeze (1st century) |
+| **Mimir** | Created by Sereth, an ancient world-bound deity of creation and perfection, who shaped and reshaped them across centuries before dying of its own contradictions. Mask-bound who wear carved heartwood or storm-glass masks. Subraces: Arch Mimir (Aristocrats with ancestral masks) and Fractured Mimir (Rebuilt masks with Motes). | Pre-existed |
 | **Vreken** | Originally an elegant elven people, monastic devotees of Morvane. When the Wyrd wounded their deity during the Deepening, fungal networks invaded their nervous systems and physically transformed them. Bioluminescent. | Pre-existed (oldest besides Fexric) |
 | **Fexric** | Goblinoid engineers. 8,000+ years. | Pre-existed |
 | **Groven** | Alchemical experiments on Thrumm trolls. Bridge-builders. | Created ~800 years ago by the Fexric Deep Alchemists, who forged them from Thrumm blood as a servile caste of tireless warren-laborers. The Vat-Breakers rebelled and fled into the crags; the Groven remain the Fexric-bred, alchemically reshaped descendants of the Thrumm. (An experiment, unrelated to cosmic events.) |
@@ -194,6 +195,7 @@ Each house made a Dark Bargain with Keth-Amar during the Corruption Years. Each 
 - The largest fragment **fell in the Frostwood's moonlit groves**. The fae found it, nurtured it. From the nurtured fragments hatched the **lunar parasites**  -  void-adapted organisms that feed on memory, sensation, vitality. The Lunarch class bonds with these parasites. They are the only living trace of the sleeping star's inner ecology.
 - Keth-Amar, arriving for Sol, *nested* in the corpse-star. Not laid by it, not connected to it  -  simply using the largest dead thing in orbit as a perch from which to study the living star below.
 - The Astril's Lumia's echos remember the moon when it was awake  -  a second light in the sky, humming a different frequency than Sol. They sing of it as a sibling that fell silent before they were born. The oldest Astril songs are laments for a voice they never heard but somehow remember.
+- The Astril know this dormant star by the name **Selunis**. When they arrived on Mythrill, their elders communed with Selunis through dream and moonlight and received a dual quest: ensure Sol is not devoured (which led them to advocate for the Binding), and wake the sleeper through a nightly ritual measured in centuries. The Astril have been performing this ritual since they arrived, gathering in moon-courtyards across remote farming communities to sing the sleeper toward consciousness. Selunis is not a separate entity from the dormant star — it **is** the star, named by the only people who still remember it was once awake.
 
 ---
 

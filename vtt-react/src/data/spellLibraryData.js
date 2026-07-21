@@ -22,7 +22,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'healing-spells',
     name: 'Healing Spells',
-    description: 'Sundale Solbrand mercy knitted into warmth. Spells that restore health',
+    description: 'Sundale Sol\'s Breath mercy knitted into warmth. Spells that restore health',
     icon: 'spell_holy_heal',
     spells: [],
     color: '#2d5016'

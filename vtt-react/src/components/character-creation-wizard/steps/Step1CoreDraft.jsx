@@ -451,13 +451,13 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     shorn_briaran: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
 
-    // Emberth
+    // Solari
 
     korr_emberth: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
 
     thrask_emberth: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend'],
 
-    // Fexrick
+    // Fexric
 
     kethrin_fexric: ['Animist', 'Shaper', 'Berserker', 'Martyr'],
 
@@ -474,8 +474,6 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
     veiled_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
 
     tethered_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
-
-    untethered_mimir: ['Martyr (Ironclad)', 'Harbinger', 'Augur', 'Chronarch', 'Toxicologist', 'Gambit', 'Arcanoneer'],
 
     // Neth
 
@@ -708,13 +706,13 @@ const getSubraceImage = (subraceId, raceId) => {
 
         shorn_briaran: 'shorn_illustration.png',
 
-        // Emberth
+        // Solari
 
         korr_emberth: 'korr_illustration.png',
 
         thrask_emberth: 'thrask_illustration.png',
 
-        // Fexrick
+        // Fexric
 
         kethrin_fexric: 'kethrin_illustration.png',
 
@@ -731,8 +729,6 @@ const getSubraceImage = (subraceId, raceId) => {
         veiled_mimir: 'masked_illustration.png',
 
         tethered_mimir: 'woven_illustration.png',
-
-        untethered_mimir: 'unwoven_illustration.png',
 
         // Neth
 
@@ -784,7 +780,7 @@ const getSubraceImage = (subraceId, raceId) => {
 
     if (raceId) {
 
-        // Fexrick base race rotates between 3 illustrations randomly
+        // Fexric base race rotates between 3 illustrations randomly
         if (raceId === 'fexrick') {
             const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
             return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;
@@ -1216,7 +1212,7 @@ const Step1CoreDraft = () => {
 
             'Groven': 'fas fa-shield-alt',
 
-            'Emberth': 'fas fa-fire',
+            'Solari': 'fas fa-fire',
 
             'Vreken': 'fas fa-eye',
 
@@ -1224,7 +1220,7 @@ const Step1CoreDraft = () => {
 
             'Astril': 'fas fa-star',
 
-            'Fexrick': 'fas fa-cog',
+            'Fexric': 'fas fa-cog',
 
             'Human': 'fas fa-user'
 

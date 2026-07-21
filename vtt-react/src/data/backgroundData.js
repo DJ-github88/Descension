@@ -59,19 +59,19 @@ export const BACKGROUND_DATA = {
       "justification": "The pilgrimage to Emberspire is a specific journey requiring proximity to Sundale. Outsiders can take it with a narrative reason for the pilgrimage."
     },
     classHooks: [
-      { classId: 'martyr', bridge: 'Witnessing the Solbrand fade kindles the theology of willing suffering; many pilgrims take the Vow within a year of the pilgrimage.' },
+      { classId: 'martyr', bridge: 'Witnessing Sol\'s Breath fade kindles the theology of willing suffering; many pilgrims take the Vow within a year of the pilgrimage.' },
       { classId: 'pyrofiend', bridge: 'Proximity to Emberspire draws the desperate toward Scathrach deeper vents; some pilgrims never climb back out.' },
-      { classId: 'spellguard', bridge: 'Forgeside exposure to volatile Solbrand resonance is the on-ramp into the Damon tradition of magical defense.' }
+      { classId: 'spellguard', bridge: 'Forgeside exposure to volatile Sol\'s Breath resonance is the on-ramp into the Damon tradition of magical defense.' }
     ],
     tensionPairings: [
       { classId: 'harbinger', tension: 'Pilgrims seek restoration of the buried star; a Harbinger among them has usually left the Vigil with the doom-arithmetic instead of faith.' }
     ],
     name: 'Pilgrim',
-    description: 'Every year, the faithful climb the volcanic Ashen Escarpment to the temple-city of Emberspire, where the Solbrand (the buried sun) burns behind sealed obsidian. The Dawn Vigil, the order that guards the sun\'s prison, watches over the pilgrimage, and watches the pilgrims. You made the climb. You saw the light that the Reforging (the promised restoration of the sun) promises to restore, filtering through the Obsidian Citadels where indentured Ash-Dwellers haul basalt for a spirit they are forbidden to pray to. Some descend with the Vigil\'s seal branded on their throats, ready to spread the call of rebirth to every frozen port. Others descend with doubt gnawing where the brand should be. You carried your phial of captured Solbrand-light down to Ember Lagoon, where the Vigil\'s black-hulled ships carry the faithful and the faithless alike to whatever the Dawn Vigil calls service. The sun is buried. The Vigil says it will rise again. You have seen what lies beneath the obsidian, and you cannot unsee it. What you do with that knowledge is the only question the Vigil left unanswered.',
+    description: 'Every year, the faithful climb the volcanic Ashen Escarpment to the temple-city of Emberspire, where Sol\'s Breath (the buried sun) burns behind sealed obsidian. The Dawn Vigil, the order that guards the sun\'s prison, watches over the pilgrimage, and watches the pilgrims. You made the climb. You saw the light that the Reforging (the promised restoration of the sun) promises to restore, filtering through the Obsidian Citadels where indentured Ash-Dwellers haul basalt for a spirit they are forbidden to pray to. Some descend with the Vigil\'s seal branded on their throats, ready to spread the call of rebirth to every frozen port. Others descend with doubt gnawing where the brand should be. You carried your phial of captured Sol\'s Breath-light down to Ember Lagoon, where the Vigil\'s black-hulled ships carry the faithful and the faithless alike to whatever the Dawn Vigil calls service. The sun is buried. The Vigil says it will rise again. You have seen what lies beneath the obsidian, and you cannot unsee it. What you do with that knowledge is the only question the Vigil left unanswered.',
     skillProficiencies: ['Insight', 'Religion'],
     languages: 2,
     equipment: [
-      'Sealed Solbrand phial',
+      'Sealed Sol\'s Breath phial',
       'Basalt prayer-beads',
       'Ash-cloth robe',
       'Pilgrim\'s rations (5 days)',
@@ -83,8 +83,8 @@ export const BACKGROUND_DATA = {
       copper: 0
     },
     feature: {
-      name: 'Solbrand\'s Ember',
-      description: 'You carry a sealed phial containing a trace of the Solbrand\'s light. Once per long rest, its faint warmth can calm a frightened ally (advantage on next save against fear) or illuminate a 15-foot radius for 10 minutes. The light attracts Wyrd-creatures if used openly.'
+      name: 'Sol\'s Breath\'s Ember',
+      description: 'You carry a sealed phial containing a trace of Sol\'s Breath\'s light. Once per long rest, its faint warmth can calm a frightened ally (advantage on next save against fear) or illuminate a 15-foot radius for 10 minutes. The light attracts Wyrd-creatures if used openly.'
     },
     statModifiers: {
       spirit: 3,
@@ -115,7 +115,7 @@ export const BACKGROUND_DATA = {
       { classId: 'arcanoneer', tension: 'A runner lives by evasion and improvisation; the arcanoneer lives by pre-filed precision. The two mindsets are incompatible.' }
     ],
     name: 'Courier',
-    description: 'The Basalt Shyr is a ninety-mile volcanic trade road, and the Sulfur Cartel (the Korr monopoly that controls it) taxes every mile. You ran sulfur caravans and geothermal coal along its length, learning which basalt pillars shift without warning and where the magma-fracturing sumps (reality-tearing vents) tear holes in the air itself. The Dawn Vigil patrols the escarpment checkpoints for tithes and heretics. You learned to give them neither. Slag Gulch is where runners dodge the labor-levies and resupply before the final push. Ember Lagoon is where Cartel cargo changes hands, smuggled onto Merryn ships (crewed by the seafaring Merryn people) that ask no questions about the Vigil\'s missing sulfur. You know the Shyr the way a sailor knows a reef: by the things that have killed the careless. Now the Cartel\'s ledgers have your name in them, and the interest compounds. The road is still the only life that pays. Outrunning what you owe is the only alternative the Cartel recognizes. They are willing to wait, and the magma-fractures are willing to take.',
+    description: 'The Basalt Shyr is a ninety-mile volcanic trade road, and the Sulfur Cartel (the Hollow-Solari monopoly that controls it) taxes every mile. You ran sulfur caravans and geothermal coal along its length, learning which basalt pillars shift without warning and where the magma-fracturing sumps (reality-tearing vents) tear holes in the air itself. The Dawn Vigil patrols the escarpment checkpoints for tithes and heretics. You learned to give them neither. Slag Gulch is where runners dodge the labor-levies and resupply before the final push. Ember Lagoon is where Cartel cargo changes hands, smuggled onto Merryn ships (crewed by the seafaring Merryn people) that ask no questions about the Vigil\'s missing sulfur. You know the Shyr the way a sailor knows a reef: by the things that have killed the careless. Now the Cartel\'s ledgers have your name in them, and the interest compounds. The road is still the only life that pays. Outrunning what you owe is the only alternative the Cartel recognizes. They are willing to wait, and the magma-fractures are willing to take.',
     skillProficiencies: ['Deception', 'Stealth'],
     toolProficiencies: ['Thieves\' tools', 'Gaming set'],
     languages: 1,
@@ -132,7 +132,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Shyr-Sense',
-      description: 'You can predict when basalt pillars will shift or Husque-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Thrask ranger-stations.'
+      description: 'You can predict when basalt pillars will shift or Husque-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Waste-Solari ranger-stations.'
     },
     statModifiers: {
       agility: 2,
@@ -197,7 +197,7 @@ export const BACKGROUND_DATA = {
       "justification": "Any race/subrace can be born into a noble house, even erased/subjugated ones (though with narrative tension for erased bloodlines)."
     },
     classHooks: [
-      { classId: 'martyr', bridge: 'Solvan and Korr heirs carry the original sacrifice as inheritance; the Vow formalizes what their house already demands.' },
+      { classId: 'martyr', bridge: 'Solvan and Hollow-Solari heirs carry the original sacrifice as inheritance; the Vow formalizes what their house already demands.' },
       { classId: 'harbinger', bridge: 'An heir who works out the doom-arithmetic of their own house bargain becomes a Harbinger by deduction.' },
       { classId: 'false_prophet', bridge: 'Morren and Astril heirs can wield house authority as the seed of a manufactured congregation.' }
     ],
@@ -243,7 +243,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to Synod Hold crystal archives and steppe scholarship. Both Vashir and Silath Astril study at the Synod, just on different paths."
+      "justification": "Requires access to Synod Hold crystal archives and steppe scholarship. Both Earthen Astril and Stellar Astril study at the Synod, just on different paths."
     },
     classHooks: [
       { classId: 'augur', bridge: 'Celestial-archive study and constellation arithmetic are the Astril path into the augury.' },
@@ -436,7 +436,7 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'spellguard', bridge: 'The Damon tradition treats magical defense as forge-engineering; a Smith is already half-trained.' },
       { classId: 'warden', bridge: 'Chain-craft and gear-work are the mechanical backbone of the chain-graft surgical tradition.' },
-      { classId: 'berserker', bridge: 'Skald and Thrask forge-workers who absorbed enough forge-heat sometimes find the Blood-Heat igniting on its own.' }
+      { classId: 'berserker', bridge: 'Skald and Waste-Solari forge-workers who absorbed enough forge-heat sometimes find the Blood-Heat igniting on its own.' }
     ],
     tensionPairings: [
       { classId: 'plaguebringer', tension: 'The sterile forge and the cultivated bog-disease are opposite relationships to material, creation versus decay.' }
@@ -815,8 +815,7 @@ export const BACKGROUND_DATA = {
       ],
       "allowedSubraces": [
         "veiled_mimir",
-        "tethered_mimir",
-        "untethered_mimir"
+        "tethered_mimir"
       ],
       "narrativeUnlock": true,
       "justification": "Mask-Wardens train in the Fog-Vales to recover stolen masks and turn back the Hunters. A non-Mimir could be sworn in only through a deep act of protection, and even then, the mistrust outlasts the oath."
@@ -824,13 +823,13 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'apex', bridge: 'Reading spore-trails and fog-silence is the native tracking art of the Silent Hunt.' },
       { classId: 'shaper', bridge: 'A Mimir who defends masks understands form and identity deeply, the substrate of the Shaping Forms.' },
-      { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Unwoven half of the Distillery.' }
+      { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Fractured Mimir half of the Distillery.' }
     ],
     tensionPairings: [
       { classId: 'berserker', tension: 'A Guardian exists to preserve fixed identity; the Blood-Heat dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
     ],
     name: 'Guardian',
-    description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-specialists who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are Masked aristocrat, Woven cliff-sentinel, or Unwoven floor-guide, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. The Vales will not defend themselves, and the Hunters have deeper coffers every season. Every mask you lose ends in a glass case in a city that calls it art.',
+    description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-specialists who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are an Arch Mimir scholar or a Fractured Mimir sentinel, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. The Vales will not defend themselves, and the Hunters have deeper coffers every season. Every mask you lose ends in a glass case in a city that calls it art.',
     skillProficiencies: ['Perception', 'Stealth'],
     toolProficiencies: ['Navigator\'s tools', 'Disguise kit'],
     languages: 1,
@@ -848,7 +847,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Hunter\'s Reversal',
-      description: 'You have learned how the Hunters track Mimir and how to turn that tracking back on them. Once per long rest, when you observe a creature using detection magic, scrying, or mundane tracking against you or a masked ally, you may turn the method against its user: for 1 hour, the tracker has disadvantage on all Perception and Investigation checks, and you know their general direction. Woven wardens along the Spire-Aeries and Unwoven guides on the deep floor will shelter you and pass warning of Hunter movements.'
+      description: 'You have learned how the Hunters track Mimir and how to turn that tracking back on them. Once per long rest, when you observe a creature using detection magic, scrying, or mundane tracking against you or a masked ally, you may turn the method against its user: for 1 hour, the tracker has disadvantage on all Perception and Investigation checks, and you know their general direction. Woven wardens along the Spire-Aeries and Fractured Mimir allies will shelter you and pass warning of Hunter movements.'
     },
     statModifiers: {
       agility: 2,
@@ -868,22 +867,22 @@ export const BACKGROUND_DATA = {
         "drall_fexric"
       ],
       "narrativeUnlock": true,
-      "justification": "The guild-vaults and underground academies are Fexric-specific institutions. Kethrin study in formal academies; Drall learned in secret before being expelled."
+      "justification": "The guild-vaults and underground academies are Fexric-specific institutions. Clockwork Fexric study in formal academies; Caustic Fexric learned in secret before being expelled."
     },
     classHooks: [
-      { classId: 'chronarch', bridge: 'Temporal-mechanics and gear-craft blueprints are the Kethrin foundation of the Chronarch engine.' },
+      { classId: 'chronarch', bridge: 'Temporal-mechanics and gear-craft blueprints are the Clockwork Fexric foundation of the Chronarch engine.' },
       { classId: 'warden', bridge: 'Chain-graft gear-work and surgical-engineering literacy are the Fexric path into the Bound.' }
     ],
     tensionPairings: [
       { classId: 'animist', tension: 'A Machinist treats the world as a mechanism; an Animist treats it as a conversation. The two frames cannot share a skull.' }
     ],
     name: 'Machinist',
-    description: 'Deep in the subterranean Fexric warrens (the tunnels of a craft-oriented people), behind sealed blast-doors, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, clockwork temporal mechanics, and the ancestral binding theory that makes both possible. You trained in those vaults. Whether you are Kethrin (a formally-trained guild scholar) or Drall (an expelled dropout who learned in secret), you learned the same grammar of gears, and it marked you for life. Kethrin scholars spend decades memorizing proprietary blueprints under the Master Craft-Guilds\' supervision, every formula earned, catalogued, and owned. Drall dropouts learned enough before expulsion to be dangerous; they carry stolen fragment-pages stitched into their clothing, half-understood theories they improvise into working machines that sometimes work. The guild-vaults are closing their doors as the Cragjaw Peaks\' blizzard deepens and the old thermal-pipes freeze. What you memorized, no blast-door can lock away. The warrens are still standing because someone kept building when the vaults stopped sharing. That someone is now you.',
+    description: 'Deep in the subterranean Fexric warrens (the tunnels of a craft-oriented people), behind sealed blast-doors, the guild-vaults keep their knowledge on copper-plate codices: precision gear-craft, clockwork temporal mechanics, and the ancestral binding theory that makes both possible. You trained in those vaults. Whether you are Clockwork Fexric (a formally-trained guild scholar) or Caustic Fexric (an expelled dropout who learned in secret), you learned the same grammar of gears, and it marked you for life. Clockwork Fexric scholars spend decades memorizing proprietary blueprints under the Master Craft-Guilds\' supervision, every formula earned, catalogued, and owned. Caustic Fexric dropouts learned enough before expulsion to be dangerous; they carry stolen fragment-pages stitched into their clothing, half-understood theories they improvise into working machines that sometimes work. The guild-vaults are closing their doors as the Cragjaw Peaks\' blizzard deepens and the old thermal-pipes freeze. What you memorized, no blast-door can lock away. The warrens are still standing because someone kept building when the vaults stopped sharing. That someone is now you.',
     skillProficiencies: ['Arcana', 'Investigation'],
     toolProficiencies: ['Artisan\'s tools (tinkerer\'s)', 'Thieves\' tools'],
     languages: 1,
     equipment: [
-      'Copper-plate codex (water-damaged for Drall, pristine for Kethrin)',
+      'Copper-plate codex (water-damaged for Caustic Fexric, pristine for Clockwork Fexric)',
       'Tinker\'s toolkit',
       'Blueprint fragment-pages (3)',
       'Vault-pass token (expired or forged)',
@@ -896,7 +895,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Blueprint Memory',
-      description: 'You carry the structural grammar of Fexric engineering in your mind. You can identify any mechanical or clockwork device\'s origin-guild, approximate age, and intended function by inspection alone. Once per long rest, you can reverse-engineer a minor mechanism (lock, trap trigger, gear assembly) after 10 minutes of study. Kethrin gain research access at recognized guild halls; Drall must rely on the underground salvage markets where their expired tokens still carry cachet.'
+      description: 'You carry the structural grammar of Fexric engineering in your mind. You can identify any mechanical or clockwork device\'s origin-guild, approximate age, and intended function by inspection alone. Once per long rest, you can reverse-engineer a minor mechanism (lock, trap trigger, gear assembly) after 10 minutes of study. Clockwork Fexric gain research access at recognized guild halls; Caustic Fexric must rely on the underground salvage markets where their expired tokens still carry cachet.'
     },
     statModifiers: {
       intelligence: 4,
@@ -962,7 +961,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "The Echo traditions are Astril-specific institutions. Both Vashir (embracing) and Silath (suppressing) train in the same cathedral."
+      "justification": "The Echo traditions are Astril-specific institutions. Both Earthen Astril (embracing) and Stellar Astril (suppressing) train in the same cathedral."
     },
     classHooks: [
       { classId: 'augur', bridge: 'Reading Lumia\'s echo and resonance-signatures is the Astril path into the augury.' },
@@ -973,7 +972,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'Crystal-archive discipline and the Blood-Heat fury cannot coexist in the same nervous system.' }
     ],
     name: 'Stargazer',
-    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Vashir, who embraces the passenger\'s wild power, or Silath, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
+    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Earthen Astril, who embraces the passenger\'s wild power, or Stellar Astril, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
     skillProficiencies: ['Religion', 'Arcana'],
     toolProficiencies: ['Musical instrument (throat-singing bowl)'],
     languages: 2,
@@ -991,7 +990,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Echo-Resonance Reading',
-      description: 'You can identify any Astril\'s echo-lineage, power-level, and stability by observing their crystalline patterns for one minute. Once per long rest, you can calm an echo that is approaching the Submersion threshold (loss of control), granting the host advantage on their next Spirit saving throw. The Synod provides sanctuary to recognized scholars, though Silath scholars are watched more carefully than Vashir.'
+      description: 'You can identify any Astril\'s echo-lineage, power-level, and stability by observing their crystalline patterns for one minute. Once per long rest, you can calm an echo that is approaching the Submersion threshold (loss of control), granting the host advantage on their next Spirit saving throw. The Synod provides sanctuary to recognized scholars, though Stellar Astril scholars are watched more carefully than Earthen Astril.'
     },
     statModifiers: {
       spirit: 3,
@@ -1058,7 +1057,6 @@ export const BACKGROUND_DATA = {
       "allowedSubraces": [
         "veiled_mimir",
         "tethered_mimir",
-        "untethered_mimir",
         "thalren_human",
         "trueborn_briaran"
       ],
@@ -1200,7 +1198,7 @@ export const BACKGROUND_DATA = {
 };
 
 export const BACKGROUND_FLAVOR_TEXT = {
-  emberspirePilgrim: 'You climbed the Ashen Escarpment and saw the Solbrand burning behind obsidian. The Dawn Vigil branded your throat and sent you down with a phial of captured light. Now you carry a faith that might be heresy.',
+  emberspirePilgrim: 'You climbed the Ashen Escarpment and saw Sol\'s Breath burning behind obsidian. The Dawn Vigil branded your throat and sent you down with a phial of captured light. Now you carry a faith that might be heresy.',
   shyrRunner: 'Ninety miles of volcanic road, and the Sulfur Cartel taxes every step. You ran the basalt pillars and magma-fractures, learning which ground kills the careless. The Cartel has your name in their ledgers, and the debt compounds.',
   ledgerKeeper: 'In the Frostwood Reach, the fog eats memory. You kept the identity-ledgers at Greymark Keep, deciding who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
   bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth-Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
@@ -1228,7 +1226,7 @@ export const BACKGROUND_FLAVOR_TEXT = {
 
 export const BACKGROUND_ROLEPLAYING_HOOKS = {
   emberspirePilgrim: [
-    'The Solbrand branded your throat at the end of a pilgrimage. What did you see in the light that the Dawn Vigil told you to forget?',
+    'Sol\'s Breath branded your throat at the end of a pilgrimage. What did you see in the light that the Dawn Vigil told you to forget?',
     'Your faith borders on heresy. Which doctrine do you question, and whom have you told?',
     'The phial of captured light you carry is more than a relic. What would you do if someone tried to take it?'
   ],

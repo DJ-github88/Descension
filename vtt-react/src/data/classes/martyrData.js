@@ -21,12 +21,12 @@ export const MARTYR_DATA = {
       "mimir"
     ],
    "narrativeUnlock": true,
-   "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Korr have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
+   "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Hollow-Solari have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
  },
 
  /**
   * Subrace Variants, every Martyr absorbs suffering into their own body, but the
-  * *theology* of that absorption differs. To the Solvarn it is prayer. To the Korr it
+  * *theology* of that absorption differs. To the Solvarn it is prayer. To the Hollow-Solari it
   * is vigil. To the Velun Neth it is contract-fulfillment. To the Skald it is the Ironclad
   * path, the body as a furnace-weapon, the Dreadnaught tradition reborn.
   */
@@ -48,18 +48,18 @@ export const MARTYR_DATA = {
   },
 
   korr_emberth: {
-   subraceName: 'Korr Emberth',
+    subraceName: 'Hollow-Solari - Thyrm',
    title: 'The Vault-Silent',
-   reframe: `The <LoreLink termId="emberth">Korr Emberth</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Korr Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
+   reframe: `The <LoreLink termId="emberth">Hollow-Solari</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Hollow-Solari Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
    signatureAbility: {
     name: 'Vigil-Absorption',
-    description: `Devotion-generation is amplified by absolute physical stillness, a Korr Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
+    description: `Devotion-generation is amplified by absolute physical stillness, a Hollow-Solari Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
    },
-   currentCrisisAngle: `The Solbrand is faltering, the buried star's warmth dims year by year, and the Korr Martyrs read the conscription crisis as a *distraction from the vigil*. Every hour spent absorbing a party's wounds is an hour not spent tending the Solbrand. The Korr are being pulled between two duties, and the older they get, the more they suspect the noble houses engineered the conscription specifically to pull them from the vault.`,
+   currentCrisisAngle: `Sol's Breath is faltering, the buried star's warmth dims year by year, and the Hollow-Solari Martyrs read the conscription crisis as a *distraction from the vigil*. Every hour spent absorbing a party's wounds is an hour not spent tending Sol's Breath. The Hollow-Solari are being pulled between two duties, and the older they get, the more they suspect the noble houses engineered the conscription specifically to pull them from the vault.`,
    signatureQuote: {
     text: '"I kept silence in the deep for sixty years and called it sacred. Now I keep silence in your battle-line and call it overtime. The star does not know the difference. I do."',
     speaker: 'Keeper of the Quiet Kor-Vesh',
-    context: 'A Korr Martyr, the first of his order conscripted into a field cadre'
+    context: 'A Hollow-Solari Martyr, the first of his order conscripted into a field cadre'
    }
   },
 
@@ -151,7 +151,7 @@ The wound did not heal correctly. It became a glowing solar scar that pulsed wit
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Each subrace approaches the sacrifice differently. The Solvarn treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Korr Emberth frame sacrifice as silent vigil over the Solbrand, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Morren pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
+Each subrace approaches the sacrifice differently. The Solvarn treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Morren pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
 
 Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
@@ -179,11 +179,11 @@ The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sun
 Martyrs are highly respected as sacred guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Solvarn humans and the <LoreLink termId="emberth">Korr Emberth</LoreLink>.
+The class is heavily practiced by the Solvarn humans and the <LoreLink termId="emberth">Hollow-Solari</LoreLink>.
 
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.
-* **Orak the Scarred**: A Korr monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`
+* **Orak the Scarred**: A Hollow-Solari monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`
   },
 
   signatureQuote: {
@@ -1250,7 +1250,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
 
   { id: "martyr_divine_shield",
-   name: "Solbrand Aegis",
+   name: "Sol's Breath Aegis",
    description:
     "Grant protective sacred energy to all allies within range, shielding them with temporary HP.",
    spellType: "ACTION",
@@ -3166,8 +3166,8 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     tags: ["utility","detection","investigation","martyr"],
   },
   { id: "martyr_solbrand_warmth",
-    name: "Solbrand Warmth",
-    description: "Your obsidian scars flare with low Solbrand heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
+    name: "Sol's Breath Warmth",
+    description: "Your obsidian scars flare with low Sol's Breath heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Ember Shield",
     typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },

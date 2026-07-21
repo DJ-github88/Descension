@@ -32,12 +32,11 @@ export const FALSE_PROPHET_DATA = {
     "solvarn_human",
     "tessen_human"
    ],
-   "hardBlocks": [
-    "skald_human",
-    "thalren_human",
-    "tessen_human",
-    "emberth"
-   ],
+    "hardBlocks": [
+     "skald_human",
+     "thalren_human",
+     "emberth"
+    ],
    "narrativeUnlock": true,
        "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Morren live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
  },
@@ -50,34 +49,34 @@ export const FALSE_PROPHET_DATA = {
  */
  subraceVariants: {
  vashir_astril: {
-  subraceName: 'Vashir Astril',
+  subraceName: 'Earthen Astril - Astril',
   title: 'The False Star',
-   reframe: `The <LoreLink termId="astril">Vashir</LoreLink> carry *real* Lumia heritage, and a Vashir False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
+   reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> carry *real* Lumia heritage, and a Earthen Astril False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
   signatureAbility: {
   name: 'Borrowed Resonance',
    description: `The Prophet channels their Lumia heritage's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real contact with the memory of a dead world, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
   },
-   currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Vashir's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Vashir can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.`,
+   currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Earthen Astril's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Earthen Astril can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.`,
   signatureQuote: {
   text: '"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are."',
   speaker: 'Aenith the Luminous Lie',
-  context: 'A Vashir False Prophet, three years into a fabricated solar-revival cult'
+  context: 'A Earthen Astril False Prophet, three years into a fabricated solar-revival cult'
   }
  },
 
  silath_astril: {
-  subraceName: 'Silath Astril',
+  subraceName: 'Stellar Astril - Astril',
   title: 'The Gagged Evangelist',
-   reframe: `The <LoreLink termId="astril">Silath</LoreLink> suppress their Lumia heritage, and a Silath False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Silath Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
+   reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> suppress their Lumia heritage, and a Stellar Astril False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Stellar Astril Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
   signatureAbility: {
   name: 'Hostage-Sermon',
    description: `Faith-power scales with the suppressed heritage's agitation; the more the bound Lumian memory fights the doctrine, the more the congregation believes it, genuine supernatural resistance reads, to mortals, as the force of true revelation.`
   },
-  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Silath: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Silath False Prophet whose hostage agrees with them is, almost universally, a Silath False Prophet who has finally said something the hostage wants.`,
+  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Stellar Astril: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Stellar Astril False Prophet whose hostage agrees with them is, almost universally, a Stellar Astril False Prophet who has finally said something the hostage wants.`,
   signatureQuote: {
   text: '"For years I preached against my star\'s will, and the people believed the struggle. Now my star is silent. I do not know which frightens me more."',
   speaker: 'Orathin the Willing',
-  context: 'A Silath False Prophet, the morning his suppressed spirit stopped objecting'
+  context: 'A Stellar Astril False Prophet, the morning his suppressed spirit stopped objecting'
   }
  },
 
@@ -102,7 +101,7 @@ export const FALSE_PROPHET_DATA = {
   title: 'The Honest Heretic',
   reframe: `Preaches the Silence to exhausted Ash-Dwellers who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  —  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solvarn False Prophet does not lie. That is what makes them a prophet.
 
-The faith reached Sundale through the Hunger Road  —  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Morren debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Emberth. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
+The faith reached Sundale through the Hunger Road  —  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Morren debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Solari. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
   signatureAbility: {
   name: 'Unvarnished Truth',
   description: `Madness Points are generated by speaking the literal, despairing truth to a congregation that has been fed hope for centuries. The Honest Heretic's doctrine is the most dangerous because it is true: Sol is not returning, the vigil is meaningless, and telling people this generates more Madness than any lie ever could.`
@@ -167,9 +166,9 @@ The faith reached Sundale through the Hunger Road  —  the same trade route tha
 
 The first was Li Wei, an Ordan herd-watcher in the Sundrift Vale. He followed a falling meteor into a deep crystalline crater and found not metal but a sundered monolith humming with a black vacuum, the space where Sol's light had been. When he looked directly into that silence, he saw the gospel of the Silence. He returned with blank white eyes and a mind permanently shattered by the competing voices of dead stars. He cannot lead. He can only listen. The Congregation of the Silence formed around his breathing without his consent.
 
-Each subrace manufactures faith from a different desperation. The Vashir Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Silath Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Morren sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solvarn preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
+Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Morren sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solvarn preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
 
-The faith reached Sundale through the Hunger Road. Morren debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Emberth forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
+The faith reached Sundale through the Hunger Road. Morren debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Solari forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
 
 The Synod Hold has hunted the Congregation since the Quieting of Year 720, when Synod crystal-binders publicly sealed twelve prophets and the gathered crowd heard them continue preaching from within their crystal prisons. The Synod called it heresy. The crowd called it miracle. The Congregation tripled.
 
@@ -197,7 +196,7 @@ The Voice itself has grown louder. It has begun giving specific instructions: de
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Li Wei** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Li Wei gouged his own physical sight to perceive the guiding embers, leaving his eyes blank and his mind permanently disoriented.
+The false prophet's blinding fervor was born in the starless steppe of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. A nomadic herd-watcher named **Li Wei** stared into the empty, starless sky and surrendered his vision to the phantom lights of the steppe. The price of this revelation was physical blindness. Li Wei stared into the sundered monolith's black vacuum, and the competing voices of dead stars burned his sight away, leaving his eyes blank and his mind permanently disoriented.
 
 **CITIES & CIVIL RECEPTION**
 False Prophets are viewed with deep suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
@@ -206,8 +205,8 @@ False Prophets are viewed with deep suspicion in civilized kingdoms, often treat
 The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> humans, <LoreLink termId="house_solvan">Solvarn</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
 
 **NOTABLE FIGURES**
-* **Li Wei the Blind Prophet**: The herd-watcher who gouged his eyes to see the silence in the constellations.
-* **Seraphina the Silent**: An Astril who led a small cult of heretics across the steppe.`
+* **Li Wei the Blind Prophet**: The herd-watcher who stared into the silence where Sol once shone and returned blind, the competing voices of dead stars burning his sight away.
+* **Seraphina the Silent**: A Morren debtor who built the first cell-congregation in the peat-bogs before Mor-Vereth reorganized the network.`
  },
 
  signatureQuote: {

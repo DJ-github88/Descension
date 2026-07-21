@@ -39,11 +39,11 @@ export const SUBREGIONS = {
     id: 'frostwood-eastern-fens',
     name: 'The Eastern Fens',
     regionId: 'frostwood-reach',
-    description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir Unwoven and the most desperate Briaran exiles.',
+    description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir outcasts and the most desperate Briaran exiles.',
     climate: 'Damp, hazier than the rest of the Reach, mild',
     dominantTerrain: 'Peat-bog, marsh, drowned ironwood groves',
-    primaryRaces: ['Mimir Unwoven', 'Forgotten (Thalren outcasts)', 'Trueborn Briaran refugees'],
-    primaryFactions: ['The Forgotten', 'Mimir Unwoven tribes', 'Root-Veil spillover'],
+    primaryRaces: ['Tethered Mimir', 'Forgotten (Thalren outcasts)', 'Trueborn Briaran refugees'],
+    primaryFactions: ['The Forgotten', 'Tethered Mimir clans', 'Root-Veil spillover'],
     zoneIds: ['wraithfen', 'the-shifting-fen', 'mistbarrow']
   },
 
@@ -94,18 +94,18 @@ export const SUBREGIONS = {
     description: 'The dead volcanic core of Sundale, a ring of obsidian and basalt around Emberspire that no one lives in and few cross. The Spinstones Columns, the Cinderbloom Crater, the Sunstone Mesa, the Emberspire Caldera itself, all volcanic features, all lethal without preparation. The Wyrd bleeds thickest here.',
     climate: 'Uninhabitable, ash-fall, sulfuric fumes',
     dominantTerrain: 'Obsidian sand, basalt columns, active lava fields',
-    primaryRaces: ['None permanent, Emberspire pilgrims and Emberth Watchers only'],
-    primaryFactions: ['Dawn Vigil foragers', 'Emberth Watchers', 'Sulfur Cartel prospectors'],
+    primaryRaces: ['None permanent, Emberspire pilgrims and Solari Watchers only'],
+    primaryFactions: ['Dawn Vigil foragers', 'Solari Watchers', 'Sulfur Cartel prospectors'],
     zoneIds: ['emberspire-caldera', 'sols-anvil-mesa', 'cinder-badlands', 'spinstones-columns', 'cinderbloom-crater', 'the-star-caves']
   },
   'sundale-ashen-fringe': {
     id: 'sundale-ashen-fringe',
     name: 'The Ashen Fringe',
     regionId: 'sundale',
-    description: 'The wide ring of ashen flatland and volcanic rock that surrounds the Ash-Heart. The bulk of Sundale\'s population lives here, the Ash-Dwellers who work the sulfur mines, the Solvarn refugees clinging to their ancient capital, the Emberth forge-clans whose forges burn on the residual heat. The Dawn Vigil\'s Obsidian Citadels ring the Ashen Escarpment that separates the fringe from the green lands beyond.',
+    description: 'The wide ring of ashen flatland and volcanic rock that surrounds the Ash-Heart. The bulk of Sundale\'s population lives here, the Ash-Dwellers who work the sulfur mines, the Solvarn refugees clinging to their ancient capital, the Solari forge-clans whose forges burn on the residual heat. The Dawn Vigil\'s Obsidian Citadels ring the Ashen Escarpment that separates the fringe from the green lands beyond.',
     climate: 'Hot, dry, ash-fall, cool at night',
     dominantTerrain: 'Volcanic ash plains, geothermal vents, sulfur sumps, basalt formations',
-    primaryRaces: ['Emberth (Korr and Thrask)', 'Solvarn humans', 'conscripted Martyrs'],
+    primaryRaces: ['Solari (Hollow-Solari and Waste-Solari)', 'Solvarn humans', 'conscripted Martyrs'],
     primaryFactions: ['Dawn Vigil', 'House Solvan', 'Sulfur Cartel', 'Martyr Brigades'],
     zoneIds: ['harath-vault', 'great-forge', 'the-ashen-escarpment', 'vulkars-karst', 'slag-gulch', 'solvans-stand', 'thornshire-colony']
   },
@@ -116,7 +116,7 @@ export const SUBREGIONS = {
     description: 'The coastal ring of Sundale, green because the volcanic heat meets the sea and the resulting microclimate supports life. Fishing villages, port towns, oasis-like sheltered valleys, and the famous meadow-lands that the Dawn Vigil struggles to control. This is where the rest of the world trades with Sundale. Meadowglen in the north is the most fertile valley in the region.',
     climate: 'Warm, mild winters, sea-breezes',
     dominantTerrain: 'Coastal plains, sheltered valleys, geothermal hot-springs, oasis groves',
-    primaryRaces: ['Solvarn humans (wealthy)', 'Merryn traders', 'Emberth exiles'],
+    primaryRaces: ['Solvarn humans (wealthy)', 'Merryn traders', 'Solari exiles'],
     primaryFactions: ['Dawn Vigil (nominal)', 'Smuggler captains', 'Sun-veneration revival cults'],
     zoneIds: ['konjaw-port', 'ironjaw-village', 'ember-lagoon', 'meadowglen', 'warmheath', 'breezebough', 'basalt-shyr']
   },
@@ -124,10 +124,10 @@ export const SUBREGIONS = {
     id: 'sundale-glitterwood',
     name: 'The Glitterwood (Forested Half-Island)',
     regionId: 'sundale',
-    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.',
+    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.',
     climate: 'Warm, humid, sheltered by mountain spine',
     dominantTerrain: 'Crystal-rich soil, ancient broadleaf forest, geothermal hot-springs, hidden valleys',
-    primaryRaces: ['The Risen (old Emberth faith)', 'Shorn exiles', 'Emberth hermits'],
+    primaryRaces: ['The Risen (old Solari faith)', 'Shorn exiles', 'Solari hermits'],
     primaryFactions: ['The Risen', 'Free Glitterwood Council', 'Old-Sun reverence revival'],
     zoneIds: ['the-glittering-forest', 'glitterwood-heart', 'old-sun-shrine']
   },
@@ -223,7 +223,7 @@ export const SUBREGIONS = {
     description: 'The mid-altitude network of chasms, gorges, and bone-bridges that connect the keeps to the deep industrial sumps. The Groven rule here, their calcified Ancestor-Spans are the only safe routes through the chasms. Deepchasm Keep is the military hub. Tessen patrols, Groven toll-posts, and the Mist-Cobblers watch the high passes.',
     climate: 'Sub-alpine, wind-blasted, snow-veiled',
     dominantTerrain: 'Chasms, hanging-bridges, mid-altitude valleys, whiteouts',
-    primaryRaces: ['Tessen humans', 'Groven (Morgh, Ithran)', 'Fexrick (some)'],
+    primaryRaces: ['Tessen humans', 'Groven (Morgh, Ithran)', 'Fexric (some)'],
     primaryFactions: ['Tessen military', 'The Groven bridge-clans', 'Rope-Garrisons'],
     zoneIds: ['the-spans', 'ancestor-gaps', 'deepchasm-keep', 'the-great-gorge', 'alley-of-knor']
   },
@@ -234,8 +234,8 @@ export const SUBREGIONS = {
     description: 'The deep industrial heart of the Cragjaw Peaks, the toxic mining shafts, geothermal plants, and Fexric workshops that keep the high keeps alive. The Sump Galleries, Gearworks Gulch, and Iron Ravine are all here. Chasm-Dwellers work the mines; Deep Alchemists run the vats; the Lost Brood Vats are the abandoned ruins of a guild that went too deep.',
     climate: 'Hot, toxic, sulfuric at the deepest',
     dominantTerrain: 'Toxic mining shafts, geothermal pipes, basalt vats, lava-fed forges',
-    primaryRaces: ['Fexrick (Kethrin Guild-Bound, Drall Clan-Free)', 'Chasm-Dweller humans', 'Sump-Scrab'],
-    primaryFactions: ['Steam-Line Cartel', 'Kethrin Guilds', 'Deep Alchemist (secret)', 'Vat-Breakers Guild'],
+    primaryRaces: ['Fexric (Clockwork Fexric, Caustic Fexric)', 'Chasm-Dweller humans', 'Sump-Scrab'],
+    primaryFactions: ['Steam-Line Cartel', 'Clockwork Fexric Guilds', 'Deep Alchemist (secret)', 'Vat-Breakers Guild'],
     zoneIds: ['gearworks-gulch', 'sump-galleries', 'iron-ravine', 'lost-brood-vats', 'stags-rest-moraine', 'driknell-foundry']
   },
 
@@ -260,7 +260,7 @@ export const SUBREGIONS = {
     description: 'The eastern uplands of the Vale, rolling hills covered with thousands of burial barrows. The Mound-Camps gather here for in summer; the Astril pilgrimage to the deepest mounds to hear Lumia\'s echo. The Ordavan Herd-Tithe is enforced at cairn-checkpoints; the Echo-Singers come here to die.',
     climate: 'Cool upland, fog in the burial hollows',
     dominantTerrain: 'Burial barrows, hallowed ground, cairn-checkpoints',
-    primaryRaces: ['Ordan humans', 'Astril (Silath and Vashir)', 'Sky-Singer hermits'],
+    primaryRaces: ['Ordan humans', 'Astril (Stellar Astril and Earthen Astril)', 'Sky-Singer hermits'],
     primaryFactions: ['House Ordavan', 'Astril Synod', 'Mound-Keepers'],
     zoneIds: ['ancestor-mounds', 'mound-camps', 'novas-heath', 'the-moundwatch']
   },
@@ -271,8 +271,8 @@ export const SUBREGIONS = {
     description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during the Breach. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
     climate: 'Cold, the basin is sheltered by ridges',
     dominantTerrain: 'Meteor crater, crystal-fields, crystal-lattice spires',
-    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Vashir pilgrims'],
-    primaryFactions: ['Astril Synod', 'Vashir Pilgrim-Orders', 'Lumia-Memory cult'],
+    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Earthen Astril pilgrims'],
+    primaryFactions: ['Astril Synod', 'Earthen Astril Pilgrim-Orders', 'Lumia-Memory cult'],
     zoneIds: ['synod-hold', 'starfall-vale']
   },
   'sundrift-bogpost-march': {

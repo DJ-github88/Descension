@@ -14,7 +14,6 @@ export const LUNARCH_DATA = {
           "shorn_briaran",
           "veiled_mimir",
           "tethered_mimir",
-          "untethered_mimir",
           "thalren_human"
       ],
       "hardBlocks": [
@@ -77,50 +76,34 @@ export const LUNARCH_DATA = {
     },
 
     veiled_mimir: {
-      subraceName: 'Veiled Mimir',
+      subraceName: 'Arch Mimir',
       title: 'The Moon-Masked',
-      reframe: `The <LoreLink termId="mimir">Masked</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Masked are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
+      reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Arch Mimir are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
       signatureAbility: {
         name: 'Lunar-Anchor',
-        description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A Masked Lunarch can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
+        description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A host can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
       },
-      currentCrisisAngle: `The dead-moon revelation threatens the Masked uniquely: if the parasite is one of many siblings communicating across hosts, the Masked Lunarch's *identity* is being shared with strangers. Several Masked have reported waking with memories that are not their own, the elder parasites trading identity-fragments between hosts like correspondences. The Masked fear they are becoming a *collection*, not a person.`,
+      currentCrisisAngle: `The dead-moon revelation threatens the Arch Mimir uniquely: if the parasite is one of many siblings communicating across hosts, the Lunarch's *identity* is being shared with strangers.`,
       signatureQuote: {
         text: '"I wore a mask to remember who I am. Now I wear the moon, and it remembers three other people who are also me. I cannot tell which of us is the original."',
         speaker: 'Veil-Keeper Mir-Tassen',
-        context: 'A Masked Lunarch, cataloguing memories that arrived overnight'
+        context: 'An Arch Mimir Lunarch, cataloguing memories that arrived overnight'
       }
     },
 
     tethered_mimir: {
-      subraceName: 'Tethered Mimir',
+      subraceName: 'Fractured Mimir',
       title: 'The Sentinel-Moon',
-      reframe: `The <LoreLink termId="mimir">Woven</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Woven host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
+      reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Fractured host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
       signatureAbility: {
         name: 'Vigil-Bond',
-        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Woven Lunarch who abandons their post loses their magic within hours. The moon rewards vigilance and punishes desertion, the parasite *is* the post.`
+        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Fractured Lunarch who abandons their post loses their magic within hours.`
       },
-      currentCrisisAngle: `The elder-parasite communication manifests in the Woven as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist. The Woven Lunarchs are being driven to exhaustion by a parasite that will not stop watching, and several have abandoned their actual posts to chase phantom alerts into the deep fog.`,
+      currentCrisisAngle: `The elder-parasite communication manifests in the Fractured as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist.`,
       signatureQuote: {
         text: '"I am the sentinel and the moon is my post. Lately the moon sees things I do not. I do not know if it is lying or if I am going blind."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Woven Lunarch, the fourth night of phantom alarms'
-      }
-    },
-
-    untethered_mimir: {
-      subraceName: 'Untethered Mimir',
-      title: 'The Moon-Saved',
-      reframe: `The <LoreLink termId="mimir">Unwoven</LoreLink> are the maskless floor-dwellers, already dissolving, their forms blurring into the fog, their identities fading by the hour. For the Unwoven, the lunar parasite is not a curse but a *salvation*: an identity-anchor that arrives when all others have failed. An Unwoven Lunarch clings to the parasite the way a drowning person clings to driftwood, and they will surrender anything, memory, sensation, sanity, to keep it.`,
-      signatureAbility: {
-        name: 'Desperation-Bond',
-        description: `The parasite's hold is inversely proportional to the host's pre-existing identity; an Unwoven Lunarch with almost no self left bonds *ferociously* to the parasite, generating more power per phase than any stable host. The trade: every Waning phase erases more of a self that was already nearly gone.`
-      },
-      currentCrisisAngle: `The dead-moon revelation is, for the Unwoven, a *hope* the stable variants cannot understand: if the parasite is one of many siblings, perhaps a sibling would bond more gently, or perhaps the fallen star's waking would *complete* the dissolution into something other than death. The Unwoven are the only Mimir caste *welcoming* the elder-parasite communication, and the others fear they are being harvested by their own saviors.`,
-      signatureQuote: {
-        text: '"You call it a parasite. I was already dissolving. It is the only thing holding my edges together. Take it from me and you take the last shape I have."',
-        speaker: 'Unwoven Mir-Naeth',
-        context: 'An Unwoven Lunarch, refusing a Briaran elder\'s offer to excise the parasite'
+        context: 'A Fractured Lunarch, the fourth night of phantom alarms'
       }
     },
 
@@ -166,7 +149,7 @@ export const LUNARCH_DATA = {
   },
 
   worldFriction: [
-    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints. The fog that erases Thalren memory feeds the parasite, making the persecution worse.', workaround: 'The Shorn Briaran variant survives by passing as human; the Unwoven Mimir variant is already unrecorded and feels little difference. The openly lunar have no workaround, only flight into the deep groves.' },
+    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints. The fog that erases Thalren memory feeds the parasite, making the persecution worse.', workaround: 'The Shorn Briaran variant survives by passing as human; the Tethered Mimir variant is already unrecorded and feels little difference. The openly lunar have no workaround, only flight into the deep groves.' },
     { region: 'bryngloom-forest', status: 'banned', consequence: 'The Neth consider the lunar parasite an unbound entity outside the First Contract, a Lunarch in Atropolis is treated as a walking contract-breach and detained for "resolution of the unfiled attachment."' }
   ],
 
@@ -177,7 +160,7 @@ The first host was Selene of House Viridane, who struck the bargain during her f
 
 The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing physical damage as the parasite rearranges their nervous system for the next feeding.
 
-For eight centuries, the parasite bonded only to Briaran bloodlines. The Trueborn Briaran, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Briaran carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Masked finding it replaces their heartwood mask as identity-anchor, the Woven having it bond to the vigil itself, the Unwoven clinging to it as the only thing holding their dissolving edges together. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
+For eight centuries, the parasite bonded only to Briaran bloodlines. The Trueborn Briaran, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Briaran carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Fractured Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
 
 The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Briaran elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves during the Deepening. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
     title: "The Lunarch",
@@ -209,7 +192,7 @@ The lunarch's crescent aura was born in the moonlit groves of the <LoreLink term
 Lunarchs are celebrated as spiritual leaders among the Briaran, but they are hunted as heretics by the noble houses of the north.
 
 **RACES & CULTURAL AFFILIATION**
-The class is exclusively practiced by the <LoreLink termId="briaran">Briaran</LoreLink> descendants of House Viridane.
+The class is primarily practiced by the <LoreLink termId="briaran">Briaran</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
 
 **NOTABLE FIGURES**
 * **Selene of House Viridane**: The founding scion of the Lunarch order who led her house's escape from the north.

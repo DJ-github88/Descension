@@ -47,7 +47,7 @@ export const RACE_NAMES = {
     ],
     neth: [
         'Saren', 'Lyra', 'Orven', 'Vaelis', 'Thira', 'Kaelen', 'Miren', 'Dervan', 'Solyn', 'Ilyth',
-        'Vel-Sen', 'Aran-Kel', 'Mirth-Vel', 'Toris', 'Nessa', 'Caelum', 'Luren', 'Drith-Vel', 'Vashir', 'Veris'
+        'Vel-Sen', 'Aran-Kel', 'Mirth-Vel', 'Toris', 'Nessa', 'Caelum', 'Luren', 'Drith-Vel', 'Veris'
     ],
 
     astril: [
@@ -55,7 +55,7 @@ export const RACE_NAMES = {
         'Orion', 'Sirius', 'Star', 'Space', 'Void', 'Galaxy', 'Astral', 'Starlight', 'Celestial', 'Infinite'
     ],
     fexrick: [
-        'Karr', 'Silas', 'Kethrin', 'Drall', 'Tinker', 'Gear', 'Soot', 'Chimney', 'Geotherm', 'Alchem',
+        'Karr', 'Silas', 'Tinker', 'Gear', 'Soot', 'Chimney', 'Geotherm', 'Alchem',
         'Clock', 'Valve', 'Sump', 'Solder', 'Bellows', 'Crank', 'Piston', 'Fulcrum', 'Sprocket', 'Gauge'
     ]
 };

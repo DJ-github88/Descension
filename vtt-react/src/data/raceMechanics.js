@@ -3,9 +3,9 @@ export const RACE_MECHANICS = {
     id: 'echo_submersion',
     name: 'Echo-Submersion',
     applicableRace: 'astril',
-    applicableSubrace: 'Vashir',
+    applicableSubrace: 'vashir_astril',
     type: 'escalation_track',
-    description: 'When a Vashir opens too completely to Lumia\'s echo, the mortal consciousness is submerged. The Submerged still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by the memory of a dead world that has forgotten it was ever a passenger.',
+    description: 'When an Earthen Astril opens too completely to Lumia\'s echo, the mortal consciousness is submerged. The Submerged still walks, still speaks, still recognizes faces, but the person they were is gone, replaced by the memory of a dead world that has forgotten it was ever a passenger.',
     resource: {
       name: 'Echo Depth',
       range: { min: 0, max: 10 },
@@ -33,7 +33,7 @@ export const RACE_MECHANICS = {
           { type: 'debuff', stat: 'stealth', value: 'disadvantage', description: 'Markings glow even in bright light' },
           { type: 'narrative', description: 'GM delivers one "echo impulse" per session, Lumia\'s memory wants something. Spirit save DC 12 to resist; success costs 1 Depth, failure advances 1 Depth.' }
         ],
-        narrative: 'The echo of a dead world bleeds into daily life. The Vashir begins each session with an intrusive desire that is not their own.'
+        narrative: 'The echo of a dead world bleeds into daily life. The Earthen Astril begins each session with an intrusive desire that is not their own.'
       },
       {
         range: [7, 9],

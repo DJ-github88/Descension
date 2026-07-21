@@ -1116,11 +1116,11 @@ export const ARMOR = [
   // === EPIC ARMOR WITH POWERFUL EFFECTS ===
   {
     id: 'dragon-scale',
-    name: 'Dragon Scale',
+    name: 'Wyrm-Scale',
     type: 'armor',
     subtype: 'PLATE',
     quality: 'epic',
-    description: 'Armor forged from dragon scales. When struck, it sometimes breathes fire, burning your attackers and healing you.',
+    description: 'Armor forged from wyrm scales. When struck, it sometimes breathes fire, burning your attackers and healing you.',
     iconId: 'Armor/Chest/chest-bronze-breastplate',
     value: { gold: 10, silver: 0, copper: 0 },
     stackable: false,
@@ -1332,3 +1332,7 @@ export const ARMOR = [
     maxDurability: 'd8'
   }
 ];
+
+import { ENRICHED_ARMOR } from './enrichedArmor.js';
+
+export const ALL_ARMOR = [...ARMOR, ...ENRICHED_ARMOR];

@@ -33,8 +33,8 @@ export const ARCANONEER_DATA = {
    * Subrace Variants - The Arcanoneer was born among the Velun Neth but has since spread
    * across cultures, each adapting elemental weaving to their own philosophical framework.
    * Velun Neth practice contract-syntax; Kessen Neth borrow from the obligation-web;
-   * Drun Neth operate severed from the First Contract; Kethrin Fexric treat it as guild
-   * engineering; Drall Fexric weave from salvage and improvisation.
+   * Drun Neth operate severed from the First Contract; Clockwork Fexric treat it as guild
+   * engineering; Caustic Fexric weave from salvage and improvisation.
    */
   subraceVariants: {
    velun_neth: {
@@ -83,33 +83,33 @@ export const ARCANONEER_DATA = {
     }
    },
    kethrin_fexric: {
-    subraceName: 'Kethrin Fexric',
+    subraceName: 'Clockwork Fexric - Fexric',
     title: 'The Gear-Weaver',
-    reframe: `Where the Velun Neth file legal documents with Morvane, the Kethrin Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Kethrin Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time.`,
+    reframe: `Where the Velun Neth file legal documents with Morvane, the Clockwork Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Clockwork Fexric Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time.`,
     signatureAbility: {
      name: 'Calibrated Matrix',
      description: `The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  —  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture is, to a Kethrin Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Kethrin guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture is, to a Clockwork Fexric Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Clockwork Fexric guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
     signatureQuote: {
      text: '"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  —  and my guild warranty is the only thing between me and a very large crater."',
-     speaker: 'Kethrin Guild-Master',
+     speaker: 'Clockwork Fexric Guild-Master',
      context: 'Response to a Velun Arcanoneer who suggested "trying something new" during a joint expedition'
     }
    },
    drall_fexric: {
-    subraceName: 'Drall Fexric',
+    subraceName: 'Caustic Fexric - Fexric',
     title: 'The Scrap-Weaver',
-    reframe: `The Drall Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Drall Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Kethrin guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.`,
+    reframe: `The Caustic Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Caustic Fexric Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Clockwork Fexric guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.`,
     signatureAbility: {
      name: 'Jury-Rigged Catalyst',
-     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Drall call this "field testing." The Kethrin call it "attempted suicide." Both are correct.`
+     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Caustic Fexric call this "field testing." The Clockwork Fexric call it "attempted suicide." Both are correct.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Drall Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Drall for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Caustic Fexric Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Caustic Fexric for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
     signatureQuote: {
      text: '"The guild says you can\'t combine Rime with Wyrd unless the thermal sink is rated for Class-3 entropy. Do you know what happens if you use a Class-2 thermal sink? Neither do I. But I\'m about to find out, and so is that thing charging toward us."',
-     speaker: 'Unnamed Drall Scrap-Weaver',
-     context: 'Moments before a weave that was later added to the Kethrin guild\'s list of certified combinations, despite the guild\'s official position that the Drall "discovered it by accident"'
+     speaker: 'Unnamed Caustic Fexric Scrap-Weaver',
+     context: 'Moments before a weave that was later added to the Clockwork Fexric guild\'s list of certified combinations, despite the guild\'s official position that the Caustic Fexric "discovered it by accident"'
     }
    }
  },
@@ -159,7 +159,7 @@ export const ARCANONEER_DATA = {
 
 The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination not as contract-law but as precision engineering: calibrated components, documented tolerances, guild-certified parameters. Where the Velun Neth file clauses, the Fexric build mechanisms. Both approaches work. Both can fail catastrophically. The Arcanoneer does not cast spells  —  they combine elemental spheres and hope the weave holds before the elements remember they are enemies.
 
-During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port required Kethrin engineers to maintain the memory-glass archives that housed copies of the First Contract. The Kethrin, observing Velun arcanoneers filing elemental clauses, recognized the pattern: this was not magic  —  it was *calibration*. Each elemental sphere was a gear; each combined weave was a mechanism. They reverse-engineered the technique over two decades of quiet observation. The Drall learned from discarded Kethrin schematics traded through the Sump-Markets.`,
+During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port required Clockwork Fexric engineers to maintain the memory-glass archives that housed copies of the First Contract. The Clockwork Fexric, observing Velun arcanoneers filing elemental clauses, recognized the pattern: this was not magic  —  it was *calibration*. Each elemental sphere was a gear; each combined weave was a mechanism. They reverse-engineered the technique over two decades of quiet observation. The Caustic Fexric learned from discarded Clockwork Fexric schematics traded through the Sump-Markets.`,
     title: "The Arcanoneer",
     subtitle: "The Elemental Weaver",
   illustration: "/assets/images/classes/arcanoneer_illustration.png",
@@ -183,13 +183,13 @@ During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port req
     content: `**HISTORY: THE GENESIS**
 The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Dimming, a Velun Neth archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
 
-The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination as precision engineering rather than contract-law. Kethrin Fexric Gear-Weavers mapped the combination matrix with guild-certified tolerances and maintenance schedules, while Drall Fexric Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction.
+The craft later spread to the Fexric of the Cragjaw Peaks, who approached elemental combination as precision engineering rather than contract-law. Clockwork Fexric Gear-Weavers mapped the combination matrix with guild-certified tolerances and maintenance schedules, while Caustic Fexric Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction.
 
 **CITIES & CIVIL RECEPTION**
 Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Neth empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
 
 **RACES & CULTURAL AFFILIATION**
-The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who practice elemental weaving as contract-syntax  —  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Kessen Neth weave through the obligation-web, Drun Neth operate severed from the First Contract entirely, Kethrin Fexric treat weaving as guild engineering, and Drall Fexric weave from salvage and improvisation.
+The class originated with the <LoreLink termId="neth">Velun Neth</LoreLink>, who practice elemental weaving as contract-syntax  —  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Kessen Neth weave through the obligation-web, Drun Neth operate severed from the First Contract entirely, Clockwork Fexric treat weaving as guild engineering, and Caustic Fexric weave from salvage and improvisation.
 
 **NOTABLE FIGURES**
 * **Valerius the Scriptor**: First Velun archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
@@ -225,9 +225,9 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
     {
      name: 'The Cragjaw Guild-Hall',
      locationId: 'cragjaw_peaks',
-     description: 'The Kethrin Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
+     description: 'The Clockwork Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
      purpose: 'Training, certification, and research into guild-approved elemental pairings',
-     status: 'Active, though the guild-masters are increasingly alarmed by reports of Drall Scrap-Weavers achieving results outside certified parameters'
+     status: 'Active, though the guild-masters are increasingly alarmed by reports of Caustic Fexric Scrap-Weavers achieving results outside certified parameters'
     }
    ],
 

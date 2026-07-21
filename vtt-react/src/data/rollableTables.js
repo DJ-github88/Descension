@@ -33,7 +33,7 @@ const ROLLABLE_TABLES = {
       { min: 10, max: 12, result: 'A vial of memory-glass (Bryngloom export; inhale to recall a borrowed memory)' },
       { min: 13, max: 14, result: 'A fungal-light lantern (Vreken crypt-light; glows for a century on a single charge)' },
       { min: 15, max: 16, result: 'A chained ledger-tome, half its names still legible, worth a fortune to the right archivist' },
-      { min: 17, max: 17, result: 'A Solbrand ember, sealed in obsidian phial, faint warmth, impossibly old' },
+      { min: 17, max: 17, result: 'A Sol\'s Breath ember, sealed in obsidian phial, faint warmth, impossibly old' },
       { min: 18, max: 18, result: 'A Neth contract-scroll, unbroken and binding, the terms have not yet been triggered' },
       { min: 19, max: 19, result: 'A Sundered Monolith shard, warm to the touch, campaign-grade relic' },
       { min: 20, max: 20, result: 'A First Contract copy-fragment, powerful enough to Anchor a Neth, dangerous enough to doom them' }
@@ -132,7 +132,7 @@ const ROLLABLE_TABLES = {
     die: 'd20',
     entries: [
       { min: 1, max: 1, result: 'All within 30ft flicker, their shadows move wrong for 1 hour' },
-      { min: 2, max: 2, result: 'The caster glows with Solbrand-warmth for 1d6 minutes (plainly visible)' },
+      { min: 2, max: 2, result: 'The caster glows with Sol\'s Breath-warmth for 1d6 minutes (plainly visible)' },
       { min: 3, max: 3, result: 'The caster\'s next words emerge as a Neth contract-clause, and they bind' },
       { min: 4, max: 4, result: 'Gravity inverts in a 20ft radius for 1 round' },
       { min: 5, max: 5, result: 'The caster may speak only in Vault-Breath whispers for 10 minutes' },
@@ -161,17 +161,17 @@ const ROLLABLE_TABLES = {
     icon: '🍺',
     die: 'd12',
     entries: [
-      { min: 1, max: 1, result: 'Thrask rotgut, 5 cp, burns going down, warms a border-ranger\'s night' },
+      { min: 1, max: 1, result: 'Waste-Solari rotgut, 5 cp, burns going down, warms a border-ranger\'s night' },
       { min: 2, max: 2, result: 'Skald glacier-mead, 1 sp, served near-freezing, bloodline-bitter' },
       { min: 3, max: 3, result: 'Merrowport salt-ale, 3 cp, tastes of the Iceheart, never the same barrel twice' },
       { min: 4, max: 4, result: 'Sundari ash-wine, 2 sp, dark as the caldera, traded by Solvarn caravans' },
       { min: 5, max: 5, result: 'Ordan kumis, 1 sp, sharp and herd-strong, fermented on the drive' },
-      { min: 6, max: 6, result: 'Forge-coal stout, 5 cp, thick and warm, an Emberth staple' },
+      { min: 6, max: 6, result: 'Forge-coal stout, 5 cp, thick and warm, a Solari staple' },
       { min: 7, max: 7, result: 'Hush-reserve fungal tea, 2 sp, glows faintly (Vreken crypt-brew; mildly euphoric)' },
       { min: 8, max: 8, result: 'Bog-peat whiskey, 4 sp, smokes eerily, distilled by the Morren' },
       { min: 9, max: 9, result: 'Memory-glass liqueur, 5 sp, you briefly recall a memory that is not yours' },
       { min: 10, max: 10, result: 'Thorn-blood brandy, 2 gp, warms courage (advantage on next fear save)' },
-      { min: 11, max: 11, result: 'The Solbrand Drop, 10 gp, a single sip of stored sun-warmth (restores 1d4 HP)' },
+      { min: 11, max: 11, result: 'The Sol\'s Breath Drop, 10 gp, a single sip of stored sun-warmth (restores 1d4 HP)' },
       { min: 12, max: 12, result: 'The House Special, unknown effect (roll d6: 1-2 hush-euphoria, 3-4 memory-loss, 5-6 vitality surge)' }
     ]
   },
@@ -218,7 +218,7 @@ const ROLLABLE_TABLES = {
       { min: 11, max: 11, result: 'A locked box with no keyhole appears in the party\'s camp, it is warm, and it hums when spoken to' },
       { min: 12, max: 12, result: 'Dreams of a Sundered Monolith no cartographer has recorded plague the party each night' },
       { min: 13, max: 13, result: 'A Minstrel in a border-hall sings a verse, unbidden, that names the party by name' },
-      { min: 14, max: 14, result: 'The Solbrand\'s tending-clan has gone silent, and the forge-clans are mobilizing' },
+      { min: 14, max: 14, result: 'Sol\'s Breath\'s tending-clan has gone silent, and the forge-clans are mobilizing' },
       { min: 15, max: 15, result: 'A Morren caravan arrives at the gate; all are deep in hush-trance and will not wake' },
       { min: 16, max: 16, result: 'Someone is buying all the cold-iron in the region, Inquisitor-quantities, no questions asked' },
       { min: 17, max: 17, result: 'An Astril screams and will not stop, Lumia\'s echo died in their blood, and the sky has lost a point of light' },

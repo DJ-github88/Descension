@@ -29,15 +29,15 @@ export const LOOT_ITEMS = [
     value: { gold: 5 }
   },
 
-  // Dwarf Defender items
+  // Basalt Forge items
   {
-    id: 'dwarven-hammer',
-    name: 'Dwarven War Hammer',
+    id: 'basalt-war-hammer',
+    name: 'Basalt War Hammer',
     type: 'weapon',
     subtype: 'hammer',
     quality: 'uncommon',
     iconId: 'inv_hammer_16',
-    description: 'Pulled from the cooled obsidian of the Sundered Caldera, its haft still warm with the memory of a Solbrand ember. Forged in the heart of Mount Thunderpeak by Runelord Thrain, this hammer has crushed a thousand goblin skulls. A finely crafted dwarven war hammer with runes etched into the head.',
+    description: 'Pulled from the cooled obsidian of the Sundered Caldera, its haft still warm with the memory of a Sol\'s Breath ember. Etched with forge-runes from the first centuries of the Dimming, this hammer has crushed a thousand foes.',
     value: { gold: 3, silver: 50 },
     weaponStats: {
       baseDamage: {
@@ -52,13 +52,13 @@ export const LOOT_ITEMS = [
     }
   },
   {
-    id: 'dwarven-ale',
-    name: 'Dwarven Ale',
+    id: 'deep-ale',
+    name: 'Deep-Ale',
     type: 'consumable',
     subtype: 'drink',
     quality: 'uncommon',
     iconId: 'inv_drink_08',
-    description: 'Brewed in a Bryngloom stillhouse where ancestral spirits were said to whisper into the mash. Brewed from a secret recipe guarded by the Stonebeard clan for seven generations. A potent brew that grants temporary courage and strength.',
+    description: 'Brewed in a Bryngloom stillhouse where ancestral spirits were said to whisper into the mash. A secret recipe passed down through seven generations of bog-brewers. A potent brew that grants temporary courage and strength.',
     value: { silver: 25 },
     combatStats: {
       healthRestore: 5
@@ -93,7 +93,7 @@ export const LOOT_ITEMS = [
     subtype: 'bone',
     quality: 'rare',
     iconId: 'inv_misc_bone_06',
-    description: 'Once sealed in obsidian alongside a Solbrand ember, the tooth still radiates a thin heat. Said to retain a fragment of the dragon\'s fiery soul, this tooth still hums with latent power. A sharp dragon tooth that could be crafted into a dagger or arrowhead. Weapons made with dragon teeth are known for their exceptional sharpness and durability.',
+    description: 'Once sealed in obsidian alongside a Sol\'s Breath ember, the tooth still radiates a thin heat. Said to retain a fragment of the dragon\'s fiery soul, this tooth still hums with latent power. A sharp dragon tooth that could be crafted into a dagger or arrowhead. Weapons made with dragon teeth are known for their exceptional sharpness and durability.',
     value: { gold: 1, silver: 75 }
   },
 
@@ -119,15 +119,15 @@ export const LOOT_ITEMS = [
     value: { gold: 15 }
   },
 
-  // Orc Warlord items
+  // Warlord items
   {
-    id: 'orcish-greataxe',
-    name: 'Orcish Greataxe',
+    id: 'ash-cleave',
+    name: 'Ash-Cleave',
     type: 'weapon',
     subtype: 'axe',
     quality: 'uncommon',
     iconId: 'inv_axe_09',
-    description: 'The haft is bound in cold-iron wire that bites the Wyrd and refuses to lie about its kills. This axe was used by Warlord Krag to cleave a dwarven shield wall in two at the Battle of Iron Pass. A massive, crude axe wielded by an orc warlord. Despite its rough appearance, it is surprisingly well-balanced.',
+    description: 'The haft is bound in cold-iron wire that bites the Wyrd and refuses to lie about its kills. This axe was pulled from the cooling obsidian of the Emberspire caldera, its blade still singing from the forge-heat.',
     value: { gold: 4, silver: 25 },
     slots: ['mainHand'],
     weaponSlot: 'TWO_HANDED',

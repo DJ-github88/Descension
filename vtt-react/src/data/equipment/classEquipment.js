@@ -313,7 +313,7 @@ export const CHRONARCH_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Martyr']
+            classes: ['Chronarch']
         }
     },
 
@@ -2665,9 +2665,9 @@ export const APEX_ITEMS = [
         height: 1,
         rotation: 0,
         stackable: false,
-        baseStats: {
-            perception: { value: 1, isPercentage: false }
-        },
+         baseStats: {
+             agility: { value: 1, isPercentage: false }
+         },
         availableFor: {
             classes: ['Apex']
         }
@@ -2836,7 +2836,7 @@ export const WARDEN_ITEMS = [
     }
 ];
 
-// Justicar - Dawnsworn avenger
+// Justicar - Dawnsworn avenger (legacy concept; items available to Spellguard)
 export const JUSTICAR_ITEMS = [
     {
         id: 'justicar-sacred-sword',
@@ -2881,18 +2881,20 @@ export const JUSTICAR_ITEMS = [
         weight: 6,
         width: 2,
         height: 2,
-        slots: ['offHand'],
-        armor: 2,
-        baseStats: {
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
+         slots: ['offHand'],
+         combatStats: {
+             armor: { value: 2, isPercentage: false }
+         },
+         baseStats: {
+             spirit: { value: 1, isPercentage: false }
+         },
+         availableFor: {
             classes: ['Spellguard']
         }
     },
     {
         id: 'justicar-sacred-plate',
-        name: 'Solbrand Plate',
+        name: 'Sol\'s Breath Plate',
         type: 'armor',
         subtype: 'PLATE',
         quality: 'uncommon',
@@ -2955,7 +2957,7 @@ export const JUSTICAR_ITEMS = [
     }
 ];
 
-// Oathkeeper - Vow-bound warrior
+// Oathkeeper - Vow-bound warrior (legacy concept; items available to Spellguard)
 export const OATHKEEPER_ITEMS = [
     {
         id: 'oathkeeper-oath-blade',
@@ -3306,7 +3308,6 @@ export const ALL_CLASS_EQUIPMENT = [
     ...SENTINEL_PATH_ITEMS,
     ...HEXER_PATH_ITEMS,
     ...HARROW_PATH_ITEMS,
-    ...AUGUR_ITEMS,
-    ...HARBINGER_ITEMS
+    ...AUGUR_ITEMS
 ];
 

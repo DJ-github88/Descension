@@ -13,7 +13,7 @@ const CLASS_COLORS = {
   primalist: '#4ade80', exorcist: '#a855f7', formbender: '#f59e0b',
   witchdoctor: '#06b6d4', toxicologist: '#84cc16', falseprophet: '#8b5cf6',
     harbinger: '#ec4899', chronarch: '#6366f1',
-  minstrel: '#f472b6', revenant: '#2D1B69', inscriptor: '#fbbf24',
+  minstrel: '#f472b6', revenant: '#2D1B69', inquisitor: '#fbbf24',
   apex: '#22c55e', pyrofiend: '#ef4444',
   warden: '#14b8a6', race: '#f97316',
 };

@@ -21,9 +21,9 @@ const NPC_PORTRAITS = {
     url: '/assets/images/portraits/vaelen_greymark.png',
     caption: 'Sentinel-Commander Vaelen Greymark in heavy steel plate armor, guarding Greymark Keep.'
   },
-  'Sylvain of the Unwoven': {
+  'Sylvain the Exile': {
     url: '/assets/images/portraits/sylvain_unwoven.png',
-    caption: 'Sylvain of the Unwoven, a Briaran rebel leader with a prosthetic wooden arm containing a bound soul.'
+    caption: 'Sylvain the Exile, a Briaran rebel leader with a prosthetic wooden arm containing a bound soul.'
   },
   'Jarl Eirik Skalvyr': {
     url: '/assets/images/portraits/eirik_skalvyr.png',

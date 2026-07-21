@@ -48,9 +48,9 @@ const CharacterManagement = ({ user }) => {
 
    'briaran': '🦊', 'Briaran': '🦊',
 
-   'emberth': '🔥', 'Emberth': '🔥',
+   'emberth': '🔥', 'Solari': '🔥',
 
-   'fexrick': '⚙️', 'Fexrick': '⚙️',
+   'fexrick': '⚙️', 'Fexric': '⚙️',
 
    'groven': '💎', 'Groven': '💎',
 

@@ -14,7 +14,7 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Emberth too hot for stealth hunts. Fexrick too mechanical. Myrathil too distant from surface Wyrd. Unwoven Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   /**
@@ -211,7 +211,7 @@ The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken<
 **NOTABLE FIGURES**
 * **Orven the Still-Handed**: Vreken founder of the Barbed Vow who tracked his own sister into the sinking bogs.
 * **Elias the Salt-Scarred**: Human healer who first drew the Gref face-traders into his own blood.
-* **Vaelen the Sin-Eater**: An Unwoven Mimir who trapped a face-stealing horror under <LoreLink termId="greymark_keep">Greymark Keep</LoreLink> and carried fourteen demons in his blood.
+* **Vaelen the Sin-Eater**: A Tethered Mimir who trapped a face-stealing horror under <LoreLink termId="greymark_keep">Greymark Keep</LoreLink> and carried fourteen demons in his blood.
 * **Aedris the Blind**: A Vreken hunter who tracked heretics through the bogs using only the thrum of the mycelium.`,
     },
 

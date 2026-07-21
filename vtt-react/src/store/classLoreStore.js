@@ -480,7 +480,7 @@ const NAME_TO_ID = {
 
 
 
-  'false prophet': 'falseProphet',
+  'false prophet': 'false_prophet',
 
 
 

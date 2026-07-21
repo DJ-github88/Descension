@@ -721,13 +721,13 @@ const getSpellIconUrl = (spell) => {
 const classFallbacks = {
 	arcanoneer: [
 		{ url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Velun Neth Arcanoneer weaving fire and ice spheres in front of gothic spires.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Kethrin Fexric Arcanoneer channeling lightning and steam through a clockwork brass regulator gauntlet on a mountain cliff.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Drall Fexric Arcanoneer unleashing a chaotic elemental surge of fire and gale from a jury-rigged gauntlet in a warzone.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Clockwork Fexric Arcanoneer channeling lightning and steam through a clockwork brass regulator gauntlet on a mountain cliff.' },
+		{ url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Caustic Fexric Arcanoneer unleashing a chaotic elemental surge of fire and gale from a jury-rigged gauntlet in a warzone.' },
 		{ url: '/assets/images/classes/arcanoneer_illustration_4.png', caption: 'A Drun Neth Arcanoneer venting green acid and steam through gnarled oak pipes in a peat bog.' }
 	],
 	berserker: [
 		{ url: '/assets/images/classes/berserker_illustration.png', caption: 'A Morgh Groven Berserker with grey, stone-scale skin charging forward with a heavy stone-head battleaxe.' },
-		{ url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Thrask Emberth Berserker with sallow grey-pale skin and solid pale-blue eyes, leaping with a stone-bladed spear.' },
+		{ url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Waste-Solari Berserker with sallow grey-pale skin and solid pale-blue eyes, leaping with a stone-bladed spear.' },
 		{ url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Skald Human Berserker in heavy mammoth-furs lunging with a double-bitted ice-covered waraxe.' }
 	],
 
@@ -753,13 +753,13 @@ const classFallbacks = {
   { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Velun Neth Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
  ],
  pyrofiend: [
-  { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Thrask Emberth Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
-  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Korr Emberth Pyrofiend holding a sphere of molten flame wreathed in ash.' },
-  { url: '/assets/images/classes/pyrofiend_illustration_3.png', caption: 'A Drall Fexric Pyrofiend holding a copper combustion device wreathed in vented flames.' }
+  { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Waste-Solari Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
+  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Hollow-Solari Pyrofiend holding a sphere of molten flame wreathed in ash.' },
+  { url: '/assets/images/classes/pyrofiend_illustration_3.png', caption: 'A Caustic Fexric Pyrofiend holding a copper combustion device wreathed in vented flames.' }
  ],
  martyr: [
-  { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Korr Emberth Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
-  { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Solbrand stone amulet.' },
+  { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Hollow-Solari Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
+   { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Sol\'s Breath stone amulet.' },
   { url: '/assets/images/classes/martyr_illustration_3.png', caption: 'A Marked Vreken Martyr wreathed in starry cosmic chains absorbing stellar pain.' }
  ],
  toxicologist: [
@@ -789,33 +789,33 @@ const classFallbacks = {
  ],
  warden: [
   { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
-  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Thrask Emberth Warden wrapped in rusted iron chains dragging a spiked shackle.' },
+  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Waste-Solari Warden wrapped in rusted iron chains dragging a spiked shackle.' },
   { url: '/assets/images/classes/warden_illustration_3.png', caption: 'An Ordan Human Warden in heavy iron plate armor dragging a massive shackle.' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Silath Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Stellar Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
   { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' },
   { url: '/assets/images/classes/gambit_illustration_3.png', caption: 'A Skald Human Gambit flipping three glowing brass coins to trace probability lines.' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Vashir Astril Starlight Astrologer Chronarch utilizing time-sand.' },
+  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Earthen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
   { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' },
-  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Silath Astril Chronarch tracing complex golden clockwork dials in the air.' }
+  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Stellar Astril Chronarch tracing complex golden clockwork dials in the air.' }
  ],
  spellguard: [
-  { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Kethrin Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Silath Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Drall Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
+  { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Clockwork Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Stellar Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Caustic Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
  ],
  augur: [
   { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Vashir Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
-  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'An Unwoven Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
+  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Earthen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
+  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'A Fractured Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
  ],
  harbinger: [
-  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'An Unwoven Mimir Sump Archivist Harbinger channeling entropic friction.' },
+  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'A Fractured Mimir Sump Archivist Harbinger channeling entropic friction.' },
   { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Drun Neth Harbinger holding a clockwork device of entropic friction.' },
-  { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Kethrin Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
+  { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Clockwork Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
  ],
  lunarch: [
   { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },

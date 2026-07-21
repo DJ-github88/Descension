@@ -215,8 +215,8 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
 **NOTABLE FIGURES**
 * **Kora the Veil-Speaker**: The first caller whose voice turned to whispers to keep the crypt-lights burning.
 * **Vesper the Scribe**: The dying scholar who bound his soul to basalt and refused to end.
-* **Neth-Veil Valerius**: A Neth pact-lord who established the necrotic covenant linking bog-graves to Atropolis.
-* **Karr Bloodhammer**: The legendary Skald warlock who performed the first stasis ritual to combat the Frost-Tithe.`,
+* **Neth-Veil Valerius**: A Neth pact-lord whose founding of the First Contract with Morvane established the legal framework that the Revenant necrotic covenant later subverted, linking bog-graves to Atropolis through a parallel binding of souls to stone.
+* **Kora Bloodhammer**: The legendary Skald Veil-Speaker whose grief-hymns sustained the first crypt-lights through the longest freeze, combining Bloodhammer endurance with the Revenant tradition of binding souls to basalt.`,
     },
 
     signatureQuote: {

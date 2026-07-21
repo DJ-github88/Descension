@@ -26,34 +26,34 @@ export const HARBINGER_DATA = {
   */
  subraceVariants: {
   vashir_astril: {
-   subraceName: 'Vashir Astril',
+   subraceName: 'Earthen Astril - Astril',
    title: 'The Entropy-Symphony',
-    reframe: `The <LoreLink termId="astril">Vashir</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Vashir Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
+    reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Earthen Astril Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
    signatureAbility: {
     name: 'Death-Crescendo',
-     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Vashir Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
+     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Earthen Astril Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
    },
-    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Vashir's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Vashir Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
+    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Earthen Astril's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Earthen Astril Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
     signatureQuote: {
      text: '"My world is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
     speaker: 'Caelum Dim-Voiced',
-    context: 'A Vashir Harbinger, conducting a Wild Surge that rearranged a hillside'
+    context: 'A Earthen Astril Harbinger, conducting a Wild Surge that rearranged a hillside'
    }
   },
 
   silath_astril: {
-   subraceName: 'Silath Astril',
+   subraceName: 'Stellar Astril - Astril',
    title: 'The Suppressed Catastrophe',
-    reframe: `The <LoreLink termId="astril">Silath</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Silath Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
+    reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Stellar Astril Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
    signatureAbility: {
     name: 'Gagged-Doom',
-     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Silath burn their captive's love for the world as fuel.`
+     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Stellar Astril burn their captive's love for the world as fuel.`
    },
-    currentCrisisAngle: `The permanent Chaos Pockets have made the Silath's suppressed heritage go quiet, the same silence the False Prophet Silath report. A Silath Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
+    currentCrisisAngle: `The permanent Chaos Pockets have made the Stellar Astril's suppressed heritage go quiet, the same silence the False Prophet Stellar Astril report. A Stellar Astril Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
     signatureQuote: {
      text: '"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask."',
     speaker: 'Vesh the Muffled',
-    context: 'A Silath Harbinger, tightening her bindings before a major surge'
+    context: 'A Stellar Astril Harbinger, tightening her bindings before a major surge'
    }
   },
 
@@ -106,7 +106,7 @@ export const HARBINGER_DATA = {
   currentLeader: {
    name: '<LoreLink termId="malakor">Catastrophe-Reader Malakor the Finite</LoreLink>',
    title: 'Choir-Prime of the Doom-Arithmetic',
-   characterization: `A Nordhalla archivist who has spent four centuries reducing the apocalypse to an equation. He is calm, precise, and absolutely without hope, not despair, which would be an error in the math, but the serene certainty that the equation has only one solution. He leads the Choir from the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and considers hope a rounding error.`
+   characterization: `A Nordhalla archivist who has spent his life reducing the apocalypse to an equation. He is calm, precise, and absolutely without hope, not despair, which would be an error in the math, but the serene certainty that the equation has only one solution. He leads the Choir from the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and considers hope a rounding error.`
   },
   headquarters: { name: 'The Reading Room, Frozen Archive (field-work: the Sundrift Vale chaos pockets)', locationId: 'frozen_archive' },
   crisisConnection: `<LoreLink termId="malakor">Malakor</LoreLink> *predicted* the permanent chaos pockets, his arithmetic said they would stabilize, and they did. What his arithmetic did not predict is that each pocket bleeds warmth from the buried star, accelerating <LoreLink termId="the_deepening">Sol's dimming</LoreLink>. The Doom-Choir's own magic is, measurably, ending the world faster. <LoreLink termId="malakor">Malakor</LoreLink> has not shared this, because he considers a faster end a *more accurate* end, and a faction of the Choir agrees with him.`
@@ -124,7 +124,7 @@ He published his findings. The Frozen Archive suppressed them. The calculations 
 
 Xyris was a Solvarn student who found Malakor's suppressed papers. She was the first to apply the math practically: if freeze was entropy and entropy was measurable, then entropy could be directed. She tore the first Chaos Pocket in the Sundrift Vale, a localized acceleration of the freeze, weaponized. The hole killed her. It also proved the principle. Malakor provided the truth. Xyris proved it could be used.
 
-Each subrace channels a different apocalypse. The Vashir Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Silath Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solvarn read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
+Each subrace channels a different apocalypse. The Earthen Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Stellar Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solvarn read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
 
 The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.`,
    title: "The Harbinger",
@@ -154,7 +154,7 @@ The math could not be suppressed forever. Other mathematicians found Malakor's w
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Vashir hear the entropy as a dying world's music. The Silath channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
+This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
 
 **NOTABLE FIGURES**
 * **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.

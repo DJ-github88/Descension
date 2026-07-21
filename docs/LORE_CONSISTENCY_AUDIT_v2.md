@@ -103,7 +103,7 @@ For these key entities, compare across all files that mention them:
 - **The Keeper / Root-Veil**  -  same entity or not? Are files consistent?
 - **Aex**  -  flayed by whom? House Solvan consistently named?
 - **The Wyrd**  -  consistent origin and behavior?
-- **The Solbrand**  -  consistent description of its decline?
+- **Sol's Breath**  -  consistent description of its decline?
 
 ### 3.4  -  Region→race mapping
 For each region, compare the races listed in `subregions.js` `primaryRaces` with the races' own files' stated home region. Flag any race listed in a region where the race file says it doesn't live.
@@ -259,7 +259,7 @@ For each class, verify the originStory's narrative directly supports the class's
 
 ### 9.2  -  Damage type → lore match
 For each damage type in `damageTypes.js`, verify the in-world description aligns with the cosmology:
-- Ember = "Sol's buried warmth"  -  consistent with Solbrand dimming?
+- Ember = "Sol's buried warmth"  -  consistent with Sol's Breath dimming?
 - Wyrd = "Keth-Amar's corruption"  -  consistent with Wyrd behavior in creature lore?
 - Rime = "Nordhalla's bargained cold"  -  consistent with Glacier Bargain?
 

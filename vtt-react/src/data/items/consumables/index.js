@@ -167,7 +167,7 @@ export const CONSUMABLES = [
   subtype: 'POTION',
   quality: 'common',
   description: 'A bitter potion that grants physical power. The strength comes from pain, and the pain lingers.',
-  iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-organic-Wyrd-touched-teardrop-wider-bottom-tapering-top-two-curved-horn-like-claw-like-protrusions-lower-mid-section-deep-rich-red-liquid-brighter-orange-yellow-orange-hues-bright-orange-glow-outline-light-beige-cork',
+  iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-organic-demonic-teardrop-wider-bottom-tapering-top-two-curved-horn-like-claw-like-protrusions-lower-mid-section-deep-rich-red-liquid-brighter-orange-yellow-orange-hues-bright-orange-glow-outline-light-beige-cork',
   value: { gold: 0, silver: 6, copper: 0 },
   stackable: true,
   maxStackSize: 5,
@@ -480,7 +480,7 @@ export const CONSUMABLES = [
   subtype: 'ELIXIR',
   quality: 'poor',
   description: 'A pale elixir that restores a small amount of both health and mana. It tastes of emptiness.',
-  iconId: 'Misc/Profession Resources/Alchemy/Empty/empty-beige-bottle',
+  iconId: 'Misc/Profession Resources/Alchemy/Empty/empty-potion-bottle-bulbous-light-beige-tilted-brown-stopper',
   value: { gold: 0, silver: 2, copper: 0 },
   stackable: true,
   maxStackSize: 10,
@@ -532,7 +532,7 @@ export const CONSUMABLES = [
   subtype: 'POISON',
   quality: 'poor',
   description: 'A crude poison made from common ingredients. Causes minor damage over time, but is easily resisted.',
-  iconId: 'Misc/Profession Resources/Alchemy/Green/green-potion-bottle-bulbous-rounded-body-tapering-narrow-neck-bright-green-liquid-lower-half-yellow-highlight-light-brown-beige-tan-glass-dark-stopper',
+  iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-classic-shape-beige-third-full',
   value: { gold: 0, silver: 3, copper: 0 },
   stackable: true,
   maxStackSize: 10,
@@ -557,7 +557,7 @@ export const CONSUMABLES = [
   subtype: 'POISON',
   quality: 'common',
   description: 'A potent poison extracted from deadly creatures. Causes significant damage over time, but can be dangerous to handle.',
-  iconId: 'Misc/Profession Resources/Alchemy/Green/green-potion-bottle-bulbous-rounded-body-tapering-narrow-neck-bright-green-liquid-lower-half-yellow-highlight-light-brown-beige-tan-glass-dark-stopper',
+  iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-classic-shape-beige-third-full',
   value: { gold: 0, silver: 6, copper: 0 },
   stackable: true,
   maxStackSize: 10,
@@ -585,7 +585,7 @@ export const CONSUMABLES = [
   subtype: 'POISON',
   quality: 'uncommon',
   description: 'An extremely potent poison that causes severe damage. Highly effective, but handling it is risky.',
-  iconId: 'Misc/Profession Resources/Alchemy/Green/green-potion-bottle-bulbous-rounded-body-tapering-narrow-neck-bright-green-liquid-lower-half-yellow-highlight-light-brown-beige-tan-glass-dark-stopper',
+  iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-bottle-classic-shape-beige-third-full',
   value: { gold: 0, silver: 10, copper: 0 },
   stackable: true,
   maxStackSize: 5,
@@ -605,5 +605,9 @@ export const CONSUMABLES = [
   utilityStats: {
    duration: { type: 'SECONDS', value: 180 } // 3 minutes
   }
- }
+  }
 ];
+
+import { ENRICHED_CONSUMABLES } from './enrichedConsumables.js';
+
+export const ALL_CONSUMABLES = [...CONSUMABLES, ...ENRICHED_CONSUMABLES];

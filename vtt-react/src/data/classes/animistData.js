@@ -16,7 +16,7 @@ export const ANIMIST_DATA = {
           "tessen_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires ancestral spirit-channeling. Emberth commune with volcanic entities (different tradition). Fexrick see spirits as machine-failure states. Tessen isolation prevents access. Myrathil have no land spirit tradition."
+      "justification": "Requires ancestral spirit-channeling. Solari commune with volcanic entities (different tradition). Fexric see spirits as machine-failure states. Tessen isolation prevents access. Myrathil have no land spirit tradition."
   },
 
   /**
@@ -45,18 +45,18 @@ export const ANIMIST_DATA = {
     },
 
     vashir_astril: {
-      subraceName: 'Vashir Astril',
+      subraceName: 'Earthen Astril - Astril',
       title: 'The Heritage-Conduit',
-      reframe: `The <LoreLink termId="astril">Vashir</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
+      reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
       signatureAbility: {
         name: 'Star-Communion',
-      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Vashir Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
+      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Earthen Astril Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
       },
-      currentCrisisAngle: `The Lumia heritage in Vashir blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Vashir's heritage began screaming contradictory prophecies through crystalline skin. Young Vashir Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
+      currentCrisisAngle: `The Lumia heritage in Earthen Astril blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Earthen Astril's heritage began screaming contradictory prophecies through crystalline skin. Young Earthen Astril Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
       signatureQuote: {
         text: '"You call them ancestors. I call them the memory of a dead world, and they live in my forearm. Do not ask me to be quiet about it."',
         speaker: 'Lirien Bright-Veined',
-        context: 'A Vashir Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
+        context: 'A Earthen Astril Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
       }
     },
 
@@ -125,18 +125,18 @@ export const ANIMIST_DATA = {
     },
 
     silath_astril: {
-      subraceName: 'Silath Astril',
+      subraceName: 'Stellar Astril - Astril',
       title: 'The Star-Communer',
-      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Silath</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Silath adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Silath Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Silath standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
+      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Stellar Astril</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Stellar Astril adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Stellar Astril Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Stellar Astril standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
       signatureAbility: {
         name: 'Moon-Court Communion',
-        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Silath is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
+        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Stellar Astril is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
       },
-      currentCrisisAngle: `The dialect-fracture has reached the Silath in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Silath's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Silath Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
+      currentCrisisAngle: `The dialect-fracture has reached the Stellar Astril in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Stellar Astril's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Stellar Astril Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
       signatureQuote: {
         text: '"You carve, you sing, you breathe your dead. I stand still and let the dead star do all the talking. It has been talking for eight centuries. Tonight it went silent. I am very afraid."',
         speaker: 'Selenis Night-Still',
-        context: 'A Silath Animist, the first night the moon-courtyard returned silence'
+        context: 'A Stellar Astril Animist, the first night the moon-courtyard returned silence'
       }
     }
   },
@@ -191,11 +191,11 @@ She followed the voice south. She found the herd. She died three days later. But
 
 The practice spread along the Hunger Road. Skald caravans crossing the Groven Ancestor-Spans heard Ordan throat-singers and recognized the technique: they were carrying voices. The Skald, whose culture already preserved their dead in glacier-ice panels at Skalvyrhold, began carrying their own, carving ancestor-names directly into skin, making the flesh a permanent record. A Skald covered in runic scars carries a retinue of the dead, each anchored to a wound that never fully closes.
 
-The Vashir Astril adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Vashir does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Vashir variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Silath Astril practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
+The Earthen Astril adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Earthen Astril does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Earthen Astril variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Stellar Astril practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
 
 The Morgh Groven carry the most literal version of the art. The Still-Claiming already turns Groven dead into calcified stone, the ancestors literally become the bridges their descendants walk. A Morgh channels the dead not as spirits but as mineral memory, drawing on the same alchemical residues the Deep Alchemists used to reshape the Groven from Thrumm stock. The race that was sculpted against its will now sculpts itself.
 
-The Thrask Emberth adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Thrask believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Thrask does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythrill preserved in the muscle memory of hands that learned from hands.
+The Waste-Solari adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Waste-Solari believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Waste-Solari does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythrill preserved in the muscle memory of hands that learned from hands.
 
 The Trueborn Briaran adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Trueborn channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Briaran who died before their debt was paid.
 
@@ -225,7 +225,7 @@ There were no three founders. There was one lost Ordan throat-singer whose name 
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Morren</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Vashir and Silath <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
+The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Morren</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
 
 **NOTABLE FIGURES**
 * **The First Singer (name lost)**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Navigation, not worship.

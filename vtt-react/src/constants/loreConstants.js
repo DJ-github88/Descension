@@ -3,7 +3,7 @@
  */
 
 export const LORE_PLACEHOLDERS = {
-    backstory: 'Your history before the campaign. E.g. "Raised by Solbrand tenders in a frozen village; fled after my clan\'s ledger was burned."',
+    backstory: 'Your history before the campaign. E.g. "Raised by Sol\'s Breath tenders in a frozen village; fled after my clan\'s ledger was burned."',
     personalityTraits: 'Your habits and mannerisms. E.g. "Quiet and watchful; taps a rhythm on her sword-hilt when thinking; distrusts strangers until they prove themselves."',
     ideals: 'The principle you live by. E.g. "No debt goes unsettled — I always repay a kindness or a cruelty."',
     bonds: 'The people or things you are tied to. E.g. "My younger sister back in the Reach; an unpaid debt to the Astril Synod."',
@@ -13,7 +13,7 @@ export const LORE_PLACEHOLDERS = {
     appearance: 'How you look and dress. E.g. "Tall, ash-cloth coat, bog-iron pauldrons, a burn scar across one cheek."',
     allies: 'Who is on your side. E.g. "Bryn the cartographer; the Warden who trained me."',
     enemies: 'Who wants you dead or ruined. E.g. "A Marked Vreken bounty hunter; my rival house."',
-    organizations: 'Groups you belong to. E.g. "The Solbrand tending-clans; a Neth trading house."',
+    organizations: 'Groups you belong to. E.g. "The Sol\'s Breath tending-clans; a Neth trading house."',
     notes: 'Anything else — rumors, reminders, loose ends. E.g. "Owe the waystation keeper 3 gold; heard whispers of a caldera cave."'
 };
 

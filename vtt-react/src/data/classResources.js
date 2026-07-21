@@ -605,7 +605,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Devotion Gauge',
   shortName: 'Devotion',
   type: 'devotion-gauge',
-  description: 'Sundale Solbrand, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
+  description: 'Sundale Sol\'s Breath, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
   visual: {
    type: 'devotion-gauge',
    count: 6,
@@ -656,8 +656,8 @@ export const CLASS_RESOURCE_TYPES = {
    { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: 'Resistance to the first instance of damage each round' },
    { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'Regain 1d6 HP at the start of each of your turns' },
    { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'All allies within 10 ft gain +1 damage reduction' },
-   { name: 'Solbrand Ascendance', level: 4, requirement: '60 damage', passive: 'Allies within 10 ft gain resistance to the first damage type they take each round' },
-   { name: 'Solbrand Martyrdom', level: 5, requirement: '80 damage', passive: '+10 ember damage on attacks, allies within 10 ft gain temp HP when you take damage' },
+    { name: 'Sol\'s Breath Ascendance', level: 4, requirement: '60 damage', passive: 'Allies within 10 ft gain resistance to the first damage type they take each round' },
+    { name: 'Sol\'s Breath Martyrdom', level: 5, requirement: '80 damage', passive: '+10 ember damage on attacks, allies within 10 ft gain temp HP when you take damage' },
    { name: 'Celestial Protector', level: 6, requirement: '100 damage', passive: 'Allies within 15 ft resist all damage' }
   ],
   specializations: {
@@ -665,7 +665,7 @@ export const CLASS_RESOURCE_TYPES = {
     name: 'Redemption',
     sharedPassive: {
      name: "Suffering's Gift",
-     description: "Sundale Solbrand's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
+     description: "Sundale Sol's Breath's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
     },
     uniquePassive: {
      name: 'Redemptive Grace',
@@ -676,7 +676,7 @@ export const CLASS_RESOURCE_TYPES = {
     name: 'Zealot',
     sharedPassive: {
      name: "Suffering's Gift",
-     description: "Sundale Solbrand's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
+     description: "Sundale Sol's Breath's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
     },
     uniquePassive: {
      name: 'Zealous Wrath',
@@ -687,7 +687,7 @@ export const CLASS_RESOURCE_TYPES = {
     name: 'Ascetic',
     sharedPassive: {
      name: "Suffering's Gift",
-     description: "Sundale Solbrand's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
+     description: "Sundale Sol's Breath's light shields those who bleed for others. At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
     },
     uniquePassive: {
      name: 'Ascetic Endurance',

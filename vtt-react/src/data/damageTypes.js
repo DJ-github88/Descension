@@ -6,55 +6,55 @@
 const DAMAGE_TYPES = {
     physical: {
       name: 'Physical',
-      description: 'Martial damage from weapons, claws, and brute force. Bludgeoning, piercing, and slashing are weapon properties, not separate damage types.',
+      description: 'Grounded kinetic force from weapons, claws, and Groven stone-scales. Bludgeoning, piercing, and slashing are weapon properties, not separate damage types.',
       color: '#6B4226',
       icon: 'Bludgeoning/Hammer Crush'
     },
     ember: {
       name: 'Ember',
-      description: 'Scorching heat and sacred light. Sol\'s buried warmth made manifest, burning the impure and igniting the hopeless.',
+      description: 'Born from Sol\'s dying stellar core, Emberspire\'s subterranean furnace, and Scathrach\'s vents. Scorching heat that burns the impure and ignites desperate souls.',
       color: '#D4380D',
       icon: 'Fire/Volcanic Corruption'
     },
     rime: {
       name: 'Rime',
-      description: 'The frozen world\'s grip. Icy energy that slows, freezes, and shatters.',
+      description: 'Born from Keth-Amar\'s cosmic vacuum-cold, House Skalvyr\'s Hunger Pact, and Nordhalla\'s glaciers. Frigid energy that numbs, slows, and shatters bone.',
       color: '#2C5F7C',
       icon: 'Frost/Frostbite Variant 2'
     },
     storm: {
       name: 'Storm',
-      description: 'Kinetic fury from lightning, thunder, and concussive force. Energy that arcs, stuns, and shatters barriers.',
+      description: 'Born from the Shard-Window gale-vortexes and Emberspire\'s concussive pressure-veins. Kinetic atmospheric fury that arcs, stuns, and shatters barriers.',
       color: '#8B7328',
       icon: 'Lightning/Thunderstorm'
     },
     arcane: {
       name: 'Arcane',
-      description: 'Pure magic. Binding ritual residue and raw arcane energy that affects even the incorporeal.',
+      description: 'Born from Aethil\'s grammar of consequence and Valerius\'s legalist contract syntax. Siphoned ritual residue and balanced spellwork clauses that affect all targets.',
       color: '#5B3A8C',
       icon: 'Arcane/Ebon Blaze'
     },
     primal: {
       name: 'Primal',
-      description: 'Living things and growth. The world\'s refusal to die, channeling natural energy and life force.',
+      description: 'Born from Vereth\'s wild ironwood roots and Mareth\'s living ocean spindrift. The planet\'s raw, unyielding refusal to die under Keth-Amar\'s predation.',
       color: '#2D5A1E',
       icon: 'Nature/Nature Natural 11'
     },
     blight: {
       name: 'Blight',
-      description: 'Necrotic decay, silence consumption, toxic poison, and caustic acid that withers all it touches.',
+      description: 'Born from Morvane\'s peat-decay, broken contract debts, and acidic vat-runoff. Rotting necrotic decay that consumes vitality.',
       color: '#3D1F4E',
       icon: 'Necrotic/Necrotic Wither'
     },
     wyrd: {
       name: 'Wyrd',
-      description: 'The raw, entropic corruption of Keth-Amar. A spiritual contagion, chaotic energy, and psychic decay breathed into mortal folklore and bleeding through the cracks in the binding seal.',
+      description: 'The entropic predator-breath of Keth-Amar. A spiritual contagion and psychic decay breathed into mortal fears, leaking through cracks in the binding seal.',
       color: '#7A2040',
       icon: 'Psychic/Psychic Telepathy'
     },
     sacred: {
       name: 'Sacred',
-      description: 'Sacred radiance drawn from the upper spheres. Smite the unholy, bless the faithful, and burn corruption with pure celestial light.',
+      description: 'Born from Aex\'s original binding song, the Willing Sacrifice, and Aethil\'s grammar of consequence. Golden harmonic resonance that burns breached vows.',
       color: '#DAA520',
       icon: 'Radiant/Radiant Divinity'
     },

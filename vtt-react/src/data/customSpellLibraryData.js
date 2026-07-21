@@ -22,7 +22,7 @@ export const SPELL_CATEGORIES = [
   {
     id: 'healing-spells',
     name: 'Healing Spells',
-    description: 'Sundale Solbrand warmth coaxed into flesh and bone. Spells that restore health and vitality',
+    description: 'Sundale Sol\'s Breath warmth coaxed into flesh and bone. Spells that restore health and vitality',
     icon: 'spell_holy_heal',
     spells: [],
     color: '#2d5016'

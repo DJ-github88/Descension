@@ -275,7 +275,7 @@ The class is heavily practiced by the Solvarn humans and the Korr Emberth.
 
 Four subrace variants exist:
 - **Solvarn ("The Sun-Vigil")**: Sera's original tradition. Every wound absorbed is a small death in imitation of Sol's entombment — suffering as prayer, the body as living tomb-mass.
-- **Korr Emberth ("The Vault-Silent")**: Frame every absorbed wound as another minute of vigil over the Solbrand. The Vault-Breath as template.
+- **Korr Emberth ("The Vault-Silent")**: Frame every absorbed wound as another minute of vigil over the Sol's Breath. The Vault-Breath as template.
 - **Velun Neth ("The Contract-Martyr")**: Sacrifice per explicit contract terms. The suffering is legally binding and the protection it generates is a delivered obligation. A ledger of fulfilled clauses.
 - **Skald ("The Ironclad")**: The Dreadnaught tradition reborn. Sealed in riveted iron plate with heating-pipes, converting incoming damage into combustion pressure. The only Martyr variant that converts absorbed suffering into offensive output.
 
@@ -415,7 +415,7 @@ The class is heavily practiced by the Velun Neth and the Thalren humans.
 Five subrace variants exist:
 - **Velun Neth ("The Clause-Canceller")**: Cancel spells through legal-inversion — drafting the annulment. A fireball is an aggressively-worded offer; the response is a timely rejection on procedural grounds. Lowest radiation intake but fails against wild Wyrd.
 - **Thalren ("The Wyrd-Defuser")**: Defuse magic like a sapper defuses a trap — identify trigger, payload, and failsafe, then neutralize each in sequence. Only method that reliably catches layered spells.
-- **Solvarn ("The Tomb-Aegis")**: Absorb magic raw, practice-tested against Solbrand-scale eruptions. Take the most Silence Resonance but can absorb the largest single bursts.
+- **Solvarn ("The Tomb-Aegis")**: Absorb magic raw, practice-tested against Sol's Breath-scale eruptions. Take the most Silence Resonance but can absorb the largest single bursts.
 - **Korr Emberth ("The Silent-Guard")**: Intercept from Vault-Breath stillness, becoming a silence that magic *falls into* rather than strikes. The steadiest variant — but cannot intercept while moving.
 - **Thrask Emberth ("The Forge-Shield")**: Deflect and redirect rather than absorb. Treat incoming magic as a thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 

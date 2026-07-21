@@ -105,7 +105,7 @@
     "type": "region",
     "region": "sundale",
     "summary": "The scorched ashlands surrounding Emberspire, currently governed by Hierophant Aethelgard's Dawn Vigil.",
-    "fullEntry": "The buried star Sol lies beneath Sundale, and the ashland above it has never stopped burning. After the collapse of House Solvan, the region was seized by Hierophant Aethelgard and the Dawn Vigil, who rule it as a martial-theocracy. The state enforces the Caldera Labor-Levies, conscripting the youth into the Martyr Brigades to mine sulfur for the Korr priests' Sulfur Cartel monopoly. The population is split between the wealthy Deep-Born who live in the Harath-Vault and the impoverished Ash-Dwellers who are blockaded by the Obsidian Citadels.",
+    "fullEntry": "The buried star Sol lies beneath Sundale, and the ashland above it has never stopped burning. After the collapse of House Solvan, the region was seized by Hierophant Aethelgard and the Dawn Vigil, who rule it as a martial-theocracy. The state enforces the Caldera Labor-Levies, conscripting the youth into the Martyr Brigades to mine sulfur for the Hollow-Solari priests' Sulfur Cartel monopoly. The population is split between the wealthy Deep-Born who live in the Harath-Vault and the impoverished Ash-Dwellers who are blockaded by the Obsidian Citadels.",
     "relatedTerms": [
       "aex",
       "basalt_shyr",
@@ -400,7 +400,7 @@
     "type": "historical_figure",
     "region": "sundale",
     "summary": "The legendary forge-blacksmith of Emberspire in Sundale who first manifested the Berserker's Blood-Heat by surrendering to the volcanic forge during a wyrm attack.",
-    "fullEntry": "When the ice-wyrm burst into the Emberspire mining-chambers, every Emberth ran. Grum Bloodhammer didn't. The master forge-blacksmith threw down his tools and surrendered to the forge-heat instead, igniting his own blood and muscles past anything a living body should survive. His bare fists shattered the wyrm's glacial hide. The workers lived. And the Berserker's Blood-Heat was born in that moment: the path of a man who chose to burn rather than flee.",
+    "fullEntry": "When the ice-wyrm burst into the Emberspire mining-chambers, every Solari ran. Grum Bloodhammer didn't. The master forge-blacksmith threw down his tools and surrendered to the forge-heat instead, igniting his own blood and muscles past anything a living body should survive. His bare fists shattered the wyrm's glacial hide. The workers lived. And the Berserker's Blood-Heat was born in that moment: the path of a man who chose to burn rather than flee.",
     "relatedTerms": [
       "berserker",
       "blood_heat",
@@ -431,7 +431,7 @@
     "type": "entity",
     "region": "sundale",
     "summary": "A fragment of Aex's flayed hide that fell into Emberspire's deepest vent during the Binding itself, corrupted by the Wyrd and grown sentient.",
-    "fullEntry": "Something nests in the molten vents beneath Emberspire, and the Emberth have a name for it: Scathrach, the Ashen Sovereign. It is not older than the Binding — it was born during it. A fragment of Aex's flayed hide fell into Emberspire's deepest vent while the seal was being woven, and the Wyrd, already leaking through Aex's stretched body, corrupted it. For centuries Scathrach was Keth-Amar's emissary, a rooting tendril through the wound, feeding the Sun-Eater information and despair from within the world. But Aex's nature was too strong. The fragment rejected the corruption.\n\nNow Scathrach despises Keth-Amar for what it was made into. It calls in Pyrofiend debts not to serve the Sun-Eater but to hoard power to wound it back. Keth-Amar cannot reach into that vent anymore — Scathrach sealed it from within. The Ashen Sovereign always collects its bargains, but the fire is no longer the Sun-Eater's. Every Pyrofiend ends in the furnace, and the next bargain is already being struck, and somewhere below the magma, Scathrach waits for the strike that will finally mean something.",
+    "fullEntry": "Something nests in the molten vents beneath Emberspire, and the Solari have a name for it: Scathrach, the Ashen Sovereign. It is not older than the Binding — it was born during it. A fragment of Aex's flayed hide fell into Emberspire's deepest vent while the seal was being woven, and the Wyrd, already leaking through Aex's stretched body, corrupted it. For centuries Scathrach was Keth-Amar's emissary, a rooting tendril through the wound, feeding the Sun-Eater information and despair from within the world. But Aex's nature was too strong. The fragment rejected the corruption.\n\nNow Scathrach despises Keth-Amar for what it was made into. It calls in Pyrofiend debts not to serve the Sun-Eater but to hoard power to wound it back. Keth-Amar cannot reach into that vent anymore — Scathrach sealed it from within. The Ashen Sovereign always collects its bargains, but the fire is no longer the Sun-Eater's. Every Pyrofiend ends in the furnace, and the next bargain is already being struck, and somewhere below the magma, Scathrach waits for the strike that will finally mean something.",
     "relatedTerms": [
       "emberspire",
       "pyrofiend",
@@ -482,11 +482,11 @@
   },
   "emberth": {
     "id": "emberth",
-    "term": "Emberth",
+    "term": "Solari",
     "type": "race",
     "region": "sundale",
     "summary": "A powerful, dark-skinned people of Sundale who bear deliberate burn-scars encoding their lineage and trade.",
-    "fullEntry": "Sol spoke in heat and image, never words, and the Emberth were the ones who listened. When prophecy warned of the sun's death, their ancestors descended into the thermal caverns beneath Emberspire and waited out the freezing of the surface above. Generations later they are still there, broad-shouldered and patient, their large heat-sensitive eyes adapted to the dark, their long lungs built for thin volcanic air.\n\nThe Korr tend the deep vault where the Solbrand still glows, and they keep their sacred silence. The Thrask range the badlands above, hunting and mining the volcanic frontier. Together they work the greatest forges left in the world. At Ember Lagoon, Sundale's only port, Emberth harbourmasters and Merryn shipping clans load the forged goods onto ships and send them out to whatever's left of civilization.",
+    "fullEntry": "Sol spoke in heat and image, never words, and the Solari were the ones who listened. When prophecy warned of the sun's death, their ancestors descended into the thermal caverns beneath Emberspire and waited out the freezing of the surface above. Generations later they are still there, broad-shouldered and patient, their large heat-sensitive eyes adapted to the dark, their long lungs built for thin volcanic air.\n\nThe Hollow-Solari tend the deep vault where the Solbrand still glows, and they keep their sacred silence. The Waste-Solari range the badlands above, hunting and mining the volcanic frontier. Together they work the greatest forges left in the world. At Ember Lagoon, Sundale's only port, Solari harbourmasters and Merryn shipping clans load the forged goods onto ships and send them out to whatever's left of civilization.",
     "relatedTerms": [
       "cinder_badlands",
       "cinderhoodoo",
@@ -551,7 +551,7 @@
     "type": "race",
     "region": "sundrift-vale",
     "summary": "Alien refugees of the Sundrift Vale, descended from settlers of the dead world Lumia whose bloodlines still carry the echo of Lumia's lost biosphere.",
-    "fullEntry": "The Astril are not native to Mythrill. They are the descendants of refugees who fled a dying world they call Lumia, carrying fragments of Lumia's biosphere in their blood. When Keth-Amar devoured Lumia, the Astril's original sun, the survivors brought the echo of their homeworld's life with them across the void. That echo lives in their bloodlines — pale blue-tinged skin, reptilian slit-pupil eyes, and unique crystalline body markings that trace each Astril's heritage. They are farmers and ritual-tenders, not mystics — a practical people carrying an extraordinary burden.\n\nThey are divided into two bloodlines. The Vashir carry Lumia's reptilian heritage: scaled forearms, claw-like nails, cooler body temperature, the grounded patience of farmers and hunters who work the soil of a world they inadvertently doomed. The Silath carry Lumia's consciousness: the stellar memory, the star-reading gift, the nocturnal calling that drives the Selunis-ritual every night beneath the moon. Every Astril makes pilgrimage to Starfall Vale, where shards from Lumia's destruction still strike the earth, and the memory of a dead world can be heard in the crystalline resonance of trapped light.",
+    "fullEntry": "The Astril are not native to Mythrill. They are the descendants of refugees who fled a dying world they call Lumia, carrying fragments of Lumia's biosphere in their blood. When Keth-Amar devoured Lumia, the Astril's original sun, the survivors brought the echo of their homeworld's life with them across the void. That echo lives in their bloodlines — pale blue-tinged skin, reptilian slit-pupil eyes, and unique crystalline body markings that trace each Astril's heritage. They are farmers and ritual-tenders, not mystics — a practical people carrying an extraordinary burden.\n\nThey are divided into two bloodlines. The Earthen Astril carry Lumia's reptilian heritage: scaled forearms, claw-like nails, cooler body temperature, the grounded patience of farmers and hunters who work the soil of a world they inadvertently doomed. The Stellar Astril carry Lumia's consciousness: the stellar memory, the star-reading gift, the nocturnal calling that drives the Selunis-ritual every night beneath the moon. Every Astril makes pilgrimage to Starfall Vale, where shards from Lumia's destruction still strike the earth, and the memory of a dead world can be heard in the crystalline resonance of trapped light.",
     "relatedTerms": [
       "ancestor_mounds",
       "ancestor_wold",
@@ -725,7 +725,7 @@
     "type": "entity",
     "region": "sundale",
     "summary": "The ancient cosmic predator that hunts stars in their Deepening cycle, pressed against the partial seal and seeping corruption through the cracks.",
-    "fullEntry": "Every civilization that named Keth-Amar in writing was destroyed before the word could spread. That is why it has no name in any living language older than eight centuries. It hunts stars in their Deepening, the vulnerable death-rebirth cycle, and consumes them before they can rekindle. When Sol entered its Deepening, Keth-Amar followed, and the binding houses chose to entomb the star beneath the world rather than surrender it.\n\nKeth-Amar is not mindless hunger. It schemes. It studies its prey's fears, folklore, and fractures. For eight years after the Binding, it whispered to the houses not with rage, but with precision: tailored dread, bargains that sounded like reason. Six houses broke. They marched their firstborn to the peaks, and Keth-Amar took them as vessel-keys. But Viridane never agreed, so the seal cracked only partially. Keth-Amar did NOT eat sixty-five rebirth attempts. It is pressed against the partial seal, seeping through the cracks, feeding on energy bleeding through — Sol's life, Aex's pain.\n\nDuring the Corruption Years, it offered Sol's own warmth deceptively to the houses, pretending it could free heat while using the bargains to crack the seal. It has never broken a bargain under Aethil's framework. It is bitter that the seventh heir (Viridane's) never agreed.\n\nThe Cult of Forgotten Shadow is an organized merger between the Over-Shanty bog-cult and disillusioned Dawn Vigil defectors who learned that Monolith reassembly summons Keth-Amar rather than Sol. It is not a separate entity serving an emissary; it acts as a channel for Keth-Amar's direct whispers through the cracks, for there is no independent Voice.",
+    "fullEntry": "Every civilization that named Keth-Amar in writing was destroyed before the word could spread. That is why it has no name in any living language older than eight centuries. It hunts stars in their Deepening, the vulnerable death-rebirth cycle, and consumes them before they can rekindle. It tracked the Astril refugees from the devoured star Lumia across the void — the Astril's flight led Keth-Amar to Sol, not the Deepening alone — and the binding houses chose to entomb the star beneath the world rather than surrender it.\n\nKeth-Amar is not mindless hunger. It schemes. It studies its prey's fears, folklore, and fractures. For eight years after the Binding, it whispered to the houses not with rage, but with precision: tailored dread, bargains that sounded like reason. Six houses broke. They marched their firstborn to the peaks, and Keth-Amar took them as vessel-keys. But Viridane never agreed, so the seal cracked only partially. Keth-Amar did NOT eat sixty-five rebirth attempts. It is pressed against the partial seal, seeping through the cracks, feeding on energy bleeding through — Sol's life, Aex's pain.\n\nDuring the Corruption Years, it offered Sol's own warmth deceptively to the houses, pretending it could free heat while using the bargains to crack the seal. It has never broken a bargain under Aethil's framework. It is bitter that the seventh heir (Viridane's) never agreed.\n\nThe Cult of Forgotten Shadow is an organized merger between the Over-Shanty bog-cult and disillusioned Dawn Vigil defectors who learned that Monolith reassembly summons Keth-Amar rather than Sol. It is not a separate entity serving an emissary; it acts as a channel for Keth-Amar's direct whispers through the cracks, for there is no independent Voice.",
     "relatedTerms": [
       "dawn_vigil",
       "emberspire",
@@ -781,8 +781,8 @@
     "term": "Sol's Breath",
     "type": "resource",
     "region": "sundale",
-    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Korr Emberth in sacred silence.",
-    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Korr Emberth, the vault-dwelling caste of the Emberth race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Emberth smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
+    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Hollow-Solari Solari in sacred silence.",
+    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Hollow-Solari Solari, the vault-dwelling caste of the Solari race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Solari smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
     "relatedTerms": [
       "damon",
       "dawn_vigil",
@@ -818,8 +818,8 @@
     "term": "Sol's Breath",
     "type": "resource",
     "region": "sundale",
-    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Korr Emberth in sacred silence.",
-    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Korr Emberth, the vault-dwelling caste of the Emberth race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Emberth smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
+    "summary": "The residual thermal current bleeding from Sol's buried vault beneath Emberspire — literally the bound star's breathing, tended by the Hollow-Solari Solari in sacred silence.",
+    "fullEntry": "Sol's Breath is not a flame. It is the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt. The Hollow-Solari Solari, the vault-dwelling caste of the Solari race, have tended Sol's Breath in sacred, wordless silence since the day Sol was bound. They believe Sol's Breath is Sol's breathing, that if it ever falters, the star has truly died and no vault, no bargain, no sacrifice can restart it. In practical terms, Sol's Breath heats the deep-cavern settlements, powers the forge-caldera used by the Solari smith-clans, and provides the thermal differential that keeps the Sundale badlands from freezing solid like the rest of the world's surface.",
     "relatedTerms": [
       "damon",
       "dawn_vigil",
@@ -859,7 +859,7 @@
     "type": "entity",
     "region": "sundale",
     "summary": "The dying star entombed beneath Emberspire, a living celestial consciousness in forced torpor — unable to rebirth, unable to die.",
-    "fullEntry": "Sol burns at the heart of this world, a living star whose consciousness spans the system it warms. When it entered the Deepening, Keth-Amar came to consume it, and the binding houses entombed Sol beneath Sundale rather than surrender it. Sol did not consent to this, but it was done to save it.\n\nSol is not trying to rekindle. It is in forced torpor — bound beneath Sundale, wrapped in Aex's stretched hide. It cannot rebirth. It cannot die. It cannot scream. It endures.\n\nAll that remains of Sol's conscious warmth is the Solbrand, the residual thermal current bleeding upward through the basalt. The Korr Emberth tend it in sacred silence and believe Sol still breathes. The Augurs at the Frozen Archive once tracked the twelve-year windows as rebirth attempts. They now know those pulses were Aex screaming, not Sol igniting.",
+    "fullEntry": "Sol burns at the heart of this world, a living star whose consciousness spans the system it warms. When it entered the Deepening, Keth-Amar came to consume it, and the binding houses entombed Sol beneath Sundale rather than surrender it. Sol did not consent to this, but it was done to save it.\n\nSol is not trying to rekindle. It is in forced torpor — bound beneath Sundale, wrapped in Aex's stretched hide. It cannot rebirth. It cannot die. It cannot scream. It endures.\n\nAll that remains of Sol's conscious warmth is the Solbrand, the residual thermal current bleeding upward through the basalt. The Hollow-Solari Solari tend it in sacred silence and believe Sol still breathes. The Augurs at the Frozen Archive once tracked the twelve-year windows as rebirth attempts. They now know those pulses were Aex screaming, not Sol igniting.",
     "relatedTerms": [
       "aex",
       "keth_amar",
@@ -901,7 +901,7 @@
     ]
   },
   "berserker": {
-    "nativeWeaving": "**Ecological.** Blood-Heat is the body's last-ditch survival protocol weaponized against two extremities, Nordhalla's starvation-cold and Sundale's forge-heat. **Cultural.** The Hunger Pact (consuming the dead) is the deepest scar of the Skald saga-culture; the Thrask reframe is forge-cult. **Founder.** Grum ignited in Sundale's caldera, but the Bloodhammer line marched from Nordhalla's Glacier Bargain starvation. **Subrace-native.** Skald (Hunger-Pact ancestry), Thrask (geothermal resonance), Morgh Groven (Vat-Overclock), each subrace's biology is a different Heat source.",
+    "nativeWeaving": "**Ecological.** Blood-Heat is the body's last-ditch survival protocol weaponized against two extremities, Nordhalla's starvation-cold and Sundale's forge-heat. **Cultural.** The Hunger Pact (consuming the dead) is the deepest scar of the Skald saga-culture; the Waste-Solari reframe is forge-cult. **Founder.** Grum ignited in Sundale's caldera, but the Bloodhammer line marched from Nordhalla's Glacier Bargain starvation. **Subrace-native.** Skald (Hunger-Pact ancestry), Waste-Solari (geothermal resonance), Morgh Groven (Vat-Overclock), each subrace's biology is a different Heat source.",
     "id": "berserker",
     "term": "Berserker",
     "type": "class",
@@ -920,7 +920,7 @@
     ]
   },
   "shaper": {
-    "nativeWeaving": "**Ecological.** Form-shifting requires biology that can reshape, Mimir crystalline skin and Groven calcifiable bone, evolved in the Frostwood mists and Cragjaw vats. **Cultural.** Sylvanus's kinetic momentum dance (Frostwood fae-grove movement) fused with Torin's biological adaptation (Cragjaw alchemical body-work). **Founder.** Veyra the Mimir chronicler merged both, a product of the Frostwood grove-culture and Cragjaw Vat-Breakers Strata. **Subrace-native.** Woven Mimir and Morgh Groven only; Humans, Emberth, Neth, and Myrathil biologically cannot hold a shape.",
+    "nativeWeaving": "**Ecological.** Form-shifting requires biology that can reshape, Mimir crystalline skin and Groven calcifiable bone, evolved in the Frostwood mists and Cragjaw vats. **Cultural.** Sylvanus's kinetic momentum dance (Frostwood fae-grove movement) fused with Torin's biological adaptation (Cragjaw alchemical body-work). **Founder.** Veyra the Mimir chronicler merged both, a product of the Frostwood grove-culture and Cragjaw Vat-Breakers Strata. **Subrace-native.** Woven Mimir and Morgh Groven only; Humans, Solari, Neth, and Myrathil biologically cannot hold a shape.",
     "id": "shaper",
     "term": "Shaper",
     "type": "class",
@@ -961,7 +961,7 @@
     ]
   },
   "harbinger": {
-    "nativeWeaving": "**Ecological.** Entropy-reading arises in cultures that have waited for extinction long enough to weaponize it, Nordhalla's glacier-stasis and the Sundrift's darkened sky. **Cultural.** Skald doom-saga crossed with Ordan steppe-nihilism. **Founder.** Xyris tore reality in the Sundrift and Malakor calculated the doom-arithmetic in Nordhalla, products of the Glacier Bargain and the Ordavan migration-bargain. **Subrace-native.** Vashir Astril, Solvarn, Rune Keeper Skald, Ord, the cultures proximate to entropy.",
+    "nativeWeaving": "**Ecological.** Entropy-reading arises in cultures that have waited for extinction long enough to weaponize it, Nordhalla's glacier-stasis and the Sundrift's darkened sky. **Cultural.** Skald doom-saga crossed with Ordan steppe-nihilism. **Founder.** Xyris tore reality in the Sundrift and Malakor calculated the doom-arithmetic in Nordhalla, products of the Glacier Bargain and the Ordavan migration-bargain. **Subrace-native.** Earthen Astril, Solvarn, Rune Keeper Skald, Ord, the cultures proximate to entropy.",
     "id": "harbinger",
     "term": "Harbinger",
     "type": "class",
@@ -981,13 +981,13 @@
     ]
   },
   "chronarch": {
-    "nativeWeaving": "**Ecological.** Time-stitching requires the volcanic-glass, gear-craft, and bone-knowledge found only in Cragjaw's vertical engineering tunnels. **Cultural.** Groven knot-record-keeping crossed with Fexric time-suspension folklore. **Founder.** Nesta, a Kethrin engineer, built the engine at Frostmaw during the War of Thousand Screams, a product of the Vat-Breakers' deep-alchemical legacy. **Subrace-native.** Kethrin Fexric and Ithran Groven only; outsiders have never learned the technique.",
+    "nativeWeaving": "**Ecological.** Time-stitching requires the volcanic-glass, gear-craft, and bone-knowledge found only in Cragjaw's vertical engineering tunnels. **Cultural.** Groven knot-record-keeping crossed with Fexric time-suspension folklore. **Founder.** Nesta, a Clockwork Fexric engineer, built the engine at Frostmaw during the War of Thousand Screams, a product of the Vat-Breakers' deep-alchemical legacy. **Subrace-native.** Clockwork Fexric and Ithran Groven only; outsiders have never learned the technique.",
     "id": "chronarch",
     "term": "Chronarch",
     "type": "class",
     "region": "cragjaw-peaks",
     "summary": "A time-manipulator who unravels small loops of causality to reverse, delay, or accelerate moments, at the cost of temporal echoes.",
-    "fullEntry": "During the War of Thousand Screams, a Kethrin engineer named Nesta built a time-dilation engine at Frostmaw, and the Chronarch tradition came out of that engine. It is the most demanding craft in the known world: a Chronarch must hold in mind not just what is, but what was and what could be, all at once. The eternal blizzard of the Cragjaw Peaks created pockets of temporal suspension, and Nesta's engine learned to pull at them. A Chronarch doesn't travel through time. They stitch it, pulling a thread of the past forward or pushing a thread of the present back by seconds or minutes. Each stitch leaves a temporal echo, a ghost-impression of the unraveled moment that lingers and sometimes acts on its own.",
+    "fullEntry": "During the War of Thousand Screams, a Clockwork Fexric engineer named Nesta built a time-dilation engine at Frostmaw, and the Chronarch tradition came out of that engine. It is the most demanding craft in the known world: a Chronarch must hold in mind not just what is, but what was and what could be, all at once. The eternal blizzard of the Cragjaw Peaks created pockets of temporal suspension, and Nesta's engine learned to pull at them. A Chronarch doesn't travel through time. They stitch it, pulling a thread of the past forward or pushing a thread of the present back by seconds or minutes. Each stitch leaves a temporal echo, a ghost-impression of the unraveled moment that lingers and sometimes acts on its own.",
     "relatedTerms": [
       "cragjaw-peaks",
       "house_tesshan"
@@ -1180,7 +1180,7 @@
     ]
   },
   "animist": {
-    "nativeWeaving": "**Ecological.** Ancestral spirit-channeling requires three biomes, steppe totemic communion, bog spore-inhalation, glacier runic inscription, hence three roots. **Cultural.** Ordan throat-song, Vreken bog-spirit communion, and Skald runic ancestor-veneration. **Founder.** Kael (Ordan), Nyssa (Vreken), and Theron (Skald) each pioneered a root, each a product of their region's Deep Stratum. **Subrace-native.** Ordan, Vashir Astril, Clean Vreken, Morren, Rune Keeper Skald, Velun Neth.",
+    "nativeWeaving": "**Ecological.** Ancestral spirit-channeling requires three biomes, steppe totemic communion, bog spore-inhalation, glacier runic inscription, hence three roots. **Cultural.** Ordan throat-song, Vreken bog-spirit communion, and Skald runic ancestor-veneration. **Founder.** Kael (Ordan), Nyssa (Vreken), and Theron (Skald) each pioneered a root, each a product of their region's Deep Stratum. **Subrace-native.** Ordan, Earthen Astril, Clean Vreken, Morren, Rune Keeper Skald, Velun Neth.",
     "id": "animist",
     "term": "Animist",
     "type": "class",
@@ -1237,7 +1237,7 @@
     ]
   },
   "martyr": {
-    "nativeWeaving": "**Ecological.** Willing-suffering theology arises at Sol's tomb, where the volcanic theocracy demands sacrifice to feed the failing Solbrand. **Cultural.** Solbrand solar-sacrifice cosmology and the Solvan Heir-Purge. **Founder.** Sera Solvan carved her sacrificed child's name into her arm, a product of the ur-bargain (Sundale is the wound itself). **Subrace-native.** Solvarn (sun-vigil), Korr Emberth (Vault-Breath), Velun Neth (contract-martyrdom).",
+    "nativeWeaving": "**Ecological.** Willing-suffering theology arises at Sol's tomb, where the volcanic theocracy demands sacrifice to feed the failing Solbrand. **Cultural.** Solbrand solar-sacrifice cosmology and the Solvan Heir-Purge. **Founder.** Sera Solvan carved her sacrificed child's name into her arm, a product of the ur-bargain (Sundale is the wound itself). **Subrace-native.** Solvarn (sun-vigil), Hollow-Solari Solari (Vault-Breath), Velun Neth (contract-martyrdom).",
     "id": "martyr",
     "term": "Martyr",
     "type": "class",
@@ -1282,7 +1282,7 @@
     ]
   },
   "pyrofiend": {
-    "nativeWeaving": "**Ecological.** The fire-pact requires proximity to Scathrach's influence beneath Emberspire and a culture that frames self-destruction as power. **Cultural.** Solbrand volcanic forge-cult and solar-sacrifice. **Founder.** A cabal of Solvarn occultists swallowed Scathrach's coals beneath Emberspire, products of the ur-bargain's wound. **Subrace-native.** Thrask Emberth and Solvarn outcasts; cold-adapted cultures reject fire-pacts.",
+    "nativeWeaving": "**Ecological.** The fire-pact requires proximity to Scathrach's influence beneath Emberspire and a culture that frames self-destruction as power. **Cultural.** Solbrand volcanic forge-cult and solar-sacrifice. **Founder.** A cabal of Solvarn occultists swallowed Scathrach's coals beneath Emberspire, products of the ur-bargain's wound. **Subrace-native.** Waste-Solari Solari and Solvarn outcasts; cold-adapted cultures reject fire-pacts.",
     "id": "pyrofiend",
     "term": "Pyrofiend",
     "type": "class",
@@ -1299,13 +1299,13 @@
     ]
   },
   "spellguard": {
-    "nativeWeaving": "**Ecological.** Magical-defense engineering requires the volcanic forge-tradition and the Solbrand's residual energy. **Cultural.** Forge-cult precision crossed with anti-Wyrd paranoia. **Founder.** Damon the Emberth smith blocked a solar flare with an alchemical tower shield during the entombment, a product of the Emberspire wound. **Subrace-native.** Velun Neth (magical cancellation), Thalren, Solvarn, Korr Emberth.",
+    "nativeWeaving": "**Ecological.** Magical-defense engineering requires the volcanic forge-tradition and the Solbrand's residual energy. **Cultural.** Forge-cult precision crossed with anti-Wyrd paranoia. **Founder.** Damon the Solari smith blocked a solar flare with an alchemical tower shield during the entombment, a product of the Emberspire wound. **Subrace-native.** Velun Neth (magical cancellation), Thalren, Solvarn, Hollow-Solari Solari.",
     "id": "spellguard",
     "term": "Spellguard",
     "type": "class",
     "region": "sundale",
     "summary": "A defensive combat-mage who specializes in identifying, neutralizing, and reflecting incoming magical threats, a living counterspell.",
-    "fullEntry": "At the Binding, the Emberth smith Damon blocked a solar flare with an alchemical tower shield during Sol's entombment, and the Spellguard tradition grew from that shield in the forge-caldera keeps of Sundale. The smiths who worked near the Solbrand needed practitioners who could intercept and defuse the magical eruptions that bled from Sol's imprisoned resonance. A Spellguard doesn't cast offensive spells. They read the structure of incoming magic and dismantle it before it arrives, redirect it, or reshape it into something that serves a different purpose. They are the tradition that looks most like engineering and least like art.",
+    "fullEntry": "At the Binding, the Solari smith Damon blocked a solar flare with an alchemical tower shield during Sol's entombment, and the Spellguard tradition grew from that shield in the forge-caldera keeps of Sundale. The smiths who worked near the Solbrand needed practitioners who could intercept and defuse the magical eruptions that bled from Sol's imprisoned resonance. A Spellguard doesn't cast offensive spells. They read the structure of incoming magic and dismantle it before it arrives, redirect it, or reshape it into something that serves a different purpose. They are the tradition that looks most like engineering and least like art.",
     "relatedTerms": [
       "damon",
       "emberth",
@@ -1347,7 +1347,7 @@
     ]
   },
   "warden": {
-    "nativeWeaving": "**Ecological.** Chain-graft containment requires the ore-hauling and surgical tradition of Frostmaw's mining tunnels. **Cultural.** Groven vertical-engineering and the Vat-Breakers' legacy of containment. **Founder.** Alaric the Groven mine-guard drove an ore-chain through his own forearm to hold a specimen for three days, a product of the Vat-Breakers' Revolt Stratum. **Subrace-native.** Morgh Groven and Fexric Drall natively; Kessen Neth, Skald, Vreken via the surgical graft (narrative unlock).",
+    "nativeWeaving": "**Ecological.** Chain-graft containment requires the ore-hauling and surgical tradition of Frostmaw's mining tunnels. **Cultural.** Groven vertical-engineering and the Vat-Breakers' legacy of containment. **Founder.** Alaric the Groven mine-guard drove an ore-chain through his own forearm to hold a specimen for three days, a product of the Vat-Breakers' Revolt Stratum. **Subrace-native.** Morgh Groven and Fexric Caustic Fexric natively; Kessen Neth, Skald, Vreken via the surgical graft (narrative unlock).",
     "id": "warden",
     "term": "Warden",
     "type": "class",
@@ -1485,8 +1485,8 @@
     "term": "Harath-Vault",
     "type": "location",
     "region": "sundale",
-    "summary": "The massive subterranean capital of the Emberth forge-clans, carved into a dormant volcanic caldera three miles from Emberspire.",
-    "fullEntry": "Three miles from Emberspire, the mountain opens into a throat of black basalt, and the Harath-Vault descends into it: the subterranean capital of the Emberth forge-clans, radial and vast, hewn by the Sun-Speakers before the sun ever died. Every wall is a forge. Every forge is a temple. The Solbrand glows in the deep vault, and the Korr tend its eternal ember in the silence they keep for sacred things. Above them the Thrask rangers work the volcanic frontier, mining and hunting the badlands that would freeze solid if the ember ever failed. The vault is the reason Sundale still has a heartbeat, and the Emberth don't intend to let it stop.",
+    "summary": "The massive subterranean capital of the Solari forge-clans, carved into a dormant volcanic caldera three miles from Emberspire.",
+    "fullEntry": "Three miles from Emberspire, the mountain opens into a throat of black basalt, and the Harath-Vault descends into it: the subterranean capital of the Solari forge-clans, radial and vast, hewn by the Sun-Speakers before the sun ever died. Every wall is a forge. Every forge is a temple. The Solbrand glows in the deep vault, and the Hollow-Solari tend its eternal ember in the silence they keep for sacred things. Above them the Waste-Solari rangers work the volcanic frontier, mining and hunting the badlands that would freeze solid if the ember ever failed. The vault is the reason Sundale still has a heartbeat, and the Solari don't intend to let it stop.",
     "relatedTerms": [
       "emberspire",
       "emberspire_caldera",
@@ -1567,8 +1567,8 @@
     "term": "Synod Hold",
     "type": "location",
     "region": "sundrift-vale",
-    "summary": "The crystal-lattice archive of the Astril Synod, where the Astril elders preserve the heritage of Lumia and adjudicate disputes between the Vashir and Silath.",
-    "fullEntry": "The Astril built their seat from resonant crystal-lattice in the Sundrift Vale, and the hum of trapped starlight hasn't stopped since. The Synod Hold is where the Astril elders study the Lumian heritage carried in their blood, adjudicate disputes between the Vashir and the Silath, and keep the most complete records of their lost homeworld left in the world. The Synod is also where False Prophets are tried and banished, their deceptive light recognized as a toxic forgery of true Lumian resonance. Enter the Synod Hold and the starlight hum will press against your teeth; the Astril say the lattice remembers every echo of Lumia it has ever trapped, and it is still singing them.",
+    "summary": "The crystal-lattice archive of the Astril Synod, where the Astril elders preserve the heritage of Lumia and adjudicate disputes between the Earthen Astril and Stellar Astril.",
+    "fullEntry": "The Astril built their seat from resonant crystal-lattice in the Sundrift Vale, and the hum of trapped starlight hasn't stopped since. The Synod Hold is where the Astril elders study the Lumian heritage carried in their blood, adjudicate disputes between the Earthen Astril and the Stellar Astril, and keep the most complete records of their lost homeworld left in the world. The Synod is also where False Prophets are tried and banished, their deceptive light recognized as a toxic forgery of true Lumian resonance. Enter the Synod Hold and the starlight hum will press against your teeth; the Astril say the lattice remembers every echo of Lumia it has ever trapped, and it is still singing them.",
     "relatedTerms": [
       "ancestor_mounds",
       "astril",
@@ -1837,8 +1837,8 @@
     "term": "Fexric",
     "type": "race",
     "region": "cragjaw-peaks",
-    "summary": "The oldest continuous civilization on Mythrill, goblinoid engineers whose guilds built the world's geothermal infrastructure and who accidentally created both the Groven and themselves.",
-    "fullEntry": "The Fexric built the world's bones and then forgot to write themselves into the history. Goblinoid guild-masters with a knack for geothermal plumbing, they laid the steam-roads, the turbine wheels, and the pipes that link all seven regions, and they were doing it millennia before humans found fire. They predate everyone.\n\nThey were an accident. The same alchemical vats that forged the Groven bled chemical runoff that coalesced into the Fexric, and the runoff learned to sing. The guild-bound Kethrin keep the infrastructure running and sing maintenance-songs to their machines. The free-roaming Drall clans wander the deep caverns where no maps reach. Both kinds speak Fexric, and they don't agree on much else.",
+    "summary": "The oldest continuous civilization on Mythrill, goblinoid cyber-grafters and steam-masters whose guilds built the world's geothermal infrastructure over eight millennia.",
+    "fullEntry": "The Fexric built the world's bones and laid the steam-roads, turbine wheels, and geothermal conduits linking all seven regions millennia before humans found fire. For eight thousand years, their cybernetic graft-guilds have dominated the subterranean deeps.\n\nWhile their vat-experiments accidentally spawned both the Groven servitors and the feral Scrap-Vermin of the deep sumps, the Fexric themselves remain the master cyber-engineers of Cragjaw Peaks. The guild-bound Kethrin keep the high vaults running with precise steam-craft, while the clan-free Drall roam the uncharted lower vents. Both speak Fexric and share an ancient, unyielding pride.",
     "relatedTerms": [
       "cragjaw-peaks",
       "deep_alchemists",
@@ -1873,7 +1873,7 @@
     "type": "concept",
     "region": "frostwood-reach",
     "summary": "The Frostwood fog eats memory in two ways: slow decay for those who live in it, acute amnesia for those who travel through. The Moss-Wax trade keeps the Reach alive.",
-    "fullEntry": "The fog of the Frostwood Reach eats memory on two schedules.\n\nFor those who live in it, the decay is slow. A decade of unprotected exposure hollows out foundational memories: family faces, a mother's name, the song you sang as a child. You do not notice the moment each one goes. You notice the hole it leaves years later.\n\nFor travelers in the deep wilderness, the danger is acute. Every twenty-four hours the fog demands a Spirit save, and on a failed save it takes a single piece of you: a name, a face, the terms of a contract you came here to honor. The Memory Toll does not negotiate.\n\nThe Reach survives through ritual countermeasures. Moss-Wax Candles burned at the trail's edge ward off the mist. Alchemical Fae-Hush drunk before sleep stabilizes the mind. Memory-Glass tablets, light-refracting, record what their owners cannot trust themselves to remember. The shape-shifting Mimir must perform the Rite of Masks to lock their fluid anatomy, or the fog dissolves them entirely.\n\nHouse Thalreth claims the fog as the price of their bargain with Aethil. Scholars note it predates the formal compact, as if it were already rising before any trade was struck, waiting for a reason to take hold. Some whisper the fog remembers what the houses agreed to forget, and it protects that silence by consuming any memory that tries to surface.\n\nWalk the Frostwood long enough and the fog will tax you. Carry Moss-Wax, drink your Fae-Hush, and carve your name on Memory-Glass before you sleep. The fog is patient. You must be patient too.",
+    "fullEntry": "The fog of the Frostwood Reach eats memory on two schedules.\n\nFor those who live in it, the decay is slow. A decade of unprotected exposure hollows out foundational memories: family faces, a mother's name, the song you sang as a child. You do not notice the moment each one goes. You notice the hole it leaves years later.\n\nFor travelers in the deep wilderness, the danger is acute. Every twenty-four hours the fog demands a Spirit save, and on a failed save it takes a single piece of you: a name, a face, the terms of a contract you came here to honor. The Memory Toll does not negotiate.\n\nThe Reach survives through ritual countermeasures. Moss-Wax Candles burned at the trail's edge ward off the mist. Alchemical Fae-Hush drunk before sleep stabilizes the mind. Memory-Glass tablets, light-refracting, record what their owners cannot trust themselves to remember. The shape-shifting Mimir must perform the Rite of Masks to lock their fluid anatomy, or the fog dissolves them entirely.\n\nThe fog's origin runs deeper than any compact. It is the byproduct of Sereth, the Mimir Creator's iterative attempts at perfecting the Mimir species — each failed iteration was discarded into the world's fabric as a layer of forgetting. The deity of the forest, Morvane (the Watcher), weaponized this fog to keep the Briaran hidden from Keth-Amar. It is not merely weather; it is the accumulated residue of divine dissatisfaction, and it eats memory because it was born from a creator who was never satisfied with what it made.\n\nHouse Thalreth claims the fog as the price of their bargain. Scholars note it predates the formal compact, as if it were already rising before any trade was struck, waiting for a reason to take hold. Some whisper the fog remembers what the houses agreed to forget, and it protects that silence by consuming any memory that tries to surface.\n\nWalk the Frostwood long enough and the fog will tax you. Carry Moss-Wax, drink your Fae-Hush, and carve your name on Memory-Glass before you sleep. The fog is patient. You must be patient too.",
     "relatedTerms": [
       "frostwood-reach",
       "house_thalreth",
@@ -1976,7 +1976,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "The world-heart volcano of Sundale, beneath whose caldera the dying star Sol was entombed at the Binding by House Solvan and the binding houses.",
-    "fullEntry": "Eight centuries of fire have not exhausted the Emberspire. The great volcano of Sundale burns without pause, its caldera plunging past the depth any expedition has survived, fed by the dying star entombed beneath the crust. At the Binding, House Solvan and the other binding houses lowered a seal woven from the flayed lifeblood of Aex down that volcanic throat and chained Sol where the world could not watch it die. When the Breach cracked the vault, the mountain answered with eight centuries of uninterrupted fire. The Emberth forge-clans built their keeps in its shadow and have tended its geothermal breath ever since, guarding the ember they call Sol's last heartbeat. The Dawn Vigil preaches that the magma-chamber connects to the Sundered Monolith fragments scattered across the continent, and that reassembling them would reignite the star inside the caldera. Whether that would be a rebirth or a second catastrophe, no one alive can say.",
+    "fullEntry": "Eight centuries of fire have not exhausted the Emberspire. The great volcano of Sundale burns without pause, its caldera plunging past the depth any expedition has survived, fed by the dying star entombed beneath the crust. At the Binding, House Solvan and the other binding houses lowered a seal woven from the flayed lifeblood of Aex down that volcanic throat and chained Sol where the world could not watch it die. When the Breach cracked the vault, the mountain answered with eight centuries of uninterrupted fire. The Solari forge-clans built their keeps in its shadow and have tended its geothermal breath ever since, guarding the ember they call Sol's last heartbeat. The Dawn Vigil preaches that the magma-chamber connects to the Sundered Monolith fragments scattered across the continent, and that reassembling them would reignite the star inside the caldera. Whether that would be a rebirth or a second catastrophe, no one alive can say.",
     "relatedTerms": [
       "aex",
       "dawn_vigil",
@@ -2065,7 +2065,7 @@
     "type": "faction",
     "region": "cragjaw-peaks",
     "summary": "Older than the Dark Bargains, older than human fire, the Fexric research sect that forged the Groven from Thrumm blood, lost them to revolt, and retreated beneath Frostmaw Crag to keep working.",
-    "fullEntry": "For long ages before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexrick who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists' surface operations.\n\nThe guild didn't die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexrick with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.",
+    "fullEntry": "For long ages before the Dark Bargains, the Deep Alchemists worked the deep tunnels of the Cragjaw Peaks, refining living flesh in sealed vats while humans were still learning to make fire. They are the oldest continuous research sect on Mythrill, a branch of the Fexric who treated flesh the way a smith treats ore: something to be melted, alloyed, and poured into a better shape. They were never kind about it.\n\nTheir great work was the Groven. Eight hundred years ago, the Alchemists captured hundreds of Thrumm broodlings, the regenerative tunnel-dwellers who did little but eat, sleep, and heal, and submerged them in alchemical serums. They hardened skin into stone-scale, lengthened limbs for tool use, and forced cognition awake. The Groven were built to labor. The first generation developed will, then language, then a revolt that shattered the Alchemists' surface operations.\n\nThe guild didn't die. It retreated into sealed vat-laboratories beneath Frostmaw Crag and kept working. Its current project is the Lost Brood: Thrumm and half-transformed Groven who have hung in those vats for seven centuries, still being adjusted by hands that never stopped. The Alchemists now believe the Wyrd itself can be refined, distilled, and injected. They want to brew a form of life that transcends both organic flesh and Wyrd substance.\n\nThey are still down there. The Groven above know it. If you walk the lower sumps of Frostmaw and listen to the pipes, you can hear the vats humming. Whether you come as a Groven with a debt to settle, a Fexric with a curiosity you cannot explain, or simply someone who values their own bones, the Deep Alchemists would very much like to meet you.",
     "relatedTerms": [
       "fexrick",
       "frostmaw_holdfast",
@@ -2118,8 +2118,8 @@
     "term": "Vault-Breath",
     "type": "concept",
     "region": "sundale",
-    "summary": "The Emberth art of absolute stillness. A master of Vault-Breath can slow their heart to silence and vanish from any heat-sense.",
-    "fullEntry": "In the geothermal depths of the Harath-Vault, body heat is the difference between a useful worker and a corpse. The Emberth forged Vault-Breath to close that gap. The discipline trains absolute physical stillness: metabolism slowed, movement reduced to micro-adjustments, breathing synchronized with the volcanic vent cycles until an Emberth at rest radiates nothing the cavern can detect.\n\nAt its highest level, Vault-Breath allows an Emberth to enter a state of suspended animation indistinguishable from death. No heartbeat. No breath. No heat signature. The Korr Sun-Speakers use this state during their sacred meditations. The Thrask rangers employ it for ambush hunting in the cinder badlands, lying flat on black rock for days before the strike.\n\nVault-Breath is not magic. It is discipline hammered into muscle and bone over years of practice. An Emberth who has mastered it is the most patient predator in the Sundale badlands, and the most difficult target.\n\nLearn Vault-Breath and the volcanic dark becomes a place you can wait. The vents mark time. The stillness becomes a weapon. The cinder badlands have room for one more ambush.",
+    "summary": "The Solari art of absolute stillness. A master of Vault-Breath can slow their heart to silence and vanish from any heat-sense.",
+    "fullEntry": "In the geothermal depths of the Harath-Vault, body heat is the difference between a useful worker and a corpse. The Solari forged Vault-Breath to close that gap. The discipline trains absolute physical stillness: metabolism slowed, movement reduced to micro-adjustments, breathing synchronized with the volcanic vent cycles until a Solari at rest radiates nothing the cavern can detect.\n\nAt its highest level, Vault-Breath allows a Solari to enter a state of suspended animation indistinguishable from death. No heartbeat. No breath. No heat signature. The Hollow-Solari Sun-Speakers use this state during their sacred meditations. The Waste-Solari rangers employ it for ambush hunting in the cinder badlands, lying flat on black rock for days before the strike.\n\nVault-Breath is not magic. It is discipline hammered into muscle and bone over years of practice. A Solari who has mastered it is the most patient predator in the Sundale badlands, and the most difficult target.\n\nLearn Vault-Breath and the volcanic dark becomes a place you can wait. The vents mark time. The stillness becomes a weapon. The cinder badlands have room for one more ambush.",
     "relatedTerms": [
       "emberth",
       "harath_vault",
@@ -2395,8 +2395,8 @@
     "term": "Cinderhoodoo",
     "type": "location",
     "region": "sundale",
-    "summary": "A cluster of fire-scorched rock spires on the ash plain, used as navigational landmarks by Thrask Emberth rangers.",
-    "fullEntry": "Cinderhoodoo is a forest of rock spires rising from the ash plain like grasping fingers, each hoodoo crowned with a cap of harder stone that protects the softer pillar beneath. Some caps have melted and re-fused into grotesque, face-like shapes that change expression depending on the angle of the volcanic light. Thrask Emberth rangers use the hoodoos as navigational landmarks and shelter from the soot-storms, and the formations are slowly being adopted as sacred sites by a growing Pyrofiend cult. Walk the hoodoos at dusk and the faces will change before you've passed them; the Pyrofiend say the spires are learning to look back, and the rangers don't disagree.",
+    "summary": "A cluster of fire-scorched rock spires on the ash plain, used as navigational landmarks by Waste-Solari Solari rangers.",
+    "fullEntry": "Cinderhoodoo is a forest of rock spires rising from the ash plain like grasping fingers, each hoodoo crowned with a cap of harder stone that protects the softer pillar beneath. Some caps have melted and re-fused into grotesque, face-like shapes that change expression depending on the angle of the volcanic light. Waste-Solari Solari rangers use the hoodoos as navigational landmarks and shelter from the soot-storms, and the formations are slowly being adopted as sacred sites by a growing Pyrofiend cult. Walk the hoodoos at dusk and the faces will change before you've passed them; the Pyrofiend say the spires are learning to look back, and the rangers don't disagree.",
     "relatedTerms": [
       "emberth",
       "pyrofiend",
@@ -2409,8 +2409,8 @@
     "term": "Ember Lagoon",
     "type": "location",
     "region": "sundale",
-    "summary": "Sundale's only port, a warm saltwater lagoon heated by volcanic vents where Emberth and Merryn traders coexist.",
-    "fullEntry": "Ember Lagoon is Sundale's lifeline to the outside world, the only harbor where the water does not freeze, warmed perpetually by volcanic vents beneath the seabed. The lagoon glows orange-red at night, earning it the Merryn nickname \"the Boiling Door.\" It is a rare point of genuine cooperation between Emberth, Solvarn, and Merryn: the Emberth control the port infrastructure, the Solvarn maintain the shrine to Sol on the eastern cliff, and the Merryn operate the shipping lanes. Three cultures, one harbor, constant tension, constant profit. Dock at the Boiling Door and you'll trade with three peoples who agree on nothing but the price of passage; the lagoon keeps the peace by being too valuable to fight over.",
+    "summary": "Sundale's only port, a warm saltwater lagoon heated by volcanic vents where Solari and Merryn traders coexist.",
+    "fullEntry": "Ember Lagoon is Sundale's lifeline to the outside world, the only harbor where the water does not freeze, warmed perpetually by volcanic vents beneath the seabed. The lagoon glows orange-red at night, earning it the Merryn nickname \"the Boiling Door.\" It is a rare point of genuine cooperation between Solari, Solvarn, and Merryn: the Solari control the port infrastructure, the Solvarn maintain the shrine to Sol on the eastern cliff, and the Merryn operate the shipping lanes. Three cultures, one harbor, constant tension, constant profit. Dock at the Boiling Door and you'll trade with three peoples who agree on nothing but the price of passage; the lagoon keeps the peace by being too valuable to fight over.",
     "relatedTerms": [
       "basalt_shyr",
       "emberth",
@@ -2530,7 +2530,7 @@
     "type": "location",
     "region": "sundrift-vale",
     "summary": "A deep valley carpeted with crystalline shards of trapped starlight, the site where the Astril refugees' Lumia-borne fragments first struck the earth.",
-    "fullEntry": "Starfall Vale is the most sacred site in the Sundrift Vale, a crater where the physical residue of the Astril arrival, fragments of Lumia's biosphere that survived the crossing, impacted the earth. Thousands of crystalline shards carpet the valley floor, glowing with trapped starlight and producing harmonic tones that the Vashir Astril call the Memory of Lumia. The vale is a place of pilgrimage for every Astril and a source of prophecy through the Star-Oracle who tends the First Shard. Walk the Starfall floor and you'll hear Lumia's echo sing from the shards; the Vashir say the starlight remembers what it was before their world died, and the Star-Oracle is the only one who can translate it.",
+    "fullEntry": "Starfall Vale is the most sacred site in the Sundrift Vale, a crater where the physical residue of the Astril arrival, fragments of Lumia's biosphere that survived the crossing, impacted the earth. Thousands of crystalline shards carpet the valley floor, glowing with trapped starlight and producing harmonic tones that the Earthen Astril call the Memory of Lumia. The vale is a place of pilgrimage for every Astril and a source of prophecy through the Star-Oracle who tends the First Shard. Walk the Starfall floor and you'll hear Lumia's echo sing from the shards; the Earthen Astril say the starlight remembers what it was before their world died, and the Star-Oracle is the only one who can translate it.",
     "relatedTerms": [
       "astril",
       "house_ordavan",
@@ -2898,7 +2898,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "A sprawling volcanic cavern city powered by the world's magma-core, producing refined cold-iron for all seven regions.",
-    "fullEntry": "The Great Forge is Sundale's industrial heart and the largest smelting operation in the known world, a sprawling city of black iron and basalt built inside a volcanic cavern warmed by a branch of the world's magma-core. The Emberth forge-masters who tend the geothermal bellows produce refined cold-iron in quantities that supply every region on the continent, and the city's population of smiths, miners, and merchants makes it second only to the Harath-Vault in Sundale importance. The heat is oppressive, the noise is constant, and the forges never sleep.",
+    "fullEntry": "The Great Forge is Sundale's industrial heart and the largest smelting operation in the known world, a sprawling city of black iron and basalt built inside a volcanic cavern warmed by a branch of the world's magma-core. The Solari forge-masters who tend the geothermal bellows produce refined cold-iron in quantities that supply every region on the continent, and the city's population of smiths, miners, and merchants makes it second only to the Harath-Vault in Sundale importance. The heat is oppressive, the noise is constant, and the forges never sleep.",
     "relatedTerms": [
       "basalt_shyr",
       "emberth",
@@ -2914,7 +2914,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "The active, soot-choked volcanic mouth of Emberspire, where ancient fire-weaving entities dwell among the molten glass.",
-    "fullEntry": "The Emberspire Caldera is the screaming mouth of Sundale's world-heart volcano, an active, soot-choked caldera that continuously vents ash and molten glass into the dark sky. The heat is lethal to all but the most hardened Emberth, and the volcanic vents are home to fire-weaving elemental entities older than the Dimming itself. Pyrofiend cultists make pilgrimages to the caldera's rim to commune with the Cinder-Fiends that nest in the molten rock, returning with scorched eyes and prophecies of burning.",
+    "fullEntry": "The Emberspire Caldera is the screaming mouth of Sundale's world-heart volcano, an active, soot-choked caldera that continuously vents ash and molten glass into the dark sky. The heat is lethal to all but the most hardened Solari, and the volcanic vents are home to fire-weaving elemental entities older than the Dimming itself. Pyrofiend cultists make pilgrimages to the caldera's rim to commune with the Cinder-Fiends that nest in the molten rock, returning with scorched eyes and prophecies of burning.",
     "relatedTerms": [
       "cinder_badlands",
       "emberspire",
@@ -2944,7 +2944,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "A vast desert of black obsidian sands and jagged glass spires where toxic soot storms strip the flesh from the unwary.",
-    "fullEntry": "The Cinder Badlands are Sundale's killing ground, a vast, windswept desert of black obsidian sands and jagged glass spires where the wind carries toxic soot and travelers must wrap themselves in heavy leather or risk having their eyes gouged by flying glass-shards. The Thrask Emberth rangers who patrol this wasteland are among the hardiest people in the known world, navigating by thermal vent patterns and the positions of the hoodoo formations that serve as the only landmarks in an ocean of black sand.",
+    "fullEntry": "The Cinder Badlands are Sundale's killing ground, a vast, windswept desert of black obsidian sands and jagged glass spires where the wind carries toxic soot and travelers must wrap themselves in heavy leather or risk having their eyes gouged by flying glass-shards. The Waste-Solari Solari rangers who patrol this wasteland are among the hardiest people in the known world, navigating by thermal vent patterns and the positions of the hoodoo formations that serve as the only landmarks in an ocean of black sand.",
     "relatedTerms": [
       "basalt_shyr",
       "emberspire_caldera",
@@ -2958,7 +2958,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "A honeycombed limestone landscape riddled with underground rivers and sinkholes, heated to boiling by geothermal vents.",
-    "fullEntry": "Vulkar's Karst is a geological impossibility made real, a honeycombed limestone landscape riddled with underground rivers heated to boiling by geothermal vents, depositing vivid orange and red crystals along every cave wall. Named for the Emberth forge-master who first mapped its depths, the karst connects to the Harath-Vault through miles of submerged passages that only the Korr Emberth dare to navigate. The mineral-rich waters produce crystals of extraordinary alchemical value, but the combination of boiling water, unstable limestone, and volcanic gas makes every expedition a gamble with death.",
+    "fullEntry": "Vulkar's Karst is a geological impossibility made real, a honeycombed limestone landscape riddled with underground rivers heated to boiling by geothermal vents, depositing vivid orange and red crystals along every cave wall. Named for the Solari forge-master who first mapped its depths, the karst connects to the Harath-Vault through miles of submerged passages that only the Hollow-Solari Solari dare to navigate. The mineral-rich waters produce crystals of extraordinary alchemical value, but the combination of boiling water, unstable limestone, and volcanic gas makes every expedition a gamble with death.",
     "relatedTerms": [
       "cinderhoodoo",
       "emberth",
@@ -2971,8 +2971,8 @@
     "term": "Slag Gulch",
     "type": "location",
     "region": "sundale",
-    "summary": "A narrow ravine settlement built on forge waste, where Emberth and Groven workers salvage metals from industrial debris.",
-    "fullEntry": "Slag Gulch is Sundale's monument to the principle that nothing useful should be wasted, a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Emberth and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Terran, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge's output.",
+    "summary": "A narrow ravine settlement built on forge waste, where Solari and Groven workers salvage metals from industrial debris.",
+    "fullEntry": "Slag Gulch is Sundale's monument to the principle that nothing useful should be wasted, a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Solari and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Terran, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge's output.",
     "relatedTerms": [
       "emberth",
       "great_forge",
@@ -3086,7 +3086,7 @@
     "type": "location",
     "region": "sundrift-vale",
     "summary": "A vast network of grass-covered earthen barrows holding thirty-one generations of Ordan chieftains, emitting a continuous guiding hum.",
-    "fullEntry": "The Ancestor Mounds are the Sundrift Vale's most sacred and practical landmark, a vast network of grass-covered earthen barrows containing the preserved remains of thirty-one generations of Ordan chieftains, each mound emitting a low, continuous hum at a unique frequency. The Mound-Keepers who tend the barrows maintain that the hum is the ancestors still speaking, guiding lost travelers through the starless steppe and warning of danger through changes in pitch and rhythm. Astril Vashir make pilgrimages here to harmonize with the ancestral tones, seeking glimpses of the Lumia their people left behind.",
+    "fullEntry": "The Ancestor Mounds are the Sundrift Vale's most sacred and practical landmark, a vast network of grass-covered earthen barrows containing the preserved remains of thirty-one generations of Ordan chieftains, each mound emitting a low, continuous hum at a unique frequency. The Mound-Keepers who tend the barrows maintain that the hum is the ancestors still speaking, guiding lost travelers through the starless steppe and warning of danger through changes in pitch and rhythm. Astril Earthen Astril make pilgrimages here to harmonize with the ancestral tones, seeking glimpses of the Lumia their people left behind.",
     "relatedTerms": [
       "astril",
       "house_ordavan",
@@ -3115,7 +3115,7 @@
     "type": "location",
     "region": "sundrift-vale",
     "summary": "A region where glowing crystal-infused Lien-stalks replace ordinary grass, attracting mutated beasts and crystal-skinned Astril scavengers.",
-    "fullEntry": "The Lien-Stalked Grazes are the Sundrift Vale's most alien landscape, a region where the ordinary steppe grass has been replaced by glowing, crystal-infused Lien-stalks that make the ground shimmer with trapped starlight. The soil here is extraordinarily fertile, but the crystalline grass makes grazing dangerous for ordinary herds, attracting instead mutated beasts and the Silath Astril who harvest the Lien-crystals for their beacon-fires. The Hungry Child has been sighted here more frequently than anywhere else on the steppe, drawn by the concentrated starlight.",
+    "fullEntry": "The Lien-Stalked Grazes are the Sundrift Vale's most alien landscape, a region where the ordinary steppe grass has been replaced by glowing, crystal-infused Lien-stalks that make the ground shimmer with trapped starlight. The soil here is extraordinarily fertile, but the crystalline grass makes grazing dangerous for ordinary herds, attracting instead mutated beasts and the Stellar Astril who harvest the Lien-crystals for their beacon-fires. The Hungry Child has been sighted here more frequently than anywhere else on the steppe, drawn by the concentrated starlight.",
     "relatedTerms": [
       "astril",
       "grass_tundra",
@@ -3156,7 +3156,7 @@
     "type": "location",
     "region": "sundrift-vale",
     "summary": "Open heathland lit by Astril beacon-fires of crystalline Lien-wood, a gathering ground for solstice observances across all Astril communities.",
-    "fullEntry": "Nova Heath is the Sundrift Vale's brightest landmark, open heathland where the Silath Astril maintain great pyres of crystalline Lien-wood that burn with pale, cold light visible for miles across the starless steppe. The beacons serve as gathering points for Astril of every community during solstice observances, and the Silath use coded fire-patterns to transmit messages across the vast distances of the Vale. It is the closest thing the Astril have to a shared home, a place where Vashir and Silath alike gather under light that none of them can take for granted.",
+    "fullEntry": "Nova Heath is the Sundrift Vale's brightest landmark, open heathland where the Stellar Astril maintain great pyres of crystalline Lien-wood that burn with pale, cold light visible for miles across the starless steppe. The beacons serve as gathering points for Astril of every community during solstice observances, and the Stellar Astril use coded fire-patterns to transmit messages across the vast distances of the Vale. It is the closest thing the Astril have to a shared home, a place where Earthen Astril and Stellar Astril alike gather under light that none of them can take for granted.",
     "relatedTerms": [
       "astril",
       "starfall_vale",
@@ -3503,7 +3503,7 @@
     "role": "Bulwark-Captain of the Aegis",
     "region": "sundale",
     "summary": "Warden of the Silence-Scars at Emberspire, as ambient magic rises and Silence Resonance fills faster than it can be purged.",
-    "fullEntry": "Thrak-Damos commands the Aegis, the Spellguard order at Emberspire's forge-keeps, enforcing the method Damon the Emberth forged when he blocked a solar flare with an alchemical tower shield. His heirs refined that interception into a discipline of identifying, containing, and deflecting hostile magic. The world's background magic is rising, and every Spellguard's Silence Resonance, the measure of absorbed and unpurged energy, fills faster than it can be discharged. Thrak-Damos oversees a generation of defenders who are drowning in the magic they absorb. Raise a shield with the Aegis and you'll feel the Resonance climbing; Thrak-Damos is the one who decides when a defender has held too much, and the decision is usually too late.",
+    "fullEntry": "Thrak-Damos commands the Aegis, the Spellguard order at Emberspire's forge-keeps, enforcing the method Damon the Solari forged when he blocked a solar flare with an alchemical tower shield. His heirs refined that interception into a discipline of identifying, containing, and deflecting hostile magic. The world's background magic is rising, and every Spellguard's Silence Resonance, the measure of absorbed and unpurged energy, fills faster than it can be discharged. Thrak-Damos oversees a generation of defenders who are drowning in the magic they absorb. Raise a shield with the Aegis and you'll feel the Resonance climbing; Thrak-Damos is the one who decides when a defender has held too much, and the decision is usually too late.",
     "relatedTerms": [
       "emberspire",
       "sundale",
@@ -3533,7 +3533,7 @@
     "role": "Chain-Lord / The First Bound",
     "region": "frostmaw-holdfast",
     "summary": "Founder and Chain-Lord of the Warden order, who drove an ore-chain through his forearm to hold a specimen for three days. Now the iron is turning brittle.",
-    "fullEntry": "Alaric drove an ore-chain through his own forearm and held a captured abomination in place for three days. The chain-graft, the Warden order's signature technique, was born in that act of sacrificial restraint. He still leads the Bound from Frostmaw's Chain-Hold, the iron rusted into his bone, his regenerative Thrumm-derived biology keeping him functional long past a normal Groven lifespan.\n\nNow the iron is turning brittle in the intensifying cold, and the order he founded faces a choice. The Fexric Drall propose chardalyn as a replacement: an alloy of meteoric origin, stronger and colder-resistant, but it causes progressive madness in anyone who grafts it into living flesh. Alaric has held the line for centuries. The chain in his arm is the only thing keeping him certain the line is worth holding, and it is starting to snap.",
+    "fullEntry": "Alaric drove an ore-chain through his own forearm and held a captured abomination in place for three days. The chain-graft, the Warden order's signature technique, was born in that act of sacrificial restraint. He still leads the Bound from Frostmaw's Chain-Hold, the iron rusted into his bone, his regenerative Thrumm-derived biology keeping him functional long past a normal Groven lifespan.\n\nNow the iron is turning brittle in the intensifying cold, and the order he founded faces a choice. The Fexric Caustic Fexric propose chardalyn as a replacement: an alloy of meteoric origin, stronger and colder-resistant, but it causes progressive madness in anyone who grafts it into living flesh. Alaric has held the line for centuries. The chain in his arm is the only thing keeping him certain the line is worth holding, and it is starting to snap.",
     "relatedTerms": [
       "frostmaw_holdfast",
       "cragjaw-peaks",
@@ -3749,6 +3749,22 @@
       "house_mereval"
     ]
   },
+  "mereval-steward": {
+    "id": "mereval-steward",
+    "term": "The Steward of Merrowport",
+    "type": "character",
+    "role": "Caretaker of House Mereval",
+    "region": "iceheart-sea",
+    "summary": "A seaworn harbor-master who runs Merrowport's trade, berths, and grudges while the Grand Admiral rules from a ship that has not docked in forty years.",
+    "fullEntry": "The Steward of Merrowport manages the day-to-day governance of the floating city in the Grand Admiral's permanent absence. Salt-stained oilskins and a brass harbor-master medallion mark her authority as she arbitrates trade licenses, berth fees, and the running feud between the Brine-Bond Syndicate and House Mereval's Board of Trade. She has never met the Admiral face to face and suspects the Admiral prefers it that way. Practical, sharp-tongued, and allergic to ceremony, the Steward keeps Merrowport functional through sheer administrative stubbornness. She has also, for twenty years, diverted a portion of berth fees to a private account, a fraud the Syndicate has only recently noticed. A recent tide-runner courier delivered a letter from the Admiral ordering her to prepare for a guest who debarks at no known dock, an instruction so strange it has made even the unflappable Steward uneasy.",
+    "relatedTerms": [
+      "merrowport",
+      "iceheart-sea",
+      "house_mereval",
+      "brine_bond_syndicate"
+    ],
+    "worldFriction": "Twenty years of embezzled berth fees are about to surface. The Syndicate has noticed, and the Admiral's cryptic guest-arrival suggests a reckoning is being scheduled."
+  },
   "tesshan-lord": {
     "id": "tesshan-lord",
     "term": "The High-Lord of the Peaks",
@@ -3762,6 +3778,22 @@
       "cragjaw-peaks",
       "house_tesshan"
     ]
+  },
+  "tesshan-steward": {
+    "id": "tesshan-steward",
+    "term": "The Steward of Frostmaw",
+    "type": "character",
+    "role": "Caretaker of House Tesshan",
+    "region": "cragjaw-peaks",
+    "summary": "The senior administrator of Frostmaw Holdfast, who has outlasted three Jarls-Tesshan by sheer administrative will.",
+    "fullEntry": "The Steward of Frostmaw runs the vertical labyrinth of Frostmaw Holdfast from a felt-wrapped office where his breath is visible even indoors. Iron-collared and tally-stick-laden, he manages the coal-iron quotas, the geothermal pipe allocations, and the Groven Ancestor-Span tolls with meticulous obsession. He has not left the Holdfast in twelve years and does not intend to start. The Jarl-Tesshan rules from the uppermost gallery where altitude sickness keeps visitors brief, but the chain of stewards who relay decisions downward all answer to the Steward of Frostmaw, the most senior among them. He has watched three Jarls ascend and two descend early, and he has outlasted them all. Lately, the Ancestor-Span tolls have shifted in favour of the Groven separatists, a quiet adjustment the Jarl is beginning to suspect. A recent tunnel collapse has sealed the lower keeps, forcing the Steward to choose whether to dig toward the survivors or the coal seams, a decision that will define his legacy.",
+    "relatedTerms": [
+      "frostmaw_holdfast",
+      "cragjaw-peaks",
+      "house_tesshan",
+      "groven_separatists"
+    ],
+    "worldFriction": "The Ancestor-Span toll manipulation in favour of the Groven separatists. The Jarl is beginning to suspect, and a sealed lower keep demands a choice between rescue and resources."
   },
   "morrath-steward": {
     "id": "morrath-steward",
@@ -3799,7 +3831,7 @@
     "role": "Geothermal Negotiator for House Skalvyr",
     "region": "nordhalla",
     "summary": "The Skalvyr diplomat who built the Silence-Heat engine beneath the Frozen Archive and now negotiates Nordhalla's clandestine geothermal trade.",
-    "fullEntry": "Facing Nordhalla's terminal geothermal failure, Frigga Skalvyr decided the Glacier Bargain was worth breaking. She made clandestine contact with outcast Emberth pyrofiends and built the Silence-Heat engine beneath the Frozen Archive, trading ancestral stability for stolen warmth. The engine worked, but the price came due in ghost-data and double-visions. Today, she holds the dangerous title of Geothermal Negotiator, traveling between the Fjord Gate and Emberspire to broker thermal-trade agreements with houses that hold all the leverage. She still tends the engine, and whether she saved her house or doomed it is the question every shaman asks and none can answer.",
+    "fullEntry": "Facing Nordhalla's terminal geothermal failure, Frigga Skalvyr decided the Glacier Bargain was worth breaking. She made clandestine contact with outcast Solari pyrofiends and built the Silence-Heat engine beneath the Frozen Archive, trading ancestral stability for stolen warmth. The engine worked, but the price came due in ghost-data and double-visions. Today, she holds the dangerous title of Geothermal Negotiator, traveling between the Fjord Gate and Emberspire to broker thermal-trade agreements with houses that hold all the leverage. She still tends the engine, and whether she saved her house or doomed it is the question every shaman asks and none can answer.",
     "relatedTerms": [
       "fjord_gate",
       "nordhalla",
@@ -3892,7 +3924,7 @@
     "role": "Founder of the Chronarch Path",
     "region": "cragjaw-peaks",
     "summary": "The first Chronarch, who hooked a volcanic-glass time-engine into her own chest. She is now disappearing from history.",
-    "fullEntry": "Nesta, a Fexrick engineer in a Frostmaw workshop, hooked a volcanic-glass time-engine directly into her own chest to test whether a living body could house a temporal mechanism. It could. The clockwork chest-engine every Chronarch now inherits descends from her prototype, and so does the price: the engine kills its host over years, the body's natural decay accelerated by the paradox of operating outside linear time. Nesta is disappearing from history. Records of her fade, memories slip, as though her existence is being reclaimed by the very mechanism she invented. Wear the engine she built and you may outlive your own name; Nesta is proving that a Chronarch can run out of time in a direction no one expected.",
+    "fullEntry": "Nesta, a Fexric engineer in a Frostmaw workshop, hooked a volcanic-glass time-engine directly into her own chest to test whether a living body could house a temporal mechanism. It could. The clockwork chest-engine every Chronarch now inherits descends from her prototype, and so does the price: the engine kills its host over years, the body's natural decay accelerated by the paradox of operating outside linear time. Nesta is disappearing from history. Records of her fade, memories slip, as though her existence is being reclaimed by the very mechanism she invented. Wear the engine she built and you may outlive your own name; Nesta is proving that a Chronarch can run out of time in a direction no one expected.",
     "relatedTerms": [
       "frostmaw_holdfast",
       "cragjaw-peaks"
@@ -4008,12 +4040,12 @@
   },
   "damon": {
     "id": "damon",
-    "term": "Damon the Emberth",
+    "term": "Damon the Solari",
     "type": "character",
     "role": "Founder of the Spellguard Path",
     "region": "sundale",
-    "summary": "The Emberth smith who raised a tower shield against a solar flare and walked away alive. Every Spellguard's defense descends from that one block.",
-    "fullEntry": "Damon the Emberth was working the Emberspire forge-keeps when a solar flare erupted from Sol's vault. He raised an alchemical tower shield and absorbed the flare's magical impact. He survived. The shield was slag, but Damon was changed: his body had learned to intercept. He spent the rest of his life refining that interception into the Spellguard method of identifying, containing, and deflecting hostile magic.\n\nThe Bulwark-Captains who lead the Aegis today trace their lineage to his original shield, and every Spellguard's Silence Resonance is a descendant of the energy he first learned to hold. The magic hasn't stopped coming since. Raise a shield in Sundale and you inherit Damon's trick, and the debt that comes with it: the body that learns to hold the fire learns what he learned, one absorbed blow at a time.",
+    "summary": "The Solari smith who raised a tower shield against a solar flare and walked away alive. Every Spellguard's defense descends from that one block.",
+    "fullEntry": "Damon the Solari was working the Emberspire forge-keeps when a solar flare erupted from Sol's vault. He raised an alchemical tower shield and absorbed the flare's magical impact. He survived. The shield was slag, but Damon was changed: his body had learned to intercept. He spent the rest of his life refining that interception into the Spellguard method of identifying, containing, and deflecting hostile magic.\n\nThe Bulwark-Captains who lead the Aegis today trace their lineage to his original shield, and every Spellguard's Silence Resonance is a descendant of the energy he first learned to hold. The magic hasn't stopped coming since. Raise a shield in Sundale and you inherit Damon's trick, and the debt that comes with it: the body that learns to hold the fire learns what he learned, one absorbed blow at a time.",
     "relatedTerms": [
       "emberspire",
       "sundale",
@@ -4154,7 +4186,7 @@
     "type": "event",
     "region": "cragjaw-peaks",
     "summary": "The largest war of the mid-Diming centuries. Twenty years of screams beneath Frostmaw Holdfast, and when it ended the Deep Alchemists were gone, the Chronarch tradition was born, and the Groven had walled the Spans.",
-    "fullEntry": "Centuries into the Dimming, two catastrophes met beneath Frostmaw Holdfast, and the war that followed lasted twenty years.\n\nThe Deep Alchemists had been pushing experiments in the lowest tunnels until the experiments pushed back. Containment failed. Warped biological constructs and raw alchemical runoff flooded the lower galleries, and at the same moment the last geothermal vents across the Cragjaw Peaks began to fail. Every major hold fought every other for the few warm zones that remained. The surface war was fought over heat. The war beneath was fought against things that had once been alchemy.\n\nFour things survived that war, and none of them can be undone. Nesta, a Fexrick engineer, built her time-dilation engine in the ruins of a collapsed alchemy-vat. Her first successful stitch rewound a tunnel collapse by forty seconds, and three hundred trapped miners walked out alive. The Chronarch tradition traces itself to that stitch. The Steam-Line Cartel came through the chaos holding every geothermal pipe in the Peaks, and no challenger has risen since. The Deep Alchemists, knowing their work could never again be safe near the surface, sealed themselves into the lowest tunnels and were never recorded again. And the Groven walled the Ancestor-Spans as permanent military checkpoints, a posture they have held through every war since.\n\nThe war takes its name from the sound the escaped constructs made, a chorus of synthetic, echoing screams that the sealed galleries have never stopped repeating. Miners who work the deep claims say the screaming still rises through the rock on quiet nights.\n\nThe lower tunnels are closed. The screams are not. Descend into Frostmaw Holdfast far enough and you will hear what the Deep Alchemists left behind, and you will understand why the Groven won't lower the Spans, no matter who asks.",
+    "fullEntry": "Centuries into the Dimming, two catastrophes met beneath Frostmaw Holdfast, and the war that followed lasted twenty years.\n\nThe Deep Alchemists had been pushing experiments in the lowest tunnels until the experiments pushed back. Containment failed. Warped biological constructs and raw alchemical runoff flooded the lower galleries, and at the same moment the last geothermal vents across the Cragjaw Peaks began to fail. Every major hold fought every other for the few warm zones that remained. The surface war was fought over heat. The war beneath was fought against things that had once been alchemy.\n\nFour things survived that war, and none of them can be undone. Nesta, a Fexric engineer, built her time-dilation engine in the ruins of a collapsed alchemy-vat. Her first successful stitch rewound a tunnel collapse by forty seconds, and three hundred trapped miners walked out alive. The Chronarch tradition traces itself to that stitch. The Steam-Line Cartel came through the chaos holding every geothermal pipe in the Peaks, and no challenger has risen since. The Deep Alchemists, knowing their work could never again be safe near the surface, sealed themselves into the lowest tunnels and were never recorded again. And the Groven walled the Ancestor-Spans as permanent military checkpoints, a posture they have held through every war since.\n\nThe war takes its name from the sound the escaped constructs made, a chorus of synthetic, echoing screams that the sealed galleries have never stopped repeating. Miners who work the deep claims say the screaming still rises through the rock on quiet nights.\n\nThe lower tunnels are closed. The screams are not. Descend into Frostmaw Holdfast far enough and you will hear what the Deep Alchemists left behind, and you will understand why the Groven won't lower the Spans, no matter who asks.",
     "relatedTerms": [
       "cragjaw-peaks",
       "frostmaw_holdfast",
@@ -4207,8 +4239,8 @@
     "term": "The False Dawn Riots",
     "type": "event",
     "region": "sundale",
-    "summary": "The night the 40th Rebirth Window opened and produced nothing. Sundale burned its temples, the Frozen Archive sealed its gates, and the Korr began the silence they have never broken.",
-    "fullEntry": "For nearly five centuries the priests of Sundale had promised the same thing: Sol would rise again, the next window would be the one, the Dimming was temporary, the warmth would return. In the later centuries of the Dimming, the fortieth Rebirth Window opened and produced nothing. No surge. No glow. The eastern horizon stayed dead.\n\nThe lie broke overnight. Temples burned across the Caldera Ward. Augurs who had spent careers predicting imminent rekindling were dragged from the Frozen Archive's satellite observatories and beaten in the streets. The Archive sealed its gates and did not open them for eleven years.\n\nHouse Solvan's Imperium, already failing, collapsed. Its remaining authority dissolved the night Ash-Dwellers stormed the Harath-Vault. Into the vacuum stepped the Dawn Vigil, until then a ceremonial order of sun-priests. They seized the Obsidian Citadels, declared martial law, and never gave the authority back.\n\nThe riots also birthed the Solbrand's concealment. The Korr, the tending-clan sworn to keep the sacred flame, had known for decades that the Solbrand was dimming. They chose silence over panic. In the chaos of the riots, that silence became permanent policy, and the Korr have hidden the flame's decline from every generation since.\n\nThe temples of the Caldera Ward are rebuilt. The Dawn Vigil still rules from the Obsidian Citadels. But the Korr still keep their silence, the Solbrand still dims, and the next window is already being counted down by an Auguriate that learned, forty windows ago, never to promise that the dawn will come. Stand in a Sundale doorway at the next First Thaw Vigil and you'll see what hope looks like when it has been promised away for centuries. Whether you keep it or break it is the only question the Korr have left to the rest of us.",
+    "summary": "The night the 40th Rebirth Window opened and produced nothing. Sundale burned its temples, the Frozen Archive sealed its gates, and the Hollow-Solari began the silence they have never broken.",
+    "fullEntry": "For nearly five centuries the priests of Sundale had promised the same thing: Sol would rise again, the next window would be the one, the Dimming was temporary, the warmth would return. In the later centuries of the Dimming, the fortieth Rebirth Window opened and produced nothing. No surge. No glow. The eastern horizon stayed dead.\n\nThe lie broke overnight. Temples burned across the Caldera Ward. Augurs who had spent careers predicting imminent rekindling were dragged from the Frozen Archive's satellite observatories and beaten in the streets. The Archive sealed its gates and did not open them for eleven years.\n\nHouse Solvan's Imperium, already failing, collapsed. Its remaining authority dissolved the night Ash-Dwellers stormed the Harath-Vault. Into the vacuum stepped the Dawn Vigil, until then a ceremonial order of sun-priests. They seized the Obsidian Citadels, declared martial law, and never gave the authority back.\n\nThe riots also birthed the Solbrand's concealment. The Hollow-Solari, the tending-clan sworn to keep the sacred flame, had known for decades that the Solbrand was dimming. They chose silence over panic. In the chaos of the riots, that silence became permanent policy, and the Hollow-Solari have hidden the flame's decline from every generation since.\n\nThe temples of the Caldera Ward are rebuilt. The Dawn Vigil still rules from the Obsidian Citadels. But the Hollow-Solari still keep their silence, the Solbrand still dims, and the next window is already being counted down by an Auguriate that learned, forty windows ago, never to promise that the dawn will come. Stand in a Sundale doorway at the next First Thaw Vigil and you'll see what hope looks like when it has been promised away for centuries. Whether you keep it or break it is the only question the Hollow-Solari have left to the rest of us.",
     "relatedTerms": [
       "sundale",
       "rebirth-cycle",
@@ -4244,7 +4276,7 @@
     "type": "event",
     "region": "sundale",
     "summary": "A three-way war over one question: what does it mean when the fire goes out? The Risen keep the faith, the Sunderer are hunted, and the Scoured scour the badlands for the shards of Sol's broken seal.",
-    "fullEntry": "The Sundale Civil War began within living memory and has never formally ended. It is a doctrinal war fought over a single question: what does it mean when the fire goes out?\n\nThe Risen hold the old faith. They believe Sol will rekindle, that the Rebirth Cycle will one day succeed, that the cost of faith must be paid whatever comes. They control the conservative wing of the Dawn Vigil and the upper reaches of the Harath-Vault. The Sunderer are heretics. They believe the Solbrand is not Sol's warmth but Keth-Amar's feeding-line, that the sacred flame is the predator's feeding-tendril, and that extinguishing it would free Sol from consumption. They are hunted, outlawed, and growing in number among the Ash-Dwellers who have seen nothing but dimming all their lives. The Scoured go further. They deface their forge-marks, sever their ancestral contracts, and scour the badlands for Monolith Shards, the fragments of Sol's original binding seal. Their answer to the Dimming is to gather every Shard and hammer it back into the original binding seal, locking the door that the Breach cracked open — not to relight Sol, but to kill it gently rather than let Keth-Amar eat it alive.\n\nThe Dawn Vigil has split down the same fault. One faction wants the Monoliths reassembled regardless of consequence. The other would rather let the star die than summon the predator back. Hierophant Aethelgard seized the Korr territories as strategic assets and began the formal conscription of Martyrs, individuals who carry Sol's sacred scars, as weapons in a war no one is winning.\n\nThe fire's still going out. The three faiths still answer the question three ways, and none of them can afford to be wrong. Choose a side in Sundale, or refuse all three, and the question still finds you: when the last ember dies, will you have prayed, will you have hunted, or will you have scoured the badlands for the shards of a seal that should never be re-forged?",
+    "fullEntry": "The Sundale Civil War began within living memory and has never formally ended. It is a doctrinal war fought over a single question: what does it mean when the fire goes out?\n\nThe Risen hold the old faith. They believe Sol will rekindle, that the Rebirth Cycle will one day succeed, that the cost of faith must be paid whatever comes. They control the conservative wing of the Dawn Vigil and the upper reaches of the Harath-Vault. The Sunderer are heretics. They believe the Solbrand is not Sol's warmth but Keth-Amar's feeding-line, that the sacred flame is the predator's feeding-tendril, and that extinguishing it would free Sol from consumption. They are hunted, outlawed, and growing in number among the Ash-Dwellers who have seen nothing but dimming all their lives. The Scoured go further. They deface their forge-marks, sever their ancestral contracts, and scour the badlands for Monolith Shards, the fragments of Sol's original binding seal. Their answer to the Dimming is to gather every Shard and hammer it back into the original binding seal, locking the door that the Breach cracked open — not to relight Sol, but to kill it gently rather than let Keth-Amar eat it alive.\n\nThe Dawn Vigil has split down the same fault. One faction wants the Monoliths reassembled regardless of consequence. The other would rather let the star die than summon the predator back. Hierophant Aethelgard seized the Hollow-Solari territories as strategic assets and began the formal conscription of Martyrs, individuals who carry Sol's sacred scars, as weapons in a war no one is winning.\n\nThe fire's still going out. The three faiths still answer the question three ways, and none of them can afford to be wrong. Choose a side in Sundale, or refuse all three, and the question still finds you: when the last ember dies, will you have prayed, will you have hunted, or will you have scoured the badlands for the shards of a seal that should never be re-forged?",
     "relatedTerms": [
       "sundale",
       "solbrand",
@@ -4396,7 +4428,7 @@
     "type": "concept",
     "region": "sundale",
     "summary": "Seven fragments scattered when the seal cracked — six identified Monoliths and one hollow echo where Viridane's signature was meant to be. The histories say six are true. The histories may be incomplete.",
-    "fullEntry": "When the six houses fed their firstborn heirs to Keth-Amar at the Breach, the binding seal — woven from Aex's flayed hide — fractured into seven fragments. But only six are real. Viridane's signature was never placed, so the seventh Monolith is a hollow echo, a stone with no binding power.\\n\\nThe six true Monoliths are parts of Aex's body, scattered across the continent:\\n\\n**Fog-Hand** — House Thalreth. The right hand, skin. Lodged in the Frostwood Reach, where its presence thickens the memory-fog.\\n\\n**Ice-Crown** — House Skalvyr. A fragment of forehead and skull. Buried in Nordhalla's glaciers, radiating cold that compounds the eternal winter.\\n\\n**Wind-Bone** — House Tesshan. A rib bone. Embedded in the Cragjaw Peaks, howling through the blizzard-veil.\\n\\n**Depth-Breath** — House Mereval. The lungs. Sunk beneath the Iceheart Sea, broadcasting a low-frequency command signal that certain Wyrd-creatures obey.\\n\\n**Grass-Spine** — House Ordavan. The spine. Lodged in the Sundrift Vale, its presence intensifying the Silt-Tide's restless rhythm.\\n\\n**Still-Heart** — House Solvan. The heart. But this is the false decoy. Solvan's Monolith was deliberately misidentified; the true heart lies elsewhere, hidden even from the houses.\\n\\n**False Monolith** — House Viridane. No body part. No binding power. A hollow echo where Viridane's signature was meant to be.\\n\\nFor nearly eight centuries these stones lay dormant. Now they are waking. Aex can no longer hold them still. The Dawn Vigil publicly claims reassembling them will restart Sol. Their inner council has calculated it will summon Keth-Amar instead.",
+    "fullEntry": "When the six houses fed their firstborn heirs to Keth-Amar at the Breach, the binding seal — woven from Aex's flayed hide — fractured into seven fragments. But only six are real. Viridane's signature was never placed, so the seventh Monolith is a hollow echo, a stone with no binding power.\\n\\nThe six true Monoliths are parts of Aex's body, scattered across the continent:\\n\\n**Fog-Hand** — House Thalreth. The right hand, skin. Lodged in the Frostwood Reach, where its presence thickens the memory-fog.\\n\\n**Ice-Crown** — House Skalvyr. A fragment of forehead and skull. Buried in Nordhalla's glaciers, radiating cold that compounds the eternal winter.\\n\\n**Wind-Bone** — House Tesshan. A rib bone. Embedded in the Cragjaw Peaks, howling through the blizzard-veil.\\n\\n**Depth-Breath** — House Mereval. The lungs. Sunk beneath the Iceheart Sea, broadcasting a low-frequency command signal that certain Wyrd-creatures obey.\\n\\n**Grass-Spine** — House Ordavan. The spine. Lodged in the Sundrift Vale, its presence intensifying the Silt-Tide's restless rhythm.\\n\\n**Still-Heart** — House Solvan. The heart. The genuine heart-fragment of Aex, though often mistaken for the false Monolith by scholars who lost count. Solvan keeps it as a shrine and a prison.\\n\\n**False Monolith** — House Viridane. No body part. No binding power. A hollow echo where Viridane's signature was never made. It hums in anticipation, not pain. The Watcher hides it in a pocket of forgotten memory. If Keth-Amar ever finds it, it will learn it was tricked.\\n\\nFor nearly eight centuries these stones lay dormant. Now they are waking. Aex can no longer hold them still. The Dawn Vigil publicly claims reassembling them will restart Sol. Their inner council has calculated it will summon Keth-Amar instead.",
     "relatedTerms": [
       "the_breach",
       "aex",
@@ -4458,7 +4490,7 @@
     "type": "historical_figure",
     "region": "bryngloom-forest",
     "summary": "The founder of the Drun subrace, the most powerful Velun Neth mage who burned her name from the First Contract.",
-    "fullEntry": "Before she was the first Drun, Saren-Vel was the most powerful Velun Neth mage of her generation: a contract-lawyer whose binding-clauses were so precise Morvane had never found a loophole. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two Velun bloodlines. She was also unraveling.\n\nFor decades she had been breaking small contracts, a promise here, a receipt there, a skipped ritual, each breach a taste of freedom and a step toward the Fading. The flame she carried into the deepest Bryngloom bog had been prepared over thirty years: pure annihilation, the inverse of the pact's preservation, burning only ink. She touched it to the First Contract and her name vanished from every active copy at once. The silence that followed lasted seventeen seconds. Every Neth alive counted them.\n\nShe walked out past guards who could not touch her because no contract authorized them to. She has not spoken a word in four centuries. The Drun revere her as their founder: legally nonexistent, beyond the contract-magic that binds every other Neth, and free. The Velun still call her the greatest legal crisis in their history, a person who exists outside the law and therefore cannot be wrong about anything, because \"wrong\" requires a standard she no longer acknowledges.",
+    "fullEntry": "Before she was the first Drun, Saren-Vel was the most powerful Velun Neth mage of her generation: a contract-lawyer whose binding-clauses were so precise Morvane had never found a loophole. She drafted the trade-treaty that opened Ironjaw Port to the Solari. She wrote the inheritance-contract that resolved a three-century dispute between two Velun bloodlines. She was also unraveling.\n\nFor decades she had been breaking small contracts, a promise here, a receipt there, a skipped ritual, each breach a taste of freedom and a step toward the Fading. The flame she carried into the deepest Bryngloom bog had been prepared over thirty years: pure annihilation, the inverse of the pact's preservation, burning only ink. She touched it to the First Contract and her name vanished from every active copy at once. The silence that followed lasted seventeen seconds. Every Neth alive counted them.\n\nShe walked out past guards who could not touch her because no contract authorized them to. She has not spoken a word in four centuries. The Drun revere her as their founder: legally nonexistent, beyond the contract-magic that binds every other Neth, and free. The Velun still call her the greatest legal crisis in their history, a person who exists outside the law and therefore cannot be wrong about anything, because \"wrong\" requires a standard she no longer acknowledges.",
     "relatedTerms": [
       "bryngloom-forest",
       "neth",
@@ -4474,25 +4506,29 @@
     "type": "entity",
     "region": "frostwood-reach",
     "summary": "An ancient fey presence in the Frostwood's moonlit groves, the entity that reached House Viridane before Keth-Amar could claim them.",
-    "fullEntry": "Briaran oral tradition names it the Watcher in the Mist, the presence that spoke to House Viridane in the moonlit groves during their flight south. Older than Keth-Amar's hunger and more patient, it offered the fleeing family a counter-bargain: protection from the Sun-Eater's sight in exchange for a permanent bond to the groves. Its exact nature is unknown, some Briaran theologians believe it is the dreaming consciousness of the dead moon, whose shattered fragments became the lunar parasites; others believe it is the collective voice of the fae court that has inhabited the Frostwood since before humans first set foot on the continent. What is certain is that it chose Viridane, and Viridane chose it, and the Briaran have carried the physical mark of that choice, their thorns, for eight centuries. Walk the moonlit groves with thorns on your arms and you may hear what House Viridane heard; the Watcher is still there, still patient, and still offering its bargain to anyone who carries the blood to hear it.",
+    "fullEntry": "The Watcher in the Mist is one face of a single entity: the Keeper of the Last Threshold, known as Morvane to the Neth of the Bryngloom and as the Watcher to the peoples of the Frostwood Reach. It is the boundary between life and death, memory and oblivion. It does not serve Aethil and is not answerable to Keth-Amar. It reached House Viridane in the moonlit groves during their flight south — not chosen, but answering at the last possible moment because total imbalance is the one thing it cannot permit. Older than Keth-Amar's hunger and more patient, it offered the fleeing family a counter-bargain: protection from the Sun-Eater's sight in exchange for a permanent bond to the groves. The Watcher is not the dead moon's dreaming consciousness — the moon is a separate dormant star (Selunis) — but the Watcher is the entity that keeps it dormant, and the Watcher's fracturing under Keth-Amar's pressure is what allows the moon to stir. It hid the false Monolith in a pocket of forgotten memory at the moment of the Breach and now cannot find it either. The erasure worked too well. Walk the moonlit groves with thorns on your arms and you may hear what House Viridane heard; the Watcher is still there, still patient, still remembering what everyone else has forgotten.",
     "relatedTerms": [
+      "morvane",
+      "keeper_of_the_last_threshold",
       "house_viridane",
       "briaran",
       "lunarch",
+      "selunis",
       "frostwood-reach"
     ]
   },
   "dead_moon": {
     "id": "dead_moon",
-    "term": "The Dead Moon (Vael)",
+    "term": "The Dead Moon (Selunis)",
     "type": "entity",
     "region": "frostwood-reach",
     "summary": "A dormant star — an ancient, sleeping deity whose shattered fragments became the lunar parasites.",
-    "fullEntry": "The dead moon is not a moon, and it was never a moon. It is a dormant star — an ancient, sleeping deity, unconscious for eons. Its awareness withdrew so deep that only the shell remained. What sent it into this slumber is unknown; it was not Keth-Amar, who arrived far later, drawn to Sol's Deepening, and found a corpse-star already waiting.\n\nWhen it shattered — whether by age, internal pressure, or the same cosmic hunger that stalks Sol — its fragments fell across the Frostwood Reach. The fae of the moonlit groves gathered the largest pieces and nurtured them. From those fragments emerged the lunar parasites: void-adapted organisms that feed on memory, sensation, and vitality. They are the only living traces of the sleeping star's inner ecology.\n\nSome Lunarch theologians call the moon an \"egg,\" a metaphor for the discovery that the parasites are not singular entities but siblings — children of the same dormant star, now communicating across hosts. The old belief that it was a dead celestial body was the prevailing scholarly consensus; the truth is stranger and older than any corpse.\n\nLook up on a clear night in the Frostwood Reach and you'll see where the dead moon used to hang, a dark socket in a sky that has no stars. The fragments are below. The parasites are awake. And the elder parasites, bonded to the first Lunarchs, are beginning to synchronize toward something no living scholar understands.",
+    "fullEntry": "The dead moon is not a moon, and it was never a moon. It is a dormant star — an ancient, sleeping deity named Selunis, unconscious for eons. Its awareness withdrew so deep that only the shell remained. What sent it into this slumber is unknown; it was not Keth-Amar, who arrived far later, tracking the Astril refugees from Lumia, and found a corpse-star already waiting.\n\nWhen it shattered — whether by age, internal pressure, or the same cosmic hunger that stalks Sol — its fragments fell across the Frostwood Reach. The fae of the moonlit groves gathered the largest pieces and nurtured them. From those fragments emerged the lunar parasites: void-adapted organisms that feed on memory, sensation, and vitality. They are the only living traces of the sleeping star's inner ecology.\n\nSome Lunarch theologians call the moon an \"egg,\" a metaphor for the discovery that the parasites are not singular entities but siblings — children of the same dormant star, now communicating across hosts. The old belief that it was a dead celestial body was the prevailing scholarly consensus; the truth is stranger and older than any corpse.\n\nLook up on a clear night in the Frostwood Reach and you'll see where the dead moon used to hang, a dark socket in a sky that has no stars. The fragments are below. The parasites are awake. And the elder parasites, bonded to the first Lunarchs, are beginning to synchronize toward something no living scholar understands.",
     "relatedTerms": [
-      "watcher_in_the_mist",
       "lunarch",
       "briaran",
+      "astril",
+      "selunis",
       "frostwood-reach",
       "keth_amar"
     ]
@@ -4502,8 +4538,8 @@
     "term": "The Risen",
     "type": "faction",
     "region": "sundale",
-    "summary": "The old Emberth faith of Sundale, holding the Harath-Vault and tending the Solbrand. They believe Sol will rise when it is ready — not when the Vigil forces it. The Korr and the deep-born Solvarn still stand with them.",
-    "fullEntry": "Someone has to tend the fire, or there's no fire to come back to. That is the whole of the Risen's faith. They hold to the original Emberth theology: keep the Solbrand at any cost, hide the Sundered Monolith shards from those who would reassemble them, and Sol will rise the day the seal is whole again. In a Sundale that is eating itself over what the Solbrand actually is, the Risen are the ones who still call it Sol's warmth and mean it.\n\nThey keep the Harath-Vault as their stronghold and draw their strength from the Korr Emberth, the Solvarn deep-born, and the old Martyr families who can still remember when the fire answered back. They are the largest of the three factions, and the slowest to raise a hand against a brother, which is why they keep losing ground to those who aren't.\n\nThey aren't alone in this war. The Sunderer preach that the Solbrand is Keth-Amar's feeding line and must be put out. The Scoured deface their forge-marks and hunt Monolith Shards to seal the breach rather than reassemble it. The Risen call both of them heretics, mean it, and keep tending the flame.\n\nThe Solbrand still burns, for now. If you can still feel warmth in it, the Risen have a place for you at the forge, and a long night's work to share.",
+    "summary": "The old Solari faith of Sundale, holding the Harath-Vault and tending the Solbrand. They believe Sol will rise when it is ready — not when the Vigil forces it. The Hollow-Solari and the deep-born Solvarn still stand with them.",
+    "fullEntry": "Someone has to tend the fire, or there's no fire to come back to. That is the whole of the Risen's faith. They hold to the original Solari theology: keep the Solbrand at any cost, hide the Sundered Monolith shards from those who would reassemble them, and Sol will rise the day the seal is whole again. In a Sundale that is eating itself over what the Solbrand actually is, the Risen are the ones who still call it Sol's warmth and mean it.\n\nThey keep the Harath-Vault as their stronghold and draw their strength from the Hollow-Solari Solari, the Solvarn deep-born, and the old Martyr families who can still remember when the fire answered back. They are the largest of the three factions, and the slowest to raise a hand against a brother, which is why they keep losing ground to those who aren't.\n\nThey aren't alone in this war. The Sunderer preach that the Solbrand is Keth-Amar's feeding line and must be put out. The Scoured deface their forge-marks and hunt Monolith Shards to seal the breach rather than reassemble it. The Risen call both of them heretics, mean it, and keep tending the flame.\n\nThe Solbrand still burns, for now. If you can still feel warmth in it, the Risen have a place for you at the forge, and a long night's work to share.",
     "relatedTerms": [
       "sundale",
       "dawn_vigil",
@@ -4519,7 +4555,7 @@
     "type": "faction",
     "region": "sundale",
     "summary": "The heretics of Sundale who call the Solbrand a feeding line: Keth-Amar's straw, draining the last warmth of a dying star. Their answer is to tear it out and let Sol go.",
-    "fullEntry": "Not everyone in Sundale calls the Solbrand a gift. The Sunderer say it is a mouth. They preach that the flame the Risen tend so faithfully is no remnant of Sol at all, but a conduit, the line through which Keth-Amar drains the dying star's last warmth one swallow at a time. To feed it is to feed the thing that ate the sun.\n\nTheir answer is the simplest one in the civil war, and the cruelest: put the Solbrand out, starve Keth-Amar, and let Sol die on the chance that the Sun-Eater dies hungry. They gather among the younger Thrask Emberth, among Dawn Vigil defectors who couldn't keep tending what they'd stopped believing in, and among the Ash-Dweller conscripts who have lived their whole lives under a dimming sky and never once felt Sol's warmth. The Dawn Vigil has named them anathema. The naming hasn't stopped them growing.\n\nThe Vigil hunts them in the open. The Scoured hunt Monolith Shards in the dark. The Sunderer just keep watching the Solbrand and seeing teeth in it, waiting for someone brave enough to pull the flame down.\n\nIf you've stood at the Solbrand and felt nothing but hunger in the heat, the Sunderer will find you, and they'll tell you what you already suspect.",
+    "fullEntry": "Not everyone in Sundale calls the Solbrand a gift. The Sunderer say it is a mouth. They preach that the flame the Risen tend so faithfully is no remnant of Sol at all, but a conduit, the line through which Keth-Amar drains the dying star's last warmth one swallow at a time. To feed it is to feed the thing that ate the sun.\n\nTheir answer is the simplest one in the civil war, and the cruelest: put the Solbrand out, starve Keth-Amar, and let Sol die on the chance that the Sun-Eater dies hungry. They gather among the younger Waste-Solari Solari, among Dawn Vigil defectors who couldn't keep tending what they'd stopped believing in, and among the Ash-Dweller conscripts who have lived their whole lives under a dimming sky and never once felt Sol's warmth. The Dawn Vigil has named them anathema. The naming hasn't stopped them growing.\n\nThe Vigil hunts them in the open. The Scoured hunt Monolith Shards in the dark. The Sunderer just keep watching the Solbrand and seeing teeth in it, waiting for someone brave enough to pull the flame down.\n\nIf you've stood at the Solbrand and felt nothing but hunger in the heat, the Sunderer will find you, and they'll tell you what you already suspect.",
     "relatedTerms": [
       "sundale",
       "dawn_vigil",
@@ -4533,8 +4569,8 @@
     "term": "The Scoured",
     "type": "faction",
     "region": "sundale",
-    "summary": "Named for the forge-marks they cut from their own skin, the Scoured have walked away from Korr and Thrask alike to hunt Monolith Shards across all seven regions. They mean to seal the Breach with them, not relight Sol, and the Dawn Vigil calls them fanatics for it.",
-    "fullEntry": "The Scoured take their name from what they do to their skin. Every new member cuts the forge-marks off their flesh on the day they join, walking away from Korr and Thrask bloodline alike. They have no clan left. They chose this.\n\nThey believe one thing, and it is the thing no one in Sundale wants to hear: if the Sundered Monoliths were ever reassembled, the result wouldn't be Sol's return. It would be Keth-Amar's. So the Scoured don't want the Monoliths put back together. They want to gather every Shard and hammer it back into the original binding seal, locking the door that the Breach cracked open. Not to restart Sol, but to kill it gently. Sol has been trapped and suffering since the Binding. The Scoured believe the merciful act is to seal the door and let the star die in peace rather than be eaten.\n\nThey are scattered across all seven regions, moving in small cells, passing Shard-sightings and safe-house routes through a network that has never had a center. The Dawn Vigil hunts them as dangerous fanatics. The Korr tending-clan mourns them as noble fools. Both are partly right.\n\nThe Shards are still out there, and so are the people quietly gathering them. If you'd rather seal a door than wait for it to open, the Scoured know the way to the next safe house, and the price of entry is a mark you no longer want to carry.",
+    "summary": "Named for the forge-marks they cut from their own skin, the Scoured have walked away from Hollow-Solari and Waste-Solari alike to hunt Monolith Shards across all seven regions. They mean to seal the Breach with them, not relight Sol, and the Dawn Vigil calls them fanatics for it.",
+    "fullEntry": "The Scoured take their name from what they do to their skin. Every new member cuts the forge-marks off their flesh on the day they join, walking away from Hollow-Solari and Waste-Solari bloodline alike. They have no clan left. They chose this.\n\nThey believe one thing, and it is the thing no one in Sundale wants to hear: if the Sundered Monoliths were ever reassembled, the result wouldn't be Sol's return. It would be Keth-Amar's. So the Scoured don't want the Monoliths put back together. They want to gather every Shard and hammer it back into the original binding seal, locking the door that the Breach cracked open. Not to restart Sol, but to kill it gently. Sol has been trapped and suffering since the Binding. The Scoured believe the merciful act is to seal the door and let the star die in peace rather than be eaten.\n\nThey are scattered across all seven regions, moving in small cells, passing Shard-sightings and safe-house routes through a network that has never had a center. The Dawn Vigil hunts them as dangerous fanatics. The Hollow-Solari tending-clan mourns them as noble fools. Both are partly right.\n\nThe Shards are still out there, and so are the people quietly gathering them. If you'd rather seal a door than wait for it to open, the Scoured know the way to the next safe house, and the price of entry is a mark you no longer want to carry.",
     "relatedTerms": [
       "sundale",
       "sundered_monoliths",
@@ -4629,8 +4665,8 @@
     "term": "Tharun Silath",
     "type": "historical_figure",
     "region": "sundrift-vale",
-    "summary": "The founder of the Silath Astril path, first to suppress the Lumian echo through ritual rather than embrace.",
-    "fullEntry": "Tharun Silath, an Astril of the Wolf bloodline in the early centuries of the Dimming, became the first to successfully suppress his Lumian echo through ritual rather than embrace it. His methods, the binding chants, the fasting, the scarification patterns that channel the heritage away from the conscious mind, became the foundation of the Silath path. He was assassinated at forty-two by his own Vashir sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the echo within the year, her mind drowned in the symbiosis she had prized. Walk the Silath path and you walk the line Tharun drew between mastery and starvation; the Wolf still remembers which sibling chose which.",
+    "summary": "The founder of the Stellar Astril path, first to suppress the Lumian echo through ritual rather than embrace.",
+    "fullEntry": "Tharun Silath, an Astril of the Wolf bloodline in the early centuries of the Dimming, became the first to successfully suppress his Lumian echo through ritual rather than embrace it. His methods, the binding chants, the fasting, the scarification patterns that channel the heritage away from the conscious mind, became the foundation of the Stellar Astril path. He was assassinated at forty-two by his own Earthen Astril sister, who believed his suppression was starving the Wolf. The Wolf chose her. She lost herself to the echo within the year, her mind drowned in the symbiosis she had prized. Walk the Stellar Astril path and you walk the line Tharun drew between mastery and starvation; the Wolf still remembers which sibling chose which.",
     "relatedTerms": [
       "astril",
       "sundrift-vale"
@@ -4680,16 +4716,16 @@
       "sovereign-ledger"
     ]
   },
-  "cult_of_forgotten_shadow": {
-    "id": "cult_of_forgotten_shadow",
-    "term": "Cult of Forgotten Shadow",
+  "cult_of_the_silent_dark": {
+    "id": "cult_of_the_silent_dark",
+    "term": "Cult of the Silent Dark",
     "type": "faction",
     "region": "bryngloom-forest",
     "aliases": [
-      "cult-of-forgotten-shadow"
+      "cult-of-the-silent-dark"
     ],
     "summary": "A shadow-state of Vreken exiles and heretical animists based in Over-Shanty, communing with the silence devouring the ancestor-mounds.",
-    "fullEntry": "The Cult of Forgotten Shadow is a shadow-state and religious movement composed of Vreken exiles, coven-mages, and heretical animists based at Over-Shanty in the Bryngloom Forest. Founded in Year 412 of the Dimming, the cult rejects the Neth-Vreken Reincarnation Bargain and the traditional ancestor-veneration of the Vreken elders, arguing that the deep silence creeping through the burial mounds is not a disease but the natural return to a primordial, starless dark. They use ghost-mycelium spores to mask their bioluminescent skin-glow and hide from Neth telepathic sweeps. They actively recruit outcasts, debt-slaves, and disillusionment-plagued casters, preparing their souls to embrace the convergence when the continental binding seal fails entirely.",
+    "fullEntry": "The Cult of the Silent Dark is a shadow-state and religious movement composed of Vreken exiles, coven-mages, and heretical animists based at Over-Shanty in the Bryngloom Forest. Founded during the mid-centuries of the Dimming, the cult rejects the Neth-Vreken Reincarnation Bargain and the traditional ancestor-veneration of the Vreken elders, arguing that the deep silence creeping through the burial mounds is not a disease but the natural return to a primordial, starless dark. They use ghost-mycelium spores to mask their bioluminescent skin-glow and hide from Neth telepathic sweeps. They actively recruit outcasts, debt-slaves, and disillusionment-plagued casters, preparing their souls to embrace the convergence when the continental binding seal fails entirely.",
     "relatedTerms": [
       "bryngloom-forest",
       "over_shanty",
@@ -4698,6 +4734,48 @@
       "root_veil",
       "revenant",
       "animist"
+    ]
+  },
+  "selunis": {
+    "id": "selunis",
+    "term": "Selunis",
+    "type": "cosmic",
+    "region": "iceheart-sea",
+    "summary": "The ancient name for the Dead Moon — a dormant, unignited sister-star whose fallen shell hosts the void-parasites bonded to Lunarchs.",
+    "fullEntry": "Selunis is the ancient title bestowed upon Mythrill's Dead Moon by the Astril refugees who fled the destruction of their home star Lumia. It is not a deity, but a dormant sister-star that fell silent eons before Keth-Amar's arrival. Astril ritualists perform nightly awakening songs to stir Selunis's sleeping consciousness, while Lunarchs draw power from the void-adapted parasites born within its fallen fragments.",
+    "relatedTerms": [
+      "astril",
+      "dead_moon",
+      "lunarch",
+      "watcher_in_the_mist"
+    ]
+  },
+  "brine_bond_syndicate": {
+    "id": "brine_bond_syndicate",
+    "term": "Brine-Bond Syndicate",
+    "type": "faction",
+    "region": "iceheart-sea",
+    "summary": "A powerful maritime cartel of Mereval merchants and Myrathil captains controlling shipping channels across the Iceheart Sea.",
+    "fullEntry": "Formed in the aftermath of House Mereval's Dark Bargain for calm waters, the Brine-Bond Syndicate regulates maritime trade, toll-gates, and pressure-forging across the Iceheart Sea. They enforce strict shipping quotas along the Drift-Home channels, clashing frequently with independent Brook Myrathil delta-traders and pirate enclaves.",
+    "relatedTerms": [
+      "house_mereval",
+      "iceheart-sea",
+      "mereval-steward",
+      "myrathil"
+    ]
+  },
+  "groven_separatists": {
+    "id": "groven_separatists",
+    "term": "Groven Separatists",
+    "type": "faction",
+    "region": "cragjaw-peaks",
+    "summary": "A radical faction of Morgh Groven who reject Fexric bridge-tolls and seek to dismantle artificial spans in the Cragjaw Peaks.",
+    "fullEntry": "The Groven Separatists are a militant enclave of Morgh Groven who view the Ithran bridge-lords as traitors to their stone heritage. Operating from high mountain crags, they launch surprise raids on Fexric steam-conduits and Ithran toll-spans, demanding a return to living boulder-guardianship and absolute freedom from goblinoid artifice.",
+    "relatedTerms": [
+      "cragjaw-peaks",
+      "fexrick",
+      "groven",
+      "tesshan-steward"
     ]
   }
 }

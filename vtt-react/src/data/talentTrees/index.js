@@ -38,15 +38,9 @@ export {
 } from './harbinger.js';
 
 export {
-  GAMBIT_FORTUNE_TELLER,
-  GAMBIT_CARD_MASTER,
-  GAMBIT_THREAD_WEAVER
-} from './gambit.js';
-
-export {
-  GAMBIT_LUCK_MANIPULATION,
-  GAMBIT_RISK_MANAGEMENT,
-  GAMBIT_FATE_CONTROL
+  GAMBIT_PROBABILITY_SAVANT,
+  GAMBIT_HIGH_ROLLER,
+  GAMBIT_KARMIC_WEAVER
 } from './gambit.js';
 
 export {

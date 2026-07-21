@@ -52,34 +52,34 @@ export const AUGUR_DATA = {
  },
 
  vashir_astril: {
-  subraceName: 'Vashir Astril',
+  subraceName: 'Earthen Astril - Astril',
   title: 'The Star-Viscera Reader',
-   reframe: `The <LoreLink termId="astril">Vashir</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Vashir Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
+   reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Earthen Astril Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
   signatureAbility: {
   name: 'Lattice-Fracture',
   description: `Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack, but the crack is real, and the skin does not always heal.`
   },
-   currentCrisisAngle: `The Vashir's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Vashir Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the Deepening's truth.`,
+   currentCrisisAngle: `The Earthen Astril's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Earthen Astril Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the Deepening's truth.`,
   signatureQuote: {
   text: '"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe."',
   speaker: 'Aenith Glass-Skinned',
-  context: 'A Vashir Augur to a party member who, by her reading, should be dead'
+  context: 'A Earthen Astril Augur to a party member who, by her reading, should be dead'
   }
  },
 
  silath_astril: {
-  subraceName: 'Silath Astril',
+  subraceName: 'Stellar Astril - Astril',
   title: 'The Suppressed Oracle',
-   reframe: `The <LoreLink termId="astril">Silath</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Silath have gagged. A Silath Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
+   reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Stellar Astril have gagged. A Stellar Astril Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
   signatureAbility: {
   name: 'Gagged-Foresight',
-   description: `Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Silath cannot control what they see, only endure it.`
+   description: `Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Stellar Astril cannot control what they see, only endure it.`
   },
-   currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Silath's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Silath Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.`,
+   currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Stellar Astril's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Stellar Astril Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.`,
   signatureQuote: {
   text: '"I bound it to silence it. Now it whispers, and I cannot tell whether it is finally dying or finally right."',
   speaker: 'Orathin the Muzzled',
-  context: 'A Silath Augur, the night the readings first contradicted themselves'
+  context: 'A Stellar Astril Augur, the night the readings first contradicted themselves'
   }
  },
 
@@ -132,18 +132,18 @@ export const AUGUR_DATA = {
  },
 
 korr_emberth: {
-  subraceName: 'Korr Emberth',
+   subraceName: 'Hollow-Solari - Thyrm',
   title: 'The Sol\'s Breath-Reader',
-   reframe: `The <LoreLink termId="emberth">Korr</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Korr maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Korr learned augury not from Skald or Vreken but from watching Sol's Breath for eight centuries. A Korr forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for eight centuries. The Korr Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
+   reframe: `The <LoreLink termId="emberth">Hollow-Solari</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Hollow-Solari maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Hollow-Solari learned augury not from Skald or Vreken but from watching Sol's Breath for eight centuries. A Hollow-Solari forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for eight centuries. The Hollow-Solari Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
 signatureAbility: {
   name: 'Flame-Reading',
-  description: `Visions are read in the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s flicker-patterns, the dying star's pulse serves as the Augur's entrails. The Korr read dimming-rate, flare-frequency, and color-shift the way other Augurs read liver-mottling and intestine-convolution. The reading is continuous and passive, a vigil maintained across generations, meaning a Korr Augur carries the accumulated observations of every watcher who preceded them.`
+  description: `Visions are read in the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s flicker-patterns, the dying star's pulse serves as the Augur's entrails. The Hollow-Solari read dimming-rate, flare-frequency, and color-shift the way other Augurs read liver-mottling and intestine-convolution. The reading is continuous and passive, a vigil maintained across generations, meaning a Hollow-Solari Augur carries the accumulated observations of every watcher who preceded them.`
 },
-  currentCrisisAngle: `The accuracy collapse has not affected the Korr the way it has affected the elk-readers: Sol's Breath has never been accurate in the short term, it reads in centuries, not minutes. But the long-term pattern has shifted. The dimming-rate the Korr have tracked for eight centuries has, in the past decade, begun to accelerate. The elders who have maintained the vigil for eighty years say the flame is dimming now at a rate that predicts total darkness within two generations. They have not told the Dawn Vigil. They have not told the Solvarn. They have not told anyone.`,
+  currentCrisisAngle: `The accuracy collapse has not affected the Hollow-Solari the way it has affected the elk-readers: Sol's Breath has never been accurate in the short term, it reads in centuries, not minutes. But the long-term pattern has shifted. The dimming-rate the Hollow-Solari have tracked for eight centuries has, in the past decade, begun to accelerate. The elders who have maintained the vigil for eighty years say the flame is dimming now at a rate that predicts total darkness within two generations. They have not told the Dawn Vigil. They have not told the Solvarn. They have not told anyone.`,
   signatureQuote: {
   text: '"You read entrails and see the next battle. I read the flame and see the next century. The flame tells me there is not going to be one. You tell me which of us should be more afraid."',
   speaker: 'Vigil-Keeper Orm Ember-Eye',
-  context: 'A Korr Augur, responding to a Skald Haruspex who dismissed flame-reading as imprecise'
+  context: 'A Hollow-Solari Augur, responding to a Skald Haruspex who dismissed flame-reading as imprecise'
   }
  }
  },
@@ -187,7 +187,7 @@ The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first
 
 The temporal feedback burn took her past. The memories of her husband's face were incinerated to clear space for precise coordinate chains of cosmic doom. The names of her children went next. The warmth of the hearth. Her own name. She does not move. She cannot move. Her body sits preserved in the glacier-ice at the Frozen Archive, trapped in the moment of her greatest vision. The glacier-ice is the entrail now, and Cassia reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them.
 
-Each culture reads a different entrail. The Skald, Cassia's original tradition, still sacrifice glacier-elk against frozen ground. The Vashir Astril read the future in resonant fractures of their own crystalline skin, Lumian memory echoing forward through the lattice. The Silath Astril smuggle prophecy past their own suppression, the gagged heritage screaming warnings through crystal. The Tessen read the future in the crumbling architecture of their sealed keeps, the dying keep as sacrificial animal. The Marked Vreken read bioluminescent bloom-patterns across the mycelial network, though the network has begun looping the same prophecy. The Korr Emberth read Sol's Breath itself, the dying star's pulse as omen, patterns in the dimming that no one else has been told about.
+Each culture reads a different entrail. The Skald, Cassia's original tradition, still sacrifice glacier-elk against frozen ground. The Earthen Astril read the future in resonant fractures of their own crystalline skin, Lumian memory echoing forward through the lattice. The Stellar Astril smuggle prophecy past their own suppression, the gagged heritage screaming warnings through crystal. The Tessen read the future in the crumbling architecture of their sealed keeps, the dying keep as sacrificial animal. The Marked Vreken read bioluminescent bloom-patterns across the mycelial network, though the network has begun looping the same prophecy. The Hollow-Solari read Sol's Breath itself, the dying star's pulse as omen, patterns in the dimming that no one else has been told about.
 
 The star-arithmetic is failing. Accuracy has collapsed from ninety-three percent to forty-one percent in three months. One elk shows the Archive intact in ten years. Another shows it collapsed last week. The entrails return contradictory results because something is interfering with the flow of time itself. The current leader, Archive-Mistress Skadi Glass-Eye, privately suspects the Chronarchs' temporal stitching is responsible. A rival within the order, Helgar the Rejector, argues the entire method should be abandoned for pure mathematical calculation with no blood involved.`,
 
@@ -218,7 +218,7 @@ The price of this feedback loop was memory-loss. Cassia had to trade away her ow
 Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod Hold</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Korr <LoreLink termId="emberth">Emberth</LoreLink> who read Sol's Breath's dying pulse.
+The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Hollow-Solari <LoreLink termId="emberth">Solari</LoreLink> who read Sol's Breath's dying pulse.
 
 **NOTABLE FIGURES**
 * **Cassia the Star-Eyed**: The legendary seer of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> who predicted the solar eclipse at the cost of her past.

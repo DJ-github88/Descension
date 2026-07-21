@@ -22,14 +22,16 @@ export const ZONE_DATA = [
   "house-thalreth",
   "scribe-sentinels"
  ],
- "connections": [
-  "the-shallows",
-  "scribes-tower"
- ],
- "wyrdCreatures": []
- },
- {
- "id": "the-shallows",
+   "connections": [
+   "the-shallows",
+   "scribes-tower",
+   "mirror-mere",
+   "meadowglen-crossing"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+   "id": "the-shallows",
  "regionId": "frostwood-reach",
  "name": "The Shallows",
  "type": "wilderness",
@@ -39,17 +41,19 @@ export const ZONE_DATA = [
   "Mist-Sentinels",
   "Thalren Trappers"
  ],
- "connections": [
-  "greymark-keep",
-  "ironwood-heart"
- ],
- "wyrdCreatures": [
-  "Gambrel",
-  "Gref"
- ]
- },
- {
- "id": "scribes-tower",
+  "connections": [
+   "greymark-keep",
+   "ironwood-heart",
+   "thornwood-grove",
+   "wraithfen"
+  ],
+  "wyrdCreatures": [
+   "Gambrel",
+   "Gref"
+  ]
+  },
+  {
+   "id": "scribes-tower",
  "regionId": "frostwood-reach",
  "name": "Scribes' Tower",
  "type": "settlement",
@@ -107,21 +111,22 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Wraithfen",
  "type": "wilderness",
- "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Mimir Unwoven wander here without masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
+ "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Fractured Mimir outcasts wander here with salvaged masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
  "dangerLevel": "high",
  "factions": [
-  "Mimir Unwoven"
+  "Tethered Mimir"
  ],
- "connections": [
-  "the-shallows"
- ],
- "wyrdCreatures": [
-  "Gref",
-  "Revel"
- ]
- },
- {
- "id": "greythorn-copse",
+  "connections": [
+   "the-shallows",
+   "the-shifting-fen"
+  ],
+  "wyrdCreatures": [
+   "Gref",
+   "Revel"
+  ]
+  },
+  {
+   "id": "greythorn-copse",
  "regionId": "frostwood-reach",
  "name": "Greythorn Copse",
  "type": "settlement",
@@ -183,13 +188,14 @@ export const ZONE_DATA = [
  "factions": [
   "Masked Mimir"
  ],
- "connections": [
-  "greymark-keep"
- ],
- "wyrdCreatures": []
- },
- {
- "id": "frozen-archive",
+  "connections": [
+   "greymark-keep",
+   "the-shifting-fen"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+   "id": "frozen-archive",
  "regionId": "nordhalla",
  "name": "The Frozen Archive",
  "type": "tomb",
@@ -199,16 +205,17 @@ export const ZONE_DATA = [
   "house-skalvyr",
   "Skald Keepers"
  ],
- "connections": [
-  "fjord-gate",
-  "rimors-hearth"
- ],
- "wyrdCreatures": [
-  "Stel"
- ]
- },
- {
- "id": "bloodhammer-sump",
+  "connections": [
+   "fjord-gate",
+   "rimors-hearth",
+   "vargtor"
+  ],
+  "wyrdCreatures": [
+   "Stel"
+  ]
+  },
+  {
+   "id": "bloodhammer-sump",
  "regionId": "nordhalla",
  "name": "Bloodhammer Sump",
  "type": "settlement",
@@ -235,14 +242,16 @@ export const ZONE_DATA = [
   "house-skalvyr",
   "Sea-Guard"
  ],
- "connections": [
-  "frozen-archive",
-  "bloodhammer-sump"
- ],
- "wyrdCreatures": []
- },
- {
- "id": "hunger-glaciers",
+  "connections": [
+   "frozen-archive",
+   "bloodhammer-sump",
+   "vargtor",
+   "rooks-promontory"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+   "id": "hunger-glaciers",
  "regionId": "nordhalla",
  "name": "Hunger Glaciers",
  "type": "wilderness",
@@ -288,10 +297,11 @@ export const ZONE_DATA = [
  "factions": [
   "Skald Ice-Trackers"
  ],
- "connections": [
-  "hunger-glaciers",
-  "vargtor"
- ],
+  "connections": [
+   "hunger-glaciers",
+   "vargtor",
+   "frosthold-citadel"
+  ],
  "wyrdCreatures": [
   "Stel",
   "Skrei"
@@ -308,10 +318,12 @@ export const ZONE_DATA = [
   "Skald Keepers",
   "Fjords-Riders"
  ],
- "connections": [
-  "skadis-col",
-  "the-still-crag"
- ],
+  "connections": [
+   "skadis-col",
+   "the-still-crag",
+   "frozen-archive",
+   "fjord-gate"
+  ],
  "wyrdCreatures": [
   "Kjarn"
  ]
@@ -321,14 +333,15 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "The Still Crag",
  "type": "wilderness",
- "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where Aethil's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
+  "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
  "dangerLevel": "high",
  "factions": [
   "Rime-Born Rune Keepers"
  ],
- "connections": [
-  "rooks-promontory"
- ],
+  "connections": [
+   "rooks-promontory",
+   "frosthold-citadel"
+  ],
  "wyrdCreatures": [
   "Huld",
   "Skrei"
@@ -379,14 +392,16 @@ export const ZONE_DATA = [
   "house-tesshan",
   "Sump-Miners"
  ],
- "connections": [
-  "the-spans",
-  "sump-galleries"
- ],
- "wyrdCreatures": []
- },
- {
- "id": "the-spans",
+  "connections": [
+   "the-spans",
+   "sump-galleries",
+   "gearworks-gulch",
+   "the-stone-cog"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+   "id": "the-spans",
  "regionId": "cragjaw-peaks",
  "name": "The Spans",
  "type": "wilderness",
@@ -430,11 +445,13 @@ export const ZONE_DATA = [
  "dangerLevel": "high",
  "factions": [
   "Sump-Miners",
-  "Fexrick Scavengers"
+  "Caustic Fexric"
  ],
- "connections": [
-  "frostmaw-holdfast"
- ],
+  "connections": [
+   "frostmaw-holdfast",
+   "gearworks-gulch",
+   "driknell-foundry"
+  ],
  "wyrdCreatures": [
   "Scrab",
   "Toxic Spore-Horror"
@@ -521,16 +538,18 @@ export const ZONE_DATA = [
  "regionId": "cragjaw-peaks",
  "name": "Gearworks Gulch",
  "type": "settlement",
- "description": "A Fexrick industrial settlement built into a narrow ravine where steam-powered machinery grinds day and night. The gulch is heated by geothermal vents channeled through iron pipes, and the air is thick with sulfur and the constant clatter of industry. Fexrick artisans here produce the finest clockwork mechanisms in the known world.",
+ "description": "A Fexric industrial settlement built into a narrow ravine where steam-powered machinery grinds day and night. The gulch is heated by geothermal vents channeled through iron pipes, and the air is thick with sulfur and the constant clatter of industry. Fexric artisans here produce the finest clockwork mechanisms in the known world.",
  "dangerLevel": "medium",
  "factions": [
-  "Fexrick Scavengers",
-  "Kethrin Guild-Bound"
+   "Caustic Fexric",
+  "Clockwork Fexric"
  ],
- "connections": [
-  "sump-galleries",
-  "frostmaw-holdfast"
- ],
+  "connections": [
+   "sump-galleries",
+   "frostmaw-holdfast",
+   "driknell-foundry",
+   "lost-brood-vats"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -557,16 +576,18 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Harath-Vault",
  "type": "city",
- "description": "The massive subterranean capital of the Emberth forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to the Solbrand and industrial forge-caldera where the Korr Emberth tend the eternal ember in sacred silence. The Emberth vault-capital beneath Emberspire. The Korr tending-clan has protected the Solbrand here since before the Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Dimming.",
+ "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Hollow-Solari tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Hollow-Solari tending-clan has protected Sol's Breath here since before the Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Dimming.",
  "dangerLevel": "extreme",
  "factions": [
   "Solvarn Martyrs",
-  "Emberth Watchers"
+  "Solari Watchers"
  ],
- "connections": [
-  "great-forge",
-  "emberspire-caldera"
- ],
+  "connections": [
+   "great-forge",
+   "emberspire-caldera",
+   "ember-lagoon",
+   "sun-keep"
+  ],
  "wyrdCreatures": [
   "Sun-Husk",
   "Cinder-Fiend"
@@ -577,16 +598,17 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Great Forge",
  "type": "city",
- "description": "A sprawling city of black iron and basalt built inside a volcanic cavern. Warmed by a branch of the world's magma-core, the Emberth forge-masters maintain the massive, geothermal bellows that power the world's largest smelting operations, producing refined cold-iron for all seven continents.",
+ "description": "A sprawling city of black iron and basalt built inside a volcanic cavern. Warmed by a branch of the world's magma-core, the Solari forge-masters maintain the massive, geothermal bellows that power the world's largest smelting operations, producing refined cold-iron for all seven continents.",
  "dangerLevel": "low",
  "factions": [
-  "Emberth Forge-Clans",
+  "Solari Forge-Clans",
   "house-solvan"
  ],
- "connections": [
-  "harath-vault",
-  "basalt-shyr"
- ],
+  "connections": [
+   "harath-vault",
+   "basalt-shyr",
+   "ember-lagoon"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -599,16 +621,20 @@ export const ZONE_DATA = [
  "factions": [
   "Pyrofiend Cults"
  ],
- "connections": [
-  "harath-vault",
-  "cinder-badlands"
- ],
- "wyrdCreatures": [
-  "Cinder-Fiend"
- ]
- },
- {
- "id": "basalt-shyr",
+  "connections": [
+   "harath-vault",
+   "cinder-badlands",
+   "synod-hold",
+   "sun-keep",
+   "warmheath",
+   "spinstones-columns"
+  ],
+  "wyrdCreatures": [
+   "Cinder-Fiend"
+  ]
+  },
+  {
+   "id": "basalt-shyr",
  "regionId": "sundale",
  "name": "Basalt Shyr",
  "type": "settlement",
@@ -632,7 +658,7 @@ export const ZONE_DATA = [
  "description": "A vast, windswept desert of black obsidian sands and jagged glass spires. The wind here carries a toxic soot, and travelers must wear heavy leather wraps to protect their eyes from flying glass-shards and sudden volcanic fire-hazards.",
  "dangerLevel": "high",
  "factions": [
-  "Thrask Badland Rangers"
+  "Waste-Solari Badland Rangers"
  ],
  "connections": [
   "emberspire-caldera",
@@ -671,10 +697,13 @@ export const ZONE_DATA = [
  "factions": [
   "Dawn Vigil"
  ],
- "connections": [
-  "sols-anvil-mesa",
-  "basalt-shyr"
- ],
+  "connections": [
+   "sols-anvil-mesa",
+   "basalt-shyr",
+   "solvans-stand",
+   "thornshire-colony",
+   "sun-keep"
+  ],
  "wyrdCreatures": [
   "Sun-Husk",
   "Croon"
@@ -685,11 +714,11 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Vulkar's Karst",
  "type": "wilderness",
- "description": "A honeycombed landscape of limestone terrain riddled with underground rivers and sinkholes, named for the Emberth forge-master who first mapped its depths. Geothermal vents heat the underground streams to boiling, and the mineral-rich water deposits vivid orange and red crystals along every cave wall. The karst connects to the Harath-Vault through miles of submerged passages.",
+ "description": "A honeycombed landscape of limestone terrain riddled with underground rivers and sinkholes, named for the Solari forge-master who first mapped its depths. Geothermal vents heat the underground streams to boiling, and the mineral-rich water deposits vivid orange and red crystals along every cave wall. The karst connects to the Harath-Vault through miles of submerged passages.",
  "dangerLevel": "high",
  "factions": [
-  "Emberth Watchers",
-  "Korr Emberth"
+  "Solari Watchers",
+  "Hollow-Solari"
  ],
  "connections": [
   "harath-vault",
@@ -705,10 +734,10 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Slag Gulch",
  "type": "settlement",
- "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Emberth and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Terran.",
+ "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Solari and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Terran.",
  "dangerLevel": "medium",
  "factions": [
-  "Emberth Forge-Clans",
+  "Solari Forge-Clans",
   "Groven Workers"
  ],
  "connections": [
@@ -722,15 +751,19 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Ember Lagoon",
  "type": "settlement",
- "description": "A warm saltwater lagoon heated by volcanic vents on Sundale's southern coast, where Emberth divers harvest fire-coral and thermal crystals. The lagoon glows orange-red at night from the volcanic activity below. It serves as Sundale's primary port, the only harbor where the water does not freeze.",
+ "description": "A warm saltwater lagoon heated by volcanic vents on Sundale's southern coast, where Solari divers harvest fire-coral and thermal crystals. The lagoon glows orange-red at night from the volcanic activity below. It serves as Sundale's primary port, the only harbor where the water does not freeze.",
  "dangerLevel": "low",
  "factions": [
-  "Emberth Forge-Clans",
+  "Solari Forge-Clans",
   "Merryn Traders"
  ],
- "connections": [
-  "basalt-shyr"
- ],
+  "connections": [
+   "basalt-shyr",
+   "great-forge",
+   "merrowport",
+   "harath-vault",
+   "konjaw-port"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -744,10 +777,14 @@ export const ZONE_DATA = [
   "house-mereval",
   "Merryn Cartographers"
  ],
- "connections": [
-  "ironjaw-port",
-  "gale-storm-shallows"
- ],
+  "connections": [
+   "ironjaw-port",
+   "gale-storm-shallows",
+   "ember-lagoon",
+   "spindrift-lagoon",
+   "blackteeth-isle",
+   "synod-hold"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -761,10 +798,11 @@ export const ZONE_DATA = [
   "Merryn Whalers",
   "Myrathil Scavengers"
  ],
- "connections": [
-  "merrowport",
-  "treakous-rift"
- ],
+  "connections": [
+   "merrowport",
+   "treakous-rift",
+   "blackteeth-isle"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -814,10 +852,12 @@ export const ZONE_DATA = [
  "factions": [
   "Merryn Pirates"
  ],
- "connections": [
-  "merrowport",
-  "first-shore"
- ],
+  "connections": [
+   "merrowport",
+   "first-shore",
+   "the-shivering-bight",
+   "shard-window"
+  ],
  "wyrdCreatures": [
   "Drowned Spume"
  ]
@@ -921,16 +961,19 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "The Synod Hold",
  "type": "city",
- "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first Lumian echo-vessels arrived just after the Breach.",
+ "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first Lumian echo-vessels arrived before the Binding.",
  "dangerLevel": "low",
   "factions": [
    "house-ordavan",
    "unlit-veil"
   ],
- "connections": [
-  "mound-camps",
-  "ancestor-mounds"
- ],
+  "connections": [
+   "mound-camps",
+   "ancestor-mounds",
+   "emberspire-caldera",
+   "merrowport",
+   "starfall-vale"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -944,10 +987,11 @@ export const ZONE_DATA = [
   "Ordan Nomads",
   "Astril Outcast Guilds"
  ],
- "connections": [
-  "synod-hold",
-  "grass-tundra"
- ],
+  "connections": [
+   "ancestor-mounds",
+   "grass-tundra",
+   "synod-hold"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -959,12 +1003,15 @@ export const ZONE_DATA = [
  "dangerLevel": "medium",
  "factions": [
   "Mound-Keepers",
-  "Astril Vashir"
+  "Earthen Astril"
  ],
- "connections": [
-  "synod-hold",
-  "lien-stalked-grazes"
- ],
+  "connections": [
+   "synod-hold",
+   "lien-stalked-grazes",
+   "starfall-vale",
+   "novas-heath",
+   "the-moundwatch"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -993,7 +1040,7 @@ export const ZONE_DATA = [
  "description": "A unique region of the steppe where the grass is replaced by glowing, crystal-infused Lien-stalks. The soil here is highly fertile, but the crystalline grass makes grazing dangerous, attracting mutated beasts and crystal-skinned scavengers.",
  "dangerLevel": "extreme",
  "factions": [
-  "Astril Silath"
+  "Stellar Astril"
  ],
  "connections": [
   "ancestor-mounds",
@@ -1032,10 +1079,11 @@ export const ZONE_DATA = [
  "factions": [
   "Ordan Nomads"
  ],
- "connections": [
-  "kumis-downs",
-  "ancestor-mounds"
- ],
+  "connections": [
+   "kumis-downs",
+   "ancestor-mounds",
+   "blizzard-bluff"
+  ],
  "wyrdCreatures": [
   "Zud",
   "Unzag"
@@ -1046,10 +1094,10 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "Starfall Vale",
  "type": "wilderness",
- "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Vashir Astril make pilgrimages here to commune with Lumia's echo.",
+ "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Earthen Astril make pilgrimages here to commune with Lumia's echo.",
  "dangerLevel": "high",
  "factions": [
-  "Astril Vashir"
+  "Earthen Astril"
  ],
  "connections": [
   "ancestor-mounds",
@@ -1106,9 +1154,7 @@ export const ZONE_DATA = [
    "house-ordavan"
   ],
   "connections": [
-   "ironjaw-port",
-   "sundrift-vale",
-   "cragjaw-peaks"
+   "ironjaw-port"
   ],
   "wyrdCreatures": []
   },
@@ -1123,13 +1169,19 @@ export const ZONE_DATA = [
   "Velun Pact-Lords",
   "Neth Merchants"
  ],
- "connections": [
-  "the-sunken-spire"
- ],
- "wyrdCreatures": []
- },
- {
- "id": "the-sunken-spire",
+  "connections": [
+   "the-sunken-spire",
+   "aran-glen",
+   "over-shanty",
+   "merryns-drift",
+   "the-great-mere",
+   "root-veil-scriptorium",
+   "fangmere-grove"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+   "id": "the-sunken-spire",
  "regionId": "bryngloom-forest",
  "name": "The Sunken Spire",
  "type": "city",
@@ -1139,10 +1191,12 @@ export const ZONE_DATA = [
   "Clean Vreken",
   "Crypt-Council"
  ],
- "connections": [
-  "atropolis",
-  "peat-bog-sinks"
- ],
+  "connections": [
+   "atropolis",
+   "peat-bog-sinks",
+   "the-crypt-of-aedris",
+   "merryns-drift"
+  ],
  "wyrdCreatures": []
  },
  {
@@ -1528,7 +1582,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Konjaw Port",
  "type": "settlement",
- "description": "A fishing port on Sundale's southern coast, the most cosmopolitan town in the region. Merryn captains, Frostwood Thalren exiles, and Emberth forge-clans all dock here. The Dawn Vigil holds the citadel at the harbor-mouth, but the back-alleys are the Risen's, and the cult of the old sun-veneration has its public shrines in plain view. Konjaw is the only Sundale port where the Sea-Charter is honored without the Board of Trade's registration.",
+ "description": "A fishing port on Sundale's southern coast, the most cosmopolitan town in the region. Merryn captains, Frostwood Thalren exiles, and Solari forge-clans all dock here. The Dawn Vigil holds the citadel at the harbor-mouth, but the back-alleys are the Risen's, and the cult of the old sun-veneration has its public shrines in plain view. Konjaw is the only Sundale port where the Sea-Charter is honored without the Board of Trade's registration.",
  "dangerLevel": "low",
  "factions": [
   "Dawn Vigil (harbor)",
@@ -1548,11 +1602,11 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Ironjaw Village",
  "type": "settlement",
- "description": "A small Emberth fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Shorn exiles from the old Solvan nobility live here in disguise.",
+ "description": "A small Solari fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Shorn exiles from the old Solvan nobility live here in disguise.",
  "dangerLevel": "low",
  "factions": [
   "Ironjaw Council",
-  "Emberth forgemen"
+  "Solari forgemen"
  ],
  "connections": [
   "konjaw-port"
@@ -1616,7 +1670,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Breezebough",
  "type": "settlement",
- "description": "A market-town at the western edge of the Green Rim, where the warm sea-breezes meet the ashen plain. Breezebough is the trading-hub between the Dawn Vigil's territory and the Frostwood Reach, Thalren ink, Solvan obsidian, Merryn salt-fish, and Emberth sulfur change hands in the open square. The town is technically under Hierophant Aethelgard's writ; in practice, the council of merchants governs.",
+ "description": "A market-town at the western edge of the Green Rim, where the warm sea-breezes meet the ashen plain. Breezebough is the trading-hub between the Dawn Vigil's territory and the Frostwood Reach, Thalren ink, Solvan obsidian, Merryn salt-fish, and Solari sulfur change hands in the open square. The town is technically under Hierophant Aethelgard's writ; in practice, the council of merchants governs.",
  "dangerLevel": "low",
  "factions": [
   "Dawn Vigil (nominally)",
@@ -1686,10 +1740,10 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Spinstones Columns",
  "type": "wilderness",
- "description": "A ring of basalt columns surrounding Emberspire at a distance of two leagues, natural formations that the Emberth have carved with binding-runes. The columns mark the boundary of the inner Ash-Heart; only the Emberth Watchers and the Dawn Vigil's senior priests are permitted past them. The Wyrd here is thick enough to taste.",
+ "description": "A ring of basalt columns surrounding Emberspire at a distance of two leagues, natural formations that the Solari have carved with binding-runes. The columns mark the boundary of the inner Ash-Heart; only the Solari Watchers and the Dawn Vigil's senior priests are permitted past them. The Wyrd here is thick enough to taste.",
  "dangerLevel": "extreme",
  "factions": [
-  "Emberth Watchers",
+  "Solari Watchers",
   "Dawn Vigil senior priests"
  ],
  "connections": [
@@ -1705,10 +1759,10 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Cinderbloom Crater",
  "type": "wilderness",
- "description": "A secondary volcanic vent north of Emberspire, named for the red-bloomed lichen that grows in its caldera. The Emberth use the crater as a place of purification, Martyrs are sent here to cleanse before the final Vow. The Dawn Vigil claims the lichens have healing properties; the Emberth say the crater simply burns the unworthy.",
+ "description": "A secondary volcanic vent north of Emberspire, named for the red-bloomed lichen that grows in its caldera. The Solari use the crater as a place of purification, Martyrs are sent here to cleanse before the final Vow. The Dawn Vigil claims the lichens have healing properties; the Solari say the crater simply burns the unworthy.",
  "dangerLevel": "high",
  "factions": [
-  "Emberth Watchers",
+  "Solari Watchers",
   "Dawn Vigil"
  ],
  "connections": [
@@ -1724,7 +1778,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Star Caves",
  "type": "ruin",
- "description": "A network of lava-tubes beneath the Spinstones Columns, where the Solvan priests once communed with what they believed were the spirits of Sol's ministers. The binding broke that communion; the caves are now silent and haunted by the Husque, mobile reality-fissures that walk the tunnels. The Emberth seal the entrances, but the seals do not always hold.",
+ "description": "A network of lava-tubes beneath the Spinstones Columns, where the Solvan priests once communed with what they believed were the spirits of Sol's ministers. The binding broke that communion; the caves are now silent and haunted by the Husque, mobile reality-fissures that walk the tunnels. The Solari seal the entrances, but the seals do not always hold.",
  "dangerLevel": "extreme",
  "factions": [],
  "connections": [
@@ -1762,11 +1816,11 @@ export const ZONE_DATA = [
  "regionId": "cragjaw-peaks",
  "name": "Alley of Knor",
  "type": "wilderness",
- "description": "A narrow pass through the Cragjaw's central spine, the only east-west route through the peaks that does not require Groven bone-bridges. The alley is named for the ancient Fexrick runemaster Knor, who carved the warning-runes on the cliff walls when the Tesshan first came. Avalanches are common; the Alley is closed in winter.",
+ "description": "A narrow pass through the Cragjaw's central spine, the only east-west route through the peaks that does not require Groven bone-bridges. The alley is named for the ancient Fexric runemaster Knor, who carved the warning-runes on the cliff walls when the Tesshan first came. Avalanches are common; the Alley is closed in winter.",
  "dangerLevel": "high",
  "factions": [
   "Tessen patrols",
-  "Fexrick engineer-corps"
+  "Fexric engineer-corps"
  ],
  "connections": [
   "the-great-gorge",
@@ -1786,7 +1840,7 @@ export const ZONE_DATA = [
  "factions": [
   "House Tesshan",
   "Steam-Line Cartel",
-  "Kethrin Guild-Bound"
+  "Clockwork Fexric"
  ],
  "connections": [
   "frostmaw-holdfast",
@@ -1799,11 +1853,11 @@ export const ZONE_DATA = [
  "regionId": "cragjaw-peaks",
  "name": "Driknell Foundry",
  "type": "settlement",
- "description": "A Fexric industrial complex in the deep Iron Sumps, the largest forge-works in the Cragjaw, fed by geothermal pipes from below. Driknell stamps the Tesshan sigil onto every Ironclad plate that comes off the line. The Drall Clan-Free workers in the lower foundries are the most numerous Fexric caste; the Kethrin Guild-Bound overseers in the upper halls are the most despised.",
+ "description": "A Fexric industrial complex in the deep Iron Sumps, the largest forge-works in the Cragjaw, fed by geothermal pipes from below. Driknell stamps the Tesshan sigil onto every Ironclad plate that comes off the line. The Caustic Fexric Clan-Free workers in the lower foundries are the most numerous Fexric caste; the Clockwork Fexric overseers in the upper halls are the most despised.",
  "dangerLevel": "medium",
  "factions": [
-  "Fexrick Kethrin Guild-Bound",
-  "Fexrick Drall Clan-Free",
+  "Clockwork Fexric",
+  "Caustic Fexric",
   "Steam-Line Cartel"
  ],
  "connections": [
@@ -2021,9 +2075,10 @@ export const ZONE_DATA = [
   "Myrathil Shore",
   "Spindrift Spa-Cult (visiting)"
  ],
- "connections": [
-  "merrowport"
- ],
+  "connections": [
+   "merrowport",
+   "deepwell-archipelago"
+  ],
  "wyrdCreatures": [
   "Nereid"
  ]
@@ -2146,10 +2201,10 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "The Shifting Fen",
  "type": "wilderness",
- "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Mimir Unwoven say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where the Keth-Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
+ "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Tethered Mimir say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where Keth-Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
  "dangerLevel": "high",
  "factions": [
-  "Mimir Unwoven",
+  "Tethered Mimir",
   "The Forgotten"
  ],
  "connections": [
@@ -2192,14 +2247,31 @@ export const ZONE_DATA = [
  ],
  "wyrdCreatures": [
   "Sun-Husk"
- ]
- },
- {
- "id": "lost-brood-vats",
+  ]
+  },
+  {
+  "id": "sun-keep",
+  "regionId": "sundale",
+  "name": "Sun-Keep",
+  "type": "fortification",
+  "description": "The headquarters of the Order of Solbrand, a fortress carved into the caldera wall of Emberspire. Its obsidian ramparts catch the thermal glow from the caldera below, making it appear perpetually lit from within. The Grandmaster of the Order commands the defense of Sundale's volcanic frontier from this keep, directing Solbrand knights across the Ashen Escarpment.",
+  "dangerLevel": "high",
+  "factions": [
+   "order-of-solbrand"
+  ],
+  "connections": [
+   "harath-vault",
+   "the-ashen-escarpment",
+   "emberspire-caldera"
+  ],
+  "wyrdCreatures": []
+  },
+  {
+  "id": "lost-brood-vats",
  "regionId": "cragjaw-peaks",
  "name": "Lost Brood Vats",
  "type": "ruin",
- "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Dimming. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexrick refuse to speak of what.",
+ "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Dimming. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexric refuse to speak of what.",
  "dangerLevel": "extreme",
  "factions": [],
  "connections": [
@@ -2220,11 +2292,28 @@ export const ZONE_DATA = [
   "Morvane",
   "Root-Veil Coven"
  ],
- "connections": [],
- "wyrdCreatures": [
-  "Kessen-Wraith"
- ]
- }
+  "connections": [
+   "atropolis"
+  ],
+   "wyrdCreatures": [
+    "Kessen-Wraith"
+   ]
+   },
+   {
+   "id": "thornwood-grove",
+  "regionId": "frostwood-reach",
+  "name": "Thornwood Grove",
+  "type": "wilderness",
+  "description": "A quiet grove of ironwood and thorn-vine three leagues east of the Shallows, known locally as the site of the Third Harvest massacre. The trees bear axe-marks from executions and the ground is saturated with alchemical residue. The grove is avoided by locals; the fog here tastes faintly of copper.",
+  "dangerLevel": "moderate",
+  "factions": [
+   "scribe-cartel"
+  ],
+  "connections": [
+   "the-shallows"
+  ],
+  "wyrdCreatures": []
+  }
 ];
 
 

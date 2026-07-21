@@ -30,7 +30,7 @@
 
 **Cultural Affiliation:** Heavily practiced by the Woven Mimir (fog-sentinels), Masked Mimir (identity-stable trackers), Unwoven Mimir (fog-merged hunters), Skald humans (glacier-stalkers), Clean Vreken (bioluminescent spoor-trailers), Marked Vreken (mycelial web-sense trackers), and Ordan humans (steppe-scent trackers). The Silent Hunt tradition was founded by Sylas, who traded his hearing for absolute sensory focus to track Wyrd-creatures through the Frostwood fog.
 
-**Subraces allowed:** `masked_mimir`, `woven_mimir`, `unwoven_mimir`, `skald_human`, `clean_vreken`, `marked_vreken`, `ordan_human`
+**Subraces allowed:** `veiled_mimir`, `tethered_mimir`, `skald_human`, `clean_vreken`, `marked_vreken`, `ordan_human`
 
 **Flaw / World Weaving:** Kill the Beast, Cripple the Hunter — a dead companion means ZERO Quarry Marks until revived. If companion drops below 25% HP while you have 3+ Quarry Marks, the beast enters Primal Outrage (double damage but attacks nearest creature, friend or foe). Companion death causes Bond Sickness for 3 rounds. The mist is learning to hide — something is teaching the fog to actively evade Apex senses that have held for centuries; Unwoven trackers who dissolve into the fog to find it are not coming back.
 
@@ -193,7 +193,7 @@
 
 **Cultural Affiliation:** Originally exclusive to Briaran descendants — Trueborn Briaran (Thorn-Bound, the parasite as fae-contract made flesh) and Shorn Briaran (Hidden Moon, carrying the parasite in secret while passing as human). The parasite also bonds to Mimir castes: Masked (Moon-Masked, parasite replaces heartwood as identity-anchor), Woven (Sentinel-Moon, parasite bonds to vigil-duty), Unwoven (Moon-Saved, parasite as salvation from dissolution). Recently, Thalren humans (Fog-Heresy) have been chosen — trading fixed identity for a parasitic one.
 
-**Subraces allowed:** `trueborn_briaran`, `shorn_briaran`, `masked_mimir`, `woven_mimir`, `unwoven_mimir`, `thalren_human`
+**Subraces allowed:** `trueborn_briaran`, `shorn_briaran`, `veiled_mimir`, `tethered_mimir`, `thalren_human`
 
 **Flaw / World Weaving:** +25% bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Standard magical healing deals wyrd damage instead of healing — the parasite devours foreign magic. Every phase shift deals 2d6 blight damage and forces a Transition Shock roll. The dead moon is calling its children home — the elder parasites are communicating across hosts. Selene has been silent for three weeks, whispering in a language no one recognizes. Whatever is waking may be the fallen star itself.
 
@@ -211,7 +211,7 @@
 
 **Description:** A selfless protector who gains power through sacrifice — actively sacrificing HP to fill the Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken). They are the ONLY class that can negate fatal blows by pulling damage vectors into their own body. Their form turns translucent at high Devotion, bones blazing with volatile golden energy in the Hollow Transfiguration.
 
-**Cultural Affiliation:** Heavily practiced by Solvarn humans (Sun-Vigil — wounds absorbed are small deaths in imitation of Sol's entombment, suffering as prayer), Korr Emberth (Vault-Silent — suffering as keeping watch over the Solbrand in sacred, wordless silence), Velun Neth (Contract-Martyrs — suffer per explicit contract terms, Devotion Gauge is a ledger of fulfilled clauses), and Skald humans (Ironclad — the Dreadnaught tradition reborn, converting absorbed suffering into furnace-armor combustion pressure and offensive counter-strikes).
+**Cultural Affiliation:** Heavily practiced by Solvarn humans (Sun-Vigil — wounds absorbed are small deaths in imitation of Sol's entombment, suffering as prayer), Korr Emberth (Vault-Silent — suffering as keeping watch over the Sol's Breath in sacred, wordless silence), Velun Neth (Contract-Martyrs — suffer per explicit contract terms, Devotion Gauge is a ledger of fulfilled clauses), and Skald humans (Ironclad — the Dreadnaught tradition reborn, converting absorbed suffering into furnace-armor combustion pressure and offensive counter-strikes).
 
 **Subraces allowed:** `solvarn_human`, `korr_emberth`, `velun_neth`, `skald_human`
 
@@ -272,7 +272,7 @@
 **Flaw / World Weaving:** Rime damage deals +50% AND forces Veil to ascend. At Veil 6+ (Heresy), cannot be healed by others. At Level 9, exactly 3 turns before permanent death — body detonates in 30ft radius of 10d6 and soul is claimed by Scathrach. Scathrach is calling in all debts simultaneously — the Final Convocation at Emberspire is imminent. No Pyrofiend has ever survived to describe what happens when a horror collects a contract.
 
 **Class Hooks:**
-- `solvarn_human` → The Sun-Blasphemer: Inferno-Veil amplified by proximity to Solbrand's residual warmth — drinking the dying star's own heat
+- `solvarn_human` → The Sun-Blasphemer: Inferno-Veil amplified by proximity to Sol's Breath's residual warmth — drinking the dying star's own heat
 - `thrask_emberth` → The Forge-Damned: char-vessel conversion partially directable — guide which body parts calcify into heat-resistant forge-plate
 - `skald_human` → The Cold-Traitor: Inferno-Veil amplified by cold environments; burns hotter the colder the surroundings as inversion of Skald biology
 
@@ -303,7 +303,7 @@
 
 **Cultural Affiliation:** Heavily practiced by Masked Mimir (Form-Locked — mask holds self stable as fixed transformation axis), Woven Mimir (Sentinel-Shifters — each form is a posture of watching, configured for specific surveillance), Unwoven Mimir (The Dissolving — each held form briefly coheres a self that is otherwise fading; buying time), Morgh Groven (Vat-Sculpted — inherited the Deep Alchemists' body-sculpting heritage; the race sculpted against its will now sculpting itself), and Ithran Groven (Span-Dancers — build Kinetic Flux from bridge-running momentum, channeling it into extended-limb transformations).
 
-**Subraces allowed:** `masked_mimir`, `woven_mimir`, `unwoven_mimir`, `morgh_groven`, `ithran_groven`
+**Subraces allowed:** `veiled_mimir`, `tethered_mimir`, `morgh_groven`, `ithran_groven`
 
 **Flaw / World Weaving:** 0 base Armor — every blow lands full. +50% wyrd vulnerability permanently. If rooted/grappled, Flux drops to 0 and takes 1d10 blight/round. Body Toll at 3+ locks joints, 5+ silences, 7+ sends Feral, 10 hands control to GM. Young Shapers experience Convergence Collapse — the body attempts every transformation at once, burning through crystalline skin in years; purists advocate single-tradition practice while convergers push deeper.
 

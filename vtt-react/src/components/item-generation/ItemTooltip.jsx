@@ -6,6 +6,27 @@ import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
 import useItemStore from '../../store/itemStore';
 import { getIconUrl } from '../../utils/assetManager';
 import { CONDITIONS } from '../../data/conditionsData';
+import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import LoreLink from '../common/LoreLink';
+
+const renderLoreText = (text) => {
+  if (!text || typeof text !== 'string') return text;
+  const processed = autoLinkTerminology(text);
+  const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>)/g;
+  const result = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+  while ((match = regex.exec(processed)) !== null) {
+    if (match.index > lastIndex) result.push(processed.substring(lastIndex, match.index));
+    result.push(
+      <LoreLink key={`lore-${key++}`} termId={match[2]}>{match[3]}</LoreLink>
+    );
+    lastIndex = regex.lastIndex;
+  }
+  if (lastIndex < processed.length) result.push(processed.substring(lastIndex));
+  return result.length > 0 ? result : text;
+};
 
 const getQualityColor = (quality) => {
     const qualityValue = quality || 'common';
@@ -2456,9 +2477,11 @@ function ItemTooltip({ item }) {
             {/* Description - exclude miscellaneous items as they have their own description handling */}
             {item.description && item.type !== 'miscellaneous' && (
                 <div className="item-merchant-notes" style={{ marginTop: '12px' }}>
-                    {item.description}
+                    {renderLoreText(item.description)}
                 </div>
             )}
+
+
 
             {/* Drop Chance - Display if provided */}
             {item.dropChanceDisplay !== undefined && (

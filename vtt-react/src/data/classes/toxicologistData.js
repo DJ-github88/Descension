@@ -9,7 +9,7 @@ export const TOXICOLOGIST_DATA = {
   restrictions: {
       "allowedSubraces": [
           "thalren_human",
-          "untethered_mimir",
+          "tethered_mimir",
           "morren_human",
           "trueborn_briaran",
           "shorn_briaran",
@@ -20,12 +20,12 @@ export const TOXICOLOGIST_DATA = {
           "fexrick"
       ],
       "narrativeUnlock": false,
-      "justification": "Requires deep knowledge of fungal/pharmacological reagents unique to the Frostwood. Unwoven Mimir brew floor-toxins. Morren know the bog's chemistry. Other regions lack the specific reagents."
+      "justification": "Requires deep knowledge of fungal/pharmacological reagents unique to the Frostwood. Tethered Mimir brew floor-toxins. Morren know the bog's chemistry. Other regions lack the specific reagents."
   },
 
   /**
    * Subrace Variants, the Toxicologist crafts poison, and the source of the reagents
-   * defines the craft. The Thalren distill the fog-predators. The Unwoven Mimir brew
+   * defines the craft. The Thalren distill the fog-predators. The Tethered Mimir brew
    * the canopy floor. The Morren know the bog. The Briaran carry the deep grove's
    * thorn-venom, and the Shorn brew it in secret, among neighbors who would
    * kill them for it.
@@ -47,19 +47,19 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    untethered_mimir: {
-      subraceName: 'Untethered Mimir',
+    tethered_mimir: {
+      subraceName: 'Tethered Mimir',
       title: 'The Floor-Brewer',
-      reframe: `The <LoreLink termId="mimir">Unwoven Mimir</LoreLink>, the maskless floor-dwellers, brew toxins from the canopy's undergrowth, the fungal mats and acidic secretions of the forest floor they inhabit. Where the Thalren distill predators, the Unwoven distill *decay*, the slow chemistry of decomposition, weaponized by the people who live closest to it.`,
+      reframe: `The <LoreLink termId="mimir">Tethered Mimir</LoreLink> renegades brew toxins from the canopy's undergrowth, the fungal mats and acidic secretions of the forest floor they inhabit. Where the Thalren distill predators, the Tethered distill *decay*, the slow chemistry of decomposition, weaponized by the people who live closest to it.`,
       signatureAbility: {
         name: 'Floor-Decay',
-        description: `Toxins are cultivated from decomposing undergrowth and optimized for *persistence*, once deployed, they linger in the environment for weeks, Denying terrain long after the Toxicologist has left. The Unwoven's floor-toxins are the tradition's longest-lasting agents.`
+        description: `Toxins are cultivated from decomposing undergrowth and optimized for *persistence*, once deployed, they linger in the environment for weeks. The Tethered's floor-toxins are the tradition's longest-lasting agents.`
       },
-      currentCrisisAngle: `The changing fog is altering the undergrowth's decomposition chemistry, and the Unwoven's floor-toxins are *mutating in the vial*, persistent agents becoming *aggressive*, spreading beyond their deployed perimeter. Several Unwoven Toxicologists have lost their own floor-dwellings to toxins they laid months earlier, the poisons refusing to stay where they were put.`,
+      currentCrisisAngle: `The changing fog is altering the undergrowth's decomposition chemistry, and the floor-toxins are mutating.`,
       signatureQuote: {
         text: '"I brew what the floor gives me. The floor is giving me something new. It does not stay where I pour it. I am afraid I have poisoned the only home I had."',
-        speaker: 'Unwoven Mir-Naeth',
-        context: 'An Unwoven Toxicologist, abandoning her floor-dwelling to a spreading bloom of her own toxin'
+        speaker: 'Tethered Mir-Naeth',
+        context: 'A Tethered Toxicologist, abandoning her floor-dwelling to a spreading bloom of her own toxin'
       }
     },
 
@@ -160,8 +160,8 @@ export const TOXICOLOGIST_DATA = {
       vectors: [
         {
           from: 'Thalren',
-          to: 'Unwoven Mimir',
-          vector: `The Unwoven Mimir share the Frostwood with the Thalren, dwelling on the forest floor beneath the same canopies. When the Thalren began deploying fog-venom perimeters against the Gref, the Unwoven observed the results from below  -  predators that survived the canopy traps fell dying into the floor-dwellings. The first Unwoven Toxicologists did not learn from Varis directly; they learned by *reverse-engineering the corpses* that rained down on their settlements. An Unwoven elder named Mir-Haeth collected dying Gref, studied the venoms still active in their wounds, and cultivated the first floor-toxin from the fungal mats that flourished where the poisoned corpses decomposed. The Unwoven call this transmission "the Falling Lesson." They never asked the Thalren for permission, and the Thalren never offered it.`
+          to: 'Tethered Mimir',
+          vector: `The Tethered Mimir share the Frostwood with the Thalren, dwelling on the forest floor beneath the same canopies. When the Thalren began deploying fog-venom perimeters against the Gref, the Tethered observed the results from below  -  predators that survived the canopy traps fell dying into the floor-dwellings. The first Tethered Toxicologists did not learn from Varis directly; they learned by *reverse-engineering the corpses* that rained down on their settlements. A Tethered elder named Mir-Haeth collected dying Gref, studied the venoms still active in their wounds, and cultivated the first floor-toxin from the fungal mats that flourished where the poisoned corpses decomposed. The Tethered call this transmission "the Falling Lesson." They never asked the Thalren for permission, and the Thalren never offered it.`
         },
         {
           from: 'Thalren',
@@ -184,7 +184,7 @@ export const TOXICOLOGIST_DATA = {
       title: 'The Hierarchy of the Slow Cup',
       ranks: [
         { rank: 'Keeper of the Slow Cup', count: 1, holder: 'Varis the Trembling', description: 'The founder and master of the Distillery. The rank is named for Varis\'s belief that the best poison is the one you pour today and let bloom tomorrow. No successor has been named; Varis refuses to discuss succession.' },
-        { rank: 'Venom-Pourer', count: 12, holders: 'Senior distillers including Lyra the Poison-Weaver (Unwoven), Mor-Velk the Wet (Morren, in absentia), Bri-Vess the Thorn-Venom (Trueborn, in absentia)', description: 'Master distillers who have produced at least one original toxin formulation ratified by the Keeper. Each Venom-Pourer oversees a satellite distillery in their home region and is authorized to teach the craft. Three of the twelve are currently in absentia  -  fugitives from their respective regional authorities who maintain contact through encrypted formula-letters.' },
+        { rank: 'Venom-Pourer', count: 12, holders: 'Senior distillers including Lyra the Poison-Weaver (Tethered), Mor-Velk the Wet (Morren, in absentia), Bri-Vess the Thorn-Venom (Trueborn, in absentia)', description: 'Master distillers who have produced at least one original toxin formulation ratified by the Keeper. Each Venom-Pourer oversees a satellite distillery in their home region and is authorized to teach the craft. Three of the twelve are currently in absentia  -  fugitives from their respective regional authorities who maintain contact through encrypted formula-letters.' },
         { rank: 'Glass-Hand', count: '~40', description: 'Journeyman distillers who have completed their apprenticeship and maintain their own small laboratories. Glass-Hands are permitted to sell low-grade poisons to scouts, hunters, and fog-predator-control. They handle the Distillery\'s day-to-day operations and are the rank most likely to interact with outsiders.' },
         { rank: 'Shaker', count: '~80', description: 'Apprentices, named for the tremors they have not yet learned to control. Shakers spend their first five years doing nothing but cleaning glassware, recording formula variations, and learning to pour without spilling. Most Shakers wash out within two years  -  the chronic toxin exposure is too much. Those who stay develop the stains, the tremors, and the burned-out tastebuds that mark a true Toxicologist.' },
         { rank: 'Tongue-Burned (Unofficial)', count: 'Unknown', description: 'A grim colloquialism for Toxicologists whose sense of taste has been completely destroyed by toxin exposure  -  a common milestone that the Distillery treats as an informal rank. Tongue-Burned distillers can no longer taste-test their own work and must rely entirely on chemical indicators and junior tasters. Varis has been Tongue-Burned for over three centuries.' }
@@ -212,7 +212,7 @@ export const TOXICOLOGIST_DATA = {
 
 The first was Varis the Trembling, a Thalren alchemist who systematized venom extraction from Frostwood fog-predators during the mid-Dimming centuries. His scout patrols had been cornered by face-stealing horrors, and he was the only survivor. He spent the next decade above the massacre site at Thornwood Grove, three leagues east of the Shallows, developing fog-venom, a toxin derived from the same predators that had killed his team. Years in the ironwood canopies distilling toxic moss and acidic secretions left him with chronic tremors, burned-away taste, and permanently stained fingers. The same preservative toxins that ruined his body also froze his aging. He has been old for three hundred years. He considers the changing fog a personal insult.
 
-Each subrace distills from different sources. The Thalren draw venom from fog-predators, optimized for slow-acting area-denial, a poison laid today that blooms in a week. The Unwoven Mimir brew from undergrowth decay, the slow chemistry of decomposition producing the longest-lasting agents in the tradition. The Morren draw from the Bryngloom's richest pharmacological treasury, the bog's peat-acids and contract-preserving ichor. The Trueborn Briaran distill their own fae-touched thorn-blood, every bloodline's poison unique and uncounterable without specific study. The Shorn Briaran brew in absolute secret among Thalren neighbors who would kill them, their toxins engineered for untraceability, delayed onset that mimics natural illness. The Drun Neth operate outside Neth jurisdiction entirely, their names burned from the First Contract, brewing with materials no registered alchemist would touch. Every brew is an act of rebellion, and Morvane, though it cannot see them, can sometimes feel what they are doing to its forest.
+Each subrace distills from different sources. The Thalren draw venom from fog-predators, optimized for slow-acting area-denial, a poison laid today that blooms in a week. The Tethered Mimir brew from undergrowth decay, the slow chemistry of decomposition producing the longest-lasting agents in the tradition. The Morren draw from the Bryngloom's richest pharmacological treasury, the bog's peat-acids and contract-preserving ichor. The Trueborn Briaran distill their own fae-touched thorn-blood, every bloodline's poison unique and uncounterable without specific study. The Shorn Briaran brew in absolute secret among Thalren neighbors who would kill them, their toxins engineered for untraceability, delayed onset that mimics natural illness. The Drun Neth operate outside Neth jurisdiction entirely, their names burned from the First Contract, brewing with materials no registered alchemist would touch. Every brew is an act of rebellion, and Morvane, though it cannot see them, can sometimes feel what they are doing to its forest.
 
 The fog is changing chemistry. Compounds that remained viable for years now degrade in weeks. Predator venoms are spoiling. The entire pharmacopoeia is turning unstable. Two apprentices have died testing Varis's desperation project: distilling the changing fog itself.`,
     title: "The Toxicologist",
@@ -245,12 +245,12 @@ The Toxicologist's order, known as The Distillery, operates from the Canopy-Labo
 Toxicologists are viewed with extreme caution in <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>, but their services are highly valued by scouts and hunters in the Reach. In the Bryngloom, Morren Toxicologists operate illegally from the Peat-Crypts beneath Over-Shanty, hiding their distillates from Neth revenue officers. In the Deep-Quarter, Drun Toxicologists produce null-distillates that the First Contract cannot register  -  a crime with no criminal, a transaction Morvane cannot audit.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Unwoven Mimir</LoreLink> (who learned by reverse-engineering the poisoned corpses that fell from Thalren canopy-traps), the Morren of the Bryngloom (who adapted Thalren techniques to bog-chemistry after a debt-worker named Hael the Split-Hand taught them in exchange for alchemical moss), the Trueborn and Shorn Briaran (who distill from their own thorn-blood), and the Drun Neth (who learned from Morren fugitives seeking sanctuary in the Deep-Quarter and adapted the craft to their own decaying flesh).
+The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Tethered Mimir</LoreLink> (who learned by reverse-engineering the poisoned corpses that fell from Thalren canopy-traps), the Morren of the Bryngloom (who adapted Thalren techniques to bog-chemistry after a debt-worker named Hael the Split-Hand taught them in exchange for alchemical moss), the Trueborn and Shorn Briaran (who distill from their own thorn-blood), and the Drun Neth (who learned from Morren fugitives seeking sanctuary in the Deep-Quarter and adapted the craft to their own decaying flesh).
 
 **NOTABLE FIGURES**
 * **Varis the Trembling**: Founder and Keeper of the Slow Cup. The chemist whose hands shook but whose poison cleared the Shallows of Gref. Alive, old, furious at the changing fog, and still working.
 * **Nerath the Soft-Voiced**: Former Venom-Pourer and now Keeper of the Clean Hand. Varis's most brilliant student, exiled for arguing the old pharmacopoeia is dead and must be replaced with synthetic chemistry. Operates alone from an unmarked laboratory in the Ironwood Deeps.
-* **Lyra the Poison-Weaver**: An Unwoven Mimir Venom-Pourer who synthesized the first combat catalysts used in the Shallows black markets and currently oversees the Distillery's relations with the Unwoven floor-dwellers.
+* **Lyra the Poison-Weaver**: A Tethered Mimir Venom-Pourer who synthesized the first combat catalysts used in the Shallows black markets and currently oversees the Distillery's relations with the Tethered outposts.
 * **Mor-Velk the Wet**: A Morren Venom-Pourer (in absentia) who taught the Drun the craft in exchange for sanctuary after the Keeper's Sanction came down on her ichor-thefts. She died in the Deep-Quarter three years ago; the Drun still maintain her laboratory.
 * **Kellan Soft-Hand and Torven the Steady**: Two of Varis's apprentices who died testing uncharacterized fog-distillates  -  the cost of the Keeper's desperation project, and the reason the junior distillers are losing faith.`
     },

@@ -1,4 +1,4 @@
-﻿# MYTHRILL: CANONICAL RACE LORE
+# MYTHRILL: CANONICAL RACE LORE
 
 > The definitive reference for all race lore. Every race file, lore dictionary entry, and cross-reference must conform to this document.
 
@@ -53,7 +53,7 @@ Viridane's bloodline-key was never offered to Keth-Amar. It survives in the Bria
 
 ---
 
-## MYRATHIL  -  *Children of Mareth*
+### MYRATHIL  -  *Children of Mareth*
 
 ### Theme
 *"You cannot step in the same river twice."*  -  Impermanence as identity. No bloodlines, no inheritance, no permanence. Their freedom is their blessing and their curse.
@@ -72,13 +72,13 @@ Uncommon, not rare. Oral culture, sung history, time measured in tides. They hav
 
 ### Subraces
 
-**Shore**  -  *"The river's mouth is where the river ends and the sea begins."*
+**Shore Myrathill**  -  *"The river's mouth is where the river ends and the sea begins."*
 Born where waves hammer coast. Diplomats, traders, the face the world sees. Equally comfortable on land and sea  -  no special water-rest requirement. Most adaptable, most socially fluent. Their yearning: coastlines and surf.
 
-**Deep**  -  *"What the sea remembers, the shore forgets."*
+**Deepling Myrathill**  -  *"What the sea remembers, the shore forgets."*
 Born from open-ocean foam during moonless gales. Mystics who hum into abyssal trenches. Need frequent hydration  -  dry environments are exhausting. Moist/humid areas suffice for comfort. Their yearning: open ocean and abyssal depth.
 
-**Brook**  -  *"The stream that carved the canyon didn't know its own strength."*
+**Brook Myrathill**  -  *"The stream that carved the canyon didn't know its own strength."*
 Born where freshwater meets salt. Explorers, scouts, the most adaptable and self-sufficient. Need some water contact but the most tolerant of distance from the sea. Their yearning: flowing freshwater and river deltas.
 
 ---
@@ -98,18 +98,15 @@ Tall, slender, 5'10"-7'0", 130-180 lbs. Fluid, predatory grace. Their faces behi
 Sereth  -  an ancient world-bound deity of creation and perfection  -  made the Mimir. Each iteration fell short. Sereth remade them countless times. This cycle bred shame. Sereth eventually died, destroyed by its own contradictions. The Mimir don't fully remember this. They have ancient scriptures speaking of a creator-father they couldn't please, but the specific history is lost. They know only that masks are honor and masklessness is the deepest shame.
 
 ### Culture
-The fog of the Frostwood Reach solidifies dream-memories into the masks but prevents self-recognition. They would be better off without masks. Even a maskless Mimir would flinch at praise  -  the shame is soul-deep. The Masked subrace has scholars who decipher Sereth's scriptures and seek tablets in deep ruins.
+The fog of the Frostwood Reach solidifies dream-memories into the masks but prevents self-recognition. They would be better off without masks. Even a maskless Mimir would flinch at praise  -  the shame is soul-deep.
 
 ### Subraces
 
-**Masked**  -  *"The statue that worships the sculptor has forgotten it was once stone."*
-Aristocrats who inherit ancestral masks carrying centuries of dream-memories. Scholars who study Sereth's scriptures. Eye-beads burn steady amber. Their flaw: inherited identity so complete it leaves no room for the self.
+**Arch Mimir**  -  *"The statue that worships the sculptor has forgotten it was once stone."*
+Aristocrats who inherit ancestral masks carrying centuries of dream-memories. High scholars who decipher Sereth's scriptures. Eye-beads burn steady amber. Their flaw: inherited identity so complete it leaves no room for the self.
 
-**Woven**  -  *"The mask-maker wears their own face and calls it a lie."*
-Lost original masks, crafted new ones. Skilled artisans maintaining the only living mask-making tradition. Their masks are newer, less memory-dense. Their flaw: they create beauty they cannot accept for themselves.
-
-**Unwoven**  -  *"The face behind the mask was always the masterpiece."*
-No masks, or patchwork composites. Hide behind long hair and hooded cloaks. The only subrace carrying Fetch-Motes  -  small glowing orbs of Sereth's residual creative energy. Closest to their actual faces, most psychologically volatile.
+**Fractured Mimir**  -  *"The face behind the mask was always the masterpiece."*
+Artisans and renegades whose original masks were broken, re-carved, or forged from patchwork composites. They carry Motes  -  small glowing orbs of Sereth's residual creative energy. Closest to their actual faces, most creative, yet psychologically volatile.
 
 ---
 
@@ -132,35 +129,35 @@ Nomad-druid people. Small, isolated communities in moonlit groves. Peaceful, con
 
 ### Subraces
 
-**Trueborn**  -  *"The rootless tree still reaches."*
+**Trueborn Briaran**  -  *"The rootless tree still reaches."*
 Embrace their nature as a blessing. Traditional grove life, minimal technology, close to the wild. Some develop antlers or other animal traits. Peaceful, accepting.
 
-**Shorn**  -  *"The branch that cuts itself from the trunk still carries the sap."*
+**Shorn Briaran**  -  *"The branch that cuts itself from the trunk still carries the sap."*
 Shave thorns flat, trim leaf-growths, try to pass as human. Ashamed of their heritage. Green-beige skin and yellow eyes betray them. Live in human settlements under false names.
 
 ---
 
-## GROVEN  -  *The Bridge-Scales*
+## GROVEN  -  *The Living Bridges*
 
 ### Theme
-*"The tool that outlives its purpose becomes the purpose."*  -  They escaped the Fexric vats only to build a civilization on the principle that their bodies are building materials.
+*"The tool that outlives its purpose becomes the purpose."*  -  Once monumental living landmarks of the ancient world, their bodies were engineered by Fexric alchemists, yet their spirits remain tied to the earth's architecture.
 
 ### Parenting
-*"The bridge is the lesson."* Children learn service before self. The Bridge-Vow at adulthood: twenty years tending someone else's bones. Parenting as preparation for sacrifice.
+*"The bridge is the lesson."* Children learn service before self. The Bridge-Vow at adulthood: twenty years tending someone else's spans. Parenting as preparation for sacrifice.
 
 ### Appearance
-Tall, long-limbed, 6'6"-7'6", 180-250 lbs. Stone-scales grown over living flesh. Tusks from lower jaws. Tufted tails. Moss and lichen between scales. Knuckles hardened to obsidian. Small, dark, patient eyes in craggy faces.
+Tall, long-limbed, 6'6"-7'6", 180-250 lbs. Heavy stone-scales grown over living granite-flesh. Obsidian knuckles. Tufted tails. Small, patient, dark eyes in craggy faces. Ancient tusks were flayed away by Fexric alchemists, leaving heavy jaw ridges.
 
 ### Origin
-Ancient Thrumm (stone-trolls) captured by Fexric Deep Alchemists, submerged in alchemical vats to create intelligent servitors. The experiment succeeded in every way except obedience. The first Groven shattered their vats and fled into the upper crags. They chose their own name.
+In mythic antiquity, the original Groven were ancient, peaceful stone-giants whose bodies formed the living bridges, mountain arches, and river-crossings of Mythrill. Fexric Deep Alchemists captured them and flayed away their stone tusks—the natural organs through which they "ate" raw mineral magic and grounded themselves to the planet. Submerged in alchemical vats, they were engineered into slave labor. The first Groven shattered their vats and escaped to the Ancestor-Spans, forever split between those who rebuilt themselves with Fexric cyber-stone artifice (**Ithran**) and those who retreated to the wilds as feral earth-guardians (**Morgh**).
 
 ### Subraces
 
-**Morgh**  -  *"The bridge is the body. The body is the bridge."*
-Believe the Groven exist to serve  -  not the Fexric, but the mountain, the spans, the crossing itself. Service is identity. Stone-scales heaviest. Capable of merging with stone as camouflage  -  becoming indistinguishable from boulders. Their flaw: internalized their makers' design so completely they cannot imagine being anything else.
+**Ithran Groven**  -  *"We built the bridge. The bridge is ours."*
+The refined, pristine caste. Believing survival required adaptation, they integrated Fexric cyber-stone runes and ivory polish into their hides, replacing their lost tusks with carved rune-plate jaws. They rule the grand Ancestor-Spans, collecting tolls and maintaining high stone cities. Their flaw: controlling the crossing means becoming the very gatekeepers their captors designed them to be.
 
-**Ithran**  -  *"We built the bridge. The bridge is ours."*
-Believe freedom means owning what they built. The Ancestor-Spans are Groven territory. The toll is sovereignty, not greed. Lighter, finer-scaled, more refined. Their flaw: controlling who crosses means becoming the gatekeeper  -  exactly the role the Fexric designed them for.
+**Morgh Groven**  -  *"The bridge is the body. The body is the bridge."*
+The wild, broken caste. Rejecting all Fexric artifice, they carry heavy, unworked boulder-scales and mossy ridges. Spiritually starved by the loss of their stone-tusks, they wander ruined mountain highways and ancient crags, capable of merging into stone as living boulders. Their flaw: they view the Ithran as betrayers who sold their heritage to the goblinoid guilds.
 
 ---
 
@@ -173,21 +170,20 @@ Believe freedom means owning what they built. The Ancestor-Spans are Groven terr
 *"The forge is the parent."* Children learn stillness before speech. The Vault-Breath is taught before language. Parenting as devotion: the child's first lesson is patience, their second is silence, their third is that the ember is more important than they are.
 
 ### Appearance
-Dark brown-beige skin. Solid black eyes (absorbing light). Strong from cave living but not brutish or hulking. Deliberately still in movement. Korr bear ritual marks from branding molten ash onto skin (the Marking-Rite). Heavy insulating cloth wraps.
+Dark brown-beige skin. Solid black eyes (absorbing light). Strong from cave living but not brutish or hulking. Deliberately still in movement. Clan members bear ritual marks from branding molten ash onto skin (the Marking-Rite). Heavy insulating cloth wraps.
 
 ### Origin
-The Emberth were already underground when the sun died. Their Sun-Speakers received Sol's instructions in heat-vision. When Sol was bound, every Sun-Speaker received one final image: an ember held in cupped hands. That ember became the Solbrand  -  their god's last fire.
+The Emberth were already underground when the sun died. Their Sun-Speakers received Sol's instructions in heat-vision. When Sol was bound, every Sun-Speaker received one final image: an ember held in cupped hands. That ember became the Sol's Breath  -  their god's last fire.
 
 ### Culture
-Religious cave-dwelling nomads and plainsrunners. Not lava-folk. They do NOT calcify without heat. They do NOT need external fire to survive metabolically. They are simply people most comfortable in volcanic environments  -  lungs filter ash, eyes see in darkness. The Solbrand is central: Sol is their god. The forge is the altar. The vigil never breaks. Every morning, a sun-priest scans the sky. Every morning, the sky is grey.
+Religious cave-dwelling nomads and plainsrunners organized into great volcanic clans. The Sol's Breath is central: Sol is their god. The forge is the altar. The vigil never breaks.
+### Subraces (Volcanic Clans)
 
-### Subraces
+**Vault-Keeper Emberth** (Korr Lineage)  -  *"The fire that warms the hand."*
+Deep-Vault forge-masters and priest-smiths. Bearing crisp ash-brandings and spending generations tending the sacred hearths in subterranean vaults. Scholarly, contemplative, and unshakable in their quiet devotion. Their flaw: devotion to a dying flame makes them blind to the world outside the vault.
 
-**Korr**  -  *"The fire that warms the hand."*
-Deep-Vault priests and forge-tenders. Elaborate ash-branding marks, stark and crisp. Contemplative, scholarly in devotion. Strong from cave living but not brutish. Their flaw: devotion to a dying ember is devotion to a dying thing.
-
-**Thrask**  -  *"The same fire that burns the house."*
-Surface rangers of the ashlands. Leaner, more mobile. Fainter marks. They range outward  -  mapping, scouting, questioning. The first to notice the Solbrand is dimming. Their flaw: the ranger who questions the vigil may stop keeping it.
+**Ash-Ranger Emberth** (Thrask Lineage)  -  *"The same fire that burns the house."*
+Surface scouts and ashland rangers. Leaner, swift, and wearing heavy protective eye-cloths and ashland gear, they range across volcanic wastes mapping the land and guarding perimeter shrines. Their flaw: wandering so far from the hearth means questioning whether the fire is worth keeping.
 
 ---
 
@@ -210,41 +206,50 @@ Monastic, stealthy, spore-focused. Alternative approach to everything. The Neth 
 
 ### Subraces
 
-**Clean**  -  *"The wound that scars over still aches in the cold."*
-Carry Deep-Glow, the stable strain. Rust-amber eyes. Composed, reliable. Disproportionately in leadership roles  -  not by conspiracy but because stability translates to authority over centuries. Their flaw: biological luck mistaken for virtue.
+**Clean Vreken**  -  *"The wound that scars over still aches in the cold."*
+Carry Deep-Glow, the stable fungal strain. Rust-amber eyes and dark undertones. Composed, reliable. Disproportionately in monastic leadership roles  -  not by conspiracy but because stability translates to authority over centuries. Their flaw: biological luck mistaken for virtue.
 
-**Marked**  -  *"The open wound sees what the scar cannot."*
-Carry Ghost-Mycelium, the volatile strain. Silver-white eyes. Extraordinary perception. Vulnerable to the hush  -  the spore-light addiction. Every Marked family carries at least one fallen member. Their flaw: the light that makes them extraordinary is the same light that consumes them.
+**Marked Vreken**  -  *"The open wound sees what the scar cannot."*
+Carry Ghost-Mycelium, the volatile strain. Silver-white eyes and luminous vein-lines. Extraordinary perception and stealth. Vulnerable to the hush  -  the spore-light addiction. Every Marked family carries at least one fallen member. Their flaw: the light that makes them extraordinary is the same light that consumes them.
 
 ---
 
-## NETH  -  *The Silver-Touched*
+## NETH  -  *The Fractured Vessels*
 
 ### Theme
-*"Love that builds a cage is still a cage."*  -  Protection as imprisonment. The contract that gives their children freedom to become anything has become the thing that determines what they can become.
+*"The spirit knew exactly who was loyal, who was clever, and who was profane."*  -  A deity's judgment is absolute, marking each lineage by the choices of their ancestors at the sacred Well.
 
 ### Parenting
-*"The contract is the womb."* Children are extraordinarily rare. Each child is a miracle of biology and contract-law. Parents build a framework: training, nutrition, protection, gradual exposure. Nothing left to chance. Wardens patrol borders. Apex rangers scour woods. Children train in courtyards, learning to fight before they learn why. The parents do not sleep. The parents have not slept for centuries.
+*"The lineage carries the judgment."* Children are extraordinarily rare. Each child is a miracle of bloodline and divine decree. High Neth parents guard their rare offspring in white canopy spires with hyper-vigilance, while Pale Neth raise their young in dark subterranean groves as lethal survivors.
 
 ### Appearance
-Tall, slender, refined  -  elven in proportion, human in vitality. They eat, they farm, they breathe. Pale skin from the shaded canopy. Dark, ancient eyes carrying the weight of someone who has been a parent for three centuries and hasn't slept properly in any of them. NOT silver-luminescent. NOT ghostly. The "undead" quality is in the stillness  -  a Neth can sit motionless for hours watching a training courtyard. The bags under their eyes. The gaunt quality of someone who prioritizes vigilance over self-care. They look like parents who haven't slept, because they are.
+Varies dramatically by marked lineage. High Neth possess porcelain-lined translucent skin and glassy eyes; Pale Neth are drow-like with ashen skin, silver hair, and solid obsidian eyes; Hallowed Neth are semi-translucent, ghostly, with vine-like bark growing through ethereal flesh.
 
-### Origin
-A dying clan of human scribes faced extinction. They found Morvane and presented a legal argument for survival. Morvane accepted. The Neth extended their lives  -  not for power, but because bearing children is extraordinarily difficult for them. They needed centuries to raise each rare child. The contract was parental: more time to protect, to prepare, to secure the framework for the next generation.
+### Origin: The Chronicle of the Fractured Vessels
+For decades, the Neth watched their fertility erode. Desperate to reverse this decline, the **Augurs** (mystics and star-gazers) communed with an ancient forest spirit (Morvane) and begged for a cure. The spirit agreed, entrusting a pristine **Font Vessel** to a chosen Augur to fill at the hidden Well of Youth.
 
-### Culture
-Calculative, protective, enclosed. Their dislike of other races is rooted in fear  -  other races are unpredictable, dangerous, a threat to children. They farm: quality over quantity, every plant measured, every meal calibrated for children who need perfect nutrition. LoTR-elven architecture: tall ironwood structures above the canopy, wide sightlines, guards at every border. They train their children instead of exposing them blindly  -  a Neth child learns to fight, survive, and think before they're allowed beyond the gate.
+During the journey, two secret rogue factions trailed the Augur:
+1. **The Theft of Ambition (Pale Neth Alignment):** Pragmatic operatives sneakily switched the sacred vessel with a corrupt siphoning replica designed to draw heavy sediment from the bottom of the pool.
+2. **The Obscene Defiance (Hallowed Neth Alignment):** Power-hungry magi lunged forward, bypassed the vessels, and drank raw, unmetered cosmic magic directly from the Well.
+3. **The Unbroken Vow (High Neth Alignment):** Loyalist followers restored order, recovered the true vessel, and filled it with absolute reverence.
+
+Within one week, the spirit's magic executed its judgment across all bloodlines:
 
 ### Subraces
 
-**Velun**  -  *"The fence that protects the garden becomes the garden's only shape."*
-The contract must be ABSOLUTE. Every clause binding, every loophole closed. The Velun carry Morvane's authority  -  their spoken words bind reality. Lawmakers, judges, framework-maintainers. Their flaw: a framework so complete it leaves no room for the unexpected  -  and children are, by definition, unexpected.
+**High Neth** (The Loyalists)  -  *"The deal was honored; the bloodline endures."*
+Those who abided by the deal kept human warmth, blood, and rare natural fertility, granted elf-like elegance and extended youth. Yet their preservation carries a ghostly tax: as they age into centuries, delicate porcelain lines creep beneath their temples, skin turns translucent, and eyes turn glassy and timeless.
 
-**Kessen**  -  *"The farmer who reads the weather trusts the storm more than the harvest."*
-Protection requires FORESIGHT. The Kessen read the obligation-web  -  the invisible architecture of debts and promises connecting everything. They see danger coming and adjust. Their flaw: seeing every possible danger means seeing every possible disaster, forever. The most anxious Neth.
+**Pale Neth** (The Conspirators)  -  *"Cold blood for cold ambition."*
+The spirit stripped warmth and blood from all who aided the deceptive switch, casting them into Warcraft-style cold undeath. Drow-like with ashen-grey skin, silver hair, and obsidian eyes, they are cut off from sun and fertility, retreating to lightless groves to serve as the cynical, ruthless knives of the forest.
 
-**Drun**  -  *"The child who leaves the garden learns why the garden was built."*
-Believe the contract has become the problem. Severed their names from the First Contract entirely. The ultimate parental heresy: the child who walked away from everything the parents built. Their flaw: freedom from the contract means freedom from its protection  -  and the world outside the garden is everything the parents feared.
+**Hallowed Neth** (The Profane)  -  *"Bound to the threshold of a stolen deity."*
+The magi who drank directly from the Well had their physical reality torn apart, binding their souls to the threshold between life and death. Volatile, semi-translucent spirit conduits with vine-like bark growing through ghostly flesh, they exist in an eternal monastic loop trying to solve the cosmic glitch of their condition.
+
+*Note on Repurposed Legacy Nouns:*
+- **Velun:** Repurposed as *Velun Reserve*—the prized, sacred canopy elixir harvested by High Neth Augurs.
+- **Kessen:** Repurposed as *The Kessen Spire*—the ancient watchtower fortress commanding the border between white canopy spires and lightless groves.
+- **Drun:** Repurposed as *The Drun Fen*—the mist-veiled peat bog where Pale and Hallowed Neth territories converge.
 
 ---
 
@@ -257,26 +262,18 @@ Believe the contract has become the problem. Severed their names from the First 
 *"The night is the teacher."* Children learn star-reading, farming, hunting, and the Selunis-ritual from birth. Small, isolated communities. The child's first lesson is that they are refugees  -  that their people fled a dead world and that the work of ensuring this world doesn't die is the work of every hand.
 
 ### Appearance
-Pale skin with a blue undertone  -  adapted to a different star's light spectrum. Reptilian eyes: slit pupils, faintly luminous (moonlight glow visible in darkness, dangerous when hiding). They see day as night and night as day  -  their vision is inverted from Mythrill's native species. Human-like hands with claw-like nails. Natural markings on face and body, unique to each Astril. Sturdy, practical builds  -  farmers and hunters.
+Sturdy, weather-marked farmers and hunters with organic/crystalline markings on skin, claw-like nails, and striking slit-pupil reptilian eyes that glow luminous in darkness. Inverted vision (bright daylight causes glare; night is clear as dawn).
 
 ### Origin
-The Astril are from another world. Their sun was **Lumia**. Keth-Amar found Lumia, devoured it, froze their world. The Astril survived  -  carrying fragments of Lumia's biosphere in their bloodlines. They fled across the void and arrived on Mythrill. Keth-Amar followed them. It had tasted Lumia and wanted more. It found Sol.
-
-The Astril knew what was coming. They reached out to Mythrill's deities and were connected to **Selunis**, the dormant lunar entity. Selunis gave them a dual quest: ensure Sol is not devoured (the Astril warned the world's leaders and advocated for the Binding) and wake the sleeping moon deity (a centuries-long ritual woven into Astril culture, performed at night when Selunis's influence is strongest).
-
-They kept their heritage secret  -  Keth-Amar is all-knowing, and if it learned of the Selunis connection, it would intervene. But Keth-Amar found them, and when it did, the Astril warned the world.
-
-### Culture
-Down-to-earth farmers and hunters in small, isolated communities. They prefer night  -  that's when they can actually work. Star-reading is not navigation; it's ritual-timing. The star-patterns tell them when conditions are right for the next phase of Selunis's awakening. They are grounded, practical, and carrying the weight of a guilt the rest of the world doesn't know about.
+Refugees from a world whose sun (Lumia) was devoured by Keth-Amar. Bound to Selunis, the dormant lunar entity, performing nightly starlight rituals while guarding Sol's prison.
 
 ### Subraces
-The Astril carry fragments of Lumia's dead biosphere in their bloodlines. Different lineages express different alien essences  -  the living memory of a planet that died and sought refuge in its people.
 
-**Vashir**  -  *"We carry Lumia's body."*
-Bloodlines carrying Lumia's reptilian heritage. Most pronounced alien traits: scaled patterns along forearms and neck, prominent claw-nails, slit-pupil eyes with nictitating membrane, cooler body temperature. Grounded, territorial, patient  -  the farmers and hunters. Their markings are geometric, repeating. They plant, build, and defend. Their flaw: so rooted in the physical that they sometimes forget the ritual  -  the reason they're here.
+**Scaled Astril** (Vashir Lineage)  -  *"We carry Lumia's body."*
+Bloodlines carrying Lumia's reptilian biosphere. Cold-blooded patience, geometric scale-patterned forearms and necks, slit pupil eyes. Grounded farmers, hunters, and defenders of night-harvests.
 
-**Silath**  -  *"We carry Lumia's mind."*
-Bloodlines carrying something else  -  Lumia's consciousness, its stellar memory, or perhaps the silence of the void the Astril crossed. Skin almost translucent in certain light. Eyes a uniform pale silver with no visible pupil. Lower body temperature. Markings are softer, flowing  -  like wind-patterns or tidal-maps. They are the star-readers, the ritual-tenders, the ones most connected to Selunis. Their flaw: so focused on the ritual that they sometimes forget the ground  -  the farms, the herds, the physical world that sustains them.
+**Star-Reader Astril** (Silath Lineage)  -  *"We carry Lumia's mind."*
+Bloodlines carrying Lumia's stellar memory. Pale, translucent skin, uniform silver luminous eyes, soft flowing skin-markings. Tenders of Selunis's nightly awakening ritual and sky-observers.
 
 ---
 
@@ -289,21 +286,18 @@ Bloodlines carrying something else  -  Lumia's consciousness, its stellar memory
 *"The machine is the parent."* Apprenticed at five. First tool: a gear-puller. First song: a maintenance hymn. The guild replaces the family. Craft IS identity.
 
 ### Appearance
-Compact, stocky, 3'8"-4'6", 70-100 lbs  -  smallest sapient race. Pale green or mine-darkened skin. At least one mechanical replacement visible. Beards are resumes: copper wire, gear-teeth, fiber-optic strands announce craft, guild, rank, and installed cyberware.
+Compact, stocky, 3'8"-4'6", 70-100 lbs. Pale green or mine-darkened skin. Visible mechanical augmentations. Beards woven with copper wire, gear-teeth, and fiber-optic strands announcing rank and grafts.
 
 ### Origin
-The oldest continuous civilization on Mythrill  -  8,000 years. They built a machine that kept them alive, and they kept the machine running. They created the Groven (accidentally, from Thrumm experiments). The oldest machines are now failing. The maintenance songs have gaps. And in the deepest holdfast, a turbine that has run since before speech has started making a sound not in any song.
-
-### Culture
-Mechanical tinkering, neural-alchemy, cunning. Traps in outer tunnels. Open architecture  -  pipes visible, gears accessible. History in knot-strings and gear-glyphs. The dead interred inside machines they tended. A Fexric funeral is a maintenance procedure with singing.
+The oldest continuous civilization on Mythrill (8,000 years). Built the machines that keep them alive; engineered the Groven in ancient alchemical vats.
 
 ### Subraces
 
-**Kethrin**  -  *"The hand that holds the old song fears the new verse."*
-Guild-Bound. Inherit corporate privilege and proprietary code. Elaborate beards. Refined augmentations. Gatekeepers of knowledge. Their flaw: guild secrecy means when a guild dies, its songs die  -  and no other guild will share.
+**Clockwork Fexric**  -  *"The hand that holds the old song fears the new verse."*
+Guild-bound master craftsmen and steam-architects inheriting proprietary guild codes, brass-gear augmentations, and elaborate wire-beards. Gatekeepers of ancient mechanical orthodoxy.
 
-**Drall**  -  *"The hand that builds from scrap learns what gold never teaches."*
-Clan-Free. Outside the guild system. Improvised augmentations. Creative in ways orthodoxy forbids. Trans-national, speaking seven dialects. Their flaw: no formal training, no access to best materials, every homebrew graft risks rejection.
+**Caustic Fexric**  -  *"The hand that builds from scrap learns what gold never teaches."*
+Clan-free subterranean alchemists and acid-graft engineers operating outside guild law. Utilizing chemical combustion, improvised bio-alchemical grafts, and scrap-tech.
 
 ---
 
@@ -313,86 +307,53 @@ Clan-Free. Outside the guild system. Improvised augmentations. Creative in ways 
 *"The candle that burns twice as bright burns half as long."*  -  Fragility as defiance. Sixty years of refusal to accept that sixty years is all they get.
 
 ### Parenting
-Varies radically by subrace  -  each human culture has its own approach to raising children, and each approach reveals the culture's deepest value and deepest fear. (See subraces below.)
+Varies radically by subrace  -  each human culture has its own approach to raising children, and each approach reveals the culture's deepest value and deepest fear.
 
 ### Appearance
 Most physically diverse race: 5'2"-6'2", 120-210 lbs. Builds shaped entirely by region. Sixty good years. No claws, no scales, no supernatural preservation. Just stubbornness.
 
 ### Origin
-Already here when the cosmic crisis began. Seven noble houses (after Viridane's flight) bargained with Keth-Amar. Six marched their firstborn to the peaks. Morrath was substituted and created the fake shard. Each house made a regional bargain that shaped one of the seven distinct human cultures.
+Already here when the cosmic crisis began. Seven noble houses bargained with Keth-Amar. Six marched their firstborn to the peaks. Morrath was substituted and created the fake shard.
 
 ### Subraces
 
-**Thalren** (Frostwood Reach)  -  *"The unrecorded life is not worth living."*
-Fog-choked archivists. Journals chained to belts. Children learn to write before they speak with confidence. Parenting: *the journal is the parent.* Teach children to record everything before the fog takes it. Their flaw: a life spent documenting is a life not fully lived. Greymark is their archive-city. Bargain: spatial clarity traded for insulating fog.
-
-**Skald** (Nordhalla)  -  *"That which does not kill us makes us stronger."*
-Endurance-purists. Cold-tested from infancy. Dead encased in glacier-tombs as witnesses. Parenting: *the cold tests everyone.* The weak are noted. The noting is almost worse. Their flaw: a philosophy that celebrates suffering produces people who cannot stop suffering. Bargain: summer traded for halted glaciers.
-
-**Tessen** (Cragjaw Peaks)  -  *"No man is an island  -  but we are."*
-Keep-dwellers who haven't seen sky in thirty generations. Knotted cord-cords instead of ink. Parenting: *the keep is the world.* Children born, raised, buried in the same stone. Their flaw: a people who've never seen the sky have forgotten the sky exists. Bargain: visibility traded for concealing blizzard.
-
-**Solvarn** (Sundale)  -  *"Faith is the evidence of things not seen."*
-Ash-stained martyrs. Sun-emblems on every garment. Parenting: *the vigil is the inheritance.* Children raised as future martyrs. Their flaw: devotion to a dead god is devotion to a dead thing. Bargain: heirs' futures traded for volcanic warmth.
-
-**Merryn** (Iceheart Sea)  -  *"A contract made is a contract kept."*
-Storm-chasers with tattooed contracts on skin. First tattoo at seven. Parenting: *your word on your skin is your bond.* The body is the archive. Their flaw: a life lived entirely through obligation leaves no room for choice. Bargain: peaceful seas traded for navigable storm-lanes.
-
-**Ordan** (Sundrift Vale)  -  *"The steppe does not adjust its pace."*
-Nomads following woolly herds. Children given to the herd at five. Parenting: *the herd decides.* Fall behind once, carried. Fall behind twice, you walk. Their flaw: honesty without tenderness is just the weather. Bargain: fertile soil traded for grass that always returns.
-
-**Morren** (Bryngloom Forest)  -  *"The debtor is slave to the lender."*
-Debtors to the Neth. Every family carries contracts. Children learn debt before reading. Parenting: *you were born owing.* The contract precedes the child. The only humans who know the truth about Viridane. Their flaw: a people who cannot imagine freedom because they've never seen it. Bargain: borrowed survival from the Neth at interest.
+**Thalren Human** (Frostwood Reach)  -  *"The unrecorded life is not worth living."*  -  Fog-choked archivists.
+**Skald Human** (Nordhalla)  -  *"That which does not kill us makes us stronger."*  -  Glacier endurance-purists.
+**Tessen Human** (Cragjaw Peaks)  -  *"No man is an island  -  but we are."*  -  Subterranean keep-dwellers.
+**Solvarn Human** (Sundale)  -  *"Faith is the evidence of things not seen."*  -  Sun-emblem ash-martyrs.
+**Merryn Human** (Iceheart Sea)  -  *"A contract made is a contract kept."*  -  Tattooed storm-chasers.
+**Ordan Human** (Sundrift Vale)  -  *"The steppe does not adjust its pace."*  -  Steppe nomads following woolly herds.
+**Morren Human** (Bryngloom Forest)  -  *"The debtor is slave to the lender."*  -  Contract debtors bound to Neth lore.
 
 ---
 
 # APPENDIX: QUICK REFERENCE
 
-## Deity Table
-| Deity | Tier | Domain | Status |
-|-------|------|--------|--------|
-| Aethil | Cosmic | Consequence, bargains' price | Active |
-| Keth-Amar | Cosmic | Predation, consumption | Active (feeding on Sol) |
-| Sol | Cosmic | The sun | Bound beneath Emberspire |
-| Aex | Cosmic | Stellar guardianship | Shattered across monoliths |
-| The Wyrd |  -  | Keth-Amar's corruption | Spreading |
-| Mareth | World-Bound | Oceans, tides, lunar cycles | Active |
-| Vereth | World-Bound | Wild growth, natural law | Active |
-| Morvane | World-Bound | Bog, threshold, preservation | Wounded |
-| Sereth | World-Bound | Creation, perfection | Dead |
-| Selunis | World-Bound | The moon, dormancy, dreams | Dormant |
+## Subrace Naming Canonical Matrix
 
-## Subrace Table
-| Race | Subrace | Theme |
-|------|---------|-------|
-| Myrathil | Shore | The river's mouth  -  belonging to both worlds |
-| Myrathil | Deep | What the sea remembers  -  the deep carries what the surface loses |
-| Myrathil | Brook | The stream that carved the canyon  -  small things that travel far |
-| Mimir | Masked | The statue that worships the sculptor  -  inherited identity |
-| Mimir | Woven | The mask-maker wears their own face  -  creating what they can't accept |
-| Mimir | Unwoven | The face behind the mask  -  closest to the truth, most wounded |
-| Briaran | Trueborn | The rootless tree still reaches  -  embracing what they are |
-| Briaran | Shorn | The branch that cuts itself  -  denying what they are |
-| Groven | Morgh | The bridge is the body  -  service as identity |
-| Groven | Ithran | We built the bridge  -  sovereignty through ownership |
-| Emberth | Korr | The fire that warms  -  devotion through tending |
-| Emberth | Thrask | The same fire that burns  -  devotion through questioning |
-| Vreken | Clean | The wound that scars over  -  stability from luck |
-| Vreken | Marked | The open wound sees  -  power from volatility |
-| Neth | Velun | The fence becomes the garden's shape  -  absolute structure |
-| Neth | Kessen | The farmer trusts the storm  -  foresight as anxiety |
-| Neth | Drun | The child who leaves the garden  -  freedom as understanding |
-| Astril | Vashir | We carry Lumia's body  -  rooted in the physical |
-| Astril | Silath | We carry Lumia's mind  -  reaching for the void |
-| Fexrick | Kethrin | The hand that holds the old song  -  preservation as identity |
-| Fexrick | Drall | The hand that builds from scrap  -  improvisation as freedom |
-| Human | Thalren | The unrecorded life  -  identity through documentation |
-| Human | Skald | That which does not kill us  -  strength through suffering |
-| Human | Tessen | No man is an island  -  isolation as identity |
-| Human | Solvarn | Faith is the evidence  -  devotion as existence |
-| Human | Merryn | A contract made  -  obligation as identity |
-| Human | Ordan | The steppe does not adjust  -  honesty as parenting |
-| Human | Morren | The debtor is slave  -  debt as identity |
+| Race | Subrace Canonical Title | Legacy Terms Repurposed / In-World Meaning | Subrace Type / Naming Formula |
+| :--- | :--- | :--- | :--- |
+| **Neth** | **High Neth** | *Velun* (Velun Canopy Reserve - sacred elixir) | English Descriptor + Race |
+| **Neth** | **Pale Neth** | *Kessen* (Kessen Spire - border fortress) | English Descriptor + Race |
+| **Neth** | **Hallowed Neth** | *Drun* (Drun Fen - boundary bog) | English Descriptor + Race |
+| **Mimir** | **Arch Mimir** | Ancestral heartwood/glass masks | English Descriptor + Race |
+| **Mimir** | **Fractured Mimir** | Patchwork masks / Motes | English Descriptor + Race |
+| **Groven** | **Ithran Groven** | Refined cyber-rune stone caste | Caste Name + Race |
+| **Groven** | **Morgh Groven** | Feral boulder-scale earth guardians | Caste Name + Race |
+| **Emberth** | **Vault-Keeper Emberth** | Korr lineage (deep vault forge-tenders) | Role Descriptor + Race |
+| **Emberth** | **Ash-Ranger Emberth** | Thrask lineage (surface ashland wanderers) | Role Descriptor + Race |
+| **Fexric** | **Clockwork Fexric** | Precision gear & steam guilds | Tech Descriptor + Race |
+| **Fexric** | **Caustic Fexric** | Subterranean acid-graft alchemists | Tech Descriptor + Race |
+| **Myrathil** | **Shore Myrathill** | Coast-born diplomats & traders | Environment Suffix + Race |
+| **Myrathil** | **Deepling Myrathill** | Abyssal ocean mystics | Environment Suffix + Race |
+| **Myrathil** | **Brook Myrathill** | Delta & river scouts | Environment Suffix + Race |
+| **Vreken** | **Clean Vreken** | Stable strain (amber eyes) | Original Strain Title |
+| **Vreken** | **Marked Vreken** | Volatile Ghost-Mycelium (silver eyes) | Original Strain Title |
+| **Briaran** | **Trueborn Briaran** | Grove purists with natural thorns | Lineage Descriptor + Race |
+| **Briaran** | **Shorn Briaran** | Shaved-thorn wanderers in human cities | Lineage Descriptor + Race |
+| **Astril** | **Scaled Astril** | Vashir lineage (reptilian body) | Visual Lineage Descriptor |
+| **Astril** | **Star-Reader Astril** | Silath lineage (stellar mind) | Visual Lineage Descriptor |+ Race |
+
 
 ## Monolith Table
 | # | Name | Location | Status |

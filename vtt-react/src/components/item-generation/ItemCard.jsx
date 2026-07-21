@@ -27,17 +27,12 @@ const getDiceValue = (die) => {
     return parseInt(dieLower, 10) || 0;
 };
 
-const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop, isDraggingGlobal = false, onDragStartGlobal, onDragEndGlobal }) => {
+const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
     const cardRef = useRef(null);
     const tooltipRef = useRef(null);
-
-    const [isDragging, setIsDragging] = useState(false);
-
-    const mouseMoveAnimationRef = useRef(null);
     const tooltipDelayRef = useRef(null);
-
     const [quantity, setQuantity] = useState(item.quantity || 1);
 
     const computeTooltipPosition = () => {
@@ -66,35 +61,28 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     };
 
     const handleMouseEnter = () => {
-        if (!isDraggingGlobal) {
-            if (tooltipDelayRef.current) {
-                clearTimeout(tooltipDelayRef.current);
-            }
-
-            tooltipDelayRef.current = setTimeout(() => {
-                computeTooltipPosition();
-                setShowTooltip(true);
-            }, 300);
+        if (window.isDraggingItem) return;
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
         }
+
+        tooltipDelayRef.current = setTimeout(() => {
+            if (window.isDraggingItem) return;
+            computeTooltipPosition();
+            setShowTooltip(true);
+        }, 300);
     };
 
-    const handleMouseMove = () => {};
-
     const handleMouseLeave = () => {
-        if (!isDraggingGlobal) {
-            setShowTooltip(false);
-            if (tooltipDelayRef.current) {
-                clearTimeout(tooltipDelayRef.current);
-                tooltipDelayRef.current = null;
-            }
+        setShowTooltip(false);
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
+            tooltipDelayRef.current = null;
         }
     };
 
     useEffect(() => {
         return () => {
-            if (mouseMoveAnimationRef.current) {
-                cancelAnimationFrame(mouseMoveAnimationRef.current);
-            }
             if (tooltipDelayRef.current) {
                 clearTimeout(tooltipDelayRef.current);
             }
@@ -102,172 +90,55 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     }, []);
 
     const handleDragStart = (e) => {
-        // Prevent event bubbling to avoid window drag conflicts
         e.stopPropagation();
 
-        // Add dragging class to body to disable transitions for better performance
         document.body.classList.add('dragging');
+        setShowTooltip(false);
 
-        setIsDragging(true);
-        setShowTooltip(false); // Hide tooltip when dragging starts
-        onDragStartGlobal?.(); // Notify parent of drag start
-
-        // Clear any pending animation frame
-        if (mouseMoveAnimationRef.current) {
-            cancelAnimationFrame(mouseMoveAnimationRef.current);
-            mouseMoveAnimationRef.current = null;
-        }
-
-        // Clear any pending tooltip delay
         if (tooltipDelayRef.current) {
             clearTimeout(tooltipDelayRef.current);
             tooltipDelayRef.current = null;
         }
 
         try {
-            // Ensure dataTransfer exists
-            if (!e.dataTransfer) {
-                console.error('DataTransfer not available in drag event');
-                return;
-            }
+            if (!e.dataTransfer) return;
 
-            // Set the drag data with item information, including quantity if it exists
             const dragData = {
                 type: 'item',
                 id: item.id,
-                // Include the full item data with current quantity
-                item: { ...item, quantity: quantity }
+                item: { ...item, quantity }
             };
 
-            const dragDataString = JSON.stringify(dragData);
-            e.dataTransfer.setData('text/plain', dragDataString);
-
-            // Set a global flag for Grid.jsx to detect item drags
-            // This is needed because event bubbling might be blocked by window components
+            e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+            e.dataTransfer.effectAllowed = 'copy';
             window.isDraggingItem = true;
-
-            // Store dragged item info globally for visual feedback in containers
-            if (!window.draggedItemInfo) {
-                window.draggedItemInfo = {};
-            }
             window.draggedItemInfo = {
-                item: item,
+                item,
                 width: item.width || 1,
                 height: item.height || 1,
                 rotation: item.rotation || 0
             };
 
-
-            // Create a custom drag image that shows the actual ItemCard (orb)
-            if (e.dataTransfer.setDragImage) {
-                try {
-                    // Create a temporary div that mimics the ItemCard appearance
-                    const dragImage = document.createElement('div');
-                    dragImage.style.cssText = `
-                        position: absolute;
-                        top: -1000px;
-                        left: -1000px;
-                        width: 60px;
-                        height: 80px;
-                        background-color: rgba(255, 255, 255, 0.9);
-                        border: 2px solid ${getQualityBorderColor(item.quality)};
-                        border-radius: 6px;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        padding: 5px;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                        font-family: 'Bookman Old Style', 'Garamond', serif;
-                        z-index: -1;
-                    `;
-
-                    // Add the icon
-                    const iconDiv = document.createElement('div');
-                    iconDiv.style.cssText = `
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 4px;
-                        overflow: hidden;
-                        margin-bottom: 5px;
-                        border: 1px solid #d5cbb0;
-                        background-color: transparent;
-                    `;
-
-                    const iconImg = document.createElement('img');
-                    iconImg.src = (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) ? item.imageUrl : (item.iconId ? getIconUrl(item.iconId, 'items', true) : getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true));
-                    iconImg.style.cssText = `
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    `;
-                    iconImg.onerror = () => {
-                        iconImg.onerror = null; // Prevent infinite loop
-                        iconImg.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true);
-                    };
-
-                    iconDiv.appendChild(iconImg);
-                    dragImage.appendChild(iconDiv);
-
-                    // Add the item name
-                    const nameDiv = document.createElement('div');
-                    nameDiv.style.cssText = `
-                        font-size: 10px;
-                        text-align: center;
-                        width: 100%;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        color: ${getQualityColor(item.quality)};
-                        font-family: 'Bookman Old Style', 'Garamond', serif;
-                    `;
-                    nameDiv.textContent = item.name;
-                    dragImage.appendChild(nameDiv);
-
-                    // Add to DOM temporarily
-                    document.body.appendChild(dragImage);
-
-                    // Use as drag image (centered on the item icon at the top)
-                    e.dataTransfer.setDragImage(dragImage, 30, 25);
-
-                    // Clean up after drag starts (slight delay to ensure it's used)
-                    setTimeout(() => {
-                        if (document.body.contains(dragImage)) {
-                            document.body.removeChild(dragImage);
-                        }
-                    }, 0);
-                } catch (imgError) {
-                    console.warn('Failed to set custom drag image:', imgError);
-                }
-            }
-
-            // Set the drag effect
-            e.dataTransfer.effectAllowed = 'copy';
-
-            if (process.env.NODE_ENV === 'production') {
+            // Use the live card as drag image — avoids building DOM + loading images mid-drag
+            if (e.dataTransfer.setDragImage && cardRef.current) {
+                const rect = cardRef.current.getBoundingClientRect();
+                e.dataTransfer.setDragImage(
+                    cardRef.current,
+                    Math.min(e.clientX - rect.left, rect.width / 2),
+                    Math.min(e.clientY - rect.top, 24)
+                );
             }
         } catch (error) {
             console.error('Error in handleDragStart:', error);
         }
     };
 
-    // Handle drag end to clean up any visual feedback
     const handleDragEnd = () => {
-        // Remove dragging class from body to re-enable transitions
         document.body.classList.remove('dragging');
-
-        setIsDragging(false);
         window.isDraggingItem = false;
-        onDragEndGlobal?.(); // Notify parent of drag end
+        window.draggedItemInfo = null;
 
-        // Clear global drag state
-        if (window.draggedItemInfo) {
-            window.draggedItemInfo = null;
-        }
-
-        // Remove container-drag-over class from all item cards (optimized)
-        // Use getElementsByClassName for better performance than querySelectorAll
         const dragOverCards = document.getElementsByClassName('container-drag-over');
-        // Convert HTMLCollection to array to avoid issues during iteration
         Array.from(dragOverCards).forEach(card => {
             card.classList.remove('container-drag-over');
         });
@@ -287,7 +158,6 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                     onContextMenu?.(e, item);
                 }}
                 onMouseEnter={handleMouseEnter}
-                onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 draggable="true"
                 onDragStart={handleDragStart}

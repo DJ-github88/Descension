@@ -2513,7 +2513,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    description: "+8 Intelligence, +8 Constitution, and +6 Spirit."
    },
    { id : "divine_plague",
-   name: "Solbrand Plague",
+    name: "Sol's Breath Plague",
    description: "All active afflictions deal +50% damage."
    },
    { id : "death_touch",

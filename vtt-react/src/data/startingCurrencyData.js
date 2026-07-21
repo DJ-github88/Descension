@@ -17,7 +17,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Temple-keep alms from Solbrand-tenders. Modest temple stipend for basic needs'
+        description: 'Temple-keep alms from Sol\'s Breath-tenders. Modest temple stipend for basic needs'
     },
     
     criminal: {
@@ -57,7 +57,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 12,
         silver: 0,
         copper: 0,
-        description: 'Thrask border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
+        description: 'Waste-Solari border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
     },
     
     outlander: {
@@ -171,7 +171,6 @@ export const SUBRACE_STARTING_CURRENCY = {
     ithran_groven: { gold: 12 },
     veiled_mimir: { gold: 12 },
     tethered_mimir: { gold: 10 },
-    untethered_mimir: { gold: 8 },
     velun_neth: { gold: 10 },
     kessen_neth: { gold: 8 },
     drun_neth: { gold: 5 },
@@ -217,7 +216,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 3,
         silver: 0,
         copper: 0,
-        description: 'Sundale congregation-offerings left at Solbrand shrines. Donations from the faithful'
+        description: 'Sundale congregation-offerings left at Sol\'s Breath shrines. Donations from the faithful'
     },
     
     trickster: {
@@ -257,7 +256,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 6,
         silver: 0,
         copper: 0,
-        description: 'Thrask battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
+        description: 'Waste-Solari battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
     },
     
     mercenary: {

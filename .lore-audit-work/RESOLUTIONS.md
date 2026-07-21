@@ -32,6 +32,29 @@ Comprehensive scan of every `LoreLink termId` in `src` vs lore.json keys (93 uni
 - **Stripped** (kept inner name as plain text): 5 one-off flavor NPCs — `bayar-wind-throat` (animistData ×2), `eira_bone_reader`, `mother_ysen`, `ignis_the_watcher` (augurData ×3), `helgar_the_rejector` (augurData) — plus `ironwood-palisade` (inquisitorData) and the mis-tagged "Ash-Dwellers" link (falseProphetData). Rationale: minor figures with no canonical entry; `bayar-wind-throat` intersects the unresolved Animist-leader divergence (CL-02: animistData "Bayar Wind-Throat" vs compendium "Convenor Sera Three-Scars") so no entry invented. Richer entries can be added in a later content-enrichment pass.
 - **Verified:** all 5 class files pass `node --check --input-type=module`; re-scan = 0 real broken termIds (3 remaining hits are false positives: `${item.id}` auto-linker template + regex fragments in component files).
 
+## ✅ RESOLVED — SESSION 2: broken NPC/location LoreLinks (P2-6 / Tier 6)
+Comprehensive scan of every `LoreLink termId` in `src` vs lore.json keys (93 unique termIds; the 7 broken ones matched the handoff list exactly — `monoliths` was already fixed→`sundered_monoliths` in the prior session). All 7 dead tooltips resolved:
+- **Repointed** `solvarn`→`house_solvan` (2 genuine "Solvarn"-text uses in `gambitData.js`, `falseProphetData.js`) — points the demonym at the canonical Solvan house entry.
+- **Stripped** (kept inner name as plain text): 5 one-off flavor NPCs — `bayar-wind-throat` (animistData ×2), `eira_bone_reader`, `mother_ysen`, `ignis_the_watcher` (augurData ×3), `helgar_the_rejector` (augurData) — plus `ironwood-palisade` (inquisitorData) and the mis-tagged "Ash-Dwellers" link (falseProphetData). Rationale: minor figures with no canonical entry; `bayar-wind-throat` intersects the unresolved Animist-leader divergence (CL-02: animistData "Bayar Wind-Throat" vs compendium "Convenor Sera Three-Scars") so no entry invented. Richer entries can be added in a later content-enrichment pass.
+- **Verified:** all 5 class files pass `node --check --input-type=module`; re-scan = 0 real broken termIds (3 remaining hits are false positives: `${item.id}` auto-linker template + regex fragments in component files).
+
+## ✅ RESOLVED — SESSION 2: Solbrand thermal resource → "Sol's Breath" + Order of Solbrand creation (D2)
+**Rationale:** D2 ratified "Solbrand = the Solvan knightly order (sun-knights), a faction, distinct from Sol / Embers of Sol / Aex." The prior lore.json `solbrand` entry described the *thermal current* (resource). Per D2, "Solbrand" must mean only the Order; the thermal current needed a canonical name.
+
+**Changes:**
+- **lore.json (both copies):** 
+  - `solbrand` (resource) → renamed `sols_breath` ("Sol's Breath") with full resource entry
+  - New `solbrand` entry created: `type: "faction"`, the Order of Solbrand (sun-knights, Solvan military order, distinct from Dawn Vigil / Embers of Sol)
+- **emberth.js**: All 30+ "Solbrand" → "Sol's Breath" (with ID fixes: `solbrand_pulse_korr` → `sols_breath_pulse_korr`, etc.)
+- **augurData.js**: Korr Emberth reframe + signatureAbility + crisisAngle updated to "Sol's Breath"; title "Solbrand-Reader" → "Sol's Breath-Reader"
+- **martyrData.js**: Korr Martyr reframe updated to "tend Sol's Breath"
+- **factionStore.js**: Added `order-of-solbrand` faction entry (full entry with leader `grandmaster-solbrand`, 4 captains, HQ `sun-keep`, relationships to `house-solvan`, `dawn-vigil`, `covenant-of-the-scar`, `cult-of-forgotten-shadow`)
+- **classSpellCategories.js**: Martyr path renamed `Solbrand Path` → `Sol's Path`
+- **inquisitorData.js**: `ironwood-palisade` LoreLink stripped (no entry)
+- **Solvarn repoint**: 3 LoreLinks `solvarn` → `house_solvan` (2 "Solvarn" texts in gambitData/falseProphetData repointed; 1 mis-tagged "Ash-Dwellers" stripped)
+
+**Verified:** all edited files pass `node --check --input-type=module`; both lore.json copies synced and valid.
+
 ## ✅ RESOLVED (this session)
 
 ### Tier 0 — Canon ratified
@@ -100,7 +123,7 @@ Comprehensive scan of every `LoreLink termId` in `src` vs lore.json keys (93 uni
 ---
 
 ## FILES TOUCHED (this session)
-`docs/CORE_LORE_FRAMEWORK.md` · `vtt-react/public/data/lore.json` · `vtt-react/public/data/rules.json` · `public/data/lore.json` (root — synced in S2) · `public/data/rules.json` (root — synced in S2) · `vtt-react/src/store/timelineStore.js` · `vtt-react/src/store/npcStore.js` · `vtt-react/src/store/factionStore.js` · `vtt-react/src/data/classes/shaperData.js` · `vtt-react/src/data/classes/pyrofiendData.js` · `vtt-react/src/data/classes/animistData.js` · `vtt-react/src/data/equipment/classEquipment.js` · `vtt-react/src/data/startingEquipmentData.js` · `vtt-react/src/data/backgroundData.js` · `vtt-react/src/data/THEMATIC_AUDIT.md` · `vtt-react/src/components/world-map/LoreSidebar.jsx` · `vtt-react/src/data/classSpellGenerator.js` (S2: spec-ID scheme) · `vtt-react/src/data/classSpellCategories.js` (S2: +ironclad Martyr spec) · `vtt-react/src/store/timelineStore.js` (S2: F4 Layer A — 55th→65th pulse ordinal) · `vtt-react/src/data/classes/animistData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/augurData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/inquisitorData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/gambitData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/falseProphetData.js` (S2: LoreLink fix)
+`docs/CORE_LORE_FRAMEWORK.md` · `vtt-react/public/data/lore.json` · `vtt-react/public/data/rules.json` · `public/data/lore.json` (root — synced in S2) · `public/data/rules.json` (root — synced in S2) · `vtt-react/src/store/timelineStore.js` · `vtt-react/src/store/npcStore.js` · `vtt-react/src/store/factionStore.js` · `vtt-react/src/data/classes/shaperData.js` · `vtt-react/src/data/classes/pyrofiendData.js` · `vtt-react/src/data/classes/animistData.js` · `vtt-react/src/data/equipment/classEquipment.js` · `vtt-react/src/data/startingEquipmentData.js` · `vtt-react/src/data/backgroundData.js` · `vtt-react/src/data/THEMATIC_AUDIT.md` · `vtt-react/src/components/world-map/LoreSidebar.jsx` · `vtt-react/src/data/classSpellGenerator.js` (S2: spec-ID scheme) · `vtt-react/src/data/classSpellCategories.js` (S2: +ironclad Martyr spec) · `vtt-react/src/store/timelineStore.js` (S2: F4 Layer A — 55th→65th pulse ordinal) · `vtt-react/src/data/classSpellGenerator.js` (S2: spec-ID scheme) · `vtt-react/src/data/classSpellCategories.js` (S2: +ironclad Martyr spec) · `vtt-react/src/store/timelineStore.js` (S2: F4 Layer A — 55th→65th pulse ordinal) · `vtt-react/src/data/classes/animistData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/augurData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/inquisitorData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/gambitData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/falseProphetData.js` (S2: LoreLink fix) · `vtt-react/src/data/classes/augurData.js` (S2: Sol's Breath rename) · `vtt-react/src/data/races/emberth.js` (S2: Sol's Breath rename) · `vtt-react/src/data/classes/berserkerData.js` (S2: Sol's Breath rename) · `vtt-react/src/data/classes/martyrData.js` (S2: Sol's Breath rename) · `vtt-react/src/data/races/emberth.js` (S2: Sol's Breath rename) · `vtt-react/src/data/backgroundAbilities.js` (S2: Sol's Breath rename) · `vtt-react/public/data/lore.json` (S2: sols_breath + solbrand faction) · `vtt-react/src/store/factionStore.js` (S2: order-of-solbrand)
 
 ---
 

@@ -1394,12 +1394,12 @@ export const SKILL_QUESTS = {
     },
     {
       id: 'divine_revelation',
-      name: 'Solbrand Revelation',
+      name: 'Sol\'s Breath Revelation',
       description: 'Receive or interpret a sacred revelation',
       icon: 'Healing/Prayer',
       rank: 'MASTER',
       completed: false,
-      unlocks: ['Solbrand spirit']
+      unlocks: ['Sol\'s Breath spirit']
     }
   ],
 

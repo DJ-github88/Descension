@@ -223,7 +223,7 @@ Replace them with concrete actions.
 ### Rule 12: Different tones for different subjects.
 The writing must shift to match the subject.
 
-- **Neth** — precise, legalistic, clinical ("The argument was presented. The terms were binding.")
+- **Neth** — precise, legalistic, clinical ("The judgment was delivered. The terms were binding.")
 - **Skald** — brutal, cold, elegiac ("The glaciers do not negotiate.")
 - **Mimir** — mysterious, fluid, melancholy ("The mask is not a disguise. It is a cage for a thing that wants out.")
 - **Briaran** — thorny, defiant, feral ("House Viridane refused. The other six houses erased them from history. The Briaran call themselves the ones who refused.")
@@ -265,15 +265,15 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 
 > For eight centuries, the Neth have kept a contract with a forest spirit that other races only pray to or fear. The terms are simple: the Keeper preserves their bodies, and the Neth write down everything the Keeper consumes. Every debt, every promise, every name that fades into the Bryngloom's roots. The Neth do not die. They renegotiate.
 >
-> Long ago, before the sun was stolen, the Neth were dying. A slow cold had crept into the Gloom and found the children first. They were scribes, archivists, the people who remembered who owed whom and who inherited what. Memory does not stop frostbite. So they walked into the deep wood where the bioluminescent trees thin and the bog begins, carrying every contract they had ever written. They found the Keeper of the Last Threshold waiting at the boundary.
+> Long ago, before the sun was stolen, the Neth were dying. A slow cold had crept into the Gloom and found the children first — fewer were born each decade. They were an ancient canopy-dwelling people, not extraordinary, simply alive, until the silence of empty cradles grew louder than the wind. Their Augurs communed with Morvane through the root-net and received the Font Vessel, to be filled at the hidden Well of Youth. Three factions followed: one to honor the deal, one to steal the Well's power, one to drink it directly. Morvane's judgment split a people into High, Pale, and Hallowed.
 >
-> They did not pray. They presented a case.
+> They did not pray. They presented their case to Morvane at the moss-covered roots.
 >
-> *You remember what the forest consumes. We remember what civilization forgets. If we die, the record dies. Preserve us, and we will be your living archive.*
+> *Our children are dying. The forest endures. Teach us what endures, and we will be your living record.*
 >
-> The Keeper had never been reasoned with. Only feared. Only fed. It considered the argument and accepted.
+> Morvane had never been reasoned with. Only feared. Only fed. It considered the argument and granted them the Font Vessel for the hidden Well of Youth. What followed was not a blessing but a judgment: three factions, one Well, and a split that marked every bloodline.
 >
-> They rose from the bog with silver skin and stilled breath. The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
+> The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
 >
 > Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Drun are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Velun Neth are the silver-tongued elite who navigate the law like a living language.
 >
@@ -331,7 +331,7 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 **After (Blizzard-style):**
 > The Bryngloom is a twilight swamp where the trees glow and the bogs remember what falls into them. The air is thick with spores. The water is thick with debt. This is the domain of the Neth: the silver-skinned pact-lords who wrote a contract with the forest itself and have been collecting interest ever since.
 >
-> Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth arrived with the First Contract, and the forest recognized a new authority: written law.
+> Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth returned from the Well of Youth with the First Contract, and the forest recognized a new authority: written law.
 >
 > Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Drun: Neth who burned their names from the Contract and became legally nonexistent.
 >
@@ -417,15 +417,15 @@ This is what every race `description` should sound like:
 
 > For eight centuries, the Neth have kept a contract with a forest spirit that other races only pray to or fear. The terms are simple: the Keeper preserves their bodies, and the Neth write down everything the Keeper consumes. Every debt, every promise, every name that fades into the Bryngloom's roots. The Neth do not die. They renegotiate.
 >
-> Long ago, before the sun was stolen, the Neth were dying. A slow cold had crept into the Gloom and found the children first. They were scribes, archivists, the people who remembered who owed whom and who inherited what. Memory does not stop frostbite. So they walked into the deep wood where the bioluminescent trees thin and the bog begins, carrying every contract they had ever written. They found the Keeper of the Last Threshold waiting at the boundary.
+> Long ago, before the sun was stolen, the Neth were dying. A slow cold had crept into the Gloom and found the children first — fewer were born each decade. They were an ancient canopy-dwelling people, not extraordinary, simply alive, until the silence of empty cradles grew louder than the wind. Their Augurs communed with Morvane through the root-net and received the Font Vessel, to be filled at the hidden Well of Youth. Three factions followed: one to honor the deal, one to steal the Well's power, one to drink it directly. Morvane's judgment split a people into High, Pale, and Hallowed.
 >
-> They did not pray. They presented a case.
+> They did not pray. They presented their case to Morvane at the moss-covered roots.
 >
-> *You remember what the forest consumes. We remember what civilization forgets. If we die, the record dies. Preserve us, and we will be your living archive.*
+> *Our children are dying. The forest endures. Teach us what endures, and we will be your living record.*
 >
-> The Keeper had never been reasoned with. Only feared. Only fed. It considered the argument and accepted.
+> Morvane had never been reasoned with. Only feared. Only fed. It considered the argument and granted them the Font Vessel for the hidden Well of Youth. What followed was not a blessing but a judgment: three factions, one Well, and a split that marked every bloodline.
 >
-> They rose from the bog with silver skin and stilled breath. The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
+> The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
 >
 > Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Drun are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Velun Neth are the silver-tongued elite who navigate the law like a living language.
 >
@@ -463,7 +463,7 @@ This is what every region entry in loreDictionary.js should sound like:
 
 > The Bryngloom is a twilight swamp where the trees glow and the bogs remember what falls into them. The air is thick with spores. The water is thick with debt. This is the domain of the Neth: the silver-skinned pact-lords who wrote a contract with the forest itself and have been collecting interest ever since.
 >
-> Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth arrived with the First Contract, and the forest recognized a new authority: written law.
+> Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth returned from the Well of Youth with the First Contract, and the forest recognized a new authority: written law.
 >
 > Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Drun: Neth who burned their names from the Contract and became legally nonexistent.
 >
@@ -668,7 +668,7 @@ These events are fixed. Every race, region, and background must fit within this 
 | Frostwood Reach | Grim, damp, bureaucratic | fog, ironwood, ledgers, ink, memory, erased, the Forgotten |
 | Nordhalla | Cold, brutal, ancestral | ice, glaciers, runes, blood, song, Jarn-Tand, the Sunder-Wall |
 | Bryngloom | Swampy, legalistic, fungal | spores, contract, debt, mycelium, the Keeper, the Root-Veil |
-| Sundale | Volcanic, zealous, ash | Emberspire, the Dawn Vigil, ash, the Solbrand, Reforging |
+| Sundale | Volcanic, zealous, ash | Emberspire, the Dawn Vigil, ash, the Sol's Breath, Reforging |
 | Iceheart Sea | Stormy, maritime, cold | ice, ships, Board of Trade, Sea-Charter, Myrathil deep-currents |
 | Cragjaw Peaks | Industrial, vertical, groaning | forges, gears, bone-bridges, Fexric warrens, Groven ancestors |
 | Sundrift Vale | Windy, nomadic, starless | steppe, herds, wind, Unlit Veil, ancestral mounds, the Shard-Window |
@@ -766,7 +766,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
   - [x] Entity entries — IN PROGRESS: the_warden, keth_amar, aex, sol DONE (TIER A). Fixed botched "god"→"a old powers" grammar across all entity entries, botched year-purges in keth_amar, eliminated "god" entirely (per religious-terms ban), em-dash overuse reduced to zero. li-wei (False Prophet founder) also fixed: summary "a old powers" + 3 em dashes in fullEntry.
   - [x] Class entries (arcanoneer, augur, berserker, shaper, inquisitor, etc.) — ALL 20 class fullEntry fields FULLY REWRITTEN from "Founded in..." encyclopedia formula to Blizzard prose. Eliminated all em dashes, banned "comprehensive" (apex), "fungal-ecology" (plaguebringer), "loa" (animist, nyssa), broken "Founded across in" (apex, animist). Concept-type merged-tradition entries (bladedancer, deathcaller, dreadnaught, formbender, lichborne, titan) were already in good prose — left as-is.
   - [x] Language entries (common, infernal, primordial, etc.)
-  - **NEW FLAG — nativeWeaving real-world references (RESOLVED):** All 15 `nativeWeaving` **Cultural.** sections contained real-world cultural references (Celtic, Norse, Slavic, Mongol, Inuit, Appalachian, Andean, Mesoamerican, Germanic, yokai, Hindu, loa). These are PLAYER-FACING (rendered in `LoreTooltip.jsx:147`). ALL replaced with Mythrill-specific equivalents (e.g., "Celtic fae-pacts"→"Briaran fae-pacts", "Mesoamerican solar-sacrifice"→"Solbrand solar-sacrifice", "Mongol throat-song"→"Ordan throat-song").
+  - **NEW FLAG — nativeWeaving real-world references (RESOLVED):** All 15 `nativeWeaving` **Cultural.** sections contained real-world cultural references (Celtic, Norse, Slavic, Mongol, Inuit, Appalachian, Andean, Mesoamerican, Germanic, yokai, Hindu, loa). These are PLAYER-FACING (rendered in `LoreTooltip.jsx:147`). ALL replaced with Mythrill-specific equivalents (e.g., "Celtic fae-pacts"→"Briaran fae-pacts", "Mesoamerican solar-sacrifice"→"Sol's Breath solar-sacrifice", "Mongol throat-song"→"Ordan throat-song").
   - **NEW FLAG — Cragjaw/House Tesshan real-world terms (RESOLVED):** The Cragjaw Peaks region entry (marked DONE) and House Tesshan noble house entry (marked DONE) both contained Inca references ("Jarl-Inca", "khipus"/"khipu-cords", "Mit'a") and Shinto references ("Kami-Speakers", "Kami", "Yokai"). All fixed: "Jarl-Inca"→"Jarl", "khipus"→"knotted cords", "Mit'a"→"corvée", "Kami-Speakers"→"Rock-Speakers", "Yokai"→"Wyrd-kin". Yuki-Onna and Tengu-Crows kept (cross-file rename flag — see LORE AUDIT #3).
 
 ### Phase 4 — Deep Locations & World Map
@@ -845,7 +845,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
 
 - [x] `vtt-react/src/components/landing/MapMakingSection.jsx` — MASSIVE: full cartographer's guide with all 7 regions, settlements (Greymark Keep, Skald's Landing, Bloodhammer Sump, Harath-Vault, Emberspire, etc.), trade routes, Wyrd-density lore, House Viridane references (~1898 lines)
 - [x] `vtt-react/src/components/rules/ClassOriginsDisplay.jsx` — hardcoded region `description` and `darkBargain` lore for all 7 regions (Sol, Keth-Amar, Emberth, Skald, House Skalvyr, Hunger Winter, House Thalreth, Mimir, Briaran, Keeper, House Tesshan, Groven, House Ordavan, Astril Synod, Luminarchy)
-- [x] `vtt-react/src/components/character-creation-wizard/steps/Step8LoreDetails.jsx` — hardcoded placeholder strings (Solbrand, Keeper's ledger, Wyrd, caldera, Luminarchy, bog-iron, bone) + intro paragraph
+- [x] `vtt-react/src/components/character-creation-wizard/steps/Step8LoreDetails.jsx` — hardcoded placeholder strings (Sol's Breath, Keeper's ledger, Wyrd, caldera, Luminarchy, bog-iron, bone) + intro paragraph
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step1CoreDraft.jsx` — inline lore strings ("Inquisitor requires Marked Vreken heritage...", "highly unusual or physically constrained in Mythrill's history", subrace→icon map)
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step4BackgroundSelection.jsx` — "highly unusual or physically constrained in Mythrill's history" + restriction lore
 - [x] `vtt-react/src/components/character-creation-wizard/steps/Step7SkillsLanguages.jsx` — "Mythrill Trial Ladder" + "A Mythrill veteran does not swing blindly..." flavor text
@@ -882,7 +882,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
 
 ### Phase 12 — Skill Check Tables (Optional Mythrill-Specific Pass)
 
-The `src/constants/` directory contains 21 skill-check table files (~17,000 lines total) with generic D&D-style outcome strings. These are currently generic ("You invoke the wrong deity, commit blasphemy"). Consider rewriting them to reference Mythrill-specific lore (Sol, Keth-Amar, the Warden, the Solbrand, the Binding, etc.).
+The `src/constants/` directory contains 21 skill-check table files (~17,000 lines total) with generic D&D-style outcome strings. These are currently generic ("You invoke the wrong deity, commit blasphemy"). Consider rewriting them to reference Mythrill-specific lore (Sol, Keth-Amar, the Warden, the Sol's Breath, the Binding, etc.).
 
 - [x] `vtt-react/src/constants/acrobaticsTables.js` — ~663 lines
 - [x] `vtt-react/src/constants/alchemyTables.js` — ~729 lines
@@ -1381,14 +1381,14 @@ When writing or rewriting lore, run through these checks:
 10. **`tharun_muren`** (L2858): FIXED — "third-century" → "early centuries of the Dimming", em dashes removed, player hook added.
 11. **LORE FLAG #1 — Divine/Demonic/Holy/Tapestry ability name renames (RESOLVED):** All ability/spell/talent/item NAMES containing these religious/banned terms renamed across ~35 files. Design decision: keep damage-type names ("Divine", "Holy") and resource names ("Holy Power", "Holy Sphere") as-is per user instruction; keep icon path strings (reference PNG files); keep internal system IDs. Rename map:
     - **Tapestry → Wyrd/Fate**: "Tapestry Collapse"→"Wyrd Collapse", "Tapestry Shred"→"Wyrd Shred", "Tapestry Anchor"→"Wyrd Anchor", "Tapestry of Fate"→"Wyrd-Weave", "Faded Tapestry Scrap"→"Faded Fate-Weave Scrap", "Frayed Tapestry Thread"→"Frayed Fate-Thread"
-    - **Divine (martyr) → Solbrand/Dawn/Warden**: "Divine Shield"→"Solbrand Aegis", "Divine Retribution"→"Dawn's Reckoning", "Divine Intervention"→"Warden's Hand", "Divine Judgment"→"Sol's Judgment", "Divine Ascendance"→"Solbrand Ascendance", "Divine Vengeance"→"Solbrand Vengeance", "Divine Protection"→"Solbrand Protection", "Divine Bulwark"→"Solbrand Bulwark", "Divine Path"→"Solbrand Path", "Holy Martyrdom"→"Solbrand Martyrdom", "Holy Avenger"→"Dawnsworn Avenger"
+    - **Divine (martyr) → Sol's Breath/Dawn/Warden**: "Divine Shield"→"Sol's Breath Aegis", "Divine Retribution"→"Dawn's Reckoning", "Divine Intervention"→"Warden's Hand", "Divine Judgment"→"Sol's Judgment", "Divine Ascendance"→"Sol's Breath Ascendance", "Divine Vengeance"→"Sol's Breath Vengeance", "Divine Protection"→"Sol's Breath Protection", "Divine Bulwark"→"Sol's Breath Bulwark", "Divine Path"→"Sol's Breath Path", "Holy Martyrdom"→"Sol's Breath Martyrdom", "Holy Avenger"→"Dawnsworn Avenger"
     - **Divine (inquisitor) → Warden**: "Divine Execution"→"Warden's Verdict"
     - **Divine (arcanoneer) → Radiant**: "Divine Bolt"→"Radiant Bolt", "Divine Favor"→"Radiant Favor"
     - **Divine (background/skill) → Dawn**: "Divine Favor"→"Dawn's Favor"
-    - **Divine (other) → Radiant/Sacred/Solbrand**: "Divine Plague"→"Solbrand Plague", "Divine Jackpot"→"Fated Jackpot", "Divine Stun"→"Fated Stun", "Divine Resonance"→"Radiant Resonance", "Divine Conduit"→"Radiant Conduit", "Divine Rejection"→"Astral Rejection", "Divine Form"→"Radiant Form", "Divine Fortune"→"Radiant Fortune", "Divine Blessing"→"Sacred Blessing", "Divine Wrath"→"Radiant Wrath", "Divine Focus"→"Sacred Focus", "Divine Knowledge"→"Warden's Knowledge", "Divine Revelation"→"Solbrand Revelation", "Divine Intervention" (spellcrafting)→"Warden's Intervention", "Divine Intervention" (gambit card)→"Fated Intervention"
+    - **Divine (other) → Radiant/Sacred/Sol's Breath**: "Divine Plague"→"Sol's Breath Plague", "Divine Jackpot"→"Fated Jackpot", "Divine Stun"→"Fated Stun", "Divine Resonance"→"Radiant Resonance", "Divine Conduit"→"Radiant Conduit", "Divine Rejection"→"Astral Rejection", "Divine Form"→"Radiant Form", "Divine Fortune"→"Radiant Fortune", "Divine Blessing"→"Sacred Blessing", "Divine Wrath"→"Radiant Wrath", "Divine Focus"→"Sacred Focus", "Divine Knowledge"→"Warden's Knowledge", "Divine Revelation"→"Sol's Breath Revelation", "Divine Intervention" (spellcrafting)→"Warden's Intervention", "Divine Intervention" (gambit card)→"Fated Intervention"
     - **Demonic (pyrofiend) → Ember/Cinder/Ash/Emberspire**: "Demonic Empowerment"→"Ember Empowerment", "Demonic Ascension"→"Cinder Ascension", "Demonic Carapace"→"Ashen Carapace", "Demonic Resilience"→"Ember Resilience", "Demonic Shield"→"Cinderward", "Demonic Dominion"→"Emberspire Dominion", "Demonic Whisper"→"Wyrd Whisper"
     - **Demonic (inquisitor/summons) → Wyrd**: "Demonic Binding"→"Wyrd Binding", "Demonic Embrace"→"Wyrd Embrace", "Demonic Sovereignty"→"Wyrd Sovereignty", "Demonic Form"→"Wyrd Form", "Demonic Pact"→"Wyrd Pact"
-    - **Holy (items) → Sacred/Solbrand/Dawn**: "Holy Plate"→"Solbrand Plate", "Martyr's Holy Symbol"→"Martyr's Sun-Sigil", "Inquisitor's Holy Symbol"→"Inquisitor's Ward-Sigil", "Vial of Holy Water"→"Vial of Dawnwater", "Holy Ground"→"Consecrated Ground", "Identify Holy Symbol"→"Identify Sacred Symbol"
+    - **Holy (items) → Sacred/Sol's Breath/Dawn**: "Holy Plate"→"Sol's Breath Plate", "Martyr's Holy Symbol"→"Martyr's Sun-Sigil", "Inquisitor's Holy Symbol"→"Inquisitor's Ward-Sigil", "Vial of Holy Water"→"Vial of Dawnwater", "Holy Ground"→"Consecrated Ground", "Identify Holy Symbol"→"Identify Sacred Symbol"
     - **Other**: "Demons" (targeting category)→"Horrors", "Church of the Holy Light" (TimelineDisplay stray)→"Solbrand Order"
     - **Bonus description fixes**: "hallowed energy"→"consecrated energy", "Demonic will/hunger/chains"→"Ember will/hunger/chains", "Demonic corruption"→"Ember corruption", "bound fiends"→"bound horrors", "deity"→"faith", "celestial or fiendish"→"astral or wyrd-touched", "celestial power, holy smiting"→"astral power, sacred smiting", "divine magic"→"sacred magic", "radiant/holy damage"→"radiant/sacred damage", "demonic entities"→"wyrd-touched horrors", "Divine blessings focus"→"Sacred blessings focus", "Powdered Silver and Holy Water"→"Powdered Silver and Sacred Water", "blessed water"→"consecrated water", "Holy symbol or other sacred object"→"Sacred symbol or other consecrated object", "divine power through your form"→"radiant power through your form", "holy damage with stat synergy"→"sacred damage with stat synergy", "Take on demonic characteristics"→"Take on wyrd-touched characteristics", "worship"→"venerate" (TimelineDisplay)
     - **Excluded (per design decision)**: 13 damage-type/resource name references, 118 icon path strings (PNG file refs), 125 description/system text instances (option values, quality tiers, spell-power labels)

@@ -485,7 +485,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'terrain',
       action: 'COLOR',
       text: 'Ashen Fringe (mid ring): hot volcanic plains, geothermal vents, sulfur sumps',
-      why: 'The Ashen Fringe is a hot volcanic plain wreathed in geothermal vents and sulfur sumps. Positioned between the Ash-Heart and the Green Rim, it is surrounded by active steam vents and lava canals, serving as the industrial heartland where the Emberth mine volcanic ore.',
+      why: 'The Ashen Fringe is a hot volcanic plain wreathed in geothermal vents and sulfur sumps. Positioned between the Ash-Heart and the Green Rim, it is surrounded by active steam vents and lava canals, serving as the industrial heartland where the Solari mine volcanic ore.',
       inkarnate: 'Ash/desert biome'
     },
     {
@@ -585,8 +585,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Harath-Vault: underground Emberth capital, carved into volcanic caldera (600 pop)',
-      why: 'Harath-Vault is the subterranean capital of the Emberth, carved directly into a dormant volcanic caldera. Surrounded by pools of bubbling magma and basalt walls, it is placed deep underground to protect the Emberth from surface ash-fall and houses the Great Forge.',
+      text: 'Harath-Vault: underground Solari capital, carved into volcanic caldera (600 pop)',
+      why: 'Harath-Vault is the subterranean capital of the Solari, carved directly into a dormant volcanic caldera. Surrounded by pools of bubbling magma and basalt walls, it is placed deep underground to protect the Solari from surface ash-fall and houses the Great Forge.',
       inkarnate: 'Underground city icon'
     },
     {
@@ -621,7 +621,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'cities',
       action: 'PLACE',
       text: 'Slag Gulch: narrow ravine of forge waste',
-      why: 'Slag Gulch is an industrial smelting hamlet and salvage camp. Tucked inside a narrow volcanic ravine in the Ashen Fringe, it is surrounded by piles of discarded iron dross and runic slag, housing Emberth outcasts who salvage metal scrap.',
+      why: 'Slag Gulch is an industrial smelting hamlet and salvage camp. Tucked inside a narrow volcanic ravine in the Ashen Fringe, it is surrounded by piles of discarded iron dross and runic slag, housing Solari outcasts who salvage metal scrap.',
       inkarnate: 'Town icon'
     },
     {
@@ -634,8 +634,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Ironjaw Village: Emberth fishing-and-smelting hamlet (south coast)',
-      why: 'Ironjaw Village is a small fishing and smelting hamlet. Located on the rocky southern coastline of Sundale, it is surrounded by warm sea-currents and basalt cliffs, serving as a refuge for exiled Emberth who survive by diving for volcanic ore.',
+      text: 'Ironjaw Village: Solari fishing-and-smelting hamlet (south coast)',
+      why: 'Ironjaw Village is a small fishing and smelting hamlet. Located on the rocky southern coastline of Sundale, it is surrounded by warm sea-currents and basalt cliffs, serving as a refuge for exiled Solari who survive by diving for volcanic ore.',
       inkarnate: 'Village icon'
     },
     {
