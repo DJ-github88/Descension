@@ -310,9 +310,9 @@ export const BIOMES = [
       { range: [12, 12], type: 'combat', label: 'Ironwood Animated Grove', note: 'Guardians of old growth. Fire effective.' },
       { range: [13, 13], type: 'hazard', label: 'Fog Pocket / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },
       { range: [14, 14], type: 'hazard', label: 'Root Trip / Sinkhole', note: 'Perception vs moderate die (d8) or fall.' },
-      { range: [15, 15], type: 'combat', label: 'Trueborn Briaran Raid', note: 'Stealth vs challenging die (d10). Demands fog-repudiation.' },
+      { range: [15, 15], type: 'combat', label: 'Trueborn Florae Raid', note: 'Stealth vs challenging die (d10). Demands fog-repudiation.' },
       { range: [16, 16], type: 'combat', label: 'Fog Stalker', note: 'Web traps in mist, venom.' },
-      { range: [17, 17], type: 'discovery', label: 'Wyrd-Nexus / Briaran Shrine', note: 'Arcana vs moderate die (d8) to understand.' },
+      { range: [17, 17], type: 'discovery', label: 'Wyrd-Nexus / Florae Shrine', note: 'Arcana vs moderate die (d8) to understand.' },
       { range: [18, 18], type: 'social', label: 'Mimir Canopy Seneschal', note: 'Neutral unless provoked.' },
       { range: [19, 19], type: 'combat', label: 'Gref Pack', note: 'Diseased or Wyrd-warped.' },
       { range: [20, 20], type: 'combat', label: 'Ancient Ironwood Guardian', note: 'Legendary protector of the deep woods. Wyrd-touched.' }

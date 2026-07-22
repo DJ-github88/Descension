@@ -262,12 +262,9 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
     return (
         <div className="race-epic-lore-container">
-            {/* Header top bar with Title and Close Button */}
+            {/* Header top bar with Close Button */}
             <div className="tome-header-bar">
-                <div className="tome-header-title">
-                    <i className="fas fa-book-spells"></i>
-                    <span>Tome of Chronicles & Ancestry</span>
-                </div>
+                <div className="tome-header-spacer"></div>
                 {onClose && (
                     <button className="tome-close-btn" onClick={onClose} title="Close Tome">
                         <i className="fas fa-times"></i>
@@ -278,7 +275,7 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
             {/* Book Spread Container */}
             <div className="tome-spread-container">
-                {/* Ribbon Bookmarks Navigation peeking out from the bottom cover trim */}
+                {/* Ribbon Bookmarks Navigation peeking out from the top cover trim */}
                 <div className="tome-bookmarks">
                     {availableTabs.map(tabKey => {
                         const tab = tabs[tabKey];
@@ -290,13 +287,13 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                                 data-tab={tab.id}
                             >
                                 <i className={tab.icon}></i>
-                                <span>{tab.label}</span>
+                                <span className="tome-bookmark-label">{tab.label}</span>
                             </button>
                         );
                     })}
                 </div>
 
-                {/* Floating Outer Edge Navigation Buttons */}
+                {/* Floating Outer Edge Navigation Buttons (Desktop) */}
                 {hasPrevPage && (
                     <button className="tome-edge-nav-btn prev-btn" onClick={handlePrevPage} title="Previous Page">
                         <i className="fas fa-chevron-left"></i>
@@ -308,7 +305,9 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                     </button>
                 )}
 
-                {/* LEFT PAGE */}
+                {/* Pages Scroll Container */}
+                <div className="tome-pages-scroll-container">
+                    {/* LEFT PAGE */}
                 <div className="tome-page left-page">
                     <div className="tome-page-filigree">
                         <div className={`tome-page-content ${contentVisible ? 'page-flip-fade' : ''}`} ref={leftPageRef}>
@@ -628,6 +627,34 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                     </div>
                 </div>
             </div>
+        </div>
+
+            {/* Mobile Bottom Pagination Controls */}
+            {totalPages > 1 && (
+                <div className="tome-mobile-pagination">
+                    <button
+                        className="tome-mobile-nav-btn"
+                        onClick={handlePrevPage}
+                        disabled={!hasPrevPage}
+                        title="Previous Spread"
+                    >
+                        <i className="fas fa-chevron-left"></i>
+                        <span>Prev</span>
+                    </button>
+                    <span className="tome-mobile-page-indicator">
+                        Spread {currentPage + 1} of {totalPages}
+                    </span>
+                    <button
+                        className="tome-mobile-nav-btn"
+                        onClick={handleNextPage}
+                        disabled={!hasNextPage}
+                        title="Next Spread"
+                    >
+                        <span>Next</span>
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

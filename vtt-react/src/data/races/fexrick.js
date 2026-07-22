@@ -5,7 +5,7 @@ export const fexrick = {
     id: 'fexrick',
     name: 'Fexric',
     essence: 'The Cyber-Graft Guilds of the Cragjaw Sumps',
-    illustration: '/assets/images/races/fexric_illustration_1.png',
+    illustration: '/assets/images/races/fexric_illustration.png',
     illustrationCaption: 'A stocky Fexric engineer in a worn leather apron, copper wire threads and a single fiber-optic filament woven through their beard, a quiet public resume of guild rank.',
     cardFlavor: 'Master alchemists and cyber-grafters who have been augmenting themselves to endure the Peaks since before the mountain had a name.',
     description: `**[The Cyber-Graft Guilds]**, *In the volcanic soot-glow and neon flicker of the Cragjaw Peak vaults, a green-skinned cyber-engineer adjusts a whirring, brass alchemical ocular grafted to his left eye-socket, his copper-wired beard clicking as neural data pulses through his pneumatic tools.*

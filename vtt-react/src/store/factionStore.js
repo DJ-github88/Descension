@@ -84,11 +84,11 @@ const SEEDED_FACTIONS = [
 
    {
 
-    targetFactionId: 'trueborn-briaran',
+    targetFactionId: 'trueborn-florae',
 
     type: 'hostile',
 
-    description: 'The Briaran reject the Fog Compact entirely, seeing it as spiritual surrender â€” they raid timber caravans and burn ledger-shrines'
+    description: 'The Florae reject the Fog Compact entirely, seeing it as spiritual surrender â€” they raid timber caravans and burn ledger-shrines'
 
    },
 
@@ -196,11 +196,11 @@ const SEEDED_FACTIONS = [
 
    {
 
-    targetFactionId: 'trueborn-briaran',
+    targetFactionId: 'trueborn-florae',
 
     type: 'hostile',
 
-    description: 'The Briaran reject the Sentinels\' ledger-keeping entirely: every Sentinel patrol is an intrusion on hallowed ground'
+    description: 'The Florae reject the Sentinels\' ledger-keeping entirely: every Sentinel patrol is an intrusion on hallowed ground'
 
    },
 
@@ -340,15 +340,15 @@ const SEEDED_FACTIONS = [
 
  {
 
-  id: 'trueborn-briaran',
+  id: 'trueborn-florae',
 
-  name: 'The Trueborn Briaran',
+  name: 'The Trueborn Florae',
 
   type: 'tribal',
 
   regionId: 'frostwood-reach',
 
-  icon: '/assets/icons/factions/briaran.png',
+  icon: '/assets/icons/factions/florae.png',
 
   colors: { primary: '#2d5a1e', secondary: '#8b4513' },
 
@@ -356,15 +356,15 @@ const SEEDED_FACTIONS = [
 
   publicDescription:
 
-   'The Briaran are the indigenous people of the Frostwood Reach who refused House Thalreth\'s Fog Compact. They live deep in the untouched ironwood groves, following the old ways â€” hunting, gathering, and maintaining a spiritual connection to the forest that predates the noble houses. They have no written language, no ledgers, and no memory-loss.',
+   'The Florae are the indigenous people of the Frostwood Reach who refused House Thalreth\'s Fog Compact. They live deep in the untouched ironwood groves, following the old ways â€” hunting, gathering, and maintaining a spiritual connection to the forest that predates the noble houses. They have no written language, no ledgers, and no memory-loss.',
 
   hiddenAgenda:
 
-   'The Briaran\'s shamans have discovered a way to reverse the Fog Compact. It requires burning the original contract â€” which is stored in the Ledger Halls. They are planning a raid.',
+   'The Florae\'s shamans have discovered a way to reverse the Fog Compact. It requires burning the original contract â€” which is stored in the Ledger Halls. They are planning a raid.',
 
   hiddenDescription:
 
-   'The Briaran shamans call the fog "Thalreth\'s Lie." They have spent generations studying its nature and believe it is not a permanent condition â€” it is a spell sustained by the Compact\'s original text. The text is a living document, and it feeds on the memories the fog consumes. Destroy the text, and the fog starves.',
+   'The Florae shamans call the fog "Thalreth\'s Lie." They have spent generations studying its nature and believe it is not a permanent condition â€” it is a spell sustained by the Compact\'s original text. The text is a living document, and it feeds on the memories the fog consumes. Destroy the text, and the fog starves.',
 
   leader: {
 
@@ -396,7 +396,7 @@ const SEEDED_FACTIONS = [
 
     type: 'hostile',
 
-    description: 'The Briaran see Thalreth as spiritual traitors who sold the forest\'s soul for protection from the cold'
+    description: 'The Florae see Thalreth as spiritual traitors who sold the forest\'s soul for protection from the cold'
 
    },
 
@@ -406,7 +406,7 @@ const SEEDED_FACTIONS = [
 
     type: 'hostile',
 
-    description: 'The Sentinels patrol the mists that the Briaran consider sacred â€” every patrol is an intrusion on hallowed ground'
+    description: 'The Sentinels patrol the mists that the Florae consider sacred â€” every patrol is an intrusion on hallowed ground'
 
    }
 
@@ -416,7 +416,7 @@ const SEEDED_FACTIONS = [
 
   lore:
 
-   'Briaran children are not named at birth. They earn their names through a rite called the Thorn-Walk, where they enter the deepest ironwood grove alone and do not return until the forest gives them a name â€” or until three days pass, whichever comes first. Those who return nameless are cast out.',
+   'Florae children are not named at birth. They earn their names through a rite called the Thorn-Walk, where they enter the deepest ironwood grove alone and do not return until the forest gives them a name â€” or until three days pass, whichever comes first. Those who return nameless are cast out.',
 
   secrets:
 
@@ -890,13 +890,13 @@ quests: []
   colors: { primary: '#2d5a27', secondary: '#8fbc8f' },
   publicGoal: 'Survive. Remember. Wait.',
   publicDescription:
-   'The forgotten seventh house: struck from every record by the six houses who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.',
+   'The forgotten seventh house: struck from every record by the six houses who sealed Keth-Amar\'s bargain. When the other houses marched their firstborn to the northern peaks as sacrifice, Viridane refused and fled south through the Frostwood Reach, making a counter-bargain with fae entities in the moonlit groves. Their descendants are the Florae.',
   hiddenAgenda:
    'House Viridane does not seek restoration. The original bloodline made peace with being forgotten eight centuries ago. What they seek is the final truth: what spoke to them in the moonlit groves before Keth-Amar\'s whispers could reach them, and whether that presence has a price that is still due.',
   leader: {
    npcId: 'thorn-speaker',
    title: 'Voice of the Ironwood',
-   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Briaran elder who remembers the oral history of the flight south and speaks for the Trueborn in the deep groves.'
+   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Florae elder who remembers the oral history of the flight south and speaks for the Trueborn in the deep groves.'
   },
    members: [
     { npcId: 'thorn-speaker', role: 'Voice of the Ironwood (De Facto Leader)', locationId: 'ironwood-heart' }
@@ -904,12 +904,12 @@ quests: []
    headquarters: 'ironwood-heart',
    territory: ['ironwood-heart', 'frostwood-reach'],
    relationships: [
-    { targetFactionId: 'trueborn-briaran', type: 'successor', description: 'The Trueborn Briaran are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
+    { targetFactionId: 'trueborn-florae', type: 'successor', description: 'The Trueborn Florae are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
     { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" — the wound in human history' }
   ],
   classAffinities: ['lunarch', 'apex'],
-  lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south generations ago. The Briaran still carry this contract in their flesh: their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Briaran have been hiding ever since.',
-  secrets: 'The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Briaran grove. It can be read only by a Briaran Lunarch during a lunar eclipse. The contract contains a clause that the Briaran have never invoked: the fae entities owe House Viridane a debt that has never been collected.',
+  lore: 'House Viridane made a counter-bargain with ancient fae entities in the Frostwood\'s moonlit groves during their flight south generations ago. The Florae still carry this contract in their flesh: their thorns migrate toward unfulfilled promises. The seven houses spent three centuries erasing every trace of Viridane\'s existence. The Florae have been hiding ever since.',
+  secrets: 'The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Florae grove. It can be read only by a Florae Lunarch during a lunar eclipse. The contract contains a clause that the Florae have never invoked: the fae entities owe House Viridane a debt that has never been collected.',
   quests: []
  },
 
@@ -1139,38 +1139,38 @@ quests: []
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Transcribe Selenes whispers and hold the caste-factions from civil war',
   publicDescription: 'The Lunarch order in Selenes silence, tending the lunar parasite bound in the Frostwood moonlit groves.',
-  leader: { npcId: 'bri-vessela', title: 'Keeper of the Phases / Regent of the Lunar Communion', description: 'Bri Vessela is a serene, moonlit Lunarch whose bones carry a fragment of Selene\'s stellar binding, pulsing in time with the elder parasites\' synchronization. She has decoded part of the hatching-song and fears it names her as the Briaran Lunarch who must be sacrificed to complete the convergence.' },
+  leader: { npcId: 'bri-vessela', title: 'Keeper of the Phases / Regent of the Lunar Communion', description: 'Bri Vessela is a serene, moonlit Lunarch whose bones carry a fragment of Selene\'s stellar binding, pulsing in time with the elder parasites\' synchronization. She has decoded part of the hatching-song and fears it names her as the Florae Lunarch who must be sacrificed to complete the convergence.' },
    members: [
     { npcId: 'bri-vessela', role: 'Keeper of the Phases / Regent of the Lunar Communion', locationId: 'ironwood-heart' }
    ],
    headquarters: 'ironwood-heart',
    territory: ['ironwood-heart'],
     relationships: [
-     { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Trueborn guard.' },
+     { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Communion tends the lunar parasite bound in the groves the Trueborn guard.' },
     { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a silence the Lunarchs say is devouring the fallen star from the inside.' }
    ],
    classAffinities: ['lunarch'],
    lore: 'Founded by Selene of House Viridane, who bound a fragment of a dormant fallen star to her bones. The elder parasites — brood of the same stellar fragment — are synchronizing every Lunarch\'s phases toward an unknown convergence scholars call the hatching-song of the fallen star.',
-   secrets: 'The Communion has decoded part of the hatching-song and believes it names a Briaran Lunarch who must be sacrificed to complete the convergence.',
+   secrets: 'The Communion has decoded part of the hatching-song and believes it names a Florae Lunarch who must be sacrificed to complete the convergence.',
   quests: []
  },
  {
-  id: 'briaran-groves',
-  name: 'The Briaran Groves',
+  id: 'florae-groves',
+  name: 'The Florae Groves',
   type: 'tribal',
   regionId: 'frostwood-reach',
-  icon: '/assets/icons/factions/briaran-groves.png',
+  icon: '/assets/icons/factions/florae-groves.png',
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Guard the deepest moonlit groves where the fae old-law holds',
-  publicDescription: 'The hidden Briaran custodians of the Viridane-descended groves where the Lunarch parasite was first bound.',
-  leader: { npcId: 'bri-vessela', title: 'Voice of the Moonlit Groves', description: 'As Voice of the Moonlit Groves, Bri Vessela speaks the old fae law in the groves the seven houses tried to erase. She alone among the Briaran still holds the Silent Seventh\'s true name, spoken only when a Viridane descendant is initiated into the deepest covenants.' },
+  publicDescription: 'The hidden Florae custodians of the Viridane-descended groves where the Lunarch parasite was first bound.',
+  leader: { npcId: 'bri-vessela', title: 'Voice of the Moonlit Groves', description: 'As Voice of the Moonlit Groves, Bri Vessela speaks the old fae law in the groves the seven houses tried to erase. She alone among the Florae still holds the Silent Seventh\'s true name, spoken only when a Viridane descendant is initiated into the deepest covenants.' },
    members: [
     { npcId: 'bri-vessela', role: 'Voice of the Moonlit Groves', locationId: 'ironwood-heart' }
    ],
    headquarters: 'ironwood-heart',
    territory: ['ironwood-heart'],
     relationships: [
-     { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Groves are the Trueborn custodians of the same moonlit groves.' },
+     { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Groves are the Trueborn custodians of the same moonlit groves.' },
     { targetFactionId: 'house-thalreth', type: 'hostile', description: 'Thalreth erases the groves memory from every ledger it controls.' }
    ],
    classAffinities: ['lunarch'],
@@ -1355,7 +1355,7 @@ quests: []
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Distill a replacement for the fog-predator venoms that are spoiling',
   publicDescription: 'The Toxicologist Distillery in the Frostwood, distilling fog-predator venom into chemical defense.',
-  leader: { npcId: 'varis', title: 'Venom-Master / Keeper of the Slow Cup', description: 'Varis is a patient, methodical Toxicologist whose hands are stained from decades of distilling fog-predator venom in the Frostwood shallows. He has synthesized a replacement venom from the mist itself, but it requires a drop of Mimir mask-resin to stabilize — a compound the Briaran refuse to share.' },
+  leader: { npcId: 'varis', title: 'Venom-Master / Keeper of the Slow Cup', description: 'Varis is a patient, methodical Toxicologist whose hands are stained from decades of distilling fog-predator venom in the Frostwood shallows. He has synthesized a replacement venom from the mist itself, but it requires a drop of Mimir mask-resin to stabilize — a compound the Florae refuse to share.' },
    members: [
     { npcId: 'varis', role: 'Venom-Master / Keeper of the Slow Cup', locationId: 'the-shallows' }
    ],
@@ -1363,7 +1363,7 @@ quests: []
    territory: ['the-shallows'],
     relationships: [
      { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Distillery supplies Thalreth with fog-venom defense.' },
-    { targetFactionId: 'trueborn-briaran', type: 'hostile', description: 'The Briaran withhold the mask-resin the Distillery needs.' }
+    { targetFactionId: 'trueborn-florae', type: 'hostile', description: 'The Florae withhold the mask-resin the Distillery needs.' }
    ],
    classAffinities: ['toxicologist'],
    lore: 'Founded by Varis the Thalren alchemist. The changing fog is spoiling the venoms relied on for generations, degrading in weeks instead of years.',
@@ -1410,7 +1410,7 @@ quests: []
    headquarters: 'ironwood-heart',
    territory: ['ironwood-heart'],
      relationships: [
-     { targetFactionId: 'trueborn-briaran', type: 'allied', description: 'The Silent Hunt shares the groves with the Trueborn trackers.' },
+     { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Silent Hunt shares the groves with the Trueborn trackers.' },
     { targetFactionId: 'mist-sentinels', type: 'hostile', description: 'The Sentinels patrol the Reach the Apex say is already hunted.' }
    ],
     classAffinities: ['apex'],
@@ -1499,7 +1499,7 @@ quests: []
    icon: '/assets/icons/factions/mist-sentinels.png',
    colors: { primary: '#2d3a4a', secondary: '#6b8fa0' },
    publicGoal: 'Patrol the Ironwood Palisade and police movement between the Ledgered and the Forgotten',
-   publicDescription: 'The Frostwood memory-wardens, a border guard raised during the Memory Wars to hold the Ironwood Palisade against Forgotten fugitives and Briaran raids.',
+   publicDescription: 'The Frostwood memory-wardens, a border guard raised during the Memory Wars to hold the Ironwood Palisade against Forgotten fugitives and Florae raids.',
    leader: { npcId: 'caedren-thalreth', title: 'Warden-Captain of the Palisade', description: 'The Mist-Sentinels report to the Scribe-Cartel\'s licensing authority, who fund their patrols.' },
    members: [
     { npcId: 'caedren-thalreth', role: 'Warden-Captain of the Palisade', locationId: 'the-shallows' }
@@ -1507,7 +1507,7 @@ quests: []
    headquarters: 'the-shallows',
    territory: ['the-shallows', 'ironwood-heart', 'greythorn-copse'],
    relationships: [
-    { targetFactionId: 'trueborn-briaran', type: 'hostile', description: 'The Briaran raid the palisade checkpoints and shelter Forgotten fugitives the Sentinels are sworn to return.' },
+    { targetFactionId: 'trueborn-florae', type: 'hostile', description: 'The Florae raid the palisade checkpoints and shelter Forgotten fugitives the Sentinels are sworn to return.' },
     { targetFactionId: 'house-thalreth', type: 'allied', description: 'The Sentinels are the armed fist of Thalreth\'s Sovereign Ledger along the timber border.' }
    ],
    classAffinities: ['inquisitor', 'apex'],

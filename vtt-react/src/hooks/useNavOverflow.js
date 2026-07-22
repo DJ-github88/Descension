@@ -93,8 +93,8 @@ export default function useNavOverflow(itemCount, headerRef, leftRef, rightRef) 
     }
    }
 
-   const finalWithBtnFit = Math.max(minVisible, withBtnFit);
-   updateOverflow(itemCount - finalWithBtnFit);
+    const finalWithBtnFit = withBtnFit;
+    updateOverflow(itemCount - finalWithBtnFit);
   }, [itemCount, headerRef, leftRef, rightRef, updateOverflow]);
 
   useEffect(() => {

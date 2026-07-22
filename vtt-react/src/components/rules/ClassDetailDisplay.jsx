@@ -748,7 +748,7 @@ const classFallbacks = {
   { url: '/assets/images/classes/revenant_illustration_3.png', caption: 'An Ithran Groven Revenant wreathed in roots with glowing swamp-green eyes.' }
  ],
  animist: [
-  { url: '/assets/images/classes/animist_illustration.png', caption: 'A Trueborn Briaran Forest Ritualist Animist channeling ancestral spirits.' },
+  { url: '/assets/images/classes/animist_illustration.png', caption: 'A Trueborn Florae Forest Ritualist Animist channeling ancestral spirits.' },
   { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' },
   { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Velun Neth Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
  ],
@@ -783,8 +783,8 @@ const classFallbacks = {
   { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Morren Human Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
  ],
  apex: [
-  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Shorn Briaran Silent Hunter Apex drawing a recurve bow.' },
-  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'A Trueborn Briaran Apex with wild thorns growing along their arms drawing a living bow.' },
+  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Shorn Florae Silent Hunter Apex drawing a recurve bow.' },
+  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'A Trueborn Florae Apex with wild thorns growing along their arms drawing a living bow.' },
   { url: '/assets/images/classes/apex_illustration_3.png', caption: 'A Brook Myrathil Apex drawing a coral bow with a glowing water arrow.' }
  ],
  warden: [
@@ -820,7 +820,7 @@ const classFallbacks = {
  lunarch: [
   { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
   { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' },
-  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'A Trueborn Briaran Lunarch wreathed in glowing silver lunar briars.' }
+  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'A Trueborn Florae Lunarch wreathed in glowing silver lunar briars.' }
  ]
 };
 

@@ -9,7 +9,7 @@ export const LEATHERWORKING_RECIPES = [
     id: 'hardened-leather-recipe',
     name: 'Hardened Leather',
     profession: 'leatherworking',
-    description: 'Boiled in frost-ironwood extract and Briaran thorn-tan. Treat and harden leather for use in armor.',
+    description: 'Boiled in frost-ironwood extract and Florae thorn-tan. Treat and harden leather for use in armor.',
     requiredLevel: 1,
     resultItemId: 'hardened-leather',
     resultQuantity: 1,

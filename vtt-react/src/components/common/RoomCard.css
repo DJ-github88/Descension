@@ -539,6 +539,9 @@
   .room-card {
     padding: 12px;
     gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
   }
 
   .room-card-title {
@@ -553,14 +556,22 @@
   .room-card-test {
     max-width: 100%;
   }
+
+  .room-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    padding: 8px 0 !important;
+  }
 }
 
-/* Grid layout support - wider cards for better proportions */
+/* Grid layout support - responsive grid layout */
 .room-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+  padding: 12px 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 

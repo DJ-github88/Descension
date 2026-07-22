@@ -25,7 +25,7 @@ export const SPELLGUARD_DATA = {
      "myrathil",
      "ordan_human",
      "groven",
-     "briaran"
+     "florae"
    ],
    "narrativeUnlock": true,
    "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Neth Velun provide precise magical cancellation. Thalren provide anti-Wyrd paranoia."

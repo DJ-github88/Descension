@@ -20,7 +20,7 @@ export const SUBREGIONS = {
     description: 'The warmer, denser southern half of the Frostwood Reach, closest to the world-heart and the volcanic warmth bleeding out of Sundale. The ironwood here is the oldest and tallest in the region, and the fog is at its thickest. This is Thalreth country: the Sovereign Ledger is enforced at every check-post, the Scribe-Cartel holds its monopoly on ink, and the Mist-Sentinels patrol the Ironwood Palisade.',
     climate: 'Cool-temperate, damp, fog-bound year-round',
     dominantTerrain: 'Petrified ironwood forest, peat-bog hollows, silt-roads',
-    primaryRaces: ['Thalren humans', 'Masked Mimir', 'Shorn Briaran'],
+    primaryRaces: ['Thalren humans', 'Masked Mimir', 'Shorn Florae'],
     primaryFactions: ['House Thalreth', 'Scribe-Cartel', 'Mist-Sentinels'],
     zoneIds: ['greymark-keep', 'scribes-tower', 'ledger-halls', 'the-shallows', 'greythorn-copse', 'skalds-landing', 'mirror-mere', 'bramble-heath', 'meadowglen-crossing', 'velling-pass', 'ironwood-heart']
   },
@@ -39,10 +39,10 @@ export const SUBREGIONS = {
     id: 'frostwood-eastern-fens',
     name: 'The Eastern Fens',
     regionId: 'frostwood-reach',
-    description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir outcasts and the most desperate Briaran exiles.',
+    description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir outcasts and the most desperate Florae exiles.',
     climate: 'Damp, hazier than the rest of the Reach, mild',
     dominantTerrain: 'Peat-bog, marsh, drowned ironwood groves',
-    primaryRaces: ['Tethered Mimir', 'Forgotten (Thalren outcasts)', 'Trueborn Briaran refugees'],
+    primaryRaces: ['Tethered Mimir', 'Forgotten (Thalren outcasts)', 'Trueborn Florae refugees'],
     primaryFactions: ['The Forgotten', 'Tethered Mimir clans', 'Root-Veil spillover'],
     zoneIds: ['wraithfen', 'the-shifting-fen', 'mistbarrow']
   },

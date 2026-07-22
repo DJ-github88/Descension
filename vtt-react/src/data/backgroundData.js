@@ -149,10 +149,10 @@ export const BACKGROUND_DATA = {
       ],
       "allowedSubraces": [
         "thalren_human",
-        "shorn_briaran"
+        "florae_unified"
       ],
       "narrativeUnlock": true,
-      "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (knotted cord-cords), they use different record-keeping systems. Shorn Briaran can plausibly pass as human scribes in Frostwood ports."
+      "justification": "The Sovereign Ledger and Scribe-Cartel are Frostwood-specific. Exclude: Ordan (Steppe-Staves), Skald (runic genealogy), Tessen (knotted cord-cords), they use different record-keeping systems. Shorn Florae can plausibly pass as human scribes in Frostwood ports."
     },
     classHooks: [
       { classId: 'toxicologist', bridge: 'Fog-reagent cataloguing and ledger precision translate directly into the Distillery craft.' },
@@ -205,7 +205,7 @@ export const BACKGROUND_DATA = {
       { classId: 'inquisitor', tension: 'Heirs are trained to protect house secrets; the Inquisitor exists to sever them. An heir who takes the Barbed Vow hunts their own blood.' }
     ],
     name: 'Noble Scion',
-    description: 'The histories speak of seven noble houses that sealed the bargains of survival. Six of them broke and fed their heirs to Keth-Amar; the seventh, House Viridane, refused and was erased, with House Morrath elevated to fill its empty seat. The Briaran, descendants of Viridane, are remembered by the folk as the "eighth house" because they count what the official records hide. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Morrath (elevated to replace the erased Viridane). Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The thorned Briaran people still carry Viridane\'s blood in their veins, though no ledger will admit it. And the Bryngloom Forest\'s bargain was never a house\'s at all: the Neth people struck it with Morvane before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. What your house pays and what it refuses is your ledger now. The collectors have been patient for eight centuries, and patience like that does not last.',
+    description: 'The histories speak of seven noble houses that sealed the bargains of survival. Six of them broke and fed their heirs to Keth-Amar; the seventh, House Viridane, refused and was erased, with House Morrath elevated to fill its empty seat. The Florae, descendants of Viridane, are remembered by the folk as the "eighth house" because they count what the official records hide. You descend from the survivors: Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Morrath (elevated to replace the erased Viridane). Every one of them struck a Dark Bargain to survive the long night, and every bargain has a price that came due. Your house\'s influence fractured long ago beneath the weight of what your ancestors promised. Some houses collapsed outright. Others limp on, their authority sustained by inertia and fear. The thorned Florae people still carry Viridane\'s blood in their veins, though no ledger will admit it. And the Bryngloom Forest\'s bargain was never a house\'s at all: the Neth people struck it with Morvane before any lord claimed the forest. You carry a name that opens doors and paints targets. Your ancestors bought survival with something they could not afford. The debt is still compounding, and someone has come to collect. What your house pays and what it refuses is your ledger now. The collectors have been patient for eight centuries, and patience like that does not last.',
     skillProficiencies: ['History', 'Persuasion'],
     toolProficiencies: ['Gaming set'],
     languages: 1,
@@ -766,21 +766,21 @@ export const BACKGROUND_DATA = {
         "frostwood-reach"
       ],
       "allowedSubraces": [
-        "trueborn_briaran",
-        "shorn_briaran"
+        "florae_unified",
+        "florae_unified"
       ],
       "narrativeUnlock": true,
-      "justification": "Grove-Wardens swear the fae counter-bargain in the moonlit groves of the Frostwood Reach, a Briaran bloodline obligation. An outsider could plausibly be sworn to the grove through adoption or an unpaid life-debt."
+      "justification": "Grove-Wardens swear the fae counter-bargain in the moonlit groves of the Frostwood Reach, a Florae bloodline obligation. An outsider could plausibly be sworn to the grove through adoption or an unpaid life-debt."
     },
     classHooks: [
       { classId: 'lunarch', bridge: 'The moonlit groves a Forest Warden patrols are the only place the lunar parasite is found; the patrol and the pact are one career.' },
-      { classId: 'toxicologist', bridge: 'Thorn-blood and ghost-metal cold-working are the Briaran foundation of the Distillery craft.' }
+      { classId: 'toxicologist', bridge: 'Thorn-blood and ghost-metal cold-working are the Florae foundation of the Distillery craft.' }
     ],
     tensionPairings: [
       { classId: 'martyr', tension: 'The fae bargain is fundamentally transactional; the Vow asks for uncompensated self-destruction. A Forest Warden turned Martyr has betrayed one covenant for another.' }
     ],
     name: 'Forest Warden',
-    description: 'There were seven noble houses, and yours was the seventh — House Viridane, erased from every history the other six were permitted to write. The official record names only six, plus the upstart Morrath they crowned to replace you. That record is a lie of omission. You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself to the Hollow-Court (the fae court of the forest) and the ironwood hollows where House Viridane (the erased seventh house) sealed its counter-pact when the other houses marched their heirs to be sacrificed to Keth-Amar. Viridane refused. Viridane ran. Viridane survived, in you and every Briaran who carries the thorns. You tend the Thorn-Fall, where eight centuries of shed thorns record every unfulfilled promise the fae have witnessed. You mine ghost-metal from the cold vein beneath the deep groves and enforce the fae\'s old laws against the quiet expeditions the other families send to strip what Viridane left behind. You carry Viridane\'s last counter-pact in your blood and its law in your thorns. Viridane did not run eight centuries to end under leaf-rot. The grove holds as long as you do.',
+    description: 'There were seven noble houses, and yours was the seventh — House Viridane, erased from every history the other six were permitted to write. The official record names only six, plus the upstart Morrath they crowned to replace you. That record is a lie of omission. You swore the old fae bargain in the moonlit groves of the Frostwood Reach, binding yourself to the Hollow-Court (the fae court of the forest) and the ironwood hollows where House Viridane (the erased seventh house) sealed its counter-pact when the other houses marched their heirs to be sacrificed to Keth-Amar. Viridane refused. Viridane ran. Viridane survived, in you and every Florae who carries the thorns. You tend the Thorn-Fall, where eight centuries of shed thorns record every unfulfilled promise the fae have witnessed. You mine ghost-metal from the cold vein beneath the deep groves and enforce the fae\'s old laws against the quiet expeditions the other families send to strip what Viridane left behind. You carry Viridane\'s last counter-pact in your blood and its law in your thorns. Viridane did not run eight centuries to end under leaf-rot. The grove holds as long as you do.',
     skillProficiencies: ['Insight', 'Survival'],
     toolProficiencies: ['Artisan\'s tools (ghost-metal cold-working)'],
     languages: 1,
@@ -798,7 +798,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Old-Law Witness',
-      description: 'You carry the fae\'s old laws written in your flesh. Once per long rest, you may witness a spoken oath between two willing creatures and invoke the grove\'s old law: if either party breaks the oath within a year, you sense the breaking immediately and the oathbreaker cannot hide from your Insight checks for one month. Briaran recognize you by your thorn-clusters (or your hidden token); fae-touched creatures and the Shorn community provide you shelter in exchange for a small thorn-tithe.'
+      description: 'You carry the fae\'s old laws written in your flesh. Once per long rest, you may witness a spoken oath between two willing creatures and invoke the grove\'s old law: if either party breaks the oath within a year, you sense the breaking immediately and the oathbreaker cannot hide from your Insight checks for one month. Florae recognize you by your thorn-clusters (or your hidden token); fae-touched creatures and the Shorn community provide you shelter in exchange for a small thorn-tithe.'
     },
     statModifiers: {
       spirit: 2,
@@ -1058,7 +1058,7 @@ export const BACKGROUND_DATA = {
         "veiled_mimir",
         "tethered_mimir",
         "thalren_human",
-        "trueborn_briaran"
+        "florae_unified"
       ],
       "narrativeUnlock": true,
       "justification": "Fog-reading requires intimate knowledge of the Frostwood's living fog, its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
@@ -1072,7 +1072,7 @@ export const BACKGROUND_DATA = {
       { classId: 'arcanoneer', tension: 'A Forest Guide trusts instinct and shifting currents; an Arcanoneer trusts pre-filed precision. The fog makes the latter impossible and the former essential.' }
     ],
     name: 'Forest Guide',
-    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it literally eats memories. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the Wyrd-trails (supernatural residue) that things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The masked Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The thorned Briaran feel the fog through their connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. The maps lie now; the fog ate the truth out of them years ago. Trust the mist, or lose your name to it like every traveler who reached for ink instead.',
+    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it literally eats memories. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the Wyrd-trails (supernatural residue) that things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The masked Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The thorned Florae feel the fog through their connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. The maps lie now; the fog ate the truth out of them years ago. Trust the mist, or lose your name to it like every traveler who reached for ink instead.',
     skillProficiencies: ['Survival', 'Perception'],
     toolProficiencies: ['Navigator\'s tools'],
     languages: 1,

@@ -554,6 +554,20 @@
   object-position: center;
 }
 
+/* Item text fallback for items without icons */
+.character-view-content .item-name {
+  color: #3d2b1d;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  padding: 2px;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Center multi-cell item icons and add proper borders */
 .character-view-content .inventory-item {
   display: flex;
@@ -591,9 +605,9 @@
   left: 1px;
   width: calc(100% - 2px);
   height: calc(100% - 2px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(139, 115, 85, 0.5);
   border-radius: 4px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 6px rgba(139, 115, 85, 0.3);
   pointer-events: none;
   z-index: 15;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
@@ -1548,7 +1562,6 @@
 /* Inventory item-content background fix - remove brown backdrop */
 .character-view-content .item-content,
 .character-view-content .item-wrapper,
-.character-view-content .item-border,
 .character-view-content .inventory-item {
   background: transparent !important;
   background-image: none !important;
@@ -2291,8 +2304,8 @@
   /* Equipment slots: compact size */
   .character-view-content .equipment-slot,
   .character-view-content .gear-slot {
-    width: 48px;
-    height: 48px;
+    width: 48px !important;
+    height: 48px !important;
   }
 
   /* Left slots: stacked vertically in left column */
@@ -2363,6 +2376,21 @@
   /* Character content area: full width on mobile */
   .character-view-content .character-content-area {
     width: 100% !important;
+  }
+
+  /* Skills container: add padding on mobile */
+  .character-view-content .skills-container {
+    padding: 12px !important;
+  }
+
+  .character-view-content .skill-category-header {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .character-view-content .skill-list-item {
+    font-size: 11px;
+    padding: 6px 10px 6px 16px;
   }
 
   /* Stats: vertical list */
@@ -2469,6 +2497,19 @@
 
   .character-view-content .inventory-cell::before {
     padding-top: 100%;
+  }
+
+  .character-view-content .inventory-cell {
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+  }
+
+  .character-view-content .item-name {
+    font-size: 8px;
+    line-height: 1.1;
+    word-break: break-all;
   }
 
   /* Sync indicator: smaller, anchored */

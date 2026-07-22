@@ -1574,7 +1574,7 @@ const ITEM_LORE = {
   },
   'thornroot-seed': {
     origin: 'bryngloom-forest',
-    loreText: 'The Thorn-Speaker of the Trueborn Briaran blessed this seed before the Great Revision. Planted, it would grow into a tree that remembers what the fog erased.',
+    loreText: 'The Thorn-Speaker of the Trueborn Florae blessed this seed before the Great Revision. Planted, it would grow into a tree that remembers what the fog erased.',
     relatedLore: ['bryngloom-forest', 'thorn-speaker', 'the-great-revision']
   },
   'ash-cleave': {

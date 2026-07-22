@@ -2,8 +2,8 @@ export const groven = {
   id: 'groven',
   name: 'Groven',
   essence: 'The Living Bridges of Cragjaw Peaks',
-  illustration: '/assets/images/races/groven_illustration.png',
-  illustrationCaption: 'An Ithran toll-keeper with polished stone-scales and a cyber-rune plate jaw standing on an Ancestor-Span above the blizzard-wrapped Cragjaw Peaks.',
+  illustration: '/assets/images/races/morgh_sentinel.jpg',
+  illustrationCaption: 'A Morgh Groven stone warrior with slate-grey granite skin, subtle flint tusks, and fur-lined iron plate armor standing guard atop a soaring mountain fortress.',
   cardFlavor: 'Once monumental living landmarks, their bodies were engineered by Fexric alchemists who flayed away their stone tusks to break their bond to the earth.',
   visualDescription: `Tall and slender, standing 6'6" to 7'2", with blue-grey draconic and mineral scales covering their forehead, cheekbones, neck, and arms with clawed hands. Males feature backward-curving dark mineral horns along their crown. Both genders possess high sharp troll cheekbones, long pointed ears with silver rings/hoops, clean jawlines, and braided dreadlocked hair adorned with silver wire and stone beads. Morgh Groven are heavier with dense slate-grey granite hide and lower flint tusks; Ithran Groven are slender dragon-scaled diplomats with tailored green-and-gold lichen coats.`,
   description: `**[The Living Bridges]**, *Standing atop an ancient stone span spanning a mountain abyss, a blue-grey dragon-scaled Ithran diplomat weighs coin-tolls on a brass balance scale while cantilevered homes hang beneath the bridge arches.*

@@ -23,7 +23,7 @@ export const ARCANONEER_DATA = {
       "mimir",
       "groven",
       "myrathil",
-      "briaran"
+      "florae"
     ],
     "narrativeUnlock": false,
     "justification": "Elemental weaving requires discipline and calculation uncommon among other races. The Velun Neth originated the craft through contract-syntax, Fexric adapted it through precision engineering. Both approaches demand a cultural affinity for structured, high-stakes combination work."

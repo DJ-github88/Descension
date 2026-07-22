@@ -7,7 +7,7 @@ export const ANIMIST_DATA = {
           "silath_astril",
           "morgh_groven",
           "thrask_emberth",
-          "trueborn_briaran"
+          "florae_unified"
       ],
       "hardBlocks": [
           "emberth",
@@ -197,7 +197,7 @@ The Morgh Groven carry the most literal version of the art. The Still-Claiming a
 
 The Waste-Solari adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Waste-Solari believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Waste-Solari does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythrill preserved in the muscle memory of hands that learned from hands.
 
-The Trueborn Briaran adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Trueborn channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Briaran who died before their debt was paid.
+The Trueborn Florae adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Trueborn channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Florae who died before their debt was paid.
 
 The ancestral language that all practitioners share is fading. The older dead, those who died before the Dimming, still speak clearly. The newer dead are increasingly confused. Something is wrong with death itself. The Monoliths' awakening is accelerating the erosion, and the youngest practitioners, those who attempt to carry too many voices, are suffering complete sensory collapse. The current leader, Bayar Wind-Throat, is one of the last who can still sing the pre-fracture tongue. She operates from the Sundrift Wind-Shrine, a moving camp that follows the migration routes her ancestors mapped before the stars went out.`,
 

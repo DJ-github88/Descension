@@ -128,9 +128,9 @@ const getSubraceImage = (subraceId, raceId) => {
     shoreling_myrathil: 'shore_illustration.png',
     deepling_myrathil: 'deep_illustration.png',
     riverling_myrathil: 'brook_illustration.png',
-    // Briaran
-    trueborn_briaran: 'trueborn_illustration.png',
-    shorn_briaran: 'shorn_illustration.png',
+    // Florae
+    florae_unified: 'trueborn_illustration.png',
+    florae_unified: 'shorn_illustration.png',
     // Solari
     korr_emberth: 'korr_illustration.png',
     thrask_emberth: 'thrask_illustration.png',

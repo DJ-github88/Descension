@@ -2038,6 +2038,10 @@ button.gender-option.selected {
         padding: var(--my-space-mobile-3) var(--my-space-mobile-4) !important;
         min-height: 60px !important;
         flex-shrink: 0 !important;
+        /* Soften the chunky desktop "3px double" border that reads as a hard
+           square edge on mobile. Use a single thin hairline instead. */
+        border-bottom: 1px solid rgba(153, 126, 85, 0.22) !important;
+        border-radius: 0 !important;
     }
 
     .character-wizard-container .wizard-header {
@@ -2062,6 +2066,11 @@ button.gender-option.selected {
         min-height: 0 !important;
         -webkit-overflow-scrolling: touch !important;
         overscroll-behavior: contain !important;
+        /* Reclaim the dead right-side bar: the base rule reserves a permanent
+           scrollbar gutter (scrollbar-gutter: stable) which on mobile shows up
+           as a ~15px empty strip down the right of every step. Mobile scrollbars
+           are overlay/thin, so we don't need to reserve space for them. */
+        scrollbar-gutter: auto !important;
     }
 
     .character-wizard-container .wizard-step-container {
@@ -11180,11 +11189,11 @@ button.gender-option.selected {
 
 .lore-header {
     background: rgba(252, 249, 240, 0.94) !important;
-    border: 3px double #997e55 !important;
+    border: 3px double #2f5f57 !important;
     border-radius: 14px;
     padding: 0 !important;
     margin-bottom: 2.25rem;
-    box-shadow: inset 0 0 24px rgba(153, 126, 85, 0.15), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: inset 0 0 24px rgba(47, 95, 87, 0.12), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
     text-align: center;
     overflow: hidden;
 }
@@ -11194,14 +11203,14 @@ button.gender-option.selected {
     font-family: 'Cinzel', serif;
     font-size: 1.25rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%) !important;
+    background: linear-gradient(135deg, #234540 0%, #2f5f57 50%, #234540 100%) !important;
     color: #fbf8f0 !important;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
     padding: 1rem 1.5rem !important;
-    border-bottom: 3px double #997e55 !important;
+    border-bottom: 3px double #2f5f57 !important;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -11223,7 +11232,7 @@ button.gender-option.selected {
 
 .lore-group {
     background: rgba(255, 254, 250, 0.96);
-    border: 1.5px solid rgba(212, 175, 55, 0.35);
+    border: 1.5px solid rgba(47, 95, 87, 0.30);
     border-radius: 14px;
     margin-bottom: 1.5rem;
     overflow: hidden;
@@ -11231,20 +11240,21 @@ button.gender-option.selected {
 }
 
 .lore-group-header {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(248, 245, 235, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(47, 95, 87, 0.12) 0%, rgba(248, 245, 235, 0.92) 100%);
     padding: 0.75rem 1.25rem;
-    border-bottom: 1.5px solid rgba(212, 175, 55, 0.25);
+    border-bottom: 1.5px solid rgba(47, 95, 87, 0.25);
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-family: 'Cinzel', serif;
     font-weight: 700;
     font-size: 0.85rem;
-    color: #8b4513;
+    color: #234540;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
+/* Gold icon on teal = complementary pop, ties back to the app's gold accent */
 .lore-group-header i {
     color: #d4af37;
 }
@@ -11261,7 +11271,7 @@ button.gender-option.selected {
 
 .lore-field-container {
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(47, 95, 87, 0.10);
 }
 
 .lore-field-container:last-child {
@@ -11275,7 +11285,7 @@ button.gender-option.selected {
     font-family: 'Cinzel', serif;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #8b4513;
+    color: #2f5f57;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 0.5rem;
@@ -11291,7 +11301,7 @@ button.gender-option.selected {
     font-family: 'Garamond', serif;
     font-size: 0.78rem;
     font-style: italic;
-    color: #b08d57;
+    color: #6b7a6e;
     margin: -0.35rem 0 0.5rem 0;
     letter-spacing: 0.3px;
 }
@@ -11299,7 +11309,7 @@ button.gender-option.selected {
 .lore-field-input {
     width: 100%;
     padding: 0.65rem 0.85rem;
-    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    border: 1.5px solid rgba(47, 95, 87, 0.25);
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.8);
     color: #1a1208;
@@ -11311,6 +11321,7 @@ button.gender-option.selected {
     line-height: 1.5;
 }
 
+/* Keep the app-wide gold focus ring for consistency across the wizard */
 .lore-field-input:focus {
     outline: none;
     border-color: #d4af37;
@@ -11320,6 +11331,69 @@ button.gender-option.selected {
 
 .lore-field-input::placeholder {
     color: rgba(93, 64, 55, 0.45);
+}
+
+/* ============================================================
+   MOBILE REDESIGN — Lore / Backstory step (<= 768px)
+   Placed AFTER the base lore rules so it wins source-order ties.
+   Fixes: overflowing 2-col layout, tiny paired textareas, iOS zoom.
+   ============================================================ */
+@media (max-width: 768px) {
+    /* The lore frame was rendering at 412px (overflowing the 375px step)
+       because a flex/nowrap two-pane layout wouldn't collapse. Force a
+       single column that respects the step width. */
+    .lore-details-layout {
+        display: block !important;
+        flex-direction: column !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .lore-section {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .lore-group {
+        margin-bottom: 0.75rem !important;
+        border-radius: 10px !important;
+    }
+
+    .lore-group-header {
+        padding: 0.6rem 0.85rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* CRITICAL: stack the two-column field pairs into one full-width column
+       so textareas are usable for typing (were ~105px wide). */
+    .lore-group-fields,
+    .lore-group-fields.two-col {
+        grid-template-columns: 1fr !important;
+    }
+
+    .lore-field-container {
+        padding: 0.75rem 0.85rem !important;
+    }
+
+    .lore-field-label {
+        font-size: 0.74rem !important;
+        margin-bottom: 0.35rem !important;
+    }
+
+    .lore-field-hint {
+        font-size: 0.72rem !important;
+    }
+
+    /* 16px prevents iOS Safari auto-zoom-on-focus. Was 0.9rem (14.4px). */
+    .lore-field-input {
+        font-size: 16px !important;
+        padding: 0.6rem 0.75rem !important;
+        border-radius: 8px !important;
+    }
 }
 
 /* ============================================================
@@ -12702,6 +12776,7 @@ button.gender-option.selected {
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 }
 
@@ -12754,7 +12829,8 @@ button.gender-option.selected {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
 }
 
 .spellbook-icon-card.selected .spell-name-lbl {
@@ -12883,6 +12959,12 @@ button.gender-option.selected {
     transition: all 0.2s ease !important;
     box-sizing: border-box !important;
     height: 52px !important;
+    /* CRITICAL: grid items default to min-width:auto, which stops columns
+       shrinking below the nowrap label's intrinsic width and overflows the
+       container (caused the 493px horizontal scroll in the Origins grid).
+       min-width:0 lets the label's overflow:hidden actually clip. */
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
 
 .background-button-token:hover {
@@ -13133,6 +13215,7 @@ button.gender-option.selected {
     width: 100% !important;
     height: 100% !important;
     position: relative !important;
+    overflow: visible !important;
 }
 
 /* The Parchment Page */
@@ -13152,7 +13235,7 @@ button.gender-option.selected {
     gap: 1.25rem !important;
     box-shadow: -5px 5px 20px rgba(46, 30, 15, 0.15) !important;
     position: relative !important;
-    height: calc(100% - 37px) !important;
+    height: 100% !important;
     z-index: 2 !important;
 }
 
@@ -13183,60 +13266,164 @@ button.gender-option.selected {
     pointer-events: none !important;
 }
 
-/* Grimoire Horizontal Tabs (Bookmarks) - Positioned on the Top */
-.grimoire-tabs {
+/* Grimoire Section Nav Dots (outside parchment, far right edge) */
+.grimoire-section-nav {
+    position: absolute !important;
+    top: 50px !important;
+    right: -22px !important;
     display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-end !important;
-    justify-content: flex-start !important;
-    gap: 0.5rem !important;
-    padding-top: 0 !important;
-    padding-left: 1rem !important;
-    width: auto !important;
-    height: 40px !important;
-    margin-left: 0 !important;
-    margin-bottom: -3px !important; /* Overlap top page border */
-    background: transparent !important;
-    z-index: 10 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    z-index: 25 !important;
+    background: #f4efe1 !important;
+    border-radius: 20px !important;
+    padding: 0.4rem 0.3rem !important;
+    border: 1px solid #7a5a35 !important;
+    box-shadow: 2px 2px 8px rgba(46, 30, 15, 0.15) !important;
 }
 
-.grimoire-tab-button {
-    width: 52px !important;
-    height: 36px !important;
+.grimoire-nav-dot {
+    width: 34px !important;
+    height: 34px !important;
     background: #dcd0b4 !important;
-    border: 1px solid #7a5a35 !important;
-    border-bottom: none !important; /* Blend straight into page top border */
-    border-radius: 8px 8px 0 0 !important; /* Rounded on top */
+    border: 1px solid #a08050 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #a08050 !important;
+    font-size: 0.9rem !important;
+    opacity: 0.45 !important;
+    cursor: default !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+}
+
+.grimoire-nav-dot.available {
+    background: #f4efe1 !important;
+    border-color: #7a5a35 !important;
+    color: #7a5a35 !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 4px rgba(122, 90, 53, 0.2) !important;
+}
+
+.grimoire-nav-dot.available:hover {
+    background: #eedfc2 !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 2px 8px rgba(122, 90, 53, 0.3) !important;
+}
+
+.grimoire-dot-pixel-icon {
+    width: 20px !important;
+    height: 20px !important;
+    object-fit: contain !important;
+}
+
+/* Grimoire Stacked Sections (all lore on one scrollable page) */
+.grimoire-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+.grimoire-section-divider {
+    width: 100% !important;
+    height: 1px !important;
+    background: linear-gradient(to right, transparent, #7a5a35, transparent) !important;
+    margin: 1rem 0 1.25rem !important;
+    position: relative !important;
+}
+
+.grimoire-section-divider::after {
+    content: '❦' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: #f4efe1 !important;
+    padding: 0 0.75rem !important;
+    color: #7a5a35 !important;
+    font-size: 0.9rem !important;
+}
+
+.grimoire-empty-section {
+    opacity: 0.6 !important;
+}
+
+/* Zoomable images */
+.grimoire-zoomable {
+    cursor: zoom-in !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.grimoire-zoomable:hover {
+    transform: scale(1.03) !important;
+    box-shadow: 0 4px 16px rgba(46, 30, 15, 0.3) !important;
+}
+
+/* Image Lightbox Overlay */
+.grimoire-lightbox-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(30, 20, 10, 0.85) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 9999 !important;
+    cursor: pointer !important;
+    animation: lightboxFadeIn 0.2s ease !important;
+}
+
+@keyframes lightboxFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.grimoire-lightbox-content {
+    position: relative !important;
+    max-width: 80vw !important;
+    max-height: 85vh !important;
+    cursor: default !important;
+}
+
+.grimoire-lightbox-img {
+    max-width: 80vw !important;
+    max-height: 85vh !important;
+    object-fit: contain !important;
+    border-radius: 8px !important;
+    border: 3px solid #7a5a35 !important;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.grimoire-lightbox-close {
+    position: absolute !important;
+    top: -12px !important;
+    right: -12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    border: 2px solid #7a5a35 !important;
+    background: #f4efe1 !important;
+    color: #5a3d1d !important;
+    font-size: 0.9rem !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    color: #5a3d1d !important;
-    font-size: 1.1rem !important;
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.1) !important;
+    z-index: 10 !important;
+    transition: all 0.2s ease !important;
     padding: 0 !important;
 }
 
-.grimoire-tab-button:hover {
-    background: #eedfc2 !important;
-    color: #2e1e0f !important;
-    transform: translateY(-4px) !important; /* Slide up on hover */
-    box-shadow: 2px -3px 8px rgba(0, 0, 0, 0.15) !important;
-}
-
-.grimoire-tab-button.active {
-    background: #f4efe1 !important;
-    color: #7a5a35 !important;
-    height: 40px !important; /* Extend further down */
-    border-bottom: 2px solid #f4efe1 !important; /* blend into page */
-    margin-bottom: -1px !important;
-    box-shadow: 2px -4px 10px rgba(46, 30, 15, 0.2) !important;
-    z-index: 12 !important;
-}
-
-.grimoire-tab-button.active i {
-    text-shadow: 0 0 4px rgba(153, 126, 85, 0.3) !important;
+.grimoire-lightbox-close:hover {
+    background: #7a5a35 !important;
+    color: #f4efe1 !important;
+    transform: scale(1.1) !important;
 }
 
 /* Grimoire Details Styles */
@@ -13451,16 +13638,6 @@ button.gender-option.selected {
     font-size: 0.82rem !important;
     color: #5a3d1d !important;
     line-height: 1.35 !important;
-}
-
-/* Grimoire Class Pixel Icons styling */
-.grimoire-tab-pixel-icon {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 4px !important;
-    object-fit: contain !important;
-    display: block !important;
-    margin: 0 auto !important;
 }
 
 .grimoire-header-pixel-icon {
@@ -14203,6 +14380,10 @@ button.gender-option.selected {
         min-height: auto !important;
         flex-wrap: nowrap !important;
         justify-content: space-between !important;
+        /* Soften the desktop "3px double" hard edge into a thin hairline on
+           mobile (declared after the base rule at L11579 so it wins). */
+        border-bottom: 1px solid rgba(153, 126, 85, 0.22) !important;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05) !important;
     }
 
     .character-wizard-container .header-left {
@@ -14219,8 +14400,34 @@ button.gender-option.selected {
         min-width: 0 !important;
     }
 
+    .character-wizard-container .header-left,
+    .character-wizard-container .header-right {
+        /* Mobile: stop floating over the centered step row. Participate in the
+           normal flex row so Previous/Next can't overlap the step circles. */
+        position: static !important;
+        z-index: auto !important;
+        /* The base rule vertically-centers these via translateY(-50%) for their
+           desktop absolute positioning. Now that they're in normal flow that
+           transform shunts them above the header (y:-18). Kill it. */
+        transform: none !important;
+        top: auto !important;
+        align-self: center !important;
+    }
+
     .character-wizard-container .header-right {
         flex: 0 0 auto !important;
+    }
+
+    /* Hide the step-row scrollbar but keep touch scrolling (native-app feel).
+       Content fits on phones, but on very small devices you can still swipe. */
+    .character-wizard-container .header-center {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: none !important;          /* Firefox */
+        -ms-overflow-style: none !important;       /* IE/legacy Edge */
+    }
+    .character-wizard-container .header-center::-webkit-scrollbar {
+        display: none !important;                  /* Chromium/Safari */
     }
 
     /* Compact Cancel so the whole row fits */
@@ -14230,12 +14437,23 @@ button.gender-option.selected {
         font-size: 0.8rem !important;
     }
 
-    /* Slightly smaller arrow buttons on phones */
+    /* Nav arrows: match the step-circle height so the whole row reads as one
+       unified stepper (was 44px — taller than the 36px circles, looked
+       mismatched). Override the .wizard-btn min-height too. */
     .character-wizard-container .wizard-btn-icon {
-        width: 34px !important;
-        height: 34px !important;
-        min-width: 34px !important;
-        font-size: 0.9rem !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        font-size: 0.95rem !important;
+        padding: 0 !important;
+    }
+
+    /* The Previous arrow is redundant on mobile — the step circles are directly
+       tappable for back-navigation — and on step 5 the wider Create button plus
+       Cancel + Previous + 5 circles overcrowded/cut off the header. Drop it. */
+    .character-wizard-container .wizard-btn-icon[aria-label="Previous step"] {
+        display: none !important;
     }
 
     /* Compact Create button on the final step */
@@ -14263,14 +14481,15 @@ button.gender-option.selected {
         display: none !important;
     }
 
+    /* Step indicators: match the nav-arrow height (36px) for one unified row. */
     .character-wizard-container .step-circle-horizontal {
-        width: 26px !important;
-        height: 26px !important;
-        min-width: 26px !important;
-        min-height: 26px !important;
-        max-width: 26px !important;
-        max-height: 26px !important;
-        font-size: 0.78rem !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        max-width: 36px !important;
+        max-height: 36px !important;
+        font-size: 0.85rem !important;
         border-width: 2px !important;
     }
 
@@ -14279,16 +14498,16 @@ button.gender-option.selected {
     }
 }
 
-/* Very small phones: shrink dots + buttons so everything fits one row */
+/* Very small phones: keep touch targets usable while fitting one row */
 @media (max-width: 360px) {
     .character-wizard-container .step-circle-horizontal {
-        width: 22px !important;
-        height: 22px !important;
-        min-width: 22px !important;
-        min-height: 22px !important;
-        max-width: 22px !important;
-        max-height: 22px !important;
-        font-size: 0.68rem !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        font-size: 0.72rem !important;
     }
 
     .character-wizard-container .progress-steps-horizontal {
@@ -14301,10 +14520,10 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-btn-icon {
-        width: 30px !important;
-        height: 30px !important;
-        min-width: 30px !important;
-        font-size: 0.82rem !important;
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        font-size: 0.9rem !important;
     }
 
     .character-wizard-container .header-right .wizard-btn-create {
@@ -14341,12 +14560,16 @@ button.gender-option.selected {
         overflow-y: visible !important;
         height: auto !important;
         padding-right: 0 !important;
+        min-width: 0 !important;
     }
     
     .spellbook-icon-grid {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)) !important;
         gap: 0.5rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
     }
     
     .spellbook-spell-detail-side {
@@ -14377,5 +14600,48 @@ button.gender-option.selected {
         align-items: center !important;
         justify-content: space-between !important;
         padding: 1rem !important;
+    }
+}
+
+/* ============================================================
+   MOBILE: "A Rare Path" justification modal (narrative-unlock)
+   The markup uses inline styles (maxWidth 550 / width 90% /
+   padding 2rem, center-aligned, no scroll). On a phone the
+   content is ~1090px tall in an 844px viewport and gets clipped
+   top AND bottom, so the Confirm/Cancel buttons are unreachable.
+   Override the inline styles with !important.
+   ============================================================ */
+@media (max-width: 768px) {
+    .justification-modal-overlay {
+        /* allow the tall modal to scroll, and anchor it to the top so the
+           whole thing is reachable by swiping down. */
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        align-items: flex-start !important;
+        padding: 1rem 0 !important;
+    }
+
+    .justification-modal-content {
+        /* reclaim the wasted 2rem padding and 90% width so text wraps less
+           and the modal shortens. */
+        width: calc(100% - 24px) !important;
+        max-width: none !important;
+        padding: 1.1rem !important;
+        margin: 0 auto !important;
+    }
+
+    .justification-modal-content h3 {
+        font-size: 1.2rem !important;
+    }
+
+    .justification-modal-content p {
+        font-size: 0.92rem !important;
+        line-height: 1.45 !important;
+        margin: 0.6rem 0 !important;
+    }
+
+    /* 16px prevents iOS Safari auto-zoom-on-focus (inline set 0.9rem). */
+    .justification-modal-content textarea {
+        font-size: 16px !important;
     }
 }

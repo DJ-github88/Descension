@@ -12,7 +12,7 @@ export const SHAPER_DATA = {
           "emberth",
           "neth",
           "myrathil",
-          "briaran"
+          "florae"
       ],
       "narrativeUnlock": false,
       "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Solari bodies are too mineral-dense. Neth bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."

@@ -95,7 +95,7 @@ export const ZONE_DATA = [
  "description": "The deepest, darkest grove in the Frostwood Reach, where the ironwoods grow so dense that the mist forms a heavy, stagnant lake on the forest floor. At its center stands a titanic, glowing white tree whose sap remains warm, attracting both desperate survivalists and horrific predators.",
  "dangerLevel": "extreme",
  "factions": [
-  "trueborn-briaran"
+  "trueborn-florae"
  ],
  "connections": [
   "the-shallows",
@@ -130,11 +130,11 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Greythorn Copse",
  "type": "settlement",
- "description": "A fortified copse of ironwood trees on the trade route between Greymark and the eastern fens, maintained jointly by Thalren timber-wardens and Briaran thorn-tenders. The trees here grow deliberately tangled, a living wall of iron-hard thorns that funnels all traffic through a single, watched gate.",
+ "description": "A fortified copse of ironwood trees on the trade route between Greymark and the eastern fens, maintained jointly by Thalren timber-wardens and Florae thorn-tenders. The trees here grow deliberately tangled, a living wall of iron-hard thorns that funnels all traffic through a single, watched gate.",
  "dangerLevel": "low",
  "factions": [
   "Thalren Trappers",
-  "Trueborn Briaran"
+  "Trueborn Florae"
  ],
  "connections": [
   "wraithfen",
@@ -147,10 +147,10 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Bramble Heath",
  "type": "wilderness",
- "description": "An open stretch of thorn-covered heathland at the forest edge where the ironwood canopy breaks and the fog thins for the first time. Briaran rangers patrol here, tending the thorn-barriers that mark the boundary between the Reach and the lowland approaches. The heath is beautiful in a savage way, crimson thorn-flowers bloom year-round in soil nourished by centuries of blood.",
+ "description": "An open stretch of thorn-covered heathland at the forest edge where the ironwood canopy breaks and the fog thins for the first time. Florae rangers patrol here, tending the thorn-barriers that mark the boundary between the Reach and the lowland approaches. The heath is beautiful in a savage way, crimson thorn-flowers bloom year-round in soil nourished by centuries of blood.",
  "dangerLevel": "medium",
  "factions": [
-  "Trueborn Briaran"
+  "Trueborn Florae"
  ],
  "connections": [
   "greythorn-copse",
@@ -2220,10 +2220,10 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Mistbarrow",
  "type": "ruin",
- "description": "A pre-Thalreth burial mound on the eastern edge of the Reach, untouched by the memory-fog for reasons no Scribe-Sentinel has ever been able to explain. The barrow predates House Thalreth; the original inhabitants are unknown. The Mist-Sentinels are forbidden to enter; the Briaran come here to grieve for the Forgotten who have no other grave.",
+ "description": "A pre-Thalreth burial mound on the eastern edge of the Reach, untouched by the memory-fog for reasons no Scribe-Sentinel has ever been able to explain. The barrow predates House Thalreth; the original inhabitants are unknown. The Mist-Sentinels are forbidden to enter; the Florae come here to grieve for the Forgotten who have no other grave.",
  "dangerLevel": "medium",
  "factions": [
-  "Trueborn Briaran (pilgrims)"
+  "Trueborn Florae (pilgrims)"
  ],
  "connections": [
   "the-shifting-fen"

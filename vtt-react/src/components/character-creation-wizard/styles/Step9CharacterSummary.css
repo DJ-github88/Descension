@@ -995,11 +995,16 @@
         gap: 0.5rem !important;
     }
 
-    /* Detail grids go single-column */
+    /* Detail grids go single-column on phones — two columns overflowed because
+       the detail items can't shrink below their content width (right side was
+       spilling off-screen). */
     .detail-grid {
-        grid-template-columns: 1fr 1fr !important;
+        grid-template-columns: 1fr !important;
         gap: 0.4rem !important;
         font-size: 0.8rem !important;
+    }
+    .detail-item {
+        min-width: 0 !important;
     }
 
     /* Spell grid wraps */

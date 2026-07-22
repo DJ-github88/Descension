@@ -23,7 +23,7 @@ const NPC_PORTRAITS = {
   },
   'Sylvain the Exile': {
     url: '/assets/images/portraits/sylvain_unwoven.png',
-    caption: 'Sylvain the Exile, a Briaran rebel leader with a prosthetic wooden arm containing a bound soul.'
+    caption: 'Sylvain the Exile, a Florae rebel leader with a prosthetic wooden arm containing a bound soul.'
   },
   'Jarl Eirik Skalvyr': {
     url: '/assets/images/portraits/eirik_skalvyr.png',

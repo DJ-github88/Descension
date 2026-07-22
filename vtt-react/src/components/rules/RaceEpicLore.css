@@ -127,148 +127,96 @@
     z-index: 1;
 }
 
-/* ─── Ribbon Bookmarks (Fabric ribbons hanging from book bottom edge) ─── */
+/* ─── Tome Navigation Index Tabs (Protruding from top edge of book) ─── */
 .tome-bookmarks {
     position: absolute;
-    bottom: 0;
+    top: -36px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 4px;
-    z-index: 12;
-    padding-bottom: 4px;
+    gap: 6px;
+    z-index: 100;
+    padding: 0 10px;
 }
 
 .tome-bookmark {
     position: relative;
-    border: none;
-    border-radius: 0;
-    padding: 0 14px 28px;
-    color: #fcf7ee;
+    border: 1.5px solid rgba(200, 170, 110, 0.5);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 8px 16px;
+    color: #d4c5a9;
+    background: linear-gradient(180deg, #2b2018 0%, #17120e 100%);
     font-family: 'Cinzel', serif;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    gap: 4px;
-    width: 70px;
-    min-height: 70px;
-    transform-origin: top center;
-    transition: all 0.25s ease;
-    /* Ribbon body with fabric gradient */
-    background: linear-gradient(90deg, 
-        rgba(0,0,0,0.15) 0%, 
-        rgba(255,255,255,0.1) 30%, 
-        rgba(255,255,255,0.15) 50%, 
-        rgba(255,255,255,0.1) 70%, 
-        rgba(0,0,0,0.15) 100%
-    );
-    /* V-cut at the bottom */
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), 50% 100%, 0 calc(100% - 12px));
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    min-height: 36px;
+    transform-origin: bottom center;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    clip-path: none;
 }
 
-/* The fold crease at top of ribbon */
 .tome-bookmark::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 8px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 100%);
-    z-index: 2;
+    display: none;
 }
 
-/* Fabric sheen highlight */
 .tome-bookmark::after {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: calc(100% - 24px);
-    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 80%);
-    pointer-events: none;
-}
-
-/* Ribbon tail notch - separate element for the forked tail effect */
-.tome-bookmark span:last-child {
-    margin-top: auto;
+    display: none;
 }
 
 .tome-bookmark i {
     font-size: 12px;
-    margin-top: 6px;
-    position: relative;
-    z-index: 1;
+    color: #c5a146;
+    transition: transform 0.2s ease;
 }
 
-/* Individual ribbon colors */
-.tome-bookmark[data-tab="history"] {
-    background-color: #8b4513;
-    background-image: 
-        linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px 0 2px rgba(0,0,0,0.2);
-}
-.tome-bookmark[data-tab="figures"] {
-    background-color: #b8860b;
-    background-image: 
-        linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px 0 2px rgba(0,0,0,0.2);
-}
-.tome-bookmark[data-tab="locations"] {
-    background-color: #2e5a4c;
-    background-image: 
-        linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px 0 2px rgba(0,0,0,0.2);
-}
-.tome-bookmark[data-tab="crisis"] {
-    background-color: #8b1a1a;
-    background-image: 
-        linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px 0 2px rgba(0,0,0,0.2);
-}
-.tome-bookmark[data-tab="practices"] {
-    background-color: #4a3a5c;
-    background-image: 
-        linear-gradient(90deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 70%, rgba(0,0,0,0.2) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.4), -1px 0 2px rgba(0,0,0,0.2);
-}
-
-/* Hover - ribbon sways and lifts */
 .tome-bookmark:hover {
-    transform: translateY(3px) rotate(1deg);
-    filter: brightness(1.15);
-    box-shadow: 3px 4px 10px rgba(0,0,0,0.5), -1px 0 3px rgba(0,0,0,0.3);
+    background: linear-gradient(180deg, #3d2f23 0%, #221b14 100%);
+    border-color: #c5a146;
+    color: #f6ebd6;
+    transform: translateY(-3px);
+    box-shadow: 0 -6px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(197, 161, 70, 0.2);
 }
 
-/* Active ribbon - pulled down and highlighted */
+.tome-bookmark:hover i {
+    transform: scale(1.15);
+}
+
+/* Active index tab - elevated with gold fill */
 .tome-bookmark.active {
-    padding-bottom: 40px;
-    min-height: 86px;
-    filter: brightness(1.2) saturate(1.2);
-    box-shadow: 
-        3px 5px 12px rgba(0,0,0,0.5),
-        0 0 8px rgba(255,215,0,0.3),
-        inset 0 0 12px rgba(255,255,255,0.1);
-    z-index: 2;
+    background: linear-gradient(180deg, #d4af37 0%, #99782b 100%) !important;
+    border-color: #ffe89e !important;
+    color: #14110f !important;
+    font-weight: 800;
+    height: 40px;
+    min-height: 40px;
+    transform: translateY(-4px);
+    box-shadow: 0 -6px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    z-index: 105;
 }
 
-/* Gold edge highlight on active */
-.tome-bookmark.active::before {
-    background: linear-gradient(180deg, rgba(197,161,70,0.6) 0%, transparent 100%);
-    height: 10px;
+.tome-bookmark.active i {
+    color: #14110f !important;
+}
+
+/* ─── Pages Scroll Container ─── */
+.tome-pages-scroll-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
 }
 
 /* ─── Pages ─── */
@@ -849,156 +797,291 @@
     opacity: 0.8;
 }
 
-/* ─── Dynamic Responsive Design ─── */
-@media (max-width: 1024px) {
-    .race-epic-lore-container {
-        height: 92vh;
-        max-height: 920px;
-    }
-}
-
+/* ─── Mobile Pagination Bar (Shown on small screens) ─── */
 @media (max-width: 768px) {
-    /* Collapse the double-page spread into a single page tome layout gracefully! */
+    .race-epic-lore-container {
+        height: 100%;
+        max-height: 100%;
+        min-height: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tome-header-bar {
+        padding: 4px 8px;
+        margin-bottom: 2px;
+        flex-shrink: 0;
+    }
+
+    .tome-header-title {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+    }
+
+    .tome-close-btn {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+
+    /* Spread Container on mobile */
     .tome-spread-container {
         flex-direction: column;
-        border-width: 6px;
-    }
-    
-    .tome-spine {
-        width: 100%;
-        height: 12px;
-        flex-direction: row;
-        padding: 0 40px;
-        box-shadow: 
-            inset 0 4px 6px rgba(0, 0, 0, 0.4),
-            inset 0 -4px 6px rgba(0, 0, 0, 0.4);
-        background: linear-gradient(to bottom,
-            rgba(30, 20, 10, 0.45) 0%,
-            rgba(10, 5, 2, 0.85) 50%,
-            rgba(30, 20, 10, 0.5) 100%);
-    }
-    
-    .tome-spine-ring {
-        width: 20px;
-        height: 10px;
-        transform: rotate(90deg); /* Rotate binding rings horizontally! */
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    
-    .tome-page {
-        padding: 16px;
+        border-width: 4px;
+        border-radius: 10px;
         margin-top: 0;
-        margin-bottom: 50px;
-        height: calc(100% - 50px);
-    }
-    
-    .tome-page.left-page {
-        box-shadow: inset 0 -15px 25px rgba(60, 45, 30, 0.1);
-        height: auto;
-        min-height: 250px;
-        flex: none;
-        margin-bottom: 16px; /* spacing between collapsed sheets */
-    }
-    
-    .tome-page.right-page {
-        box-shadow: inset 0 15px 25px rgba(60, 45, 30, 0.1);
+        height: 100%;
+        min-height: 0;
         flex: 1;
+        overflow: hidden;
+        position: relative;
     }
-    
+
+    /* Bookmarks Ribbon - Sticky top tab strip on mobile */
     .tome-bookmarks {
-        position: absolute;
-        bottom: -46px;
-        top: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        justify-content: center;
-        padding: 0;
-        gap: 4px;
-        border-radius: 0;
-        width: 95%;
+        position: relative;
+        top: 0;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        transform: none;
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        padding: 6px 8px;
+        gap: 6px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        z-index: 100;
+        background: linear-gradient(180deg, #2b2018 0%, #1a140f 100%);
+        border-bottom: 2px solid var(--tome-gold);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        flex-shrink: 0;
+    }
+
+    .tome-bookmarks::-webkit-scrollbar {
+        display: none;
     }
     
     .tome-bookmark {
-        padding: 8px 10px 28px;
-        font-size: 8px;
-        border-radius: 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        clip-path: polygon(
-            0% 3px, 
-            50% 0%, 
-            100% 3%, 
-            100% calc(100% - 10px), 
-            50% 100%, 
-            0% calc(100% - 10px)
-        );
+        flex-shrink: 0;
+        padding: 6px 14px;
+        height: 34px;
+        min-height: 34px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        border-radius: 6px 6px 0 0;
+        border: 1px solid rgba(197, 161, 70, 0.3);
+        border-bottom: none;
+        background: rgba(0, 0, 0, 0.3);
+        color: #d4c5a9;
+        clip-path: none !important;
         transform: none !important;
-        animation: none !important;
+        box-shadow: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .tome-bookmark.active {
-        padding-bottom: 40px !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        padding-bottom: 6px !important;
+        background: linear-gradient(180deg, #d4af37 0%, #99782b 100%) !important;
+        border-color: #ffe89e !important;
+        color: #14110f !important;
+        font-weight: 800;
         transform: none !important;
+    }
+
+    .tome-bookmark.active i {
+        color: #14110f !important;
+    }
+    
+    .tome-bookmark-label {
+        display: inline-block;
+        white-space: nowrap;
+        font-family: 'Cinzel', serif;
+        font-weight: 700;
     }
     
     .tome-bookmark i {
-        font-size: 9px;
+        font-size: 12px;
+        color: var(--tome-gold);
+    }
+
+    /* Pages Scroll Container for mobile */
+    .tome-pages-scroll-container {
+        flex-direction: column;
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tome-spine {
+        width: 100%;
+        height: 6px;
+        flex-shrink: 0;
+        flex-direction: row;
+        padding: 0;
+        background: linear-gradient(to right, #423023 0%, var(--tome-gold) 50%, #423023 100%);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
     
+    .tome-spine-ring {
+        display: none;
+    }
+    
+    .tome-page {
+        padding: 10px 8px;
+        height: auto;
+        min-height: min-content;
+        flex: none;
+        overflow: visible;
+    }
+    
+    .tome-page.left-page {
+        box-shadow: none;
+        border-radius: 6px 6px 0 0;
+        margin-bottom: 0;
+    }
+    
+    .tome-page.right-page {
+        box-shadow: none;
+        border-radius: 0 0 6px 6px;
+    }
+
+    .tome-page-filigree {
+        padding: 12px 10px;
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    .tome-page-content {
+        overflow: visible !important;
+        padding-right: 0;
+    }
+
+    .tome-body-text {
+        text-align: left;
+        font-size: 15px;
+        line-height: 1.65;
+        margin-bottom: 12px;
+    }
+
+    .tome-drop-cap {
+        font-size: 2.8rem;
+        padding-right: 4px;
+    }
+
+    .tome-page-title {
+        font-size: 20px;
+    }
+
     .tome-illustration-frame {
-        width: 180px;
+        width: 100%;
+        max-width: 220px;
     }
     
     .tome-illustration-image {
-        height: 120px;
+        height: 130px;
     }
 
-    /* Edge turn controls positioning for mobile collapsed pages */
+    /* Hide desktop side edge navigation buttons on mobile */
     .tome-edge-nav-btn {
-        width: 40px;
-        height: 70px;
-        font-size: 14px;
+        display: none !important;
     }
-    .tome-edge-nav-btn.prev-btn {
-        left: -40px;
+
+    /* Mobile Pagination Bar */
+    .tome-mobile-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background: linear-gradient(180deg, #2b2018 0%, #17120e 100%);
+        border: 1px solid var(--tome-gold);
+        border-radius: 8px;
+        margin-top: 6px;
+        flex-shrink: 0;
+        z-index: 10;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
-    .tome-edge-nav-btn.next-btn {
-        right: -40px;
+
+    .tome-mobile-nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(180deg, #423023 0%, #2e2118 100%);
+        border: 1px solid var(--tome-border);
+        color: var(--tome-gold-bright);
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-family: 'Cinzel', serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.2s ease;
     }
-    .tome-edge-nav-btn.prev-btn:hover {
-        left: -44px;
+
+    .tome-mobile-nav-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        border-color: rgba(139, 115, 85, 0.2);
     }
-    .tome-edge-nav-btn.next-btn:hover {
-        right: -44px;
+
+    .tome-mobile-nav-btn:not(:disabled):active {
+        transform: scale(0.96);
+    }
+
+    .tome-mobile-page-indicator {
+        font-family: 'Cinzel', serif;
+        font-size: 11px;
+        color: #d4c5a9;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-weight: 600;
     }
 }
 
 @media (max-width: 480px) {
     .tome-header-bar {
-        padding: 8px 12px;
+        padding: 4px 6px;
     }
     
     .tome-header-title {
-        font-size: 11px;
+        font-size: 10px;
+        letter-spacing: 1px;
     }
     
-    .tome-bookmark-label {
-        display: none; /* Hide labels on smallest devices */
+    .tome-close-btn {
+        padding: 5px 10px;
+        font-size: 10px;
     }
     
-    .tome-bookmark i {
-        font-size: 14px;
+    .tome-bookmark {
+        padding: 5px 10px;
+        font-size: 10px;
+        gap: 4px;
     }
     
     .tome-stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        padding: 8px;
     }
     
-    .tome-stat-item.full-width {
-        grid-column: span 1;
+    .tome-stat-val {
+        font-size: 13px;
     }
     
     .tome-page-title {
-        font-size: 20px;
+        font-size: 18px;
     }
     
     .tome-body-text {
@@ -1006,6 +1089,23 @@
     }
     
     .tome-drop-cap {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
+    }
+
+    .tome-mobile-pagination {
+        padding: 6px 8px;
+        margin-top: 4px;
+    }
+
+    .tome-mobile-nav-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+    .tome-mobile-page-indicator {
+        font-size: 10px;
+        letter-spacing: 1px;
     }
 }
+
+

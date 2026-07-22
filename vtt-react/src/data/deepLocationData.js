@@ -57,8 +57,8 @@ DEEP_LOCATIONS['greymark-keep'] = {
    { date: 'in the early centuries of the Dimming', event: 'The Fogwood Schism: Thalren archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
    { date: 'around the time of the Mimir Purge', event: 'The Ledger Halls Collapse: original archives buried; the Great Forgetting begins' },
    { date: 'centuries into the Dimming', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
-   { date: 'centuries into the Dimming', event: 'Briaran raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
-   { date: 'centuries into the Dimming', event: 'The Briaran Uprising: Trueborn Briaran raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
+   { date: 'centuries into the Dimming', event: 'Florae raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
+   { date: 'centuries into the Dimming', event: 'The Florae Uprising: Trueborn Florae raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
    { date: 'centuries into the Dimming', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
    { date: 'in the later centuries of the Dimming', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
   ]
@@ -98,7 +98,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
    proprietor: 'Old Maren (Thalren human, retired Scribe-Sentinel)',
    notableFeatures: [
     'The Memory Wall: patrons pin notes to the wall, things they want to remember, and other patrons read them aloud to keep the memories alive',
-    'Fog-brew on tap; Maren claims the recipe was traded from the Briaran before the uprising'
+    'Fog-brew on tap; Maren claims the recipe was traded from the Florae before the uprising'
    ]
   }
  ],

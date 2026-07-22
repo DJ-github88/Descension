@@ -166,14 +166,16 @@
 .rules-sidebar.collapsed .rules-nav-category-btn::after {
   content: '';
   position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 3px !important;
+  max-width: 3px !important;
   height: 0;
   background: #c4a060;
   border-radius: 0 2px 2px 0;
   transition: height 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none !important;
 }
 
 .rules-sidebar.collapsed .rules-nav-category-btn:hover::after {
@@ -1511,7 +1513,35 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 /* Large tablets */
 @media (max-width: 1024px) {
   .rules-sidebar {
-    width: 280px;
+    width: 60px;
+  }
+
+  .rules-sidebar.collapsed {
+    width: 60px !important;
+  }
+
+  .rules-sidebar.collapsed .rules-nav-category-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 auto 6px auto !important;
+    background: linear-gradient(145deg, #28180e 0%, #150b06 100%) !important;
+    border: 1px solid #4a2e1c !important;
+    color: #c4a060 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .rules-sidebar.collapsed .rules-nav-category-btn .rules-nav-icon {
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 1.15rem !important;
+    color: #c4a060 !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .rules-content-area {
@@ -1520,12 +1550,6 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
   .rules-content-header h2 {
     font-size: 1.75rem;
-  }
-
-  /* Improve touch targets for tablets */
-  .rules-nav-category-btn {
-    min-height: 48px;
-    padding: 16px 24px;
   }
 
   .rules-nav-popout-item {

@@ -298,7 +298,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Sylvan' && (
                 <>
                   <li><i className="fas fa-check"></i> Fae entities who accepted House Viridane's counter-bargain</li>
-                  <li><i className="fas fa-check"></i> Briaran Trueborn who sing to their groves</li>
+                  <li><i className="fas fa-check"></i> Florae Trueborn who sing to their groves</li>
                   <li><i className="fas fa-check"></i> The Revel's endlessly-celebrating courtiers</li>
                   <li><i className="fas fa-check"></i> Moonlit groves where promises echo forever</li>
                 </>

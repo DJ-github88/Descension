@@ -114,7 +114,7 @@ const ROLLABLE_TABLES = {
       { min: 3, max: 4, result: 'Tracks in the frost, a Wyrd-creature passed this way within the hour' },
       { min: 5, max: 6, result: 'A geothermal spring, steaming in the cold' },
       { min: 7, max: 8, result: 'Sunken ruins half-swallowed by peat-bog' },
-      { min: 9, max: 10, result: 'A Briaran thorn-grove; the trees watch, and the thorns know your oaths' },
+      { min: 9, max: 10, result: 'A Florae thorn-grove; the trees watch, and the thorns know your oaths' },
       { min: 11, max: 12, result: 'A hunter\'s blind, recently abandoned, Apex-work, by the spoor-marks' },
       { min: 13, max: 14, result: 'A barrow-mound shrouded in fog; its cairn-symbols match no known house' },
       { min: 15, max: 16, result: 'A road-marker of bog-preserved ironwood, pointing to a holding' },

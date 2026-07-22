@@ -787,21 +787,11 @@ code {
 /* Touch device gesture improvements */
 @media (hover: none) and (pointer: coarse) {
 
-  /* Better tap targets for all interactive elements */
-  a,
-  button,
-  [role="button"],
-  [onclick],
-  .clickable,
+  /* Better tap targets for elements explicitly marked as tap-target */
   .tap-target {
     position: relative;
   }
 
-  a::after,
-  button::after,
-  [role="button"]::after,
-  [onclick]::after,
-  .clickable::after,
   .tap-target::after {
     content: '';
     position: absolute;
@@ -813,6 +803,7 @@ code {
     min-height: var(--my-touch-target-min);
     transform: translate(-50%, -50%);
     border-radius: inherit;
+    pointer-events: none;
   }
 
   /* Ripple effect for material design feel */
@@ -1125,5 +1116,70 @@ html.a11y-screen-reader *:focus {
   }
   .sw-update-content {
     justify-content: center;
+  }
+}
+
+/* ============================================================
+   MOBILE: hide all visible scrollbars (keep touch scrolling).
+   Mobile users know they can scroll; the scrollbar widgets just
+   steal horizontal space and look non-native. Scoped to phone/
+   tablet viewport widths so desktop keeps its scrollbars.
+   ============================================================ */
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    scrollbar-width: none !important;          /* Firefox */
+    -ms-overflow-style: none !important;        /* IE / legacy Edge */
+  }
+  *::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;                   /* Chromium / Safari */
+    -webkit-appearance: none !important;
+  }
+
+  /* ------------------------------------------------------------
+     Suppress hover-revealed tooltips on mobile.
+     Tapping a button fires a synthetic :hover, which pops these
+     open and eats screen space. !important overrides each
+     component's own `:hover { visibility: visible }` rule.
+     (JS-driven tooltips from useUnifiedTooltip are already
+     suppressed in the hook on mobile widths.)
+     ------------------------------------------------------------ */
+  .tooltip,
+  .wow-tooltip,
+  .item-tooltip,
+  .equipment-slot-tooltip,
+  .wow-progress-tooltip,
+  .item-tile-tooltip,
+  .damage-type-tooltip,
+  .exhaustion-hover-tooltip,
+  .checklist-hover-panel,
+  .step-tooltip,
+  .guest-tooltip,
+  .resource-tooltip,
+  .stat-tooltip {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  /* ------------------------------------------------------------
+     Prevent iOS Safari auto-zoom-on-focus. Any input below 16px
+     triggers the browser to zoom in when focused, which is jarring
+     and breaks layout. Force 16px for all form fields on mobile.
+     ------------------------------------------------------------ */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }

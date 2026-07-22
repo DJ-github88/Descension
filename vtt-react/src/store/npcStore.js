@@ -64,7 +64,7 @@ const NPC_DATA = {
       'Elara was born into the Thalreth household as a distant cousin, raised alongside the family but never in line for succession. At 16, she requested to be assigned to the High Hearth rather than trained in governance. She has tended the central fire for 36 years, longer than any previous Keeper. She knows the Hearth\'s secrets: including the hidden passage behind the throne that leads to the old Ledger Halls.',
     hooks: [
       'Elara knows about the hidden passage and might share its location with someone she trusts',
-      'She has been secretly corresponding with a Briaran elder about the history of the Fog Compact: knowledge that could destabilize House Thalreth'
+      'She has been secretly corresponding with a Florae elder about the history of the Fog Compact: knowledge that could destabilize House Thalreth'
     ]
   },
 
@@ -138,9 +138,9 @@ const NPC_DATA = {
     id: 'thorn-speaker',
     name: 'The Thorn-Speaker',
     title: 'Voice of the Ironwood',
-    race: 'Trueborn Briaran',
+    race: 'Trueborn Florae',
     gender: 'Female',
-    factionIds: ['trueborn-briaran'],
+    factionIds: ['trueborn-florae'],
     locationIds: ['ironwood-heart'],
     age: 'Unknown',
     status: 'Active',
@@ -149,10 +149,10 @@ const NPC_DATA = {
     personality:
       'The Thorn-Speaker has surrendered her birth name to the forest. She speaks for the ironwoods, and the ironwoods speak through her. She is patient, implacable, and utterly without fear of death. She has seen the Fog Compact\'s original text, and she knows exactly how to destroy it.',
     backstory:
-      'The current Thorn-Speaker earned her name during a Thorn-Walk that lasted nine days: the longest in Briaran history. When she returned, she could no longer speak human language for a full year. When her voice returned, it was forever changed, carrying the resonance of the forest. She has led the Briaran resistance against the Fog Compact for thirty years.',
+      'The current Thorn-Speaker earned her name during a Thorn-Walk that lasted nine days: the longest in Florae history. When she returned, she could no longer speak human language for a full year. When her voice returned, it was forever changed, carrying the resonance of the forest. She has led the Florae resistance against the Fog Compact for thirty years.',
     hooks: [
       'She is planning a raid on the Ledger Halls to burn the original Fog Compact text',
-      'She knows a secret path through the Briaran tunnels that bypasses the Scribe-Sentinels\' patrols'
+      'She knows a secret path through the Florae tunnels that bypasses the Scribe-Sentinels\' patrols'
     ]
   },
 
@@ -653,13 +653,13 @@ const NPC_DATA = {
     id: 'bri-vessela',
     name: 'Bri-Vessela',
     title: 'Keeper of the Phases (Regent of the Lunar Communion)',
-    race: 'Trueborn Briaran',
+    race: 'Trueborn Florae',
     gender: 'Female',
-    factionIds: ['lunar-communion', 'briaran-groves'],
+    factionIds: ['lunar-communion', 'florae-groves'],
     locationIds: ['frostwood-reach'],
     age: '63',
     status: 'Active: acting',
-    appearance: 'A senior Trueborn Briaran whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene\'s whispers reach her. She wears the ghost-metal regent\'s token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.',
+    appearance: 'A senior Trueborn Florae whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene\'s whispers reach her. She wears the ghost-metal regent\'s token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.',
     personality: 'Reluctant, theological, and increasingly frightened. Bri-Vessela is a scholar forced into power by Selene\'s silence. She spends her nights transcribing whispers she does not understand and her days pretending she does.',
     backstory: 'Regent of the Lunar Communion in Selene\'s silence, Bri-Vessela leads only because the alternative was civil war between the caste-factions. The elder parasites are synchronizing every Lunarch\'s phases toward an unknown convergence, and Selene\'s whispers are, she has begun to suspect, not madness but instructions: the hatching-song of the fallen star.',
     hooks: [

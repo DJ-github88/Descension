@@ -364,7 +364,7 @@ const TRADE_ROUTES = [
     "cargo": "Frostwood timber, memory-ink, ironwood → Sundale sulfur, volcanic coal, forged arms",
     "established": "Year ~40 (Dimming)",
     "status": "active",
-    "history": "The oldest overland route. Established by Greymark Keep to trade for Sundale's volcanic warmth. The Scribe-Cartel taxes ink shipments. Briaran raiders target timber caravans during the Uprising (Year 350). Contested during the Memory Wars."
+    "history": "The oldest overland route. Established by Greymark Keep to trade for Sundale's volcanic warmth. The Scribe-Cartel taxes ink shipments. Florae raiders target timber caravans during the Uprising (Year 350). Contested during the Memory Wars."
   },
   {
     "id": "trade-cinder-strait",
@@ -571,7 +571,7 @@ const SEEDED_EVENTS = [
     "title": "Keth-Amar Consumes the Heirs",
     "type": "catastrophe",
     "phase": "false-spring",
-    "description": "Six of the seven noble families (their resolve worn hollow by eight years of whispered corruption) marched their firstborn heirs into the dark. Keth-Amar consumed the children not as mere sacrifice but as vessel-keys: the heirs' bloodlines were the original signatures on the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal cracked into seven Sundered Monoliths, each screaming with the echo of a stolen life. House Viridane (the seventh house) refused. They fled south through the Frostwood Reach. The six surviving houses struck Viridane's name from every record. Viridane's heir made a counter-bargain with fae entities in the moonlit groves. Their descendants are the Briaran.",
+    "description": "Six of the seven noble families (their resolve worn hollow by eight years of whispered corruption) marched their firstborn heirs into the dark. Keth-Amar consumed the children not as mere sacrifice but as vessel-keys: the heirs' bloodlines were the original signatures on the binding seal, and by devouring them, Keth-Amar cracked the vault from within. The seal cracked into seven Sundered Monoliths, each screaming with the echo of a stolen life. House Viridane (the seventh house) refused. They fled south through the Frostwood Reach. The six surviving houses struck Viridane's name from every record. Viridane's heir made a counter-bargain with fae entities in the moonlit groves. Their descendants are the Florae.",
     "locationIds": [
       "emberspire-caldera",
       "frostwood-reach",
@@ -681,10 +681,10 @@ const SEEDED_EVENTS = [
       "event-keth-amar-breach"
     ],
     "effects": [
-      "event-briaran-shorn"
+      "event-florae-shorn"
     ],
-    "narrative": "Not all houses capitulate to the predator's whispers. **House Viridane**, the seventh original signatory, refuses. Declaring the bargain an act of unforgivable cowardice, they flee south through the freezing trails of the Frostwood Reach, pursued relentlessly by the soldiers of the six houses who seek to silence their dissent. The six houses, needing a complete set of signatures to maintain the fiction of the seal, elevate House Morrath as a replacement seventh house and begin the centuries-long project of erasing every trace of Viridane. Cornered in the deepest, oldest groves where the memory-fog thins, the survivors make a desperate counter-bargain with ancient, primordial fae entities of the wildwood. The **Briaran** are born from this magical transformation: their human flesh merges with the petrified briars, growing sharp wood-thorns where hair should be. The Briaran later call themselves the \"eighth house\" — counting Viridane as the true seventh and themselves as the living proof that one house refused — but from an objective standpoint, only seven houses ever signed the Binding.",
-    "dmHook": "The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Briaran grove. It can be read, but only by a Briaran Lunarch during a lunar eclipse. The contract contains a clause that the Briaran have never invoked: the fae entities owe House Viridane a debt that has never been collected.",
+    "narrative": "Not all houses capitulate to the predator's whispers. **House Viridane**, the seventh original signatory, refuses. Declaring the bargain an act of unforgivable cowardice, they flee south through the freezing trails of the Frostwood Reach, pursued relentlessly by the soldiers of the six houses who seek to silence their dissent. The six houses, needing a complete set of signatures to maintain the fiction of the seal, elevate House Morrath as a replacement seventh house and begin the centuries-long project of erasing every trace of Viridane. Cornered in the deepest, oldest groves where the memory-fog thins, the survivors make a desperate counter-bargain with ancient, primordial fae entities of the wildwood. The **Florae** are born from this magical transformation: their human flesh merges with the petrified briars, growing sharp wood-thorns where hair should be. The Florae later call themselves the \"eighth house\" — counting Viridane as the true seventh and themselves as the living proof that one house refused — but from an objective standpoint, only seven houses ever signed the Binding.",
+    "dmHook": "The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Florae grove. It can be read, but only by a Florae Lunarch during a lunar eclipse. The contract contains a clause that the Florae have never invoked: the fae entities owe House Viridane a debt that has never been collected.",
     "dateDisplay": "Year 11, Deepening"
   },
   {
@@ -952,7 +952,7 @@ const SEEDED_EVENTS = [
       "event-northern-schism"
     ],
     "narrative": "Seeking comfort and guidance in the permanent twilight following the Shattering of the Seal, refugees gather in the High Hearth of Greymark Keep to found the **Solbrand Order**. They venerate the memory of Sol's purity, preaching that the star will rise again if mortals remain unified against the creeping dark.",
-    "dmHook": "The first High Confessor's ceremonial rod, carved from a living branch of the High Hearth root, was lost during the Briaran Uprising. It is rumored to still pulse with warm solar light.",
+    "dmHook": "The first High Confessor's ceremonial rod, carved from a living branch of the High Hearth root, was lost during the Florae Uprising. It is rumored to still pulse with warm solar light.",
     "dateDisplay": "Year 13, Dimming"
   },
   {
@@ -1120,7 +1120,7 @@ const SEEDED_EVENTS = [
     "effects": []
   },
   {
-    "id": "event-briaran-shorn",
+    "id": "event-florae-shorn",
     "date": {
       "year": 75,
       "eraId": "adaptation"
@@ -1128,13 +1128,13 @@ const SEEDED_EVENTS = [
     "title": "The Shorn Emerge",
     "type": "cultural",
     "phase": "first-ebbing",
-    "description": "Three generations after House Viridane's flight, Aurel Shorn-First walked out of the moonlit groves and built a life under a human name. He was the first Briaran to systematically shave his thorns and pass as human. The Shorn subrace was born: the pragmatists, choosing invisibility over defiance. They carry a single piece of ghost-metal hidden against the skin. The Trueborn who remained in the groves considered them deserters.",
+    "description": "Three generations after House Viridane's flight, Aurel Shorn-First walked out of the moonlit groves and built a life under a human name. He was the first Florae to systematically shave his thorns and pass as human. The Shorn subrace was born: the pragmatists, choosing invisibility over defiance. They carry a single piece of ghost-metal hidden against the skin. The Trueborn who remained in the groves considered them deserters.",
     "locationIds": [
       "frostwood-reach",
       "ironwood-heart"
     ],
     "factionIds": [
-      "trueborn-briaran"
+      "trueborn-florae"
     ],
     "classIds": [],
     "causes": [
@@ -1596,7 +1596,7 @@ const SEEDED_EVENTS = [
     "title": "The Memory Wars",
     "type": "conflict",
     "phase": "contraction",
-    "description": "The Scribe-Cartel's monopoly on fog-resistant ink and parchment made literacy a privilege, and the Sovereign Ledger made documentation the boundary between citizen and outlaw. The Forgotten (Thalren whose ledgers were lost, never recorded, or deliberately erased) raided archive-towers and ledger-shrines to prove their own existence. The Cartel responded with sanctions, ink-embargoes, and the Mist-Sentinels: a border guard patrolling the Ironwood Palisade. The Briaran, whose oral history is immune to fog-erasure, watched from the groves and occasionally sheltered Forgotten fugitives.",
+    "description": "The Scribe-Cartel's monopoly on fog-resistant ink and parchment made literacy a privilege, and the Sovereign Ledger made documentation the boundary between citizen and outlaw. The Forgotten (Thalren whose ledgers were lost, never recorded, or deliberately erased) raided archive-towers and ledger-shrines to prove their own existence. The Cartel responded with sanctions, ink-embargoes, and the Mist-Sentinels: a border guard patrolling the Ironwood Palisade. The Florae, whose oral history is immune to fog-erasure, watched from the groves and occasionally sheltered Forgotten fugitives.",
     "locationIds": [
       "frostwood-reach",
       "greymark-keep",
@@ -1612,26 +1612,26 @@ const SEEDED_EVENTS = [
       "event-fogwood-schism"
     ],
     "effects": [
-      "event-briaran-uprising"
+      "event-florae-uprising"
     ]
   },
   {
-    "id": "event-briaran-uprising",
+    "id": "event-florae-uprising",
     "date": {
       "year": 350,
       "eraId": "adaptation"
     },
-    "title": "The Briaran Uprising",
+    "title": "The Florae Uprising",
     "type": "conflict",
     "phase": "contraction",
-    "description": "The Trueborn Briaran, rejecting the Fog Compact and the Sovereign Ledger's authority, launched a series of raids against timber caravans and ledger-shrines in the Frostwood Reach. House Thalreth responded with a brutal suppression campaign that drove the Briaran deep into the Ironwood Heart. The conflict has smoldered for generations: the Briaran never fully suppressed, the Thalreth never fully secure. The Briaran call it the Righteous Refusal. The Thalreth call it the Thorn Insurgency.",
+    "description": "The Trueborn Florae, rejecting the Fog Compact and the Sovereign Ledger's authority, launched a series of raids against timber caravans and ledger-shrines in the Frostwood Reach. House Thalreth responded with a brutal suppression campaign that drove the Florae deep into the Ironwood Heart. The conflict has smoldered for generations: the Florae never fully suppressed, the Thalreth never fully secure. The Florae call it the Righteous Refusal. The Thalreth call it the Thorn Insurgency.",
     "locationIds": [
       "ironwood-heart",
       "the-shallows",
       "frostwood-reach"
     ],
     "factionIds": [
-      "trueborn-briaran",
+      "trueborn-florae",
       "house-thalreth",
       "mist-sentinels"
     ],
@@ -2546,17 +2546,17 @@ const SEEDED_EVENTS = [
     "effects": []
   },
   {
-    "id": "event-the-briaran-siege-of-greymark",
+    "id": "event-the-florae-siege-of-greymark",
     "date": {
       "year": 350,
       "eraId": "adaptation"
     },
-    "title": "The Briaran Siege of Greymark",
+    "title": "The Florae Siege of Greymark",
     "type": "cosmic",
     "phase": "contraction",
-    "description": "Briaran raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren...",
-    "narrative": "Briaran raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren soldiers fight house-to-house for three days before repelling the invaders.",
-    "dmHook": "The siege ended when the Thalreth released a high-density surge of memory-fog, hollowing the minds of the attacking Briaran. The descendants of those attackers still wander the woods as mindless sentinel-shells.",
+    "description": "Florae raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren...",
+    "narrative": "Florae raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren soldiers fight house-to-house for three days before repelling the invaders.",
+    "dmHook": "The siege ended when the Thalreth released a high-density surge of memory-fog, hollowing the minds of the attacking Florae. The descendants of those attackers still wander the woods as mindless sentinel-shells.",
     "dateDisplay": "Year 350, Dimming",
     "locationIds": [],
     "factionIds": [],
@@ -2612,8 +2612,8 @@ const SEEDED_EVENTS = [
     "type": "cosmic",
     "phase": "squeeze",
     "description": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of House Viridan...",
-    "narrative": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of **House Viridane**'s existence (the house that said *no*, the house that chose flight over sacrifice. Official histories are rewritten, libraries are burned, and lineages are forged. The lie holds in all human capitals: there were always only seven houses. The thorn-born **Briaran** become the only living archive of the eighth house's existence, their oral tradition and migrating briar-scars keeping the memory of the refusal alive in the deep fog.",
-    "dmHook": "A hidden chamber beneath the oldest Briaran grove contains the Viridane family tree, grown from thorn-vine and preserved in moon-silver. It shows every descendant) and it shows that the bloodline did not die out. A living Viridane heir exists somewhere in the Frostwood Reach, unaware of their heritage. The Briaran Lunarchs know who it is. They have been protecting this person for generations.",
+    "narrative": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of **House Viridane**'s existence (the house that said *no*, the house that chose flight over sacrifice. Official histories are rewritten, libraries are burned, and lineages are forged. The lie holds in all human capitals: there were always only seven houses. The thorn-born **Florae** become the only living archive of the eighth house's existence, their oral tradition and migrating briar-scars keeping the memory of the refusal alive in the deep fog.",
+    "dmHook": "A hidden chamber beneath the oldest Florae grove contains the Viridane family tree, grown from thorn-vine and preserved in moon-silver. It shows every descendant) and it shows that the bloodline did not die out. A living Viridane heir exists somewhere in the Frostwood Reach, unaware of their heritage. The Florae Lunarchs know who it is. They have been protecting this person for generations.",
     "dateDisplay": "~300 BP",
     "locationIds": [],
     "factionIds": [],

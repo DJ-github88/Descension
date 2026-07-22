@@ -1292,29 +1292,30 @@
 }
 
 .epic-lore-button {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 148, 31, 0.08) 100%);
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: #0f0c0a !important;
+    border: 1.5px solid #c8aa6e !important;
     border-radius: 6px;
     padding: 0.625rem 1.25rem;
-    color: #d4af37;
+    color: #f0e6d2 !important;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Cinzel', serif;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.75px;
-    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 8px rgba(0, 0, 0, 0.8);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .epic-lore-button:hover {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.25) 100%);
-    border-color: #b8941f;
+    background: #1e1915 !important;
+    border-color: #e5c158 !important;
+    color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85), 0 0 12px rgba(200, 170, 110, 0.3) !important;
 }
 
 .epic-lore-button i {
@@ -1347,6 +1348,13 @@
     backdrop-filter: blur(12px) brightness(0.4);
     animation: loreFadeIn 0.5s ease;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .epic-lore-overlay {
+        padding: 6px 4px 10px 4px;
+        z-index: 99999;
+    }
 }
 
 /* Ember / dust mote particles */
@@ -1924,82 +1932,82 @@
 
 
 /* 3. BRIARAN - The Forgotten House (Creeping foliage and thorns) */
-.race-card-briaran {
+.race-card-florae {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 150 185 L 152 195 M 220 187 L 222 196' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3Ccircle cx='25' cy='45' r='2' fill='%2381c784' opacity='0.8'/%3E%3Ccircle cx='85' cy='175' r='2.5' fill='%2381c784' opacity='0.7'/%3E%3Ccircle cx='190' cy='170' r='2' fill='%2381c784' opacity='0.9'/%3E%3C/svg%3E") !important;
 }
-.variant-card-trueborn_briaran {
+.variant-card-florae_unified {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180 M 290 -10 C 280 40, 295 80, 285 120' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 285 30 L 293 25 M 283 60 L 275 65 M 287 90 L 295 93' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3C/svg%3E") !important;
 }
-.variant-card-shorn_briaran {
+.variant-card-florae_unified {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 L 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='30' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='14' cy='70' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='50' cy='175' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3C/svg%3E") !important;
 }
-.race-card-briaran,
-.variant-card-briaran {
+.race-card-florae,
+.variant-card-florae {
     background-size: cover !important;
     border: 1px solid rgba(129, 199, 132, 0.15) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
-.race-card-briaran::before,
-.variant-card-briaran::before {
+.race-card-florae::before,
+.variant-card-florae::before {
     border: 1px solid rgba(129, 199, 132, 0.15);
 }
 
-.race-card-briaran:hover,
-.variant-card-briaran:hover {
+.race-card-florae:hover,
+.variant-card-florae:hover {
     border-color: #388e3c !important;
     box-shadow: 0 0 15px rgba(56, 142, 60, 0.35), inset 0 0 10px rgba(0, 0, 0, 0.6) !important;
     transform: translateY(-4px);
 }
 
-.race-card-briaran:hover::before,
-.variant-card-briaran:hover::before {
+.race-card-florae:hover::before,
+.variant-card-florae:hover::before {
     border-color: rgba(129, 199, 132, 0.4);
 }
 
-.race-card-briaran.selected,
-.variant-card-briaran.selected {
+.race-card-florae.selected,
+.variant-card-florae.selected {
     border-color: #81c784 !important;
     box-shadow: 0 0 20px rgba(129, 199, 132, 0.45), inset 0 0 15px rgba(129, 199, 132, 0.2) !important;
 }
 
-.race-card-briaran.selected::before,
-.variant-card-briaran.selected::before {
+.race-card-florae.selected::before,
+.variant-card-florae.selected::before {
     border-color: rgba(129, 199, 132, 0.6);
 }
 
-.race-card-briaran .race-card-name,
-.race-card-briaran .race-card-essence,
-.race-card-briaran .race-card-description,
-.variant-card-briaran .variant-card-name,
-.variant-card-briaran .variant-card-description {
+.race-card-florae .race-card-name,
+.race-card-florae .race-card-essence,
+.race-card-florae .race-card-description,
+.variant-card-florae .variant-card-name,
+.variant-card-florae .variant-card-description {
     color: #c4dec5 !important;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.race-card-briaran.selected .race-card-name,
-.race-card-briaran.selected .race-card-description,
-.race-card-briaran.selected .race-card-essence,
-.variant-card-briaran.selected .variant-card-name,
-.variant-card-briaran.selected .variant-card-description {
+.race-card-florae.selected .race-card-name,
+.race-card-florae.selected .race-card-description,
+.race-card-florae.selected .race-card-essence,
+.variant-card-florae.selected .variant-card-name,
+.variant-card-florae.selected .variant-card-description {
     color: #e5ffe7 !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
-.race-card-briaran .race-card-icon,
-.race-card-briaran.selected .race-card-icon {
+.race-card-florae .race-card-icon,
+.race-card-florae.selected .race-card-icon {
     color: #81c784 !important;
     filter: drop-shadow(0 0 4px rgba(129, 199, 132, 0.5));
 }
 
-.race-card-briaran .info-badge {
+.race-card-florae .info-badge {
     background: rgba(129, 199, 132, 0.12) !important;
     color: #a5d6a7 !important;
     border: 1px solid rgba(129, 199, 132, 0.2);
 }
 
-.race-card-briaran .race-card-bg-effects::before,
-.variant-card-briaran .variant-card-bg-effects::before {
+.race-card-florae .race-card-bg-effects::before,
+.variant-card-florae .variant-card-bg-effects::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2853,8 +2861,8 @@
 
 /* 3. BRIARAN - Shadowy thorns & vines creep from the corners,
       spilling OVER and OUTSIDE the button (multiply = overgrowth). */
-.race-card-briaran .race-card-fx,
-.variant-card-briaran .variant-card-fx {
+.race-card-florae .race-card-fx,
+.variant-card-florae .variant-card-fx {
     overflow: visible;
     mix-blend-mode: multiply;
     background-image:
@@ -2869,13 +2877,13 @@
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
 }
 
-.race-card-briaran:hover .race-card-fx,
-.variant-card-briaran:hover .variant-card-fx {
-    animation: briaran-creep 5.5s ease-in-out infinite;
+.race-card-florae:hover .race-card-fx,
+.variant-card-florae:hover .variant-card-fx {
+    animation: florae-creep 5.5s ease-in-out infinite;
     transform: scale(1.03);
 }
 
-@keyframes briaran-creep {
+@keyframes florae-creep {
     0%, 100% { opacity: 0.5; }
     50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(56, 142, 60, 0.45)) brightness(1.08); }
 }
@@ -3074,4 +3082,133 @@
     35% { opacity: 1; filter: brightness(1.3) drop-shadow(0 0 12px rgba(255, 179, 0, 0.9)); }
     60% { opacity: 0.8; filter: brightness(0.95) drop-shadow(0 0 6px rgba(255, 179, 0, 0.6)); }
     80% { opacity: 1; filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 179, 0, 0.8)); }
+}
+
+/* ===== RACE LIGHTBOX MODAL (Enlarged Artwork View) ===== */
+.race-lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 8, 6, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: lightboxFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes lightboxFadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.race-lightbox-modal {
+    position: relative;
+    max-width: 90vw;
+    max-height: 92vh;
+    background: #14110f;
+    border: 2px solid #c8aa6e;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(200, 170, 110, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.race-lightbox-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(20, 17, 15, 0.9);
+    border: 1px solid #c8aa6e;
+    color: #f0e6d2;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.race-lightbox-close:hover {
+    background: #c8aa6e;
+    color: #14110f;
+    transform: scale(1.1);
+}
+
+.race-lightbox-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 80vh;
+    padding: 1.5rem;
+}
+
+.race-lightbox-image {
+    max-width: 82vw;
+    max-height: 76vh;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid rgba(200, 170, 110, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+}
+
+.race-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(20, 17, 15, 0.9);
+    border: 1px solid #c8aa6e;
+    color: #f0e6d2;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.race-lightbox-nav:hover {
+    background: #c8aa6e;
+    color: #14110f;
+    transform: translateY(-50%) scale(1.12);
+}
+
+.race-lightbox-nav.prev {
+    left: 20px;
+}
+
+.race-lightbox-nav.next {
+    right: 20px;
+}
+
+.race-lightbox-caption {
+    width: 100%;
+    padding: 0.9rem 1.8rem 1.1rem;
+    background: #1c1815;
+    border-top: 1px solid rgba(200, 170, 110, 0.2);
+    color: #d4c5a9;
+    font-family: var(--font-body, serif);
+    font-style: italic;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.4;
 }

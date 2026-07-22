@@ -415,7 +415,7 @@ const ALLOWED_CLASSES_BY_RACE = {
 
     myrathil: ['Shaper', 'Spellguard', 'Chronarch', 'Animist', 'Lunarch', 'Minstrel', 'Augur'],
 
-    briaran: ['Apex', 'Animist', 'Shaper', 'Lunarch', 'Warden'],
+    florae: ['Apex', 'Animist', 'Shaper', 'Lunarch', 'Warden'],
 
     groven: ['Martyr (Ironclad)', 'Warden', 'Animist', 'Martyr', 'Augur'],
 
@@ -445,11 +445,11 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     riverling_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
 
-    // Briaran
+    // Florae
 
-    trueborn_briaran: ['Animist', 'Shaper', 'Apex', 'Warden'],
+    florae_unified: ['Animist', 'Shaper', 'Apex', 'Warden'],
 
-    shorn_briaran: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
+    florae_unified: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
 
     // Solari
 
@@ -543,7 +543,7 @@ const getClassRestrictionMessage = (className) => {
 
     if (className === 'Inquisitor') return 'Inquisitor requires Marked Vreken heritage or Frostwood Reach heritage.';
 
-    if (className === 'Lunarch') return 'Lunarch requires Briaran heritage.';
+    if (className === 'Lunarch') return 'Lunarch requires Florae heritage.';
 
     return '';
 
@@ -700,11 +700,11 @@ const getSubraceImage = (subraceId, raceId) => {
 
         riverling_myrathil: 'brook_illustration.png',
 
-        // Briaran
+        // Florae
 
-        trueborn_briaran: 'trueborn_illustration.png',
+        florae_unified: 'trueborn_illustration.png',
 
-        shorn_briaran: 'shorn_illustration.png',
+        florae_unified: 'shorn_illustration.png',
 
         // Solari
 
@@ -924,8 +924,6 @@ const Step1CoreDraft = () => {
 
             dispatch(wizardActionCreators.setClass(justificationTarget.id));
 
-            setActiveGrimoireTab('calling');
-
             setFocusedSection('class');
 
             dispatch(wizardActionCreators.setStartingSpells([]));
@@ -933,8 +931,6 @@ const Step1CoreDraft = () => {
         } else if (justificationTarget.type === 'background') {
 
             dispatch(wizardActionCreators.setBackground(justificationTarget.id));
-
-            setActiveGrimoireTab('origin');
 
             setFocusedSection('background');
 
@@ -976,7 +972,9 @@ const Step1CoreDraft = () => {
 
     const [activeRaceSelection, setActiveRaceSelection] = useState(race || null);
 
-    const [activeGrimoireTab, setActiveGrimoireTab] = useState('heritage');
+    // Lore sections now displayed on a single scrollable page (no tab switching)
+
+    const [lightboxImage, setLightboxImage] = useState(null);
 
     const [mobilePanel, setMobilePanel] = useState('selections');
 
@@ -1208,7 +1206,7 @@ const Step1CoreDraft = () => {
 
             'Mimir': 'fas fa-mask',
 
-            'Briaran': 'fas fa-leaf',
+            'Florae': 'fas fa-leaf',
 
             'Groven': 'fas fa-shield-alt',
 
@@ -1248,8 +1246,6 @@ const Step1CoreDraft = () => {
 
         dispatch(wizardActionCreators.setSubrace(subraceId));
 
-        setActiveGrimoireTab('heritage');
-
         setFocusedSection('class');
 
     };
@@ -1263,8 +1259,6 @@ const Step1CoreDraft = () => {
         if (isClassCompatible(className, race, subrace)) {
 
             dispatch(wizardActionCreators.setClass(className));
-
-            setActiveGrimoireTab('calling');
 
             setFocusedSection('class');
 
@@ -1297,8 +1291,6 @@ const Step1CoreDraft = () => {
         if (isCompatible) {
 
             dispatch(wizardActionCreators.setBackground(bgId));
-
-            setActiveGrimoireTab('origin');
 
             setFocusedSection('background');
 
@@ -1492,8 +1484,6 @@ const Step1CoreDraft = () => {
 
                     onClick={() => setMobilePanel('codex')}
 
-                    disabled={!race && !characterData.class}
-
                 >
 
                     <i className="fas fa-book"></i> Lore
@@ -1583,8 +1573,6 @@ const Step1CoreDraft = () => {
                                                     dispatch(wizardActionCreators.setSubrace(''));
 
                                                 }
-
-                                                setActiveGrimoireTab('heritage');
 
                                                 setFocusedSection('race');
 
@@ -2174,19 +2162,19 @@ const Step1CoreDraft = () => {
 
                     <div className="grimoire-book-container">
 
-                        {/* Bookmark Tabs docked on the left */}
+                        {/* Lore section nav dots (floating on right edge) */}
 
-                        <div className="grimoire-tabs">
+                        <div className="grimoire-section-nav">
 
                             <button 
 
-                                type="button" 
+                                type="button"
 
-                                className={`grimoire-tab-button ${activeGrimoireTab === 'heritage' ? 'active' : ''}`}
+                                className={`grimoire-nav-dot ${selectedRace ? 'available' : ''}`} 
 
-                                onClick={() => setActiveGrimoireTab('heritage')}
+                                title="Jump to Heritage"
 
-                                title="Heritage Lore"
+                                onClick={() => document.getElementById('grimoire-heritage')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
 
                             >
 
@@ -2196,15 +2184,13 @@ const Step1CoreDraft = () => {
 
                             <button 
 
-                                type="button" 
+                                type="button"
 
-                                className={`grimoire-tab-button ${activeGrimoireTab === 'calling' ? 'active' : ''}`}
+                                className={`grimoire-nav-dot ${characterData.class ? 'available' : ''}`} 
 
-                                onClick={() => setActiveGrimoireTab('calling')}
+                                title="Jump to Calling"
 
-                                title="Class Lore"
-
-                                disabled={!characterData.class}
+                                onClick={() => document.getElementById('grimoire-calling')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
 
                             >
 
@@ -2218,7 +2204,7 @@ const Step1CoreDraft = () => {
 
                                         size="tiny"
 
-                                        className="grimoire-tab-pixel-icon"
+                                        className="grimoire-dot-pixel-icon"
 
                                     />
 
@@ -2232,15 +2218,13 @@ const Step1CoreDraft = () => {
 
                             <button 
 
-                                type="button" 
+                                type="button"
 
-                                className={`grimoire-tab-button ${activeGrimoireTab === 'origin' ? 'active' : ''}`}
+                                className={`grimoire-nav-dot ${background ? 'available' : ''}`} 
 
-                                onClick={() => setActiveGrimoireTab('origin')}
+                                title="Jump to Origin"
 
-                                title="Origin Lore"
-
-                                disabled={!background}
+                                onClick={() => document.getElementById('grimoire-origin')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
 
                             >
 
@@ -2250,15 +2234,15 @@ const Step1CoreDraft = () => {
 
                         </div>
 
-
-
                         {/* Parchment Page */}
 
                         <div className="grimoire-page scroll-themed">
 
-                            {activeGrimoireTab === 'heritage' && (
+                            {/* Heritage Section */}
 
-                                <>
+                            {selectedRace ? (
+
+                                <div id="grimoire-heritage" className="grimoire-section grimoire-section-heritage">
 
                                     <div className="grimoire-header">
 
@@ -2278,182 +2262,189 @@ const Step1CoreDraft = () => {
 
                                     
 
-                                    {selectedRace ? (
+                                    <div className="grimoire-heritage-showcase">
+
+                                        <div className="grimoire-heritage-icon-wrapper">
+
+                                            <img 
+
+                                                src={getSubraceImage(selectedSubrace?.id, selectedRace.id)}
+
+                                                alt={selectedSubrace ? selectedSubrace.name : selectedRace.name}
+
+                                                className="grimoire-large-heritage-icon grimoire-zoomable"
+
+                                                onClick={() => setLightboxImage(getSubraceImage(selectedSubrace?.id, selectedRace.id))}
+
+                                                onError={(e) => {
+
+                                                    e.target.onerror = null;
+
+                                                    e.target.src = '/assets/images/races/human_illustration.png';
+
+                                                }}
+
+                                            />
+
+                                        </div>
+
+                                    </div>
+
+                                    <p className="grimoire-flavor-quote">"{selectedRace.cardFlavor}"</p>
+
+                                    {selectedSubrace && (
 
                                         <>
 
-                                            <div className="grimoire-heritage-showcase">
+                                            <h4 className="grimoire-section-header">{selectedSubrace.name}</h4>
 
-                                                <div className="grimoire-heritage-icon-wrapper">
+                                            <div className="grimoire-markdown-body">
 
-                                                    <img 
-
-                                                        src={getSubraceImage(selectedSubrace?.id, selectedRace.id)}
-
-                                                        alt={selectedSubrace ? selectedSubrace.name : selectedRace.name}
-
-                                                        className="grimoire-large-heritage-icon"
-
-                                                        onError={(e) => {
-
-                                                            e.target.onerror = null;
-
-                                                            e.target.src = '/assets/images/races/human_illustration.png';
-
-                                                        }}
-
-                                                    />
-
-                                                </div>
+                                                <p>{selectedSubrace.description}</p>
 
                                             </div>
 
-                                            <p className="grimoire-flavor-quote">"{selectedRace.cardFlavor}"</p>
-
-                                            {/* Subrace Details — shown FIRST so players know their subrace before reading general lore */}
-                                            {selectedSubrace && (
-
-                                                <>
-
-                                                    <h4 className="grimoire-section-header">{selectedSubrace.name}</h4>
-
-                                                    <div className="grimoire-markdown-body">
-
-                                                        <p>{selectedSubrace.description}</p>
-
-                                                    </div>
-
-                                                </>
-
-                                            )}
-
-                                            {/* Appearance Section */}
-                                            {selectedRace.visualDescription && (
-
-                                                <>
-
-                                                    <h4 className="grimoire-section-header">Appearance</h4>
-
-                                                    <div className="grimoire-markdown-body">
-
-                                                        <p>{selectedRace.visualDescription}</p>
-
-                                                    </div>
-
-                                                </>
-
-                                            )}
-
-                                            <h4 className="grimoire-section-header">Base Attributes</h4>
-
-                                            <table className="grimoire-stats-table">
-
-                                                <thead>
-
-                                                    <tr>
-
-                                                        <th>Attribute</th>
-
-                                                        <th>Detail</th>
-
-                                                    </tr>
-
-                                                </thead>
-
-                                                <tbody>
-
-                                                    <tr>
-
-                                                        <td><strong>Lifespan</strong></td>
-
-                                                        <td>{selectedRace.baseTraits?.lifespan}</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td><strong>Size</strong></td>
-
-                                                        <td>{selectedRace.baseTraits?.size} ({selectedRace.baseTraits?.height})</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td><strong>Base Speed</strong></td>
-
-                                                        <td>{selectedRace.baseTraits?.baseSpeed} ft</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td><strong>Vision Range</strong></td>
-
-                                                        <td>{selectedRace.baseTraits?.visionRange || selectedRace.baseTraits?.darkvision || 60} ft</td>
-
-                                                    </tr>
-
-                                                </tbody>
-
-                                            </table>
-
-
-
-                                            {/* Racial Traits */}
-                                            {selectedSubrace && selectedSubrace.traits && selectedSubrace.traits.length > 0 && (
-
-                                                <>
-
-                                                    <h4 className="grimoire-section-header">Racial Traits</h4>
-
-                                                    <div className="grimoire-traits-list">
-
-                                                        {selectedSubrace.traits.map(trait => (
-
-                                                            <div key={trait.id} className="grimoire-trait-card">
-
-                                                                <div className="grimoire-trait-header">
-
-                                                                    <div className="grimoire-trait-icon">
-
-                                                                        <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
-
-                                                                    </div>
-
-                                                                    <span className="grimoire-trait-title">{trait.name}</span>
-
-                                                                </div>
-
-                                                                <span className="grimoire-trait-desc">{trait.description}</span>
-
-                                                            </div>
-
-                                                        ))}
-
-                                                    </div>
-
-                                                </>
-
-                                            )}
-
                                         </>
-
-                                    ) : (
-
-                                        <p className="codex-placeholder-text">Select a Heritage on the left to reveal its lore.</p>
 
                                     )}
 
-                                </>
+                                    {selectedRace.visualDescription && (
+
+                                        <>
+
+                                            <h4 className="grimoire-section-header">Appearance</h4>
+
+                                            <div className="grimoire-markdown-body">
+
+                                                <p>{selectedRace.visualDescription}</p>
+
+                                            </div>
+
+                                        </>
+
+                                    )}
+
+                                    <h4 className="grimoire-section-header">Base Attributes</h4>
+
+                                    <table className="grimoire-stats-table">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>Attribute</th>
+
+                                                <th>Detail</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+
+                                                <td><strong>Lifespan</strong></td>
+
+                                                <td>{selectedRace.baseTraits?.lifespan}</td>
+
+                                            </tr>
+
+                                            <tr>
+
+                                                <td><strong>Size</strong></td>
+
+                                                <td>{selectedRace.baseTraits?.size} ({selectedRace.baseTraits?.height})</td>
+
+                                            </tr>
+
+                                            <tr>
+
+                                                <td><strong>Base Speed</strong></td>
+
+                                                <td>{selectedRace.baseTraits?.baseSpeed} ft</td>
+
+                                            </tr>
+
+                                            <tr>
+
+                                                <td><strong>Vision Range</strong></td>
+
+                                                <td>{selectedRace.baseTraits?.visionRange || selectedRace.baseTraits?.darkvision || 60} ft</td>
+
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                    {selectedSubrace && selectedSubrace.traits && selectedSubrace.traits.length > 0 && (
+
+                                        <>
+
+                                            <h4 className="grimoire-section-header">Racial Traits</h4>
+
+                                            <div className="grimoire-traits-list">
+
+                                                {selectedSubrace.traits.map(trait => (
+
+                                                    <div key={trait.id} className="grimoire-trait-card">
+
+                                                        <div className="grimoire-trait-header">
+
+                                                            <div className="grimoire-trait-icon">
+
+                                                                <i className={trait.icon ? (trait.icon.startsWith('fa') ? trait.icon : 'fas fa-star') : 'fas fa-star'}></i>
+
+                                                            </div>
+
+                                                            <span className="grimoire-trait-title">{trait.name}</span>
+
+                                                        </div>
+
+                                                        <span className="grimoire-trait-desc">{trait.description}</span>
+
+                                                    </div>
+
+                                                ))}
+
+                                            </div>
+
+                                        </>
+
+                                    )}
+
+                                </div>
+
+                            ) : (
+
+                                <div id="grimoire-heritage" className="grimoire-section grimoire-section-heritage grimoire-empty-section">
+
+                                    <div className="grimoire-header">
+
+                                        <h2 className="grimoire-title">
+
+                                            <i className="fas fa-scroll"></i> Heritage
+
+                                        </h2>
+
+                                    </div>
+
+                                    <p className="codex-placeholder-text">Select a Heritage on the left to reveal its lore.</p>
+
+                                </div>
 
                             )}
 
 
 
-                            {activeGrimoireTab === 'calling' && (
+                            {/* Calling Section */}
 
-                                <>
+                            {characterData.class ? (
+
+                                <div id="grimoire-calling" className="grimoire-section grimoire-section-calling">
+
+                                    <div className="grimoire-section-divider"></div>
 
                                     <div className="grimoire-header">
 
@@ -2507,9 +2498,11 @@ const Step1CoreDraft = () => {
 
                                                         size="large"
 
-                                                        className="grimoire-large-class-icon"
+                                                        className="grimoire-large-class-icon grimoire-zoomable"
 
                                                         dataClass={characterData.class}
+
+                                                        onClick={() => setLightboxImage(CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`)}
 
                                                     />
 
@@ -2581,10 +2574,6 @@ const Step1CoreDraft = () => {
 
                                             </table>
 
-
-
-                                            {/* Selected Spells */}
-
                                             {selectedSpells.length > 0 && (
 
                                                 <>
@@ -2643,21 +2632,41 @@ const Step1CoreDraft = () => {
 
                                         </>
 
-                                    ) : (
+                                    ) : null}
 
-                                        <p className="codex-placeholder-text">Select a Calling on the left to reveal its features.</p>
+                                </div>
 
-                                    )}
+                            ) : (
 
-                                </>
+                                <div id="grimoire-calling" className="grimoire-section grimoire-section-calling grimoire-empty-section">
+
+                                    <div className="grimoire-section-divider"></div>
+
+                                    <div className="grimoire-header">
+
+                                        <h2 className="grimoire-title">
+
+                                            <i className="fas fa-shield-alt"></i> Class
+
+                                        </h2>
+
+                                    </div>
+
+                                    <p className="codex-placeholder-text">Select a Calling on the left to reveal its features.</p>
+
+                                </div>
 
                             )}
 
 
 
-                            {activeGrimoireTab === 'origin' && (
+                            {/* Origin Section */}
 
-                                <>
+                            {background ? (
+
+                                <div id="grimoire-origin" className="grimoire-section grimoire-section-origin">
+
+                                    <div className="grimoire-section-divider"></div>
 
                                     <div className="grimoire-header">
 
@@ -2713,8 +2722,6 @@ const Step1CoreDraft = () => {
 
                                             )}
 
-
-
                                             <table className="grimoire-stats-table" style={{ marginTop: '0.75rem' }}>
 
                                                 <tbody>
@@ -2751,8 +2758,6 @@ const Step1CoreDraft = () => {
 
                                             </table>
 
-
-
                                             {BACKGROUND_DATA[background].equipment && BACKGROUND_DATA[background].equipment.length > 0 && (
 
                                                 <>
@@ -2775,13 +2780,29 @@ const Step1CoreDraft = () => {
 
                                         </>
 
-                                    ) : (
+                                    ) : null}
 
-                                        <p className="codex-placeholder-text">Select a Background on the left to reveal its benefits.</p>
+                                </div>
 
-                                    )}
+                            ) : (
 
-                                </>
+                                <div id="grimoire-origin" className="grimoire-section grimoire-section-origin grimoire-empty-section">
+
+                                    <div className="grimoire-section-divider"></div>
+
+                                    <div className="grimoire-header">
+
+                                        <h2 className="grimoire-title">
+
+                                            <i className="fas fa-compass"></i> Origin
+
+                                        </h2>
+
+                                    </div>
+
+                                    <p className="codex-placeholder-text">Select a Background on the left to reveal its benefits.</p>
+
+                                </div>
 
                             )}
 
@@ -3516,6 +3537,28 @@ const Step1CoreDraft = () => {
             {/* Unified Tooltip System */}
 
             <UnifiedTooltip {...tooltipState} />
+
+            {/* Image Lightbox */}
+
+            {lightboxImage && (
+
+                <div className="grimoire-lightbox-overlay" onClick={() => setLightboxImage(null)}>
+
+                    <div className="grimoire-lightbox-content" onClick={(e) => e.stopPropagation()}>
+
+                        <button type="button" className="grimoire-lightbox-close" onClick={() => setLightboxImage(null)}>
+
+                            <i className="fas fa-times"></i>
+
+                        </button>
+
+                        <img src={lightboxImage} alt="Enlarged view" className="grimoire-lightbox-img" />
+
+                    </div>
+
+                </div>
+
+            )}
 
         </div>
 

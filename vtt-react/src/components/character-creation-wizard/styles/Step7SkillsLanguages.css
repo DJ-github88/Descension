@@ -1130,20 +1130,188 @@
     }
 }
 
-/* Mobile Section Tabs - Skills & Languages */
+/* ============================================================
+   MOBILE REDESIGN — Skills & Languages (<= 768px)
+   Ruthless mobile-native layout: single gutter, full-width
+   cards, horizontal pills/badges, generous touch targets.
+   ============================================================ */
 @media (max-width: 768px) {
+
+    /* --- Frame: kill the nested-padding sandwich that indented
+           content and left a dead bar on the right. One outer
+           gutter only, applied at the scrollable layer. --- */
+    .skills-languages-layout {
+        padding: 0 !important;          /* overrides the 1rem set in CharacterCreationWizard.css */
+        gap: 0.6rem !important;
+        min-height: auto !important;
+        width: 100% !important;
+    }
+
+    .selection-pane-left {
+        gap: 0.5rem !important;
+    }
+
+    /* --- Pane tabs: convert the desktop "folder tabs" into a clean mobile
+           segmented control — no heavy borders, no boxy frame. --- */
+    .pane-tabs-navigation {
+        gap: 0.3rem;
+        padding: 0.25rem;
+        background: rgba(139, 115, 85, 0.08);
+        border: none !important;
+        border-radius: 10px;
+    }
+    .pane-tab-btn {
+        flex: 1 1 0;                    /* equal width */
+        justify-content: center;
+        padding: 0.6rem 0.4rem;         /* ~40px tall touch target */
+        font-size: 0.9rem;
+        border: none !important;        /* kill the folder-tab borders */
+        border-radius: 8px;
+        top: 0;
+        gap: 0.3rem;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    .pane-tab-btn.active {
+        background: #faf6eb !important;   /* filled segment for active */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        color: #5a1e12 !important;
+    }
+    /* CRITICAL: stop "1 / 1" stacking into a vertical strip */
+    .pane-tab-btn .badge-count,
+    .badge-count {
+        white-space: nowrap !important;
+        flex-shrink: 0;
+        display: inline-block;
+        padding: 1px 7px;
+        font-size: 0.72rem;
+    }
+
+    /* --- Scrollable content: drop the heavy "3px double" boxy frame that
+           reads as a weird square on mobile; use a soft single hairline. --- */
+    .pane-scrollable-content {
+        padding: 0.6rem !important;     /* was 1.25rem, compounding with layout padding */
+        border: 1px solid rgba(153, 126, 85, 0.22) !important;  /* was 3px double */
+        border-radius: 10px;
+        box-shadow: none !important;    /* kill the inset glow */
+        max-height: none !important;
+        gap: 0.7rem !important;
+    }
+
+    /* --- Summary banner: stop pills collapsing, allow tidy wrap --- */
+    .step-summary-banner {
+        flex-wrap: wrap;
+        gap: 0.5rem 0.75rem;
+        padding: 0.7rem 0.85rem;
+        border-radius: 8px;
+        justify-content: space-between;
+    }
+    .summary-banner-points {
+        white-space: nowrap !important;   /* CRITICAL: stop the pill going vertical */
+        flex-shrink: 0;
+        font-size: 0.88rem;
+        gap: 0.4rem;
+    }
+    .summary-banner-points .points-pill {
+        white-space: nowrap !important;
+        flex-shrink: 0;
+        display: inline-block;
+        padding: 2px 11px;
+        font-size: 0.85rem;
+    }
+    .summary-banner-choices {
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 0.82rem;
+    }
+
+    /* --- Category accordion headers --- */
+    .skill-category-group {
+        margin-bottom: 0.45rem;
+        border-radius: 8px;
+    }
+    .skill-category-header {
+        min-height: 52px;                /* bigger, easier tap */
+        padding: 0.65rem 0.75rem;
+        font-size: 0.92rem;
+        flex-wrap: nowrap;
+        gap: 0.45rem;
+    }
+    .category-skill-count {
+        white-space: nowrap !important;   /* CRITICAL: stop "9 skills" stacking */
+        flex-shrink: 0;
+        margin-left: auto;
+        padding: 2px 8px;
+        font-size: 0.72rem;
+    }
+    .category-chevron { font-size: 0.8rem; flex-shrink: 0; }
+
+    /* --- Skill grid: single column, full-bleed cards --- */
+    .category-skills-grid {
+        grid-template-columns: 1fr !important;   /* was minmax(220px,1fr) → narrow stack */
+        gap: 0.4rem;
+        padding: 0.35rem;                        /* was 0.75rem — stop the triple-padding sandwich */
+    }
+
+    /* --- Skill cards: full width, taller touch target, readable type --- */
+    .premium-skill-card {
+        width: 100%;
+        min-height: 56px;
+        padding: 0.55rem 0.7rem;
+        border-radius: 8px;
+        gap: 0.6rem;
+    }
+    .premium-skill-card .skill-card-icon-container {
+        width: 38px;
+        height: 38px;
+    }
+    .premium-skill-card .skill-card-name {
+        font-size: 0.92rem;
+    }
+    .premium-skill-card .skill-card-rank {
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    /* --- Languages: 2-up compact grid on mobile --- */
+    .languages-masonry-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem;
+    }
+    .premium-language-card {
+        min-height: 48px;
+        padding: 0.5rem 0.6rem;
+    }
+    .premium-language-card .lang-name {
+        font-size: 0.8rem;
+    }
+
+    /* --- Grimoire inspector (Details pane) --- */
+    .skill-grimoire-inspector {
+        padding: 0.9rem;
+        border-radius: 8px;
+        gap: 0.75rem;
+    }
+    .grimoire-header { gap: 0.7rem; padding-bottom: 0.7rem; }
+    .grimoire-icon-wrapper { width: 52px; height: 52px; }
+    .grimoire-details h3 { font-size: 1.15rem; }
+    .grimoire-training-section { padding: 0.75rem; gap: 0.6rem; }
+    .training-btn {
+        width: 44px;                     /* meet touch minimum */
+        height: 44px;
+    }
+
+    /* --- Mobile panel switching (preserve existing behaviour) --- */
     .skills-languages-layout[data-mobile-panel] > .selection-pane-left,
     .skills-languages-layout[data-mobile-panel] > .inspector-pane-right {
         min-height: 0;
     }
-
     .skills-languages-layout[data-mobile-panel="selections"] > .inspector-pane-right {
         display: none;
     }
     .skills-languages-layout[data-mobile-panel="details"] > .selection-pane-left {
         display: none;
     }
-
     .inspector-pane-right {
         max-height: none;
     }

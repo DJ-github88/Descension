@@ -37,7 +37,7 @@ export const CHRONARCH_DATA = {
    "morren_human",
    "astril",
    "vreken",
-   "briaran",
+   "florae",
    "myrathil",
    "mimir"
   ],

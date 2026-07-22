@@ -2100,61 +2100,151 @@
   position: relative;
 }
 
+/* Title row with title on left and damage types on right */
+.unified-spell-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Title + Damage Type row — name left, damage badges right */
+.spell-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+  min-width: 0;
+}
+
+.spell-header-top .pf-spell-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Sub-meta row with resource costs & components */
+.spell-header-submeta,
+.unified-spell-submeta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 3px;
+  width: 100%;
+  min-width: 0;
+}
+
 /* Right side container for damage types and resource costs */
 .unified-spell-header-right {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: row;
+  align-items: center;
   gap: var(--my-space-1);
   margin-left: auto;
   flex-shrink: 0;
-  max-width: 220px;
 }
 
-/* Combined damage types and spell components box */
-.pf-damage-spell-box {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--my-space-1);
-  max-width: 220px;
-}
-
-/* Damage types in header - spread out more to left and right */
+/* Damage types in header - top right, flex-shrink so they don't push title */
 .pf-damage-types-header {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--my-space-3); /* Increased gap to spread them out more */
-  justify-content: flex-start; /* Start from left side of the box */
+  gap: 4px;
+  justify-content: flex-end;
   align-items: center;
-  width: 100%; /* Take full width of the box */
+  flex-shrink: 0;
+  max-width: 50%;
 }
 
-/* Spell components in header - positioned beneath leftmost damage type as vertical list */
-.unified-spell-components-header {
-  display: flex;
-  flex-direction: column; /* Stack components vertically like bullets */
-  align-items: flex-start; /* Align to left edge beneath Cold damage type */
-  gap: 2px; /* Small gap between each component line */
-  max-width: 220px; /* Increased width for longer component names */
-  margin-left: 0; /* Start at the left edge of the box */
-}
-
-/* Style spell components in header to match the design */
-.unified-spell-components-header .pf-spell-components {
-  display: flex;
-  flex-direction: column; /* Stack each component vertically */
-  align-items: flex-start; /* Align to left like bullet points */
-  gap: 2px; /* Small gap between each component */
-  width: 100%;
-}
-
-/* Individual component row - icon and text side by side */
-.unified-spell-components-header .pf-component-row {
+/* Inline spell components inside badges row */
+.unified-spell-components-inline {
   display: flex;
   align-items: center;
-  gap: 4px; /* Small gap between icon and text */
-  width: 100%;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Compact component letter-pills (V / S / M) in the header submeta row */
+.spell-component-pills {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.spell-component-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--my-font-display);
+  letter-spacing: 0;
+  cursor: help;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  color: #f4f1e8;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.spell-component-pill:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.spell-component-pill--verbal   { border-color: rgba(147, 210, 255, 0.6); color: #a8d8ff; }
+.spell-component-pill--somatic  { border-color: rgba(180, 255, 160, 0.6); color: #b8ffb0; }
+.spell-component-pill--material { border-color: rgba(255, 220, 120, 0.6); color: #ffdc78; }
+
+.unified-spell-components-inline .pf-spell-components {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.unified-spell-components-inline .pf-component-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 1px 6px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-size: 11px;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.unified-spell-components-inline .pf-component {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+
+.unified-spell-components-inline .component-custom-text {
+  color: #f4f1e8;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .unified-spell-components-header .pf-component {
@@ -2996,8 +3086,18 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   }
 
   .pf-damage-types-header {
-    max-width: 180px; /* Maintain spread even on smaller screens */
-    gap: var(--my-space-2); /* Reduce gap slightly on smaller screens */
+    gap: 4px;
+    max-width: 45%;
+  }
+
+  /* New spell-header-top responsive */
+  .spell-header-top {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .spell-header-top .pf-spell-name {
+    font-size: 0.95rem;
   }
 
   .unified-spell-cooldown {
@@ -3040,8 +3140,28 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   /* Mobilized header adjustments handled above at 768px */
 
   .pf-damage-types-header {
-    max-width: 150px; /* Maintain reasonable spread on very small screens */
-    gap: var(--my-space-1); /* Minimal gap on very small screens */
+    gap: 3px;
+    max-width: 40%;
+  }
+
+  /* Further reduce spell name size on very small screens */
+  .spell-header-top .pf-spell-name,
+  .pf-spell-name {
+    font-size: 0.875rem;
+  }
+
+  /* Stack submeta row vertically if it overflows */
+  .spell-header-submeta,
+  .unified-spell-submeta-row {
+    gap: 4px;
+  }
+
+  /* Reduce header padding to save vertical space */
+  .wow-spell-card .pf-spell-card-header,
+  .wow-spell-card .wow-spell-card-header,
+  .wow-spell-card .spell-card-header {
+    padding: 8px 10px !important;
+    gap: 4px !important;
   }
 }
 

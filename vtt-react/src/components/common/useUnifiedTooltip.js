@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 /**
  * Custom hook for managing unified tooltips
@@ -13,6 +13,19 @@ export const useUnifiedTooltip = () => {
     position: { x: 0, y: 0 },
     variant: 'default'
   });
+
+  // Hover tooltips eat too much space on phones/tablets, and mobile browsers
+  // fire synthetic mouseenter on tap so they pop open on every touch. Suppress
+  // them entirely on mobile-width viewports — desktop (wide) keeps hover.
+  // Keyed off viewport width (not (hover: hover)) so it's reliable across the
+  // many mobile browsers that misreport hover capability.
+  const supportsHoverRef = useRef(null);
+  if (supportsHoverRef.current === null) {
+    supportsHoverRef.current = typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(min-width: 769px)').matches;
+  }
+  const supportsHover = supportsHoverRef.current;
 
   // Show tooltip
   const showTooltip = useCallback((content, options = {}) => {
@@ -65,13 +78,18 @@ export const useUnifiedTooltip = () => {
   // Convenience handlers for common use cases
   const handleMouseEnter = useCallback((content, options = {}) => {
     return (event) => {
+      // On mobile-width viewports, suppress hover tooltips entirely — there
+      // isn't room and they fire on every tap. Desktop keeps hover-to-show.
+      if (!supportsHover) return;
       showTooltip(content, { ...options, event });
     };
-  }, [showTooltip]);
+  }, [showTooltip, supportsHover]);
 
   const handleMouseLeave = useCallback(() => {
+    // Only relevant on desktop; on mobile we never show on hover anyway.
+    if (!supportsHover) return;
     hideTooltip();
-  }, [hideTooltip]);
+  }, [hideTooltip, supportsHover]);
 
   const handleMouseMove = useCallback((event) => {
     if (tooltipState.isVisible) {

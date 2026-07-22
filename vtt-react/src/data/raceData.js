@@ -13,7 +13,7 @@ import { ABILITY_SCORES } from '../utils/pointBuySystem';
 
 import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
-import { briaran } from './races/briaran';
+import { florae } from './races/florae';
 import { groven } from './races/groven';
 import { emberth } from './races/emberth';
 import { vreken } from './races/vreken';
@@ -25,7 +25,7 @@ import { human } from './races/human';
 export const RACE_DATA = {
     myrathil,
     mimir,
-    briaran,
+    florae,
     groven,
     emberth,
     vreken,

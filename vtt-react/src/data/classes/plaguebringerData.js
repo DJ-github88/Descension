@@ -32,7 +32,7 @@ export const PLAGUEBRINGER_DATA = {
    "groven",
    "fexrick",
    "myrathil",
-   "briaran",
+   "florae",
    "mimir",
    "thalren_human",
    "tessen_human",

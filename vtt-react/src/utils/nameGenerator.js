@@ -29,7 +29,7 @@ export const RACE_NAMES = {
         'Mimeo', 'Protea', 'Reflex', 'Lumina', 'Echo', 'Sync', 'Fluidis', 'Mallea', 'Chroma', 'Versa',
         'Flux', 'Aether', 'Morph', 'Shifter', 'Facet', 'Prism', 'Glass', 'Mercury', 'Liquid', 'Draft'
     ],
-    briaran: [
+    florae: [
         'Thorne', 'Briar', 'Fern', 'Moss', 'Leaf', 'Willow', 'Sylvan', 'Flora', 'Bramble', 'Nettle',
         'Rose', 'Thistle', 'Bloom', 'Bark', 'Root', 'Sprout', 'Ivy', 'Holly', 'Oakley', 'Petal'
     ],

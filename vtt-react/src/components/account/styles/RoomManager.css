@@ -8,6 +8,10 @@
   min-height: 300px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .room-manager-header {
@@ -291,42 +295,75 @@
 .loading,
 .auth-required,
 .no-rooms,
-.no-local-rooms {
+.no-local-rooms,
+.no-friends-rooms {
+  grid-column: 1 / -1;
   text-align: center;
-  padding: 30px 20px;
-  color: #5a1e12;
+  padding: 24px 16px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 110px;
+}
+
+.no-rooms,
+.no-local-rooms {
+  background: linear-gradient(135deg, rgba(248, 245, 240, 0.9) 0%, rgba(240, 234, 214, 0.9) 100%);
+  border: 2px dashed rgba(139, 69, 19, 0.25);
+  color: #5a1e12;
+}
+
+.no-friends-rooms {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.85) 0%, rgba(253, 230, 138, 0.85) 100%);
+  border: 2px dashed rgba(245, 158, 11, 0.6);
+  color: #92400e;
 }
 
 .loading i,
 .auth-required i,
 .no-rooms i,
-.no-local-rooms i {
+.no-local-rooms i,
+.no-friends-rooms i {
   font-size: 32px;
-  color: #d4af37;
   margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+.no-rooms i,
+.no-local-rooms i {
+  color: #8b4513;
+}
+
+.no-friends-rooms i {
+  color: #d97706;
 }
 
 .auth-required h3,
 .no-rooms h3,
-.no-local-rooms h3 {
+.no-local-rooms h3,
+.no-friends-rooms h3 {
   margin: 0 0 4px 0;
   font-size: 16px;
-  color: #5a1e12;
+  color: inherit;
+  font-weight: 600;
 }
 
-.no-local-rooms p {
-  margin: 0 0 12px 0;
-  color: #6b7280;
+.no-rooms p,
+.no-local-rooms p,
+.no-friends-rooms p {
+  margin: 0;
+  font-size: 13px;
+  color: inherit;
+  opacity: 0.85;
   line-height: 1.4;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 13px;
 }
 
 .empty-state-actions {
@@ -656,23 +693,36 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .room-manager {
+    padding: 8px;
+  }
+
+  .room-cards-grid,
+  .multiplayer-rooms-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .room-manager-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
   }
 
   .header-actions {
     flex-direction: row !important;
-    flex-wrap: nowrap;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
     width: 100%;
     max-width: 100%;
   }
 
   .refresh-rooms-btn,
   .refresh-status-btn {
-    flex-shrink: 0;
+    flex: 1;
+    justify-content: center;
     white-space: nowrap;
     font-size: 11px;
     padding: 6px 8px;
@@ -687,6 +737,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    width: 100%;
   }
 
   .room-header {
@@ -697,6 +748,13 @@
   .room-stats {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .create-local-room-btn,
+  .guest-upgrade-btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
 }
 
@@ -1054,23 +1112,30 @@
 /* Unified Room Cards Grid - used by both local and multiplayer rooms */
 .room-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 12px;
   min-height: 100px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Ensure no-rooms messages are properly centered in the grid */
 .room-cards-grid .no-rooms,
-.room-cards-grid .no-local-rooms {
+.room-cards-grid .no-local-rooms,
+.room-cards-grid .no-friends-rooms {
   grid-column: 1 / -1;
-  place-self: center;
+  place-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Legacy support for existing multiplayer-rooms-grid */
 .multiplayer-rooms-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Test rooms use same grid layout as other rooms - no special centering */

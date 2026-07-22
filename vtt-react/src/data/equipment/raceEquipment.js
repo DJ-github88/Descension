@@ -153,15 +153,15 @@ export const MIMIR_BASE_ITEMS = [
     }
 ];
 
-// Briaran base items
+// Florae base items
 export const BRIARAN_BASE_ITEMS = [
     {
-        id: 'briaran-nature-bracers',
+        id: 'florae-nature-bracers',
         name: 'Bramble Bracers',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Bracers woven from living ironwood-vine by Briaran wardens of the Hollow-Court. The thorns grip when you clench your fist.',
+        description: 'Bracers woven from living ironwood-vine by Florae wardens of the Hollow-Court. The thorns grip when you clench your fist.',
         iconId: 'inv_bracer_07',
         value: { platinum: 0, gold: 6, silver: 85, copper: 50 },
         weight: 1,
@@ -176,17 +176,17 @@ export const BRIARAN_BASE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['briaran']
+            races: ['florae']
         }
     },
 
     {
-        id: 'briaran-root-boots',
+        id: 'florae-root-boots',
         name: 'Rootbound Boots',
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Boots laced with deep-root fiber that anchor a Briaran to the Frostwood floor. The grove remembers where you step.',
+        description: 'Boots laced with deep-root fiber that anchor a Florae to the Frostwood floor. The grove remembers where you step.',
         iconId: 'inv_boots_06',
         value: { platinum: 0, gold: 5, silver: 75, copper: 25 },
         weight: 3,
@@ -197,7 +197,7 @@ export const BRIARAN_BASE_ITEMS = [
             constitution: { value: 2, isPercentage: false }
         },
         availableFor: {
-            races: ['briaran']
+            races: ['florae']
         }
     }
 ];
@@ -653,7 +653,7 @@ export const MIMIR_SUBRACE_ITEMS = [
     }
 ];
 
-// Briaran subrace items
+// Florae subrace items
 export const BRIARAN_SUBRACE_ITEMS = [
     {
         id: 'courtly-mirror',
@@ -661,7 +661,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A mirror of ghost-metal polish that shows the face beneath a Shorn Briarans borrowed name. The Hollow-Court trades in what it reveals.',
+        description: 'A mirror of ghost-metal polish that shows the face beneath a Shorn Floraes borrowed name. The Hollow-Court trades in what it reveals.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 1,
@@ -673,7 +673,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['shorn_briaran']
+            subraces: ['florae_unified']
         }
     },
     {
@@ -682,7 +682,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Living thorn-plate grown from a Trueborn Briarans own skin. The Thorn-Fall records every wound it absorbs.',
+        description: 'Living thorn-plate grown from a Trueborn Floraes own skin. The Thorn-Fall records every wound it absorbs.',
         iconId: 'inv_chest_leather_04',
         value: { platinum: 0, gold: 9, silver: 60, copper: 40 },
         weight: 10,
@@ -697,7 +697,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['trueborn_briaran']
+            subraces: ['florae_unified']
         }
     },
     {
@@ -727,7 +727,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['trueborn_briaran']
+            subraces: ['florae_unified']
         }
     }
 ];

@@ -14,7 +14,7 @@ const PUB = process.env.PUBLIC_URL || '';
 const RACE_WATERCOLOR = {
   myrathil: 'watercolor_compass',
   mimir: 'watercolor_void',
-  briaran: 'watercolor_tree',
+  florae: 'watercolor_tree',
   groven: 'watercolor_shield',
   emberth: 'watercolor_campfire',
   vreken: 'watercolor_candle',
@@ -968,12 +968,24 @@ const RaceSelector = () => {
   const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
   const [showEpicLore, setShowEpicLore] = useState(false);
   const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(true);
-  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(true);
   const [customIllustration, setCustomIllustration] = useState(null);
   const [subraceImageIndex, setSubraceImageIndex] = useState(0);
   const [traitTooltip, setTraitTooltip] = useState({ show: false, spell: null, x: 0, y: 0 });
   const [imageErrors, setImageErrors] = useState({});
+  const [lightboxImage, setLightboxImage] = useState(null);
   const raceGridRef = useRef(null);
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setLightboxImage(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Reset subrace image index when the selection changes
   useEffect(() => {
@@ -1391,7 +1403,7 @@ const RaceSelector = () => {
         <div className="variant-details-view">
           <div className="step-title">
             {variantData.name} Details
-            {raceData.epicHistory && (
+            {(raceData.epicHistory || raceData.description || raceData.overview) && (
               <button
                 className="epic-lore-button"
                 onClick={() => setShowEpicLore(true)}
@@ -1446,11 +1458,18 @@ const RaceSelector = () => {
               {(subraceImages.length > 0 || raceData.illustration) && !imageErrors[subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.src : raceData.illustration] && (
                 <div className="sidebar-illustration">
                   <div 
-                    className={`guide-illustration-frame ${subraceImages.length > 1 ? 'interactive-illustration' : ''}`}
-                    onClick={subraceImages.length > 1 ? () => {
-                      setSubraceImageIndex(prev => (prev + 1) % subraceImages.length);
-                    } : undefined}
-                    title={subraceImages.length > 1 ? 'Click to cycle illustrations' : ''}
+                    className="guide-illustration-frame interactive-illustration"
+                    onClick={() => {
+                      const currentSrc = subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.src : raceData.illustration;
+                      const currentCaption = subraceImages.length > 0 ? (subraceImages[subraceImageIndex]?.caption || variantData?.name) : (raceData.illustrationCaption || raceData.name);
+                      setLightboxImage({
+                        src: currentSrc,
+                        caption: currentCaption,
+                        images: subraceImages.length > 0 ? subraceImages : [{ src: raceData.illustration, caption: raceData.illustrationCaption }],
+                        index: subraceImages.length > 0 ? subraceImageIndex : 0
+                      });
+                    }}
+                    title="Click to view full-size illustration"
                   >
                     {subraceImages.length > 1 && (
                       <>
@@ -1485,11 +1504,9 @@ const RaceSelector = () => {
                         setImageErrors(prev => ({ ...prev, [src]: true }));
                       }}
                     />
-                    {subraceImages.length > 1 && (
-                      <div className="illustration-cycle-badge">
-                        <i className="fas fa-sync-alt"></i> Image {subraceImageIndex + 1}/{subraceImages.length}
-                      </div>
-                    )}
+                    <div className="illustration-cycle-badge">
+                      <i className="fas fa-search-plus"></i> {subraceImages.length > 1 ? `Image ${subraceImageIndex + 1}/${subraceImages.length} (Click to Enlarge)` : 'Click to Enlarge'}
+                    </div>
                     {((subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.caption : raceData.illustrationCaption)) && (
                       <div className="guide-illustration-caption">
                         {subraceImages.length > 0 ? subraceImages[subraceImageIndex]?.caption : raceData.illustrationCaption}
@@ -1745,6 +1762,67 @@ const RaceSelector = () => {
             availableTabs={['history', 'figures', 'locations', 'crisis', 'practices', 'culture']}
             onClose={() => setShowEpicLore(false)}
           />
+        </div>
+      )}
+
+      {/* Enlarged Artwork Lightbox Modal */}
+      {lightboxImage && (
+        <div className="race-lightbox-overlay" onClick={() => setLightboxImage(null)}>
+          <div className="race-lightbox-modal" onClick={e => e.stopPropagation()}>
+            <button className="race-lightbox-close" onClick={() => setLightboxImage(null)} title="Close (Esc)">
+              <i className="fas fa-times"></i>
+            </button>
+            <div className="race-lightbox-content">
+              {lightboxImage.images && lightboxImage.images.length > 1 && (
+                <button 
+                  className="race-lightbox-nav prev"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const newIdx = (lightboxImage.index - 1 + lightboxImage.images.length) % lightboxImage.images.length;
+                    setLightboxImage({
+                      ...lightboxImage,
+                      index: newIdx,
+                      src: lightboxImage.images[newIdx].src,
+                      caption: lightboxImage.images[newIdx].caption
+                    });
+                    setSubraceImageIndex(newIdx);
+                  }}
+                  aria-label="Previous image"
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+              )}
+              <img 
+                src={lightboxImage.src} 
+                alt={lightboxImage.caption || 'Enlarged Race Illustration'} 
+                className="race-lightbox-image" 
+              />
+              {lightboxImage.images && lightboxImage.images.length > 1 && (
+                <button 
+                  className="race-lightbox-nav next"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const newIdx = (lightboxImage.index + 1) % lightboxImage.images.length;
+                    setLightboxImage({
+                      ...lightboxImage,
+                      index: newIdx,
+                      src: lightboxImage.images[newIdx].src,
+                      caption: lightboxImage.images[newIdx].caption
+                    });
+                    setSubraceImageIndex(newIdx);
+                  }}
+                  aria-label="Next image"
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              )}
+            </div>
+            {lightboxImage.caption && (
+              <div className="race-lightbox-caption">
+                {lightboxImage.caption}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

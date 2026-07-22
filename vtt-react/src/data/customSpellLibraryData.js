@@ -30,7 +30,7 @@ export const SPELL_CATEGORIES = [
   {
     id: 'buff-spells',
     name: 'Buff Spells',
-    description: 'Briaran thorn-wardens sing strength into their kin. Spells that enhance allies with beneficial effects',
+    description: 'Florae thorn-wardens sing strength into their kin. Spells that enhance allies with beneficial effects',
     icon: 'spell_holy_devotion',
     spells: [],
     color: '#5a1e12'

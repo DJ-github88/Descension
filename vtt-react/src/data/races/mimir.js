@@ -2,8 +2,26 @@ export const mimir = {
     id: 'mimir',
     name: 'Mimir',
     essence: 'The Mask-Bound',
-    illustration: '/assets/images/races/mimir_illustration.png',
-    illustrationCaption: 'A tall, slender Mimir in a bark-hide cloak, a towering carved heartwood mask rising above their head in beastlike noble curves, runic glyphs catching fog-light, amber glow bleeding through ancient cracks like embers behind bark.',
+    illustration: '/assets/images/races/Untethered_Mimir.png',
+    illustrationCaption: 'A Fractured Mimir with a hopeful expression, wearing a small broken mask remnant and accompanied by a floating golden Mote companion.',
+    illustrations: [
+      {
+        src: '/assets/images/races/Untethered_Mimir.png',
+        caption: 'Fractured Mimir with broken mask remnant and floating golden Mote companion.'
+      },
+      {
+        src: '/assets/images/races/Veiled_Mimir.png',
+        caption: 'Fractured Mimir forest wanderer with small mask fragment.'
+      },
+      {
+        src: '/assets/images/races/Veiled_Mimir_2.png',
+        caption: 'Fractured Mimir Mote-Keeper resting by ancient tree roots.'
+      },
+      {
+        src: '/assets/images/races/Tethered_Mimir.png',
+        caption: 'Arch Mimir in towering horn-curved heartwood mask.'
+      }
+    ],
     cardFlavor: 'Canopy-dwellers who sealed their faces behind wooden masks when the Frostwood fog began stealing their memories.',
     visualDescription: `Tall and slender, standing between 5'10" and 7'0", with narrow, angular builds and long limbs. Their faces are never seen â€” hidden behind towering masks carved from ancient heartwood (dark amber, layered with generations of re-carving) or storm-glass (translucent, cold silver, forged in cliff-side forges). The mask is not flat: it rises above the head in beastlike curves, organic protrusions that echo the shape Sereth first intended, creating a silhouette taller and broader than the Mimir beneath it. Two deep-set eye-slits burn with steady amber light, and the mask's surface is a palimpsest â€” interlocking runic glyphs, braided knotwork, and family sigils carved layer upon layer across centuries, the deepest carvings the oldest, the shallowest the most recent. Visible cracks and weathering mark masks that have been reshaped by every generation that wore them. The mask does not sit on the face; it replaces it, wrapping around the head so completely that no Mimir has ever seen their own features. They wear rough bark-hide cloaks over layered earth-toned garments, their long-fingered hands pale, fingertips callused and stained dark from carving and ink-work.`,
     description: `**[The Mask-Bound]**, *High in the foggy canopy of the ironwood forests, a slender figure in an unbroken oak mask leans forward, their wooden face perfectly still while their body shifts with a liquid, predatory grace.*
@@ -530,6 +548,20 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         name: 'Fractured Mimir',
         illustration: '/assets/images/races/Untethered_Mimir.png',
         illustrationCaption: 'A young Fractured Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.',
+        illustrations: [
+          {
+            src: '/assets/images/races/Untethered_Mimir.png',
+            caption: 'A young Fractured Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.'
+          },
+          {
+            src: '/assets/images/races/Veiled_Mimir.png',
+            caption: 'A Fractured Mimir forest wanderer with a small mask fragment and Mote companion.'
+          },
+          {
+            src: '/assets/images/races/Veiled_Mimir_2.png',
+            caption: 'A Fractured Mimir Mote-Keeper resting by ancient tree roots.'
+          }
+        ],
         visualDescription: `The Fractured Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,
         tooltipSummary: 'Hopeful, child-like Mimir who wear broken remnants of masks, shunning the nobility and choosing to live in rustic forest floor camps.',
         description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away. The Fractured Mimir have discarded the rigid nobility and lifestyle of the Arch Mimir, taking great distance from their canopy-holds to live in rustic shelters on the mossy forest floor. At their heart, they are still Mimir, carrying the quiet burden of their heritage. They live with a child-like glee, hopeful and oblivious, yet slightly scared of the world below. Instead of full-face carvings, they wear only cracked fragments or remnants of broken masks, exposing their beautiful, near-perfect fae faces to the air—a state they embrace with joyful wonder and a touch of lingering fear.',

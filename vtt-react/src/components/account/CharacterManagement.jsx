@@ -46,7 +46,7 @@ const CharacterManagement = ({ user }) => {
 
    'astril': '⭐', 'Astril': '⭐',
 
-   'briaran': '🦊', 'Briaran': '🦊',
+   'florae': '🦊', 'Florae': '🦊',
 
    'emberth': '🔥', 'Solari': '🔥',
 

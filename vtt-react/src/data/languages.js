@@ -113,7 +113,7 @@ export const LANGUAGES = [
     name: 'Sylvan',
     icon: 'fa-seedling',
     category: 'exotic',
-    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Briaran thorns resonate with its cadence; the Trueborn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
+    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Florae thorns resonate with its cadence; the Trueborn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
     sound: 'Musical and enchanting, like wind through thorn-briars with trilling notes and promises that echo.',
     example: 'Loun-syl vaen\'drael virathel',
     translation: 'The eighth house endures beneath the leaves'

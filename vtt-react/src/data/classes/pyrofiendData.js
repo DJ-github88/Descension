@@ -19,7 +19,7 @@ export const PYROFIEND_DATA = {
     "neth",
     "mimir",
     "myrathil",
-    "briaran"
+    "florae"
    ],
   "narrativeUnlock": true,
   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."

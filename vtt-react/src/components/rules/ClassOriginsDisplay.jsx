@@ -38,7 +38,7 @@ const REGIONS = [
   bgGradient: 'linear-gradient(135deg, rgba(25, 111, 61, 0.08) 0%, rgba(25, 111, 61, 0.02) 100%)',
   borderColor: '#196f3d',
   glowColor: 'rgba(25, 111, 61, 0.12)',
-  description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Briaran hide in the mist-shrouded canopies.',
+  description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Florae hide in the mist-shrouded canopies.',
   darkBargain: 'House Thalreth traded the region\'s spatial clarity for an insulating fog: the same fog that now devours memory with every passing year. The Sovereign Ledger and Scribe-Cartel emerged to fight what the bargain created.',
   classIds: ['apex', 'shaper', 'lunarch', 'inquisitor', 'toxicologist']
  },

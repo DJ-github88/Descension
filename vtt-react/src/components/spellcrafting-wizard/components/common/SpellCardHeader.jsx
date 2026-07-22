@@ -207,46 +207,15 @@ const SpellCardHeader = ({
           </div>
 
           <div className="unified-spell-info">
-            <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
-
-            {/* Resource costs below title for wizard, library, collection, spellbook, and rules variants */}
-            {(variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
-              <div className="unified-spell-wizard-meta">
-                <div className="unified-spell-resource-costs">
-                  {formatResourceCosts()}
-                </div>
-              </div>
-            )}
-
-            {/* Meta information varies by variant */}
-            <div className="unified-spell-meta">
-              {variant === 'spellbook' && (
-                <>
-                  <span className="spell-cast-time">{formatCastTime()}</span>
-                </>
-              )}
-
-            </div>
-          </div>
-
-          {/* Right side container for Resource Cost and Damage Types */}
-          <div className="unified-spell-header-right">
-            {/* Combined damage types and spell components box for wizard variant */}
-            {(() => {
-              const damageTypes = getDamageTypes();
-              const spellComponents = formatSpellComponents();
-              // Determine if there are any component entries configured on the spell
-              const hasComponentData = Array.isArray(spell?.resourceCost?.components) && spell.resourceCost.components.length > 0;
-              // Only render when we actually have damage types or configured components to show
-              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (damageTypes.length > 0 || hasComponentData);
-
-              return shouldShow && (
-                <div className="pf-damage-spell-box">
-                  {/* Damage Types - Top row */}
-                  {damageTypes.length > 0 && (
+            {/* Row 1: Title + Damage Type badges */}
+            <div className="spell-header-top">
+              <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
+              {(() => {
+                const damageTypes = getDamageTypes();
+                const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && damageTypes.length > 0;
+                return shouldShow && (
                   <div className="pf-damage-types-header">
                     {damageTypes.map((damageType, index) => {
-                      // Format damage type name: capitalize first letter
                       const formattedType = damageType.charAt(0).toUpperCase() + damageType.slice(1);
                       return (
                         <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`} title={`${formattedType} damage`}>
@@ -255,24 +224,50 @@ const SpellCardHeader = ({
                       );
                     })}
                   </div>
-                )}
+                );
+              })()}
+            </div>
 
-                {/* Spell Components - Bottom row, starting beneath leftmost damage type */}
-                {spellComponents && (
-                  <div className="unified-spell-components-header">
-                    {spellComponents}
+            {/* Row 2: Resource costs + compact component icons */}
+            {(variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (
+              <div className="unified-spell-submeta-row">
+                {(formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
+                  <div className="unified-spell-resource-costs">
+                    {formatResourceCosts()}
                   </div>
                 )}
-              </div>
-              );
-            })()}
 
-            {/* Damage Types and Resource Costs for library/collection variants */}
-            {/* NOTE: Damage types are already shown in the combined box above, so we don't duplicate them here */}
-            {(variant === 'library' || variant === 'collection') && false && (
-              <div className="pf-library-header-right">
-                {/* Damage Types - REMOVED: Already shown in combined box above to prevent duplication */}
-                {/* Resource Costs intentionally not duplicated here; shown under title */}
+                {/* Compact icon-only component pills — full text shown via tooltip */}
+                {(() => {
+                  const components = spell?.resourceCost?.components;
+                  if (!Array.isArray(components) || components.length === 0) return null;
+
+                  const compMap = {
+                    verbal:   { icon: '💬', label: 'V', key: 'verbalText' },
+                    somatic:  { icon: '🤲', label: 'S', key: 'somaticText' },
+                    material: { icon: '⚗', label: 'M', key: 'materialComponents' },
+                  };
+
+                  const pills = components
+                    .filter(c => compMap[c] && spell.resourceCost[compMap[c].key])
+                    .map((c, i) => {
+                      const { label, key } = compMap[c];
+                      const fullText = spell.resourceCost[key];
+                      return (
+                        <span
+                          key={i}
+                          className={`spell-component-pill spell-component-pill--${c}`}
+                          title={fullText}
+                        >
+                          {label}
+                        </span>
+                      );
+                    });
+
+                  return pills.length > 0 ? (
+                    <div className="spell-component-pills">{pills}</div>
+                  ) : null;
+                })()}
               </div>
             )}
           </div>

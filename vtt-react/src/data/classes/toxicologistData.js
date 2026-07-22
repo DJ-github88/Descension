@@ -11,8 +11,8 @@ export const TOXICOLOGIST_DATA = {
           "thalren_human",
           "tethered_mimir",
           "morren_human",
-          "trueborn_briaran",
-          "shorn_briaran",
+          "florae_unified",
+          "florae_unified",
           "drun_neth"
       ],
       "hardBlocks": [
@@ -26,7 +26,7 @@ export const TOXICOLOGIST_DATA = {
   /**
    * Subrace Variants, the Toxicologist crafts poison, and the source of the reagents
    * defines the craft. The Thalren distill the fog-predators. The Tethered Mimir brew
-   * the canopy floor. The Morren know the bog. The Briaran carry the deep grove's
+   * the canopy floor. The Morren know the bog. The Florae carry the deep grove's
    * thorn-venom, and the Shorn brew it in secret, among neighbors who would
    * kill them for it.
    */
@@ -79,13 +79,13 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    trueborn_briaran: {
-      subraceName: 'Trueborn Briaran',
+    florae_unified: {
+      subraceName: 'Trueborn Florae',
       title: 'The Thorn-Venom',
-      reframe: `The <LoreLink termId="briaran">Trueborn Briaran</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Briaran's thorns, and an Trueborn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
+      reframe: `The <LoreLink termId="florae">Trueborn Florae</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Florae's thorns, and an Trueborn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
       signatureAbility: {
         name: 'Thorn-Blood',
-        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood, a deeply personal reagent that makes every Trueborn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Briaran's blood, but each distillation costs the Toxicologist real HP.`
+        description: `Toxins are distilled from the Toxicologist's own fae-touched thorn-blood, a deeply personal reagent that makes every Trueborn Toxicologist's poisons *unique* to their bloodline. The poisons are potent and uncounterable by anyone who has not studied the specific Florae's blood, but each distillation costs the Toxicologist real HP.`
       },
       currentCrisisAngle: `The changing fog has reached the deep groves, and the fae-touched thorn-blood is responding, the thorns growing *faster*, the venom more virulent, the Trueborn Toxicologists *bleeding spontaneously*. Several elders read this as the fae-contract *collecting*, the same interest-compounding the Lunarchs describe, and fear the Trueborn are being bled dry by their own patrons.`,
       signatureQuote: {
@@ -95,10 +95,10 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    shorn_briaran: {
-      subraceName: 'Shorn Briaran',
+    florae_unified: {
+      subraceName: 'Shorn Florae',
       title: 'The Hidden-Cuil',
-      reframe: `The <LoreLink termId="briaran">Shorn Briaran</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Shorn are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught. They learned the craft from the very humans they hide among  -  Shorn Briaran have lived in Thalren edge-settlements since the Second Clearing, and when Thalren distillers began teaching their neighbors fog-venom extraction, the Shorn listened from the shadows. What the Thalren taught as area-denial warfare, the Shorn refined into assassination.`,
+      reframe: `The <LoreLink termId="florae">Shorn Florae</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Shorn are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught. They learned the craft from the very humans they hide among  -  Shorn Florae have lived in Thalren edge-settlements since the Second Clearing, and when Thalren distillers began teaching their neighbors fog-venom extraction, the Shorn listened from the shadows. What the Thalren taught as area-denial warfare, the Shorn refined into assassination.`,
       signatureAbility: {
         name: 'Veiled-Cuil',
         description: `Toxins are engineered for *untraceability*, delayed onset, undetectable residue, symptoms that mimic natural illness. The Shorn are the tradition's assassins, and their poisons are designed to leave no evidence that a Toxicologist was ever present. The cost: the weakest direct-combat toxins in the tradition.`
@@ -170,8 +170,8 @@ export const TOXICOLOGIST_DATA = {
         },
         {
           from: 'Thalren',
-          to: 'Trueborn Briaran',
-          vector: `The Trueborn Briaran learned toxicology through a transaction that both sides now regret. A Trueborn elder named Bri-Aethren, observing the Thalren's chemical defenses against the Gref, offered a Thornwood Accord: in exchange for Thalren distillation techniques, the Trueborn would teach the Thalren how to read the fae-signs that predict fog-predator movements. The Thalren accepted. What they did not anticipate was that the Trueborn would adapt human alchemy to their own biology  -  distilling from thorn-blood rather than predator venom, creating a fae-alchemical hybrid that neither the Thalren nor the fae-contracts had anticipated. The Trueborn now possess the tradition's most personal and most dangerous poisons, and the Thalren distillers who made the original trade consider it the worst bargain of their lives. Bri-Aethren has since disappeared into the deep groves and no longer answers to anyone.`
+          to: 'Trueborn Florae',
+          vector: `The Trueborn Florae learned toxicology through a transaction that both sides now regret. A Trueborn elder named Bri-Aethren, observing the Thalren's chemical defenses against the Gref, offered a Thornwood Accord: in exchange for Thalren distillation techniques, the Trueborn would teach the Thalren how to read the fae-signs that predict fog-predator movements. The Thalren accepted. What they did not anticipate was that the Trueborn would adapt human alchemy to their own biology  -  distilling from thorn-blood rather than predator venom, creating a fae-alchemical hybrid that neither the Thalren nor the fae-contracts had anticipated. The Trueborn now possess the tradition's most personal and most dangerous poisons, and the Thalren distillers who made the original trade consider it the worst bargain of their lives. Bri-Aethren has since disappeared into the deep groves and no longer answers to anyone.`
         },
         {
           from: 'Morren',
@@ -212,7 +212,7 @@ export const TOXICOLOGIST_DATA = {
 
 The first was Varis the Trembling, a Thalren alchemist who systematized venom extraction from Frostwood fog-predators during the mid-Dimming centuries. His scout patrols had been cornered by face-stealing horrors, and he was the only survivor. He spent the next decade above the massacre site at Thornwood Grove, three leagues east of the Shallows, developing fog-venom, a toxin derived from the same predators that had killed his team. Years in the ironwood canopies distilling toxic moss and acidic secretions left him with chronic tremors, burned-away taste, and permanently stained fingers. The same preservative toxins that ruined his body also froze his aging. He has been old for three hundred years. He considers the changing fog a personal insult.
 
-Each subrace distills from different sources. The Thalren draw venom from fog-predators, optimized for slow-acting area-denial, a poison laid today that blooms in a week. The Tethered Mimir brew from undergrowth decay, the slow chemistry of decomposition producing the longest-lasting agents in the tradition. The Morren draw from the Bryngloom's richest pharmacological treasury, the bog's peat-acids and contract-preserving ichor. The Trueborn Briaran distill their own fae-touched thorn-blood, every bloodline's poison unique and uncounterable without specific study. The Shorn Briaran brew in absolute secret among Thalren neighbors who would kill them, their toxins engineered for untraceability, delayed onset that mimics natural illness. The Drun Neth operate outside Neth jurisdiction entirely, their names burned from the First Contract, brewing with materials no registered alchemist would touch. Every brew is an act of rebellion, and Morvane, though it cannot see them, can sometimes feel what they are doing to its forest.
+Each subrace distills from different sources. The Thalren draw venom from fog-predators, optimized for slow-acting area-denial, a poison laid today that blooms in a week. The Tethered Mimir brew from undergrowth decay, the slow chemistry of decomposition producing the longest-lasting agents in the tradition. The Morren draw from the Bryngloom's richest pharmacological treasury, the bog's peat-acids and contract-preserving ichor. The Trueborn Florae distill their own fae-touched thorn-blood, every bloodline's poison unique and uncounterable without specific study. The Shorn Florae brew in absolute secret among Thalren neighbors who would kill them, their toxins engineered for untraceability, delayed onset that mimics natural illness. The Drun Neth operate outside Neth jurisdiction entirely, their names burned from the First Contract, brewing with materials no registered alchemist would touch. Every brew is an act of rebellion, and Morvane, though it cannot see them, can sometimes feel what they are doing to its forest.
 
 The fog is changing chemistry. Compounds that remained viable for years now degrade in weeks. Predator venoms are spoiling. The entire pharmacopoeia is turning unstable. Two apprentices have died testing Varis's desperation project: distilling the changing fog itself.`,
     title: "The Toxicologist",
@@ -245,7 +245,7 @@ The Toxicologist's order, known as The Distillery, operates from the Canopy-Labo
 Toxicologists are viewed with extreme caution in <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>, but their services are highly valued by scouts and hunters in the Reach. In the Bryngloom, Morren Toxicologists operate illegally from the Peat-Crypts beneath Over-Shanty, hiding their distillates from Neth revenue officers. In the Deep-Quarter, Drun Toxicologists produce null-distillates that the First Contract cannot register  -  a crime with no criminal, a transaction Morvane cannot audit.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Tethered Mimir</LoreLink> (who learned by reverse-engineering the poisoned corpses that fell from Thalren canopy-traps), the Morren of the Bryngloom (who adapted Thalren techniques to bog-chemistry after a debt-worker named Hael the Split-Hand taught them in exchange for alchemical moss), the Trueborn and Shorn Briaran (who distill from their own thorn-blood), and the Drun Neth (who learned from Morren fugitives seeking sanctuary in the Deep-Quarter and adapted the craft to their own decaying flesh).
+The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Tethered Mimir</LoreLink> (who learned by reverse-engineering the poisoned corpses that fell from Thalren canopy-traps), the Morren of the Bryngloom (who adapted Thalren techniques to bog-chemistry after a debt-worker named Hael the Split-Hand taught them in exchange for alchemical moss), the Trueborn and Shorn Florae (who distill from their own thorn-blood), and the Drun Neth (who learned from Morren fugitives seeking sanctuary in the Deep-Quarter and adapted the craft to their own decaying flesh).
 
 **NOTABLE FIGURES**
 * **Varis the Trembling**: Founder and Keeper of the Slow Cup. The chemist whose hands shook but whose poison cleared the Shallows of Gref. Alive, old, furious at the changing fog, and still working.

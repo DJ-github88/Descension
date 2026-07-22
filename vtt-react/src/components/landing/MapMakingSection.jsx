@@ -109,7 +109,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'terrain',
       action: 'MARK',
       text: 'Bramble Heath: crimson thorn-flowers on thorn-covered heathland',
-      why: 'The Bramble Heath is a vast, desolate field of petrified brambles and crimson thorn-flowers. Located in the eastern quadrant of the Frostwood Reach, it is surrounded by dense ironwood groves and treacherous peat-bogs. It is placed there as a natural geographic barrier and a lawless refuge where Briaran outlaws construct their hidden thorn-locked camps.',
+      why: 'The Bramble Heath is a vast, desolate field of petrified brambles and crimson thorn-flowers. Located in the eastern quadrant of the Frostwood Reach, it is surrounded by dense ironwood groves and treacherous peat-bogs. It is placed there as a natural geographic barrier and a lawless refuge where Florae outlaws construct their hidden thorn-locked camps.',
       inkarnate: 'Inkarnate bramble texture'
     },
     {
@@ -174,8 +174,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Greythorn Copse: fortified Thalren/Briaran copse',
-      why: 'Greythorn Copse is a fortified woodland settlement serving as a joint refuge for registered Thalren citizens and undocumented Briaran outlaws. Hidden deep within a dense thicket of red-flowered thorn bushes, it is surrounded by treacherous briar patches. It was placed in this remote borderland to escape the Scribe-Cartel\'s ledger-checks, serving as a political flashpoint where the forgotten outlaws organize.',
+      text: 'Greythorn Copse: fortified Thalren/Florae copse',
+      why: 'Greythorn Copse is a fortified woodland settlement serving as a joint refuge for registered Thalren citizens and undocumented Florae outlaws. Hidden deep within a dense thicket of red-flowered thorn bushes, it is surrounded by treacherous briar patches. It was placed in this remote borderland to escape the Scribe-Cartel\'s ledger-checks, serving as a political flashpoint where the forgotten outlaws organize.',
       inkarnate: 'Village icon'
     },
     {
@@ -261,8 +261,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'effects',
       action: 'COLOR',
-      text: 'Briaran hidden groves: small thorn-clusters as secret markers',
-      why: 'The Briaran hidden groves are secret forest clearings where the outlawed descendants of the erased House Viridane hide. Surrounded by dense, impassable bramble hedges, they are marked on maps only by small thorn-cluster icons.',
+      text: 'Florae hidden groves: small thorn-clusters as secret markers',
+      why: 'The Florae hidden groves are secret forest clearings where the outlawed descendants of the erased House Viridane hide. Surrounded by dense, impassable bramble hedges, they are marked on maps only by small thorn-cluster icons.',
       inkarnate: 'Small thorn icons scattered'
     },
     // LABELS
@@ -1127,7 +1127,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'labels',
       action: 'LABEL',
       text: 'Indicate where House Viridane used to be (negative space)',
-      why: 'The erased 8th house. House Viridane refused Keth-Amar\'s bargain and was struck from all history. Leave a visible gap or broken sigil in the Frostwood Reach to hint at their hidden Briaran survivors.',
+      why: 'The erased 8th house. House Viridane refused Keth-Amar\'s bargain and was struck from all history. Leave a visible gap or broken sigil in the Frostwood Reach to hint at their hidden Florae survivors.',
       inkarnate: 'Leave an empty, unmapped clearing or add a faint, cracked sigil stamp.'
     },
     {
@@ -1192,7 +1192,7 @@ const enrichChecklist = (parsedData) => {
               { key: 'fog density', target: 'Fog overlay' },
               { key: 'fog overlay', target: 'Fog overlay' },
               { key: 'fog', target: 'Fog overlay' },
-              { key: 'briaran', target: 'Briaran' },
+              { key: 'florae', target: 'Florae' },
               // Other regions
               { key: 'greythorn copse', target: 'Greythorn Copse' },
               { key: 'grevtholm', target: 'Grevtholm' },

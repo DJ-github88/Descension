@@ -266,7 +266,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Thorn-Bind',
       type: 'Active',
       usage: '1/Long Rest',
-      description: "The Briaran carry Viridane's thorns in their blood. Transform part of your body to gain bestial benefits for 10 minutes, leaving thorn-scars on anything you strike.",
+      description: "The Florae carry Viridane's thorns in their blood. Transform part of your body to gain bestial benefits for 10 minutes, leaving thorn-scars on anything you strike.",
       details: "Choose one: thorned claws (+1d6 damage to unarmed strikes, leaves bleeding wounds), enhanced senses (advantage on Perception), or ironwood bark (+2 Armor). The transformation lasts 10 minutes."
     }
   ],

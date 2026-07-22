@@ -150,7 +150,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'briaran': '🦊', 'Briaran': '🦊',
+    'florae': '🦊', 'Florae': '🦊',
 
 
 
@@ -1638,7 +1638,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="briaran">Briaran</option>
+                    <option value="florae">Florae</option>
 
 
 
