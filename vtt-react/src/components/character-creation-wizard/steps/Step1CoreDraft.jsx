@@ -107,6 +107,7 @@ import { TOXICOLOGIST_DATA } from '../../../data/classes/toxicologistData';
 import { WARDEN_DATA } from '../../../data/classes/wardenData';
 
 import { AUGUR_DATA } from '../../../data/classes/augurData';
+import { CRUSADER_DATA } from '../../../data/classes/crusaderData';
 
 
 

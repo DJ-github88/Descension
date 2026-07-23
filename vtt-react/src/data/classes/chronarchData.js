@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Chronarch Class Data
  *
@@ -514,6 +515,28 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
  // ========================================
  // LEVEL 1 SPELLS - The Core Engine
  // ========================================
+  { id: "chrono_slow_fall",
+   name: "Slow Fall",
+   description: "Freeze temporal friction beneath falling boots. Target floats down gently (10 ft/sec), taking 0 fall damage regardless of drop height.",
+   level: 1,
+   spellType: "REACTION",
+   icon: "Utility/Speed Dash",
+   typeConfig: { school: "storm", icon: "Utility/Speed Dash", tags: ["utility", "reaction", "temporal", "chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["ally", "self"] },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }
+  },
+  { id: "chrono_time_blink",
+   name: "Time Blink",
+   description: "Step through a micro-second gap in the clockwork lattice. Instantly teleport 30 ft to an unoccupied sightline space, cleansing all non-magical Roots and Grapples.",
+   level: 2,
+   spellType: "ACTION",
+   icon: "Utility/Speed Dash",
+   typeConfig: { school: "storm", icon: "Utility/Speed Dash", tags: ["utility", "teleport", "blink", "chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }
+  },
  { id: "chrono_bolt",
   name: "Chrono Bolt",
   description: "Hurl a bolt of calcified chronal energy dealing 1d8 + INT storm damage. If at 0 Temporal Strain, generate 2 Time Shards instead of 1, kickstarting your engine on Turn 1.",

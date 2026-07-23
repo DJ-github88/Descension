@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Spellguard Class Data
  *
@@ -460,6 +461,32 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
  // SPELLGUARD SPELLS
  // ========================================
  exampleSpells: [
+    ...UTILITY_SPELLS,
+    // SIGNATURE UTILITY SPELLS (CLASSIC WOW UTILITY NICHE)
+  { id: "spg_aegis_ward",
+   name: "Aegis Ward",
+   description: "Instantly raise a prismatic barrier granting +3 Passive DR against an incoming strike.",
+   level: 1,
+   spellType: "REACTION",
+   icon: "Shield/Barrier Shield",
+   typeConfig: { school: "arcane", icon: "Shield/Barrier Shield", tags: ["utility", "reaction", "shield", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "shield", "spellguard"]
+  },
+  { id: "spg_spell_break",
+   name: "Spell Break",
+   description: "Interrupt an enemy casting a spell within 30 ft by detonating a ward charge, forcing the spell to fail.",
+   level: 2,
+   spellType: "REACTION",
+   icon: "Arcane/Burst Arcane",
+   typeConfig: { school: "arcane", icon: "Arcane/Burst Arcane", tags: ["utility", "counterspell", "spell_break", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["utility", "counterspell", "spellguard"]
+  },
   // ========================================
   // PASSIVES (LEVEL 1)
   // ========================================
@@ -1431,3 +1458,5 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   }
  ],
 };
+
+SPELLGUARD_DATA.spells = SPELLGUARD_DATA.exampleSpells;

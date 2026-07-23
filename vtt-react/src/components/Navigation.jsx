@@ -13,6 +13,7 @@ import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './common/ErrorBoundary';
+import '../styles/resizable-nav.css';
 import { useWindowIntros } from '../hooks/useWindowIntros';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
@@ -1295,7 +1296,8 @@ export default function Navigation({ onReturnToLanding }) {
 
                 {/* Mobile Navigation Popout */}
                 {isMobile && isMobileNavOpen && (
-                    <div className="mobile-nav-popout">
+                    <div className="mobile-nav-backdrop" onClick={() => setIsMobileNavOpen(false)}>
+                    <div className="mobile-nav-popout" onClick={(e) => e.stopPropagation()}>
                         <div className="mobile-nav-popout-header">
                             <span>Navigation</span>
                             <button
@@ -1434,6 +1436,7 @@ export default function Navigation({ onReturnToLanding }) {
                                 <span>Return to Menu</span>
                             </button>
                         )}
+                    </div>
                     </div>
                 )}
 
@@ -1655,30 +1658,17 @@ export default function Navigation({ onReturnToLanding }) {
                             title="Click to center on origin (0, 0)"
                             onClick={() => setCameraPosition(0, 0)}
                             style={{
-                                position: 'fixed',
-                                top: '12px',
-                                left: '12px',
                                 color: textColor,
-                                fontFamily: 'Courier New, Monaco, monospace',
-                                fontSize: '14px',
-                                fontWeight: '600',
-                                zIndex: 99999,
                                 visibility: 'visible',
-                                opacity: 1,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                pointerEvents: 'auto',
-                                cursor: 'pointer',
-                                userSelect: 'none'
+                                opacity: 1
                             }}
                         >
                             <i className="fas fa-crosshairs" style={{ marginRight: '6px', color: textColor, fontSize: '12px', opacity: 0.8 }}></i>
-                            <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX.toFixed(1)}</span>
-                            <span style={{ margin: '0 8px', color: textColor, opacity: 0.6 }}>|</span>
-                            <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY.toFixed(1)}</span>
+                            <span style={{ color: textColor }}>X: {gridX.toFixed(1)}</span>
+                            <span className="coord-separator" style={{ color: textColor }}>|</span>
+                            <span style={{ color: textColor }}>Y: {gridY.toFixed(1)}</span>
                             <i
-                                className="fas fa-map-marker-alt"
+                                className="fas fa-map-marker-alt coord-jump-icon"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setInputX(gridX.toFixed(1));
@@ -1686,12 +1676,8 @@ export default function Navigation({ onReturnToLanding }) {
                                     setShowCoordinatePopup(true);
                                 }}
                                 style={{
-                                    marginLeft: '8px',
                                     color: textColor,
-                                    fontSize: '14px',
-                                    opacity: 0.8,
-                                    cursor: 'pointer',
-                                    transition: 'opacity 0.2s'
+                                    cursor: 'pointer'
                                 }}
                                 onMouseEnter={(e) => e.target.style.opacity = '1'}
                                 onMouseLeave={(e) => e.target.style.opacity = '0.8'}
@@ -1706,23 +1692,13 @@ export default function Navigation({ onReturnToLanding }) {
                 {/* Coordinate Input Popup */}
                 {showCoordinatePopup && (
                     <div
+                        className="coord-popup"
                         style={{
-                            position: 'fixed',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            backgroundColor: '#2c1810',
-                            border: '2px solid #8b6f47',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            zIndex: 100000,
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-                            minWidth: '300px',
                             fontFamily: 'Bookman Old Style, Garamond, serif'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div style={{ marginBottom: '15px', color: '#d4c5b9', fontSize: '16px', fontWeight: '600' }}>
+                        <div className="coord-jump-title" style={{ color: '#d4c5b9', fontWeight: '600' }}>
                             Jump to Coordinates
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

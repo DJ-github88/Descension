@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Apex Class Data
  *
@@ -720,6 +721,38 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
  // Example Abilities - showcasing Shadow Glaive and Companion mechanics
  exampleSpells: [
+    ...UTILITY_SPELLS,
+    // SIGNATURE UTILITY SPELLS (CLASSIC WOW UTILITY NICHE)
+  {
+   effectTypes: ["utility"],
+   id: "apex_mist_decoy",
+   name: "Mist Decoy",
+   description: "Hurl a petrified ironwood seed casing up to 40 ft away that emits the distinct clicking sound of a wounded mist-beetle. All guards and enemies within 25 ft must make a Perception check or immediately turn to face the sound for 1 round, breaking alert vision cones.",
+   spellType: "ACTION",
+   icon: "Utility/Utility",
+   level: 2,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Utility" },
+   targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 40, areaSize: 25 },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "stealth", "decoy", "distract", "apex"]
+  },
+  {
+   effectTypes: ["utility", "buff"],
+   id: "apex_silent_footsteps",
+   name: "Silent Footsteps",
+   description: "Mask your party's footsteps, scent, and rustle in dense fog or snow. Grants your party +5 to Stealth checks for 10 minutes.",
+   spellType: "ACTION",
+   icon: "Utility/Hide",
+   level: 1,
+   specialization: "universal",
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Hide" },
+   targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
+   resourceCost: { actionPoints: 1, mana: 0 },
+   cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+   tags: ["utility", "stealth", "party", "apex"]
+  },
  // BLADESTORM - Multi-Target Glaive Attacks
  {
   effectTypes: ["damage"],
@@ -3754,3 +3787,5 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   },
  ],
 };
+
+APEX_DATA.spells = APEX_DATA.exampleSpells;

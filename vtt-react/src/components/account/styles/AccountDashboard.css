@@ -2331,15 +2331,18 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease, padding 0.3s ease;
-  position: sticky;
+  position: fixed;
   top: 56px;
-  z-index: 99;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
 }
 
 .account-mobile-menu.open {
-  max-height: 600px;
+  max-height: calc(100vh - 56px);
   padding: 8px 0;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
 }
 
 .account-mobile-nav {
@@ -2489,8 +2492,8 @@
   }
 
   .account-mobile-hamburger {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
 
   .account-mobile-nav-item,
@@ -2533,6 +2536,133 @@
   .quick-action-btn {
     max-width: 100%;
     padding: var(--my-space-mobile-3) var(--my-space-mobile-4);
+  }
+}
+
+@media (max-width: 375px) {
+  .account-header-new {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .account-avatar-large {
+    width: 28px;
+    height: 28px;
+  }
+
+  .account-welcome .user-display-name {
+    font-size: 0.8rem;
+  }
+
+  .stats-overview {
+    padding: var(--my-space-mobile-3);
+    margin: 0 2px;
+  }
+
+  .stats-header h2 {
+    font-size: var(--my-font-size-mobile-lg);
+  }
+
+  .stat-card {
+    padding: var(--my-space-mobile-3);
+  }
+
+  .dashboard-card {
+    padding: var(--my-space-mobile-3);
+  }
+
+  .card-header {
+    margin: calc(-1 * var(--my-space-mobile-3)) calc(-1 * var(--my-space-mobile-3)) var(--my-space-mobile-2) calc(-1 * var(--my-space-mobile-3));
+    padding: var(--my-space-mobile-3);
+  }
+
+  .card-header h2 {
+    font-size: var(--my-font-size-mobile-base);
+  }
+
+  .account-main {
+    padding: var(--my-space-mobile-2);
+  }
+
+  .quick-action-btn {
+    padding: var(--my-space-mobile-2) var(--my-space-mobile-3);
+    font-size: var(--my-font-size-mobile-sm);
+  }
+
+  .account-mobile-nav-item,
+  .account-mobile-action-item {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .characters-header h2 {
+    font-size: var(--my-font-size-mobile-lg);
+  }
+}
+
+@media (max-width: 320px) {
+  .account-header-new {
+    padding: 0.25rem 0.4rem;
+  }
+
+  .account-avatar-large {
+    width: 24px;
+    height: 24px;
+  }
+
+  .account-welcome .user-display-name {
+    font-size: 0.75rem;
+  }
+
+  .account-main {
+    padding: 0.25rem;
+  }
+
+  .stats-overview {
+    padding: var(--my-space-mobile-2);
+    margin: 0;
+  }
+
+  .stats-header h2 {
+    font-size: var(--my-font-size-mobile-base);
+  }
+
+  .stat-card {
+    padding: var(--my-space-mobile-2);
+    font-size: var(--my-font-size-mobile-xs);
+  }
+
+  .dashboard-card {
+    padding: var(--my-space-mobile-2);
+  }
+
+  .card-header {
+    margin: calc(-1 * var(--my-space-mobile-2)) calc(-1 * var(--my-space-mobile-2)) var(--my-space-mobile-1) calc(-1 * var(--my-space-mobile-2));
+    padding: var(--my-space-mobile-2);
+  }
+
+  .card-header h2 {
+    font-size: var(--my-font-size-mobile-sm);
+  }
+
+  .quick-action-btn {
+    padding: var(--my-space-mobile-1) var(--my-space-mobile-2);
+    font-size: var(--my-font-size-mobile-xs);
+  }
+
+  .account-mobile-nav-item,
+  .account-mobile-action-item {
+    padding: 8px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .account-mobile-hamburger {
+    width: 40px;
+    height: 40px;
+  }
+
+  .characters-header h2 {
+    font-size: var(--my-font-size-mobile-base);
   }
 }
 

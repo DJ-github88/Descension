@@ -11,6 +11,166 @@ import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
 
+const TEST_RACES = [
+    { race: 'human', subrace: 'thalren_human', raceDisplayName: 'Thalren (Human)' },
+    { race: 'human', subrace: 'skald_human', raceDisplayName: 'Skald (Human)' },
+    { race: 'mimir', subrace: 'mimir', raceDisplayName: 'Mimir' },
+    { race: 'groven', subrace: 'groven', raceDisplayName: 'Groven' },
+    { race: 'emberth', subrace: 'emberth', raceDisplayName: 'Emberth' },
+    { race: 'florae', subrace: 'florae', raceDisplayName: 'Florae' },
+    { race: 'astril', subrace: 'astril', raceDisplayName: 'Astril' },
+    { race: 'neth', subrace: 'neth', raceDisplayName: 'Neth' },
+];
+
+const TEST_CLASSES = [
+    'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
+    'Revenant', 'Chronarch', 'False Prophet', 'Gambit', 'Apex',
+    'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend',
+    'Spellguard', 'Toxicologist', 'Warden', 'Augur', 'Animist'
+];
+
+const TEST_FIRST_NAMES = [
+    'Kael', 'Theron', 'Lyra', 'Vex', 'Sylas', 'Aria', 'Dain', 'Nyx',
+    'Orin', 'Elara', 'Bram', 'Kira', 'Falk', 'Tess', 'Grim', 'Isolde',
+    'Rurik', 'Senna', 'Vael', 'Ashara', 'Tormund', 'Brielle', 'Caspian',
+    'Wren', 'Alaric', 'Mira', 'Dorus', 'Yara', 'Theron', 'Faye'
+];
+
+const TEST_LAST_NAMES = [
+    'Ironforge', 'Stormborn', 'Darkweaver', 'Flameheart', 'Shadowbane',
+    'Lightbringer', 'Frostwolf', 'Nightfall', 'Steelgrasp', 'Windwalker',
+    'Ashborn', 'Thornwall', 'Ravencrest', 'Goldmane', 'Swiftbow',
+    'Stonefist', 'Firebrand', 'Mistwalker', 'Hollowbone', 'Embercrown'
+];
+
+const TEST_WEAPONS = [
+    { id: 'ironweep', name: 'Ironweep', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'physical', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
+    { id: 'wanderers-edge', name: "Wanderer's Edge", subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'physical', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
+    { id: 'soulthirst', name: 'Soulthirst', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'physical', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
+    { id: 'griefwood-staff', name: 'Griefwood Staff', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staves/staff-basic-gnarled-dark-brown', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
+];
+
+const TEST_ARMOR = [
+    { id: 'threadbare-sorrow', name: 'Threadbare Sorrow', type: 'armor', subtype: 'CLOTH', quality: 'poor', slots: ['chest'], iconId: 'Armor/Chest/chest-tattered-brown-robe', baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd4', maxDurability: 'd4', width: 2, height: 2 },
+    { id: 'weathered-hide', name: 'Weathered Hide', type: 'armor', subtype: 'LEATHER', quality: 'common', slots: ['chest'], iconId: 'Armor/Chest/chest-barbarian-leather-tunic', baseStats: { agility: { value: 1, isPercentage: false }, constitution: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 2, height: 3 },
+    { id: 'rusted-sorrow', name: 'Rusted Sorrow', type: 'armor', subtype: 'MAIL', quality: 'common', slots: ['chest'], iconId: 'Armor/Chest/chest-segmented-brown-cuirass', baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -2, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 3, height: 3 },
+];
+
+const TEST_CONSUMABLES = [
+    { id: 'crimson-tears', name: 'Crimson Tears', type: 'consumable', subtype: 'POTION', quality: 'poor', stackable: true, maxStackSize: 10, width: 1, height: 1, iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-red-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork', combatStats: { healthRestore: { value: 15, isPercentage: false } }, count: 3 },
+    { id: 'blood-remembrance', name: 'Blood Remembrance', type: 'consumable', subtype: 'POTION', quality: 'common', stackable: true, maxStackSize: 10, width: 1, height: 1, iconId: 'Misc/Profession Resources/Alchemy/Red/red-potion-bottle-bulbous-rounded-body-tapering-narrow-neck-light-beige-off-white-glass-subtle-shading-left-side-bright-fiery-red-liquid-two-thirds-yellow-pixel-highlight-surface-variations-shade-dark-stopper', combatStats: { healthRestore: { value: 35, isPercentage: false } }, count: 2 },
+    { id: 'spark-elixir', name: 'Spark Elixir', type: 'consumable', subtype: 'POTION', quality: 'common', stackable: true, maxStackSize: 10, width: 1, height: 1, iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle-classic-squat-bulbous-rounded-body-narrower-neck-diagonal-bright-deep-blue-liquid-two-thirds-light-beige-cream-glass-dark-brown-cylindrical-cork', combatStats: { manaRestore: { value: 20, isPercentage: false } }, count: 2 },
+];
+
+function generatePlaceholderCharacter(userId) {
+    const firstName = TEST_FIRST_NAMES[Math.floor(Math.random() * TEST_FIRST_NAMES.length)];
+    const lastName = TEST_LAST_NAMES[Math.floor(Math.random() * TEST_LAST_NAMES.length)];
+    const name = `${firstName} ${lastName}`;
+    const raceData = TEST_RACES[Math.floor(Math.random() * TEST_RACES.length)];
+    const characterClass = TEST_CLASSES[Math.floor(Math.random() * TEST_CLASSES.length)];
+    const level = Math.floor(Math.random() * 5) + 1; // Level 1-5
+
+    const stats = {
+        strength: 10 + Math.floor(Math.random() * 8),
+        agility: 10 + Math.floor(Math.random() * 8),
+        constitution: 10 + Math.floor(Math.random() * 8),
+        intelligence: 10 + Math.floor(Math.random() * 8),
+        spirit: 10 + Math.floor(Math.random() * 8),
+        charisma: 10 + Math.floor(Math.random() * 8),
+    };
+
+    const maxHP = Math.round(stats.constitution * 2.5 + level * 4 + Math.random() * 10);
+    const maxMana = Math.round(stats.spirit * 1.5 + level * 2 + Math.random() * 8);
+    const maxAP = 3;
+
+    // Pick a random weapon with unique instance id
+    const weaponTemplate = TEST_WEAPONS[Math.floor(Math.random() * TEST_WEAPONS.length)];
+    const weapon = { ...weaponTemplate, instanceId: `item_${Date.now()}_w` };
+
+    // Pick a random armor with unique instance id
+    const armorTemplate = TEST_ARMOR[Math.floor(Math.random() * TEST_ARMOR.length)];
+    const armor = { ...armorTemplate, instanceId: `item_${Date.now()}_a` };
+
+    // Pick 1-2 consumables
+    const consumableCount = Math.floor(Math.random() * 2) + 1;
+    const consumables = [];
+    const usedConsumableIds = new Set();
+    for (let i = 0; i < consumableCount; i++) {
+        let template;
+        do {
+            template = TEST_CONSUMABLES[Math.floor(Math.random() * TEST_CONSUMABLES.length)];
+        } while (usedConsumableIds.has(template.id) && usedConsumableIds.size < TEST_CONSUMABLES.length);
+        usedConsumableIds.add(template.id);
+        consumables.push({ ...template, instanceId: `item_${Date.now()}_c${i}` });
+    }
+
+    // Equipped items
+    const equipment = {
+        weapon: weapon,
+        armor: armor,
+        shield: null,
+        accessories: [],
+    };
+
+    // Inventory: put the extra consumables in the bag (equipped weapon/armor are separate)
+    const inventoryItems = [...consumables];
+
+    return {
+        id: `char_placeholder_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        userId,
+        name,
+        level,
+        experience: level > 1 ? Math.floor((level - 1) * 100 + Math.random() * 50) : 0,
+        race: raceData.race,
+        subrace: raceData.subrace,
+        raceDisplayName: raceData.raceDisplayName,
+        class: characterClass,
+        background: 'none',
+        backgroundDisplayName: '',
+        stats,
+        health: { current: maxHP, max: maxHP },
+        mana: { current: maxMana, max: maxMana },
+        actionPoints: { current: maxAP, max: maxAP },
+        equipment,
+        inventory: {
+            items: inventoryItems,
+            currency: {
+                platinum: 0,
+                gold: Math.floor(Math.random() * 50) + 10,
+                silver: Math.floor(Math.random() * 100),
+                copper: Math.floor(Math.random() * 100),
+            },
+            encumbranceState: 'normal',
+        },
+        spells: [],
+        abilities: [],
+        skillRanks: {},
+        talents: {},
+        class_spells: { known_spells: [] },
+        alignment: 'Neutral Good',
+        lore: {
+            background: '',
+            personality: '',
+            appearance: '',
+            characterImage: null,
+            imageTransformations: null,
+            characterIcon: null,
+            iconBackgroundColor: '#f8f5eb',
+            iconBorderColor: '#d4af37',
+            iconBackgroundImage: null,
+            iconScale: 1,
+            iconOffsetX: 0,
+            iconOffsetY: 0,
+            iconBackgroundScale: 2.5,
+            iconBackgroundOffsetX: 0,
+            iconBackgroundOffsetY: 0,
+        },
+        tokenSettings: {},
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+}
+
 export const createCoreSlice = (set, get) => ({
     // Character management for account system
     characters: [], // Array of all user's characters
@@ -1079,6 +1239,30 @@ export const createCoreSlice = (set, get) => ({
             // Load characters first
             const characters = await get().loadCharacters();
             set({ characters }); // Ensure they are in state
+
+            // AUTO-CREATE PLACEHOLDER: If no characters exist, create one automatically
+            if (characters.length === 0) {
+                console.log('[CharacterSystem] No characters found — creating placeholder character');
+                const userId = getCurrentUserId();
+                const placeholderChar = generatePlaceholderCharacter(userId);
+                await get().createCharacter(placeholderChar);
+                // Reload after creation
+                const updatedCharacters = await get().loadCharacters();
+                set({ characters: updatedCharacters });
+
+                // Check for active character after creation
+                const activeCharacter = await get().loadActiveCharacter(updatedCharacters);
+                if (activeCharacter) {
+                    console.log(`[CharacterSystem] Placeholder character created and activated: ${activeCharacter.name}`);
+                }
+                set({ error: null });
+
+                return {
+                    charactersCount: updatedCharacters.length,
+                    activeCharacter,
+                    isReady: !!activeCharacter
+                };
+            }
 
             // Check for active character - pass the already loaded characters to avoid double load
             const activeCharacter = await get().loadActiveCharacter(characters);

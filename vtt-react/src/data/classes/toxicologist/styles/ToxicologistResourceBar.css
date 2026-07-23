@@ -11,8 +11,8 @@
     left: 50%; /* Center on the bar's divider instead of dangling off the left edge */
     top: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.85), rgba(101, 67, 33, 0.92));
-    border: 1px solid rgba(222, 184, 135, 0.6);
+    background: linear-gradient(135deg, #1b3812, #2d5a1e);
+    border: 1.5px solid #84cc16;
     border-radius: 50%;
     width: 26px;
     height: 26px;
@@ -20,21 +20,22 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.4), 0 2px 5px rgba(0, 0, 0, 0.6);
 }
 
 .spec-button i {
     font-size: 12px;
-    color: rgba(245, 230, 200, 0.98);
+    color: #ecfccb;
+    text-shadow: 0 0 4px rgba(132, 204, 22, 0.8);
 }
 
 .spec-button:hover {
-    background: linear-gradient(135deg, rgba(160, 90, 30, 0.95), rgba(120, 80, 40, 1));
-    border-color: rgba(222, 184, 135, 0.9);
-    transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 0 0 10px rgba(222, 184, 135, 0.5);
+    background: linear-gradient(135deg, #2d5a1e, #3f7a2a);
+    border-color: #bef264;
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow: 0 0 16px rgba(190, 242, 100, 0.75), 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .spec-button:active {

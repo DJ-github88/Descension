@@ -6406,7 +6406,7 @@ button.gender-option.selected {
         width: auto !important;
         min-width: 0 !important;
         padding: 0 var(--my-space-mobile-2) !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
         order: 0 !important;
         overflow-x: auto !important;
         overflow-y: hidden !important;
@@ -6459,18 +6459,18 @@ button.gender-option.selected {
     }
 
     .step-circle-horizontal {
-        width: 32px;
-        height: 32px;
-        min-width: 32px;
-        min-height: 32px;
-        max-width: 32px;
-        max-height: 32px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        max-width: 44px;
+        max-height: 44px;
         font-size: 0.85rem !important;
     }
 
     .progress-step-horizontal {
-        min-width: 36px !important;
-        max-width: 36px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
         flex-shrink: 0 !important;
     }
 
@@ -6497,8 +6497,18 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-btn-cancel {
-        padding: 0.5rem !important;
-        min-width: 38px !important;
+        padding: 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .character-wizard-container .wizard-btn-cancel i {
+        font-size: 0.95rem !important;
     }
 
     /* Keep step names hidden on phones */
@@ -6522,18 +6532,18 @@ button.gender-option.selected {
     }
 
     .step-circle-horizontal {
-        width: 28px;
-        height: 28px;
-        min-width: 28px;
-        min-height: 28px;
-        max-width: 28px;
-        max-height: 28px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        max-width: 44px;
+        max-height: 44px;
         font-size: 0.8rem;
     }
 
     .progress-step-horizontal {
-        min-width: 34px;
-        max-width: 40px;
+        min-width: 44px;
+        max-width: 44px;
     }
 
     /* Step names and connectors stay hidden */
@@ -14302,7 +14312,7 @@ button.gender-option.selected {
 @media (max-width: 768px) {
     .mobile-section-tabs-bar {
         display: flex;
-        gap: 0;
+        gap: 0.4rem;
         padding: 0.5rem 0.5rem 0;
         background: rgba(60, 40, 20, 0.08);
         border-bottom: 2px solid #997e55;
@@ -14314,20 +14324,21 @@ button.gender-option.selected {
 
     .mobile-section-tab {
         flex: 1;
-        padding: 0.65rem 0.25rem;
-        border: none;
-        background: transparent;
+        padding: 0.5rem 0.25rem;
+        border: 1px solid rgba(153, 126, 85, 0.35);
+        background: rgba(255, 250, 240, 0.55);
         color: #6b5a42;
         font-family: 'Crimson Text', serif;
         font-size: 0.78rem;
         font-weight: 600;
         cursor: pointer;
-        border-bottom: 3px solid transparent;
+        border-radius: 12px;
+        border-bottom: 1px solid rgba(153, 126, 85, 0.35);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.2rem;
-        transition: color 0.15s, border-color 0.15s;
+        transition: color 0.15s, background 0.15s, border-color 0.15s;
         -webkit-tap-highlight-color: transparent;
     }
 
@@ -14337,7 +14348,9 @@ button.gender-option.selected {
 
     .mobile-section-tab.active {
         color: #2e1e0f;
-        border-bottom-color: #c8a45c;
+        background: rgba(200, 164, 92, 0.22);
+        border-color: #c8a45c;
+        border-bottom: 1px solid #c8a45c;
     }
 
     .mobile-section-tab:disabled {
@@ -14430,21 +14443,28 @@ button.gender-option.selected {
         display: none !important;                  /* Chromium/Safari */
     }
 
-    /* Compact Cancel so the whole row fits */
+    /* Compact Cancel icon-button so the whole row fits and stays balanced */
     .character-wizard-container .header-left .wizard-btn-cancel {
-        padding: 0.4rem 0.6rem !important;
-        min-width: 0 !important;
-        font-size: 0.8rem !important;
+        padding: 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 0.95rem !important;
     }
 
     /* Nav arrows: match the step-circle height so the whole row reads as one
        unified stepper (was 44px — taller than the 36px circles, looked
        mismatched). Override the .wizard-btn min-height too. */
     .character-wizard-container .wizard-btn-icon {
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-        min-height: 36px !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
         font-size: 0.95rem !important;
         padding: 0 !important;
     }
@@ -14481,14 +14501,14 @@ button.gender-option.selected {
         display: none !important;
     }
 
-    /* Step indicators: match the nav-arrow height (36px) for one unified row. */
+    /* Step indicators: min 44px touch targets */
     .character-wizard-container .step-circle-horizontal {
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-        min-height: 36px !important;
-        max-width: 36px !important;
-        max-height: 36px !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        max-width: 44px !important;
+        max-height: 44px !important;
         font-size: 0.85rem !important;
         border-width: 2px !important;
     }
@@ -14501,13 +14521,13 @@ button.gender-option.selected {
 /* Very small phones: keep touch targets usable while fitting one row */
 @media (max-width: 360px) {
     .character-wizard-container .step-circle-horizontal {
-        width: 28px !important;
-        height: 28px !important;
-        min-width: 28px !important;
-        min-height: 28px !important;
-        max-width: 28px !important;
-        max-height: 28px !important;
-        font-size: 0.72rem !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        max-width: 44px !important;
+        max-height: 44px !important;
+        font-size: 0.8rem !important;
     }
 
     .character-wizard-container .progress-steps-horizontal {

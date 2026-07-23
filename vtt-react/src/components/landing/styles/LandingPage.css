@@ -1812,6 +1812,196 @@ body svg[data-icon] {
   }
 }
 
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+
+  .primary-action-btn,
+  .secondary-action-btn,
+  .immersive-action-btn {
+    min-width: unset;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+
+  .hero-section {
+    padding: 16px 8px;
+    min-height: 50vh;
+  }
+
+  .feature-card,
+  .pricing-card {
+    padding: 16px 12px;
+  }
+
+  .pricing-card .price {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .rules-card-header {
+    padding: 12px 14px;
+  }
+
+  .rules-card-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .rules-card-body {
+    padding: 14px;
+  }
+
+  .quick-start-grid {
+    gap: 12px;
+  }
+
+  .start-step {
+    padding: 14px 10px;
+  }
+
+  .mobile-menu-item {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-content p {
+    font-size: 0.8rem;
+  }
+
+  .primary-action-btn,
+  .secondary-action-btn,
+  .immersive-action-btn {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  .hero-section {
+    padding: 12px 6px;
+    min-height: 40vh;
+  }
+
+  .feature-card {
+    padding: 12px 8px;
+  }
+
+  .feature-card h3 {
+    font-size: 1rem;
+  }
+
+  .pricing-card {
+    padding: 14px 10px;
+  }
+
+  .pricing-card .price {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .hero-content h1 {
+    font-size: 1.4rem;
+  }
+
+  .hero-content p {
+    font-size: 0.75rem;
+  }
+
+  .primary-action-btn,
+  .secondary-action-btn,
+  .immersive-action-btn {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    white-space: normal;
+  }
+
+  .hero-section {
+    padding: 10px 4px;
+    min-height: 35vh;
+  }
+
+  .highlight-item {
+    min-width: 80px;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .highlight-item strong {
+    font-size: 1.2rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .start-step h3 {
+    font-size: 1rem;
+  }
+
+  .start-step p {
+    font-size: 0.8rem;
+  }
+
+  .rules-card-header {
+    padding: 10px 10px;
+  }
+
+  .rules-card-header h3 {
+    font-size: 1rem;
+  }
+
+  .rules-card-body {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+
+  .rules-card-body ul li {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .mobile-menu-item {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 8px;
+  }
+}
+
 /* Mobile Hamburger Menu */
 .mobile-hamburger {
   display: none;
@@ -1858,18 +2048,26 @@ body svg[data-icon] {
 .mobile-menu {
   display: none;
   flex-direction: column;
-  position: relative;
+  position: fixed;
+  top: 56px;
+  left: 0;
   width: 100%;
-  background: transparent;
-  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  max-width: min(320px, 100%);
+  background: linear-gradient(180deg, #1f110a 0%, #0d0704 100%);
+  border-right: 2px solid rgba(212, 175, 55, 0.2);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.3s ease, box-shadow 0.3s ease;
+  z-index: 9999;
+  box-shadow: none;
+  border-top: none;
 }
 
 .mobile-menu.open {
-  max-height: 500px;
+  max-height: calc(100vh - 56px);
   padding: 8px 0;
+  box-shadow: 4px 8px 32px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
 }
 
 .mobile-menu-list {
@@ -1931,6 +2129,9 @@ body svg[data-icon] {
 
   .mobile-menu {
     display: flex;
+    position: fixed;
+    top: 56px;
+    left: 0;
   }
 
   .header-content {
@@ -1946,12 +2147,12 @@ body svg[data-icon] {
     flex-shrink: 0;
   }
 
-  .header-center {
-    display: none;
+  body.landing-mode .header-center {
+    display: none !important;
   }
 
-  .header-right {
-    display: none;
+  body.landing-mode .header-right {
+    display: none !important;
   }
 
   .logo {

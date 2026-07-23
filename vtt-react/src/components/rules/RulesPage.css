@@ -391,7 +391,7 @@
 }
 
 .rules-sidebar.collapsed .rules-nav-category {
-  margin-bottom: 4px;
+  margin-bottom: 0;
   display: flex;
   justify-content: center;
 }
@@ -1570,10 +1570,10 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   .rules-sidebar {
     width: 100% !important;
     max-width: 100% !important;
-    max-height: 60px;
-    height: 60px;
+    max-height: 56px;
+    height: 56px;
     border-right: none;
-    border-bottom: 2px solid #321c10;
+    border-bottom: 1px solid #321c10;
     position: relative;
     overflow: visible;
     flex-shrink: 0;
@@ -1581,13 +1581,13 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box;
-    background: linear-gradient(180deg, #180e09 0%, #100805 100%);
+    background: transparent;
   }
 
   .rules-sidebar.collapsed {
     width: 100% !important;
     max-width: 100% !important;
-    max-height: 60px;
+    max-height: 56px;
     overflow: visible;
     transition: max-height 0.3s ease;
     padding: 0 !important;
@@ -1599,8 +1599,8 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    height: 60px !important;
-    padding: 8px var(--my-space-mobile-4, 12px) !important;
+    height: 56px !important;
+    padding: 6px var(--my-space-mobile-4, 12px) !important;
     margin: 0 !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -1617,8 +1617,8 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     -ms-overflow-style: none;
     gap: 6px;
     /* Right edge fade to hint that more icons are scrollable */
-    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
     scroll-padding-right: 12px;
   }
 
@@ -1631,6 +1631,8 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     margin-right: 6px;
     margin-left: 0;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
   }
 
   .rules-nav-category:last-child {
@@ -1638,11 +1640,11 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   }
 
   .rules-sidebar.collapsed .rules-nav-category-btn {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    margin: 0;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
     border-radius: 8px;
     border: 1px solid #3c2415;
     /* Match desktop dark ironwood theme */
@@ -1651,6 +1653,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     box-shadow: none !important;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
   }
 
   /* Suppress default browser focus rings: use a clean inner ring instead */
@@ -1680,7 +1683,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     border-radius: 0 !important;
     box-shadow: none !important;
     background: #faf6ee !important;
-    padding: 20px var(--my-space-mobile-4) 100px var(--my-space-mobile-4) !important;
+    padding: 20px var(--my-space-mobile-4) 24px var(--my-space-mobile-4) !important;
     flex: 1;
     overflow-y: auto !important;
     overflow-x: hidden !important;
@@ -1709,58 +1712,12 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     position: relative !important;
   }
 
-  /* Mobile-optimized breadcrumbs: match desktop dark mahogany theme */
+  /* Breadcrumbs hidden on mobile — nav strip at top provides all needed navigation */
   .rules-breadcrumbs {
-    padding: var(--my-space-mobile-4) var(--my-space-mobile-6);
-    font-size: var(--my-font-size-mobile-sm);
-    flex-wrap: wrap;
-    gap: var(--my-space-mobile-2);
-    background: linear-gradient(180deg, #23120b 0%, #120804 100%);
-    border-bottom: 2px solid #3c2415;
-    margin: 0;
-    position: relative;
-    top: auto;
-    z-index: 100;
-    color: #c4a060;
-    box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.25), 0 4px 12px rgba(0, 0, 0, 0.45);
+    display: none;
   }
 
-  .rules-breadcrumb {
-    padding: var(--my-space-mobile-1) var(--my-space-mobile-2);
-    border-radius: 4px;
-    color: #a88c52;
-    transition: all 0.2s ease;
-  }
 
-  .rules-breadcrumb.active {
-    color: #fffbf2;
-    font-weight: 700;
-    text-shadow: 0 0 8px rgba(196, 160, 96, 0.4);
-  }
-
-  .rules-breadcrumb-link {
-    min-height: var(--my-touch-target-min);
-    padding: var(--my-space-mobile-2) var(--my-space-mobile-3);
-    border-radius: 6px;
-    color: #c4a060;
-  }
-
-  .rules-breadcrumb-link:hover {
-    color: #fffbf2;
-    background: rgba(196, 160, 96, 0.15);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
-    box-shadow: 0 0 8px rgba(196, 160, 96, 0.1);
-    transform: none;
-  }
-
-  .rules-breadcrumb-link:active {
-    background: rgba(196, 160, 96, 0.25);
-  }
-
-  .rules-breadcrumbs i {
-    font-size: var(--my-font-size-mobile-xs);
-    color: #8f6f35;
-  }
 
   /* Mobile content header */
   .rules-content-header {
@@ -1938,6 +1895,23 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   }
 
   /* Mobile popout menu improvements */
+  /* Mobile backdrop for popout bottom sheet */
+  .rules-nav-popout-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
   .rules-nav-popout {
     position: fixed !important;
     top: auto !important;
@@ -2529,6 +2503,8 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
       margin-left: 0;
       position: relative;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
     }
 
     /* Vertical separator between search and category icons */

@@ -683,16 +683,16 @@ const ClassOriginsDisplay = () => {
      const border = activeRegion.borderColor;
      const accent = activeRegion.themeColor;
      return (
-      <div 
-       key={cls.id} 
-       className={`class-origin-entry ${expandedClassId === cls.id ? 'expanded' : ''}`}
-       style={{ 
-        '--co-border': border, 
-        '--co-glow': activeRegion.glowColor,
-        '--co-accent': accent 
-       }}
-      >
-       <div className="co-header-row" onClick={() => handleClassCardClick(cls.id)}>
+       <div 
+        key={cls.id} 
+        className={`class-origin-entry ${expandedClassId === cls.id ? 'expanded' : ''}${cls.id === 'crusader' ? ' coming-soon' : ''}`} 
+        style={{ 
+         '--co-border': border, 
+         '--co-glow': activeRegion.glowColor,
+         '--co-accent': accent 
+        }}
+        >
+       <div className="co-header-row" onClick={() => { if (cls.id === 'crusader') return; handleClassCardClick(cls.id); }}>
         <div className="co-header-left">
          <div className="co-class-icon" style={{ color: accent }}>
           <i className={cls.icon}></i>

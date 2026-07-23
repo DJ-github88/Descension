@@ -1,6 +1,7 @@
 /* ===== PATHFINDER VTT - ROOT STYLES ===== */
 
 /* Import consolidated form group styles */
+@import './styles/comingSoon.css';
 @import './styles/consolidated-form-groups.css';
 @import './styles/unified-section-titles.css';
 

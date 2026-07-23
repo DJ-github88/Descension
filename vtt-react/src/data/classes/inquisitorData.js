@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const INQUISITOR_DATA = {
   restrictions: {
        "allowedSubraces": [
@@ -224,7 +225,7 @@ The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken<
     philosophy: {
       coreTenet: 'Magic is a disease, and those who wield it irresponsibly are vectors. The supernatural cannot be destroyed, only contained. The Inquisitor does not hunt witches because they are evil; they hunt them because unchecked magic attracts worse things. Every spell broken, every horror bound, every curse purged is a crack sealed in reality.',
       relationship: 'Inquisitors draw power from cold iron, null-salt, and the absolute conviction that their work is necessary. They do not cast spells; they shatter them. They do not banish demons; they chain them. Their anti-magic aura is not a gift; it is a curse they have learned to weaponize. An Inquisitor cannot be healed by magic, cannot be enchanted, cannot be blessed. They exist in a permanent state of magical isolation, while the bound entities in their veins whisper heresy to their marrow.',
-      paradox: 'The Inquisitor exists to kill the thing they love and cage the thing they fear. Orven killed his sister. Elias opened his veins to the thing that should have destroyed him. Every Inquisitor since has trained to execute their own kin and chain the darkness inside their own flesh. They protect humanity by becoming something less than human. They are the loneliest warriors in Mythrill.',
+      paradox: 'The Inquisitor exists to kill the thing they love and cage the thing they fear. Orven killed his sister. Elias opened his veins to the thing that should have destroyed him. Every Inquisitor since has trained to execute their own kin and chain the darkness inside their own flesh. They protect humanity by becoming something less than human. They are the loneliest warriors in Mythril.',
     },
 
     currentCrisis: `The Wyrd is bleeding faster, and both traditions are reaching their breaking point. The Bryngloom mycelial network has developed a response to Inquisitor activity, marking them with a distinctive fungal rash that glows in the dark, making stealth impossible. The rash spreads to families of Inquisitors, making them targets. Simultaneously, the Frostwood Reach incursion rate has tripled. New entities that neither tradition has names for or rituals against are manifesting in the deep ironwood groves.
@@ -615,6 +616,32 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
   ],
 
   exampleSpells: [
+    ...UTILITY_SPELLS,
+    // SIGNATURE UTILITY SPELLS (CLASSIC WOW UTILITY NICHE)
+    { id: "inq_detect_corruption",
+      name: "Detect Corruption",
+      description: "Strike cold iron against your armor to emit a chime that reveals invisible Wyrd horrors, hidden illusion doors, and tainted objects within 40 ft.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "detect_magic", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 40 },
+      resourceCost: { actionPoints: 1, mana: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "detect", "inquisitor"]
+    },
+    { id: "inq_wyrd_banish",
+      name: "Wyrd Banish",
+      description: "Drag a targeted Wyrd-spawn or abomination into a void-cage for 1 minute on a failed save.",
+      level: 4,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: { school: "sacred", icon: "Utility/Utility", tags: ["utility", "banish", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
+      resourceCost: { actionPoints: 2, mana: 6 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      tags: ["utility", "banish", "inquisitor"]
+    },
     // ===== LEVEL 1 SPELLS =====
     { id : "inq_scent_of_ash",
       name: "Scent of Ash",
@@ -1935,3 +1962,5 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     },
   ],
 };
+
+INQUISITOR_DATA.spells = INQUISITOR_DATA.exampleSpells;

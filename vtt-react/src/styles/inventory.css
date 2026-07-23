@@ -198,18 +198,20 @@
     box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
     min-height: fit-content;
     flex: 1; /* Take up available space */
+    overflow-x: auto; /* Allow horizontal scroll if content wider than container */
 }
 
 .inventory-section-headers {
     display: flex;
-    width: 100%;
     margin-bottom: 0px;
     margin-top: 0px;
+    /* Width is driven by the sum of all section column widths */
+    width: calc((var(--section-normal-cols, 5) + var(--section-encumbered-cols, 5) + var(--section-overencumbered-cols, 5)) * 56px);
+    min-width: max-content;
 }
 
 /* Scope section-header to inventory context only */
 .inventory-section-headers .section-header {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,23 +221,23 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 0.35rem 0;
-    border-bottom: 2px solid;
     text-shadow: 0 1px 2px rgba(58, 47, 26, 0.8);
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
     border-radius: 0;
     border: 1px solid #8b7355;
     border-bottom: 2px solid;
     margin-bottom: 0px;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .inventory-section-headers .section-header.normal {
     color: #1a3d0a;
     background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
     border: 1px solid #4a934a;
-    border-bottom-color: #4a934a;
-    flex-basis: calc(100% * 0.3333);
+    border-bottom: 2px solid #4a934a;
+    /* Exact width: number of normal columns × cell size */
+    width: calc(var(--section-normal-cols, 5) * 56px);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
     border-radius: 6px 0 0 0;
@@ -245,8 +247,9 @@
     color: #5a4a0a;
     background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
     border: 1px solid #c9a83f;
-    border-bottom-color: #c9a83f;
-    flex-basis: calc(100% * 0.3333);
+    border-bottom: 2px solid #c9a83f;
+    /* Exact width: number of encumbered columns × cell size */
+    width: calc(var(--section-encumbered-cols, 5) * 56px);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
     border-radius: 0;
@@ -256,8 +259,9 @@
     color: #4a1a0a;
     background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
     border: 1px solid #a05a46;
-    border-bottom-color: #a05a46;
-    flex-basis: calc(100% * 0.3333);
+    border-bottom: 2px solid #a05a46;
+    /* Exact width: number of overencumbered columns × cell size */
+    width: calc(var(--section-overencumbered-cols, 5) * 56px);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
     border-radius: 0 6px 0 0;
@@ -1012,19 +1016,43 @@
         gap: 0.5rem;
     }
 
+    /* On mobile, the grid scrolls horizontally; section headers scroll with it */
     .inventory-grid {
-        padding: 28px 8px 8px 8px; /* Extra top padding for section labels */
+        padding: 8px;
         overflow-x: auto;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         display: flex;
         flex-direction: column;
         position: relative;
+        scroll-behavior: smooth;
     }
 
-    /* Stack sections vertically on mobile - hide horizontal headers */
+    /* Show section headers as a scrollable header row above the grid rows */
     .inventory-section-headers {
-        display: none; /* Hide horizontal headers, we'll show section headers inline */
+        display: flex;
+        /* Override desktop widths with mobile cell size (42px) */
+        width: calc((var(--section-normal-cols, 5) + var(--section-encumbered-cols, 5) + var(--section-overencumbered-cols, 5)) * 42px);
+        min-width: max-content;
+        margin-bottom: 0;
+    }
+
+    .inventory-section-headers .section-header.normal {
+        width: calc(var(--section-normal-cols, 5) * 42px);
+        font-size: 0.65rem;
+        padding: 0.3rem 0;
+    }
+
+    .inventory-section-headers .section-header.encumbered {
+        width: calc(var(--section-encumbered-cols, 5) * 42px);
+        font-size: 0.65rem;
+        padding: 0.3rem 0;
+    }
+
+    .inventory-section-headers .section-header.overencumbered {
+        width: calc(var(--section-overencumbered-cols, 5) * 42px);
+        font-size: 0.65rem;
+        padding: 0.3rem 0;
     }
 
     /* Make cells smaller for mobile */
@@ -1035,91 +1063,11 @@
         min-height: 42px;
     }
 
-    /* Reorganize rows - keep horizontal but optimize for scrolling */
+    /* Rows don't wrap; they scroll with the grid */
     .inventory-row {
         display: flex;
         flex-wrap: nowrap;
-        min-width: max-content; /* Ensure row doesn't shrink */
-    }
-
-    /* Make the grid scrollable horizontally with smooth scrolling */
-    .inventory-grid {
-        scroll-behavior: smooth;
-    }
-
-    /* Add visual section indicators above each section's first column */
-    .inventory-row:first-of-type {
-        position: relative;
-    }
-
-    /* Section labels positioned above their respective first columns */
-    .inventory-row:first-of-type .inventory-cell.normal:first-of-type {
-        position: relative;
-    }
-
-    .inventory-row:first-of-type .inventory-cell.normal:first-of-type::before {
-        content: "NORMAL";
-        position: absolute;
-        top: -22px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.65rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 3px 8px;
-        background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
-        color: #1a3d0a;
-        border: 1px solid #4a934a;
-        border-radius: 4px 4px 0 0;
-        white-space: nowrap;
-        z-index: 10;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .inventory-row:first-of-type .inventory-cell.encumbered:first-of-type {
-        position: relative;
-    }
-
-    .inventory-row:first-of-type .inventory-cell.encumbered:first-of-type::before {
-        content: "ENCUMBERED";
-        position: absolute;
-        top: -22px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.65rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 3px 8px;
-        background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
-        color: #5a4a0a;
-        border: 1px solid #c9a83f;
-        border-radius: 4px 4px 0 0;
-        white-space: nowrap;
-        z-index: 10;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .inventory-row:first-of-type .inventory-cell.overencumbered:first-of-type {
-        position: relative;
-    }
-
-    .inventory-row:first-of-type .inventory-cell.overencumbered:first-of-type::before {
-        content: "OVERENCUMBERED";
-        position: absolute;
-        top: -22px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.65rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 3px 8px;
-        background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
-        color: #4a1a0a;
-        border: 1px solid #a05a46;
-        border-radius: 4px 4px 0 0;
-        white-space: nowrap;
-        z-index: 10;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        min-width: max-content;
     }
 
     /* Currency section mobile adjustments */
@@ -1233,9 +1181,28 @@
         min-height: 36px;
     }
 
-    .inventory-section-headers .section-header {
-        font-size: 0.7rem;
-        padding: 0.4rem 0.2rem;
+    .inventory-section-headers {
+        width: calc((var(--section-normal-cols, 5) + var(--section-encumbered-cols, 5) + var(--section-overencumbered-cols, 5)) * 36px);
+    }
+
+    .inventory-section-headers .section-header.normal {
+        width: calc(var(--section-normal-cols, 5) * 36px);
+        font-size: 0.6rem;
+        padding: 0.25rem 0;
+    }
+
+    .inventory-section-headers .section-header.encumbered {
+        width: calc(var(--section-encumbered-cols, 5) * 36px);
+        font-size: 0.6rem;
+        padding: 0.25rem 0;
+        letter-spacing: 0;
+    }
+
+    .inventory-section-headers .section-header.overencumbered {
+        width: calc(var(--section-overencumbered-cols, 5) * 36px);
+        font-size: 0.6rem;
+        padding: 0.25rem 0;
+        letter-spacing: 0;
     }
 
     .currency {
@@ -1264,6 +1231,19 @@
         height: 45px;
         min-width: 45px;
         min-height: 45px;
+    }
+
+    .inventory-section-headers .section-header.normal {
+        width: calc(var(--section-normal-cols, 5) * 45px);
+    }
+    .inventory-section-headers .section-header.encumbered {
+        width: calc(var(--section-encumbered-cols, 5) * 45px);
+    }
+    .inventory-section-headers .section-header.overencumbered {
+        width: calc(var(--section-overencumbered-cols, 5) * 45px);
+    }
+    .inventory-section-headers {
+        width: calc((var(--section-normal-cols, 5) + var(--section-encumbered-cols, 5) + var(--section-overencumbered-cols, 5)) * 45px);
     }
 
     .inventory-grid {
@@ -1319,7 +1299,21 @@
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
-    background: transparent !important;
+    background: rgba(248, 243, 230, 0.95) !important;
+    max-height: none !important;
+    overflow: visible !important;
+    /* The floating ItemTooltip mounts hidden (display:none/visibility:hidden/opacity:0)
+       until its show logic runs. When embedded in the action panel it never shows,
+       so force it visible here. */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure tooltip content is visible when embedded */
+.item-action-tooltip-embed .item-tooltip * {
+    max-width: 100% !important;
+    overflow: visible !important;
 }
 
 @keyframes itemActionFadeIn {

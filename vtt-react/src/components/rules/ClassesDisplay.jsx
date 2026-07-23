@@ -262,6 +262,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 {filteredClasses.map(cls => {
 
                     const slug = slugify(cls.name);
+                    const isComingSoon = Boolean(cls.comingSoon);
 
                     return (
 
@@ -269,15 +270,23 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                         key={cls.name}
 
-                        className={`class-row class-row-${slug}`}
+                        className={`class-row class-row-${slug} ${isComingSoon ? 'class-row-coming-soon' : ''}`}
 
                         style={{ '--role-color': cls.roleColor }}
 
-                        onClick={() => onSelectClass(cls.name)}
+                        onClick={() => !isComingSoon && onSelectClass && onSelectClass(cls.name)}
 
                     >
 
                         <ClassRowBackdrop slug={slug} />
+
+                        {isComingSoon && (
+                            <div className="class-row-coming-soon-overlay">
+                                <span className="coming-soon-banner-text">
+                                    <i className="fas fa-tools"></i> IN DEVELOPMENT — COMING SOON
+                                </span>
+                            </div>
+                        )}
 
                         <div className="class-row-icon">
 
@@ -292,8 +301,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             )}
 
                         </div>
-
-
 
                         <div className="class-row-body">
 
@@ -314,8 +321,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             <div className="class-row-playstyle">{cls.playstyle}</div>
 
                         </div>
-
-
 
                         <div className="class-row-meta">
 
@@ -345,7 +350,13 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                             <div className="class-row-cta">
 
-                                <span>View Class <i className="fas fa-arrow-right"></i></span>
+                                {isComingSoon ? (
+                                    <span className="coming-soon-badge-text">
+                                        <i className="fas fa-lock"></i> Locked
+                                    </span>
+                                ) : (
+                                    <span>View Class <i className="fas fa-arrow-right"></i></span>
+                                )}
 
                             </div>
 

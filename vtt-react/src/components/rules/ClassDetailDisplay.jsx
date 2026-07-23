@@ -274,6 +274,15 @@ const CLASS_REGIONS = {
    glowColor: 'rgba(14, 102, 85, 0.15)',
    icon: 'fas fa-skull-crossbones'
   },
+  crusader: {
+   regionId: 'sundale',
+   regionName: 'Sundale Volcanic Caldera',
+   accentColor: '#f59e0b', // solar gold
+   bgGradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(217, 119, 6, 0.02) 100%)',
+   borderColor: '#f59e0b',
+   glowColor: 'rgba(245, 158, 11, 0.18)',
+   icon: 'fas fa-cross'
+  },
 
   // 'formbender' removed (consolidated into Shaper)
 
@@ -1365,7 +1374,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  };
 
  const renderTradition = () => {
-  const { overview } = classData;
+  const overview = classData?.overview || {};
   const originStoryText = overview?.originStory || '';
   const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
   
@@ -1528,12 +1537,12 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        </div>
      );
     })()}
-   </div>
-  );
- };
+    </div>
+   );
+  };
 
- const renderOverview = () => {
-  const { overview } = classData;
+  const renderOverview = () => {
+   const overview = classData?.overview || {};
   const roleplaySections = parseRoleplayIdentity(overview.roleplayIdentity?.content);
 
   return (
@@ -1542,7 +1551,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      <span className="guide-badge">
       <i className="fas fa-book-open"></i> TRADITION OVERVIEW
      </span>
-     <h3>{overview.title}</h3>
+     <h3>{overview.title || classData?.name}</h3>
      {overview.subtitle && (
       <div className="guide-subtitle">“{overview.subtitle}”</div>
      )}
@@ -2688,7 +2697,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    'lunarch': 'fas fa-moon',
    'apex': 'fas fa-crosshairs',
    'Warden': 'fas fa-gavel',
-   'augur': 'fas fa-skull-crossbones'
+   'augur': 'fas fa-skull-crossbones',
+   'crusader': 'fas fa-cross'
   };
   
   let categoryIcon = classIcons[classData.id] || 'fas fa-magic';

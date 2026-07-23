@@ -54,7 +54,7 @@ const ConflictResolutionModal = ({
       <div className="conflict-modal">
         <div className="conflict-modal-header">
           <h3>⚠️ Data Conflict Detected</h3>
-          <button className="conflict-modal-close" onClick={onCancel}>� - </button>
+          <button className="conflict-modal-close" onClick={onCancel} aria-label="Close">&times;</button>
         </div>
 
         <div className="conflict-modal-body">
@@ -87,7 +87,7 @@ const ConflictResolutionModal = ({
               <input
                 type="radio"
                 id="remote-changes"
-                name="remote-changes"
+                name="conflict-choice"
                 value="remote"
                 checked={selectedChoice === 'remote'}
                 onChange={(e) => setSelectedChoice(e.target.value)}

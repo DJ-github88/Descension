@@ -1228,6 +1228,13 @@ export default function CharacterStats() {
         setHoveredStat(null);
     };
 
+    const handleStatTap = (e, statName) => {
+        e.stopPropagation();
+        const pos = { x: e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0), y: e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0) };
+        setMousePosition(pos);
+        setHoveredStat(prev => prev === statName ? null : statName);
+    };
+
     const updateTooltipPosition = (e) => {
         setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -2327,6 +2334,7 @@ export default function CharacterStats() {
                         {stat.tooltip && (
                             <div
                                 className="tooltip-trigger"
+                                onClick={(e) => handleStatTap(e, stat.label)}
                                 onMouseEnter={(e) => handleStatHover(e, stat.label)}
                                 onMouseMove={updateTooltipPosition}
                                 onMouseLeave={handleStatLeave}
@@ -2385,7 +2393,11 @@ export default function CharacterStats() {
     };
 
     return (
-        <div className="stats-container">
+        <div className="stats-container" onClick={(e) => {
+            if (!e.target.closest('.tooltip-trigger') && !e.target.closest('.equipment-slot-tooltip')) {
+                setHoveredStat(null);
+            }
+        }}>
             <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
                 <button
                     className="stats-label-toggle-button"

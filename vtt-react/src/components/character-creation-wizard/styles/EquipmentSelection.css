@@ -595,6 +595,10 @@
     max-width: 300px !important;
     min-width: 0 !important;
     margin: 0 auto !important;
+    /* ItemTooltip mounts hidden for its floating use-case; force visible when embedded */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .equip-confirm-price {

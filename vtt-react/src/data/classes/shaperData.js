@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -143,7 +144,7 @@ export const SHAPER_DATA = {
 
     originStory: `A shaper treats their body as a malleable weapon, reshaping posture, bone density, and musculature in real time through six Shaping Forms. Every transformation leaves a scar. Every stance shift erodes identity. Body Toll tracks the cumulative cost. At maximum, control is surrendered to something older than the self.
 
-The tradition was born in the Cragjaw Peaks, the only place on Mythrill where bodies are routinely modified. The Groven were alchemically reshaped from Thrumm stock. The Fexric graft metal and gear to themselves. The Still-Claiming turns Groven dead into stone. Body modification is not exotic here, it is the primary fact of existence.
+The tradition was born in the Cragjaw Peaks, the only place on Mythril where bodies are routinely modified. The Groven were alchemically reshaped from Thrumm stock. The Fexric graft metal and gear to themselves. The Still-Claiming turns Groven dead into stone. Body modification is not exotic here, it is the primary fact of existence.
 
 The first shaper was Torin, a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, a conflict between Groven holdfasts and Fexric expeditions over geothermal vent access from Years 100 to 120 of the Dimming. The ceiling was coming down. His limbs were too short to brace the widening crack. He drank a cask of raw alchemical sulfur-clay, the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before, and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came.
 
@@ -355,6 +356,32 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       }
     ]
   },  spells: [
+    {
+      id: "shaper_wall_claws",
+      name: "Wall Claws",
+      description: "Morph Groven bone-hooks into hands and feet for 10 minutes, allowing you to walk up vertical ice walls, cliffs, and ceilings without falling.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "mobility", "wall_climb", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, mana: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "mobility", "shaper"]
+    },
+    {
+      id: "shaper_water_stride",
+      name: "Water Stride",
+      description: "Morph foot pad tissue and adjust body density to sprint across liquids (water, peat-bogs, lava-crust) as if solid stone for 10 minutes.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Utility/Speed Dash",
+      typeConfig: { school: "physical", icon: "Utility/Speed Dash", tags: ["utility", "mobility", "water_walk", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, mana: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "mobility", "shaper"]
+    },
     { id: "shaper_structural_fragility", name: "Structural Fragility (Fatal Flaw)", description: "0 base Armor. +50% wyrd damage permanently. If Rooted/Grappled, Flux drops to 0 and take 1d10 blight/round.", level: 1, spellType: "PASSIVE", icon: "Healing/Red Heart", typeConfig: { school: "physical", icon: "Healing/Red Heart", tags: ["passive", "fatal-flaw", "vulnerability"], castTime: 0, castTimeType: "PASSIVE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 0, mana: 0, components: ["somatic"] }, resolution: "NONE", effectTypes: ["debuff"], debuffConfig: { debuffType: "statPenalty", effects: [ { id: "structural_fragility_vulnerability", name: "Wyrd Vulnerability", description: "+50% wyrd damage taken permanently." }, { id: "structural_fragility_rooted", name: "Rooted Fragility", description: "If Rooted/Grappled, Kinetic Flux drops to 0 and you take 1d10 blight damage per round." } ] }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["passive", "fatal-flaw", "starter", "shaper"] ,
   somaticText: "Your tissues remain in a state of perpetual laxity, unable to maintain density.",
   verbalText: "-"

@@ -240,11 +240,7 @@ const CLASS_DATA_LOADERS = {
 
   'Toxicologist': () => import('../../data/classes/toxicologistData').then(m => m.TOXICOLOGIST_DATA),
 
-
-
-
-
-
+  'Crusader': () => import('../../data/classes/crusaderData').then(m => m.CRUSADER_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
 
@@ -374,10 +370,7 @@ const CLASS_ICON_MAP = {
 
 
   'Plaguebringer': faBiohazard,
-
-
-
-
+  'Crusader': faCross,
 
 
 
@@ -6261,6 +6254,8 @@ const RulesPage = () => {
 
                 {popoutCategory === category.id && createPortal(
 
+                  <div className="rules-nav-popout-backdrop" onClick={() => setPopoutCategory(null)}>
+
                   <div
 
                     className="rules-nav-popout"
@@ -6280,6 +6275,8 @@ const RulesPage = () => {
 
 
                     }}
+
+                    onClick={(e) => e.stopPropagation()}
 
 
 
@@ -6381,8 +6378,8 @@ const RulesPage = () => {
 
 
 
+                  </div>
                   </div>,
-
                   document.body
 
                 )}

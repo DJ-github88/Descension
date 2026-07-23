@@ -5167,8 +5167,8 @@
     .equipment-content .character-image-container,
     .character-sheet .equipment-content .character-image-container {
         width: 100% !important;
-        max-width: 160px !important;
-        height: 250px !important;
+        max-width: 140px !important;
+        height: 200px !important;
         margin: 0 auto !important;
     }
 
@@ -6484,5 +6484,243 @@
         width: 80px;
         height: 80px;
         border-width: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .resources-content {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .resource-bars-section,
+    .class-resource-section {
+        padding: 14px;
+    }
+
+    .resource-section-title {
+        font-size: 16px;
+        margin: 0 0 12px 0;
+    }
+
+    .resource-mechanics {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-stat {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .resource-stat .stat-value {
+        font-size: 12px;
+    }
+
+    .resource-description {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .enhanced-stat-row,
+    .summary-stat-row {
+        padding: 12px 12px 10px 12px !important;
+        min-height: 80px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .enhanced-stat-row .level-experience-top-row,
+    .summary-stat-row .level-experience-top-row {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .enhanced-stat-row .stat-icon,
+    .summary-stat-row .stat-icon {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .enhanced-stat-row .stat-label,
+    .summary-stat-row .stat-label {
+        font-size: 16px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .enhanced-stat-row .stat-value,
+    .summary-stat-row .stat-value {
+        font-size: 16px !important;
+    }
+
+    .enhanced-stat-row .stat-label-container,
+    .summary-stat-row .stat-label-container {
+        gap: 10px !important;
+        min-width: 0 !important;
+        flex: 1 1 0 !important;
+    }
+
+    .character-portrait-icon {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 375px) {
+    .resources-content {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .resource-bars-section,
+    .class-resource-section {
+        padding: 10px;
+    }
+
+    .resource-section-title {
+        font-size: 14px;
+    }
+
+    .resource-stat {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    .enhanced-stat-row,
+    .summary-stat-row {
+        padding: 10px 8px 8px 8px !important;
+        min-height: 70px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .enhanced-stat-row .level-experience-top-row,
+    .summary-stat-row .level-experience-top-row {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .enhanced-stat-row .stat-icon,
+    .summary-stat-row .stat-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .enhanced-stat-row .stat-label,
+    .summary-stat-row .stat-label {
+        font-size: 14px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .enhanced-stat-row .stat-value,
+    .summary-stat-row .stat-value {
+        font-size: 14px !important;
+    }
+
+    .enhanced-stat-row .stat-label-container,
+    .summary-stat-row .stat-label-container {
+        gap: 8px !important;
+        min-width: 0 !important;
+        flex: 1 1 0 !important;
+    }
+
+    .enhanced-stat-row .stat-description,
+    .summary-stat-row .stat-description {
+        font-size: 11px !important;
+    }
+
+    .character-portrait-icon {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 320px) {
+    .resources-content {
+        padding: 6px;
+        gap: 6px;
+    }
+
+    .resource-bars-section,
+    .class-resource-section {
+        padding: 8px;
+    }
+
+    .resource-section-title {
+        font-size: 13px;
+        margin: 0 0 8px 0;
+    }
+
+    .resource-mechanics {
+        gap: 6px;
+    }
+
+    .resource-stat {
+        padding: 5px 6px;
+        font-size: 9px;
+    }
+
+    .resource-stat .stat-value {
+        font-size: 10px;
+    }
+
+    .enhanced-stat-row,
+    .summary-stat-row {
+        padding: 8px 6px 6px 6px !important;
+        min-height: 60px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .enhanced-stat-row .level-experience-top-row,
+    .summary-stat-row .level-experience-top-row {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        flex-wrap: wrap !important;
+    }
+
+    .enhanced-stat-row .stat-icon,
+    .summary-stat-row .stat-icon {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .enhanced-stat-row .stat-label,
+    .summary-stat-row .stat-label {
+        font-size: 12px !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        line-height: 1.2 !important;
+    }
+
+    .enhanced-stat-row .stat-value,
+    .summary-stat-row .stat-value {
+        font-size: 12px !important;
+    }
+
+    .enhanced-stat-row .stat-label-container,
+    .summary-stat-row .stat-label-container {
+        gap: 6px !important;
+        min-width: 0 !important;
+        flex: 1 1 0 !important;
+    }
+
+    .enhanced-stat-row .stat-value-container,
+    .summary-stat-row .stat-value-container {
+        flex-shrink: 1 !important;
+    }
+
+    .enhanced-stat-row .stat-description,
+    .summary-stat-row .stat-description {
+        font-size: 10px !important;
+    }
+
+    .character-portrait-icon {
+        width: 40px;
+        height: 40px;
     }
 }

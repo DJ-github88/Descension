@@ -20,6 +20,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
   const unsubscribeRef = useRef(null);
   const localChangesRef = useRef(new Set());
   const lastLocalSaveRef = useRef(null);
+  const conflictDataRef = useRef(null);
 
   const {
     enabled = true,
@@ -59,20 +60,30 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
    * Handle conflict resolution
    */
   const handleConflictResolution = useCallback((choice) => {
-    if (!conflictData) return;
+    // Read from a ref instead of the `conflictData` closure so this callback
+    // has a stable identity. Otherwise every conflict detect/resolve changes
+    // its identity, which cascades into `startSync` and tears down + re-creates
+    // the Firestore listener (whose initial snapshot then re-triggers the
+    // conflict, making it look like the modal never resolves).
+    const data = conflictDataRef.current;
+    if (!data) return;
 
     if (choice === 'remote') {
       // Accept remote changes
-      onRemoteChange(conflictData.remoteData, 'conflict-resolved-remote');
+      onRemoteChange(data.remoteData, 'conflict-resolved-remote');
       localChangesRef.current.clear();
     } else if (choice === 'local') {
-      // Keep local changes - don't call onRemoteChange
-      // The local changes will be saved on next auto-save
+      // Keep local changes - don't call onRemoteChange.
+      // The local changes will be saved on next auto-save, which will
+      // overwrite the remote. We MUST clear localChangesRef so the next
+      // snapshot doesn't immediately re-trigger the same conflict.
+      localChangesRef.current.clear();
     }
 
     setConflictDetected(false);
     setConflictData(null);
-  }, [conflictData, onRemoteChange]);
+    conflictDataRef.current = null;
+  }, [onRemoteChange]);
 
   /**
    * Start real-time listener for the document
@@ -126,31 +137,32 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
 
         if (hasLocalChanges) {
           // Conflict detected - we have local changes and remote changes
-          setConflictDetected(true);
-          setConflictData({
+          const conflictInfo = {
             remoteData,
             remoteTimestamp,
             remoteVersion,
             localTimestamp: lastLocalSaveRef.current
-          });
+          };
+
+          // Sync the ref before any auto-resolve path calls handleConflictResolution
+          // (the render-time sync at the bottom of the hook hasn't run yet).
+          conflictDataRef.current = conflictInfo;
+          setConflictDetected(true);
+          setConflictData(conflictInfo);
 
           if (conflictResolution === 'remote-wins') {
-            // Automatically resolve by accepting remote changes
             handleConflictResolution('remote');
           } else if (conflictResolution === 'local-wins') {
-            // Keep local changes
             handleConflictResolution('local');
           } else if (conflictResolution === 'ask-user') {
-            // Show conflict resolution modal
-            setConflictDetected(true);
-            setConflictData({
-              remoteData,
-              remoteTimestamp,
-              remoteVersion,
-              localTimestamp: lastLocalSaveRef.current,
+            // Show conflict resolution modal with convenience helpers
+            const userConflictInfo = {
+              ...conflictInfo,
               resolveWithRemote: () => handleConflictResolution('remote'),
               resolveWithLocal: () => handleConflictResolution('local')
-            });
+            };
+            conflictDataRef.current = userConflictInfo;
+            setConflictData(userConflictInfo);
           }
         } else {
           // No local changes, accept remote update
@@ -184,6 +196,11 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
       }
     };
   }, [enabled, user, documentId, collection, startSync, stopSync]);
+
+  // Keep a ref to the latest conflictData so the stable conflict resolver and
+  // the snapshot callback can read the current value without depending on it
+  // (depending on it would force listener re-subscriptions).
+  conflictDataRef.current = conflictData;
 
   return {
     // Status

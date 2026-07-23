@@ -193,6 +193,12 @@
   border: 1px solid rgba(139, 115, 85, 0.3);
 }
 
+/* Neutralize the global `.action-points { margin-left: auto }` leak from
+   combat-system.css, which splits the resource row into two clusters. */
+.character-view-header .header-resource-counter.action-points {
+  margin-left: 0;
+}
+
 .header-resource-counter i {
   font-size: 12px;
 }
@@ -239,6 +245,7 @@
 /* Tab Navigation */
 .character-view-tabs {
   display: flex;
+  justify-content: center;
   background: linear-gradient(180deg, rgba(45, 24, 16, 0.95) 0%, rgba(26, 15, 10, 1) 100%);
   border-bottom: 2px solid #3a1e12;
   padding: 0 40px;
@@ -450,13 +457,14 @@
   background: #6b5344;
 }
 
-/* Section headers - proportional to grid columns, scroll with grid */
+/* Section headers - pixel-accurate widths matching grid cells */
 .character-view-content .inventory-section-headers {
   display: flex;
-  width: max-content;
-  min-width: 100%;
-  margin-bottom: 0px;
   flex-shrink: 0;
+  /* Total width = sum of all section columns × cell size */
+  width: calc((var(--section-normal-cols, 5) + var(--section-encumbered-cols, 5) + var(--section-overencumbered-cols, 5)) * var(--inv-cell-size, 68px));
+  min-width: max-content;
+  margin-bottom: 0;
   height: auto;
 }
 
@@ -614,18 +622,8 @@
   box-sizing: border-box;
 }
 
-/* Section headers should match grid width */
-.character-view-content .inventory-section-headers {
-  display: flex;
-  width: 100%;
-  margin-bottom: 0px;
-}
+/* (duplicate rule removed - canonical definition is above) */
 
-.character-view-content .section-header {
-  flex: 1;
-  padding: 8px 0;
-  font-size: 0.85rem;
-}
 
 /* Character navigation buttons - pathfinder theme */
 .character-view-content .character-navigation,
@@ -1732,26 +1730,50 @@
     min-height: 100vh;
   }
 
-  /* --- Main tabs: always visible as a scrollable row --- */
+  /* --- Main tabs: icon-only, evenly distributed so all 5 fit in one row --- */
   .character-view-tabs {
     display: flex !important;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    padding: 0 8px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    padding: 0 4px;
   }
 
   .character-view-tab {
-    padding: 10px 14px !important;
+    flex: 1 1 0 !important;
+    padding: 10px 4px !important;
     font-size: 13px !important;
-    gap: 6px;
-    flex-shrink: 0;
+    gap: 4px;
+    justify-content: center;
+    border-radius: 10px !important;
+    border-bottom: none !important;
+    margin: 4px 2px !important;
+  }
+
+  /* Rounded active/hover states so the icon chips don't look boxy */
+  .character-view-tab.active {
+    background: rgba(240, 234, 214, 0.14) !important;
+    border-bottom: none !important;
+  }
+
+  .character-view-tab:hover {
+    background: rgba(240, 234, 214, 0.07) !important;
+    border-bottom: none !important;
+  }
+
+  /* Icon-only on mobile: hide text labels so every tab is reachable without scrolling */
+  .character-view-tab > span {
+    display: none;
   }
 
   .character-view-tab i:not(.tab-chevron) {
-    font-size: 14px;
+    font-size: 17px;
+  }
+
+  /* Keep the Character-tab dropdown chevron but tuck it into the corner */
+  .character-view-tab .tab-chevron {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    font-size: 8px;
   }
 
   /* --- Header: compact, with vial-style resources --- */
@@ -1788,13 +1810,13 @@
   /* The bottle shape: neck + body wrapper */
   .resource-vial-bottle {
     position: relative;
-    width: 28px;
-    height: 38px;
+    width: 36px;
+    height: 48px;
     background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 100%);
     border: 1.5px solid rgba(139, 115, 85, 0.7);
-    border-radius: 6px 6px 12px 12px;
+    border-radius: 7px 7px 14px 14px;
     overflow: hidden;
-    margin-top: 4px;
+    margin-top: 2px;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
   }
 
@@ -1809,19 +1831,21 @@
   }
 
   .resource-vial-label {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
     color: #f0ead6;
     text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    margin-top: 2px;
+    margin-top: 3px;
     letter-spacing: 0.3px;
     line-height: 1;
   }
 
   .resource-vial-value {
-    font-size: 9px;
-    color: #d5cbb0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #f0ead6;
     line-height: 1;
+    margin-top: 1px;
   }
 
   /* Hide the simple bar elements that are no longer used */
@@ -1959,7 +1983,7 @@
       opacity: 0.8;
     }
     100% {
-      transform: translateY(-36px) scale(0.6);
+      transform: translateY(-46px) scale(0.6);
       opacity: 0;
     }
   }
@@ -2087,6 +2111,11 @@
   .character-header-name {
     font-size: 18px;
     letter-spacing: 0.3px;
+    /* Truncate long names with an ellipsis instead of wrapping/breaking the header */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .header-badge {
@@ -2190,11 +2219,16 @@
     flex: 0 0 auto;
   }
 
-  /* Skills sidebar on mobile becomes a top accordion */
+  /* Skills sidebar on mobile: constrain height so the 23-skill list doesn't
+     push the detail content ~1400px down. List scrolls within a bounded area. */
   .character-view-content .skills-sidebar {
     width: 100% !important;
+    max-height: 38vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
     border-right: none !important;
     border-bottom: 2px solid #8b7355;
+    flex: 0 0 auto !important;
   }
 
   /* Content area: full width, smaller paddings */
@@ -2290,8 +2324,8 @@
   .character-view-content .character-image-container {
     grid-area: center !important;
     width: 100% !important;
-    max-width: 160px;
-    height: 280px;
+    max-width: 140px;
+    height: 200px;
     margin: 0 auto;
     order: 0;
   }
@@ -2304,8 +2338,8 @@
   /* Equipment slots: compact size */
   .character-view-content .equipment-slot,
   .character-view-content .gear-slot {
-    width: 48px !important;
-    height: 48px !important;
+    width: 44px !important;
+    height: 44px !important;
   }
 
   /* Left slots: stacked vertically in left column */
@@ -2404,31 +2438,32 @@
     grid-template-columns: 1fr !important;
   }
 
-  /* Stats navigation: single scrollable row on mobile */
+  /* Stats navigation: wrapping icon grid so all categories are visible (no hidden scroll) */
   .character-view-content .stats-navigation {
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
+    flex-wrap: wrap !important;
     width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
     padding: 8px !important;
     border-right: none !important;
     border-bottom: 2px solid #7a3b2e !important;
-    gap: 6px !important;
-    justify-content: flex-start !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    gap: 4px !important;
+    justify-content: center !important;
   }
 
   .character-view-content .stats-nav-button {
-    width: auto !important;
-    min-width: 44px;
+    width: calc(16.5% - 4px) !important;
     min-height: 44px !important;
     flex: 0 0 auto !important;
-    padding: 6px 10px !important;
+    padding: 5px 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .character-view-content .stats-nav-icon {
+    width: 24px !important;
+    height: 24px !important;
   }
 
   .character-view-content .stats-content-area {
@@ -2493,6 +2528,8 @@
   /* Inventory: full width grid, smaller cells */
   .character-view-content .inventory-container {
     padding: 8px !important;
+    /* Propagate cell size to all descendants (section headers + cells) */
+    --inv-cell-size: 48px;
   }
 
   .character-view-content .inventory-cell::before {
@@ -2512,12 +2549,24 @@
     word-break: break-all;
   }
 
-  /* Sync indicator: smaller, anchored */
+  /* Sync indicator: compact, non-intrusive (no pulsing/spinning on mobile) */
   .character-view-sync-indicator {
-    bottom: 12px;
-    right: 12px;
-    padding: 6px 12px;
-    font-size: 10px;
+    bottom: 8px;
+    right: 8px;
+    padding: 4px 9px;
+    font-size: 9px;
+    opacity: 0.5;
+    animation: none;
+    pointer-events: auto;
+  }
+
+  .character-view-sync-indicator i {
+    animation: none;
+  }
+
+  .character-view-sync-indicator:hover,
+  .character-view-sync-indicator:active {
+    opacity: 1;
   }
 }
 
@@ -2564,8 +2613,8 @@
   }
 
   .character-view-content .character-image-container {
-    height: 220px;
-    max-width: 150px;
+    height: 170px;
+    max-width: 120px;
   }
 
   .character-view-content .left-equipment,
@@ -2574,8 +2623,8 @@
   }
 
   .character-view-content .equipment-slot {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
   }
 }
 

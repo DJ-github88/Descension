@@ -426,26 +426,35 @@
 .class-row-cta {
     font-family: 'Cinzel', serif;
     font-size: 0.65rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #8b6914;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
     white-space: nowrap;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(139, 105, 20, 0.3);
+    background: rgba(139, 105, 20, 0.08);
+    text-transform: uppercase;
 }
 
 .class-row:hover .class-row-cta {
     opacity: 1;
+    background: rgba(139, 105, 20, 0.15);
+    border-color: rgba(255, 212, 121, 0.4);
+    box-shadow: 0 0 10px rgba(255, 212, 121, 0.15);
+    color: #ffd479;
 }
 
 .class-row-cta i {
-    margin-left: 4px;
+    margin-left: 5px;
     font-size: 0.6rem;
     transition: transform 0.2s ease;
 }
 
 .class-row:hover .class-row-cta i {
-    transform: translateX(3px);
+    transform: translateX(4px);
 }
 
 /* ===== EMPTY STATE ===== */
@@ -637,6 +646,64 @@
     color: #ffd479;
 }
 
+/* ===== Per-Class CTA Button Theming ===== */
+.class-row-plaguebringer .class-row-cta {
+    color: #a8b84a;
+    text-shadow: 0 0 8px rgba(168, 184, 74, 0.3);
+    border-color: rgba(168, 184, 74, 0.25);
+    background: rgba(168, 184, 74, 0.08);
+}
+
+.class-row-plaguebringer:hover .class-row-cta {
+    color: #d4e86a;
+    text-shadow: 0 0 14px rgba(180, 200, 70, 0.7);
+    background: rgba(168, 184, 74, 0.18);
+    border-color: rgba(180, 200, 70, 0.55);
+    box-shadow: 0 0 14px rgba(168, 184, 74, 0.35), inset 0 0 8px rgba(168, 184, 74, 0.08);
+}
+
+.class-row-plaguebringer:hover .class-row-cta i {
+    filter: drop-shadow(0 0 4px rgba(160, 220, 50, 0.8));
+}
+
+.class-row-pyrofiend .class-row-cta {
+    color: #e0340d;
+    text-shadow: 0 0 8px rgba(224, 52, 13, 0.35);
+    border-color: rgba(224, 52, 13, 0.3);
+    background: rgba(224, 52, 13, 0.08);
+}
+
+.class-row-pyrofiend:hover .class-row-cta {
+    color: #ff6e28;
+    text-shadow: 0 0 16px rgba(255, 110, 40, 0.7);
+    background: rgba(224, 52, 13, 0.18);
+    border-color: rgba(255, 110, 40, 0.55);
+    box-shadow: 0 0 16px rgba(224, 52, 13, 0.4), inset 0 0 8px rgba(224, 52, 13, 0.08);
+}
+
+.class-row-pyrofiend:hover .class-row-cta i {
+    filter: drop-shadow(0 0 6px rgba(255, 120, 40, 0.9));
+}
+
+.class-row-toxicologist .class-row-cta {
+    color: #7cb342;
+    text-shadow: 0 0 8px rgba(124, 179, 66, 0.3);
+    border-color: rgba(124, 179, 66, 0.25);
+    background: rgba(124, 179, 66, 0.08);
+}
+
+.class-row-toxicologist:hover .class-row-cta {
+    color: #a5d66a;
+    text-shadow: 0 0 14px rgba(150, 220, 70, 0.7);
+    background: rgba(124, 179, 66, 0.18);
+    border-color: rgba(150, 220, 70, 0.55);
+    box-shadow: 0 0 14px rgba(124, 179, 66, 0.35), inset 0 0 8px rgba(124, 179, 66, 0.08);
+}
+
+.class-row-toxicologist:hover .class-row-cta i {
+    filter: drop-shadow(0 0 4px rgba(165, 235, 85, 0.85));
+}
+
 /* Role-coloured glow on hover, layered above the base hover */
 .classes-list .class-row:hover {
     transform: translateX(4px);
@@ -667,6 +734,7 @@
 .class-row-toxicologist { background-color: #0f1608; border-color: rgba(124, 179, 66, 0.35); }
 .class-row-warden { background-color: #14100c; border-color: rgba(138, 122, 90, 0.35); }
 .class-row-augur { background-color: #15101a; border-color: rgba(155, 89, 182, 0.35); }
+.class-row-crusader { background-color: #1c1509; border-color: rgba(245, 158, 11, 0.4); }
 
 /* elements that should spin/grow around their OWN centre, not the scene */
 .cbd-shap-shard,
@@ -1301,3 +1369,54 @@
 .class-row-warden .cbd-wd-shackle     { filter: drop-shadow(0 0 4px rgba(120, 110, 90, 0.6)); }
 .class-row-augur .cbd-aug-orb,
 .class-row-augur .cbd-aug-halo        { filter: drop-shadow(0 0 14px rgba(190, 150, 250, 0.9)); }
+
+/* ===== COMING SOON CLASS OVERLAY ===== */
+.class-row.class-row-coming-soon {
+    cursor: not-allowed !important;
+    opacity: 0.8;
+    filter: grayscale(35%);
+    border-style: dashed !important;
+    border-color: rgba(245, 158, 11, 0.6) !important;
+}
+
+.class-row.class-row-coming-soon:hover {
+    transform: none !important;
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.25) !important;
+}
+
+.class-row-coming-soon-overlay {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.coming-soon-banner-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fbbf24;
+    background: linear-gradient(135deg, rgba(30, 20, 5, 0.92), rgba(60, 40, 10, 0.95));
+    border: 1px solid rgba(251, 191, 36, 0.6);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4), inset 0 0 6px rgba(245, 158, 11, 0.2);
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.coming-soon-badge-text {
+    color: #d97706;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}

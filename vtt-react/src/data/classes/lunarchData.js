@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Lunarch Class Data
  *
@@ -792,6 +793,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
 
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
+    ...UTILITY_SPELLS,
     // MOONLIGHT SENTINEL - Precision Archery ? HOLLOW SENTINEL - Precision Killer
     { id : "lunarch_parasitic_bolt",
       name: "Parasitic Bolt",

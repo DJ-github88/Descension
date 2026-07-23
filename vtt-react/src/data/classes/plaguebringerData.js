@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * PLAGUEBRINGER CLASS DATA
  *
@@ -156,7 +157,7 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
  ],
 
  overview: {
-  originStory: `A plaguebringer is a living laboratory. The body has been deliberately infected with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming the host. In combat, these afflictions are seeded into enemies, advanced through stages of decay, and harvested at peak virulence. The craft requires the Bryngloom's unique fungal-bog substrate, a biological chemistry found nowhere else on Mythrill.
+  originStory: `A plaguebringer is a living laboratory. The body has been deliberately infected with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming the host. In combat, these afflictions are seeded into enemies, advanced through stages of decay, and harvested at peak virulence. The craft requires the Bryngloom's unique fungal-bog substrate, a biological chemistry found nowhere else on Mythril.
 
 The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered decaying moss from the Sunken Spire and injected its alchemical bile directly into her veins. It cured the hush. It also made her body a permanent host for active decay. Her skin became waxy and pale. Her body temperature dropped below normal. She began cultivating new diseases within her own tissue, carefully balancing strains that would destroy an enemy but leave the host intact.
 
@@ -509,10 +510,23 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  },
 
  // =============================================
- // UNIFIED SPELL LIST (30 spells, 2 passives)
- // =============================================
- spells: [
- // ===== LEVEL 1 SPELLS =====
+  // =============================================
+  // UNIFIED SPELL LIST (30 spells, 2 passives)
+  // =============================================
+  spells: [
+  { id: "pb_miasma_form",
+   name: "Miasma Form",
+   description: "Dissolve your body into a floating green rot-cloud for 10 minutes. Float through keyholes, iron grates, and narrow cracks.",
+   level: 3,
+   spellType: "ACTION",
+   icon: "Poison/Poison Cloud",
+   typeConfig: { school: "blight", icon: "Poison/Poison Cloud", tags: ["utility", "gaseous_form", "plaguebringer"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "self", rangeType: "self" },
+   resourceCost: { actionPoints: 1, mana: 5 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["utility", "gaseous_form", "plaguebringer"]
+  },
+  // ===== LEVEL 1 SPELLS =====
  { id: "pb_curse_of_agony",
   effectTypes: ["damage"],
   name: "Wasting Curse",

@@ -21,10 +21,13 @@ export const useCharacterPersistence = () => {
  const { user } = useAuthStore();
  const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
 
- // Auto-save timer refs
- const characterStateTimerRef = useRef(null);
- const lastSavedStateRef = useRef(null);
- const lastStateHashRef = useRef(null);
+  // Auto-save timer refs
+  const characterStateTimerRef = useRef(null);
+  const lastSavedStateRef = useRef(null);
+  const lastStateHashRef = useRef(null);
+  // True immediately after we apply remote data, so the next state-hash change
+  // detected by the auto-save effect isn't mistaken for a local user edit.
+  const isApplyingRemoteRef = useRef(false);
 
  // Debounced auto-save delay (2 seconds)
  const AUTO_SAVE_DELAY = 2000;
@@ -285,11 +288,23 @@ export const useCharacterPersistence = () => {
   return;
  }
 
- const currentHash = getCharacterStateHash();
- if (currentHash && currentHash !== lastStateHashRef.current) {
-  lastStateHashRef.current = currentHash;
-  scheduleAutoSave();
- }
+  const currentHash = getCharacterStateHash();
+  if (currentHash && currentHash !== lastStateHashRef.current) {
+   lastStateHashRef.current = currentHash;
+
+   // If the state changed because we just applied remote data, don't treat
+   // it as a local edit - this avoids false conflicts and redundant saves.
+   // Don't return early; fall through so the unmount cleanup below is still
+   // registered for this run of the effect.
+   const fromRemote = isApplyingRemoteRef.current;
+   isApplyingRemoteRef.current = false;
+   if (!fromRemote) {
+   // Genuine local edit - flag it so a concurrent remote update can be
+   // detected as a conflict, then schedule the debounced save.
+   realtimeSyncRef.current?.markLocalChange('character-state');
+   scheduleAutoSave();
+   }
+  }
 
  // Cleanup timer on unmount
  return () => {
@@ -301,9 +316,13 @@ export const useCharacterPersistence = () => {
  }, [user, currentCharacterId, getCharacterStateHash, scheduleAutoSave]);
 
  // Real-time sync for cross-device synchronization
- const handleRemoteCharacterChange = useCallback((remoteData, changeType) => {
- if (changeType === 'remote-update' || changeType === 'conflict-resolved-remote') {
-  console.log('🔄 Remote character update received:', changeType);
+  const handleRemoteCharacterChange = useCallback((remoteData, changeType) => {
+  if (changeType === 'remote-update' || changeType === 'conflict-resolved-remote') {
+   console.log('🔄 Remote character update received:', changeType);
+   // Flag that the upcoming store update is remote-driven so the auto-save
+   // effect doesn't treat it as a local edit (which would create false
+   // conflicts and echo saves back to Firebase).
+   isApplyingRemoteRef.current = true;
 
   // Update stores with remote data
   useCharacterStore.setState({
@@ -365,26 +384,21 @@ export const useCharacterPersistence = () => {
  `users/${user?.uid}/characterStates`,
  currentCharacterId,
  handleRemoteCharacterChange,
- {
-  enabled: !!user && !user.isGuest && !!currentCharacterId,
-  conflictResolution: 'ask-user',
-  onConflict: (conflictInfo) => {
-  console.warn('⚠️ Character data conflict detected!', conflictInfo);
-  conflictInfo.resolveWithRemote();
+  {
+   enabled: !!user && !user.isGuest && !!currentCharacterId,
+   conflictResolution: 'ask-user'
   }
- }
  );
 
  realtimeSyncRef.current = realtimeSync;
 
- // Mark local changes for conflict detection
- useEffect(() => {
- if (user && !user.isGuest && currentCharacterId) {
-  realtimeSync.markLocalChange('character-state');
- }
- }, [user, currentCharacterId, realtimeSync]);
+  // Note: local changes are flagged inside the auto-save effect above (only on
+  // genuine local edits). The previous effect here depended on `realtimeSync`,
+  // which is a new object every render, so it called markLocalChange on nearly
+  // every render - keeping localChangesRef permanently populated and making
+  // conflicts re-trigger instantly after being resolved.
 
- return {
+  return {
  // State
  isGuestUser: user?.isGuest || false,
  isAuthenticated: !!user && !user.isGuest,

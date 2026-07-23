@@ -198,38 +198,7 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
       statModifiers: { constitution: 2, wisdom: 1, strength: 1, charisma: -1 },
       baseStats: { hp: 9, mana: 6, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['nature', 'survival'], disadvantage: ['fire'] },
-      traits: [
-        {
-          id: 'branch_arm_brawn_florae',
-          name: 'Branch-Arm Brawn & Regrowth',
-          description: 'Your arms are crude, natural tree boughs ending in flexible twig-fingers. Your unarmed strikes deal 1d6 + Strength bludgeoning damage. If a twig-finger or branch is severed or broken, it naturally regrows over a short rest when watered.',
-          level: 1,
-          icon: 'fas fa-tree',
-          spellType: 'PASSIVE',
-          effectTypes: ['buff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-tree', tags: ['timber', 'unarmed', 'regrowth', 'passive'] }
-        },
-        {
-          id: 'hearth_water_vitality_florae',
-          name: 'Hearth-Water Vitality',
-          description: 'Drinking or dousing yourself from your Hearth-Water Flask as a minor action restores 1d8 + Constitution HP and keeps your branch-limbs limber for 1 hour. You take +25% extra damage from fire effects, but taking fire damage ignites your bark into smoldering embers, adding +1d4 fire damage to your melee attacks for 2 rounds.',
-          level: 1,
-          icon: 'fas fa-faucet-drip',
-          spellType: 'ACTION',
-          effectTypes: ['buff', 'debuff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-faucet-drip', tags: ['water', 'heal', 'ember-blaze'] }
-        },
-        {
-          id: 'nature_attunement_florae',
-          name: 'Nature & Animal Attunement',
-          description: 'Your sap smells like fresh blossom and your skin is living wood. You have advantage on Nature and Animal Handling checks. Small forest animals (squirrels, songbirds, chipmunks) are naturally friendly toward you and will perch on your shoulders to offer warnings of approaching danger.',
-          level: 1,
-          icon: 'fas fa-paw',
-          spellType: 'PASSIVE',
-          effectTypes: ['buff'],
-          typeConfig: { school: 'primal', icon: 'fas fa-paw', tags: ['druidic', 'animals', 'passive'] }
-        }
-      ]
+      traits: []
     }
   }
 };

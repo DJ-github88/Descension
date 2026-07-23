@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Arcanoneer Class Data
  *
@@ -2059,6 +2060,19 @@ MAX BANKED SPHERES: 12
 
  // Spells - organized by level, properly formatted for wizard
  spells: [
+  {
+   id: "arc_prismatic_portal",
+   name: "Prismatic Portal",
+   description: "Combine Force + Arcane spheres to open a glowing 6 ft portal connecting your current location to a known Solvan beacon up to 10 miles away for 1 minute.",
+   level: 6,
+   spellType: "ACTION",
+   icon: "Arcane/Portal",
+   typeConfig: { school: "arcane", icon: "Arcane/Portal", tags: ["utility", "teleport", "portal", "arcanoneer"], castTime: 3, castTimeType: "MINUTES" },
+   targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
+   resourceCost: { actionPoints: 3, mana: 12 },
+   cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   tags: ["utility", "teleport", "portal", "arcanoneer"]
+  },
   // ========================================
   // LEVEL 1 STARTING SPELLS (5 options, pick 3)
   // Basic 2-sphere combinations - weak starter spells

@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * False Prophet Class Data
  *
@@ -680,6 +681,44 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  },
 
  exampleSpells: [
+    ...UTILITY_SPELLS,
+    // SIGNATURE UTILITY SPELLS (CLASSIC WOW UTILITY NICHE)
+  { id: "fp_veil_of_silence",
+   name: "Veil of Silence",
+   description: "Preach a absolute blackout of sound in a 20 ft radius. No sound or spoken spellcasting can occur inside the zone for 1 minute.",
+   level: 2,
+   spellType: "ACTION",
+   icon: "Psychic/Psychic Telepathy",
+   effectTypes: ["debuff", "utility"],
+   typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["utility", "silence", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 40, areaSize: 20 },
+   resourceCost: { actionPoints: 1, mana: 4 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }
+  },
+  { id: "fp_mind_control",
+   name: "Mind Control",
+   description: "Whisper false revelation into a humanoid target's mind (range 30 ft). On a failed Spirit Save (DC 15), target obeys a 1-sentence command (Unlock gate, Drop weapon, Walk into snow).",
+   level: 4,
+   spellType: "ACTION",
+   icon: "Psychic/Psychic Mind Control",
+   effectTypes: ["debuff", "control"],
+   typeConfig: { school: "wyrd", icon: "Psychic/Psychic Mind Control", tags: ["utility", "control", "mind_control", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy", "humanoid"] },
+   resourceCost: { actionPoints: 2, mana: 6 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }
+  },
+  { id: "fp_wyrd_shape",
+   name: "Wyrd Shape",
+   description: "Distort a target's physical identity into a helpless bog-toad for 1 minute or until damaged.",
+   level: 3,
+   spellType: "ACTION",
+   icon: "Nature/Transform Frog",
+   effectTypes: ["debuff", "control"],
+   typeConfig: { school: "wyrd", icon: "Nature/Transform Frog", tags: ["utility", "polymorph", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
+   resourceCost: { actionPoints: 2, mana: 5 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }
+  },
  { id: "fp_blood_sermon",
   name: "Sermon of the Silence",
   description:
@@ -3879,3 +3918,5 @@ verbalText: "The silence answers!",
   },
  ],
 };
+
+FALSE_PROPHET_DATA.spells = FALSE_PROPHET_DATA.exampleSpells;

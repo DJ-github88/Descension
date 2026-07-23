@@ -622,7 +622,7 @@ const CharacterManagement = ({ user }) => {
 
             </div>
 
-            <div className="resource-value">{character.hitPoints || 100}/{character.maxHitPoints || 100}</div>
+            <div className="resource-value">{typeof character.hitPoints === 'object' ? `${character.hitPoints.current}/${character.hitPoints.max}` : (character.hitPoints || 100)}/{typeof character.maxHitPoints === 'object' ? character.maxHitPoints.max : (character.maxHitPoints || 100)}</div>
 
            </div>
 
@@ -636,7 +636,7 @@ const CharacterManagement = ({ user }) => {
 
             </div>
 
-            <div className="resource-value">{character.mana || 50}/{character.maxMana || 50}</div>
+            <div className="resource-value">{typeof character.mana === 'object' ? `${character.mana.current}/${character.mana.max}` : (character.mana || 50)}/{typeof character.maxMana === 'object' ? character.maxMana.max : (character.maxMana || 50)}</div>
 
            </div>
 
@@ -650,7 +650,7 @@ const CharacterManagement = ({ user }) => {
 
             </div>
 
-            <div className="resource-value">{character.actionPoints || 3}</div>
+            <div className="resource-value">{typeof character.actionPoints === 'object' ? `${character.actionPoints.current}/${character.actionPoints.max}` : (character.actionPoints || 3)}</div>
 
            </div>
 

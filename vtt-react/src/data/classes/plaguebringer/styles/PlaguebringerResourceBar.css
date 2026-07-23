@@ -20,30 +20,31 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
+    padding: 6px 12px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(132, 204, 22, 0.25);
     margin-bottom: 4px;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', serif;
     font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.plaguebringer-resource-wrapper .spec-option:last-child {
-    margin-bottom: 0;
+    font-weight: 600;
+    background: rgba(18, 20, 10, 0.7);
 }
 
 .plaguebringer-resource-wrapper .spec-option:hover {
-    background: rgba(139, 69, 19, 0.2);
-    border-color: rgba(139, 69, 19, 0.4);
+    background: linear-gradient(135deg, rgba(30, 45, 15, 0.85), rgba(45, 75, 20, 0.95));
+    border-color: rgba(168, 224, 74, 0.7);
+    box-shadow: 0 0 12px rgba(132, 204, 22, 0.35);
+    transform: translateX(2px);
 }
 
 .plaguebringer-resource-wrapper .spec-option.selected {
-    background: rgba(139, 69, 19, 0.3);
-    border-color: rgba(139, 69, 19, 0.6);
-    font-weight: 600;
+    background: linear-gradient(135deg, rgba(40, 65, 18, 0.95), rgba(65, 105, 25, 1));
+    border-color: #a3e635;
+    color: #ecfccb;
+    box-shadow: 0 0 14px rgba(163, 230, 53, 0.5), inset 0 0 8px rgba(163, 230, 53, 0.2);
+    font-weight: 700;
 }
 
 .plaguebringer-resource-wrapper .spec-option i {

@@ -156,8 +156,9 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                         onClick={handleCancel}
                         disabled={isLoading}
                         title="Cancel Character Creation"
+                        aria-label="Cancel Character Creation"
                     >
-                        <i className="fas fa-times"></i> Cancel
+                        <i className="fas fa-times"></i>
                     </button>
 
                     {!isFirstStep && (

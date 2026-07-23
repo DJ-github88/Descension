@@ -274,8 +274,8 @@
     }
 
     .action-slot {
-        width: 38px;
-        height: 38px;
+        width: 44px;
+        height: 44px;
     }
 
     .action-bar {
@@ -300,16 +300,25 @@
 @media (max-width: 480px) {
     .action-bar-container {
         bottom: 5px;
-        padding: 5px 8px;
+        padding: 5px 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .action-bar-container::-webkit-scrollbar {
+        display: none;
     }
 
     .action-slot {
-        width: 32px;
-        height: 32px;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
     }
 
     .action-bar {
-        gap: 4px;
+        gap: 3px;
+        width: max-content;
     }
     
     .slot-number {

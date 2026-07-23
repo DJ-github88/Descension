@@ -1015,3 +1015,98 @@
     font-weight: bold;
     margin-top: 6px;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .combat-title {
+        font-size: 20px;
+    }
+
+    .combat-idle-phase {
+        padding: 12px;
+    }
+
+    .combat-header {
+        margin-bottom: 12px;
+    }
+
+    .combat-phase {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .combat-title {
+        font-size: 17px;
+    }
+
+    .combat-idle-phase {
+        padding: 8px;
+    }
+
+    .combat-header {
+        margin-bottom: 8px;
+    }
+
+    .combat-phase {
+        padding: 8px;
+    }
+
+    .combat-panel {
+        padding: 8px;
+    }
+
+    .combat-list-item {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .combat-list-item button,
+    .combat-list-item .btn {
+        min-height: 40px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .combat-title {
+        font-size: 15px;
+    }
+
+    .combat-list-item {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .combat-list-item button,
+    .combat-list-item .btn {
+        min-height: 36px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .combat-title {
+        font-size: 14px;
+    }
+
+    .combat-idle-phase {
+        padding: 4px;
+    }
+
+    .combat-panel {
+        padding: 4px;
+    }
+
+    .combat-list-item {
+        padding: 4px;
+        font-size: 0.75rem;
+    }
+
+    .combat-list-item button,
+    .combat-list-item .btn {
+        min-height: 32px;
+        font-size: 0.75rem;
+        padding: 4px 6px;
+    }
+}

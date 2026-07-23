@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Pyrofiend Class Data
  *
@@ -220,7 +221,7 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
 
  combatRole: {
   title: "Combat Role",
-  content: `The Pyrofiend is the highest area-of-effect damage ceiling in Mythrill, capable of melting boss-tier encounters in a single turn when the Inferno Veil climbs. They excel at:
+  content: `The Pyrofiend is the highest area-of-effect damage ceiling in Mythril, capable of melting boss-tier encounters in a single turn when the Inferno Veil climbs. They excel at:
 
 **Exponential Burst Damage**: Ascending to high Inferno Levels multiplies ember damage beyond any other class's capability
 **Area Devastation**: No other class can match a Level 8+ Pyrofiend's AoE destruction
@@ -915,6 +916,30 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
 
  // Spells - organized by level, properly formatted for wizard
  spells: [
+  { id: "pyro_inferno_blast",
+   name: "Inferno Blast",
+   description: "Detonate a catastrophic sphere of volcanic ember fire in a 20 ft radius up to 60 ft away, dealing 4d6 ember damage and leaving burning ash ground.",
+   level: 3,
+   spellType: "ACTION",
+   icon: "Fire/Flame Burst",
+   typeConfig: { school: "ember", icon: "Fire/Flame Burst", tags: ["utility", "damage", "fireball", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaSize: 20 },
+   resourceCost: { actionPoints: 2, mana: 6 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+   tags: ["utility", "fireball", "pyrofiend"]
+  },
+  { id: "pyro_hearth_heat",
+   name: "Hearth Heat",
+   description: "Radiate internal volcanic heat to warm your party in freezing blizzard conditions for 1 hour, granting immunity to environmental freezing damage.",
+   level: 1,
+   spellType: "ACTION",
+   icon: "Fire/Aura",
+   typeConfig: { school: "ember", icon: "Fire/Aura", tags: ["utility", "heat", "warmth", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
+   targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
+   resourceCost: { actionPoints: 1, mana: 2 },
+   cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+   tags: ["utility", "heat", "pyrofiend"]
+  },
  // ========================================
  // LEVEL 1 STARTING SPELLS (5 options, pick 3)
  // Weak starter spells - intentionally low power

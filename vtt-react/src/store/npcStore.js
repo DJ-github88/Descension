@@ -1136,6 +1136,8 @@ const NPC_DATA = {
     ]
   }
 };
+
+const useNpcStore = create((set) => ({
   npcs: Object.values(NPC_DATA),
 
   getNpc: (npcId) => NPC_DATA[npcId] || null,

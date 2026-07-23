@@ -2389,10 +2389,10 @@
     }
 
     .hud-control-button {
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-        min-height: 36px !important;
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
         padding: 8px !important;
         font-size: 12px !important;
         touch-action: manipulation !important;

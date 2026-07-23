@@ -667,6 +667,49 @@ const Step10EquipmentSelection = () => {
     setTooltip({ show: false, item: null, x: 0, y: 0 });
   };
 
+  // Touch handler for mobile: show tooltip on tap, hide on tap elsewhere
+  const handleItemTouchStart = (e, item) => {
+    // Only handle single-finger taps
+    if (e.touches && e.touches.length > 1) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const tooltipWidth = 280;
+    const tooltipHeight = 250;
+    const margin = 15;
+
+    let x = rect.right + margin;
+    let y = rect.top;
+
+    const fitsRight = (x + tooltipWidth) <= viewportWidth;
+    const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+    if (!fitsRight) {
+      x = rect.left - tooltipWidth - margin;
+      if (x < margin) {
+        x = (viewportWidth - tooltipWidth) / 2;
+      }
+    }
+
+    if (!fitsBelow) {
+      y = rect.top - tooltipHeight - margin;
+      if (y < margin) {
+        y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+      }
+    }
+
+    x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+    y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+    // Toggle: if same item tapped again, hide tooltip
+    if (tooltip.show && tooltip.item?.id === item.id) {
+      setTooltip({ show: false, item: null, x: 0, y: 0 });
+    } else {
+      setTooltip({ show: true, item, x, y });
+    }
+  };
+
   // Open the tap-to-confirm popup. Clears any floating tooltip so it can't freeze.
   const openConfirm = (item, mode, cartIndex = null) => {
     setTooltip({ show: false, item: null, x: 0, y: 0 });
@@ -780,6 +823,7 @@ const Step10EquipmentSelection = () => {
                 onMouseEnter={(e) => handleItemMouseEnter(e, item)}
                 onMouseMove={handleItemMouseMove}
                 onMouseLeave={handleItemMouseLeave}
+                onTouchStart={(e) => handleItemTouchStart(e, item)}
               >
                 <div
                   className="equipment-item-icon"
@@ -886,6 +930,7 @@ const Step10EquipmentSelection = () => {
                 onMouseEnter={(e) => handleItemMouseEnter(e, item)}
                 onMouseMove={handleItemMouseMove}
                 onMouseLeave={handleItemMouseLeave}
+                onTouchStart={(e) => handleItemTouchStart(e, item)}
               >
                 <div
                   className="equipment-item-icon"

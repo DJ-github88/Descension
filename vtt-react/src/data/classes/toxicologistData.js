@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Toxicologist Class Data
  *
@@ -141,7 +142,7 @@ export const TOXICOLOGIST_DATA = {
     founder: {
       name: '<LoreLink termId="varis">Varis</LoreLink>',
       status: `Alive, old, trembling, and still working. The <LoreLink termId="frostwood-reach">Thalren</LoreLink> alchemist who extracted raw venom from fog-predators to defend against face-stealing horrors. Years in the ironwood canopies left him with chronic tremors, burned-away taste, and permanently stained fingers. The venoms that destroyed his nerves and stole his taste also froze his aging  -  a side effect he discovered too late to benefit from and too early to die from. He has been old for three hundred years. He cannot sign his own name legibly. He can still pour a lethal dose without spilling.`,
-      note: `<LoreLink termId="varis">Varis</LoreLink> built the Distillery on patience: a poison laid today that blooms in a week. The changing fog is rewriting his pharmacopoeia in real time, and the most premeditative tradition in Mythrill is being forced to improvise, the one thing it was never built to do.`
+      note: `<LoreLink termId="varis">Varis</LoreLink> built the Distillery on patience: a poison laid today that blooms in a week. The changing fog is rewriting his pharmacopoeia in real time, and the most premeditative tradition in Mythril is being forced to improvise, the one thing it was never built to do.`
     },
     currentLeader: {
       name: '<LoreLink termId="varis">Venom-Master Varis the Trembling</LoreLink>',
@@ -156,7 +157,7 @@ export const TOXICOLOGIST_DATA = {
       summary: `In the mid-Diming centuries, the fog-predators known as the Gref grew bolder. Unlike the Gambrel (which hunted the mist alone), the Gref had learned to coordinate  -  a hunting-pack behavior no Thalren naturalist had ever documented. During what the survivors called the Third Harvest, a Gref-pack cornered a Thalren scout patrol of six at Thornwood, a shallow-ironwood grove three leagues east of the Shallows, and *peeled* four of them before the remaining two escaped. The Gref did not kill them. They stole their faces, their voices, their memories, and for three weeks the four dead scouts *walked back into the settlements* wearing their killers' stolen identities. The Shallows executed seventeen people  -  some of them the Gref-wearing husks, some of them innocent neighbors indistinguishable from the predators  -  before the infestation was purged. Watching his patrolmates return as hollow mimics broke something in Varis. He declared that he would find a weapon the Gref could not steal, could not wear, could not turn back upon his people. He spent the next decade isolating the venom-glands of captured Gref specimens in a canopy-laboratory suspended above the Thornwood grove where his patrol died, and the Toxicologist tradition was born not from curiosity but from vengeance.` },
     culturalSpread: {
       title: 'The Spread of the Slow Cup',
-      description: `The Toxicologist craft did not remain confined to the Thalren. Over four centuries, the tradition spread across Mythrill through a chain of desperate transmissions  -  refugees, exiles, spies, and debtors each carrying the craft to a new people who needed it for their own reasons.`,
+      description: `The Toxicologist craft did not remain confined to the Thalren. Over four centuries, the tradition spread across Mythril through a chain of desperate transmissions  -  refugees, exiles, spies, and debtors each carrying the craft to a new people who needed it for their own reasons.`,
       vectors: [
         {
           from: 'Thalren',
@@ -166,7 +167,7 @@ export const TOXICOLOGIST_DATA = {
         {
           from: 'Thalren',
           to: 'Morren',
-          vector: `The Bryngloom is far from the Frostwood, but the Neth contract-economy draws resources from every corner of Mythrill. Thalren distillers who fell into debt to the Neth (which most eventually did, given the cost of fog-predator-hunting equipment) were indentured to work the Bryngloom peat-fields alongside Morren families serving their own generational debt. A Thalren debt-worker named Hael the Split-Hand, sentenced to twenty years of peat-cutting, began teaching the Morren the principles of venom-distillation during the long nights in the bog-worker dormitories  -  not out of generosity, but because the Morren knew the bog's alchemical moss better than any Thalren ever could, and Hael saw a way to pay off his contract faster by producing saleable distillates. The Morren adapted Thalren techniques to bog-chemistry within a generation, producing toxins the Thalren had never imagined. Hael died in the bog before his debt was cleared. The Morren remember his name.`
+          vector: `The Bryngloom is far from the Frostwood, but the Neth contract-economy draws resources from every corner of Mythril. Thalren distillers who fell into debt to the Neth (which most eventually did, given the cost of fog-predator-hunting equipment) were indentured to work the Bryngloom peat-fields alongside Morren families serving their own generational debt. A Thalren debt-worker named Hael the Split-Hand, sentenced to twenty years of peat-cutting, began teaching the Morren the principles of venom-distillation during the long nights in the bog-worker dormitories  -  not out of generosity, but because the Morren knew the bog's alchemical moss better than any Thalren ever could, and Hael saw a way to pay off his contract faster by producing saleable distillates. The Morren adapted Thalren techniques to bog-chemistry within a generation, producing toxins the Thalren had never imagined. Hael died in the bog before his debt was cleared. The Morren remember his name.`
         },
         {
           from: 'Thalren',
@@ -176,7 +177,7 @@ export const TOXICOLOGIST_DATA = {
         {
           from: 'Morren',
           to: 'Drun Neth',
-          vector: `The Drun Neth learned the craft from Morren bog-chemists fleeing the Keeper's Sanction. When Mor-Velk the Wet began intercepting ichor shipments meant for Neth contract-rituals, she knew the Ledger would eventually trace the theft. She sought refuge in the Deep-Quarter, where the Drun  -  legally non-existent, untraceable by contract-enforcement  -  offered her sanctuary. In exchange for protection, Mor-Velk taught the Drun everything she knew about bog-reading and alchemical distillation. The Drun adapted the craft to their own condition: their half-decayed flesh, no longer preserved by Morvane's contract, hosts decomposition chemistry that no living Toxicologist can replicate. The resulting null-distillates are the only poisons in Mythrill that cannot be registered on the First Contract, making the Drun Toxicologists the most dangerous chemists Morvane has never heard of.`
+          vector: `The Drun Neth learned the craft from Morren bog-chemists fleeing the Keeper's Sanction. When Mor-Velk the Wet began intercepting ichor shipments meant for Neth contract-rituals, she knew the Ledger would eventually trace the theft. She sought refuge in the Deep-Quarter, where the Drun  -  legally non-existent, untraceable by contract-enforcement  -  offered her sanctuary. In exchange for protection, Mor-Velk taught the Drun everything she knew about bog-reading and alchemical distillation. The Drun adapted the craft to their own condition: their half-decayed flesh, no longer preserved by Morvane's contract, hosts decomposition chemistry that no living Toxicologist can replicate. The resulting null-distillates are the only poisons in Mythril that cannot be registered on the First Contract, making the Drun Toxicologists the most dangerous chemists Morvane has never heard of.`
         }
       ]
     },
@@ -269,7 +270,7 @@ The class is practiced by the Thalren humans, the <LoreLink termId="mimir">Tethe
 
     currentCrisis: `The fog is changing the chemistry of the Frostwood Reach. The airborne toxins that Toxicologists have relied on for generations, distilled from fog-predator venom, ironwood sap, and Gref residue, are becoming unstable. Compounds that once remained viable for years are now degrading in weeks.
 
-The cause is not random. The changing fog is one expression of a broader unraveling that scholars across Mythrill are documenting under different names: the Root-Veil's rejection of the Marked, the Monoliths' deepening resonance, the Wyrd's increased activity at the world's edges. The Frostwood's fog has always been more than weather  -  it is the breath of the deep forest, an exhalation of the same ancient biology that sustains the Root-Veil and the mycelial networks beneath. As the Root-Veil recoils from the Plaguebringer crisis and the Monoliths pulse with renewed activity, the fog's chemistry is shifting in response  -  becoming more aggressive, more unpredictable, more *alive*. It is not simply a change in composition; it is a change in behavior. The fog is reacting to something.
+The cause is not random. The changing fog is one expression of a broader unraveling that scholars across Mythril are documenting under different names: the Root-Veil's rejection of the Marked, the Monoliths' deepening resonance, the Wyrd's increased activity at the world's edges. The Frostwood's fog has always been more than weather  -  it is the breath of the deep forest, an exhalation of the same ancient biology that sustains the Root-Veil and the mycelial networks beneath. As the Root-Veil recoils from the Plaguebringer crisis and the Monoliths pulse with renewed activity, the fog's chemistry is shifting in response  -  becoming more aggressive, more unpredictable, more *alive*. It is not simply a change in composition; it is a change in behavior. The fog is reacting to something.
 
 Toxicologists have documented the degradation pattern: fog-predator venoms spoil from the inside out, as if the fog that once sustained the predators' biology is now rejecting it. Ironwood sap distillates crystallize unpredictably, shattering their containment vessels. Gref-residue compounds that once required decades to decay now sour within a month. The Silent contamination theory  -  that the Bryngloom's silence is leaching into the global atmosphere  -  has gained currency among the Distillery's senior ranks, but Varis himself rejects it. He believes the fog is not being contaminated by outside forces; he believes the fog is *waking up*, that something has disturbed the deep-forest ecology on a scale no one understands, and the fog is no longer a passive medium but an active agent rewriting the chemistry of everything it touches.
 
@@ -302,7 +303,7 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
       {
         name: 'The Deep-Quarter Null-Laboratory',
         locationId: 'frostwood-reach',
-        description: 'A converted peat-hold in the Drun Neth enclave of the Deep-Quarter, established by Mor-Velk the Wet as payment for sanctuary. The laboratory is the only facility in Mythrill capable of stabilizing null-distillates  -  Drun poisons that carry the Silence and register as non-existent on the First Contract. The walls are lined with lead-sheathed iron (a desperate attempt to contain null-spills), and the floor has been replaced twice after runaway distillates consumed the original ironwood. Drun Vel-Hassik now oversees the laboratory after Mor-Velk\'s death.',
+        description: 'A converted peat-hold in the Drun Neth enclave of the Deep-Quarter, established by Mor-Velk the Wet as payment for sanctuary. The laboratory is the only facility in Mythril capable of stabilizing null-distillates  -  Drun poisons that carry the Silence and register as non-existent on the First Contract. The walls are lined with lead-sheathed iron (a desperate attempt to contain null-spills), and the floor has been replaced twice after runaway distillates consumed the original ironwood. Drun Vel-Hassik now oversees the laboratory after Mor-Velk\'s death.',
         purpose: 'Drun distillery and null-distillate research facility',
         status: 'Active, but losing containment  -  the deepening Silence is eating through the lead-sheathing'
       },
@@ -1000,6 +1001,34 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
   // Example Spells - organized by specialization
   exampleSpells: [
+    ...UTILITY_SPELLS,
+    // SIGNATURE UTILITY SPELLS (CLASSIC WOW UTILITY NICHE)
+    { id: "tox_acid_unlocking",
+      name: "Acid Unlocking",
+      description: "Apply a drop of corrosive Florae acid to quietly dissolve metal lock tumblers or mechanical trap gears over 10 seconds without making sound.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Poison/Corrosive Acid",
+      specialization: "universal",
+      typeConfig: { school: "blight", icon: "Poison/Corrosive Acid", tags: ["utility", "lockpick", "acid", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5 },
+      resourceCost: { actionPoints: 1, mana: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "lockpick", "acid", "toxicologist"]
+    },
+    { id: "tox_false_death",
+      name: "False Death",
+      description: "Ingest a micro-vial of numbing peat-extract, dropping pulse and body temperature to zero. Enemies believe you are dead and ignore you for up to 10 minutes.",
+      level: 3,
+      spellType: "REACTION",
+      icon: "Poison/Poison Vial",
+      specialization: "universal",
+      typeConfig: { school: "blight", icon: "Poison/Poison Vial", tags: ["utility", "feign_death", "stasis", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, mana: 0 },
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      tags: ["utility", "feign_death", "toxicologist"]
+    },
     // ===== VENOMANCER SPECIALIZATION =====
     { id : "tox_venom_strike",
       name: "Venom Strike",
@@ -3531,5 +3560,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     }
   ],
 };
+
+TOXICOLOGIST_DATA.spells = TOXICOLOGIST_DATA.exampleSpells;
 
 export default TOXICOLOGIST_DATA;

@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Augur Class Data
  *
@@ -525,7 +526,8 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
  },
 
  exampleSpells: [
- // ============================================================
+    ...UTILITY_SPELLS,
+    // ============================================================
  // LEVEL 1 SPELLS (5)
  // ============================================================
 

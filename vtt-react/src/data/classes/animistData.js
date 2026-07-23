@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const ANIMIST_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -195,7 +196,7 @@ The Earthen Astril adapted the practice through their Lumia heritage, the fragme
 
 The Morgh Groven carry the most literal version of the art. The Still-Claiming already turns Groven dead into calcified stone, the ancestors literally become the bridges their descendants walk. A Morgh channels the dead not as spirits but as mineral memory, drawing on the same alchemical residues the Deep Alchemists used to reshape the Groven from Thrumm stock. The race that was sculpted against its will now sculpts itself.
 
-The Waste-Solari adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Waste-Solari believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Waste-Solari does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythrill preserved in the muscle memory of hands that learned from hands.
+The Waste-Solari adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Waste-Solari believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Waste-Solari does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythril preserved in the muscle memory of hands that learned from hands.
 
 The Trueborn Florae adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Trueborn channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Florae who died before their debt was paid.
 
@@ -419,6 +420,32 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
   },
 
     spells: [
+    {
+      id: "animist_spirit_voice",
+      name: "Spirit Voice",
+      description: "Commune with the spirits of dead ancestors or a corpse to ask 3 questions about their death or local threats.",
+      level: 1,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: { school: "primal", icon: "Utility/Utility", tags: ["utility", "divination", "speak_with_dead", "animist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5 },
+      resourceCost: { actionPoints: 1, mana: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "divination", "animist"]
+    },
+    {
+      id: "animist_spirit_hawk",
+      name: "Spirit Hawk",
+      description: "Project your sight into an ancestral falcon or raven up to 1 mile away for 10 minutes.",
+      level: 2,
+      spellType: "ACTION",
+      icon: "Utility/Utility",
+      typeConfig: { school: "primal", icon: "Utility/Utility", tags: ["utility", "scout", "beast_sense", "animist"], castTime: 1, castTimeType: "IMMEDIATE" },
+      targetingConfig: { targetingType: "self", rangeType: "self" },
+      resourceCost: { actionPoints: 1, mana: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      tags: ["utility", "scout", "animist"]
+    },
     { id : "animist_earth_bolt",
       name: "Earthen Splinter",
       description: "Hurl a sharp splinter of ancestral stone at a foe. Generates 1 Resonance.",

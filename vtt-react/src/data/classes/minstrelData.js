@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Minstrel Class Data
  *
@@ -69,7 +70,7 @@ export const MINSTREL_DATA = {
   title: 'The Freshwater-Voice',
   reframe: `The <LoreLink termId="myrathil">Brook</LoreLink>, the inland swimmers who traded ocean-depth for freshwater mobility, conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.
 
-The Thaw-Run is the longest continuous river on Mythrill, flowing from the Cragjaw melt-lakes south through the Sundrift Vale before emptying into the Iceheart Sea near Ironjaw Port. It is the Brook Minstrel's primary trade route and the first waterway to go silent  —  the frequency stopped at the river's mouth and has been creeping upstream ever since, tributary by tributary.`,
+The Thaw-Run is the longest continuous river on Mythril, flowing from the Cragjaw melt-lakes south through the Sundrift Vale before emptying into the Iceheart Sea near Ironjaw Port. It is the Brook Minstrel's primary trade route and the first waterway to go silent  —  the frequency stopped at the river's mouth and has been creeping upstream ever since, tributary by tributary.`,
   signatureAbility: {
   name: 'Current-Cadence',
   description: `Cadences are amplified by flowing freshwater and attenuated by still or salt water; a Brook Minstrel on a swift river is nearly as potent as a Merryn in a storm. On a lake or the open sea, they are the weakest variant, the wrong element entirely.`
@@ -152,7 +153,7 @@ The Clean Vreken discovered bog-resonance independently through the Root-Veil  �
 
 The first was Lyris the Tide-Singer, a Merryn sailor aboard the Wind-Wake, a trade-galley carrying whale-oil from Nordhalla to Merrowport. The ship was ice-locked, not unusual for the Iceheart Sea, but the storm that followed the lock was not natural. A gale rose that should have shattered the trapped hull against the ice-floes. The crew had lashed themselves to the mast. Lyris was the only one still singing. She sang a sea-symphony, a cadence constructed from the rhythm of the waves and the frequency of the wind, and the storm stilled. The ocean mother accepted the song. It also took Lyris's spoken voice as payment. She can communicate only through melodic whispers or her lute strings. Attempting to scream causes her throat to bleed and her lungs to fill with saltwater.
 
-The Tide-Choir that grew from her discovery numbers sixty-four active minstrels, divided into four sections. The Storm-Singers, Merryn practitioners led by Tide-Mistress Mer-Lyrisa, conduct open-water cadences. The Shore-Chorus, Shore Myrathil performers, mediate the boundary between sea and land. The River-Voice, Brook Myrathil practitioners, carry the work up the Thaw-Run, the longest continuous river on Mythrill, flowing from the Cragjaw melt-lakes through the Sundrift Vale to the Iceheart Sea. The Deep-Chamber, Deep Myrathil performers, produce subsonic frequencies felt in bone rather than heard. The Deep-Chamber section has had no active members since the silence began.
+The Tide-Choir that grew from her discovery numbers sixty-four active minstrels, divided into four sections. The Storm-Singers, Merryn practitioners led by Tide-Mistress Mer-Lyrisa, conduct open-water cadences. The Shore-Chorus, Shore Myrathil performers, mediate the boundary between sea and land. The River-Voice, Brook Myrathil practitioners, carry the work up the Thaw-Run, the longest continuous river on Mythril, flowing from the Cragjaw melt-lakes through the Sundrift Vale to the Iceheart Sea. The Deep-Chamber, Deep Myrathil performers, produce subsonic frequencies felt in bone rather than heard. The Deep-Chamber section has had no active members since the silence began.
 
 The Clean Vreken discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Neth traders at Ironjaw Port. A Clean Vreken named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Clean Vreken branch, but the bog vouches for them.
 

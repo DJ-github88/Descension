@@ -270,4 +270,36 @@
   .page-header {
     padding: 1rem 0;
   }
+
+  .header-title h1 {
+    font-size: 1.2rem;
+  }
+
+  .page-header {
+    padding: 0.75rem 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .header-title h1 {
+    font-size: 1.1rem;
+  }
+
+  .creation-main {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .header-title h1 {
+    font-size: 1rem;
+  }
+
+  .creation-main {
+    padding: 0.5rem;
+  }
+
+  .page-header {
+    padding: 0.5rem 0;
+  }
 }

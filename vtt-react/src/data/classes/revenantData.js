@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const REVENANT_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -685,6 +686,7 @@ The Revenant can switch between two casting modes:
   },
 
   exampleSpells: [
+    ...UTILITY_SPELLS,
     { id: "rv_necrotic_bolt",
       name: "Necrotic Bolt",
       description: "You channel your life force into a lance of blackened energy that burrows into the target's vitality and gnaws.",

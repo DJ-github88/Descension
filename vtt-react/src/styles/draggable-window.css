@@ -107,3 +107,36 @@
         box-shadow: none !important;
     }
 }
+
+@media (max-width: 480px) {
+    .draggable-window-content {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .draggable-window-content button,
+    .draggable-window-content .btn {
+        min-height: 40px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .draggable-window-content {
+        padding: 4px;
+        font-size: 0.8rem;
+    }
+
+    .draggable-window-content button,
+    .draggable-window-content .btn {
+        min-height: 36px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .draggable-window-content input,
+    .draggable-window-content select {
+        font-size: 0.8rem;
+        padding: 4px 6px;
+    }
+}

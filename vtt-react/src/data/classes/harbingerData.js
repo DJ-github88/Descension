@@ -1,3 +1,4 @@
+import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const HARBINGER_DATA = {
  restrictions: {
    "allowedSubraces": [
@@ -118,7 +119,7 @@ export const HARBINGER_DATA = {
  ],
 
  overview: {
-   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the first centuries of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythrill can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
+   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the first centuries of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
 
 He published his findings. The Frozen Archive suppressed them. The calculations were correct, but the political implications were unacceptable. If freeze was mathematically certain, the noble houses had not saved the world by binding Sol. They had merely delayed the execution. Malakor continued calculating. Other mathematicians found his work, came to the Archive, studied his papers, understood the conclusion, and left carrying the math in their heads, because the math once understood cannot be un-understood.
 
@@ -489,7 +490,8 @@ The Master Wild Surge table is structured across four absolute thematic categori
  },
 
  exampleSpells: [
-  { id: "harbinger-universal-doom_bolt",
+    ...UTILITY_SPELLS,
+    { id: "harbinger-universal-doom_bolt",
    name: "Doom Bolt",
    description: "Your throat tears open as you speak the first syllable of ending. A bolt of pure blight certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood.",
    spellType: "ACTION", icon: "Necrotic/Skull Burst", level: 1, specialization: "universal",
