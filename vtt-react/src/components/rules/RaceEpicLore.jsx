@@ -262,6 +262,18 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
 
     return (
         <div className="race-epic-lore-container">
+            {/* Static Floating Close Button for Mobile & Desktop */}
+            {onClose && (
+                <button 
+                    className="tome-floating-close-btn" 
+                    onClick={onClose} 
+                    title="Close Tome"
+                    aria-label="Close Tome"
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+            )}
+
             {/* Header top bar with Close Button */}
             <div className="tome-header-bar">
                 <div className="tome-header-spacer"></div>

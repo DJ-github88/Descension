@@ -2731,52 +2731,53 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const leftPageCategory = pageCategories[0] || null;
   const rightPageCategory = pageCategories[1] || null;
   
-  // Calculate grid size to fit all spells without scrolling
-  // Each page side should fit about 24 spells (4 rows x 6 columns)
-  const spellsPerRow = 6;
-  const rowsPerSide = 4;
-  const maxSpellsPerSide = spellsPerRow * rowsPerSide; // 24 spells per side
-
-  const renderSpellCategory = (categoryEntry, sideMaxSpells) => {
+  const renderSpellCategory = (categoryEntry) => {
    if (!categoryEntry) {
-    // Render empty slots for empty side
     return (
      <div className="spellbook-category">
-      <div className="spellbook-spell-grid">
-       {Array.from({ length: sideMaxSpells }).map((_, index) => (
-        <div key={`empty-${index}`} className="spellbook-spell-icon spellbook-spell-icon-empty">
-         <div className="spellbook-spell-icon-image">
-          <div className="spellbook-empty-icon"></div>
-         </div>
-        </div>
-       ))}
+      <div className="spellbook-empty-page" style={{ padding: '40px 20px', textAlign: 'center' }}>
+       <i className="fas fa-book-open" style={{ fontSize: '2rem', marginBottom: '8px', opacity: 0.35, color: '#8b4513' }}></i>
+       <p style={{ margin: 0, fontStyle: 'italic', color: '#8b4513', fontSize: '0.95rem' }}>No further spells recorded for this level page</p>
       </div>
      </div>
     );
    }
    
    const [categoryName, categorySpells] = categoryEntry;
-   const emptySlots = Math.max(0, sideMaxSpells - categorySpells.length);
+   // Ensure a baseline of 6 slots (3 rows of 2 slots) or pad to complete rows of 2
+   const minSlots = 6;
+   const totalSlots = Math.max(minSlots, Math.ceil(categorySpells.length / 2) * 2);
+   const emptySlotsCount = totalSlots - categorySpells.length;
    const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
    
    return (
     <div className="spellbook-category">
-     <h4 className="spellbook-category-title">
-      <i className={categoryIcon}></i> {categoryName}
-     </h4>
+     <div className="spellbook-category-header">
+      <h4 className="spellbook-category-title">
+       <i className={categoryIcon}></i> {categoryName}
+      </h4>
+      <span className="spellbook-category-count">
+       {categorySpells.length} {categorySpells.length === 1 ? 'Spell' : 'Spells'}
+      </span>
+     </div>
      <div className="spellbook-spell-grid">
-      {/* Render actual spells */}
+      {/* Render actual spell slots */}
       {categorySpells.map(spell => {
        const iconUrl = spellIconUrls.get(spell.id) || fallbackUrl;
-       
+       const apCost = spell.resourceCost?.actionPoints;
+       const school = spell.typeConfig?.school || spell.spellType;
+       const infernoReq = spell.specialMechanics?.infernoLevel?.required;
+       const comboType = spell.specialMechanics?.musicalCombo?.type;
+       const range = spell.targetingConfig?.rangeDistance;
+
        return (
         <div
          key={spell.id}
-         className="spellbook-spell-icon"
+         className="spellbook-spell-slot spellbook-spell-icon"
          onClick={() => handleSpellClick(spell)}
-         style={{ cursor: 'pointer' }}
+         title={`Inspect ${spell.name}`}
         >
-         <div className="spellbook-spell-icon-image">
+         <div className="spellbook-slot-icon-wrapper spellbook-spell-icon-image">
           <img
            src={iconUrl}
            alt={spell.name}
@@ -2788,31 +2789,45 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             const target = e.target;
             if (target.src !== fallbackUrl) {
              target.src = fallbackUrl;
-             target.onerror = null; // Prevent infinite loop
+             target.onerror = null;
             }
            }}
           />
+          {apCost && (
+           <span className="spellbook-slot-ap-badge" title={`${apCost} Action Point(s)`}>
+            {apCost} AP
+           </span>
+          )}
          </div>
-         <div className="spellbook-spell-icon-name">{spell.name}</div>
-         {spell.specialMechanics?.infernoLevel && (
-          <div className="spellbook-spell-icon-level">
-           Inferno {spell.specialMechanics.infernoLevel.required}
+         <div className="spellbook-slot-details">
+          <div className="spellbook-slot-name spellbook-spell-icon-name" title={spell.name}>{spell.name}</div>
+          <div className="spellbook-slot-meta">
+           {school && (
+            <span className="spellbook-slot-tag school-tag">{school}</span>
+           )}
+           {infernoReq && (
+            <span className="spellbook-slot-tag inferno-tag">Inferno {infernoReq}</span>
+           )}
+           {comboType && (
+            <span className="spellbook-slot-tag combo-tag">
+             {comboType === 'builder' ? 'Builder' : 'Cadence'}
+            </span>
+           )}
+           {range && (
+            <span className="spellbook-slot-range">{range}ft</span>
+           )}
           </div>
-         )}
-         {spell.specialMechanics?.musicalCombo && (
-          <div className="spellbook-spell-icon-level">
-           {spell.specialMechanics.musicalCombo.type === 'builder' ? 'Builder' : 'Cadence'}
-          </div>
-         )}
+         </div>
         </div>
        );
       })}
-      {/* Render empty placeholder squares */}
-      {Array.from({ length: emptySlots }).map((_, index) => (
-       <div key={`empty-${index}`} className="spellbook-spell-icon spellbook-spell-icon-empty">
-        <div className="spellbook-spell-icon-image">
-         <div className="spellbook-empty-icon"></div>
+      {/* Render empty slot sockets */}
+      {Array.from({ length: emptySlotsCount }).map((_, index) => (
+       <div key={`empty-${index}`} className="spellbook-spell-slot spellbook-spell-icon spellbook-slot-empty spellbook-spell-icon-empty">
+        <div className="spellbook-slot-empty-icon">
+         <i className="fas fa-sparkles"></i>
         </div>
+        <div className="spellbook-slot-empty-text">Empty Slot</div>
        </div>
       ))}
      </div>
@@ -2833,7 +2848,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      
      {/* Left Page */}
      <div className="spellbook-page spellbook-page-left">
-      {renderSpellCategory(leftPageCategory, maxSpellsPerSide)}
+      {renderSpellCategory(leftPageCategory)}
       {/* Previous Button at Bottom Left */}
       <div className="spellbook-pagination-left">
        <button
@@ -2849,7 +2864,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
      {/* Right Page */}
      <div className="spellbook-page spellbook-page-right">
-      {renderSpellCategory(rightPageCategory, maxSpellsPerSide)}
+      {renderSpellCategory(rightPageCategory)}
       {/* Next Button at Bottom Right */}
       <div className="spellbook-pagination-right">
        <button

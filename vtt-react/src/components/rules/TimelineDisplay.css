@@ -1,12 +1,258 @@
+.timeline-container {
+  padding: 16px 20px 48px;
+  max-width: 850px;
+  margin: 0 auto;
+  font-family: "Crimson Text", "Georgia", serif;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Header styling */
+.timeline-header {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+  padding: 16px 0;
+}
+
+.timeline-header-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  background: linear-gradient(90deg, transparent, var(--rpg-gold, #c4a060), transparent);
+}
+
+.timeline-header-line.top {
+  top: 0;
+  height: 2px;
+}
+
+.timeline-header-line.bottom {
+  bottom: 0;
+  height: 1px;
+}
+
+.timeline-title {
+  font-family: "Cinzel", serif;
+  font-size: clamp(1.4rem, 4vw, 1.75rem);
+  color: #4a150b;
+  letter-spacing: 2px;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.timeline-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.timeline-diamonds {
+  color: var(--rpg-dark-gold, #8f6f35);
+  font-size: 10px;
+}
+
+.timeline-subtitle-text {
+  color: #6d4021;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  font-style: italic;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* GM Toggle */
+.timeline-gm-toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-right: 4px;
+}
+
+.timeline-gm-toggle-status {
+  color: #6d4021;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.timeline-gm-toggle-btn {
+  background: linear-gradient(180deg, #f3ebd9, #eddcb8);
+  border: 1px solid rgba(196, 160, 96, 0.4);
+  color: #5a1e12;
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.timeline-gm-toggle-btn.active {
+  background: linear-gradient(180deg, #8a1a10, #5a100a);
+  border-color: var(--rpg-gold, #c4a060);
+  color: #fffbf2;
+}
+
+/* Timeline Spine & Era Structure */
+.timeline-spine-wrapper {
+  position: relative;
+  padding-left: 36px;
+}
+
+.timeline-spine {
+  position: absolute;
+  left: 13px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--rpg-gold, #c4a060), var(--rpg-dark-gold, #8f6f35), #8a1a10, #5c4033, #2b1c11);
+  box-shadow: 0 0 4px rgba(139, 69, 19, 0.2);
+}
+
+.timeline-era-block {
+  margin-bottom: 40px;
+}
+
+.timeline-era-block.last {
+  margin-bottom: 0;
+}
+
+.timeline-era-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: -36px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timeline-era-node {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a82015 0%, #70110a 100%);
+  border: 2px solid var(--rpg-gold, #c4a060);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
+}
+
+.timeline-era-node.expanded {
+  transform: scale(1.1) rotate(10deg);
+}
+
+.timeline-era-node-icon {
+  color: #fffbf2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.timeline-era-title-container {
+  flex: 1;
+  border-bottom: 1px solid rgba(196, 160, 96, 0.25);
+  padding-bottom: 4px;
+  min-width: 0;
+}
+
+.timeline-era-title {
+  font-family: "Cinzel", serif;
+  font-size: 1.25rem;
+  color: #4a150b;
+  margin: 0;
+  letter-spacing: 1px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.timeline-era-span {
+  font-size: 0.95rem;
+  color: var(--rpg-dark-gold, #8f6f35);
+  margin-left: 10px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.timeline-era-content {
+  padding-left: 2px;
+}
+
+/* Era Quote & Overview */
+.timeline-era-quote {
+  margin: 0 0 20px 0;
+  padding: 12px 16px;
+  border-left: 3px solid var(--rpg-dark-gold, #8f6f35);
+  background: rgba(196, 160, 96, 0.04);
+  border-radius: 0 4px 4px 0;
+}
+
+.timeline-era-quote p {
+  margin: 0;
+  color: #5a1e12;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.timeline-gm-overview {
+  margin: 0 0 20px 0;
+  padding: 12px 16px;
+  background: rgba(138, 26, 16, 0.03);
+  border: 1px dashed rgba(138, 26, 16, 0.35);
+  border-radius: 4px;
+}
+
+.timeline-gm-overview-label {
+  font-size: 9px;
+  color: #8a1a10;
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.timeline-gm-overview-text {
+  margin: 0;
+  color: #4a3728;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.timeline-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Event Cards */
 .timeline-card {
   background: rgba(245, 238, 224, 0.35);
   border: 1px solid rgba(196, 160, 96, 0.25);
   border-left: 3px solid var(--rpg-gold, #c4a060);
   border-radius: 4px;
-  padding: 18px;
-  margin-bottom: 12px;
+  padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: all 0.25s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .timeline-card:hover {
@@ -24,40 +270,33 @@
   border-bottom: 1px solid rgba(196, 160, 96, 0.15);
   padding-bottom: 8px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .timeline-card-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.15rem;
+  font-family: "Cinzel", serif;
+  font-size: 1.125rem;
   color: #4a150b;
   margin: 0;
   font-weight: 700;
   letter-spacing: 0.5px;
+  flex: 1;
+  min-width: 180px;
 }
 
 .timeline-card-date {
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
+  font-family: "Cinzel", serif;
+  font-size: 0.875rem;
   color: var(--rpg-dark-gold, #8f6f35);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .timeline-card-body {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: flex-start;
-}
-
-@media (max-width: 600px) {
-  .timeline-card-body {
-    flex-direction: column;
-    align-items: center;
-  }
-  .timeline-art-container {
-    width: 100% !important;
-    max-width: 200px;
-    height: 150px !important;
-  }
 }
 
 .timeline-art-container {
@@ -74,6 +313,7 @@
   justify-content: center;
   overflow: hidden;
   transition: border-color 0.25s ease, background-color 0.25s ease;
+  box-sizing: border-box;
 }
 
 .timeline-card:hover .timeline-art-container {
@@ -92,17 +332,17 @@
   transform: scale(1.04);
 }
 
-.timeline-card-body p {
+.timeline-card-text {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 1.02rem;
+  line-height: 1.6;
   color: #2b1c11;
   flex: 1;
 }
 
 .timeline-gm-hook {
   margin-top: 14px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   background: rgba(138, 26, 16, 0.03);
   border-left: 3px solid #8a1a10;
   border-radius: 0 4px 4px 0;
@@ -113,17 +353,152 @@
 .timeline-gm-hook-label {
   font-size: 9px;
   color: #8a1a10;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   letter-spacing: 1.5px;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   font-weight: 700;
 }
 
 .timeline-gm-hook-text {
   margin: 0 !important;
   color: #6d4021 !important;
-  font-size: 0.98rem !important;
-  line-height: 1.6 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.55 !important;
   font-style: italic !important;
+}
+
+/* Footer Quote */
+.timeline-footer-quote {
+  text-align: center;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(196, 160, 96, 0.25);
+}
+
+.timeline-footer-quote p {
+  margin: 0;
+  color: #6d4021;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.65;
+}
+
+.timeline-footer-author {
+  font-size: 0.85rem;
+  color: var(--rpg-dark-gold, #8f6f35);
+  font-weight: 600;
+}
+
+/* Mobile Responsiveness (< 640px) */
+@media (max-width: 640px) {
+  .timeline-container {
+    padding: 12px 10px 32px;
+  }
+
+  .timeline-header {
+    padding: 10px 0;
+    margin-bottom: 16px;
+  }
+
+  .timeline-diamonds {
+    display: none;
+  }
+
+  .timeline-gm-toggle-container {
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .timeline-spine-wrapper {
+    padding-left: 28px;
+  }
+
+  .timeline-spine {
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+  }
+
+  .timeline-era-block {
+    margin-bottom: 28px;
+  }
+
+  .timeline-era-header {
+    margin-left: -28px;
+    gap: 8px;
+  }
+
+  .timeline-era-node {
+    width: 24px;
+    height: 24px;
+  }
+
+  .timeline-era-node-icon {
+    font-size: 9px;
+  }
+
+  .timeline-era-title {
+    font-size: 1.1rem;
+  }
+
+  .timeline-era-span {
+    display: block;
+    margin-left: 0;
+    margin-top: 2px;
+    font-size: 0.85rem;
+  }
+
+  .timeline-era-quote,
+  .timeline-gm-overview {
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+
+  .timeline-era-quote p,
+  .timeline-gm-overview-text {
+    font-size: 0.95rem;
+  }
+
+  .timeline-card {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .timeline-card-title {
+    font-size: 1.05rem;
+    min-width: 0;
+  }
+
+  .timeline-card-date {
+    font-size: 0.8rem;
+  }
+
+  .timeline-card-body {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timeline-art-container {
+    width: 100% !important;
+    max-width: 240px;
+    height: 140px !important;
+  }
+
+  .timeline-card-text {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    width: 100%;
+  }
+
+  .timeline-footer-quote p {
+    font-size: 0.95rem;
+  }
 }
