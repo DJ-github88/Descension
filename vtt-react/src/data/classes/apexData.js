@@ -3741,7 +3741,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    description:
    "Speak in the hand-pressure sign language of the Silent Sisterhood � fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
    spellType: "ACTION",
-   icon: "Utility/Utility",
+   icon: "Nature/Amplified Senses",
    level: 1,
    specialization: "universal",
    typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Utility" },

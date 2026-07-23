@@ -2066,7 +2066,7 @@ MAX BANKED SPHERES: 12
    description: "Combine Force + Arcane spheres to open a glowing 6 ft portal connecting your current location to a known Solvan beacon up to 10 miles away for 1 minute.",
    level: 6,
    spellType: "ACTION",
-   icon: "Arcane/Portal",
+   icon: "Arcane/Conjure Elements",
    typeConfig: { school: "arcane", icon: "Arcane/Portal", tags: ["utility", "teleport", "portal", "arcanoneer"], castTime: 3, castTimeType: "MINUTES" },
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
    resourceCost: { actionPoints: 3, mana: 12 },
@@ -2084,7 +2084,7 @@ MAX BANKED SPHERES: 12
     "You focus raw aetheric energy through your mechanical lens, projecting a highly detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam. Somatic strain causes sweat to bead on your forehead as you maintain the projection.",
    level: 1,
    spellType: "ACTION",
-   icon: "Arcane/Aura",
+   icon: "Arcane/Beckon Faith",
 
    typeConfig: {
     school: "arcane",

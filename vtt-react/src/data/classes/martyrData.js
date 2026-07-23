@@ -3169,7 +3169,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   { id: "martyr_solbrand_warmth",
     name: "Sol's Breath Warmth",
     description: "Your obsidian scars flare with low Sol's Breath heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
-    level: 1, spellType: "ACTION", icon: "Fire/Ember Shield",
+    level: 1, spellType: "ACTION", icon: "Fire/Burning Ember",
     typeConfig: { school: "ember", icon: "Fire/Ember Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Breathe into your scars until they glow" },

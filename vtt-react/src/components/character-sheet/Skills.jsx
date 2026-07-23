@@ -195,7 +195,7 @@ export const WEAPON_FACE_TEXT = {
     }
 };
 
-export default function Skills() {
+export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSkill: propSetSelectedSkill } = {}) {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
     const characterStore = useCharacterStore();
@@ -225,7 +225,9 @@ export default function Skills() {
         MASTER: 20
     };
 
-    const [selectedSkill, setSelectedSkill] = useState(null);
+    const [internalSelectedSkill, setInternalSelectedSkill] = useState(null);
+    const selectedSkill = propSelectedSkill !== undefined ? propSelectedSkill : internalSelectedSkill;
+    const setSelectedSkill = propSetSelectedSkill || setInternalSelectedSkill;
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
     const [selectedWeaponType, setSelectedWeaponType] = useState('sword');
@@ -474,7 +476,7 @@ export default function Skills() {
             const rankTables = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
             if (typeof rankTables === 'object') {
                 if (rankTables[dieKey]) {
-                // New structure: proficiency Ã -  die type
+                // New structure: proficiency ï¿½ -  die type
                     const tableId = rankTables[dieKey];
                     if (!ROLLABLE_TABLES[tableId]) {
                         console.error(`Table not found: ${tableId} for skill ${skillId}, rank ${rank.key}, die ${dieKey}`);
@@ -769,7 +771,7 @@ export default function Skills() {
                                         )}
                                     </div>
                                     <div className="quest-status">
-                                        {isCompleted ? 'âœ“' : 'â - ‹'}
+                                        {isCompleted ? 'âœ“' : 'ï¿½ - ï¿½'}
                                     </div>
                                 </div>
                             );
@@ -923,14 +925,14 @@ export default function Skills() {
     };
 
     return (
-        <div className="skills-container">
+        <div className={`skills-container ${selectedSkill ? 'has-selected-skill' : ''}`}>
             <div className={`skills-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
                 <button
                     className="skills-sidebar-toggle-button"
                     onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                     title={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
                 >
-                    <span className="skills-toggle-icon">{sidebarCollapsed ? 'â–¶' : 'â - €'}</span>
+                    <span className="skills-toggle-icon">{sidebarCollapsed ? 'â–¶' : 'ï¿½ - ï¿½'}</span>
                 </button>
                 {!sidebarCollapsed && (
                     <div className="skills-search-container">
@@ -1062,7 +1064,7 @@ export default function Skills() {
                 ))}
             </div>
 
-            <div className="skills-content">
+            <div className={`skills-content ${selectedSkill ? 'active-skill-detail' : ''}`}>
                 {renderSkillDetail()}
             </div>
         </div>

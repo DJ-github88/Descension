@@ -436,7 +436,7 @@ Your Fortune hits 0.
       {
         id: "probability_savant",
         name: "Probability Savant",
-        icon: "fas fa-brain",
+        icon: "Psychic/Focused Mind",
         color: "#2980b9",
         theme: "Mathematical Foresight",
         description: "Masters of incremental math and enemy save manipulation. They treat fate as a ledger to be meticulously balanced, combining the Gambler's Fortune precision with the Fate Weaver's predictive sight.",
@@ -460,7 +460,7 @@ Your Fortune hits 0.
       {
         id: "high_roller",
         name: "High Roller",
-        icon: "fas fa-skull",
+        icon: "Social/Dice Roll",
         color: "#c0392b",
         theme: "Apocalyptic Stakes",
         description: "Extreme-risk gamblers who push their vital systems to the absolute limit for spectacular, reality-warping results. They combine the Gambler's high-stakes wagers with the Fate Weaver's expanded card capacity.",
@@ -484,7 +484,7 @@ Your Fortune hits 0.
       {
         id: "karmic_weaver",
         name: "Karmic Weaver",
-        icon: "fas fa-spider",
+        icon: "Necrotic/Blood Book",
         color: "#8e44ad",
         theme: "Thread Manipulation",
         description: "Obsessive readers who have trained their senses to physically feel the vibrating strings of destiny, channeling them through focused card manipulation and damage redirection. They combine the Gambler's deck control with the Fate Weaver's thread binding.",
@@ -579,7 +579,7 @@ Your Fortune hits 0.
       description: "Flick a weighted steel coin. Heads: target takes 1d10 + Charisma storm damage. Tails: the coin floats, granting the target a shimmering barrier absorbing 10 damage for 1 round. Generates 1 Fortune Point, inflicting 1 immediate HP damage as your body channels the debt.",
       level: 1,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Social/Dice Roll",
       typeConfig: {
         school: "storm",
         icon: "Utility/Utility",
@@ -849,7 +849,7 @@ Your Fortune hits 0.
       description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune Point. You can spend 1 Fortune Point (taking 1d4 wyrd damage) to force the coin to flip its result.",
       level: 2,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Social/Golden Crown",
       typeConfig: {
         school: "storm",
         icon: "Utility/Utility",
@@ -988,7 +988,7 @@ Your Fortune hits 0.
       description: "Reach into the empty silence of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune Point.",
       level: 2,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Arcane/Alchemical Symbol",
       typeConfig: {
         school: "storm",
         icon: "Utility/Utility",
@@ -1257,7 +1257,7 @@ Your Fortune hits 0.
       description: "As a reaction when an attack lands on a target within 30ft, flip a probability-charged coin. Heads: double the damage dealt to the target. Tails: nullify the damage entirely, but suffer 2d6 wyrd damage as the probability shockwave rebounds through your concentration. Spend 1 FP (1d4 wyrd damage) to force heads.",
       level: 5,
       spellType: "REACTION",
-      icon: "Utility/Utility",
+      icon: "Social/Camouflaged Creature Eyes",
       typeConfig: {
         school: "wyrd",
         icon: "Utility/Utility",
@@ -1327,7 +1327,7 @@ Your Fortune hits 0.
       description: "Pull the threads of probability with maximum exertion. Spend 4 Fortune Points (4d4 wyrd damage) to force all your d20 rolls this turn to be rolled with advantage. Taking this loan of luck leaves your nerves rattled; you have disadvantage on all saving throws until the start of your next turn.",
       level: 5,
       spellType: "ACTION",
-      icon: "Social/Dice Roll",
+      icon: "Necrotic/Blood Book",
       typeConfig: {
         school: "storm",
         icon: "Social/Dice Roll",
@@ -1670,7 +1670,7 @@ Your Fortune hits 0.
       description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 storm damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 storm damage to you. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
       level: 7,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Social/Careful Blunder",
       typeConfig: {
         school: "storm",
         icon: "Utility/Utility",
@@ -1761,7 +1761,7 @@ Your Fortune hits 0.
       description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Spend FP to adjust individual dice by ±1 per point (1d4 wyrd damage per FP spent).",
       level: 8,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Bludgeoning/Bonk",
       typeConfig: {
         school: "wyrd",
         icon: "Utility/Utility",
@@ -2122,7 +2122,7 @@ Your Fortune hits 0.
       description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 storm damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 storm damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune Point (1d4 wyrd damage) to flip the coin result.",
       level: 10,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Radiant/Divine Blessing",
       effectTypes: ["damage", "control"],
       typeConfig: {
         school: "storm",

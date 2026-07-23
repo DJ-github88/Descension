@@ -519,7 +519,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    description: "Dissolve your body into a floating green rot-cloud for 10 minutes. Float through keyholes, iron grates, and narrow cracks.",
    level: 3,
    spellType: "ACTION",
-   icon: "Poison/Poison Cloud",
+   icon: "Poison/Acid Spray",
    typeConfig: { school: "blight", icon: "Poison/Poison Cloud", tags: ["utility", "gaseous_form", "plaguebringer"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    resourceCost: { actionPoints: 1, mana: 5 },

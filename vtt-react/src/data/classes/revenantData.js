@@ -1361,7 +1361,7 @@ The Revenant can switch between two casting modes:
       id: "rv_frost_stasis",
       name: "Frost-Stasis",
       description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis  -  halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
-      level: 1, spellType: "ACTION", icon: "Frost/Ice Shard",
+      level: 1, spellType: "ACTION", icon: "Frost/Cold CLothing",
       typeConfig: { school: "rime", icon: "Frost/Ice Shard", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["verbal","somatic"], somaticText: "Breathe a slow rime over the target until a shell of frost seals it" },

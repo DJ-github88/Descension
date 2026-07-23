@@ -802,6 +802,15 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         });
     };
 
+    const handleSlotTap = (e, slotName) => {
+        e.stopPropagation();
+        const rect = e.currentTarget ? e.currentTarget.getBoundingClientRect() : { left: 0, top: 0, width: 0 };
+        const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
+        const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top);
+        setMousePosition({ x, y });
+        setHoveredSlot(prev => prev === slotName ? null : slotName);
+    };
+
     // Render character info section with side-by-side layout
     const renderCharacterInfo = () => (
         <div className="character-info-content">
@@ -1089,6 +1098,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 <div
                                     key={slotName}
                                     className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                    onClick={(e) => handleSlotTap(e, slotName)}
                                     onMouseEnter={(e) => {
                                         setHoveredSlot(slotName);
                                         updateTooltipPosition(e);
@@ -1765,6 +1775,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             <div
                 key={slotName}
                 className={`gear-slot ${isEmpty ? 'empty' : ''}`}
+                onClick={(e) => handleSlotTap(e, slotName)}
                 onMouseEnter={(e) => {
                     setHoveredSlot(slotName);
                     updateTooltipPosition(e);
@@ -1828,7 +1839,11 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     };
 
     return (
-        <div className="character-container">
+        <div className="character-container" onClick={(e) => {
+            if (!e.target.closest('.gear-slot') && !e.target.closest('.weapon-slot') && !e.target.closest('.equipment-slot-tooltip') && !e.target.closest('.tooltip')) {
+                setHoveredSlot(null);
+            }
+        }}>
             <div className={`character-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
                 <button
                     className="stats-label-toggle-button"

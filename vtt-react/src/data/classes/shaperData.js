@@ -321,7 +321,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       {
         id: "spec_flow_master",
         name: "Flow Master",
-        icon: "fas fa-wind",
+        icon: "Nature/Air Blow",
         color: "#8B0000",
         theme: "Chimeric Kinetic Fluidity",
         description: "Masters of fluid form transitions and chimeric fusion.",
@@ -333,7 +333,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       {
         id: "spec_iron_dancer",
         name: "Iron Dancer",
-        icon: "fas fa-shield-halved",
+        icon: "Utility/Barred Shield",
         color: "#27AE60",
         theme: "Precision Striking & Stolen Traits",
         description: "Masters of extreme precision, counter-attacks, and stolen form traits.",
@@ -345,7 +345,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       {
         id: "spec_primal_shadow",
         name: "Primal Shadow",
-        icon: "fas fa-ghost",
+        icon: "Void/Crimson Void Hood",
         color: "#2C3E50",
         theme: "Stealth Burst & Shadow Forms",
         description: "Masters of stealth burst damage and shadow-infused transformations.",
@@ -362,7 +362,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Morph Groven bone-hooks into hands and feet for 10 minutes, allowing you to walk up vertical ice walls, cliffs, and ceilings without falling.",
       level: 1,
       spellType: "ACTION",
-      icon: "Utility/Utility",
+      icon: "Nature/Claw Marks",
       typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "mobility", "wall_climb", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 0 },
@@ -403,7 +403,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Roll your shoulders as the underlying musculature reknits into a new configuration.",
   verbalText: "Let out a controlled breath as the form settles."
 },
-    { id: "shaper_ataxic_sway", name: "Ataxic Sway", description: "Unpredictable dodge converting defense into kinetic fuel. Requires Ataxic Flow.", level: 2, spellType: "ACTION", icon: "Utility/Deflecting Shield", typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["defense", "dodge", "flux_generation", "form_ataxic_flow"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "movementBuff", effects: [ { id: "ataxic_dodge", name: "Ataxic Dodge", description: "Unpredictable dodge converting defense into kinetic fuel." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, formRequirement: "ataxic_flow", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["defense", "dodge", "form_ataxic_flow", "shaper"] ,
+    { id: "shaper_ataxic_sway", name: "Ataxic Sway", description: "Unpredictable dodge converting defense into kinetic fuel. Requires Ataxic Flow.", level: 2, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["defense", "dodge", "flux_generation", "form_ataxic_flow"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "movementBuff", effects: [ { id: "ataxic_dodge", name: "Ataxic Dodge", description: "Unpredictable dodge converting defense into kinetic fuel." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, formRequirement: "ataxic_flow", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["defense", "dodge", "form_ataxic_flow", "shaper"] ,
   somaticText: "Flow through the space between strikes, your form blurring with each step.",
   verbalText: "Exhale sharply as your body weaves into the current."
 },
@@ -416,7 +416,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
   verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
-    { id: "shaper_alchemic_purge", name: "Alchemic Purge", description: "Force biology to reject immobilizing effects. +1 Body Toll.", level: 2, spellType: "ACTION", icon: "Nature/Nature Natural", typeConfig: { school: "primal", icon: "Nature/Nature Natural", tags: ["cleanse", "self_damage", "mutation"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "cleanse", selectedEffects: [ { id: "alchemic_cleanse", name: "Alchemic Cleanse", description: "Force biology to reject immobilizing effects." } ], duration: 0, durationUnit: "instant", concentration: false, power: "minor" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "cleanse", "shaper"] ,
+    { id: "shaper_alchemic_purge", name: "Alchemic Purge", description: "Force biology to reject immobilizing effects. +1 Body Toll.", level: 2, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "primal", icon: "Nature/Nature Natural", tags: ["cleanse", "self_damage", "mutation"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["utility"], utilityConfig: { utilityType: "cleanse", selectedEffects: [ { id: "alchemic_cleanse", name: "Alchemic Cleanse", description: "Force biology to reject immobilizing effects." } ], duration: 0, durationUnit: "instant", concentration: false, power: "minor" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "cleanse", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_alchemic_purge_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 3 Kinetic Flux." }
@@ -425,7 +425,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Force your metabolism into overdrive, rejecting foreign agents through cellular rebellion.",
   verbalText: "Gasp sharply as the purge courses through your system."
 },
-    { id: "shaper_centrifugal_sweep", name: "Centrifugal Sweep", description: "Spin with bone-hardened limbs. Requires Centrifugal Fury.", level: 3, spellType: "ACTION", icon: "Slashing/Cleave", typeConfig: { school: "physical", icon: "Slashing/Cleave", tags: ["melee", "damage", "aoe", "form_centrifugal_fury"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 10, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "1d8 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "centrifugal_fury", fluxGain: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["aoe", "damage", "form_centrifugal_fury", "shaper"] ,
+    { id: "shaper_centrifugal_sweep", name: "Centrifugal Sweep", description: "Spin with bone-hardened limbs. Requires Centrifugal Fury.", level: 3, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", icon: "Slashing/Cleave", tags: ["melee", "damage", "aoe", "form_centrifugal_fury"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 10, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 4 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "1d8 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "centrifugal_fury", fluxGain: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }, tags: ["aoe", "damage", "form_centrifugal_fury", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_centrifugal_sweep_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 4 Kinetic Flux, the mutant flesh straining." }
@@ -434,7 +434,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Spread your stance and let centrifugal force extend your limbs beyond their natural reach.",
   verbalText: "Release a guttural grunt as the spin accelerates."
 },
-    { id: "shaper_bastion_riposte", name: "Bastion Riposte", description: "Absorb blow with calcified hide, counter. Requires Deadened Bastion.", level: 3, spellType: "REACTION", icon: "Utility/Parry", typeConfig: { school: "physical", icon: "Utility/Parry", tags: ["reaction", "parry", "counter", "form_deadened_bastion"], castTime: 0, castTimeType: "REACTION" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "2d6 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "deadened_bastion", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["reaction", "parry", "form_deadened_bastion", "shaper"] ,
+    { id: "shaper_bastion_riposte", name: "Bastion Riposte", description: "Absorb blow with calcified hide, counter. Requires Deadened Bastion.", level: 3, spellType: "REACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", icon: "Utility/Parry", tags: ["reaction", "parry", "counter", "form_deadened_bastion"], castTime: 0, castTimeType: "REACTION" }, targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 0, mana: 0, classResource: { type: "kinetic_flux", cost: 3 }, components: ["somatic"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "2d6 + agility", damageTypes: ["physical"], resolution: "DICE", canCrit: true, critMultiplier: 2 }, formRequirement: "deadened_bastion", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["reaction", "parry", "form_deadened_bastion", "shaper"] ,
   somaticText: "Thicken your subdermal tissue into dense calcified plates, anchoring yourself.",
   verbalText: "Let out a low, resonant breath as the armor sets."
 },
@@ -450,7 +450,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Extend a razor bone spur from your forearm, targeting the gap in their guard.",
   verbalText: "Breathe in through clenched teeth as the strike finds its mark."
 },
-    { id: "shaper_void_collapse", name: "Silence Collapse", description: "Shadow-blur speed, invisible 1 round. Signature: +1 Body Toll. Requires Silence Predator.", level: 4, spellType: "ACTION", icon: "Utility/Hide", typeConfig: { school: "physical", icon: "Utility/Hide", tags: ["invisibility", "burst", "signature", "form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "statusEffectBuff", effects: [ { id: "void_invisibility", name: "Silence Invisibility", description: "Shadow-blur speed renders you invisible for 1 round." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "silence_predator", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_silence_predator", "shaper"] ,
+    { id: "shaper_void_collapse", name: "Silence Collapse", description: "Shadow-blur speed, invisible 1 round. Signature: +1 Body Toll. Requires Silence Predator.", level: 4, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", icon: "Utility/Hide", tags: ["invisibility", "burst", "signature", "form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 6 }, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "statusEffectBuff", effects: [ { id: "void_invisibility", name: "Silence Invisibility", description: "Shadow-blur speed renders you invisible for 1 round." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, isSignatureMove: true, bodyTollGenerated: 1, formRequirement: "silence_predator", cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["signature", "form_silence_predator", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_void_collapse_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Spends 6 Kinetic Flux, the mutant flesh straining." }
@@ -459,7 +459,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Compress your silhouette, drawing shadow into the hollows between your bones.",
   verbalText: "Hold your breath as you vanish into predatory stillness."
 },
-    { id: "shaper_thousand_forms", name: "Thousand Forms", description: "Unleash all Flux in devastating cyclone, shifting through every form. +1 Body Toll.", level: 5, spellType: "ACTION", icon: "Slashing/Whirl", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Slashing/Whirl", tags: ["aoe", "damage", "ultimate", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 15, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 2, mana: 0, classResource: { type: "kinetic_flux", cost: "ALL" }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "3d8 + (Flux Expended * 1d4)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "50%" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }, tags: ["aoe", "ultimate", "strain", "shaper"] ,
+    { id: "shaper_thousand_forms", name: "Thousand Forms", description: "Unleash all Flux in devastating cyclone, shifting through every form. +1 Body Toll.", level: 5, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Slashing/Whirl", tags: ["aoe", "damage", "ultimate", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 15, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 2, mana: 0, classResource: { type: "kinetic_flux", cost: "ALL" }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage"], damageConfig: { formula: "3d8 + (Flux Expended * 1d4)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "50%" }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }, tags: ["aoe", "ultimate", "strain", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_thousand_forms_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Expends all Kinetic Flux, the body toll surging." }
@@ -468,7 +468,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Cycle through each form in rapid succession, your body a blur of shifting morphologies.",
   verbalText: "Roar as the cascade of mutations reaches its peak."
 },
-    { id: "shaper_sensory_numbing", name: "Sensory Numbing", description: "Suppress pain entirely. Ignore non-lethal conditions for 3 rounds. +1 Body Toll.", level: 6, spellType: "ACTION", icon: "Poison/Poison Contagion", typeConfig: { school: "blight", icon: "Poison/Poison Contagion", tags: ["buff", "mutation", "combo"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 5 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "damageMitigation", effects: [ { id: "pain_suppression", name: "Pain Suppression", description: "Suppress pain entirely and ignore non-lethal conditions for 3 rounds." } ], durationType: "rounds", durationValue: 3, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["buff", "mutation", "shaper"] ,
+    { id: "shaper_sensory_numbing", name: "Sensory Numbing", description: "Suppress pain entirely. Ignore non-lethal conditions for 3 rounds. +1 Body Toll.", level: 6, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "blight", icon: "Poison/Poison Contagion", tags: ["buff", "mutation", "combo"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 0, classResource: { type: "kinetic_flux", cost: 5 }, components: ["somatic", "verbal"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "damageMitigation", effects: [ { id: "pain_suppression", name: "Pain Suppression", description: "Suppress pain entirely and ignore non-lethal conditions for 3 rounds." } ], durationType: "rounds", durationValue: 3, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, bodyTollCost: 1, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, tags: ["buff", "mutation", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_sensory_numbing_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 5 Kinetic Flux." }
@@ -477,7 +477,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Clench every muscle group simultaneously, locking your pain receptors into overload.",
   verbalText: "Let out a shuddering exhale as sensation fades to nothing."
 },
-    { id: "shaper_terminal_velocity", name: "Terminal Velocity", description: "Pinnacle \u2014 body rips through every form, 50ft radius, bypasses all Armor. +3 Body Toll.", level: 10, spellType: "ACTION", icon: "Force/Explosion Burst", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Force/Explosion Burst", tags: ["ultimate", "aoe", "armor_bypass", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 50, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 3, mana: 0, classResource: { type: "kinetic_flux", cost: 10 }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage", "debuff"], damageConfig: { formula: "10d10 + (agility * 3)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "100%" }, debuffConfig: { debuffType: "statusEffect", effects: [ { id: "terminal_disorientation", name: "Terminal Disorientation", description: "The kinetic shockwave rips through every form, disorienting survivors." } ], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true }, bodyTollCost: 3, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 }, tags: ["ultimate", "aoe", "shaper"] ,
+    { id: "shaper_terminal_velocity", name: "Terminal Velocity", description: "Pinnacle \u2014 body rips through every form, 50ft radius, bypasses all Armor. +3 Body Toll.", level: 10, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", secondaryElement: "storm", icon: "Force/Explosion Burst", tags: ["ultimate", "aoe", "armor_bypass", "strain"], castTime: 2, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 50, targetRestrictions: ["enemy"] }, resourceCost: { actionPoints: 3, mana: 0, classResource: { type: "kinetic_flux", cost: 10 }, components: ["somatic", "verbal"] }, resolution: "DICE", effectTypes: ["damage", "debuff"], damageConfig: { formula: "10d10 + (agility * 3)", damageTypes: ["physical", "storm"], resolution: "DICE", armorPenetration: "100%" }, debuffConfig: { debuffType: "statusEffect", effects: [ { id: "terminal_disorientation", name: "Terminal Disorientation", description: "The kinetic shockwave rips through every form, disorienting survivors." } ], durationType: "rounds", durationValue: 2, durationUnit: "rounds", canBeDispelled: true }, bodyTollCost: 3, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 }, tags: ["ultimate", "aoe", "shaper"] ,
   triggerConfig: {
     triggers: [
       { id: "shaper_terminal_velocity_flux", name: "Kinetic Toll", triggerType: "on_cast", action: "Costs Body Toll and spends 10 Kinetic Flux." }
@@ -486,7 +486,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
   somaticText: "Unleash the full spectrum of your mutations in a controlled cascade, every fiber straining.",
   verbalText: "Scream as the kinetic release tears through your forms."
 },
-    { id: "shaper_perfect_balance", name: "Perfect Balance", description: "Mutating musculature into fluid tension. Perfect balance on any surface. Advantage on Acrobatics.", level: 1, spellType: "ACTION", icon: "Bludgeoning/Inverted Acrobatics", typeConfig: { school: "physical", icon: "Bludgeoning/Inverted Acrobatics", tags: ["utility", "roleplay", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 2, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "combatAdvantage", effects: [ { id: "perfect_balance", name: "Perfect Balance", description: "Perfect balance on any surface. Advantage on Acrobatics checks." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "roleplay", "shaper"] ,
+    { id: "shaper_perfect_balance", name: "Perfect Balance", description: "Mutating musculature into fluid tension. Perfect balance on any surface. Advantage on Acrobatics.", level: 1, spellType: "ACTION", icon: "Bludgeoning/Break Bone", typeConfig: { school: "physical", icon: "Bludgeoning/Inverted Acrobatics", tags: ["utility", "roleplay", "shaper"], castTime: 1, castTimeType: "IMMEDIATE" }, targetingConfig: { targetingType: "self", rangeType: "self" }, resourceCost: { actionPoints: 1, mana: 2, components: ["somatic"] }, resolution: "NONE", effectTypes: ["buff"], buffConfig: { buffType: "combatAdvantage", effects: [ { id: "perfect_balance", name: "Perfect Balance", description: "Perfect balance on any surface. Advantage on Acrobatics checks." } ], durationType: "rounds", durationValue: 1, durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true }, cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, tags: ["utility", "roleplay", "shaper"] ,
   somaticText: "Adjust the tension in every muscle fiber, finding the exact equilibrium point.",
   verbalText: "Breathe slowly as your body locks into balance."
 },
@@ -538,7 +538,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Grab a target using your momentum and launch them into another foe. Requires Centrifugal Fury.",
       level: 5,
       spellType: "ACTION",
-      icon: "Slashing/Whirl",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["damage","control"],
       typeConfig: { school: "physical", icon: "Slashing/Whirl", tags: ["melee","damage","control","form_centrifugal_fury"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
@@ -563,7 +563,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Expand your bone structure to form an impenetrable barrier, granting +4 DR to adjacent allies. Requires Deadened Bastion.",
       level: 5,
       spellType: "ACTION",
-      icon: "Utility/Deflecting Shield",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["buff"],
       typeConfig: { school: "physical", icon: "Utility/Deflecting Shield", tags: ["buff","defense","form_deadened_bastion"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 10, targetRestrictions: ["allies"] },
@@ -587,7 +587,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Parry an attack and transition instantly to any form at half Flux cost. Requires Fluid Apex.",
       level: 5,
       spellType: "REACTION",
-      icon: "Utility/Parry",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["utility"],
       typeConfig: { school: "physical", icon: "Utility/Parry", tags: ["reaction","parry","form_fluid_apex"], castTime: 0, castTimeType: "REACTION" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -630,7 +630,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Release all accumulated Flux in a bone-shattering shockwave of hardened tissue and air pressure, damaging all nearby enemies. Spends all Flux.",
       level: 6,
       spellType: "ACTION",
-      icon: "Slashing/Slashing Slash",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["damage"],
       typeConfig: { school: "physical", icon: "Slashing/Slashing Slash", tags: ["aoe","damage"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
@@ -653,7 +653,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Passive: Your muscles fire at extreme speed. Gain +1 Action Point if your Kinetic Flux is 10 or higher.",
       level: 7,
       spellType: "PASSIVE",
-      icon: "Utility/Speed Boot",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["buff"],
       typeConfig: { school: "physical", icon: "Utility/Speed Boot", tags: ["passive","buff","reflex"], castTime: 0, castTimeType: "PASSIVE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -695,7 +695,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Activate two Shaping Forms simultaneously, gaining the benefits of both. +2 Body Toll.",
       level: 7,
       spellType: "ACTION",
-      icon: "Nature/Transform Bear",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["buff"],
       typeConfig: { school: "primal", icon: "Nature/Transform Bear", tags: ["buff","transition"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -719,7 +719,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Dash 40 feet in an unpredictable trajectory, striking all enemies passed. Requires Ataxic Flow.",
       level: 8,
       spellType: "ACTION",
-      icon: "Slashing/Whirl",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["damage","utility"],
       typeConfig: { school: "physical", icon: "Slashing/Whirl", tags: ["mobility","damage","form_ataxic_flow"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "line", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["enemy"] },
@@ -743,7 +743,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Deliver a deep tear that causes targets to suffer blight damage whenever they move. Requires Arterial Strike.",
       level: 8,
       spellType: "ACTION",
-      icon: "Poison/Envenom Dagger",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["damage","debuff"],
       typeConfig: { school: "blight", icon: "Poison/Envenom Dagger", tags: ["melee","damage","debuff","form_arterial_strike"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "melee", rangeDistance: 5, targetRestrictions: ["enemy"] },
@@ -768,7 +768,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Launch a sweeping fan of bone spikes in a 25-foot cone. Requires Centrifugal Fury.",
       level: 8,
       spellType: "ACTION",
-      icon: "Slashing/Whirl",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["damage"],
       typeConfig: { school: "physical", icon: "Slashing/Whirl", tags: ["aoe","damage","form_centrifugal_fury"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "cone", areaSize: 25, targetRestrictions: ["enemy"] },
@@ -792,7 +792,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Slam your calcified fists into the floor, knocking nearby enemies prone. Requires Deadened Bastion.",
       level: 9,
       spellType: "ACTION",
-      icon: "Bludgeoning/Hammer Crush",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["control"],
       typeConfig: { school: "physical", icon: "Bludgeoning/Hammer Crush", tags: ["aoe","control","form_deadened_bastion"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaShape: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
@@ -816,7 +816,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       description: "Momentarily dissolve your body into a fluid state, reforming up to 60 feet away and leaving a hardened tissue decoy. Requires Silence Predator.",
       level: 9,
       spellType: "ACTION",
-      icon: "Nature/Snake Transform",
+      icon: "Bludgeoning/Break Bone",
       effectTypes: ["utility"],
       typeConfig: { school: "physical", icon: "Nature/Snake Transform", tags: ["mobility","teleport","form_silence_predator"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["any"] },
@@ -839,7 +839,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
 { id: "shaper_bone_spread",
   name: "Bone-Spread",
   description: "Dislocate, flatten, and reshape your skeleton to fit through absurd gaps  -  under a door, between the bars of a cage, through a crack barely wider than your skull. You leave your gear behind (it does not reshape) and reform on the other side. Bone and sinew only; you cannot compress past solid obstructions. Out of combat.",
-  level: 1, spellType: "ACTION", icon: "Utility/Utility",
+  level: 1, spellType: "ACTION", icon: "Bludgeoning/Break Bone",
   typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","infiltration","exploration","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], classResource: { type: "body_toll", cost: 1 }, somaticText: "Feel each joint pop free as you pour yourself through the gap" },
@@ -867,7 +867,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
 { id: "shaper_flesh_mask",
   name: "Flesh-Mask",
   description: "Reshape your bone, muscle, and skin to mimic another humanoid's face and build, or simply become a forgettable stranger. A true biological disguise  -  no illusion to dispel, but it cannot change your voice, size-class, or gear, and close inspection may catch the seams. Holds until you next shift a Form. Out of combat.",
-  level: 2, spellType: "ACTION", icon: "Utility/Utility",
+  level: 2, spellType: "ACTION", icon: "Social/Camouflaged Creature Eyes",
   typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 10, castTimeType: "MINUTES", tags: ["utility","social","infiltration","shaper"] },
   targetingConfig: { targetingType: "self", rangeType: "self" },
   resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 }, components: ["somatic"], classResource: { type: "body_toll", cost: 2 }, somaticText: "Knead your own features like clay until the mirror answers to a stranger" },

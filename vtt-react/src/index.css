@@ -1167,6 +1167,18 @@ html.a11y-screen-reader *:focus {
     pointer-events: none !important;
   }
 
+  /* Allow portal tooltips triggered via tap/click to display on mobile */
+  #tooltip-portal-root .tooltip,
+  #tooltip-portal-root .wow-tooltip,
+  #tooltip-portal-root .item-tooltip,
+  #tooltip-portal-root .equipment-slot-tooltip,
+  #tooltip-portal-root .stat-tooltip,
+  #tooltip-portal-root .resource-tooltip {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+  }
+
   /* ------------------------------------------------------------
      Prevent iOS Safari auto-zoom-on-focus. Any input below 16px
      triggers the browser to zoom in when focused, which is jarring

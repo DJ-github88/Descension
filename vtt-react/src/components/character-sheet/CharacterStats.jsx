@@ -1230,8 +1230,10 @@ export default function CharacterStats() {
 
     const handleStatTap = (e, statName) => {
         e.stopPropagation();
-        const pos = { x: e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0), y: e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0) };
-        setMousePosition(pos);
+        const rect = e.currentTarget ? e.currentTarget.getBoundingClientRect() : { left: 0, top: 0, width: 0 };
+        const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.left + rect.width / 2);
+        const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.top);
+        setMousePosition({ x, y });
         setHoveredStat(prev => prev === statName ? null : statName);
     };
 
@@ -1638,6 +1640,7 @@ export default function CharacterStats() {
                                 </div>
                                 <div
                                     className="tooltip-trigger"
+                                    onClick={(e) => handleStatTap(e, `${data.name} Resistance`)}
                                     onMouseEnter={(e) => handleStatHover(e, `${data.name} Resistance`)}
                                     onMouseMove={updateTooltipPosition}
                                     onMouseLeave={handleStatLeave}
@@ -2081,6 +2084,7 @@ export default function CharacterStats() {
                                 key={condition} 
                                 className="stat-row enhanced-stat-row" 
                                 style={{ cursor: 'help' }}
+                                onClick={(e) => handleStatTap(e, condition)}
                                 onMouseEnter={(e) => handleStatHover(e, condition)}
                                 onMouseMove={updateTooltipPosition}
                                 onMouseLeave={handleStatLeave}
@@ -2252,6 +2256,7 @@ export default function CharacterStats() {
                                 </div>
                                 <div
                                     className="tooltip-trigger"
+                                    onClick={(e) => handleStatTap(e, `${ability.charAt(0).toUpperCase() + ability.slice(1)} Save`)}
                                     onMouseEnter={(e) => handleStatHover(e, `${ability.charAt(0).toUpperCase() + ability.slice(1)} Save`)}
                                     onMouseMove={updateTooltipPosition}
                                     onMouseLeave={handleStatLeave}
@@ -2394,7 +2399,7 @@ export default function CharacterStats() {
 
     return (
         <div className="stats-container" onClick={(e) => {
-            if (!e.target.closest('.tooltip-trigger') && !e.target.closest('.equipment-slot-tooltip')) {
+            if (!e.target.closest('.tooltip-trigger') && !e.target.closest('.equipment-slot-tooltip') && !e.target.closest('.stat-row') && !e.target.closest('.tooltip')) {
                 setHoveredStat(null);
             }
         }}>

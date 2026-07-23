@@ -1055,42 +1055,33 @@ const Step1CoreDraft = () => {
 
 
 
-        return allSpells
+        const rawFiltered = allSpells.filter(spell => level1SpellIds.includes(spell.id));
+        const uniqueSpells = [];
+        const seenSpellKeys = new Set();
+        rawFiltered.forEach(spell => {
+            const key = spell.id || spell.name;
+            if (!seenSpellKeys.has(key)) {
+                seenSpellKeys.add(key);
+                uniqueSpells.push(spell);
+            }
+        });
 
-            .filter(spell => level1SpellIds.includes(spell.id))
-
-            .map(spell => ({
-
-                ...spell,
-
-                infernoRequired: spell.specialMechanics?.infernoLevel?.required,
-
-                infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
-
-                infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy,
-
-                musicalCombo: spell.specialMechanics?.musicalCombo,
-
-                timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
-
-                timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
-
-                temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
-
-                temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced,
-
-                mayhemGenerate: spell.resourceFormulas?.mayhem_generate,
-
-                mayhemCost: spell.resourceValues?.mayhem_spend || spell.resourceValues?.mayhem_cost,
-
-                devotionRequired: spell.specialMechanics?.devotionLevel?.required,
-
-                devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
-
-                devotionGain: spell.specialMechanics?.devotionLevel?.gain
-
-            }));
-
+        return uniqueSpells.map(spell => ({
+            ...spell,
+            infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+            infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+            infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy,
+            musicalCombo: spell.specialMechanics?.musicalCombo,
+            timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
+            timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
+            temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
+            temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced,
+            mayhemGenerate: spell.resourceFormulas?.mayhem_generate,
+            mayhemCost: spell.resourceValues?.mayhem_spend || spell.resourceValues?.mayhem_cost,
+            devotionRequired: spell.specialMechanics?.devotionLevel?.required,
+            devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
+            devotionGain: spell.specialMechanics?.devotionLevel?.gain
+        }));
     }, [characterData.class]);
 
 

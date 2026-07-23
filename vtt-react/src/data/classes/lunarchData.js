@@ -1693,7 +1693,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
         "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold silence-light at a different enemy. The constellation persists for moments — long enough to scar reality and everything caught in its geometry.",
       level: 8,
       spellType: "ACTION",
-      icon: "Arcane/Starlight Ray",
+      icon: "Arcane/Crescent Moon",
       specialization: "silence-speaker",
       effectTypes: ["damage", "debuff"],
 

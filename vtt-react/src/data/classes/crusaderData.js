@@ -11,7 +11,7 @@ export const CRUSADER_DATA = {
   id: "crusader",
   name: "Crusader",
   title: "The Sol-Bound Zealot",
-  icon: "fas fa-cross",
+  icon: "Radiant/Divine Downward Sword",
   role: "Damage / Tank",
   damageTypes: ["sacred", "ember", "physical", "storm"],
 
@@ -274,7 +274,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Channel Fervor into your heavy plate, surrounding yourself or an ally with a barrier of starlight.',
     level: 2,
     spellType: 'ACTION',
-    icon: 'Shield/Prismatic Shield',
+    icon: 'Utility/Barred Shield',
     effectTypes: ['buff'],
     typeConfig: {
       school: 'sacred',
@@ -313,7 +313,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Channel Aex\'s pure light through your eyes to detect Wyrd-taint in food, soil, or civilian bloodlines.',
     level: 3,
     spellType: 'UTILITY',
-    icon: 'Psychic/Psychic Telepathy',
+    icon: 'Utility/Barred Shield',
     effectTypes: ['buff'],
     typeConfig: {
       school: 'sacred',
@@ -350,7 +350,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Slam your greatsword into the volcanic earth, erupting a wave of starlight and stone in a 15 ft cone.',
     level: 4,
     spellType: 'ACTION',
-    icon: 'Evocation/Ground Slam',
+    icon: 'Radiant/Divine Beam',
     effectTypes: ['damage', 'debuff'],
     typeConfig: {
       school: 'sacred',
@@ -399,7 +399,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Hurl a spinning disc of crystallized starlight 30 ft down a line, slicing foes before returning to hand.',
     level: 5,
     spellType: 'ACTION',
-    icon: 'Holy/Holy Disc',
+    icon: 'Utility/Bent Leg Motion',
     effectTypes: ['damage'],
     typeConfig: {
       school: 'sacred',
@@ -437,7 +437,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Plant your greatsword into the snow for 10 minutes, creating a 20 ft warm holy zone that melts ice barriers.',
     level: 6,
     spellType: 'UTILITY',
-    icon: 'Fire/Hearth Flame',
+    icon: 'Fire/Burning Forge',
     effectTypes: ['buff'],
     typeConfig: {
       school: 'ember',
@@ -475,7 +475,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Interrupt an enemy casting a spell within 30 ft with a bolt of starlight lightning.',
     level: 7,
     spellType: 'REACTION',
-    icon: 'Lightning/Starlight Strike',
+    icon: 'Fire/Burning Forge',
     effectTypes: ['damage', 'debuff'],
     typeConfig: {
       school: 'sacred',
@@ -523,7 +523,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Infuse your weapon with holy volcanic flame for 1 minute, causing strikes to deal bonus ember/sacred damage.',
     level: 8,
     spellType: 'ACTION',
-    icon: 'Fire/Flame Sword',
+    icon: 'Fire/Burning Spear',
     effectTypes: ['buff'],
     typeConfig: {
       school: 'ember',
@@ -560,7 +560,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Raise a massive radiant barrier granting +3 Passive DR and reflecting sacred retaliation at attackers.',
     level: 9,
     spellType: 'ACTION',
-    icon: 'Shield/Radiant Aegis',
+    icon: 'Fire/Burning Spear',
     effectTypes: ['buff'],
     typeConfig: {
       school: 'sacred',
@@ -597,7 +597,7 @@ export const CRUSADER_ABILITIES = [
     description: 'Consume 100 Radiant Fervor to call down a titanic starlight hammer smash in a 20 ft radius.',
     level: 10,
     spellType: 'ACTION',
-    icon: 'Evocation/Titanfall Hammer',
+    icon: 'Slashing/Assassins Blade',
     effectTypes: ['damage'],
     typeConfig: {
       school: 'sacred',
