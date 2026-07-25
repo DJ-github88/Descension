@@ -10,7 +10,7 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * - Tone: Heavy, tragic fantasy. Magic demands a heavy price, power demands a toll of vitality and blood.
  * - Normalized spell properties to comply with UnifiedSpellCard and Spellcrafting Wizard.
  * - Removed 5e terminology (Bonus Actions -> AP/Reaction, AC -> DR/Dodge, spell slots -> mana/virulence).
- * - Fixed all damageTypes targets ('direct', 'area' -> 'necrotic', 'poison', 'psychic', 'acid').
+ * - Fixed all damageTypes targets to use canonical system damage types ('blight', 'wyrd', 'primal').
  * - Fixed durationConfig.durationValue and durationUnit properties.
  * - Moved school into typeConfig.
  * - Nested all savingThrow definitions inside their respective damageConfig, debuffConfig, or controlConfig.

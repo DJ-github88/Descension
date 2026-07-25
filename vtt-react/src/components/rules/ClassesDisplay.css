@@ -425,36 +425,56 @@
 
 .class-row-cta {
     font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: #8b6914;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.6px;
     opacity: 0;
-    transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    transition: opacity 0.25s ease, background 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease, color 0.25s ease, transform 0.2s ease;
     white-space: nowrap;
-    padding: 6px 14px;
-    border-radius: 4px;
+    padding: 8px 20px;
+    border-radius: 5px;
     border: 1px solid rgba(139, 105, 20, 0.3);
     background: rgba(139, 105, 20, 0.08);
     text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.class-row-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.45s ease;
+    pointer-events: none;
 }
 
 .class-row:hover .class-row-cta {
     opacity: 1;
-    background: rgba(139, 105, 20, 0.15);
-    border-color: rgba(255, 212, 121, 0.4);
-    box-shadow: 0 0 10px rgba(255, 212, 121, 0.15);
+    background: rgba(139, 105, 20, 0.18);
+    border-color: rgba(255, 212, 121, 0.45);
+    box-shadow: 0 0 14px rgba(255, 212, 121, 0.22), inset 0 1px 0 rgba(255, 212, 121, 0.14);
     color: #ffd479;
+    transform: translateY(-1px);
+}
+
+.class-row:hover .class-row-cta::before {
+    transform: translateX(100%);
 }
 
 .class-row-cta i {
-    margin-left: 5px;
-    font-size: 0.6rem;
-    transition: transform 0.2s ease;
+    margin-left: 7px;
+    font-size: 0.62rem;
+    transition: transform 0.25s ease;
+    display: inline-block;
 }
 
 .class-row:hover .class-row-cta i {
-    transform: translateX(4px);
+    transform: translateX(5px);
 }
 
 /* ===== EMPTY STATE ===== */
@@ -646,62 +666,487 @@
     color: #ffd479;
 }
 
-/* ===== Per-Class CTA Button Theming ===== */
+/* ============================================================
+   PER-CLASS CTA BUTTON PREMIUM THEMING — RADICAL OVERHAUL
+   Buttons are ALWAYS VISIBLE for identity classes.
+   Heavy glows, animated borders, clip-paths, strong pulse.
+   ============================================================ */
+
+/* ===== BERSERKER - Blood-Hunger: ALWAYS ON, brutal slash shape ===== */
+.class-row-berserker .class-row-cta {
+    opacity: 1 !important;
+    color: #ff4444 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px 9px 18px;
+    border: 2px solid rgba(220, 30, 30, 0.7) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(135deg,
+        rgba(180, 10, 10, 0.35) 0%,
+        rgba(100, 5, 5, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(255, 50, 50, 0.8), 0 0 24px rgba(200, 10, 10, 0.4);
+    box-shadow:
+        0 0 16px rgba(200, 20, 20, 0.5),
+        0 0 32px rgba(160, 10, 10, 0.2),
+        inset 0 1px 0 rgba(255, 100, 80, 0.18),
+        inset 0 0 14px rgba(180, 8, 8, 0.12);
+    animation: cta-bers-throb 1.8s ease-in-out infinite !important;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transform: none;
+}
+.class-row-berserker .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 80, 80, 0.18), transparent);
+}
+.class-row-berserker:hover .class-row-cta {
+    color: #ff1a1a !important;
+    border-color: rgba(255, 60, 60, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(220, 15, 15, 0.5) 0%,
+        rgba(140, 5, 5, 0.35) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(255, 30, 20, 0.8),
+        0 0 55px rgba(200, 10, 10, 0.45),
+        inset 0 1px 0 rgba(255, 120, 100, 0.25) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-bers-throb-hover 1s ease-in-out infinite !important;
+}
+.class-row-berserker:hover .class-row-cta i {
+    filter: drop-shadow(0 0 8px rgba(255, 60, 40, 1));
+    animation: cta-arrow-rage 0.35s ease-in-out infinite alternate;
+}
+@keyframes cta-bers-throb {
+    0%, 100% {
+        box-shadow: 0 0 14px rgba(200, 20, 20, 0.45), 0 0 28px rgba(160, 10, 10, 0.18), inset 0 1px 0 rgba(255, 100, 80, 0.15);
+        border-color: rgba(200, 25, 25, 0.65);
+    }
+    50% {
+        box-shadow: 0 0 26px rgba(255, 35, 35, 0.75), 0 0 50px rgba(200, 10, 10, 0.35), inset 0 1px 0 rgba(255, 120, 100, 0.25);
+        border-color: rgba(255, 45, 45, 0.95);
+    }
+}
+@keyframes cta-bers-throb-hover {
+    0%, 100% { box-shadow: 0 0 28px rgba(255, 30, 20, 0.8), 0 0 55px rgba(200, 10, 10, 0.45); }
+    50% { box-shadow: 0 0 40px rgba(255, 50, 30, 1), 0 0 80px rgba(220, 15, 10, 0.6); }
+}
+@keyframes cta-arrow-rage {
+    0% { transform: translateX(4px); }
+    100% { transform: translateX(9px); }
+}
+
+/* ===== REVENANT - Death Toll: ALWAYS ON, ghostly spectral float ===== */
+.class-row-revenant .class-row-cta {
+    opacity: 1 !important;
+    color: #50f0a8 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(60, 210, 140, 0.55) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg,
+        rgba(20, 95, 60, 0.28) 0%,
+        rgba(10, 55, 35, 0.16) 100%) !important;
+    text-shadow: 0 0 14px rgba(80, 240, 168, 0.75), 0 0 28px rgba(40, 180, 110, 0.35);
+    box-shadow:
+        0 0 18px rgba(55, 200, 130, 0.45),
+        0 0 36px rgba(30, 160, 100, 0.18),
+        inset 0 1px 0 rgba(120, 255, 190, 0.2);
+    animation: cta-rev-soul 3.5s ease-in-out infinite !important;
+}
+.class-row-revenant .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(100, 255, 180, 0.14), transparent);
+}
+.class-row-revenant:hover .class-row-cta {
+    color: #90ffce !important;
+    border-color: rgba(110, 255, 185, 0.8) !important;
+    background: linear-gradient(135deg,
+        rgba(35, 130, 80, 0.4) 0%,
+        rgba(18, 75, 50, 0.28) 100%) !important;
+    box-shadow:
+        0 0 30px rgba(80, 240, 160, 0.85),
+        0 0 60px rgba(50, 200, 130, 0.4),
+        inset 0 1px 0 rgba(150, 255, 200, 0.25) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-rev-soul-hover 1.8s ease-in-out infinite !important;
+}
+.class-row-revenant:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(100, 255, 170, 1));
+    animation: cta-arrow-float 1.2s ease-in-out infinite;
+}
+@keyframes cta-rev-soul {
+    0%, 100% {
+        box-shadow: 0 0 14px rgba(50, 190, 120, 0.38), 0 0 28px rgba(35, 155, 95, 0.15);
+        border-color: rgba(55, 195, 130, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 26px rgba(80, 240, 160, 0.65), 0 0 52px rgba(50, 200, 130, 0.28);
+        border-color: rgba(100, 255, 175, 0.82);
+    }
+}
+@keyframes cta-rev-soul-hover {
+    0%, 100% { box-shadow: 0 0 30px rgba(80, 240, 160, 0.85), 0 0 60px rgba(50, 200, 130, 0.4); }
+    50% { box-shadow: 0 0 45px rgba(110, 255, 185, 1), 0 0 90px rgba(70, 220, 150, 0.58); }
+}
+@keyframes cta-arrow-float {
+    0%, 100% { transform: translateX(4px) translateY(0); }
+    50% { transform: translateX(7px) translateY(-2px); }
+}
+
+/* ===== PLAGUEBRINGER - Virulence: ALWAYS ON, biohazard neon drip ===== */
 .class-row-plaguebringer .class-row-cta {
-    color: #a8b84a;
-    text-shadow: 0 0 8px rgba(168, 184, 74, 0.3);
-    border-color: rgba(168, 184, 74, 0.25);
-    background: rgba(168, 184, 74, 0.08);
+    opacity: 1 !important;
+    color: #c8e838 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    padding: 9px 22px;
+    border: 2px solid rgba(180, 220, 45, 0.6) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(90, 125, 12, 0.3) 0%,
+        rgba(50, 80, 6, 0.18) 100%) !important;
+    text-shadow: 0 0 12px rgba(200, 240, 50, 0.75), 0 0 26px rgba(155, 210, 35, 0.35);
+    box-shadow:
+        0 0 16px rgba(175, 225, 50, 0.5),
+        0 0 34px rgba(140, 195, 38, 0.2),
+        inset 0 1px 0 rgba(220, 255, 100, 0.18);
+    animation: cta-plag-bio 4s ease-in-out infinite !important;
 }
-
+.class-row-plaguebringer .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(200, 255, 60, 0.14), transparent);
+}
 .class-row-plaguebringer:hover .class-row-cta {
-    color: #d4e86a;
-    text-shadow: 0 0 14px rgba(180, 200, 70, 0.7);
-    background: rgba(168, 184, 74, 0.18);
-    border-color: rgba(180, 200, 70, 0.55);
-    box-shadow: 0 0 14px rgba(168, 184, 74, 0.35), inset 0 0 8px rgba(168, 184, 74, 0.08);
+    color: #e8ff5a !important;
+    border-color: rgba(225, 255, 80, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(130, 175, 20, 0.42) 0%,
+        rgba(80, 120, 12, 0.28) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(210, 255, 70, 0.85),
+        0 0 58px rgba(170, 230, 50, 0.42),
+        inset 0 1px 0 rgba(230, 255, 110, 0.25) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-plag-bio-hover 2s ease-in-out infinite !important;
 }
-
 .class-row-plaguebringer:hover .class-row-cta i {
-    filter: drop-shadow(0 0 4px rgba(160, 220, 50, 0.8));
+    filter: drop-shadow(0 0 10px rgba(225, 255, 80, 1));
+    animation: cta-arrow-drip 0.7s ease-in-out infinite;
+}
+@keyframes cta-plag-bio {
+    0%, 100% {
+        box-shadow: 0 0 14px rgba(170, 220, 45, 0.42), 0 0 28px rgba(135, 190, 35, 0.16);
+        border-color: rgba(175, 222, 50, 0.55);
+    }
+    50% {
+        box-shadow: 0 0 26px rgba(205, 255, 65, 0.7), 0 0 55px rgba(170, 230, 50, 0.3);
+        border-color: rgba(215, 255, 75, 0.88);
+    }
+}
+@keyframes cta-plag-bio-hover {
+    0%, 100% { box-shadow: 0 0 28px rgba(210, 255, 70, 0.85), 0 0 58px rgba(170, 230, 50, 0.42); }
+    50% { box-shadow: 0 0 42px rgba(230, 255, 90, 1), 0 0 85px rgba(200, 250, 60, 0.58); }
+}
+@keyframes cta-arrow-drip {
+    0%, 100% { transform: translateX(4px) translateY(0); }
+    60% { transform: translateX(5px) translateY(2px); }
 }
 
+/* ===== PYROFIEND - Inferno Veil: ALWAYS ON, volcanic ember burst ===== */
 .class-row-pyrofiend .class-row-cta {
-    color: #e0340d;
-    text-shadow: 0 0 8px rgba(224, 52, 13, 0.35);
-    border-color: rgba(224, 52, 13, 0.3);
-    background: rgba(224, 52, 13, 0.08);
+    opacity: 1 !important;
+    color: #ff8030 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px 9px 18px;
+    border: 2px solid rgba(240, 80, 15, 0.7) !important;
+    border-bottom: 2px solid rgba(255, 160, 40, 0.85) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(170deg,
+        rgba(160, 40, 8, 0.38) 0%,
+        rgba(90, 18, 0, 0.25) 100%) !important;
+    text-shadow:
+        0 0 12px rgba(255, 130, 40, 0.85),
+        0 0 26px rgba(220, 60, 10, 0.45);
+    box-shadow:
+        0 0 18px rgba(240, 80, 15, 0.55),
+        0 0 36px rgba(200, 50, 8, 0.22),
+        inset 0 1px 0 rgba(255, 180, 80, 0.2),
+        inset 0 -1px 0 rgba(255, 160, 40, 0.15);
+    animation: cta-pyr-ember 2.2s ease-in-out infinite !important;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%);
 }
-
+.class-row-pyrofiend .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 150, 60, 0.18), transparent);
+}
 .class-row-pyrofiend:hover .class-row-cta {
-    color: #ff6e28;
-    text-shadow: 0 0 16px rgba(255, 110, 40, 0.7);
-    background: rgba(224, 52, 13, 0.18);
-    border-color: rgba(255, 110, 40, 0.55);
-    box-shadow: 0 0 16px rgba(224, 52, 13, 0.4), inset 0 0 8px rgba(224, 52, 13, 0.08);
+    color: #ffc060 !important;
+    border-color: rgba(255, 150, 60, 0.95) !important;
+    background: linear-gradient(170deg,
+        rgba(200, 55, 12, 0.55) 0%,
+        rgba(115, 28, 0, 0.38) 100%) !important;
+    box-shadow:
+        0 0 32px rgba(255, 110, 30, 0.9),
+        0 0 66px rgba(230, 65, 12, 0.5),
+        inset 0 1px 0 rgba(255, 200, 80, 0.28) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-pyr-ember-hover 1.2s ease-in-out infinite !important;
 }
-
 .class-row-pyrofiend:hover .class-row-cta i {
-    filter: drop-shadow(0 0 6px rgba(255, 120, 40, 0.9));
+    filter: drop-shadow(0 0 10px rgba(255, 190, 60, 1)) drop-shadow(0 0 4px rgba(255, 110, 20, 0.8));
+    animation: cta-arrow-blaze 0.28s ease-in-out infinite alternate;
+}
+@keyframes cta-pyr-ember {
+    0%, 100% {
+        box-shadow: 0 0 16px rgba(230, 70, 12, 0.48), 0 0 32px rgba(190, 45, 6, 0.18);
+        border-color: rgba(230, 72, 14, 0.62);
+    }
+    33% {
+        box-shadow: 0 0 26px rgba(255, 105, 30, 0.72), 0 0 50px rgba(220, 60, 10, 0.32);
+        border-color: rgba(255, 108, 32, 0.9);
+    }
+    66% {
+        box-shadow: 0 0 20px rgba(245, 85, 18, 0.58), 0 0 40px rgba(205, 52, 8, 0.24);
+        border-color: rgba(248, 88, 20, 0.74);
+    }
+}
+@keyframes cta-pyr-ember-hover {
+    0%, 100% { box-shadow: 0 0 32px rgba(255, 110, 30, 0.9), 0 0 66px rgba(230, 65, 12, 0.5); }
+    50% { box-shadow: 0 0 48px rgba(255, 145, 40, 1), 0 0 96px rgba(240, 80, 15, 0.68); }
+}
+@keyframes cta-arrow-blaze {
+    0% { transform: translateX(5px) scale(1); }
+    100% { transform: translateX(10px) scale(1.25); }
 }
 
+/* ===== TOXICOLOGIST - MASSIVE OVERHAUL: ALWAYS ON, corroded lab aesthetic ===== */
+/* Dashed corroded border, chemical drip, shimmer active at all times */
 .class-row-toxicologist .class-row-cta {
-    color: #7cb342;
-    text-shadow: 0 0 8px rgba(124, 179, 66, 0.3);
-    border-color: rgba(124, 179, 66, 0.25);
-    background: rgba(124, 179, 66, 0.08);
+    opacity: 1 !important;
+    color: #8ce040 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 2px dashed rgba(120, 205, 50, 0.65) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(45, 110, 12, 0.32) 0%,
+        rgba(22, 72, 6, 0.2) 50%,
+        rgba(55, 130, 14, 0.28) 100%) !important;
+    text-shadow:
+        0 0 12px rgba(140, 225, 60, 0.8),
+        0 0 26px rgba(100, 185, 40, 0.4);
+    box-shadow:
+        0 0 16px rgba(120, 200, 48, 0.52),
+        0 0 34px rgba(90, 165, 35, 0.2),
+        0 3px 0 rgba(60, 140, 18, 0.55),
+        inset 0 1px 0 rgba(200, 255, 100, 0.18);
+    animation: cta-tox-bubble-border 2.8s ease-in-out infinite !important;
 }
-
+.class-row-toxicologist .class-row-cta::before {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(165, 255, 80, 0.16) 30%,
+        rgba(200, 255, 100, 0.22) 50%,
+        rgba(165, 255, 80, 0.16) 70%,
+        transparent 100%
+    );
+    animation: cta-tox-shimmer 2.2s ease-in-out infinite !important;
+    transform: translateX(-100%);
+}
 .class-row-toxicologist:hover .class-row-cta {
-    color: #a5d66a;
-    text-shadow: 0 0 14px rgba(150, 220, 70, 0.7);
-    background: rgba(124, 179, 66, 0.18);
-    border-color: rgba(150, 220, 70, 0.55);
-    box-shadow: 0 0 14px rgba(124, 179, 66, 0.35), inset 0 0 8px rgba(124, 179, 66, 0.08);
+    color: #ccff70 !important;
+    border: 2px solid rgba(185, 255, 85, 0.88) !important;
+    background: linear-gradient(135deg,
+        rgba(75, 170, 22, 0.44) 0%,
+        rgba(45, 118, 12, 0.32) 50%,
+        rgba(85, 190, 26, 0.40) 100%) !important;
+    text-shadow:
+        0 0 16px rgba(195, 255, 85, 0.95),
+        0 0 34px rgba(145, 220, 55, 0.55),
+        0 0 55px rgba(90, 170, 28, 0.3);
+    box-shadow:
+        0 0 26px rgba(155, 230, 60, 0.8),
+        0 0 54px rgba(115, 195, 42, 0.4),
+        0 4px 0 rgba(65, 150, 20, 0.6),
+        inset 0 1px 0 rgba(210, 255, 108, 0.25) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-tox-bubble-border-hover 1.6s ease-in-out infinite !important;
+}
+.class-row-toxicologist:hover .class-row-cta i {
+    filter:
+        drop-shadow(0 0 10px rgba(195, 255, 85, 1))
+        drop-shadow(0 0 4px rgba(140, 225, 55, 0.8));
+    animation: cta-arrow-corrode 0.55s ease-in-out infinite;
+}
+@keyframes cta-tox-bubble-border {
+    0%, 100% {
+        box-shadow: 0 0 14px rgba(115, 195, 46, 0.46), 0 0 28px rgba(85, 162, 33, 0.16), 0 3px 0 rgba(55, 135, 17, 0.5);
+        border-color: rgba(118, 202, 50, 0.6);
+    }
+    33% {
+        box-shadow: 0 0 26px rgba(158, 242, 65, 0.72), 0 0 52px rgba(125, 208, 50, 0.32), 0 3px 0 rgba(75, 162, 25, 0.65);
+        border-color: rgba(165, 245, 72, 0.88);
+    }
+    66% {
+        box-shadow: 0 0 18px rgba(135, 218, 54, 0.56), 0 0 38px rgba(105, 182, 40, 0.22), 0 3px 0 rgba(62, 148, 20, 0.56);
+        border-color: rgba(140, 222, 58, 0.72);
+    }
+}
+@keyframes cta-tox-bubble-border-hover {
+    0%, 100% { box-shadow: 0 0 26px rgba(155, 230, 60, 0.8), 0 0 54px rgba(115, 195, 42, 0.4), 0 4px 0 rgba(65, 150, 20, 0.6); }
+    50% { box-shadow: 0 0 40px rgba(195, 255, 85, 0.96), 0 0 80px rgba(155, 232, 62, 0.55), 0 4px 0 rgba(82, 170, 25, 0.75); }
+}
+@keyframes cta-tox-shimmer {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(110%); }
+}
+@keyframes cta-arrow-corrode {
+    0%, 100% { transform: translateX(4px) skewX(-4deg); }
+    50% { transform: translateX(8px) skewX(4deg); }
 }
 
-.class-row-toxicologist:hover .class-row-cta i {
-    filter: drop-shadow(0 0 4px rgba(165, 235, 85, 0.85));
+/* ===== WARDEN - Vengeance Points: ALWAYS ON, iron-shackle brutalism ===== */
+.class-row-warden .class-row-cta {
+    opacity: 1 !important;
+    color: #c8ad72 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 9px 22px;
+    border: 2px solid rgba(155, 130, 82, 0.62) !important;
+    border-top: 2px solid rgba(185, 160, 100, 0.75) !important;
+    border-bottom: 3px solid rgba(80, 65, 38, 0.9) !important;
+    border-radius: 2px !important;
+    background: linear-gradient(180deg,
+        rgba(62, 50, 28, 0.38) 0%,
+        rgba(38, 30, 17, 0.26) 60%,
+        rgba(22, 18, 10, 0.38) 100%) !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.9), 0 0 14px rgba(210, 178, 85, 0.55);
+    box-shadow:
+        0 0 14px rgba(150, 125, 72, 0.42),
+        0 0 28px rgba(112, 90, 50, 0.16),
+        inset 0 1px 0 rgba(220, 192, 108, 0.18),
+        inset 0 -2px 0 rgba(28, 22, 12, 0.55);
+    animation: cta-ward-chain 5s ease-in-out infinite !important;
+}
+.class-row-warden .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(205, 182, 118, 0.1), transparent);
+}
+.class-row-warden:hover .class-row-cta {
+    color: #eed88a !important;
+    border-color: rgba(205, 172, 92, 0.85) !important;
+    border-bottom: 3px solid rgba(100, 80, 45, 1) !important;
+    background: linear-gradient(180deg,
+        rgba(98, 78, 42, 0.5) 0%,
+        rgba(60, 48, 26, 0.38) 60%,
+        rgba(32, 25, 14, 0.5) 100%) !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.9), 0 0 18px rgba(238, 200, 95, 0.82);
+    box-shadow:
+        0 0 24px rgba(190, 158, 72, 0.72),
+        0 0 50px rgba(150, 120, 55, 0.32),
+        inset 0 1px 0 rgba(238, 210, 120, 0.24),
+        inset 0 -2px 0 rgba(35, 28, 15, 0.65) !important;
+    transform: translateY(-1px) !important;
+    animation: cta-ward-chain-hover 2.5s ease-in-out infinite !important;
+}
+.class-row-warden:hover .class-row-cta i {
+    filter: drop-shadow(0 0 8px rgba(238, 200, 95, 0.95));
+    animation: cta-arrow-drag 0.65s ease-in-out infinite;
+}
+@keyframes cta-ward-chain {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(145, 120, 68, 0.36), 0 0 24px rgba(108, 86, 46, 0.13);
+        border-color: rgba(148, 124, 76, 0.56);
+        transform: translateY(0);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(185, 158, 88, 0.58), 0 0 44px rgba(145, 115, 58, 0.24);
+        border-color: rgba(185, 158, 96, 0.82);
+        transform: translateY(0.8px);
+    }
+}
+@keyframes cta-ward-chain-hover {
+    0%, 100% { box-shadow: 0 0 24px rgba(190, 158, 72, 0.72), 0 0 50px rgba(150, 120, 55, 0.32); }
+    50% { box-shadow: 0 0 38px rgba(225, 192, 90, 0.92), 0 0 78px rgba(182, 148, 68, 0.48); }
+}
+@keyframes cta-arrow-drag {
+    0%, 100% { transform: translateX(4px); }
+    50% { transform: translateX(8px); }
+}
+
+/* ===== AUGUR - Wyrd-Casting: ALWAYS ON, fate-thread violet mysticism ===== */
+.class-row-augur .class-row-cta {
+    opacity: 1 !important;
+    color: #c8aaf5 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(168, 128, 230, 0.52) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg,
+        rgba(68, 35, 115, 0.32) 0%,
+        rgba(35, 18, 62, 0.2) 100%) !important;
+    text-shadow: 0 0 14px rgba(195, 158, 252, 0.72), 0 0 30px rgba(155, 112, 228, 0.35);
+    box-shadow:
+        0 0 18px rgba(178, 138, 252, 0.48),
+        0 0 38px rgba(140, 100, 220, 0.18),
+        inset 0 1px 0 rgba(228, 202, 255, 0.18);
+    animation: cta-aug-wyrd 4.5s ease-in-out infinite !important;
+}
+.class-row-augur .class-row-cta::before {
+    background: linear-gradient(90deg, transparent, rgba(205, 162, 255, 0.12), transparent);
+    animation: cta-aug-omenshine 3.5s ease-in-out infinite !important;
+    transform: translateX(-110%);
+}
+.class-row-augur:hover .class-row-cta {
+    color: #e8d8ff !important;
+    border-color: rgba(225, 185, 255, 0.82) !important;
+    background: linear-gradient(135deg,
+        rgba(108, 65, 178, 0.44) 0%,
+        rgba(65, 38, 118, 0.30) 100%) !important;
+    text-shadow:
+        0 0 18px rgba(232, 210, 255, 0.95),
+        0 0 38px rgba(185, 148, 250, 0.55),
+        0 0 60px rgba(135, 95, 215, 0.28);
+    box-shadow:
+        0 0 28px rgba(195, 155, 255, 0.78),
+        0 0 58px rgba(155, 115, 235, 0.38),
+        inset 0 1px 0 rgba(235, 210, 255, 0.22) !important;
+    transform: translateY(-2px) !important;
+    animation: cta-aug-wyrd-hover 2.2s ease-in-out infinite !important;
+}
+.class-row-augur:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(225, 185, 255, 1)) drop-shadow(0 0 4px rgba(175, 135, 248, 0.8));
+    animation: cta-arrow-wyrd 1.8s ease-in-out infinite;
+}
+@keyframes cta-aug-wyrd {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(168, 130, 242, 0.40), 0 0 30px rgba(132, 98, 215, 0.15);
+        border-color: rgba(162, 122, 228, 0.46);
+    }
+    50% {
+        box-shadow: 0 0 28px rgba(198, 162, 255, 0.65), 0 0 58px rgba(162, 125, 238, 0.28);
+        border-color: rgba(198, 162, 255, 0.78);
+    }
+}
+@keyframes cta-aug-wyrd-hover {
+    0%, 100% { box-shadow: 0 0 28px rgba(195, 155, 255, 0.78), 0 0 58px rgba(155, 115, 235, 0.38); }
+    50% { box-shadow: 0 0 44px rgba(218, 185, 255, 1), 0 0 90px rgba(178, 140, 248, 0.55); }
+}
+@keyframes cta-aug-omenshine {
+    0% { transform: translateX(-110%); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateX(110%); opacity: 0; }
+}
+@keyframes cta-arrow-wyrd {
+    0%, 100% { transform: translateX(4px) rotate(0deg); }
+    25% { transform: translateX(8px) rotate(10deg); }
+    75% { transform: translateX(5px) rotate(-6deg); }
 }
 
 /* Role-coloured glow on hover, layered above the base hover */
@@ -715,12 +1160,32 @@
 
 /* --- per-class dark base + themed border (fallback behind the SVG) --- */
 .class-row-arcanoneer { background-color: #160e0a; border-color: rgba(230, 126, 34, 0.35); }
-.class-row-berserker { background-color: #1e0506; border-color: rgba(231, 76, 60, 0.35); }
+/* BERSERKER - deeper blood-black, thicker crimson border, pulsing */
+.class-row-berserker {
+    background-color: #1a0203;
+    border-color: rgba(220, 25, 25, 0.55);
+    border-width: 2px;
+    animation: row-bers-pulse 2.4s ease-in-out infinite;
+}
+@keyframes row-bers-pulse {
+    0%, 100% { border-color: rgba(200, 20, 20, 0.45); }
+    50% { border-color: rgba(255, 35, 35, 0.75); box-shadow: inset 0 0 20px rgba(180, 10, 10, 0.08); }
+}
 .class-row-shaper { background-color: #17100d; border-color: rgba(205, 163, 122, 0.3); }
 .class-row-harbinger { background-color: #191021; border-color: rgba(155, 89, 182, 0.35); }
 .class-row-chronarch { background-color: #13101e; border-color: rgba(184, 150, 64, 0.35); }
 .class-row-inquisitor { background-color: #160405; border-color: rgba(139, 0, 0, 0.45); }
-.class-row-revenant { background-color: #15110b; border-color: rgba(55, 184, 108, 0.3); }
+/* REVENANT - dark with ghostly teal-green border flicker */
+.class-row-revenant {
+    background-color: #0c1410;
+    border-color: rgba(55, 200, 120, 0.4);
+    border-width: 2px;
+    animation: row-rev-soul 3.8s ease-in-out infinite;
+}
+@keyframes row-rev-soul {
+    0%, 100% { border-color: rgba(45, 170, 100, 0.35); }
+    50% { border-color: rgba(80, 240, 155, 0.65); box-shadow: inset 0 0 24px rgba(40, 180, 110, 0.07); }
+}
 .class-row-false-prophet { background-color: #140a1a; border-color: rgba(155, 89, 182, 0.35); }
 .class-row-gambit { background-color: #17140a; border-color: rgba(241, 196, 15, 0.35); }
 .class-row-apex { background-color: #17100e; border-color: rgba(231, 76, 60, 0.35); }
@@ -728,13 +1193,388 @@
 .class-row-lunarch { background-color: #10140a; border-color: rgba(241, 196, 15, 0.35); }
 .class-row-martyr { background-color: #0a1218; border-color: rgba(52, 152, 219, 0.35); }
 .class-row-minstrel { background-color: #0e1612; border-color: rgba(46, 204, 113, 0.3); }
-.class-row-plaguebringer { background-color: #12140a; border-color: rgba(168, 184, 74, 0.35); }
-.class-row-pyrofiend { background-color: #1a0a06; border-color: rgba(224, 52, 13, 0.4); }
+/* PLAGUEBRINGER - deep bog-black, acid-lime border bio-pulse */
+.class-row-plaguebringer {
+    background-color: #0d1205;
+    border-color: rgba(170, 210, 50, 0.45);
+    border-width: 2px;
+    animation: row-plag-bio 4.5s ease-in-out infinite;
+}
+@keyframes row-plag-bio {
+    0%, 100% { border-color: rgba(140, 185, 40, 0.38); }
+    50% { border-color: rgba(210, 255, 70, 0.7); box-shadow: inset 0 0 22px rgba(150, 220, 50, 0.07); }
+}
+/* PYROFIEND - volcanic near-black, volcanic orange border flame flicker */
+.class-row-pyrofiend {
+    background-color: #160500;
+    border-color: rgba(240, 70, 15, 0.55);
+    border-width: 2px;
+    animation: row-pyr-flame 2.8s ease-in-out infinite;
+}
+@keyframes row-pyr-flame {
+    0%, 100% { border-color: rgba(210, 50, 10, 0.45); }
+    33% { border-color: rgba(255, 110, 30, 0.75); box-shadow: inset 0 0 22px rgba(220, 60, 10, 0.1); }
+    66% { border-color: rgba(240, 80, 20, 0.6); }
+}
 .class-row-spellguard { background-color: #0a121a; border-color: rgba(52, 152, 219, 0.35); }
-.class-row-toxicologist { background-color: #0f1608; border-color: rgba(124, 179, 66, 0.35); }
-.class-row-warden { background-color: #14100c; border-color: rgba(138, 122, 90, 0.35); }
-.class-row-augur { background-color: #15101a; border-color: rgba(155, 89, 182, 0.35); }
+/* TOXICOLOGIST - almost pure black, corroded chemical green border */
+.class-row-toxicologist {
+    background-color: #0a1204;
+    border-color: rgba(120, 200, 50, 0.42);
+    border-width: 2px;
+    border-style: solid;
+    animation: row-tox-corrode 3.2s ease-in-out infinite;
+}
+@keyframes row-tox-corrode {
+    0%, 100% { border-color: rgba(100, 175, 40, 0.35); }
+    50% { border-color: rgba(170, 245, 80, 0.68); box-shadow: inset 0 0 20px rgba(110, 200, 45, 0.08); }
+}
+/* WARDEN - iron-black, heavy rusted chain border */
+.class-row-warden {
+    background-color: #0e0c09;
+    border-color: rgba(140, 120, 80, 0.5);
+    border-width: 2px;
+    animation: row-ward-iron 5.5s ease-in-out infinite;
+}
+@keyframes row-ward-iron {
+    0%, 100% { border-color: rgba(120, 100, 65, 0.42); }
+    50% { border-color: rgba(185, 160, 100, 0.65); box-shadow: inset 0 0 18px rgba(100, 80, 45, 0.07); }
+}
+/* AUGUR - void-black, deep wyrd-violet border constellation */
+.class-row-augur {
+    background-color: #0c0810;
+    border-color: rgba(165, 120, 230, 0.45);
+    border-width: 2px;
+    animation: row-aug-wyrd 5s ease-in-out infinite;
+}
+@keyframes row-aug-wyrd {
+    0%, 100% { border-color: rgba(140, 100, 200, 0.38); }
+    50% { border-color: rgba(210, 170, 255, 0.68); box-shadow: inset 0 0 24px rgba(160, 120, 240, 0.07); }
+}
 .class-row-crusader { background-color: #1c1509; border-color: rgba(245, 158, 11, 0.4); }
+
+/* =====================================================================
+   CLASS ROW IDENTITY OVERHAUL
+   Each target class gets a thick LEFT ACCENT BAR in its identity color,
+   a color-bleeding background gradient, a glowing icon frame,
+   and class-colored name text — all visible at rest, before any hover.
+   ===================================================================== */
+
+/* ===== BERSERKER ===== */
+.class-row-berserker {
+    background: linear-gradient(92deg,
+        rgba(200, 8, 8, 0.42) 0%,
+        rgba(130, 4, 4, 0.22) 18%,
+        rgba(26, 2, 3, 0.97) 45%,
+        rgba(26, 2, 3, 1) 100%) !important;
+    border-color: rgba(200, 22, 22, 0.6) !important;
+    border-left: 5px solid rgba(240, 25, 25, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(220, 15, 15, 0.55),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 80, 80, 0.15);
+    animation: row-bers-pulse 2.4s ease-in-out infinite;
+}
+.class-row-berserker .class-row-name {
+    color: #ff7070 !important;
+    text-shadow: 0 0 16px rgba(255, 40, 40, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-berserker .class-row-icon {
+    border-color: rgba(210, 18, 18, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(220, 15, 15, 0.7),
+        0 0 36px rgba(180, 8, 8, 0.35),
+        inset 0 0 10px rgba(200, 10, 10, 0.4) !important;
+}
+.class-row-berserker:hover {
+    box-shadow:
+        -8px 0 40px rgba(255, 20, 20, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(200, 10, 10, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-bers-pulse {
+    0%, 100% {
+        border-left-color: rgba(220, 20, 20, 0.85);
+        box-shadow: -5px 0 22px rgba(200, 12, 12, 0.45), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    50% {
+        border-left-color: rgba(255, 40, 40, 1);
+        box-shadow: -8px 0 38px rgba(255, 22, 22, 0.75), 0 2px 20px rgba(0,0,0,0.75), 0 0 30px rgba(200, 10, 10, 0.2);
+    }
+}
+
+/* ===== REVENANT ===== */
+.class-row-revenant {
+    background: linear-gradient(92deg,
+        rgba(30, 170, 100, 0.38) 0%,
+        rgba(15, 100, 58, 0.18) 18%,
+        rgba(12, 20, 16, 0.97) 45%,
+        rgba(12, 20, 16, 1) 100%) !important;
+    border-color: rgba(50, 195, 120, 0.5) !important;
+    border-left: 5px solid rgba(60, 230, 145, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(45, 200, 115, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(80, 255, 170, 0.12);
+    animation: row-rev-soul 3.8s ease-in-out infinite;
+}
+.class-row-revenant .class-row-name {
+    color: #5ef0b0 !important;
+    text-shadow: 0 0 16px rgba(60, 220, 140, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-revenant .class-row-icon {
+    border-color: rgba(50, 210, 130, 0.85) !important;
+    box-shadow:
+        0 0 18px rgba(50, 200, 120, 0.65),
+        0 0 36px rgba(35, 160, 95, 0.3),
+        inset 0 0 10px rgba(40, 190, 110, 0.4) !important;
+}
+.class-row-revenant:hover {
+    box-shadow:
+        -8px 0 42px rgba(60, 240, 155, 0.78),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(45, 200, 120, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-rev-soul {
+    0%, 100% {
+        border-left-color: rgba(50, 200, 120, 0.82);
+        box-shadow: -5px 0 22px rgba(40, 185, 110, 0.42), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    50% {
+        border-left-color: rgba(90, 255, 170, 1);
+        box-shadow: -8px 0 38px rgba(70, 240, 155, 0.72), 0 2px 20px rgba(0,0,0,0.75), 0 0 32px rgba(45, 200, 120, 0.2);
+    }
+}
+
+/* ===== PLAGUEBRINGER ===== */
+.class-row-plaguebringer {
+    background: linear-gradient(92deg,
+        rgba(150, 210, 30, 0.38) 0%,
+        rgba(80, 130, 14, 0.2) 18%,
+        rgba(13, 18, 5, 0.97) 45%,
+        rgba(13, 18, 5, 1) 100%) !important;
+    border-color: rgba(165, 215, 45, 0.55) !important;
+    border-left: 5px solid rgba(195, 250, 55, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(165, 215, 40, 0.52),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(210, 255, 80, 0.12);
+    animation: row-plag-bio 4.5s ease-in-out infinite;
+}
+.class-row-plaguebringer .class-row-name {
+    color: #d4f040 !important;
+    text-shadow: 0 0 16px rgba(190, 240, 45, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-plaguebringer .class-row-icon {
+    border-color: rgba(170, 220, 45, 0.85) !important;
+    box-shadow:
+        0 0 18px rgba(165, 215, 40, 0.65),
+        0 0 36px rgba(130, 185, 30, 0.3),
+        inset 0 0 10px rgba(155, 210, 38, 0.4) !important;
+}
+.class-row-plaguebringer:hover {
+    box-shadow:
+        -8px 0 42px rgba(200, 255, 55, 0.78),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(165, 215, 40, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-plag-bio {
+    0%, 100% {
+        border-left-color: rgba(175, 225, 45, 0.82);
+        box-shadow: -5px 0 22px rgba(155, 210, 38, 0.44), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    50% {
+        border-left-color: rgba(220, 255, 75, 1);
+        box-shadow: -8px 0 38px rgba(200, 255, 60, 0.72), 0 2px 20px rgba(0,0,0,0.75), 0 0 32px rgba(165, 215, 40, 0.2);
+    }
+}
+
+/* ===== PYROFIEND ===== */
+.class-row-pyrofiend {
+    background: linear-gradient(92deg,
+        rgba(230, 65, 8, 0.45) 0%,
+        rgba(150, 35, 4, 0.24) 18%,
+        rgba(22, 5, 0, 0.97) 45%,
+        rgba(22, 5, 0, 1) 100%) !important;
+    border-color: rgba(235, 72, 12, 0.62) !important;
+    border-left: 5px solid rgba(255, 90, 20, 0.97) !important;
+    box-shadow:
+        -6px 0 28px rgba(240, 65, 10, 0.58),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 140, 60, 0.14);
+    animation: row-pyr-flame 2.8s ease-in-out infinite;
+}
+.class-row-pyrofiend .class-row-name {
+    color: #ff9040 !important;
+    text-shadow: 0 0 16px rgba(255, 110, 30, 0.6), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-pyrofiend .class-row-icon {
+    border-color: rgba(230, 68, 12, 0.9) !important;
+    box-shadow:
+        0 0 18px rgba(240, 65, 10, 0.7),
+        0 0 36px rgba(200, 45, 6, 0.35),
+        inset 0 0 10px rgba(220, 58, 8, 0.42) !important;
+}
+.class-row-pyrofiend:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 90, 20, 0.85),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(230, 60, 10, 0.42) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-pyr-flame {
+    0%, 100% {
+        border-left-color: rgba(235, 65, 12, 0.88);
+        box-shadow: -5px 0 22px rgba(225, 58, 8, 0.48), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    33% {
+        border-left-color: rgba(255, 115, 35, 1);
+        box-shadow: -8px 0 38px rgba(255, 100, 25, 0.8), 0 2px 20px rgba(0,0,0,0.75), 0 0 35px rgba(235, 65, 10, 0.25);
+    }
+    66% {
+        border-left-color: rgba(248, 85, 18, 0.95);
+        box-shadow: -7px 0 32px rgba(245, 80, 16, 0.64), 0 2px 18px rgba(0,0,0,0.70);
+    }
+}
+
+/* ===== TOXICOLOGIST ===== */
+.class-row-toxicologist {
+    background: linear-gradient(92deg,
+        rgba(110, 195, 42, 0.38) 0%,
+        rgba(58, 120, 18, 0.2) 18%,
+        rgba(10, 18, 4, 0.97) 45%,
+        rgba(10, 18, 4, 1) 100%) !important;
+    border-color: rgba(118, 202, 50, 0.55) !important;
+    border-left: 5px solid rgba(145, 240, 60, 0.97) !important;
+    box-shadow:
+        -6px 0 28px rgba(115, 200, 46, 0.55),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(175, 255, 85, 0.12);
+    animation: row-tox-corrode 3.2s ease-in-out infinite;
+}
+.class-row-toxicologist .class-row-name {
+    color: #96e038 !important;
+    text-shadow: 0 0 16px rgba(140, 225, 50, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-toxicologist .class-row-icon {
+    border-color: rgba(118, 200, 48, 0.9) !important;
+    box-shadow:
+        0 0 18px rgba(115, 198, 46, 0.68),
+        0 0 36px rgba(85, 162, 32, 0.32),
+        inset 0 0 10px rgba(108, 190, 42, 0.42) !important;
+}
+.class-row-toxicologist:hover {
+    box-shadow:
+        -8px 0 42px rgba(155, 245, 65, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(115, 200, 45, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-tox-corrode {
+    0%, 100% {
+        border-left-color: rgba(128, 210, 52, 0.85);
+        box-shadow: -5px 0 22px rgba(112, 195, 44, 0.46), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    33% {
+        border-left-color: rgba(175, 252, 72, 1);
+        box-shadow: -8px 0 38px rgba(162, 248, 65, 0.76), 0 2px 20px rgba(0,0,0,0.75), 0 0 32px rgba(120, 205, 48, 0.22);
+    }
+    66% {
+        border-left-color: rgba(148, 228, 60, 0.92);
+        box-shadow: -7px 0 30px rgba(138, 220, 56, 0.60), 0 2px 16px rgba(0,0,0,0.68);
+    }
+}
+
+/* ===== WARDEN ===== */
+.class-row-warden {
+    background: linear-gradient(92deg,
+        rgba(140, 115, 65, 0.38) 0%,
+        rgba(85, 68, 35, 0.2) 18%,
+        rgba(14, 12, 9, 0.97) 45%,
+        rgba(14, 12, 9, 1) 100%) !important;
+    border-color: rgba(145, 122, 78, 0.58) !important;
+    border-left: 5px solid rgba(185, 158, 95, 0.97) !important;
+    box-shadow:
+        -6px 0 28px rgba(140, 115, 65, 0.48),
+        0 2px 18px rgba(0, 0, 0, 0.75),
+        inset 1px 0 0 rgba(210, 182, 110, 0.12);
+    animation: row-ward-iron 5.5s ease-in-out infinite;
+}
+.class-row-warden .class-row-name {
+    color: #d4b870 !important;
+    text-shadow: 0 0 14px rgba(205, 178, 88, 0.5), 0 1px 4px rgba(0,0,0,0.98) !important;
+}
+.class-row-warden .class-row-icon {
+    border-color: rgba(152, 128, 80, 0.9) !important;
+    box-shadow:
+        0 0 16px rgba(148, 122, 72, 0.58),
+        0 0 32px rgba(108, 88, 48, 0.26),
+        inset 0 0 10px rgba(130, 108, 65, 0.38) !important;
+}
+.class-row-warden:hover {
+    box-shadow:
+        -8px 0 40px rgba(200, 170, 95, 0.72),
+        0 8px 32px rgba(0, 0, 0, 0.82),
+        0 0 50px rgba(150, 122, 68, 0.35) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-ward-iron {
+    0%, 100% {
+        border-left-color: rgba(170, 142, 88, 0.85);
+        box-shadow: -5px 0 20px rgba(135, 110, 62, 0.42), 0 2px 14px rgba(0,0,0,0.72);
+    }
+    50% {
+        border-left-color: rgba(215, 185, 108, 0.98);
+        box-shadow: -8px 0 35px rgba(200, 172, 98, 0.65), 0 2px 20px rgba(0,0,0,0.78), 0 0 28px rgba(148, 120, 68, 0.18);
+    }
+}
+
+/* ===== AUGUR ===== */
+.class-row-augur {
+    background: linear-gradient(92deg,
+        rgba(150, 105, 235, 0.38) 0%,
+        rgba(85, 55, 145, 0.2) 18%,
+        rgba(12, 8, 16, 0.97) 45%,
+        rgba(12, 8, 16, 1) 100%) !important;
+    border-color: rgba(165, 122, 232, 0.55) !important;
+    border-left: 5px solid rgba(195, 158, 255, 0.97) !important;
+    box-shadow:
+        -6px 0 28px rgba(158, 118, 238, 0.52),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(218, 188, 255, 0.12);
+    animation: row-aug-wyrd 5s ease-in-out infinite;
+}
+.class-row-augur .class-row-name {
+    color: #d4b8ff !important;
+    text-shadow: 0 0 16px rgba(190, 148, 252, 0.58), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-augur .class-row-icon {
+    border-color: rgba(168, 128, 235, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(162, 122, 232, 0.68),
+        0 0 36px rgba(128, 92, 198, 0.32),
+        inset 0 0 10px rgba(152, 115, 225, 0.42) !important;
+}
+.class-row-augur:hover {
+    box-shadow:
+        -8px 0 42px rgba(208, 168, 255, 0.78),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(162, 122, 232, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+@keyframes row-aug-wyrd {
+    0%, 100% {
+        border-left-color: rgba(178, 138, 242, 0.85);
+        box-shadow: -5px 0 22px rgba(155, 118, 228, 0.44), 0 2px 14px rgba(0,0,0,0.65);
+    }
+    50% {
+        border-left-color: rgba(218, 185, 255, 1);
+        box-shadow: -8px 0 38px rgba(205, 168, 255, 0.72), 0 2px 20px rgba(0,0,0,0.75), 0 0 32px rgba(162, 122, 232, 0.2);
+    }
+}
 
 /* elements that should spin/grow around their OWN centre, not the scene */
 .cbd-shap-shard,
@@ -1047,6 +1887,37 @@
     .cbd-svg *,
     .class-row-bg-effects::after,
     .class-row-bg-effects::before {
+        animation: none !important;
+    }
+    /* Freeze class-row border pulses */
+    .class-row-berserker,
+    .class-row-revenant,
+    .class-row-plaguebringer,
+    .class-row-pyrofiend,
+    .class-row-toxicologist,
+    .class-row-warden,
+    .class-row-augur {
+        animation: none !important;
+    }
+    /* Freeze CTA button animations */
+    .class-row-berserker .class-row-cta,
+    .class-row-revenant .class-row-cta,
+    .class-row-plaguebringer .class-row-cta,
+    .class-row-pyrofiend .class-row-cta,
+    .class-row-toxicologist .class-row-cta,
+    .class-row-warden .class-row-cta,
+    .class-row-augur .class-row-cta,
+    .class-row-berserker:hover .class-row-cta,
+    .class-row-revenant:hover .class-row-cta,
+    .class-row-plaguebringer:hover .class-row-cta,
+    .class-row-pyrofiend:hover .class-row-cta,
+    .class-row-toxicologist:hover .class-row-cta,
+    .class-row-warden:hover .class-row-cta,
+    .class-row-augur:hover .class-row-cta {
+        animation: none !important;
+    }
+    .class-row-toxicologist .class-row-cta::before,
+    .class-row-augur .class-row-cta::before {
         animation: none !important;
     }
 }

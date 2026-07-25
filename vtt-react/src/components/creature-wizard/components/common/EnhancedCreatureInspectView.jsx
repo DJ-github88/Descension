@@ -178,20 +178,34 @@ const getSkillIconUrl = (iconName, skillId) => {
 
 // Format damage type for display
 const formatDamageType = (type) => {
-  if (!type) return 'Physical';
+  if (!type) return 'Smashing';
 
   const typeMap = {
-    'physical': 'Physical',
-    'fire': 'Fire',
-    'frost': 'Frost',
+    'smashing': 'Smashing',
+    'stabbing': 'Stabbing',
+    'slicing': 'Slicing',
+    'ranged': 'Ranged',
+    'ember': 'Ember',
+    'rime': 'Rime',
+    'storm': 'Storm',
+    'primal': 'Primal',
     'arcane': 'Arcane',
-    'nature': 'Nature',
-    'necrotic': 'Necrotic',
-    'radiant': 'Radiant',
-    'poison': 'Poison',
-    'slashing': 'Slashing',
-    'piercing': 'Piercing',
-    'bludgeoning': 'Bludgeoning'
+    'blight': 'Blight',
+    'wyrd': 'Wyrd',
+    'sacred': 'Sacred',
+    'physical': 'Smashing',
+    'fire': 'Ember',
+    'frost': 'Rime',
+    'cold': 'Rime',
+    'nature': 'Primal',
+    'necrotic': 'Blight',
+    'radiant': 'Sacred',
+    'poison': 'Blight',
+    'acid': 'Blight',
+    'psychic': 'Wyrd',
+    'slashing': 'Slicing',
+    'piercing': 'Stabbing',
+    'bludgeoning': 'Smashing'
   };
 
   return typeMap[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
@@ -200,21 +214,32 @@ const formatDamageType = (type) => {
 // Helper function to get color based on damage type
 const getDamageTypeColor = (damageType) => {
   const damageColors = {
-    fire: '#FF4500',
-    frost: '#00BFFF',
-    arcane: '#DA70D6',
-    nature: '#32CD32',
-    necrotic: '#800080',
-    radiant: '#FFFF00',
-    physical: '#CD853F',
-    poison: '#008000',
-    lightning: '#00FFFF',
-    force: '#87CEFA',
-    psychic: '#FF00FF',
-    bludgeoning: '#A0522D',
-    piercing: '#708090',
-    slashing: '#B22222',
-    chaos: '#ec4899'
+    smashing: '#8B5A2B',
+    stabbing: '#704214',
+    slicing: '#5C3317',
+    ranged: '#A0522D',
+    ember: '#D4380D',
+    rime: '#2C5F7C',
+    storm: '#8B7328',
+    primal: '#2D5A1E',
+    arcane: '#5B3A8C',
+    blight: '#3D1F4E',
+    wyrd: '#7A2040',
+    sacred: '#DAA520',
+    fire: '#D4380D',
+    frost: '#2C5F7C',
+    nature: '#2D5A1E',
+    necrotic: '#3D1F4E',
+    radiant: '#DAA520',
+    physical: '#8B5A2B',
+    poison: '#3D1F4E',
+    lightning: '#8B7328',
+    force: '#5B3A8C',
+    psychic: '#7A2040',
+    bludgeoning: '#8B5A2B',
+    piercing: '#704214',
+    slashing: '#5C3317',
+    chaos: '#7A2040'
   };
 
   return damageColors[damageType?.toLowerCase()] || '#FFFFFF';
@@ -1008,20 +1033,31 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           .map(dt => {
             // Map damage type IDs to local ability icons (matching character sheet)
             const iconMap = {
-              fire: 'Fire/Flame Burst',
+              ember: 'Fire/Burning Ember',
+              fire: 'Fire/Burning Ember',
+              rime: 'Frost/Dripping Ice',
+              cold: 'Frost/Dripping Ice',
               frost: 'Frost/Dripping Ice',
+              storm: 'Lightning/Lightning Bolt',
               lightning: 'Lightning/Lightning Bolt',
-              arcane: 'Arcane/Orb Manipulation',
-              nature: 'Nature/Nature Natural',
-              force: 'Force/Force Touch',
-              necrotic: 'Necrotic/Necrotic Skull',
+              thunder: 'Lightning/Lightning Bolt',
+              primal: 'Nature/Beast Mark',
+              nature: 'Nature/Beast Mark',
+              arcane: 'Arcane/Ebon Blaze',
+              blight: 'Necrotic/Blood Book',
+              necrotic: 'Necrotic/Blood Book',
+              sacred: 'Radiant/Radiant Sunburst',
               radiant: 'Radiant/Radiant Sunburst',
+              holy: 'Radiant/Radiant Sunburst',
+              force: 'Force/Force Touch',
               poison: 'Poison/Poison Venom',
-              psychic: 'Psychic/Brain Psionics',
+              acid: 'Poison/Poison Venom',
+              wyrd: 'Psychic/Psychic Mind',
+              psychic: 'Psychic/Psychic Mind',
               chaos: 'Chaos/Chaotic Shuffle',
-              void: 'Void/Void Portal Mage'
+              void: 'Necrotic/Blood Book'
             };
-            const iconPath = iconMap[dt.id] || 'Utility/Utility';
+            const iconPath = iconMap[dt.id ? dt.id.toLowerCase() : ''] || 'Utility/Utility';
             return {
               label: `${dt.name} Power`,
               value: Math.round(creature.stats[`${dt.id}SpellPower`] || creature.stats.spellDamage || 0),
@@ -1273,29 +1309,41 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       // Map damage type IDs to local ability icons (matching character sheet)
       const getDamageTypeIcon = (damageTypeId) => {
         const iconMap = {
-          fire: 'Fire/Flame Burst',
-          frost: 'Frost/Dripping Ice',
-          cold: 'Frost/Dripping Ice',
-          arcane: 'Arcane/Orb Manipulation',
-          nature: 'Nature/Nature Natural',
-          shadow: 'Shadow/Shadow Darkness',
-          holy: 'Radiant/Radiant Sunburst',
-          physical: 'General/Sword',
+          smashing: 'Bludgeoning/Hammer',
+          stabbing: 'Piercing/Piercing Thrust 3',
+          slicing: 'Slashing/Slashing Slash',
           bludgeoning: 'Bludgeoning/Hammer',
-          piercing: 'Piercing/Piercing Shot',
-          slashing: 'Slashing/Bloody Meat Cleaver',
-          poison: 'Poison/Poison Venom',
-          acid: 'Force/Force Touch',
+          piercing: 'Piercing/Piercing Thrust 3',
+          slashing: 'Slashing/Slashing Slash',
+          ranged: 'Piercing/Arrow Shot',
+          meleeweapon: 'Slashing/Crossed Swords',
+          physical: 'Slashing/Crossed Swords',
+          ember: 'Fire/Burning Ember',
+          fire: 'Fire/Burning Ember',
+          rime: 'Frost/Dripping Ice',
+          cold: 'Frost/Dripping Ice',
+          frost: 'Frost/Dripping Ice',
+          storm: 'Lightning/Lightning Bolt',
           lightning: 'Lightning/Lightning Bolt',
-          thunder: 'Lightning/Lightning Storm',
-          radiant: 'Radiant/Radiant Sunburst',
-          necrotic: 'Necrotic/Necrotic Skull',
-          psychic: 'Psychic/Brain Psionics',
-          force: 'Force/Force Touch',
+          thunder: 'Lightning/Lightning Bolt',
+          primal: 'Nature/Beast Mark',
+          nature: 'Nature/Beast Mark',
+          arcane: 'Arcane/Ebon Blaze',
+          blight: 'Necrotic/Blood Book',
+          necrotic: 'Necrotic/Blood Book',
+          shadow: 'Necrotic/Blood Book',
+          poison: 'Poison/Poison Venom',
+          acid: 'Poison/Poison Venom',
+          wyrd: 'Psychic/Psychic Mind',
+          psychic: 'Psychic/Psychic Mind',
           chaos: 'Chaos/Chaotic Shuffle',
-          void: 'Void/Void Portal Mage'
+          sacred: 'Radiant/Radiant Sunburst',
+          radiant: 'Radiant/Radiant Sunburst',
+          holy: 'Radiant/Radiant Sunburst',
+          force: 'Force/Force Touch'
         };
-        return getCustomIconUrl(iconMap[damageTypeId] || 'Utility/Utility', 'abilities');
+        const key = damageTypeId ? damageTypeId.toLowerCase() : '';
+        return getCustomIconUrl(iconMap[key] || 'Utility/Utility', 'abilities');
       };
 
       if (creature.immunities && creature.immunities.length > 0) {

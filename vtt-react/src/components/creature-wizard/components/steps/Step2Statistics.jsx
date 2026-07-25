@@ -227,20 +227,48 @@ const Step2Statistics = () => {
   // Map damage type IDs to local ability icons
   const getDamageTypeIcon = (damageTypeId) => {
     const iconMap = {
+      // Physical & Ranged
+      smashing: 'Bludgeoning/Hammer',
+      stabbing: 'Piercing/Piercing Thrust 3',
+      slicing: 'Slashing/Slashing Slash',
       bludgeoning: 'Bludgeoning/Hammer',
-      piercing: 'Piercing/Scatter Shot',
-      slashing: 'Slashing/Bloody Meat Cleaver',
-      fire: 'Fire/Flame Burst',
+      piercing: 'Piercing/Piercing Thrust 3',
+      slashing: 'Slashing/Slashing Slash',
+      ranged: 'Piercing/Arrow Shot',
+      meleeweapon: 'Slashing/Crossed Swords',
+      physical: 'Slashing/Crossed Swords',
+
+      // Elemental
+      ember: 'Fire/Burning Ember',
+      fire: 'Fire/Burning Ember',
+      rime: 'Frost/Dripping Ice',
+      cold: 'Frost/Dripping Ice',
       frost: 'Frost/Dripping Ice',
+      ice: 'Frost/Dripping Ice',
+      storm: 'Lightning/Lightning Bolt',
       lightning: 'Lightning/Lightning Bolt',
-      force: 'Force/Force Touch',
-      necrotic: 'Necrotic/Necrotic Skull',
-      radiant: 'Radiant/Radiant Sunburst',
+      thunder: 'Lightning/Lightning Bolt',
+      primal: 'Nature/Beast Mark',
+      nature: 'Nature/Beast Mark',
+      arcane: 'Arcane/Ebon Blaze',
+
+      // Otherworldly & Sacred
+      blight: 'Necrotic/Blood Book',
+      necrotic: 'Necrotic/Blood Book',
+      shadow: 'Necrotic/Blood Book',
       poison: 'Poison/Poison Venom',
-      psychic: 'Psychic/Brain Psionics',
-      chaos: 'Chaos/Chaotic Shuffle'
+      acid: 'Poison/Poison Venom',
+      wyrd: 'Psychic/Psychic Mind',
+      psychic: 'Psychic/Psychic Mind',
+      chaos: 'Chaos/Chaotic Shuffle',
+      sacred: 'Radiant/Radiant Sunburst',
+      radiant: 'Radiant/Radiant Sunburst',
+      holy: 'Radiant/Radiant Sunburst',
+      force: 'Force/Force Touch',
+      healing: 'Healing/Golden Heart'
     };
-    return getIconUrl(iconMap[damageTypeId] || 'Utility/Utility', 'abilities');
+    const key = damageTypeId ? damageTypeId.toLowerCase() : '';
+    return getIconUrl(iconMap[key] || 'Utility/Utility', 'abilities');
   };
 
   // Map skill category names to local ability icons
@@ -293,7 +321,7 @@ const Step2Statistics = () => {
   };
 
   // Melee damage types
-  const meleeTypes = ['bludgeoning', 'piercing', 'slashing'];
+  const meleeTypes = ['smashing', 'stabbing', 'slicing'];
 
   // Enhanced resistance levels with thematic descriptions
   const resistanceLevels = [

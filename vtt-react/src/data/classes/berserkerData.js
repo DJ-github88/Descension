@@ -2,8 +2,8 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Berserker Class Data
  *
- * Complete class information for the Berserker - the Hemorrhagic Butcher.
- * A tragic, high-risk warrior whose body is a self-destructive engine of war.
+ * Complete class information for the Berserker - the Overdrive Vanguard.
+ * A high-risk, relentless warrior who pushes physical stamina past all normal thresholds.
  */
 
 export const BERSERKER_DATA = {

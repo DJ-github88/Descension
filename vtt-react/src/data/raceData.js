@@ -78,6 +78,7 @@ export const getFullRaceData = (raceId, subraceId) => {
         subrace,
         combinedTraits: {
             ...race.baseTraits,
+            ...(subrace.baseTraits || {}),
             languages: subrace.languages || race.baseTraits.languages,
             speed: subrace.speed || race.baseTraits.baseSpeed,
             statModifiers: subrace.statModifiers,

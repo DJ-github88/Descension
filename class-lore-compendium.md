@@ -59,15 +59,15 @@ Seven subrace variants exist:
 
 **Origin:** Founded in the first centuries of the Dimming by Valerius, a Velun Neth archivist who drafted the First Contract with Morvane. In the deep scriptorium vaults of Atropolis within the Bryngloom Forest, Valerius sought to capture the raw, volatile magic of the forest without succumbing to its decay. By structuring incantations as strict legal syntax and balanced clauses, he bypassed the chaotic feedback of traditional spellcasting. The price: his blood crystallized into volatile, multicolored shards that had to be physically siphoned through a massive pig-iron cylinder forearm graft.
 
-**Identity:** The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. Their magic is a contract submitted to Morvane. Because they cannot lie, their spellcraft is the most rigorously honest and devastatingly precise magic in the world. Firing their forearm cylinder anchors them to the earth in a freezing lock, fractures ribs from recoil, and seals the voice against falsehood.
+**Identity:** The Arcanoneer is a clinical, hyper-precise pact-mage whose spells are written as strict contractual clauses. They do not draw magic from emotion or raw instinct; they negotiate it. Their magic is a contract submitted to Morvane. Operating through **Immutable Syntax**, their spellcraft requires precise, legally airtight parameters so the spell does not collapse into Wyrd corruption. Firing their forearm cylinder anchors them to the earth in a freezing lock, fractures ribs from recoil, and stabilizes volatile mana threads.
 
 **Role in World:** Arcanoneers are the most politically powerful and highly respected citizens within Atropolis. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Neth empire. They are also welcomed at Ironjaw Port, where their contract-based spellcraft ensures dock safety. Away from the Heart-Vault, their jurisdiction is reduced.
 
 **Cultural Affiliation:**
-The class is almost exclusively practiced by the Velun Neth, whose biology (being unable to lie) provides the absolute honesty required to submit contracts to Morvane without triggering a catastrophic, soul-fading breach of terms. Non-Neth would breach First Contract terms causing soul-fading.
+The class is almost exclusively practiced by the Velun Neth, whose mastery of Immutable Syntax provides the absolute legal precision required to submit contracts to Morvane without triggering a catastrophic, soul-fading breach of terms.
 
 Three Neth sub-variants exist:
-- **Velun Neth ("The Contract-Caster")**: The original tradition. Every incantation is a legally-binding document. The inability to lie is the engine, not a cost. Mnemonic Shards crystallize as volatile spell-anchors.
+- **Velun Neth ("The Contract-Caster")**: The original tradition. Every incantation is a legally-binding document. Immutable Syntax is the engine. Mnemonic Shards crystallize as volatile spell-anchors.
 - **Kessen Neth ("The Clause-Weaver")**: Perceive the obligation-web connecting every living thing to every contract. Silver blood crystallizes into filament-thin threads latching onto existing obligation-nodes. More adaptive but less absolute than the Velun method.
 - **Drun Neth ("The Severed-Caster")**: Severed their names from the First Contract through the fire-ritual of the Severing. Should be an impossibility — they cast by re-enacting clauses they no longer have standing to file. Their magic is erratic, painful, and terrifyingly creative. Scar-Shards detonate on impact.
 

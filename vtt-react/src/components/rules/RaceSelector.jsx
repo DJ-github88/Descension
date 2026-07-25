@@ -1626,16 +1626,20 @@ const RaceSelector = () => {
                 return null;
               })()}
 
-              {raceData.baseTraits && (
+              {(() => {
+                if (!raceData.baseTraits) return null;
+                const displayedTraits = { ...raceData.baseTraits, ...(variantData?.baseTraits || {}) };
+                return (
                 <div className="sidebar-physical">
-                  {raceData.baseTraits.size && <div className="sidebar-stat-row"><span>Size</span><strong>{raceData.baseTraits.size}</strong></div>}
-                  {raceData.baseTraits.height && <div className="sidebar-stat-row"><span>Height</span><strong>{raceData.baseTraits.height}</strong></div>}
-                  {raceData.baseTraits.weight && <div className="sidebar-stat-row"><span>Weight</span><strong>{raceData.baseTraits.weight}</strong></div>}
-                  {raceData.baseTraits.baseSpeed && <div className="sidebar-stat-row"><span>Speed</span><strong>{raceData.baseTraits.baseSpeed} ft</strong></div>}
-                  {raceData.baseTraits.lifespan && <div className="sidebar-stat-row"><span>Lifespan</span><strong>{raceData.baseTraits.lifespan}</strong></div>}
-                  {raceData.baseTraits.languages && <div className="sidebar-stat-row sidebar-stat-row-full"><span>Languages</span><strong>{raceData.baseTraits.languages.join(', ')}</strong></div>}
+                  {displayedTraits.size && <div className="sidebar-stat-row"><span>Size</span><strong>{displayedTraits.size}</strong></div>}
+                  {displayedTraits.height && <div className="sidebar-stat-row"><span>Height</span><strong>{displayedTraits.height}</strong></div>}
+                  {displayedTraits.weight && <div className="sidebar-stat-row"><span>Weight</span><strong>{displayedTraits.weight}</strong></div>}
+                  {displayedTraits.baseSpeed && <div className="sidebar-stat-row"><span>Speed</span><strong>{displayedTraits.baseSpeed} ft</strong></div>}
+                  {displayedTraits.lifespan && <div className="sidebar-stat-row"><span>Lifespan</span><strong>{displayedTraits.lifespan}</strong></div>}
+                  {displayedTraits.languages && <div className="sidebar-stat-row sidebar-stat-row-full"><span>Languages</span><strong>{displayedTraits.languages.join(', ')}</strong></div>}
                 </div>
-              )}
+                );
+              })()}
             </aside>
 
             {/* RIGHT CONTENT: Subrace + Appearance + Traits + Lore */}

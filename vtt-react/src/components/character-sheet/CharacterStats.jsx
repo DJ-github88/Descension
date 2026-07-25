@@ -1015,7 +1015,7 @@ export default function CharacterStats() {
             stats: Object.entries(DAMAGE_TYPES)
                 .filter(([type]) => {
                     // Exclude physical damage types - they don't have spell power
-                    const physicalTypes = ['bludgeoning', 'piercing', 'slashing'];
+                    const physicalTypes = ['smashing', 'stabbing', 'slicing', 'ranged', 'physical'];
                     return !physicalTypes.includes(type);
                 })
                 .map(([type, data]) => ({
@@ -1357,10 +1357,14 @@ export default function CharacterStats() {
                                         'nature': 'primal',
                                         'primal': 'primal',
                                         'arcane': 'arcane',
-                                        'bludgeoning': 'physical',
-                                        'piercing': 'physical',
-                                        'slashing': 'physical',
-                                        'physical': 'physical'
+                                        'bludgeoning': 'smashing',
+                                        'smashing': 'smashing',
+                                        'piercing': 'stabbing',
+                                        'stabbing': 'stabbing',
+                                        'slashing': 'slicing',
+                                        'slicing': 'slicing',
+                                        'ranged': 'ranged',
+                                        'physical': 'smashing'
                                     };
                                     
                                     // Check if this immunity matches the damage type

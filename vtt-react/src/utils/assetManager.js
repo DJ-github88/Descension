@@ -27,11 +27,11 @@ export const ASSET_PATHS = {
 
 // Default fallback icons for each category
 export const FALLBACK_ICONS = {
-  spell: 'exclamation-mark-alert',
-  item: 'Misc/Books/book-brown-teal-question-mark', // Local item fallback
-  creature: 'exclamation-mark-alert',
-  ability: 'exclamation-mark-alert',
-  ui: 'exclamation-mark-alert'
+  spell: 'Arcane/Abstract Rune',
+  item: 'Misc/Books/book-brown-decorative-panels', // Local item fallback
+  creature: 'Utility/Utility',
+  ability: 'Utility/Utility',
+  ui: 'Utility/Utility'
 };
 
 /**

@@ -51,7 +51,11 @@ const MapCanvas = ({
 
   // Dev move/select props
   selectedDevPinId,
-  onSelectForMove
+  onSelectForMove,
+
+  // Dual Map Mode props
+  mapVersion,
+  onToggleMapVersion
 }) => {
   const transformRef = useRef(null);
   const [driftEnabled, setDriftEnabled] = useState(false);
@@ -354,7 +358,7 @@ const MapCanvas = ({
                   style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative', cursor: toolCursor || undefined }}
                 >
                 <img
-                  src={MAP_IMAGE_PATH}
+                  src={mapVersion === 'legacy' ? `${process.env.PUBLIC_URL || ''}/assets/images/watercolor_map.png` : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}
                   alt="Mythrill World Map"
                   style={{
                     width: MAP_WIDTH,
@@ -554,6 +558,8 @@ const MapCanvas = ({
               onClose={onClose}
               devMode={devMode}
               onToggleDev={onToggleDev}
+              mapVersion={mapVersion}
+              onToggleMapVersion={onToggleMapVersion}
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>

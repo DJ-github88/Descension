@@ -423,7 +423,7 @@ export const convertWowIconToLocal = (wowIconId) => {
     return 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes';
   }
   if (wowIconId.startsWith('inv_misc_book_')) {
-    return 'Misc/Books/book-brown-teal-question-mark';
+    return 'Misc/Books/book-brown-decorative-panels';
   }
   if (wowIconId.startsWith('inv_misc_coin_')) {
     return 'Currency/coin-gold-simple';

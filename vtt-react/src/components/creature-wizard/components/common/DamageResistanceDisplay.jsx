@@ -14,21 +14,37 @@ const DamageResistanceDisplay = ({ resistances = {}, vulnerabilities = {} }) => 
   // Get proper ability icon URL for damage types
   const getDamageTypeIconUrl = (damageTypeId) => {
     const iconMap = {
-      'fire': 'Fire/Volcanic Corruption',
-      'cold': 'Frost/Frostbite Variant 2',
-      'lightning': 'Lightning/Thunderstorm',
-      'acid': 'Poison/Poison Venom 4',
+      'smashing': 'Bludgeoning/Hammer',
+      'stabbing': 'Piercing/Piercing Thrust 3',
+      'slicing': 'Slashing/Slashing Slash',
+      'ranged': 'Piercing/Arrow Shot',
+      'meleeweapon': 'Slashing/Crossed Swords',
+      'physical': 'Slashing/Crossed Swords',
+      'ember': 'Fire/Burning Ember',
+      'rime': 'Frost/Dripping Ice',
+      'storm': 'Lightning/Lightning Bolt',
+      'primal': 'Nature/Beast Mark',
+      'arcane': 'Arcane/Ebon Blaze',
+      'blight': 'Necrotic/Blood Book',
+      'wyrd': 'Psychic/Psychic Mind',
+      'sacred': 'Radiant/Radiant Sunburst',
+      'fire': 'Fire/Burning Ember',
+      'cold': 'Frost/Dripping Ice',
+      'frost': 'Frost/Dripping Ice',
+      'lightning': 'Lightning/Lightning Bolt',
+      'acid': 'Poison/Poison Venom',
       'force': 'Force/Force Touch',
-      'necrotic': 'Necrotic/Necrotic Wither',
-      'radiant': 'Radiant/Radiant Light 5',
-      'poison': 'Poison/Poison Venom 4',
-      'psychic': 'Psychic/Psychic Telepathy',
-      'thunder': 'Lightning/Thunderstorm',
-      'bludgeoning': 'Bludgeoning/Hammer Crush',
+      'necrotic': 'Necrotic/Blood Book',
+      'radiant': 'Radiant/Radiant Sunburst',
+      'poison': 'Poison/Poison Venom',
+      'psychic': 'Psychic/Psychic Mind',
+      'thunder': 'Lightning/Lightning Bolt',
+      'bludgeoning': 'Bludgeoning/Hammer',
       'piercing': 'Piercing/Piercing Thrust 3',
       'slashing': 'Slashing/Slashing Slash'
     };
-    return getCustomIconUrl(iconMap[damageTypeId] || 'Utility/Utility', 'abilities');
+    const key = damageTypeId ? damageTypeId.toLowerCase() : '';
+    return getCustomIconUrl(iconMap[key] || 'Utility/Utility', 'abilities');
   };
 
   // Combine resistances and vulnerabilities into a single object for easier processing

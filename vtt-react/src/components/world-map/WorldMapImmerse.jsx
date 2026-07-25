@@ -78,6 +78,12 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
  const [selectedRegionId, setSelectedRegionId] = useState(null);
  const [selectedLocationId, setSelectedLocationId] = useState(null);
  const [hoveredRegionId, setHoveredRegionId] = useState(null);
+
+ // Dual Map Mode: 'modern' (Map 2.0 Student Edition) vs 'legacy' (Map 1.0 Watercolor)
+ const [mapVersion, setMapVersion] = useState('modern');
+ const toggleMapVersion = useCallback(() => {
+   setMapVersion(prev => (prev === 'modern' ? 'legacy' : 'modern'));
+ }, []);
  
  const [updateTrigger, setUpdateTrigger] = useState(0);
 
@@ -848,6 +854,8 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
     selectedDevPinId={selectedDevPinId}
     setSelectedDevPinId={setSelectedDevPinId}
     updateTrigger={updateTrigger}
+    mapVersion={mapVersion}
+    onToggleMapVersion={toggleMapVersion}
    />
 
    {customConfirm.isOpen && (

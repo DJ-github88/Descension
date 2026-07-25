@@ -15,7 +15,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'frostwood-south-reach': {
     id: 'frostwood-south-reach',
-    name: 'The Southern Reach',
+    name: 'The Ironheart Vales',
     regionId: 'frostwood-reach',
     description: 'The warmer, denser southern half of the Frostwood Reach, closest to the world-heart and the volcanic warmth bleeding out of Sundale. The ironwood here is the oldest and tallest in the region, and the fog is at its thickest. This is Thalreth country: the Sovereign Ledger is enforced at every check-post, the Scribe-Cartel holds its monopoly on ink, and the Mist-Sentinels patrol the Ironwood Palisade.',
     climate: 'Cool-temperate, damp, fog-bound year-round',
@@ -26,7 +26,7 @@ export const SUBREGIONS = {
   },
   'frostwood-north-reach': {
     id: 'frostwood-north-reach',
-    name: 'The Northern Reach',
+    name: 'The Frostfang Wastes',
     regionId: 'frostwood-reach',
     description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jutul-like beings in the deep wastes, but the few who travel that far rarely return to confirm.',
     climate: 'Sub-arctic, biting wind, summer lasts eight weeks',
@@ -37,7 +37,7 @@ export const SUBREGIONS = {
   },
   'frostwood-eastern-fens': {
     id: 'frostwood-eastern-fens',
-    name: 'The Eastern Fens',
+    name: 'The Drowned Fens',
     regionId: 'frostwood-reach',
     description: 'A lawless stretch of peat-bog and brackish marsh on the eastern fringe of the Reach, where the fog thins into a low, clinging haze. The Forgotten, undocumented people stripped of their rights by the Sovereign Ledger, hide here, alongside the Mimir outcasts and the most desperate Florae exiles.',
     climate: 'Damp, hazier than the rest of the Reach, mild',
@@ -52,7 +52,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'nordhalla-glacier-heart': {
     id: 'nordhalla-glacier-heart',
-    name: 'The Glacier-Heart',
+    name: 'Frosthold Pass & Rime-Spire Peaks',
     regionId: 'nordhalla',
     description: 'The cold, sparsely populated interior of Nordhalla, endless whiteout glaciers, shifting crevasses, and the brooding peaks that mark the spine of the continent. The Frost-Tithe mothers and the Hunger Pact consumptions happen here. The Rime-Born, the Frostbound, and the Stel (glacier-memories given form) stalk these wastes.',
     climate: 'Polar, perpetual blizzard in winter, brief white summer',
@@ -63,7 +63,7 @@ export const SUBREGIONS = {
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
-    name: 'The Fjord-Coast',
+    name: 'Stormveil Fjords',
     regionId: 'nordhalla',
     description: 'The long eastern seaboard of Nordhalla, where the black fjords cut deep into the cliff walls. This is the warmest, most populated face of the continent. The only place where agriculture is possible, where trade ships can dock, and where the Icechamber Syndicate runs its monopoly. The Fastboende (settled loyalists) cluster here; the Fredl�se (outlaw clans) try to survive on the edges.',
     climate: 'Cold-temperate maritime, moderated by sea',
@@ -74,7 +74,7 @@ export const SUBREGIONS = {
   },
   'nordhalla-southern-shore': {
     id: 'nordhalla-southern-shore',
-    name: 'The Southern Shore',
+    name: 'Brimstone Shore',
     regionId: 'nordhalla',
     description: 'The southern coast of Nordhalla, facing the open sea toward Sundale. Less defended than the Fjord-Coast; the Skald navy patrols, but smugglers and Fredl�se raiders use the long, broken shoreline to slip past the Icechamber Syndicate. Xardin\'s Hearth, the southernmost major settlement, sits on a volcanic vent that keeps the harbor ice-free year-round.',
     climate: 'Cold but milder, sea-moderated',
@@ -89,7 +89,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'sundale-ash-heart': {
     id: 'sundale-ash-heart',
-    name: 'The Ash-Heart',
+    name: 'Emberspire Caldera & Cinder Badlands',
     regionId: 'sundale',
     description: 'The dead volcanic core of Sundale, a ring of obsidian and basalt around Emberspire that no one lives in and few cross. The Spinstones Columns, the Cinderbloom Crater, the Sunstone Mesa, the Emberspire Caldera itself, all volcanic features, all lethal without preparation. The Wyrd bleeds thickest here.',
     climate: 'Uninhabitable, ash-fall, sulfuric fumes',
@@ -100,7 +100,7 @@ export const SUBREGIONS = {
   },
   'sundale-ashen-fringe': {
     id: 'sundale-ashen-fringe',
-    name: 'The Ashen Fringe',
+    name: 'Sootstone Escarpment',
     regionId: 'sundale',
     description: 'The wide ring of ashen flatland and volcanic rock that surrounds the Ash-Heart. The bulk of Sundale\'s population lives here, the Ash-Dwellers who work the sulfur mines, the Solvarn refugees clinging to their ancient capital, the Solari forge-clans whose forges burn on the residual heat. The Dawn Vigil\'s Obsidian Citadels ring the Ashen Escarpment that separates the fringe from the green lands beyond.',
     climate: 'Hot, dry, ash-fall, cool at night',
@@ -111,7 +111,7 @@ export const SUBREGIONS = {
   },
   'sundale-green-rim': {
     id: 'sundale-green-rim',
-    name: 'The Green Rim',
+    name: 'Warmhearth Valley & Meadowglen Shallows',
     regionId: 'sundale',
     description: 'The coastal ring of Sundale, green because the volcanic heat meets the sea and the resulting microclimate supports life. Fishing villages, port towns, oasis-like sheltered valleys, and the famous meadow-lands that the Dawn Vigil struggles to control. This is where the rest of the world trades with Sundale. Meadowglen in the north is the most fertile valley in the region.',
     climate: 'Warm, mild winters, sea-breezes',
@@ -122,7 +122,7 @@ export const SUBREGIONS = {
   },
   'sundale-glitterwood': {
     id: 'sundale-glitterwood',
-    name: 'The Glitterwood (Forested Half-Island)',
+    name: 'Glitterwood Ridge & Glimmering Forest',
     regionId: 'sundale',
     description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.',
     climate: 'Warm, humid, sheltered by mountain spine',
@@ -170,7 +170,7 @@ export const SUBREGIONS = {
   },
   'iceheart-northern-iceflows': {
     id: 'iceheart-northern-iceflows',
-    name: 'The Northern Ice-Flows',
+    name: 'The Frozen-Flows',
     regionId: 'iceheart-sea',
     description: 'The northern edge of the Iceheart Sea, where the waters freeze into icebergs the size of cities. Ancient ruins protrude from the bergs. First Shore is the largest, the original Mereval landing site, now preserved as a pilgrimage. Few venture here. The Berg-Witches and the Boreal Huldra live in the floes.',
     climate: 'Polar marine, ice-floe year-round',
@@ -181,7 +181,7 @@ export const SUBREGIONS = {
   },
   'iceheart-western-isles': {
     id: 'iceheart-western-isles',
-    name: 'The Western Isles',
+    name: 'The Saryreach Isles',
     regionId: 'iceheart-sea',
     description: 'The chain of broken islands along the western edge of the Iceheart Sea, the boundary between the Merryn and the continental coasts. Saryreach Castle, the largest, was once a Mereval naval fortress and is now a pirate-queen\'s seat. Smaller islands host smuggler-coves, exile colonies, and the Mer-Court of the Tides.',
     climate: 'Cold maritime, fog-belt, salt-spray',
@@ -200,6 +200,83 @@ export const SUBREGIONS = {
     primaryRaces: ['Merryn smugglers', 'Neth Velun (exiles)', 'Vreken (in the deeper pools)'],
     primaryFactions: ['Saltmaw Free-Port', 'Neth exile community', 'Forgotten-Cult of the Mawed Sea'],
     zoneIds: ['the-saltmaw-estuary']
+  },
+  'iceheart-waters-of-eziara': {
+    id: 'iceheart-waters-of-eziara',
+    name: 'The Waters of Eziara',
+    regionId: 'iceheart-sea',
+    description: 'The vast central ocean basin separating Sundale, Cragjaw, and Sundrift Vale. The primary shipping lane of the known world, patrolled by Merryn merchant fleets and targeted by Leviathan Empire Siren raids.',
+    climate: 'Maritime, brisk sea gales, mist-veils',
+    dominantTerrain: 'Open deep ocean, merchant shipping lanes, abyssal thermal vents',
+    primaryRaces: ['Merryn traders', 'High Neth diplomats', 'Siren Queens'],
+    primaryFactions: ['Merryn Trade Guild', 'Leviathan Empire', 'Crown Coalition Patrols'],
+    zoneIds: ['waters-of-eziara']
+  },
+  'iceheart-three-dukes': {
+    id: 'iceheart-three-dukes',
+    name: 'The Three Dukes Spire Chain',
+    regionId: 'iceheart-sea',
+    description: 'Three towering basalt sea-spires standing between southern Nordhalla and northern Sundale, named after rebel Skald dukes who fled the Glacier Bargain.',
+    climate: 'Cold maritime, sea-foam spray',
+    dominantTerrain: 'Basalt sea-spires, sea-caves, sunken ruins',
+    primaryRaces: ['Skald Exiles', 'Spectral Dukedom shades'],
+    primaryFactions: ['Three Dukes Confederacy', 'Fredløse pirates'],
+    zoneIds: ['the-three-dukes']
+  },
+  'iceheart-twin-gates': {
+    id: 'iceheart-twin-gates',
+    name: 'The Twin Gates Strait',
+    regionId: 'iceheart-sea',
+    description: 'A narrow, cliff-flanked sea strait at the mouth of the East Sea. The primary naval choke-point where Crown Coalition warships demand trade tolls.',
+    climate: 'Windy sea strait, high cliffs',
+    dominantTerrain: 'Granite sea-pillars, narrow channel, toll-towers',
+    primaryRaces: ['Crown Coalition naval officers', 'Solvarn island guards'],
+    primaryFactions: ['Crown Coalition Navy', 'Board of Trade'],
+    zoneIds: ['the-twin-gates']
+  },
+  'sundale-flooded-hills': {
+    id: 'sundale-flooded-hills',
+    name: 'The Flooded Hills',
+    regionId: 'sundale',
+    description: 'A marshy, island-dotted archipelago of semi-submerged hills connecting southern Sundale to northern Sundrift Vale, formed when Mereval sea-bargains flooded the lowland valleys.',
+    climate: 'Warm, humid marsh mist',
+    dominantTerrain: 'Flooded hilltops, shallow reed-bogs, stilt-passages',
+    primaryRaces: ['Clean & Marked Vreken', 'Myrathil amphibious traders'],
+    primaryFactions: ['Flooded Hills Free-Port', 'Scoured Syndicate smugglers'],
+    zoneIds: ['the-flooded-hills']
+  },
+  'sundale-heathens-gate': {
+    id: 'sundale-heathens-gate',
+    name: 'Heathens Gate',
+    regionId: 'sundale',
+    description: 'A volcanic sea-chasm surrounded by black obsidian reefs north of Sundale, used by Scoured Syndicate cultists to perform dark solar rituals.',
+    climate: 'Sulfuric heat, ocean sea-spray',
+    dominantTerrain: 'Obsidian sea-chasm, volcanic reefs, sacrificial altars',
+    primaryRaces: ['Scoured Syndicate cultists', 'False Prophets'],
+    primaryFactions: ['Scoured Syndicate', 'Coven of the Unbound'],
+    zoneIds: ['heathens-gate']
+  },
+  'frostwood-frostdeep-gloom': {
+    id: 'frostwood-frostdeep-gloom',
+    name: 'Frostdeep Gloom',
+    regionId: 'frostwood-reach',
+    description: 'An ominous, fog-choked rift valley where petrified ironwoods meet the granite cliffs of Cragjaw Peaks, serving as a strategic mountain-pass battleground.',
+    climate: 'Sub-arctic, dense freezing fog',
+    dominantTerrain: 'Glacial valley, petrified ironwoods, granite precipices',
+    primaryRaces: ['Skald Expatriates', 'Stone-Tribal Humans', 'Frostbound colossi'],
+    primaryFactions: ['Crown Coalition Vanguard', 'Blood-Hammer Highlands Wardens'],
+    zoneIds: ['frostdeep-gloom']
+  },
+  'frostwood-deep-of-ilisha': {
+    id: 'frostwood-deep-of-ilisha',
+    name: 'The Deep of Ilisha',
+    regionId: 'frostwood-reach',
+    description: 'A sheltered, deep-water gulf between Sundale and Frostwood Reach, filled with pre-Binding sunken shipwrecks and submerged archives.',
+    climate: 'Cool-temperate marine, mist-shrouded',
+    dominantTerrain: 'Deep-water gulf, coastal coves, underwater ruins',
+    primaryRaces: ['Thalren mariners', 'Sea-Scribes'],
+    primaryFactions: ['Scribe-Cartel Fleet', 'Thalreth Naval Wardens'],
+    zoneIds: ['the-deep-of-ilisha']
   },
 
   // ========================================================================
@@ -244,7 +321,7 @@ export const SUBREGIONS = {
   // ========================================================================
   'sundrift-long-steppe': {
     id: 'sundrift-long-steppe',
-    name: 'The Long-Steppe Commons',
+    name: 'The Endless Steppe',
     regionId: 'sundrift-vale',
     description: 'The vast central plain of the Sundrift Vale, endless grass, endless wind, endless migration. The Mounted clans roam here, following the mare-herds across The Long Steppe and the Grass Tundra. Few landmarks. The Unlit Knoll rises in the distance. The Lien-Stalked Grazes glow faintly at night.',
     climate: 'Cold-temperate steppe, perpetual wind, mild summers',
@@ -347,7 +424,7 @@ export const SUBREGIONS = {
   },
   'bryngloom-great-mere': {
     id: 'bryngloom-great-mere',
-    name: 'The Great Mere Basin',
+    name: 'The Great Mere',
     regionId: 'bryngloom-forest',
     description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Vreken shrines hide on the western islands; an old Velun monastery stands on the largest. The lake level rises and falls with the moon.',
     climate: 'Damp, mild, the islands have their own microclimates',

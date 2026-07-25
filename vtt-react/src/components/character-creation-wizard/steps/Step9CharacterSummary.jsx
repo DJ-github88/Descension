@@ -479,10 +479,12 @@ const formatDescriptionText = (text) => {
 
       if (textToSearch.includes('resistance') || textToSearch.includes('resistant')) {
         let type = 'General';
-        if (textToSearch.includes('cold')) type = 'Cold';
-        else if (textToSearch.includes('poison')) type = 'Poison';
-        else if (textToSearch.includes('fire')) type = 'Fire';
-        else if (textToSearch.includes('psychic')) type = 'Psychic';
+        if (textToSearch.includes('rime') || textToSearch.includes('cold')) type = 'Rime';
+        else if (textToSearch.includes('blight') || textToSearch.includes('poison')) type = 'Blight';
+        else if (textToSearch.includes('ember') || textToSearch.includes('fire')) type = 'Ember';
+        else if (textToSearch.includes('wyrd') || textToSearch.includes('psychic')) type = 'Wyrd';
+        else if (textToSearch.includes('storm') || textToSearch.includes('lightning')) type = 'Storm';
+        else if (textToSearch.includes('sacred') || textToSearch.includes('radiant')) type = 'Sacred';
         else if (textToSearch.includes('magic')) type = 'Magic';
         else if (textToSearch.includes('charm')) type = 'Charm';
         else if (textToSearch.includes('possession') || textToSearch.includes('domination')) type = 'Control';
@@ -490,15 +492,16 @@ const formatDescriptionText = (text) => {
         resistances.push({ name, type, desc });
       } else if (textToSearch.includes('immune') || textToSearch.includes('immunity')) {
         let type = 'General';
-        if (textToSearch.includes('poison')) type = 'Poison';
+        if (textToSearch.includes('blight') || textToSearch.includes('poison')) type = 'Blight';
         else if (textToSearch.includes('fear')) type = 'Fear';
         else if (textToSearch.includes('ash')) type = 'Ashfall';
         
         immunities.push({ name, type, desc });
       } else if (textToSearch.includes('vulnerab')) {
         let type = 'General';
-        if (textToSearch.includes('cold')) type = 'Cold';
-        else if (textToSearch.includes('heat') || textToSearch.includes('fire')) type = 'Heat/Fire';
+        if (textToSearch.includes('rime') || textToSearch.includes('cold')) type = 'Rime';
+        else if (textToSearch.includes('ember') || textToSearch.includes('heat') || textToSearch.includes('fire')) type = 'Ember';
+        else if (textToSearch.includes('blight')) type = 'Blight';
         
         vulnerabilities.push({ name, type, desc });
       } else {

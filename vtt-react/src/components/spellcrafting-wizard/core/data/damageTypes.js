@@ -1,64 +1,91 @@
 
 const DAMAGE_TYPES = [
     {
-      id: 'physical',
-      name: 'Physical',
-      description: 'Martial damage from weapons, claws, and brute force. Bludgeoning, piercing, and slashing are weapon properties.',
+      id: 'smashing',
+      name: 'Smashing',
+      description: 'Concussive physical impact from heavy warhammers, blunt strikes, kinetic shockwaves, and stone crushing.',
       icon: '/assets/icons/abilities/Bludgeoning/Hammer.png',
       category: 'physical',
       commonResistance: 'heavy armor',
-      commonVulnerability: 'constructs'
+      commonVulnerability: 'brittle constructs'
+    },
+    {
+      id: 'stabbing',
+      name: 'Stabbing',
+      description: 'Piercing physical thrusts from spears, daggers, rapiers, stakes, and armor-puncturing strikes.',
+      icon: '/assets/icons/abilities/Piercing/Piercing Thrust 3.png',
+      category: 'physical',
+      commonResistance: 'padded armor',
+      commonVulnerability: 'unarmored beasts'
+    },
+    {
+      id: 'slicing',
+      name: 'Slicing',
+      description: 'Cutting physical edges from glaives, longswords, crescent blades, and razor-sharp kinetic sweeps.',
+      icon: '/assets/icons/abilities/Slashing/Slashing Slash.png',
+      category: 'physical',
+      commonResistance: 'plate armor',
+      commonVulnerability: 'soft flesh'
+    },
+    {
+      id: 'ranged',
+      name: 'Ranged',
+      description: 'Physical projectile damage from longbows, crossbow bolts, thrown daggers, and kinetic missiles.',
+      icon: '/assets/icons/abilities/Piercing/Arrow Shot.png',
+      category: 'physical',
+      commonResistance: 'shields',
+      commonVulnerability: 'open targets'
     },
     {
       id: 'ember',
       name: 'Ember',
-      description: 'Scorching heat and sacred light from Sol\'s buried warmth.',
-      icon: '/assets/icons/abilities/Fire/Fire Orb.png',
+      description: 'Scorching heat from Sol\'s subterranean furnace and Scathrach\'s vents.',
+      icon: '/assets/icons/abilities/Fire/Burning Ember.png',
       category: 'elemental',
-      commonResistance: 'red dragons, fire elementals',
-      commonVulnerability: 'undead, plants, ice creatures'
+      commonResistance: 'volcanic beasts, fire elementals',
+      commonVulnerability: 'undead, plants, rime creatures'
     },
     {
       id: 'rime',
       name: 'Rime',
       description: 'The frozen world\'s grip. Icy energy that slows, freezes, and shatters.',
-      icon: '/assets/icons/abilities/Frost/Frost Bolt.png',
+      icon: '/assets/icons/abilities/Frost/Dripping Ice.png',
       category: 'elemental',
-      commonResistance: 'ice elementals, white dragons',
-      commonVulnerability: 'fire creatures, water elementals'
+      commonResistance: 'ice elementals, glacier beasts',
+      commonVulnerability: 'ember creatures, water elementals'
     },
     {
       id: 'storm',
       name: 'Storm',
-      description: 'Kinetic fury from lightning, thunder, and concussive force.',
+      description: 'Kinetic fury from lightning, thunder, and concussive pressure-veins.',
       icon: '/assets/icons/abilities/Lightning/Lightning Bolt.png',
       category: 'elemental',
-      commonResistance: 'blue dragons, air elementals',
+      commonResistance: 'storm elementals',
       commonVulnerability: 'creatures in metal armor, water-based creatures'
-    },
-    {
-      id: 'arcane',
-      name: 'Arcane',
-      description: 'Pure magic. Binding ritual residue and raw arcane energy.',
-      icon: '/assets/icons/abilities/Arcane/Arcane.png',
-      category: 'arcane',
-      commonResistance: 'arcane golems, magic-resistant creatures',
-      commonVulnerability: 'non-magical creatures, constructs'
     },
     {
       id: 'primal',
       name: 'Primal',
-      description: 'Living things and growth. The world\'s refusal to die.',
-      icon: '/assets/icons/abilities/Nature/Natural.png',
+      description: 'Living roots, beast instincts, and the planet\'s raw refusal to die.',
+      icon: '/assets/icons/abilities/Nature/Beast Mark.png',
       category: 'elemental',
-      commonResistance: 'nature-aligned creatures, druids',
+      commonResistance: 'nature-aligned creatures',
       commonVulnerability: 'undead, constructs, corrupted beings'
+    },
+    {
+      id: 'arcane',
+      name: 'Arcane',
+      description: 'Pure magic force and legalist contract syntax.',
+      icon: '/assets/icons/abilities/Arcane/Ebon Blaze.png',
+      category: 'arcane',
+      commonResistance: 'magic-resistant constructs',
+      commonVulnerability: 'non-magical creatures'
     },
     {
       id: 'blight',
       name: 'Blight',
-      description: 'Keth-Amar\'s corruption. Necrotic decay, Silence consumption, poison, and acid.',
-      icon: '/assets/icons/abilities/Necrotic/Drain Life.png',
+      description: 'Corrosive spores, peat-decay, acidic runoff, poison, and pestilence.',
+      icon: '/assets/icons/abilities/Necrotic/Blood Book.png',
       category: 'otherworldly',
       commonResistance: 'undead, constructs',
       commonVulnerability: 'living creatures, plants'
@@ -66,11 +93,20 @@ const DAMAGE_TYPES = [
     {
       id: 'wyrd',
       name: 'Wyrd',
-      description: 'Spiritual rot. Chaotic and psychic energy that warps minds and fractures reality.',
-      icon: '/assets/icons/abilities/Psychic/Purple Star.png',
+      description: 'Entropic chaos, fate manipulation, mind magic, and psychic decay.',
+      icon: '/assets/icons/abilities/Psychic/Psychic Mind.png',
       category: 'otherworldly',
       commonResistance: 'mindless creatures, constructs',
-      commonVulnerability: 'intelligent creatures, psionic beings'
+      commonVulnerability: 'intelligent creatures'
+    },
+    {
+      id: 'sacred',
+      name: 'Sacred',
+      description: 'Golden harmonic light, divine protection, and binding order.',
+      icon: '/assets/icons/abilities/Radiant/Radiant Sunburst.png',
+      category: 'sacred',
+      commonResistance: 'sacred sentinels',
+      commonVulnerability: 'corrupted beings, breach-beasts'
     },
     {
       id: 'healing',
@@ -78,21 +114,31 @@ const DAMAGE_TYPES = [
       description: 'Restorative energy that repairs damage and restores vitality.',
       icon: '/assets/icons/abilities/Healing/Golden Heart.png',
       category: 'restorative',
-      commonResistance: 'undead (reversed)',
+      commonResistance: 'none',
       commonVulnerability: 'living creatures'
     },
 ];
 
 const LEGACY_TYPE_MAP = {
+    physical: 'smashing',
+    bludgeoning: 'smashing',
+    smashing: 'smashing',
+    piercing: 'stabbing',
+    stabbing: 'stabbing',
+    slashing: 'slicing',
+    slicing: 'slicing',
+    ranged: 'ranged',
     cold: 'rime',
     ice: 'rime',
     frost: 'rime',
     fire: 'ember',
-    radiant: 'ember',
-    sacred: 'ember',
+    radiant: 'sacred',
+    sacred: 'sacred',
+    holy: 'sacred',
+    divine: 'sacred',
     electric: 'storm',
     lightning: 'storm',
-    force: 'storm',
+    force: 'arcane',
     thunder: 'storm',
     shadow: 'blight',
     necrotic: 'blight',
@@ -103,14 +149,11 @@ const LEGACY_TYPE_MAP = {
     nature: 'primal',
     chaos: 'wyrd',
     psychic: 'wyrd',
-    bludgeoning: 'physical',
-    piercing: 'physical',
-    slashing: 'physical',
 };
 
-const PHYSICAL_TYPES = ['physical'];
+const PHYSICAL_TYPES = ['smashing', 'stabbing', 'slicing', 'ranged'];
 
-const WEAPON_PROPERTIES = ['bludgeoning', 'piercing', 'slashing'];
+const WEAPON_PROPERTIES = ['smashing', 'stabbing', 'slicing', 'ranged'];
 
 
 const getDamageTypeById = (id) => {

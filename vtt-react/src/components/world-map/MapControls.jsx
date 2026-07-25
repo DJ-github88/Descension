@@ -7,7 +7,9 @@ const MapControls = ({
   resetTransform,
   onClose,
   devMode,
-  onToggleDev
+  onToggleDev,
+  mapVersion,
+  onToggleMapVersion
 }) => {
   const { lockedRegions, toggleAllRegionLocks } = useWorldStore();
   const allUnlocked = lockedRegions.length === 0;
@@ -52,6 +54,14 @@ const MapControls = ({
         title={allUnlocked ? "Lock all regions (except starting zone)" : "Bypass all region locks"}
       >
         <i className={`fas ${allUnlocked ? 'fa-unlock' : 'fa-lock'}`}></i>
+      </button>
+
+      <button
+        className={`map-ctrl-btn map-ctrl-version ${mapVersion === 'legacy' ? 'active' : ''}`}
+        onClick={onToggleMapVersion}
+        title={mapVersion === 'legacy' ? "Switch to Map 2.0 (Student Edition)" : "Switch to Map 1.0 (Legacy Watercolor)"}
+      >
+        <i className="fas fa-layer-group"></i>
       </button>
 
       <button

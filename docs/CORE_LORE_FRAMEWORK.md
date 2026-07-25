@@ -22,12 +22,12 @@ Keth-Amar does not personally create most Wyrd-Spawns. It seeds the soil (Wyrd-T
 
 Six principal entities (with the Dead Moon treated separately). Clear roles. No overlap.
 
-### 1.1  -  The Warden (true name: Aethil)
-- **True name: Aethil** (pronounced AY-thil). "The Warden" is the common title/descriptor. Ratified 16 Jul 2026 (see DECISIONS D1). This entity is distinct from the **Warden class** (the chain-surgeon tradition founded by Alaric).
-- Not a god, not a person, not a force. The **language reality speaks**. The grammar of consequence.
-- Every bargain has a price. The Warden does not *choose* the price  -  the price simply *is*. Naming Aex wasn't a decision; that's the exchange rate for caging a star.
-- The Warden has no will, no agenda, no preference. It is the rule that a cost exists.
-- Keth-Amar operates *within* the Warden's framework. Every Dark Bargain was legal under the Warden's system. Keth-Amar has never broken a bargain  -  it writes them better.
+### 1.1  -  Aethil (The Sovereign Grammar / Aethil the Arbiter)
+- **Name: Aethil** (pronounced AY-thil). The title "The Warden" is retired to avoid Shadowlands/monotonous rep and to distinguish from the **Warden class** (the chain-surgeon tradition founded by Alaric).
+- Not a god, not a person, not a force. The **language reality speaks**. The Sovereign Grammar of consequence.
+- Every bargain has a price. Aethil does not *choose* the price  -  the price simply *is*. Naming Aex wasn't a decision; that's the exchange rate for caging a star.
+- Aethil has no will, no agenda, no preference. It is the rule that a cost exists.
+- Keth-Amar operates *within* Aethil's framework. Every Dark Bargain was legal under Aethil's system. Keth-Amar has never broken a bargain  -  it writes them better.
 
 ### 1.2  -  Keth-Amar
 - A cosmic predator that hunts stars in their vulnerable Deepening cycle. Ancient, patient, **cunning**.

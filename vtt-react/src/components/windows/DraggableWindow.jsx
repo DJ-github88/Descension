@@ -227,14 +227,10 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag - use requestAnimationFrame to throttle React state updates.
-    // react-draggable itself handles the visual movement via its own transform;
-    // we only need to sync our position state at most once per frame.
+    // Handle drag - use requestAnimationFrame to throttle controlled Draggable position updates to max 1 per frame
     const handleDrag = useCallback((e, data) => {
-        // Always keep the ref up-to-date (used by handleDragStop)
         positionRef.current = { x: data.x, y: data.y };
 
-        // Throttle the React state update to one per animation frame
         if (!rafHandleRef.current) {
             rafHandleRef.current = requestAnimationFrame(() => {
                 rafHandleRef.current = null;

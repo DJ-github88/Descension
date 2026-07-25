@@ -230,12 +230,14 @@ const MythrillWindow = forwardRef((props, ref) => {
         }
     }, [isDragging, windowId, bringToFront]);
 
-    // Ref to track resize size without causing re-renders during resize
+    // Ref to track resize size and RAF handle for smooth resizing
     const resizeSizeRef = useRef({ width: windowSize.width, height: windowSize.height });
+    const rafResizeRef = useRef(null);
 
     // Handle resize start - disable transitions for smooth resizing
     const handleResizeStart = useCallback((event) => {
         setIsResizing(true);
+        document.body.classList.add('window-resizing');
         // Sync resizing state to store
         useWindowManagerStore.getState().setResizingWindowId(windowId);
         
@@ -248,25 +250,33 @@ const MythrillWindow = forwardRef((props, ref) => {
         }
     }, [windowId, bringToFront, windowSize.width, windowSize.height]);
 
-    // Handle resize - update local state only for visual feedback
-    // DON'T notify parent during resize to prevent expensive re-renders
+    // Handle resize - RAF-throttle setWindowSize updates so controlled <Resizable> tracks the handle smoothly
     const handleResize = useCallback((event, { size }) => {
-        // Update local state for immediate visual feedback
-        setWindowSize({
-            width: size.width,
-            height: size.height
-        });
-        // Store in ref for final update
         resizeSizeRef.current = size;
-        // Don't call onResize here - wait until resize stops
+
+        if (!rafResizeRef.current) {
+            rafResizeRef.current = requestAnimationFrame(() => {
+                rafResizeRef.current = null;
+                setWindowSize({
+                    width: resizeSizeRef.current.width,
+                    height: resizeSizeRef.current.height
+                });
+            });
+        }
     }, []);
 
     // Handle resize stop - notify parent only once when done
     const handleResizeStop = useCallback((event, { size }) => {
         setIsResizing(false);
+        document.body.classList.remove('window-resizing');
         // Clear resizing state in store
         useWindowManagerStore.getState().setResizingWindowId(null);
         
+        if (rafResizeRef.current) {
+            cancelAnimationFrame(rafResizeRef.current);
+            rafResizeRef.current = null;
+        }
+
         // Final size update to local state
         setWindowSize({
             width: size.width,

@@ -2039,7 +2039,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-            src="${publicUrl}/assets/images/watercolor_map.png" 
+            src="${publicUrl}/assets/images/backgrounds/Mythril.jpeg" 
 
 
 
@@ -2259,7 +2259,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-            src="${publicUrl}/assets/images/watercolor_map.png" 
+            src="${publicUrl}/assets/images/backgrounds/Mythril.jpeg" 
 
 
 

@@ -1835,6 +1835,187 @@ quests: []
     territory: ['synod-hold', 'novas-heath', 'starfall-vale'],
     relationships: [
       { targetFactionId: 'unlit-veil', type: 'puppet', description: 'The Unlit Veil has embedded advisors throughout the Synod hierarchy — the council believes it governs independently, but policy direction originates from the Shallows.' },
+     { targetFactionId: 'the-sunderers', type: 'rival', description: 'The Sunderer seek to extinguish the flame, but the Scoured believe only sealing the Breach with the shards will prevent total consumption.' },
+     { targetFactionId: 'dawn-vigil', type: 'hostile', description: 'The Dawn Vigil hunts the Scoured as dangerous heretics who disrupt the reassembly of the Monoliths.' }
+    ],
+    classAffinities: ['pyrofiend', 'berserker'],
+    lore: 'The Scoured deface their forge-marks to sever their ties to Hollow-Solari and Waste-Solari alike. They believe reassembling the Monoliths will summon Keth-Amar back, so they hunt the scattered shards to build the original seal, choosing a clean death for their sun over its consumption.',
+    secrets: 'The Scoured have discovered a safe house network that spans all seven regions, allowing them to smuggle Monolith shards under the noses of the noble houses.',
+    quests: []
+   },
+   {
+    id: 'neth',
+    name: 'The Neth',
+    type: 'noble_house',
+    regionId: 'bryngloom-forest',
+    icon: '/assets/icons/factions/neth.png',
+    colors: { primary: '#3a2a4a', secondary: '#9a8fb0' },
+    publicGoal: 'Keep the First Contract and govern the Bryngloom through the Great Registry',
+    publicDescription: 'The Silver-Touched Pact-Lords, an ancient canopy-dwelling people split by Morvane\'s judgment at the Well of Youth. They divide into the Velun pact-lords, the Kessen weavers of probability, and the Drun outcasts severed from the First Contract.',
+    leader: { npcId: 'vellan-archivist', title: 'Regent of the Neth', description: 'The Neth are administered from Atropolis, where the Senior Archivist signs in the Neth\'s name under the First Contract.' },
+    members: [
+     { npcId: 'vellan-archivist', role: 'Regent of the Neth', locationId: 'atropolis' }
+    ],
+    headquarters: 'atropolis',
+    territory: ['atropolis', 'vel-keth-bayou', 'aran-glen', 'black-fen'],
+    relationships: [
+     { targetFactionId: 'house-morrath', type: 'allied', description: 'The Neth administer Morrath\'s authority through the Great Registry; the seventh seat exists only because the Neth say it does.' },
+     { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Neth write everything down, while the Scribe-Cartel sells the ink that decides what gets written at all.' }
+    ],
+    classAffinities: ['arcanoneer', 'revenant'],
+    lore: 'The Neth were an ancient canopy-dwelling civilization facing extinction from fertility decline. Their Augurs communed with Morvane and received the Font Vessel for the Well of Youth. Three factions betrayed the quest, and Morvane\'s judgment split the Neth into High Neth (loyalists), Pale Neth (conspirators), and Hallowed Neth (profane drinkers of raw Well-magic). They now govern Atropolis under the First Contract.',
+    secrets: 'The Neth blood-crystallizes into volatile shards when a lie is attempted, but a hidden circle has learned to write truths so narrow they deceive without breaking the prohibition, and they rule from it.',
+    quests: []
+   },
+   {
+    id: 'astril-earthen',
+    name: 'Earthen Astril',
+    type: 'cultural',
+    regionId: 'sundrift-vale',
+    icon: '/assets/icons/factions/astril.png',
+    colors: { primary: '#c4d4e0', secondary: '#8b9da8' },
+    publicGoal: 'Tend the crystalline heritage of Lumia and maintain the Selunis-ritual',
+    publicDescription: 'The Earthen Astril are farmers, hunters, and guardians of the physical Astril communities, responsible for maintaining the Starfall Vale pilgrimage site and protecting the crystalline shards of Lumia.'
+   },
+   {
+    id: 'drall-clan-free',
+    name: 'Free Drall Clans',
+    type: 'tribe',
+    regionId: 'cragjaw-peaks',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#5c4a3a', secondary: '#8b7355' },
+    publicGoal: 'Reclaim ancestral deep-delving territories and preserve Drall craftsmanship',
+    publicDescription: 'The Free Drall Clans are independent Drall communities that rejected guild hierarchy. They operate as scrap-metal recyclers and salvagers in the Cragjaw Peaks, trading reclaimed components with the guild-bound Fexric.'
+   },
+   {
+    id: 'emberth-forge-clans',
+    name: 'Solari Forge Clans',
+    type: 'guild',
+    regionId: 'sundale',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#8b4513', secondary: '#d2691e' },
+    publicGoal: 'Tend the Sol\'s Breath and maintain the forge-clan traditions across Sundale',
+    publicDescription: 'The Solari forge-clans are the collective bloodlines of the Solari people, organized around volcanic calderas. They control Sundale\'s docks, diving rights, and thermal vent access, producing the finest volcanic forge-work in Mythrill.'
+   },
+   {
+    id: 'kessen-weavers',
+    name: 'Kessen Weavers of Probability',
+    type: 'cult',
+    regionId: 'bryngloom-forest',
+    icon: '/assets/icons/factions/neth.png',
+    colors: { primary: '#4a6b3a', secondary: '#7a9a6a' },
+    publicGoal: 'Weave the strands of fate through living-wood craftsmanship and root-reading',
+    publicDescription: 'The Kessen are a Neth subfaction who weave probability itself into their living-wood creations. They maintain the Glen Compact at Aran-Glen, creating furniture that continues to grow and bioluminescent moss lamps that predict weather patterns.'
+   },
+   {
+    id: 'kethrin-guild-bound',
+    name: 'Guild-Bound Kethrin Fexric',
+    type: 'guild',
+    regionId: 'cragjaw-peaks',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#6b5b3a', secondary: '#a08050' },
+    publicGoal: 'Advance Fexric engineering through guild-certified innovation and industrial infrastructure',
+    publicDescription: 'The Guild-Bound Kethrin Fexric are the engineering heart of the known world, operating the industrial infrastructure of Gearworks Gulch. They register every invention on the Patent Board and maintain the geothermal pressure-forges that produce unique alloys.'
+   },
+   {
+    id: 'merryn-traders',
+    name: 'Merryn Trading Diaspora',
+    type: 'guild',
+    regionId: 'iceheart-sea',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#2a5a6a', secondary: '#5a8a9a' },
+    publicGoal: 'Maintain unrestricted trade routes across the Iceheart Sea and Sundale',
+    publicDescription: 'The Merryn trading diaspora operate the shipping lanes of Mythrill, transporting goods between Sundale, Merrowport, and every port in between. They control import-export pricing through their extensive maritime network.'
+   },
+   {
+    id: 'morren-peat-cutters',
+    name: 'Morren Peat Cutters',
+    type: 'guild',
+    regionId: 'bryngloom-forest',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#3a2a1a', secondary: '#6a4a2a' },
+    publicGoal: 'Harvest and distribute Bryngloom peat for fuel and alchemical use',
+    publicDescription: 'The Morren peat cutters provide essential labor and root-system maintenance in Aran-Glen in exchange for settlement rights. They have learned Kessen root-reading to identify medicinal compounds in the bog-growth.'
+   },
+   {
+    id: 'myrathil-shore',
+    name: 'Shore Myrathil',
+    type: 'cultural',
+    regionId: 'iceheart-sea',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#2a8a7a', secondary: '#5abaaa' },
+    publicGoal: 'Custody of the Myrathil coral reefs and marine bioluminescence',
+    publicDescription: 'The Shore Myrathil are custodians of the coral reefs around the Spindrift Lagoon, the primary producers of bioluminescent goods. They maintain the underwater tunnels and reef-gardens that sustain Myrathil civilization.'
+   },
+   {
+    id: 'ordan-nomads',
+    name: 'Ordan Nomadic Herders',
+    type: 'tribe',
+    regionId: 'sundrift-vale',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#7a6a4a', secondary: '#b09a6a' },
+    publicGoal: 'Maintain the seasonal migration circuits across the Sundrift Vale steppe',
+    publicDescription: 'The Ordan nomadic herders follow the grass-line south before frost and north before the thaw, maintaining the ancient migration circuits. They provision the Astril pilgrimage route and pay the Herd-Tithe to House Ordavan.'
+   },
+   {
+    id: 'rime-born',
+    name: 'Rime-Born',
+    type: 'cult',
+    regionId: 'nordhalla',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#8ab4d4', secondary: '#4a7a9a' },
+    publicGoal: 'Preserve and interpret the Deep Carvings of the Glacier Bargain',
+    publicDescription: 'The Rime-Born are a Skald subfaction who maintain the ancient runic carvings at the tor garrison. They believe the carvings record the Glacier Bargain itself and provide magical support to the Skalvyr garrison in exchange for access to the carvings.'
+   },
+   {
+    id: 'skald-keepers',
+    name: 'Skald Keepers of the Ancestral Memory',
+    type: 'guild',
+    regionId: 'nordhalla',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#6a4a3a', secondary: '#9a7a5a' },
+    publicGoal: 'Maintain the genealogical records and guard the ancestral vaults of the Skald',
+    publicDescription: 'The Skald Keepers maintain the genealogies of every Skald bloodline and guard the vaults of the Frozen Archive. They operate the Correction Ledger where disputes over lineage are debated and ruled upon.'
+   },
+   {
+    id: 'veiled-mimir',
+    name: 'Veiled Mimir',
+    type: 'religious',
+    regionId: 'frostwood-reach',
+    icon: '/assets/icons/factions/default.png',
+    colors: { primary: '#4a3a5a', secondary: '#8a6aaa' },
+    publicGoal: 'Harvest and preserve memories through Mirror Mere memory-glass',
+    publicDescription: 'The Veiled Mimir are founders and custodians of the Mirror Mere, harvesting memory-glass from the lakebed and carving it into masks, lenses, and divination tools. They guard the secrets of their craft and the mere\'s unique alchemy.'
+   },
+   {
+    id: 'velun-pact-lords',
+    name: 'Velun Pact Lords',
+    type: 'noble_house',
+    regionId: 'bryngloom-forest',
+    icon: '/assets/icons/factions/neth.png',
+    colors: { primary: '#5a4a7a', secondary: '#9a7aaa' },
+    publicGoal: 'Ensure the Glen Compact remains consistent with the First Contract',
+    publicDescription: 'The Velun Pact Lords are a Neth subfaction who serve as legal liaisons between Aran-Glen and Atropolis. They trace their bloodline to the original scribes who presented the First Contract to Morvane and maintain the binding agreements that govern Neth society.'
+   },
+   {
+    id: 'astril-synod',
+    name: 'The Astril Synod',
+    type: 'governing_council',
+    regionId: 'sundrift-vale',
+    icon: '/assets/icons/factions/astril.png',
+    colors: { primary: '#c4d4e0', secondary: '#8b9da8' },
+    publicGoal: 'Govern the Sundrift Vale and preserve Astril heritage through the Echo-Submersion tradition',
+    publicDescription: 'A ruling council of the oldest Astril heritage-bloodlines, established in the decades after the Breach to organize the refugee Astril communities of the Sundrift Vale. The Synod codifies law, adjudicates Echo-Submersion cases, and maintains the cultural institutions that preserve Lumia heritage across Earthen and Stellar traditions.',
+    hiddenAgenda: 'The Synod\'s inner circle has been quietly suppressing research into the Selunis resonance, fearing that full understanding of the Lumia heritage would reveal the true cost of the Astril escape from their dying world.',
+    hiddenDescription: 'The Synod was originally an advisory body of Astril elders. Over eight centuries of institutional inertia, it has become a governing apparatus whose primary function is self-preservation. The council seats are hereditary, and several bloodlines have held theirs since the founding.',
+    leader: { npcId: 'the-first-liar', title: 'Synod Archon (Nominal)', description: 'The Synod is chaired by a rotating Archon drawn from the eldest heritage-bloodlines. In practice, the Unlit Veil\'s embedded advisors influence most decisions.' },
+    members: [
+      { npcId: 'the-first-liar', role: 'Synod Archon (Nominal)', locationId: 'synod-hold' }
+    ],
+    headquarters: 'synod-hold',
+    territory: ['synod-hold', 'novas-heath', 'starfall-vale'],
+    relationships: [
+      { targetFactionId: 'unlit-veil', type: 'puppet', description: 'The Unlit Veil has embedded advisors throughout the Synod hierarchy — the council believes it governs independently, but policy direction originates from the Shallows.' },
       { targetFactionId: 'house-ordavan', type: 'neutral', description: 'The Ordavan steppe-lords respect Synod authority over the Vale but chafe at trade restrictions.' },
       { targetFactionId: 'scribe-sentinels', type: 'neutral', description: 'The Synod contracts Scribe-Sentinels for record-preservation, though it does not trust their fog-touched ledgers.' },
       { targetFactionId: 'congregation-of-the-silence', type: 'hostile', description: 'The Synod hunts False Prophets as heretics who manufacture revelation to exploit Astril cultural vulnerability.' }
@@ -1843,9 +2024,145 @@ quests: []
     lore: 'Founded in the first century after the Breach when the scattered Astril communities realized that without a central authority, the Lumia heritage would fragment beyond recovery. The Synod established Echo-Submersion as a legal proceeding, codified the distinction between Earthen and Stellar traditions, and built Synod Hold as the administrative heart of the Vale.',
     secrets: 'Three Synod Archons over the past two centuries have been Unlit Veil agents. The current Archon is genuinely Astril but relies on a Veil advisor whose counsel has subtly steered Synod policy for forty years.',
     quests: []
+   },
+   {
+    id: 'crown-coalition',
+    name: 'The Crown Coalition',
+    type: 'military',
+    regionId: 'frostwood-reach',
+    icon: '/assets/icons/factions/crown_coalition.png',
+    colors: { primary: '#1a365d', secondary: '#c53030' },
+    publicGoal: 'Maintain feudal order, preserve historical ledgers, and defend the outer keep walls against Wyrd incursions.',
+    publicDescription: 'The feudal alliance composed of House Thalreth, Solvan Loyalists, Arch Mimir aristocrats, and High Neth archivists. They control the major northern keeps and trade ledgers.',
+    hiddenAgenda: 'Consolidate timber and heat resources while suppressing information regarding the true state of Sol and the counterfeit 7th Monolith.',
+    leader: { title: 'High Council of Lords', description: 'Co-governed by Jarl-Archivist Kaelen Thalreth and Solvan High Commanders.' },
+    members: [],
+    headquarters: 'greymark-keep',
+    territory: ['greymark-keep', 'sun-haven'],
+    relationships: [
+      { targetFactionId: 'blood-hammer-highlands', type: 'rival', description: 'Locked in territorial and resource conflict over timber and geothermal vents.' },
+      { targetFactionId: 'canopy-concordat', type: 'tense_allied', description: 'Uneasy diplomatic trade pact regarding ironwood parchment and bog-resin.' },
+      { targetFactionId: 'wyrd-host', type: 'hostile', description: 'Existential war: the Wyrd-Host actively besieges Coalition keeps.' }
+    ],
+    classAffinities: ['arcanoneer', 'martyr', 'dreadnought', 'spellsword'],
+    lore: 'Formed in the second generation of the Dimming to consolidate feudal defense across Frostwood Reach and Sundale.',
+    secrets: 'High commanders secretly fear that the Sovereign Ledger hides a breach contract signed by their own ancestors.',
+    quests: []
+   },
+   {
+    id: 'blood-hammer-highlands',
+    name: 'The Blood-Hammer Highlands',
+    type: 'tribal',
+    regionId: 'nordhalla',
+    icon: '/assets/icons/factions/blood_hammer.png',
+    colors: { primary: '#742a2a', secondary: '#d69e2e' },
+    publicGoal: 'Ensure the survival of the wild clans through forge-fire, blood-heat, and mountain independence.',
+    publicDescription: 'The rugged alliance of Skald Glacier-Folk, Emberth Forge-Clans, Ordan Steppe-Lords, and Groven constructors.',
+    hiddenAgenda: 'Seize geothermal vents in Sundale and Cragjaw to sustain their clans without bowing to Crown Coalition taxes.',
+    leader: { title: 'High King-Jarl', description: 'Led by Halvar Iron-Tooth Skalvyr and the Chief Forge-Smiths.' },
+    members: [],
+    headquarters: 'frosthold-citadel',
+    territory: ['frosthold-citadel', 'cragjaw-peaks'],
+    relationships: [
+      { targetFactionId: 'crown-coalition', type: 'rival', description: 'Views Coalition aristocrats as weak hoarders of the remaining warmth.' },
+      { targetFactionId: 'wyrd-host', type: 'hostile', description: 'Active warfare against glacier Wyrd-spawns and Stel colossi.' }
+    ],
+    classAffinities: ['berserker', 'apex', 'augur', 'alchemist'],
+    lore: 'Forged in Nordhalla when the glaciers halted, uniting mountain clans under the oath of blood-heat.',
+    secrets: 'Clan forge-masters hold secret maps to untapped volcanic veins beneath Cragjaw.',
+    quests: []
+   },
+   {
+    id: 'canopy-concordat',
+    name: 'The Canopy Concordat',
+    type: 'secret_society',
+    regionId: 'bryngloom-forest',
+    icon: '/assets/icons/factions/canopy_concordat.png',
+    colors: { primary: '#22543d', secondary: '#81e6d9' },
+    publicGoal: 'Preserve the bioluminescent forest sanctuaries and live in balance with the Root-Veil.',
+    publicDescription: 'The ancient woodland pact between Clean & Marked Vreken, Briaran thorn-bloods, and Fractured Mimir.',
+    hiddenAgenda: 'Protect the hidden Viridane thorn-blood lineage from Keth-Amar and the Dawn Vigil.',
+    leader: { title: 'The Thorn-Speaker & Ledger-Prime', description: 'Guided by the Thorn-Speaker of the Florae and Neth Scriptorium elders.' },
+    members: [],
+    headquarters: 'atropolis',
+    territory: ['atropolis', 'sundrift-vale'],
+    relationships: [
+      { targetFactionId: 'crown-coalition', type: 'tense_allied', description: 'Trade bog-spores and parchment for Coalition iron tools.' },
+      { targetFactionId: 'scoured-syndicate', type: 'hostile', description: 'Hunts Scoured cultists who defile the Root-Veil mycelium.' }
+    ],
+    classAffinities: ['animist', 'shadowblade', 'bloodrager', 'lunarch'],
+    lore: 'Established in the deep bog sanctuaries of Bryngloom when the first Vreken and Briaran aligned their ancestral networks.',
+    secrets: 'The Concordat hides the location of the true 7th cleansing Monolith in moonlit groves.',
+    quests: []
+   },
+   {
+    id: 'wyrd-host',
+    name: 'The Wyrd-Host of Keth-Amar',
+    type: 'shadow_order',
+    regionId: 'sundale',
+    icon: '/assets/icons/factions/wyrd_host.png',
+    colors: { primary: '#4a5568', secondary: '#e53e3e' },
+    publicGoal: 'Shatter mortal keeps and consume the remaining Monolith fragments.',
+    publicDescription: 'The organized legion of Wyrd-Archons, Wyrd-Spawns, Gambrels, and Stel colossi commanded directly by Keth-Amar.',
+    hiddenAgenda: 'Bypass the partial binding seal and inject Keth-Amar parasitical roots into Sol core.',
+    leader: { title: 'The Six Wyrd-Archons', description: 'Boss-tier nightmare entities bound to regional Monolith fractures.' },
+    members: [],
+    headquarters: 'the-breach',
+    territory: ['the-breach', 'frostfang-wastes'],
+    relationships: [
+      { targetFactionId: 'crown-coalition', type: 'hostile', description: 'Perpetual siege against Coalition keeps.' },
+      { targetFactionId: 'blood-hammer-highlands', type: 'hostile', description: 'Warfare against mountain clans.' }
+    ],
+    classAffinities: ['voidwalker', 'pyrofiend'],
+    lore: 'Spawned from Keth-Amar attention breathing nightmare forms into regional fears across the 7 continents.',
+    secrets: 'The Archons communicate through rhythmic static echoes vibrating from Aex silence.',
+    quests: []
+   },
+   {
+    id: 'scoured-syndicate',
+    name: 'The Scoured Syndicate',
+    type: 'cult',
+    regionId: 'cragjaw-peaks',
+    icon: '/assets/icons/factions/scoured_syndicate.png',
+    colors: { primary: '#2d3748', secondary: '#d69e2e' },
+    publicGoal: 'Sabotage hearth-flames and allow Sol to die completely.',
+    publicDescription: 'An organized syndicate of rogue Arcanoneers, False Prophets, and ex-Skald blood-witches.',
+    hiddenAgenda: 'Harvest raw Breach energy from dying keeps to achieve personal immortality.',
+    leader: { title: 'The Coven of the Unbound', description: 'Anonymously led by apostate mages and cultist cell-leaders.' },
+    members: [],
+    headquarters: 'cragjaw-peaks',
+    territory: ['cragjaw-peaks', 'bryngloom-forest'],
+    relationships: [
+      { targetFactionId: 'crown-coalition', type: 'hostile', description: 'Infiltrate and sabotage Coalition keeps.' }
+    ],
+    classAffinities: ['false-prophet', 'gambit'],
+    lore: 'Formed in secrecy by mages and priests who abandoned hope during the first dusk.',
+    secrets: 'Operate black-market networks trading illicit blood-heat flasks.',
+    quests: []
+   },
+   {
+    id: 'leviathan-empire',
+    name: 'The Leviathan Empire of Iceheart',
+    type: 'shadow_order',
+    regionId: 'iceheart-sea',
+    icon: '/assets/icons/factions/leviathan_empire.png',
+    colors: { primary: '#2c5282', secondary: '#319795' },
+    publicGoal: 'Drown coastal ports and rule the abyssal ocean trenches.',
+    publicDescription: 'The submerged empire of Drowned Priestesses, Sirens, Mer-Wyrms, and sunken ocean leviathans.',
+    hiddenAgenda: 'Submerge coastal keep lands to expand their underwater abyssal domain across all continents.',
+    leader: { title: 'The Abyssal Siren Queens', description: 'Submerged matriarchs ruling from trench cathedrals.' },
+    members: [],
+    headquarters: 'iceheart-sea',
+    territory: ['iceheart-sea'],
+    relationships: [
+      { targetFactionId: 'crown-coalition', type: 'hostile', description: 'Sink merchant fleets and raid coastal ports.' }
+    ],
+    classAffinities: ['lunarch', 'revenant'],
+    lore: 'An ancient aquatic civilization that awoke when Mereval blood-bargains flooded the abyssal sea.',
+    secrets: 'Hold submerged ruins containing pre-Binding stellar navigation maps.',
+    quests: []
    }
 ];
-
 
 
 

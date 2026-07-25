@@ -2,9 +2,9 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Minstrel Class Data
  *
- * Complete class information for the Minstrel, a conductor of reality's death rattle
- * who tears magic from dying dimensions through bone and grief instruments.
- * Music is not art. It is violation. Every note is theft. Every cadence is mutilation.
+ * Complete class information for the Minstrel, a conductor of battlefield acoustics
+ * who weaves sonic resonance and rhythmic momentum into tide-like magic.
+ * Music is power. Every note is a surge of momentum. Every cadence synchronizes the battlefield.
  */
 
 export const MINSTREL_DATA = {

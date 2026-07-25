@@ -635,7 +635,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         // Add type-specific stats
         if (randomType === 'weapon') {
           // Add weapon damage with proper dice notation
-          const damageTypes = ['slashing', 'piercing', 'bludgeoning'];
+          const damageTypes = ['slicing', 'stabbing', 'smashing'];
           const damageType = damageTypes[getRandomInt(0, damageTypes.length - 1)];
 
           // Generate dice damage based on weapon size and power
@@ -1288,7 +1288,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
       }
 
       // Determine physical damage type based on weapon subtype
-      let physicalDamageType = 'slashing'; // default
+      let physicalDamageType = 'slicing'; // default
 
       // If user has selected a specific damage type, use that
       if (selectedDamageType) {
@@ -1302,16 +1302,16 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
       else {
         switch (weaponSlot) {
           case 'ONE_HANDED':
-            physicalDamageType = 'slashing'; // Default for one-handed
+            physicalDamageType = 'slicing'; // Default for one-handed
             break;
           case 'TWO_HANDED':
-            physicalDamageType = 'slashing'; // Default for two-handed
+            physicalDamageType = 'slicing'; // Default for two-handed
             break;
           case 'RANGED':
-            physicalDamageType = 'piercing'; // Default for ranged
+            physicalDamageType = 'ranged'; // Default for ranged
             break;
           default:
-            physicalDamageType = getRandomElement(['slashing', 'piercing', 'bludgeoning']);
+            physicalDamageType = getRandomElement(['slicing', 'stabbing', 'smashing', 'ranged']);
         }
       }
 
@@ -2362,36 +2362,42 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                   <option value="">Auto (Based on Weapon Type)</option>
                   <optgroup label="Physical">
                     <option
-                      value="slashing"
-                      style={{ color: DAMAGE_TYPES.slashing.color }}
+                      value="slicing"
+                      style={{ color: DAMAGE_TYPES.slicing?.color || '#5C3317' }}
                     >
-                      Slashing
+                      Slicing
                     </option>
                     <option
-                      value="piercing"
-                      style={{ color: DAMAGE_TYPES.piercing.color }}
+                      value="stabbing"
+                      style={{ color: DAMAGE_TYPES.stabbing?.color || '#704214' }}
                     >
-                      Piercing
+                      Stabbing
                     </option>
                     <option
-                      value="bludgeoning"
-                      style={{ color: DAMAGE_TYPES.bludgeoning.color }}
+                      value="smashing"
+                      style={{ color: DAMAGE_TYPES.smashing?.color || '#8B5A2B' }}
                     >
-                      Bludgeoning
+                      Smashing
+                    </option>
+                    <option
+                      value="ranged"
+                      style={{ color: DAMAGE_TYPES.ranged?.color || '#A0522D' }}
+                    >
+                      Ranged
                     </option>
                   </optgroup>
                   <optgroup label="Magical">
                     {Object.keys(DAMAGE_TYPES)
-                      .filter(type => !['slashing', 'piercing', 'bludgeoning'].includes(type))
+                      .filter(type => !['slicing', 'stabbing', 'smashing', 'ranged', 'physical'].includes(type))
                       .map((damageType) => (
                         <option
                           key={damageType}
                           value={damageType}
                           style={{
-                            color: DAMAGE_TYPES[damageType].color
+                            color: DAMAGE_TYPES[damageType]?.color || '#ffffff'
                           }}
                         >
-                          {DAMAGE_TYPES[damageType].name}
+                          {DAMAGE_TYPES[damageType]?.name || damageType}
                         </option>
                       ))
                     }
@@ -2549,7 +2555,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                   </div>
 
                   <div className="form-group">
-                    <label style={{ color: '#f4e4bc', fontWeight: 'bold' }}>Magic Type (D&D Damage Types)</label>
+                    <label style={{ color: '#f4e4bc', fontWeight: 'bold' }}>Magic Type (System Damage Types)</label>
                     <select
                       value={miscOptions.magicType}
                       onChange={(e) => setMiscOptions(prev => ({ ...prev, magicType: e.target.value }))}
@@ -2560,14 +2566,14 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                         borderRadius: '4px'
                       }}
                     >
-                      <option value="fire">Fire</option>
-                      <option value="frost">Frost</option>
-                      <option value="lightning">Lightning</option>
-                      <option value="poison">Poison</option>
-                      <option value="necrotic">Necrotic</option>
-                      <option value="radiant">Radiant</option>
-                      <option value="psychic">Psychic</option>
-                      <option value="force">Force</option>
+                      <option value="ember">Ember</option>
+                      <option value="rime">Rime</option>
+                      <option value="storm">Storm</option>
+                      <option value="primal">Primal</option>
+                      <option value="arcane">Arcane</option>
+                      <option value="blight">Blight</option>
+                      <option value="wyrd">Wyrd</option>
+                      <option value="sacred">Sacred</option>
                     </select>
                   </div>
 

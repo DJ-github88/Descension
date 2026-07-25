@@ -901,11 +901,11 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 
 **Recommended Token Colors**:
 - Arcane (1): Purple
-- Radiant (2): Gold/Yellow
-- blight+blight (3): Black
-- Fire (4): Red
-- Frost (5): Blue
-- Nature (6): Green
+- Sacred (2): Gold/Yellow
+- Blight (3): Black
+- Ember (4): Red
+- Rime (5): Blue
+- Primal (6): Green
 - Chaos (8): Rainbow/Iridescent
 
 **Turn-by-Turn Process**:
@@ -921,54 +921,29 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
 
 All 36 two-sphere base combos. Cost varies by Firing Profile type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4. Firing standard profiles inflicts recoil damage. Firing reduces your movement speed to 0.
 
-| | Arcane | Radiant | blight+blight | Fire | Frost | Nature | Flesh | Chaos |
+| | Arcane | Sacred | Blight | Ember | Rime | Primal | Flesh | Chaos |
 |---|---|---|---|---|---|---|---|---|
-| **Arcane** | Arcane Pulse | Radiant Bolt | Silence Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Visceral Cocoon | Wild Magic ★ |
-| **Radiant** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Sinew | Chaos Light ★ |
-| **blight+blight** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Grisly Veil | Entropy ★ |
-| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
-| **Frost** | → | → | → | → | Frost Spike | Hailstorm | Rime-Frozen Graft | Glitch Frost ★ |
-| **Nature** | → | → | → | → | → | Storm Surge | Sinew-Spark Leap | Primal Chaos ★ |
-| **Flesh** | → | → | → | → | → | → | Gristle Blockade | Amorphous Gristle Ward ★ |
+| **Arcane** | Arcane Pulse | Sacred Bolt | Silence Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Arcane Barrier | Wild Magic ★ |
+| **Sacred** | → | Sacred Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Crucible of Light | Chaos Light ★ |
+| **Blight** | → | → | Dark Bolt | Emberfire | Frostbite | Blight Spore | Protective Veil | Entropy ★ |
+| **Ember** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterizing Slag | Chaos Flame ★ |
+| **Rime** | → | → | → | → | Frost Spike | Hailstorm | Rime Shield | Glitch Frost ★ |
+| **Primal** | → | → | → | → | → | Storm Surge | Vine Barrier | Primal Chaos ★ |
+| **Flesh** | → | → | → | → | → | → | Kinetic Rampart | Kinetic Ward ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo, each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
 † = Steam is a 20ft cone (only non-single-target base combo)
 
 **Matrix Reading Guide** (use the upper-right triangle):
-- Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
-- Mixed = cross-reference (e.g., Fire row + Frost column = Steam)
+- Same row + column = pure pair (e.g., Ember row + Ember column = Flame Burst)
+- Mixed = cross-reference (e.g., Ember row + Rime column = Steam)
 - Arrow (→) = see the mirror entry (Ember+Rime and Rime+Ember are both Steam)
 
 **Quick Effect Reference**:
 
 | Combo | Damage Types | Key Effect |
 |---|---|---|
-| Arcane Pulse | Force | Single target damage |
-| Radiance | Radiant | Single target + blind |
-| Dark Bolt | blight+blight | Single target damage |
-| Flame Burst | Fire | Single target damage |
-| Frost Spike | Frost | Single target + slow |
-| Storm Surge | Nature | Single target damage |
-| Gristle Blockade | Force | Grotesque bone-gristle barrier, blocks movement 2 rounds |
-| Chaos Bolt | Chaos | ★ Random effect |
-| Radiant Bolt | Force, Radiant | Cannot miss |
-| Silence Bolt | Force, blight+blight | Barrier-piercing |
-| Arcane Flame | Force, Fire | Barrier-piercing fire |
-| Crystal Shard | Force, Frost | Armor-piercing |
-| Thunderstrike | Force, Nature | Lightning bolt |
-| Visceral Cocoon | Force | Flesh-knit absorb shield (4d8) |
-| Wild Magic | Chaos | ★ Random effect |
-| Twilight | Radiant, blight+blight | Dual damage |
-| Solar Flare | Radiant, Fire | Heavy burn |
-| Aurora | Radiant, Frost | Damage + slow |
-| Verdant Light | Radiant, Nature | Burning vines |
-| Crucible of Sinew | Radiant | Remove all debuffs + 1d6 radiant/debuff |
-| Chaos Light | Chaos | ★ Random effect |
-| Hellfire | blight+blight, Fire | blight+blight flames |
-| Frostbite | blight+blight, Frost | Rot + slow |
-| Blight | blight+blight, Nature | Poison thorns |
-| Grisly Veil | blight+blight | Absorb spell + reflect 50% blight+blight |
 | Entropy | Chaos | ★ Random effect |
 | Steam | Fire, Frost | 20ft cone + blind |
 | Wildfire | Fire, Nature | Burning vines |

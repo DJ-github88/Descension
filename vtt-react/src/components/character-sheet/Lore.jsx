@@ -1182,38 +1182,40 @@ export default function Lore() {
                             </div>
                         )}
                         
-                        {fullRaceData && fullRaceData.race && fullRaceData.race.baseTraits && (
+                        {fullRaceData && fullRaceData.race && fullRaceData.race.baseTraits && (() => {
+                            const traits = { ...fullRaceData.race.baseTraits, ...(fullRaceData.subrace?.baseTraits || {}) };
+                            return (
                             <div className="lore-field-enhanced">
                                 <label className="lore-field-label-enhanced">Ancestral Statistics & Traits</label>
                                 <div className="heritage-traits-grid-enhanced">
-                                    {fullRaceData.race.baseTraits.height && (
+                                    {traits.height && (
                                         <div className="grid-item">
                                             <span className="grid-item-label">Typical Height</span>
-                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.height}</span>
+                                            <span className="grid-item-val">{traits.height}</span>
                                         </div>
                                     )}
-                                    {fullRaceData.race.baseTraits.weight && (
+                                    {traits.weight && (
                                         <div className="grid-item">
                                             <span className="grid-item-label">Typical Weight</span>
-                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.weight}</span>
+                                            <span className="grid-item-val">{traits.weight}</span>
                                         </div>
                                     )}
-                                    {fullRaceData.race.baseTraits.build && (
+                                    {traits.build && (
                                         <div className="grid-item">
                                             <span className="grid-item-label">Typical Build</span>
-                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.build}</span>
+                                            <span className="grid-item-val">{traits.build}</span>
                                         </div>
                                     )}
-                                    {fullRaceData.race.baseTraits.lifespan && (
+                                    {traits.lifespan && (
                                         <div className="grid-item">
                                             <span className="grid-item-label">Typical Lifespan</span>
-                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.lifespan}</span>
+                                            <span className="grid-item-val">{traits.lifespan}</span>
                                         </div>
                                     )}
-                                    {fullRaceData.race.baseTraits.size && (
+                                    {traits.size && (
                                         <div className="grid-item">
                                             <span className="grid-item-label">Size Class</span>
-                                            <span className="grid-item-val">{fullRaceData.race.baseTraits.size}</span>
+                                            <span className="grid-item-val">{traits.size}</span>
                                         </div>
                                     )}
                                     {fullRaceData.combinedTraits && fullRaceData.combinedTraits.speed && (
@@ -1230,7 +1232,8 @@ export default function Lore() {
                                     )}
                                 </div>
                             </div>
-                        )}
+                            );
+                        })()}
 
                         {raceData && raceData.overview && (
                             <div className="lore-field-enhanced">

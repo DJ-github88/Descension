@@ -6,8 +6,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CLASSES_DIR = path.join(__dirname, '..', 'vtt-react', 'src', 'data', 'classes');
 
 const CANONICAL_DAMAGE_TYPES = [
-  'physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'divine', 'healing',
-  'bludgeoning', 'piercing', 'slashing',
+  'smashing', 'stabbing', 'slicing', 'ranged', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred', 'healing',
+  'physical', 'divine', 'bludgeoning', 'piercing', 'slashing',
   'fire', 'frost', 'lightning', 'nature', 'radiant', 'holy', 'shadow', 'necrotic', 'void', 'poison', 'acid', 'chaos', 'psychic', 'force', 'thunder'
 ];
 

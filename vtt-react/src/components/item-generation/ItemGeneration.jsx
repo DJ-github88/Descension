@@ -250,54 +250,55 @@ export default function ItemGeneration({ onContainerCreate }) {
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
         >
-            <div className="designer-header">
-                <h2>Item Designer</h2>
-                <p>Draw shapes to create custom items, then edit their properties</p>
-                <div className="grid-info">
-                    Grid: {gridSize ? `${gridSize.COLS} Ã -  ${gridSize.ROWS}` : '...'}
+            <div className="designer-header-bar" ref={controlsRef}>
+                <div className="designer-title-group">
+                    <h2 className="designer-title">Item Designer</h2>
+                    <span className="grid-info-badge">
+                        Grid: {gridSize ? `${gridSize.COLS} \u00d7 ${gridSize.ROWS}` : '...'}
+                    </span>
                 </div>
-            </div>
 
-            <div className="controls" ref={controlsRef}>
-                <button
-                    className={`tool-button ${drawMode ? 'active' : ''}`}
-                    onClick={() => {
-                        setDrawMode(!drawMode);
-                        setEditMode(false);
-                    }}
-                    disabled={editMode}
-                >
-                    Draw
-                </button>
-                <button
-                    className={`tool-button ${editMode ? 'active' : ''}`}
-                    onClick={handleEditClick}
-                    disabled={selectedTiles.length === 0}
-                >
-                    Edit
-                </button>
-                <button
-                    className="tool-button"
-                    onClick={() => {
-                        clearSelectedTiles();
-                        setEditMode(false);
-                        setDrawMode(false);
-                    }}
-                >
-                    Clear
-                </button>
-                <button
-                    className="tool-button"
-                    onClick={onContainerCreate}
-                >
-                    Create Container
-                </button>
-                <button
-                    className="tool-button"
-                    onClick={() => setIsCoinModalOpen(true)}
-                >
-                    Add Coins
-                </button>
+                <div className="controls">
+                    <button
+                        className={`tool-button ${drawMode ? 'active' : ''}`}
+                        onClick={() => {
+                            setDrawMode(!drawMode);
+                            setEditMode(false);
+                        }}
+                        disabled={editMode}
+                    >
+                        Draw
+                    </button>
+                    <button
+                        className={`tool-button ${editMode ? 'active' : ''}`}
+                        onClick={handleEditClick}
+                        disabled={selectedTiles.length === 0}
+                    >
+                        Edit
+                    </button>
+                    <button
+                        className="tool-button"
+                        onClick={() => {
+                            clearSelectedTiles();
+                            setEditMode(false);
+                            setDrawMode(false);
+                        }}
+                    >
+                        Clear
+                    </button>
+                    <button
+                        className="tool-button"
+                        onClick={onContainerCreate}
+                    >
+                        Create Container
+                    </button>
+                    <button
+                        className="tool-button"
+                        onClick={() => setIsCoinModalOpen(true)}
+                    >
+                        Add Coins
+                    </button>
+                </div>
             </div>
 
             {gridSize && (

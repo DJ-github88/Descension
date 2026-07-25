@@ -2300,7 +2300,7 @@ const Step1CoreDraft = () => {
 
                                     )}
 
-                                    {selectedRace.visualDescription && (
+                                    {(selectedSubrace?.visualDescription || selectedRace.visualDescription) && (
 
                                         <>
 
@@ -2308,7 +2308,7 @@ const Step1CoreDraft = () => {
 
                                             <div className="grimoire-markdown-body">
 
-                                                <p>{selectedRace.visualDescription}</p>
+                                                <p>{selectedSubrace?.visualDescription || selectedRace.visualDescription}</p>
 
                                             </div>
 
@@ -2338,7 +2338,7 @@ const Step1CoreDraft = () => {
 
                                                 <td><strong>Lifespan</strong></td>
 
-                                                <td>{selectedRace.baseTraits?.lifespan}</td>
+                                                <td>{Object.assign({}, selectedRace.baseTraits, selectedSubrace?.baseTraits || {}).lifespan}</td>
 
                                             </tr>
 
@@ -2346,7 +2346,7 @@ const Step1CoreDraft = () => {
 
                                                 <td><strong>Size</strong></td>
 
-                                                <td>{selectedRace.baseTraits?.size} ({selectedRace.baseTraits?.height})</td>
+                                                <td>{(() => { const t = Object.assign({}, selectedRace.baseTraits, selectedSubrace?.baseTraits || {}); return `${t.size} (${t.height})`; })()}</td>
 
                                             </tr>
 
@@ -2354,7 +2354,7 @@ const Step1CoreDraft = () => {
 
                                                 <td><strong>Base Speed</strong></td>
 
-                                                <td>{selectedRace.baseTraits?.baseSpeed} ft</td>
+                                                <td>{Object.assign({}, selectedRace.baseTraits, selectedSubrace?.baseTraits || {}).baseSpeed} ft</td>
 
                                             </tr>
 
@@ -2362,7 +2362,7 @@ const Step1CoreDraft = () => {
 
                                                 <td><strong>Vision Range</strong></td>
 
-                                                <td>{selectedRace.baseTraits?.visionRange || selectedRace.baseTraits?.darkvision || 60} ft</td>
+                                                <td>{(() => { const t = Object.assign({}, selectedRace.baseTraits, selectedSubrace?.baseTraits || {}); return t.visionRange || t.darkvision || 60; })()} ft</td>
 
                                             </tr>
 

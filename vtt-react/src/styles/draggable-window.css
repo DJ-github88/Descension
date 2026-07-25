@@ -6,12 +6,25 @@
     text-rendering: optimizeLegibility;
     pointer-events: auto;
 
-    transition: transform 0.08s cubic-bezier(0.2, 0, 0.2, 1);
-
     will-change: transform;
     backface-visibility: hidden;
     transform-style: preserve-3d;
     contain: layout style;
+}
+
+/* Global performance rules during window dragging and resizing to eliminate layout thrashing & latency */
+body.window-dragging *,
+body.window-resizing *,
+.react-draggable-dragging *,
+.draggable-window.resizing * {
+    transition: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+body.window-dragging iframe,
+body.window-resizing iframe {
+    pointer-events: none !important;
 }
 
 /* Disable transition during dragging for performance */

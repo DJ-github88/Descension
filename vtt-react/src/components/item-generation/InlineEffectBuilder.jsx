@@ -345,20 +345,18 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                       onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                       className="pf-select"
                     >
-                      <option value="fire">Fire</option>
-                      <option value="cold">Cold</option>
-                      <option value="lightning">Lightning</option>
-                      <option value="acid">Acid</option>
-                      <option value="necrotic">Necrotic</option>
-                      <option value="radiant">Radiant</option>
-                      <option value="force">Force</option>
-                      <option value="psychic">Psychic</option>
-                      <option value="poison">Poison</option>
-                      <option value="thunder">Thunder</option>
-                      <option value="chaos">Chaos</option>
-                      <option value="bludgeoning">Bludgeoning</option>
-                      <option value="piercing">Piercing</option>
-                      <option value="slashing">Slashing</option>
+                      <option value="ember">Ember</option>
+                      <option value="rime">Rime</option>
+                      <option value="storm">Storm</option>
+                      <option value="primal">Primal</option>
+                      <option value="arcane">Arcane</option>
+                      <option value="blight">Blight</option>
+                      <option value="wyrd">Wyrd</option>
+                      <option value="sacred">Sacred</option>
+                      <option value="smashing">Smashing</option>
+                      <option value="stabbing">Stabbing</option>
+                      <option value="slicing">Slicing</option>
+                      <option value="ranged">Ranged</option>
                     </select>
                   </div>
                 </div>
