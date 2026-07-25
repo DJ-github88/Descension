@@ -253,7 +253,7 @@ Pervasive: `augurData.js:168/186/240` ("eight centuries"), compendium, lore.json
 
 ### 🟠 F10. `factionStore.js:985`: `'false_prophet'` (snake_case) vs `'falseProphet'` elsewhere → `getFactionsByClass` silently misses it. Neth typed as `noble_house` (canon: a race/scribe-clan).
 
-### 🟡 F11. Faction gaps: 41 of 49 factions have empty `members: []` (worse than v3's 24/34). "Church of the Holy Light" still missing (now "Solbrand Order," no faction entry). 6 social castes (Forgotten/Fredlose/Deck-Born/Bilge-Dwellers/Mounted/Unmounted) exist only as lore concepts. `silent_seventh` not wired as a Viridane alias.
+### 🟡 F11. Faction gaps: 41 of 49 factions have empty `members: []` (worse than v3's 24/34). "Church of the Holy Light" still missing (now "Solbrand Order," no faction entry). 6 social castes (Forgotten/Fredløse/Deck-Born/Bilge-Dwellers/Mounted/Unmounted) exist only as lore concepts. `silent_seventh` not wired as a Viridane alias.
 
 ---
 

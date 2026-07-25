@@ -55,7 +55,7 @@ Florae younglings are not born biologically; they are planted. Every youngling b
 
 Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders in deep groves) or 'Shorn' (pruned and manicured under high-collared traveler coats in human cities) is a matter of personal choice and lifestyle. Both carry the same warm heartwood core, the same copper water-flask, and the same blank unstitched Viridane crest patch.`,
 
-  variantDiversity: `The Florae are a unified single race. An individual Florae's appearance varies by their tree lineage (Oak, Birch, Willow, Pine, or Rowan) and whether they keep their branches Wild or Shorn for city travel.`,
+  variantDiversity: `The Florae split into two subraces born of the same fae-contract. The Viridian paid the contract's price in thorns: their forearms bristle with living barbs, the physical mark of the old pact, and they keep the refusal of the Fog Compact alive in the deep ironwood groves. The Oken paid the price in timber: their arms are crude branch-boughs of oak, birch, willow, pine, or rowan, and they move more easily through the Ledgered towns. Both subraces also choose a personal lifestyle of Wild (unkempt, leafy) or Shorn (pruned, high-collared) regardless of their bloodline.`,
 
   integrationNotes: {
     actionPointSystem: 'Florae abilities focus on timber resilience, twig regrowth, water-based recovery, and nature-communion. Their branch-arms provide natural melee reach and grapples.',
@@ -164,11 +164,118 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
   ],
 
   subraces: {
-    florae_unified: {
+    viridian: {
+      id: 'viridian_florae',
+      name: 'Viridian',
+      illustration: '/assets/images/races/florae_ranger.jpg',
+      illustrationCaption: 'A Viridian Florae ranger with thorned forearms and a leafy briar crown, watching the deep groves.',
+      visualDescription: `Standing 5'6" to 6'2" with lean, fae-slender builds and forearms that bristle with living thorn-barbs grown from beneath the skin. Their eyes shift to the green of deep canopy, and their hair often weaves itself into briar-tangles if left uncombed. They wear thorn-cloaks openly in the deep groves and high-collared traveler coats (with the unstitched Viridane crest patch) when they must pass through Ledgered towns. Small forest creatures give them a wide berth; the thorns mark them, and the barbs carry the old fae-contract in their flesh.`,
+      tooltipSummary: 'Thorn-blooded Florae whose forearms bristle with the living barbs of the old fae-contract, carrying the Unwritten Word and the refusal of the Fog Compact.',
+      description: `The Viridian are the Trueborn Florae, the ones who kept House Viridane's refusal in their flesh. When the fae-contract was struck in the moonlit groves, the price came due two ways: thorns for the Viridian, timber for the Oken. The Viridian grew barbs from their forearms that mark them as the physical embodiment of the pact, and they retreated into the deepest ironwood groves to tend the places where the uncorrupted Monolith fragment was hidden.
+
+They reject the Fog Compact entirely. Where House Thalreth traded the Frostwood Reach's clarity for insulating mist, the Viridian believe the fog itself is the enemy, slowly erasing everything that made the forest sacred. The cleansing key carried in House Viridane's blood runs in theirs, and they carry the Unwritten Word, a truth-sense that hears a spoken lie the way a foot feels a false step. The Thorn-Speaker is the voice they elected to speak for them, and every word that one says is a thorn.`,
+      culturalBackground: `Viridian society clusters in the deep ironwood groves that the Thalren ledger-wards mark and go no further past. Their grove-holds are grown, not built: living thickets of barbed ironwood woven into walls that remember trespassers. Young Viridian are not planted like Oken Sapling-Sprouts; they are born biologically to thorn-blooded parents, and the barbs erupt through the skin in adolescence as the contract asserts itself.
+
+Their oral tradition is fierce and short-spoken. They keep the names of every house that broke the Binding, every house that marched its firstborn north, and they sing them only as warnings. A Viridian who leaves the deep groves does so as a partisan, carrying the refusal into the Ledgered world at great personal cost. The fog erodes them faster than it erodes the Oken, and they know it.`,
+      statModifiers: { dexterity: 2, wisdom: 1, charisma: 1, constitution: -1 },
+      baseStats: { hp: 7, mana: 9, ap: 3, initiative: 1 },
+      savingThrowModifiers: { advantage: ['insight', 'deception'], disadvantage: ['fire'] },
+      traits: [
+        {
+          id: 'thorn_barb_bristle_viridian',
+          name: 'Thorn-Barb Bristle',
+          description: 'Your forearms bristle with living thorn-barbs that are the physical mark of the old fae-contract. Your unarmed strikes deal 1d6 + Dexterity piercing damage (thorns) instead of bludgeoning. When an enemy grapples you or hits you with a melee attack from within 5 feet, they take 1d4 piercing damage from your barbs. The thorns cannot be removed or suppressed; they are the contract made flesh.',
+          level: 1,
+          icon: 'fas fa-bug',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff'],
+          typeConfig: { school: 'primal', icon: 'fas fa-bug', tags: ['thorns', 'fae-contract', 'piercing', 'passive'] },
+          buffConfig: {
+            buffType: 'combatEnhancement',
+            effects: [
+              {
+                id: 'thorn_strike',
+                name: 'Thorn Strike',
+                description: 'Unarmed strikes deal 1d6 + Dex piercing damage; adjacent attackers take 1d4 barb damage.',
+                mechanicsText: 'Unarmed strikes deal 1d6 + Dex piercing; barbs deal 1d4 to adjacent melee attackers.'
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'unwritten_word_viridian',
+          name: 'The Unwritten Word',
+          description: 'The fae-contract inscribed a truth-sense into the Viridian bloodline. You have advantage on Insight checks to detect spoken lies, and you cannot be deceived by mundane falsehoods spoken aloud in your presence. The cost of this gift is symmetric: you have disadvantage on Deception checks to speak a direct verbal lie, though you may still mislead by omission, misdirection, or carefully chosen truths.',
+          level: 1,
+          icon: 'fas fa-eye',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff', 'debuff'],
+          typeConfig: { school: 'primal', icon: 'fas fa-eye', tags: ['truth-sense', 'fae-contract', 'insight', 'passive'] },
+          buffConfig: {
+            buffType: 'statusEffectBuff',
+            effects: [
+              {
+                id: 'truth_sense',
+                name: 'Truth-Sense',
+                description: 'Advantage on Insight vs spoken lies; mundane verbal falsehoods detected automatically.',
+                mechanicsText: 'Advantage on Insight checks to detect lies; auto-detect mundane spoken deception.'
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          debuffConfig: {
+            debuffType: 'statusEffect',
+            effects: [
+              {
+                id: 'truth_bound',
+                name: 'Truth-Bound',
+                description: 'Disadvantage on Deception checks to speak a direct verbal lie.',
+                mechanicsText: 'Disadvantage on Deception to tell a spoken falsehood.'
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        },
+        {
+          id: 'fog_compact_refusal_viridian',
+          name: 'Fog-Compact Refusal',
+          description: 'The Viridian never accepted the Fog Compact, and the fog knows it. You have advantage on saving throws against memory-affecting, fog-based, and amnesia effects. When you would have a memory erased or altered by magical means, you may make a Wisdom save to retain the original memory. The Thalren ledger-wards can sense this refusal on you, and it adds +2 to the DC of any attempt to interrogate or magically extract information from you (the fog resists with you).',
+          level: 1,
+          icon: 'fas fa-cloud',
+          spellType: 'PASSIVE',
+          effectTypes: ['buff'],
+          typeConfig: { school: 'primal', icon: 'fas fa-cloud', tags: ['fog', 'memory', 'resistance', 'passive'] },
+          buffConfig: {
+            buffType: 'statusEffectBuff',
+            effects: [
+              {
+                id: 'fog_refusal',
+                name: 'Fog-Compact Refusal',
+                description: 'Advantage vs memory/fog/amnesia effects; Wis save to retain altered memories.',
+                mechanicsText: 'Advantage on saves vs memory-altering and fog-based effects.'
+              }
+            ],
+            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+          },
+          targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+          resourceCost: { actionPoints: 0, mana: 0, components: [] },
+          cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+        }
+      ]
+    },
+
+    oken: {
       id: 'florae_unified',
-      name: 'Florae',
+      name: 'Oken',
       illustration: '/assets/images/races/florae_village.jpg',
-      illustrationCaption: 'A peaceful Florae ground-level village built into colossal oak tree trunks with stone water-wells, garden beds, and forest animals.',
+      illustrationCaption: 'A peaceful Oken Florae ground-level village built into colossal oak tree trunks with stone water-wells, garden beds, and forest animals.',
       illustrations: [
         {
           src: '/assets/images/races/florae_village.jpg',
@@ -188,13 +295,15 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
         }
       ],
       visualDescription: `Standing 5'4" to 6'4" with friendly, carved-wooden faces, expressive amber eyes, and wide warm smiles. Their arms are crude, natural tree boughs (oak, birch, willow, pine, or rowan) that split into flexible twig-fingers sprouting fresh green leaf-buds when hydrated. Small forest creatures (squirrels, bluebirds, owls) often perch on their shoulder-boughs. They wear high-collared traveler coats with blank unstitched Viridane crest patches and copper water-flasks on their belts. Some groom themselves neatly ('Shorn') to travel in cities, while others remain unkempt and leaf-covered ('Wild') in the deep groves.`,
-      tooltipSummary: 'Tree-born treant-kin of House Viridane who carry crude branch-arms, water dependency, and druidic nature attunement.',
-      description: `The Florae are the transformed heirs of House Viridane, the 7th noble house that refused Keth-Amar's bargain. Rather than sacrifice their firstborn to northern flames, they fled into the fog groves and sealed an ancient nature contract with forest powers. In exchange for protection, their flesh was woven into living timber, turning them into charming, resilient treant-kin whose crude branch-arms, leafy crowns, and sap-filled veins carry the living proof of a lineage the world tried to erase.`,
-      culturalBackground: `Florae society is dedicated to tending trees and nurturing the forest. Their homes are built directly into colossal living ancient trees — cozy timber dwellings carved into massive tree trunks at ground level, surrounded by mossy dirt pathways, stone-bordered rain-water basins, and wooden fences.
+      tooltipSummary: 'Treant-kin Florae whose crude branch-arms of oak, birch, and willow carry the second price of the fae-contract, tending canopy villages and enduring the Fog Compact.',
+      description: `The Oken are the tree-born Florae, the ones whose flesh was woven into living timber when the fae-contract was struck. Where the Viridian grew thorns, the Oken grew wood: crude branch-arms of oak, birch, willow, pine, or rowan that split into flexible twig-fingers sprouting fresh leaf-buds when hydrated, and sap-filled veins where the Viridian carry barbs.
 
-Florae younglings are not born biologically; they are planted. Every youngling begins as a Sapling-Sprout planted in a sacred forest nursery bed of rich mossy soil. The elders water them daily with fresh rainwater, share berries with visiting squirrels, and sing the oral history until the saplings grow their first crude branch-arms and step out of the soil as young Florae.
+The Oken did not refuse the Fog Compact; they endure it. Where the Viridian retreated into the deep groves to keep the refusal alive, the Oken moved through the Ledgered towns, pruning themselves neat and walking under high-collared coats with the unstitched Viridane crest patch at the breast. A Shorn Oken can pass in Drunhold or Greymark Keep long enough to trade; a Wild Oken stays in the canopy villages where the Sapling-Sprouts are planted in mossy soil and sung into shape by elders with copper water-flasks at their belts.`,
+      culturalBackground: `Oken society is dedicated to tending trees and nurturing the forest. Their homes are built directly into colossal living ancient trees — cozy timber dwellings carved into massive tree trunks, connected by woven canopy bridges, suspended sun-lanterns, and rain-collecting basins.
 
-Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders in deep groves) or 'Shorn' (pruned and manicured under high-collared traveler coats in human cities) is a matter of personal choice and lifestyle. Both carry the same warm heartwood core, the same copper water-flask, and the same blank unstitched Viridane crest patch.`,
+Oken younglings are not born biologically; they are planted. Every youngling begins as a Sapling-Sprout planted in a sacred forest nursery bed of rich mossy soil. The elders water them daily with fresh rainwater, share berries with visiting squirrels, and sing the oral history until the saplings grow their first crude branch-arms and step out of the soil as young Oken.
+
+Whether an Oken appears 'Wild' (unkempt with leafy crowns and mossy shoulders in deep groves) or 'Shorn' (pruned and manicured under high-collared traveler coats in human cities) is a matter of personal choice and lifestyle. Both carry the same warm heartwood core, the same copper water-flask, and the same blank unstitched Viridane crest patch.`,
       statModifiers: { constitution: 2, wisdom: 1, strength: 1, charisma: -1 },
       baseStats: { hp: 9, mana: 6, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['nature', 'survival'], disadvantage: ['fire'] },

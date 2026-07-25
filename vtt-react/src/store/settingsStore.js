@@ -374,7 +374,11 @@ const useSettingsStore = create(
         get().updateSettings({ showVisionOutlines: enabled });
       },
 
-      // Resource Bar Visibility Settings
+      // Resource Bar Visibility & HUD Frame Settings
+      setHudPortraitSize: (size) => {
+        get().updateSettings({ hudPortraitSize: size });
+      },
+
       setShowPartyAPBar: (enabled) => {
         get().updateSettings({ showPartyAPBar: enabled });
       },
@@ -407,6 +411,7 @@ const useSettingsStore = create(
         // Window & UI
         windowScale: state.windowScale,
         uiTheme: state.uiTheme,
+        hudPortraitSize: state.hudPortraitSize,
         showAnimations: state.showAnimations,
         showTooltips: state.showTooltips,
 

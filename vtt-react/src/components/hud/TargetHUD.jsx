@@ -13,6 +13,9 @@ import { CONDITIONS } from '../../data/conditionsData';
 import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
 import ClassResourceBar from './ClassResourceBar';
+import ModularHealthBar from './ModularHealthBar';
+import ModularManaBar from './ModularManaBar';
+import ModularAPBar from './ModularAPBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -23,8 +26,8 @@ import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../
 
 // Helper function to get background display name
 const getBackgroundDisplayName = (backgroundId, backgroundDisplayName) => {
-  if (backgroundDisplayName) {
-    return backgroundDisplayName;
+  if (backgroundDisplayName && typeof backgroundDisplayName === 'string' && backgroundDisplayName.trim()) {
+    return backgroundDisplayName.trim();
   }
   if (backgroundId) {
     const bgData = getBackgroundData(backgroundId);
@@ -32,9 +35,12 @@ const getBackgroundDisplayName = (backgroundId, backgroundDisplayName) => {
       return bgData.name;
     }
     // Try custom backgrounds
-    const customBgData = getCustomBackgroundData(backgroundId.toLowerCase());
+    const customBgData = getCustomBackgroundData(String(backgroundId).toLowerCase());
     if (customBgData) {
       return customBgData.name;
+    }
+    if (typeof backgroundId === 'string' && backgroundId.trim()) {
+      return backgroundId.trim();
     }
   }
   return '';
@@ -149,6 +155,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
   const { isGMMode } = useGameStore();
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
+  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
   const { updatePartyMember } = usePartyStore();
   const { updateResource, updateClassResource, activeCharacter, updateTempResource } = useCharacterStore();
   const { updateTokenState, getCreature, creatures } = useCreatureStore();
@@ -1985,7 +1992,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         >
           <div ref={nodeRef} className="target-frame" style={{ position: 'relative' }}>
             <div
-              className={`party-member-frame target-frame-style ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+              className={`party-member-frame target-frame-style portrait-size-${hudPortraitSize} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
               onContextMenu={handleRightClick}
             >
               {/* Portrait */}
@@ -2115,120 +2122,38 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                 {/* Resource Bars */}
                 <div className="resource-bars-container">
-                  {/* Health Bar */}
-                  <div
-                    className="resource-bar health-bar"
-                  >
-                    <div
-                      className="resource-fill"
-                      style={{
-                        width: `${healthPercent}%`,
-                        backgroundColor: getHealthColor(healthPercent)
-                      }}
+                  {/* Custom Modular Health Bar */}
+                  <div style={{ width: '100%' }}>
+                    <ModularHealthBar
+                      currentHP={safeHealth.current}
+                      maxHP={safeHealth.max}
+                      tempHP={targetData.tempHealth || 0}
+                      showText={true}
                     />
-                    {targetData.tempHealth > 0 && safeHealth.max > 0 && (
-                      <div
-                        className="temp-resource-fill health-temp"
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: `${healthPercent}%`,
-                          height: '100%',
-                          width: `${Math.min(100 - healthPercent, (targetData.tempHealth / safeHealth.max) * 100)}%`,
-                          backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                          transition: 'width 0.3s ease, left 0.3s ease',
-                          zIndex: 1,
-                          pointerEvents: 'none'
-                        }}
-                      />
-                    )}
-                    <div className="resource-text">
-                      {(() => {
-                        const current = safeHealth.current;
-                        const max = safeHealth.max;
-                        const temp = targetData.tempHealth || 0;
-                        return temp > 0
-                          ? `${current}/${max} +${temp} Temporary HP`
-                          : `${current}/${max}`;
-                      })()}
-                    </div>
                   </div>
 
-                  {/* Mana Bar */}
-                  {showCreatureManaBar && safeMana.max > 0 && (
-                    <div className="resource-bar mana-bar">
-                      <div
-                        className="resource-fill"
-                        style={{
-                          width: `${manaPercent}%`,
-                          backgroundColor: 'var(--my-mana)'
-                        }}
-                      />
-                      {targetData.tempMana > 0 && safeMana.max > 0 && (
-                        <div
-                          className="temp-resource-fill mana-temp"
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: `${manaPercent}%`,
-                            height: '100%',
-                            width: `${Math.min(100 - manaPercent, (targetData.tempMana / safeMana.max) * 100)}%`,
-                            backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                            transition: 'width 0.3s ease, left 0.3s ease',
-                            zIndex: 1,
-                            pointerEvents: 'none'
-                          }}
-                        />
+                  {/* Row 2: Side-by-Side Mana & AP Bars */}
+                  {((showCreatureManaBar && safeMana.max > 0) || (showCreatureAPBar && safeActionPoints.max > 0)) && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', width: '100%' }}>
+                      {showCreatureManaBar && safeMana.max > 0 && (
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <ModularManaBar
+                            currentMana={safeMana.current}
+                            maxMana={safeMana.max}
+                            tempMana={targetData.tempMana || 0}
+                            showText={true}
+                          />
+                        </div>
                       )}
-                      <div className="resource-text">
-                        {(() => {
-                          const current = safeMana.current;
-                          const max = safeMana.max;
-                          const temp = targetData.tempMana || 0;
-                          return temp > 0
-                            ? `${current}/${max} +${temp} Temporary Mana`
-                            : `${current}/${max}`;
-                        })()}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Action Points Bar */}
-                  {showCreatureAPBar && safeActionPoints.max > 0 && (
-                    <div className="resource-bar ap-bar">
-                      <div
-                        className="resource-fill"
-                        style={{
-                          width: `${apPercent}%`,
-                          backgroundColor: 'var(--my-health-low)'
-                        }}
-                      />
-                      {targetData.tempActionPoints > 0 && safeActionPoints.max > 0 && (
-                        <div
-                          className="temp-resource-fill ap-temp"
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: `${apPercent}%`,
-                            height: '100%',
-                            width: `${Math.min(100 - apPercent, (targetData.tempActionPoints / safeActionPoints.max) * 100)}%`,
-                            backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                            transition: 'width 0.3s ease, left 0.3s ease',
-                            zIndex: 1,
-                            pointerEvents: 'none'
-                          }}
-                        />
+                      {showCreatureAPBar && safeActionPoints.max > 0 && (
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <ModularAPBar
+                            currentAP={safeActionPoints.current}
+                            maxAP={safeActionPoints.max}
+                            showText={true}
+                          />
+                        </div>
                       )}
-                      <div className="resource-text">
-                        {(() => {
-                          const current = safeActionPoints.current;
-                          const max = safeActionPoints.max;
-                          const temp = targetData.tempActionPoints || 0;
-                          return temp > 0
-                            ? `${current}/${max} AP +${temp} Temporary AP`
-                            : `${current}/${max} AP`;
-                        })()}
-                      </div>
                     </div>
                   )}
 

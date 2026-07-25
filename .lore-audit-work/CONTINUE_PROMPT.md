@@ -1,5 +1,7 @@
 # HANDOFF PROMPT — copy everything below the line into a new chat
 
+> **SUPERSEDED 25 July 2026.** This handoff prompt described the audit state at the START of the 25 Jul session. All items it lists have since been resolved (see DECISIONS.md D6-D12) or cancelled (see creatureData.json NOT-orphaned finding). Kept here for historical reference only. For current state, see DECISIONS.md (D1-D12), CANON_REFERENCE.md (with §14 status), and the Memory MCP entities.
+
 ---
 
 You are continuing a large, in-progress lore-consistency project on the **Mythrill VTT** codebase (a TTRPG virtual tabletop). Working directory: `D:\VTT` (Windows, PowerShell). The React app lives in `D:\VTT\vtt-react\`. The repo is git-managed.
@@ -62,7 +64,7 @@ Silent gameplay-breaking bugs surfaced by the audit. Verify each fix with `node 
 ### BUCKET 3 — CONTENT GAPS
 - Missing NPCs: **Bayarmaa Ordavan** (the sitting Khatun who deposed Loras — only a factionStore leader npcId, no entry anywhere) + 7 lore.json stubs missing from `npcStore.js` (Deep-Alchemist Prime, Vat-Breaker Foreman, Solvan/Mereval/Tesshan/Morrath Stewards, Vellan Archivist).
 - 41 of 49 factions in `factionStore.js` have empty `members: []`.
-- "Solbrand Order" (the Solvan knightly order — ratified D2) has no factionStore entry; 6 social castes (Forgotten/Fredlose/Deck-Born/Bilge-Dwellers/Mounted/Unmounted) exist only as lore concepts.
+- "Solbrand Order" (the Solvan knightly order — ratified D2) has no factionStore entry; 6 social castes (Forgotten/Fredløse/Deck-Born/Bilge-Dwellers/Mounted/Unmounted) exist only as lore concepts.
 - 6 broken hardcoded `<LoreLink termId>` in class data (`bayar-wind-throat`, `eira_bone_reader`, `helgar_the_rejector`, `ignis_the_watcher`, `mother_ysen`, `ironwood-palisade`, `solvarn`) — either create matching lore.json entries or strip the LoreLink wrapping to plain text.
 
 ## HOW TO OPERATE

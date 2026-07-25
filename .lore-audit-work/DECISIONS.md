@@ -34,3 +34,66 @@ These 5 decisions were ratified by the worldowner after the two-pass lore audit.
 - After the Breach the 6 remaining elevated **Morrath** as a substitute 7th → 7 *official* houses including Morrath.
 - The **Briaran "8th house"** survives **only** as a Briaran folk self-title / partisan belief (they count Viridane as 7th and themselves as 8th). It is never narrator fact.
 - Action: every objective/"narrator" statement of "eight houses signed" is corrected to 7. "Eight houses" is permitted only inside clearly-labeled Briaran belief/propaganda.
+
+---
+
+# CANON DECISIONS — RATIFIED 25 July 2026 (v4 / Florae-schism wave)
+
+## D6. Grimmwood witch-doctor — canonical name locked
+- **True fae name: Bri-Yrn** (pronounced BREEN, hard single-syllable closing).
+- **Colloquial title: "The Grimm-Mother"** — the name shunning locals, Thalren ledger-wards, and even Trueborn Florae use because they will not speak the true name aloud.
+- **Identity:** A true Fair Folk hermit (pre-Wyrd fae, *not* Florae) dwelling deep in Grimmwood, shunned by all surrounding peoples. Likely broker/keeper of the original fae-contract that transformed House Viridane into the Florae.
+- **Naming-convention rationale:** "Bri-" prefix ties her to the fae-contract tradition also borne by Bri-Vessela and the briar/Florae lineage; the dual-name pattern (true fae name + fearful title) matches the established world voice (cf. The Thorn-Speaker, The Salt-Scarred, Saren-Vel).
+- **lore.json key:** `bri-yrn` (character type, region: frostwood-reach). Use both the true name and the title in the entry so either resolves.
+- **Action:** unblocks the Florae schism (D7, pending) — Viridian + Oken subrace lore and `florae.js` refactor may now reference her by name.
+
+## D7. Florae schism — Viridian + Oken subraces ratified
+- **Schism origin:** The fae-contract that transformed House Viridane took TWO PRICES. The Viridian paid in thorns (forearms bristle with living barbs = physical mark of the fae-contract, deep-grove dwellers, reject Fog Compact). The Oken paid in timber (crude branch-arms of oak/birch/willow, sap-filled veins, plant Sapling-Sprouts biologically). Both descended from House Viridane; one house, two transformations, one broker (Bri-Yrn).
+- **Type field:** New `subrace` type introduced to lore.json (parallel to existing one-offs `subfolk`/`subculture`). Used for `viridian` and `oken`.
+- **florae.js refactor:** Single `florae_unified` subrace replaced with `viridian` (3 traits: Thorn-Barb Bristle, Unwritten Word, Fog-Compact Refusal; +Dex+Wis+Cha/−Con) and `oken` (uses race's sharedTraits; keeps original florae_unified content with id 'florae_unified' for backwards-compat).
+- **Wild/Shorn lifestyle axis** retained as a personal-lifestyle choice WITHIN each subrace (not the same as the Viridian/Oken bloodline split).
+- **Action:** 3 new lore.json entries authored (viridian, oken, bri-yrn). florae.js refactored. Patched briaran/thorn-speaker/grimmwood to reference the schism.
+
+## D8. CANON_REFERENCE.md v4 ratification + Fredløse spelling
+- **v4 Monolith myth ratified into CANON_REFERENCE.md:** Sections 1 (Watcher), 3 (Breach), 5 (FULL restructure: 6 true corrupted + 1 false shard [Morrath] + 1 true seventh fragment [Viridane, cleansing key]), 12 (Seven Secrets) all updated.
+- **"Fredløse" canonical spelling confirmed** (proper Old Danish with U+00F8). The ASCII "Fredlose" form was a transcription error. 21 instances fixed across 9 files (lore.json, LORE_STYLE_GUIDE.md, 2 race-data .js files, 5 audit-note .md files).
+- **Encoding convention:** JSON files use `\u00F8` escape for non-ASCII chars (pure ASCII files, immune to CP1252 round-trip mojibake). `.js`/`.md` files use raw UTF-8 chars directly.
+
+## D9. Mimir subrace canonicalization — Arch + Broken Mimir (2 only)
+- **Only 2 subraces** confirmed (audit-note reference to "Veiled/Tethered/Untethered" 3-subrace model was incorrect / superseded).
+- **Display names:** Arch Mimir (key=`veiled`) + Broken Mimir (key=`tethered`). Renamed Fractured→Broken for thematic clarity.
+- **lore.json mimir prose rewritten:** Old "Masked/Woven/Unwoven" 3-group reference dropped. New prose reflects the 2-subrace reality.
+- **mimir.js:** 13 instances of "Fractured Mimir" renamed to "Broken Mimir".
+
+## D10. Neth + Myrathil subrace display names canonicalized
+- **Neth:** Descriptor titles canonical (High Neth / Hallowed Neth / Pale Neth). Proper-noun forms (Velun/Kessen/Drun) preserved parenthetically. lore.json neth entry updated throughout (summary + 3 paragraphs).
+- **Myrathil:** -ling morphology canonical (Shoreling/Deepling/Riverling). lore.json summary updated.
+
+## D11. Subrace representation migration + Human top-level entry
+- **Subrace migration:** Old standalone-subrace lore.json entries (`velun`, `merryn`, `rime_born`) migrated from `type=race` to `type=subrace` for consistency with the post-D6/D7 convention.
+- **Human top-level entry authored:** New `human` lore.json entry (id=human, type=race, 17 relatedTerms cross-referencing 7 subraces + 7 houses + Breach/Warden/Aex). Humans were previously represented only via 7 regional subraces in human.js + one standalone merryn entry.
+
+## D12. Seelie Accord direction — B (Splintered) ratified
+- **Canon:** The Seelie Accord was a unified pre-Breach fae court governing the Frostwood Reach via mutual-obligation contract (not a throne). The Breach broke the obligations; the Accord "shattered like a mirror" into competing factions.
+- **Three named splinter factions:**
+  1. **The Hedgerow** (Pooka-led) — claims the guardianship mandate; watches the wild places
+  2. **The Revel Court** (Wyrd-corrupted) — claims the rites; ritualizes seasonal celebrations as traps (see `the_revel`)
+  3. **The Solitary Ones** (Bri-Yrn and hermits like her) — claim nothing; pre-date the Accord and outlast it
+- **Bri-Yrn confirmed apolitical:** Authority from age/craft, not court position. She "never sat in the Seelie Accord." Thalren ledger-wards listing: `"fae — political affiliation: none"`.
+- **Thalren listing convention for splinters:** `"fae — political affiliation: contested"`.
+- **Action:** New `seelie_accord` lore.json entry authored (type=faction, ~370 words). `the_revel` patched to reference Seelie Accord by name and self-identify as a splinter. `bri-yrn` patched with apolitical clarification. `pooka` cross-referenced.
+
+---
+
+## SESSION-WIDE NOTES (25 Jul 2026)
+
+**Final lore.json state:** 316 entries (was 311 at session start). +5 new top-level entries: `viridian`, `oken`, `bri-yrn`, `human`, `seelie_accord`. Size 572KB → 605KB (+33KB of enriched prose + new canon). 0 mojibake residue. 0 broken cross-references. 0 PS internal property leaks.
+
+**Prose enrichment completed:** All 16 Wyrd creatures flagged in the audit note (5 round-1 majors + 11 round-2 templated stubs) now have hand-crafted prose matching gref/gambrel/stel voice quality. 47 new relatedTerms cross-references added in round 2 alone.
+
+**Audit task CANCELLED:** "Delete src/data/creatureData.json (orphaned narrative source)" — VERIFIED NOT ORPHANED. Has 2 active runtime imports (BestiaryDisplay.jsx + EnhancedCreatureInspectView.jsx) + 172 identifier refs. Original audit's "NO runtime imports" claim was wrong / stale.
+
+**Lessons learned this session:**
+- PowerShell 5.1 reads script files without UTF-8-BOM as CP1252, corrupting em-dashes and other non-ASCII chars in here-strings. Mitigation: keep scripts pure-ASCII, build non-ASCII at runtime via `[char]` codes, then run `fix-mojibake.ps1` after edits.
+- "Orphan file" audit claims must be verified via grep/import-check before deletion, even when an audit explicitly says "no runtime imports" — codebases evolve.
+- `$LASTEXITSTATE` is unreliable for native commands in some PowerShell 5.1 sessions. Use ES-module import via `node -e "import(...)"` for syntax validation instead.

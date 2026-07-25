@@ -1,0 +1,1 @@
+import('file:///D:/VTT/.lore-audit-work/fredlose-bgd-modified.mjs').then(()=>{console.log('IMPORT_OK');process.exit(0);}).catch((e)=>{console.error('IMPORT_FAIL:',e.message);process.exit(1);});

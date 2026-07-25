@@ -412,7 +412,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  const navigation = [
   { id: 'home', label: 'Home', icon: 'fas fa-home' },
   { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
-  ...(isAdmin ? [{ id: 'map-making', label: 'Map Making', icon: 'fas fa-feather-alt' }] : []),
   { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
  ];
 
@@ -689,7 +688,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     <main className="landing-main">
      {activeSection === 'home' && renderHomeSection()}
      {activeSection === 'rules' && renderRulesSection()}
-     {activeSection === 'map-making' && renderMapMakingSection()}
      {activeSection === 'membership' && renderMembershipSection()}
     </main>
 

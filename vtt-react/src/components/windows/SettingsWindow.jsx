@@ -17,10 +17,12 @@ const ResourceBarToggles = memo(function ResourceBarToggles() {
   const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
   const showCreatureAPBar = useSettingsStore(state => state.showCreatureAPBar ?? true);
   const showCreatureManaBar = useSettingsStore(state => state.showCreatureManaBar ?? true);
+  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
   const setShowPartyAPBar = useSettingsStore(state => state.setShowPartyAPBar);
   const setShowPartyManaBar = useSettingsStore(state => state.setShowPartyManaBar);
   const setShowCreatureAPBar = useSettingsStore(state => state.setShowCreatureAPBar);
   const setShowCreatureManaBar = useSettingsStore(state => state.setShowCreatureManaBar);
+  const setHudPortraitSize = useSettingsStore(state => state.setHudPortraitSize);
 
   const toggleStyle = {
     display: 'flex', alignItems: 'center', gap: '10px',
@@ -33,13 +35,36 @@ const ResourceBarToggles = memo(function ResourceBarToggles() {
   return (
     <div style={{ marginBottom: '24px', padding: '20px', background: 'linear-gradient(135deg, rgba(231,76,60,0.06), rgba(231,76,60,0.03))', border: '1px solid rgba(231,76,60,0.15)', borderRadius: '8px' }}>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', gap: '12px' }}>
-        <i className="fas fa-bars" style={{ fontSize: '20px', color: '#c0392b' }}></i>
+        <i className="fas fa-id-card" style={{ fontSize: '20px', color: '#c0392b' }}></i>
         <div>
-          <h3 style={{ margin: '0 0 4px 0', color: '#c0392b', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>Resource Bar Visibility</h3>
-          <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Toggle AP and Mana bars for third-party system compatibility</p>
+          <h3 style={{ margin: '0 0 4px 0', color: '#c0392b', fontSize: '20px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>HUD Frame & Resource Bar Settings</h3>
+          <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Customize HUD artwork, portrait box size, and bar visibility</p>
         </div>
       </div>
       <div className="settings-group" style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
+        <div style={{ ...toggleStyle, cursor: 'default', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>HUD Frame Style & Portrait Size</div>
+            <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Choose between standard small portrait frame or ornate large portrait frame</div>
+          </div>
+          <select
+            value={hudPortraitSize}
+            onChange={(e) => setHudPortraitSize(e.target.value)}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '4px',
+              border: '1px solid #a08c70',
+              background: '#f8f5eb',
+              color: '#3a2f1f',
+              fontWeight: '600',
+              fontFamily: 'Cinzel, serif',
+              cursor: 'pointer'
+            }}
+          >
+            <option value="small">Small Portrait Frame</option>
+            <option value="large">Large Portrait Frame</option>
+          </select>
+        </div>
         <label style={toggleStyle}>
           <input type="checkbox" checked={showPartyAPBar} onChange={(e) => setShowPartyAPBar(e.target.checked)} style={{ marginRight: '8px', accentColor: '#9a5e15' }} />
           <div>
@@ -168,8 +193,8 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
   // Settings from new settings store (with persistence)
   const windowScale = useSettingsStore(state => state.windowScale);
   const setWindowScale = useSettingsStore(state => state.setWindowScale);
-  const uiTheme = useSettingsStore(state => state.uiTheme || 'fantasy');
-  const setUITheme = useSettingsStore(state => state.setUITheme);
+  const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
+  const setHudPortraitSize = useSettingsStore(state => state.setHudPortraitSize);
   const feetPerTile = useSettingsStore(state => state.feetPerTile);
   const setFeetPerTile = useSettingsStore(state => state.setFeetPerTile);
   const showMovementVisualization = useSettingsStore(state => state.showMovementVisualization);
@@ -416,6 +441,39 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
           </div>
         </div>
 
+        <div style={{ marginBottom: '20px', padding: '16px', background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.03))', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
+            <i className="fas fa-id-card" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
+            <div>
+              <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>HUD Frame Style & Portrait Size</h3>
+              <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Choose your personal character HUD frame artwork (Small vs Large Portrait)</p>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(160,140,112,0.3)', borderRadius: '6px' }}>
+            <div>
+              <div style={{ fontWeight: '600', color: '#7a3b2e', fontSize: '14px', fontFamily: 'Cinzel, serif' }}>Personal HUD Frame Style</div>
+              <div style={{ fontSize: '12px', color: '#8b6f47', marginTop: '2px', fontStyle: 'italic' }}>Select between standard compact frame or ornate large portrait frame</div>
+            </div>
+            <select
+              value={hudPortraitSize}
+              onChange={(e) => setHudPortraitSize(e.target.value)}
+              style={{
+                padding: '8px 14px',
+                borderRadius: '6px',
+                border: '1px solid #a08c70',
+                background: '#f8f5eb',
+                color: '#3a2f1f',
+                fontWeight: '600',
+                fontFamily: 'Cinzel, serif',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="small">Small Portrait Frame</option>
+              <option value="large">Large Portrait Frame</option>
+            </select>
+          </div>
+        </div>
+
         <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', border: '1px solid #e8dcc0', borderRadius: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
             <i className="fas fa-layer-group" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
@@ -430,41 +488,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
           >
             <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>Reset Window Layout
           </button>
-        </div>
-
-        <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(139, 69, 19, 0.05)', border: '1px solid #e8dcc0', borderRadius: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px', gap: '12px' }}>
-            <i className="fas fa-palette" style={{ fontSize: '20px', color: '#7a3b2e' }}></i>
-            <div>
-              <h3 style={{ margin: '0 0 4px 0', color: '#7a3b2e', fontSize: '18px', fontFamily: 'Cinzel, serif' }}>UI Theme</h3>
-              <p style={{ margin: '0', color: '#8b6f47', fontSize: '14px', fontStyle: 'italic' }}>Choose the visual style for the interface</p>
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {[
-              { value: 'fantasy', label: 'Fantasy (Default)' },
-              { value: 'dark', label: 'Dark' },
-              { value: 'modern', label: 'Modern' }
-            ].map(theme => (
-              <button
-                key={theme.value}
-                onClick={() => setUITheme(theme.value)}
-                style={{
-                  padding: '8px 16px',
-                  background: uiTheme === theme.value ? 'rgba(139, 69, 19, 0.2)' : 'rgba(139, 69, 19, 0.05)',
-                  border: uiTheme === theme.value ? '2px solid #8B4513' : '1px solid #e8dcc0',
-                  color: '#5a3a1a',
-                  borderRadius: '4px',
-                  fontFamily: 'Cinzel, serif',
-                  fontWeight: uiTheme === theme.value ? '700' : '500',
-                  fontSize: '13px',
-                  cursor: 'pointer'
-                }}
-              >
-                {theme.label}
-              </button>
-            ))}
-          </div>
         </div>
 
         {currentLocalRoomId && (

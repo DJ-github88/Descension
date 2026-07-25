@@ -15,6 +15,9 @@ import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import ClassResourceBar from './ClassResourceBar';
 import SummonTokenBar from './SummonTokenBar';
+import ModularHealthBar from './ModularHealthBar';
+import ModularManaBar from './ModularManaBar';
+import ModularAPBar from './ModularAPBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -56,6 +59,44 @@ function isSelfId(id, userId, myIds = {}) {
     return false;
 }
 
+const resolveBackgroundName = (bgId, bgDisplayName, loreObj) => {
+    const sanitize = (val) => {
+        if (!val || typeof val !== 'string') return '';
+        const trimmed = val.trim();
+        return (trimmed.toLowerCase() === 'none' || trimmed.toLowerCase() === 'unknown') ? '' : trimmed;
+    };
+
+    const cleanDisplayName = sanitize(bgDisplayName);
+    if (cleanDisplayName) return cleanDisplayName;
+
+    const candidateId = sanitize(bgId);
+    if (candidateId) {
+        const bgData = getBackgroundData(candidateId);
+        if (bgData) return bgData.name;
+
+        const bgDataLower = getBackgroundData(candidateId.toLowerCase());
+        if (bgDataLower) return bgDataLower.name;
+
+        const customBgData = getCustomBackgroundData(candidateId.toLowerCase());
+        if (customBgData) return customBgData.name;
+
+        return candidateId;
+    }
+
+    const loreBg = sanitize(loreObj?.background) || sanitize(loreObj?.socialBackground) || sanitize(loreObj?.backgroundDisplayName);
+    if (loreBg) {
+        const bgData = getBackgroundData(loreBg);
+        if (bgData) return bgData.name;
+
+        const customBgData = getCustomBackgroundData(loreBg.toLowerCase());
+        if (customBgData) return customBgData.name;
+
+        return loreBg;
+    }
+
+    return '';
+};
+
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
     const frameRef = useRef(null);
     const healthBarRef = useRef(null);
@@ -65,6 +106,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     const isGMMode = useGameStore(state => state.isGMMode);
     const showPartyManaBar = useSettingsStore(state => state.showPartyManaBar ?? true);
     const showPartyAPBar = useSettingsStore(state => state.showPartyAPBar ?? true);
+    const hudPortraitSize = useSettingsStore(state => state.hudPortraitSize || 'small');
     const updatePartyMember = usePartyStore(state => state.updatePartyMember);
 
     // Get current player data directly from character store (always call hook, but only use if isCurrentPlayer)
@@ -77,7 +119,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         path: state.path,
         pathDisplayName: state.pathDisplayName,
         alignment: state.alignment,
-        exhaustionLevel: state.exhaustionLevel
+        exhaustionLevel: state.exhaustionLevel,
+        lore: state.lore
     }));
 
     // Only use store data if this is the current player
@@ -816,121 +859,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             <div
                 ref={frameRef}
                 data-player-id={member.id}
-                className={`party-member-frame ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
+                className={`party-member-frame portrait-size-${hudPortraitSize} ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
                 onContextMenu={handleRightClick}
             >
-                {/* Portrait */}
-                <div className="party-portrait">
-                    {(() => {
-                        const customIcon = member.character?.tokenSettings?.customIcon;
-                        const charImage = member.character?.lore?.characterImage;
-                        const charIcon = member.character?.lore?.characterIcon;
-                        const transformations = member.character?.lore?.imageTransformations;
-                        const borderColor = member.character?.tokenSettings?.borderColor;
-                        const hasImage = !!(customIcon || charImage || charIcon);
-
-                                                                        const iconBorderColor = member.character?.lore?.iconBorderColor;
-                                                const iconOffsetX = member.character?.lore?.iconOffsetX || 0;
-                        const iconOffsetY = member.character?.lore?.iconOffsetY || 0;
-                                                                        
-                        const hasCustomStyling = !!(member.character?.lore?.iconBackgroundImage || member.character?.lore?.iconBackgroundColor || member.character?.lore?.iconBorderColor);
-
-                        let imageUrl = null;
-                        
-                        if (customIcon) {
-                            imageUrl = customIcon;
-                        } else if (charImage) {
-                            imageUrl = charImage;
-                        } else if (charIcon) {
-                            // Workshop icons are in 'creatures' folder
-                            imageUrl = getIconUrl(charIcon, charIcon.includes('/') ? 'creatures' : 'items');
-                        }
-
-                        // Use consistent transformation logic from Lore.jsx/Workshop
-                        const portraitImageStyle = {
-                            width: '100%',
-                            height: '100%',
-                            display: 'block',
-                            objectFit: 'cover',
-                            transform: `scale(${(transformations?.scale || (charImage ? 1.2 : 1)) * (member.character?.lore?.iconScale || 1)}) rotate(${transformations?.rotation || 0}deg) translate(${(transformations?.positionX || 0) + (iconOffsetX)}px, ${(transformations?.positionY || 0) + (iconOffsetY)}px)`,
-                            transition: 'transform 0.2s ease-out'
-                        };
-
-                        return (
-                            <div
-                                className={`portrait-image ${!hasImage ? 'portrait-placeholder' : ''}`}
-                                style={{
-                                    ...(hasCustomStyling ? { 
-                                        background: 'none', 
-                                        backgroundColor: 'transparent',
-                                        borderColor: iconBorderColor || '#d4af37',
-                                        borderRadius: '8px'
-                                    } : { 
-                                        borderColor: hasImage && borderColor ? borderColor : undefined 
-                                    }),
-                                    overflow: 'hidden',
-                                    position: 'relative',
-                                    zIndex: 1
-                                }}
-                            >
-                                {hasImage ? (
-                                    <img 
-                                        src={imageUrl} 
-                                        alt="Portrait" 
-                                        style={portraitImageStyle}
-                                        draggable={false}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            if (charIcon) e.target.src = getIconUrl('Human/Icon1', 'creatures');
-                                        }}
-                                    />
-                                ) : (
-                                    <div className="portrait-placeholder-icon">
-                                        <i className="fas fa-user" />
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })()}
-                    {(() => {
-                        const iconBg = member.character?.lore?.iconBackgroundImage;
-                        const iconBgColor = member.character?.lore?.iconBackgroundColor;
-                        const iconBorderColor = member.character?.lore?.iconBorderColor;
-                        const iconBgScale = member.character?.lore?.iconBackgroundScale || 2.5;
-                        const iconBgOffsetX = member.character?.lore?.iconBackgroundOffsetX || 0;
-                        const iconBgOffsetY = member.character?.lore?.iconBackgroundOffsetY || 0;
-                        const hasCustomStyling = !!(iconBg || iconBgColor || iconBorderColor);
-                        if (!hasCustomStyling) return null;
-                        return (
-                            <div
-                                className="portrait-backdrop-ring"
-                                style={{
-                                    position: 'absolute',
-                                    top: '0',
-                                    left: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    borderRadius: '8px',
-                                    backgroundColor: iconBgColor || '#f8f5eb',
-                                    borderColor: 'transparent',
-                                    borderWidth: '0',
-                                    backgroundImage: iconBg
-                                        ? `url(/assets/backgrounds/${encodeURIComponent(iconBg)})`
-                                        : 'none',
-                                    backgroundSize: iconBg
-                                        ? `${iconBgScale * 100}%`
-                                        : 'cover',
-                                    backgroundPosition: iconBg
-                                        ? `calc(50% + ${iconBgOffsetX}px) calc(50% + ${iconBgOffsetY}px)`
-                                        : 'center',
-                                    backgroundRepeat: 'no-repeat',
-                                    zIndex: 0
-                                }}
-                            />
-                        );
-                    })()}
-                </div>
-
                 {/* Info Section */}
                 <div className="party-member-info">
                     <div className="member-header">
@@ -994,20 +925,11 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 if (isCurrentPlayer && currentPlayerData) {
                                     race = currentPlayerData.raceDisplayName || currentPlayerData.race || 'Unknown Race';
                                     characterClass = currentPlayerData.class || 'Unknown Class';
-
-                                    // Get background display name from character store
-                                    background = currentPlayerData.backgroundDisplayName || '';
-                                    if (!background && currentPlayerData.background) {
-                                        const bgData = getBackgroundData(currentPlayerData.background);
-                                        if (bgData) {
-                                            background = bgData.name;
-                                        } else {
-                                            const customBgData = getCustomBackgroundData(currentPlayerData.background.toLowerCase());
-                                            if (customBgData) {
-                                                background = customBgData.name;
-                                            }
-                                        }
-                                    }
+                                    background = resolveBackgroundName(
+                                        currentPlayerData.background,
+                                        currentPlayerData.backgroundDisplayName,
+                                        currentPlayerData.lore
+                                    );
 
                                     // Get path display name from character store
                                     path = currentPlayerData.pathDisplayName || '';
@@ -1020,21 +942,11 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 } else {
                                     race = member.character?.raceDisplayName || member.character?.race || 'Unknown Race';
                                     characterClass = member.character?.class || 'Unknown Class';
-
-                                    // Get background display name
-                                    background = member.character?.backgroundDisplayName || '';
-                                    if (!background && member.character?.background) {
-                                        const bgId = member.character.background;
-                                        const bgData = getBackgroundData(bgId);
-                                        if (bgData) {
-                                            background = bgData.name;
-                                        } else {
-                                            const customBgData = getCustomBackgroundData(bgId.toLowerCase());
-                                            if (customBgData) {
-                                                background = customBgData.name;
-                                            }
-                                        }
-                                    }
+                                    background = resolveBackgroundName(
+                                        member.character?.background,
+                                        member.character?.backgroundDisplayName,
+                                        member.character?.lore
+                                    );
 
                                     // Get path/discipline display name
                                     path = member.character?.pathDisplayName || '';
@@ -1047,18 +959,18 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     }
                                 }
 
-                                // Format: Background Class (Discipline)
+                                // Format: Background • Class (Discipline)
                                 const classParts = [];
                                 if (background) {
                                     classParts.push(background);
                                 }
-                                if (characterClass) {
+                                if (characterClass && characterClass.toLowerCase() !== 'unknown class') {
                                     classParts.push(characterClass);
                                 }
                                 if (path) {
                                     classParts.push(`(${path})`);
                                 }
-                                const classLine = classParts.join(' ');
+                                const classLine = classParts.join(' • ');
 
                                 return (
                                     <>
@@ -1087,81 +999,40 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         </div>
                     </div>
 
-                    {/* Resource Bars */}
-                    <div className="resource-bars-container">
-                        {/* Health Bar */}
-                        <div
-                            ref={healthBarRef}
-                            className="resource-bar health-bar"
-                        >
-                            <div
-                                className="resource-fill"
-                                style={{
-                                    width: `${healthPercent}%`,
-                                    backgroundColor: getHealthColor(healthPercent)
-                                }}
+                    {/* Resource Bars Container */}
+                    <div className="resource-bars-container" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%', marginTop: '4px' }}>
+                        {/* Row 1: Full-Width Health Bar */}
+                        <div ref={healthBarRef} style={{ width: '100%' }}>
+                            <ModularHealthBar
+                                currentHP={member.character?.health?.current || 0}
+                                maxHP={member.character?.health?.max || 1}
+                                tempHP={member.character?.tempHealth || 0}
+                                showText={true}
                             />
-                            <div className="resource-text">
-                                {(() => {
-                                    const current = member.character?.health?.current || 0;
-                                    const max = member.character?.health?.max || 0;
-                                    const temp = member.character?.tempHealth || 0;
-                                    return temp > 0
-                                        ? `${current}/${max} +${temp} Temporary HP`
-                                        : `${current}/${max}`;
-                                })()}
-                            </div>
                         </div>
 
-                        {/* Mana Bar */}
-                        {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
-                            <div
-                                ref={manaBarRef}
-                                className="resource-bar mana-bar"
-                            >
-                                <div
-                                    className="resource-fill"
-                                    style={{
-                                        width: `${manaPercent}%`,
-                                        backgroundColor: 'var(--my-mana)'
-                                    }}
-                                />
-                                <div className="resource-text">
-                                    {(() => {
-                                        const current = member.character?.mana?.current || 0;
-                                        const max = member.character?.mana?.max || 0;
-                                        const temp = member.character?.tempMana || 0;
-                                        return temp > 0
-                                            ? `${current}/${max} +${temp} Temporary Mana`
-                                            : `${current}/${max}`;
-                                    })()}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Action Points Bar */}
-                        {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
-                            <div
-                                ref={apBarRef}
-                                className="resource-bar ap-bar"
-                            >
-                                <div
-                                    className="resource-fill"
-                                    style={{
-                                        width: `${apPercent}%`,
-                                        backgroundColor: 'var(--my-health-low)'
-                                    }}
-                                />
-                                <div className="resource-text">
-                                    {(() => {
-                                        const current = member.character?.actionPoints?.current || 0;
-                                        const max = member.character?.actionPoints?.max || 0;
-                                        const temp = member.character?.tempActionPoints || 0;
-                                        return temp > 0
-                                            ? `${current}/${max} AP +${temp} Temporary AP`
-                                            : `${current}/${max} AP`;
-                                    })()}
-                                </div>
+                        {/* Row 2: Side-by-Side Mana & AP Bars */}
+                        {((showPartyManaBar && (member.character?.mana?.max || 0) > 0) || (showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0)) && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', width: '100%' }}>
+                                {showPartyManaBar && (member.character?.mana?.max || 0) > 0 && (
+                                    <div ref={manaBarRef} style={{ flex: 1, minWidth: 0 }}>
+                                        <ModularManaBar
+                                            currentMana={member.character?.mana?.current || 0}
+                                            maxMana={member.character?.mana?.max || 1}
+                                            tempMana={member.character?.tempMana || 0}
+                                            showText={true}
+                                        />
+                                    </div>
+                                )}
+                                {showPartyAPBar && (member.character?.actionPoints?.max || 0) > 0 && (
+                                    <div ref={apBarRef} style={{ flex: 1, minWidth: 0 }}>
+                                        <ModularAPBar
+                                            currentAP={member.character?.actionPoints?.current || 0}
+                                            maxAP={member.character?.actionPoints?.max || 1}
+                                            showText={true}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         )}
 

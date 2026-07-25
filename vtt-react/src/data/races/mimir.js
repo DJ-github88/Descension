@@ -3,19 +3,19 @@ export const mimir = {
     name: 'Mimir',
     essence: 'The Mask-Bound',
     illustration: '/assets/images/races/Untethered_Mimir.png',
-    illustrationCaption: 'A Fractured Mimir with a hopeful expression, wearing a small broken mask remnant and accompanied by a floating golden Mote companion.',
+    illustrationCaption: 'A Broken Mimir with a hopeful expression, wearing a small broken mask remnant and accompanied by a floating golden Mote companion.',
     illustrations: [
       {
         src: '/assets/images/races/Untethered_Mimir.png',
-        caption: 'Fractured Mimir with broken mask remnant and floating golden Mote companion.'
+        caption: 'Broken Mimir with broken mask remnant and floating golden Mote companion.'
       },
       {
         src: '/assets/images/races/Veiled_Mimir.png',
-        caption: 'Fractured Mimir forest wanderer with small mask fragment.'
+        caption: 'Broken Mimir forest wanderer with small mask fragment.'
       },
       {
         src: '/assets/images/races/Veiled_Mimir_2.png',
-        caption: 'Fractured Mimir Mote-Keeper resting by ancient tree roots.'
+        caption: 'Broken Mimir Mote-Keeper resting by ancient tree roots.'
       },
       {
         src: '/assets/images/races/Tethered_Mimir.png',
@@ -43,7 +43,7 @@ The cruelest irony of Mimir existence: they would be better off without the mask
 The truth, that beneath every mask is a face Sereth called imperfect and the world would call beautiful, is the most closely guarded secret in Mythrill, guarded so effectively that even the Mimir themselves do not know it.`,
     quickFacts: [
         'Tall, slender canopy-dwellers of the Frostwood Reach who seal their faces behind unbroken masks of heartwood or storm-glass. Created and repeatedly rejected by Sereth, a perfectionist deity who died of its own impossible standards, they inherited a shame they cannot name and a face they will never believe is beautiful.',
-        'Every mask is an heirloom carrying centuries of ancestral dream-memories. The fog that devours memory also preserves their masks but prevents self-recognition; no Mimir has seen their own face clearly. Divided into Arch Mimir (aristocrats inheriting ancient storm-glass or heartwood masks) and Fractured Mimir (artisans and wanderers with rebuilt masks and glowing Motes).',
+        'Every mask is an heirloom carrying centuries of ancestral dream-memories. The fog that devours memory also preserves their masks but prevents self-recognition; no Mimir has seen their own face clearly. Divided into Arch Mimir (aristocrats inheriting ancient storm-glass or heartwood masks) and Broken Mimir (artisans and wanderers with rebuilt masks and glowing Motes).',
         'Play a Mimir to explore identity as performance and inheritance as burden. Your entire society is built on a lie (the masks were never necessary, the shame was never earned) and a single translated line of scripture threatens to unravel everything. What happens when you learn you were never rejected?'
     ],
     culturalBackground: `Mimir society is built around masks, not bloodlines. Every Mimir receives their mask as an heirloom, a sacred object carved from heartwood, storm-glass, or salvaged fragments. The complexity, height, horn-curves, and material of a mask dictate a Mimir's exact role in society: the Highborne Mimir wear towering, intricate horn-curved masks adorned with carved runes and hanging gemstones, holding positions as canopy adjudicators, astronomers, and archivist-priests, while lower castes wear simpler face-plates. The mask is everything: face, rank, name, and identity.
@@ -55,7 +55,7 @@ The Mimir are a shame culture. Masks are the family heirlooms that carry it, acc
     integrationNotes: {
       actionPointSystem: 'Mimir abilities focus on perception, memory, identity protection, and environmental adaptation. Their traits emphasize survival in obscured terrain and social nuance.',
       backgroundSynergy: 'Mimir excel in backgrounds emphasizing stealth, perception, and survival. Their introverted nature and secretive culture create compelling roleplay tension with outsiders.',
-      classCompatibility: 'The Arch Mimir favor Lunarchs above all, using their inherited masks and canopy archives to commune with ancestral memories and channel the parasite\'s lunar feeding cycle through starlight portents. The Fractured Mimir favor Apex, Shapers, and Toxicologists, employing their physical agility, storm-glass masks, and deep-floor forest chemistry to stalk Wyrd through the fog and brew toxins from the undergrowth. Animists emerge among all Mimir who channel the ancestral identities preserved in the canopy archives.'
+      classCompatibility: 'The Arch Mimir favor Lunarchs above all, using their inherited masks and canopy archives to commune with ancestral memories and channel the parasite\'s lunar feeding cycle through starlight portents. The Broken Mimir favor Apex, Shapers, and Toxicologists, employing their physical agility, storm-glass masks, and deep-floor forest chemistry to stalk Wyrd through the fog and brew toxins from the undergrowth. Animists emerge among all Mimir who channel the ancestral identities preserved in the canopy archives.'
     },
     diasporaVariation: `The Mimir are the least diasporic race in Mythrill, they cannot survive long outside the Frostwood fog without the mask-memories they carry beginning to fade. The rare expatriate Mimir (usually Tethered, who have less to lose) cling to the Frostwood trade-embassies and Ironjaw Port's fog-warded quarters, growing visibly thinner the longer they stay. A sea-ward Mimir who has lived a decade in the Merrowport fog-wards develops a salt-tolerance and a strange nautical dialect of Vale-Speak, but their dream-memories degrade faster in sea-mist than forest-mist. There is no meaningful Bryngloom or Sundale Mimir population, the few who attempted it faded within years, their inherited scriptures crumbling to pulp in the dry air.`,
     meaningfulTradeoffs: 'Mimir gain powerful identity protection and perception abilities through their masks, but suffer severe consequences if their masks are forcibly removed. The Mask-Shift lets them adopt other faces, but their inherited shame prevents them from ever accepting their own. They are introverted outsiders who struggle outside the Fog-Vales, defined by an inadequacy they cannot name and a creator they cannot remember.',
@@ -545,26 +545,26 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       },
       tethered: {
         id: 'tethered_mimir',
-        name: 'Fractured Mimir',
+        name: 'Broken Mimir',
         illustration: '/assets/images/races/Untethered_Mimir.png',
-        illustrationCaption: 'A young Fractured Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.',
+        illustrationCaption: 'A young Broken Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.',
         illustrations: [
           {
             src: '/assets/images/races/Untethered_Mimir.png',
-            caption: 'A young Fractured Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.'
+            caption: 'A young Broken Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.'
           },
           {
             src: '/assets/images/races/Veiled_Mimir.png',
-            caption: 'A Fractured Mimir forest wanderer with a small mask fragment and Mote companion.'
+            caption: 'A Broken Mimir forest wanderer with a small mask fragment and Mote companion.'
           },
           {
             src: '/assets/images/races/Veiled_Mimir_2.png',
-            caption: 'A Fractured Mimir Mote-Keeper resting by ancient tree roots.'
+            caption: 'A Broken Mimir Mote-Keeper resting by ancient tree roots.'
           }
         ],
-        visualDescription: `The Fractured Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,
+        visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,
         tooltipSummary: 'Hopeful, child-like Mimir who wear broken remnants of masks, shunning the nobility and choosing to live in rustic forest floor camps.',
-        description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away. The Fractured Mimir have discarded the rigid nobility and lifestyle of the Arch Mimir, taking great distance from their canopy-holds to live in rustic shelters on the mossy forest floor. At their heart, they are still Mimir, carrying the quiet burden of their heritage. They live with a child-like glee, hopeful and oblivious, yet slightly scared of the world below. Instead of full-face carvings, they wear only cracked fragments or remnants of broken masks, exposing their beautiful, near-perfect fae faces to the air—a state they embrace with joyful wonder and a touch of lingering fear.',
+        description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away. The Broken Mimir have discarded the rigid nobility and lifestyle of the Arch Mimir, taking great distance from their canopy-holds to live in rustic shelters on the mossy forest floor. At their heart, they are still Mimir, carrying the quiet burden of their heritage. They live with a child-like glee, hopeful and oblivious, yet slightly scared of the world below. Instead of full-face carvings, they wear only cracked fragments or remnants of broken masks, exposing their beautiful, near-perfect fae faces to the air—a state they embrace with joyful wonder and a touch of lingering fear.',
         culturalBackground: 'Fractured society is built on hope, rustic community, and the rejection of mask-bound shame. Far removed from the canopy temples, they live in temporary shelters built around the roots of ancient trees, sharing food around campfires. Lacking ancestral lineage masks, they either carve small wood shards to fit their faces or wear the cracked remnants of broken heirlooms. They navigate life with a child-like glee and hopeful curiosity, oblivious to noble politics, supporting one another with glowing golden orbs of light.',
         statModifiers: {
           agility: 2,

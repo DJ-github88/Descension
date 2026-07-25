@@ -1523,29 +1523,20 @@
 
 .party-member-frame {
     display: flex;
-    align-items: flex-start;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
-    border: 2.5px solid #8b7355;
-    border-radius: 6px;
-    padding: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    flex-direction: column;
     position: relative;
-    min-height: 70px;
-    /* Base minimum height */
-    height: auto;
-    /* Allow dynamic height growth */
-    width: 240px;
-    box-shadow:
-        0 3px 6px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
     font-family: var(--my-font-serif);
-    /* Ensure frame expands properly for 4th resource bar */
-    /* Allow overflow for tooltips, but content should be constrained by width */
     overflow: visible;
     box-sizing: border-box;
-    /* Ensure padding/border are included in width */
 
     /* Performance optimizations for smooth dragging */
     will-change: transform;
@@ -1560,176 +1551,184 @@
     transform: translateZ(0);
 }
 
-/* Ensure frames with 4th resource bars get additional height */
-.party-member-frame.has-class-resource {
-    min-height: 88px;
-    /* Increased minimum height when class resource bar is present */
-}
-
-/* For complex class resource displays that need more space */
-.party-member-frame.class-minstrel,
-.party-member-frame.class-harbinger,
-.party-member-frame.class-gambit,
-.party-member-frame.class-revenant,
-.party-member-frame.class-plaguebringer,
-.party-member-frame.class-toxicologist,
-.party-member-frame.class-false-prophet {
-    min-height: 110px;
-    /* Extra height for complex displays with menus */
-}
-
-/* Chronarch needs extra height for dual bars */
-.party-member-frame.class-chronarch {
-    min-height: 145px;
-    /* Extra height for dual bars display with breathing room */
-}
-
 .party-member-frame:hover {
-    background: linear-gradient(135deg, #f5ebe0 0%, #ede1c8 50%, #d9c9a8 100%);
-    border-color: #9d8466;
     transform: translateY(-1px);
-    box-shadow:
-        0 6px 12px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65));
 }
 
 .party-member-frame.current-player {
-    border-color: #7a3b2e;
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.3),
-        0 0 12px rgba(122, 59, 46, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    filter: drop-shadow(0 4px 10px rgba(122, 59, 46, 0.7)) drop-shadow(0 0 5px rgba(122, 59, 46, 0.5));
 }
 
 .party-member-frame.targeted {
-    border-color: #d4af37;
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.3),
-        0 0 16px rgba(212, 175, 55, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #f5ebe0 0%, #f0e6d2 50%, #e8dcc0 100%);
+    filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.9)) drop-shadow(0 0 8px rgba(212, 175, 55, 0.7));
 }
 
-.party-portrait {
-    position: relative;
-    width: 38px;
-    height: 38px;
-    margin-right: 8px;
-    flex-shrink: 0;
-}
-
-.portrait-backdrop-ring {
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border-radius: calc(var(--my-border-radius-lg) + 2px);
-    border: 2px solid #d4af37;
+/* Allow backdrop scene background (trees, sky, watercolor) inside HUD frames */
+.party-member-frame .portrait-backdrop-ring {
+    display: block !important;
     pointer-events: none;
-    z-index: 0;
 }
 
-.portrait-image {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #4a1f1a 100%);
-    border: 2px solid #8b7355;
-    border-radius: var(--my-border-radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #f0e6d2;
-    font-size: 18px;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-        0 2px 4px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
+/* Clean portrait image styling inside HUD frame */
+.party-member-frame .portrait-image {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    background: transparent !important;
 }
 
-.portrait-image.portrait-placeholder {
-    background: linear-gradient(135deg, #3a2f25 0%, #2a1f15 50%, #1a0f0b 100%);
-    border-color: #5e4a32;
-    border-style: dashed;
-}
-
-.portrait-placeholder-icon {
+.party-member-frame .portrait-placeholder-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
-    color: #5e4a32;
+    color: #d4c5b9;
     font-size: 16px;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
-/* Target token image styling */
-.target-token-image {
+/* ========================================================= */
+/* VARIANT 1: SMALL PORTRAIT FRAME (hud-frame-base.png)     */
+/* ========================================================= */
+.party-member-frame.portrait-size-small,
+.party-member-frame:not(.portrait-size-large) {
+    width: 310px;
+    min-height: 165px;
+    height: auto;
+}
+
+.party-member-frame.portrait-size-small::after,
+.party-member-frame:not(.portrait-size-large)::after {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--my-border-radius-lg);
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/ui/hud-frame-base.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.party-member-frame.portrait-size-small .party-portrait,
+.party-member-frame:not(.portrait-size-large) .party-portrait {
+    position: absolute !important;
+    left: 6.13% !important;
+    top: 10.96% !important;
+    width: 11.15% !important;
+    height: 21.15% !important;
+    margin: 0 !important;
+    z-index: 1 !important;
     overflow: hidden;
 }
 
-.leader-crown {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    font-size: 18px;
-    color: #FFD700;
-    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
-    z-index: 10;
-    transform: rotate(25deg);
-    animation: crownShine 2s ease-in-out infinite;
-}
-
-@keyframes crownShine {
-
-    0%,
-    100% {
-        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
-    }
-
-    50% {
-        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.9));
-    }
-}
-
-.party-member-info {
+.party-member-frame.portrait-size-small .party-member-info,
+.party-member-frame:not(.portrait-size-large) .party-member-info {
+    position: relative;
+    z-index: 3;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding-top: 2px;
-    min-height: fit-content;
-    /* Allow growth for additional resource bars */
-    height: auto;
-    /* Allow dynamic height expansion */
-    min-width: 0;
-    /* Allow flex shrinking */
+    padding: 10% 6.5% 8.5% 6.5%;
     width: 100%;
-    /* Ensure container takes full width */
-    max-width: 100%;
-    /* Prevent overflow */
     box-sizing: border-box;
-    /* Don't clip here - let the frame handle overflow */
 }
 
-.member-header {
+.party-member-frame.portrait-size-small .member-header,
+.party-member-frame:not(.portrait-size-large) .member-header {
+    padding-left: 20%;
+    margin-bottom: 4px;
+}
+
+.party-member-frame.portrait-size-small .resource-bars-container,
+.party-member-frame:not(.portrait-size-large) .resource-bars-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.party-member-frame.portrait-size-small.has-class-resource {
+    min-height: 185px;
+}
+
+.party-member-frame.portrait-size-small.class-chronarch {
+    min-height: 225px;
+}
+
+/* ========================================================= */
+/* VARIANT 2: LARGE PORTRAIT FRAME (hud-frame-large.png)    */
+/* ========================================================= */
+.party-member-frame.portrait-size-large {
+    width: 360px;
+    min-height: 205px;
+    height: auto;
+}
+
+.party-member-frame.portrait-size-large::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/ui/hud-frame-large.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.party-member-frame.portrait-size-large .party-portrait {
+    position: absolute !important;
+    left: 5.30% !important;
+    top: 9.42% !important;
+    width: 20.90% !important;
+    height: 38.23% !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+    overflow: hidden;
+}
+
+.party-member-frame.portrait-size-large .party-member-info {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 9% 7.5% 8.5% 7.5%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.party-member-frame.portrait-size-large .member-header {
+    padding-left: 31.5%; /* Fully clears right wooden border of the large portrait frame */
     margin-bottom: 4px;
+}
+
+.party-member-frame.portrait-size-large .resource-bars-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 26px; /* Shifts resource bars down below the portrait box frame */
+    margin-bottom: 2px;
+}
+
+.party-member-frame.portrait-size-large.has-class-resource {
+    min-height: 235px;
+}
+
+.party-member-frame.portrait-size-large.class-chronarch {
+    min-height: 275px;
 }
 
 .member-name {
@@ -2625,4 +2624,516 @@
     .react-draggable-dragging .party-member-frame {
         transform: none !important;
     }
+}
+
+/* ========================================================= */
+/* MODULAR CUSTOM HEALTH BAR STYLES (NORMALIZED GEOMETRY)   */
+/* ========================================================= */
+.modular-health-bar-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.modular-health-bar-container:hover {
+    filter: drop-shadow(0 3px 7px rgba(0, 0, 0, 0.65));
+    transform: translateY(-0.5px);
+}
+
+/* Continuous Trough Base Layer (Starts right after brass socket ring, zero bleed into socket) */
+.modular-health-bar-container .hp-trough-base {
+    position: absolute;
+    top: 22.2%;
+    bottom: 23.3%;
+    left: 41px; /* Starts cleanly right after brass socket ring inside left module */
+    right: 14px; /* Ends cleanly inside right endcap module right where brass collar is */
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+
+/* Empty Slate Blue Trough Background (#354856) */
+.modular-health-bar-container .hp-trough-empty-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #354856;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.85), inset 0 -1px 2px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+/* Red Fluid Health Fill (One single stretched continuous liquid texture image) */
+.modular-health-bar-container .hp-fill-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+    transition: width 0.35s ease-out;
+}
+
+/* HP Value Text Overlay */
+.modular-health-bar-container .hp-bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff8eb;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    text-shadow: 0 1px 2px #000, 0 0 5px #000;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+/* Wooden & Brass Frame Overlay Layer (z-index 3) */
+.modular-health-bar-container .hp-frame-overlay {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Left Wooden Module & Brass Socket Ring */
+.modular-health-bar-container .hp-module-left {
+    position: relative;
+    height: 32px;
+    width: 44px;
+    flex-shrink: 0;
+    margin-right: -1px; /* Overlaps cut edge seamlessly to remove black lines */
+}
+
+.modular-health-bar-container .hp-module-frame-left {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* Heart Potion Flask Icon (Positioned at 54%, larger, tilted left -12deg) */
+.modular-health-bar-container .hp-socket-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 54%; /* Shifted a little bit left */
+    transform: translate(-50%, -50%) rotate(-12deg);
+    width: 36px; /* Scaled up larger status icon */
+    height: 39px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+}
+
+.modular-health-bar-container .hp-heart-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+/* Radiant glowing aura for MAX health */
+.modular-health-bar-container .hp-socket-icon-wrapper.heart-state-max .hp-heart-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 40, 40, 0.95)) drop-shadow(0 0 14px rgba(255, 215, 0, 0.95));
+    animation: heartPulseMax 2.2s ease-in-out infinite;
+}
+
+@keyframes heartPulseMax {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 40, 40, 0.85)) drop-shadow(0 0 12px rgba(255, 215, 0, 0.85)); }
+    50% { filter: drop-shadow(0 0 10px rgba(255, 40, 40, 0.95)) drop-shadow(0 0 16px rgba(255, 215, 0, 0.95)); }
+}
+
+/* Middle Wooden Channel Rails (Normalized 189px canvas matches left module 100% flush) */
+.modular-health-bar-container .hp-module-middle {
+    flex: 1;
+    height: 32px;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+/* Right Wooden Endcap Module */
+.modular-health-bar-container .hp-module-right {
+    height: 32px;
+    width: 35.7px;
+    flex-shrink: 0;
+    position: relative;
+    margin-left: -1px;
+}
+
+.modular-health-bar-container .hp-module-frame-right {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* ========================================================= */
+/* MODULAR MANA BAR STYLES (IDENTICAL FRAME TO HEALTH BAR)  */
+/* ========================================================= */
+.modular-mana-bar-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.modular-mana-bar-container:hover {
+    filter: drop-shadow(0 3px 7px rgba(0, 0, 0, 0.65));
+    transform: translateY(-0.5px);
+}
+
+/* Continuous Trough Base Layer (Identical trough channel bounds as Health Bar) */
+.modular-mana-bar-container .mana-trough-base {
+    position: absolute;
+    top: 22.2%;
+    bottom: 23.3%;
+    left: 41px; /* Starts cleanly right after brass socket ring */
+    right: 14px; /* Ends cleanly inside right endcap module */
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+
+/* Empty Slate Blue Trough Background (#233240) */
+.modular-mana-bar-container .mana-trough-empty-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #233240;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+/* Royal Blue Arcane Mana Fill Texture (Stretched as ONE single continuous liquid image) */
+.modular-mana-bar-container .mana-fill-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.55), inset 0 -2px 5px rgba(0, 0, 0, 0.85);
+    transition: width 0.35s ease-out;
+}
+
+/* Mana Value Text Overlay */
+.modular-mana-bar-container .mana-bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #eaf4ff;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    text-shadow: 0 1px 2px #000, 0 0 5px #000;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+/* Frame Overlay Layer (z-index 3) */
+.modular-mana-bar-container .mana-frame-overlay {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Left Wooden Module & Brass Socket Ring */
+.modular-mana-bar-container .mana-module-left {
+    position: relative;
+    height: 32px;
+    width: 44px;
+    flex-shrink: 0;
+    margin-right: -1px;
+}
+
+.modular-mana-bar-container .mana-module-frame-left {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* Middle Wooden Channel Rails */
+.modular-mana-bar-container .mana-module-middle {
+    flex: 1;
+    height: 32px;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+/* Right Wooden Endcap Module */
+.modular-mana-bar-container .mana-module-right {
+    height: 32px;
+    width: 35.7px;
+    flex-shrink: 0;
+    position: relative;
+    margin-left: -1px;
+}
+
+.modular-mana-bar-container .mana-module-frame-right {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* Arcane Crystal Icon (Shifted right to 53%, tilted right +14deg) */
+.modular-mana-bar-container .mana-socket-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 53%; /* Shifted a bit right */
+    transform: translate(-50%, -50%) rotate(14deg);
+    width: 28px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+}
+
+.modular-mana-bar-container .mana-crystal-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.9));
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+/* Subdued Arcane Hum pulse animation for LOW and HIGH states */
+.modular-mana-bar-container .mana-socket-icon-wrapper.mana-state-low .mana-crystal-icon,
+.modular-mana-bar-container .mana-socket-icon-wrapper.mana-state-high .mana-crystal-icon {
+    filter: drop-shadow(0 0 3px rgba(0, 150, 255, 0.75));
+    animation: manaHumPulse 3.0s ease-in-out infinite;
+}
+
+@keyframes manaHumPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px rgba(0, 150, 255, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 5px rgba(0, 180, 255, 0.85));
+    }
+}
+
+/* Subdued Arcane Radiance Surge animation for MAX state */
+.modular-mana-bar-container .mana-socket-icon-wrapper.mana-state-max .mana-crystal-icon {
+    filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.85)) drop-shadow(0 0 10px rgba(0, 150, 255, 0.65));
+    animation: manaRadianceSurge 2.2s ease-in-out infinite;
+}
+
+@keyframes manaRadianceSurge {
+    0%, 100% {
+        filter: drop-shadow(0 0 4px rgba(0, 200, 255, 0.8));
+    }
+    50% {
+        filter: drop-shadow(0 0 8px rgba(50, 220, 255, 0.95)) drop-shadow(0 0 12px rgba(0, 150, 255, 0.75));
+    }
+}
+
+/* ========================================================= */
+/* MODULAR AP BAR STYLES (GOLDEN AMBER & HERMES WINGED BOOT)*/
+/* ========================================================= */
+.modular-ap-bar-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.modular-ap-bar-container:hover {
+    filter: drop-shadow(0 3px 7px rgba(0, 0, 0, 0.65));
+    transform: translateY(-0.5px);
+}
+
+/* Continuous Trough Base Layer (Fits inside inner trough channel) */
+.modular-ap-bar-container .ap-trough-base {
+    position: absolute;
+    top: 22.2%;
+    bottom: 23.3%;
+    left: 41px;
+    right: 14px;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+
+/* Empty Dark Slate Trough Background (#2a2218) */
+.modular-ap-bar-container .ap-trough-empty-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2a2218;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), inset 0 -1px 2px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+/* Golden Amber AP Fill Texture (Stretched as ONE single continuous liquid image) */
+.modular-ap-bar-container .ap-fill-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6), inset 0 -2px 5px rgba(0, 0, 0, 0.85);
+    transition: width 0.35s ease-out;
+}
+
+/* AP Value Text Overlay */
+.modular-ap-bar-container .ap-bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff8eb;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--my-font-serif, 'Cinzel', serif);
+    text-shadow: 0 1px 2px #000, 0 0 5px #000;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+/* Frame Overlay Layer (z-index 3) */
+.modular-ap-bar-container .ap-frame-overlay {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Left Wooden Module & Brass Socket Ring */
+.modular-ap-bar-container .ap-module-left {
+    position: relative;
+    height: 32px;
+    width: 44px;
+    flex-shrink: 0;
+    margin-right: -1px;
+}
+
+.modular-ap-bar-container .ap-module-frame-left {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* Middle Wooden Channel Rails */
+.modular-ap-bar-container .ap-module-middle {
+    flex: 1;
+    height: 32px;
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+/* Right Wooden Endcap Module */
+.modular-ap-bar-container .ap-module-right {
+    height: 32px;
+    width: 35.7px;
+    flex-shrink: 0;
+    position: relative;
+    margin-left: -1px;
+}
+
+.modular-ap-bar-container .ap-module-frame-right {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* Winged Hermes Boot Icon (Dead-centered inside left circular brass socket ring) */
+.modular-ap-bar-container .ap-socket-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    width: 34px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+}
+
+.modular-ap-bar-container .ap-boot-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+/* Radiant glowing aura for MAX AP state */
+.modular-ap-bar-container .ap-socket-icon-wrapper.ap-state-max .ap-boot-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 200, 50, 0.95)) drop-shadow(0 0 14px rgba(255, 160, 0, 0.9));
+    animation: apPulseMax 2.2s ease-in-out infinite;
+}
+
+@keyframes apPulseMax {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.85)) drop-shadow(0 0 12px rgba(255, 160, 0, 0.8)); }
+    50% { filter: drop-shadow(0 0 10px rgba(255, 200, 50, 0.95)) drop-shadow(0 0 16px rgba(255, 160, 0, 0.9)); }
 }

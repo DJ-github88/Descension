@@ -6,7 +6,6 @@ const AccessibilityController = () => {
     const highContrast = useSettingsStore(state => state.highContrast);
     const largeText = useSettingsStore(state => state.largeText);
     const screenReader = useSettingsStore(state => state.screenReader);
-    const uiTheme = useSettingsStore(state => state.uiTheme);
 
     useEffect(() => {
         const root = document.documentElement;
@@ -15,10 +14,6 @@ const AccessibilityController = () => {
         root.classList.toggle('a11y-large-text', !!largeText);
         root.classList.toggle('a11y-screen-reader', !!screenReader);
     }, [reducedMotion, highContrast, largeText, screenReader]);
-
-    useEffect(() => {
-        document.documentElement.setAttribute('data-theme', uiTheme || 'fantasy');
-    }, [uiTheme]);
 
     return null;
 };

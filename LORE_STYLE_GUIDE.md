@@ -643,7 +643,7 @@ These events are fixed. Every race, region, and background must fit within this 
 | House | Region | Ruler | Alliance | Hostile To | Notes |
 |---|---|---|---|---|---|
 | Thalreth | Frostwood Reach | Kaelen Thalreth | Scribe-Cartel | Forgotten, Mimir (assimilates) | Wiped House Viridane from records |
-| Skalvyr | Nordhalla | Halvar "Jarn-Tand" | Icechamber Syndicate | Fredlose clans, Animists | Religious persecution (Cleansing of the Hearth) |
+| Skalvyr | Nordhalla | Halvar "Jarn-Tand" | Icechamber Syndicate | Fredløse clans, Animists | Religious persecution (Cleansing of the Hearth) |
 | Solvan | Sundale | Collapsed | Dawn Vigil (successor) | None (extinct as rulers) | Lost legitimacy after Breach |
 | Mereval | Iceheart Sea | Grand Admiral Varis Mereval | Board of Trade | Pirates, unregistered ships | Enforces the Sea-Charter |
 | Tesshan | Cragjaw Peaks | Jarl-Inca Oda Tesshan | Knotted Decree | Grotto-secessionists | Veiled the peaks in perpetual blizzard |

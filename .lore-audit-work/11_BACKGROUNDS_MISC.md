@@ -232,10 +232,10 @@ Severity: **🔴 CRITICAL** (lore flatly wrong / inverts canon) · **🟠 MAJOR*
 
 ---
 
-### 🟡 BG-25. "Fredløse" (with ø) vs "Fredlose" (ASCII) orthography drift
-- **Location:** `explorationRules.js:189` ("Fredløse Passage") vs `backgroundData.js:403` ("Fredlose")
+### 🟡 BG-25. "Fredløse" (with ø) vs "Fredløse" (ASCII) orthography drift
+- **Location:** `explorationRules.js:189` ("Fredløse Passage") vs `backgroundData.js:403` ("Fredløse")
 - **Canon says:** N/A (orthography).
-- **Lore says:** Nordhalla's outlaw clans spelled "Fredløse" (with Nordic ø) in explorationRules but "Fredlose" (ASCII) in backgroundData.
+- **Lore says:** Nordhalla's outlaw clans spelled "Fredløse" (with Nordic ø) in explorationRules but "Fredløse" (ASCII) in backgroundData.
 - **Notes:** Minor orthographic drift. The ø is consistent with Nordhalla's Nordic flavor but breaks grep parity with the ASCII form. Pick one.
 
 ---
