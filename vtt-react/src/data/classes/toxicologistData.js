@@ -17,7 +17,7 @@ export const TOXICOLOGIST_DATA = {
           "drun_neth"
       ],
       "hardBlocks": [
-          "emberth",
+          "solari",
           "fexrick"
       ],
       "narrativeUnlock": false,

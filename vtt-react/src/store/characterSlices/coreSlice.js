@@ -16,7 +16,7 @@ const TEST_RACES = [
     { race: 'human', subrace: 'skald_human', raceDisplayName: 'Skald (Human)' },
     { race: 'mimir', subrace: 'mimir', raceDisplayName: 'Mimir' },
     { race: 'groven', subrace: 'groven', raceDisplayName: 'Groven' },
-    { race: 'emberth', subrace: 'emberth', raceDisplayName: 'Emberth' },
+    { race: 'solari', subrace: 'solari', raceDisplayName: 'Solari' },
     { race: 'florae', subrace: 'florae', raceDisplayName: 'Florae' },
     { race: 'astril', subrace: 'astril', raceDisplayName: 'Astril' },
     { race: 'neth', subrace: 'neth', raceDisplayName: 'Neth' },

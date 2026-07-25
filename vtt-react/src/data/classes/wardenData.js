@@ -21,7 +21,7 @@ export const WARDEN_DATA = {
           "merryn_human",
           "ordan_human",
           "astril",
-          "emberth"
+          "solari"
       ],
       "narrativeUnlock": true,
       "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Vreken adopted it through proximity. Fexric Caustic Fexric learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Kessen Neth lack the martial-surgical tradition, Ordan are nomadic, Solari physiology rejects the cold-iron threading."

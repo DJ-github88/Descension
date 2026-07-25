@@ -10,7 +10,7 @@ export const BERSERKER_DATA = {
  restrictions: {
   "allowedSubraces": [
    "skald_human",
-   "thrask_emberth",
+   "thrask_solari",
    "morgh_groven",
    "solvarn_human"
   ],
@@ -49,10 +49,10 @@ export const BERSERKER_DATA = {
   }
  },
 
-  thrask_emberth: {
+  thrask_solari: {
    subraceName: 'Waste-Solari - Thyrm',
   title: 'The Caldera-Forged',
-  reframe: `The <LoreLink termId="emberth">Waste-Solari</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Waste-Solari rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Waste-Solari Berserker's Blood-Heat is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Waste-Solari rage is an argument with the mountain.`,
+  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Waste-Solari rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Waste-Solari Berserker's Blood-Heat is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Waste-Solari rage is an argument with the mountain.`,
   signatureAbility: {
   name: 'Caldera-Draw',
   description: `Blood-Heat rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s residual warmth. A Waste-Solari Berserker fighting on volcanic terrain ignites with terrifying speed, and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
@@ -84,7 +84,7 @@ export const BERSERKER_DATA = {
  solvarn_human: {
   subraceName: 'Solvarn Human',
   title: 'The Sun-Fury',
-  reframe: `The Solvarn learned the Blood-Heat from <LoreLink termId="emberth">Waste-Solari</LoreLink> forge-workers in Sundale  -  not from the <LoreLink termId="skald">Skald</LoreLink> themselves, and not through independent discovery. The Solvarn are sun-worshippers; the idea of internal fire appealed to them. But they lacked both the ancestral starvation of the <LoreLink termId="skald">Skald</LoreLink> Hunger Pact and the geothermal resonance the <LoreLink termId="emberth">Waste-Solari</LoreLink> draw from <LoreLink termId="emberspire">Emberspire</LoreLink>. So they substituted faith  -  religious ecstasy as fuel. A Solvarn Berserker enters the Heat through conviction, not memory. It works. It also terrifies everyone who witnesses it. The Heat builds fastest near <LoreLink termId="emberspire">Emberspire</LoreLink>'s caldera or the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s warmth. It is not rage \u2014 it is rapture. The Solvarn Berserker is terrifying specifically because they are smiling.`,
+  reframe: `The Solvarn learned the Blood-Heat from <LoreLink termId="solari">Waste-Solari</LoreLink> forge-workers in Sundale  -  not from the <LoreLink termId="skald">Skald</LoreLink> themselves, and not through independent discovery. The Solvarn are sun-worshippers; the idea of internal fire appealed to them. But they lacked both the ancestral starvation of the <LoreLink termId="skald">Skald</LoreLink> Hunger Pact and the geothermal resonance the <LoreLink termId="solari">Waste-Solari</LoreLink> draw from <LoreLink termId="emberspire">Emberspire</LoreLink>. So they substituted faith  -  religious ecstasy as fuel. A Solvarn Berserker enters the Heat through conviction, not memory. It works. It also terrifies everyone who witnesses it. The Heat builds fastest near <LoreLink termId="emberspire">Emberspire</LoreLink>'s caldera or the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s warmth. It is not rage \u2014 it is rapture. The Solvarn Berserker is terrifying specifically because they are smiling.`,
   signatureAbility: {
   name: 'Rapture-Ignition',
   description: `Blood-Heat builds fastest near sources of Sol's residual warmth, Emberspire's caldera, the Sol's Breath's flame, or any ember-blessed ground. The Solvarn does not burn with rage but with ecstatic conviction, and the Heat manifests as a radiant, searing light rather than the Skald's blood-boil or the Waste-Solari's tectonic tremor. Their fury is religious, and the liturgy is the certain belief that the sun will rise.`

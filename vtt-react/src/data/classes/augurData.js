@@ -17,7 +17,7 @@ export const AUGUR_DATA = {
    "silath_astril",
    "tessen_human",
    "marked_vreken",
-   "korr_emberth"
+   "korr_solari"
   ],
   "hardBlocks": [
    "merryn_human",
@@ -132,10 +132,10 @@ export const AUGUR_DATA = {
   }
  },
 
-korr_emberth: {
+korr_solari: {
    subraceName: 'Hollow-Solari - Thyrm',
   title: 'The Sol\'s Breath-Reader',
-   reframe: `The <LoreLink termId="emberth">Hollow-Solari</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Hollow-Solari maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Hollow-Solari learned augury not from Skald or Vreken but from watching Sol's Breath for eight centuries. A Hollow-Solari forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for eight centuries. The Hollow-Solari Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
+   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Hollow-Solari maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Hollow-Solari learned augury not from Skald or Vreken but from watching Sol's Breath for eight centuries. A Hollow-Solari forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for eight centuries. The Hollow-Solari Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
 signatureAbility: {
   name: 'Flame-Reading',
   description: `Visions are read in the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s flicker-patterns, the dying star's pulse serves as the Augur's entrails. The Hollow-Solari read dimming-rate, flare-frequency, and color-shift the way other Augurs read liver-mottling and intestine-convolution. The reading is continuous and passive, a vigil maintained across generations, meaning a Hollow-Solari Augur carries the accumulated observations of every watcher who preceded them.`
@@ -219,7 +219,7 @@ The price of this feedback loop was memory-loss. Cassia had to trade away her ow
 Augurs are highly revered as scholars and prophets in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the high halls of the <LoreLink termId="synod_hold">Synod Hold</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Hollow-Solari <LoreLink termId="emberth">Solari</LoreLink> who read Sol's Breath's dying pulse.
+The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald</LoreLink>, the Astril, and the Hollow-Solari <LoreLink termId="solari">Solari</LoreLink> who read Sol's Breath's dying pulse.
 
 **NOTABLE FIGURES**
 * **Cassia the Star-Eyed**: The legendary seer of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> who predicted the solar eclipse at the cost of her past.

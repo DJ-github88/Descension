@@ -16,7 +16,7 @@ const RACE_WATERCOLOR = {
   mimir: 'watercolor_void',
   florae: 'watercolor_tree',
   groven: 'watercolor_shield',
-  emberth: 'watercolor_campfire',
+  solari: 'watercolor_campfire',
   vreken: 'watercolor_candle',
   neth: 'watercolor_scales',
   astril: 'watercolor_crystal',

@@ -8,6 +8,7 @@ import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import MapMakingSection from './MapMakingSection';
 import { shouldReduceMotion } from '../../utils/accessibility';
+import { getCurrentMapTransform } from '../../utils/mapTransform';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
@@ -98,16 +99,45 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   window.scrollTo({ top: 0, behavior: 'smooth' });
  };
 
+ const [isActivatingImmerse, setIsActivatingImmerse] = useState(false);
+
  // Handle community button click
  const handleCommunityClick = () => {
   setShowCommunity(prev => !prev);
  };
 
- // ── Dive Transition ──
- // When Immerse is activated: freeze the mapPan animation at its current frame,
- // then animate background-size/position from the zoomed-in state to "cover"
- // so it feels like pulling back to reveal the entire map.
- // WorldMapImmerse (transparent at this point) crossfades in once the dive completes.
+ const handleImmerseClick = (e) => {
+  setIsActivatingImmerse(true);
+  const el = document.querySelector('.landing-page.map-background');
+  const btn = e?.currentTarget || document.querySelector('.immersive-action-btn');
+
+  if (btn) {
+   const rect = btn.getBoundingClientRect();
+   const btnCenterX = rect.left + rect.width / 2;
+   const btnCenterY = rect.top + rect.height / 2;
+   const screenCenterX = window.innerWidth / 2;
+   const screenCenterY = window.innerHeight / 2;
+
+   const deltaX = Math.round(screenCenterX - btnCenterX);
+   const deltaY = Math.round(screenCenterY - btnCenterY);
+
+   document.documentElement.style.setProperty('--immerse-target-x', `${deltaX}px`);
+   document.documentElement.style.setProperty('--immerse-target-y', `${deltaY}px`);
+  }
+
+  const transform = getCurrentMapTransform(el);
+  setTimeout(() => {
+   if (onImmerse) {
+    onImmerse(transform);
+   }
+   setIsActivatingImmerse(false);
+  }, 350);
+ };
+
+ // ── Seamless Immerse Transition ──
+ // When Immerse is activated: freeze the mapPan animation at its current frame.
+ // WorldMapImmerse mounts immediately at this exact spot without zooming out,
+ // while landing page UI text and dark vignette fade out smoothly.
  useEffect(() => {
   if (!isWorldMapActive) return;
 
@@ -120,51 +150,26 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const frozenPos = cs.backgroundPosition;
 
   // 2. Kill the animation entirely so our inline styles can take over
-  //  (animation values outrank normal inline styles in the cascade)
   el.style.setProperty('animation', 'none', 'important');
 
-  // 3. Lock the frozen frame as inline styles (visual stays the same)
+  // 3. Lock the frozen frame as inline styles at the exact spot
   el.style.backgroundSize = frozenSize;
   el.style.backgroundPosition = frozenPos;
 
-  // 4. Enable the transition (skip the cinematic when reduced motion is requested)
-  el.style.transition = shouldReduceMotion()
-   ? 'none'
-   : ('background-size 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, ' +
-    'background-position 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.2s');
-
-  // 5. After two RAFs (ensures the browser has painted the locked state),
-  //  set the target "cover" dimensions to trigger the transition
-  let raf2;
-  const raf1 = requestAnimationFrame(() => {
-   raf2 = requestAnimationFrame(() => {
-    const W = window.innerWidth;
-    const H = window.innerHeight;
-    const mapAspect = 4096 / 3072;
-    const s = Math.max(W / 4096, H / 3072);
-
-    const targetSizeX = ((4096 * s) / W) * 100;
-    const targetSizeY = ((3072 * s) / H) * 100;
-
-    el.style.backgroundSize = `${targetSizeX}% ${targetSizeY}%, 100% 100%, 100% 100%`;
-    el.style.backgroundPosition = 'center center, center, center';
-   });
-  });
-
   // Cleanup: restore the landing page when exiting Immerse mode
   return () => {
-   cancelAnimationFrame(raf1);
-   if (raf2) cancelAnimationFrame(raf2);
-
    const cleanupEl = document.querySelector('.landing-page.map-background');
    if (cleanupEl) {
-    cleanupEl.style.transition = 'none';
-    cleanupEl.style.backgroundSize = '';
-    cleanupEl.style.backgroundPosition = '';
-    cleanupEl.style.removeProperty('animation');
-    // Force reflow so the browser registers the change before the
-    // animation resumes from its CSS declaration
-    void cleanupEl.offsetWidth;
+    // Keep background frozen while landing UI slides/fades back in during exit
+    setTimeout(() => {
+     cleanupEl.style.transition = 'none';
+     cleanupEl.style.backgroundSize = '';
+     cleanupEl.style.backgroundPosition = '';
+     cleanupEl.style.removeProperty('animation');
+     // Force reflow so the browser registers the change before the
+     // animation resumes from its CSS declaration
+     void cleanupEl.offsetWidth;
+    }, 1500);
    }
   };
  }, [isWorldMapActive]);
@@ -206,8 +211,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        </span>
       </button>
       <button
-       className="immersive-action-btn"
-       onClick={onImmerse}
+       className={`immersive-action-btn ${isActivatingImmerse ? 'is-immerse-activating' : ''}`}
+       onClick={handleImmerseClick}
       >
        <i className="fas fa-map"></i>
        <span className="btn-text">

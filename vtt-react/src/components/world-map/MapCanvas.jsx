@@ -131,8 +131,8 @@ const MapCanvas = ({
       if (!driftRef.current.active) return;
       const ref = transformRef.current;
       if (ref) {
-        driftRef.current.x += 0.3;
-        driftRef.current.y -= 0.15;
+        driftRef.current.x += 0.22;
+        driftRef.current.y -= 0.11;
 
         // Boundary wrapping
         if (driftRef.current.x > MAP_WIDTH * 0.3) driftRef.current.x = -MAP_WIDTH * 0.1;
@@ -146,7 +146,7 @@ const MapCanvas = ({
               driftRef.current.x,
               driftRef.current.y,
               currentScale > 0 ? currentScale : minScale,
-              50
+              0
             );
           }
         } catch (e) {}

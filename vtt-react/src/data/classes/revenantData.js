@@ -9,7 +9,7 @@ export const REVENANT_DATA = {
           "tessen_human"
       ],
       "hardBlocks": [
-          "emberth",
+          "solari",
           "myrathil",
           "astril",
           "fexrick"

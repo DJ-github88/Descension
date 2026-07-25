@@ -37,7 +37,7 @@ export const RACE_NAMES = {
         'Rowan', 'Alder', 'Oak', 'Hazel', 'Cedar', 'Taiga', 'Silas', 'Fauna', 'Buck', 'Antler',
         'Forrest', 'Barkley', 'Grove', 'Timber', 'Deep', 'Wild', 'Hunter', 'Stag', 'Doe', 'Fawn'
     ],
-    emberth: [
+    solari: [
         'Ignis', 'Ash', 'Pyra', 'Cinder', 'Slag', 'Flare', 'Coal', 'Scorch', 'Blaze', 'Ember',
         'Magma', 'Vulcan', 'Burn', 'Soot', 'Heat', 'Inferno', 'Smolder', 'Char', 'Glow', 'Slagworth'
     ],

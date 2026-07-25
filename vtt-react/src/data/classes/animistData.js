@@ -7,11 +7,11 @@ export const ANIMIST_DATA = {
           "vashir_astril",
           "silath_astril",
           "morgh_groven",
-          "thrask_emberth",
+          "thrask_solari",
           "florae_unified"
       ],
       "hardBlocks": [
-          "emberth",
+          "solari",
           "fexrick",
           "myrathil",
           "tessen_human"

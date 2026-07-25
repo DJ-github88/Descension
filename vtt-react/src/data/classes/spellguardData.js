@@ -19,8 +19,8 @@ export const SPELLGUARD_DATA = {
      "velun_neth",
      "thalren_human",
      "solvarn_human",
-     "korr_emberth",
-     "thrask_emberth"
+     "korr_solari",
+     "thrask_solari"
    ],
    "hardBlocks": [
      "myrathil",
@@ -87,10 +87,10 @@ export const SPELLGUARD_DATA = {
    }
   },
 
-  korr_emberth: {
+  korr_solari: {
     subraceName: 'Hollow-Solari - Thyrm',
    title: 'The Silent-Guard',
-   reframe: `The <LoreLink termId="emberth">Hollow-Solari</LoreLink> tend Sol's Breath in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness, the same meditative suspension they use to tend the buried star. The Hollow-Solari are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,
+   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend Sol's Breath in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness, the same meditative suspension they use to tend the buried star. The Hollow-Solari are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,
    signatureAbility: {
     name: 'Silent-Intercept',
     description: `Magical interception is performed from a state of metabolic stillness, the Spellguard slows their own vitals to near-zero, becoming a silence that incoming magic *falls into* rather than strikes. The Hollow-Solari intercept with the least collateral damage and the quietest profile, but cannot intercept while moving.`
@@ -103,10 +103,10 @@ export const SPELLGUARD_DATA = {
    }
   },
 
-  thrask_emberth: {
+  thrask_solari: {
     subraceName: 'Waste-Solari - Thyrm',
    title: 'The Forge-Shield',
-   reframe: `The <LoreLink termId="emberth">Waste-Solari</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Waste-Solari are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
+   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Waste-Solari are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
    signatureAbility: {
     name: 'Rupture-Deflection',
     description: `Incoming spells are deflected or redirected rather than absorbed, the Spellguard angles the magic away using alchemical shield-surfaces, the way a forge-ranger angles a thermal vent. The Waste-Solari take on the least Silence Resonance, but cannot fully neutralize a spell, only redirect it (sometimes back at the caster, sometimes into the terrain).`
@@ -139,7 +139,7 @@ export const SPELLGUARD_DATA = {
   orderName: 'The Aegis',
   founder: {
    name: '<LoreLink termId="damon">Damon</LoreLink>',
-       status: `Dead, eight centuries. The <LoreLink termId="emberth">Solari</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
+       status: `Dead, eight centuries. The <LoreLink termId="solari">Solari</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
    note: `<LoreLink termId="damon">Damon</LoreLink> treated magical defense as engineering, not artistry. The Aegis still trains in his method: identify the spell's structure, dismantle it before it arrives, redirect the residue. His one unbreakable rule, *a Spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line*, is now being violated daily.`
   },
   currentLeader: {

@@ -71,7 +71,7 @@ try {
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
-const WorldMapImmerse = ({ onClose, onClosing }) => {
+const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform }) => {
  const [phase, setPhase] = useState('entering');
  const [showBorder, setShowBorder] = useState(false);
  const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -191,10 +191,11 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
   return () => cleanupSubscriptions();
  }, [user, syncAnnotations, cleanupSubscriptions]);
 
- // Calculate the "cover" transform: the map fills the entire viewport.
- // This matches the end state of the landing page dive transition, so the
- // crossfade from the CSS background to this canvas is smooth.
+ // Calculate or use passed initial transform so the map enters at the exact scrolled location.
  const [initialTransform] = useState(() => {
+  if (propInitialTransform && isFinite(propInitialTransform.scale)) {
+   return propInitialTransform;
+  }
   if (typeof window === 'undefined') return { scale: 0.4, posX: 0, posY: 0 };
   const W = window.innerWidth;
   const H = window.innerHeight;
@@ -204,14 +205,12 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
   return { scale: fitScale, posX: fitX, posY: fitY };
  });
 
- // The dive (zoom-out) happens on the landing page's own CSS background.
- // WorldMapImmerse starts transparent and crossfades in once the dive
- // is nearly complete, so the handoff is smooth.
+ // Seamless crossfade into interactive map mode
  useEffect(() => {
   const t = setTimeout(() => {
    setPhase('immersed');
    setShowBorder(true);
-  }, 2200);
+  }, 800);
   return () => clearTimeout(t);
  }, []);
 
@@ -223,8 +222,8 @@ const WorldMapImmerse = ({ onClose, onClosing }) => {
 
   setTimeout(() => {
    setPhase('complete');
-   setTimeout(() => onClose(), 400);
-  }, 1000);
+   setTimeout(() => onClose(), 200);
+  }, 1300);
  }, [onClose, onClosing]);
 
  const getImageCoords = (e, transformRef) => {

@@ -1,8 +1,8 @@
-export const emberth = {
-  id: 'emberth',
+export const solari = {
+  id: 'solari',
   name: 'Solari',
   essence: 'Devoted cave-dwelling nomads, keepers of Sol\'s last ember',
-  illustration: '/assets/images/races/emberth_illustration.png',
+  illustration: '/assets/images/races/solari_illustration.png',
   illustrationCaption: 'A Solari cinder-walker with dark brown-beige skin and dreadlocks, holding a tiny, fading ember near their chest in solemn devotion.',
   cardFlavor: 'Religious cave-dwelling nomads and devoted keepers of the Sol\'s Breath, the last ember of their sleeping god.',
   visualDescription: `Broad-shouldered and solid, standing 5'10" to 6'4" and weighing 190 to 280 pounds. Their skin is a warm, earthy dark brown-beige with a fine grey dusting of mineral-ash that sheds when they move or under stress. Their eyes are enormous and solid black, absorbing light rather than reflecting it — on the surface, they wear thick ash-tinted eye-cloths to filter the painful daylight. Their forearms and shoulders bear deliberate burn-scars and forge-marks encoding clan affiliation, trade, and lineage in a visual language. They wear their hair in dreadlocks. Their bearing is deliberately calm and still, the discipline of the Vault-Breath made visible in every unhurried movement.`,
@@ -137,7 +137,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
 
   sharedTraits: [
     {
-    "id": "cold_vulnerability_emberth",
+    "id": "cold_vulnerability_solari",
          "name": "Cold Vulnerability",
          "description": "Vulnerable to cold/rime damage. Take +50% rime damage and have disadvantage on saves against environmental cold.",
          "level": 1,
@@ -176,7 +176,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
          }
     },
     {
-      id: 'vault_breath_emberth',
+      id: 'vault_breath_solari',
       name: 'The Vault-Breath',
       description: 'Your stillness is a weapon and a vulnerability, the discipline of centuries spent in oxygen-starved chambers, where every unnecessary motion burned air the vault could not spare. You can hold yourself motionless for hours, conserving air and quieting the mind, indistinguishable from the volcanic stone around you, and the mental discipline this requires grants you advantage on saves against fear and charm. But the deep stillness cannot be shed quickly. When combat begins, you make initiative rolls with disadvantage. Your body needs a moment to remember that movement is permitted.',
       level: 1,
@@ -225,7 +225,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
       cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
     },
     {
-      id: 'ash_lung_emberth',
+      id: 'ash_lung_solari',
       name: 'Ash-Lung',
       description: 'Your lungs are lined with thick mucosal membranes, developed across generations of underground exile to filter toxic ash and particulate. You are immune to the effects of volcanic ashstorms, dust-clogging, and gas-based environmental hazards that would suffocate other races. But in clean, humid environments, your lungs grow heavy and sluggish, they lack the dry soot they adapted to filter.',
       level: 1,
@@ -279,7 +279,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
 
   subraces: {
     korr: {
-      id: 'korr_emberth',
+      id: 'korr_solari',
       name: 'Hollow-Solari',
       illustration: '/assets/images/races/korr_illustration.png',
       illustrationCaption: 'A Hollow-Solari Solari with charcoal skin, braided hair, and solid-black eyes, looking out with quiet focus as steam rises from a geothermal caldera vent behind him.',
@@ -506,7 +506,7 @@ The current crisis is a Hollow-Solari crisis. The tending-clan has concealed the
       }
     },
     thrask: {
-      id: 'thrask_emberth',
+      id: 'thrask_solari',
       name: 'Waste-Solari',
       illustration: '/assets/images/races/thrask_illustration.png',
       illustrationCaption: 'A Waste-Solari Solari badland-hunter crouching on a volcanic rock, insulated in thick ashy cloth wraps and a hood, with a stone-bladed spear on their back and small pointed ears exposed.',

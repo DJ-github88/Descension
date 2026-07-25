@@ -1,0 +1,322 @@
+{
+    "oillipheist":  {
+                        "term":  "Oilliph,ist",
+                        "type":  "monstrosity",
+                        "region":  "frostwood-reach",
+                        "summary":  "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.",
+                        "fullEntry":  "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.\n\nThe Oillipheist is a creature born from the fusion of ancient Frostwood water-dragon myths and the cold reality of the Frostwood Reach\u0027s peat-bogs. Before the Deepening, when the first fae walked the world, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Wyrd broke the world\u0027s boundaries, the Frostwood\u0027s endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Drun fishermen speak of the \u0027silt-serpents\u0027 as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
+                        "relatedTerms":  [
+                                             "frostwood-reach"
+                                         ]
+                    },
+    "grimmstalk":  {
+                       "term":  "Grimmstalk",
+                       "type":  "plant",
+                       "region":  "frostwood-reach",
+                       "summary":  "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.",
+                       "fullEntry":  "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.\n\nThe Grimmstalks are the forest\u0027s grief given form. In the deep history of the Frostwood Reach, before the first human axe touched the ironwood trees, the forest was home to a race of dryads who sang to the trees and kept them healthy through the long winters. When the Wyrd descended, the forest\u0027s pain at the loss of so many trees to logging and the relentless cold coalesced into the Grimmstalks,dark, wood-plated guardians who carry the skulls of the birds that once nested in the highest branches. They are not the dryads of old, but something born from the forest\u0027s desire for vengeance and protection. The loggers of Frostwood call them \u0027the hollow watchers\u0027 and know that to cut a tree marked with a Grimmstalk\u0027s sigil is to invite death from above.",
+                       "relatedTerms":  [
+                                            "frostwood-reach"
+                                        ]
+                   },
+    "pooka":  {
+                  "term":  "Pooka",
+                  "type":  "fey",
+                  "region":  "frostwood-reach",
+                  "summary":  "A sleek charcoal fey hare with hooves and human-like eyes that can shapeshift into a wild pony to escape.",
+                  "fullEntry":  "A sleek charcoal fey hare with hooves and human-like eyes that can shapeshift into a wild pony to escape.\n\nThe Pooka is a creature as old as the paths of the Frostwood Reach itself. In the time before the Wyrd, when the Fair Folk walked openly among mortals, the Pooka were the guardians of the hedgerows and wild places, spirits of the untamed land that delighted in playing harmless pranks on travelers. The corruption of the Wyrd did not change their nature, but it did sharpen their sense of irony,now, the Pooka\u0027s tricks often carry a lesson, a warning, or a test of character. The farmers of the Frostwood know that a Pooka in the field means the harvest will be unpredictable, and they leave bowls of milk at the field\u0027s edge to ensure the spirit\u0027s goodwill. The Pooka is a reminder that even in a world of corruption, some things remain playful and free.",
+                  "relatedTerms":  [
+                                       "frostwood-reach"
+                                   ]
+              },
+    "skerry":  {
+                   "term":  "Skerry",
+                   "type":  "fey",
+                   "region":  "nordhalla",
+                   "summary":  "A stout, greedy, stout, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.",
+                   "fullEntry":  "A stout, greedy, stout, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.\n\nThe Skerry is a creature born from the greed of the sea and the cold of the Nordhalla fjords. Before the Deepening, when the Skaldic Kings ruled the frozen north, the water dwarves were the guardians of sunken treasure, spirits who ensured that the wealth of the sea was distributed according to the will of the spirits. When the Wyrd broke the world, the Skerries were twisted into creatures of insatiable greed, their natural love of beauty and craftsmanship turned into an obsession with hoarding salvaged metal and gold. The sailors of Nordhalla have learned to respect the Skerries, leaving copper coins at the water\u0027s edge as a tax for safe passage, but they also fear them, for a Skerry cheated of its due will sink a ship as easily as it will repair one.",
+                   "relatedTerms":  [
+                                        "nordhalla"
+                                    ]
+               },
+    "nachtkrapp":  {
+                       "term":  "Nachtkrapp",
+                       "type":  "beast",
+                       "region":  "nordhalla",
+                       "summary":  "A massive, pitch-black soot-raven with a bone-head that steals fire coals and oil lamps to warm its high chimneys nests.",
+                       "fullEntry":  "A massive, pitch-black soot-raven with a bone-head that steals fire coals and oil lamps to warm its high chimneys nests.\n\nThe Nachtkrapp is a creature of the dark and the cold, born from the soot and smoke of the Nordhalla longhouses. Before the Deepening, in the age when skalds sang the sagas, the Nachtkrapp was a bird of warning, a spirit that appeared before the fires to carry away the bad luck of the household. The Wyrd\u0027s corruption did not change its nature, but it did make it larger and more desperate, for the creature now feeds on heat itself, stealing burning coals and oil lamps to keep its nests warm. The Skalds believe that the Nachtkrapp still carries away bad luck, but that it now demands payment in the form of heat, and that a household that cannot keep its fires burning will be cursed with misfortune.",
+                       "relatedTerms":  [
+                                            "nordhalla"
+                                        ]
+                   },
+    "glacier_gremlin":  {
+                            "term":  "Glacier Gremlin",
+                            "type":  "fey",
+                            "region":  "nordhalla",
+                            "summary":  "A tiny, blind glacier gremlin with cracked blue-ice skin that licks frozen runic stones to feed on mana.",
+                            "fullEntry":  "A tiny, blind glacier gremlin with cracked blue-ice skin that licks frozen runic stones to feed on mana.\n\nThe Glacier Gremlin is a creature of the ice and the runes, born from the intersection of highland legends and the cold magic of Nordhalla. Before the Deepening, when rune-singers bound the stones, the ice was alive with spirits, small creatures that absorbed the magic of the runic stones and used it to sustain themselves. The Wyrd\u0027s corruption did not change their nature, but it did make them more desperate, for the runic stones are now few and the competition for their mana is fierce. The Glacier Gremlins are the scavengers of the ice, small creatures that lick the frozen stones to feed on the last traces of magic. The Skalds consider them pests, but they also know that the gremlins are drawn to the most powerful runes, and that their presence is a sign of ancient magic.",
+                            "relatedTerms":  [
+                                                 "nordhalla"
+                                             ]
+                        },
+    "aswad":  {
+                  "term":  "Aswad",
+                  "type":  "elemental",
+                  "region":  "sundale",
+                  "summary":  "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed.",
+                  "fullEntry":  "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed.\n\nThe Aswad is a creature of the hearth and the fire, born from the pre-Binding myths of the furnace-horrors and the sacred preservation of fire. In Sundale, where the desert is cold at night and the fires burn day and night, the Aswads are the spirits of the hearth, small creatures that live in the embers and keep the fires burning. The Wyrd\u0027s corruption did not change their nature, but it did make them more protective, for the creature now sees all water as a threat, and it will attack anyone who tries to extinguish its fire. The shepherds and miners of Sundale carry embers in clay jars, and when the embers wake, they know that the Aswad has chosen to protect them.",
+                  "relatedTerms":  [
+                                       "sundale"
+                                   ]
+              },
+    "pelagos":  {
+                    "term":  "Pelagos",
+                    "type":  "beast",
+                    "region":  "iceheart",
+                    "summary":  "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.",
+                    "fullEntry":  "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.\n\nThe Pelagos is a creature of the sea and the sky, born from the fusion of salt-depth maritime tales and the pre-Binding legends of the Hippocampus. In the Iceheart Sea, where the waters are cold and the reefs are treacherous, the Pelagos are the guardians of the deep, creatures that were created to protect the treasures of the sea from those who would steal them. The Wyrd\u0027s corruption did not change their nature, but it did make them more fierce, for the creature now sees all who enter the water as potential thieves, and it will attack any who disturb the peace of the deep. The coastal fishers of the Iceheart Sea have learned to respect the Pelagos, and they will not fish in the waters where the creatures are known to hunt.",
+                    "relatedTerms":  [
+                                         "iceheart"
+                                     ]
+                },
+    "egbere":  {
+                   "term":  "Egbere",
+                   "type":  "fey",
+                   "region":  "iceheart",
+                   "summary":  "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.",
+                   "fullEntry":  "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.\n\nThe Egbere is a creature of the sea and the sorrow, born from the salt-depth legends of the small, crying spirits that carry magical mats. In the Iceheart Sea, where the waves are cold and the rocks are sharp, the Egbere are the spirits of the drowned, creatures that were once children who perished in the sea and were transformed by the Wyrd into something that is both pitiful and dangerous. The Wyrd\u0027s corruption did not change their nature, but it did make them more desperate, for the creature now cries not for itself, but for the living, and its tears are a lure that draws the unwary to their doom. The sailors of the Iceheart Sea know the sound of the Egbere\u0027s cry, and they will cover their ears when they hear it, for the creature\u0027s voice is a siren song that cannot be resisted.",
+                   "relatedTerms":  [
+                                        "iceheart"
+                                    ]
+               },
+    "gaki":  {
+                 "term":  "Gaki",
+                 "type":  "monstrosity",
+                 "region":  "cragjaw",
+                 "summary":  "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.",
+                 "fullEntry":  "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.\n\nThe Gaki is a creature of the earth and the greed, born from the fusion of Cragjaw and Tesshan mythology, the spirits of the hungry dead who were cursed to roam the earth in search of sustenance. In the Cragjaw Peaks, where the mines are deep and the gold is plentiful, the Gakis are the spirits of the miners who died in the darkness, their greed turning them into something that is both human and monster. The Wyrd\u0027s corruption did not change their nature, but it did make them more terrible, for the creature now sees all who enter its territory as prey, and it will attack any who come near its hoard. The miners of the Cragjaw Peaks know the signs of a Gaki\u0027s presence,a mine that is too quiet, and the smell of sulfur in the air.",
+                 "relatedTerms":  [
+                                      "cragjaw"
+                                  ]
+             },
+    "kamaitachi":  {
+                       "term":  "Kamaitachi",
+                       "type":  "monstrosity",
+                       "region":  "cragjaw",
+                       "summary":  "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.",
+                       "fullEntry":  "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.\n\nThe Kamaitachi is a creature of the wind and the blade, born from the Tesshan legends of the sickle-cut wind weasel. In the Cragjaw Peaks, where the wind is strong and the mountains are tall, the Kamaitachis are the spirits of the storm, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd\u0027s corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as prey, and it will attack any who come near its nest. The miners of the Cragjaw Peaks know the signs of a Kamaitachi\u0027s presence,a wind that cuts like a knife, and the sound of weasel-like laughter in the air.",
+                       "relatedTerms":  [
+                                            "cragjaw"
+                                        ]
+                   },
+    "tengu_scout":  {
+                        "term":  "Storm-Crow Scout",
+                        "type":  "fey",
+                        "region":  "cragjaw",
+                        "summary":  "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff.",
+                        "fullEntry":  "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff.\n\nThe Storm-Crow Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Storm-Crow Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. They possess a dangerous voice-mimicking capability, stealing the spoken words of travelers and echoing them back through the wind to lure others into hazards or traps. The Wyrd\u0027s corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Storm-Crow\u0027s presence,a wind that blows from nowhere, and the sound of a bird\u0027s cry in the air.",
+                        "relatedTerms":  [
+                                             "cragjaw"
+                                         ]
+                    },
+    "mogwai":  {
+                   "term":  "Mogwai",
+                   "type":  "fey",
+                   "region":  "sundrift-vale",
+                   "summary":  "A small, mischievous grass sprite with cat-like ears and a grassy tail. It startles horses, braids manes, and hides in the tall steppe grass.",
+                   "fullEntry":  "A small, mischievous grass sprite with cat-like ears and a grassy tail. It startles horses, braids manes, and hides in the tall steppe grass.\n\nThe Mogwai is a creature of the grass and the rain, born from the Ordan legends of the mischievous rain sprites and the nomadic steppe tales. In Sundrift Vale, where the grass is tall and the horses are many, the Mogwais are the spirits of the grass, creatures that have been twisted by the Wyrd into something that is both playful and dangerous. The Wyrd\u0027s corruption did not change their nature, but it did make them more mischievous, for the creature now sees all who enter its territory as a source of amusement, and it will play pranks on any who come near its nest. The nomads of Sundrift Vale know the signs of a Mogwai\u0027s presence,a horse that is spooked for no reason, and the sound of pebbles clicking in the grass.",
+                   "relatedTerms":  [
+                                        "sundrift-vale"
+                                    ]
+               },
+    "yalbagan":  {
+                     "term":  "Yalbagan",
+                     "type":  "beast",
+                     "region":  "sundrift-vale",
+                     "summary":  "A ten-foot green-scaled snake with three heads that mimics tall steppe grass to ambush travelers.",
+                     "fullEntry":  "A ten-foot green-scaled snake with three heads that mimics tall steppe grass to ambush travelers.\n\nThe Yalbagan is a creature of the grass and the venom, born from the steppe and Ordan mythology of the multi-headed dragon-serpent. In Sundrift Vale, where the grass is tall and the snakes are many, the Yalbagans are the apex predators of the steppe, creatures that have been twisted by the Wyrd into something that is both terrifying and cunning. The Wyrd\u0027s corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as prey, and it will attack any who come near its nest. The nomads of Sundrift Vale know the signs of a Yalbagan\u0027s presence,a waterhole that is too quiet, and the sound of scales rustling in the grass.",
+                     "relatedTerms":  [
+                                          "sundrift-vale"
+                                      ]
+                 },
+    "qilin":  {
+                  "term":  "Qilin",
+                  "type":  "fey",
+                  "region":  "sundrift-vale",
+                  "summary":  "A slender deer-like fey creature covered in blue scales with a single starlight horn and tufted wildcat tail.",
+                  "fullEntry":  "A slender deer-like fey creature covered in blue scales with a single starlight horn and tufted wildcat tail.\n\nThe Qilin is a creature of the stars and the steppe, born from the Ordan and steppe legends of the sacred deer that protects the innocent. In Sundrift Vale, where the stars are bright and the grass is endless, the Qilins are the guardians of the steppe, creatures that have been blessed by the Wyrd with a power that is both beautiful and terrible. The Wyrd\u0027s corruption did not change their nature, but it did make them more elusive, for the creature now sees all who approach as a potential threat, and it will only appear to those of pure spirit. The nomads of Sundrift Vale know the signs of a Qilin\u0027s presence,a star that falls from the sky, and the sound of a deer\u0027s call in the night.",
+                  "relatedTerms":  [
+                                       "sundrift-vale"
+                                   ]
+              },
+    "vodyan":  {
+                   "term":  "Vodyan",
+                   "type":  "fey",
+                   "region":  "bryngloom",
+                   "summary":  "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.",
+                   "fullEntry":  "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.\n\nThe Vodyan is a creature of the water and the mud, born from the Thalren legends of the grumpy swamp and pool water spirits. In the Bryngloom Forest, where the water is stagnant and the mud is deep, the Vodyans are the guardians of the pools, creatures that have been twisted by the Wyrd into something that is both grumpy and territorial. The Wyrd\u0027s corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its pool as a potential threat, and it will attack any who come near its water. The villagers of the Bryngloom Forest know the signs of a Vodyan\u0027s presence,a pool that is too still, and the smell of sulfur in the air.",
+                   "relatedTerms":  [
+                                        "bryngloom"
+                                    ]
+               },
+    "the_revel":  {
+                      "term":  "The Revel",
+                      "type":  "fey",
+                      "region":  "frostwood-reach",
+                      "summary":  "A phantom court of wooden puppets that forces travelers into an endless, exhausting dance.",
+                      "fullEntry":  "A phantom court of wooden puppets that forces travelers into an endless, exhausting dance.\n\nBefore the sun died, the Revel was a seasonal celebration of the Seelie court. When the Wyrd seeped into the forest, it trapped the echoes of this celebration, turning the dancers into mindless puppets and the music into a lethal sensory trap.",
+                      "relatedTerms":  [
+                                           "frostwood-reach"
+                                       ]
+                  },
+    "skreika":  {
+                    "term":  "Skreika",
+                    "type":  "undead",
+                    "region":  "nordhalla",
+                    "summary":  "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever.",
+                    "fullEntry":  "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever.\n\nThe Skreika are drowned sailors who have been resurrected by the freezing cold and the residual Wyrd-seepage of the Iceheart Sea. They are the personification of the Skaldic fear of cold water and frozen graves.",
+                    "relatedTerms":  [
+                                         "nordhalla"
+                                     ]
+                },
+    "rimor":  {
+                  "term":  "Rimor",
+                  "type":  "aberration",
+                  "region":  "nordhalla",
+                  "summary":  "A small, insectoid hearth-parasite that devours fire and heat, freezing homes from within.",
+                  "fullEntry":  "A small, insectoid hearth-parasite that devours fire and heat, freezing homes from within.\n\nThe Rimor is a Wyrd-parasite born from the fear of cold-lock. It crawls into chimneys and firepits, quietly devouring the heat and the family\u0027s capacity for warmth.",
+                  "relatedTerms":  [
+                                       "nordhalla"
+                                   ]
+              },
+    "the_cinder":  {
+                       "term":  "The Cinder",
+                       "type":  "monstrosity",
+                       "region":  "sundale",
+                       "summary":  "A small, burning humanoid child-shape of ash and fire that seeks out and consumes liars.",
+                       "fullEntry":  "A small, burning humanoid child-shape of ash and fire that seeks out and consumes liars.\n\nThe Cinder is born from Solvarn folklore regarding children who wandered into the volcanic rifts. The Wyrd anomaly twisted these stories, creating entities of pure ash and fire that seek out and burn liars.",
+                       "relatedTerms":  [
+                                            "sundale"
+                                        ]
+                   },
+    "ash_woven_oracle":  {
+                             "term":  "Ash-Woven Oracle",
+                             "type":  "aberration",
+                             "region":  "sundale",
+                             "summary":  "A faceless creature of volcanic ash that speaks dark prophecies and chokes enemies with soot clouds.",
+                             "fullEntry":  "A faceless creature of volcanic ash that speaks dark prophecies and chokes enemies with soot clouds.\n\nThe Ash-Woven Oracle is a manifestation of the collective fear of the final dimming. It is composed of compacted volcanic ash, held together by Wyrd currents, and speaks in fragmented prophecies.",
+                             "relatedTerms":  [
+                                                  "sundale"
+                                              ]
+                         },
+    "husque":  {
+                   "term":  "Husque",
+                   "type":  "aberration",
+                   "region":  "sundale",
+                   "summary":  "A humanoid silhouette of absolute void that distorts gravity and leaks the Sun-Eater\u0027s hunger.",
+                   "fullEntry":  "A humanoid silhouette of absolute void that distorts gravity and leaks the Sun-Eater\u0027s hunger.\n\nThe Husque is a mobile rip in spatial reality, a localized leak of Keth-Amar\u0027s hunger that has occupied a shell of basalt and mineral slag.",
+                   "relatedTerms":  [
+                                        "sundale"
+                                    ]
+               },
+    "spume_of_the_drowned":  {
+                                 "term":  "Spume of the Drowned",
+                                 "type":  "undead",
+                                 "region":  "iceheart",
+                                 "summary":  "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors.",
+                                 "fullEntry":  "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors.\n\nWhen ships sink during silt-tides, the final panic and thoughts of the crew form a memory-colony inside the freezing sea-foam, materialized by Wyrd energy.",
+                                 "relatedTerms":  [
+                                                      "iceheart"
+                                                  ]
+                             },
+    "writ_of_passage":  {
+                            "term":  "Writ of Passage",
+                            "type":  "construct",
+                            "region":  "iceheart",
+                            "summary":  "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.",
+                            "fullEntry":  "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.\n\nThe Writ of Passage is a Wyrd-construct born from the Neth obsession with contracts and maritime charters. It is a literal contract made of ice and parchment that drifts on the ocean currents.",
+                            "relatedTerms":  [
+                                                 "iceheart"
+                                             ]
+                        },
+    "storm_crows":  {
+                        "term":  "Storm-Crows",
+                        "type":  "monstrosity",
+                        "region":  "cragjaw",
+                        "summary":  "A winged raven-like mountain spirit that steals voices to confuse and lure travelers.",
+                        "fullEntry":  "A winged raven-like mountain spirit that steals voices to confuse and lure travelers.\n\nThe Storm-Crows are mountain spirits born from Tesshan folklore. They are winged mountain dwellers that steal the voices of travelers to confuse and distract.",
+                        "relatedTerms":  [
+                                             "cragjaw"
+                                         ]
+                    },
+    "sump_scrabs":  {
+                        "term":  "Sump-Scrabs",
+                        "type":  "monstrosity",
+                        "region":  "cragjaw",
+                        "summary":  "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze.",
+                        "fullEntry":  "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze.\n\nSump-Scrabs are alchemical insectoids that nested in the early holdfast boilers. The Wyrd anomaly twisted their biology, turning them into pests that drain heat from pipes.",
+                        "relatedTerms":  [
+                                             "cragjaw"
+                                         ]
+                    },
+    "lien":  {
+                 "term":  "Lien",
+                 "type":  "monstrosity",
+                 "region":  "sundrift-vale",
+                 "summary":  "A spindly, scroll-wrapped horror that tracks down those with unpaid debts or broken promises.",
+                 "fullEntry":  "A spindly, scroll-wrapped horror that tracks down those with unpaid debts or broken promises.\n\nThe Lien is a Wyrd-horror born from the Ordan/steppe customs regarding tribal debts. It is a physical manifestation of unpaid promises, hunting down those who refuse to honor their compacts.",
+                 "relatedTerms":  [
+                                      "sundrift-vale"
+                                  ]
+             },
+    "hungry_child_creature":  {
+                                  "term":  "Hungry Child",
+                                  "type":  "undead",
+                                  "region":  "sundrift-vale",
+                                  "summary":  "A hollow-eyed child spirit that devours travelers\u0027 memories of light and star-stories.",
+                                  "fullEntry":  "A hollow-eyed child spirit that devours travelers\u0027 memories of light and star-stories.\n\nThose recently dead are left at the Ancestor-Mounds; if their souls are found wanting, they are rejected by the ancestors and become Hungry Children — Wyrd-occupied spirits that devour star-stories.",
+                                  "relatedTerms":  [
+                                                       "sundrift-vale"
+                                                   ]
+                              },
+    "sere_khan":  {
+                      "term":  "Sere-Khan",
+                      "type":  "undead",
+                      "region":  "sundrift-vale",
+                      "summary":  "A skeletal judge on a spectral horse that puts travelers on trial for ancestral compacts.",
+                      "fullEntry":  "A skeletal judge on a spectral horse that puts travelers on trial for ancestral compacts.\n\nThe Sere-Khan is a legendary Wyrd-horror born from Ordan ancestor-worship. It is a skeletal judge who rides the steppe, trying cases brought by the spirits of the dead.",
+                      "relatedTerms":  [
+                                           "sundrift-vale"
+                                       ]
+                  },
+    "grandmother_of_the_bog":  {
+                                   "term":  "Grandmother of the Bog",
+                                   "type":  "fey",
+                                   "region":  "bryngloom",
+                                   "summary":  "An ancient, moss-covered bog-hag that trades years of life for travelers\u0027 memories.",
+                                   "fullEntry":  "An ancient, moss-covered bog-hag that trades years of life for travelers\u0027 memories.\n\nThe Grandmother of the Bog is an ancient fey entity born from Thalren peat-bog folklore. She offers extensions on life to dying mortals in exchange for their most precious memories.",
+                                   "relatedTerms":  [
+                                                        "bryngloom"
+                                                    ]
+                               },
+    "debt_revenant":  {
+                          "term":  "Debt-Revenant",
+                          "type":  "undead",
+                          "region":  "bryngloom",
+                          "summary":  "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract.",
+                          "fullEntry":  "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract.\n\nWhen a Neth debtor dies with unfulfilled contract obligations, their spirit is denied rest by the Neth pacts, rising as a peat-revenant to complete the terms of their agreement.",
+                          "relatedTerms":  [
+                                               "bryngloom"
+                                           ]
+                      },
+    "cycle_eater":  {
+                        "term":  "Cycle-Eater",
+                        "type":  "aberration",
+                        "region":  "bryngloom",
+                        "summary":  "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing.",
+                        "fullEntry":  "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing.\n\nThe Cycle-Eater is a grotesque aberration born from the fear that Keth-Amar will devour the forest\u0027s reincarnation cycle entirely. It crawls beneath the marshes, feeding on the roots of sacred willows.",
+                        "relatedTerms":  [
+                                             "bryngloom"
+                                         ]
+                    }
+}

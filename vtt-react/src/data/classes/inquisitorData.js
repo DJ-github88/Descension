@@ -9,7 +9,7 @@ export const INQUISITOR_DATA = {
             "tethered_mimir"
        ],
       "hardBlocks": [
-          "emberth",
+          "solari",
           "fexrick",
           "myrathil",
           "skald_human"

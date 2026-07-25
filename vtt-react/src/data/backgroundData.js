@@ -51,8 +51,8 @@ export const BACKGROUND_DATA = {
       ],
       "allowedSubraces": [
         "solvarn_human",
-        "korr_emberth",
-        "thrask_emberth",
+        "korr_solari",
+        "thrask_solari",
         "thalren_human"
       ],
       "narrativeUnlock": true,
@@ -99,9 +99,9 @@ export const BACKGROUND_DATA = {
         "sundale"
       ],
       "allowedSubraces": [
-        "thrask_emberth",
+        "thrask_solari",
         "solvarn_human",
-        "korr_emberth"
+        "korr_solari"
       ],
       "narrativeUnlock": true,
       "justification": "The Basalt Shyr is a 90-mile road in Sundale. Running it requires Sundale geography knowledge."

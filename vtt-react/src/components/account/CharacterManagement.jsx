@@ -48,7 +48,7 @@ const CharacterManagement = ({ user }) => {
 
    'florae': '🦊', 'Florae': '🦊',
 
-   'emberth': '🔥', 'Solari': '🔥',
+   'solari': '🔥', 'Solari': '🔥',
 
    'fexrick': '⚙️', 'Fexric': '⚙️',
 

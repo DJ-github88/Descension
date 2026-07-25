@@ -22,7 +22,7 @@ export const LUNARCH_DATA = {
           "astril",
           "vreken",
           "skald_human",
-          "emberth",
+          "solari",
           "groven",
           "fexrick",
           "myrathil",

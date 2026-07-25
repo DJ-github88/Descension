@@ -19,7 +19,7 @@ export const CRUSADER_DATA = {
     allowedSubraces: [
       "solvarn_human",
       "skald_human",
-      "thrask_emberth",
+      "thrask_solari",
       "silath_astril"
     ],
     hardBlocks: [
@@ -153,10 +153,10 @@ Solvarn humans carry the ancestral starlight lineage; Skald humans fuse it with 
       }
     },
 
-    thrask_emberth: {
+    thrask_solari: {
       subraceName: 'Waste-Solari - Thyrm',
       title: 'The Magma Crusader',
-      reframe: `The <LoreLink termId="emberth">Waste-Solari</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy plate armor with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
+      reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy plate armor with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
       signatureAbility: {
         name: 'Caldera-Cleave',
         description: `Spending Radiant Fervor converts 50% of your sacred damage into ember damage, setting the ground on fire and dealing continuous ember ticks to enemies.`

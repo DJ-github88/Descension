@@ -420,7 +420,7 @@ const ALLOWED_CLASSES_BY_RACE = {
 
     groven: ['Martyr (Ironclad)', 'Warden', 'Animist', 'Martyr', 'Augur'],
 
-    emberth: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend'],
+    solari: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend'],
 
     vreken: ['Shaper', 'Apex', 'Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Gambit', 'Inquisitor'],
 
@@ -454,9 +454,9 @@ const ALLOWED_CLASSES_BY_SUBRACE = {
 
     // Solari
 
-    korr_emberth: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
+    korr_solari: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
 
-    thrask_emberth: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend'],
+    thrask_solari: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend'],
 
     // Fexric
 
@@ -709,9 +709,9 @@ const getSubraceImage = (subraceId, raceId) => {
 
         // Solari
 
-        korr_emberth: 'korr_illustration.png',
+        korr_solari: 'korr_illustration.png',
 
-        thrask_emberth: 'thrask_illustration.png',
+        thrask_solari: 'thrask_illustration.png',
 
         // Fexric
 

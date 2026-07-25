@@ -15,7 +15,7 @@ export const APEX_DATA = {
    "vashir_astril"
   ],
   "hardBlocks": [
-   "emberth",
+   "solari",
    "neth",
    "myrathil",
    "tessen_human"

@@ -253,9 +253,9 @@ export const GROVEN_BASE_ITEMS = [
 ];
 
 // Solari base items
-export const EMBERTH_BASE_ITEMS = [
+export const SOLARI_BASE_ITEMS = [
     {
-        id: 'emberth-flame-bracers',
+        id: 'solari-flame-bracers',
         name: 'Ember Bracers',
         type: 'armor',
         subtype: 'CLOTH',
@@ -275,12 +275,12 @@ export const EMBERTH_BASE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['emberth']
+            races: ['solari']
         }
     },
 
     {
-        id: 'emberth-heat-boots',
+        id: 'solari-heat-boots',
         name: 'Firesoul Boots',
         type: 'armor',
         subtype: 'CLOTH',
@@ -297,7 +297,7 @@ export const EMBERTH_BASE_ITEMS = [
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
-            races: ['emberth']
+            races: ['solari']
         }
     }
 ];
@@ -809,7 +809,7 @@ export const GROVEN_SUBRACE_ITEMS = [
 ];
 
 // Solari subrace items
-export const EMBERTH_SUBRACE_ITEMS = [
+export const SOLARI_SUBRACE_ITEMS = [
     {
         id: 'forgeborn-hammer',
         name: 'Forgeborn Hammer',
@@ -837,7 +837,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['korr_emberth']
+            subraces: ['korr_solari']
         }
     },
     {
@@ -861,7 +861,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['thrask_emberth']
+            subraces: ['thrask_solari']
         }
     },
     {
@@ -891,7 +891,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
             charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['korr_emberth']
+            subraces: ['korr_solari']
         }
     }
 ];
@@ -1332,7 +1332,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...MIMIR_BASE_ITEMS,
     ...BRIARAN_BASE_ITEMS,
     ...GROVEN_BASE_ITEMS,
-    ...EMBERTH_BASE_ITEMS,
+    ...SOLARI_BASE_ITEMS,
     ...VREKEN_BASE_ITEMS,
     ...NETH_BASE_ITEMS,
     ...ASTREN_BASE_ITEMS,
@@ -1341,7 +1341,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...MIMIR_SUBRACE_ITEMS,
     ...BRIARAN_SUBRACE_ITEMS,
     ...GROVEN_SUBRACE_ITEMS,
-    ...EMBERTH_SUBRACE_ITEMS,
+    ...SOLARI_SUBRACE_ITEMS,
     ...VREKEN_SUBRACE_ITEMS,
     ...NETH_SUBRACE_ITEMS,
     ...ASTREN_SUBRACE_ITEMS,

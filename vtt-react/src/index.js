@@ -54,6 +54,11 @@ if (isDevelopment()) {
     serviceWorkerRegistration.unregister();
 } else {
     // Register service worker for caching and performance in production
+    // Auto-reload the page when a new service worker takes over
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+    });
+
     serviceWorkerRegistration.register({
         onUpdate: (registration) => {
             const event = new CustomEvent('swUpdateAvailable', { detail: registration });

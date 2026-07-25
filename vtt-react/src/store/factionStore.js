@@ -1707,7 +1707,7 @@ quests: []
    publicDescription: 'The Free Drall Clans are independent Drall communities that rejected guild hierarchy. They operate as scrap-metal recyclers and salvagers in the Cragjaw Peaks, trading reclaimed components with the guild-bound Fexric.'
   },
   {
-   id: 'emberth-forge-clans',
+   id: 'solari-forge-clans',
    name: 'Solari Forge Clans',
    type: 'guild',
    regionId: 'sundale',
@@ -1888,7 +1888,7 @@ quests: []
     publicDescription: 'The Free Drall Clans are independent Drall communities that rejected guild hierarchy. They operate as scrap-metal recyclers and salvagers in the Cragjaw Peaks, trading reclaimed components with the guild-bound Fexric.'
    },
    {
-    id: 'emberth-forge-clans',
+    id: 'solari-forge-clans',
     name: 'Solari Forge Clans',
     type: 'guild',
     regionId: 'sundale',
@@ -2057,7 +2057,7 @@ quests: []
     icon: '/assets/icons/factions/blood_hammer.png',
     colors: { primary: '#742a2a', secondary: '#d69e2e' },
     publicGoal: 'Ensure the survival of the wild clans through forge-fire, blood-heat, and mountain independence.',
-    publicDescription: 'The rugged alliance of Skald Glacier-Folk, Emberth Forge-Clans, Ordan Steppe-Lords, and Groven constructors.',
+    publicDescription: 'The rugged alliance of Skald Glacier-Folk, Solari Forge-Clans, Ordan Steppe-Lords, and Groven constructors.',
     hiddenAgenda: 'Seize geothermal vents in Sundale and Cragjaw to sustain their clans without bowing to Crown Coalition taxes.',
     leader: { title: 'High King-Jarl', description: 'Led by Halvar Iron-Tooth Skalvyr and the Chief Forge-Smiths.' },
     members: [],

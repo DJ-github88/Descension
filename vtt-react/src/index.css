@@ -1082,28 +1082,6 @@ html.a11y-screen-reader *:focus {
   to { transform: rotate(360deg); }
 }
 
-.sw-update-btn {
-  background: linear-gradient(135deg, #b8a888, #8b7355);
-  color: #1a1410;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  font-family: 'Cinzel', serif;
-}
-
-.sw-update-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(184, 168, 136, 0.3);
-  filter: brightness(1.15);
-}
-
 @media (max-width: 480px) {
   .sw-update-banner {
     bottom: 1rem;

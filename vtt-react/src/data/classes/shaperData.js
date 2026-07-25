@@ -10,7 +10,7 @@ export const SHAPER_DATA = {
       ],
       "hardBlocks": [
           "human",
-          "emberth",
+          "solari",
           "neth",
           "myrathil",
           "florae"

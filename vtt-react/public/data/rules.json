@@ -488,7 +488,7 @@
               "content": "**Noun (Plural: Mimir).** A secretive, fluid race of misty face-shifters native to the <LoreLink termId=\"frostwood-reach\">Frostwood Reach</LoreLink>. To navigate human paranoia, they wear a single beautifully carved unbroken heartwood or storm-glass mask that they never remove in public under the *Rite of Masks*, preventing the doppelganger shadow-parasites in their blood from overwhelming their mortal souls."
             },
             {
-              "title": "Solari [Pronunciation: EM-berth]",
+              "title": "Solari [Pronunciation: SO-lah-ree]",
               "content": "**Noun (Plural: Solari).** Dense, powerful sun-reverent forge-clans of <LoreLink termId=\"sundale\">Sundale</LoreLink>. They possess charcoal-textured black skin cross-hatched with glowing, scar-traced forge-marks and large, heat-sensitive eyes. Long before the sun's death, they dug vast subterranean vaults to preserve the *Solbrand*, believed to be the last conscious spark of the star Sol."
             },
             {
@@ -633,7 +633,7 @@
             },
             {
               "title": "The Scoured [Pronunciation: thee SKOWRD]",
-              "content": "**Noun (Plural: The Scoured).** A radical faction of <LoreLink termId=\"sundale\">Sundale</LoreLink>'s civil war, named for the <LoreLink termId=\"emberth\">Solari</LoreLink> forge-marks they ritually deface upon joining. They believe reassembling the <LoreLink termId=\"sundered_monoliths\">Monoliths</LoreLink> would summon <LoreLink termId=\"keth_amar\">Keth-Amar</LoreLink>, not <LoreLink termId=\"sol\">Sol</LoreLink>, and scour every region in scattered cells to gather Monolith Shards and reinforce the original binding seal instead."
+              "content": "**Noun (Plural: The Scoured).** A radical faction of <LoreLink termId=\"sundale\">Sundale</LoreLink>'s civil war, named for the <LoreLink termId=\"solari\">Solari</LoreLink> forge-marks they ritually deface upon joining. They believe reassembling the <LoreLink termId=\"sundered_monoliths\">Monoliths</LoreLink> would summon <LoreLink termId=\"keth_amar\">Keth-Amar</LoreLink>, not <LoreLink termId=\"sol\">Sol</LoreLink>, and scour every region in scattered cells to gather Monolith Shards and reinforce the original binding seal instead."
             },
             {
               "title": "The Scribe-Cartel [Pronunciation: thee SKRYB-kar-TEL]",
@@ -649,7 +649,7 @@
             },
             {
               "title": "Solbrand [Pronunciation: SOHL-brand]",
-              "content": "**Noun.** Not a flame but the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt from <LoreLink termId=\"sol\">Sol</LoreLink>'s buried vault. The <LoreLink termId=\"emberth\">Solari</LoreLink> Hollow-Solari tend it in sacred, wordless silence beneath <LoreLink termId=\"emberspire\">Emberspire</LoreLink>, believing it is Sol's breathing. It heats the deep-cavern settlements and keeps the <LoreLink termId=\"sundale\">Sundale</LoreLink> badlands from freezing solid, and it is failing."
+              "content": "**Noun.** Not a flame but the residual warmth of a star that should be dead, bleeding upward through eight hundred feet of volcanic basalt from <LoreLink termId=\"sol\">Sol</LoreLink>'s buried vault. The <LoreLink termId=\"solari\">Solari</LoreLink> Hollow-Solari tend it in sacred, wordless silence beneath <LoreLink termId=\"emberspire\">Emberspire</LoreLink>, believing it is Sol's breathing. It heats the deep-cavern settlements and keeps the <LoreLink termId=\"sundale\">Sundale</LoreLink> badlands from freezing solid, and it is failing."
             },
             {
               "title": "The Sovereign Ledger [Pronunciation: thee SOV-rin LEJ-er]",
@@ -761,7 +761,7 @@
             },
             {
               "title": "Harath-Vault [Pronunciation: HAR-ath]",
-              "content": "**Noun (Location).** The massive subterranean capital of the <LoreLink termId=\"emberth\">Solari</LoreLink> forge-clans, carved radially into the volcanic throat of a dormant secondary caldera three miles from <LoreLink termId=\"emberspire\">Emberspire</LoreLink>. Hewn by the Sun-Speakers centuries before the sun's death, it serves as both sacred temple to the <LoreLink termId=\"solbrand\">Solbrand</LoreLink> and industrial forge-caldera. The Hollow-Solari tend the eternal ember here in sacred silence."
+              "content": "**Noun (Location).** The massive subterranean capital of the <LoreLink termId=\"solari\">Solari</LoreLink> forge-clans, carved radially into the volcanic throat of a dormant secondary caldera three miles from <LoreLink termId=\"emberspire\">Emberspire</LoreLink>. Hewn by the Sun-Speakers centuries before the sun's death, it serves as both sacred temple to the <LoreLink termId=\"solbrand\">Solbrand</LoreLink> and industrial forge-caldera. The Hollow-Solari tend the eternal ember here in sacred silence."
             },
             {
               "title": "Ironjaw Port [Pronunciation: EYE-ern-jaw]",
@@ -781,7 +781,7 @@
             },
             {
               "title": "Damon [Pronunciation: DAY-mon]",
-              "content": "**Noun (Historical Figure).** A master <LoreLink termId=\"emberth\">Solari</LoreLink> smith of the forge-caldera keeps of <LoreLink termId=\"sundale\">Sundale</LoreLink>, and founder of the <LoreLink termId=\"spellguard\">Spellguard</LoreLink> tradition. Working near the volatile <LoreLink termId=\"solbrand\">Solbrand</LoreLink>, Damon developed the first systematic method for detecting, analyzing, and dismantling incoming magical energy before it could manifest, treating magical defense as engineering rather than art."
+              "content": "**Noun (Historical Figure).** A master <LoreLink termId=\"solari\">Solari</LoreLink> smith of the forge-caldera keeps of <LoreLink termId=\"sundale\">Sundale</LoreLink>, and founder of the <LoreLink termId=\"spellguard\">Spellguard</LoreLink> tradition. Working near the volatile <LoreLink termId=\"solbrand\">Solbrand</LoreLink>, Damon developed the first systematic method for detecting, analyzing, and dismantling incoming magical energy before it could manifest, treating magical defense as engineering rather than art."
             },
             {
               "title": "Grum Bloodhammer [Pronunciation: GRUM]",
@@ -857,7 +857,7 @@
             },
             {
               "title": "Vault-Breath [Pronunciation: VAWLT BRETH]",
-              "content": "**Noun (Concept).** The foundational <LoreLink termId=\"emberth\">Solari</LoreLink> discipline, a meditative practice of absolute physical stillness developed to conserve body heat in the geothermal depths of the <LoreLink termId=\"harath_vault\">Harath-Vault</LoreLink>. At its highest level, Vault-Breath allows a Solari to enter suspended animation indistinguishable from death, no heartbeat, no breath, no heat signature. The Hollow-Solari use it for sacred meditation; the Waste-Solari employ it for ambush."
+              "content": "**Noun (Concept).** The foundational <LoreLink termId=\"solari\">Solari</LoreLink> discipline, a meditative practice of absolute physical stillness developed to conserve body heat in the geothermal depths of the <LoreLink termId=\"harath_vault\">Harath-Vault</LoreLink>. At its highest level, Vault-Breath allows a Solari to enter suspended animation indistinguishable from death, no heartbeat, no breath, no heat signature. The Hollow-Solari use it for sacred meditation; the Waste-Solari employ it for ambush."
             },
             {
               "title": "Jax [Pronunciation: JAKS]",

@@ -20,7 +20,7 @@ export const ARCANONEER_DATA = {
       "astril",
       "vreken",
       "skald_human",
-      "emberth",
+      "solari",
       "mimir",
       "groven",
       "myrathil",

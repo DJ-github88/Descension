@@ -22,12 +22,53 @@
 
 .world-map-immersive.phase-immersed {
   opacity: 1;
-  transition: opacity 0.6s ease-out;
+  transition: opacity 1.4s ease-out;
 }
 
 .world-map-immersive.phase-zoomingIn {
   opacity: 0;
-  transition: opacity 0.8s ease-in;
+  pointer-events: none;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Reel-in & Reel-out animations for Immerse UI Controls ── */
+.world-map-immersive.phase-entering .map-controls-fixed,
+.world-map-immersive.phase-zoomingIn .map-controls-fixed {
+  transform: translateY(-60px) scale(0.88);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.world-map-immersive.phase-immersed .map-controls-fixed {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s, opacity 1.0s ease 0.9s;
+}
+
+.world-map-immersive.phase-entering .map-tools-sidebar,
+.world-map-immersive.phase-zoomingIn .map-tools-sidebar {
+  transform: translateY(60px) scale(0.88);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.world-map-immersive.phase-immersed .map-tools-sidebar {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s, opacity 1.0s ease 0.9s;
+}
+
+.world-map-immersive.phase-entering .burned-parchment-container,
+.world-map-immersive.phase-zoomingIn .burned-parchment-container {
+  opacity: 0;
+  transform: scale(1.04);
+  transition: transform 0.9s ease, opacity 0.9s ease;
+}
+
+.world-map-immersive.phase-immersed .burned-parchment-container {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1.5s ease-out 0.7s, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
 }
 
 .map-canvas-wrapper {

@@ -651,7 +651,7 @@ DEEP_LOCATIONS['ember-lagoon'] = {
  ],
  connectedMaps: [],
  factionPresence: [
-  { factionId: 'emberth-forge-clans', influence: 'dominant', description: 'Control the docks, diving rights, and thermal vent access' },
+  { factionId: 'solari-forge-clans', influence: 'dominant', description: 'Control the docks, diving rights, and thermal vent access' },
   { factionId: 'house-solvan', influence: 'moderate', description: 'Maintain the shrine and the pilgrimage trade' },
   { factionId: 'merryn-traders', influence: 'moderate', description: 'Control the shipping lanes and import-export pricing' }
  ],

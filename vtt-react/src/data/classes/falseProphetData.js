@@ -36,7 +36,7 @@ export const FALSE_PROPHET_DATA = {
     "hardBlocks": [
      "skald_human",
      "thalren_human",
-     "emberth"
+     "solari"
     ],
    "narrativeUnlock": true,
        "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Morren live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."

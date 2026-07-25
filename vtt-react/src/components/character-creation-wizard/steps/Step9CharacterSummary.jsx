@@ -132,8 +132,8 @@ const getSubraceImage = (subraceId, raceId) => {
     florae_unified: 'trueborn_illustration.png',
     florae_unified: 'shorn_illustration.png',
     // Solari
-    korr_emberth: 'korr_illustration.png',
-    thrask_emberth: 'thrask_illustration.png',
+    korr_solari: 'korr_illustration.png',
+    thrask_solari: 'thrask_illustration.png',
     // Fexric
     kethrin_fexric: 'kethrin_illustration.png',
     drall_fexric: 'drall_illustration.png',

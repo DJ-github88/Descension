@@ -17,20 +17,72 @@ body.landing-mode *::after {
   box-sizing: border-box !important;
 }
 
-/* Ensure landing page elements maintain their intended styling */
-.landing-page.immersing .landing-header {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
+/* Button Border Glow Activation Effect */
+.immersive-action-btn.is-immerse-activating {
+  box-shadow: 0 0 55px rgba(212, 175, 55, 1), 0 0 110px rgba(212, 175, 55, 0.85), inset 0 0 30px rgba(255, 240, 180, 1) !important;
+  border-color: #ffd700 !important;
+  transform: scale(1.12) !important;
+  animation: immerseButtonPulse 0.5s ease-in-out infinite alternate;
 }
 
-.landing-page.immersing .hero-content,
-.landing-page.immersing .action-buttons,
-.landing-page.immersing .mobile-hamburger {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
+@keyframes immerseButtonPulse {
+  0% {
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.9), inset 0 0 20px rgba(255, 240, 180, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 70px rgba(255, 215, 0, 1), inset 0 0 45px rgba(255, 255, 230, 1);
+  }
+}
+
+/* Header Slide UP & Put Away on Immerse - Slow, Elegant & Stately */
+.landing-header {
+  transition: transform 2.0s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.6s ease, background 0.3s ease;
+}
+
+.landing-page.immersing .landing-header {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: transform 2.0s cubic-bezier(0.22, 1, 0.36, 1) 0.4s, opacity 1.6s ease 0.4s !important;
+}
+
+/* Side Buttons & Text Soft Atmospheric Dissolve & Blur Out */
+.landing-page.immersing .primary-action-btn,
+.landing-page.immersing .secondary-action-btn,
+.landing-page.immersing .title-section,
+.landing-page.immersing .game-subtitle,
+.landing-page.immersing .game-description,
+.landing-page.immersing .phone-notice-banner {
+  opacity: 0 !important;
+  filter: blur(8px) !important;
+  transform: translateY(30px) scale(0.93) !important;
+  pointer-events: none !important;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s ease, filter 1.2s ease !important;
+}
+
+/* Immerse button lights up, glides smoothly to exact viewport center, and dissolves LAST */
+.landing-page.immersing .immersive-action-btn {
+  pointer-events: none !important;
+  box-shadow: 0 0 70px rgba(212, 175, 55, 1), 0 0 140px rgba(212, 175, 55, 0.9), inset 0 0 40px rgba(255, 240, 180, 1) !important;
+  border-color: #ffd700 !important;
+  transform: translate(var(--immerse-target-x, 0px), var(--immerse-target-y, -120px)) scale(1.35) !important;
+  opacity: 0 !important;
+  filter: blur(0px);
+  /* Smooth GPU transform to center; opacity stays 1 until 1.6s then blurs & fades out LAST over 0.9s */
+  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.8s ease,
+              border-color 0.8s ease,
+              filter 0.9s ease 1.6s,
+              opacity 0.9s ease 1.6s !important;
+}
+
+.landing-page.map-background::before {
+  transition: opacity 2.0s ease-out;
+}
+
+.landing-page.immersing.map-background::before {
+  opacity: 0 !important;
+  transition: opacity 2.0s ease-out 0.4s !important;
 }
 
 .landing-page.immersing.map-background {
@@ -185,7 +237,7 @@ body svg[data-icon] {
   background-position: 0% 0%, center, center; /* Start at top-left corner */
   background-repeat: no-repeat;
   background-attachment: scroll;
-  animation: mapPan 240s ease-in-out infinite; /* 240 seconds for complete journey - slightly slower for zoomed view */
+  animation: mapPan 48s ease-in-out infinite; /* 48 seconds for active, lively thematic journey across master map */
   will-change: background-position; /* Optimize animation performance */
 }
 

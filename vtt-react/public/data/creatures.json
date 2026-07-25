@@ -1,262 +1,10 @@
 [
   {
-    "id": "gareth-ironhand-merchant",
-    "name": "Gareth Ironhand",
-    "description": "A stout dwarven blacksmith with calloused hands and a keen eye for quality. Gareth runs \"The Forged Path,\" a well-stocked armory specializing in weapons and armor. His prices are fair, and he pays well for quality metalwork.",
-    "type": "humanoid",
-    "size": "medium",
-    "tags": [
-      "dwarf",
-      "merchant",
-      "shopkeeper",
-      "blacksmith",
-      "friendly"
-    ],
-    "tokenIcon": "inv_misc_head_dwarf_01",
-    "tokenBorder": "#CD7F32",
-    "stats": {
-      "strength": 16,
-      "agility": 10,
-      "constitution": 17,
-      "intelligence": 13,
-      "spirit": 12,
-      "charisma": 14,
-      "maxHp": 120,
-      "currentHp": 120,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": 1,
-      "speed": 25,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "physical": 10
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "id": "merchant-appraisal",
-        "name": "Merchant Appraisal",
-        "description": "Appraises metalwork instantly, determining its exact value and craftsmanship.",
-        "level": 1,
-        "spellType": "ACTION",
-        "icon": "inv_misc_gem_pearl_04",
-        "actionPointCost": 1,
-        "cooldown": 0
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 5,
-          "max": 20
-        },
-        "silver": {
-          "min": 20,
-          "max": 100
-        },
-        "copper": {
-          "min": 100,
-          "max": 500
-        }
-      },
-      "items": [
-        {
-          "itemId": "iron-ingot",
-          "dropChance": 100,
-          "quantity": {
-            "min": 2,
-            "max": 6
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "lyra-moonwhisper-merchant",
-    "name": "Lyra Moonwhisper",
-    "description": "An elegant elven alchemist surrounded by the sweet scent of crushed herbs and bubbling potions. Lyra operates \"The Astral Elixir,\" a shop stocked with vials of glowing liquids. She is soft-spoken but possesses vast botanical knowledge.",
-    "type": "humanoid",
-    "size": "medium",
-    "tags": [
-      "elf",
-      "merchant",
-      "alchemist",
-      "herbalist",
-      "friendly"
-    ],
-    "tokenIcon": "inv_misc_head_elf_01",
-    "tokenBorder": "#DDA0DD",
-    "stats": {
-      "strength": 9,
-      "agility": 14,
-      "constitution": 11,
-      "intelligence": 18,
-      "spirit": 15,
-      "charisma": 16,
-      "maxHp": 85,
-      "currentHp": 85,
-      "maxMana": 100,
-      "currentMana": 100,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": 3,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "blight": 25
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "id": "alchemist-knowledge",
-        "name": "Alchemist Knowledge",
-        "description": "Identifies potions and herbs by smell or touch.",
-        "level": 1,
-        "spellType": "ACTION",
-        "icon": "inv_potion_93",
-        "actionPointCost": 1,
-        "cooldown": 0
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 1
-        },
-        "gold": {
-          "min": 10,
-          "max": 30
-        },
-        "silver": {
-          "min": 40,
-          "max": 120
-        },
-        "copper": {
-          "min": 0,
-          "max": 0
-        }
-      },
-      "items": [
-        {
-          "itemId": "minor-healing-potion",
-          "dropChance": 100,
-          "quantity": {
-            "min": 1,
-            "max": 2
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
-    "id": "thaddeus-quickcoin-merchant",
-    "name": "Thaddeus Quickcoin",
-    "description": "A shrewd human merchant clad in fine silks, his fingers adorned with gold rings. Thaddeus operates a general store, buying and selling everything from rations to rare trinkets. He loves gold and will haggle fiercely for a profit.",
-    "type": "humanoid",
-    "size": "medium",
-    "tags": [
-      "human",
-      "merchant",
-      "trader",
-      "shopkeeper",
-      "friendly"
-    ],
-    "tokenIcon": "inv_misc_bag_07",
-    "tokenBorder": "#FFD700",
-    "stats": {
-      "strength": 10,
-      "agility": 12,
-      "constitution": 12,
-      "intelligence": 14,
-      "spirit": 13,
-      "charisma": 18,
-      "maxHp": 90,
-      "currentHp": 90,
-      "maxMana": 0,
-      "currentMana": 0,
-      "maxActionPoints": 4,
-      "currentActionPoints": 4,
-      "initiative": 2,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
-    },
-    "resistances": {
-      "wyrd": 15
-    },
-    "vulnerabilities": {},
-    "abilities": [
-      {
-        "id": "merchant-haggle",
-        "name": "Merchant Haggle",
-        "description": "Applies discount or premium based on a successful charisma check.",
-        "level": 1,
-        "spellType": "ACTION",
-        "icon": "inv_misc_coin_02",
-        "actionPointCost": 1,
-        "cooldown": 0
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 2
-        },
-        "gold": {
-          "min": 20,
-          "max": 50
-        },
-        "silver": {
-          "min": 50,
-          "max": 200
-        },
-        "copper": {
-          "min": 100,
-          "max": 400
-        }
-      },
-      "items": [
-        {
-          "itemId": "silk-cloth",
-          "dropChance": 100,
-          "quantity": {
-            "min": 1,
-            "max": 3
-          }
-        }
-      ]
-    },
-    "dateCreated": "2026-06-06T20:28:54.318Z",
-    "lastModified": "2026-06-06T20:28:54.318Z"
-  },
-  {
     "id": "gref",
     "name": "Gref",
-    "description": "A small, stooped goblin-like memory collector that trades lost keys and trinkets for travelers' memories.",
+    "description": "A small, stooped stooped, child-sized memory collector that trades lost keys and trinkets for travelers' memories.",
     "origin": "In the world of Mythrill, the Frostwood Reach was once the heartland of the Seelie Accord, a pact between ancient human settlers and the Fair Folk who wandered the twilight borders between waking and dream. When the Wyrd corruption seeped through the world's fractures, it twisted the memory-keeping traditions of the Seelie into something bittersweet. Gref is one of the many 'twilight merchants' born from this corruption,spirits that once guided lost travelers to safety, now cursed to collect fragments of mortal memory to sustain their own fading existence. In Frostwood Reach, where the sun rarely pierces the perpetual mist, the locals leave small offerings of copper and old keys at crossroads, hoping to appease the memory-merchants rather than face the empty silence of forgetting.",
-    "nature": "A small, stooped goblin-like creature no taller than a child, dressed in tattered canvas that was once a shepherd's cloak. Its skin is the color of dried birch bark, and its eyes are milky white with no visible pupils,yet it sees perfectly well in the twilight gloom. Gref pushes a squeaking wooden barrow filled with rusted keys, old letters sealed with wax, and iron trinkets that once belonged to forgotten travelers. It speaks in a soft, whispering sigh that sounds like wind through autumn leaves, and it avoids physical conflict entirely, preferring to vanish into the mist when threatened.",
+    "nature": "A small, stooped stooped, wizened creature no taller than a child, dressed in tattered canvas that was once a shepherd's cloak. Its skin is the color of dried birch bark, and its eyes are milky white with no visible pupils,yet it sees perfectly well in the twilight gloom. Gref pushes a squeaking wooden barrow filled with rusted keys, old letters sealed with wax, and iron trinkets that once belonged to forgotten travelers. It speaks in a soft, whispering sigh that sounds like wind through autumn leaves, and it avoids physical conflict entirely, preferring to vanish into the mist when threatened.",
     "habitat": "Gref roams the misty crossroads and forest paths of the Frostwood Reach at twilight, especially near the ancient trade routes that connect the small villages of Drunhold and the Grimmwood. It is drawn to places where strong emotions have been felt,graveyards, abandoned campsites, and the thresholds of homes where someone has recently departed. The locals know that if Gref appears at your door, it means someone in the household has forgotten something important, and the spirit has come to trade it back.",
     "depth": "Gref is entirely peaceful, but its existence is a tragic one. It only seeks to return lost objects to those who can recall their significance, feeding on the emotional energy of the recalled memory. Without these memories, Gref and its kind would fade into the mist forever, becoming nothing more than the whispers that travelers sometimes hear on the wind. The memory-merchants are a reminder that in the Frostwood, even forgetting has a price, and the Wyrd corruption has turned something once beautiful into a cycle of gentle exploitation.",
     "type": "fey",
@@ -265,8 +13,7 @@
       "fey",
       "frostwood",
       "wyrd-creature",
-      "merchant",
-      "goblin"
+      "merchant"
     ],
     "tokenIcon": "Bestiary/gref",
     "tokenBorder": "#CD7F32",
@@ -356,7 +103,7 @@
     "id": "oillipheist",
     "name": "Oilliph,ist",
     "description": "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.",
-    "origin": "The Oillipheist is a creature born from the fusion of ancient Irish water-dragon myths and the cold reality of the Frostwood Reach's peat-bogs. Before the Deepening, when the first fae walked the world, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Wyrd broke the world's boundaries, the Frostwood's endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Drun fishermen speak of the 'silt-serpents' as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
+    "origin": "The Oillipheist is a creature born from the fusion of ancient Frostwood water-dragon myths and the cold reality of the Frostwood Reach's peat-bogs. Before the Deepening, when the first fae walked the world, the great serpents of the Oillipheist kind were guardians of sacred rivers, their scales gleaming with the light of the setting sun. When the Wyrd broke the world's boundaries, the Frostwood's endless cold and darkness twisted these noble guardians into blind, segmented eels that lurk in the stagnant pools, their once-magnificent forms reduced to something primal and hungering. The Drun fishermen speak of the 'silt-serpents' as cursed spirits of those who drowned in the bogs during the Long Winter, their bodies fused with the peat and moss to become something that is neither living nor dead.",
     "nature": "A blind, segmented eel-serpent approximately six feet long, its body composed of river-silt, rotting green moss, and the fossilized remains of ancient bog-plants. It lacks eyes entirely, navigating by sensing vibrations and blood-heat through the water with specialized sensory organs along its flanks. Its mouth is a circular maw ringed with tiny, needle-like teeth that can grip with the strength of a spring-trap. When submerged, it is nearly invisible, its silt-colored body blending perfectly with the dark peat-water. The creature emits a low, thrumming vibration that can be felt through the soles of boots before it strikes.",
     "habitat": "The Oillipheist haunts the stagnant peat-pools and boggy rivers of the Frostwood Reach, particularly in the Siltmire Flats where the ancient peat has turned the water into a thick, black soup. It prefers pools where the water is deep enough to hide its full length but shallow enough to trap prey. During the rare warm months, the serpents become sluggish and retreat to the deepest pools, but in the winter they grow aggressive, driven by the need to store fat for the long cold.",
     "depth": "They are simple, instinct-driven predators that keep the swamp waters free of bloated carcasses, feeding on anything that disturbs their pool. The Wyrd's corruption did not grant them malice, only hunger. Some scholars believe that the Oillipheist's blindness is a mercy,that if they could see the world they now inhabit, they would die of sorrow. The silt that makes up their bodies is the same silt that preserves the bodies of ancient warriors in the bogs, and there are tales of serpents that have swallowed bones whole, carrying the memories of the dead in their bellies.",
@@ -642,18 +389,17 @@
   {
     "id": "skerry",
     "name": "Skerry",
-    "description": "A stout, greedy, dwarf-like water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.",
+    "description": "A stout, greedy, stout, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.",
     "origin": "The Skerry is a creature born from the greed of the sea and the cold of the Nordhalla fjords. Before the Deepening, when the Skaldic Kings ruled the frozen north, the water dwarves were the guardians of sunken treasure, spirits who ensured that the wealth of the sea was distributed according to the will of the spirits. When the Wyrd broke the world, the Skerries were twisted into creatures of insatiable greed, their natural love of beauty and craftsmanship turned into an obsession with hoarding salvaged metal and gold. The sailors of Nordhalla have learned to respect the Skerries, leaving copper coins at the water's edge as a tax for safe passage, but they also fear them, for a Skerry cheated of its due will sink a ship as easily as it will repair one.",
     "nature": "A stout, broad water-sprite with waterlogged blue-grey skin that looks like wet oak. It wears a coat of salvaged sailcloth and copper sheeting, its seams stitched with kelp-fiber. Its webbed fingers end in chisel-like claws of copper, and its eyes are the color of deep water, always scanning for the glint of metal. The Skerry is highly skilled in shipbuilding, able to listen to the stresses in a ship's hull and identify the exact point of weakness. It demands silver or gold for its repairs, and if cheated, it will actively sabotage the vessel, loosening rivets and rotting timber from the inside.",
     "habitat": "The Skerry inhabits the frozen bays, ice-locked docks, and sunken shipwrecks of Nordhalla, particularly in the Sunken Fjord where the wreck of the ancient fleet lies beneath the ice. It is most active during the spring thaw, when the ice breaks and the wrecks are exposed, and during the winter storms, when ships are most likely to need repairs. The Skerries have a complex social structure based on hoard size, and the Skerry with the largest hoard is considered the king of the local waters.",
-    "depth": "Sailors and shipwrights in Nordhalla keep respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea. The Skerry's greed is not natural,it is a curse of the Wyrd, a corruption of the water dwarf's natural love of beauty into an obsession with possession. Some sailors say that the Skerries are trying to build something from the salvaged metal, something that will allow them to return to the sea's depths and escape the cold forever.",
+    "depth": "Sailors and shipwrights in Nordhalla keep respect the Skerries. They throw copper coins into the icy water before docking, as the cost of a clean repair is far cheaper than a sudden hull breach in the freezing open sea. The Skerry's greed is not natural,it is a curse of the Wyrd, a corruption of the water sprite's natural love of beauty into an obsession with possession. Some sailors say that the Skerries are trying to build something from the salvaged metal, something that will allow them to return to the sea's depths and escape the cold forever.",
     "type": "fey",
     "size": "small",
     "tags": [
       "fey",
       "nordhalla",
       "wyrd-creature",
-      "dwarf",
       "shipwright",
       "greedy"
     ],
@@ -3817,7 +3563,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Rooted in the ancient Skald folklore of the Schrat,a reclusive, moss-clad tree-dweller,and the Briaran traditions of the helpful yet temperamental Brownie or Urisk, this sprite has found a strange sanctuary in the fog-choked woods of Frostwood Reach. While its folklore ancestors moved household items or worked in secret for a bowl of cream, this spirit is drawn to the written word, manifesting as a bizarre helper that haunts the margins of mortal records.",
+    "origin": "Rooted in the ancient Skald folklore of the Schrat,a reclusive, moss-clad tree-dweller,and the Frostwood traditions of the helpful yet temperamental Brownie or Urisk, this sprite has found a strange sanctuary in the fog-choked woods of Frostwood Reach. While its folklore ancestors moved household items or worked in secret for a bowl of cream, this spirit is drawn to the written word, manifesting as a bizarre helper that haunts the margins of mortal records.",
     "nature": "Standing no taller than a child's knee, this hunched sprite is wrapped head-to-toe in living ironwood moss, its mottled grey-green skin resembling weathered bark with tiny mushrooms sprouting from its shoulders. It wears a makeshift loincloth stitched from stolen journal pages, whose memory-records are gradually weathered into illegibility. Its oversized, calloused hands are stained permanently with dark peat-ink, and its squashed, lichen-draped face is dominated by warm, amber eyes like old tallow candles that blink perpetually.",
     "habitat": "These elusive sprites make their homes in the damp, moss-draped hollows of the ironwood forests, occasionally wandering into the drafty cellars and quiet corners of Greymark's settlements.",
     "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Unwoven Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards."
@@ -3909,7 +3655,7 @@
     },
     "dateCreated": "2026-06-14T10:00:00Z",
     "lastModified": "2026-06-14T10:00:00Z",
-    "origin": "Formed from a Wyrd-corrupted fusion of the Briaran Changeling (the fairy double left in place of a stolen human child) and the Skald Mandrake (the screaming root born from the blood of the hanged). It resides in the dark bogs of the Frostwood Reach.",
+    "origin": "Formed from a Wyrd-corrupted fusion of the Frostwood Changeling (the fairy double left in place of a stolen human child) and the Skald Mandrake (the screaming root born from the blood of the hanged). It resides in the dark bogs of the Frostwood Reach.",
     "nature": "A life-sized wooden child's doll with a cracked, expressionless porcelain face. Gnarled mandrake roots sprout from its head like hair, and its hollow chest contains a pale blue wisp of light. It crawls on jointed limbs, weeping black ink from its empty eye sockets and mimicking the desperate cries of a human infant.",
     "habitat": "Damp bogs, hollow trees, and muddy crossroads in the Frostwood Reach.",
     "depth": "The Alraune mimics baby cries to lure parents and travelers. Mechanical quirk: it is terrified of raw salt. If a traveler scatters salt around themselves, the Changeling cannot approach within 10 feet. If fed a memory of deep grief, it becomes docile for 24 hours."
@@ -4011,7 +3757,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Born from the Skald legends of the Drude, a nightmare spirit that paralyzes the sleeping, and the Briaran Bean Nighe, the ghostly washerwoman of death, the Drudehaunt manifests the tragic fate of bitter souls lost to the fog. In the setting of Frostwood Reach, they manifest as spectral omens who wash away the identities of the living.",
+    "origin": "Born from the Skald legends of the Drude, a nightmare spirit that paralyzes the sleeping, and the Frostwood Bean Nighe, the ghostly washerwoman of death, the Drudehaunt manifests the tragic fate of bitter souls lost to the fog. In the setting of Frostwood Reach, they manifest as spectral omens who wash away the identities of the living.",
     "nature": "Appearing as a gaunt, hovering female silhouette, the Drudehaunt is wrapped in a shifting shawl of woven grey fog that continuously re-forms from the ambient mist, leaving her outlines blurred. She carries a translucent washbasin containing dark, memory-infused water, and her hollow-cheeked face features storm-filled grey eyes, with her mouth tightly sewn shut using spider-silk and bookbinder's thread.",
     "habitat": "These spirits hover near mist-shrouded river crossings and damp forest hollows by day, slipping into settlements and tents under the cover of night.",
     "depth": "At night, a Drudehaunt will rest heavily on the chests of sleeping scribes to consume their dreams, forcing them to relive every memory they have lost before draining new ones from their minds. By day, they wash the garments of the doomed in their ink-black basins; witnessing this act serves as a dire omen, ensuring the viewer will lose a precious memory within three days. Rumors of these spirits send waves of dread through Greymark, and adventurers are often tasked with banishing them or recovering their memory-water basins."
@@ -4106,7 +3852,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "A creature born of the German Kobold and the Briaran Tommyknocker, this subterranean guardian dwells in the deep root-tunnels of the Frostwood. Representing the spirit of the earth, it rewards respectful miners and punishes those who dare mock its work.",
+    "origin": "A creature born of the Fexric Kobold and the Frostwood Tommyknocker, this subterranean guardian dwells in the deep root-tunnels of the Frostwood. Representing the spirit of the earth, it rewards respectful miners and punishes those who dare mock its work.",
     "nature": "This two-foot-tall, barrel-chested humanoid possesses dark skin resembling polished ironwood heartwood, complete with dense grain rings. It carries a small mallet carved from a petrified wood knot, and its elongated fingers end in chisel-like nails that click rhythmically against the stone. Its craggy, bearded face has wide, yellow eyes that glow in the dark, and its grin reveals flat, stone teeth.",
     "habitat": "It dwells within the ironwood root-caverns and deep mine shafts beneath the Frostwood, far below the reach of the sun.",
     "depth": "Koboldknocks tap coded messages through the stone walls, guiding clever miners to rich veins of ironwood-heart, provided they leave a copper rivet as an offering at the vein's mouth. They also serve as vital wardens against the memory-fog, sensing its encroachment and hammering the cave walls to warn miners and seal off cracks before the mist can seep inside. When rumors of these spirits surface, miners seek to protect their territory, while others hire adventurers to gather their petrified mallets for their stabilizing properties."
@@ -4212,10 +3958,10 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Steeped in the Skald ballads of the Erlking's spectral hunt and the Briaran legends of the Cu Sith, this phantom hound is a harbinger of doom. It runs at the vanguard of the Elven King's wild procession, seeking out those whose minds have been unraveled by the deep woods.",
+    "origin": "Steeped in the Skald ballads of the Erlking's spectral hunt and the Frostwood legends of the Cu Sith, this phantom hound is a harbinger of doom. It runs at the vanguard of the Erlking's wild procession, seeking out those whose minds have been unraveled by the deep woods.",
     "nature": "This wolf-sized hound possesses a body formed from compressed autumn leaves, ironwood bark, and dark, rolling mist. It moves with a skittering, spider-like gait on elongated legs, its leaf-coat shifting and falling only to be reabsorbed, while a collar of thorn-vines clings tightly to its neck. Its fleshless muzzle is made of dark wood with green flames burning in its hollow eyes, and its jaw can unhinge to release a bark like a splitting tree.",
     "habitat": "It stalks the thickest fog-banks and deepest, untamed reaches of the ironwood forests, running where the memory-fog is dense.",
-    "depth": "Targeting the scent of failing minds, these hounds run in packs to herd disoriented travelers deeper into the mist where they can be claimed by the Erlking's hunt. When a hound marks a target with three thunderous barks, their fate is sealed unless a Briaran ranger can bribe the beast with a memory sealed inside a glass vial. Local settlements frequently post bounties for these creatures, seeking their thorn-vines and glowing wood to forge protective charms."
+    "depth": "Targeting the scent of failing minds, these hounds run in packs to herd disoriented travelers deeper into the mist where they can be claimed by the Erlking's hunt. When a hound marks a target with three thunderous barks, their fate is sealed unless a Frostwood ranger can bribe the beast with a memory sealed inside a glass vial. Local settlements frequently post bounties for these creatures, seeking their thorn-vines and glowing wood to forge protective charms."
   },
   {
     "id": "nuckelmist",
@@ -4314,7 +4060,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "A horrific combination of the Briaran Nuckelavee, the skinless horse-rider fiend, and the Skald Nebelgeist, a spirit of the blinding fog, the Nuckelmist is the ultimate dread of the Frostwood. Born of peat and decay, it represents the absolute dissolution of structure and direction.",
+    "origin": "A horrific combination of the Frostwood Nuckelavee, the skinless horse-rider fiend, and the Skald Nebelgeist, a spirit of the blinding fog, the Nuckelmist is the ultimate dread of the Frostwood. Born of peat and decay, it represents the absolute dissolution of structure and direction.",
     "nature": "This towering centaur-like horror features a raw, muscled humanoid torso fused directly to a massive horse's back, both entirely devoid of skin so that glistening red muscle and black sinew are exposed. Veins of black peat-water pulse under its wet flesh, and its horse-half drags heavy hooves that leave trails of steaming, diseased soil, with yellow fog trailing where its mane and tail should be. The humanoid torso has a single, large head on an elongated neck, with one massive, bloodshot eye weeping black ink made of dissolved memories.",
     "habitat": "It appears only in the deepest fog-banks during heavy whiteouts, wandering the borders where the forest gives way to peat-bogs.",
     "depth": "The Nuckelmist is a blight upon the land; its presence rots wood, peels ironwood bark, and dissolves the pages of journals from fifty paces away. Rather than hunting creatures for flesh, it walks along established roads and absorbs their spatial memory, causing the paths to physically vanish into the overgrown wilderness. Scribes and merchants live in terror of this entity, often recruiting powerful adventurers to hunt the beast and harvest its ink-like tears for research."
@@ -4419,7 +4165,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Drawing from the Moosfr,ulein of Skald woodland lore and the Briaran Glaistig, the Mossmaiden is a dual-natured protector of the wild. She serves as both a gentle guide to lost travelers and a strict warden of the deep forest, balancing the preservation of nature with a thirst for mortal devotion.",
+    "origin": "Drawing from the Moosfr,ulein of Skald woodland lore and the Frostwood Glaistig, the Mossmaiden is a dual-natured protector of the wild. She serves as both a gentle guide to lost travelers and a strict warden of the deep forest, balancing the preservation of nature with a thirst for mortal devotion.",
     "nature": "Lithe and graceful from the waist up, her upper body is covered in fine, velvet-soft moss that shifts from dark emerald in the wet seasons to a frosty white in the cold. Below, she possesses the muscular legs and cloven hooves of a grey-furred mountain goat. Her face is exceptionally beautiful, with birch-bark skin, high cheekbones, and pine-sap amber eyes with horizontal goat-pupils that glow in the dim mist beneath a crown of blooming ironwood flowers.",
     "habitat": "She resides in hidden, mist-draped groves and high meadows within the ironwood forests, following the seasonal movements of wild herds.",
     "depth": "As a herd warden, the Mossmaiden protects wild elk and moose from memory-fog pockets, ensuring they retain their migration routes. She occasionally approaches lonely woodsmen at twilight to offer them a cup of sweet milk, which grants incredible physical vitality but binds them to serve in her grove for seven forgotten years. Travelers seek her out for guidance, and adventurers are sometimes hired to obtain the rare ironwood flowers from her crown."
@@ -4524,7 +4270,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Inspired by the grotesque, single-limbed Fachan of Briaran myth and the mountain-guarding spirit R,bezahl of Skald folklore, the Fachanwatch is a stoic arbiter of the high passes. It judges the character and honesty of those who walk the high roads, acting as a living boundary.",
+    "origin": "Inspired by the grotesque, single-limbed Fachan of Frostwood myth and the mountain-guarding spirit R,bezahl of Skald folklore, the Fachanwatch is a stoic arbiter of the high passes. It judges the character and honesty of those who walk the high roads, acting as a living boundary.",
     "nature": "This squat, eight-foot-tall giant possesses a deformed torso with exactly one single colossal arm growing directly from the center of its chest, balanced on two sturdy, elephantine legs. Its skin is a rough, granite-grey stone studded with ironwood splinters, and its central arm swings a petrified ironwood trunk as a club. Its face features one large agate-like eye centered above the arm, a curled leaf-like ear, and half a mouth with three stone teeth, from which it speaks in a resonant baritone.",
     "habitat": "It stands sentinel in the narrow, rocky passes and high mountain trails that wind through the Frostwood peaks.",
     "depth": "The Fachanwatch guards mountain passes, remaining motionless for decades and demanding a deep, personal truth from travelers before granting passage; those who lie are cast into the abyss. Its very presence acts as a spatial anchor that prevents the memory-fog from erasing trails, making them highly valued by road-builders who leave carved truth-stones to court their favor. Guilds often hire adventurers to negotiate with these giants or acquire fragments of their petrified clubs to stabilize trade paths."
@@ -4625,7 +4371,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Born from the Skald Weinschrat, a mischievous sprite of the vineyards, and the Briaran Clurichaun, the surly defender of wine cellars, the Knockbrew has adapted to the cold taverns of Frostwood Reach. It acts as both a protector of brewers and a distiller of the region's lost thoughts.",
+    "origin": "Born from the Skald Weinschrat, a mischievous sprite of the vineyards, and the Frostwood Clurichaun, the surly defender of wine cellars, the Knockbrew has adapted to the cold taverns of Frostwood Reach. It acts as both a protector of brewers and a distiller of the region's lost thoughts.",
     "nature": "This two-foot-tall, pot-bellied sprite features a flushed, cheerful face with rosy cheeks and bloodshot eyes that gleam with intelligence, and its grin reveals iron teeth filed to look like corks. It wears a leather apron stained with pine-tar and berry-juice, carries a cooper's hammer on its belt, and walks in curly-toed boots made from shaved journal-covers. A swollen, purple-veined nose dominates its face, and it is rarely seen without its tiny, self-filling metal cup.",
     "habitat": "It infests the damp, dark cellars of Greymark taverns and the deep fermentation chambers of frost-mead brewers.",
     "depth": "Knockbrews tend tavern cellars, keeping casks of pine-oil and frost-mead from spoiling or freezing in the brutal cold. They also gather the damp, fog-dissolved memories that settle in dark corners and ferment them into a potent, cloudy liquor known as forget-mead, which can erase hours of memory with a single sip. This brew is highly valued as an anesthetic by Unwoven Mimir, who frequently employ adventurers to track down elusive Knockbrews for their unique fermenting tools."
@@ -4727,7 +4473,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Drawing from the Skald Boggart, a stubborn household pest, and the darker bog-dwelling Briaran P,ca, the Moorboggle is a parasitic spirit of the marshy borders. It attaches itself to mortal dwellings, thriving on the decay of family heritage and domestic peace.",
+    "origin": "Drawing from the Skald Boggart, a stubborn household pest, and the darker bog-dwelling Frostwood P,ca, the Moorboggle is a parasitic spirit of the marshy borders. It attaches itself to mortal dwellings, thriving on the decay of family heritage and domestic peace.",
     "nature": "This dog-sized, amorphous mass of compressed peat and dark mist has no fixed shape, shifting easily between humanoid, beastly, and shadowy forms. It emits a strong sulfurous smell, and bits of swallowed debris like keys and journal-scraps float in its dark body, which features no face except for two yellow pinpoint eyes that can move anywhere. When speaking, a mouth opens like a wound in its surface, showing a throat filled with thick bog-mud.",
     "habitat": "It lives in the soggy bogs and peat-mires of the Frostwood, frequently creeping into nearby villages to infest human homes.",
     "depth": "Moorboggles act as household parasites, draining memory-energy from the inhabitants and causing their family journals to dissolve rapidly over the winter. If cornered, they can open sinkholes in the peat to drag their pursuers into subterranean bog-pockets where they are easily drowned. Homeowners hang cold-iron horseshoes above their doors to disrupt the creature's memory-draining abilities, and often hire adventurers to purge these persistent pests from their cellars."
@@ -4833,7 +4579,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Born from the Briaran Banshee, whose wail foretells physical death, and the Skald Hollergeist, which mimics familiar voices to lead travelers to their doom, the Banshrond is a phantom of mental dissolution. She wanders the margins of the forest, mourning the death of lineage and recollection.",
+    "origin": "Born from the Frostwood Banshee, whose wail foretells physical death, and the Skald Hollergeist, which mimics familiar voices to lead travelers to their doom, the Banshrond is a phantom of mental dissolution. She wanders the margins of the forest, mourning the death of lineage and recollection.",
     "nature": "This impossibly tall, slender spirit appears draped in tattered fog-shrouds woven from the ghost-pages of dissolved journals, with faint, shifting text visible in the cloth. She stands at the forest edges, combing her ankle-length silver hair with a comb carved from a rib-bone as tears of liquid memory-glass fall and shatter at her feet. Her pale, drawn face features deep hollows around the eyes and a mouth frozen in a silent, screaming circle.",
     "habitat": "She haunts the quiet borders of fog-clearings and the outskirts of Greymark settlements.",
     "depth": "The Banshrond's wail foretells the complete erasure of an elder's memory within seven days, prompting families to desperately transcribe their lineage before all is lost. She carries a bone-comb that can part the memory-fog, which she will trade only for a genuine childhood memory to weave into her shroud. Scribes often employ adventurers to seek out these spirits to bargain for the comb or to prevent the memory-death of a vital elder."
@@ -5341,7 +5087,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Descending from the Briaran Sluagh, the host of the restless dead, and the Skald Wild Hunt or W,tende Heer, this phantom ridership is a collective manifestation of the forgotten. It represents the ultimate terror of historical erasure, riding through the sky to claim the names of the living.",
+    "origin": "Descending from the Frostwood Sluagh, the host of the restless dead, and the Skald Wild Hunt or W,tende Heer, this phantom ridership is a collective manifestation of the forgotten. It represents the ultimate terror of historical erasure, riding through the sky to claim the names of the living.",
     "nature": "This entity is a massive, undulating cloud composed of dozens of twisted, wraith-like riders fused together, moving in sudden, coordinated formations like a flock of starlings. It trails shreds of paper and ink droplets that fall like black snow, accompanied by the spectral sound of horse hooves echoing like slamming doors. Dozens of pale, screaming mouths open and close across its surface, each whispering the names of forgotten ancestors whose records were eaten by the fog.",
     "habitat": "It rides through the night skies during dense fog-storms, circling high above archive towers and fading settlements.",
     "depth": "The Wildejagd raids Greymark's archive towers, tearing down lineage-tapestries to consume the recorded history of entire bloodlines. They also circle those on the verge of total memory-collapse, waiting for their last thoughts to fade so they can absorb the empty shell of identity and add a new rider to their host. Scribes organize desperate hunts to protect their archives, hiring brave parties to retrieve the lost pages and components left in the ride's wake."
@@ -5431,7 +5177,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Tracing its lineage to the Scottish Briaran Fuath and the Skald Nixie, this water spirit is a personification of the deceptive depths. It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters.",
+    "origin": "Tracing its lineage to the Frostwood Fuath and the Skald Nixie, this water spirit is a personification of the deceptive depths. It feeds on the desperation of the forgetful, using their own lost identities as bait to lure them into the dark waters.",
     "nature": "This pale, slender figure appears to stand waist-deep in dark peat-pools, its body entirely translucent so that murky water and floating algae are visible through its skin. It is wrapped in a shimmering film of surface tension that reflects fog-light like oil on water, with long, kelp-like hair extending in all directions. While it seems beautiful from a distance, its features are fluid and constantly shifting, and its eyes are bottomless pools of dark water.",
     "habitat": "It waits in the stagnant peat-pools and boggy lakes that dot the lowlands of Frostwood Reach.",
     "depth": "The Fuath sings a resonant hum that echoes through the fog, bringing to mind the listener's most cherished, forgotten memories to draw them into the water. Once a victim wades in, the spirit dissolves into the pool, drowning the traveler and sinking their memories into the sediment where they compact into peat over centuries. Communities hire adventurers to search for these spirits to recover lost relatives or harvest their memory-infused water."
@@ -5515,7 +5261,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Derived from the Briaran Grogoch, a helpful yet reclusive hedge-spirit, and the Skald Erdm,nnlein, the industrious little men of the earth, this creature is a master of the soil. It works in the dark beneath the forest floor, maintaining a hidden agricultural network that sustains the region's inhabitants.",
+    "origin": "Derived from the Frostwood Grogoch, a helpful yet reclusive hedge-spirit, and the Skald Erdm,nnlein, the industrious little men of the earth, this creature is a master of the soil. It works in the dark beneath the forest floor, maintaining a hidden agricultural network that sustains the region's inhabitants.",
     "nature": "This three-foot-tall biped resembles a walking haystack, covered in dreadlocks of ironwood-moss and matted animal fur. Two short, muscular arms extend from its bulk, holding a small spade made from a sharpened elk shoulder-blade. Its face is almost entirely obscured by hair, showing only a broad nose and beady, black eyes, and its wide mouth is filled with flat, stone teeth.",
     "habitat": "It lives in clean, root-lined burrow systems dug beneath the ironwood forests, ventilated by small, hidden air vents.",
     "depth": "Grogochs cultivate vast gardens of edible ironwood-roots and frost-tubers, which serve as a crucial food supply for local villages. They also maintain a network of subterranean tunnels that allow travelers to bypass the memory-fog entirely, demanding a secret as payment for using these safe passages. Villages often hire adventurers to trade with them or protect their burrows from surface predators."
@@ -5695,7 +5441,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Rooted in the Briaran myth of the Dullahan, the headless harbinger of death, and the Skald legend of the kopflose Reiter who punishes broken oaths, the Dullahan is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
+    "origin": "Rooted in the Frostwood myth of the Dullahan, the headless harbinger of death, and the Skald legend of the kopflose Reiter who punishes broken oaths, the Dullahan is a relentless executioner. In the setting of Frostwood Reach, it enforces the sanctity of written vows and the preservation of identity.",
     "nature": "This tall, armored figure clad in blackened ironwood-plate rides a horse composed of compressed fog with a skull-like head. The rider is headless, with memory-mist escaping from its raw neck stump, and it carries its severed head,featuring a featureless, polished ironwood mask that reflects the observer's deepest fears,under one arm. A whip crafted from braided journal-cords hangs at its belt.",
     "habitat": "It haunts the ancient, fog-drowned crossroads and trade routes of the Frostwood at midnight.",
     "depth": "The Dullahan rides to crossroads to whisper a traveler's name, causing their defining memory to dissolve within a day, and actively hunts those who break written oaths recorded in Greymark's ledgers. It is particularly drawn to maskless Mimir, collecting their abandoned identities to fuel its own hollow existence. Local authorities post massive rewards for adventurers who can destroy the rider or retrieve its mirror-like ironwood mask."
@@ -5780,10 +5526,10 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Combining the spectral Briaran Cu Sith, whose barks signal doom, and the Skald Schr,ttel, a clever forest predator, the Cusith is a terror of the twilight hours. It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims.",
+    "origin": "Combining the spectral Frostwood Cu Sith, whose barks signal doom, and the Skald Schr,ttel, a clever forest predator, the Cusith is a terror of the twilight hours. It tracks its prey through the mist, feeding not on physical flesh but on the raw emotions of its victims.",
     "nature": "This massive hound stands shoulder-high to a mounted rider, its impossibly thin frame covered in dark green fur composed of living ironwood moss, with its rib-cage clearly visible. Its paws leave no trace on the forest floor, and a green glow leaks from its claws and teeth, while its long tail ends in a bioluminescent moss tuft. Its narrow muzzle unhinges to reveal backward-curving green bones for teeth, and its eyes are solid, pupilless emerald wells.",
     "habitat": "It hunts in packs throughout the deep, fog-veiled valleys and dark woods of the Frostwood.",
-    "depth": "The Cusith hunts at dusk, using three distinct barks: the first paralyzes a traveler, the second erases their location memory, and the third compels them to walk into the fog's heart. Rather than killing, the hound feeds on the memory of fear, leaving its prey dazed but completely devoid of terror, which allows Briaran rangers to track the packs by locating these unnaturally fearless survivors. Adventurers are often sent to hunt these beasts to harvest their glowing moss or save lost travelers."
+    "depth": "The Cusith hunts at dusk, using three distinct barks: the first paralyzes a traveler, the second erases their location memory, and the third compels them to walk into the fog's heart. Rather than killing, the hound feeds on the memory of fear, leaving its prey dazed but completely devoid of terror, which allows Frostwood rangers to track the packs by locating these unnaturally fearless survivors. Adventurers are often sent to hunt these beasts to harvest their glowing moss or save lost travelers."
   },
   {
     "id": "pixie",
@@ -5848,7 +5594,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "A blend of the Briaran Pixie, which leads travelers astray or assists them for small offerings, and the Skald Irrlicht, the deceptive Will-o'-the-Wisp of the peat-bogs, this glowing sprite is a constant companion of the fog. It represents both hope and deception, shifting its behavior on a whim.",
+    "origin": "A blend of the Frostwood Pixie, which leads travelers astray or assists them for small offerings, and the Skald Irrlicht, the deceptive Will-o'-the-Wisp of the peat-bogs, this glowing sprite is a constant companion of the fog. It represents both hope and deception, shifting its behavior on a whim.",
     "nature": "This hand-sized sprite is made of semi-transparent condensed fog-light and shaped like a tiny humanoid with delicate moth-wings. It pulses with a warm honey-colored glow and leaves a trail of phosphorescent spores that hang in the air, changing color from gold to blue or red depending on its mood. Its tiny, mouthless face is dominated by large, solid eyes of warm light through which it communicates.",
     "habitat": "It hovers over the damp marshes, peat-bogs, and low-lying paths of the Frostwood where the mist is thickest.",
     "depth": "Pixies guide lost travelers through the fog, leaving gold trails that lead to safety, blue trails that run in circles, or red trails that plunge into bogs or over cliffs. They reproduce by seeding spores into the memory-fog, where they grow by absorbing dissolved emotional memories, occasionally creating dense lantern-fogs that travelers can navigate if they understand the colors. Adventurers often seek them to collect their glow-spores for light-sources or mapping reagents."
@@ -5932,7 +5678,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "The Waldschrat represents a merger of the Skald Waldschrat, a hairy riddle-loving forest spirit, and the Briaran Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
+    "origin": "The Waldschrat represents a merger of the Skald Waldschrat, a hairy riddle-loving forest spirit, and the Frostwood Far Darrig, the red-capped prankster. In the Frostwood, it is a playful yet dangerous manifestation of the forest's tangled history, testing the wit and courage of travelers.",
     "nature": "This three-foot-tall, wiry creature is formed of twisted ironwood-roots and bark, its body dominated by a bright crimson peaked cap of peat-moss. Its highly flexible limbs bend in impossible directions, and it carries a gnarled root-staff that rattles, releasing tiny red sparks when it is pleased. Its leathery, wrinkled face features a wide, lipless grin and mismatched red and green eyes that look in separate directions.",
     "habitat": "It makes its home along the narrow, overgrown paths and dense thickets of the ironwood forests.",
     "depth": "Waldschrats block pathways and demand that travelers solve riddles based on forgotten history, which require pure intuition to answer since the memories themselves have vanished. They also entertain themselves by playing frightening pranks, mimicking the voices of lost scribes, and feeding on the adrenaline of terrified travelers to power their glowing caps. Scribes and rangers frequently seek them out to solve historical mysteries or hire adventurers to drive them away from trade routes."
@@ -6763,7 +6509,7 @@
   {
     "id": "bergthrall",
     "name": "Bergthrall",
-    "description": "A stone-skinned dwarven craftsman of the deep caverns who cuts flawless glacier-crystals, trading them for iron and blubber under the threat of petrifaction.",
+    "description": "A stone-skinned stout, stone-skinned craftsman of the deep caverns who cuts flawless glacier-crystals, trading them for iron and blubber under the threat of petrifaction.",
     "type": "construct",
     "size": "medium",
     "tags": [
@@ -7985,7 +7731,7 @@
     },
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "Crafted by the skilled hands of Solari artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Solvarn dwarf-spirit of households who warded off evil with knives and music, and Ugallu, the pre-Binding lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
+    "origin": "Crafted by the skilled hands of Solari artisans, the Bes is a protective homunculus inspired by ancient protective spirits. Its form draws from Bes, the Solvarn hearth-spirit of households who warded off evil with knives and music, and Ugallu, the pre-Binding lion-headed 'Big Weather-Beast' who championed cosmic order. Together, these legends are fused into a loyal clay defender of the home.",
     "nature": "Standing only four feet tall, the Bes is a squat, muscular construct made of fired terracotta clay reinforced with basalt fibers. It wears a stylized crown of tall ostrich feathers and brandishes a curved khopesh-sword in one hand and a small bronze tambourine in the other. Its clay skin is painted with complex sigils of blue lapis-lazuli that glow with a brilliant light when danger is near. Its face is a wide, comical lion's head with crossed eyes and a protruding tongue, designed to startle and amuse in equal measure.",
     "habitat": "These homunculi are stationed inside the stone hearths, door-lintels, and residential nurseries of Solari strongholds and fortified outposts within Sundale. They remain motionless until activated.",
     "depth": "Bess serve as the ultimate line of defense for Solari families, springing to life at the first sign of Wyrd-corruption or malevolent spirits. When activated, they create a chaotic din, beating their tambourines and swinging their khopesh swords, using their bizarre grimaces and laughter-inducing appearance to break hostile enchantments. If a nursery is breached, a Bes will fight until it is completely shattered, scattering protective, sigil-carved clay shards that ward the room against corruption. The Waste-Solari and Hollow-Solari hold these shattered fragments in high honor, often hiring adventurers to retrieve rare lapis-lazuli or basalt fibers to construct new guardians for their growing settlements."
@@ -10317,7 +10063,7 @@
     "dateCreated": "2026-06-13T18:00:00Z",
     "lastModified": "2026-06-13T18:00:00Z",
     "origin": "The Popobawa is inspired by the salt-depth Popobawa, a bat-winged, one-eyed spirit that attacks victims in their homes, and the pre-Binding Empusa's shape-shifting, fear-exploiting nature. In the setting, it is a plague of ship cabins.",
-    "nature": "Its form shifts constantly between a hunched dwarf, a bat-winged specter, and a formless shadow, leaving a trail of sulfur-smelling phosphorescent slime. Its only stable feature is a single bruised eye in the center of its mass. This eye gazes with a mocking intelligence, while the rest of its shifting body dissolves into black smoke before congealing into new shapes.",
+    "nature": "Its form shifts constantly between a hunched, stooped figure, a bat-winged specter, and a formless shadow, leaving a trail of sulfur-smelling phosphorescent slime. Its only stable feature is a single bruised eye in the center of its mass. This eye gazes with a mocking intelligence, while the rest of its shifting body dissolves into black smoke before congealing into new shapes.",
     "habitat": "These spirits infiltrate the dark, cramped cabins and crew quarters of ships sailing the Iceheart Sea.",
     "depth": "The Popobawa slips into cabins to inflict severe night-terrors that exhaust sailors and cause them to collapse on watch. The creature psychically silences its victims, and it will return nightly until the victim publicly names it to another person. Captains enforce policies where crew members must describe their dreams at breakfast to break this silence. A vessel has recently arrived in port with a completely exhausted crew, and investigators are looking for adventurers to root out the spirit."
   },
@@ -15726,172 +15472,6 @@
     "depth": "Acting as the False-Mother, she offers poisoned milk to grieving parents to put them into a permanent sleep before leaving a changeling of woven bog-grass in their place. Her actual amphibious offspring, the Substitute-Children, are left in human cradles and grow rapidly while devouring contract-paper, forcing Neth households to hunt these creatures down and retrieve their stolen kin before their archives are destroyed, providing a desperate hook for adventurers."
   },
   {
-    "id": "upir_root",
-    "name": "Upir-Root",
-    "description": "An underground network of pulsing, parasitic tendrils, the Upir-Root drains the life of the forest and travelers above it.",
-    "type": "fey",
-    "size": "medium",
-    "tags": [
-      "bryngloom",
-      "upir_root",
-      "fey"
-    ],
-    "tokenIcon": "Bestiary/upir_root",
-    "tokenBorder": "#2d6a4f",
-    "stats": {
-      "strength": 18,
-      "agility": 14,
-      "constitution": 18,
-      "intelligence": 16,
-      "spirit": 18,
-      "charisma": 14,
-      "maxHp": 650,
-      "currentHp": 650,
-      "maxMana": 50,
-      "currentMana": 50,
-      "maxActionPoints": 5,
-      "currentActionPoints": 5,
-      "initiative": 3,
-      "speed": 30,
-      "flying": 0,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "necrotic": 100,
-      "cold": 50,
-      "physical": 25
-    },
-    "vulnerabilities": {
-      "radiant": 25
-    },
-    "abilities": [
-      {
-        "name": "Life-Force-Drain",
-        "description": "+6 to hit, 2d6+4 necrotic + DC 14 CON or lose 1d4 CON permanently",
-        "type": "melee",
-        "icon": "ability_physical_taunt",
-        "range": 5,
-        "actionPointCost": 2,
-        "cooldown": 0,
-        "effects": [
-          {
-            "type": "DAMAGE",
-            "value": "2d6+4"
-          },
-          {
-            "type": "SAVE",
-            "attribute": "constitution",
-            "dc": 14,
-            "onFail": {
-              "type": "CONDITION",
-              "condition": "slowed",
-              "duration": 1
-            }
-          }
-        ]
-      }
-    ],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
-          "min": 0,
-          "max": 0
-        }
-      },
-      "items": []
-    },
-    "dateCreated": "2026-06-13T18:00:00Z",
-    "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "The Upir-Root draws from the ancient Thalren Upir, a blood-drinking vampire blamed for blighted fields and agricultural ruin, combined with the parasitic Vedic Bhuta, a restless spirit that anchored itself to the soil to drain the vitality of the living. In Mythrill's depths, it manifests as a literal blight upon the forest's hydrology.",
-    "nature": "This creature appears as a skeletal, underground network of dark tendrils that spread from a central burial point, mimicking ironwood roots but pulsing with a slow heartbeat. Where they touch living roots, they leech nutrients to wither the tree above. At the center of the network, buried six feet deep, lies the original peat-preserved corpse with its eyes open, its mouth stretched in a silent scream, and root-tendrils sprouting from its mouth, eyes, and fingertips.",
-    "habitat": "This parasitic entity spreads beneath the soil of the Bryngloom Forest terrain.",
-    "depth": "Operating as a Root-Parasite, the Upir-Root drains the life force of everything within a fifty-foot radius, causing trees to yellow and inducing severe fatigue in Neth travelers walking above. As the primary Blight-Cause in the forest, these infestations are targeted by the Neth Velun using contract-rituals to legally release the spirit's attachments, though adventurers are often needed to locate the buried center of the network or protect the ritualists from the spirit's defensive tendrils, especially if a component from the core is required."
-  },
-  {
-    "id": "sirin_song",
-    "name": "Sirin-Song",
-    "description": "A dark bird of twilight with a heart-breaking face, the Sirin-Song sings a melody of absolute melancholy that pulls listeners toward their final rest.",
-    "type": "humanoid",
-    "size": "tiny",
-    "tags": [
-      "bryngloom",
-      "sirin_song",
-      "humanoid"
-    ],
-    "tokenIcon": "Bestiary/sirin_song",
-    "tokenBorder": "#7209b7",
-    "stats": {
-      "strength": 6,
-      "agility": 16,
-      "constitution": 10,
-      "intelligence": 16,
-      "spirit": 22,
-      "charisma": 18,
-      "maxHp": 380,
-      "currentHp": 380,
-      "maxMana": 60,
-      "currentMana": 60,
-      "maxActionPoints": 3,
-      "currentActionPoints": 3,
-      "initiative": 4,
-      "speed": 10,
-      "flying": 30,
-      "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
-    },
-    "resistances": {
-      "radiant": 100,
-      "psychic": 100,
-      "necrotic": 25
-    },
-    "vulnerabilities": {
-      "necrotic": 25
-    },
-    "abilities": [],
-    "lootTable": {
-      "currency": {
-        "platinum": {
-          "min": 0,
-          "max": 0
-        },
-        "gold": {
-          "min": 1,
-          "max": 5
-        },
-        "silver": {
-          "min": 5,
-          "max": 15
-        },
-        "copper": {
-          "min": 0,
-          "max": 0
-        }
-      },
-      "items": []
-    },
-    "dateCreated": "2026-06-13T18:00:00Z",
-    "lastModified": "2026-06-13T18:00:00Z",
-    "origin": "The Sirin-Song represents the dark Thalren Sirin, whose beautiful but sorrowful song led listeners to willingly cease living, combined with the nine cosmic forces the Solbrand faith calls the Navagraha, that dictate the path of destiny. In Mythrill's deepest forest, she acts as a tragic weaver of fate and a harbinger of the end.",
-    "nature": "Having a twenty-foot wingspan, this bird-like entity has the head and upper torso of a gorgeous woman, with dark twilight plumage of indigo, violet, and black shot with silver threads. Her song projects ribbons of shadow that dim all light and drop the temperature, while she holds nine silver threads representing the aspects of fate. Her face is the most beautiful in the world, permanently still with eyes closed to hide the overwhelming sight of all time, her lips constantly moving to hum her terrible, perfect song.",
-    "habitat": "This mournful singer resides at the convergence of the bog and forest in the Bryngloom Forest terrain.",
-    "depth": "Performing the Death-Song at the forest's deepest core, her voice is the sound of Morvane, driving listeners to sit down and peacefully surrender to the swamp. As the Fate-Weaver, she manipulates nine threads representing elements like birth, contract, and dissolution to shape destinies, prompting the Neth to avoid her at all costs and providing a legendary challenge for any adventurers who dare seek her tears or seek to alter a predetermined doom, or if a sighting prompts a high-stakes investigation."
-  },
-  {
     "id": "gambrel",
     "name": "Gambrel",
     "description": "A spindly, long-limbed Wyrd-horror that hunts down those who have broken oaths or carry hidden guilt.",
@@ -15904,8 +15484,7 @@
     "tags": [
       "fey",
       "frostwood",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/gambrel",
     "tokenBorder": "#CD7F32",
@@ -15971,8 +15550,7 @@
     "tags": [
       "fey",
       "frostwood",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/the_revel",
     "tokenBorder": "#CD7F32",
@@ -16038,8 +15616,7 @@
     "tags": [
       "undead",
       "nordhalla",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/skreika",
     "tokenBorder": "#CD7F32",
@@ -16106,8 +15683,7 @@
     "tags": [
       "aberration",
       "nordhalla",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/rimor",
     "tokenBorder": "#CD7F32",
@@ -16169,13 +15745,12 @@
     "nature": "A massive, crystalline humanoid composed of ancient glacier-ice that glows with a faint blue light. It has no features other than hollow eye-sockets, and it constantly replays the final death-screams of those who died in the ice.",
     "habitat": "Glacier crevices, high mountain passes, and ice fields of Nordhalla.",
     "depth": "The screams are not just acoustic; they are a psychic lure that drags travelers toward crevasses. The Stel itself is nearly indestructible unless melted, and its body contains the frozen skeletons of its victims.",
-    "type": "monster",
+    "type": "monstrosity",
     "size": "large",
     "tags": [
-      "monster",
+      "monstrosity",
       "nordhalla",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/stel",
     "tokenBorder": "#CD7F32",
@@ -16237,13 +15812,12 @@
     "nature": "It appears as a small child-shape composed of white-hot charcoal and glowing ash. It speaks in a crackling whisper that sounds like dry wood catching fire, and it leaves footprints of molten basalt behind it.",
     "habitat": "Volcanic craters, sulfur mines, and basalt canyons of Sundale.",
     "depth": "The Cinder is intensely hostile to anyone who has lied in its presence, ignoring all other targets to consume the liar. It is a symbol of the harsh, unforgiving justice of the Ash-Dwellers.",
-    "type": "monster",
+    "type": "monstrosity",
     "size": "medium",
     "tags": [
-      "monster",
+      "monstrosity",
       "sundale",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/the_cinder",
     "tokenBorder": "#CD7F32",
@@ -16310,8 +15884,7 @@
     "tags": [
       "aberration",
       "sundale",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/ash_woven_oracle",
     "tokenBorder": "#CD7F32",
@@ -16378,8 +15951,7 @@
     "tags": [
       "aberration",
       "sundale",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/husque",
     "tokenBorder": "#CD7F32",
@@ -16446,8 +16018,7 @@
     "tags": [
       "undead",
       "iceheart",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/spume_of_the_drowned",
     "tokenBorder": "#CD7F32",
@@ -16514,8 +16085,7 @@
     "tags": [
       "construct",
       "iceheart",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/writ_of_passage",
     "tokenBorder": "#CD7F32",
@@ -16577,13 +16147,12 @@
     "nature": "A humanoid raven with a wingspan of eight feet, its feathers crackling with static electricity and cold-iron dust. Its head is a bird's skull, and it speak in the voices of those it has heard, mimicking them perfectly.",
     "habitat": "Highest spires, pipeline bridges, and mountain ravines of Cragjaw Peaks.",
     "depth": "They hunt in small flocks, mimicking the screams of lost children or the orders of commanders to lead travelers into ambushes or off cliffs. They are highly protective of their high-spire nests.",
-    "type": "monster",
+    "type": "monstrosity",
     "size": "medium",
     "tags": [
-      "monster",
+      "monstrosity",
       "cragjaw",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/storm_crows",
     "tokenBorder": "#CD7F32",
@@ -16645,13 +16214,12 @@
     "nature": "A beetle-like creature the size of a dog, its shell made of black basalt plates and copper veins. It has a long, tube-like siphon that it uses to drain heat and steam directly from pipes.",
     "habitat": "Geothermal pipes, boiler rooms, and sump tunnels of Frostmaw and Gearworks.",
     "depth": "A Sump-Scrab infestation can cause entire pipeline sections to freeze, locking down heat to keeps. They are attracted to any source of combustion, making campfire travelers prime targets.",
-    "type": "monster",
+    "type": "monstrosity",
     "size": "small",
     "tags": [
-      "monster",
+      "monstrosity",
       "cragjaw",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/sump_scrabs",
     "tokenBorder": "#CD7F32",
@@ -16713,13 +16281,12 @@
     "nature": "It appears as a tall, skeletal humanoid wrapped in old parchment contracts that rustle when it moves. Its fingers are long, quill-like claws that drip black ink, and its face is a blank sheet of parchment.",
     "habitat": "Gravity-warped steppe paths, Mound-Camps, and ruins of the Sundrift Vale.",
     "depth": "It tracks debtors through gravity storms, its movement unaffected by the steppe's spatial distortions. It only ceases its hunt if the contract's terms are fulfilled or the debt is paid in blood.",
-    "type": "monster",
+    "type": "monstrosity",
     "size": "medium",
     "tags": [
-      "monster",
+      "monstrosity",
       "sundrift",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/lien",
     "tokenBorder": "#CD7F32",
@@ -16786,8 +16353,7 @@
     "tags": [
       "undead",
       "sundrift",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/hungry_child_creature",
     "tokenBorder": "#CD7F32",
@@ -16854,8 +16420,7 @@
     "tags": [
       "undead",
       "sundrift",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/sere_khan",
     "tokenBorder": "#CD7F32",
@@ -16922,8 +16487,7 @@
     "tags": [
       "fey",
       "bryngloom",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/grandmother_of_the_bog",
     "tokenBorder": "#CD7F32",
@@ -16990,8 +16554,7 @@
     "tags": [
       "undead",
       "bryngloom",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/debt_revenant",
     "tokenBorder": "#CD7F32",
@@ -17058,8 +16621,7 @@
     "tags": [
       "aberration",
       "bryngloom",
-      "wyrd-creature",
-      ""
+      "wyrd-creature"
     ],
     "tokenIcon": "Bestiary/cycle_eater",
     "tokenBorder": "#CD7F32",

@@ -10,7 +10,7 @@ export const MARTYR_DATA = {
  restrictions: {
    "allowedSubraces": [
       "solvarn_human",
-      "korr_emberth",
+      "korr_solari",
       "velun_neth",
       "skald_human",
       "morren_human"
@@ -48,10 +48,10 @@ export const MARTYR_DATA = {
    }
   },
 
-  korr_emberth: {
+  korr_solari: {
     subraceName: 'Hollow-Solari - Thyrm',
    title: 'The Vault-Silent',
-   reframe: `The <LoreLink termId="emberth">Hollow-Solari</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Hollow-Solari Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
+   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Hollow-Solari Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
    signatureAbility: {
     name: 'Vigil-Absorption',
     description: `Devotion-generation is amplified by absolute physical stillness, a Hollow-Solari Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
@@ -180,7 +180,7 @@ The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sun
 Martyrs are highly respected as sacred guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Solvarn humans and the <LoreLink termId="emberth">Hollow-Solari</LoreLink>.
+The class is heavily practiced by the Solvarn humans and the <LoreLink termId="solari">Hollow-Solari</LoreLink>.
 
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.

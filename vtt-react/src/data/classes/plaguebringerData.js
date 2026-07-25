@@ -29,7 +29,7 @@ export const PLAGUEBRINGER_DATA = {
   "hardBlocks": [
    "astril",
    "skald_human",
-   "emberth",
+   "solari",
    "groven",
    "fexrick",
    "myrathil",

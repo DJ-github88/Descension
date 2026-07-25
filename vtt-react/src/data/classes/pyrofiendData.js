@@ -12,7 +12,7 @@ export const PYROFIEND_DATA = {
  restrictions: {
   "allowedSubraces": [
    "solvarn_human",
-   "thrask_emberth",
+   "thrask_solari",
    "skald_human",
    "morgh_groven"
   ],
@@ -50,10 +50,10 @@ export const PYROFIEND_DATA = {
   }
  },
 
- thrask_emberth: {
+ thrask_solari: {
    subraceName: 'Waste-Solari - Thyrm',
   title: 'The Forge-Damned',
-  reframe: `The <LoreLink termId="emberth">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Solari tame heat to shape metal, the Waste-Solari Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship.`,
+  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Solari tame heat to shape metal, the Waste-Solari Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship.`,
   signatureAbility: {
   name: 'Forge-Conversion',
   description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for armor. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`

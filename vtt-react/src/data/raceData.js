@@ -15,7 +15,7 @@ import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
 import { florae } from './races/florae';
 import { groven } from './races/groven';
-import { emberth } from './races/emberth';
+import { solari } from './races/solari';
 import { vreken } from './races/vreken';
 import { neth } from './races/neth';
 import { astril } from './races/astril';
@@ -27,7 +27,7 @@ export const RACE_DATA = {
     mimir,
     florae,
     groven,
-    emberth,
+    solari,
     vreken,
     neth,
     astril,

@@ -1068,6 +1068,16 @@ const AppContent = ({
     return () => window.removeEventListener('swUpdateAvailable', handleUpdate);
   }, []);
 
+  // Auto-activate new service worker and reload when an update is detected
+  useEffect(() => {
+    if (!swRegistration) return;
+    if (swRegistration.waiting) {
+      swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    } else {
+      window.location.reload();
+    }
+  }, [swRegistration]);
+
   // Condition cleanup - runs every second while in a game to remove expired buffs/debuffs.
   // Fallback for in-game views where TargetHUD/PartyHUD aren't mounted; skipped on the landing page.
   useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
@@ -1143,6 +1153,7 @@ const AppContent = ({
   }, [isAuthenticated, user]);
 
   const [worldMapState, setWorldMapState] = useState(null); // null | 'active' | 'exiting'
+  const [worldMapTransform, setWorldMapTransform] = useState(null);
 
   const handleEnterSinglePlayer = async () => {
     // Clear any existing room flags - this is world builder mode (sandbox/testing)
@@ -1195,7 +1206,10 @@ const AppContent = ({
             onShowRegister={handleShowRegister}
             onShowUserProfile={handleShowUserProfile}
             onLoginTransition={handleLoginTransition}
-            onImmerse={() => setWorldMapState('active')}
+            onImmerse={(transform) => {
+              setWorldMapTransform(transform);
+              setWorldMapState('active');
+            }}
             isWorldMapActive={worldMapState === 'active'}
             isAuthenticated={isAuthenticated}
             user={user}
@@ -1307,6 +1321,7 @@ const AppContent = ({
        {/* Interactive World Map */}
       {worldMapState !== null && (
        <WorldMapImmerse 
+        initialTransform={worldMapTransform}
         onClose={() => setWorldMapState(null)} 
         onClosing={() => setWorldMapState('exiting')}
        />
@@ -1348,30 +1363,15 @@ const AppContent = ({
       {/* Cookie Consent Banner */}
       <CookieConsent />
 
-      {/* PWA Update Banner */}
-      {swRegistration && (
-        <div className="sw-update-banner">
-          <div className="sw-update-content">
-            <i className="fas fa-sync-alt sw-update-icon"></i>
-            <span>A new version of Mythrill is available!</span>
-          </div>
-          <button 
-            className="sw-update-btn"
-            onClick={() => {
-              if (swRegistration.waiting) {
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                  window.location.reload();
-                });
-                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-              } else {
-                window.location.reload();
-              }
-            }}
-          >
-            Update
-          </button>
-        </div>
-      )}
+       {/* PWA Update Banner - auto-activates new version */}
+       {swRegistration && (
+         <div className="sw-update-banner">
+           <div className="sw-update-content">
+              <i className="fas fa-sync-alt sw-update-icon"></i>
+             <span>A new version of Mythrill is available — updating...</span>
+           </div>
+         </div>
+       )}
     </>
   );
 };

@@ -154,7 +154,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'emberth': '🔥', 'Solari': '🔥',
+    'solari': '🔥', 'Solari': '🔥',
 
 
 
@@ -1642,7 +1642,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="emberth">Solari</option>
+                    <option value="solari">Solari</option>
 
 
 
