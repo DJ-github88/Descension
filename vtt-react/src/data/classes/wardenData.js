@@ -33,6 +33,15 @@ export const WARDEN_DATA = {
    * a reminder of the vats. To the Fexric they are engineering. To the Skald they are
    * glacier-gear. To the Vreken they are an extension of the mycelial bond.
    */
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['chain', 'mace', 'warhammer'],
+   armor: ['medium_armor', 'heavy_armor'],
+   offHand: ['chain', 'shield', 'empty']
+  },
   subraceVariants: {
     morgh_groven: {
       subraceName: 'Morgh Groven',
@@ -151,7 +160,7 @@ export const WARDEN_DATA = {
   name: "Warden",
   icon: "fas fa-link",
   role: "Melee Lockdown / Heavy Sentinel",
-  damageTypes: ["physical", "blight"],
+  damageTypes: ["smashing", "stabbing", "slicing", "blight"],
 
   // Overview section
   livingOrder: {
@@ -256,7 +265,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 
 **Combat Weaknesses**:
 - **Shared Torment**: Because they are physically chained to the monster, they absorb 50% of all AoE or environmental damage that strikes their prisoner.
-- **Agonizing Recoil**: If they tether a beast of vastly superior strength or speed, they are helplessly dragged across the battlefield, suffering massive physical damage (1d10 per 10 feet dragged).
+- **Agonizing Recoil**: If they tether a beast of vastly superior strength or speed, they are helplessly dragged across the battlefield, suffering massive smashing damage (1d10 per 10 feet dragged).
 - **Hard-coded Wyrd Vulnerability**: Constant proximity to Wyrd-horrors fractures their mind, causing them to take +50% wyrd damage.
 - **Zero Ranged Attacks**: Completely helpless at distance; they must reel targets in or walk them down in heavy iron.
 - **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 blight/piercing to self) as the grafted hooks tear through flesh.
@@ -302,10 +311,10 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 
 **Golem's Turn**: Attacks you twice.
 **Attack Roll 1**: d20+6 ? Hit!
-**Damage**: 18 physical damage. You endure.
+**Damage**: 18 smashing damage. You endure.
 **Tension Generated**: +1 (Tether strike) = **3/10** (Tension Threshold: Taut Links active! Your movement is restricted but your chain strikes deal +1d6 tearing damage).
 **Attack Roll 2**: d20+6 ? Hit!
-**Damage**: 15 physical damage.
+**Damage**: 15 smashing damage.
 **Tension Generated**: +1 (Tether strike) = **4/10**
 **Your Reaction**: "Iron Brace" (+2 DR against the second hit, reducing the damage by 5). You manually pull the chain links, grinding them against your wrist bone to generate more tension.
 **Tension Generated**: +1 (Iron Brace manual reel) = **5/10**
@@ -317,7 +326,7 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 *The golem attempts to dash away to crush your allies. Because it is vastly larger, it drags you with it.*
 
 **Golem's Action**: Attempts to break the boundary by dashing.
-**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 physical damage ? [5, 4] = 9 damage.
+**Shared Torment Recoil**: You are dragged 20 feet across the gravel, taking 2d10 smashing damage ? [5, 4] = 9 damage.
 **Your Action**: "Penitent Resolve" (4 Tether Tension spent).
 **Tension**: 5 - 4 = **1/10**
 **Effect**: Gain 50% damage resistance and +4 DR for 2 rounds. Your physical mass doubles, stopping the golem's movement instantly.
@@ -327,12 +336,12 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 **Turn 4 - Rebuilding the Trap (Tension: 1 ? 6)**
 
 **Your Action**: Agonizing Reel (1 AP). You pull the rusted chain tighter, grinding the metal hooks deeper into your flesh.
-**Self-Harm**: Take 1d4 physical damage ? [2] = 47 HP remaining.
+**Self-Harm**: Take 1d4 smashing damage ? [2] = 47 HP remaining.
 **Tension Generated**: +2 = **3/10**
 **Your Action**: "Barbed Lash" (2 Tension spent) combined with a melee chain strike.
 **Tension**: 3 - 2 = **1/10**
 **Attack Roll**: d20+8 ? Hit!
-**Base Damage**: 2d6+4 ? [5, 6] + 4 = 15 physical damage.
+**Base Damage**: 2d6+4 ? [5, 6] + 4 = 15 smashing damage.
 **Barbed Lash Bonus**: +2d6 ? [6, 4] = 10 bleeding damage.
 **Total Damage**: 25 damage!
 **Tension Generated**: +2 (striking tethered prey twice with multi-strike) = **3/10**
@@ -394,13 +403,13 @@ With a permanent +50% Wyrd vulnerability, you must rely on your party's casters 
 Your chains are slack. You have normal movement speed, but your chain-based strikes deal standard damage.
 
 **3-5 Tension (Taut Links)**:
-The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 physical damage at the start of your turn if the target moved on its previous turn.
+The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 smashing damage at the start of your turn if the target moved on its previous turn.
 
 **6-8 Tension (Gravely Strained)**:
-You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 physical damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
+You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 smashing damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
 
 **9-10 Tension (Lacerating Snap)**:
-Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, you are vulnerable to all physical damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 physical damage to you. Any further Tension generated deals 1d10 physical damage directly to your HP.`
+Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, you are vulnerable to all smashing damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 smashing damage to you. Any further Tension generated deals 1d10 smashing damage directly to your HP.`
     },
 
     resourceTables: [
@@ -591,13 +600,13 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 Your chains are slack. You have normal movement speed, but your chain-based strikes deal standard damage.
 
 **3-5 Tension (Taut Links)**:
-The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 physical damage at the start of your turn if the target moved on its previous turn.
+The chains pull tight. Your movement speed is restricted to the tethered target's vicinity (+5ft toward them, cannot move away). Your melee strikes deal +1d6 tearing damage as the chain vibrates, but you take 1d4 smashing damage at the start of your turn if the target moved on its previous turn.
 
 **6-8 Tension (Gravely Strained)**:
-You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 physical damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
+You are bound in agony. You gain +2 to attack rolls, but your movement speed is reduced by 10 ft. At the start of your turn, you take 1d6 smashing damage as the hooks in your flesh tear. You absorb 75% of the target's AoE damage instead of 50%.
 
 **9-10 Tension (Lacerating Snap)**:
-Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, you are vulnerable to all physical damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 physical damage to you. Any further Tension generated deals 1d10 physical damage directly to your HP.`
+Maximum tension. Your attacks deal +2d8 bludgeoning/smashing damage. However, you are vulnerable to all smashing damage, and if the target moves more than 15 feet from you, they drag you, dealing 2d10 smashing damage to you. Any further Tension generated deals 1d10 smashing damage directly to your HP.`
     },
 
     resourceTables: [
@@ -815,7 +824,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         color: "#8B0000",
         theme: "Inescapable Drag & Crush",
         description: "The Relentless Tormentor uses their massive weight and absolute physical stubbornness to drag enemies across the gravel, crushing their bones against stone.",
-        playstyle: "Displacement tank and relentless pursuer, dragging enemies helplessly and dealing massive physical damage.",
+        playstyle: "Displacement tank and relentless pursuer, dragging enemies helplessly and dealing massive smashing damage.",
         strengths: [
           "Marked targets cannot escape or teleport out of line of sight",
           "Free dashes (reels) to tethered prey",
@@ -882,7 +891,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Utility",
-      typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "control", "hold_person", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Utility/Utility", tags: ["utility", "control", "hold_person", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -894,7 +903,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       level: 1,
       spellType: "ACTION",
       icon: "Utility/Utility",
-      typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "pull", "chain", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Utility/Utility", tags: ["utility", "pull", "chain", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -909,7 +918,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Utility/Parry",
         tags: ["buff", "defense", "reaction", "universal"],
         castTime: 1,
@@ -952,7 +961,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Slashing/Curved Blade",
         tags: ["passive", "buff", "universal"],
         castTime: 0,
@@ -1055,7 +1064,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage", "utility"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Nature/Sense",
         tags: ["physical", "damage", "drag", "vengeance-seeker"],
         castTime: 1,
@@ -1081,7 +1090,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + constitution",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -1106,7 +1115,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Piercing/Dagger Rain",
         tags: ["physical", "damage", "aoe", "slow", "universal"],
         castTime: 1,
@@ -1132,7 +1141,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "2d6 + strength/2",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       debuffConfig: {
@@ -1170,7 +1179,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Utility/Deflecting Shield",
         tags: ["buff", "defense", "resistance", "universal"],
         castTime: 1,
@@ -1201,7 +1210,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         effects: [
            { id : "penitent_resist",
              name: "Enduring Bulwark",
-             description: "Gain 50% damage resistance and +4 DR against all incoming physical damage."
+             description: "Gain 50% damage resistance and +4 DR against all incoming smashing damage."
            }
         ]
       },
@@ -1261,7 +1270,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
           { id: "iron_gaol_restraint",
             name: "Iron Hold",
             description: "Spectral iron bars erupt around the target. Speed becomes 0, teleportation is blocked, and the caged target takes +1d6 damage from all sources.",
-            config: { restraintType: "physical", breakOnDamage: false, condition: "restrained", blocksMovement: true, blocksTeleport: true }
+            config: { restrainttype: "smashing", breakOnDamage: false, condition: "restrained", blocksMovement: true, blocksTeleport: true }
           },
         ],
         savingThrow: { ability: "constitution", difficultyClass: 15, saveOutcome: "reduced_duration" },
@@ -1303,14 +1312,14 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 },
     { id : "warden_hunters_fury",
       name: "Spined Snare",
-      description: "A brutal, agonizing downward smash with your chains. If the target is tethered to you, the strike rips their joints, dealing devastating physical damage and tearing their muscles.",
+      description: "A brutal, agonizing downward smash with your chains. If the target is tethered to you, the strike rips their joints, dealing devastating smashing damage and tearing their muscles.",
       spellType: "ACTION",
       icon: "Slashing/Cross Slash",
       level: 3,
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Slashing/Cross Slash",
         tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"],
         castTime: 1,
@@ -1336,12 +1345,12 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "4d6 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       specialMechanics: {
         tetherBonus: {
-          description: "Deals +2d6 physical damage if the target is tethered via Iron Chain Tether."
+          description: "Deals +2d6 smashing damage if the target is tethered via Iron Chain Tether."
         }
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1409,7 +1418,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "jailer",
       effectTypes: ["control"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Necrotic/Crossed Bones",
         tags: ["physical", "control", "trap", "jailer"],
         castTime: 1,
@@ -1529,7 +1538,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage", "utility"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Nature/Sense",
         tags: ["physical", "damage", "mobility", "vengeance-seeker"],
         castTime: 1,
@@ -1555,7 +1564,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "5d6 + agility",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       utilityConfig: {
@@ -1701,7 +1710,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 },
     { id : "warden_avatar_of_vengeance",
       name: "Iron Ascendancy",
-      description: "Unleash all tension to fuse your presence with your rusted iron grafts. Your chains burst outward, forming a defensive cage of spikes around your forearms and torso. For 6 rounds, gain +4 DR, add +2d6 physical damage to every strike, and reel in all tethered targets helplessly.",
+      description: "Unleash all tension to fuse your presence with your rusted iron grafts. Your chains burst outward, forming a defensive cage of spikes around your forearms and torso. For 6 rounds, gain +4 DR, add +2d6 smashing damage to every strike, and reel in all tethered targets helplessly.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 5,
@@ -1739,7 +1748,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
         effects: [
            { id : "iron_ascendancy_transformation",
              name: "Ascendant Form",
-             description: "Gain +4 DR, +2d6 physical damage, and generate +1 Tension on hit."
+             description: "Gain +4 DR, +2d6 smashing damage, and generate +1 Tension on hit."
            }
         ]
       },
@@ -1767,7 +1776,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Piercing/Dagger Rain",
         tags: ["physical", "damage", "aoe", "universal"],
         castTime: 1,
@@ -1793,7 +1802,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "8d6 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -1809,14 +1818,14 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
 },
     { id : "warden_cage_slam",
       name: "Gaol Shatter",
-      description: "Slam a caged target with your heavy steel chain-spool, dealing immense physical damage and shattering their resolve, which extends the cage's duration by 1 round.",
+      description: "Slam a caged target with your heavy steel chain-spool, dealing immense smashing damage and shattering their resolve, which extends the cage's duration by 1 round.",
       spellType: "ACTION",
       icon: "Psychic/Mind Control",
       level: 6,
       specialization: "jailer",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Psychic/Mind Control",
         tags: ["physical", "damage", "cage-synergy", "jailer"],
         castTime: 1,
@@ -1842,7 +1851,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "6d10 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       specialMechanics: {
@@ -1874,7 +1883,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Piercing/Targeted Strike",
         tags: ["physical", "damage", "execute", "vengeance-seeker"],
         castTime: 1,
@@ -1900,7 +1909,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "8d10 + agility",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE",
         criticalConfig: {
           enabled: true,
@@ -1992,7 +2001,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Slashing/Cross Slash",
         tags: ["physical", "damage", "universal"],
         castTime: 1,
@@ -2018,7 +2027,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "10d6 + agility",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
@@ -2159,7 +2168,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Bludgeoning/Mortal Strike",
         tags: ["physical", "damage", "universal"],
         castTime: 1,
@@ -2185,7 +2194,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "12d6 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -2212,7 +2221,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       specialization: "vengeance-seeker",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "Slashing/Cross Slash",
         tags: ["physical", "damage", "tether-synergy", "vengeance-seeker"],
         castTime: 1,
@@ -2238,7 +2247,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "15d6 + strength",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
@@ -2378,14 +2387,14 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     // ==========================================
     { id : "warden_ultimate_vengeance",
       name: "Cataclysm of Iron",
-      description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal physical damage to all tethered and nearby enemies.",
+      description: "Release all Tether Tension in one final, cataclysmic flail. Shatter your chains to shreds, dealing colossal smashing damage to all tethered and nearby enemies.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 10,
       specialization: "universal",
       effectTypes: ["damage"],
       typeConfig: {
-        school: "physical",
+        school: "smashing",
         icon: "General/Fiery Rage",
         tags: ["physical", "damage", "ultimate", "universal"],
         castTime: 1,
@@ -2411,7 +2420,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
       resolution: "DICE",
       damageConfig: {
         formula: "15d10 + strength * 2",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 15 },
@@ -2614,7 +2623,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     name: "Iron Tow",
     description: "Pay out your grafted chains and use them as a living winch. Tow or haul a heavy load, drag a collapsed beam or boulder aside, haul an ally up a cliff face, or lower and raise goods/personnel on the chain. Your bones take the anchor-strain  -  1 blight per 100 lb hauled. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Utility",
-    typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","warden"] },
+    typeConfig: { school: "smashing", icon: "Utility/Utility", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Loop the chain and brace your grafted forearms against the load" },
     resolution: "AUTOMATIC", effectTypes: ["utility"],
@@ -2628,7 +2637,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     name: "Barbed Bind",
     description: "Bind a captive with your chains in a hold no mundane slip or lockpick defeats  -  the barbed links seat against flesh and bone, tightening on any struggle. Secure a prisoner for transport, chain a door's handle to a wall, or hogtie a catch. A bound creature of vastly greater strength may still tear free. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Utility",
-    typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","social","investigation","warden"] },
+    typeConfig: { school: "smashing", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","social","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Wrap and seat the barbed chain; cinch it until the links bite" },
     resolution: "AUTOMATIC", effectTypes: ["utility"],
@@ -2642,7 +2651,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     name: "Chain-Ward",
     description: "Chain a door, portcullis, gate, or hatch shut from the inside with your iron  -  barring it physically beyond any mundane lock, and anchoring the links to your own grafted flesh so the bar cannot be thrown without waking you. Alternately, anchor yourself to a spot to hold a line or doorway immovable. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Utility",
-    typeConfig: { school: "physical", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","warden"] },
+    typeConfig: { school: "smashing", icon: "Utility/Utility", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 5 }, components: ["somatic"], somaticText: "Pile link over link across the threshold and seat the last into your forearm" },
     resolution: "NONE", effectTypes: ["utility"],
@@ -2656,7 +2665,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     name: "Scar-Map Reading",
     description: "Read the pattern of bolt-scars on a Warden's skin (your own or another's), or the wound-marks on a mauled corpse, and identify what left them  -  the species and rough strength of every creature that was anchored or that did the mauling. The scar-map is a record written in flesh. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Psychic/Focused Mind",
-    typeConfig: { school: "physical", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","warden"] },
+    typeConfig: { school: "smashing", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 4 }, components: ["somatic"], somaticText: "Trace the scar-lines with a calloused thumb and read the chain that made them" },
     resolution: "NONE", effectTypes: ["utility"],
@@ -2670,7 +2679,7 @@ Maximum tension. Your attacks deal +2d8 bludgeoning/physical damage. However, yo
     name: "Penitent's Vigil",
     description: "Drive a hook into the earth and stand vigil. For the duration you cannot be moved (you are the anchor) and you need no sleep, food, or rest, guarding a prisoner, a place, or a post through the night. You act slowly while vigiling and feel every ache when it ends, but nothing short of overwhelming force breaks the watch. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
-    typeConfig: { school: "physical", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","rest","exploration","social","warden"] },
+    typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","rest","exploration","social","warden"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], classResource: { type: "tether_tension", cost: 2 }, somaticText: "Drive the hook deep and let the chain take your weight" },
     resolution: "NONE", effectTypes: ["utility"],

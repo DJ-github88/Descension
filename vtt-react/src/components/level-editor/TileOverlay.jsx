@@ -1869,8 +1869,8 @@ const TileOverlay = () => {
                     // Create a better visual for connections that scales with zoom like tokens
                     const connectionColor = elementProps.color || '#4a90e2';
                     // Scale connection size with zoom like tokens do (80% of tile size)
-                    const connectionSize = Math.max(20, tileSize * effectiveZoom * 0.6); // Scale with zoom, minimum 20px
-                    const borderWidth = Math.max(2, connectionSize * 0.1); // Border scales with size
+                    const connectionSize = tileSize * effectiveZoom * 0.6; // Scale strictly with tile grid zoom
+                    const borderWidth = Math.max(1, connectionSize * 0.1); // Border scales with size
 
                     return (
                       <div

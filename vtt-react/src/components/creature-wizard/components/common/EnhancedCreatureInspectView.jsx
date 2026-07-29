@@ -184,7 +184,7 @@ const formatDamageType = (type) => {
     'smashing': 'Smashing',
     'stabbing': 'Stabbing',
     'slicing': 'Slicing',
-    'ranged': 'Ranged',
+    'ranged': 'Stabbing',
     'ember': 'Ember',
     'rime': 'Rime',
     'storm': 'Storm',
@@ -193,6 +193,7 @@ const formatDamageType = (type) => {
     'blight': 'Blight',
     'wyrd': 'Wyrd',
     'sacred': 'Sacred',
+    'healing': 'Healing',
     'physical': 'Smashing',
     'fire': 'Ember',
     'frost': 'Rime',
@@ -217,7 +218,7 @@ const getDamageTypeColor = (damageType) => {
     smashing: '#8B5A2B',
     stabbing: '#704214',
     slicing: '#5C3317',
-    ranged: '#A0522D',
+    ranged: '#704214',
     ember: '#D4380D',
     rime: '#2C5F7C',
     storm: '#8B7328',
@@ -226,6 +227,7 @@ const getDamageTypeColor = (damageType) => {
     blight: '#3D1F4E',
     wyrd: '#7A2040',
     sacred: '#DAA520',
+    healing: '#1E7D34',
     fire: '#D4380D',
     frost: '#2C5F7C',
     nature: '#2D5A1E',
@@ -269,6 +271,8 @@ const formatAbilityType = (type) => {
 
 const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen, onClose }) => {
   const [activeSection, setActiveSection] = useState(initialCreature?._summonMeta?.sourceType === 'summon' ? 'summon' : 'statistics');
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState('combat');
   const [mounted, setMounted] = useState(false);
   const windowRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -480,7 +484,17 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     : {
         statistics: {
           title: 'Statistics',
-          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities'),
+          subSections: [
+            { id: 'summary', label: 'Combat Summary', icon: 'fas fa-id-card' },
+            { id: 'attributes', label: 'Core Attributes', icon: 'fas fa-dumbbell' },
+            { id: 'combat', label: 'Combat Statistics', icon: 'fas fa-fist-raised' },
+            { id: 'spellpower', label: 'Spell Power', icon: 'fas fa-hat-wizard' },
+            { id: 'defensive', label: 'Resources', icon: 'fas fa-heart' },
+            { id: 'movement', label: 'Movement & Senses', icon: 'fas fa-running' },
+            { id: 'immunities', label: 'Damage Immunities', icon: 'fas fa-shield-alt' },
+            { id: 'conditions', label: 'Condition Resistances', icon: 'fas fa-biohazard' }
+          ]
         },
         abilities: {
           title: 'Abilities & Spells',
@@ -492,7 +506,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         },
         skills: {
           title: 'Skills',
-          icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities')
+          icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities'),
+          subSections: [
+            { id: 'combat', label: 'Combat Mastery', icon: 'fas fa-fist-raised' },
+            { id: 'exploration', label: 'Exploration & Survival', icon: 'fas fa-compass' },
+            { id: 'social', label: 'Social & Influence', icon: 'fas fa-users' },
+            { id: 'arcane', label: 'Arcane Studies', icon: 'fas fa-hat-wizard' }
+          ]
         },
         loot: {
           title: 'Loot Table',
@@ -1029,7 +1049,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         icon: getCustomIconUrl('Arcane/Magical Staff', 'abilities'),
         description: 'Magical damage capabilities',
         stats: DAMAGE_TYPES
-          .filter(dt => !['bludgeoning', 'piercing', 'slashing'].includes(dt.id)) // Exclude physical damage types
+          .filter(dt => !['smashing', 'stabbing', 'slicing'].includes(dt.id)) // Exclude physical/weapon damage types
           .map(dt => {
             // Map damage type IDs to local ability icons (matching character sheet)
             const iconMap = {
@@ -1055,7 +1075,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               wyrd: 'Psychic/Psychic Mind',
               psychic: 'Psychic/Psychic Mind',
               chaos: 'Chaos/Chaotic Shuffle',
-              void: 'Necrotic/Blood Book'
+              void: 'Necrotic/Blood Book',
+              healing: 'Healing/Golden Heart'
             };
             const iconPath = iconMap[dt.id ? dt.id.toLowerCase() : ''] || 'Utility/Utility';
             return {
@@ -1214,14 +1235,25 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           const getDamageTypeIcon = (damageTypeId) => {
             // Use ability icons for damage types
             const abilityIconMap = {
+              smashing: 'Bludgeoning/Hammer',
+              stabbing: 'Piercing/Piercing Shot',
+              slicing: 'Slashing/Bloody Meat Cleaver',
+              ember: 'Fire/Flame Burst',
+              rime: 'Frost/Dripping Ice',
+              storm: 'Lightning/Lightning Bolt',
+              primal: 'Nature/Nature Natural',
+              arcane: 'Arcane/Orb Manipulation',
+              blight: 'Necrotic/Necrotic Skull',
+              wyrd: 'Psychic/Brain Psionics',
+              sacred: 'Radiant/Radiant Sunburst',
+              healing: 'Healing/Golden Heart',
               fire: 'Fire/Flame Burst',
               frost: 'Frost/Dripping Ice',
               cold: 'Frost/Dripping Ice',
-              arcane: 'Arcane/Orb Manipulation',
               nature: 'Nature/Nature Natural',
               shadow: 'Shadow/Shadow Darkness',
               holy: 'Radiant/Radiant Sunburst',
-              physical: 'General/Sword',
+              physical: 'Bludgeoning/Hammer',
               bludgeoning: 'Bludgeoning/Hammer',
               piercing: 'Piercing/Piercing Shot',
               slashing: 'Slashing/Bloody Meat Cleaver',
@@ -1232,7 +1264,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               radiant: 'Radiant/Radiant Sunburst',
               necrotic: 'Necrotic/Necrotic Skull',
               psychic: 'Psychic/Brain Psionics',
-              force: 'Force/Force Touch'
+              force: 'Force/Force Touch',
+              ranged: 'Piercing/Piercing Shot'
             };
             return getCustomIconUrl(abilityIconMap[damageTypeId] || 'Utility/Utility', 'abilities');
           };
@@ -1315,9 +1348,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           bludgeoning: 'Bludgeoning/Hammer',
           piercing: 'Piercing/Piercing Thrust 3',
           slashing: 'Slashing/Slashing Slash',
-          ranged: 'Piercing/Arrow Shot',
+          ranged: 'Piercing/Piercing Thrust 3',
           meleeweapon: 'Slashing/Crossed Swords',
-          physical: 'Slashing/Crossed Swords',
+          physical: 'Bludgeoning/Hammer',
           ember: 'Fire/Burning Ember',
           fire: 'Fire/Burning Ember',
           rime: 'Frost/Dripping Ice',
@@ -1340,7 +1373,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           sacred: 'Radiant/Radiant Sunburst',
           radiant: 'Radiant/Radiant Sunburst',
           holy: 'Radiant/Radiant Sunburst',
-          force: 'Force/Force Touch'
+          force: 'Force/Force Touch',
+          healing: 'Healing/Golden Heart'
         };
         const key = damageTypeId ? damageTypeId.toLowerCase() : '';
         return getCustomIconUrl(iconMap[key] || 'Utility/Utility', 'abilities');
@@ -1509,33 +1543,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
     return (
       <div className="stats-container creature-stats">
-        {/* Left sidebar with stat groups - these become the new left navigation */}
-        <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
-          <button
-            className="stats-label-toggle-button"
-            onClick={() => setShowLabels(!showLabels)}
-            title={showLabels ? 'Hide Labels' : 'Show Labels'}
-          >
-            <span className="stats-toggle-icon">{showLabels ? '� - �' : '▶'}</span>
-          </button>
-          {Object.entries(statGroups).map(([key, group]) => (
-            <button
-              key={key}
-              className={`stats-nav-button ${selectedStatGroup === key ? 'active' : ''}`}
-              onClick={() => setSelectedStatGroup(key)}
-              title={group.title}
-            >
-              <img 
-                src={group.icon} 
-                alt="" 
-                className="stats-nav-icon" 
-                onError={(e) => handleImageError(e, 'Utility/Utility')}
-              />
-              {showLabels && <span className="stats-nav-text">{group.title}</span>}
-            </button>
-          ))}
-        </div>
-
         {/* Content area showing selected stat group */}
         <div className="stats-content-area">
           <div className="stats-section-header">
@@ -1887,14 +1894,14 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         damageConfig = {
           formula,
           damageType: 'direct', // Legacy format uses 'direct' for instant damage
-          elementType: normalize((ability.damage.damageType || ability.damageType || 'physical').toLowerCase()),
+          elementType: normalize((ability.damage.damageType || ability.damageType || 'smashing').toLowerCase()),
           damageTypes: damageTypes.slice(0, 2)
         };
       } else if (typeof ability.damage === 'string') {
         damageConfig = {
           formula: ability.damage,
           damageType: 'direct',
-          elementType: normalize((ability.damageType || 'physical').toLowerCase()),
+          elementType: normalize((ability.damageType || 'smashing').toLowerCase()),
           damageTypes: damageTypes.slice(0, 2)
         };
       }
@@ -2485,14 +2492,73 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       bounds="body"
       customHeader={
         <div className="spellbook-tab-container">
-          {Object.entries(sections).map(([key, section]) => (
-            <SmartTabButton
-              key={key}
-              title={section.title}
-              active={activeSection === key}
-              onClick={() => setActiveSection(key)}
-            />
-          ))}
+          {Object.entries(sections).map(([key, section]) => {
+            const isActive = activeSection === key;
+            const isDropdownOpen = openDropdown === key;
+            return (
+              <div 
+                key={key} 
+                className="tab-dropdown-wrapper" 
+                style={{ position: 'relative' }}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <button
+                  type="button"
+                  className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveSection(key);
+                    setOpenDropdown(prev => prev === key ? null : key);
+                  }}
+                  onMouseEnter={() => setOpenDropdown(key)}
+                >
+                  <span>{section.title}</span>
+                  {section.subSections && (
+                    <i 
+                      className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`} 
+                      style={{ marginLeft: '6px', fontSize: '9px', opacity: 0.8 }} 
+                    />
+                  )}
+                </button>
+
+                {isDropdownOpen && section.subSections && (
+                  <div className="tab-dropdown-menu">
+                    {section.subSections.map(sub => {
+                      const isSubActive = isActive && (
+                        (key === 'statistics' && selectedStatGroup === sub.id) ||
+                        (key === 'skills' && selectedSkillCategory === sub.id)
+                      );
+                      return (
+                        <div
+                          key={sub.id}
+                          className="tab-dropdown-item-wrapper"
+                          style={{ position: 'relative' }}
+                        >
+                          <button
+                            type="button"
+                            className={`tab-dropdown-item ${isSubActive ? 'active' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveSection(key);
+                              if (key === 'statistics') {
+                                setSelectedStatGroup(sub.id);
+                              } else if (key === 'skills') {
+                                setSelectedSkillCategory(sub.id);
+                              }
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                            <span>{sub.label}</span>
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       }
     >

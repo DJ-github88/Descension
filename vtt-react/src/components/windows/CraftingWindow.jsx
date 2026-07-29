@@ -52,11 +52,11 @@ function CraftingWindow({ isOpen, onClose }) {
         if (selectedProfession) {
             switch (selectedProfession) {
                 case 'alchemy':
-                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
+                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
                 case 'first-aid':
-                    return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
+                    return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
                 case 'blacksmithing':
-                    return <BlacksmithingInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
+                    return <BlacksmithingInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} onLearnAllRecipes={handleLearnAllRecipes} onAddTestMaterials={handleAddTestMaterials} />;
                 default:
                     return (
                         <div className="profession-not-implemented">
@@ -134,7 +134,7 @@ function CraftingWindow({ isOpen, onClose }) {
         });
     };
 
-    // Add test materials for crafting (context-aware based on profession)
+    // Add test materials for crafting (materials matched to the canonical item library)
     const handleAddTestMaterials = () => {
         if (!selectedProfession) return;
 
@@ -142,38 +142,41 @@ function CraftingWindow({ isOpen, onClose }) {
         let message = '';
 
         if (selectedProfession === 'alchemy') {
+            // Materials required by data/recipes/alchemy.js recipes
             testMaterials = [
-                // Basic materials for all potions
-                { id: 'peacebloom', quantity: 10 },
-                { id: 'silverleaf', quantity: 10 },
-                { id: 'earthroot', quantity: 10 },
-                { id: 'mageroyal', quantity: 10 },
-                { id: 'empty-vial', quantity: 5 },
-                { id: 'crystal-vial', quantity: 3 },
-                { id: 'distilled-water', quantity: 10 },
-                { id: 'alchemical-catalyst', quantity: 2 }
+                { id: 'fieldleaf', quantity: 10 },
+                { id: 'bitterroot', quantity: 10 },
+                { id: 'ashflower', quantity: 10 },
+                { id: 'glowbulb', quantity: 8 },
+                { id: 'frostcap', quantity: 8 },
+                { id: 'ember-ore', quantity: 10 },
+                { id: 'bone-plates', quantity: 5 },
+                { id: 'frost-essence', quantity: 5 },
+                { id: 'glass-vial', quantity: 10 },
+                { id: 'reinforced-flask', quantity: 5 },
+                { id: 'distilled-water', quantity: 15 }
             ];
             message = 'Added test alchemy crafting materials to inventory!';
         } else if (selectedProfession === 'first-aid') {
+            // Materials required by the first-aid recipes in craftingStore.js
             testMaterials = [
-                // Basic materials for first aid
-                { id: 'linen-cloth', quantity: 20 },
-                { id: 'healing-herb', quantity: 15 },
-                { id: 'aloe-vera', quantity: 10 },
-                { id: 'small-jar', quantity: 5 },
-                { id: 'wooden-stick', quantity: 10 },
-                { id: 'leather-strip', quantity: 8 },
-                { id: 'medical-tools', quantity: 3 }
+                { id: 'linen-fiber', quantity: 20 },
+                { id: 'ashflower', quantity: 15 },
+                { id: 'bitterroot', quantity: 10 },
+                { id: 'glass-vial', quantity: 5 },
+                { id: 'wooden-haft', quantity: 8 },
+                { id: 'leather-straps', quantity: 8 },
+                { id: 'waxed-thread', quantity: 8 }
             ];
             message = 'Added test first aid crafting materials to inventory!';
         } else if (selectedProfession === 'blacksmithing') {
+            // Materials required by data/recipes/blacksmithing.js recipes
             testMaterials = [
-                // Basic materials for blacksmithing
                 { id: 'red-copper', quantity: 20 },
                 { id: 'bog-iron', quantity: 20 },
                 { id: 'copper-ingot', quantity: 10 },
                 { id: 'iron-ingot', quantity: 10 },
-                { id: 'metal-rivets', quantity: 10 }
+                { id: 'metal-rivets', quantity: 15 }
             ];
             message = 'Added test blacksmithing crafting materials to inventory!';
         } else {
@@ -245,31 +248,8 @@ function CraftingWindow({ isOpen, onClose }) {
                             </span>
                         </button>
                     </div>
-
-                    {selectedProfession && (
-                        <div className="crafting-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '48px' }}>
-                            <button
-                                className="wow-button crafting-action-button"
-                                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '12px' }}
-                                onClick={handleLearnAllRecipes}
-                                title="Learn all recipes for this profession"
-                            >
-                                <i className="fas fa-book-open"></i>
-                                <span>Learn All</span>
-                            </button>
-                            <button
-                                className="wow-button crafting-action-button"
-                                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', fontSize: '12px' }}
-                                onClick={handleAddTestMaterials}
-                                title={`Add test ${Object.values(PROFESSIONS).find(p => p.id === selectedProfession)?.name?.toLowerCase() || 'crafting'} materials to inventory`}
-                            >
-                                <i className="fas fa-flask"></i>
-                                <span>Test Materials</span>
-                            </button>
-                        </div>
-                    )}
                 </div>
-            }
+                }
         >
             <div className="crafting-window-content">
                 {renderContent()}

@@ -23,7 +23,7 @@ const HOURS = [
 
 const useTravelStore = create((set, get) => ({
   currentBiome: 'arctic',
-  activeTab: 'setup',
+  activeTab: 'journey',
   weather: null,
   weatherRoll: null,
   weatherDuration: null,

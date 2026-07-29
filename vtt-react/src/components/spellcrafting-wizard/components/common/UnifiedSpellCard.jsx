@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -234,25 +234,37 @@ const UnifiedSpellCard = ({
   }
  };
 
- const handleDragStart = (e) => {
-  if (isDraggable) {
-   // Transfer complete spell data to preserve all formatting and details
-   const spellData = {
-    // Complete spell object with all properties for rich tooltip display
-    ...spell,
-    // Ensure action bar compatibility fields are present
-    id: spell.id,
-    name: spell.name,
-    icon: spell.icon || 'spell_holy_holybolt',
-    cooldown: spell.cooldown || 0,
-    level: spell.level || 1,
-    spellType: spell.spellType || 'ACTION',
-    type: 'spell' // Ensure action bar identifies this as a spell for tooltip handling
-   };
-   e.dataTransfer.setData('application/json', JSON.stringify(spellData));
-   e.dataTransfer.effectAllowed = 'copy';
-  }
- };
+  const handleDragStart = (e) => {
+   if (isDraggable) {
+    // Transfer complete spell data to preserve all formatting and details
+    const spellData = {
+     // Complete spell object with all properties for rich tooltip display
+     ...spell,
+     // Ensure action bar compatibility fields are present
+     id: spell.id,
+     name: spell.name,
+     icon: spell.icon || 'spell_holy_holybolt',
+     cooldown: spell.cooldown || 0,
+     level: spell.level || 1,
+     spellType: spell.spellType || 'ACTION',
+     type: 'spell' // Ensure action bar identifies this as a spell for tooltip handling
+    };
+    e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+    e.dataTransfer.effectAllowed = 'copy';
+
+    // Show just the spell icon as drag image
+    const dragEl = document.createElement('div');
+    dragEl.style.cssText = 'width:42px;height:42px;border-radius:8px;overflow:hidden;position:fixed;top:-200px;left:-200px;z-index:9999;';
+    const img = document.createElement('img');
+    img.src = getSpellIcon();
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
+    img.onerror = () => { img.src = getCustomIconUrl('Utility/Utility', 'abilities'); };
+    dragEl.appendChild(img);
+    document.body.appendChild(dragEl);
+    e.dataTransfer.setDragImage(dragEl, 21, 21);
+    setTimeout(() => document.body.removeChild(dragEl), 0);
+   }
+  };
 
  // ===== HOVER TOOLTIP HANDLERS (for compact variant) =====
 
@@ -390,7 +402,6 @@ const UnifiedSpellCard = ({
    style={{
     boxShadow: `0 4px 8px rgba(0, 0, 0, 0.5), 0 0 10px ${getBorderColor()}40`
    }}
-   {...props}
   >
    <SpellCardHeader
     spell={spell}

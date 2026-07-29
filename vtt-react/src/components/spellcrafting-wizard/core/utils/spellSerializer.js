@@ -559,7 +559,7 @@ for (const [value] of Object.entries(config._validation.warnings)) {
        return 'spell_shadow_mindflay';
       case 'sacred':
        return 'spell_holy_searinglight';
-      case 'physical':
+      case 'smashing':
        return 'spell_fire_flamebolt';
       default:
        return 'spell_fire_flamebolt';

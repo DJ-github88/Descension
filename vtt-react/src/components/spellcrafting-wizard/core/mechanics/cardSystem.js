@@ -1373,7 +1373,7 @@ export const CARD_SUITS = {
    suitCounts[a] > suitCounts[b] ? a : b
   );
   
-  const damageType = suitDamageTypes[dominantSuit] || 'physical';
+   const damageType = suitDamageTypes[dominantSuit] || 'smashing';
   
   return {
    damage: diceNotation,

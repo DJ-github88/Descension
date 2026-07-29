@@ -865,14 +865,14 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    effectTargeting: spell.effectTargeting || {},
 
    // Damage/Healing information
-   primaryDamage: spell.damageConfig ? {
-    dice: spell.damageConfig.formula ||
-     spell.damageConfig.diceNotation ||
-     spell.effectResolutions?.damage?.config?.formula ||
-     '6d6',
-    flat: spell.damageConfig.flatBonus || 0,
-    type: spell.damageConfig.elementType || spell.typeConfig?.school || 'arcane'
-   } : null,
+    primaryDamage: spell.damageConfig ? {
+     dice: spell.damageConfig.formula ||
+      spell.damageConfig.diceNotation ||
+      spell.effectResolutions?.damage?.config?.formula ||
+      '6d6',
+     flat: spell.damageConfig.flatBonus || 0,
+     type: spell.damageConfig.elementType || spell.typeConfig?.school || ''
+    } : null,
 
    // Damage types - CRITICAL: Use the same logic as Step10Review
    damageTypes: damageTypes.length > 0 ? damageTypes : (spell.damageTypes || []),
@@ -883,8 +883,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    // Resolution type
    resolution: spell.damageConfig?.resolution || spell.healingConfig?.resolution || spell.resolution || 'DICE',
 
-   // School from typeConfig
-   school: spell.typeConfig?.school || spell.school || 'Arcane',
+    // School from typeConfig
+    school: spell.typeConfig?.school || spell.school || '',
 
    // Element type from typeConfig
    elementType: spell.typeConfig?.school || spell.damageConfig?.elementType || spell.elementType,
@@ -2077,18 +2077,17 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     {/* Compact WoW-style view */}
     {viewMode === 'compact' ? (
      <div className="wow-spellbook-view">
-      {/* Header with Category Tabs */}
+      {/* Header with Category Dropdown */}
       <div className="wow-spellbook-header">
-       {/* Category Tabs */}
+       {/* Category Dropdown */}
        {allSpellCategories.length > 0 ? (
-        <div className="wow-category-tabs-header">
+        <div className="wow-category-dropdown-container">
          <button
           type="button"
-          className={`wow-category-tab ${!activeCategory ? 'active' : ''}`}
+          className="wow-category-dropdown-trigger"
           onMouseDown={(e) => {
            e.preventDefault();
            e.stopPropagation();
-           // Set flag BEFORE state updates
            if (paginationTimeoutRef.current) {
             clearTimeout(paginationTimeoutRef.current);
            }
@@ -2097,10 +2096,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           onMouseUp={(e) => {
            e.preventDefault();
            e.stopPropagation();
-           // Commit the state change on mouse up
            setActiveCategory(null);
            setCurrentPage(1);
-           // Keep flag true for a while to prevent useEffect reset
            paginationTimeoutRef.current = setTimeout(() => {
             isManuallyPaginatingRef.current = false;
             paginationTimeoutRef.current = null;
@@ -2109,31 +2106,30 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           onClick={(e) => {
            e.preventDefault();
            e.stopPropagation();
-           // Ensure flag is still set and commit state
            if (paginationTimeoutRef.current) {
             clearTimeout(paginationTimeoutRef.current);
            }
            isManuallyPaginatingRef.current = true;
            setActiveCategory(null);
            setCurrentPage(1);
-           // Keep flag true for a while to prevent useEffect reset
            paginationTimeoutRef.current = setTimeout(() => {
             isManuallyPaginatingRef.current = false;
             paginationTimeoutRef.current = null;
            }, 2000);
           }}
+          title="All Spells - click to show all spells"
          >
-          All Spells
+          <i className="fas fa-book"></i>
+          <span>All Spells</span>
+          <i className="fas fa-caret-down"></i>
          </button>
-         {allSpellCategories.map(category => (
+         <div className="wow-category-dropdown-menu">
           <button
-           key={category.id}
            type="button"
-           className={`wow-category-tab ${activeCategory === category.id ? 'active' : ''}`}
+           className={`wow-category-dropdown-item ${!activeCategory ? 'active' : ''}`}
            onMouseDown={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // Set flag BEFORE state updates
             if (paginationTimeoutRef.current) {
              clearTimeout(paginationTimeoutRef.current);
             }
@@ -2142,10 +2138,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
            onMouseUp={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // Commit the state change on mouse up
-            setActiveCategory(category.id);
+            setActiveCategory(null);
             setCurrentPage(1);
-            // Keep flag true for a while to prevent useEffect reset
             paginationTimeoutRef.current = setTimeout(() => {
              isManuallyPaginatingRef.current = false;
              paginationTimeoutRef.current = null;
@@ -2154,97 +2148,75 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
            onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            // Ensure flag is still set and commit state
             if (paginationTimeoutRef.current) {
              clearTimeout(paginationTimeoutRef.current);
             }
             isManuallyPaginatingRef.current = true;
-            setActiveCategory(category.id);
+            setActiveCategory(null);
             setCurrentPage(1);
-            // Keep flag true for a while to prevent useEffect reset
             paginationTimeoutRef.current = setTimeout(() => {
              isManuallyPaginatingRef.current = false;
              paginationTimeoutRef.current = null;
             }, 2000);
            }}
-           title={category.description}
           >
-           {category.name} ({category.isClassCategory && category.expectedCount !== undefined
-            ? category.expectedCount
-            : category.spells?.length || 0})
+           All Spells
           </button>
-         ))}
+          {allSpellCategories.map(category => (
+           <button
+            key={category.id}
+            type="button"
+            className={`wow-category-dropdown-item ${activeCategory === category.id ? 'active' : ''}`}
+            onMouseDown={(e) => {
+             e.preventDefault();
+             e.stopPropagation();
+             if (paginationTimeoutRef.current) {
+              clearTimeout(paginationTimeoutRef.current);
+             }
+             isManuallyPaginatingRef.current = true;
+            }}
+            onMouseUp={(e) => {
+             e.preventDefault();
+             e.stopPropagation();
+             setActiveCategory(category.id);
+             setCurrentPage(1);
+             paginationTimeoutRef.current = setTimeout(() => {
+              isManuallyPaginatingRef.current = false;
+              paginationTimeoutRef.current = null;
+             }, 2000);
+            }}
+            onClick={(e) => {
+             e.preventDefault();
+             e.stopPropagation();
+             if (paginationTimeoutRef.current) {
+              clearTimeout(paginationTimeoutRef.current);
+             }
+             isManuallyPaginatingRef.current = true;
+             setActiveCategory(category.id);
+             setCurrentPage(1);
+             paginationTimeoutRef.current = setTimeout(() => {
+              isManuallyPaginatingRef.current = false;
+              paginationTimeoutRef.current = null;
+             }, 2000);
+            }}
+            title={category.description}
+           >
+            {category.name} ({category.isClassCategory && category.expectedCount !== undefined
+             ? category.expectedCount
+             : category.spells?.length || 0})
+           </button>
+          ))}
+         </div>
         </div>
        ) : (
         <div className="wow-spellbook-title">Spell Library</div>
        )}
 
-       {/* Pagination Controls in Header */}
+       {/* Page Info */}
        {totalPages > 1 && (
-        <div
-         className="wow-header-pagination"
-         onClick={(e) => e.stopPropagation()}
-         onMouseDown={(e) => e.stopPropagation()}
-         onMouseUp={(e) => e.stopPropagation()}
-        >
-         <button
-          type="button"
-          className="wow-header-button"
-          onClick={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
-           // Clear any existing timeout
-           if (paginationTimeoutRef.current) {
-            clearTimeout(paginationTimeoutRef.current);
-           }
-           isManuallyPaginatingRef.current = true;
-           const newPage = Math.max(1, validCurrentPage - 1);
-           if (newPage !== validCurrentPage) {
-            setCurrentPage(newPage);
-            // Keep flag true for a while
-            paginationTimeoutRef.current = setTimeout(() => {
-             isManuallyPaginatingRef.current = false;
-             paginationTimeoutRef.current = null;
-            }, 1000);
-           }
-          }}
-          disabled={validCurrentPage <= 1}
-          aria-label="Previous Page"
-          title="Previous Page"
-         >
-          <i className="fas fa-chevron-left"></i>
-         </button>
-         <span className="wow-page-info-header">
-          Page {validCurrentPage} of {totalPages}
-         </span>
-         <button
-          type="button"
-          className="wow-header-button"
-          onClick={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
-           // Clear any existing timeout
-           if (paginationTimeoutRef.current) {
-            clearTimeout(paginationTimeoutRef.current);
-           }
-           isManuallyPaginatingRef.current = true;
-           const newPage = Math.min(totalPages, validCurrentPage + 1);
-           if (newPage !== validCurrentPage) {
-            setCurrentPage(newPage);
-            // Keep flag true for a while
-            paginationTimeoutRef.current = setTimeout(() => {
-             isManuallyPaginatingRef.current = false;
-             paginationTimeoutRef.current = null;
-            }, 1000);
-           }
-          }}
-          disabled={validCurrentPage >= totalPages}
-          aria-label="Next Page"
-          title="Next Page"
-         >
-          <i className="fas fa-chevron-right"></i>
-         </button>
-        </div>
+        <span className="wow-page-info-header">
+         Page {validCurrentPage} of {totalPages}
+        </span>
        )}
       </div>
 
@@ -2283,6 +2255,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
              };
              e.dataTransfer.setData('application/json', JSON.stringify(spellData));
              e.dataTransfer.effectAllowed = 'copy';
+
+             // Show just the spell icon as drag image
+             const dragEl = document.createElement('div');
+             dragEl.style.cssText = 'width:42px;height:42px;border-radius:8px;overflow:hidden;position:fixed;top:-200px;left:-200px;z-index:9999;';
+             const img = document.createElement('img');
+             img.src = getSpellIconUrl(spell);
+             img.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;';
+             img.onerror = () => { img.src = getCustomIconUrl('Utility/Utility', 'abilities'); };
+             dragEl.appendChild(img);
+             document.body.appendChild(dragEl);
+             e.dataTransfer.setDragImage(dragEl, 21, 21);
+             setTimeout(() => document.body.removeChild(dragEl), 0);
             }}
             onMouseDown={(e) => {
              if (e.button === 2) {
@@ -2346,11 +2330,67 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
            </div>
           ))}
         </div>
-       </>
-      )}
-     </div>
-    ) : (
-     /* Grid/List view */
+
+        {/* Overlay Pagination Arrows - Bottom Corners */}
+        {totalPages > 1 && (
+         <>
+          <button
+           type="button"
+           className="wow-overlay-nav-button wow-overlay-nav-left"
+           onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (paginationTimeoutRef.current) {
+             clearTimeout(paginationTimeoutRef.current);
+            }
+            isManuallyPaginatingRef.current = true;
+            const newPage = Math.max(1, validCurrentPage - 1);
+            if (newPage !== validCurrentPage) {
+             setCurrentPage(newPage);
+             paginationTimeoutRef.current = setTimeout(() => {
+              isManuallyPaginatingRef.current = false;
+              paginationTimeoutRef.current = null;
+             }, 1000);
+            }
+           }}
+           disabled={validCurrentPage <= 1}
+           aria-label="Previous Page"
+           title="Previous Page"
+          >
+           <i className="fas fa-chevron-left"></i>
+          </button>
+          <button
+           type="button"
+           className="wow-overlay-nav-button wow-overlay-nav-right"
+           onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (paginationTimeoutRef.current) {
+             clearTimeout(paginationTimeoutRef.current);
+            }
+            isManuallyPaginatingRef.current = true;
+            const newPage = Math.min(totalPages, validCurrentPage + 1);
+            if (newPage !== validCurrentPage) {
+             setCurrentPage(newPage);
+             paginationTimeoutRef.current = setTimeout(() => {
+              isManuallyPaginatingRef.current = false;
+              paginationTimeoutRef.current = null;
+             }, 1000);
+            }
+           }}
+           disabled={validCurrentPage >= totalPages}
+           aria-label="Next Page"
+           title="Next Page"
+          >
+           <i className="fas fa-chevron-right"></i>
+          </button>
+         </>
+         )}
+        </>
+       )}
+      </div>
+     ) : (
+      /* Grid/List view */
      <main className={`spell-library-spells ${viewMode}-view`}>
       {filteredSpells.length === 0 ? (
        <div className="spell-library-no-results">

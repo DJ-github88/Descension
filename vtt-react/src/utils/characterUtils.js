@@ -124,25 +124,26 @@ export function calculateEquipmentBonuses(equipment = {}) {
           Object.entries(statData).forEach(([resType, resData]) => {
             const normalizeDamageType = (type) => {
               const map = {
-                shadow: 'blight', sacred: 'ember', cold: 'rime',
-                ice: 'rime', acid: 'blight', thunder: 'storm',
-                viscera: 'primal', physical: 'physical', electric: 'storm',
-                fire: 'ember', radiant: 'ember',
-                frost: 'rime', lightning: 'storm', force: 'storm',
+                shadow: 'blight', silence: 'blight',
+                sacred: 'sacred', radiant: 'sacred', holy: 'sacred', divine: 'sacred',
+                cold: 'rime', ice: 'rime', frost: 'rime',
+                acid: 'blight', thunder: 'storm', electric: 'storm',
+                viscera: 'primal', physical: 'smashing',
+                fire: 'ember',
+                lightning: 'storm', force: 'arcane',
                 nature: 'primal',
                 necrotic: 'blight', void: 'blight', poison: 'blight',
                 psychic: 'wyrd', chaos: 'wyrd',
-                bludgeoning: 'physical', piercing: 'physical', slashing: 'physical',
+                bludgeoning: 'smashing', smashing: 'smashing',
+                piercing: 'stabbing', stabbing: 'stabbing', ranged: 'stabbing',
+                slashing: 'slicing', slicing: 'slicing',
+                storm: 'storm', ember: 'ember', rime: 'rime', primal: 'primal',
+                arcane: 'arcane', blight: 'blight', wyrd: 'wyrd',
               };
               return map[type] || type;
             };
             const normalizedResType = normalizeDamageType(resType);
-            let targetTypes;
-            if (normalizedResType === 'physical') {
-              targetTypes = ['physical'];
-            } else {
-              targetTypes = [normalizedResType];
-            }
+            const targetTypes = [normalizedResType];
 
             // Check if this is a flat damage reduction (isPercentage is false or undefined, and value is a number)
             const isFlatReduction = resData && typeof resData === 'object' &&
@@ -319,8 +320,8 @@ export function calculateEquipmentBonuses(equipment = {}) {
       }
     });
 
-    // Handle physical damage types
-    const physicalDamageTypes = ['physical'];
+    // Handle physical damage types (canonical + legacy stat-key aliases)
+    const physicalDamageTypes = ['smashing', 'stabbing', 'slicing', 'physical', 'slashing', 'bludgeoning', 'piercing', 'ranged'];
     physicalDamageTypes.forEach(type => {
       const typeKey = `${type}Damage`;
 
@@ -411,9 +412,14 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   // Now calculate derived stats using encumbrance-affected stats
   let baseMaxHealth = (modifiedStats.constitution * 5) + (skillBonuses.maxHealth || 0);
   let baseMaxMana = (modifiedStats.intelligence * 5) + (skillBonuses.manaPool || 0);
-  let baseHealthRegen = 0; // Base health regen is 0, only equipment bonuses
-  let baseManaRegen = 0; // Base mana regen is 0, only equipment bonuses
-  let baseHealingPower = Math.floor((modifiedStats.spirit - 10) / 2); // Spirit governs innate healing effectiveness: mirrors AGI→armor formula
+  // Regen & healing scale from Spirit (primary, x2), with Con adding to HP regen and Int to MP regen (half mod each).
+  // Spirit gates all regen: no Spirit (sMod<=0) -> regen floored at 0 regardless of Con/Int. Healing Power floored at 0 too.
+  const sMod = Math.floor((modifiedStats.spirit - 10) / 2);
+  const cMod = Math.floor((modifiedStats.constitution - 10) / 2);
+  const iMod = Math.floor((modifiedStats.intelligence - 10) / 2);
+  let baseHealthRegen = Math.max(0, (sMod * 2) + Math.floor(cMod / 2));
+  let baseManaRegen = Math.max(0, (sMod * 2) + Math.floor(iMod / 2));
+  let baseHealingPower = Math.max(0, sMod * 2);
 
   // Apply flat equipment bonuses
   baseMaxHealth += (equipmentBonuses.maxHealth || 0);
@@ -482,6 +488,13 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
   // Note: Passive movement speed modifiers will be applied later in conditional passives section
   const baseMoveSpeed = racialBaseStats.speed + (skillBonuses.movementSpeed || 0);
 
+  // Physical damage scaling from primary attributes.
+  // Canonical mapping: Smashing <- Strength, Stabbing <- Agility, Slicing <- Strength + Agility equally.
+  // Each contributing stat adds its modifier; Smashing/Stabbing get mod*2 from one stat,
+  // Slicing gets mod*1 from each stat (so equals mod*2 when only one is high, scales with both).
+  const strMod = Math.floor((modifiedStats.strength - 10) / 2);
+  const agiMod = Math.floor((modifiedStats.agility - 10) / 2);
+
   let derivedStats = {
     maxHealth: baseMaxHealth + racialBaseStats.hp, // Add racial base HP to calculated HP
     maxMana: baseMaxMana + racialBaseStats.mana, // Add racial base mana to calculated mana
@@ -490,10 +503,10 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     damage: 0 + (equipmentBonuses.damage || 0) + getMod(buffModifiers, ['damage', 'physDamage']), // Include buffs
     spellDamage: 0 + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0) + getMod(buffModifiers, ['spellDamage', 'spellPower']), // Include buffs
     healingPower: baseHealingPower,
-    rangedDamage: 0 + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Include buffs
-    slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Include buffs
-    bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Include buffs
-    piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Include buffs
+    bludgeoningDamage: (strMod * 2) + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Smashing <- Strength
+    piercingDamage: (agiMod * 2) + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Stabbing <- Agility
+    rangedDamage: (agiMod * 2) + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Ranged -> Stabbing <- Agility
+    slashingDamage: (strMod + agiMod) + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Slicing <- Strength + Agility equally
   moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
     swimSpeed: racialBaseStats.swimSpeed + getMod(buffModifiers, ['swimSpeed']), // Include buffs
     climbSpeed: racialBaseStats.climbSpeed + getMod(buffModifiers, ['climbSpeed']), // Include buffs

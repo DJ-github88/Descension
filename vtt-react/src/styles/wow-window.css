@@ -1,24 +1,139 @@
 .wow-window {
-    background: #f0e6d2; /* Parchment background */
-    border: 1px solid #a08c70;
+    background: #3a2a1d;
+    border: 3px solid #3d2a1d;
     border-radius: 6px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 
+        0 14px 40px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 1px rgba(212, 175, 55, 0.45);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    position: relative; /* Changed from absolute to relative to avoid positioning conflicts */
+    overflow: visible !important; /* Allow top tabs to sit above the window */
+    position: relative;
+    margin-top: 42px; /* Tabs sit right at top of frame border */
     min-width: 200px;
     max-width: none;
     min-height: 100px;
+    /* 4px padding removed — corner frames now sit outside via negative offsets */
     padding: 0;
     box-sizing: border-box;
-    /* Remove properties that cause blurry text */
-    color: #3a3a3a;
+    color: #2c1b0e;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    /* Ensure crisp text rendering */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ornate Leather & Gold Corner Accents */
+/* Corner frames — placed OUTSIDE the window borders so they overlay everything */
+.wow-frame-corner {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /* 76px x 96px — large corners that overlap frame border edges cleanly */
+    width: 76px;
+    height: 96px;
+}
+
+.wow-frame-corner-tl {
+    top: -8px;
+    left: -8px;
+    background-image: url('../../public/assets/ui/wow-window/frame_corner_tl.png');
+    background-position: top left;
+}
+
+.wow-frame-corner-tr {
+    top: -8px;
+    right: -8px;
+    background-image: url('../../public/assets/ui/wow-window/frame_corner_tr.png');
+    background-position: top right;
+}
+
+.wow-frame-corner-bl {
+    bottom: -8px;
+    left: -8px;
+    background-image: url('../../public/assets/ui/wow-window/frame_corner_bl.png');
+    background-position: bottom left;
+}
+
+.wow-frame-corner-br {
+    bottom: -8px;
+    right: -8px;
+    background-image: url('../../public/assets/ui/wow-window/frame_corner_br.png');
+    background-position: bottom right;
+}
+
+/* Drag handle overlay — covers the entire top frame border for easy window dragging */
+.wow-window-drag-handle {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    height: 36px;
+    z-index: 10000;
+    cursor: move;
+}
+
+/* Frame edges — connect the corners. Edges sit at exact 36px thickness, matching the corner arms pixel-for-pixel */
+.wow-frame-edge {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9998; /* below corners (9999) so corners cover the joints */
+    background-repeat: repeat;
+}
+
+.wow-frame-edge-top {
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    height: 28px;
+    background-image: url('../../public/assets/ui/wow-window/frame_top.png');
+    background-size: auto 28px;
+    background-repeat: repeat-x;
+    background-position: center top;
+}
+
+.wow-frame-edge-bottom {
+    bottom: -8px;
+    left: -8px;
+    right: -8px;
+    height: 28px;
+    background-image: url('../../public/assets/ui/wow-window/frame_top.png');
+    background-size: auto 28px;
+    background-repeat: repeat-x;
+    background-position: center bottom;
+    transform: scaleY(-1);
+}
+
+.wow-frame-edge-left {
+    left: -8px;
+    top: -8px;
+    bottom: -8px;
+    width: 28px;
+    background-image: url('../../public/assets/ui/wow-window/frame_top_vertical.png');
+    background-size: 28px auto;
+    background-repeat: repeat-y;
+    background-position: left center;
+}
+
+.wow-frame-edge-right {
+    right: -8px;
+    top: -8px;
+    bottom: -8px;
+    width: 28px;
+    background-image: url('../../public/assets/ui/wow-window/frame_top_vertical.png');
+    background-size: 28px auto;
+    background-repeat: repeat-y;
+    background-position: right center;
+    transform: scaleX(-1);
+}
+
+/* Close button inside the content area, positioned for visibility */
+.wow-window-close-btn {
+    position: absolute !important;
+    top: 3px !important;
+    right: 10px !important;
 }
 
 /* Modal backdrop: rendered by MythrillWindow when modal={true} and backdrop !== false.
@@ -46,15 +161,51 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 40px;
-    padding: 8px 12px; /* Add top/bottom padding to move text away from edges */
-    background: linear-gradient(to bottom, #6b5344, #4a3b2d);
-    border-bottom: 2px solid #a08c70;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    height: 36px;
+    padding: 6px 14px 6px 18px;
+    background: linear-gradient(180deg, rgba(122, 59, 46, 0.08) 0%, rgba(122, 59, 46, 0.04) 100%);
+    border-bottom: 1px solid rgba(122, 59, 46, 0.18);
     -webkit-user-select: none;
     user-select: none;
     cursor: move;
     position: relative;
+    z-index: 10000;
+    overflow: visible !important;
+    flex-shrink: 0;
+}
+
+.window-header .window-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2d1810;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.window-header .window-title.centered {
+    text-align: center;
+}
+
+/* When the header contains only the custom spellbook tabs:
+   Transparent drag strip along the top frame border — tall enough to grab. */
+.wow-custom-header-handle {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    position: relative !important;
+    pointer-events: auto !important;
+    cursor: move !important;
 }
 
 .window-header-content {
@@ -62,6 +213,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
+    gap: 12px;
 }
 
 /* Ensure the entire header is draggable while preserving interactivity */
@@ -77,27 +229,44 @@
     cursor: pointer;
 }
 
-/* D&D/Pathfinder Theme Header */
-.dnd-theme-header {
-    background: linear-gradient(to bottom, #6b5344, #4a3b2d) !important;
-    border-bottom: 2px solid #a08c70 !important;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
-}
-
 /* Special styling for window headers containing spellbook tab containers */
 .window-header:has(.spellbook-tab-container) {
-    padding: 0 !important; /* Remove padding when containing spellbook tabs */
-    height: auto !important; /* Allow height to be determined by tab container */
-    background: none !important; /* Let tab container handle background */
-    border-bottom: none !important; /* Let tab container handle border */
-    box-shadow: none !important; /* Let tab container handle shadow */
+    padding: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
 }
 
-/* Ensure the spellbook tab container fills the header properly */
 .window-header .spellbook-tab-container {
+    position: absolute !important;
+    top: -38px !important;
+    left: 32px !important;
+    right: 32px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 2px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     margin: 0 !important;
-    width: 100% !important;
-    height: 48px !important; /* Set consistent height */
+    padding: 0 !important;
+    overflow: visible !important;
+    z-index: 10000 !important;
+    width: auto !important;
+    pointer-events: auto !important;
+}
+
+.window-header .spellbook-tab-container .tab-dropdown-wrapper {
+    pointer-events: auto !important;
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    display: flex !important;
 }
 
 /* Adjust close button positioning when inside spellbook tab container header */
@@ -107,18 +276,18 @@
     top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 20 !important; /* Higher z-index to appear above tabs */
-    background: rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid rgba(240, 230, 210, 0.5) !important;
 }
 
 .window-title {
-    color: #f0e6d2 !important; /* Parchment color */
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    padding: 4px 10px !important; /* Add vertical padding for better spacing */
+    color: #2d1810 !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    padding: 0 8px !important;
     white-space: nowrap !important;
-    font-family: 'Bookman Old Style', 'Garamond', serif !important;
-    line-height: 1.2 !important; /* Improve line height */
+    font-family: 'Cinzel', serif !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
 .window-title.centered {
@@ -200,28 +369,38 @@
 }
 
 .window-close {
+    position: absolute !important;
+    top: 4px !important;
+    right: 10px !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%) !important;
+    border: 1px solid #5a1e12 !important;
+    color: #f8f4e6 !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    z-index: 10001 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 24px !important;
-    height: 24px !important;
-    border-radius: 4px !important;
-    background: transparent !important;
-    border: 1px solid rgba(240, 230, 210, 0.3) !important;
-    color: #f0e6d2 !important;
-    font-size: 18px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    margin-left: auto !important; /* Push to the right */
-    position: relative !important;
-    z-index: 10 !important;
-    flex-shrink: 0 !important; /* Prevent shrinking */
+    margin: 0 !important;
+    line-height: 1 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4) !important;
+    padding: 0 !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
 }
 
+
+
 .window-close:hover {
-    background-color: rgba(240, 230, 210, 0.2) !important;
+    background: linear-gradient(135deg, #8a4b3e 0%, #6f2a1e 100%) !important;
     color: #fff !important;
-    border-color: #f0e6d2 !important;
+    border-color: #7a3b2e !important;
+    transform: scale(1.05);
 }
 
 .window-content {
@@ -231,11 +410,21 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    padding: 0;
+    padding: 12px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     width: 100%;
     min-height: 0;
     box-sizing: border-box;
-    background: transparent;
+    background-color: #f2e6d6;
+    background-image:
+        radial-gradient(circle at 0% 0%, rgba(70, 45, 20, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at 100% 0%, rgba(70, 45, 20, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at 0% 100%, rgba(70, 45, 20, 0.14) 0%, transparent 32%),
+        radial-gradient(circle at 100% 100%, rgba(70, 45, 20, 0.14) 0%, transparent 32%),
+        radial-gradient(ellipse at 50% 40%, rgba(255, 252, 245, 0.95) 0%, rgba(243, 232, 216, 0.85) 60%, rgba(232, 217, 192, 0.9) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    box-shadow: inset 0 0 25px rgba(50, 30, 10, 0.15);
 
     /* Ensure crisp text rendering instead of performance optimizations that blur text */
     text-rendering: optimizeLegibility;
@@ -251,6 +440,18 @@
     /* Responsive font scaling: clamp base font sizes when window is small */
     font-size: clamp(11px, calc(0.85vw + 11px), 14px);
 }
+
+.window-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Parchment top vignette removed — tabs now sit cleanly above the book */
+
+.window-content::after {
+    display: none !important;
+}
+
+
 
 /* Make resize handle invisible but keep functionality - exclude combat timeline */
 .wow-window .react-resizable-handle {
@@ -280,6 +481,14 @@
 .draggable-window.dragging .spellbook-tab,
 .draggable-window.dragging .window-close {
     transition: none !important;
+}
+
+/* Remove outlines during drag */
+.draggable-window.dragging .wow-window,
+.draggable-window.dragging .wow-window *,
+.react-draggable-dragging .wow-window,
+.react-draggable-dragging .wow-window * {
+    outline: none !important;
 }
 
 /* Disable transitions for wow-window but preserve transforms for react-draggable */
@@ -338,97 +547,67 @@
     background-color: #f0e6d2; /* Parchment background */
 }
 
-/* ===== SPELLBOOK HEADER TAB STYLES ===== */
+/* ===== SPELLBOOK HEADER TAB STYLES (PROTRUDING ABOVE WINDOW) ===== */
 .spellbook-tab-container {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    background: linear-gradient(135deg, 
-        #6b5344 0%, 
-        #5a4633 50%, 
-        #4a3b2d 100%
-    );
-    border-bottom: 2px solid #8b7355;
-    border-radius: 0;
-    box-shadow:
-        inset 0 1px 0 rgba(240, 230, 210, 0.2),
-        0 2px 4px rgba(0, 0, 0, 0.15);
-    position: relative;
-    padding: 0;
-    gap: 0;
-    align-items: stretch;
-    margin: 0;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    overflow: hidden;
+    position: absolute !important;
+    top: -38px !important;
+    left: 44px !important;
+    right: 44px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 2px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    z-index: 10000 !important;
+    width: auto !important;
+    flex-wrap: nowrap !important;
+    min-width: 0;
 }
 
-.spellbook-tab-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(240, 230, 210, 0.4) 20%,
-        rgba(240, 230, 210, 0.6) 50%,
-        rgba(240, 230, 210, 0.4) 80%,
-        transparent
-    );
-    z-index: 1;
-}
-
+.spellbook-tab-container::before,
 .spellbook-tab-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(212, 175, 55, 0.6) 20%,
-        rgba(212, 175, 55, 0.8) 50%,
-        rgba(212, 175, 55, 0.6) 80%,
-        transparent
-    );
-    z-index: 1;
+    display: none !important;
 }
 
 .spellbook-tab-button {
-    background: linear-gradient(to bottom,
-        rgba(240, 230, 210, 0.12) 0%,
-        rgba(213, 203, 176, 0.08) 50%,
-        rgba(160, 140, 112, 0.05) 100%
-    );
+    background: transparent;
     border: none;
-    color: #f0e6d2;
-    padding: 0 clamp(8px, 2vw, 16px);
+    color: #1a1a1a;
+    /* Responsive padding: scales with window width so tabs always fit on the top row.
+       Min 4px prevents overlap, max 14px keeps the comfortable default at large sizes. */
+    padding: 0 clamp(4px, 0.9vw, 14px);
     margin: 0;
-    font-size: clamp(10px, 1.2vw, 14px);
-    font-weight: 600;
+    /* Responsive font: scales from 9px (tiny windows) up to 11px (default) */
+    font-size: clamp(9px, 1.05vw, 11px);
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    height: 100%;
-    display: flex;
+    height: 38px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    letter-spacing: clamp(0px, 0.3px, 0.5px);
+    text-shadow: none;
+    letter-spacing: clamp(0.2px, 0.06vw, 0.8px);
     border-radius: 0;
     box-shadow: none;
     text-transform: uppercase;
-    min-width: 110px;
-    flex: 1;
+    /* KEY CHANGE: flex: 1 1 0 lets tabs grow AND shrink to fill the row */
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 180px;
     white-space: nowrap;
-    overflow: visible;
-    text-overflow: ellipsis;
-    line-height: 1.3;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    line-height: 1;
+    opacity: 0.85;
 }
 
 .spellbook-tab-button .tab-text {
@@ -436,6 +615,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
+    display: block;
 }
 
 .spellbook-tab-button .tab-tooltip {
@@ -500,29 +680,26 @@
     display: none;
 }
 
-.spellbook-tab-button:hover {
-    background: linear-gradient(to bottom,
-        rgba(240, 230, 210, 0.2) 0%,
-        rgba(213, 203, 176, 0.15) 50%,
-        rgba(160, 140, 112, 0.1) 100%
-    );
-    color: #fff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+.spellbook-tab-button:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.06);
+    color: #000000;
+    opacity: 1;
+    text-shadow: none;
     z-index: 2;
 }
 
 .spellbook-tab-button.active {
     background: linear-gradient(to bottom,
-        rgba(203, 176, 122, 0.4) 0%,
-        rgba(166, 139, 82, 0.3) 50%,
-        rgba(139, 115, 85, 0.2) 100%
+        #5a1e12 0%,
+        #3d140b 100%
     );
-    color: #fff;
-    font-weight: 700;
+    color: #ffffff;
+    font-weight: 800;
+    opacity: 1;
     box-shadow: 
-        inset 0 2px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -3px 0 #a68b52;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     z-index: 3;
 }
 
@@ -560,7 +737,7 @@
 @media (max-width: 768px) {
     .spellbook-tab-container {
         padding: 0 4px;
-        gap: 2px;
+        gap: 1px;
     }
 
     .spellbook-tab-button {
@@ -572,13 +749,12 @@
 @media (max-width: 480px) {
     .spellbook-tab-container {
         padding: 0 2px;
-        gap: 1px;
+        gap: 0;
     }
 
     .spellbook-tab-button {
         /* Padding and font-size now handled by clamp() */
-        white-space: normal;
-        line-height: 1.2;
+        min-width: 0;
     }
 }
 
@@ -692,48 +868,189 @@
 }
 
 /* ==========================================================================
-   ENHANCED HEADER TABS FOR WINDOWS (PREMIUM TACTILE WOW RED/GOLD THEME)
+   AUTHENTIC WOW TAB GAME ASSETS SYSTEM (ACTIVE, INACTIVE, HOVER)
    ========================================================================== */
 
-/* Add elegant top golden border to the spellbook tab buttons */
-.spellbook-tab-button {
-    border-top: 2px solid rgba(212, 175, 55, 0.25) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    text-transform: uppercase !important;
-}
-
-/* Stunning tactile hover states for header tabs */
-.spellbook-tab-button:hover {
-    background: linear-gradient(to bottom,
-        rgba(255, 255, 255, 0.22) 0%,
-        rgba(240, 230, 210, 0.14) 50%,
-        rgba(160, 140, 112, 0.08) 100%
-    ) !important;
-    color: #ffd100 !important; /* Gold text hover */
-    text-shadow: 
-        0 0 10px rgba(255, 209, 0, 0.6),
-        1px 1px 2px rgba(0, 0, 0, 0.9) !important;
-    border-top-color: rgba(212, 175, 55, 0.6) !important;
-    transform: translateY(-1px);
-}
-
-/* Beautiful active tab indicator styling */
-.spellbook-tab-button.active {
-    background: linear-gradient(to bottom,
-        rgba(203, 176, 122, 0.4) 0%,
-        rgba(166, 139, 82, 0.3) 50%,
-        rgba(139, 115, 85, 0.2) 100%
-    ) !important;
-    border-top: 2px solid #ffd100 !important; /* Vibrant gold top line */
-    color: #fff !important;
+.window-header-tab,
+.spellbook-tab-button,
+.character-view-tab,
+.tabbed-modal-tab,
+.tk-tab {
+    background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
+    border: none !important;
+    outline: none !important;
+    color: #1a1a1a !important;
+    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
-    text-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.4),
-        1px 1px 3px rgba(0, 0, 0, 1) !important;
-    box-shadow: 
-        inset 0 3px 6px rgba(0, 0, 0, 0.45),
-        inset 0 -3px 0 #a68b52 !important;
-    z-index: 5 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    text-shadow: none !important;
+    padding: 4px 18px !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, filter 0.15s ease !important;
+    box-shadow: none !important;
+    margin: 0 2px !important;
+    border-radius: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 0.9 !important;
+}
+
+.window-header-tab:hover:not(.active),
+.spellbook-tab-button:hover:not(.active),
+.character-view-tab:hover:not(.active),
+.tabbed-modal-tab:hover:not(.active),
+.tk-tab:hover:not(.active) {
+    background: url('../../public/assets/ui/wow-window/tab_hover.png') center / 100% 100% no-repeat !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+    transform: translateY(-2px) !important;
+    z-index: 30 !important;
+    filter: brightness(1.1) !important;
+    opacity: 1 !important;
+}
+
+.window-header-tab.active,
+.spellbook-tab-button.active,
+.character-view-tab.active,
+.tabbed-modal-tab.active,
+.tk-tab.active {
+    background: url('../../public/assets/ui/wow-window/tab_active.png') center / 100% 100% no-repeat !important;
+    color: #1a1a1a !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+    transform: translateY(2px) !important; /* Pulls active tab down to merge with window top border */
+    z-index: 40 !important;
+    filter: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+/* ==========================================================================
+   TAB SUB-SECTIONS DROPDOWN MENU
+   ========================================================================== */
+
+.tab-dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.tab-dropdown-wrapper .spellbook-tab-button {
+    width: 100%;
+    max-width: 100%;
+}
+
+.tab-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 210px;
+    background: linear-gradient(135deg, #2a1b12 0%, #170f09 100%);
+    border: 2px solid #a68b52;
+    border-radius: 6px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), inset 0 0 12px rgba(0, 0, 0, 0.6);
+    padding: 6px 0;
+    z-index: 10001 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    animation: tabDropdownFadeIn 0.15s ease-out;
+    pointer-events: auto !important;
+}
+
+@keyframes tabDropdownFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    background: transparent;
+    border: none;
+    color: #e6d4b8;
+    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.tab-dropdown-item:hover {
+    background: rgba(212, 175, 55, 0.22);
+    color: #ffd700;
+    padding-left: 18px;
+}
+
+.tab-dropdown-item.active {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
+    color: #ffffff;
+    font-weight: 700;
+    border-left: 3px solid #ffd700;
+}
+
+.tab-dropdown-item-wrapper {
+    position: relative;
+}
+
+.tab-dropdown-submenu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    min-width: 180px;
+    background: linear-gradient(135deg, #2a1b12 0%, #170f09 100%);
+    border: 2px solid #a68b52;
+    border-radius: 6px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), inset 0 0 12px rgba(0, 0, 0, 0.6);
+    padding: 6px 0;
+    z-index: 10002 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    animation: tabDropdownFadeIn 0.12s ease-out;
+    pointer-events: auto !important;
+}
+
+.tab-dropdown-skill-item {
+    padding: 6px 12px;
+    font-size: 11px;
+}
+
+.tab-dropdown-skill-item:hover {
+    background: rgba(212, 175, 55, 0.22);
+    color: #ffd700;
+    padding-left: 16px;
+}
+
+.tab-dropdown-skill-item.active {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
+    color: #ffffff;
+    font-weight: 700;
+    border-left: 3px solid #ffd700;
+}
+
+/* Remove default border lines or indicators that conflict with asset graphics */
+.spellbook-tab-button::before,
+.spellbook-tab-button::after,
+.spellbook-tab-button.active::before,
+.spellbook-tab-button.active::after,
+.window-header-tab::before,
+.window-header-tab::after,
+.window-header-tab.active::before,
+.window-header-tab.active::after {
+    display: none !important;
 }
 
 
@@ -885,17 +1202,17 @@
    ========================================================================== */
 
 .library-section-card {
-    width: 230px;
-    height: 138px;
-    border-radius: 9px;
+    width: 250px;
+    min-height: 225px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 7px;
+    justify-content: space-between;
+    gap: 10px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    padding: 16px;
+    padding: 24px 18px 18px;
     position: relative;
     overflow: hidden;
     color: #e8dcc8;
@@ -905,43 +1222,45 @@
 
 .library-section-card .inner-gold-border {
     position: absolute;
-    top: 6px;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    border: 1.5px dashed rgba(212, 175, 55, 0.2);
-    border-radius: 6px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1.5px dashed rgba(212, 175, 55, 0.25);
+    border-radius: 8px;
     pointer-events: none;
     transition: all 0.3s ease;
     z-index: 2;
 }
 
 .library-section-card:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-6px) scale(1.03);
 }
 
 .library-section-card:hover .inner-gold-border {
-    border-color: rgba(212, 175, 55, 0.65);
+    border-color: rgba(212, 175, 55, 0.75);
     border-style: solid;
-    box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.25);
+    box-shadow: inset 0 0 16px rgba(212, 175, 55, 0.3);
 }
 
 .library-section-card .section-icon-container {
     position: relative;
     z-index: 3;
     transition: all 0.3s ease;
+    margin-bottom: 2px;
 }
 
 .library-section-card:hover .section-icon-container {
-    transform: scale(1.12);
+    transform: scale(1.15) translateY(-2px);
 }
 
 .library-section-card .section-label {
-    font-family: 'Cinzel', 'Bookman Old Style', serif;
-    font-size: 16px;
+    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: 1.2px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.6);
     transition: all 0.3s ease;
     position: relative;
     z-index: 3;
@@ -949,19 +1268,65 @@
 
 .library-section-card:hover .section-label {
     color: #ffffff;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .library-section-card .section-subtitle {
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 11px;
-    color: #8b7d6b;
+    font-size: 11.5px;
+    color: #c0b098;
     font-style: italic;
     transition: all 0.3s ease;
     position: relative;
     z-index: 3;
+    line-height: 1.3;
 }
 
 .library-section-card:hover .section-subtitle {
-    color: #c5a47a;
+    color: #f0e2cd;
+}
+
+.library-section-card .section-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    margin-top: 4px;
+}
+
+.library-section-card .feature-pill {
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #d8c8b0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.library-section-card .action-callout {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #ffd700;
+    opacity: 0.85;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.library-section-card:hover .action-callout {
+    opacity: 1;
+    color: #ffffff;
+    transform: translateX(3px);
 }

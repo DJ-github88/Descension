@@ -263,14 +263,18 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                             <div
                                                 className="wall-preview"
                                                 style={{
+                                                    backgroundImage: `url(/assets/textures/walls/${wallId}.png)`,
                                                     backgroundColor: wall.color,
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    backgroundBlendMode: 'multiply',
                                                     opacity: wall.category === 'partial' ? 0.7 : 1,
                                                     display: 'flex',
                                                     flexDirection: 'column',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    padding: '8px',
-                                                    minHeight: '80px',
+                                                    padding: '12px',
+                                                    minHeight: '110px',
                                                     border: selectedWallType === wallId ? '3px solid #d4af37' : '2px solid #a08c70'
                                                 }}
                                             >
@@ -278,12 +282,12 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                                     className="wall-name"
                                                     style={{
                                                         color: '#ffffff',
-                                                        fontSize: '14px',
+                                                        fontSize: '16px',
                                                         fontWeight: 'bold',
                                                         textAlign: 'center',
                                                         textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
                                                         lineHeight: '1.2',
-                                                        marginBottom: '4px'
+                                                        marginBottom: '6px'
                                                     }}
                                                 >
                                                     {wall.name}

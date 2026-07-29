@@ -582,20 +582,21 @@
 /* ===== FINAL NUCLEAR OPTION - FORCE ALL TEXT TO BE READABLE ===== */
 
 /* Override ANY remaining text that might be hard to read - SCOPED TO SPECIFIC ELEMENTS */
-.spellbook-layout h1:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout h2:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout h3:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout h4:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout h5:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout h6:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout p:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout span:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout div:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout label:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout button:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout input:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout textarea:not(.pf-spell-card):not(.wow-spell-card),
-.spellbook-layout select:not(.pf-spell-card):not(.wow-spell-card) {
+/* Excluded community tabs - they have their own parchment color system */
+.spellbook-layout h1:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h2:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h3:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h4:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h5:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h6:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout p:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout span:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout div:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout label:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout button:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout input:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout textarea:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout select:not(.pf-spell-card):not(.wow-spell-card):not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-primary) !important;
 }
 
@@ -606,7 +607,7 @@
 }
 
 /* Force readable text on all interactive elements */
-.spellbook-layout button *,
+.spellbook-layout button *:not(.community-spells-tab *):not(.community-creatures-tab *),
 .spellbook-layout .pf-button *,
 .spellbook-layout .stat-card *,
 .spellbook-layout .component-option *,
@@ -616,17 +617,17 @@
 }
 
 /* Override any remaining white/light text that's hard to read */
-.spellbook-layout *[style*="color: #fff"],
-.spellbook-layout *[style*="color: #ffffff"],
-.spellbook-layout *[style*="color: white"],
-.spellbook-layout *[style*="color: #e2e8f0"],
-.spellbook-layout *[style*="color: #cdd6f4"],
-.spellbook-layout *[style*="color: #94a3b8"] {
+.spellbook-layout *[style*="color: #fff"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout *[style*="color: #ffffff"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout *[style*="color: white"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout *[style*="color: #e2e8f0"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout *[style*="color: #cdd6f4"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout *[style*="color: #94a3b8"]:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-primary) !important;
 }
 
 /* Ensure proper contrast for all backgrounds */
-.spellbook-layout *[style*="background"] {
+.spellbook-layout *[style*="background"]:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-primary) !important;
 }
 
@@ -645,19 +646,19 @@
 }
 
 /* Ensure all headings are properly styled */
-.spellbook-layout h1,
-.spellbook-layout h2,
-.spellbook-layout h3,
-.spellbook-layout h4,
-.spellbook-layout h5,
-.spellbook-layout h6 {
+.spellbook-layout h1:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h2:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h3:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h4:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h5:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout h6:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-primary) !important;
   font-family: var(--my-font-display) !important;
   font-weight: var(--my-font-bold) !important;
 }
 
 /* Ensure all labels are readable */
-.spellbook-layout label {
+.spellbook-layout label:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-secondary) !important;
   font-family: var(--my-font-ui) !important;
   font-weight: var(--my-font-semibold) !important;
@@ -1426,7 +1427,7 @@
 /* ===== FIX DROPDOWN AND SELECTION ELEMENTS ===== */
 
 /* Fix trigger dropdowns and selects */
-.spellbook-layout select,
+.spellbook-layout select:not(.community-spells-tab *):not(.community-creatures-tab *),
 .spellbook-layout .trigger-dropdown,
 .spellbook-layout .effect-dropdown {
   background: var(--my-gradient-parchment) !important;
@@ -1445,9 +1446,9 @@
 }
 
 /* Fix any remaining input elements */
-.spellbook-layout input[type="text"],
-.spellbook-layout input[type="number"],
-.spellbook-layout textarea {
+.spellbook-layout input[type="text"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout input[type="number"]:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout textarea:not(.community-spells-tab *):not(.community-creatures-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -1464,7 +1465,7 @@
 }
 
 /* Fix any remaining button elements */
-.spellbook-layout button:not(.pf-button):not(.pf-toggle-button):not(.wow-formula-suggestion) {
+.spellbook-layout button:not(.pf-button):not(.pf-toggle-button):not(.wow-formula-suggestion):not(.community-spells-tab *):not(.community-creatures-tab *) {
   background: var(--my-gradient-button) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -1480,15 +1481,15 @@
 }
 
 /* Fix any labels that might still have dark colors */
-.spellbook-layout label {
+.spellbook-layout label:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: var(--my-text-primary) !important;
   font-family: var(--my-font-ui) !important;
 }
 
 /* Fix any remaining text elements */
-.spellbook-layout p,
-.spellbook-layout span,
-.spellbook-layout div {
+.spellbook-layout p:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout span:not(.community-spells-tab *):not(.community-creatures-tab *),
+.spellbook-layout div:not(.community-spells-tab *):not(.community-creatures-tab *) {
   color: inherit !important;
 }
 

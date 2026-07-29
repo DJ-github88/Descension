@@ -325,7 +325,7 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
             // Add resistance for rare and above, or with a small chance for lower qualities
             if (['rare', 'epic', 'legendary', 'artifact'].includes(quality) || Math.random() < 0.3) {
                 // Add random resistance
-                const resistanceType = getRandomElement(['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred']);
+                const resistanceType = getRandomElement(['smashing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred']);
 
                 // Initialize resistances object if it doesn't exist
                 if (!stats.resistances) {
@@ -1004,7 +1004,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                 }
 
                 // Parse damage type preferences
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+                const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                 for (const type of damageTypes) {
                     if (userPrompt.toLowerCase().includes(type)) {
                         if (customWeaponStats) {

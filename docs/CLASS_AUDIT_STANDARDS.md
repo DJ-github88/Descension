@@ -121,7 +121,7 @@ Provides distinct equipment paths that support different starting playstyles, ma
       "icon": "icon_name/id",
       "items": [
         "Primary Weapon (Damage formula, flavor note)",
-        "Armor Type (Armor rating, maximum agility constraints)",
+        "Armor (Durability die — e.g., d6/d8/d10; max agility cap; flat stat bonuses)",
         "Utility/Ranged Gear"
       ],
       "description": "A sentence explaining the tactical purpose of this path (e.g., maximum impact, rapid resource building)."
@@ -141,7 +141,7 @@ Provides distinct equipment paths that support different starting playstyles, ma
     "Pack list (backpack, rations, unique class tools like cauterizing iron)",
     "Currency (e.g., 1d10 x 5 rusted copper pieces)"
   ],
-  "notes": "Strict class-specific equipment constraints (e.g., 'You cannot wield bows; your rage requires close-quarters mutilation')."
+  "notes": "Strict class-specific equipment constraints (e.g., 'You cannot wield bows; your rage requires close-quarters combat')."
 }
 ```
 
@@ -282,7 +282,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
   spellType: "ACTION",
   icon: "Slashing/Cross Slash",
   typeConfig: {
-    school: "slashing",
+    school: "slicing",
     icon: "Slashing/Cross Slash",
     tags: ["melee", "damage", "rage generation", "self-damage"]
   },
@@ -306,9 +306,9 @@ Use the following three structural patterns when drafting or auditing high-risk,
   effectTypes: ["damage", "debuff"],
   damageConfig: {
     formula: "1d12 + strength",
-    damageTypes: ["slashing"],
+    damageTypes: ["slicing"],
     resolution: "DICE",
-    description: "A brutal, agonizing swing. Deals massive slashing damage."
+    description: "A brutal, agonizing swing. Deals massive slicing damage."
   },
   debuffConfig: {
     debuffType: "statusEffect",
@@ -317,7 +317,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
         id: "self_laceration",
         name: "Self-Laceration",
         description: "Your tendons tear from the swing.",
-        mechanicsText: "Take 1d4 physical damage to self",
+        mechanicsText: "Take 1d4 smashing damage to self",
         statModifier: { stat: "health", magnitude: "-1d4", magnitudeType: "dice", formula: "-1d4" }
       }
     ],
@@ -331,7 +331,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
         id: "self_laceration_trigger",
         name: "Self-Laceration",
         triggerType: "on_cast",
-        action: "Take 1d4 physical damage to self upon swinging."
+        action: "Take 1d4 smashing damage to self upon swinging."
       }
     ]
   },
@@ -340,8 +340,8 @@ Use the following three structural patterns when drafting or auditing high-risk,
 ```
 
 ### Pattern 2: Stance Penalty (Passive Toggle)
-* **The Danger**: Massive penalty to movement speed, vulnerability to bleed/poison, or loss of defenses.
-* **The Return**: Automatic armor boost and high resource generation when struck.
+* **The Danger**: Massive penalty to movement speed, vulnerability to bleed/poison conditions, or loss of defenses.
+* **The Return**: Automatic damage reduction on incoming hits and high resource generation when struck.
 * **Example Spell Config**:
 ```javascript
 {
@@ -352,7 +352,7 @@ Use the following three structural patterns when drafting or auditing high-risk,
   spellType: "PASSIVE",
   icon: "Utility/Deflecting Shield",
   typeConfig: {
-    school: "bludgeoning",
+    school: "smashing",
     icon: "Utility/Deflecting Shield",
     tags: ["defense", "buff", "stance", "toggleable"],
     toggleable: true,
@@ -373,10 +373,10 @@ Use the following three structural patterns when drafting or auditing high-risk,
     buffType: "statEnhancement",
     effects: [
       {
-        id: "calloused_skin",
-        name: "Calloused Skin",
-        description: "Gain +2 Armor. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
-        statModifier: { stat: "armor", magnitude: 2, magnitudeType: "flat" }
+        "id": "calloused_skin",
+        "name": "Calloused Skin",
+        "description": "Your hide thickens; reduce damage from the next incoming attack by 2. Every time an enemy hits you with a melee attack, gain +1d4 Blood-Heat.",
+        "statModifier": { "stat": "incoming_damage_reduction", "magnitude": 2, "magnitudeType": "flat" }
       },
       {
         id: "rigid_flesh_drawback",
@@ -406,18 +406,18 @@ Use the following three structural patterns when drafting or auditing high-risk,
 
 ### Pattern 3: Catastrophic Stance (High-Harm Stance)
 * **The Danger**: Constant health decay per turn, locking out all healing from allies.
-* **The Return**: Unlocks unresistable damage and flat fire/slashing scaling on every strike.
+* **The Return**: Unlocks unresistable damage and flat ember/slicing scaling on every strike.
 * **Example Spell Config**:
 ```javascript
 {
   id: "berserk_boiling_veins",
   name: "Boiling Veins",
-  description: "Unlock your boiling veins, allowing the crimson fire to circulate. You inflict additional fire and slashing damage with every swing and enter Frenzied state, but you burn your own health and your pain immunity prevents allies from healing you.",
+  description: "Unlock your boiling veins, allowing the crimson fire to circulate. You inflict additional ember and slicing damage with every swing and enter Frenzied state, but you burn your own health and your pain immunity prevents allies from healing you.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Fire/Fire Shield",
   typeConfig: {
-    school: "fire",
+    school: "ember",
     icon: "Fire/Fire Shield",
     tags: ["damage stance", "buff", "stance", "toggleable"],
     toggleable: true,
@@ -438,10 +438,10 @@ Use the following three structural patterns when drafting or auditing high-risk,
     buffType: "statEnhancement",
     effects: [
       {
-        id: "boiling_blood_strike",
-        name: "Boiling Blood Stasis",
-        description: "Your strikes carry a searing spray. Every melee attack deals +1d4 fire/slashing damage.",
-        mechanicsText: "All melee attacks deal +1d4 bonus fire/slashing damage"
+        "id": "boiling_blood_strike",
+        "name": "Boiling Blood Stasis",
+        "description": "Your strikes carry a searing spray. Every melee attack deals +1d4 ember/slicing damage.",
+        "mechanicsText": "All melee attacks deal +1d4 bonus ember/slicing damage"
       },
       {
         id: "vessel_rupture",
@@ -501,4 +501,102 @@ graph TD
 4. **Spell-by-Spell Polish**: Apply the structural rules from `SPELL_DATA_REFERENCE.md`.
 5. **Card Layout Optimization**: Verify that every status effect inside `buffConfig` and `debuffConfig` uses `mechanicsText` to prevent card engine display issues.
 6. **Trigger and Resource Normalization**: Check that all triggers (`triggerConfig`) and generated/spent resources (`resourceCost`) use valid properties and consistent IDs.
-7. **Verify & Test**: Run the project's QA script (`node scripts/spell-qa.mjs`) to verify syntax and ensure that the class module exports clean, loadable ESM code.
+7. **Vocabulary Audit**: Run the **Canonical Vocabulary Check** from Section 6 below against every spell description, mechanicsText, and overview. Mythrill's class system has no AC, no armor rating, and no Wisdom/Dexterity/Charisma — class docs and class data that use D&D-default terms must be corrected before merge.
+8. **Verify & Test**: Run the project's QA script (`node scripts/spell-qa.mjs`) to verify syntax and ensure that the class module exports clean, loadable ESM code.
+
+---
+
+## 6. Canonical Vocabulary Reference
+
+**Purpose:** Single source of truth for the attribute, defense, damage-type, and stat-key vocabulary used in all Mythrill class docs, class data files, spell descriptions, and audit reports. When a new class is drafted or an old one is updated, every term must be checked against this table. D&D-default terms are banned; legacy aliases (e.g., `slashing` in stat keys, `piercingDamage`) remain only where renaming would break too many consumers — see the *Gotchas* below.
+
+### A. Attributes (exactly 5)
+
+| Stat key | Mod | Primary role |
+|---|---|---|
+| `strength` | `strMod` | Smashing damage (×2) |
+| `agility` | `agiMod` | Stabbing damage (×2); the Senses-check stat |
+| `constitution` | `cMod` | HP regen contributor (floor/2) |
+| `intelligence` | `iMod` | MP regen contributor (floor/2); Arcanoneer primary |
+| `spirit` | `sMod` | **Gates ALL regen and Healing Power (×2)** |
+
+**Banned terms:** `wisdom`, `WIS`, `dexterity`, `DEX`, `charisma`, `CHA`.
+
+**Substitution rules:**
+- For "presence / intimidation / willpower" → use **`spirit`**.
+- For "deception / knowledge / arcane scholarship" → use **`intelligence`**.
+- For "reflexes / senses / stealth" → use **`agility`**.
+
+**Source of truth:** `vtt-react/src/utils/characterUtils.js:415-422` (functional scaling); `vtt-react/src/components/tooltips/StatTooltip.jsx:13-69` (tooltip text). The `attribute-scaling-formulas` Mind memory documents the full decision history.
+
+### B. Defense (no AC, no armor rating)
+
+Mythrill has **no Armor Class and no flat armor-rating number.** Defense is governed by the **Durability dice** system.
+
+- Each piece of armor has a **durability die** (e.g., `d4`, `d6`, `d8`, `d10`).
+- On a successful attack, the durability die absorbs damage per hit. Strong attacks can "knock a durability step off the target's armor" — degrading the die.
+- Armor also grants **flat stat bonuses** (`+1 strength`, `−2 agility`, etc.) and may impose a **maximum-agility cap** on heavy armor.
+
+**Banned terms in class docs / spell mechanicsText / audit reports:** `AC`, `Armor Class`, `Armor Rating`, `Defense Bonus`, `flat DR`.
+
+**Substitution rules:**
+- For "this spell grants +N armor" → use **`"reduce damage from the next incoming attack by N"`** or **`"+1 Durability Step to equipped armor"`**.
+- For "the target's AC" → use **"the target's durability roll"** or **"the target's armor tier"**.
+
+**Source of truth:** `vtt-react/src/data/weaponTypeSimpleTables.js:17-19` (durability system comment); `vtt-react/src/store/characterSlices/coreSlice.js:47-56` (durability-as-die-string examples).
+
+### C. Damage Types (exactly 12)
+
+| Canonical key | Element / meaning |
+|---|---|
+| `smashing` | Blunt physical (mace, hammer, falling rock) |
+| `stabbing` | Piercing physical (dagger, spear, arrow) |
+| `slicing` | Edged physical (sword, axe) |
+| `ember` | Fire / heat (canonical replacement for `fire`) |
+| `rime` | Cold / frost (canonical replacement for `frost` / `cold`) |
+| `storm` | Lightning / thunder (canonical replacement for `lightning` / `thunder`) |
+| `primal` | Nature / earth elemental |
+| `arcane` | Pure magic (force, evocation) |
+| `blight` | Decay / rot / poison / bleed (status-debuff damage) |
+| `wyrd` | Otherworldly / necrotic / shadow |
+| `sacred` | Holy / radiant / divine |
+| `healing` | Restoration (reversed polarity) |
+
+**Banned terms:** `fire` (use `ember`), `frost` / `cold` (use `rime`), `lightning` / `thunder` (use `storm`), `necrotic` (use `wyrd`), `radiant` (use `sacred`), `poison` (use `blight`), `physical` (use one of the three physical types), `ranged` (use `stabbing` for arrows / thrown weapons).
+
+**Legacy aliases (do NOT introduce in new code; only migrate to canonical when touching the file):**
+- Stat-key aggregates `bludgeoningDamage` → `smashing`, `piercingDamage` → `stabbing`, `slashingDamage` → `slicing`, `rangedDamage` → `stabbing`. These are intentionally kept as D&D-flavored stat keys because renaming them touches many consumers; see `damage-type-canonical-vocabulary` Mind memory.
+
+**Source of truth:** `vtt-react/src/data/damageTypes.js` (canonical exports).
+
+### D. Spell School / Tags
+
+The `typeConfig.school` field is set to a **damage type** in Mythrill, not a D&D magic school. Across the codebase, `school: "ember"` is the dominant pattern (confirmed in `berserkerData.js`, `augurData.js`, `harbingerData.js`, `inquisitorData.js`, `lunarchData.js`, `martyrData.js`, `pyrofiendData.js`, `animistData.js`, `apexData.js`, `arcanoneerData.js`).
+
+**Banned values for `typeConfig.school`:** `fire`, `frost`, `cold`, `lightning`, `necrotic`, `radiant`, `physical`. Use the canonical damage type from §C.
+
+### E. Saving Throws / "Saves"
+
+D&D "saves" are stat-suffixed in Mythrill. The codebase uses keys like `agi_saves` (`augurData.js:928`) and `con_saves`. **Use `"[stat] check"` or `"check against [stat]"` in spell text.**
+
+**Banned phrases:** `Dex save`, `Wisdom save`, `Strength save vs.`, `saving throw`.
+
+### F. Vocabulary Check (for audit step 7 above)
+
+Run this grep against any class file before merge:
+
+```bash
+# Banned attribute terms
+grep -nE 'wisdom|WIS\b|dexterity|DEX\b|charisma|CHA\b' src/data/classes/*.js src/data/spells/** src/data/classes/**/*.md
+
+# Banned defense terms
+grep -nE '\bAC\b|Armor Class|Armor Rating|Defense Bonus' src/data/classes/*.js docs/**
+
+# Banned damage-type terms in code
+grep -nE '"fire"|"frost"|"cold"|"lightning"|"thunder"|"necrotic"|"radiant"|"poison"|"physical"|"ranged"' src/data/classes/*.js
+
+# Banned phrases in user-facing text
+grep -nE 'Wisdom save|Dex save|Strength save|Saving throw' src/data/classes/*.js
+```
+
+Any hit must be either (a) corrected to the canonical term per the substitution rules above, or (b) added to a justified `// vocabulary-legacy` comment with a TODO.

@@ -7,21 +7,16 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
     const [selectedConnection, setSelectedConnection] = useState(null);
     const { dndElements: currentMapDndElements } = useLevelEditorStore();
 
-    // Get all connections from all maps
-    // Use level editor store for current map (to get real-time updates), map store for other maps
     const allConnections = useMemo(() => {
         const connections = [];
         maps.forEach(map => {
             let mapConnections;
             if (map.id === currentMapId) {
-                // Use level editor store for current map to get real-time updates
                 mapConnections = currentMapDndElements.filter(el => el.type === 'portal' || el.type === 'connection');
             } else {
-                // Use map store for other maps
                 mapConnections = (map.dndElements || []).filter(el => el.type === 'portal' || el.type === 'connection');
             }
             mapConnections.forEach(conn => {
-                // Skip the source connection itself
                 if (map.id === currentMapId && conn.id === sourceConnection?.id) {
                     return;
                 }
@@ -45,18 +40,13 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
 
     return (
         <MythrillWindow
-            title="Magical Connection Matrix"
+            title=""
             isOpen={isOpen}
             onClose={onClose}
-            defaultSize={{ width: 500, height: 620 }}
-            defaultPosition={{ x: 300, y: 150 }}
-            className="connection-selector-window"
+            defaultSize={{ width: 560, height: 480 }}
+            centered={true}
         >
-            <div
-                className="connection-selector-container"
-                onClick={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
-            >
+            <div className="connection-selector-container">
                 <p className="connection-selector-description">
                     Select a destination connection from the mystical weave. Players stepping into this portal will be transported instantly to the chosen anchor point.
                 </p>
@@ -68,7 +58,7 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                     </div>
                 ) : (
                     <div className="connection-list">
-                        {allConnections.map((conn) => {
+                        {allConnections.map(conn => {
                             const isSelected = selectedConnection?.id === conn.id && selectedConnection?.mapId === conn.mapId;
                             const displayName = conn.properties?.portalName || 'Unnamed Connection';
                             const mapLabel = conn.mapId === currentMapId ? 'Current Map' : conn.mapName;
@@ -77,24 +67,17 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                                 <div
                                     key={`${conn.mapId}-${conn.id}`}
                                     className={`connection-item-card ${isSelected ? 'selected' : ''}`}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedConnection(conn);
-                                    }}
+                                    onClick={() => setSelectedConnection(conn)}
                                 >
                                     <div className="connection-item-header">
-                                        <span className="connection-item-icon">â - ‰</span>
+                                        <i className="fas fa-link connection-item-icon-symbol"></i>
                                         <span className="connection-item-name">{displayName}</span>
                                     </div>
-                                    <div className="connection-item-meta">
-                                        <span>Realm: {mapLabel}</span>
-                                        {conn.type === 'portal' && <span style={{ opacity: 0.6 }}>[Portal]</span>}
+                                    <div className="connection-item-realm-badge">
+                                        <i className="fas fa-map-marked-alt realm-icon"></i>
+                                        <span className="realm-label">DESTINATION REALM:</span>
+                                        <span className="realm-name">{mapLabel}</span>
                                     </div>
-                                    {conn.properties?.description && (
-                                        <div className="connection-item-description">
-                                            "{conn.properties.description}"
-                                        </div>
-                                    )}
                                 </div>
                             );
                         })}
@@ -106,7 +89,7 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
                         Dismiss
                     </button>
                     <button
-                        className="wow-button primary"
+                        className={`wow-button primary ${!selectedConnection ? 'disabled' : ''}`}
                         onClick={handleConnect}
                         disabled={!selectedConnection}
                     >
@@ -119,4 +102,3 @@ const ConnectionSelectorDialog = ({ isOpen, onClose, sourceConnection, maps, cur
 };
 
 export default ConnectionSelectorDialog;
-

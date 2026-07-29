@@ -234,9 +234,9 @@ const Step2Statistics = () => {
       bludgeoning: 'Bludgeoning/Hammer',
       piercing: 'Piercing/Piercing Thrust 3',
       slashing: 'Slashing/Slashing Slash',
-      ranged: 'Piercing/Arrow Shot',
+      ranged: 'Piercing/Piercing Thrust 3',
       meleeweapon: 'Slashing/Crossed Swords',
-      physical: 'Slashing/Crossed Swords',
+      physical: 'Bludgeoning/Hammer',
 
       // Elemental
       ember: 'Fire/Burning Ember',

@@ -23,8 +23,21 @@ export const MARTYR_DATA = {
     ],
    "narrativeUnlock": true,
    "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Hollow-Solari have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
- },
+  },
 
+  // Class Resource, generated per spell. Resource range/balance per design.
+  // Lore name: Devotion / Devotion Gauge
+  classResource: { type: "devotion", base: 0, max: 100, generationNote: "Built by willingly absorbing damage for allies. Decays by 1 per round of no absorption. At 0: Faithless state, healing halved, no Intervene." },
+
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['mace', 'sword', 'warhammer'],
+   armor: ['medium_armor', 'heavy_armor', 'shield'],
+   offHand: ['shield', 'tome', 'empty']
+  },
  /**
   * Subrace Variants, every Martyr absorbs suffering into their own body, but the
   * *theology* of that absorption differs. To the Solvarn it is prayer. To the Hollow-Solari it
@@ -368,7 +381,7 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 **Suffering's Gift**: Allies gain 4 temp HP ? Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) ? Tank: **4 temp HP**
 
 **Lesser Demon #2 attacks Mage**:
-**Attack**: 1d10+3 ? [5]+3 = 8 physical damage
+**Attack**: 1d10+3 ? [5]+3 = 8 smashing damage
 **Level 4 Passive**: Allies resist first damage type ? 8 � 2 = **4 damage** to Mage
 **Mage's 5 temp HP** absorbs 4 ? Mage takes 0 ? Mage: **34/70** (1 temp HP remaining)
 
@@ -724,7 +737,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       name: "Ascetic Endurance",
       tier: "Specialization Passive",
       description:
-       "All amplified spell costs are reduced by 1 Devotion Level (minimum 1). While at Devotion Level 4 or higher, you gain resistance to physical damage.",
+       "All amplified spell costs are reduced by 1 Devotion Level (minimum 1). While at Devotion Level 4 or higher, you gain resistance to smashing damage.",
       uniqueTo: "Ascetic",
      },
     ],

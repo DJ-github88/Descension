@@ -294,7 +294,7 @@ const Step4LootTable = () => {
           baseDamage: {
             diceCount: 1,
             diceType: 6,
-            damageType: 'physical',
+            damageType: 'smashing',
             bonusDamage: 0,
             bonusDamageType: null
           }

@@ -175,7 +175,7 @@ export const MINSTREL_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         baseStats: {
@@ -252,7 +252,7 @@ export const MINSTREL_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -582,7 +582,7 @@ export const GAMBIT_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -833,7 +833,7 @@ export const MARTYR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         baseStats: {
@@ -1236,7 +1236,7 @@ export const FALSE_PROPHET_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         baseStats: {
@@ -1309,7 +1309,7 @@ export const FALSE_PROPHET_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         baseStats: {
@@ -1875,7 +1875,7 @@ export const BERSERKER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 12,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -1948,7 +1948,7 @@ export const BERSERKER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -2007,7 +2007,7 @@ export const TOXICOLOGIST_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         specialEffect: 'When a weapon poison is active, the first attack each turn deals +1d4 poison damage.',
@@ -2144,7 +2144,7 @@ export const INQUISITOR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -2261,7 +2261,7 @@ export const SHAPER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -2617,7 +2617,7 @@ export const APEX_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 10,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         baseStats: {
@@ -2735,7 +2735,7 @@ export const WARDEN_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         baseStats: {
@@ -2978,7 +2978,7 @@ export const OATHKEEPER_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -3169,7 +3169,7 @@ export const HARROW_PATH_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         baseStats: {

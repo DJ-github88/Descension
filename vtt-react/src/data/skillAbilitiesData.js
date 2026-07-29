@@ -22,7 +22,7 @@ export const SKILL_ABILITIES = [
   spellType: 'ACTION',
   effectTypes: ['utility'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_rogue_sprint',
    tags: ['skill', 'acrobatics', 'movement', 'proficient']
   },
@@ -202,7 +202,7 @@ export const SKILL_ABILITIES = [
   spellType: 'ACTION',
   effectTypes: ['control'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_warrior_challange',
    tags: ['skill', 'athletics', 'control', 'proficient']
   },
@@ -943,7 +943,7 @@ export const SKILL_ABILITIES = [
   spellType: 'REACTION',
   effectTypes: ['control'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_rogue_disguise',
    tags: ['skill', 'sleightOfHand', 'control', 'proficient']
   },
@@ -1017,7 +1017,7 @@ export const SKILL_ABILITIES = [
   spellType: 'ACTION',
   effectTypes: ['utility'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_stealth',
    tags: ['skill', 'stealth', 'movement', 'proficient']
   },

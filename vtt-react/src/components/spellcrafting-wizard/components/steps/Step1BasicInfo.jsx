@@ -21,7 +21,9 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
   // Define all damage types with colors and icons
   const allElements = [
-    { id: 'physical', name: 'Physical', description: 'Martial damage from weapons and brute force', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities', color: '#51626b' },
+    { id: 'smashing', name: 'Smashing', description: 'Blunt force damage from hammers, maces, and clubs', iconPath: 'Bludgeoning/Warhammer', iconCategory: 'abilities', color: '#51626b' },
+    { id: 'stabbing', name: 'Stabbing', description: 'Piercing damage from spears, daggers, and arrows', iconPath: 'Piercing/Dagger Pierce', iconCategory: 'abilities', color: '#6b6b6b' },
+    { id: 'slicing', name: 'Slicing', description: 'Slashing damage from swords, axes, and blades', iconPath: 'Slashing/Bloody Meat Cleaver', iconCategory: 'abilities', color: '#51626b' },
     { id: 'ember', name: 'Ember', description: 'Destructive flames that burn and consume', iconPath: 'Fire/Flame Burst', iconCategory: 'abilities', color: '#a62626' },
     { id: 'rime', name: 'Rime', description: 'Freezing cold that slows and damages', iconPath: 'Frost/Dripping Ice', iconCategory: 'abilities', color: '#24587a' },
     { id: 'storm', name: 'Storm', description: 'Electrical energy that shocks and stuns', iconPath: 'Lightning/Lightning Bolt', iconCategory: 'abilities', color: '#a3811f' },
@@ -36,7 +38,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     all: allElements,
     elemental: allElements.filter(e => ['ember', 'rime', 'storm', 'primal'].includes(e.id)),
     magical: allElements.filter(e => ['arcane', 'wyrd', 'blight', 'sacred'].includes(e.id)),
-    physical: allElements.filter(e => e.id === 'physical'),
+    physical: allElements.filter(e => ['smashing', 'stabbing', 'slicing'].includes(e.id)),
   };
 
 

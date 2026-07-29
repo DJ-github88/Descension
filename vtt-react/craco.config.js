@@ -38,6 +38,15 @@ module.exports = {
   },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
+      // Suppress source map warnings from react-zoom-pan-pinch and other
+      // node_modules that ship broken source maps (missing .ts source files).
+      webpackConfig.ignoreWarnings = [
+        // Message-based match (catches the text in the warning message itself)
+        /Failed to parse source map/,
+        // Module-based match (catches warnings whose originating module is in node_modules)
+        { module: /node_modules/ },
+      ];
+
       // Fix chunk loading issues by ensuring correct public path
       if (env === 'development') {
         // Ensure correct public path for chunk loading
@@ -49,7 +58,7 @@ module.exports = {
         // We use a filesystem cache with a specific version to ensure consistency.
         webpackConfig.cache = {
           type: 'filesystem',
-          version: '2.2.0',
+            version: '2.3.0',
           buildDependencies: {
             config: [__filename],
           },

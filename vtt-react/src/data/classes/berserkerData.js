@@ -102,7 +102,7 @@ export const BERSERKER_DATA = {
  name: "Berserker",
  icon: "fas fa-skull",
  role: "Damage",
- damageTypes: ["physical"],
+ damageTypes: ["smashing", "stabbing", "slicing"],
 
  // Overview section (Oppressive & Tragic Lore)
  livingOrder: {
@@ -246,7 +246,7 @@ However, their weaknesses are absolute and exploitable:
 *You heave your axe with both hands, muscles tearing as you force the blade forward.*
 - **Action**: Cast **Hemorrhagic Strike** ? Hit!
 - **Blood-Heat**: Gain +12 Rage (now at 12).
-- **Recoil**: Take 1d4 physical damage (tendons snapping).
+- **Recoil**: Take 1d4 smashing damage (tendons snapping).
 *The pain doesn't register as a warning,it is a chemical trigger. The blood in your neck begins to sizzle.*
 
 **Turn 2 - Boiling the Veins (Rage: 12 ? 35)**
@@ -260,9 +260,9 @@ However, their weaknesses are absolute and exploitable:
 *Your health is down to 25%. You are at Death's Door. Your vision is a tunnel of red. The Golem's high physical resistance has ignored your allies' strikes, but you swing with desperate, apocalyptic force.*
 - **Action**: Cast **Frenzied Slash** ? Hit!
 - **Why Bring Me?**: Because you are under 30% HP, your strike completely bypasses the Golem's stone resistance!
-- **Damage**: Deal 45 unmitigated physical damage.
+- **Damage**: Deal 45 unmitigated smashing damage.
 - **Blood-Heat**: Spend 8 Rage (drops to 27) but gain +15 Rage on hit (ends at 42 - Primal State).
-- **Recoil**: Take 1d4 physical damage.
+- **Recoil**: Take 1d4 smashing damage.
 *The Golem cracks, granite sundering under a strike that should have been physically impossible for a mortal frame. You stand blind with fury, your heart hammering a tragic dirge.*`,
  },
  },
@@ -313,7 +313,7 @@ However, their weaknesses are absolute and exploitable:
  {
   step: 3,
   title: "Bind Your Stance",
-  description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/physical damage, constant HP drain).",
+  description: "Toggle Calloused Hide (+2 Armor, build Blood-Heat on pain) or Boiling Veins (+1d4 ember/smashing damage, constant HP drain).",
  },
  {
   step: 4,
@@ -339,7 +339,7 @@ However, their weaknesses are absolute and exploitable:
  generationTable: {
   headers: ["Action", "Blood-Heat Change", "Flesh Toll / Recoil"],
   rows: [
-  ["Cast Melee Ability", "+1d6", "Deals 1d4 physical damage to self"],
+  ["Cast Melee Ability", "+1d6", "Deals 1d4 smashing damage to self"],
   ["Taking Damage", "+1d4", "Pain translates directly into heat"],
   ["Critical Hit", "+2d6", "Splinters bones, high thermal spike"],
   ["Kill Enemy", "+1d8", "Cruor adrenaline surge"],
@@ -480,7 +480,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Slashing/Cross Slash",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Cross Slash",
   tags: ["melee", "damage", "rage generation", "starter", "self-damage"],
   castTime: 1,
@@ -499,7 +499,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_generation"],
   resourceValues: { mana: 0, rage_generation: 6 },
-  classResource: { type: "rage", cost: -6 }, // Negative cost means generation
+  classResource: { type: "blood_heat", cost: -6 }, // Negative cost means generation
   components: ["verbal", "somatic"],
   verbalText: "A guttural, rattling gasp of raw exertion.",
   somaticText: "Heave your weapon back with explosive force, muscles visibly tearing as you force the blade forward."
@@ -510,9 +510,9 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "1d12 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
-   description: "A brutal, devastating swing. Deals massive physical damage, but the recoil snaps your own muscle fibers.",
+   description: "A brutal, devastating swing. Deals massive smashing damage, but the recoil snaps your own muscle fibers.",
   },
 
   debuffConfig: {
@@ -522,7 +522,7 @@ However, their weaknesses are absolute and exploitable:
    id: "self_laceration",
    name: "Self-Laceration",
    description: "Your tendons strain from the swing.",
-   mechanicsText: "Take 1d4 physical damage to self",
+   mechanicsText: "Take 1d4 smashing damage to self",
    statModifier: {
     stat: "health",
     magnitude: "-1d4",
@@ -543,7 +543,7 @@ However, their weaknesses are absolute and exploitable:
    id: "self_laceration_trigger",
    name: "Self-Laceration",
    triggerType: "on_cast",
-   action: "Take 1d4 physical damage to self upon swinging."
+   action: "Take 1d4 smashing damage to self upon swinging."
    }
   ]
   },
@@ -565,7 +565,7 @@ However, their weaknesses are absolute and exploitable:
   entries: [
    { range: { min: 1, max: 2 }, customName: "Tendon Rupture", effect: "Your shoulder dislocates. Take 1d6 damage and your next attack has disadvantage." },
    { range: { min: 3, max: 5 }, customName: "Shallow Gash", effect: "Normal damage. You take 1d4 recoil damage." },
-   { range: { min: 6, max: 10 }, customName: "Savage Rent", effect: "Deal +1d6 physical damage. You take 1d4 recoil." },
+   { range: { min: 6, max: 10 }, customName: "Savage Rent", effect: "Deal +1d6 smashing damage. You take 1d4 recoil." },
     { range: { min: 11, max: 15 }, customName: "Boiling Spray", effect: "Your boiling blood sprays the target. Deal +1d6 ember damage. Gain +2 additional Blood-Heat." },
     { range: { min: 16, max: 18 }, customName: "Deep Sunder", effect: "Deal +2d6 damage. Target is inflicted with Bleeding (1d4 damage/round for 2 rounds). Take 1d4 recoil." },
     { range: { min: 19, max: 20 }, customName: "Blood-Heat Meltdown", effect: "Apocalyptic swing. Bypasses all armor. Deal +3d6 damage and gain +1d8 Blood-Heat. Take 2d4 recoil." },
@@ -583,7 +583,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Utility/Deflecting Shield",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Deflecting Shield",
   tags: ["defense", "buff", "stance", "toggleable", "starter"],
   toggleable: true,
@@ -657,7 +657,7 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_boiling_veins",
   name: "Boiling Veins",
   description:
-  "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/physical damage and boil your adrenaline rapidly,but your vessels rupture, burning your own life away each turn.",
+  "Toggle a terrifying offensive stance. You allow your Blood-Heat to boil within your vessels. Your melee attacks deal bonus ember/smashing damage and boil your adrenaline rapidly,but your vessels rupture, burning your own life away each turn.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Slashing/Bloody Slash",
@@ -693,8 +693,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "boiling_blood_strike",
    name: "Boiling Blood Strike",
-   description: "Your melee attacks deal +1d4 bonus ember/physical damage and generate +2 additional Blood-Heat on hit.",
-   mechanicsText: "+1d4 bonus ember/physical damage, +2 Blood-Heat on hit",
+   description: "Your melee attacks deal +1d4 bonus ember/smashing damage and generate +2 additional Blood-Heat on hit.",
+   mechanicsText: "+1d4 bonus ember/smashing damage, +2 Blood-Heat on hit",
    statModifier: {
     stat: "damage",
     magnitude: "1d4",
@@ -732,7 +732,7 @@ However, their weaknesses are absolute and exploitable:
    id: "boiling_veins_hit",
    name: "Boiling Blood Strike",
    triggerType: "on_hit",
-   action: "Add +1d4 bonus ember/physical damage and generate +2 Blood-Heat."
+   action: "Add +1d4 bonus ember/smashing damage and generate +2 Blood-Heat."
    }
   ]
   },
@@ -755,7 +755,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "General/Rage",
   effectTypes: ["passive"],
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "General/Rage",
   tags: ["passive", "berserker", "class-passive", "restriction"],
   },
@@ -799,7 +799,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Slashing/Cleave",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Cleave",
   tags: ["melee", "damage", "rage cost", "self-damage"],
   castTime: 1,
@@ -818,7 +818,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 8 },
-  classResource: { type: "rage", cost: 8 },
+  classResource: { type: "blood_heat", cost: 8 },
   components: ["somatic"],
   somaticText: "Twist your torso past normal alignment, snapping muscle binds to unleash a wider greataxe sweep."
   },
@@ -828,7 +828,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "2d6 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -839,7 +839,7 @@ However, their weaknesses are absolute and exploitable:
    id: "muscle_leak",
    name: "Muscle Leak",
    description: "Your own muscle fibers leak from high pressure.",
-   mechanicsText: "Take 1d4 physical damage to self; target is inflicted with Bleeding (1d6/round for 2 rounds)",
+   mechanicsText: "Take 1d4 smashing damage to self; target is inflicted with Bleeding (1d6/round for 2 rounds)",
    statModifier: {
     stat: "health",
     magnitude: "-1d4",
@@ -860,7 +860,7 @@ However, their weaknesses are absolute and exploitable:
    id: "frenzied_slash_recoil",
    name: "Vascular Recoil",
    triggerType: "on_cast",
-   action: "Take 1d4 physical damage to self as vascular pressure spikes."
+   action: "Take 1d4 smashing damage to self as vascular pressure spikes."
    },
    {
    id: "frenzied_slash_bleed",
@@ -889,7 +889,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Utility/Overlords Command",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Overlords Command",
   tags: ["aoe", "debuff", "buff", "shout", "rage cost"],
   castTime: 1,
@@ -909,7 +909,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 10 },
-  classResource: { type: "rage", cost: 10 },
+  classResource: { type: "blood_heat", cost: 10 },
   components: ["verbal", "somatic"],
   verbalText: "A blood-choked, chest-vibrating roar of pure anatomical madness.",
   somaticText: "Expand your ribcage past its capacity, spraying a fine crimson mist from your lungs as you bellow."
@@ -997,7 +997,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Utility/Speed Dash",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Speed Dash",
   tags: ["aoe", "damage", "control", "rage generation", "self-damage"],
   castTime: 1,
@@ -1018,7 +1018,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_generation"],
   resourceValues: { mana: 0, rage_generation: 15 },
-  classResource: { type: "rage", cost: -15 },
+  classResource: { type: "blood_heat", cost: -15 },
   components: ["somatic"],
   somaticText: "Push off with bone-splintering power, jumping up to 30 ft and crashing down feet-first into the earth."
   },
@@ -1028,7 +1028,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "2d8 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -1056,7 +1056,7 @@ However, their weaknesses are absolute and exploitable:
    id: "shattered_tibia",
    name: "Shattered Tibia",
    description: "The violent landing crushes your own bone structure.",
-   mechanicsText: "Take 1d6 physical damage and -15 ft movement speed for 1 round",
+   mechanicsText: "Take 1d6 smashing damage and -15 ft movement speed for 1 round",
    statModifier: {
     stat: "movement_speed",
     magnitude: -15,
@@ -1104,7 +1104,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Exhausted",
   effectTypes: ["passive"],
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Exhausted",
   tags: ["passive", "weakness", "berserker"],
   },
@@ -1142,7 +1142,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Bludgeoning/Mortal Strike",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Bludgeoning/Mortal Strike",
   tags: ["melee", "damage", "execute", "rage cost", "self-damage"],
   castTime: 1,
@@ -1161,7 +1161,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 20 },
-  classResource: { type: "rage", cost: 20 },
+  classResource: { type: "blood_heat", cost: 20 },
   components: ["somatic"],
   somaticText: "Raise your heavy weapon overhead with locking joints, bringing it down like a falling guillotine."
   },
@@ -1171,7 +1171,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "3d12 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -1182,7 +1182,7 @@ However, their weaknesses are absolute and exploitable:
    id: "shoulder_dislocation",
    name: "Shoulder Dislocation",
    description: "Your shoulder pops under the load.",
-   mechanicsText: "Take 1d8 physical damage and you cannot take Reactions for 1 round",
+   mechanicsText: "Take 1d8 smashing damage and you cannot take Reactions for 1 round",
    statModifier: {
     stat: "health",
     magnitude: "-1d8",
@@ -1231,7 +1231,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Utility/Shield",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Shield",
   tags: ["buff", "temp hp", "defense", "rage cost"],
   castTime: 1,
@@ -1248,7 +1248,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 25 },
-  classResource: { type: "rage", cost: 25 },
+  classResource: { type: "blood_heat", cost: 25 },
   components: ["somatic"],
   somaticText: "Clench your fists until your fingernails cut your palms, ignoring the severity of current wounds."
   },
@@ -1334,7 +1334,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Bludgeoning/Mortal Strike",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Bludgeoning/Mortal Strike",
   tags: ["melee", "damage", "control", "rage cost", "self-damage"],
   castTime: 1,
@@ -1353,7 +1353,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 35 },
-  classResource: { type: "rage", cost: 35 },
+  classResource: { type: "blood_heat", cost: 35 },
   components: ["verbal", "somatic"],
   verbalText: "A deafening, beast-like bellow that ruptures vocal cords.",
   somaticText: "Slam your heavy weapon forward, letting the kinetic recoil sunder the flesh of your forearms."
@@ -1364,7 +1364,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "4d10 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -1393,7 +1393,7 @@ However, their weaknesses are absolute and exploitable:
    id: "forearm_splinters",
    name: "Forearm Splinters",
    description: "The violent shockwave cracks your own radius.",
-   mechanicsText: "Take 2d6 physical damage and -2 on attack rolls for 1 round",
+   mechanicsText: "Take 2d6 smashing damage and -2 on attack rolls for 1 round",
    statModifier: {
     stat: "attack_rolls",
     magnitude: -2,
@@ -1441,7 +1441,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Utility/Empowered Warrior",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Empowered Warrior",
   tags: ["buff", "mobility", "rage cost", "self-damage"],
   castTime: 1,
@@ -1458,7 +1458,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 20 },
-  classResource: { type: "rage", cost: 20 },
+  classResource: { type: "blood_heat", cost: 20 },
   components: ["somatic"],
   somaticText: "Rip and tear off any physical restraints or bonds with raw, bloody muscular force."
   },
@@ -1492,8 +1492,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "vascular_leak",
    name: "Vascular Burst",
-   description: "Take 1d6 ember/physical damage at the start of each of your turns as your veins burst.",
-   mechanicsText: "Take 1d6 ember/physical damage to self at start of turn for 3 rounds",
+   description: "Take 1d6 ember/smashing damage at the start of each of your turns as your veins burst.",
+   mechanicsText: "Take 1d6 ember/smashing damage to self at start of turn for 3 rounds",
    statModifier: {
     stat: "health",
     magnitude: "-1d6",
@@ -1519,7 +1519,7 @@ However, their weaknesses are absolute and exploitable:
    id: "unstoppable_force_leak",
    name: "Vascular Recoil",
    triggerType: "start_of_turn",
-   action: "Take 1d6 ember/physical damage to self at the start of each of your turns for 3 rounds."
+   action: "Take 1d6 ember/smashing damage to self at the start of each of your turns for 3 rounds."
    }
   ]
   },
@@ -1545,7 +1545,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Slashing/Cleave",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Cleave",
   tags: ["melee", "damage", "execute", "rage cost", "self-damage"],
   castTime: 1,
@@ -1564,7 +1564,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 50 },
-  classResource: { type: "rage", cost: 50 },
+  classResource: { type: "blood_heat", cost: 50 },
   components: ["verbal", "somatic"],
   verbalText: "A hoarse scream of absolute finality that bursts capillaries in your eyes.",
   somaticText: "Put every ounce of your structural momentum into a shattering, two-handed downward slash, ignoring the warning crunch of your shoulder joints."
@@ -1575,7 +1575,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "5d12 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -1585,8 +1585,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "skeletal_fracture",
    name: "Skeletal Fracture",
-   description: "Your own bones splinter from the strike. Take 3d6 physical damage. If you were below 30% HP, this attack deals double damage (10d12 + Strength) and completely annihilates non-boss enemies.",
-   mechanicsText: "Take 3d6 physical damage; deals 2x damage and pulverizes non-bosses if under 30% HP",
+   description: "Your own bones splinter from the strike. Take 3d6 smashing damage. If you were below 30% HP, this attack deals double damage (10d12 + Strength) and completely annihilates non-boss enemies.",
+   mechanicsText: "Take 3d6 smashing damage; deals 2x damage and pulverizes non-bosses if under 30% HP",
    statModifier: {
     stat: "health",
     magnitude: "-3d6",
@@ -1635,7 +1635,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "General/Rage",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "General/Rage",
   tags: ["buff", "rage cost", "self-damage"],
   castTime: 1,
@@ -1652,7 +1652,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 40 },
-  classResource: { type: "rage", cost: 40 },
+  classResource: { type: "blood_heat", cost: 40 },
   components: ["verbal", "somatic"],
   verbalText: "A rapid, chest-vibrating hyperventilation that rises into an animalistic screech.",
   somaticText: "Beat your chest rhythmically like a hammer, forcing your pulse to accelerate to terrifying, lethal speeds."
@@ -1687,8 +1687,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "cardiac_strain",
    name: "Cardiac Strain",
-   description: "Take 1d8 physical damage at the start of your turn. You cannot be targeted by friendly healing spells.",
-   mechanicsText: "Take 1d8 physical damage to self at start of turn; cannot be healed by allies",
+   description: "Take 1d8 smashing damage at the start of your turn. You cannot be targeted by friendly healing spells.",
+   mechanicsText: "Take 1d8 smashing damage to self at start of turn; cannot be healed by allies",
    statModifier: {
     stat: "health",
     magnitude: "-1d8",
@@ -1708,7 +1708,7 @@ However, their weaknesses are absolute and exploitable:
    id: "wrath_cardiac_strain",
    name: "Cardiac Recoil",
    triggerType: "start_of_turn",
-   action: "Take 1d8 physical damage at the start of your turn for 3 rounds."
+   action: "Take 1d8 smashing damage at the start of your turn for 3 rounds."
    },
    {
    id: "wrath_healing_block",
@@ -1759,7 +1759,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 30 },
-  classResource: { type: "rage", cost: 30 },
+  classResource: { type: "blood_heat", cost: 30 },
   components: ["somatic"],
   somaticText: "Slash your own forearms before entering battle, letting your pressurized, boiling blood spray over your weapons."
   },
@@ -1773,8 +1773,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "boiling_blood_spray",
    name: "Boiling Blood Spray",
-   description: "All melee attacks deal +2d6 bonus ember/physical damage. Bypasses 50% of enemy Armor.",
-   mechanicsText: "Melee attacks deal +2d6 bonus ember/physical damage and bypass 50% Armor",
+   description: "All melee attacks deal +2d6 bonus ember/smashing damage. Bypasses 50% of enemy Armor.",
+   mechanicsText: "Melee attacks deal +2d6 bonus ember/smashing damage and bypass 50% Armor",
    statModifier: {
     stat: "damage",
     magnitude: "2d6",
@@ -1793,7 +1793,7 @@ However, their weaknesses are absolute and exploitable:
    id: "arterial_hemorrhage",
    name: "Arterial Hemorrhage",
    description: "You cannot receive healing from any source. You take 2 HP bleeding damage at the end of each round.",
-   mechanicsText: "Cannot receive healing from any source; take 2 physical damage at end of round",
+   mechanicsText: "Cannot receive healing from any source; take 2 smashing damage at end of round",
    statModifier: {
     stat: "health",
     magnitude: -2,
@@ -1812,7 +1812,7 @@ However, their weaknesses are absolute and exploitable:
    id: "blood_frenzy_spray",
    name: "Arterial Stance",
    triggerType: "passive",
-   action: "melee attacks deal +2d6 bonus ember/physical damage and bypass 50% of enemy Armor while active."
+   action: "melee attacks deal +2d6 bonus ember/smashing damage and bypass 50% of enemy Armor while active."
    },
    {
    id: "blood_frenzy_leak",
@@ -1844,7 +1844,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Necrotic/Drain Soul",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Necrotic/Drain Soul",
   tags: ["buff", "immortality", "rage cost", "self-damage"],
   castTime: 1,
@@ -1861,7 +1861,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 60 },
-  classResource: { type: "rage", cost: 60 },
+  classResource: { type: "blood_heat", cost: 60 },
   components: ["verbal", "somatic"],
   verbalText: "A continuous, furious, white-hot shriek of raw defiance.",
   somaticText: "Lock your joints and bones completely, ignoring structural breaks to keep fighting."
@@ -1941,7 +1941,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Bludgeoning/Mortal Strike",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Bludgeoning/Mortal Strike",
   tags: ["aoe", "damage", "control", "rage cost", "self-damage"],
   castTime: 1,
@@ -1961,7 +1961,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 50 },
-  classResource: { type: "rage", cost: 50 },
+  classResource: { type: "blood_heat", cost: 50 },
   components: ["verbal", "somatic"],
   verbalText: "A chest-shaking, window-rattling roar of destruction.",
   somaticText: "Leap slightly and slam both heavy weapons or fists straight into the ground with bone-shattering force."
@@ -1972,7 +1972,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "5d8 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   savingThrow: {
    ability: "constitution",
@@ -2004,8 +2004,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "fractured_wrists",
    name: "Fractured Wrists",
-   description: "Your own wrists crack under the impact. Take 2d6 physical damage and your melee attacks have disadvantage next turn.",
-   mechanicsText: "Take 2d6 physical damage and disadvantage on melee attacks next turn",
+   description: "Your own wrists crack under the impact. Take 2d6 smashing damage and your melee attacks have disadvantage next turn.",
+   mechanicsText: "Take 2d6 smashing damage and disadvantage on melee attacks next turn",
    statModifier: {
     stat: "health",
     magnitude: "-2d6",
@@ -2051,13 +2051,13 @@ However, their weaknesses are absolute and exploitable:
   id: "berserk_primal_cataclysm",
   name: "Primal Cataclysm",
   description:
-  "Erupt in an explosion of desperate, earth-shaking violence. You strike the ground, tearing your own muscle tissue completely to unleash a 25-foot shockwave that deals 6d10 + Strength physical damage to all nearby foes (DC 19 Constitution save for half). The exertion ravages your body: you suffer 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
+  "Erupt in an explosion of desperate, earth-shaking violence. You strike the ground, tearing your own muscle tissue completely to unleash a 25-foot shockwave that deals 6d10 + Strength smashing damage to all nearby foes (DC 19 Constitution save for half). The exertion ravages your body: you suffer 4d6 smashing damage and your Armor is reduced by 4 for 2 rounds.",
   level: 9,
   spellType: "ACTION",
   icon: "Arcane/Missile",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Arcane/Missile",
   tags: ["aoe", "damage", "rage cost", "self-damage"],
   castTime: 1,
@@ -2077,7 +2077,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 70 },
-  classResource: { type: "rage", cost: 70 },
+  classResource: { type: "blood_heat", cost: 70 },
   components: ["verbal", "somatic"],
   verbalText: "A blood-spitting, guttural roar of explosive release.",
   somaticText: "Force your adrenaline past its ceiling, driving your weapons into the earth with massive force."
@@ -2088,7 +2088,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "6d10 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   savingThrow: {
    ability: "constitution",
@@ -2103,8 +2103,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "systemic_muscle_tear",
     name: "Systemic Tear",
-    description: "Your muscular system begins to fail. Take 4d6 physical damage and your Armor is reduced by 4 for 2 rounds.",
-    mechanicsText: "Take 4d6 physical damage and -4 Armor for 2 rounds",
+    description: "Your muscular system begins to fail. Take 4d6 smashing damage and your Armor is reduced by 4 for 2 rounds.",
+    mechanicsText: "Take 4d6 smashing damage and -4 Armor for 2 rounds",
     },
   ],
   durationType: "rounds",
@@ -2141,7 +2141,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "General/Rage",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "General/Rage",
   tags: ["buff", "rage cost", "self-damage"],
   castTime: 1,
@@ -2158,7 +2158,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 45 },
-  classResource: { type: "rage", cost: 45 },
+  classResource: { type: "blood_heat", cost: 45 },
   components: ["somatic"],
   somaticText: "Close your eyes briefly in the blood spray, focusing every fiber of your muscle memory into pure murder."
   },
@@ -2172,8 +2172,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "fatal_precision",
    name: "Fatal Precision",
-   description: "Your melee attacks deal +10 flat physical damage. Lasts 3 rounds.",
-   mechanicsText: "Melee attacks deal +10 flat physical damage for 3 rounds",
+   description: "Your melee attacks deal +10 flat smashing damage. Lasts 3 rounds.",
+   mechanicsText: "Melee attacks deal +10 flat smashing damage for 3 rounds",
    statModifier: {
     stat: "damage",
     magnitude: 10,
@@ -2192,8 +2192,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "precision_strain",
    name: "Precision Strain",
-   description: "Take 1d10 physical damage at the end of each round. If you go a turn without attacking, this effect ends immediately.",
-   mechanicsText: "Take 1d10 physical damage at end of turn; buff ends early if no attacks are made",
+   description: "Take 1d10 smashing damage at the end of each round. If you go a turn without attacking, this effect ends immediately.",
+   mechanicsText: "Take 1d10 smashing damage at end of turn; buff ends early if no attacks are made",
    statModifier: {
     stat: "health",
     magnitude: "-1d10",
@@ -2245,7 +2245,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Fire/Fiery Comet",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Fire/Fiery Comet",
   tags: ["aoe", "damage", "execute", "rage cost", "self-damage"],
   castTime: 1,
@@ -2265,7 +2265,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 90 },
-  classResource: { type: "rage", cost: 90 },
+  classResource: { type: "blood_heat", cost: 90 },
   components: ["verbal", "somatic"],
   verbalText: "A world-ending, blood-choked screech of catastrophic fury.",
   somaticText: "Force all Blood-Heat outward in a thermal, seismic blast that literally cracks your own breastbone."
@@ -2276,7 +2276,7 @@ However, their weaknesses are absolute and exploitable:
 
   damageConfig: {
   formula: "8d12 + strength",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   savingThrow: {
    ability: "constitution",
@@ -2291,8 +2291,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "cardiac_rupture",
    name: "Cardiac Rupture",
-   description: "Your heart wall tears under the load. Take 5d8 unresistable physical damage.",
-   mechanicsText: "Take 5d8 unresistable physical damage to self",
+   description: "Your heart wall tears under the load. Take 5d8 unresistable smashing damage.",
+   mechanicsText: "Take 5d8 unresistable smashing damage to self",
    statModifier: {
     stat: "health",
     magnitude: "-5d8",
@@ -2312,7 +2312,7 @@ However, their weaknesses are absolute and exploitable:
    id: "cardiac_rupture_recoil",
    name: "Aortic Rupture",
    triggerType: "on_cast",
-   action: "Take 5d8 unresistable physical damage to self upon execution."
+   action: "Take 5d8 unresistable smashing damage to self upon execution."
    }
   ]
   },
@@ -2332,7 +2332,7 @@ However, their weaknesses are absolute and exploitable:
   resolutionType: "DICE",
   resolutionConfig: { diceType: "d20" },
   entries: [
-   { range: { min: 1, max: 2 }, customName: "Cardiac Rupture", effect: "Your heart ruptures completely. Take 8d8 physical damage and you are Stunned for 2 rounds." },
+   { range: { min: 1, max: 2 }, customName: "Cardiac Rupture", effect: "Your heart ruptures completely. Take 8d8 smashing damage and you are Stunned for 2 rounds." },
    { range: { min: 3, max: 5 }, customName: "Systemic Collapse", effect: "Normal damage. You collapse to 1 HP. Your Blood-Heat is reset to 0." },
    { range: { min: 6, max: 12 }, customName: "Scorched Earth", effect: "All affected enemies are knocked prone and take +2d6 ember damage. You take normal self-damage." },
    { range: { min: 13, max: 17 }, customName: "Boiling Shockwave", effect: "All affected enemies take +4d6 ember damage. Area is ignited (1d8 ember/round for 3 rounds)." },
@@ -2351,7 +2351,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "Bludgeoning/Blood Punch",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "Bludgeoning/Blood Punch",
   tags: ["transformation", "buff", "rage cost", "self-damage"],
   castTime: 1,
@@ -2368,7 +2368,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 80 },
-  classResource: { type: "rage", cost: 80 },
+  classResource: { type: "blood_heat", cost: 80 },
   components: ["verbal", "somatic"],
   verbalText: "A booming, monotonous roar of singular, murderous focus.",
   somaticText: "Tense your entire body, locking your arms and shoulders into heavy war-harness posture as grey scar-plates cement over your joints."
@@ -2378,7 +2378,7 @@ However, their weaknesses are absolute and exploitable:
   effectTypes: ["transformation", "debuff"],
 
   transformationConfig: {
-  transformationType: "physical",
+  transformationtype: "smashing",
   targetType: "self",
   duration: 3,
   durationUnit: "rounds",
@@ -2405,8 +2405,8 @@ However, their weaknesses are absolute and exploitable:
    {
    id: "no_retreat",
    name: "No Retreat",
-   description: "You cannot take defensive actions, disengage, or move away from enemies. You take 2d8 physical damage when the transformation ends.",
-   mechanicsText: "No retreat/defensive actions allowed; take 2d8 physical damage when transformation ends",
+   description: "You cannot take defensive actions, disengage, or move away from enemies. You take 2d8 smashing damage when the transformation ends.",
+   mechanicsText: "No retreat/defensive actions allowed; take 2d8 smashing damage when transformation ends",
    statModifier: {
     stat: "health",
     magnitude: "-2d8",
@@ -2455,7 +2455,7 @@ However, their weaknesses are absolute and exploitable:
   icon: "General/Fiery Rage",
 
   typeConfig: {
-  school: "physical",
+  school: "smashing",
   icon: "General/Fiery Rage",
   tags: ["transformation", "buff", "rage cost", "self-damage"],
   castTime: 1,
@@ -2472,7 +2472,7 @@ However, their weaknesses are absolute and exploitable:
   mana: 0,
   resourceTypes: ["mana", "rage_cost"],
   resourceValues: { mana: 0, rage_cost: 100 },
-  classResource: { type: "rage", cost: 100 },
+  classResource: { type: "blood_heat", cost: 100 },
   components: ["verbal", "somatic"],
   verbalText: "An ear-splitting, primal scream of unmatched predatory dominance.",
   somaticText: "Rupture every capillary in your eyes and face, turning your vision blood-red as you force your body beyond its mechanical limits."
@@ -2482,7 +2482,7 @@ However, their weaknesses are absolute and exploitable:
   effectTypes: ["transformation", "debuff"],
 
   transformationConfig: {
-  transformationType: "physical",
+  transformationtype: "smashing",
   targetType: "self",
   duration: 3,
   durationUnit: "rounds",
@@ -2530,7 +2530,7 @@ However, their weaknesses are absolute and exploitable:
    id: "predator_apex_burnout",
    name: "Overheat Fallout",
    triggerType: "on_fade",
-   action: "Take 4d8 unresistable physical damage and suffer the Exhausted condition for 2 rounds."
+   action: "Take 4d8 unresistable smashing damage and suffer the Exhausted condition for 2 rounds."
    }
   ]
   },
@@ -2551,7 +2551,7 @@ However, their weaknesses are absolute and exploitable:
   "spellType": "ACTION",
   "icon": "Utility/Shout",
   "typeConfig": {
-   "school": "physical",
+   "school": "smashing",
    "icon": "Utility/Shout",
    "tags": [
    "utility",
@@ -2615,7 +2615,7 @@ However, their weaknesses are absolute and exploitable:
    "level": 1,
    "spellType": "ACTION",
    "icon": "Utility/Shout",
-   "typeConfig": { "school": "physical", "icon": "Utility/Shout", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "typeConfig": { "school": "smashing", "icon": "Utility/Shout", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
    "resourceCost": { "actionPoints": 0, "resourceTypes": [], "resourceValues": {}, "components": ["somatic"] },
    "resolution": "NONE",
@@ -2635,7 +2635,7 @@ However, their weaknesses are absolute and exploitable:
    "level": 1,
    "spellType": "ACTION",
    "icon": "Fire/Volcanic Corruption",
-   "typeConfig": { "school": "physical", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "typeConfig": { "school": "smashing", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
    "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 3 }, "components": ["somatic"], "somaticText": "Breathe deep and let the forge-heat circulate to your skin" },
    "resolution": "NONE",
@@ -2655,7 +2655,7 @@ However, their weaknesses are absolute and exploitable:
    "level": 2,
    "spellType": "ACTION",
    "icon": "Fire/Volcanic Corruption",
-   "typeConfig": { "school": "physical", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","infiltration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "typeConfig": { "school": "smashing", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","infiltration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "single", "rangeType": "touch", "rangeDistance": 0 },
    "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Grip the metal and pour heat from your palms until it sags", "classResource": { "type": "blood_heat", "cost": 8 } },
    "resolution": "AUTOMATIC",
@@ -2675,7 +2675,7 @@ However, their weaknesses are absolute and exploitable:
    "level": 3,
    "spellType": "ACTION",
    "icon": "Utility/Empowered Warrior",
-   "typeConfig": { "school": "physical", "icon": "Utility/Empowered Warrior", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+   "typeConfig": { "school": "smashing", "icon": "Utility/Empowered Warrior", "tags": ["utility","roleplay","social","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
    "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["verbal","somatic"], "verbalText": "A single flat statement: I do not kneel" },
    "resolution": "NONE",

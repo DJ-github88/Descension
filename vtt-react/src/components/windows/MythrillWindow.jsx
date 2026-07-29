@@ -35,8 +35,8 @@ const MythrillWindow = forwardRef((props, ref) => {
         centerTitle = false
     } = props;
 
-    // Ensure title is always defined
-    const safeTitle = title || 'Window';
+    // Ensure title is always defined. Allow explicit empty string to suppress the title.
+    const safeTitle = title === undefined || title === null ? 'Window' : title;
 
     // Create refs for components (hooks must be called before early returns)
     const draggableRef = useRef(null);
@@ -250,39 +250,20 @@ const MythrillWindow = forwardRef((props, ref) => {
         }
     }, [windowId, bringToFront, windowSize.width, windowSize.height]);
 
-    // Handle resize - RAF-throttle setWindowSize updates so controlled <Resizable> tracks the handle smoothly
+    // Handle resize - directly update window size for responsive tracking
     const handleResize = useCallback((event, { size }) => {
-        resizeSizeRef.current = size;
-
-        if (!rafResizeRef.current) {
-            rafResizeRef.current = requestAnimationFrame(() => {
-                rafResizeRef.current = null;
-                setWindowSize({
-                    width: resizeSizeRef.current.width,
-                    height: resizeSizeRef.current.height
-                });
-            });
-        }
-    }, []);
-
-    // Handle resize stop - notify parent only once when done
-    const handleResizeStop = useCallback((event, { size }) => {
-        setIsResizing(false);
-        document.body.classList.remove('window-resizing');
-        // Clear resizing state in store
-        useWindowManagerStore.getState().setResizingWindowId(null);
-        
-        if (rafResizeRef.current) {
-            cancelAnimationFrame(rafResizeRef.current);
-            rafResizeRef.current = null;
-        }
-
-        // Final size update to local state
         setWindowSize({
             width: size.width,
             height: size.height
         });
-        // NOW notify parent component of final size (only once!)
+    }, []);
+
+    // Handle resize stop - notify parent once when done
+    const handleResizeStop = useCallback((event, { size }) => {
+        setIsResizing(false);
+        document.body.classList.remove('window-resizing');
+        useWindowManagerStore.getState().setResizingWindowId(null);
+
         if (onResize) {
             onResize(size);
         }
@@ -315,14 +296,6 @@ const MythrillWindow = forwardRef((props, ref) => {
             onDrag(position);
         }
     }, [onDrag]);
-
-    // Handle wheel events within window content to prevent conflicts with grid
-    const handleWindowWheel = useCallback((e) => {
-        // Allow wheel events to bubble normally within window content
-        // This prevents the Grid component from intercepting wheel events
-        // when they occur within WoW windows
-        e.stopPropagation();
-    }, []);
 
     useEffect(() => {
         if (!modal || !isOpen) return;
@@ -389,7 +362,7 @@ const MythrillWindow = forwardRef((props, ref) => {
             defaultSize={windowSize}
             centered={centered}
             bounds={bounds}
-            handleClassName="window-header"
+            handleClassName="window-header,.wow-window-drag-handle"
             zIndex={zIndex}
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}
@@ -421,98 +394,115 @@ const MythrillWindow = forwardRef((props, ref) => {
                     onClick={handleWindowClick}
                     onMouseDown={handleWindowMouseDown}
                 >
-                    <div className="window-header draggable-window-handle dnd-theme-header">
-                        <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
-                            {customHeader ? (
-                                <>
-                                    <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
-                                        {customHeader}
-                                        <button
-                                            className="window-close"
-                                            aria-label="Close"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                if (onClose) onClose();
-                                            }}
-                                            style={{
-                                                position: 'absolute',
-                                                right: '8px',
-                                                top: '50%',
-                                                transform: 'translateY(-50%)',
-                                                zIndex: 10
-                                            }}
-                                        >
-                                            {"\u00d7"}
-                                        </button>
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="window-header-content">
-                                    {centerTitle ? (
-                                        <>
-                                            <button
-                                                className="window-close"
-                                                aria-label="Close"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (onClose) onClose();
-                                                }}
-                                            >
-                                                {"\u00d7"}
-                                            </button>
-                                            <div className="window-title centered">{safeTitle}</div>
-                                            <div className="header-spacer"></div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="window-title">{safeTitle}</div>
+                    {/* Ornate WoW Leather & Gold Frame — edges sit beneath the corners (z 9998 < 9999)
+                        so the corner art cleanly overlaps the joints. */}
+                    <div className="wow-frame-edge wow-frame-edge-top" aria-hidden="true" />
+                    <div className="wow-frame-edge wow-frame-edge-bottom" aria-hidden="true" />
+                    <div className="wow-frame-edge wow-frame-edge-left" aria-hidden="true" />
+                    <div className="wow-frame-edge wow-frame-edge-right" aria-hidden="true" />
 
-                                            {/* Header tabs */}
-                                            {headerTabs.length > 0 && (
-                                                <div className="window-header-tabs">
-                                                    {headerTabs.map((tab) => (
-                                                        <button
-                                                            key={tab.id}
-                                                            className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                if (onTabChange) onTabChange(tab.id);
-                                                            }}
-                                                            title={tab.tooltip || tab.name}
-                                                        >
-                                                            {tab.icon && (
-                                                                <img
-                                                                    src={tab.icon}
-                                                                    alt={tab.name}
-                                                                    className="tab-icon-img"
-                                                                    onError={(e) => {
-                                                                        e.target.onerror = null;
-                                                                        e.target.src = getIconUrl('inv_misc_questionmark', 'items');
-                                                                    }}
-                                                                />
-                                                            )}
-                                                            {tab.label && <span>{tab.label}</span>}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            )}
+                    {/* Drag handle overlay — covers the entire top border area for easy grabbing */}
+                    {!isResizing && <div className="wow-window-drag-handle" />}
+
+                    {/* Ornate WoW Leather & Gold Frame Corners */}
+                    <div className="wow-frame-corner wow-frame-corner-tl" aria-hidden="true" />
+                    <div className="wow-frame-corner wow-frame-corner-tr" aria-hidden="true" />
+                    <div className="wow-frame-corner wow-frame-corner-bl" aria-hidden="true" />
+                    <div className="wow-frame-corner wow-frame-corner-br" aria-hidden="true" />
+
+                    {customHeader ? (
+                        <>
+                            {/* Invisible drag handle — tabs float above via CSS */}
+                            <div className="window-header wow-custom-header-handle">
+                                {customHeader}
+                            </div>
+                        </>
+                    ) : (safeTitle || headerTabs.length > 0) ? (
+                        <div className="window-header wow-custom-header-handle">
+                            <div className="window-header-content">
+                                {safeTitle && centerTitle ? (
+                                    <>
+                                        <div className="window-title centered">{safeTitle}</div>
+                                        <div className="header-spacer"></div>
+                                    </>
+                                ) : safeTitle ? (
+                                    <>
+                                        <div className="window-title">{safeTitle}</div>
+
+                                        {/* Header tabs */}
+                                        {headerTabs.length > 0 && (
+                                            <div className="window-header-tabs">
+                                                {headerTabs.map((tab) => (
+                                                    <button
+                                                        key={tab.id}
+                                                        className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (onTabChange) onTabChange(tab.id);
+                                                        }}
+                                                        title={tab.tooltip || tab.name}
+                                                    >
+                                                        {tab.icon && (
+                                                            <img
+                                                                src={tab.icon}
+                                                                alt={tab.name}
+                                                                className="tab-icon-img"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = getIconUrl('inv_misc_questionmark', 'items');
+                                                                }}
+                                                            />
+                                                        )}
+                                                        {tab.label && <span>{tab.label}</span>}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    /* Tabs only (no title) */
+                                    <div className="window-header-tabs" style={{ flex: 1 }}>
+                                        {headerTabs.map((tab) => (
                                             <button
-                                                className="window-close"
-                                                aria-label="Close"
+                                                key={tab.id}
+                                                className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (onClose) onClose();
+                                                    if (onTabChange) onTabChange(tab.id);
                                                 }}
+                                                title={tab.tooltip || tab.name}
                                             >
-                                                {"\u00d7"}
+                                                {tab.icon && (
+                                                    <img
+                                                        src={tab.icon}
+                                                        alt={tab.name}
+                                                        className="tab-icon-img"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = getIconUrl('inv_misc_questionmark', 'items');
+                                                        }}
+                                                    />
+                                                )}
+                                                {tab.label && <span>{tab.label}</span>}
                                             </button>
-                                        </>
-                                    )}
-                                </div>
-                            )}
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div className="window-content" onWheel={handleWindowWheel}>
+                    ) : null}
+                    <div className="window-content" tabIndex={-1}>
+                        {/* Close button — positioned inside the content area */}
+                        <button
+                            className="window-close wow-window-close-btn"
+                            aria-label="Close"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (onClose) onClose();
+                            }}
+                        >
+                            {"×"}
+                        </button>
                         {children}
                     </div>
                 </div>

@@ -9,7 +9,7 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * DESIGNER NOTES (v2.0 Surgical Overhaul):
  * - Tone: Heavy, tragic fantasy. Magic demands a heavy price, power demands a toll of vitality and blood.
  * - Normalized spell properties to comply with UnifiedSpellCard and Spellcrafting Wizard.
- * - Removed 5e terminology (Bonus Actions -> AP/Reaction, AC -> DR/Dodge, spell slots -> mana/virulence).
+ * - Removed 5e terminology (Bonus Actions -> AP/Reaction, legacy armor-defense -> durability dice/Dodge, spell slots -> mana/virulence).
  * - Fixed all damageTypes targets to use canonical system damage types ('blight', 'wyrd', 'primal').
  * - Fixed durationConfig.durationValue and durationUnit properties.
  * - Moved school into typeConfig.
@@ -51,7 +51,16 @@ export const PLAGUEBRINGER_DATA = {
  * already. The Morren are desperate enough to accept anything. The Vreken castes
  * carry the disease on the forest's own infrastructure.
  */
- subraceVariants: {
+ 
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['dagger', 'sickle', 'short_sword'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['vial', 'tome', 'empty']
+  },
+subraceVariants: {
  drun_neth: {
   subraceName: 'Drun Neth',
   title: 'The Silence-Host',
@@ -243,7 +252,7 @@ The cause is unclear. Some blame the Silence contamination spreading through the
 - Slow Burn: your damage is exponential but back-loaded; fast, bursty enemies kill you before the garden ever blooms.
 - Virulence Volatility: your power scales with Virulence, but the gauge decays without kills and a fight with no siphon target leaves it empty and your DoTs weak.
 - Purge-Sensitive: at low Virulence your seeds are dispellable  -  a single cleansing effect can erase turns of setup.
-- Physically Fragile: moderate-low survivability and vulnerable to focused physical damage; a martial that reaches you folds you fast.
+- Physically Fragile: moderate-low survivability and vulnerable to focused smashing damage; a martial that reaches you folds you fast.
 - Untouchable (social): you are contagious and outlawed  -  permanent physical isolation, flinched from, barred from cities. You cannot touch your allies, hold a dying hand, or tend the sick without risk of passing the rot.`
 ,
  },

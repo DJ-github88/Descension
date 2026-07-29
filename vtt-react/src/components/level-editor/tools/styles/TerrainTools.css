@@ -5,10 +5,13 @@
     flex-direction: column;
     gap: 16px;
     height: 100%;
+    max-height: 100%;
     overflow-y: auto;
-    padding-bottom: 20px;
-    /* Add padding to prevent bottom cutoff */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 16px;
     box-sizing: border-box;
+    margin: -16px;
 }
 
 /* .tool-section consolidated to global styles */

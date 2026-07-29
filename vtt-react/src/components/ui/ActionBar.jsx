@@ -11,6 +11,7 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
+import { useActionBarAsset } from '../../hooks/useActionBarAsset';
 import { useRoomContext } from '../../contexts/RoomContext';
 import HotkeyAssignmentPopup from './HotkeyAssignmentPopup';
 import SpellCastConfirmation from './SpellCastConfirmation';
@@ -21,11 +22,14 @@ import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
-const SPELL_DAMAGE_TYPES = ['fire', 'frost', 'arcane', 'nature', 'lightning', 'force', 'chaos', 'necrotic', 'radiant', 'poison'];
+const SPELL_DAMAGE_TYPES = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
 
 const ActionBar = () => {
     // Get current room context for persistence
     const { currentRoomId } = useRoomContext();
+
+    // Process Actionbar.PNG through chroma key for background
+    const actionBarBg = useActionBarAsset();
 
     // Use the persistence hook instead of local state
     const {
@@ -35,7 +39,7 @@ const ActionBar = () => {
         updateActionSlots,
         isLoading
     } = useActionBarPersistence(currentRoomId);
-    const dragOverSlot = useRef(null);
+        const [dragOverSlot, setDragOverSlot] = useState(null);
     const actionBarContainerRef = useRef(null);
 
     // Tooltip state for consumables
@@ -993,18 +997,19 @@ const ActionBar = () => {
 
     const handleDragOver = (e, slotIndex) => {
         e.preventDefault();
-        dragOverSlot.current = slotIndex;
+        e.dataTransfer.dropEffect = 'copy';
+        setDragOverSlot(slotIndex);
     };
 
     const handleDragLeave = (e) => {
-        // Only clear if we're actually leaving the slot area
         if (!e.currentTarget.contains(e.relatedTarget)) {
-            dragOverSlot.current = null;
+            setDragOverSlot(null);
         }
     };
 
     const handleDrop = (e, slotIndex) => {
         e.preventDefault();
+        setDragOverSlot(null);
 
         try {
             // Try to get spell data from drag event
@@ -1038,7 +1043,6 @@ const ActionBar = () => {
                     type: 'spell' // Ensure action bar identifies this as a spell
                 };
                 updateSlot(slotIndex, newSpellSlot);
-                dragOverSlot.current = null;
                 return;
             }
 
@@ -1072,8 +1076,6 @@ const ActionBar = () => {
         } catch (error) {
             console.error('Error handling drop:', error);
         }
-
-        dragOverSlot.current = null;
     };
 
     const handleRightClick = (e, slotIndex) => {
@@ -1923,7 +1925,12 @@ const ActionBar = () => {
 
     return (
         <>
-            <div className="action-bar-container" ref={actionBarContainerRef}>
+            <div className={`action-bar-container ${actionBarBg ? 'action-bar-has-asset' : ''}`} ref={actionBarContainerRef} style={actionBarBg ? {
+                backgroundImage: `url(${actionBarBg})`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+            } : undefined}>
                 <div className="action-bar">
                 {actionSlots.map((item, index) => {
                     const isConsumable = item && item.type === 'consumable';
@@ -1945,7 +1952,7 @@ const ActionBar = () => {
                             } ${isOutOfStock ? 'out-of-stock' : ''} ${
                                 isRestricted ? 'combat-restricted' : ''
                             } ${
-                                dragOverSlot.current === index ? 'drag-over' : ''
+                                dragOverSlot === index ? 'drag-over' : ''
                             }`}
                             style={{
                                 ...(rarityBorderColor ? { borderColor: rarityBorderColor } : {}),

@@ -10,7 +10,8 @@ import ReactDOM from 'react-dom';
 import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import useAuthStore from '../../../../store/authStore';
-import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import { getCustomIconUrl } from '../../../../utils/assetManager';
+import { mapSpellIcon } from '../common/spellFormatterUtils';
 import SpellTooltip from '../common/SpellTooltip';
 import SpellContextMenu from './SpellContextMenu';
 import '../../../../styles/community-tabs-shared.css';
@@ -273,87 +274,141 @@ const CommunitySpellsTab = () => {
   };
 
   const renderSpellCard = (spell) => {
-    // Ensure complete spell data structure for proper tooltip display
     const completeSpell = {
       ...spell,
-      // Add community-specific metadata
       downloadCount: spell.downloadCount || 0,
       rating: spell.rating || 0,
       ratingCount: spell.ratingCount || 0,
       source: 'community'
     };
 
+    // Resolve spell icon (same logic as SpellLibrary)
+    const iconId = spell?.typeConfig?.icon || spell?.icon || spell?.damageConfig?.icon || spell?.healingConfig?.icon || null;
+    let iconUrl;
+    if (!iconId) {
+      iconUrl = getCustomIconUrl('Utility/Utility', 'abilities');
+    } else if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
+      iconUrl = iconId;
+    } else if (iconId.includes('/') && !iconId.startsWith('http')) {
+      iconUrl = getCustomIconUrl(iconId, 'abilities');
+    } else if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_')) {
+      const mapped = mapSpellIcon(iconId);
+      iconUrl = mapped ? getCustomIconUrl(mapped, 'abilities') : getCustomIconUrl('Utility/Utility', 'abilities');
+    } else {
+      iconUrl = getCustomIconUrl(iconId, 'abilities');
+    }
+
+    // School color class
+    const school = (spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || '').toLowerCase();
+    const schoolClassMap = {
+      ember: 'spell-ember', fire: 'spell-ember',
+      rime: 'spell-rime', frost: 'spell-rime', cold: 'spell-rime', ice: 'spell-rime',
+      storm: 'spell-storm', lightning: 'spell-storm', thunder: 'spell-storm',
+      arcane: 'spell-arcane',
+      primal: 'spell-primal', nature: 'spell-primal',
+      blight: 'spell-blight', shadow: 'spell-blight', necrotic: 'spell-blight',
+      wyrd: 'spell-wyrd', psychic: 'spell-wyrd', chaos: 'spell-wyrd',
+      sacred: 'spell-sacred', divine: 'spell-sacred',
+    };
+    const schoolClass = schoolClassMap[school] || '';
+    const schoolLabel = school ? school.charAt(0).toUpperCase() + school.slice(1) : '';
+
+    // Spell type label (ACTION, REACTION, etc.)
+    const spellType = spell.spellType || spell.actionType || 'Action';
+
+    // Tags (damage types, etc.)
+    const tags = spell.tags || [];
+
     return (
       <div
         key={spell.id}
-        className="community-card-wrapper community-spell-card-wrapper"
+        className={`community-spell-row ${schoolClass}`}
         onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onContextMenu={(e) => handleSpellContextMenu(e, spell)}
         onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell); }}
       >
-        <UnifiedSpellCard
-          spell={completeSpell}
-          variant="library"
-          showActions={false}
-          showDescription={true}
-          showStats={true}
-          showTags={true}
-        />
-        <div className="community-card-actions community-spell-actions">
-          <div className="community-card-stats spell-stats">
-            <span className="download-count">
-              <i className="fas fa-download"></i> {spell.downloadCount || 0}
-            </span>
-            <span className="rating">
-              <i className="fas fa-star"></i> {spell.rating?.toFixed(1) || '0.0'} ({spell.ratingCount || 0})
-            </span>
-            {spell.upvotes !== undefined && spell.downvotes !== undefined && (
-              <span className="vote-count">
-                <i className="fas fa-thumbs-up"></i> {spell.upvotes || 0} / 
-                <i className="fas fa-thumbs-down"></i> {spell.downvotes || 0}
-              </span>
-            )}
+        {/* Main content row: icon + info + type badge */}
+        <div className="community-spell-row-main">
+          <div className="community-spell-row-icon">
+            <img
+              src={iconUrl}
+              alt={spell.name}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+              }}
+            />
           </div>
-          <div className="community-card-interactions">
-            {/* Voting buttons */}
-            {user?.uid && (
-              <div className="vote-buttons">
-                <button
-                  className={`vote-btn upvote ${getUserVoteForSpell(spell.id) === 1 ? 'active' : ''}`}
-                  onClick={() => handleVote(spell, 'upvote')}
-                  disabled={votingSpells.has(spell.id)}
-                  title="Upvote this spell"
-                >
-                  <i className="fas fa-thumbs-up"></i>
-                </button>
-                <button
-                  className={`vote-btn downvote ${getUserVoteForSpell(spell.id) === -1 ? 'active' : ''}`}
-                  onClick={() => handleVote(spell, 'downvote')}
-                  disabled={votingSpells.has(spell.id)}
-                  title="Downvote this spell"
-                >
-                  <i className="fas fa-thumbs-down"></i>
-                </button>
+          <div className="community-spell-row-info">
+            <div className="community-spell-row-name-row">
+              <span className="community-spell-row-name">{spell.name}</span>
+              {schoolLabel && (
+                <span className={`community-spell-row-school ${schoolClass}`}>{schoolLabel}</span>
+              )}
+            </div>
+            <div className="community-spell-row-meta">
+              {spell.level !== undefined && <span className="community-spell-row-level">Level {spell.level}</span>}
+              {spell.castingTime && <span className="community-spell-row-cast">{spell.castingTime}</span>}
+              {spell.range && <span className="community-spell-row-range">{spell.range}</span>}
+            </div>
+            {spell.description && (
+              <p className="community-spell-row-desc">{spell.description}</p>
+            )}
+            {tags.length > 0 && (
+              <div className="community-spell-row-tags">
+                {tags.map((tag, i) => (
+                  <span key={i} className="community-spell-row-tag">{tag}</span>
+                ))}
               </div>
             )}
+          </div>
+          <span className="community-spell-row-type">{spellType}</span>
+        </div>
+
+        {/* Action bar: votes + stats + download + favorite */}
+        <div className="community-spell-row-actions">
+          {user?.uid && (
+            <div className="community-spell-row-votes">
+              <button
+                className={`vote-btn upvote ${getUserVoteForSpell(spell.id) === 1 ? 'active' : ''}`}
+                onClick={() => handleVote(spell, 'upvote')}
+                disabled={votingSpells.has(spell.id)}
+                title="Upvote"
+              >
+                <i className="fas fa-thumbs-up"></i>
+              </button>
+              <button
+                className={`vote-btn downvote ${getUserVoteForSpell(spell.id) === -1 ? 'active' : ''}`}
+                onClick={() => handleVote(spell, 'downvote')}
+                disabled={votingSpells.has(spell.id)}
+                title="Downvote"
+              >
+                <i className="fas fa-thumbs-down"></i>
+              </button>
+            </div>
+          )}
+          <div className="community-spell-row-stats">
+            <span className="community-spell-row-rating">
+              <i className="fas fa-star"></i> {spell.rating?.toFixed(1) || '0.0'} <span className="community-spell-row-rating-count">({spell.ratingCount || 0})</span>
+            </span>
+            <span className="community-spell-row-downloads">
+              <i className="fas fa-download"></i> {spell.downloadCount || 0}
+            </span>
+          </div>
+          <div className="community-spell-row-btns">
             <button
-              className="community-download-btn download-spell-btn"
+              className="community-download-btn"
               onClick={() => handleDownloadSpell(spell)}
               disabled={downloadingSpells.has(spell.id)}
             >
               {downloadingSpells.has(spell.id) ? (
-                <>
-                  <i className="fas fa-spinner fa-spin"></i> Downloading...
-                </>
+                <><i className="fas fa-spinner fa-spin"></i> Downloading...</>
               ) : (
-                <>
-                  <i className="fas fa-download"></i> Download
-                </>
+                <><i className="fas fa-download"></i> Download</>
               )}
             </button>
-            {/* Favorite button */}
             {user?.uid && (
               <button
                 className={`favorite-btn ${isSpellFavoritedByUser(spell.id) ? 'active' : ''}`}
@@ -397,23 +452,15 @@ const CommunitySpellsTab = () => {
   });
 
   return (
-    <div className="community-spells-container animate-fade-in">
-      {/* Header */}
-      <div className="community-header">
-        <div className="community-header-info">
-          <h2 className="community-title">Community Spells</h2>
-          <p className="community-subtitle">
-            Discover and download spells created by the community
-          </p>
-        </div>
-        
-        {/* Section Tabs */}
+    <div className="community-spells-tab">
+      {/* Top Controls Bar */}
+      <div className="premium-community-controls">
         <div className="community-section-tabs">
           <button
             className={`section-tab ${activeSection === 'browse' ? 'active' : ''}`}
             onClick={() => setActiveSection('browse')}
           >
-            <i className="fas fa-compass"></i> Browse Community
+            <i className="fas fa-compass"></i> Browse
           </button>
           <button
             className={`section-tab ${activeSection === 'favorites' ? 'active' : ''}`}
@@ -435,260 +482,160 @@ const CommunitySpellsTab = () => {
               }
             }}
           >
-            <i className="fas fa-book"></i> My Shared Spells {user?.uid ? `(${mySpells.length})` : ''}
+            <i className="fas fa-book"></i> My Spells {user?.uid ? `(${mySpells.length})` : ''}
           </button>
         </div>
-      </div>
 
-      {/* Controls Container */}
-      <div className="community-controls-container">
-        {/* Category Chips */}
-        <div className="community-category-chips">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat.id}
-              className={`category-chip ${selectedCategory === cat.id ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat.id)}
-            >
-              <i className={`fas ${cat.icon}`}></i> {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Search and Sort Group */}
-        <div className="community-search-sort-group">
-          <form onSubmit={handleSearch} className="community-tab-search-form search-form">
-            <div className="community-tab-search-input-group">
-              <i className="fas fa-search search-field-icon"></i>
-              <input
-                type="text"
-                placeholder="Search community spells..."
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                className="community-tab-search-input search-input"
-              />
-              {searchInput && (
-                <button 
-                  type="button" 
-                  className="search-clear-inline" 
-                  onClick={() => { setSearchInput(''); search(''); }}
-                >
-                  <i className="fas fa-times"></i>
-                </button>
-              )}
-            </div>
-          </form>
-
-          <div className="community-filter-actions-group">
-            <div className="sort-controls">
-              <label>Sort by:</label>
-              <select
-                value={sortBy}
-                onChange={(e) => changeSortBy(e.target.value)}
-                className="sort-select"
-                disabled={!!searchTerm}
-              >
-                <option value="rating">Rating</option>
-                <option value="downloads">Downloads</option>
-                <option value="newest">Newest</option>
-              </select>
-            </div>
-
-            {(searchTerm || selectedCategory !== 'all') && (
+        <form onSubmit={handleSearch} className="premium-search-form">
+          <div className="premium-search-input-group">
+            <i className="fas fa-search search-field-icon"></i>
+            <input
+              type="text"
+              placeholder="Search community spells..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="premium-search-input"
+            />
+            {searchInput && (
               <button 
-                onClick={() => {
-                  clearSelection();
-                  setSearchInput('');
-                  setSelectedCategory('all');
-                }} 
-                className="community-clear-filters-btn" 
-                title="Clear search/filter"
+                type="button" 
+                className="search-clear-inline" 
+                onClick={() => { setSearchInput(''); search(''); }}
               >
-                <i className="fas fa-times-circle"></i> Clear Filters
+                <i className="fas fa-times"></i>
               </button>
             )}
           </div>
+        </form>
+
+        <div className="sort-controls">
+          <label>Sort:</label>
+          <select
+            value={sortBy}
+            onChange={(e) => changeSortBy(e.target.value)}
+            className="sort-select"
+            disabled={!!searchTerm}
+          >
+            <option value="rating">Rating</option>
+            <option value="downloads">Downloads</option>
+            <option value="newest">Newest</option>
+          </select>
         </div>
+
+        {(searchTerm || selectedCategory !== 'all') && (
+          <button 
+            onClick={() => {
+              clearSelection();
+              setSearchInput('');
+              setSelectedCategory('all');
+            }} 
+            className="premium-clear-btn" 
+            title="Clear search/filter"
+          >
+            <i className="fas fa-times-circle"></i> Clear
+          </button>
+        )}
       </div>
 
-      {/* Error State */}
-      {error && (
-        <div className="community-error-state">
-          <div className="error-icon">
-            <i className="fas fa-exclamation-triangle"></i>
-          </div>
-          <h3>Unable to Connect to Community</h3>
-          <p>
-            We're having trouble connecting to the community spell database.
-            This might be due to network issues or the service being temporarily unavailable.
-          </p>
-          <p className="error-details">
-            <strong>Don't worry!</strong> You can still use the spell wizard to create your own spells,
-            and they'll be saved to your local library.
-          </p>
-          <div className="error-actions">
-            <button
-              onClick={() => window.location.reload()}
-              className="retry-btn"
-            >
-              <i className="fas fa-redo"></i> Try Again
-            </button>
+      {/* Content */}
+      <div className="community-content">
+        {/* Mini Header */}
+        <div className="community-minimal-header">
+          <div className="minimal-header-content">
+            <h1>Community Spells</h1>
+            <div className="header-stats">
+              <span className="header-stat"><i className="fas fa-scroll"></i> {spells.length} spells</span>
+              <span className="header-stat"><i className="fas fa-star"></i> {featuredSpells.length} featured</span>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* Favorites Section */}
-      {activeSection === 'favorites' && (
-        !user?.uid ? (
-          <div className="community-auth-prompt animate-fade-in">
-            <div className="prompt-icon">
-              <i className="fas fa-scroll fa-3x"></i>
-            </div>
-            <h3>Guild Registry Required</h3>
-            <p>
-              You must sign in to your character account to favorite spells from the archives and sync them across the realm.
-            </p>
+        {/* Category Chips Section */}
+        <div className="spell-categories-section">
+          <div className="section-header">
+            <i className="fas fa-filter"></i>
+            <h3>Filter by School</h3>
           </div>
-        ) : (
-          <div className="my-spells-section animate-fade-in">
-            <div className="section-header">
-              <h3>Favorite Spells</h3>
-              <p className="section-subtitle">
-                Spells you've favorited from the community
+          <div className="community-category-chips">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat.id}
+                className={`category-chip ${selectedCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat.id)}
+              >
+                <i className={`fas ${cat.icon}`}></i> {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Error State */}
+        {error && (
+          <div className="community-error-state">
+            <div className="error-icon">
+              <i className="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Unable to Connect to Community</h3>
+            <p>
+              We're having trouble connecting to the community spell database.
+              This might be due to network issues or the service being temporarily unavailable.
+            </p>
+            <p className="error-details">
+              <strong>Don't worry!</strong> You can still use the spell wizard to create your own spells,
+              and they'll be saved to your local library.
+            </p>
+            <div className="error-actions">
+              <button
+                onClick={() => window.location.reload()}
+                className="retry-btn"
+              >
+                <i className="fas fa-redo"></i> Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Favorites Section */}
+        {activeSection === 'favorites' && (
+          !user?.uid ? (
+            <div className="community-auth-prompt">
+              <div className="prompt-icon">
+                <i className="fas fa-scroll fa-3x"></i>
+              </div>
+              <h3>Guild Registry Required</h3>
+              <p>
+                Sign in to your character account to bookmark spells from the community archives and sync them across the realm.
               </p>
             </div>
-            
-            {loading && filteredFavoriteSpells.length === 0 ? (
-              <div className="loading-state">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Loading favorites...</p>
-              </div>
-            ) : filteredFavoriteSpells.length === 0 ? (
-              <div className="empty-state">
-                <i className="fas fa-star"></i>
-                <p>No spells found.</p>
-                <p className="empty-state-hint">
-                  {favoriteSpells.length === 0 
-                    ? "Browse the community spells and click the star icon to favorite spells you like!"
-                    : "Try changing your magic school filters."}
+          ) : (
+            <div className="my-spells-section">
+              <div className="section-header">
+                <h3>Favorite Spells</h3>
+                <p className="section-subtitle">
+                  Spells you've favorited from the community
                 </p>
               </div>
-            ) : (
-              <div className="spells-grid">
-                {filteredFavoriteSpells
-                  .sort((a, b) => {
-                    const ratingA = a.rating || 0;
-                    const ratingB = b.rating || 0;
-                    if (ratingA !== ratingB) return ratingB - ratingA;
-                    return (b.downloadCount || 0) - (a.downloadCount || 0);
-                  })
-                  .map(renderSpellCard)}
-              </div>
-            )}
-          </div>
-        )
-      )}
-
-      {/* My Spells Section */}
-      {activeSection === 'mySpells' && (
-        !user?.uid ? (
-          <div className="community-auth-prompt animate-fade-in">
-            <div className="prompt-icon">
-              <i className="fas fa-quill-pen fa-3x"></i>
-            </div>
-            <h3>Archmage Credentials Needed</h3>
-            <p>
-              Sign in to document and publish your custom-crafted spells to the great community library.
-            </p>
-          </div>
-        ) : (
-          <div className="my-spells-section animate-fade-in">
-            <div className="section-header">
-              <h3>My Shared Spells</h3>
-              <p className="section-subtitle">
-                Spells you've shared with the community
-              </p>
-            </div>
-            
-            {loading && filteredMySpells.length === 0 ? (
-              <div className="loading-state">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Loading your spells...</p>
-              </div>
-            ) : filteredMySpells.length === 0 ? (
-              <div className="empty-state">
-                <i className="fas fa-scroll"></i>
-                <p>No spells found.</p>
-                <p className="empty-state-hint">
-                  {mySpells.length === 0
-                    ? "Right-click on a custom spell in your Spell Library and select 'Share with Community' to share it!"
-                    : "Try changing your magic school filters."}
-                </p>
-              </div>
-            ) : (
-              <div className="spells-grid">
-                {filteredMySpells
-                  .sort((a, b) => {
-                    const ratingA = a.rating || 0;
-                    const ratingB = b.rating || 0;
-                    if (ratingA !== ratingB) return ratingB - ratingA;
-                    return (b.downloadCount || 0) - (a.downloadCount || 0);
-                  })
-                  .map(renderSpellCard)}
-              </div>
-            )}
-          </div>
-        )
-      )}
-
-      {/* Browse Community Section */}
-      {activeSection === 'browse' && (
-        <>
-          {/* Featured Spells */}
-          {!searchTerm && filteredFeaturedSpells.length > 0 && (
-            <div className="featured-spells animate-fade-in">
-              <h3>Featured Spells</h3>
-              <div className="spells-grid">
-                {filteredFeaturedSpells
-                  .sort((a, b) => {
-                    const ratingA = a.rating || 0;
-                    const ratingB = b.rating || 0;
-                    if (ratingA !== ratingB) return ratingB - ratingA;
-                    return (b.downloadCount || 0) - (a.downloadCount || 0);
-                  })
-                  .map(renderSpellCard)}
-              </div>
-            </div>
-          )}
-
-          {/* All Community Spells */}
-          <div className="spell-results animate-fade-in">
-            <div className="results-header">
-              <h3>
-                {searchTerm 
-                  ? `Search Results for "${searchTerm}"`
-                  : 'All Community Spells'
-                }
-              </h3>
-              <span className="results-count">{filteredSpells.length} spells</span>
-            </div>
-
-            {loading && filteredSpells.length === 0 ? (
-              <div className="loading-state">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Loading spells...</p>
-              </div>
-            ) : filteredSpells.length === 0 ? (
-              <div className="empty-state">
-                <div className="arcane-loading-circle"></div>
-                <i className="fas fa-search"></i>
-                <p>No spells found</p>
-                <p className="empty-state-hint">Try searching for something else or clearing filters.</p>
-              </div>
-            ) : (
-              <>
+              
+              {loading && filteredFavoriteSpells.length === 0 ? (
+                <div className="loading-state">
+                  <i className="fas fa-spinner fa-spin"></i>
+                  <p>Loading favorites...</p>
+                </div>
+              ) : filteredFavoriteSpells.length === 0 ? (
+                <div className="empty-state empty-state-enhanced">
+                  <div className="empty-state-icon-group">
+                    <i className="fas fa-star"></i>
+                  </div>
+                  <h4 className="empty-state-title">No Favorites Yet</h4>
+                  <p className="empty-state-message">
+                    {favoriteSpells.length === 0 
+                      ? "Browse community spells and click the star icon to save your favorites here."
+                      : "Try changing your magic school filters."}
+                  </p>
+                </div>
+              ) : (
                 <div className="spells-grid">
-                  {filteredSpells
+                  {filteredFavoriteSpells
                     .sort((a, b) => {
                       const ratingA = a.rating || 0;
                       const ratingB = b.rating || 0;
@@ -697,48 +644,171 @@ const CommunitySpellsTab = () => {
                     })
                     .map(renderSpellCard)}
                 </div>
-                
-                {hasMore && (
-                  <div className="load-more">
-                    <button 
-                      onClick={loadMoreSpells} 
-                      disabled={loading}
-                      className="load-more-btn animate-pulse"
-                    >
-                      {loading ? (
-                        <>
-                          <i className="fas fa-spinner fa-spin"></i> Loading...
-                        </>
-                      ) : (
-                        <>
-                          <i className="fas fa-chevron-down"></i> Load More
-                        </>
-                      )}
-                    </button>
+              )}
+            </div>
+          )
+        )}
+
+        {/* My Spells Section */}
+        {activeSection === 'mySpells' && (
+          !user?.uid ? (
+            <div className="community-auth-prompt">
+              <div className="prompt-icon">
+                <i className="fas fa-quill-pen fa-3x"></i>
+              </div>
+              <h3>Archmage Credentials Needed</h3>
+              <p>
+                Sign in to document and publish your custom-crafted spells to the great community library.
+              </p>
+            </div>
+          ) : (
+            <div className="my-spells-section">
+              <div className="section-header">
+                <h3>My Shared Spells</h3>
+                <p className="section-subtitle">
+                  Spells you've shared with the community
+                </p>
+              </div>
+              
+              {loading && filteredMySpells.length === 0 ? (
+                <div className="loading-state">
+                  <i className="fas fa-spinner fa-spin"></i>
+                  <p>Loading your spells...</p>
+                </div>
+              ) : filteredMySpells.length === 0 ? (
+                <div className="empty-state empty-state-enhanced">
+                  <div className="empty-state-icon-group">
+                    <i className="fas fa-scroll"></i>
                   </div>
-                )}
-              </>
+                  <h4 className="empty-state-title">No Shared Spells</h4>
+                  <p className="empty-state-message">
+                    {mySpells.length === 0
+                      ? "Right-click on a custom spell in your Spell Library and select 'Share with Community' to contribute to the archives."
+                      : "Try changing your magic school filters."}
+                  </p>
+                </div>
+              ) : (
+                <div className="spells-grid">
+                  {filteredMySpells
+                    .sort((a, b) => {
+                      const ratingA = a.rating || 0;
+                      const ratingB = b.rating || 0;
+                      if (ratingA !== ratingB) return ratingB - ratingA;
+                      return (b.downloadCount || 0) - (a.downloadCount || 0);
+                    })
+                    .map(renderSpellCard)}
+                </div>
+              )}
+            </div>
+          )
+        )}
+
+        {/* Browse Community Section */}
+        {activeSection === 'browse' && (
+          <>
+            {/* Featured Spells */}
+            {!searchTerm && filteredFeaturedSpells.length > 0 && (
+              <div className="featured-spells-section">
+                <div className="section-header">
+                  <i className="fas fa-star"></i>
+                  <h3>Featured Spells</h3>
+                  <span className="section-subtitle">Curated by the community</span>
+                </div>
+                <div className="spells-grid">
+                  {filteredFeaturedSpells
+                    .sort((a, b) => {
+                      const ratingA = a.rating || 0;
+                      const ratingB = b.rating || 0;
+                      if (ratingA !== ratingB) return ratingB - ratingA;
+                      return (b.downloadCount || 0) - (a.downloadCount || 0);
+                    })
+                    .map(renderSpellCard)}
+                </div>
+              </div>
             )}
+
+            {/* All Community Spells */}
+            <div className="spell-results-section">
+              <div className="results-header">
+                <h3>
+                  {searchTerm 
+                    ? `Search Results for "${searchTerm}"`
+                    : 'All Community Spells'
+                  }
+                </h3>
+                <span className="results-count">{filteredSpells.length} spells</span>
+              </div>
+
+              {loading && filteredSpells.length === 0 ? (
+                <div className="loading-state">
+                  <i className="fas fa-spinner fa-spin"></i>
+                  <p>Loading spells...</p>
+                </div>
+              ) : filteredSpells.length === 0 ? (
+                <div className="empty-state empty-state-enhanced">
+                  <div className="empty-state-icon-group">
+                    <div className="arcane-loading-circle"></div>
+                    <i className="fas fa-scroll"></i>
+                  </div>
+                  <h4 className="empty-state-title">The Arcane Archives Await</h4>
+                  <p className="empty-state-message">No community spells have been shared yet. Be the first to contribute to the guild's collection!</p>
+                  <p className="empty-state-hint">Create a spell in the Spell Wizard and share it with the community.</p>
+                </div>
+              ) : (
+                <>
+                  <div className="spells-grid">
+                    {filteredSpells
+                      .sort((a, b) => {
+                        const ratingA = a.rating || 0;
+                        const ratingB = b.rating || 0;
+                        if (ratingA !== ratingB) return ratingB - ratingA;
+                        return (b.downloadCount || 0) - (a.downloadCount || 0);
+                      })
+                      .map(renderSpellCard)}
+                  </div>
+                  
+                  {hasMore && (
+                    <div className="load-more">
+                      <button 
+                        onClick={loadMoreSpells} 
+                        disabled={loading}
+                        className="load-more-btn animate-pulse"
+                      >
+                        {loading ? (
+                          <>
+                            <i className="fas fa-spinner fa-spin"></i> Loading...
+                          </>
+                        ) : (
+                          <>
+                            <i className="fas fa-chevron-down"></i> Load More
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="error-state">
+            <i className="fas fa-exclamation-triangle"></i>
+            <p>Error: {error}</p>
+            <button onClick={() => window.location.reload()}>Retry</button>
           </div>
-        </>
-      )}
+        )}
 
-      {/* Error State */}
-      {error && (
-        <div className="error-state animate-fade-in">
-          <i className="fas fa-exclamation-triangle"></i>
-          <p>Error: {error}</p>
-          <button onClick={() => window.location.reload()}>Retry</button>
-        </div>
-      )}
-
-      {/* Offline State */}
-      {!navigator.onLine && (
-        <div className="offline-state animate-fade-in">
-          <i className="fas fa-wifi"></i>
-          <p>You're offline. Community spells require an internet connection.</p>
-        </div>
-      )}
+        {/* Offline State */}
+        {!navigator.onLine && (
+          <div className="offline-state">
+            <i className="fas fa-wifi"></i>
+            <p>You're offline. Community spells require an internet connection.</p>
+          </div>
+        )}
+      </div>
 
       {/* Tooltip Portal */}
       {hoveredSpell && ReactDOM.createPortal(

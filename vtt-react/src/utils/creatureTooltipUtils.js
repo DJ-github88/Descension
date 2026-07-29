@@ -46,7 +46,7 @@ export const getSoakDie = (armor) => {
 // Extract primary attack die from creature abilities
 export const getBaseAttackDie = (creature) => {
   if (!creature || !creature.abilities) {
-    return { formula: '1d6', damageType: 'physical' };
+    return { formula: '1d6', damageType: 'smashing' };
   }
   
   // Find first melee or ranged attack ability
@@ -61,7 +61,7 @@ export const getBaseAttackDie = (creature) => {
     if (bonus !== 0) {
       formula += bonus > 0 ? `+${bonus}` : `${bonus}`;
     }
-    return { formula, damageType: damageType || 'physical' };
+    return { formula, damageType: damageType || 'smashing' };
   }
   
   // Fallback: Estimate from strength modifier
@@ -71,7 +71,7 @@ export const getBaseAttackDie = (creature) => {
   if (strMod !== 0) {
     formula += strMod > 0 ? `+${strMod}` : `${strMod}`;
   }
-  return { formula, damageType: 'physical' };
+  return { formula, damageType: 'smashing' };
 };
 
 // === SPECIAL MOVEMENT ===
@@ -139,6 +139,9 @@ export const formatDamageType = (damageType) => {
   
   const typeColors = {
     physical: '#795548',
+    smashing: '#795548',
+    stabbing: '#a52a2a',
+    slicing: '#8b2a2a',
     ember: '#a8503a',
     rime: '#3a7a9a',
     storm: '#b8a01f',

@@ -38,6 +38,31 @@
   color: inherit !important;
 }
 
+/* EXEMPT FONT AWESOME ICONS - they need their own font-family to render */
+.game-mode .character-sheet-container i.fas,
+.game-mode .character-sheet-container i.far,
+.game-mode .character-sheet-container i.fab,
+.game-mode .character-sheet-container i.fa,
+.game-mode .character-sheet i.fas,
+.game-mode .character-sheet i.far,
+.game-mode .character-sheet i.fab,
+.game-mode .character-sheet i.fa,
+.game-mode .character-container i.fas,
+.game-mode .character-container i.far,
+.game-mode .character-container i.fab,
+.game-mode .character-container i.fa,
+.game-mode .character-navigation i.fas,
+.game-mode .character-navigation i.far,
+.game-mode .character-navigation i.fab,
+.game-mode .character-navigation i.fa,
+.game-mode [class*="character-"] i.fas,
+.game-mode [class*="character-"] i.far,
+.game-mode [class*="character-"] i.fab,
+.game-mode [class*="character-"] i.fa {
+  font-family: 'Font Awesome 6 Free' !important;
+  font-weight: 900 !important;
+}
+
 /* FORCE BACKGROUND COLORS */
 .game-mode .character-container {
   background: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
@@ -70,4 +95,25 @@
 .game-mode [class*="character-"] * {
   font-family: inherit !important;
   color: inherit !important;
+}
+
+/* EXEMPT FONT AWESOME ICONS from the wildcard inheritance */
+.game-mode [class*="character-"] i.fas,
+.game-mode [class*="character-"] i.far,
+.game-mode [class*="character-"] i.fab,
+.game-mode [class*="character-"] i.fa {
+  font-family: 'Font Awesome 6 Free' !important;
+  font-weight: 900 !important;
+}
+
+/* EXEMPT BUTTONS WITH EXPLICIT COLORS - they need their own text color */
+.game-mode [class*="character-"] .roll-table-btn,
+.game-mode [class*="character-"] .skill-simple-roll,
+.game-mode [class*="character-"] button[style*="color"] {
+  color: #ffffff !important;
+}
+
+/* EXEMPT STEP NUMBERS - need white text on dark circles */
+.game-mode [class*="character-"] .skill-step-num {
+  color: #ffffff !important;
 }

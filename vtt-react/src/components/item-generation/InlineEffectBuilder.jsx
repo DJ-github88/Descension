@@ -10,7 +10,7 @@ import {
 const DEFAULT_CONFIGS = {
   damage: {
     formula: '1d6',
-    damageType: 'fire',
+    damageType: 'ember',
     isDot: false,
     dotDuration: 3,
     dotTickFrequency: 'round',
@@ -156,9 +156,9 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
     switch (type) {
       case 'damage':
         if (config.isDot) {
-          return `${config.formula || '1d6'} ${formatName(config.damageType || 'fire')} per ${config.dotTickFrequency || 'round'} for ${config.dotDuration || 3} rounds`;
+          return `${config.formula || '1d6'} ${formatName(config.damageType || 'ember')} per ${config.dotTickFrequency || 'round'} for ${config.dotDuration || 3} rounds`;
         }
-        return `${config.formula || '1d6'} ${formatName(config.damageType || 'fire')} damage`;
+        return `${config.formula || '1d6'} ${formatName(config.damageType || 'ember')} damage`;
       case 'healing':
         if (config.isHot) {
           return `${config.healingFormula || '1d8'} healing per ${config.hotTickFrequency || 'round'} for ${config.hotDuration || 3} rounds`;
@@ -187,9 +187,9 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
     switch (type) {
       case 'damage':
         if (config.isDot) {
-          return `Deal ${config.formula || '1d6'} ${formatName(config.damageType || 'fire')} damage to ${target} each ${config.dotTickFrequency || 'round'} for ${config.dotDuration || 3} rounds`;
+          return `Deal ${config.formula || '1d6'} ${formatName(config.damageType || 'ember')} damage to ${target} each ${config.dotTickFrequency || 'round'} for ${config.dotDuration || 3} rounds`;
         }
-        return `Deal ${config.formula || '1d6'} ${formatName(config.damageType || 'fire')} damage to ${target}`;
+        return `Deal ${config.formula || '1d6'} ${formatName(config.damageType || 'ember')} damage to ${target}`;
       case 'healing':
         if (config.isHot) {
           return `Heal ${target} for ${config.healingFormula || '1d8'} each ${config.hotTickFrequency || 'round'} for ${config.hotDuration || 3} rounds`;
@@ -341,7 +341,7 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                   <div className="config-field">
                     <label className="pf-label">Damage Type</label>
                     <select
-                      value={localEffect.effectConfig?.damageType || 'fire'}
+                      value={localEffect.effectConfig?.damageType || 'ember'}
                       onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                       className="pf-select"
                     >
@@ -356,7 +356,6 @@ const InlineEffectBuilder = ({ effect, onEffectChange, onRemove }) => {
                       <option value="smashing">Smashing</option>
                       <option value="stabbing">Stabbing</option>
                       <option value="slicing">Slicing</option>
-                      <option value="ranged">Ranged</option>
                     </select>
                   </div>
                 </div>

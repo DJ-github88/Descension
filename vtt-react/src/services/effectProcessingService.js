@@ -67,17 +67,36 @@ const getResistanceMultiplier = (targetId, targetType, damageElement) => {
   
   // Map element types to resistance stat names
   const resistanceMap = {
-    'physical': 'physical_resistance',
-    'fire': 'fire_resistance',
-    'cold': 'cold_resistance',
-    'lightning': 'lightning_resistance',
-    'poison': 'poison_resistance',
-    'acid': 'acid_resistance',
-    'necrotic': 'necrotic_resistance',
-    'radiant': 'radiant_resistance',
-    'psychic': 'psychic_resistance',
-    'thunder': 'thunder_resistance',
-    'force': 'force_resistance'
+    'smashing': 'smashing_resistance',
+    'bludgeoning': 'smashing_resistance',
+    'physical': 'smashing_resistance',
+    'stabbing': 'stabbing_resistance',
+    'piercing': 'stabbing_resistance',
+    'ranged': 'stabbing_resistance',
+    'slicing': 'slicing_resistance',
+    'slashing': 'slicing_resistance',
+    'ember': 'ember_resistance',
+    'fire': 'ember_resistance',
+    'rime': 'rime_resistance',
+    'cold': 'rime_resistance',
+    'frost': 'rime_resistance',
+    'storm': 'storm_resistance',
+    'lightning': 'storm_resistance',
+    'thunder': 'storm_resistance',
+    'primal': 'primal_resistance',
+    'nature': 'primal_resistance',
+    'arcane': 'arcane_resistance',
+    'force': 'arcane_resistance',
+    'blight': 'blight_resistance',
+    'necrotic': 'blight_resistance',
+    'poison': 'blight_resistance',
+    'acid': 'blight_resistance',
+    'shadow': 'blight_resistance',
+    'wyrd': 'wyrd_resistance',
+    'psychic': 'wyrd_resistance',
+    'sacred': 'sacred_resistance',
+    'radiant': 'sacred_resistance',
+    'holy': 'sacred_resistance'
   };
   
   const resistanceStat = resistanceMap[damageElement.toLowerCase()];

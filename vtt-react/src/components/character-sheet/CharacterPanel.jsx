@@ -42,6 +42,126 @@ const SECTIONS = {
     }
 };
 
+// Spell power types for the cycler - 8 magic damage elements
+// Color = canonical Mythrill damage type color so the chip matches the type's identity
+const SPELL_POWER_TYPES = [
+    { id: 'fire',     name: 'Ember',     color: '#D4380D' },
+    { id: 'frost',    name: 'Rime',      color: '#2C5F7C' },
+    { id: 'lightning',name: 'Storm',     color: '#8B7328' },
+    { id: 'force',    name: 'Arcane',    color: '#5B3A8C' },
+    { id: 'necrotic', name: 'Blight',    color: '#3D1F4E' },
+    { id: 'radiant',  name: 'Sacred',    color: '#DAA520' },
+    { id: 'poison',   name: 'Blight',    color: '#3D1F4E' },
+    { id: 'psychic',  name: 'Wyrd',      color: '#7A2040' }
+];
+
+// Resistance type display names (legacy id -> canonical Mythrill name)
+// Used for the modified-resistances strip
+const RESISTANCE_DISPLAY_NAMES = {
+    fire: 'Ember',
+    frost: 'Rime',
+    lightning: 'Storm',
+    force: 'Arcane',
+    necrotic: 'Blight',
+    radiant: 'Sacred',
+    poison: 'Blight',
+    psychic: 'Wyrd',
+    bludgeoning: 'Smashing',
+    piercing: 'Stabbing',
+    slashing: 'Slicing'
+};
+
+// Convert numeric resistance level + multiplier to a human label + color
+// Returns { name, color, percentLabel, description } for the chip
+const getResistanceLevelInfo = (level, multiplier) => {
+    const pct = Math.round(multiplier * 100);
+    if (level === 0 || multiplier === 0) {
+        return { name: 'Immune', color: '#506e30', percentLabel: '0%', description: 'Takes no damage from this type' };
+    }
+    if (level === 50 || (multiplier > 0 && multiplier <= 0.5)) {
+        return { name: 'Resistant', color: '#4a6a8a', percentLabel: `${pct}%`, description: 'Takes reduced damage from this type' };
+    }
+    if (level === 75 || (multiplier > 0.5 && multiplier < 1.0)) {
+        return { name: 'Guarded', color: '#4a6a2e', percentLabel: `${pct}%`, description: 'Takes reduced damage from this type' };
+    }
+    if (level === 150 || (multiplier > 1.0 && multiplier < 2.0)) {
+        return { name: 'Exposed', color: '#9a5e15', percentLabel: `${pct}%`, description: 'Takes more damage from this type' };
+    }
+    if (level === 200 || multiplier >= 2.0) {
+        return { name: 'Vulnerable', color: '#8b3a2a', percentLabel: `${pct}%`, description: 'Takes double damage from this type' };
+    }
+    return { name: 'Normal', color: '#8b7d6b', percentLabel: `${pct}%`, description: 'Takes normal damage' };
+};
+
+const resistanceTypeDisplayName = (typeId) => {
+    if (!typeId) return '';
+    return RESISTANCE_DISPLAY_NAMES[typeId.toLowerCase()] ||
+        (typeId.charAt(0).toUpperCase() + typeId.slice(1));
+};
+
+// Format a D&D-style modifier (+3, -1, +0)
+const formatModifier = (value) => {
+    const v = Math.floor(value || 0);
+    if (v >= 0) return `+${v}`;
+    return `${v}`;
+};
+
+// Compute the damage modifier for a given damage type using the canonical mapping
+// from characterUtils.js. Smashing <- STR*2, Stabbing <- AGI*2, Slicing <- STR+AGI.
+const computeDamageModifier = (damageType, strMod, agiMod) => {
+    switch ((damageType || '').toLowerCase()) {
+        case 'smashing':
+        case 'bludgeoning':
+            return strMod * 2;
+        case 'stabbing':
+        case 'piercing':
+            return agiMod * 2;
+        case 'slicing':
+        case 'slashing':
+            return strMod + agiMod;
+        default:
+            return 0;
+    }
+};
+
+// Try to resolve a race/subrace id into a display name by inspecting the raceData module
+// Avoids a hard import cycle and gracefully handles missing ids
+const raceDisplay = (id) => {
+    if (!id) return '';
+    try {
+        const list = getRaceList();
+        const found = list.find(r => r.id === id);
+        if (found) return found.name;
+    } catch (_) { /* fall through */ }
+    return id.charAt(0).toUpperCase() + id.slice(1);
+};
+
+const subraceDisplay = (id) => {
+    if (!id) return '';
+    try {
+        // Walk all races to find the subrace (subraces are race-scoped in raceData)
+        const raceList = getRaceList();
+        for (const r of raceList) {
+            const subs = getSubraceList(r.id);
+            const found = subs && subs.find(s => s.id === id);
+            if (found) return found.name;
+        }
+    } catch (_) { /* fall through */ }
+    return id.charAt(0).toUpperCase() + id.slice(1);
+};
+
+// Compute a single "race" pill for the identity header.
+// Deduplicates: if subrace name equals race name, return just one ("Mimir" not "Mimir Mimir").
+// Otherwise, prefer the subrace name (e.g. "Arch Mimir" not "Arch Mimir (Mimir)").
+const buildRacePill = (raceId, subraceId) => {
+    const sub = subraceDisplay(subraceId);
+    const race = raceDisplay(raceId);
+    if (!sub) return race;
+    if (!race) return sub;
+    if (sub === race) return sub;
+    return sub;
+};
+
 const EQUIPMENT_SLOTS = {
     head: {
         position: { top: 0, left: -50 },
@@ -486,6 +606,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         stats: state.stats,
         equipmentBonuses: state.equipmentBonuses,
         derivedStats: state.derivedStats,
+        resistances: state.resistances,
+        spellPower: state.spellPower,
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,
@@ -523,6 +645,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         stats,
         equipmentBonuses,
         derivedStats,
+        resistances = {},
+        spellPower = {},
         health,
         mana,
         actionPoints,
@@ -587,6 +711,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
     const [showLevelControls, setShowLevelControls] = useState(false);
+    const [spellPowerTypeIndex, setSpellPowerTypeIndex] = useState(0);
 
     // Class resource config (shared across render functions)
     const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
@@ -601,6 +726,27 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             }
         };
     }, [tooltipDelay]);
+
+    // Prevent the browser's default right-click context menu and text
+    // selection anywhere in the character sheet so they don't break
+    // immersion. Our custom context menus (UnequipContextMenu, stat
+    // right-click handlers, etc.) still work because they use React's
+    // onContextMenu + their own portaled UI - those handlers fire on the
+    // bubble phase, and React's synthetic events still see the right-click.
+    useEffect(() => {
+        const suppressContextMenu = (e) => {
+            // Only suppress when the right-click happens inside the character sheet.
+            if (e.target && e.target.closest && e.target.closest('.character-sheet-container')) {
+                e.preventDefault();
+            }
+        };
+        // Capture phase so we run before any element's own handler that
+        // might rely on e.preventDefault not being called.
+        document.addEventListener('contextmenu', suppressContextMenu, true);
+        return () => {
+            document.removeEventListener('contextmenu', suppressContextMenu, true);
+        };
+    }, []);
 
     // Clean up all character-specific spells when character changes
     useEffect(() => {
@@ -999,176 +1145,417 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const renderEquipment = () => (
         <div className="equipment-content">
 
-            <div className="equipment-layout">
-                {/* LEFT EQUIPMENT COLUMN */}
-                <div className="left-equipment">
-                    {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
-                        ['head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists'].includes(slotName)
-                    ).map(([slotName, config]) => renderSlot(slotName, config))}
-                </div>
+            {/* Identity Header - centered name / race / class card */}
+            {renderIdentityHeader()}
 
-                {/* CHARACTER PORTRAIT CENTER */}
-                <div className="character-center-section">
-                    {(() => {
-                        const bgImage = lore?.iconBackgroundImage;
-                        const bgColor = lore?.iconBackgroundColor || 'transparent';
-                        const imageContainerStyle = bgImage
-                          ? {
-                              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              backgroundRepeat: 'no-repeat',
-                              backgroundColor: bgColor
-                            }
-                          : { backgroundColor: bgColor };
+            <div className="equipment-with-sides">
+                {/* LEFT SIDE: base stats + melee/physical stats */}
+                <aside className="equipment-side equipment-side--left" data-column-label="Attributes">
+                    {renderBaseStatsPanel()}
+                    {renderMeleeStatsPanel()}
+                </aside>
 
-                        return (
-                            <div className="character-image-container" style={imageContainerStyle}>
-                                {lore?.characterImage ? (
-                                    <img
-                                        src={lore.characterImage}
-                                        alt="Character Portrait"
-                                        className="character-portrait"
-                                    />
-                                ) : (characterIcon || lore?.characterIcon) ? (
-                                    <div className="character-portrait-icon-wrapper">
-                                        <img
-                                            src={(() => {
-                                                const icon = characterIcon || lore?.characterIcon;
-                                                if (icon.includes('/')) {
-                                                    return getCustomIconUrl(icon, 'creatures');
-                                                }
-                                                return getWowIconUrl(icon);
-                                            })()}
-                                            alt="Character Icon"
-                                            className="character-portrait-icon"
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="character-portrait-placeholder">
-                                        <i className="fas fa-user"></i>
-                                        <span>No Image</span>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })()}
+                {/* CENTER: gear columns flanking the portrait */}
+                <div className="equipment-center">
+                    <div className="equipment-layout">
+                        {/* LEFT EQUIPMENT COLUMN */}
+                        <div className="left-equipment">
+                            {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
+                                ['head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists'].includes(slotName)
+                            ).map(([slotName, config]) => renderSlot(slotName, config))}
+                        </div>
 
-                    {/* Weapon Slots Below Image */}
-                    <div className="weapon-slots-bottom">
-                        {Object.entries(WEAPON_SLOTS).map(([slotName, config]) => {
-                            let item = equipment[slotName];
-                            if (!item && slotName === 'offHand') {
-                                item = equipment['off_hand'] || equipment['offHand'];
-                            }
-                            const isEmpty = !item;
-                            const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
-
-                            const getItemImageSrc = () => {
-                                if (!item) return config.icon;
-                                if (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) {
-                                    return item.imageUrl;
-                                }
-                                if (item.iconId) {
-                                    return getIconUrl(item.iconId, 'items', true);
-                                }
-                                if (item.id) {
-                                    try {
-                                        const itemStore = useItemStore.getState();
-                                        const originalItem = itemStore.items.find(i => i.id === item.id);
-                                        if (originalItem && originalItem.iconId) {
-                                            return getIconUrl(originalItem.iconId, 'items', true);
-                                        }
-                                    } catch (e) {
-                                        console.warn('Could not look up item from store:', e);
+                        {/* CHARACTER PORTRAIT CENTER */}
+                        <div className="character-center-section">
+                            {(() => {
+                                const bgImage = lore?.iconBackgroundImage;
+                                const bgColor = lore?.iconBackgroundColor || 'transparent';
+                                const imageContainerStyle = bgImage
+                                  ? {
+                                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.25)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)}))`,
+                                      backgroundSize: 'cover',
+                                      backgroundPosition: 'center',
+                                      backgroundRepeat: 'no-repeat',
+                                      backgroundColor: bgColor
                                     }
-                                }
-                                return getIconUrl('inv_misc_questionmark', 'items', true);
-                            };
+                                  : { backgroundColor: bgColor };
 
-                            const slotDescriptions = {
-                                mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
-                                offHand: isDisabled ?
-                                    "Off-hand is disabled while wielding a two-handed weapon." :
-                                    "Secondary weapons, shields, or magical focuses held in your off-hand.",
-                                ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
-                            };
+                                return (
+                                    <div className="character-image-container" style={imageContainerStyle}>
+                                        {lore?.characterImage ? (
+                                            <img
+                                                src={lore.characterImage}
+                                                alt="Character Portrait"
+                                                className="character-portrait"
+                                            />
+                                        ) : (characterIcon || lore?.characterIcon) ? (
+                                            <div className="character-portrait-icon-wrapper">
+                                                <img
+                                                    src={(() => {
+                                                        const icon = characterIcon || lore?.characterIcon;
+                                                        if (icon.includes('/')) {
+                                                            return getCustomIconUrl(icon, 'creatures');
+                                                        }
+                                                        return getWowIconUrl(icon);
+                                                    })()}
+                                                    alt="Character Icon"
+                                                    className="character-portrait-icon"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="character-portrait-placeholder">
+                                                <i className="fas fa-user"></i>
+                                                <span>No Image</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })()}
 
-                            return (
-                                <div
-                                    key={slotName}
-                                    className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                    onClick={(e) => handleSlotTap(e, slotName)}
-                                    onMouseEnter={(e) => {
-                                        setHoveredSlot(slotName);
-                                        updateTooltipPosition(e);
-                                    }}
-                                    onMouseMove={updateTooltipPosition}
-                                    onMouseLeave={() => setHoveredSlot(null)}
-                                    onContextMenu={(e) => {
-                                        if (item && !isDisabled) {
-                                            handleUnequipContextMenu(e, item, slotName);
+                            {/* Weapon Slots Below Image */}
+                            <div className="weapon-slots-bottom">
+                                {Object.entries(WEAPON_SLOTS).map(([slotName, config]) => {
+                                    let item = equipment[slotName];
+                                    if (!item && slotName === 'offHand') {
+                                        item = equipment['off_hand'] || equipment['offHand'];
+                                    }
+                                    const isEmpty = !item;
+                                    const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
+
+                                    const getItemImageSrc = () => {
+                                        if (!item) return config.icon;
+                                        if (item.imageUrl && !item.imageUrl.includes('wow.zamimg.com')) {
+                                            return item.imageUrl;
                                         }
-                                    }}
-                                >
-                                    <img
-                                        src={getItemImageSrc()}
-                                        alt={slotName}
-                                        style={{ opacity: isDisabled ? 0.3 : 1 }}
-                                        onError={(e) => {
-                                            console.error('❌ Image load error for off-hand item:', {
-                                                slotName,
-                                                itemName: item?.name,
-                                                iconId: item?.iconId,
-                                                imageUrl: item?.imageUrl,
-                                                attemptedSrc: e.target.src
-                                            });
-                                            e.target.src = getIconUrl('inv_misc_questionmark', 'items', true);
-                                        }}
-                                    />
+                                        if (item.iconId) {
+                                            return getIconUrl(item.iconId, 'items', true);
+                                        }
+                                        if (item.id) {
+                                            try {
+                                                const itemStore = useItemStore.getState();
+                                                const originalItem = itemStore.items.find(i => i.id === item.id);
+                                                if (originalItem && originalItem.iconId) {
+                                                    return getIconUrl(originalItem.iconId, 'items', true);
+                                                }
+                                            } catch (e) {
+                                                console.warn('Could not look up item from store:', e);
+                                            }
+                                        }
+                                        return getIconUrl('inv_misc_questionmark', 'items', true);
+                                    };
 
-                                    {isDisabled && (
-                                        <div className="disabled-overlay">
-                                            <div className="red-cross">
-                                                <div className="cross-line cross-line-1"></div>
-                                                <div className="cross-line cross-line-2"></div>
-                                            </div>
-                                        </div>
-                                    )}
+                                    const slotDescriptions = {
+                                        mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
+                                        offHand: isDisabled ?
+                                            "Off-hand is disabled while wielding a two-handed weapon." :
+                                            "Secondary weapons, shields, or magical focuses held in your off-hand.",
+                                        ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
+                                    };
 
-                                    {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
-                                    {hoveredSlot === slotName && (isEmpty || isDisabled) && (
-                                        <TooltipPortal>
-                                            <div
-                                                ref={tooltipRef} className="equipment-slot-tooltip"
-                                                style={{
-                                                    position: 'fixed',
-                                                    left: adjustedPosition.x,
-                                                    top: adjustedPosition.y,
-                                                    pointerEvents: 'none',
-                                                    zIndex: 999999999
-                                                }}
-                                            >
-                                                <div className="equipment-slot-name">{config.info}</div>
-                                                <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${config.info} equipment`}</div>
+                                    return (
+                                        <div
+                                            key={slotName}
+                                            className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                            onClick={(e) => handleSlotTap(e, slotName)}
+                                            onMouseEnter={(e) => {
+                                                setHoveredSlot(slotName);
+                                                updateTooltipPosition(e);
+                                            }}
+                                            onMouseMove={updateTooltipPosition}
+                                            onMouseLeave={() => setHoveredSlot(null)}
+                                            onContextMenu={(e) => {
+                                                if (item && !isDisabled) {
+                                                    handleUnequipContextMenu(e, item, slotName);
+                                                }
+                                            }}
+                                        >
+                                            <img
+                                                src={getItemImageSrc()}
+                                                alt={slotName}
+                                                style={{ opacity: isDisabled ? 0.3 : 1 }}
+                                            onError={(e) => {
+                                                console.error('❌ Image load error for off-hand item:', {
+                                                    slotName,
+                                                    itemName: item?.name,
+                                                    iconId: item?.iconId,
+                                                    imageUrl: item?.imageUrl,
+                                                    attemptedSrc: e.target.src
+                                                });
+                                                e.target.src = getIconUrl('inv_misc_questionmark', 'items', true);
+                                            }}
+                                        />
+
+                                        {isDisabled && (
+                                            <div className="disabled-overlay">
+                                                <div className="red-cross">
+                                                    <div className="cross-line cross-line-1"></div>
+                                                    <div className="cross-line cross-line-2"></div>
+                                                </div>
                                             </div>
-                                        </TooltipPortal>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                        )}
+
+                                        {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
+                                        {hoveredSlot === slotName && (isEmpty || isDisabled) && (
+                                            <TooltipPortal>
+                                                <div
+                                                    ref={tooltipRef} className="equipment-slot-tooltip"
+                                                    style={{
+                                                        position: 'fixed',
+                                                        left: adjustedPosition.x,
+                                                        top: adjustedPosition.y,
+                                                        pointerEvents: 'none',
+                                                        zIndex: 999999999
+                                                    }}
+                                                >
+                                                    <div className="equipment-slot-name">{config.info}</div>
+                                                    <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${config.info} equipment`}</div>
+                                                </div>
+                                            </TooltipPortal>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        </div>
+
+                        {/* RIGHT EQUIPMENT COLUMN */}
+                        <div className="right-equipment">
+                            {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
+                                ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
+                            ).map(([slotName, config]) => renderSlot(slotName, config))}
+                        </div>
                     </div>
                 </div>
 
-                {/* RIGHT EQUIPMENT COLUMN */}
-                <div className="right-equipment">
-                    {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
-                        ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
-                    ).map(([slotName, config]) => renderSlot(slotName, config))}
-                </div>
+                {/* RIGHT SIDE: spell/magic stats + resistance chips */}
+                <aside className="equipment-side equipment-side--right" data-column-label="Magic & Defense">
+                    {renderSpellStatsPanel()}
+                    {renderModifiedResistances()}
+                </aside>
             </div>
         </div>
     );
+
+    // Render the centered identity header (Name, Race, Class) in TTRPG font
+    const renderIdentityHeader = () => {
+        const displayName = baseName || name;
+        if (!displayName) return null;
+
+        const pills = [];
+        if (level) pills.push({ key: 'level', label: `Level ${level}` });
+        const racePill = buildRacePill(race, subrace);
+        if (racePill) pills.push({ key: 'race', label: racePill });
+        if (characterClass) pills.push({ key: 'class', label: characterClass });
+        if (pathDisplayName) pills.push({ key: 'path', label: pathDisplayName });
+        else if (path) pills.push({ key: 'path', label: path });
+
+        return (
+            <div className="equipment-identity-header">
+                <div className="equipment-identity-name">{displayName}</div>
+                {pills.length > 0 && (
+                    <div className="equipment-identity-subtitle">
+                        {pills.map(p => (
+                            <span key={p.key} className="identity-pill">{p.label}</span>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Render the WoW-Classic-style base stats grid (6 cards: STR/AGI/CON/INT/SPI/CHA).
+    // Each card shows the modifier prominently with the base value below.
+    const renderBaseStatsPanel = () => {
+        const cards = [
+            { key: 'strength',     label: 'STR', value: totalStats.strength },
+            { key: 'agility',      label: 'AGI', value: totalStats.agility },
+            { key: 'constitution', label: 'CON', value: totalStats.constitution },
+            { key: 'intelligence', label: 'INT', value: totalStats.intelligence },
+            { key: 'spirit',       label: 'SPI', value: totalStats.spirit },
+            { key: 'charisma',     label: 'CHA', value: totalStats.charisma }
+        ];
+
+        return (
+            <div className="wow-base-stats-panel">
+                <h4 className="vitals-column-title">Base Stats</h4>
+                <div className="wow-base-stats-grid">
+                    {cards.map(c => {
+                        const v = c.value ?? 10;
+                        const mod = Math.floor((v - 10) / 2);
+                        return (
+                            <div key={c.key} className="wow-base-stat-card">
+                                <div className="wow-base-stat-label">{c.label}</div>
+                                <div className={`wow-base-stat-mod ${mod > 0 ? 'pos' : mod < 0 ? 'neg' : ''}`}>
+                                    {mod > 0 ? `+${mod}` : mod}
+                                </div>
+                                <div className="wow-base-stat-value">{v}</div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
+    // Render the melee/physical derived stats panel (below the base stats on the left).
+    const renderMeleeStatsPanel = () => {
+        const strVal = totalStats.strength ?? 10;
+        const agiVal = totalStats.agility ?? 10;
+        const strMod = Math.floor((strVal - 10) / 2);
+        const agiMod = Math.floor((agiVal - 10) / 2);
+
+        const mainHand = equipment?.mainHand;
+        const ranged = equipment?.ranged;
+
+        let meleeFormula = '1d4';
+        let meleeMod = strMod;
+        if (mainHand && mainHand.weaponStats?.baseDamage) {
+            const { diceCount = 1, diceType = 4, damageType = 'smashing' } = mainHand.weaponStats.baseDamage;
+            meleeFormula = `${diceCount}d${diceType}`;
+            meleeMod = computeDamageModifier(damageType, strMod, agiMod);
+        }
+
+        let rangedFormula = '—';
+        let rangedMod = agiMod;
+        if (ranged && ranged.weaponStats?.baseDamage) {
+            const { diceCount = 1, diceType = 4, damageType = 'stabbing' } = ranged.weaponStats.baseDamage;
+            rangedFormula = `${diceCount}d${diceType}`;
+            rangedMod = computeDamageModifier(damageType, strMod, agiMod);
+        }
+
+        const meleeSign = meleeMod >= 0 ? `+ ${meleeMod}` : `- ${Math.abs(meleeMod)}`;
+        const rangedSign = rangedFormula === '—' ? '' : (rangedMod >= 0 ? `+ ${rangedMod}` : `- ${Math.abs(rangedMod)}`);
+
+        return (
+            <div className="vitals-stats-column">
+                <h4 className="vitals-column-title">Melee & Physical</h4>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Melee Damage</span>
+                    <span className="vitals-stat-value vitals-stat-value--damage">
+                        {meleeFormula} {meleeSign}
+                    </span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Ranged Damage</span>
+                    <span className="vitals-stat-value vitals-stat-value--damage">
+                        {rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`}
+                    </span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Initiative</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.initiative ?? Math.floor((agiVal - 10) / 5)}
+                    </span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Max Health</span>
+                    <span className="vitals-stat-value">
+                        {health.current}/{health.max}
+                    </span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Movement</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.movementSpeed ?? 30} ft
+                    </span>
+                </div>
+            </div>
+        );
+    };
+
+    // Render the spell/magic stats panel (right side).
+    const renderSpellStatsPanel = () => {
+        const types = SPELL_POWER_TYPES;
+        const safeIndex = spellPowerTypeIndex % types.length;
+        const current = types[safeIndex];
+        const currentValue = getSpellPowerForType(current.id);
+
+        const cycleSpellPower = (delta) => {
+            setSpellPowerTypeIndex((prev) => (prev + delta + types.length) % types.length);
+        };
+
+        // Reddish color for the type name in the label
+        const typeNameColor = '#B22222';
+
+        return (
+            <div className="vitals-stats-column">
+                <h4 className="vitals-column-title">Spell & Magic</h4>
+                <div
+                    className="vitals-stat-tile vitals-stat-tile--clickable"
+                    onClick={() => cycleSpellPower(1)}
+                    title={`Click to cycle through spell power types. Currently: ${current.name}`}
+                >
+                    <span className="vitals-stat-label">
+                        Spell Power <span className="vitals-sp-type-inline" style={{ color: typeNameColor }}>({current.name})</span>
+                    </span>
+                    <span className="vitals-stat-value">{currentValue}</span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Healing Power</span>
+                    <span className="vitals-stat-value">{totalStats.healingPower || 0}</span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Mana Regen</span>
+                    <span className="vitals-stat-value">{totalStats.manaRegen || 0}/turn</span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Max Mana</span>
+                    <span className="vitals-stat-value">
+                        {mana.current}/{mana.max}
+                    </span>
+                </div>
+                <div className="vitals-stat-tile">
+                    <span className="vitals-stat-label">Passive Perception</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.passivePerception ?? 10}
+                    </span>
+                </div>
+            </div>
+        );
+    };
+
+    // Compute the effective spell power for a given legacy damage-type id
+    // by combining the per-element value from store + the equipment bonus for that type.
+    const getSpellPowerForType = (typeId) => {
+        const baseVal = spellPower?.[typeId]?.value || 0;
+        const eqVal = equipmentBonuses?.spellDamageTypes?.[typeId] || 0;
+        const totalStatsBonus = totalStats?.[`${typeId}SpellPower`] || 0;
+        return Math.round(baseVal + eqVal + totalStatsBonus);
+    };
+
+    // Render the modified-resistances strip (only non-100% entries) - shown on the right side
+    const renderModifiedResistances = () => {
+        const merged = totalStats.mergedResistances || {};
+        const entries = Object.entries(merged)
+            .filter(([type, data]) => data && data.level !== undefined && data.level !== 100)
+            .map(([type, data]) => ({
+                type,
+                level: data.level,
+                multiplier: data.multiplier ?? 1.0,
+                info: getResistanceLevelInfo(data.level, data.multiplier ?? 1.0)
+            }));
+
+        return (
+            <div className="vitals-resistance-strip">
+                <span className="vitals-resistance-strip-label">Resistances</span>
+                {entries.length === 0 ? (
+                    <span className="vitals-resistance-empty">All normal (100%)</span>
+                ) : (
+                    entries.map(({ type, info, multiplier }) => (
+                        <span
+                            key={type}
+                            className="vitals-resistance-chip"
+                            style={{ color: info.color }}
+                            title={`${info.name} - ${info.description}`}
+                        >
+                            <span className="vitals-resistance-chip-name">{resistanceTypeDisplayName(type)}</span>
+                            <span className="vitals-resistance-chip-mult">{info.percentLabel}</span>
+                        </span>
+                    ))
+                )}
+            </div>
+        );
+    };
 
     // Helper function to get the actor name (current player, with GM suffix if in GM mode)
     const getActorName = () => {
@@ -1730,11 +2117,51 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
             totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
             totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
+            totalStats.swimSpeed = Math.round(freshDerivedStats.swimSpeed || 0);
+            totalStats.climbSpeed = Math.round(freshDerivedStats.climbSpeed || 0);
+            totalStats.passivePerception = Math.round(freshDerivedStats.passivePerception || 0);
+            totalStats.visionRange = Math.round(freshDerivedStats.visionRange || 0);
+            totalStats.darkvision = Math.round(freshDerivedStats.darkvision || 0);
+            totalStats.flySpeed = Math.round(freshDerivedStats.flySpeed || 0);
+            totalStats.initiative = Math.round(freshDerivedStats.initiative || 0);
             totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
             totalStats.damage = Math.round(freshDerivedStats.damage || 0);
             totalStats.spellDamage = Math.round(freshDerivedStats.spellDamage || 0);
             totalStats.healingPower = Math.round(freshDerivedStats.healingPower || 0);
             totalStats.rangedDamage = Math.round(freshDerivedStats.rangedDamage || 0);
+            totalStats.slashingDamage = Math.round(freshDerivedStats.slashingDamage || 0);
+            totalStats.bludgeoningDamage = Math.round(freshDerivedStats.bludgeoningDamage || 0);
+            totalStats.piercingDamage = Math.round(freshDerivedStats.piercingDamage || 0);
+
+            // Merge resistances: base (from store) wins for explicit user setting, equipment bonuses layer on top.
+            // Final resistance for each type is whichever has a non-100 level, or the equipment bonus if both are 100.
+            const mergedResistances = {};
+            const allTypes = new Set([
+                ...Object.keys(resistances || {}),
+                ...Object.keys(equipmentBonuses.resistances || {})
+            ]);
+            allTypes.forEach(type => {
+                const base = (resistances || {})[type];
+                const eq = (equipmentBonuses.resistances || {})[type];
+                if (base && typeof base === 'object' && base.level !== undefined) {
+                    mergedResistances[type] = { ...base };
+                }
+                if (eq && typeof eq === 'object' && eq.level !== undefined) {
+                    const cur = mergedResistances[type] || { level: 100, multiplier: 1.0 };
+                    const curMult = cur.multiplier ?? 1.0;
+                    const eqMult = eq.multiplier ?? 1.0;
+                    // If base is 100 (normal), equipment bonus replaces it.
+                    // If base is non-100, keep the more severe (lower multiplier for negatives, higher for positives).
+                    if (cur.level === 100) {
+                        mergedResistances[type] = { ...eq };
+                    } else if (eqMult < curMult || (eqMult > 1 && eqMult > curMult)) {
+                        mergedResistances[type] = { ...eq };
+                    } else {
+                        mergedResistances[type] = cur;
+                    }
+                }
+            });
+            totalStats.mergedResistances = mergedResistances;
 
             if (equipmentBonuses.resistances) {
                 Object.entries(equipmentBonuses.resistances).forEach(([resistanceType, resistanceData]) => {
@@ -1761,7 +2188,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         }
 
         return totalStats;
-    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace]);
+    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace, resistances]);
 
 
 
@@ -1844,26 +2271,28 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 setHoveredSlot(null);
             }
         }}>
-            <div className={`character-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
-                <button
-                    className="stats-label-toggle-button"
-                    onClick={() => setShowLabels(!showLabels)}
-                    title={showLabels ? 'Hide Labels' : 'Show Labels'}
-                >
-                    <span className="stats-toggle-icon">{showLabels ? '� - �' : '▶'}</span>
-                </button>
-                {Object.entries(SECTIONS).map(([key, section]) => (
+            {propSubSection === undefined && (
+                <div className={`character-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
                     <button
-                        key={key}
-                        className={`character-nav-button ${activeSection === key ? 'active' : ''}`}
-                        onClick={() => setActiveSection(key)}
-                        title={section.title}
+                        className="stats-label-toggle-button"
+                        onClick={() => setShowLabels(!showLabels)}
+                        title={showLabels ? 'Hide Labels' : 'Show Labels'}
                     >
-                        <img src={section.icon} alt="" className="character-nav-icon" />
-                        {showLabels && <span className="character-nav-text">{section.title}</span>}
+                        <span className="stats-toggle-icon">{showLabels ? ' - ' : '▶'}</span>
                     </button>
-                ))}
-            </div>
+                    {Object.entries(SECTIONS).map(([key, section]) => (
+                        <button
+                            key={key}
+                            className={`character-nav-button ${activeSection === key ? 'active' : ''}`}
+                            onClick={() => setActiveSection(key)}
+                            title={section.title}
+                        >
+                            <img src={section.icon} alt="" className="character-nav-icon" />
+                            {showLabels && <span className="character-nav-text">{section.title}</span>}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div
                 className={`character-content-area ${activeSection === 'equipment' ? 'equipment-backdrop' :
@@ -1881,6 +2310,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     })
                 }}
             >
+                {propSubSection === undefined && (
                 <div className="character-section-header">
                     <img
                         src={SECTIONS[activeSection].icon}
@@ -1975,6 +2405,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                         </div>
                     )}
                 </div>
+                )}
 
                 <div className="character-fields">
                     {renderSectionContent()}

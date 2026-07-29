@@ -16,6 +16,7 @@ import {
  getDocs,
  addDoc,
  updateDoc,
+ deleteDoc,
  query,
  where,
  orderBy,
@@ -46,7 +47,7 @@ const MOCK_CATEGORIES = [
   id: 'humanoids',
   name: 'Humanoids',
   description: 'Human-like creatures including NPCs and intelligent beings',
-  icon: 'inv_misc_head_human_01',
+  icon: 'Human/Icon1',
   color: '#8B4513',
   creatureCount: 0
  },
@@ -54,7 +55,7 @@ const MOCK_CATEGORIES = [
   id: 'beasts',
   name: 'Beasts',
   description: 'Natural animals and wildlife',
-  icon: 'ability_hunter_pet_wolf',
+  icon: 'Monsters/Icon1',
   color: '#2d5016',
   creatureCount: 0
  },
@@ -62,7 +63,7 @@ const MOCK_CATEGORIES = [
   id: 'undead',
   name: 'Undead',
   description: 'Zombies, skeletons, and other undead creatures',
-  icon: 'spell_shadow_raisedead',
+  icon: 'Undead/Icon1',
   color: '#5a1e12',
   creatureCount: 0
  },
@@ -70,7 +71,7 @@ const MOCK_CATEGORIES = [
   id: 'dragons',
   name: 'Dragons',
   description: 'Mighty dragons and dragonkin',
-  icon: 'inv_misc_head_dragon_01',
+  icon: 'Bestiary/tiamat',
   color: '#a08c70',
   creatureCount: 0
  },
@@ -78,7 +79,7 @@ const MOCK_CATEGORIES = [
   id: 'elementals',
   name: 'Elementals',
   description: 'Creatures of pure elemental energy',
-  icon: 'spell_fire_elemental_totem',
+  icon: 'Bestiary/emberveil',
   color: '#b8860b',
   creatureCount: 0
  },
@@ -86,7 +87,7 @@ const MOCK_CATEGORIES = [
   id: 'fiends',
   name: 'Fiends',
   description: 'Demons, devils, and other evil outsiders',
-  icon: 'spell_shadow_summoninfernal',
+  icon: 'Demon/Icon1',
   color: '#8b7355',
   creatureCount: 0
  }
@@ -177,6 +178,10 @@ export async function getCreatureCategories() {
 
   const categoriesRef = collection(db, COLLECTIONS.CATEGORIES);
   const snapshot = await getDocs(categoriesRef);
+
+  if (snapshot.empty) {
+   return MOCK_CATEGORIES;
+  }
 
   return snapshot.docs.map(doc => ({
    id: doc.id,
@@ -559,42 +564,42 @@ export async function initializeCreatureCategories() {
   humanoids: {
    name: "Humanoids",
    description: "Human-like creatures including NPCs and intelligent beings",
-   icon: "inv_misc_head_human_01",
+   icon: "Human/Icon1",
    color: "#8B4513",
    creatureCount: 0
   },
   beasts: {
    name: "Beasts",
    description: "Natural animals and wildlife",
-   icon: "ability_hunter_pet_wolf",
+   icon: "Monsters/Icon1",
    color: "#2d5016",
    creatureCount: 0
   },
   undead: {
    name: "Undead",
    description: "Zombies, skeletons, and other undead creatures",
-   icon: "spell_shadow_raisedead",
+   icon: "Undead/Icon1",
    color: "#5a1e12",
    creatureCount: 0
   },
   dragons: {
    name: "Dragons",
    description: "Mighty dragons and dragonkin",
-   icon: "inv_misc_head_dragon_01",
+   icon: "Bestiary/tiamat",
    color: "#a08c70",
    creatureCount: 0
   },
   elementals: {
    name: "Elementals",
    description: "Creatures of pure elemental energy",
-   icon: "spell_fire_elemental_totem",
+   icon: "Bestiary/emberveil",
    color: "#b8860b",
    creatureCount: 0
   },
   fiends: {
    name: "Fiends",
    description: "Demons, devils, and other evil outsiders",
-   icon: "spell_shadow_summoninfernal",
+   icon: "Demon/Icon1",
    color: "#8b7355",
    creatureCount: 0
   }
@@ -613,4 +618,119 @@ export async function initializeCreatureCategories() {
  }
 
  return results;
+}
+
+/**
+ * Seed a test creature into the community collection
+ */
+export async function seedTestCreature() {
+ try {
+  if (!checkFirebaseAvailable()) {
+   console.log('Firebase not available, skipping seed');
+   return null;
+  }
+
+  const creaturesRef = collection(db, COLLECTIONS.CREATURES);
+  const q = query(creaturesRef, where('name', '==', 'Ember Wisp'), limit(1));
+  const snapshot = await getDocs(q);
+
+  if (!snapshot.empty) {
+    const existingDoc = snapshot.docs[0];
+    const existing = existingDoc.data();
+    if (existing.categoryId !== 'beasts' || existing.type !== 'beast') {
+      console.log('Ember Wisp exists with wrong category, updating...');
+      const docRef = doc(db, COLLECTIONS.CREATURES, existingDoc.id);
+      await updateDoc(docRef, {
+        categoryId: 'beasts',
+        type: 'beast',
+        tags: ['fire', 'beast', 'wisp', 'magical']
+      });
+      console.log('Ember Wisp updated to beasts category');
+    } else {
+      console.log('Ember Wisp already exists with correct category, skipping seed');
+    }
+    return null;
+  }
+
+  const testCreature = {
+   name: 'Ember Wisp',
+   description: 'A small, mischievous spirit of living flame that darts through the air, leaving trails of sparks. Often found near volcanic vents and ancient forges.',
+   type: 'beast',
+   size: 'small',
+   categoryId: 'beasts',
+   tags: ['fire', 'elemental', 'wisp', 'magical'],
+   authorId: 'seed-system',
+   author: 'System Seed',
+   isPublic: true,
+   isFeatured: true,
+   rating: 4.3,
+   ratingCount: 8,
+   downloadCount: 42,
+   creatureData: {
+    stats: {
+     strength: 8,
+     agility: 18,
+     constitution: 12,
+     intelligence: 10,
+     spirit: 14,
+     charisma: 11,
+     maxHp: 22,
+     currentHp: 22,
+     maxMana: 40,
+     currentMana: 40,
+     armor: 12,
+     initiative: 18
+    },
+   tokenIcon: 'Bestiary/placeholder',
+   tokenBorder: '#FF6600'
+   },
+   createdAt: new Date(),
+   updatedAt: new Date()
+  };
+
+  const sanitized = sanitizeForFirestore(testCreature);
+  const docRef = await addDoc(creaturesRef, sanitized);
+  console.log('Seeded test creature:', docRef.id);
+  return { id: docRef.id, ...sanitized };
+ } catch (error) {
+  console.error('Error seeding test creature:', error);
+  return null;
+ }
+}
+
+/**
+ * Remove duplicate creatures (keep oldest entry per name)
+ */
+export async function cleanupDuplicateCreatures() {
+ try {
+  if (!checkFirebaseAvailable()) return 0;
+
+  const creaturesRef = collection(db, COLLECTIONS.CREATURES);
+  const snapshot = await getDocs(creaturesRef);
+
+  const seen = new Map();
+  const duplicates = [];
+
+  for (const docSnap of snapshot.docs) {
+   const data = docSnap.data();
+   const name = data.name;
+   if (seen.has(name)) {
+    duplicates.push(docSnap.id);
+   } else {
+    seen.set(name, docSnap.id);
+   }
+  }
+
+  for (const id of duplicates) {
+   await deleteDoc(doc(db, COLLECTIONS.CREATURES, id));
+  }
+
+  if (duplicates.length > 0) {
+   console.log(`Cleaned up ${duplicates.length} duplicate creatures`);
+  }
+  return duplicates.length;
+ } catch (error) {
+  console.error('Error cleaning up duplicate creatures:', error);
+  return 0;
+ }
 }

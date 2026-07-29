@@ -11,6 +11,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 import '../../styles/campaign-manager.css';
 
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
@@ -2395,15 +2396,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })}
                                                                     className="homebrew-select"
                                                                 >
-                                                                    <option value="physical">Physical</option>
-                                                                    <option value="ember">Ember</option>
-                                                                    <option value="rime">Rime</option>
-                                                                    <option value="storm">Storm</option>
-                                                                    <option value="arcane">Arcane</option>
-                                                                    <option value="primal">Primal</option>
-                                                                    <option value="blight">Blight</option>
-                                                                    <option value="wyrd">Wyrd</option>
-                                                                     <option value="sacred">Sacred</option>
+                                                                    {SPELL_DAMAGE_TYPES.map(t => <option key={t} value={t}>{getDamageType(t)?.name || t}</option>)}
                                                                 </select>
                                                             </div>
                                                             <div className="homebrew-field-row">

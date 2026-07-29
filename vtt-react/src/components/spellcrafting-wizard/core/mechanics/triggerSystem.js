@@ -1176,7 +1176,7 @@ function evaluateDamageTakenCheck(condition, gameState, entity) {
   const damageType = damageTypeParam ? damageTypeParam.value : 'any';
   
   if (damageType !== 'any') {
-    if (damageType === 'physical' && eventData.damageType !== 'physical') return false;
+    if (damageType === 'smashing' && eventData.damageType !== 'smashing') return false;
     if (damageType === 'magical' && eventData.damageType !== 'magical') return false;
     
     if (damageType === 'specific') {
@@ -1240,7 +1240,7 @@ function evaluateDamageDealtCheck(condition, gameState, entity) {
   const damageType = damageTypeParam ? damageTypeParam.value : 'any';
   
   if (damageType !== 'any') {
-    if (damageType === 'physical' && eventData.damageType !== 'physical') return false;
+    if (damageType === 'smashing' && eventData.damageType !== 'smashing') return false;
     if (damageType === 'magical' && eventData.damageType !== 'magical') return false;
     
     if (damageType === 'specific') {

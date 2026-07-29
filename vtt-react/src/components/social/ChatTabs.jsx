@@ -116,6 +116,21 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
     closeWhisperTab(userId);
   };
 
+  // Clear button visibility for the active main view (view switching is in the header CHAT dropdown)
+  const canClearActive = (
+    (activeTab === 'global' && globalChatMessages.length > 0) ||
+    (activeTab === 'party' && partyChatMessages.length > 0) ||
+    (activeTab === 'loot' && lootNotifications.length > 0) ||
+    (activeTab === 'combat' && combatNotifications.length > 0)
+  );
+
+  const handleClearActive = () => {
+    if (activeTab === 'global') clearGlobalMessages();
+    else if (activeTab === 'party') clearPartyMessages();
+    else if (activeTab === 'loot') clearNotifications('loot');
+    else if (activeTab === 'combat') clearNotifications('combat');
+  };
+
   return (
     <div className="chat-tabs">
       {/* Toggle Users Pane Button */}
@@ -127,164 +142,65 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
         <i className={isUsersPaneHidden ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
       </button>
 
-      {/* Global Tab */}
-      <div
-        className={`chat-tab ${activeTab === 'global' ? 'active' : ''} ${pulseTabs.has('global') ? 'pulse' : ''}`}
-        onClick={() => handleTabClick('global')}
-      >
-        <i className="fas fa-globe"></i>
-        <span>Global</span>
-        {activeTab === 'global' && globalChatMessages.length > 0 && (
-          <button
-            className="tab-clear-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              clearGlobalMessages();
-            }}
-            title="Clear Global Chat"
-          >
-            <i className="fas fa-trash"></i>
-          </button>
-        )}
-      </div>
+      {/* Clear button for the active main chat view (switch views via the CHAT header dropdown) */}
+      {canClearActive && (
+        <button
+          className="chat-view-clear-btn"
+          onClick={handleClearActive}
+          title={`Clear ${activeTab} chat`}
+        >
+          <i className="fas fa-trash"></i>
+          <span className="clear-label">Clear</span>
+        </button>
+      )}
 
       {/* Whisper Tabs */}
-      {Array.from(whisperTabs.entries()).map(([userId, tabData]) => {
-        const whisperTabId = `whisper_${userId}`;
-        const isActiveWhisper = activeTab === whisperTabId;
-        const hasMessages = tabData.messages && tabData.messages.length > 0;
-        
-        // Get character name with fallback
-        const characterName = tabData.user?.characterName || 
-                             tabData.user?.name || 
-                             tabData.user?.displayName || 
-                             'Unknown';
+      <div className="whisper-tabs-scroll">
+        {Array.from(whisperTabs.entries()).map(([userId, tabData]) => {
+          const whisperTabId = `whisper_${userId}`;
+          const isActiveWhisper = activeTab === whisperTabId;
+          const hasMessages = tabData.messages && tabData.messages.length > 0;
+          
+          // Get character name with fallback
+          const characterName = tabData.user?.characterName || 
+                               tabData.user?.name || 
+                               tabData.user?.displayName || 
+                               'Unknown';
 
-        return (
-          <div
-            key={userId}
-            className={`chat-tab whisper-tab ${isActiveWhisper ? 'active' : ''} ${pulseTabs.has(whisperTabId) ? 'pulse' : ''}`}
-            onClick={() => handleTabClick(whisperTabId)}
-          >
-            <i className="fas fa-comment"></i>
-            <span>{characterName}</span>
-            {tabData.unreadCount > 0 && (
-              <span className="unread-badge">{tabData.unreadCount}</span>
-            )}
-            {isActiveWhisper && hasMessages && (
+          return (
+            <div
+              key={userId}
+              className={`chat-tab whisper-tab ${isActiveWhisper ? 'active' : ''} ${pulseTabs.has(whisperTabId) ? 'pulse' : ''}`}
+              onClick={() => handleTabClick(whisperTabId)}
+            >
+              <i className="fas fa-comment"></i>
+              <span>{characterName}</span>
+              {tabData.unreadCount > 0 && (
+                <span className="unread-badge">{tabData.unreadCount}</span>
+              )}
+              {isActiveWhisper && hasMessages && (
+                <button
+                  className="tab-clear-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    clearWhisperMessages(userId);
+                  }}
+                  title="Clear Whisper Chat"
+                >
+                  <i className="fas fa-trash"></i>
+                </button>
+              )}
               <button
-                className="tab-clear-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  clearWhisperMessages(userId);
-                }}
-                title="Clear Whisper Chat"
+                className="close-tab-btn"
+                onClick={(e) => handleCloseWhisperTab(e, userId)}
+                title="Close whisper"
               >
-                <i className="fas fa-trash"></i>
+                <i className="fas fa-times"></i>
               </button>
-            )}
-            <button
-              className="close-tab-btn"
-              onClick={(e) => handleCloseWhisperTab(e, userId)}
-              title="Close whisper"
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        );
-      })}
-
-      {/* Party Tab (visible in party or multiplayer room) */}
-      {(isInParty || isInMultiplayer) && (
-        <div
-          className={`chat-tab party-tab ${activeTab === 'party' ? 'active' : ''} ${pulseTabs.has('party') ? 'pulse' : ''}`}
-          onClick={() => handleTabClick('party')}
-        >
-          <i className="fas fa-users"></i>
-          <span>Party</span>
-          {partyChatUnreadCount > 0 && (
-            <span className="unread-badge">{partyChatUnreadCount}</span>
-          )}
-          {activeTab === 'party' && partyChatMessages.length > 0 && (
-            <button
-              className="tab-clear-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                clearPartyMessages();
-              }}
-              title="Clear Party Chat"
-            >
-              <i className="fas fa-trash"></i>
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Loot Tab (only visible in game) */}
-      {isInGame && (
-        <div
-          className={`chat-tab loot-tab ${activeTab === 'loot' ? 'active' : ''}`}
-          onClick={() => handleTabClick('loot')}
-        >
-          <i className="fas fa-coins"></i>
-          <span>Loot</span>
-          {lootUnreadCount > 0 && (
-            <span className="unread-badge">{lootUnreadCount}</span>
-          )}
-          {activeTab === 'loot' && lootNotifications.length > 0 && (
-            <button
-              className="tab-clear-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                clearNotifications('loot');
-              }}
-              title="Clear Loot History"
-            >
-              <i className="fas fa-trash"></i>
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Combat Tab (only visible in game) */}
-      {isInGame && (
-        <div
-          className={`chat-tab combat-tab ${activeTab === 'combat' ? 'active' : ''}`}
-          onClick={() => handleTabClick('combat')}
-        >
-          <i className="fas fa-swords"></i>
-          <span>Combat</span>
-          {combatUnreadCount > 0 && (
-            <span className="unread-badge">{combatUnreadCount}</span>
-          )}
-          {activeTab === 'combat' && combatNotifications.length > 0 && (
-            <button
-              className="tab-clear-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                clearNotifications('combat');
-              }}
-              title="Clear Combat History"
-            >
-              <i className="fas fa-trash"></i>
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Travel Tab (only visible in multiplayer) */}
-      {isInMultiplayer && (
-        <div
-          className={`chat-tab travel-tab ${activeTab === 'travel' ? 'active' : ''} ${pulseTabs.has('travel') ? 'pulse' : ''}`}
-          onClick={() => handleTabClick('travel')}
-        >
-          <i className="fas fa-route"></i>
-          <span>Travel</span>
-          {travelChatUnreadCount > 0 && (
-            <span className="unread-badge">{travelChatUnreadCount}</span>
-          )}
-        </div>
-      )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -1,19 +1,19 @@
 /* ===== PATHFINDER-STYLE ACTION BAR ===== */
-/* Beautiful medieval fantasy action bar with parchment styling */
+/* Background image (Actionbar.PNG) applied via inline style when asset is loaded.
+   Fallback parchment styling below for when the asset hasn't loaded yet. */
 
 .action-bar-container {
     position: fixed;
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10000; /* Higher than spell tooltip overlay to keep it visible */
-    
-    /* Pathfinder Parchment Background */
-    background: 
+    z-index: 10000;
+
+    /* Fallback parchment background (overridden by inline backgroundImage) */
+    background:
         linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
         radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
-    
-    /* Rich Border & Shadow */
+
     border: 3px solid #8B4513;
     border-radius: 12px;
     box-shadow:
@@ -22,13 +22,27 @@
         inset 0 -2px 0 rgba(139, 69, 19, 0.2),
         0 0 0 1px rgba(139, 69, 19, 0.3),
         0 0 20px rgba(139, 69, 19, 0.15);
-    
+
     padding: 8px 12px;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
     backdrop-filter: blur(2px);
 }
 
-/* Subtle Parchment Texture */
+/* When the Actionbar.PNG asset is loaded, strip CSS chrome and size to image */
+.action-bar-container.action-bar-has-asset {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    /* Scaled to ~90% so low-res icons sit tighter inside the drawn cutout squares.
+       Cutout interiors: x centers [71..624], y range [43..99] in 697×139 image. */
+    padding: 44px 0px 41px 0px;
+}
+
+.action-bar-container.action-bar-has-asset::before {
+    display: none;
+}
 .action-bar-container::before {
     content: '';
     position: absolute;
@@ -58,90 +72,69 @@
 
 .action-bar {
     display: flex;
-    gap: 6px;
+    gap: 19px;
     position: relative;
     z-index: 2;
+    /* Cutout centers at x = 71,133,195,256,317,383,440,501,562,624 in 697px image.
+       Slot center = padding-left + slot/2 + n*(slot+gap). First center needs to be ~71. */
+    padding-left: 51px;
+    padding-right: 55px;
 }
 
 .action-slot {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     position: relative;
     cursor: pointer;
     border-radius: 10px;
     transition: all 0.2s ease;
 
-    /* Slot Background */
-    background:
-        linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.04) 100%),
-        linear-gradient(145deg, #e8dcc6 0%, #d4c4a8 100%);
-
-    /* Slot Border */
-    border: 2.5px solid #8B4513;
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.12),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.25),
-        0 2px 6px rgba(0, 0, 0, 0.2);
+    /* Transparent — parchment scroll provides the visual slot */
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .action-slot.empty {
-    background:
-        linear-gradient(135deg, rgba(139, 69, 19, 0.04) 0%, rgba(139, 69, 19, 0.02) 100%),
-        linear-gradient(145deg, #d4c4a8 0%, #c4b498 100%);
-    border-color: rgba(139, 69, 19, 0.35);
+    background: transparent;
+    border: none;
 }
 
 .action-slot.filled {
-    background:
-        linear-gradient(135deg, rgba(139, 69, 19, 0.12) 0%, rgba(139, 69, 19, 0.06) 100%),
-        linear-gradient(145deg, #f0ead6 0%, #e8dcc6 100%);
-    border-color: #8B4513;
+    background: transparent;
+    border: none;
 }
 
 .action-slot:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.12),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.35),
-        0 4px 10px rgba(0, 0, 0, 0.25),
-        0 0 6px rgba(139, 69, 19, 0.25);
+    background: transparent;
+    border: none;
+    box-shadow: 0 0 12px 3px rgba(212, 175, 55, 0.4);
 }
 
 .action-slot.drag-over {
-    border-color: #D4AF37;
-    background:
-        linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(212, 175, 55, 0.08) 100%),
-        linear-gradient(145deg, #f0ead6 0%, #e8dcc6 100%);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.12),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.35),
-        0 0 10px rgba(212, 175, 55, 0.4);
+    background: transparent;
+    border: none;
+    box-shadow: 0 0 16px 4px rgba(212, 175, 55, 0.6);
 }
 
 .action-slot.pressed {
-    transform: scale(0.9);
-    border-color: #FFD700;
-    background:
-        linear-gradient(135deg, rgba(255, 215, 0, 0.4) 0%, rgba(255, 215, 0, 0.2) 100%),
-        linear-gradient(145deg, #f0ead6 0%, #e8dcc6 100%);
-    box-shadow:
-        inset 0 3px 6px rgba(0, 0, 0, 0.3),
-        inset 0 -1px 2px rgba(255, 255, 255, 0.4),
-        0 0 20px rgba(255, 215, 0, 0.6),
-        0 0 40px rgba(255, 215, 0, 0.4);
+    transform: scale(0.95);
+    background: transparent;
+    border: none;
+    box-shadow: 0 0 20px 6px rgba(255, 215, 0, 0.6);
     animation: action-slot-pulse 0.2s ease-out;
 }
 
 @keyframes action-slot-pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 215, 0, 0); }
-    50% { transform: scale(0.85); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
-    100% { transform: scale(0.9); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+    50% { transform: scale(0.9); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+    100% { transform: scale(0.95); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
 }
 
 .action-bar-icon {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     position: absolute;
     top: 0;
@@ -149,13 +142,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid rgba(139, 69, 19, 0.7);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .action-bar-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 6px;
     display: block;
     /* Prevent flickering during drag operations */
     pointer-events: none;
@@ -166,16 +161,19 @@
 
 .slot-number {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
-    background: rgba(139, 69, 19, 0.8);
-    color: #f0ead6;
+    bottom: 1px;
+    right: 1px;
+    background: rgba(30, 20, 10, 0.65);
+    color: #f0e6d0;
     font-size: 10px;
     font-weight: bold;
     padding: 1px 3px;
     border-radius: 3px;
+    border: 1px solid rgba(139, 69, 19, 0.8);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     font-family: 'Cinzel', serif;
+    pointer-events: none;
+    line-height: 1;
 }
 
 .action-slot.on-cooldown {
@@ -201,10 +199,8 @@
 .action-slot.combat-restricted {
     opacity: 0.5;
     cursor: not-allowed;
-    border-color: #8B0000;
-    background:
-        linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.1) 100%),
-        linear-gradient(145deg, #d4c4a8 0%, #c4b498 100%);
+    background: transparent;
+    border: none;
 }
 
 .action-slot.combat-restricted .action-bar-icon {
@@ -213,10 +209,7 @@
 
 .action-slot.combat-restricted:hover {
     transform: none;
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.3),
-        0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .cooldown-overlay {
@@ -274,8 +267,8 @@
     }
 
     .action-slot {
-        width: 44px;
-        height: 44px;
+        width: 38px;
+        height: 38px;
     }
 
     .action-bar {

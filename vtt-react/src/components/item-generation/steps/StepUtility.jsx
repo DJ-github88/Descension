@@ -85,9 +85,9 @@ const StepUtility = ({ itemData, updateItemData }) => {
                                                 {/* Physical Damage Types First */}
                                                 {Object.entries(PHYSICAL_DAMAGE_TYPES).map(([type, info]) => {
                                                     const descriptions = {
-                                                        piercing: "Sharp points that penetrate armor and flesh",
-                                                        slashing: "Cutting edges that cleave through defenses",
-                                                        bludgeoning: "Crushing force that shatters bone and stone"
+                                                        smashing: "Crushing force that shatters bone and stone",
+                                                        stabbing: "Sharp points that penetrate armor and flesh",
+                                                        slicing: "Cutting edges that cleave through defenses"
                                                     };
                                                     // Convert hex to RGB for glow effects
                                                     const hexToRgb = (hex) => {
@@ -122,16 +122,14 @@ const StepUtility = ({ itemData, updateItemData }) => {
                                                 {/* Magical Damage Types Second */}
                                                 {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
                                                     const descriptions = {
-                                                        fire: "Searing flames that burn and incinerate",
-                                                        cold: "Freezing energy that chills to the bone",
-                                                        lightning: "Electric bolts that shock and stun",
-                                                        acid: "Corrosive energy that melts and dissolves",
-                                                        force: "Pure magical energy that warps reality",
-                                                        necrotic: "Death energy that withers and decays",
-                                                        radiant: "Divine light that sears and purifies",
-                                                        poison: "Toxic essence that corrupts and weakens",
-                                                        psychic: "Mental energy that shatters the mind",
-                                                        thunder: "Concussive force that deafens and destroys"
+                                                        ember: "Searing flames that burn and incinerate",
+                                                        rime: "Freezing energy that chills to the bone",
+                                                        storm: "Electric bolts that shock and stun",
+                                                        primal: "Raw nature energy, wild growth and instinct",
+                                                        arcane: "Pure magical force that warps reality",
+                                                        blight: "Death energy that withers and decays",
+                                                        wyrd: "Mental energy that shatters the mind",
+                                                        sacred: "Divine light that sears and purifies"
                                                     };
                                                     // Convert hex to RGB for glow effects
                                                     const hexToRgb = (hex) => {
@@ -232,9 +230,9 @@ const StepUtility = ({ itemData, updateItemData }) => {
                                                         {/* Physical Damage Types First */}
                                                         {Object.entries(PHYSICAL_DAMAGE_TYPES).map(([type, info]) => {
                                                             const descriptions = {
-                                                                piercing: "Sharp points that penetrate armor and flesh",
-                                                                slashing: "Cutting edges that cleave through defenses",
-                                                                bludgeoning: "Crushing force that shatters bone and stone"
+                                                                smashing: "Crushing force that shatters bone and stone",
+                                                                stabbing: "Sharp points that penetrate armor and flesh",
+                                                                slicing: "Cutting edges that cleave through defenses"
                                                             };
                                                             // Convert hex to RGB for glow effects
                                                             const hexToRgb = (hex) => {
@@ -266,16 +264,14 @@ const StepUtility = ({ itemData, updateItemData }) => {
                                                         {/* Magical Damage Types Second */}
                                                         {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
                                                             const descriptions = {
-                                                                fire: "Searing flames that burn and incinerate",
-                                                                cold: "Freezing energy that chills to the bone",
-                                                                lightning: "Electric bolts that shock and stun",
-                                                                acid: "Corrosive energy that melts and dissolves",
-                                                                force: "Pure magical energy that warps reality",
-                                                                necrotic: "Death energy that withers and decays",
-                                                                radiant: "Divine light that sears and purifies",
-                                                                poison: "Toxic essence that corrupts and weakens",
-                                                                psychic: "Mental energy that shatters the mind",
-                                                                thunder: "Concussive force that deafens and destroys"
+                                                                ember: "Searing flames that burn and incinerate",
+                                                                rime: "Freezing energy that chills to the bone",
+                                                                storm: "Electric bolts that shock and stun",
+                                                                primal: "Raw nature energy, wild growth and instinct",
+                                                                arcane: "Pure magical force that warps reality",
+                                                                blight: "Death energy that withers and decays",
+                                                                wyrd: "Mental energy that shatters the mind",
+                                                                sacred: "Divine light that sears and purifies"
                                                             };
                                                             // Convert hex to RGB for glow effects
                                                             const hexToRgb = (hex) => {

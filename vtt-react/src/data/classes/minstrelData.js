@@ -23,10 +23,23 @@ export const MINSTREL_DATA = {
    "thalren_human",
    "ordan_human"
   ],
-  "narrativeUnlock": true,
-  "justification": "Requires a maritime culture with oral-performance tradition. Tessen too isolated. Cragjaw too vertical. Thalren too archival (song is unreliable). Ordan use throat-singing for navigation (functional, not artistic)."
- },
+   "narrativeUnlock": true,
+   "justification": "Requires a maritime culture with oral-performance tradition. Tessen too isolated. Cragjaw too vertical. Thalren too archival (song is unreliable). Ordan use throat-singing for navigation (functional, not artistic)."
+  },
 
+  // Class Resource, generated per spell. Resource range/balance per design.
+  // Lore name: Musical Notes / Cadences
+  classResource: { type: "musical_notes", base: 0, max: 8, generationNote: "Built by performing cadences (instrumental). Each cadence type (perfect, deceptive, plagal, etc.) consumes 1-3 notes. Voice is stolen (cannot speak)." },
+
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['dagger', 'short_sword', 'rapier'],
+   armor: ['light_armor'],
+   offHand: ['lute', 'empty']
+  },
  /**
  * Subrace Variants, the Minstrel weaponizes sound, and the sea is the original
  * instrument. The four allowed subraces all answer to the Iceheart, but each hears a
@@ -569,7 +582,7 @@ Your chosen instrument modifies your abilities:
    "Plagal Cadence",
    "Sacred Ascent",
    "VI?V?I?III",
-   "+20 ft speed, +2 Dex for 2 rounds",
+   "+20 ft speed, +2 agility for 2 rounds",
    "Repositioning or pursuit",
   ],
   [
@@ -728,7 +741,7 @@ Use: Survive burst damage
 
 PLAGAL CADENCE (VI-V-I-III)
 Cost: VI(1), V(1), I(1), III(1) = 4 notes total
-Effect: +20 ft speed, +2 Dex for 2 rounds
+Effect: +20 ft speed, +2 agility for 2 rounds
 Use: Repositioning or pursuit
 
 HALF CADENCE (VII-V-IV-VI)
@@ -934,7 +947,7 @@ Before combat, decide which cadences you want to prioritize:
    range: 60,
    primaryEffect: "buff",
    secondaryEffect: "haste",
-   effectDescription: "Target ally gains +20 ft movement speed and +2 Dexterity for 2 rounds. The 'Amen' progression lifts the listener, feet leave the ground, if only for a moment.",
+   effectDescription: "Target ally gains +20 ft movement speed and +2 agility for 2 rounds. The 'Amen' progression lifts the listener, feet leave the ground, if only for a moment.",
    flavorText: "The amen. Not a victory, but the breath before victory, the moment the chorus inhales and the body remembers it can move.",
    tacticalUse: "Repositioning, pursuit, escaping an AOE.",
   },
@@ -1174,7 +1187,7 @@ Before combat, decide which cadences you want to prioritize:
    name: "Cacophony",
    tier: "Specialization Passive",
    description:
-    "Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. and, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 10 + your Spirit modifier) or become frightened for 1 turn. Dissonant sounds echo unpredictably.",
+    "Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. and, when an enemy fails a save against your cadence, all enemies within 10 feet must make a spirit check (DC 10 + your Spirit modifier) or become frightened for 1 turn. Dissonant sounds echo unpredictably.",
    uniqueTo: "Dissonance",
    },
   ],
@@ -1351,8 +1364,8 @@ Before combat, decide which cadences you want to prioritize:
 
   damageConfig: {
   formula: "1d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   resolution: "DICE",
   },
 
@@ -2939,12 +2952,12 @@ Before combat, decide which cadences you want to prioritize:
    { id : "plagal_swiftness",
    name: "Plagal Swiftness",
    description:
-    "Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.",
+    "Allies gain +20 ft movement speed and +2 agility for 2 rounds.",
    statModifier: [
     { stat: "movement_speed", magnitude: 20, magnitudeType: "flat" },
     { stat: "agility", magnitude: 2, magnitudeType: "flat" },
    ],
-   mechanicsText: "+20 ft speed, +2 Dex for 2 rounds",
+   mechanicsText: "+20 ft speed, +2 agility for 2 rounds",
    },
   ],
   durationValue: 2,
@@ -3660,7 +3673,7 @@ Before combat, decide which cadences you want to prioritize:
    description: "Enemies are frightened and must move away from you",
    config: {
     fearStrength: "moderate",
-    saveType: "charisma",
+    saveType: "spirit",
     saveDC: 16,
     duration: 2,
     durationUnit: "rounds",

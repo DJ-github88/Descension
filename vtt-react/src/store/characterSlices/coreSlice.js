@@ -44,9 +44,9 @@ const TEST_LAST_NAMES = [
 ];
 
 const TEST_WEAPONS = [
-    { id: 'ironweep', name: 'Ironweep', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'physical', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
-    { id: 'wanderers-edge', name: "Wanderer's Edge", subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'physical', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
-    { id: 'soulthirst', name: 'Soulthirst', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'physical', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
+    { id: 'ironweep', name: 'Ironweep', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
+    { id: 'wanderers-edge', name: "Wanderer's Edge", subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
+    { id: 'soulthirst', name: 'Soulthirst', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'stabbing', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
     { id: 'griefwood-staff', name: 'Griefwood Staff', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staves/staff-basic-gnarled-dark-brown', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
 ];
 
@@ -786,7 +786,7 @@ export const createCoreSlice = (set, get) => ({
                     let updatedImmunities = [...(get().immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+                    const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -806,31 +806,42 @@ export const createCoreSlice = (set, get) => ({
 
                                     // Map resistance stat names to resistance types
                                     const resistanceMap = {
-                                        'physical_resistance': 'physical',
-                                        'bludgeoning_resistance': 'physical',
-                                        'piercing_resistance': 'physical',
-                                        'slashing_resistance': 'physical',
+                                        'smashing_resistance': 'smashing',
+                                        'bludgeoning_resistance': 'smashing',
+                                        'physical_resistance': 'smashing',
+                                        'stabbing_resistance': 'stabbing',
+                                        'piercing_resistance': 'stabbing',
+                                        'ranged_resistance': 'stabbing',
+                                        'slicing_resistance': 'slicing',
+                                        'slashing_resistance': 'slicing',
                                         'ember_resistance': 'ember',
                                         'fire_resistance': 'ember',
-                                        'radiant_resistance': 'ember',
                                         'rime_resistance': 'rime',
                                         'frost_resistance': 'rime',
                                         'cold_resistance': 'rime',
+                                        'ice_resistance': 'rime',
                                         'storm_resistance': 'storm',
                                         'lightning_resistance': 'storm',
-                                        'force_resistance': 'storm',
                                         'thunder_resistance': 'storm',
-                                        'arcane_resistance': 'arcane',
+                                        'electric_resistance': 'storm',
                                         'primal_resistance': 'primal',
                                         'nature_resistance': 'primal',
+                                        'arcane_resistance': 'arcane',
+                                        'force_resistance': 'arcane',
                                         'blight_resistance': 'blight',
                                         'necrotic_resistance': 'blight',
+                                        'shadow_resistance': 'blight',
                                         'void_resistance': 'blight',
+                                        'silence_resistance': 'blight',
                                         'poison_resistance': 'blight',
                                         'acid_resistance': 'blight',
                                         'wyrd_resistance': 'wyrd',
                                         'psychic_resistance': 'wyrd',
-                                        'chaos_resistance': 'wyrd'
+                                        'chaos_resistance': 'wyrd',
+                                        'sacred_resistance': 'sacred',
+                                        'radiant_resistance': 'sacred',
+                                        'holy_resistance': 'sacred',
+                                        'divine_resistance': 'sacred'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -879,31 +890,42 @@ export const createCoreSlice = (set, get) => ({
 
                                         // Map immunity names to damage types or conditions
                                         const immunityMap = {
-                                            'physical': 'physical',
-                                            'bludgeoning': 'physical',
-                                            'piercing': 'physical',
-                                            'slashing': 'physical',
+                                            'smashing': 'smashing',
+                                            'bludgeoning': 'smashing',
+                                            'physical': 'smashing',
+                                            'stabbing': 'stabbing',
+                                            'piercing': 'stabbing',
+                                            'ranged': 'stabbing',
+                                            'slicing': 'slicing',
+                                            'slashing': 'slicing',
                                             'ember': 'ember',
                                             'fire': 'ember',
-                                            'radiant': 'ember',
                                             'rime': 'rime',
                                             'frost': 'rime',
                                             'cold': 'rime',
+                                            'ice': 'rime',
                                             'storm': 'storm',
                                             'lightning': 'storm',
-                                            'force': 'storm',
                                             'thunder': 'storm',
+                                            'electric': 'storm',
                                             'arcane': 'arcane',
+                                            'force': 'arcane',
                                             'primal': 'primal',
                                             'nature': 'primal',
                                             'blight': 'blight',
                                             'necrotic': 'blight',
+                                            'shadow': 'blight',
                                             'void': 'blight',
+                                            'silence': 'blight',
                                             'poison': 'blight',
                                             'acid': 'blight',
                                             'wyrd': 'wyrd',
                                             'psychic': 'wyrd',
                                             'chaos': 'wyrd',
+                                            'sacred': 'sacred',
+                                            'radiant': 'sacred',
+                                            'holy': 'sacred',
+                                            'divine': 'sacred',
                                             'disease': 'disease',
                                             'exhaustion': 'exhaustion'
                                         };

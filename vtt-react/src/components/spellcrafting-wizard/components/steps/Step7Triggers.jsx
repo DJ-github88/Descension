@@ -634,18 +634,18 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'damage_type' ? (
                                       <>
                                         <option value="any">Any Damage</option>
-                                        <option value="physical">Physical</option>
                                         <option value="magical">Magical</option>
-                                        <option value="fire">Fire</option>
-                                        <option value="cold">Cold</option>
-                                        <option value="lightning">Lightning</option>
-                                        <option value="poison">Poison</option>
-                                        <option value="acid">Acid</option>
-                                        <option value="necrotic">Necrotic</option>
-                                        <option value="radiant">Radiant</option>
-                                        <option value="force">Force</option>
-                                        <option value="psychic">Psychic</option>
-                                        <option value="thunder">Thunder</option>
+                                        <option value="smashing">Smashing</option>
+                                        <option value="stabbing">Stabbing</option>
+                                        <option value="slicing">Slicing</option>
+                                        <option value="ember">Ember</option>
+                                        <option value="rime">Rime</option>
+                                        <option value="storm">Storm</option>
+                                        <option value="primal">Primal</option>
+                                        <option value="arcane">Arcane</option>
+                                        <option value="blight">Blight</option>
+                                        <option value="wyrd">Wyrd</option>
+                                        <option value="sacred">Sacred</option>
                                       </>
                                     ) : (
                                       <option value="">Select a value</option>
@@ -799,18 +799,18 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'damage_type' ? (
                                       <>
                                         <option value="any">Any Damage</option>
-                                        <option value="physical">Physical</option>
                                         <option value="magical">Magical</option>
-                                        <option value="fire">Fire</option>
-                                        <option value="cold">Cold</option>
-                                        <option value="lightning">Lightning</option>
-                                        <option value="poison">Poison</option>
-                                        <option value="acid">Acid</option>
-                                        <option value="necrotic">Necrotic</option>
-                                        <option value="radiant">Radiant</option>
-                                        <option value="force">Force</option>
-                                        <option value="psychic">Psychic</option>
-                                        <option value="thunder">Thunder</option>
+                                        <option value="smashing">Smashing</option>
+                                        <option value="stabbing">Stabbing</option>
+                                        <option value="slicing">Slicing</option>
+                                        <option value="ember">Ember</option>
+                                        <option value="rime">Rime</option>
+                                        <option value="storm">Storm</option>
+                                        <option value="primal">Primal</option>
+                                        <option value="arcane">Arcane</option>
+                                        <option value="blight">Blight</option>
+                                        <option value="wyrd">Wyrd</option>
+                                        <option value="sacred">Sacred</option>
                                       </>
                                     ) : paramName === 'creature_type' ? (
                                       <>
@@ -823,18 +823,18 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'type' ? (
                                       <>
                                         <option value="any">Any Type</option>
-                                        <option value="physical">Physical</option>
                                         <option value="magical">Magical</option>
-                                        <option value="fire">Fire</option>
-                                        <option value="cold">Cold</option>
-                                        <option value="lightning">Lightning</option>
-                                        <option value="poison">Poison</option>
-                                        <option value="acid">Acid</option>
-                                        <option value="necrotic">Necrotic</option>
-                                        <option value="radiant">Radiant</option>
-                                        <option value="force">Force</option>
-                                        <option value="psychic">Psychic</option>
-                                        <option value="thunder">Thunder</option>
+                                        <option value="smashing">Smashing</option>
+                                        <option value="stabbing">Stabbing</option>
+                                        <option value="slicing">Slicing</option>
+                                        <option value="ember">Ember</option>
+                                        <option value="rime">Rime</option>
+                                        <option value="storm">Storm</option>
+                                        <option value="primal">Primal</option>
+                                        <option value="arcane">Arcane</option>
+                                        <option value="blight">Blight</option>
+                                        <option value="wyrd">Wyrd</option>
+                                        <option value="sacred">Sacred</option>
                                       </>
                                     ) : paramName === 'area_type' ? (
                                       <>
@@ -879,7 +879,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                       <>
                                         <option value="arcane">Arcane</option>
                                         <option value="sacred">Sacred</option>
-                                        <option value="nature">Nature</option>
+                                        <option value="primal">Primal</option>
                                         <option value="any">Any</option>
                                       </>
                                     ) : (
@@ -1705,18 +1705,18 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'damage_type' ? (
                                       <>
                                         <option value="any">Any Damage</option>
-                                        <option value="physical">Physical</option>
                                         <option value="magical">Magical</option>
-                                        <option value="fire">Fire</option>
-                                        <option value="cold">Cold</option>
-                                        <option value="lightning">Lightning</option>
-                                        <option value="poison">Poison</option>
-                                        <option value="acid">Acid</option>
-                                        <option value="necrotic">Necrotic</option>
-                                        <option value="radiant">Radiant</option>
-                                        <option value="force">Force</option>
-                                        <option value="psychic">Psychic</option>
-                                        <option value="thunder">Thunder</option>
+                                        <option value="smashing">Smashing</option>
+                                        <option value="stabbing">Stabbing</option>
+                                        <option value="slicing">Slicing</option>
+                                        <option value="ember">Ember</option>
+                                        <option value="rime">Rime</option>
+                                        <option value="storm">Storm</option>
+                                        <option value="primal">Primal</option>
+                                        <option value="arcane">Arcane</option>
+                                        <option value="blight">Blight</option>
+                                        <option value="wyrd">Wyrd</option>
+                                        <option value="sacred">Sacred</option>
                                       </>
                                     ) : paramName === 'creature_type' ? (
                                       <>
@@ -1729,18 +1729,18 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                     ) : paramName === 'type' ? (
                                       <>
                                         <option value="any">Any Type</option>
-                                        <option value="physical">Physical</option>
                                         <option value="magical">Magical</option>
-                                        <option value="fire">Fire</option>
-                                        <option value="cold">Cold</option>
-                                        <option value="lightning">Lightning</option>
-                                        <option value="poison">Poison</option>
-                                        <option value="acid">Acid</option>
-                                        <option value="necrotic">Necrotic</option>
-                                        <option value="radiant">Radiant</option>
-                                        <option value="force">Force</option>
-                                        <option value="psychic">Psychic</option>
-                                        <option value="thunder">Thunder</option>
+                                        <option value="smashing">Smashing</option>
+                                        <option value="stabbing">Stabbing</option>
+                                        <option value="slicing">Slicing</option>
+                                        <option value="ember">Ember</option>
+                                        <option value="rime">Rime</option>
+                                        <option value="storm">Storm</option>
+                                        <option value="primal">Primal</option>
+                                        <option value="arcane">Arcane</option>
+                                        <option value="blight">Blight</option>
+                                        <option value="wyrd">Wyrd</option>
+                                        <option value="sacred">Sacred</option>
                                       </>
                                     ) : paramName === 'area_type' ? (
                                       <>
@@ -1785,7 +1785,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                       <>
                                         <option value="arcane">Arcane</option>
                                         <option value="sacred">Sacred</option>
-                                        <option value="nature">Nature</option>
+                                        <option value="primal">Primal</option>
                                         <option value="any">Any</option>
                                       </>
                                     ) : (

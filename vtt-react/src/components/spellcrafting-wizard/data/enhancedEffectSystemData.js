@@ -53,7 +53,9 @@ export const DURATION_TYPES = [
 
 // Damage Types (Mythrill canonical)
 export const DAMAGE_TYPES = [
-  'physical',
+  'smashing',
+  'stabbing',
+  'slicing',
   'ember',
   'rime',
   'storm',
@@ -150,7 +152,9 @@ export const SPELL_TEMPLATES = [
 // Enhanced Effect Types - a collection of all specific effect types
 export const ENHANCED_EFFECT_TYPES_DATA = [
   // Damage types (Mythrill canonical)
-  { id: 'physical', name: 'Physical', category: 'damage', description: 'Kinetic damage from weapons, impacts, and raw force' },
+  { id: 'smashing', name: 'Smashing', category: 'damage', description: 'Concussive impact from hammers, blunt strikes, and kinetic force' },
+  { id: 'stabbing', name: 'Stabbing', category: 'damage', description: 'Piercing thrusts from spears, daggers, and puncturing strikes' },
+  { id: 'slicing', name: 'Slicing', category: 'damage', description: 'Cutting edges from swords, axes, and sweeping blades' },
   { id: 'ember', name: 'Ember', category: 'damage', description: 'Burning damage from flame, heat, and the Emberspire\'s fire' },
   { id: 'rime', name: 'Rime', category: 'damage', description: 'Freezing damage from extreme cold, frost, and glaciation' },
   { id: 'storm', name: 'Storm', category: 'damage', description: 'Electrical and concussive damage from lightning and thunder' },
@@ -158,7 +162,7 @@ export const ENHANCED_EFFECT_TYPES_DATA = [
   { id: 'primal', name: 'Primal', category: 'damage', description: 'Raw life-force energy: the unshaped power of the natural world' },
   { id: 'blight', name: 'Blight', category: 'damage', description: 'Life-draining damage that withers flesh and corrodes matter' },
   { id: 'wyrd', name: 'Wyrd', category: 'damage', description: 'Mind-rending damage that fractures consciousness and memory' },
-  { id: 'sacred', name: 'Divine', category: 'damage', description: 'Sacred radiance that burns the unholy and blesses the faithful' },
+  { id: 'sacred', name: 'Sacred', category: 'damage', description: 'Sacred radiance that burns the unholy and blesses the faithful' },
   // End of damage types
 
   // Area shapes

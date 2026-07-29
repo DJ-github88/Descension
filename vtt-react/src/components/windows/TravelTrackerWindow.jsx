@@ -17,13 +17,6 @@ const BIOME_ICONS = {
   steppe: FaWind
 };
 
-const TABS = [
-  { id: 'setup', label: 'Setup', step: 1 },
-  { id: 'journey', label: 'Journey', step: 2 },
-  { id: 'encounters', label: 'Encounters', step: 3 },
-  { id: 'broadcast', label: 'Broadcast', step: 4 }
-];
-
 const getSeverityColor = (severity) => `severity-${Math.min(severity, 4)}`;
 
 const ENCOUNTER_TYPES = ['none', 'combat', 'social', 'hazard', 'discovery'];
@@ -974,12 +967,18 @@ function BroadcastTab() {
   );
 }
 
+const TABS = [
+  { id: 'setup', label: 'Setup', step: 1 },
+  { id: 'journey', label: 'Journey', step: 2 },
+  { id: 'encounters', label: 'Encounters', step: 3 },
+  { id: 'broadcast', label: 'Broadcast', step: 4 }
+];
+
 export const TravelTrackerContent = () => {
   const currentBiome = useTravelStore(s => s.currentBiome);
   const activeTab = useTravelStore(s => s.activeTab);
   const setActiveTab = useTravelStore(s => s.setActiveTab);
   const isInMultiplayer = useGameStore(s => s.isInMultiplayer);
-
   const biome = useMemo(() => getBiome(currentBiome), [currentBiome]);
   const biomeStyle = useMemo(() => {
     if (!biome) return {};

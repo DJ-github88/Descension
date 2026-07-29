@@ -15,6 +15,9 @@ export const useActionBarPersistence = (roomId = 'global') => {
   // Stable reference for empty slots to prevent re-renders
   const EMPTY_SLOTS = useRef(Array(10).fill(null)).current;
 
+  // Ref to track current slots without adding to callback deps (prevents load-on-update loop)
+  const actionSlotsRef = useRef(actionSlots);
+
   // Get current character ID from character store
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   // Auto-save timer ref
@@ -26,7 +29,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
    */
   const loadActionBarConfig = useCallback(async () => {
     if (!currentCharacterId) {
-      if (JSON.stringify(actionSlots) !== JSON.stringify(EMPTY_SLOTS)) {
+      if (JSON.stringify(actionSlotsRef.current) !== JSON.stringify(EMPTY_SLOTS)) {
         setActionSlots(EMPTY_SLOTS);
       }
       setIsLoading(false);
@@ -47,12 +50,12 @@ export const useActionBarPersistence = (roomId = 'global') => {
           }
         });
 
-        if (JSON.stringify(actionSlots) !== JSON.stringify(normalizedConfig)) {
+        if (JSON.stringify(actionSlotsRef.current) !== JSON.stringify(normalizedConfig)) {
           setActionSlots(normalizedConfig);
         }
       } else {
         // No saved config found, use empty slots
-        if (JSON.stringify(actionSlots) !== JSON.stringify(EMPTY_SLOTS)) {
+        if (JSON.stringify(actionSlotsRef.current) !== JSON.stringify(EMPTY_SLOTS)) {
           setActionSlots(EMPTY_SLOTS);
         }
       }
@@ -62,7 +65,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentCharacterId, roomId, EMPTY_SLOTS, actionSlots]);
+  }, [currentCharacterId, roomId, EMPTY_SLOTS]);
 
   /**
    * Save action bar configuration
@@ -197,6 +200,7 @@ export const useActionBarPersistence = (roomId = 'global') => {
   // Track changes for unsaved detection
   useEffect(() => {
     lastActionSlotsRef.current = actionSlots;
+    actionSlotsRef.current = actionSlots;
   }, [actionSlots]);
 
   return {

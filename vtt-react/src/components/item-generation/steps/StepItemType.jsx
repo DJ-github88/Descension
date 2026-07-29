@@ -22,7 +22,7 @@ const StepItemType = ({ itemData, updateItemData }) => {
                                                 baseDamage: {
                                                     diceCount: 1,
                                                     diceType: 'd6',
-                                                    damageType: 'slashing',
+                                                    damageType: 'slicing',
                                                     bonusDamage: 0,
                                                     bonusDamageType: ''
                                                 }

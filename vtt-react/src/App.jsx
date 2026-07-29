@@ -520,8 +520,9 @@ function GameScreen() {
     // Cleanup when component unmounts
     return () => {
       cleanupGameStyles();
-      // Reset targeting when leaving the game screen
+      // Reset targeting and party store when leaving the game screen
       useTargetingStore.getState().resetStore?.();
+      usePartyStore.getState().resetStore?.();
     };
   }, []);
 
@@ -562,7 +563,7 @@ function GameScreen() {
             console.log(`✅ Character loaded: ${character.name}`);
             // Clear any existing party and create a single-player party with this character
             localStorage.removeItem('party-store');
-            await leaveParty();
+            usePartyStore.getState().resetStore?.();
 
             // FIXED: Correct argument order - (partyName, isGM, leaderData)
             await createParty('Single Player Party', true, {
@@ -588,38 +589,29 @@ function GameScreen() {
           if (activeCharacter) {
             console.log(`✅ Active character loaded: ${activeCharacter.name}`);
             
-            // PERFORMANCE FIX: Check if we are already in the correct party to avoid expensive flapping
-            const currentParty = usePartyStore.getState().currentParty;
-            const isAlreadyInSinglePlayerParty = isInParty && currentParty?.name === 'Single Player Party';
-            const isAlreadyCorrectCharacter = partyMembers.some(m => m.id === 'current-player' && m.characterName === activeCharacter.name);
+            // Always initialize party for active character on game screen entry to guarantee HUD hydration
+            console.log('🔄 Initializing single-player party for active character...');
+            localStorage.removeItem('party-store');
+            usePartyStore.getState().resetStore?.();
 
-            if (!isAlreadyInSinglePlayerParty || !isAlreadyCorrectCharacter) {
-              console.log('🔄 Re-initializing party for new character...');
-              // Clear any existing party and create a single-player party with this character
-              localStorage.removeItem('party-store');
-              await leaveParty();
+            // FIXED: Correct argument order - (partyName, isGM, leaderData)
+            await createParty('Single Player Party', true, {
+              id: 'current-player',
+              userId: 'current-player',
+              isGM: true,
+              name: activeCharacter.name,
+              characterName: activeCharacter.name,
+              characterClass: activeCharacter.class || 'Unknown',
+              characterLevel: activeCharacter.level || 1
+            });
 
-              // FIXED: Correct argument order - (partyName, isGM, leaderData)
-              await createParty('Single Player Party', true, {
-                id: 'current-player',
-                userId: 'current-player',
-                isGM: true,
-                name: activeCharacter.name,
-                characterName: activeCharacter.name,
-                characterClass: activeCharacter.class || 'Unknown',
-                characterLevel: activeCharacter.level || 1
-              });
-
-              // CRITICAL FIX: Update party member with full character data for HUD
-              await initializePartyForCharacter(activeCharacter, isGMMode);
-            } else {
-              console.log('✅ Already in correct party, skipping re-initialization');
-            }
+            // CRITICAL FIX: Update party member with full character data for HUD
+            await initializePartyForCharacter(activeCharacter, isGMMode);
           } else {
             console.log('No active character found');
             // Create a basic single-player party even without a character
             localStorage.removeItem('party-store');
-            await leaveParty();
+            usePartyStore.getState().resetStore?.();
 
             // FIXED: Correct argument order - (partyName, isGM, leaderData)
             await createParty('Single Player Party', true, {

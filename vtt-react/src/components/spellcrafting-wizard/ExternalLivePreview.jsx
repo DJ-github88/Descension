@@ -224,7 +224,7 @@ const ExternalLivePreview = () => {
 
     } catch (error) {
       console.error('Error completing spell:', error);
-      setCompletionMessage('âœ -  Failed to complete spell. Please try again.');
+      setCompletionMessage('ï¿½ -  Failed to complete spell. Please try again.');
       setTimeout(() => setCompletionMessage(''), 3000);
     } finally {
       setIsCompleting(false);
@@ -237,8 +237,8 @@ const ExternalLivePreview = () => {
   const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
 
   const position = {
-    left: spellbookX + spellbookWidth + 10, // Small gap from spellbook
-    top: spellbookY + 60, // Aligned with content area
+    left: spellbookX + spellbookWidth + 40, // Increased gap from spellbook
+    top: spellbookY + 120, // Moved down to avoid overlapping wizard window
     position: 'fixed',
     zIndex: 9998,
     width: '340px', // Slightly smaller width

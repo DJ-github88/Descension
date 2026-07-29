@@ -94,7 +94,7 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  padding: 0;
+  padding: 14px 0 0 14px;
   background-color: #f0e6d2;
   display: flex;
   flex-direction: column;

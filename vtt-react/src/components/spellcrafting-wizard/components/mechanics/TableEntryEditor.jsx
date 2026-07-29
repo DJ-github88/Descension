@@ -387,15 +387,21 @@ const TableEntryEditor = ({
                           onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                           className="wow-settings-input"
                         >
-                          <option value="fire">Fire</option>
-                          <option value="ice">Ice</option>
-                          <option value="lightning">Lightning</option>
-                          <option value="necrotic">Necrotic</option>
-                          <option value="holy">Holy</option>
-                          <option value="physical">Physical</option>
-                          <option value="arcane">Arcane</option>
-                          <option value="nature">Nature</option>
-                          <option value="shadow">Shadow</option>
+                          <optgroup label="Physical">
+                            <option value="smashing">Smashing</option>
+                            <option value="stabbing">Stabbing</option>
+                            <option value="slicing">Slicing</option>
+                          </optgroup>
+                          <optgroup label="Magical">
+                            <option value="ember">Ember</option>
+                            <option value="rime">Rime</option>
+                            <option value="storm">Storm</option>
+                            <option value="primal">Primal</option>
+                            <option value="arcane">Arcane</option>
+                            <option value="blight">Blight</option>
+                            <option value="wyrd">Wyrd</option>
+                            <option value="sacred">Sacred</option>
+                          </optgroup>
                         </select>
                       </div>
                       <div className="form-row">
@@ -654,15 +660,21 @@ const TableEntryEditor = ({
                               onChange={(e) => updateEffectConfig('resistanceType', e.target.value)}
                               className="wow-settings-input"
                             >
-                              <option value="fire">Fire</option>
-                              <option value="ice">Ice</option>
-                              <option value="lightning">Lightning</option>
-                              <option value="necrotic">Necrotic</option>
-                              <option value="holy">Holy</option>
-                              <option value="physical">Physical</option>
-                              <option value="arcane">Arcane</option>
-                              <option value="nature">Nature</option>
-                              <option value="shadow">Shadow</option>
+                              <optgroup label="Physical">
+                                <option value="smashing">Smashing</option>
+                                <option value="stabbing">Stabbing</option>
+                                <option value="slicing">Slicing</option>
+                              </optgroup>
+                              <optgroup label="Magical">
+                                <option value="ember">Ember</option>
+                                <option value="rime">Rime</option>
+                                <option value="storm">Storm</option>
+                                <option value="primal">Primal</option>
+                                <option value="arcane">Arcane</option>
+                                <option value="blight">Blight</option>
+                                <option value="wyrd">Wyrd</option>
+                                <option value="sacred">Sacred</option>
+                              </optgroup>
                             </select>
                           </div>
                           <div className="form-group">

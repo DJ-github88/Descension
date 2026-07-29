@@ -200,7 +200,7 @@ const transformTraitToSpell = (trait) => {
       spell.spellType = 'ACTION';
       spell.damageConfig = {
         formula: trait.damageFormula || '1d6',
-        elementType: trait.damageType || 'physical',
+        elementType: trait.damageType || 'smashing',
         damageType: 'direct',
         canCrit: true,
         critMultiplier: 2
@@ -304,7 +304,7 @@ const transformTraitToSpell = (trait) => {
           'slashing': 'slashing',
           'piercing': 'piercing',
           'bludgeoning': 'bludgeoning',
-          'physical': 'physical'
+          'physical': 'smashing'
         };
 
         Object.entries(typeMap).forEach(([key, value]) => {
@@ -313,7 +313,7 @@ const transformTraitToSpell = (trait) => {
           }
         });
 
-        return damageTypes.length > 0 ? damageTypes : ['physical'];
+        return damageTypes.length > 0 ? damageTypes : ['smashing'];
       };
 
       const damageTypes = parseDamageTypes(trait.description);
@@ -432,7 +432,7 @@ const transformTraitToSpell = (trait) => {
       spell.spellType = 'ACTION';
       spell.damageConfig = {
         formula: '1d8',
-        elementType: 'physical',
+        elementType: 'smashing',
         damageType: 'direct',
         canCrit: true,
         critMultiplier: 2

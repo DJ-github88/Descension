@@ -291,9 +291,9 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
         position: "relative",
         overflow: "hidden",
         height: ITEM_H * VISIBLE,
-        background: "linear-gradient(180deg, #100804 0%, #0c0602 50%, #100804 100%)",
+        background: "linear-gradient(180deg, #3a2010 0%, #2c1608 50%, #3a2010 100%)",
         borderRadius: 4,
-        border: done ? "2px solid #c8a050" : "2px solid #2e1804",
+        border: done ? "2px solid #c8a050" : "2px solid #6b4c28",
         boxShadow: flash
           ? "inset 0 0 50px rgba(255,215,80,0.9), 0 0 28px rgba(255,215,80,0.7)"
           : done
@@ -322,7 +322,7 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
           pointerEvents: "none",
           height: "38%",
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
+            "linear-gradient(to bottom, rgba(30,15,5,0.95) 0%, rgba(30,15,5,0.5) 45%, transparent 100%)",
         }}
       />
       <div
@@ -335,7 +335,7 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
           pointerEvents: "none",
           height: "38%",
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
+            "linear-gradient(to top, rgba(30,15,5,0.95) 0%, rgba(30,15,5,0.5) 45%, transparent 100%)",
         }}
       />
       <div
@@ -347,8 +347,8 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
           pointerEvents: "none",
           top: ITEM_H,
           height: ITEM_H,
-          borderTop: done ? "2px solid rgba(255,210,80,0.9)" : "1px solid rgba(180,130,40,0.12)",
-          borderBottom: done ? "2px solid rgba(255,200,70,0.85)" : "1px solid rgba(180,130,40,0.12)",
+          borderTop: done ? "2px solid rgba(255,210,80,0.9)" : "1px solid rgba(180,130,40,0.25)",
+          borderBottom: done ? "2px solid rgba(255,200,70,0.85)" : "1px solid rgba(180,130,40,0.25)",
           background: flash ? "rgba(255,210,80,0.22)" : done ? "rgba(200,150,50,0.04)" : "transparent",
           transition: "border-color 0.3s, background 0.3s",
         }}
@@ -1420,9 +1420,9 @@ ${insight.realities[0].desc}
         borderRadius: 12,
         padding: "10px 10px 14px",
         position: "relative",
-        background: "linear-gradient(160deg, #2e1a08 0%, #160a02 50%, #2e1a08 100%)",
-        border: "3px solid #5a3810",
-        boxShadow: "0 0 0 1px #3a2208, 0 14px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 200, 80, 0.08)",
+        background: "linear-gradient(160deg, #4a3018 0%, #3a2010 50%, #4a3018 100%)",
+        border: "3px solid #8b7355",
+        boxShadow: "0 0 0 1px #5a4028, 0 14px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 200, 80, 0.06)",
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "0 2px" }}>

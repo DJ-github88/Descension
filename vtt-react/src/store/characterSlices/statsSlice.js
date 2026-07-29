@@ -755,7 +755,7 @@ export const createStatsSlice = (set, get) => ({
         let updatedImmunities = [...(state.immunities || [])];
 
         // Initialize all damage type resistances if they don't exist
-        const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+        const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
         damageTypes.forEach(type => {
             if (!updatedResistances[type]) {
                 updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -793,17 +793,42 @@ export const createStatsSlice = (set, get) => ({
 
                         if (shouldApplyBuff) {
                             const resistanceMap = {
-                                'frost_resistance': 'frost',
-                                'cold_resistance': 'frost',
-                                'fire_resistance': 'fire',
-                                'lightning_resistance': 'lightning',
-                                'acid_resistance': 'poison',
-                                'force_resistance': 'force',
-                                'necrotic_resistance': 'necrotic',
-                                'radiant_resistance': 'radiant',
-                                'poison_resistance': 'poison',
-                                'psychic_resistance': 'psychic',
-                                'thunder_resistance': 'force'
+                                'smashing_resistance': 'smashing',
+                                'bludgeoning_resistance': 'smashing',
+                                'physical_resistance': 'smashing',
+                                'stabbing_resistance': 'stabbing',
+                                'piercing_resistance': 'stabbing',
+                                'ranged_resistance': 'stabbing',
+                                'slicing_resistance': 'slicing',
+                                'slashing_resistance': 'slicing',
+                                'ember_resistance': 'ember',
+                                'fire_resistance': 'ember',
+                                'rime_resistance': 'rime',
+                                'frost_resistance': 'rime',
+                                'cold_resistance': 'rime',
+                                'ice_resistance': 'rime',
+                                'storm_resistance': 'storm',
+                                'lightning_resistance': 'storm',
+                                'thunder_resistance': 'storm',
+                                'electric_resistance': 'storm',
+                                'primal_resistance': 'primal',
+                                'nature_resistance': 'primal',
+                                'arcane_resistance': 'arcane',
+                                'force_resistance': 'arcane',
+                                'blight_resistance': 'blight',
+                                'necrotic_resistance': 'blight',
+                                'shadow_resistance': 'blight',
+                                'void_resistance': 'blight',
+                                'silence_resistance': 'blight',
+                                'poison_resistance': 'blight',
+                                'acid_resistance': 'blight',
+                                'wyrd_resistance': 'wyrd',
+                                'psychic_resistance': 'wyrd',
+                                'chaos_resistance': 'wyrd',
+                                'sacred_resistance': 'sacred',
+                                'radiant_resistance': 'sacred',
+                                'holy_resistance': 'sacred',
+                                'divine_resistance': 'sacred'
                             };
 
                             const resistanceType = resistanceMap[statName];

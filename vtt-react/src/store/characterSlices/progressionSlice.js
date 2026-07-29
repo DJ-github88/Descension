@@ -25,9 +25,8 @@ export const createProgressionSlice = (set, get) => ({
             }
         }
 
-        // Update race display name if race and subrace are set
-        // Also update if the raceDisplayName doesn't contain parentheses (old format)
-        if (state.race && state.subrace && (!state.raceDisplayName || !state.raceDisplayName.includes('('))) {
+        // Update race display name if race and subrace are set, or if the name is missing
+        if (state.race && state.subrace && !state.raceDisplayName) {
             get().updateRaceDisplayName();
         }
 

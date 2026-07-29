@@ -25,7 +25,7 @@ const DEFAULT_ABILITY = {
     diceCount: 1,
     diceType: 6,
     bonus: 0,
-    damageType: 'physical'
+    damageType: 'smashing'
   },
   range: 5,
   actionPointCost: 1,
@@ -124,19 +124,47 @@ const Step3Abilities = () => {
 
   // Format damage type for display
   const formatDamageType = (type) => {
-    if (!type) return 'Physical'; // Handle undefined or null values
+    if (!type) return 'Smashing';
 
     const typeMap = {
-      'physical': 'Physical',
-      'fire': 'Fire',
-      'frost': 'Frost',
+      'smashing': 'Smashing',
+      'stabbing': 'Stabbing',
+      'slicing': 'Slicing',
+      'ember': 'Ember',
+      'rime': 'Rime',
+      'storm': 'Storm',
+      'primal': 'Primal',
       'arcane': 'Arcane',
-      'nature': 'Nature',
-      'shadow': 'Shadow',
-      'holy': 'Holy',
-      'poison': 'Poison'
+      'blight': 'Blight',
+      'wyrd': 'Wyrd',
+      'sacred': 'Sacred',
+      'healing': 'Healing',
+      'physical': 'Smashing',
+      'ranged': 'Stabbing',
+      'bludgeoning': 'Smashing',
+      'piercing': 'Stabbing',
+      'slashing': 'Slicing',
+      'fire': 'Ember',
+      'frost': 'Rime',
+      'cold': 'Rime',
+      'ice': 'Rime',
+      'lightning': 'Storm',
+      'thunder': 'Storm',
+      'nature': 'Primal',
+      'necrotic': 'Blight',
+      'shadow': 'Blight',
+      'void': 'Blight',
+      'poison': 'Blight',
+      'acid': 'Blight',
+      'psychic': 'Wyrd',
+      'chaos': 'Wyrd',
+      'radiant': 'Sacred',
+      'holy': 'Sacred',
+      'divine': 'Sacred',
+      'force': 'Arcane'
     };
-    return typeMap[type] || type;
+    const lower = typeof type === 'string' ? type.toLowerCase() : '';
+    return typeMap[lower] || (typeof type === 'string' ? type.charAt(0).toUpperCase() + type.slice(1) : type);
   };
 
   // Handle updating ability priority range
@@ -1053,14 +1081,24 @@ const Step3Abilities = () => {
                 onChange={(e) => handleDamageChange('damageType', e.target.value)}
                 className="damage-type-input"
               >
-                <option value="physical">Physical</option>
-                <option value="fire">Fire</option>
-                <option value="frost">Frost</option>
-                <option value="arcane">Arcane</option>
-                <option value="nature">Nature</option>
-                <option value="shadow">Shadow</option>
-                <option value="holy">Holy</option>
-                <option value="poison">Poison</option>
+                <optgroup label="Weapon">
+                  <option value="smashing">Smashing</option>
+                  <option value="stabbing">Stabbing</option>
+                  <option value="slicing">Slicing</option>
+                </optgroup>
+                <optgroup label="Elemental">
+                  <option value="ember">Ember</option>
+                  <option value="rime">Rime</option>
+                  <option value="storm">Storm</option>
+                  <option value="primal">Primal</option>
+                </optgroup>
+                <optgroup label="Other">
+                  <option value="arcane">Arcane</option>
+                  <option value="blight">Blight</option>
+                  <option value="wyrd">Wyrd</option>
+                  <option value="sacred">Sacred</option>
+                  <option value="healing">Healing</option>
+                </optgroup>
               </select>
             </div>
           </div>

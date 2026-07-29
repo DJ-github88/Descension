@@ -10,16 +10,14 @@
 .creature-wizard-header {
   flex-shrink: 0;
   width: 100%;
-  background: linear-gradient(to bottom, 
-    #5a3a2e 0%, 
-    #4a2b1f 100%);
-  border-bottom: 2px solid #d4af37;
-  padding: 10px 20px;
+  background: transparent;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.25);
+  padding: 12px 20px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
   z-index: 20;
 }
 
@@ -57,17 +55,17 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #2d1810;
-  border: 2px solid #d4af37;
+  background: #ffffff;
+  border: 2px solid #8b4513;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
-  color: #f0e6d2;
+  color: #5a1e12;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   font-family: 'Inter', sans-serif;
   line-height: 1;
   padding-top: 1px;
@@ -84,48 +82,50 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #c0b090;
+  color: #4a2b1f;
   white-space: nowrap;
-  font-family: 'Bookman Old Style', serif;
-  opacity: 0.8;
+  font-family: 'Cinzel', serif;
+  opacity: 0.85;
 }
 
 /* State coloring */
 .wizard-step-indicator.active .step-point {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #7a3b2e;
+  background: #5a1e12;
+  border-color: #d4af37;
+  color: #ffffff;
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .wizard-step-indicator.active .step-nav-name {
-  color: #ffffff;
+  color: #5a1e12;
   opacity: 1;
+  font-weight: 800;
 }
 
 .wizard-step-indicator.completed .step-point {
-  background: #7a3b2e;
-  border-color: #ffffff;
+  background: #27ae60;
+  border-color: #27ae60;
   color: #ffffff;
 }
 
 .wizard-step-indicator.completed .step-nav-name {
-  color: #ffffff;
+  color: #27ae60;
   opacity: 0.9;
 }
 
 .wizard-step-connector {
   flex: 0 0 30px;
   height: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  margin-bottom: 18px; /* aligns with step circles */
+  background: rgba(139, 69, 19, 0.25);
+  margin: 0 4px;
+  margin-top: -14px;
+  transition: all 0.3s ease;
   border-radius: 2px;
 }
 
 .wizard-step-connector.completed {
-  background: #ffffff;
-  opacity: 0.5;
+  background: #27ae60;
 }
 
 /* Original wizard header styles removed for clean header rail */

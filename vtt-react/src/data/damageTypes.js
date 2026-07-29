@@ -1,6 +1,9 @@
 /**
  * Mythrill Damage Types
- * 9 core types + Healing (separate restorative category)
+ * 11 damage types + Healing (separate restorative category).
+ * Weapon/physical damage is split into smashing/stabbing/slicing.
+ * 'physical' and 'ranged' are legacy aliases only (see LEGACY_TYPE_MAP):
+ * physical -> smashing, ranged -> stabbing (arrows are piercing).
  */
 
 const DAMAGE_TYPES = {
@@ -21,12 +24,6 @@ const DAMAGE_TYPES = {
       description: 'Cutting physical edges from glaives, longswords, crescent blades, and razor-sharp kinetic sweeps.',
       color: '#5C3317',
       icon: 'Slashing/Sword Slash'
-    },
-    ranged: {
-      name: 'Ranged',
-      description: 'Physical projectile damage from longbows, crossbow bolts, thrown daggers, and kinetic missiles.',
-      color: '#A0522D',
-      icon: 'Ranged/Arrow Shot'
     },
     ember: {
       name: 'Ember',
@@ -92,7 +89,8 @@ const DAMAGE_TYPES = {
     stabbing: 'stabbing',
     slashing: 'slicing',
     slicing: 'slicing',
-    ranged: 'ranged',
+    ranged: 'stabbing',
+    arrow: 'stabbing',
     cold: 'rime',
     ice: 'rime',
     frost: 'rime',
@@ -119,9 +117,9 @@ const DAMAGE_TYPES = {
 
   export const ALL_DAMAGE_TYPE_IDS = Object.keys(DAMAGE_TYPES);
 
-  export const PHYSICAL_TYPES = ['smashing', 'stabbing', 'slicing', 'ranged'];
+  export const PHYSICAL_TYPES = ['smashing', 'stabbing', 'slicing'];
 
-  export const WEAPON_PROPERTIES = ['smashing', 'stabbing', 'slicing', 'ranged'];
+  export const WEAPON_PROPERTIES = ['smashing', 'stabbing', 'slicing'];
 
   export const SPELL_DAMAGE_TYPES = ALL_DAMAGE_TYPE_IDS.filter(
     t => t !== 'healing'

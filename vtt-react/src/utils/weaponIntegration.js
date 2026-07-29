@@ -44,11 +44,11 @@ export const getWeaponDamageNotation = (weapon) => {
  * @returns {string} Damage type
  */
 export const getWeaponDamageType = (weapon) => {
- if (!weapon || !weapon.weaponStats || !weapon.weaponStats.baseDamage) {
- return 'bludgeoning'; // Default unarmed damage type
- }
- 
- return weapon.weaponStats.baseDamage.damageType || 'bludgeoning';
+  if (!weapon || !weapon.weaponStats || !weapon.weaponStats.baseDamage) {
+  return 'smashing'; // Default unarmed damage type
+  }
+  
+  return weapon.weaponStats.baseDamage.damageType || 'smashing';
 };
 
 /**
@@ -241,7 +241,7 @@ export const createWeaponAttackSpell = (weaponSlot = 'mainHand') => {
   name: 'Unarmed',
   type: 'UNARMED',
   damage: '1d4',
-  damageType: 'physical',
+  damageType: 'smashing',
   range: 5,
   properties: []
  },

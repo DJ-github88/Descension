@@ -2690,7 +2690,7 @@
 /* HP Value Text Overlay */
 .modular-health-bar-container .hp-bar-text {
     position: absolute;
-    top: 50%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff8eb;
@@ -2854,7 +2854,7 @@
 /* Mana Value Text Overlay */
 .modular-mana-bar-container .mana-bar-text {
     position: absolute;
-    top: 50%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #eaf4ff;
@@ -3038,7 +3038,7 @@
 /* AP Value Text Overlay */
 .modular-ap-bar-container .ap-bar-text {
     position: absolute;
-    top: 50%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff8eb;

@@ -14,7 +14,8 @@ const getStatDescription = (stat, value) => {
             title: "Strength",
             color: "#FF4D4D",
             effects: [
-                `Increases Melee Power by ${modifier * 2}`,
+                `Increases Smashing damage by ${modifier * 2}`,
+                `Contributes ${modifier} to Slicing damage (combined with Agility)`,
                 `Inventory Space: ${totalRows}x15 (Base 5x15)`,
                 "Yellow Grid: Encumbered (-10ft movement)",
                 "Red Grid: Overencumbered (-20ft movement, disadvantage on checks)"
@@ -24,7 +25,8 @@ const getStatDescription = (stat, value) => {
             title: "Agility",
             color: "#AAD372",
             effects: [
-                `Increases Ranged Power by ${modifier * 2}`,
+                `Increases Stabbing damage by ${modifier * 2}`,
+                `Contributes ${modifier} to Slicing damage (combined with Strength)`,
                 `Grants +${modifier} Initiative`
             ]
         },
@@ -34,6 +36,7 @@ const getStatDescription = (stat, value) => {
             effects: [
                 `Increases maximum Mana by ${value * 5}`,
                 `Enhances Spell Power by ${modifier * 2}`,
+                `+${Math.floor(modifier / 2)} bonus Mana regeneration (adds to Spirit base)`,
                 "Affects all schools of magic:",
                 { spellSchools: [
                     { name: "Ember", color: "#D4380D" },
@@ -43,7 +46,7 @@ const getStatDescription = (stat, value) => {
                     { name: "Primal", color: "#2D5A1E" },
                     { name: "Blight", color: "#3D1F4E" },
                     { name: "Wyrd", color: "#7A2040" },
-                    { name: "Divine", color: "#DAA520" }
+                    { name: "Sacred", color: "#DAA520" }
                 ]}
             ]
         },
@@ -51,9 +54,9 @@ const getStatDescription = (stat, value) => {
             title: "Spirit",
             color: "#FFFFFF",
             effects: [
-                `+${modifier} Health regeneration per round`,
-                `+${modifier * 0.5} Mana regeneration per round`,
-                `Improves Healing Power by ${modifier * 2}`
+                `+${modifier * 2} base Health and Mana regeneration (Con adds to HP, Int adds to MP)`,
+                `Improves Healing Power by ${modifier * 2}`,
+                "No Spirit means no regen or healing bonus"
             ]
         },
         constitution: {
@@ -61,8 +64,7 @@ const getStatDescription = (stat, value) => {
             color: "#FF7D0A",
             effects: [
                 `Increases maximum Health by ${value * 5}`,
-                `+${modifier * 0.5} Health regeneration per round`,
-                `Improves resistance to physical effects`
+                `+${Math.floor(modifier / 2)} bonus Health regeneration (adds to Spirit base)`
             ]
         },
         charisma: {

@@ -582,7 +582,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             effectTypes: ['buff', 'debuff'],
             typeConfig: {
               school: 'storm',
-              secondaryElement: 'physical',
+              secondaryElement: 'smashing',
               icon: 'spell_lightning_lightning',
               tags: ['tremorsense', 'vibration', 'thunder', 'passive']
             },
@@ -626,7 +626,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             spellType: 'PASSIVE',
             effectTypes: ['buff', 'debuff'],
             typeConfig: {
-              school: 'physical',
+              school: 'smashing',
               icon: 'ability_rogue_sprint',
               tags: ['mobility', 'climbing', 'acrobatics', 'passive']
             },

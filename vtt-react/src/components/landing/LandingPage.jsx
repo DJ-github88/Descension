@@ -323,7 +323,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        <li>✓ 3 character slots with cloud save</li>
        <li>✓ 1 permanent room (up to 4 players)</li>
        <li>✓ 25 MB cloud storage</li>
-       <li>✓ Full character creation (30 classes, 12 races)</li>
+       <li>✓ Full character creation (21 classes, 10 primary races)</li>
        <li>✓ Spell crafting, creature & item creation</li>
        <li>✓ Map editor with static fog of war</li>
        <li>✓ Combat system & 3D physics dice</li>

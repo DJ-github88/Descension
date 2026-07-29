@@ -574,11 +574,11 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
         const updated = [...state.partyMembers];
         // Merge data, preferring new data but preserving any missing fields
         updated[existingIndex] = { ...updated[existingIndex], ...memberData };
-        console.log(`ðŸ”„ Updated existing party member: ${memberData.name || memberData.id}`);
+        console.log(`🔄 Updated existing party member: ${memberData.name || memberData.id}`);
         return { partyMembers: updated };
       }
 
-      console.log(`âž• Adding new party member: ${memberData.name || memberData.id}`);
+      console.log(`➕ Adding new party member: ${memberData.name || memberData.id}`);
       const newMembersList = [...state.partyMembers, memberData];
       return { partyMembers: newMembersList };
     });
@@ -588,8 +588,16 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
    * Remove a member from the party (local state update)
    */
   removePartyMember: (memberId) => {
+    if (!memberId) return;
     set(state => ({
-      partyMembers: state.partyMembers.filter(m => !isSelfMemberId(m.id) && m.id !== memberId)
+      partyMembers: state.partyMembers.filter(m => {
+        const isTarget =
+          m.id === memberId ||
+          m.userId === memberId ||
+          m.socketId === memberId ||
+          m.uid === memberId;
+        return !isTarget;
+      })
     }));
   },
 
@@ -602,7 +610,7 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
 
     if (!socket || !currentParty) return;
 
-    console.log('ðŸ‘‘ Promoting member to leader:', memberId);
+    console.log('👑 Promoting member to leader:', memberId);
     socket.emit('promote_to_leader', {
       partyId: currentParty.id,
       newLeaderId: memberId
@@ -616,13 +624,18 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
     const socket = getSocket();
     const { currentParty } = get();
 
-    if (!socket || !currentParty) return;
+    if (!currentParty || !memberId) return;
 
-    console.log('ðŸ-‘ï¸ Kicking member from party:', memberId);
-    socket.emit('remove_party_member', {
-      partyId: currentParty.id,
-      targetUserId: memberId
-    });
+    console.log('🗡️ Kicking member from party:', memberId);
+    if (socket && socket.connected) {
+      socket.emit('remove_party_member', {
+        partyId: currentParty.id,
+        targetUserId: memberId
+      });
+    }
+
+    // Optimistically remove member locally
+    get().removePartyMember(memberId);
   },
 
   /**
@@ -632,15 +645,41 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
     const socket = getSocket();
     const { currentParty } = get();
 
-    if (!socket || !currentParty) {
-      console.warn('âš ï¸ Cannot disband: No socket or no party');
+    if (!currentParty) {
+      console.warn('⚠️ Cannot disband: No active party');
       return;
     }
 
-    console.log('ðŸ’¥ Disbanding party:', currentParty.id);
-    socket.emit('disband_party', {
-      partyId: currentParty.id
-    });
+    console.log('💥 Disbanding party:', currentParty.id);
+    if (socket && socket.connected) {
+      socket.emit('disband_party', {
+        partyId: currentParty.id
+      });
+    }
+
+    // Reset local state optimistically
+    const resetState = {
+      currentParty: null,
+      isInParty: false,
+      partyMembers: [],
+      partyChatMessages: [],
+      leaderId: null,
+      leaderMode: false
+    };
+    set(resetState);
+
+    try {
+      usePresenceStore.setState(resetState);
+      const { currentUserPresence } = usePresenceStore.getState();
+      if (currentUserPresence?.userId && presenceService && typeof presenceService.updateSession === 'function') {
+        presenceService.updateSession(currentUserPresence.userId, {
+          partyId: null,
+          partyName: null
+        });
+      }
+    } catch (e) {
+      console.warn('⚠️ Failed to sync disband to presenceStore:', e);
+    }
   },
 
   /**

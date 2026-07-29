@@ -170,19 +170,18 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         if (!type) return '#ffffff';
 
         const colors = {
-            slashing: '#A52A2A',
-            piercing: '#C0C0C0',
-            bludgeoning: '#8B4513',
-            fire: '#FF4500',
-            cold: '#87CEEB',
-            lightning: '#FFD700',
-            acid: '#32CD32',
-            force: '#ff66ff',
-            necrotic: '#4B0082',
-            radiant: '#FFFACD',
-            poison: '#008000',
-            psychic: '#FF69B4',
-            thunder: '#0066ff'
+            smashing: '#8B5A2B',
+            stabbing: '#704214',
+            slicing: '#5C3317',
+            ember: '#D4380D',
+            rime: '#2C5F7C',
+            storm: '#8B7328',
+            primal: '#2D5A1E',
+            arcane: '#5B3A8C',
+            blight: '#3D1F4E',
+            wyrd: '#7A2040',
+            sacred: '#DAA520',
+            healing: '#2E8B57'
         };
 
         return colors[type.toLowerCase()] || '#ffffff';
@@ -356,7 +355,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 baseDamage: {
                     diceCount: 1,
                     diceType: 'd6',
-                    damageType: 'slashing',
+                    damageType: 'slicing',
                     bonusDamage: 0,
                     bonusDamageType: ''
                 }

@@ -20,7 +20,8 @@ const SECTIONS = [
     icon: 'fas fa-dragon',
     gradient: 'linear-gradient(135deg, #3d2b1f 0%, #5c3d2e 50%, #2a1a0e 100%)',
     accentColor: '#c0392b',
-    borderGlow: '0 0 20px rgba(192, 57, 43, 0.3)',
+    borderGlow: '0 4px 22px rgba(192, 57, 43, 0.35)',
+    features: ['Monsters & Beasts', 'Custom Creator', 'Community Spells'],
     tabs: [
       { id: 'library', label: 'Library', icon: 'fas fa-book-open' },
       { id: 'wizard', label: 'Create New', icon: 'fas fa-plus-circle' },
@@ -31,10 +32,11 @@ const SECTIONS = [
     id: 'items',
     label: 'Armory',
     subtitle: 'Weapons, armor & artifacts',
-    icon: 'fas fa-gem',
+    icon: 'fas fa-shield-halved',
     gradient: 'linear-gradient(135deg, #1a2744 0%, #2c3e6b 50%, #0f1a2e 100%)',
     accentColor: '#2980b9',
-    borderGlow: '0 0 20px rgba(41, 128, 185, 0.3)',
+    borderGlow: '0 4px 22px rgba(41, 128, 185, 0.35)',
+    features: ['Equipment Catalog', 'Item Forge', 'Shared Artifacts'],
     tabs: [
       { id: 'library', label: 'Library', icon: 'fas fa-book-open' },
       { id: 'designer', label: 'Designer', icon: 'fas fa-hammer' },
@@ -45,10 +47,11 @@ const SECTIONS = [
     id: 'maps',
     label: 'Atlas',
     subtitle: 'Maps & environments',
-    icon: 'fas fa-map',
+    icon: 'fas fa-map-location-dot',
     gradient: 'linear-gradient(135deg, #1a3320 0%, #2d5a3e 50%, #0f2216 100%)',
     accentColor: '#27ae60',
-    borderGlow: '0 0 20px rgba(39, 174, 96, 0.3)',
+    borderGlow: '0 4px 22px rgba(39, 174, 96, 0.35)',
+    features: ['Battle Grids', 'Environment Scenes', 'Grid Settings'],
     tabs: [
       { id: 'library', label: 'Library', icon: 'fas fa-map' },
     ],
@@ -93,7 +96,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
 
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   const currentSubTab = activeSection ? (subTabs[activeSection] || 'library') : null;
-  const title = currentSection ? currentSection.label : 'Library';
+  const title = currentSection ? currentSection.label : '';
 
   const [creatureEditingId, setCreatureEditingId] = useState(null);
 
@@ -130,7 +133,6 @@ const LibraryWindow = ({ isOpen, onClose }) => {
 
   const renderTabsHeader = () => {
     if (!currentSection || !currentSection.tabs) return null;
-    if (currentSection.tabs.length <= 1) return null;
 
     return (
       <div className="spellbook-tab-container">
@@ -171,7 +173,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
       onDrag={handleDrag}
       onResize={handleResize}
       minConstraints={[700, 500]}
-      customHeader={activeSection ? renderTabsHeader() : null}
+      customHeader={activeSection ? renderTabsHeader() : <></>}
     >
       {!activeSection ? (
         <div style={{
@@ -183,38 +185,6 @@ const LibraryWindow = ({ isOpen, onClose }) => {
           padding: '28px 40px',
           gap: '22px',
         }}>
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '4px',
-          }}>
-            <h2 style={{
-              fontFamily: "'Bookman Old Style', 'Garamond', serif",
-              color: '#4a3b2d',
-              fontSize: '24px',
-              fontWeight: '700',
-              margin: 0,
-              letterSpacing: '1px',
-              textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-            }}>
-              Grand Library
-            </h2>
-            <div style={{
-              width: '100px',
-              height: '2px',
-              background: 'linear-gradient(90deg, transparent, #a08c70, transparent)',
-              margin: '10px auto 0',
-            }} />
-            <p style={{
-              fontFamily: "'Bookman Old Style', 'Garamond', serif",
-              color: '#8b7d6b',
-              fontSize: '13px',
-              marginTop: '6px',
-              fontStyle: 'italic',
-            }}>
-              Choose a section to explore
-            </p>
-          </div>
-
           <div style={{
             display: 'flex',
             gap: '20px',

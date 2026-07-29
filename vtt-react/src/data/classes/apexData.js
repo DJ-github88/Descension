@@ -30,14 +30,23 @@ export const APEX_DATA = {
  * The Skald read the ice. The Vreken read the mycelium. The Ordan read the open steppe.
  * The mist is learning to hide from all of them.
  */
- subraceVariants: {
+ 
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['short_sword', 'dagger', 'hand_crossbow'],
+   armor: ['light_armor'],
+   offHand: ['empty']
+  },
+subraceVariants: {
   veiled_mimir: {
    subraceName: 'Arch Mimir',
    title: 'The Mask-Hunter',
    reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> anchor their identity to a fixed mask, and an Apex among them tracks through the fog with an *identity-stable perception*, the mask holds the self still while the senses range, a fixed point of awareness in the shifting mist. They are the tradition's steadiest trackers, their judgment unclouded by the fog's identity-erosion.`,
    signatureAbility: {
    name: 'Anchor-Sense',
-   description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something — hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
+   description: `A master hunter who has made a trade with the Frostwood fog. The fog takes something â€” hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.`,
 
    },
    currentCrisisAngle: `The mist is learning to hide (the foundational crisis), and the Arch Mimir feel it as their anchored perception *meeting resistance*, the fog no longer merely erodes, it actively *evades* their senses.`,
@@ -49,12 +58,12 @@ export const APEX_DATA = {
   },
 
   tethered_mimir: {
-   subraceName: 'Fractured Mimir',
+   subraceName: 'Broken Mimir',
    title: 'The Sentinel-Tracker',
-   reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Fractured Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
+   reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Fractured Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
    signatureAbility: {
    name: 'Perimeter-Track',
-   description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Fractured Mimir are nearly infallible.`
+   description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Broken Mimir are nearly infallible.`
    },
    currentCrisisAngle: `The mist's new evasion has the Fractured sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected.`,
    signatureQuote: {
@@ -151,20 +160,20 @@ export const APEX_DATA = {
  name: "Apex",
  icon: "fas fa-moon",
  role: "Damage",
- damageTypes: ["physical"],
+ damageTypes: ["smashing", "stabbing", "slicing"],
 
  // Overview section
  livingOrder: {
  orderName: 'The Silent Hunt',
  founder: {
  name: '<LoreLink termId="sylas">Sylas</LoreLink>',
- status: `Alive, and entirely deaf. A Woven Mimir sentinel on the Ironwood Palisade, Sylas walked into the Frostwood fog after the Greythorn massacre and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He had stalked and killed the first Gref, a Wyrd entity that steals faces and erases memory of its victims. He has led the Silent Hunt in sign-language ever since.`,
+ status: `Alive, and entirely deaf. A Broken Mimir sentinel on the Ironwood Palisade, Sylas walked into the Frostwood fog after the Greythorn massacre and did not return for seven days. When he came back, he was deaf  â€”  he had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He had stalked and killed the first Gref, a Wyrd entity that steals faces and erases memory of its victims. He has led the Silent Hunt in sign-language ever since.`,
  note: `<LoreLink termId="sylas">Sylas</LoreLink> built the Silent Hunt on a trade the order still honors: give up one sense to sharpen the rest. Every Apex initiate chooses a sacrifice. <LoreLink termId="sylas">Sylas</LoreLink> chose hearing. The mist that is now learning to hide is teaching him that some things cannot be tracked even with every sense paid for.`
  },
  currentLeader: {
   name: '<LoreLink termId="sylas">Silent-Master Sylas</LoreLink>',
   title: 'The First Hunter',
-  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  —  the first Gref  —  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
+  characterization: `Deaf, lethal, and patient beyond any living tracker. <LoreLink termId="sylas">Sylas</LoreLink> communicates through a tactile sign-language the Hunt developed specifically because spoken words are unreliable in the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> fog. He leads from the deep ironwood and has tracked the Wyrd that killed Greythorn  â€”  the first Gref  â€”  on and off, for forty years. It has never let him close. Lately, it has begun circling *him*.`
  },
  headquarters: { name: 'The Still Blind, memorial site near Greythorn (Frostwood Reach)', locationId: 'frostwood-reach' },
  crisisConnection: `<LoreLink termId="sylas">Sylas</LoreLink> is the hunter realizing he has become the hunted. The mist is learning to hide, not randomly but *deliberately*, evading Apex senses that have held for centuries. He has concluded that something large has moved through the Reach for months without leaving trace, and that the something is *teaching the mist to evade the Hunt itself*. The Apex trackers who dissolve into the fog to find it are not coming back. <LoreLink termId="sylas">Sylas</LoreLink> is preparing to dissolve into the fog himself, knowing he may not come back either, because he is the only tracker who has ever gotten close, and the thing in the mist has noticed.`
@@ -178,28 +187,28 @@ export const APEX_DATA = {
  overview: {
  originStory: `A master hunter who has made a trade with the Frostwood fog. The fog takes something, hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.
 
-The tradition was born from the Greythorn massacre. A Thalren timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Woven Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
+The tradition was born from the Greythorn massacre. A Thalren timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Broken Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
 
 The Silent Hunt was founded that week at the memorial site near Greythorn. Sylas established the trade. Every hunter chooses a sensory sacrifice. The fog takes something permanent, and in exchange, the hunter can perceive what the fog conceals. This is not a skill learned through practice. It is a bargain struck with the mist that protects the Reach, a miniature dark bargain, personal and irreversible.
 
 Sylas has led the Hunt ever since. He communicates through a tactile sign-language developed specifically because spoken words are unreliable in the Frostwood fog. He has tracked the same Wyrd-entity, on and off, for forty years. Lately it has begun circling him.
 
-The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Earthen Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Fractured Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
+The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Earthen Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Broken Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
 
-The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Fractured Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
+The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
 
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
 
  quickOverview: {
   title: "Quick Overview",
-  content: `**Who they are**: A predator who traded a human sense  —  hearing, scent, or touch  —  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
+  content: `**Who they are**: A predator who traded a human sense  â€”  hearing, scent, or touch  â€”  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
 
-**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  —  one swing hitting four or five targets as shadow energy arcs between them.
+**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  â€”  one swing hitting four or five targets as shadow energy arcs between them.
 
-**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  —  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
+**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  â€”  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
 
-**Bring one for**: The most efficient multi-target melee damage in the game  —  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
+**Bring one for**: The most efficient multi-target melee damage in the game  â€”  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
  },
 
  description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she builds power through the bond with her companion, Quarry Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
@@ -207,7 +216,7 @@ The mist is learning to hide deliberately. Something large has moved through the
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The Apex was born from the Greythorn massacre  —  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Woven Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
+The Apex was born from the Greythorn massacre  â€”  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Broken Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  â€”  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
 
 **CITIES & CIVIL RECEPTION**
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
@@ -216,8 +225,8 @@ Apexes are welcomed as essential guides and beast-slayers in every frontier keep
 The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Earthen Astril <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
 
 **NOTABLE FIGURES**
-* **Sylas the Silent**: Woven Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.
-* **Maeve of the Canopy**: A Woven Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
+* **Sylas the Silent**: Broken Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.
+* **Maeve of the Canopy**: A Broken Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
  },
 
  signatureQuote: {
@@ -260,12 +269,12 @@ Some Apexes believe the fog is responding to the increased activity of the Wyrd,
 - Excellent at controlling enemy positioning
 
 **Combat Weaknesses**:
-- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived � you become an ordinary glaive-fighter with no resource and no burst.
+- Kill the Beast, Cripple the Hunter: a dead companion means you generate ZERO Quarry Marks until it is revived ï¿½ you become an ordinary glaive-fighter with no resource and no burst.
 - Pack-Dependent Damage: your glaive alone hits for base damage; without grouped enemies to chain AND a living companion to feed marks, your output collapses.
-- Leather-Clad: light armor only � caught without Shadowstep, you are a priority burst target.
+- Leather-Clad: light armor only ï¿½ caught without Shadowstep, you are a priority burst target.
 - Melee-Only, Kiteable: no ranged answer; fliers, archers, and spread-out formations shut you down.
 - Primal Outrage Friendly-Fire: sit on 5 marks or let your beast get wounded and it Frenzies, attacking the nearest creature, including you and your allies.
-- Bond Sickness: when your companion falls you roll on the Bond Sickness table (disadvantage, wyrd damage) for 3 rounds � a cruel enemy can weaponize your grief.
+- Bond Sickness: when your companion falls you roll on the Bond Sickness table (disadvantage, wyrd damage) for 3 rounds ï¿½ a cruel enemy can weaponize your grief.
 
 **Optimal Positioning**:
 Apexes excel at close range (5-15 feet), positioning themselves to maximize glaive chains between grouped enemies. They should maintain mobility, using Shadowstep to reposition and avoid being surrounded while keeping their companion in effective range.`,
@@ -317,7 +326,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
  immersiveCombatExample: {
   title: "Combat Example: The Shadow Glaive Dance",
-  content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception � the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
+  content: `Five bandits, one formation, one target-rich environment. Fang whines low in her throat, muscles coiling, already reading the geometry of the kill. You feel the familiar shift in your perception ï¿½ the world slowing, heat signatures blooming behind every ribcage, the paths between them lighting up like drawn wire.
 
 **The Setup**: You're a Apex (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
 
@@ -732,7 +741,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    icon: "Utility/Utility",
    level: 2,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Utility" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Utility/Utility" },
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 40, areaSize: 25 },
    resourceCost: { actionPoints: 1, mana: 0 },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -747,7 +756,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    icon: "Utility/Hide",
    level: 1,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Hide" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Utility/Hide" },
    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
    resourceCost: { actionPoints: 1, mana: 0 },
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
@@ -768,7 +777,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/Dagger Rain",
   },
 
@@ -804,8 +813,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "1d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "chain_reduction",
   },
 
@@ -816,7 +825,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    second: "1d6",
    third: "1d6",
    fourth: "1d4",
-   type: "physical",
+   type: "smashing",
    chainDistance: 5,
    scalingNote:
     "Chain minimum damage increases with level: L1-4 as listed, L5-7 minimum 1d6 on all chains, L8-10 minimum 1d8 on all chains",
@@ -860,7 +869,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Quick Slash",
   },
 
@@ -888,8 +897,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "2d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "none",
   },
 
@@ -925,7 +934,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Whirl",
   },
 
@@ -955,8 +964,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "3d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "none",
   },
 
@@ -964,7 +973,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   damage: {
    multiTarget: {
    formula: "3d8",
-   type: "physical",
+   type: "smashing",
    targets: 5,
    description: "Each target takes full damage",
    },
@@ -1004,7 +1013,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Spawn",
   },
 
@@ -1030,9 +1039,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resolution: "DICE",
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "1d8",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "proficiency",
   },
 
@@ -1040,7 +1049,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   damage: {
    companion: {
    formula: "1d8 + proficiency bonus",
-   type: "physical",
+   type: "smashing",
    source: "companion",
    },
   },
@@ -1079,7 +1088,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Claw Marks",
   },
 
@@ -1106,9 +1115,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resolution: "DICE",
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "2d8",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "none",
   },
 
@@ -1116,12 +1125,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   damage: {
    apex: {
    formula: "2d8",
-   type: "physical",
+   type: "smashing",
    advantage: true,
    },
    companion: {
    formula: "1d8 + proficiency",
-   type: "physical",
+   type: "smashing",
    advantage: true,
    },
   },
@@ -1157,7 +1166,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Sense",
   },
 
@@ -1343,7 +1352,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_shadow_strike",
   name: "Shadow Strike",
   description:
-  "Strike from the shadows with devastating force, dealing 3d8 physical damage to an unsuspecting target. When delivered from stealth or immediately after Shadowstep, the blade drinks an additional 1d6 blight damage.",
+  "Strike from the shadows with devastating force, dealing 3d8 smashing damage to an unsuspecting target. When delivered from stealth or immediately after Shadowstep, the blade drinks an additional 1d6 blight damage.",
   spellType: "ACTION",
   icon: "Poison/Poison Concoction",
   level: 3,
@@ -1380,8 +1389,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "3d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "none",
   },
 
@@ -1389,7 +1398,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   damage: {
    base: {
    formula: "3d8",
-   type: "physical",
+   type: "smashing",
    advantage: "if_stealthed",
    },
    bonus: {
@@ -1622,7 +1631,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   castTime: 1,
   castTimeType: "REACTION",
   trigger: "When you are targeted by an attack",
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Parry",
   },
 
@@ -1648,10 +1657,10 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   buffConfig: {
   effects: [
-   { id : "gain_advantage_on_dexterity_saving_",
-   name: "Gain advantage on Dexterity saving throws",
-   description: "Gain advantage on Dexterity saving throws",
-   mechanicsText: "Gain advantage on Dexterity saving throws",
+   { id : "gain_advantage_on_agility_save_",
+   name: "Gain advantage on agility saving throws",
+   description: "Gain advantage on agility saving throws",
+   mechanicsText: "Gain advantage on agility saving throws",
    },
    { id : "gain_2_armor",
    name: "Gain +2 DR",
@@ -1676,7 +1685,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   specialMechanics: {
   reaction: {
-   trigger: "When targeted by attack or required to make Dex save",
+   trigger: "When targeted by attack or required to make agility check",
    timing: "Before attack roll or saving throw",
   },
   },
@@ -1699,7 +1708,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/Targeted Strike",
   },
 
@@ -1780,7 +1789,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Sword Strike",
   },
 
@@ -1808,8 +1817,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "1d8",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   scalingType: "none",
   },
 
@@ -1817,7 +1826,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   damage: {
    multiTarget: {
    formula: "1d8",
-   type: "physical",
+   type: "smashing",
    targets: 3,
    },
   },
@@ -1860,7 +1869,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/Focused Arrow Shot",
   },
 
@@ -1950,7 +1959,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Utility/Phantom Dash",
   },
 
@@ -1977,9 +1986,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resolution: "DICE",
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "3d8 + agility",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   },
 
   effects: {
@@ -1989,7 +1998,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   },
   damage: {
    formula: "3d8 + agility",
-   type: "physical",
+   type: "smashing",
   },
   },
 
@@ -2020,7 +2029,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Spawn",
   },
 
@@ -2110,7 +2119,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Dual Blades",
   },
 
@@ -2137,15 +2146,15 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resolution: "DICE",
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "3d10 + agility",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   },
 
   effects: {
   damage: {
    formula: "3d10 + agility",
-   type: "physical",
+   type: "smashing",
    aoe: "All enemies within 15 feet",
   },
   movement: {
@@ -2172,7 +2181,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_apex_predator",
   name: "Apex Predator",
   description:
-  "Assume the stance of the ultimate hunter � your senses sharpen, your reflexes quicken, and every fiber of your being becomes a weapon for 5 rounds.",
+  "Assume the stance of the ultimate hunter ï¿½ your senses sharpen, your reflexes quicken, and every fiber of your being becomes a weapon for 5 rounds.",
   spellType: "ACTION",
   icon: "Nature/Cat Face",
   level: 6,
@@ -2181,7 +2190,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Cat Face",
   },
 
@@ -2258,7 +2267,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Cat Face",
   },
 
@@ -2287,8 +2296,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "6d10 + agility * 1.5",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   savingThrowConfig: {
    enabled: true,
    savingThrowType: "agility",
@@ -2327,7 +2336,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Wolf Dash",
   },
 
@@ -2355,20 +2364,20 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   resolution: "DICE",
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "5d6 + agility",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   },
 
   effects: {
   damage: {
    apex: {
    formula: "5d6 + agility",
-   type: "physical",
+   type: "smashing",
    },
    companion: {
    formula: "3d6 + companion_attack",
-   type: "physical",
+   type: "smashing",
    description: "Companion attacks immediately with advantage",
    },
   },
@@ -2409,7 +2418,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Poison/Poison Concoction",
   },
 
@@ -2491,7 +2500,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 1,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Roar",
   },
 
@@ -2585,7 +2594,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 2,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Slashing/Whirl",
   },
 
@@ -2612,8 +2621,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "12d8 + agility * 2",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   criticalConfig: {
    critType: "effect",
    critEffects: ["rapid_strikes_crit"],
@@ -2733,7 +2742,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 2,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Claw Marks",
   },
 
@@ -2790,7 +2799,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    { stat: "constitution", magnitude: 5, magnitudeType: "flat" },
    { stat: "intelligence", magnitude: 5, magnitudeType: "flat" },
    { stat: "spirit", magnitude: 5, magnitudeType: "flat" },
-   { stat: "charisma", magnitude: 5, magnitudeType: "flat" },
+   { stat: "spirit", magnitude: 5, magnitudeType: "flat" },
    { stat: "maxHp", magnitude: 30, magnitudeType: "flat" },
   ],
   grantedAbilities: [
@@ -2851,7 +2860,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   concentrationDC: 15,
   dcType: "CONSTITUTION",
   tickFrequency: "END_OF_TURN",
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/Dagger Rain",
   },
 
@@ -2889,8 +2898,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   damageConfig: {
   formula: "8d8 + agility",
-  elementType: "physical",
-  damageTypes: ["physical"],
+  elementType: "smashing",
+  damageTypes: ["smashing", "stabbing", "slicing"],
   hasDotEffect: true,
   dotConfig: {
    dotFormula: "8d8 + agility",
@@ -2926,7 +2935,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   id : "apex_ultimate_hunter",
   name: "Ultimate Hunter",
   description:
-  "Transcend mortal hunting limits � your perception expands, your companion syncs to your soul, and for 10 rounds you become the thing prey prays never finds them.",
+  "Transcend mortal hunting limits ï¿½ your perception expands, your companion syncs to your soul, and for 10 rounds you become the thing prey prays never finds them.",
   spellType: "ACTION",
   icon: "Nature/Roaring Bear",
   level: 9,
@@ -2935,7 +2944,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 3,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Roaring Bear",
   },
 
@@ -3122,7 +3131,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   typeConfig: {
   toggleable: true,
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/Targeted Strike",
   },
 
@@ -3255,7 +3264,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    formula: "12d6 + agility * 1.5",
    type: "storm",
    description:
-   "Deals 12d6 + agility � 1.5 force damage that ignores resistances",
+   "Deals 12d6 + agility ï¿½ 1.5 force damage that ignores resistances",
   },
   execute: {
    description:
@@ -3304,7 +3313,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   typeConfig: {
   castTime: 5,
   castTimeType: "IMMEDIATE",
-  school: "physical",
+  school: "smashing",
   icon: "Nature/Earth Shatter",
   },
 
@@ -3358,9 +3367,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
   },
 
   damageConfig: {
-  elementType: "physical",
+  elementType: "smashing",
   formula: "12d6 + agility",
-  damageTypes: ["physical"],
+  damageTypes: ["smashing", "stabbing", "slicing"],
   savingThrowConfig: {
    enabled: true,
    savingThrowType: "constitution",
@@ -3430,7 +3439,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
   typeConfig: {
   toggleable: true,
-  school: "physical",
+  school: "smashing",
   icon: "Piercing/On the Mark",
   },
 
@@ -3544,7 +3553,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
  { id : "hunt_pack_dependency",
   name: "Pack Dependency",
   description:
-  "When you have no active animal companion, you lose access to all Pack Tactics abilities and your melee attacks deal -1d6 damage. You and your companion are one hunting unit — without them, you are incomplete.",
+  "When you have no active animal companion, you lose access to all Pack Tactics abilities and your melee attacks deal -1d6 damage. You and your companion are one hunting unit â€” without them, you are incomplete.",
   level: 3,
   spellType: "PASSIVE",
   icon: "Nature/Wolf Human Split Face",
@@ -3644,7 +3653,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    icon: "Nature/Sense",
    level: 1,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Sense" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Nature/Sense" },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
    durationConfig: { durationType: "instant" },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 2 }, actionPoints: 1, components: ["somatic"], somaticText: "Brush fingertips over the track and taste a pinch of soil" },
@@ -3669,7 +3678,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    icon: "Nature/Wolf Dash",
    level: 1,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Wolf Dash" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Nature/Wolf Dash" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    durationConfig: { durationType: "minutes", duration: 10 },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 4 }, actionPoints: 1, components: ["somatic"], somaticText: "Touch brow to your companion's brow to open the link", classResource: { type: "quarry_marks", cost: 1 } },
@@ -3689,12 +3698,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_scent_memory",
    name: "Scent Memory",
    description:
-   "Let your companion lock onto a presented scent � a drop of blood, a scrap of cloth, a fresh track. Thereafter it can trail that specific quarry across any distance and will alert you (and pinpoint) if the same creature is nearby, even disguised, hidden, or invisible. Out of combat or combat.",
+   "Let your companion lock onto a presented scent ï¿½ a drop of blood, a scrap of cloth, a fresh track. Thereafter it can trail that specific quarry across any distance and will alert you (and pinpoint) if the same creature is nearby, even disguised, hidden, or invisible. Out of combat or combat.",
    spellType: "ACTION",
    icon: "Nature/Sense",
    level: 2,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Sense" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Nature/Sense" },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
    durationConfig: { durationType: "hours", duration: 8 },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 5 }, actionPoints: 1, components: ["verbal", "somatic"], verbalText: "A low clicking command", somaticText: "Hold the scent-source to the beast's muzzle" },
@@ -3719,7 +3728,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    icon: "Nature/Wind Gust",
    level: 2,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Nature/Wind Gust" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Nature/Wind Gust" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    durationConfig: { durationType: "hours", duration: 1 },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 6 }, actionPoints: 1, components: ["somatic"], somaticText: "Draw a veil-line across your own eyes and breathe slow" },
@@ -3739,12 +3748,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_silent_sign",
    name: "Silent Sign",
    description:
-   "Speak in the hand-pressure sign language of the Silent Sisterhood � fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
+   "Speak in the hand-pressure sign language of the Silent Sisterhood ï¿½ fingertaps, glove-squeezes, and gesture-shapes. Convey full thoughts, no sound, at sight-line range, to anyone who knows the signs (your companion, other Apexes, or allies you've taught). Usable while hidden, silenced, or underwater.",
    spellType: "ACTION",
    icon: "Nature/Amplified Senses",
    level: 1,
    specialization: "universal",
-   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "physical", icon: "Utility/Utility" },
+   typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Utility/Utility" },
    targetingConfig: { targetingType: "single", rangeType: "sight", rangeDistance: 120 },
    durationConfig: { durationType: "minutes", duration: 10 },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 1 }, actionPoints: 1, components: ["somatic"], somaticText: "Press and tap the shared signs against palm, thigh, or glove" },
@@ -3764,12 +3773,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    id : "apex_hunting_blind",
    name: "Hunting Blind",
    description:
-   "Establish a concealed ambush camp � masking scent, mounding cover, and posting your companion as lookout. Allies who rest inside gain advantage on recovery, and the party's first strike out of the blind has advantage and +1d6 damage. Lasts until you move on or break concealment.",
+   "Establish a concealed ambush camp ï¿½ masking scent, mounding cover, and posting your companion as lookout. Allies who rest inside gain advantage on recovery, and the party's first strike out of the blind has advantage and +1d6 damage. Lasts until you move on or break concealment.",
    spellType: "ACTION",
    icon: "Nature/Tree",
    level: 3,
    specialization: "universal",
-   typeConfig: { castTime: 10, castTimeType: "MINUTES", school: "physical", icon: "Nature/Tree" },
+   typeConfig: { castTime: 10, castTimeType: "MINUTES", school: "smashing", icon: "Nature/Tree" },
    targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30 },
    durationConfig: { durationType: "hours", duration: 8 },
    resourceCost: { resourceTypes: ["mana"], resourceValues: { mana: 6 }, actionPoints: 1, components: ["somatic"], somaticText: "Break brush, mask scent-lines, and settle the beast into its watch" },

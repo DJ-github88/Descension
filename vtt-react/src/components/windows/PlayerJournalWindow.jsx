@@ -1239,9 +1239,11 @@ Drag notes to the Knowledge Board to create visual connections!"
       <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
-        title="Player Journal"
+        title=""
+        className="journal-locked-window"
         defaultSize={{ width: 600, height: 450 }}
         defaultPosition={{ x: 100, y: 100 }}
+        centered
       >
         <div className="journal-locked-container basic-lock">
           <div className="journal-locked-card">
@@ -1268,9 +1270,11 @@ Drag notes to the Knowledge Board to create visual connections!"
       <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
-        title="Player Journal"
+        title=""
+        className="journal-locked-window"
         defaultSize={{ width: 800, height: 600 }}
         defaultPosition={{ x: 100, y: 100 }}
+        centered
       >
         <div className="journal-gm-notice">
           <i className="fas fa-user-secret"></i>

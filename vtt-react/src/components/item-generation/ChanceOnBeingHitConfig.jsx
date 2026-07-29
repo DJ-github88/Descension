@@ -85,7 +85,7 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
      effectType: 'damage',
      effectConfig: {
       formula: '1d6',
-      damageType: 'fire',
+      damageType: 'ember',
       isDot: false,
       dotDuration: 3,
       targetType: 'attacker'

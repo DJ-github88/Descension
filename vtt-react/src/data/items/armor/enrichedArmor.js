@@ -80,7 +80,7 @@ export const ENRICHED_ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'cold',
+            damageType: 'rime',
             isDot: false,
             dotDuration: 2,
             dotTickFrequency: 'round',
@@ -813,7 +813,7 @@ export const ENRICHED_ARMOR = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'force',
+            damageType: 'arcane',
             isDot: false,
             dotDuration: 2,
             dotTickFrequency: 'round',

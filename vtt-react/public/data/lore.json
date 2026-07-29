@@ -449,8 +449,8 @@
                   "term":  "Mimir",
                   "type":  "race",
                   "region":  "frostwood-reach",
-                  "summary":  "A secretive, shape-shifting people of the Frostwood Reach who wear heartwood, storm-glass, or pine masks.",
-                  "fullEntry":  "The Mimir are the mask-wearers of the Frostwood canopy, and they have never shown their faces to outsiders. They were made by Sereth, the dead creator-deity of perfection and form, whose shame at his imperfect creation drove him to hide his people from the world itself. Sereth gave them the power to shift their shapes \u2014 to be anything except what they were. But the fog that saved the Reach from freezing also devours memory. After generations in the mist, a Mimir can forget their own face. So they carve masks from heartwood or storm-glass, and the mask becomes the only thing holding them together \u2014 a blank canvas for an identity they can no longer remember.\n\nThe Arch Mimir rule the canopy-holds as aristocrats, their heartwood masks carved in the old way, each one a fixed identity that holds the bearer together through the fog. The Broken Mimir keep watch from the high aeries, maintaining a living mask-craft tradition through storm-glass forging, their masks cracked and re-forged so many times that the face beneath has long since been lost. Between the two subraces, Mirror Mere still lies at the heart of Arch territory, a lake so still it returns a Mimir\u0027s true face even when they can no longer recall it. At the heart of Masked territory lies Mirror Mere, a lake so still it returns a Mimir\u0027s true face even when they can no longer recall it.\n\nThe original art of carving masks was lost when the inquisitors burned the birthing chambers during the Mimir Purge. The Woven\u0027s living craft preserves fragments of the old knowledge, but the technique that created the first masks died with Sereth. The Hunters pay fortunes for Mimir masks on the black market. And every year, the fog grows a little thicker.",
+                  "summary":  "A secretive, shape-shifting people of the Frostwood Reach who wear heartwood or storm-glass masks.",
+                  "fullEntry":  "The Mimir are the mask-wearers of the Frostwood canopy, and they have never shown their faces to outsiders. They were made by Sereth, the dead creator-deity of perfection and form, who died of its own contradictions and left its people hidden in the world. Sereth gave them the power to shift their shapes \u2014 to be anything except what they were. But the fog that saved the Reach from freezing also devours memory. After generations in the mist, a Mimir can forget their own face. So they carve masks from heartwood or storm-glass, and the mask becomes the only thing holding them together \u2014 a blank canvas for an identity they can no longer remember.\n\nThe Arch Mimir rule the canopy-holds as aristocrats, their heartwood masks carved in the old way, each one a fixed identity that holds the bearer together through the fog. The Broken Mimir keep watch from the high aeries, maintaining a living mask-craft tradition through storm-glass forging, their masks cracked and re-forged so many times that the face beneath has long since been lost. Between the two subraces, Mirror Mere still lies at the heart of Arch territory, a lake so still it returns a Mimir\u0027s true face even when they can no longer recall it.\n\nThe original art of carving masks was lost when the inquisitors burned the birthing chambers during the Mimir Purge. The Broken Mimir\u0027s living craft preserves fragments of the old knowledge, but the technique that created the first masks died with Sereth. The Hunters pay fortunes for Mimir masks on the black market. And every year, the fog grows a little thicker.",
                   "relatedTerms":  [
                                        "apex",
                                        "briaran",
@@ -472,7 +472,7 @@
                           "type":  "cultural_practice",
                           "region":  "frostwood-reach",
                           "summary":  "The sacred, defensive custom practiced by the Mimir where they wear beautifully carved, fluid masks to lock their identity against the fog\u0027s memory-decay and secure trust.",
-                          "fullEntry":  "The Rite of Masks holds the Mimir together. Without it, the fog dissolves them. Originating in the Frostwood Reach where the creeping mist hollows and erases the personal memories of mortals, the Mimir, who possess innate shape-shifting abilities, discovered that their fluid anatomy was highly vulnerable to dissolving under the fog\u0027s decay. By carving and ritually bonding to a single, fluid mask made of heartwood, storm-glass, or black birch, a Mimir permanently anchors their primary identity and physical form. Socially, the Rite of Masks serves as a covenant of trust with human neighbors: by wearing a constant, recognizable persona, the Mimir guarantees they will not hijack another mortal\u0027s face or slip away into shape-shifting deception.",
+                          "fullEntry":  "The Rite of Masks holds the Mimir together. Without it, the fog dissolves them. Originating in the Frostwood Reach where the creeping mist hollows and erases the personal memories of mortals, the Mimir, who possess innate shape-shifting abilities, discovered that their fluid anatomy was highly vulnerable to dissolving under the fog\u0027s decay. By carving and ritually bonding to a single, fluid mask made of heartwood or storm-glass, a Mimir permanently anchors their primary identity and physical form. Socially, the Rite of Masks serves as a covenant of trust with human neighbors: by wearing a constant, recognizable persona, the Mimir guarantees they will not hijack another mortal\u0027s face or slip away into shape-shifting deception.",
                           "relatedTerms":  [
                                                "frostwood-reach",
                                                "greymark_keep",
@@ -3748,7 +3748,7 @@
                                                  "merrowport",
                                                  "iceheart-sea",
                                                  "house_mereval",
-                                                 "brine_bond_syndicate"
+                                                 "brine-bond-syndicate"
                                              ],
                             "worldFriction":  "Twenty years of embezzled berth fees are about to surface. The Syndicate has noticed, and the Admiral\u0027s cryptic guest-arrival suggests a reckoning is being scheduled."
                         },
@@ -4327,7 +4327,9 @@
                                                       "merrowport",
                                                       "merryns_drift",
                                                       "skalds_longport",
-                                                      "ironjaw_port"
+                                                      "ironjaw_port",
+                                                      "mereval-steward",
+                                                      "myrathil"
                                                   ]
                              },
     "the-great-revision":  {
@@ -4703,16 +4705,16 @@
                                                   "sovereign-ledger"
                                               ]
                          },
-    "cult_of_the_silent_dark":  {
-                                    "id":  "cult_of_the_silent_dark",
-                                    "term":  "Cult of the Silent Dark",
+    "cult_of_forgotten_shadow":  {
+                                    "id":  "cult_of_forgotten_shadow",
+                                    "term":  "Cult of Forgotten Shadow",
                                     "type":  "faction",
                                     "region":  "bryngloom-forest",
                                     "aliases":  [
-                                                    "cult-of-the-silent-dark"
+                                                    "cult-of-forgotten-shadow"
                                                 ],
-                                    "summary":  "A shadow-state of Vreken exiles and heretical animists based in Over-Shanty, communing with the silence devouring the ancestor-mounds.",
-                                    "fullEntry":  "The Cult of the Silent Dark is a shadow-state and religious movement composed of Vreken exiles, coven-mages, and heretical animists based at Over-Shanty in the Bryngloom Forest. Founded during the mid-centuries of the Dimming, the cult rejects the Neth-Vreken Reincarnation Bargain and the traditional ancestor-veneration of the Vreken elders, arguing that the deep silence creeping through the burial mounds is not a disease but the natural return to a primordial, starless dark. They use ghost-mycelium spores to mask their bioluminescent skin-glow and hide from Neth telepathic sweeps. They actively recruit outcasts, debt-slaves, and disillusionment-plagued casters, preparing their souls to embrace the convergence when the continental binding seal fails entirely.",
+                                    "summary":  "An organized cult at Over-Shanty born of Vreken exiles and Dawn Vigil defectors, channeling Keth-Amar\u0027s whispers through the cracked binding seal.",
+                                    "fullEntry":  "The Cult of Forgotten Shadow is the organized merger of the Over-Shanty bog-cult and disillusioned Dawn Vigil defectors who learned that Monolith reassembly summons Keth-Amar, not Sol. Founded at Over-Shanty in the Bryngloom Forest by Vreken exiles, coven-mages, and heretical animists who reject the Neth-Vreken Reincarnation Bargain, the cult was later joined by Vigil defectors who confirmed the truth: the deep silence creeping through the burial mounds is not a disease but the natural return to a primordial, starless dark, and Keth-Amar speaks through it. They use ghost-mycelium spores to mask their bioluminescent skin-glow and hide from Neth telepathic sweeps. They actively recruit outcasts, debt-slaves, and disillusioned casters, serving as a willing channel for Keth-Amar\u0027s direct whispers through the cracks in the binding seal. There is no independent Voice \u2014 the cult is the conduit, not a separate entity serving an emissary.",
                                     "relatedTerms":  [
                                                          "bryngloom-forest",
                                                          "over_shanty",
@@ -4737,20 +4739,6 @@
                                          "watcher_in_the_mist"
                                      ]
                 },
-    "brine_bond_syndicate":  {
-                                 "id":  "brine_bond_syndicate",
-                                 "term":  "Brine-Bond Syndicate",
-                                 "type":  "faction",
-                                 "region":  "iceheart-sea",
-                                 "summary":  "A powerful maritime cartel of Mereval merchants and Myrathil captains controlling shipping channels across the Iceheart Sea.",
-                                 "fullEntry":  "Formed in the aftermath of House Mereval\u0027s Dark Bargain for calm waters, the Brine-Bond Syndicate regulates maritime trade, toll-gates, and pressure-forging across the Iceheart Sea. They enforce strict shipping quotas along the Drift-Home channels, clashing frequently with independent Brook Myrathil delta-traders and pirate enclaves.",
-                                 "relatedTerms":  [
-                                                      "house_mereval",
-                                                      "iceheart-sea",
-                                                      "mereval-steward",
-                                                      "myrathil"
-                                                  ]
-                             },
     "groven_separatists":  {
                                "id":  "groven_separatists",
                                "term":  "Groven Separatists",
@@ -4839,51 +4827,51 @@
     "pelagos":  {
                     "term":  "Pelagos",
                     "type":  "beast",
-                    "region":  "iceheart",
+                    "region":  "iceheart-sea",
                     "summary":  "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.",
                     "fullEntry":  "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.\n\nThe Pelagos is a creature of the sea and the sky, born from the fusion of salt-depth maritime tales and the pre-Binding legends of the Hippocampus. In the Iceheart Sea, where the waters are cold and the reefs are treacherous, the Pelagos are the guardians of the deep, creatures that were created to protect the treasures of the sea from those who would steal them. The Wyrd\u0027s corruption did not change their nature, but it did make them more fierce, for the creature now sees all who enter the water as potential thieves, and it will attack any who disturb the peace of the deep. The coastal fishers of the Iceheart Sea have learned to respect the Pelagos, and they will not fish in the waters where the creatures are known to hunt.",
                     "relatedTerms":  [
-                                         "iceheart"
+                                         "iceheart-sea"
                                      ]
                 },
     "egbere":  {
                    "term":  "Egbere",
                    "type":  "fey",
-                   "region":  "iceheart",
+                   "region":  "iceheart-sea",
                    "summary":  "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.",
                    "fullEntry":  "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.\n\nThe Egbere is a creature of the sea and the sorrow, born from the salt-depth legends of the small, crying spirits that carry magical mats. In the Iceheart Sea, where the waves are cold and the rocks are sharp, the Egbere are the spirits of the drowned, creatures that were once children who perished in the sea and were transformed by the Wyrd into something that is both pitiful and dangerous. The Wyrd\u0027s corruption did not change their nature, but it did make them more desperate, for the creature now cries not for itself, but for the living, and its tears are a lure that draws the unwary to their doom. The sailors of the Iceheart Sea know the sound of the Egbere\u0027s cry, and they will cover their ears when they hear it, for the creature\u0027s voice is a siren song that cannot be resisted.",
                    "relatedTerms":  [
-                                        "iceheart"
+                                        "iceheart-sea"
                                     ]
                },
     "gaki":  {
                  "term":  "Gaki",
                  "type":  "monstrosity",
-                 "region":  "cragjaw",
+                 "region":  "cragjaw-peaks",
                  "summary":  "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.",
                  "fullEntry":  "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.\n\nThe Gaki is a creature of the earth and the greed, born from the fusion of Cragjaw and Tesshan mythology, the spirits of the hungry dead who were cursed to roam the earth in search of sustenance. In the Cragjaw Peaks, where the mines are deep and the gold is plentiful, the Gakis are the spirits of the miners who died in the darkness, their greed turning them into something that is both human and monster. The Wyrd\u0027s corruption did not change their nature, but it did make them more terrible, for the creature now sees all who enter its territory as prey, and it will attack any who come near its hoard. The miners of the Cragjaw Peaks know the signs of a Gaki\u0027s presence,a mine that is too quiet, and the smell of sulfur in the air.",
                  "relatedTerms":  [
-                                      "cragjaw"
+                                      "cragjaw-peaks"
                                   ]
              },
     "kamaitachi":  {
                        "term":  "Kamaitachi",
                        "type":  "monstrosity",
-                       "region":  "cragjaw",
+                       "region":  "cragjaw-peaks",
                        "summary":  "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.",
                        "fullEntry":  "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.\n\nThe Kamaitachi is a creature of the wind and the blade, born from the Tesshan legends of the sickle-cut wind weasel. In the Cragjaw Peaks, where the wind is strong and the mountains are tall, the Kamaitachis are the spirits of the storm, creatures that have been twisted by the Wyrd into something that is both beautiful and deadly. The Wyrd\u0027s corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its territory as prey, and it will attack any who come near its nest. The miners of the Cragjaw Peaks know the signs of a Kamaitachi\u0027s presence,a wind that cuts like a knife, and the sound of weasel-like laughter in the air.",
                        "relatedTerms":  [
-                                            "cragjaw"
+                                            "cragjaw-peaks"
                                         ]
                    },
     "tengu_scout":  {
                         "term":  "Storm-Crow Scout",
                         "type":  "fey",
-                        "region":  "cragjaw",
+                        "region":  "cragjaw-peaks",
                         "summary":  "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff.",
                         "fullEntry":  "A raven-winged peak Wyrd-kin sprite with obsidian eyes that mimics voices to lure prey, leaps between pipeline scaffolds and carries a wind-copper staff.\n\nThe Storm-Crow Scout is a creature of the mountain and the wind, born from the Tesshan legends of the winged mountain protectors. In the Cragjaw Peaks, where the pipelines are tall and the bridges are narrow, the Storm-Crow Scouts are the guardians of the heights, creatures that have been twisted by the Wyrd into something that is both protective and territorial. They possess a dangerous voice-mimicking capability, stealing the spoken words of travelers and echoing them back through the wind to lure others into hazards or traps. The Wyrd\u0027s corruption did not change their nature, but it did make them more suspicious, for the creature now sees all who enter its territory as a threat, and it will attack any who come near its nest. The Fexric engineers of the Cragjaw Peaks know the signs of a Storm-Crow\u0027s presence,a wind that blows from nowhere, and the sound of a bird\u0027s cry in the air.",
                         "relatedTerms":  [
-                                             "cragjaw"
+                                             "cragjaw-peaks"
                                          ]
                     },
     "mogwai":  {
@@ -4919,11 +4907,11 @@
     "vodyan":  {
                    "term":  "Vodyan",
                    "type":  "fey",
-                   "region":  "bryngloom",
+                   "region":  "bryngloom-forest",
                    "summary":  "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.",
                    "fullEntry":  "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.\n\nThe Vodyan is a creature of the water and the mud, born from the Thalren legends of the grumpy swamp and pool water spirits. In the Bryngloom Forest, where the water is stagnant and the mud is deep, the Vodyans are the guardians of the pools, creatures that have been twisted by the Wyrd into something that is both grumpy and territorial. The Wyrd\u0027s corruption did not change their nature, but it did make them more aggressive, for the creature now sees all who enter its pool as a potential threat, and it will attack any who come near its water. The villagers of the Bryngloom Forest know the signs of a Vodyan\u0027s presence,a pool that is too still, and the smell of sulfur in the air.",
                    "relatedTerms":  [
-                                        "bryngloom"
+                                        "bryngloom-forest"
                                     ]
                },
     "the_revel":  {
@@ -5009,11 +4997,11 @@
     "spume_of_the_drowned":  {
                                  "term":  "Spume of the Drowned",
                                  "type":  "undead",
-                                 "region":  "iceheart",
+                                 "region":  "iceheart-sea",
                                  "summary":  "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors.",
                                  "fullEntry":  "The Iceheart Sea takes a ship every winter, and in the spring it gives something back. The Spume of the Drowned is what the sea gives. It is a floating mass of glowing sea-spume and ice crystals ten feet across, shifting constantly to project the faces of sailors who went down with the last ship \u2014 screaming, drowning, freezing, in a loop that never ends. It makes a wet choking sound that carries across the open water.\n\nThe Spume is not the sailors. The sailors are gone. The Spume is the Wyrd crystallizing the final panic of a dying crew into a memory-colony that drifts the shipping lanes looking for warmth to merge with. Anything it touches gets a coat of freezing slime that sets solid in minutes. The Mereval captains have a rule: if you see a glow on the water at night that does not blink, you do not approach. The Myrathil have a different rule. The Deepling Myrathil, who knew the drowned, sometimes row out to meet the Spume carrying the dead\u0027s names. They say it quiets for a while afterward. They say it always comes back.",
                                  "relatedTerms":  [
-                                                      "iceheart",
+                                                      "iceheart-sea",
                                                       "house_mereval",
                                                       "myrathil",
                                                       "iceheart-sea",
@@ -5023,13 +5011,13 @@
     "writ_of_passage":  {
                             "term":  "Writ of Passage",
                             "type":  "construct",
-                            "region":  "iceheart",
+                            "region":  "iceheart-sea",
                             "summary":  "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.",
                             "fullEntry":  "The Neth made the First Contract with Morvane, and the Neth have been making contracts ever since. Somewhere in the millennia of charter-writing, the Wyrd got into one. The Writ of Passage is a Wyrd-construct born of that contamination: a literal contract, a large sheet of glowing parchment rimmed with ice, drifting the ocean currents of the Iceheart Sea. Runic script moves across its surface constantly, writing and rewriting maritime terms \u2014 passage rights, harbor fees, toll schedules \u2014 in a hand that no one employed.\n\nThe Writ intercepts vessels at the harbor mouths and the reef-gates. It forces the captain to read and agree to its terms before it allows safe passage. Most captains sign; the terms are usually survivable, and the Writ is patient. Those who refuse, or who sign and then violate a clause, find out what the runic script is for. The Writ lashes with blades of frozen ink that cut through timber and rigging the way paper cuts through skin. The Brine-Bond Syndicate keeps a standing bounty on Writs destroyed; they have never paid it. The Writs, like the contracts they are made of, are very hard to dissolve.",
                             "relatedTerms":  [
-                                                 "iceheart",
+                                                 "iceheart-sea",
                                                  "neth",
-                                                 "brine_bond_syndicate",
+                                                 "brine-bond-syndicate",
                                                  "iceheart-sea",
                                                  "house_mereval"
                                              ]
@@ -5037,11 +5025,11 @@
     "storm_crows":  {
                         "term":  "Storm-Crows",
                         "type":  "monstrosity",
-                        "region":  "cragjaw",
+                        "region":  "cragjaw-peaks",
                         "summary":  "A winged raven-like mountain spirit that steals voices to confuse and lure travelers.",
                         "fullEntry":  "The Tesshan bridge-lords trust their lookouts and their signal-horns, but on the highest spires of the Cragjaw Peaks, the lookouts hear things. The Storm-Crows nest up where the air thins and the Fexric pipeline-bridges strain under rime. They are eight-foot raven-things with feathers that crackle with static and cold-iron dust, and their heads are bare bird-skulls \u2014 and they speak. Not with a voice of their own. With yours.\n\nA Storm-Crow flock hunts by mimicry. They will call a child\u0027s name in the child\u0027s own voice to lead a search party off a cliff. They will bark a Fexric engineer\u0027s orders in the engineer\u0027s cadence to send a work crew into a dead pipeline. They will scream, perfectly, the last words of someone who fell last winter. The Cragjaw lookouts have a rule: if you hear a voice from above you, it is a Storm-Crow; the real thing always calls from below or beside. It is a good rule. The Storm-Crows have learned to call from below.",
                         "relatedTerms":  [
-                                             "cragjaw",
+                                             "cragjaw-peaks",
                                              "house_tesshan",
                                              "fexrick",
                                              "cragjaw-peaks"
@@ -5050,11 +5038,11 @@
     "sump_scrabs":  {
                         "term":  "Sump-Scrabs",
                         "type":  "monstrosity",
-                        "region":  "cragjaw",
+                        "region":  "cragjaw-peaks",
                         "summary":  "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze.",
                         "fullEntry":  "The Fexric built the geothermal pipeline network eight millennia ago, and for eight millennia something has nested in it. The Sump-Scrabs came first as alchemical residue in the early holdfast boilers \u2014 a beetle the size of a dog, its shell black basalt plates and copper veins, with a long tube-siphon for a mouth that drinks steam and combustion the way a mosquito drinks blood. They are not Wyrd-spawn in the usual sense. They are older. The Wyrd just made them hungrier.\n\nA Sump-Scrab infestation freezes a pipeline dead. The Fexric engineers have spent generations culling them and the Sump-Scrabs have spent generations eating the engineers\u0027 heat-lanterns, and the war continues. The problem for travelers is that Sump-Scrabs are not picky about the source of combustion. A campfire in the wrong Cragjaw ravine will draw them in an hour. The Fexric advised: sleep near steam, not flame; the pipeline-burns are too hot for the Scrabs and the steam carries your scent away. It is good advice. The Scrabs have started learning it.",
                         "relatedTerms":  [
-                                             "cragjaw",
+                                             "cragjaw-peaks",
                                              "fexrick",
                                              "house_tesshan",
                                              "cragjaw-peaks"
@@ -5101,11 +5089,11 @@
     "grandmother_of_the_bog":  {
                                    "term":  "Grandmother of the Bog",
                                    "type":  "fey",
-                                   "region":  "bryngloom",
+                                   "region":  "bryngloom-forest",
                                    "summary":  "An ancient, moss-covered bog-hag that trades years of life for travelers\u0027 memories.",
                                    "fullEntry":  "The Bryngloom peat-bogs remember everything that falls into them, and the Grandmother of the Bog is what the remembering looks like when it stands up. She is seven feet tall, draped in peat-moss and willow-root, with amber eyes that glow through the bog-mist at dusk. She carries a wooden spoon and a pot of soup that has been boiling since before the Binding, and the soup is made of bog-lichen and memory.\n\nShe does not attack. She bargains. Travelers dying of bog-fever or old wounds find their way to her quagmire and she offers them what no one else in the Bryngloom will: more time. The price is paid in memory. She will take a childhood, a marriage, a face, a name \u2014 the soup requires it \u2014 and in exchange the years are extended. The Neth call her an unlicensed pact-broker and forbid dealing with her under the First Contract. The Neth are not the ones dying in her bogs. Those who are generally sign.",
                                    "relatedTerms":  [
-                                                        "bryngloom",
+                                                        "bryngloom-forest",
                                                         "neth",
                                                         "vel_keth_bayou",
                                                         "bryngloom-forest",
@@ -5115,11 +5103,11 @@
     "debt_revenant":  {
                           "term":  "Debt-Revenant",
                           "type":  "undead",
-                          "region":  "bryngloom",
+                          "region":  "bryngloom-forest",
                           "summary":  "A peat-preserved undead debtor that rises to complete the terms of a broken Neth contract.",
                           "fullEntry":  "The Neth First Contract binds the living, but it also binds the dead. A Neth debtor who dies with terms unfulfilled does not rest. The peat preserves the body. The contract preserves the obligation. And eventually, somewhere in the deep bogs of the Bryngloom, the debtor sits up.\n\nA Debt-Revenant rises in rusted Neth scale-armor wrapped in rotting peat-bonds, its eyes cold blue lanterns and the contract that binds it folded into the chest cavity where the heart used to be. It does not pursue the living randomly. It pursues the specific terms of its own unfinished contract \u2014 a delivery that was never made, a witness who was never produced, a debt that was never paid \u2014 and it will walk through anyone who blocks the path to fulfilling it. The only ways to put one down for good are to fulfill the contract or to burn the document with pact-fire. The Neth registry-priests are willing to do this for a fee. They are not willing to do it for free. The Debt-Revenant, after all, is what the Contract is for.",
                           "relatedTerms":  [
-                                               "bryngloom",
+                                               "bryngloom-forest",
                                                "neth",
                                                "atropolis",
                                                "house_morrath",
@@ -5129,11 +5117,11 @@
     "cycle_eater":  {
                         "term":  "Cycle-Eater",
                         "type":  "aberration",
-                        "region":  "bryngloom",
+                        "region":  "bryngloom-forest",
                         "summary":  "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing.",
                         "fullEntry":  "The Bryngloom\u0027s sacred willows anchor the forest\u0027s reincarnation cycle \u2014 the loop by which dying spirits return through root and peat into new growth. The Cycle-Eater is what happens when the Wyrd gets into the loop. It is a massive worm-thing, many-limbed, with a circular mouth of needle teeth and a body sheathed in purple slime that drains magic from the soil it crawls through. It lives in the deep peat-pools and the hollow roots where the cycle runs strongest, and it eats.\n\nA grove occupied by a Cycle-Eater goes grey. The willows stop budding. The spirits of the forest dead, instead of returning, get eaten \u2014 dissolved into the purple slime and added to the worm\u0027s mass. The Vreken, whose own Reincarnation Bargain with Morvane is bound up in the same root-network, feel each spirit the Cycle-Eater takes. They call it the Quiet Mouth. They will not say its true name. The Bryngloom druids have one method for clearing a Cycle-Eater: drain the pool, burn the roots it nests in, and salt the peat with cold iron. The grove dies, but the cycle restarts elsewhere. Without the draining, the Cycle-Eater just keeps eating. The forest, eventually, goes silent.",
                         "relatedTerms":  [
-                                             "bryngloom",
+                                             "bryngloom-forest",
                                              "vreken",
                                              "bryngloom-forest",
                                              "neth",
@@ -5209,13 +5197,8 @@
                   "summary":  "The shortest-lived people of Mythrill, whose seven noble houses struck the bargains that bound Sol and broke the world, and whose regional subraces still carry the consequences of those bargains in blood and climate.",
                   "fullEntry":  "The humans were already on Mythrill when Sol entered its Deepening, and they were the ones who answered. Seven noble houses went to the Warden: Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, Viridane. Six of them broke. The seventh refused. The Bargains that came of that meeting, and the Breach that followed, remade the world and remade the humans who lived in it.\n\nThe seven regional subraces of humanity still carry the Bargains in their blood. The Thalren of the Frostwood Reach trade clarity for insulating fog. The Skald of Nordhalla traded summer for halted glaciers. The Tessen of the Cragjaw Peaks traded visibility for eternal blizzard-veil. The Solvarn of Sundale wielded the knife that flayed Aex and bear the guilt. The Merryn of the Iceheart Sea traded calm waters for perpetual storms. The Ordavan of Sundrift Vale traded fertile soil for endless grass and a sky the constellations flee. The Morren of the Bryngloom Forest walk the bog under the Neth First Contract. Each subrace is human; each subrace is what their bargain made them.\n\nHumans are the shortest-lived people of Mythrill, the most prolific, and the ones whose ancestors decided the shape of the world. They do not get to forget it. Every human carries a house-name in their lineage, and every house-name carries a bargain, and every bargain is still being paid.",
                   "relatedTerms":  [
-                                       "thalren",
                                        "skald",
-                                       "tessen",
-                                       "solvarn",
                                        "merryn",
-                                       "ordan",
-                                       "morren",
                                        "house_thalreth",
                                        "house_skalvyr",
                                        "house_tesshan",

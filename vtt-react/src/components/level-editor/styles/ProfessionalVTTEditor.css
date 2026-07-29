@@ -14,10 +14,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    /* Prevent content from overflowing */
     min-height: 0;
-    /* Allow flex child to shrink */
 }
 
 .vtt-editor-content {
@@ -26,13 +23,11 @@
     flex: 1;
     background: #f0e6d2;
     border-radius: 0 0 6px 6px;
-    overflow: hidden;
-    /* Prevent content from overflowing */
     position: relative;
+    overflow: hidden;
     min-height: 0;
-    /* Allow flex child to shrink */
     max-height: 100%;
-    /* Ensure it respects parent height */
+    gap: 8px;
 }
 
 /* Tool Palette - Left Panel */
@@ -42,6 +37,8 @@
     border-right: 2px solid #a08c70;
     padding: 16px;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -138,21 +135,18 @@
 /* Tool Settings - Full Width Panel */
 .vtt-tool-settings {
     flex: 1;
-    padding: 20px;
-    /* Add padding back for tool sections */
+    padding: 16px;
     background: rgba(255, 255, 255, 0.3);
     border-right: 2px solid #a08c70;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     margin-right: 0;
     position: relative;
     min-height: 0;
-    /* Allow flex child to shrink */
     max-height: 100%;
-    /* Ensure it respects parent height */
     box-sizing: border-box;
-    /* Include padding in height calculation */
-    /* Ensure crisp text rendering */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -195,28 +189,30 @@
 }
 
 .layer-panel-overlay-toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(122, 59, 46, 0.8);
-    border: 2px solid #7a3b2e;
-    border-radius: 4px;
-    color: #f0e6d2;
-    cursor: pointer;
-    padding: 4px 8px;
-    font-size: 16px;
-    transition: all 0.2s ease;
-    min-width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+    position: absolute !important;
+    top: 8px !important;
+    right: 56px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 4px !important;
+    background: rgba(60, 30, 15, 0.9) !important;
+    border: 1px solid rgba(240, 230, 210, 0.5) !important;
+    color: #f0e6d2 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    z-index: 10001 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    line-height: 1 !important;
 }
 
 .layer-panel-overlay-toggle:hover {
-    background: rgba(122, 59, 46, 1);
-    transform: scale(1.05);
+    background-color: rgba(240, 230, 210, 0.2) !important;
+    color: #fff !important;
+    border-color: #f0e6d2 !important;
 }
 
 
@@ -291,8 +287,9 @@
     background: rgba(240, 230, 210, 0.95);
     padding: 16px;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-    /* Ensure crisp text rendering */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -640,29 +637,15 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar Styling */
+/* Hide scrollbars in all editor panels */
 .vtt-tool-palette::-webkit-scrollbar,
 .vtt-tool-settings::-webkit-scrollbar,
-.vtt-layer-panel::-webkit-scrollbar {
-    width: 8px;
-}
-
-.vtt-tool-palette::-webkit-scrollbar-track,
-.vtt-tool-settings::-webkit-scrollbar-track,
-.vtt-layer-panel::-webkit-scrollbar-track {
-    background: rgba(160, 140, 112, 0.2);
-    border-radius: 4px;
-}
-
-.vtt-tool-palette::-webkit-scrollbar-thumb,
-.vtt-tool-settings::-webkit-scrollbar-thumb,
-.vtt-layer-panel::-webkit-scrollbar-thumb {
-    background: #a08c70;
-    border-radius: 4px;
-}
-
-.vtt-tool-palette::-webkit-scrollbar-thumb:hover,
-.vtt-tool-settings::-webkit-scrollbar-thumb:hover,
-.vtt-layer-panel::-webkit-scrollbar-thumb:hover {
-    background: #7a3b2e;
+.vtt-layer-panel::-webkit-scrollbar,
+.wall-tools::-webkit-scrollbar,
+.terrain-tools::-webkit-scrollbar,
+.grid-tools::-webkit-scrollbar,
+.drawing-tools::-webkit-scrollbar,
+.fog-tools::-webkit-scrollbar,
+.object-tools::-webkit-scrollbar {
+    display: none;
 }

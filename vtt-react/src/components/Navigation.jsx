@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import Draggable from 'react-draggable';
-import { Resizable } from 'react-resizable';
-import 'react-resizable/css/styles.css';
 import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import usePartyStore from '../store/partyStore';
@@ -12,9 +10,11 @@ import MythrillWindow from './windows/MythrillWindow';
 import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useInventoryStore from '../store/inventoryStore';
+import { SKILL_CATEGORIES, SKILL_DEFINITIONS } from '../constants/skillDefinitions';
 import ErrorBoundary from './common/ErrorBoundary';
 import '../styles/resizable-nav.css';
 import { useWindowIntros } from '../hooks/useWindowIntros';
+import { useNavAssets } from '../hooks/useNavAssets';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
 const ExitGameConfirmDialog = lazy(() => import('./dialogs/ExitGameConfirmDialog'));
@@ -347,11 +347,18 @@ const NAV_CATEGORIES = [
 
 function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [activeTab, setActiveTab] = useState('lore');
+    const [activeLoreSection, setActiveLoreSection] = useState('identity');
+    const [activeInfoSection, setActiveInfoSection] = useState('equipment');
+    const [activeStatGroup, setActiveStatGroup] = useState('summary');
+    const [activeSkillCategory, setActiveSkillCategory] = useState('combat');
+    const [selectedSkillId, setSelectedSkillId] = useState(null);
+    const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
+    const [openDropdown, setOpenDropdown] = useState(null);
     const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
 
     const WINDOW_ID = 'character-sheet';
     const savedPos = getWindowPosition(WINDOW_ID, { x: 100, y: 100 });
-    const savedSize = getWindowSize(WINDOW_ID, { width: 800, height: 600 });
+    const savedSize = getWindowSize(WINDOW_ID, { width: 850, height: 640 });
 
     const handleDrag = useCallback((pos) => {
         setWindowPosition(WINDOW_ID, { x: pos.x, y: pos.y });
@@ -364,38 +371,83 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     // Ensure title is always defined with fallback
     const safeTitle = title || 'Character Sheet';
 
-    // Define character sheet sections with icons
+    // Define character sheet sections with dropdown sub-sections matching the exact component tabs
     const characterSections = {
         lore: {
             title: 'Lore',
-            icon: getWowIconUrl('inv_misc_note_05')
+            icon: 'fas fa-book-open',
+            subSections: [
+                { id: 'identity', label: 'Identity & Origin', icon: 'fas fa-user' },
+                { id: 'personality', label: 'Demeanor & Conviction', icon: 'fas fa-smile' },
+                { id: 'appearance', label: 'Bearing & Aspect', icon: 'fas fa-user-circle' },
+                { id: 'relationships', label: 'Bonds & Adversaries', icon: 'fas fa-users' },
+                { id: 'goals', label: 'Purpose & Dread', icon: 'fas fa-bullseye' },
+                { id: 'heritage', label: 'Ancestry & Heritage', icon: 'fas fa-dna' },
+                { id: 'notes', label: 'Marginalia & Notes', icon: 'fas fa-sticky-note' }
+            ]
         },
         character: {
             title: 'Info',
-            icon: getWowIconUrl('inv_misc_book_11')
+            icon: 'fas fa-info-circle',
+            subSections: [
+                { id: 'equipment', label: 'Equipment & Vitals', icon: 'fas fa-shield-alt' },
+                { id: 'passives', label: 'Passives', icon: 'fas fa-star' },
+                { id: 'languages', label: 'Languages', icon: 'fas fa-globe' }
+            ]
         },
         stats: {
             title: 'Stats',
-            icon: getWowIconUrl('ability_warrior_innerrage')
+            icon: 'fas fa-chart-bar',
+            subSections: [
+                { id: 'summary', label: 'Character Summary', icon: 'fas fa-id-card' },
+                { id: 'base', label: 'Core Attributes', icon: 'fas fa-dumbbell' },
+                { id: 'combat', label: 'Combat Statistics', icon: 'fas fa-fist-raised' },
+                { id: 'spellpower', label: 'Spell Power', icon: 'fas fa-hat-wizard' },
+                { id: 'regeneration', label: 'Regeneration & Healing', icon: 'fas fa-heartbeat' },
+                { id: 'resistances', label: 'Damage Resistances', icon: 'fas fa-shield-alt' },
+                { id: 'movement', label: 'Movement & Mobility', icon: 'fas fa-running' },
+                { id: 'utility', label: 'Utility & Senses', icon: 'fas fa-eye' },
+                { id: 'savingThrows', label: 'Saving Throws', icon: 'fas fa-roll' }
+            ]
         },
         skills: {
             title: 'Skills',
-            icon: getWowIconUrl('trade_engineering')
+            icon: 'fas fa-graduation-cap',
+            subSections: [
+                { id: 'combat', label: 'Combat Mastery', icon: 'fas fa-fist-raised' },
+                { id: 'exploration', label: 'Exploration & Survival', icon: 'fas fa-compass' },
+                { id: 'social', label: 'Social & Influence', icon: 'fas fa-users' },
+                { id: 'arcane', label: 'Arcane Studies', icon: 'fas fa-hat-wizard' }
+            ],
+            skillItems: {
+                combat: Object.entries(SKILL_DEFINITIONS)
+                    .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.COMBAT.name)
+                    .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-fist-raised' })),
+                exploration: Object.entries(SKILL_DEFINITIONS)
+                    .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.EXPLORATION.name)
+                    .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-compass' })),
+                social: Object.entries(SKILL_DEFINITIONS)
+                    .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.SOCIAL.name)
+                    .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-users' })),
+                arcane: Object.entries(SKILL_DEFINITIONS)
+                    .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.ARCANE.name)
+                    .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-hat-wizard' }))
+            }
         }
     };
 
     const renderContent = () => {
         switch (activeTab) {
             case 'character':
-                return <CharacterPanel />;
+                return <CharacterPanel activeSubSection={activeInfoSection} setActiveSubSection={setActiveInfoSection} />;
             case 'stats':
-                return <CharacterStats />;
+                return <CharacterStats selectedStatGroup={activeStatGroup} setSelectedStatGroup={setActiveStatGroup} />;
             case 'skills':
-                return <Skills />;
+                return <Skills selectedCategory={activeSkillCategory} selectedSkill={selectedSkillId} setSelectedSkill={setSelectedSkillId} />;
             case 'lore':
-                return <Lore />;
+                return <Lore initialSection={activeLoreSection} key={activeLoreSection} />;
             default:
-                return <CharacterPanel />;
+                return <Lore initialSection={activeLoreSection} key={activeLoreSection} />;
         }
     };
 
@@ -410,15 +462,109 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             onResize={handleResize}
             customHeader={
                 <div className="spellbook-tab-container">
-                    {Object.entries(characterSections).map(([key, section]) => (
-                        <button
-                            key={key}
-                            className={`spellbook-tab-button ${activeTab === key ? 'active' : ''}`}
-                            onClick={() => setActiveTab(key)}
-                        >
-                            <span>{section.title}</span>
-                        </button>
-                    ))}
+                    {Object.entries(characterSections).map(([key, section]) => {
+                        const isActive = activeTab === key;
+                        const isDropdownOpen = openDropdown === key;
+                        return (
+                            <div 
+                                key={key} 
+                                className="tab-dropdown-wrapper" 
+                                style={{ position: 'relative' }}
+                                onMouseLeave={() => setOpenDropdown(null)}
+                            >
+                                <button
+                                    className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setActiveTab(key);
+                                        setOpenDropdown(prev => prev === key ? null : key);
+                                    }}
+                                    onMouseEnter={() => setOpenDropdown(key)}
+                                >
+                                    <span>{section.title}</span>
+                                    {section.subSections && (
+                                        <i 
+                                            className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`} 
+                                            style={{ marginLeft: '6px', fontSize: '9px', opacity: 0.8 }} 
+                                        />
+                                    )}
+                                </button>
+
+                                {isDropdownOpen && section.subSections && (
+                                    <div className="tab-dropdown-menu">
+                                        {section.subSections.map(sub => {
+                                            const hasNestedSkills = key === 'skills' && section.skillItems?.[sub.id];
+                                            const isCategoryHovered = hoveredSkillCategory === sub.id;
+                                            return (
+                                                <div
+                                                    key={sub.id}
+                                                    className="tab-dropdown-item-wrapper"
+                                                    style={{ position: 'relative' }}
+                                                    onMouseEnter={() => hasNestedSkills && setHoveredSkillCategory(sub.id)}
+                                                    onMouseLeave={() => hasNestedSkills && setHoveredSkillCategory(null)}
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        className={`tab-dropdown-item ${
+                                                            (activeTab === key && (
+                                                                (key === 'lore' && activeLoreSection === sub.id) ||
+                                                                (key === 'character' && activeInfoSection === sub.id) ||
+                                                                (key === 'stats' && activeStatGroup === sub.id) ||
+                                                                (key === 'skills' && activeSkillCategory === sub.id)
+                                                            )) ? 'active' : ''
+                                                        }`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setActiveTab(key);
+                                                            if (key === 'lore') {
+                                                                setActiveLoreSection(sub.id);
+                                                            } else if (key === 'character') {
+                                                                setActiveInfoSection(sub.id);
+                                                            } else if (key === 'stats') {
+                                                                setActiveStatGroup(sub.id);
+                                                            } else if (key === 'skills') {
+                                                                setActiveSkillCategory(sub.id);
+                                                            }
+                                                            setOpenDropdown(null);
+                                                        }}
+                                                    >
+                                                        <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                                                        <span>{sub.label}</span>
+                                                        {hasNestedSkills && (
+                                                            <i className="fas fa-chevron-right" style={{ marginLeft: 'auto', fontSize: '9px', opacity: 0.6 }}></i>
+                                                        )}
+                                                    </button>
+                                                    {hasNestedSkills && isCategoryHovered && (
+                                                        <div className="tab-dropdown-submenu">
+                                                            {section.skillItems[sub.id].map(skill => (
+                                                                <button
+                                                                    key={skill.id}
+                                                                    type="button"
+                                                                    className={`tab-dropdown-item tab-dropdown-skill-item ${
+                                                                        (activeTab === 'skills' && activeSkillCategory === sub.id && selectedSkillId === skill.id) ? 'active' : ''
+                                                                    }`}
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setActiveTab('skills');
+                                                                        setActiveSkillCategory(sub.id);
+                                                                        setSelectedSkillId(skill.id);
+                                                                        setOpenDropdown(null);
+                                                                    }}
+                                                                >
+                                                                    <i className={skill.icon} style={{ width: '14px', textAlign: 'center', marginRight: '6px', fontSize: '10px' }}></i>
+                                                                    <span>{skill.label}</span>
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             }
         >
@@ -450,35 +596,13 @@ const InventoryHeaderButton = () => {
     };
 
     return (
-        <div className="inventory-header-actions" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="inventory-header-actions">
             <button
-                className="wow-button small danger"
+                className="inventory-clear-btn"
                 onClick={handleClearClick}
                 title="Clear all items from inventory"
-                style={{
-                    padding: '4px 12px',
-                    fontSize: '12px',
-                    height: '28px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    background: 'linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%)',
-                    color: 'white',
-                    border: '1px solid #654321',
-                    borderRadius: '3px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                    textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
-                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-                    transition: 'all 0.2s ease',
-                    marginRight: '8px'
-                }}
             >
-                <i className="fas fa-trash-alt"></i>
-                <span>Clear</span>
+                <i className="fas fa-trash"></i>
             </button>
 
             {showConfirm && ReactDOM.createPortal(
@@ -634,6 +758,16 @@ export default function Navigation({ onReturnToLanding }) {
     // Per-window first-open introductions (typewriter) via the dialogue system
     const { triggerIfFirstOpen: triggerWindowIntro } = useWindowIntros();
 
+    // Navigation sprite assets (parchment background, button images)
+    const { assets: navAssets } = useNavAssets();
+
+    // Recalculate nav bar size when sprite assets load (changes height)
+    useEffect(() => {
+        if (navAssets) {
+            setSize(getInitialSize());
+        }
+    }, [navAssets]);
+
     // Calculate total unread count for community badge
     const totalCommunityUnread = React.useMemo(() => {
         let total = partyChatUnreadCount || 0;
@@ -712,7 +846,7 @@ export default function Navigation({ onReturnToLanding }) {
 
         return {
             width: Math.min(calculatedWidth, window.innerWidth - 40),
-            height: isCompact ? 42 : 50
+            height: isCompact ? 60 : 72
         };
     };
 
@@ -755,7 +889,7 @@ export default function Navigation({ onReturnToLanding }) {
     const gridRef = useRef(null);
     useLayoutEffect(() => {
         const grid = gridRef.current;
-        if (!grid || typeof ResizeObserver === 'undefined') return;
+        if (!grid) return;
         const fit = () => {
             const children = [...grid.children];
             if (!children.length) return;
@@ -776,10 +910,7 @@ export default function Navigation({ onReturnToLanding }) {
             });
         };
         fit();
-        const ro = new ResizeObserver(fit);
-        ro.observe(grid);
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-        return () => ro.disconnect();
     }, [buttons]);
 
     const [openCategory, setOpenCategory] = useState(null);
@@ -809,21 +940,32 @@ export default function Navigation({ onReturnToLanding }) {
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(button.id); }}
                 onTouchStart={(e) => { e.preventDefault(); e.stopPropagation(); }}
                 onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(button.id); }}
-                className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
+                className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''} ${navAssets && button.id === 'settings' ? 'nav-sprite-btn-wrapper' : ''}`}
                 title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
                 style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
             >
-                <svg viewBox="0 0 24 24" className="wow-nav-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {button.svg}
-                </svg>
+                {navAssets && button.id === 'settings' ? (
+                    <img
+                        src={navAssets.settings}
+                        alt="Settings"
+                        className="nav-sprite-btn-img"
+                        draggable={false}
+                    />
+                ) : (
+                    <svg viewBox="0 0 24 24" className="wow-nav-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        {button.svg}
+                    </svg>
+                )}
                 {button.id === 'community' && totalCommunityUnread > 0 && (
                     <span className="nav-notification-badge">
                         {totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}
                     </span>
                 )}
-                <div className="shortcut">
-                    {button.shortcut}
-                </div>
+                {!navAssets && (
+                    <div className="shortcut">
+                        {button.shortcut}
+                    </div>
+                )}
             </button>
         );
     };
@@ -980,11 +1122,6 @@ export default function Navigation({ onReturnToLanding }) {
             }));
         }
     }, [isGMMode]);
-
-    const handleResize = (e, { size }) => {
-        e.stopPropagation();
-        setSize(size);
-    };
 
     const getWindowContent = (button) => {
         // Safety check to ensure button object is valid
@@ -1467,14 +1604,10 @@ export default function Navigation({ onReturnToLanding }) {
                             >
                                 <div
                                     ref={orbRef}
-                                    className="nav-orb"
+                                    className="nav-orb nav-quill-collapsed"
                                     title="Expand Navigation (~)"
                                 >
-                                    <div className="nav-orb-inner">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M6 15l6-6 6 6" />
-                                        </svg>
-                                    </div>
+                                    <img src={navAssets?.quill || '/assets/ui/Quill.PNG'} alt="Expand Navigation" className="nav-quill-img" draggable={false} />
                                     <div className="nav-orb-pulse" />
                                 </div>
                             </Draggable>
@@ -1491,19 +1624,15 @@ export default function Navigation({ onReturnToLanding }) {
                                 onMouseEnter={() => setIsNavHovered(true)}
                                 onMouseLeave={() => setIsNavHovered(false)}
                             >
-                            <Resizable
-                                width={size.width}
-                                height={size.height}
-                                onResize={handleResize}
-                                draggableOpts={{ grid: [10, 10] }}
-                                minConstraints={[200, 50]}
-                                maxConstraints={[800, 50]}
-                                resizeHandles={['e']}
-                                handle={<div className="custom-resize-handle" />}
-                            >
-                                <div className="wow-nav-container" style={{
+                            <div className="wow-nav-container nav-sprite-mode" style={{
                                     width: size.width,
                                     height: size.height,
+                                    ...(navAssets ? {
+                                        backgroundImage: `url(${navAssets.background})`,
+                                        backgroundSize: '100% 100%',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundPosition: 'center',
+                                    } : {}),
                                 }}>
                                     <div className="wow-nav-grid" ref={gridRef}>
                                         {NAV_CATEGORIES.map(cat => {
@@ -1513,17 +1642,27 @@ export default function Navigation({ onReturnToLanding }) {
                                             return (
                                                 <div className="wow-nav-category" key={cat.id}>
                                                     <button
-                                                        className={`wow-nav-category-header ${isOpen ? 'open' : ''}`}
+                                                        className={`wow-nav-category-header ${isOpen ? 'open' : ''} ${navAssets ? 'nav-sprite-category' : ''}`}
                                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
                                                         onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
                                                         title={`${cat.label} (${members.length})`}
                                                         style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                                                     >
-                                                        <svg viewBox="0 0 24 24" className="wow-nav-category-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                            {cat.svg}
-                                                        </svg>
-                                                        <span className="wow-nav-category-label">{cat.label}</span>
-                                                        <span className="wow-nav-category-chevron" aria-hidden="true" />
+                                                        {navAssets ? (
+                                                            <img
+                                                                src={navAssets[cat.id]}
+                                                                alt={cat.label}
+                                                                className="nav-sprite-category-img"
+                                                                draggable={false}
+                                                            />
+                                                        ) : (
+                                                            <>
+                                                                <svg viewBox="0 0 24 24" className="wow-nav-category-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    {cat.svg}
+                                                                </svg>
+                                                                <span className="wow-nav-category-label">{cat.label}</span>
+                                                            </>
+                                                        )}
                                                     </button>
                                                     {isOpen && (
                                                         <div className="wow-nav-flyout" onClick={(e) => e.stopPropagation()}>
@@ -1558,7 +1697,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                 </div>
                                             );
                                         })}
-                                        <span className="wow-nav-divider" aria-hidden="true" />
+                                        <span className={`wow-nav-divider ${navAssets ? 'nav-sprite-divider' : ''}`} aria-hidden="true" />
                                         {buttons.filter(b => b && b.id && (BUTTON_CATEGORY[b.id] || 'system') === 'system').map(renderWowNavButton)}
 
                                         {/* Back to Landing Page Button */}
@@ -1574,43 +1713,48 @@ export default function Navigation({ onReturnToLanding }) {
                                                     e.stopPropagation();
                                                     onReturnToLanding();
                                                 }}
-                                                className="wow-nav-button back-button"
+                                                className={`wow-nav-button back-button ${navAssets ? 'nav-sprite-btn-wrapper' : ''}`}
                                                 title="Return to Main Menu (ESC)"
                                                 style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
                                             >
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    className="wow-nav-icon"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                >
-                                                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                                                </svg>
-                                                <div className="shortcut">
-                                                    ESC
-                                                </div>
+                                                {navAssets ? (
+                                                    <img
+                                                        src={navAssets.esc}
+                                                        alt="ESC"
+                                                        className="nav-sprite-btn-img"
+                                                        draggable={false}
+                                                    />
+                                                ) : (
+                                                    <>
+                                                        <svg
+                                                            viewBox="0 0 24 24"
+                                                            className="wow-nav-icon"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        >
+                                                            <path d="M19 12H5M12 19l-7-7 7-7" />
+                                                        </svg>
+                                                        <div className="shortcut">
+                                                            ESC
+                                                        </div>
+                                                    </>
+                                                )}
                                             </button>
                                         )}
 
                                         <button
                                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleCollapse(); }}
                                             onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleCollapse(); }}
-                                            className="wow-nav-button wow-nav-minimize"
+                                            className="wow-nav-button wow-nav-minimize nav-quill-btn"
                                             title="Minimize Navigation (~)"
                                             style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
-                                        >
-                                            <svg viewBox="0 0 24 24" className="wow-nav-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M6 9l6 6 6-6" />
-                                            </svg>
-                                            <div className="shortcut">~</div>
-                                        </button>
+                                        />
 
                                     </div>
                                 </div>
-                            </Resizable>
                         </div>
                     </Draggable>
                     </>

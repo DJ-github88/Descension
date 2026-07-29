@@ -26,17 +26,18 @@ const IconRenderer = ({ icon, color, className = '' }) => {
 
 // Available damage/element types
 const ELEMENT_TYPES = [
-    { id: 'physical', name: 'Physical', icon: 'fas fa-fist-raised', color: '#8B4513' },
-    { id: 'fire', name: 'Fire', icon: 'fas fa-fire', color: '#FF4500' },
-    { id: 'cold', name: 'Cold', icon: 'fas fa-snowflake', color: '#00BFFF' },
-    { id: 'lightning', name: 'Lightning', icon: 'fas fa-bolt', color: '#FFD700' },
-    { id: 'poison', name: 'Poison', icon: 'fas fa-skull-crossbones', color: '#228B22' },
-    { id: 'acid', name: 'Acid', icon: 'fas fa-flask', color: '#9ACD32' },
-    { id: 'necrotic', name: 'Necrotic', icon: 'fas fa-skull', color: '#4B0082' },
-    { id: 'radiant', name: 'Radiant', icon: 'fas fa-sun', color: '#FFD700' },
-    { id: 'psychic', name: 'Psychic', icon: 'fas fa-brain', color: '#9370DB' },
-    { id: 'healing', name: 'Healing', icon: 'fas fa-heart', color: '#32CD32' },
-    { id: 'arcane', name: 'Arcane', icon: 'fas fa-magic', color: '#4169E1' }
+    { id: 'smashing', name: 'Smashing', icon: 'fas fa-hammer', color: '#51626b' },
+    { id: 'stabbing', name: 'Stabbing', icon: 'fas fa-syringe', color: '#6b6b6b' },
+    { id: 'slicing', name: 'Slicing', icon: 'fas fa-khanda', color: '#51626b' },
+    { id: 'ember', name: 'Ember', icon: 'fas fa-fire', color: '#a62626' },
+    { id: 'rime', name: 'Rime', icon: 'fas fa-snowflake', color: '#24587a' },
+    { id: 'storm', name: 'Storm', icon: 'fas fa-bolt', color: '#a3811f' },
+    { id: 'primal', name: 'Primal', icon: 'fas fa-leaf', color: '#2b5c20' },
+    { id: 'arcane', name: 'Arcane', icon: 'fas fa-magic', color: '#6c3dbf' },
+    { id: 'blight', name: 'Blight', icon: 'fas fa-skull', color: '#53236e' },
+    { id: 'wyrd', name: 'Wyrd', icon: 'fas fa-brain', color: '#87206f' },
+    { id: 'sacred', name: 'Sacred', icon: 'fas fa-sun', color: '#DAA520' },
+    { id: 'healing', name: 'Healing', icon: 'fas fa-heart', color: '#32CD32' }
 ];
 
 
@@ -155,7 +156,7 @@ const BuffDebuffCreatorModal = ({
     const [hasOverTimeEffect, setHasOverTimeEffect] = useState(false);
     const [overTimeType, setOverTimeType] = useState('damage');
     const [overTimeFormula, setOverTimeFormula] = useState('1d4');
-    const [overTimeElement, setOverTimeElement] = useState('physical');
+    const [overTimeElement, setOverTimeElement] = useState('smashing');
     const [tickFrequency, setTickFrequency] = useState('realtime');
     const [tickFrequencyValue, setTickFrequencyValue] = useState(1);
     const [tickFrequencyUnit, setTickFrequencyUnit] = useState('rounds');
@@ -270,7 +271,7 @@ const BuffDebuffCreatorModal = ({
         setHasOverTimeEffect(preset.hasOverTimeEffect);
         setOverTimeType(preset.overTimeType || 'damage');
         setOverTimeFormula(preset.overTimeFormula || '1d4');
-        setOverTimeElement(preset.overTimeElement || 'physical');
+        setOverTimeElement(preset.overTimeElement || 'smashing');
         setTickFrequency(preset.tickFrequency || 'realtime');
         setTickFrequencyValue(preset.tickFrequencyValue || 1);
         setTickFrequencyUnit(preset.tickFrequencyUnit || 'rounds');
@@ -487,7 +488,7 @@ const BuffDebuffCreatorModal = ({
         setHasOverTimeEffect(false);
         setOverTimeType('damage');
         setOverTimeFormula('1d4');
-        setOverTimeElement('physical');
+        setOverTimeElement('smashing');
         setTickFrequency('realtime');
         setTickFrequencyValue(1);
         setTickFrequencyUnit('rounds');

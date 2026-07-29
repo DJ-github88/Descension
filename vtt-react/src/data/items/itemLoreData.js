@@ -45,7 +45,7 @@ const ITEM_LORE = {
   cleaver: {
     origin: 'bryngloom-forest',
     loreText: 'Vreken cleavers are repurposed peat-cutting tools, their blades still stained with bog-iron. The Cult of Forgotten Shadow favours their crude, silent efficiency.',
-    relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_forgotten_shadow']
   },
   'battle-axe': {
     origin: 'cragjaw-peaks',
@@ -175,7 +175,7 @@ const ITEM_LORE = {
   'broken-flute': {
     origin: 'bryngloom-forest',
     loreText: 'Neth bone-carvers hollow gref femurs into flutes that produce a haunting, reedy tone. The Cult of Forgotten Shadow uses them to call spirits from the ancestor-mounds.',
-    relatedLore: ['bryngloom-forest', 'neth', 'gref', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'neth', 'gref', 'cult_of_forgotten_shadow']
   },
   'war-drum': {
     origin: 'nordhalla',
@@ -473,7 +473,7 @@ const ITEM_LORE = {
   shadowblade: {
     origin: 'bryngloom-forest',
     loreText: 'The Cult of Forgotten Shadow quenched the first shadowblade in silence-essence from a living Neth oracle. The blade casts no shadow — it is made of shadow.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   bonecrusher: {
     origin: 'cragjaw-peaks',
@@ -762,7 +762,7 @@ const ITEM_LORE = {
   shadowweave: {
     origin: 'bryngloom-forest',
     loreText: 'Cult shadowweavers spin fabric from ghost-mycelium filaments harvested in absolute darkness. It is colder than air and moves like liquid night.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   thunderplate: {
     origin: 'cragjaw-peaks',
@@ -816,7 +816,7 @@ const ITEM_LORE = {
   'madness-whisper': {
     origin: 'bryngloom-forest',
     loreText: 'Cult rings infused with silence-essence that whispers the thoughts of the dead. The madness is realizing the dead are listening back.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'hollow-promise': {
     origin: 'sundrift-vale',
@@ -851,7 +851,7 @@ const ITEM_LORE = {
   'corrupted-totem': {
     origin: 'bryngloom-forest',
     loreText: 'Cult totems corrupted by Wyrd-touch, each one a spiritual contagion spreading the ancestor-mounds\' silence.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark', 'wyrd']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'wyrd']
   },
   'bone-memory': {
     origin: 'nordhalla',
@@ -936,7 +936,7 @@ const ITEM_LORE = {
   'shadow-cloak': {
     origin: 'bryngloom-forest',
     loreText: 'Cult agent cloaks woven from Vreken ghost-mycelium silk. In Bryngloom\'s twilight, the wearer becomes indistinguishable from the dark between trees.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark', 'vreken']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'vreken']
   },
   'ward-of-protection': {
     origin: 'frostwood-reach',
@@ -995,7 +995,7 @@ const ITEM_LORE = {
   'madness-brew': {
     origin: 'bryngloom-forest',
     loreText: 'Cult-fermented ghost-mycelium and silence-essence. It unlocks hidden doors in the mind and leaves them open for things that should not enter.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'strength-of-sorrow': {
     origin: 'nordhalla',
@@ -1050,7 +1050,7 @@ const ITEM_LORE = {
   'hollow-essence': {
     origin: 'bryngloom-forest',
     loreText: 'Extracted from the silence between ancestor-mound pulses — absence of life made liquid. Drinking it makes you invisible to spirits and perhaps to yourself.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'cursed-ration': {
     origin: 'nordhalla',
@@ -1281,7 +1281,7 @@ const ITEM_LORE = {
   shadowfiber: {
     origin: 'bryngloom-forest',
     loreText: 'A fabric woven in absolute darkness by the Cult of Forgotten Shadow, using techniques that predate the Neth-Vreken Reincarnation Bargain. It absorbs all light.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   dreamweave: {
     origin: 'frostwood-reach',
@@ -1443,7 +1443,7 @@ const ITEM_LORE = {
   'shadow-residue': {
     origin: 'bryngloom-forest',
     loreText: 'The physical byproduct of silence-essence extraction, a tar-like substance that deadens sound and light. The Cult of Forgotten Shadow uses it in binding rituals.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'arcane-ash': {
     origin: 'frostwood-reach',
@@ -1694,7 +1694,7 @@ const ITEM_LORE = {
   'shadow-veil-blade': {
     origin: 'bryngloom-forest',
     loreText: 'Forged in absolute root-veil darkness by the Cult of Forgotten Shadow. This blade absorbs light so completely that its edge exists as a localized pocket of perfect black — the absence of everything.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark', 'root_veil']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'root_veil']
   },
   'threshold-keepers-scythe': {
     origin: 'bryngloom-forest',
@@ -1738,7 +1738,7 @@ const ITEM_LORE = {
   'void-pricker': {
     origin: 'bryngloom-forest',
     loreText: 'The Cult of Forgotten Shadow forges these katars in the root-veil, where no light has ever reached. The puncture wounds they leave don\'t bleed — they remember.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark', 'root_veil']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'root_veil']
   },
   'gravel-spitter': {
     origin: 'cragjaw-peaks',
@@ -1768,7 +1768,7 @@ const ITEM_LORE = {
   'wraith-bite': {
     origin: 'bryngloom-forest',
     loreText: 'A rapier whose shadow lingers a moment after the blade moves. The Cult of Forgotten Shadow trains assassins to strike twice — once with steel, once with the shadow that follows.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'storm-pike': {
     origin: 'iceheart-sea',
@@ -1817,7 +1817,7 @@ const ITEM_LORE = {
   'nightfall-rapier': {
     origin: 'bryngloom-forest',
     loreText: 'A blade that exists half in shadow and half in the living world. The Cult of Forgotten Shadow\'s top assassins can use it to strike from a shadow you didn\'t know was there.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'arcane-siphon': {
     origin: 'frostwood-reach',
@@ -1951,7 +1951,7 @@ const ITEM_LORE = {
   'night-terrors-embrace': {
     origin: 'bryngloom-forest',
     loreText: 'A dagger that exists as a gateway to the deepest nightmares. The Cult of Forgotten Shadow forged it from the dreamstuff of the root-veil — the shadow DoT is the target\'s own fear eating them alive.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'inferno-sovereign': {
     origin: 'sundale',
@@ -2000,7 +2000,7 @@ const ITEM_LORE = {
   'shadow-step-cloak': {
     origin: 'bryngloom-forest',
     loreText: 'A cloak woven from root-veil silk that absorbs ambient light. The Cult of Forgotten Shadow\'s scouts wear these to move unseen — the darkness isn\'t around them, it IS them.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark', 'root_veil']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'root_veil']
   },
   'blight-resistant-greaves': {
     origin: 'bryngloom-forest',
@@ -2137,7 +2137,7 @@ const ITEM_LORE = {
   'shadow-loom': {
     origin: 'bryngloom-forest',
     loreText: 'A cloak of shadow-silk that makes the wearer harder to frighten. The Cult of Forgotten Shadow gives these to initiates who have survived their first night in the root-veil.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'wyrd-stone': {
     origin: 'cragjaw-peaks',
@@ -2249,7 +2249,7 @@ const ITEM_LORE = {
   'shadow-blend': {
     origin: 'bryngloom-forest',
     loreText: 'A paste made from Bryngloom\'s bioluminescent mushrooms. Cult of Forgotten Shadow operatives use it before infiltration missions — the hallucinations are a price they pay gladly.',
-    relatedLore: ['bryngloom-forest', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   'scroll-of-warding': {
     origin: 'frostwood-reach',
@@ -2312,7 +2312,7 @@ const ITEM_LORE = {
   'scroll-of-the-void': {
     origin: 'bryngloom-forest',
     loreText: 'A scroll that opens a window to the void between worlds. The shadow and Wyrd power it grants is immense — but the risk of losing your mind to the darkness is real and permanent.',
-    relatedLore: ['bryngloom-forest', 'the_memory_wars', 'cult_of_the_silent_dark']
+    relatedLore: ['bryngloom-forest', 'the_memory_wars', 'cult_of_forgotten_shadow']
   }
 };
 

@@ -102,7 +102,7 @@ export const HARBINGER_DATA = {
   founder: {
    name: '<LoreLink termId="malakor">Malakor</LoreLink> (the Arithmetic)',
    status: `<LoreLink termId="malakor">Malakor</LoreLink>, alive, and leading. He calculated exactly when Sol's extinction would finish, and the calculation did not break him; it gave him a purpose. His original thirty scrolls of star-arithmetic, suppressed by the Frozen Archive, are the founding text of the Doom-Choir.`,
-   note: `<LoreLink termId="malakor">Malakor</LoreLink> provided the truth: the freeze is mathematically absolute, and the math does not care. <LoreLink termId="xyris">Xyris</LoreLink> was the first student to prove the math could be *used*  —  she tore the first Chaos Pocket and died proving the principle. The Doom-Choir formed around those who understood both: the math could not be un-understood, and the ending could be weaponized.`
+   note: `<LoreLink termId="malakor">Malakor</LoreLink> provided the truth: the freeze is mathematically absolute, and the math does not care. <LoreLink termId="xyris">Xyris</LoreLink> was the first student to prove the math could be *used*  â€”  she tore the first Chaos Pocket and died proving the principle. The Doom-Choir formed around those who understood both: the math could not be un-understood, and the ending could be weaponized.`
   },
   currentLeader: {
    name: '<LoreLink termId="malakor">Catastrophe-Reader Malakor the Finite</LoreLink>',
@@ -119,7 +119,7 @@ export const HARBINGER_DATA = {
  ],
 
  overview: {
-   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the first centuries of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
+   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the fourth century of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
 
 He published his findings. The Frozen Archive suppressed them. The calculations were correct, but the political implications were unacceptable. If freeze was mathematically certain, the noble houses had not saved the world by binding Sol. They had merely delayed the execution. Malakor continued calculating. Other mathematicians found his work, came to the Archive, studied his papers, understood the conclusion, and left carrying the math in their heads, because the math once understood cannot be un-understood.
 
@@ -133,13 +133,13 @@ The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift V
 
   quickOverview: {
    title: "Quick Overview",
-    content: `**Who they are**: A prophet of catastrophe who weaponizes the mathematical certainty of doom. They have calculated exactly how the world ends  —  the freeze is absolute, the math does not care  —  and then tear open the hole to make it happen faster. They are a living tear in the fabric of spacetime, wielding the entropy of a dying world as a weapon.
+    content: `**Who they are**: A prophet of catastrophe who weaponizes the mathematical certainty of doom. They have calculated exactly how the world ends  â€”  the freeze is absolute, the math does not care  â€”  and then tear open the hole to make it happen faster. They are a living tear in the fabric of spacetime, wielding the entropy of a dying world as a weapon.
 
-**The hook**: Plant living bomb prophecies in your enemies that tick, escalate, and detonate with apocalyptic force. Build Mayhem passively  —  the longer combat drags on, the more your spells amplify in damage, area, and targets. Spend Mayhem to widen your Prophecy Ranges for safer, more devastating outcomes.
+**The hook**: Plant living bomb prophecies in your enemies that tick, escalate, and detonate with apocalyptic force. Build Mayhem passively  â€”  the longer combat drags on, the more your spells amplify in damage, area, and targets. Spend Mayhem to widen your Prophecy Ranges for safer, more devastating outcomes.
 
-**The cost**: At 100 Mayhem, a catastrophic Wild Surge triggers and resets the gauge. Your molecular coherence is permanently frayed  —  your skin phases out of existence, your memories blur with alternate timelines, and you can no longer feel warmth or trust your own past. Every prophecy you fulfill fills you with stolen entropy that strains your dimensional anchor.
+**The cost**: At 100 Mayhem, a catastrophic Wild Surge triggers and resets the gauge. Your molecular coherence is permanently frayed  â€”  your skin phases out of existence, your memories blur with alternate timelines, and you can no longer feel warmth or trust your own past. Every prophecy you fulfill fills you with stolen entropy that strains your dimensional anchor.
 
-**Bring one for**: The only class that plants prophecies like landmines and detonates them with escalating mayhem  —  a ticking time bomb whose mere presence accelerates the end.`
+**Bring one for**: The only class that plants prophecies like landmines and detonates them with escalating mayhem  â€”  a ticking time bomb whose mere presence accelerates the end.`
   },
 
   description: `To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. Their eyes carry a cold, blue certainty. They do not cast spells. They speak endings into flesh and invite local molecular collapse. This power is a turbulent stream that strains the caster's dimensional anchor and fractures their emotional core. Every time they channel the entropic wind, their molecular coherence wavers, and their body resonates with the high-pitched shriek of folding dimensions. Every prophecy they fulfill fills them with stolen entropy. The mathematics of doom are absolute, and the chaos of reality is the tool they use to enforce them.`,
@@ -147,7 +147,7 @@ The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift V
   roleplayIdentity: {
    title: "Roleplay Identity",
    content: `**HISTORY: THE GENESIS**
-The Harbinger's origin is not prophecy. It is arithmetic. In the first centuries of the Dimming, the Skald mathematician <LoreLink termId="malakor">Malakor</LoreLink> locked himself in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>'s Scribe's Tower with thirty scrolls of star-arithmetic and calculated the lifespan of the world. The answer was absolute: the freeze would accelerate until every heat source was drained into Keth-Amar's feeding. The math did not permit hope. The Frozen Archive suppressed his papers  —  the math was correct, but the political implications were unacceptable.
+The Harbinger's origin is not prophecy. It is arithmetic. In the fourth century of the Dimming, the Skald mathematician <LoreLink termId="malakor">Malakor</LoreLink> locked himself in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>'s Scribe's Tower with thirty scrolls of star-arithmetic and calculated the lifespan of the world. The answer was absolute: the freeze would accelerate until every heat source was drained into Keth-Amar's feeding. The math did not permit hope. The Frozen Archive suppressed his papers  â€”  the math was correct, but the political implications were unacceptable.
 
 The math could not be suppressed forever. Other mathematicians found Malakor's work. They studied. They understood. And they left, carrying the math in their heads. <LoreLink termId="xyris">Xyris</LoreLink> was the first to apply the math practically: she tore the first Chaos Pocket in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, weaponizing directed entropy. The hole killed her, but it proved the principle. The Harbinger tradition was born: Malakor's truth, Xyris's application, one discovery of doom with one terrible use.
 
@@ -155,7 +155,7 @@ The math could not be suppressed forever. Other mathematicians found Malakor's w
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
+This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  â€”  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
 
 **NOTABLE FIGURES**
 * **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.
@@ -171,7 +171,7 @@ This is not a tradition that spreads through trade. It spreads through despair a
   },
 
   philosophy: {
-   coreTenet: "The freeze is mathematically absolute. Everything dies. The math does not care. Hope is not a strategy  —  it is a rounding error. The Harbinger has accepted what others refuse to compute: that the world is ending, and the only question is how fast. Once you accept the answer, the arithmetic becomes a weapon. Constraint is violence. Entropy is truth. The end is arithmetic.",
+   coreTenet: "The freeze is mathematically absolute. Everything dies. The math does not care. Hope is not a strategy  â€”  it is a rounding error. The Harbinger has accepted what others refuse to compute: that the world is ending, and the only question is how fast. Once you accept the answer, the arithmetic becomes a weapon. Constraint is violence. Entropy is truth. The end is arithmetic.",
    relationship: "Heralds are bound to both absolute truth and absolute chaos. They cannot offer comfort or hope because they have seen the numbers AND felt the friction of collapsing timelines. The death of Sol was not a tragedy. It was arithmetic. The extinction of surface life is not a possibility. It is an equation waiting to be solved. And the chaos that accelerates it is not evil. It is simply physics. Every spell draws on the death throes of unborn realities, and every fulfilled prophecy generates stolen entropy that fuels the next catastrophe.",
    paradox: "The more Mayhem a Harbinger accumulates, the more powerful they become, and the closer they come to catastrophic dissolution. At maximum Mayhem, they are briefly godlike, warping reality with every gesture and detonating prophecies with absolute precision. And then the Wild Surge hits. A Harbinger who survives their first Surge is forever changed. They are also the only beings who smile when the worst happens, because it means their prophecy was right. They cannot feel warmth or joy, but they are sustained by the deep satisfaction of vindicated doom."
   },
@@ -210,11 +210,11 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 **The Unstable Catalyst ("Why Bring Me?")**: You offer both the Chaos Weaver's apocalyptic area-of-effect amplification and the Doomsayer's living bomb prophecy system. As your Mayhem climbs, your spells swell with massive bonus damage dice, expanded radii, and multi-targeting capabilities. Meanwhile, your prophecies tick and fester in the enemy's bones, waiting for the moment of detonation. The two systems feed each other: fulfilled prophecies generate Mayhem, and Mayhem amplifies prophecy damage.
 
 **Weaknesses**:
-- Anomalous Dissociation: at 100 Mayhem your molecular density drops to zero, a Wild Surge triggers, and you become 100 percent vulnerable to bludgeoning and slashing � a rogue with a blade is your nightmare.
-- Prophecy Collapse: every prophecy that resolves outside its range fizzles and drains your Mayhem (and stacks a Doom on you on the heavy ones) � a bad roll wastes the cast and bleeds your pressure, not the enemy's.
-- No Healing While Prophesying: you cannot receive healing while any of your prophecies are active � your own magic blocks the mender.
+- Anomalous Dissociation: at 100 Mayhem your molecular density drops to zero, a Wild Surge triggers, and you become 100 percent vulnerable to bludgeoning and slashing ï¿½ a rogue with a blade is your nightmare.
+- Prophecy Collapse: every prophecy that resolves outside its range fizzles and drains your Mayhem (and stacks a Doom on you on the heavy ones) ï¿½ a bad roll wastes the cast and bleeds your pressure, not the enemy's.
+- No Healing While Prophesying: you cannot receive healing while any of your prophecies are active ï¿½ your own magic blocks the mender.
 - Ticking to Inevitability: Mayhem climbs toward 100 whether you want it to or not; you can delay the Surge, never cancel it. The bomb always goes off.
-- Glass Cannon: light armor, low HP � you hit the hardest and fold the fastest.
+- Glass Cannon: light armor, low HP ï¿½ you hit the hardest and fold the fastest.
 - Terminal Certainty (social): you compute the doom of every moment (a wedding becomes its divorce and death odds) and cannot feel warmth; you read as coldly cruel. Your own past is being overwritten by other people's lives, so you cannot fully trust your own memories.`
    },
 
@@ -322,7 +322,7 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
 
   overheatRules: {
    title: "Overheat: d100 Master Wild Surge & Prophecy Backlash",
-   content: `When Mayhem reaches 100, the pressure gauge vents violently. The local timeline fractures completely. The Harbinger instantly triggers a **d100 Master Wild Surge** and suffers **Anomalous Dissociation** (molecular density falls to zero, imposing 100% vulnerability to physical bludgeoning and physical damage for 2 rounds). Mayhem resets to 0.
+   content: `When Mayhem reaches 100, the pressure gauge vents violently. The local timeline fractures completely. The Harbinger instantly triggers a **d100 Master Wild Surge** and suffers **Anomalous Dissociation** (molecular density falls to zero, imposing 100% vulnerability to physical bludgeoning and smashing damage for 2 rounds). Mayhem resets to 0.
 
 The Master Wild Surge table is structured across four absolute thematic categories:
 1. **Unstable Miracles (30% Chance, Rolls 1-30)**: Time loops, localized gravity shields, and beneficial reality warping that repairs and protects allies.
@@ -424,37 +424,37 @@ The Master Wild Surge table is structured across four absolute thematic categori
  },
  spellPools: {
   1: [
-   "harbinger-universal-doom_bolt",
+   "harbinger_universal_doom_bolt",
    "harbinger-wild_prophet-chaos_bolt",
    "harbinger-deaths_seer-entropic_touch",
-   "harbinger-universal-reality_flicker",
-   "harbinger-universal-doom_reckoning",
-   "harbinger-universal-entropy_read"
+   "harbinger_universal_reality_flicker",
+   "harbinger_universal_doom_reckoning",
+   "harbinger_universal_entropy_read"
   ],
   2: [
    "harbinger-fate_rift-doom_countdown",
-   "harbinger-universal-dimensional_rift",
+   "harbinger_universal_dimensional_rift",
    "harbinger-deaths_seer-chaotic_decay",
    "harbinger-wild_prophet-calamity_zone",
-   "harbinger-universal-rift_step",
-   "harbinger-universal-prophetic_warning"
+   "harbinger_universal_rift_step",
+   "harbinger_universal_prophetic_warning"
   ],
   3: [
-   "harbinger-universal-havoc_blast",
+   "harbinger_universal_havoc_blast",
    "harbinger-wild_prophet-prismatic_chaos",
    "harbinger-fate_rift-escalating_doom",
    "harbinger-deaths_seer-chaos_burst",
-   "harbinger-universal-cold_certainty"
+   "harbinger_universal_cold_certainty"
   ],
   4: [
    "harbinger-deaths_seer-death_mark",
-   "harbinger-universal-reality_storm",
+   "harbinger_universal_reality_storm",
    "harbinger-deaths_seer-chaos_wave",
    "harbinger-wild_prophet-cataclysm_blast"
   ],
   5: [
    "harbinger-deaths_seer-stacked_doom",
-   "harbinger-universal-prophecy_of_ruin",
+   "harbinger_universal_prophecy_of_ruin",
    "harbinger-wild_prophet-chaos_engine",
    "harbinger-wild_prophet-pandemonic_pulse"
   ],
@@ -473,17 +473,17 @@ The Master Wild Surge table is structured across four absolute thematic categori
   8: [
    "harbinger-deaths_seer-death_sentence",
    "harbinger-wild_prophet-doom_legion",
-   "harbinger-universal-twist_of_doom",
+   "harbinger_universal_twist_of_doom",
    "harbinger-deaths_seer-entropy_plague"
   ],
   9: [
-   "harbinger-universal-the_end",
+   "harbinger_universal_the_end",
    "harbinger-deaths_seer-requiem_absolute",
    "harbinger-wild_prophet-chaos_avatar",
    "harbinger-deaths_seer-entropy_wave"
   ],
   10: [
-   "harbinger-universal-herald_of_the_end",
+   "harbinger_universal_herald_of_the_end",
    "harbinger-wild_prophet-end_of_all_things",
    "harbinger-deaths_seer-final_requiem"
   ]
@@ -491,7 +491,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
 
  exampleSpells: [
     ...UTILITY_SPELLS,
-    { id: "harbinger-universal-doom_bolt",
+    { id: "harbinger_universal_doom_bolt",
    name: "Doom Bolt",
    description: "Your throat tears open as you speak the first syllable of ending. A bolt of pure blight certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood.",
    spellType: "ACTION", icon: "Necrotic/Skull Burst", level: 1, specialization: "universal",
@@ -525,7 +525,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     durationUnit: "rounds",
     canBeDispelled: false,
    },
-   cooldownConfig: { cooldownType: "none", cooldownValue: 0 },
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
    tags: ["damage", "debuff", "blight", "prophecy", "universal", "doom"]
   },
   { id: "harbinger-wild_prophet-chaos_bolt",
@@ -535,7 +535,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    typeConfig: { school: "storm", icon: "Arcane/Spellcasting Aura", tags: ["storm", "damage", "rollable table", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 1, mana: 4, classResource: { type: "mayhem", cost: -2 }, components: ["verbal", "somatic"], verbalText: "Chaos Bolt!", somaticText: "Channel chaos bolt through gesture" },
-   cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, resolution: "DICE",
    damageConfig: { formula: "1d8 + intelligence", damageTypes: ["storm"], resolution: "DICE" },
    mechanicsConfig: { rollableTable: { enabled: true, tableName: "Chaos Bolt Effects", description: "Roll on this table each time you cast Chaos Bolt", diceFormula: "1d12", entries: [
     { range: { min: 1, max: 1 }, customName: "Wild Ricochet", effect: "1d8 storm damage + bolt bounces to a random creature within 15ft dealing 1d4 force.", effectConfig: { damageFormula: "1d8", damageType: "storm", bounceDamage: "1d4", bounceRange: 15 } },
@@ -560,12 +560,12 @@ The Master Wild Surge table is structured across four absolute thematic categori
    typeConfig: { school: "blight", icon: "Necrotic/Necrotic Hand Rising", tags: ["blight", "damage", "debuff", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 1, mana: 2, classResource: { type: "mayhem", cost: -2 }, components: ["somatic"], somaticText: "Channel entropic touch through gesture" },
-   cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, resolution: "DICE",
    damageConfig: { formula: "1d10 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
    debuffConfig: { debuffType: "statusEffect", effects: [{ id: "entropic_decay_debuff", name: "Entropic Rot", description: "Target Armor reduced by 2 for 3 rounds. Stacks up to 5 times." }], savingThrow: { ability: "constitution", difficultyClass: 13, saveOutcome: "negates" }, durationValue: 3, durationUnit: "rounds" },
    tags: ["blight", "damage", "debuff", "deaths_seer"], specialization: "deaths_seer"
   },
-  { id: "harbinger-universal-reality_flicker",
+  { id: "harbinger_universal_reality_flicker",
    name: "Reality Flicker",
    description: "Slip between dimensions for a heartbeat. Become ghostly, pass through walls, and ignore non-magical attacks for 1 round.",
    level: 1, icon: "Arcane/Quick Step", spellType: "ACTION", effectTypes: ["buff"],
@@ -573,7 +573,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    targetingConfig: { targetingType: "self" },
    resourceCost: { actionPoints: 1, mana: 3, classResource: { type: "mayhem", cost: -2 }, components: ["somatic"], somaticText: "Channel reality flicker through gesture" },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }, resolution: "DICE",
-   buffConfig: { buffType: "statusEffectBuff", effects: [{ id: "ghostly_state", name: "Flickering Form", description: "Gain 50% resistance to physical damage and can move through solid objects for 1 round.", statusEffect: { resistanceType: "physical", resistanceAmount: 50 } }], durationValue: 1, durationUnit: "rounds" },
+   buffConfig: { buffType: "statusEffectBuff", effects: [{ id: "ghostly_state", name: "Flickering Form", description: "Gain 50% resistance to smashing damage and can move through solid objects for 1 round.", statusEffect: { resistancetype: "smashing", resistanceAmount: 50 } }], durationValue: 1, durationUnit: "rounds" },
    mechanicsConfig: { rollableTable: { enabled: true, tableName: "Flicker Table", description: "Dimensional anomalies from slipping planar seams", diceFormula: "1d6", entries: [
     { range: { min: 1, max: 1 }, customName: "Static Charge", effect: "Next creature to touch you takes 1d6 storm damage.", effectConfig: { staticDamage: "1d6" } },
     { range: { min: 2, max: 2 }, customName: "Spatial Lag", effect: "Movement reduced by 10 feet for 1 round.", effectConfig: { speedPenalty: -10, duration: 1 } },
@@ -623,7 +623,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
    tags: ["damage", "debuff", "blight", "prophecy", "fate_rift", "delayed", "concentration", "doom"]
   },
-  { id: "harbinger-universal-dimensional_rift",
+  { id: "harbinger_universal_dimensional_rift",
    name: "Dimensional Rift",
    description: "Force a localized collapse in space, tearing a rift that deals storm damage and violently drags the target through the planar fabric.",
    level: 2, icon: "Arcane/Open Portal", spellType: "ACTION", effectTypes: ["damage", "utility"],
@@ -667,7 +667,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    tags: ["damage", "ember", "storm", "prophecy", "wild_prophet", "area"]
   },
   // LEVEL 3 SPELLS
-  { id: "harbinger-universal-havoc_blast",
+  { id: "harbinger_universal_havoc_blast",
    name: "Havoc Blast",
    description: "You tear open a wound in fate itself and convert raw Mayhem into a devastating blast of pure storm. Muscles tearing, veins bulging black.",
    spellType: "ACTION", icon: "Arcane/Swirling Vortex", level: 3, specialization: "universal",
@@ -693,7 +693,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    typeConfig: { school: "wyrd", icon: "Arcane/Conjure Elements", tags: ["damage", "rollable table", "wild_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "mayhem", cost: -4 }, components: ["verbal", "somatic"], verbalText: "Prismatic Chaos!", somaticText: "Channel prismatic chaos through gesture" },
-   cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, resolution: "DICE",
    damageConfig: { formula: "4d6", damageTypes: ["wyrd"], resolution: "DICE" },
    mechanicsConfig: { rollableTable: { enabled: true, tableName: "Prismatic Table", description: "Unstable elemental manifests", diceFormula: "1d8", entries: [
     { range: { min: 1, max: 1 }, customName: "Infernal Rot", effect: "Deals ember damage. Target ignited, 1d6 fire/turn for 3 rounds.", effectConfig: { damageType: "ember", burnFormula: "1d6", duration: 3 } },
@@ -760,7 +760,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    typeConfig: { school: "wyrd", secondaryElement: "ember", icon: "Fire/Hellfire", tags: ["blight", "ember", "damage", "burst", "deaths_seer"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 1, mana: 7, classResource: { type: "mayhem", cost: -4 }, components: ["verbal", "somatic"], verbalText: "Chaos Burst!", somaticText: "Channel chaos burst through gesture" },
-   cooldownConfig: { cooldownType: "none", cooldownValue: 0 }, resolution: "DICE",
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }, resolution: "DICE",
    damageConfig: { formula: "4d6 + intelligence", damageTypes: ["blight", "ember"], resolution: "DICE", savingThrow: { ability: "spirit", difficultyClass: 14, saveOutcome: "half_damage" } },
    tags: ["blight", "ember", "damage", "burst", "deaths_seer"], specialization: "deaths_seer"
   },
@@ -786,7 +786,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
    tags: ["damage", "debuff", "blight", "prophecy", "deaths_seer", "precision"]
   },
-  { id: "harbinger-universal-reality_storm",
+  { id: "harbinger_universal_reality_storm",
    name: "Reality Storm",
    description: "Summon a massive 35ft spatial vortex that twists and folds space. All creatures inside take storm damage, are pulled randomly, and their armor collapses.",
    level: 4, icon: "Void/Black Hole", spellType: "ACTION", effectTypes: ["damage", "debuff"],
@@ -845,7 +845,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
    tags: ["damage", "control", "prophecy", "deaths_seer", "detonate", "doom"]
   },
-  { id: "harbinger-universal-prophecy_of_ruin",
+  { id: "harbinger_universal_prophecy_of_ruin",
    name: "Prophecy of Ruin",
    description: "Reality itself ruptures. You speak a word that IS ending, that MAKES ending. Ember, blight, wyrd dissolution, and raw storm cascade across the battlefield.",
    spellType: "ACTION", icon: "Void/Red Energy Burst", level: 5, specialization: "universal",
@@ -1086,7 +1086,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
    tags: ["damage", "ember", "blight", "prophecy", "wild_prophet", "multi_target", "dot"]
   },
-  { id: "harbinger-universal-twist_of_doom",
+  { id: "harbinger_universal_twist_of_doom",
    name: "Twist of Doom",
    description: "You twist fate through sheer force of will. Blood trickles from your ear as you reach into the fabric of an active prophecy and FORCE it to reroll. The new result must be accepted.",
    spellType: "REACTION", icon: "Arcane/Swirling Vortex", level: 8, specialization: "universal",
@@ -1116,7 +1116,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    tags: ["blight", "damage", "dot", "spread", "deaths_seer"], specialization: "deaths_seer"
   },
   // LEVEL 9 SPELLS
-  { id: "harbinger-universal-the_end",
+  { id: "harbinger_universal_the_end",
    name: "The End",
    description: "The Word of Ending. Reality RECOILS. Blight, ember, wyrd, and raw storm cascade outward in equal measure. Nothing is spared.",
    spellType: "ACTION", icon: "Void/Red Energy Burst", level: 9, specialization: "universal",
@@ -1179,7 +1179,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
 
   // LEVEL 10 SPELLS
-  { id: "harbinger-universal-herald_of_the_end",
+  { id: "harbinger_universal_herald_of_the_end",
    name: "Herald of the End",
    description: "You become the living embodiment of apocalypse. Eyes fully black, voice layered with overlapping prophecies. The battlefield trembles. All enemies are marked, all prophecies empowered.",
    spellType: "ACTION", icon: "Arcane/Ebon Blaze", level: 10, specialization: "universal",
@@ -1237,9 +1237,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
    tags: ["damage", "blight", "prophecy", "deaths_seer", "instant_kill", "absolute", "final", "apocalypse"]
   },
   // ===== NON-COMBAT / DOOM-ARITHMETIC & CHAOS UTILITY (the prophet of catastrophe, out of combat) =====
-  { id: "harbinger-universal-doom_reckoning",
+  { id: "harbinger_universal_doom_reckoning",
    name: "Doomsayer's Reckoning",
-   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken � by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
+   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken ï¿½ by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
    level: 1, icon: "Necrotic/Skull Burst", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["utility", "divination", "investigation", "doom", "universal"] },
@@ -1250,9 +1250,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
    tags: ["utility", "divination", "investigation", "doom", "universal"]
   },
-  { id: "harbinger-universal-entropy_read",
+  { id: "harbinger_universal_entropy_read",
    name: "Entropy Read",
-   description: "Run your doom-arithmetic over an object or mechanism and read its decay � how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
+   description: "Run your doom-arithmetic over an object or mechanism and read its decay ï¿½ how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
    level: 1, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "divination", "investigation", "universal"] },
@@ -1263,9 +1263,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
    tags: ["utility", "divination", "investigation", "universal"]
   },
-  { id: "harbinger-universal-rift_step",
+  { id: "harbinger_universal_rift_step",
    name: "Rift-Step",
-   description: "Thin reality at a single point and slip through it � pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
+   description: "Thin reality at a single point and slip through it ï¿½ pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
    level: 2, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "mobility", "infiltration", "chaos", "universal"] },
@@ -1276,7 +1276,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility", "mobility", "infiltration", "chaos", "universal"]
   },
-  { id: "harbinger-universal-prophetic_warning",
+  { id: "harbinger_universal_prophetic_warning",
    name: "Prophetic Warning",
    description: "Plant a shallow prophecy of warning in your own mind: you gain a cold premonition of the next ambush, trap, or hostile danger that will threaten you or your allies within the next hour, and a single detail of its nature (blade, fire, fall, betrayal). It does not show where or when, only that it is coming and what kind. Out of combat.",
    level: 2, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
@@ -1289,9 +1289,9 @@ The Master Wild Surge table is structured across four absolute thematic categori
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
    tags: ["utility", "divination", "exploration", "prophecy", "universal"]
   },
-  { id: "harbinger-universal-cold_certainty",
+  { id: "harbinger_universal_cold_certainty",
    name: "Cold Certainty",
-   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them � their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
+   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them ï¿½ their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
    level: 3, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "social", "universal"] },

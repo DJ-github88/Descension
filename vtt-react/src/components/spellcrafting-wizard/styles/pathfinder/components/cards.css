@@ -6,12 +6,15 @@
 .pf-spell-card,
 .wow-spell-card {
   background: var(--my-gradient-parchment);
-  border: none;
-  border-radius: var(--my-border-radius-lg);
+  border: 1px solid #7a5028;
+  border-radius: 6px;
   box-shadow:
-    var(--my-shadow-parchment),
-    0 2px 8px rgba(45, 24, 16, 0.15);
-  overflow: visible; /* Changed to visible to allow priority tag to show above */
+    0 0 0 1px #3a2213,
+    inset 0 0 0 1px #d4af37,
+    inset 0 0 0 2px rgba(255, 235, 190, 0.4),
+    inset 0 0 12px rgba(60, 35, 15, 0.15),
+    0 4px 14px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
   transition: all var(--my-transition-normal);
   cursor: pointer;
   position: relative;
@@ -23,6 +26,17 @@
   flex-direction: column;
   font-family: var(--my-font-body);
   margin: 0 auto;
+}
+
+.pf-spell-card:hover,
+.wow-spell-card:hover {
+  border-color: #a36f33;
+  box-shadow:
+    0 0 0 1px #59351e,
+    inset 0 0 0 1px #ffd700,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 12px rgba(212, 175, 55, 0.4),
+    0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Priority Range Tag - Top Right of Header */
@@ -4732,3 +4746,6 @@ body .pf-spell-card.wizard .wow-spell-card-header,
   color: var(--my-parchment);
   border-color: #991b1b;
 }
+
+
+

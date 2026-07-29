@@ -700,10 +700,20 @@ export const COMBAT_STATS = {
 };
 
 export const DAMAGE_TYPES = {
-    physical: {
-        name: 'Physical',
+    smashing: {
+        name: 'Smashing',
         icon: 'Bludgeoning/Hammer Crush',
-        color: '#6B4226'
+        color: '#8B5A2B'
+    },
+    stabbing: {
+        name: 'Stabbing',
+        icon: 'Piercing/Scatter Shot',
+        color: '#704214'
+    },
+    slicing: {
+        name: 'Slicing',
+        icon: 'Slashing/Bloody Meat Cleaver',
+        color: '#5C3317'
     },
     ember: {
         name: 'Ember',
@@ -741,7 +751,7 @@ export const DAMAGE_TYPES = {
         color: '#7A2040'
     },
     sacred: {
-        name: 'Divine',
+        name: 'Sacred',
         icon: 'Radiant/Radiant Divinity',
         color: '#DAA520'
     }
@@ -811,20 +821,20 @@ export const DAMAGE_DICE = [
 export const DAMAGE_AMOUNT = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export const PHYSICAL_DAMAGE_TYPES = {
-    piercing: {
-        name: 'Piercing',
+    smashing: {
+        name: 'Smashing',
+        icon: 'Bludgeoning/Hammer Crush',
+        color: '#8B5A2B'
+    },
+    stabbing: {
+        name: 'Stabbing',
         icon: 'Piercing/Scatter Shot',
-        color: '#C0C0C0'
+        color: '#704214'
     },
-    bludgeoning: {
-        name: 'Bludgeoning',
-        icon: 'Bludgeoning/Hammer',
-        color: '#8B4513'
-    },
-    slashing: {
-        name: 'Slashing',
+    slicing: {
+        name: 'Slicing',
         icon: 'Slashing/Bloody Meat Cleaver',
-        color: '#B22222'
+        color: '#5C3317'
     }
 };
 
@@ -834,7 +844,9 @@ export const DAMAGE_ICONS = {
 };
 
 export const damageTypeColors = {
-    physical: '#6B4226',
+    smashing: '#8B5A2B',
+    stabbing: '#704214',
+    slicing: '#5C3317',
     ember: '#D4380D',
     rime: '#2C5F7C',
     storm: '#8B7328',
@@ -842,9 +854,7 @@ export const damageTypeColors = {
     primal: '#2D5A1E',
     blight: '#3D1F4E',
     wyrd: '#7A2040',
-    bludgeoning: '#8B4513',
-    piercing: '#C0C0C0',
-    slashing: '#A52A2A'
+    sacred: '#DAA520'
 };
 
 export const QUALITY_TYPES = {

@@ -129,7 +129,7 @@ const LibraryBrowserModal = ({
                         name: spell.name,
                         description: spell.description || '',
                         type: spell.spellType || spell.type || 'spell',
-                        school: spell.school || 'arcane',
+                        school: spell.typeConfig?.school || spell.school || 'smashing',
                         level: spell.level || 0,
                         icon: spell.typeConfig?.icon || spell.icon || 'spell_holy_holybolt',
                         category: catId,
@@ -143,7 +143,9 @@ const LibraryBrowserModal = ({
               setLibraryData(allSpells);
               setCategories([
                 { id: 'all', name: 'All Spells' },
-                { id: 'physical', name: 'Physical' },
+                { id: 'smashing', name: 'Smashing' },
+                { id: 'stabbing', name: 'Stabbing' },
+                { id: 'slicing', name: 'Slicing' },
                 { id: 'ember', name: 'Ember' },
                 { id: 'rime', name: 'Rime' },
                 { id: 'storm', name: 'Storm' },
@@ -151,7 +153,8 @@ const LibraryBrowserModal = ({
                 { id: 'primal', name: 'Primal' },
                 { id: 'blight', name: 'Blight' },
                 { id: 'wyrd', name: 'Wyrd' },
-                { id: 'sacred', name: 'Sacred' }
+                { id: 'sacred', name: 'Sacred' },
+                { id: 'healing', name: 'Healing' }
               ]);
             } catch (error) {
               console.error('Failed to load spell data:', error);

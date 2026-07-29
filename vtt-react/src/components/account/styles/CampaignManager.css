@@ -264,20 +264,36 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 24px;
-  padding: 24px 28px;
-  background: linear-gradient(135deg, rgba(248, 245, 240, 0.98) 0%, rgba(240, 234, 214, 0.98) 100%);
-  border: 2px solid rgba(139, 69, 19, 0.2);
-  border-radius: 16px;
+  gap: 20px;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  border: 2px solid #8b4513;
+  border-radius: 12px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.4) inset,
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+.campaign-detail-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #7a3b2e 15%, #d4af37 50%, #7a3b2e 85%, transparent 100%);
+  pointer-events: none;
 }
 
 .campaign-title-section {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 16px;
+  gap: 14px;
   min-width: 0;
   /* allow children to shrink on narrow screens */
   flex: 1 1 auto;
@@ -286,7 +302,7 @@
 .campaign-header-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   min-width: 0;
 }
@@ -296,69 +312,79 @@
 }
 
 .campaign-selector {
-  padding: 8px 10px;
-  border: 2px solid rgba(139, 69, 19, 0.25);
-  border-radius: 10px;
+  padding: 8px 12px;
+  border: 2px solid rgba(139, 69, 19, 0.35);
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.95);
   color: #2d1810;
-  font-family: 'Crimson Text', serif;
-  font-size: 0.95rem;
-  min-width: 220px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-width: 200px;
   max-width: 100%;
-  flex: 1 1 280px;
+  flex: 1 1 240px;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .campaign-selector:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  border-color: #7a3b2e;
+  box-shadow: 0 0 0 3px rgba(122, 59, 46, 0.18);
   background: #fff;
 }
 
 .campaign-icon {
-  font-size: 2rem;
-  color: #8b4513;
-  opacity: 0.9;
+  font-size: 1.8rem;
+  color: #7a3b2e;
+  opacity: 0.95;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .campaign-title-input {
   font-family: 'Cinzel', serif;
-  font-size: 1.75rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #2d1810;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  padding: 6px 10px;
-  transition: all 0.3s ease;
-  min-width: 300px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 8px;
+  padding: 8px 14px;
+  transition: all 0.2s ease;
+  min-width: 280px;
   max-width: 100%;
   width: 100%;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .campaign-title-input:hover,
 .campaign-title-input:focus {
-  border-bottom-color: #d4af37;
+  border-color: #7a3b2e;
   outline: none;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 3px rgba(122, 59, 46, 0.12);
 }
 
 .campaign-sync-notice {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.8rem;
-  color: #8b7355;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-  padding: 10px 18px;
-  border-radius: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  font-weight: 500;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #5a1e12;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.08) 100%);
+  padding: 8px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.4px;
   max-width: 100%;
   flex-wrap: wrap;
   flex: 0 0 auto;
   margin-left: auto;
   align-self: flex-start;
+  text-transform: uppercase;
 }
 
 /* Desktop polish: keep controls in one row when there's room */
@@ -368,13 +394,13 @@
   }
 
   .campaign-selector {
-    max-width: 360px;
+    max-width: 340px;
   }
 }
 
 .campaign-sync-notice i {
-  color: #d4af37;
-  font-size: 0.9rem;
+  color: #7a3b2e;
+  font-size: 0.85rem;
 }
 
 /* ============ SECTION NAVIGATION ============ */

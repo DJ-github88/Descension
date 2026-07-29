@@ -34,7 +34,16 @@ export const AUGUR_DATA = {
  * what counts as "entrails" depends entirely on what your people preserve. The
  * star-arithmetic is failing for all of them, but each tradition fails differently.
  */
- subraceVariants: {
+ 
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['dagger', 'knife', 'sickle'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['empty', 'tome']
+  },
+subraceVariants: {
  skald_human: {
   subraceName: 'Skald',
   title: 'The Glacier-Haruspex',
@@ -997,7 +1006,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
   effects: [
    { id : "congealed_aegis_buff",
    name: "Steadfast Resolve",
-   description: "Grants +3 DR and resistance to the next source of physical damage.",
+   description: "Grants +3 DR and resistance to the next source of smashing damage.",
    mechanicsText: "+3 DR, physical resistance (1 charge).",
    },
   ],

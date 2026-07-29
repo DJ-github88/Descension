@@ -152,6 +152,36 @@ const RESISTANCE_INFO = {
         ]
     },
     // ===== Mythrill canonical damage types =====
+    smashing: {
+        name: 'Smashing Resistance',
+        description: 'Reduces damage from hammers, maces, blunt impacts, and crushing force.',
+        color: '#8B5A2B',
+        effects: [
+            'Take half damage from smashing sources',
+            'Advantage vs. crushing effects',
+            'Better resistance to blunt trauma'
+        ]
+    },
+    stabbing: {
+        name: 'Stabbing Resistance',
+        description: 'Reduces damage from spears, daggers, arrows, and piercing thrusts.',
+        color: '#704214',
+        effects: [
+            'Take half damage from stabbing sources',
+            'Advantage vs. puncturing effects',
+            'Better resistance to penetrating wounds'
+        ]
+    },
+    slicing: {
+        name: 'Slicing Resistance',
+        description: 'Reduces damage from swords, axes, claws, and cutting edges.',
+        color: '#5C3317',
+        effects: [
+            'Take half damage from slicing sources',
+            'Advantage vs. cutting effects',
+            'Better resistance to lacerating wounds'
+        ]
+    },
     physical: {
         name: 'Physical Resistance',
         description: 'Reduces damage from weapons, claws, and brute force.',
@@ -236,7 +266,24 @@ const RESISTANCE_INFO = {
 
 export default function ResistanceTooltip({ type, level, value, damageType, resistanceData, sources = [] }) {
     // Handle both old and new parameter formats
-    const resistanceType = type || damageType?.toLowerCase();
+    const rawType = type || damageType?.toLowerCase();
+
+    // Normalize legacy damage-type ids to canonical Mythrill types so tooltips
+    // resolve regardless of which vocabulary the caller used.
+    const LEGACY_TO_CANONICAL = {
+        frost: 'rime', cold: 'rime', ice: 'rime',
+        fire: 'ember',
+        lightning: 'storm', thunder: 'storm', electric: 'storm',
+        nature: 'primal', viscera: 'primal',
+        force: 'arcane',
+        necrotic: 'blight', shadow: 'blight', void: 'blight', silence: 'blight', poison: 'blight', acid: 'blight',
+        psychic: 'wyrd', chaos: 'wyrd',
+        radiant: 'sacred', holy: 'sacred', divine: 'sacred',
+        bludgeoning: 'smashing', piercing: 'stabbing', slashing: 'slicing',
+        ranged: 'stabbing', arrow: 'stabbing',
+        physical: 'smashing',
+    };
+    const resistanceType = rawType ? (LEGACY_TO_CANONICAL[rawType] || rawType) : rawType;
     
     // Handle new numeric level system or legacy string system
     // If resistanceData is provided (object with level and multiplier), use that

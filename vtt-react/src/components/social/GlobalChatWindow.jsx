@@ -24,6 +24,13 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(isMobile());
   const splitRafRef = useRef(null);
 
+  // Community (left pane) view — lifted here so the header dropdown can control it
+  const [communityView, setCommunityView] = useState('online');
+
+  // Chat (right pane) view — read/write from presence store
+  const chatActiveTab = usePresenceStore((state) => state.activeTab);
+  const setChatActiveTab = usePresenceStore((state) => state.setActiveTab);
+
   const isMobileRef = useRef(isMobile());
 
   const { user, userData } = useAuthStore();
@@ -266,10 +273,81 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         className="global-chat-window"
         customHeader={
           <div className="spellbook-tab-container">
-            <button className="spellbook-tab-button active">
-              <i className="fas fa-users" style={{ marginRight: '8px' }}></i>
-              <span>COMMUNITY</span>
-            </button>
+            {/* COMMUNITY tab — hover dropdown switches left pane view */}
+            <div className="header-tab-dropdown">
+              <button className="spellbook-tab-button active" type="button">
+                <i className="fas fa-users"></i>
+                <span className="tab-text">COMMUNITY</span>
+              </button>
+              <div className="header-dropdown-menu">
+                <button
+                  className={`header-dropdown-option ${communityView === 'online' ? 'active' : ''}`}
+                  onClick={() => setCommunityView('online')}
+                >
+                  <i className="fas fa-globe"></i>
+                  <span>Global</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${communityView === 'friends' ? 'active' : ''}`}
+                  onClick={() => setCommunityView('friends')}
+                >
+                  <i className="fas fa-user-friends"></i>
+                  <span>Friend List</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${communityView === 'ignored' ? 'active' : ''}`}
+                  onClick={() => setCommunityView('ignored')}
+                >
+                  <i className="fas fa-user-slash"></i>
+                  <span>Ignored</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${communityView === 'party' ? 'active' : ''}`}
+                  onClick={() => setCommunityView('party')}
+                >
+                  <i className="fas fa-users"></i>
+                  <span>Party</span>
+                </button>
+              </div>
+            </div>
+
+            {/* CHAT tab — hover dropdown switches right pane chat view */}
+            <div className="header-tab-dropdown">
+              <button className="spellbook-tab-button active" type="button">
+                <i className="fas fa-comment-dots"></i>
+                <span className="tab-text">CHAT</span>
+              </button>
+              <div className="header-dropdown-menu">
+                <button
+                  className={`header-dropdown-option ${chatActiveTab === 'global' ? 'active' : ''}`}
+                  onClick={() => setChatActiveTab('global')}
+                >
+                  <i className="fas fa-globe"></i>
+                  <span>Global</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${chatActiveTab === 'party' ? 'active' : ''}`}
+                  onClick={() => setChatActiveTab('party')}
+                >
+                  <i className="fas fa-users"></i>
+                  <span>Party</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${chatActiveTab === 'loot' ? 'active' : ''}`}
+                  onClick={() => setChatActiveTab('loot')}
+                >
+                  <i className="fas fa-coins"></i>
+                  <span>Loot</span>
+                </button>
+                <button
+                  className={`header-dropdown-option ${chatActiveTab === 'combat' ? 'active' : ''}`}
+                  onClick={() => setChatActiveTab('combat')}
+                >
+                  <i className="fas fa-swords"></i>
+                  <span>Combat</span>
+                </button>
+              </div>
+            </div>
           </div>
         }
       >
@@ -286,6 +364,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
             style={{ width: isMobile() ? undefined : `${splitPosition}%` }}
           >
             <OnlineUsersList
+              activeTab={communityView}
+              setActiveTab={setCommunityView}
               onUserClick={handleUserClick}
               onWhisper={handleWhisper}
               onInviteToRoom={handleInviteToRoom}

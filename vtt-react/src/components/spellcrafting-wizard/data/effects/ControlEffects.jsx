@@ -154,9 +154,9 @@ const ACTION_RESTRICTION_TYPES = [
 
 // Melee damage subtypes
 const MELEE_DAMAGE_SUBTYPES = [
- { id: 'bludgeoning_damage', name: 'physical', icon: 'General/Break Bone', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
- { id: 'piercing_damage', name: 'physical', icon: 'General/Spear', description: 'Restrict piercing damage from spears, arrows, etc.' },
- { id: 'slashing_damage', name: 'physical', icon: 'General/Sword', description: 'Restrict slashing damage from swords, axes, etc.' }
+ { id: 'smashing_damage', name: 'smashing', icon: 'General/Break Bone', description: 'Restrict bludgeoning damage from hammers, clubs, etc.' },
+ { id: 'stabbing_damage', name: 'stabbing', icon: 'General/Spear', description: 'Restrict piercing damage from spears, arrows, etc.' },
+ { id: 'slicing_damage', name: 'slicing', icon: 'General/Sword', description: 'Restrict slashing damage from swords, axes, etc.' }
 ];
 
 // Magic damage subtypes - All D&D 5e damage types
@@ -562,7 +562,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         movementFlavor: 'arcane'
        }),
        ...(activeControlType === 'restraint' && {
-        restraintType: 'physical'
+        restraintType: 'smashing'
        }),
        ...(activeControlType === 'mental_control' && {
         controlLevel: 'suggestion',
@@ -1683,7 +1683,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             value={selectedEffectForPopupConfig.config?.movementFlavor || 'arcane'}
             onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'movementFlavor', e.target.value)}
            >
-            <option value="force">Magical Force</option>
+            <option value="arcane">Arcane</option>
             <option value="wind">Gust of Wind</option>
             <option value="gravity">Gravitational Pull</option>
             <option value="telekinetic">Telekinetic Grip</option>
@@ -1789,10 +1789,10 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
          <div className="effect-config-field">
           <label>Restraint Type</label>
           <select
-           value={selectedEffectForPopupConfig.config?.restraintType || 'physical'}
+           value={selectedEffectForPopupConfig.config?.restraintType || 'smashing'}
            onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'restraintType', e.target.value)}
           >
-           <option value="physical">Physical Bonds</option>
+           <option value="smashing">Physical Bonds</option>
            <option value="magical">Magical Restraint</option>
            <option value="environmental">Environmental</option>
            <option value="paralysis">Paralysis</option>

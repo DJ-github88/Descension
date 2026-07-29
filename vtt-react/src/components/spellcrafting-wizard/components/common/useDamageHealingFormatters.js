@@ -972,20 +972,26 @@ const useDamageHealingFormatters = ({ spell, variant, enhanceFormulaDisplay }) =
    }
   }
 
-  // Valid damage types (normalize old types to new 8-type schema)
-  const validDamageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred',
-               'nature', 'electric', 'magical', 'ice', 'chaos', 'viscera'];
+  // Valid damage types (normalize old types to canonical schema)
+  const validDamageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred',
+               'physical', 'bludgeoning', 'piercing', 'slashing', 'ranged', 'nature', 'electric', 'magical', 'ice', 'chaos', 'viscera',
+               'fire', 'frost', 'cold', 'lightning', 'thunder', 'force', 'necrotic', 'shadow', 'void', 'silence', 'poison', 'acid',
+               'psychic', 'radiant', 'holy', 'divine'];
 
-  // Normalize similar types to new 8-type schema
+  // Normalize similar types to canonical schema
   const normalizedTypes = Array.from(damageTypesSet).map(type => {
    const legacyMap = {
-    'ember': 'ember',
-    'rime': 'rime', 'ice': 'rime',
-    'storm': 'storm', 'arcane': 'arcane', 'electric': 'storm',
+    'smashing': 'smashing', 'bludgeoning': 'smashing',
+    'stabbing': 'stabbing', 'piercing': 'stabbing', 'ranged': 'stabbing',
+    'slicing': 'slicing', 'slashing': 'slicing',
+    'ember': 'ember', 'fire': 'ember',
+    'rime': 'rime', 'ice': 'rime', 'frost': 'rime', 'cold': 'rime',
+    'storm': 'storm', 'arcane': 'arcane', 'electric': 'storm', 'lightning': 'storm', 'thunder': 'storm', 'force': 'arcane',
     'nature': 'primal', 'viscera': 'primal',
-    'blight': 'blight',
-    'wyrd': 'wyrd', 'chaos': 'wyrd',
-    'physical': 'physical',
+    'blight': 'blight', 'necrotic': 'blight', 'shadow': 'blight', 'void': 'blight', 'silence': 'blight', 'poison': 'blight', 'acid': 'blight',
+    'wyrd': 'wyrd', 'chaos': 'wyrd', 'psychic': 'wyrd',
+    'sacred': 'sacred', 'radiant': 'sacred', 'holy': 'sacred', 'divine': 'sacred',
+    'physical': 'smashing',
    };
    return legacyMap[type] || type;
   });

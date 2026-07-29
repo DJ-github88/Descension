@@ -28,7 +28,7 @@ export const HUMAN_BASE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         availableFor: {
@@ -719,7 +719,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {
@@ -796,7 +796,7 @@ export const GROVEN_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 6,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         baseStats: {
@@ -829,7 +829,7 @@ export const SOLARI_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         baseStats: {
@@ -883,7 +883,7 @@ export const SOLARI_SUBRACE_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 8,
-                damageType: 'physical'
+                damageType: 'slicing'
             }
         },
         baseStats: {

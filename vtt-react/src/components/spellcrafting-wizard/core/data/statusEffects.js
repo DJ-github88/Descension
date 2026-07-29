@@ -134,7 +134,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       actionPointCost: 2,
       options: [
         { id: 'elemental', name: 'Elemental Resistance', description: 'Resistance to ember, rime, storm, arcane, and primal damage' },
-        { id: 'physical', name: 'Physical Resistance', description: 'Resistance to bludgeoning, piercing, slashing' },
+        { id: 'physical', name: 'Physical Resistance', description: 'Resistance to smashing, stabbing, and slicing damage' },
         { id: 'magical', name: 'Magical Resistance', description: 'Resistance to magical damage types' }
       ],
       defaultParameters: {

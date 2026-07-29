@@ -18,7 +18,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     // Damage fields
     damageFormula: '1d6',
     damageType: 'direct', // 'direct', 'dot', 'area'
-    elementType: 'fire',
+    elementType: 'ember',
     hasDotEffect: false,
     dotFormula: '1d4',
     dotDuration: 3,
@@ -35,7 +35,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     buffEffectType: 'statBoost',
     buffStat: 'strength',
     buffMagnitude: 2,
-    buffElement: 'fire',
+    buffElement: 'ember',
     durationValue: 1,
     durationType: 'rounds',
     durationUnit: 'rounds',
@@ -315,7 +315,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
       effectTypes: ['damage'],
       damageFormula: '1d6',
       damageType: 'direct',
-      elementType: 'fire',
+      elementType: 'ember',
       hasDotEffect: false,
       dotFormula: '1d4',
       dotDuration: 3,
@@ -330,7 +330,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
       buffEffectType: 'statBoost',
       buffStat: 'strength',
       buffMagnitude: 2,
-      buffElement: 'fire',
+      buffElement: 'ember',
       durationValue: 1,
       durationType: 'rounds',
       durationUnit: 'rounds',
@@ -355,7 +355,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
 
   if (!isOpen) return null;
 
-  const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+  const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'primal', 'arcane', 'blight', 'wyrd', 'sacred', 'healing'];
   const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'speed', 'maxHp', 'criticalChance'];
   const buffEffectTypes = [
     { value: 'statBoost', label: 'Stat Boost' },

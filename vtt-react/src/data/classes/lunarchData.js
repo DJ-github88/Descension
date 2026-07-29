@@ -36,6 +36,19 @@ export const LUNARCH_DATA = {
       "justification": "Requires fog-dense environments where silence-light is accessible. The parasite specifically responded to Viridane blood. Non-Florae who enter the moonlit groves may be chosen, but the Florae are the original bloodline."
   },
 
+  // Class Resource, generated per spell. Resource range/balance per design.
+  // Lore name: Lunar Cycle (4 phases) / Phases
+  classResource: { type: "lunar_phase", base: 0, max: 4, generationNote: "Auto-advances every 3 rounds. Each phase shift deals 2d6 blight + Transition Shock roll. Cannot be opted out." },
+
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['dagger', 'staff', 'sickle'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['orb', 'tome', 'empty']
+  },
   /**
    * Subrace Variants, the lunar parasite anchors itself to *identity*, and what serves
    * as that anchor depends on the host. For the Florae it is the fae-contract bloodline.
@@ -47,7 +60,7 @@ export const LUNARCH_DATA = {
     florae_unified: {
       subraceName: 'Trueborn Florae',
       title: 'The Thorn-Bound',
-      reframe: `The <LoreLink termId="florae">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
+      reframe: `The <LoreLink termId="briaran">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
       signatureAbility: {
         name: 'Thorn-Debt',
         description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Trueborn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
@@ -63,7 +76,7 @@ export const LUNARCH_DATA = {
     florae_unified: {
       subraceName: 'Shorn Florae',
       title: 'The Hidden Moon',
-      reframe: `The <LoreLink termId="florae">Shorn</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Shorn Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
+      reframe: `The <LoreLink termId="briaran">Shorn</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Shorn Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
       signatureAbility: {
         name: 'Veiled-Phase',
         description: `The parasite's phases are suppressed during the day and in company, then erupt violently in isolation or moonlight, the Shorn cannot control *when* the phase shifts, only where they are when it happens. Power is potent but catastrophically unpredictable.`
@@ -137,7 +150,7 @@ export const LUNARCH_DATA = {
     orderName: 'The Lunar Communion',
     founder: {
       name: '<LoreLink termId="selene">Selene of House Viridane</LoreLink>',
-      status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="florae">Florae</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
+      status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="briaran">Florae</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
       note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star  —  and the "egg" a folk misunderstanding  —  has rendered her silence terrifying rather than merely concerning.`
     },
     currentLeader: {
@@ -159,7 +172,7 @@ export const LUNARCH_DATA = {
 
 The first host was Selene of House Viridane, who struck the bargain during her family's flight from the northern keeps at the time of the Binding. The six noble houses had marched their firstborn to the peaks to seal the dark bargains with Keth-Amar. House Viridane refused. Selene led her family south through the Frostwood Reach into the moonlit fae groves, and there she bargained with wildwood fae for protection. The fae granted a lunar parasite, a creature of starlight and cold that wrapped around her bones and fed on her warmth. It guided them through the fog. It hid them from Keth-Amar's searching. It also took something Selene has never gotten back.
 
-The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing physical damage as the parasite rearranges their nervous system for the next feeding.
+The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing smashing damage as the parasite rearranges their nervous system for the next feeding.
 
 For eight centuries, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Fractured Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
 
@@ -193,7 +206,7 @@ The lunarch's crescent aura was born in the moonlit groves of the <LoreLink term
 Lunarchs are celebrated as spiritual leaders among the Florae, but they are hunted as heretics by the noble houses of the north.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="florae">Florae</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
+The class is primarily practiced by the <LoreLink termId="briaran">Florae</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
 
 **NOTABLE FIGURES**
 * **Selene of House Viridane**: The founding scion of the Lunarch order who led her house's escape from the north.
@@ -1829,7 +1842,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       "level": 3,
       "spellType": "ACTION",
       "icon": "Frost/Ice Shard",
-      "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "cold", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
+      "typeConfig": { "school": "rime", "icon": "Frost/Ice Shard", "tags": ["utility", "rime", "exploration", "social", "lunarch"], "castTime": 1, "castTimeType": "IMMEDIATE" },
       "targetingConfig": { "targetingType": "self", "rangeType": "self" },
       "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["somatic"], "somaticText": "Let the silence-cold bleed out through your skin" },
       "resolution": "NONE",
@@ -1840,7 +1853,7 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
           "duration": 1, "durationUnit": "hours", "concentration": false, "power": "moderate"
         },
         "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
-        "tags": ["utility", "cold", "exploration", "social", "lunarch"]
+        "tags": ["utility", "rime", "exploration", "social", "lunarch"]
       },
       {
         "id": "lunarch_phase_stasis",

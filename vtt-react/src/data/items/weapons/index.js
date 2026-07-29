@@ -30,7 +30,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -66,7 +66,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -101,7 +101,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -150,7 +150,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -196,7 +196,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -242,7 +242,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -255,7 +255,7 @@ export const WEAPONS = [
     lore: {
       origin: 'bryngloom-forest',
       loreText: 'Vreken cleavers are repurposed peat-cutting tools, their broad blades still stained with bog-iron. The Cult of Forgotten Shadow favours these for their crude, silent efficiency in the twilight groves.',
-      relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_the_silent_dark']
+      relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_forgotten_shadow']
     }
   },
   {
@@ -288,7 +288,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -336,7 +336,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -372,7 +372,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -419,7 +419,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -466,7 +466,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -514,7 +514,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -601,7 +601,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -616,7 +616,7 @@ export const WEAPONS = [
     lore: {
       origin: 'bryngloom-forest',
       loreText: 'Neth duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
-      relatedLore: ['bryngloom-forest', 'neth', 'root_veil', 'cult_of_the_silent_dark']
+      relatedLore: ['bryngloom-forest', 'neth', 'root_veil', 'cult_of_forgotten_shadow']
     }
   },
   {
@@ -639,7 +639,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -672,7 +672,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -710,7 +710,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -1170,7 +1170,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -1323,7 +1323,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -1354,7 +1354,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -1386,7 +1386,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -1417,7 +1417,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -1449,7 +1449,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -1479,7 +1479,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -1511,7 +1511,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -1541,7 +1541,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -1573,7 +1573,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -1604,7 +1604,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -1637,7 +1637,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -1667,7 +1667,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -1698,7 +1698,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -1737,7 +1737,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -1768,7 +1768,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -1797,7 +1797,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -1826,7 +1826,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -1855,7 +1855,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -1884,7 +1884,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -1915,7 +1915,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd3',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -1945,7 +1945,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -1976,7 +1976,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -2005,7 +2005,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -2037,7 +2037,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -2068,7 +2068,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -2101,7 +2101,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -2132,7 +2132,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -2165,7 +2165,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 0
       }
     },
@@ -2196,7 +2196,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -2229,7 +2229,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 0
       }
     },
@@ -2260,7 +2260,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -2293,7 +2293,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 0
       }
     },
@@ -2324,7 +2324,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -2357,7 +2357,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -2419,7 +2419,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 4
       }
     },
@@ -2481,7 +2481,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 3
       }
     },
@@ -2543,7 +2543,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 3
       }
     },
@@ -2605,7 +2605,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -2670,7 +2670,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 5
       }
     },
@@ -2734,7 +2734,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 5
       }
     },
@@ -2797,7 +2797,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 5
       }
     },
@@ -2854,7 +2854,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 5
       }
     },
@@ -2918,7 +2918,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 8
       }
     },
@@ -2981,7 +2981,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 8
       }
     },
@@ -3045,7 +3045,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 8
       }
     },
@@ -3108,7 +3108,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 8
       }
     },
@@ -3171,7 +3171,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 5
       }
     },
@@ -3229,7 +3229,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 5
       }
     },
@@ -3291,7 +3291,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 4
       }
     },
@@ -3322,7 +3322,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },
@@ -3353,7 +3353,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },
@@ -3384,7 +3384,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },
@@ -3414,7 +3414,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 4
       }
     },
@@ -3445,7 +3445,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 4
       }
     },
@@ -3476,7 +3476,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 3
       }
     },
@@ -3514,7 +3514,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -3551,7 +3551,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -3588,7 +3588,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -3618,7 +3618,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -3647,7 +3647,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 3
       }
     },
@@ -3683,7 +3683,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -3713,7 +3713,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -3744,7 +3744,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 3
       }
     },
@@ -3775,7 +3775,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },
@@ -3806,7 +3806,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -3837,7 +3837,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -3868,7 +3868,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },
@@ -3899,7 +3899,7 @@ export const WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4
       }
     },

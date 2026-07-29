@@ -179,7 +179,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -240,7 +240,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 3
       }
     },
@@ -361,7 +361,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -427,7 +427,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 2
       }
     },
@@ -499,7 +499,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -569,7 +569,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 3
       }
     },
@@ -635,7 +635,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'cold',
+        damageType: 'rime',
         bonusDamage: 5
       }
     },
@@ -665,7 +665,7 @@ export const FACTION_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d10',
-            damageType: 'cold',
+            damageType: 'rime',
             isDot: true,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -769,7 +769,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -891,7 +891,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 3
       }
     },
@@ -957,7 +957,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -1017,7 +1017,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -1078,7 +1078,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 4
       }
     },
@@ -1144,7 +1144,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -1210,7 +1210,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -1272,7 +1272,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'poison',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -1338,7 +1338,7 @@ export const FACTION_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 2
       }
     },

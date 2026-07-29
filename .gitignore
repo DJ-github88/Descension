@@ -144,3 +144,7 @@ UTF8
 
 # Gemini CLI cache (transcripts, logs, media, brain sessions)
 .gemini/
+
+# Audit work directories and temporary lore backups
+.lore-audit-work/
+*.dim4-cult-backup

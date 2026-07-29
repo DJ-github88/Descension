@@ -609,7 +609,7 @@ export const SHANTY_RAT_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'physical'
+                damageType: 'stabbing'
             }
         },
         availableFor: {
@@ -696,7 +696,7 @@ export const MERROW_SAILOR_ITEMS = [
             baseDamage: {
                 diceCount: 1,
                 diceType: 4,
-                damageType: 'physical'
+                damageType: 'smashing'
             }
         },
         availableFor: {

@@ -28,15 +28,6 @@ const DAMAGE_TYPES = [
       commonVulnerability: 'soft flesh'
     },
     {
-      id: 'ranged',
-      name: 'Ranged',
-      description: 'Physical projectile damage from longbows, crossbow bolts, thrown daggers, and kinetic missiles.',
-      icon: '/assets/icons/abilities/Piercing/Arrow Shot.png',
-      category: 'physical',
-      commonResistance: 'shields',
-      commonVulnerability: 'open targets'
-    },
-    {
       id: 'ember',
       name: 'Ember',
       description: 'Scorching heat from Sol\'s subterranean furnace and Scathrach\'s vents.',
@@ -127,7 +118,8 @@ const LEGACY_TYPE_MAP = {
     stabbing: 'stabbing',
     slashing: 'slicing',
     slicing: 'slicing',
-    ranged: 'ranged',
+    ranged: 'stabbing',
+    arrow: 'stabbing',
     cold: 'rime',
     ice: 'rime',
     frost: 'rime',
@@ -151,9 +143,9 @@ const LEGACY_TYPE_MAP = {
     psychic: 'wyrd',
 };
 
-const PHYSICAL_TYPES = ['smashing', 'stabbing', 'slicing', 'ranged'];
+const PHYSICAL_TYPES = ['smashing', 'stabbing', 'slicing'];
 
-const WEAPON_PROPERTIES = ['smashing', 'stabbing', 'slicing', 'ranged'];
+const WEAPON_PROPERTIES = ['smashing', 'stabbing', 'slicing'];
 
 
 const getDamageTypeById = (id) => {

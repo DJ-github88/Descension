@@ -412,7 +412,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     actionPoints: 1,
                     components: ['somatic'],
                     effectTypes: ['buff'],
-                    typeConfig: { category: 'racial', school: 'physical' },
+                    typeConfig: { category: 'racial', school: 'smashing' },
                     buffConfig: {
                         buffType: 'heal',
                         effects: [{
@@ -468,7 +468,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     icon: 'ability_creature_disease_05',
                     spellType: 'PASSIVE',
                     effectTypes: ['buff'],
-                    typeConfig: { category: 'racial', school: 'physical' },
+                    typeConfig: { category: 'racial', school: 'smashing' },
                     buffConfig: {
                         buffType: 'triggeredEffect',
                         effects: [{
@@ -491,7 +491,7 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                     icon: 'ability_warrior_shieldmastery',
                     spellType: 'ACTION',
                     effectTypes: ['buff'],
-                    typeConfig: { category: 'racial', school: 'physical' },
+                    typeConfig: { category: 'racial', school: 'smashing' },
                     buffConfig: {
                         buffType: 'shield',
                         effects: [{

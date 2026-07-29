@@ -83,22 +83,32 @@ const CombatSelectionOverlay = () => {
         <MythrillWindow
             isOpen={isSelectionMode}
             onClose={handleCancel}
-            title="Combat Selection"
+            title=""
             className="combat-selection-window"
-            defaultSize={{ width: 420, height: 600 }}
+            defaultSize={{ width: 460, height: 620 }}
             defaultPosition={{ x: 200, y: 150 }}
             centered={false}
-            minConstraints={[300, 550]}
+            minConstraints={[340, 580]}
         >
             <div className="combat-window">
                 <div className="combat-header">
-                    <h2>Select Combatants</h2>
-                    <p>Click tokens on the map to add them to combat</p>
+                    <div className="combat-header-text">
+                        <h2>Select Combatants</h2>
+                        <p>Click tokens on the map to add them to combat</p>
+                    </div>
+                    <button
+                        className="header-close-btn"
+                        onClick={handleCancel}
+                        aria-label="Close combat selection"
+                        title="Close"
+                    >
+                        ×
+                    </button>
                 </div>
 
                 <div className="combatants-section">
                     <div className="section-title">
-                        <span>Ready for Battle</span>
+                        <span className="section-title-text">Ready for Battle</span>
                         <span className="count">{selectedTokens.size}</span>
                     </div>
 
@@ -137,8 +147,10 @@ const CombatSelectionOverlay = () => {
                             </div>
                         ) : (
                             <div className="empty-message">
-                                <div className="empty-icon">⚔️</div>
-                                <span>No combatants selected</span>
+                                <div className="empty-icon">
+                                    <i className="fas fa-shield-halved"></i>
+                                </div>
+                                <span className="empty-text">No combatants selected</span>
                                 <p className="empty-hint">Click tokens on the map to add them</p>
                             </div>
                         )}
@@ -147,7 +159,6 @@ const CombatSelectionOverlay = () => {
 
                 <div className="combat-buttons">
                     <button className="btn-cancel" onClick={handleCancel}>
-                        <i className="fas fa-times"></i>
                         Cancel
                     </button>
                     <button
@@ -155,7 +166,6 @@ const CombatSelectionOverlay = () => {
                         onClick={handleStartCombat}
                         disabled={selectedTokens.size === 0}
                     >
-                        <i className="fas fa-swords"></i>
                         Begin Combat ({selectedTokens.size})
                     </button>
                 </div>

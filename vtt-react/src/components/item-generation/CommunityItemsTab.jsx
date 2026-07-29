@@ -11,6 +11,8 @@ import useItemStore from '../../store/itemStore';
 import useAuthStore from '../../store/authStore';
 import ItemCard from './ItemCard';
 import { getIconUrl } from '../../utils/assetManager';
+import '../../styles/community-tabs-shared.css';
+import './CommunityItemsTab.css';
 
 
 const CommunityItemsTab = () => {
@@ -171,15 +173,15 @@ const CommunityItemsTab = () => {
     const userVote = userVotes[item.id] || item._userVote || null;
 
     return (
-      <div key={item.id} className="community-item-card-wrapper">
+      <div key={item.id} className="community-card-wrapper">
         <ItemCard
           item={completeItem}
           onClick={() => {}}
           onContextMenu={() => {}}
           isSelected={false}
         />
-        <div className="community-item-actions">
-          <div className="item-stats">
+        <div className="community-card-actions">
+          <div className="community-card-stats">
             <div className="vote-controls">
               <button
                 className={`vote-btn upvote ${userVote === 'up' ? 'active' : ''}`}
@@ -190,7 +192,7 @@ const CommunityItemsTab = () => {
               >
                 <i className="fas fa-arrow-up"></i>
               </button>
-              <span className="vote-count">{(item.upvotes || 0) - (item.downvotes || 0)}</span>
+              <span className="vote-count"><span className="count-text">{(item.upvotes || 0) - (item.downvotes || 0)}</span></span>
               <button
                 className={`vote-btn downvote ${userVote === 'down' ? 'active' : ''}`}
                 onClick={() => handleVote(item, 'down')}
@@ -201,31 +203,18 @@ const CommunityItemsTab = () => {
               </button>
             </div>
             <span className="download-count">
-              <i className="fas fa-download"></i> {item.downloadCount || 0}
+              <i className="fas fa-download" onClick={() => handleDownloadItem(item)} style={{cursor: 'pointer'}} title="Add to Library"></i>
+              <span className="count-text">{item.downloadCount || 0}</span>
             </span>
             <button
               className="comment-toggle-btn"
               onClick={() => toggleComments(item.id)}
               title="Comments"
             >
-              <i className="fas fa-comment"></i> {item.commentCount || 0}
+              <i className="fas fa-comment"></i>
+              <span className="count-text">{item.commentCount || 0}</span>
             </button>
           </div>
-          <button
-            className="download-item-btn"
-            onClick={() => handleDownloadItem(item)}
-            disabled={downloadingItems.has(item.id)}
-          >
-            {downloadingItems.has(item.id) ? (
-              <>
-                <i className="fas fa-spinner fa-spin"></i> Downloading...
-              </>
-            ) : (
-              <>
-                <i className="fas fa-download"></i> Add to Library
-              </>
-            )}
-          </button>
         </div>
         {expandedComments[item.id] && (
           <div className="comments-section">

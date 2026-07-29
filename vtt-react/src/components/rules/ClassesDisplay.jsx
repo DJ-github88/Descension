@@ -13,7 +13,11 @@ import ClassRowBackdrop from './ClassRowBackdrop';
 
 const DAMAGE_COLORS = {
 
-    physical: '#6B4226',
+    smashing: '#8B5A2B',
+
+    stabbing: '#704214',
+
+    slicing: '#5C3317',
 
     ember: '#D4380D',
 

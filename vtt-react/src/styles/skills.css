@@ -455,6 +455,8 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
+    padding-top: 8px;
+    padding-bottom: 20px;
 }
 
 .skill-detail-header {
@@ -626,11 +628,14 @@
 }
 
 /* Roll Button */
+.character-sheet-container .roll-table-btn,
+.character-sheet .roll-table-btn,
 .roll-table-btn {
     padding: 10px 16px;
     border: 2px solid #5a2a0f;
     border-radius: 6px;
-
+    background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
+    color: #ffffff !important;
     font-family: 'Cinzel', serif;
     font-size: 13px;
     font-weight: 600;
@@ -643,10 +648,31 @@
     gap: 6px;
 }
 
+.character-sheet-container .roll-table-btn i,
+.character-sheet-container .roll-table-btn svg,
+.character-sheet .roll-table-btn i,
+.character-sheet .roll-table-btn svg,
+.roll-table-btn i,
+.roll-table-btn svg {
+    color: #ffffff !important;
+}
+
+.character-sheet-container .roll-table-btn:hover,
+.character-sheet .roll-table-btn:hover,
 .roll-table-btn:hover {
-    background: linear-gradient(135deg, #a0521a 0%, #7a3b12 100%);
+    background: linear-gradient(135deg, #a64735 0%, #8a2e1d 100%);
+    color: #ffffff !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.character-sheet-container .roll-table-btn:hover i,
+.character-sheet-container .roll-table-btn:hover svg,
+.character-sheet .roll-table-btn:hover i,
+.character-sheet .roll-table-btn:hover svg,
+.roll-table-btn:hover i,
+.roll-table-btn:hover svg {
+    color: #ffffff !important;
 }
 
 /* Quest Section */
@@ -1145,10 +1171,35 @@
         rgba(240, 230, 210, 0.95) 0%,
         rgba(230, 220, 200, 0.9) 100%);
     border: 2px solid #8b7355;
-    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Geometric die shapes via clip-path */
+.die-selector-icon[data-die="d4"] {
+    clip-path: polygon(50% 5%, 5% 95%, 95% 95%);
+    border-radius: 0;
+}
+.die-selector-icon[data-die="d6"] {
+    clip-path: polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%);
+    border-radius: 0;
+}
+.die-selector-icon[data-die="d8"] {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 0;
+}
+.die-selector-icon[data-die="d10"] {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    border-radius: 0;
+}
+.die-selector-icon[data-die="d12"] {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border-radius: 0;
+}
+.die-selector-icon[data-die="d20"] {
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    border-radius: 0;
 }
 
 .die-selector-icon:hover {
@@ -1175,10 +1226,11 @@
 }
 
 .die-number {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #5c4033;
     font-family: 'Cinzel', serif;
+    pointer-events: none;
 }
 
 /* Weapon type icons for mastery selector */
@@ -1408,34 +1460,67 @@
 }
 
 .skill-simple-die-badge {
-    width: 86px;
-    height: 86px;
-    border-radius: 50%;
-    border: 3px solid;
+    width: 90px;
+    height: 90px;
+    border: none;
     background: linear-gradient(135deg,
         rgba(255,255,255,0.98) 0%,
         rgba(252,248,238,0.95) 100%);
-    box-shadow: 0 5px 15px rgba(90, 30, 18, 0.12);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 0px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     flex-shrink: 0;
+    padding-top: 6px;
+    filter: drop-shadow(0 0 2px var(--die-border-color, #8b7355)) drop-shadow(0 4px 8px rgba(90, 30, 18, 0.2));
+}
+
+/* Die shape variants */
+.die-shape-4 {
+    clip-path: polygon(50% 2%, 2% 98%, 98% 98%);
+    border-radius: 0;
+}
+.die-shape-6 {
+    clip-path: polygon(8% 8%, 92% 8%, 92% 92%, 8% 92%);
+    border-radius: 0;
+}
+.die-shape-8 {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 0;
+}
+.die-shape-10 {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    border-radius: 0;
+}
+.die-shape-12 {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border-radius: 0;
+}
+.die-shape-20 {
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    border-radius: 0;
 }
 
 .skill-simple-die-badge:hover {
     transform: scale(1.08) rotate(5deg);
-    box-shadow: 0 8px 20px rgba(90, 30, 18, 0.2);
+    filter: drop-shadow(0 0 4px var(--die-border-color, #8b7355)) drop-shadow(0 8px 16px rgba(90, 30, 18, 0.3));
 }
 
 .die-badge-size {
     font-family: 'Cinzel', serif;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
     color: #3e2723;
     line-height: 1;
+}
+
+.skill-simple-die-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
 }
 
 .die-badge-rank {
@@ -1445,6 +1530,7 @@
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: #8b7355;
+    text-align: center;
 }
 
 .skill-simple-controls {
@@ -1468,12 +1554,14 @@
     cursor: pointer;
 }
 
+.character-sheet-container .skill-simple-roll,
+.character-sheet .skill-simple-roll,
 .skill-simple-roll {
     width: 100%;
     padding: 9px 18px;
     font-size: 14px;
     background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
-    color: #fdf6e3;
+    color: #ffffff !important;
     border: 2px solid #5a2a0f;
     border-radius: 8px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1488,6 +1576,21 @@
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
+}
+
+.character-sheet-container .skill-simple-roll i,
+.character-sheet-container .skill-simple-roll svg,
+.character-sheet .skill-simple-roll i,
+.character-sheet .skill-simple-roll svg,
+.skill-simple-roll i,
+.skill-simple-roll svg {
+    color: #ffffff !important;
+}
+
+.character-sheet-container .skill-simple-roll,
+.character-sheet .skill-simple-roll,
+.skill-simple-roll {
+    color: #ffffff !important;
 }
 
 .skill-simple-roll::after {
@@ -1603,7 +1706,7 @@
     height: 28px;
     border-radius: 50%;
     background: linear-gradient(135deg, #8b7355 0%, #6b5a3e 100%);
-    color: #fdf6e3;
+    color: #ffffff;
     font-family: 'Cinzel', serif;
     font-size: 13px;
     font-weight: 700;

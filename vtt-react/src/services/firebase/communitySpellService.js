@@ -241,7 +241,7 @@ const MOCK_FEATURED_SPELLS = [
     ratingCount: 43,
     downloadCount: 245,
     categoryId: 'control',
-    tags: ['control', 'nature', 'physical', 'aoe'],
+    tags: ['control', 'nature', 'smashing', 'aoe'],
     icon: 'Utility/Summon Minion',
     rarity: 'common',
     isPublic: true,
@@ -250,7 +250,7 @@ const MOCK_FEATURED_SPELLS = [
     downvotes: 2,
     damageConfig: {
       damageType: 'direct',
-      elementType: 'physical',
+      elementType: 'smashing',
       formula: '1d6',
       criticalConfig: { enabled: false }
     },
@@ -302,7 +302,7 @@ const MOCK_FEATURED_SPELLS = [
     ratingCount: 57,
     downloadCount: 290,
     categoryId: 'summoning',
-    tags: ['summon', 'physical', 'tank', 'minion'],
+    tags: ['summon', 'smashing', 'tank', 'minion'],
     icon: 'Utility/Summon Minion',
     rarity: 'rare',
     isPublic: true,
@@ -865,4 +865,104 @@ async function recalculateSpellVotes(spellId) {
   }
 }
 
+/**
+ * Seed a test spell into the community collection
+ */
+export async function seedTestSpell() {
+  try {
+    if (!checkFirebaseAvailable()) {
+      console.log('Firebase not available, skipping seed');
+      return null;
+    }
+
+    const spellsRef = collection(db, COLLECTIONS.SPELLS);
+    const q = query(spellsRef, where('name', '==', 'Ember Sentinel'), limit(1));
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+      console.log('Ember Sentinel already exists, skipping seed');
+      return null;
+    }
+
+    const testSpell = {
+      name: 'Ember Sentinel',
+      description: 'Conjure a sentient being of living flame that guards a 30-foot area. The sentinel retaliates against hostile creatures with searing blasts of ember energy.',
+      school: 'ember',
+      level: 2,
+      castingTime: '1 bonus action',
+      range: '60 feet',
+      components: ['V', 'S'],
+      duration: 'Concentration, up to 10 minutes',
+      damage: '3d6 fire',
+      authorId: 'seed-system',
+      author: 'System Seed',
+      isPublic: true,
+      isFeatured: true,
+      rating: 4.5,
+      ratingCount: 12,
+      downloadCount: 67,
+      upvotes: 11,
+      downvotes: 1,
+      categoryId: 'damage',
+      tags: ['damage', 'fire', 'summon', 'guardian'],
+      icon: 'Fire/Swirling Fireball',
+      rarity: 'uncommon',
+      damageConfig: {
+        damageType: 'direct',
+        elementType: 'ember',
+        formula: '3d6',
+        criticalConfig: { enabled: true, critMultiplier: 2 }
+      },
+      healingConfig: null,
+      resourceCost: { mana: 25, actionPoints: 1 },
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const sanitized = sanitizeForFirestore(testSpell);
+    const docRef = await addDoc(spellsRef, sanitized);
+    console.log('Seeded test spell:', docRef.id);
+    return { id: docRef.id, ...sanitized };
+  } catch (error) {
+    console.error('Error seeding test spell:', error);
+    return null;
+  }
+}
+
+/**
+ * Remove duplicate spells (keep oldest entry per name)
+ */
+export async function cleanupDuplicateSpells() {
+  try {
+    if (!checkFirebaseAvailable()) return 0;
+
+    const spellsRef = collection(db, COLLECTIONS.SPELLS);
+    const snapshot = await getDocs(spellsRef);
+
+    const seen = new Map();
+    const duplicates = [];
+
+    for (const docSnap of snapshot.docs) {
+      const data = docSnap.data();
+      const name = data.name;
+      if (seen.has(name)) {
+        duplicates.push(docSnap.id);
+      } else {
+        seen.set(name, docSnap.id);
+      }
+    }
+
+    for (const id of duplicates) {
+      await deleteDoc(doc(db, COLLECTIONS.SPELLS, id));
+    }
+
+    if (duplicates.length > 0) {
+      console.log(`Cleaned up ${duplicates.length} duplicate spells`);
+    }
+    return duplicates.length;
+  } catch (error) {
+    console.error('Error cleaning up duplicate spells:', error);
+    return 0;
+  }
+}
 

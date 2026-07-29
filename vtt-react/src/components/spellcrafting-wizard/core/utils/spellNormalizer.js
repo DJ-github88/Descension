@@ -314,7 +314,7 @@ function normalizeDamageTypes(spell) {
     return spell.damageTypes;
   }
 
-  return damageTypes.length > 0 ? damageTypes : ['arcane'];
+  return damageTypes.length > 0 ? damageTypes : [];
 }
 
 /**

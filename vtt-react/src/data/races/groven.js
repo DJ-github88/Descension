@@ -188,7 +188,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       icon: 'spell_holy_innerfire',
       spellType: 'PASSIVE',
       effectTypes: ['buff', 'debuff'],
-      typeConfig: { category: 'racial', school: 'physical', tags: ['vat-sleep', 'ancestral', 'passive', 'shared'] },
+      typeConfig: { category: 'racial', school: 'smashing', tags: ['vat-sleep', 'ancestral', 'passive', 'shared'] },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{ id: 'vat_sleep_knowledge', name: 'Ancestral Memory', description: 'Once per long rest, advantage on Intelligence (History) checks related to the Cragjaw Peaks, ancient Thrumm, Groven ancestors, or Fexric alchemy.', statModifier: { stat: 'history', magnitude: 1, magnitudeType: 'advantage', conditions: { subject: ['cragjaw_peaks', 'thrumm', 'groven_ancestors', 'fexric_alchemy'], usesPerRest: 1 } }, mechanicsText: 'Once per long rest, you gain advantage on Intelligence (History) checks about the Cragjaw Peaks, the Thrumm, Groven ancestors, or Fexric alchemy.' }],
@@ -211,7 +211,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       icon: 'spell_nature_stone',
       spellType: 'REACTION',
       effectTypes: ['buff', 'utility'],
-      typeConfig: { category: 'racial', school: 'physical', tags: ['still-claiming', 'calcification', 'defense', 'shared'] },
+      typeConfig: { category: 'racial', school: 'smashing', tags: ['still-claiming', 'calcification', 'defense', 'shared'] },
       buffConfig: {
         buffType: 'cover',
         effects: [{ id: 'stone_body_cover', name: 'Stone Form', description: 'Your calcified body provides Half Cover (+2 AC) to adjacent allies until the start of your next turn.' }],
@@ -263,7 +263,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['buff', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'physical',
+            school: 'smashing',
             tags: ['resistance', 'stone', 'passive', 'fire_vulnerability']
           },
           buffConfig: {
@@ -273,7 +273,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
               name: 'Stone-Scale Plating',
               description: '25% physical damage resistance from dense mineral plates.',
               statModifier: {
-                stat: 'physical',
+                stat: 'smashing',
                 magnitude: 25,
                 magnitudeType: 'resistance'
               },
@@ -295,7 +295,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
                 vulnerabilityPercent: 100,
                 resistanceLossOnFire: 5,
                 maxResistanceLoss: 15,
-                affectedStat: 'physical',
+                affectedStat: 'smashing',
                 recoveryCondition: '1_hour_on_natural_stone'
               },
               mechanicsText: 'You are fully vulnerable to ember damage, and each ember hit cracks your plates, lowering physical resistance by 5% (up to 15%) until you rest on natural stone for an hour.'
@@ -330,7 +330,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['utility', 'buff', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'physical',
+            school: 'smashing',
             tags: ['creation', 'wall', 'stone', 'defense']
           },
           utilityConfig: {
@@ -399,7 +399,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['buff', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'physical',
+            school: 'smashing',
             tags: ['strength', 'carrying', 'passive']
           },
           buffConfig: {
@@ -457,7 +457,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['buff', 'debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'physical',
+            school: 'smashing',
             tags: ['combat', 'chain', 'pull', 'melee', 'thrumm']
           },
           buffConfig: {
@@ -770,7 +770,7 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
           effectTypes: ['debuff'],
           typeConfig: {
             category: 'racial',
-            school: 'physical',
+            school: 'smashing',
             tags: ['combat', 'cable', 'root', 'ranged', 'bridge-craft']
           },
           debuffConfig: {

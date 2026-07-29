@@ -4,6 +4,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getIconUrl } from './wowIcons';
 import ItemTooltip from './ItemTooltip';
 import ItemIconSelector from './ItemIconSelector';
+import DAMAGE_TYPES from '../../data/damageTypes';
 
 
 // Weapon slots and hand options
@@ -66,69 +67,69 @@ const ITEM_SUBTYPES = {
       name: 'Sword',
       slot: 'ONE_HANDED',
       defaultHand: 'ONE_HAND',
-      damageType: 'physical'
+      damageType: 'slicing'
     },
     AXE: {
       name: 'Axe',
       slot: 'ONE_HANDED',
       defaultHand: 'ONE_HAND',
-      damageType: 'physical'
+      damageType: 'slicing'
     },
     MACE: {
       name: 'Mace',
       slot: 'ONE_HANDED',
       defaultHand: 'ONE_HAND',
-      damageType: 'physical'
+      damageType: 'smashing'
     },
     DAGGER: {
       name: 'Dagger',
       slot: 'ONE_HANDED',
       defaultHand: 'ONE_HAND',
-      damageType: 'physical'
+      damageType: 'stabbing'
     },
 
     // Two-Handed Weapons
     GREATSWORD: {
       name: 'Greatsword',
       slot: 'TWO_HANDED',
-      damageType: 'physical'
+      damageType: 'slicing'
     },
     GREATAXE: {
       name: 'Greataxe',
       slot: 'TWO_HANDED',
-      damageType: 'physical'
+      damageType: 'slicing'
     },
     MAUL: {
       name: 'Maul',
       slot: 'TWO_HANDED',
-      damageType: 'physical'
+      damageType: 'smashing'
     },
     STAFF: {
       name: 'Staff',
       slot: 'TWO_HANDED',
-      damageType: 'physical'
+      damageType: 'smashing'
     },
     POLEARM: {
       name: 'Polearm',
       slot: 'TWO_HANDED',
-      damageType: 'physical'
+      damageType: 'stabbing'
     },
 
     // Ranged Weapons
     BOW: {
       name: 'Bow',
       slot: 'RANGED',
-      damageType: 'physical'
+      damageType: 'stabbing'
     },
     CROSSBOW: {
       name: 'Crossbow',
       slot: 'RANGED',
-      damageType: 'physical'
+      damageType: 'stabbing'
     },
     THROWN: {
       name: 'Thrown Weapon',
       slot: 'RANGED',
-      damageType: 'physical'
+      damageType: 'stabbing'
     },
     WAND: {
       name: 'Wand',
@@ -181,22 +182,6 @@ const ITEM_SUBTYPES = {
     HEAVY_PURSE: { name: 'Heavy Purse' },
     TREASURE_HOARD: { name: 'Treasure Hoard' }
   }
-};
-
-// Damage types with colors (improved contrast for white backgrounds)
-const DAMAGE_TYPES = {
-  slashing: { name: 'Slashing', color: '#8B4513' },
-  piercing: { name: 'Piercing', color: '#A0522D' },
-  bludgeoning: { name: 'Bludgeoning', color: '#6B4226' },
-  physical: { name: 'Physical', color: '#6B4226' },
-  ember: { name: 'Ember', color: '#D4380D' },
-  rime: { name: 'Rime', color: '#2C5F7C' },
-  storm: { name: 'Storm', color: '#8B7328' },
-  arcane: { name: 'Arcane', color: '#5B3A8C' },
-  primal: { name: 'Primal', color: '#2D5A1E' },
-  blight: { name: 'Blight', color: '#3D1F4E' },
-  wyrd: { name: 'Wyrd', color: '#7A2040' },
-  sacred: { name: 'Sacred', color: '#DAA520' }
 };
 
 // Duration types
@@ -396,7 +381,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // Reagent options
     reagentType: 'herb',
-    magicType: 'fire',
+    magicType: 'ember',
     reagentState: 'raw',
     requiredFor: '',
     quantityPerUse: 1,
@@ -1308,10 +1293,10 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             physicalDamageType = 'slicing'; // Default for two-handed
             break;
           case 'RANGED':
-            physicalDamageType = 'ranged'; // Default for ranged
+            physicalDamageType = 'stabbing'; // Default for ranged
             break;
           default:
-            physicalDamageType = getRandomElement(['slicing', 'stabbing', 'smashing', 'ranged']);
+            physicalDamageType = getRandomElement(['slicing', 'stabbing', 'smashing']);
         }
       }
 
@@ -2379,16 +2364,10 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     >
                       Smashing
                     </option>
-                    <option
-                      value="ranged"
-                      style={{ color: DAMAGE_TYPES.ranged?.color || '#A0522D' }}
-                    >
-                      Ranged
-                    </option>
                   </optgroup>
                   <optgroup label="Magical">
                     {Object.keys(DAMAGE_TYPES)
-                      .filter(type => !['slicing', 'stabbing', 'smashing', 'ranged', 'physical'].includes(type))
+                      .filter(type => !['slicing', 'stabbing', 'smashing', 'healing'].includes(type))
                       .map((damageType) => (
                         <option
                           key={damageType}

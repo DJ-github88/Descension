@@ -203,10 +203,10 @@ const PackBrowser = () => {
               >
                 <div className="pack-type-icon">
                   <img
-                    src={`getIconUrl('${type.icon}', 'items')`}
+                    src={`https://wow.zamimg.com/images/wow/icons/medium/${type.icon}.jpg`}
                     alt={type.name}
                     onError={(e) => {
-                      e.target.src = "getIconUrl('inv_misc_questionmark', 'items')";
+                      e.target.src = "https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg";
                     }}
                   />
                 </div>

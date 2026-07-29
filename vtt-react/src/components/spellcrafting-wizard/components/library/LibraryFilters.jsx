@@ -383,19 +383,18 @@ const LibraryFilters = () => {
         {!collapsedSections.damageTypes && (
           <div className="filter-section-content">
             {[
-              'blight',
-              'physical',
-              'rime',
+              'smashing',
+              'stabbing',
+              'slicing',
               'ember',
-              'arcane',
+              'rime',
               'storm',
-              'blight',
-              'physical',
+              'primal',
+              'arcane',
               'blight',
               'wyrd',
-              'ember',
-              'physical',
-              'storm'
+              'sacred',
+              'healing'
             ].map(damageType => (
               <label key={damageType} className="filter-checkbox">
                 <input

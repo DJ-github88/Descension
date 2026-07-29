@@ -292,13 +292,17 @@ const ProcEffectConfig = ({ procConfig, onChange }) => {
                                   value={effect.damageType || 'ember'}
                                   onChange={(e) => handleEffectConfigChange(index, 'damageType', e.target.value)}
                                 >
-                                  <option value="physical">Physical</option>
-                                  <option value="fire">Fire</option>
-                                  <option value="frost">Frost</option>
+                                  <option value="smashing">Smashing</option>
+                                  <option value="stabbing">Stabbing</option>
+                                  <option value="slicing">Slicing</option>
+                                  <option value="ember">Ember</option>
+                                  <option value="rime">Rime</option>
+                                  <option value="storm">Storm</option>
+                                  <option value="primal">Primal</option>
                                   <option value="arcane">Arcane</option>
-                                  <option value="nature">Nature</option>
-                                  <option value="shadow">Shadow</option>
-                                  <option value="holy">Holy</option>
+                                  <option value="blight">Blight</option>
+                                  <option value="wyrd">Wyrd</option>
+                                  <option value="sacred">Sacred</option>
                                 </select>
                               </div>
                               <div className="config-row">

@@ -19,6 +19,23 @@ import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import '../../styles/character-sheet.css';
 
+// Single source of truth for the stat-group tabs (used by the Character sheet
+// "Stats" hover dropdown AND by CharacterStats' internal sidebar labels).
+// Keys must match the groups defined in `statGroups` inside the component.
+export const STAT_GROUP_TABS = {
+    summary: { title: 'Character Summary', icon: getCustomIconUrl('Social/Golden Crown', 'abilities') },
+    base: { title: 'Core Attributes', icon: getCustomIconUrl('General/Strength', 'abilities') },
+    combat: { title: 'Combat Statistics', icon: getCustomIconUrl('General/Sword', 'abilities') },
+    spellpower: { title: 'Spell Power', icon: getCustomIconUrl('Arcane/Magical Staff', 'abilities') },
+    regeneration: { title: 'Regeneration & Healing', icon: getCustomIconUrl('Healing/Golden Heart', 'abilities') },
+    resistances: { title: 'Damage Resistances & Vulnerabilities', icon: getCustomIconUrl('Utility/Barred Shield', 'abilities') },
+    immunities: { title: 'Damage Immunities', icon: getCustomIconUrl('Utility/Deflecting Shield', 'abilities') },
+    movement: { title: 'Movement & Mobility', icon: getCustomIconUrl('Arcane/Swift Boot', 'abilities') },
+    utility: { title: 'Utility & Senses', icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities') },
+    conditions: { title: 'Condition Resistances', icon: getCustomIconUrl('Arcane/Magical Cross Emblem 2', 'abilities') },
+    savingThrows: { title: 'Saving Throws', icon: getCustomIconUrl('Utility/Bound Shield', 'abilities') }
+};
+
 // Condition icons mapping
 const CONDITION_ICONS = {
     fear: getCustomIconUrl('Fire/Fiery Skull', 'abilities'),
@@ -42,10 +59,20 @@ const CONDITION_ICONS = {
 
 // Damage types for resistances and spell power
 const DAMAGE_TYPES = {
-    physical: {
-        name: 'Physical',
+    smashing: {
+        name: 'Smashing',
         icon: getCustomIconUrl('Bludgeoning/Hammer Crush', 'abilities'),
-        color: '#6B4226'
+        color: '#8B5A2B'
+    },
+    stabbing: {
+        name: 'Stabbing',
+        icon: getCustomIconUrl('Piercing/Spear Thrust', 'abilities'),
+        color: '#704214'
+    },
+    slicing: {
+        name: 'Slicing',
+        icon: getCustomIconUrl('Slashing/Sword Slash', 'abilities'),
+        color: '#5C3317'
     },
     ember: {
         name: 'Ember',
@@ -86,11 +113,6 @@ const DAMAGE_TYPES = {
         name: 'Sacred',
         icon: getCustomIconUrl('Radiant/Radiant Divinity', 'abilities'),
         color: '#DAA520'
-    },
-    healing: {
-        name: 'Healing',
-        icon: getCustomIconUrl('Healing/Golden Heart', 'abilities'),
-        color: '#2E8B57'
     }
 };
 
@@ -221,7 +243,8 @@ function StatEditModal({ stat, initialValue, position, onSubmit, onCancel }) {
     );
 }
 
-export default function CharacterStats() {
+export default function CharacterStats({ selectedStatGroup: propGroup, setSelectedStatGroup: setPropGroup }) {
+    console.log('[CharacterStats] RENDERING - checking if inline styles work');
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
     const characterStore = useCharacterStore();
@@ -260,7 +283,11 @@ export default function CharacterStats() {
     // Get derived stats and exhaustion level from character store (includes encumbrance effects)
     const { derivedStats, exhaustionLevel: storeExhaustionLevel } = useCharacterStore();
 
-    const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
+    // Stat group selection is externally controlled (by the Character sheet
+    // "Stats" hover dropdown) when those props are provided; otherwise internal.
+    const [internalStatGroup, setInternalStatGroup] = useState('summary');
+    const selectedStatGroup = propGroup !== undefined ? propGroup : internalStatGroup;
+    const setSelectedStatGroup = setPropGroup || setInternalStatGroup;
     const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [hoveredStat, setHoveredStat] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -1015,7 +1042,7 @@ export default function CharacterStats() {
             stats: Object.entries(DAMAGE_TYPES)
                 .filter(([type]) => {
                     // Exclude physical damage types - they don't have spell power
-                    const physicalTypes = ['smashing', 'stabbing', 'slicing', 'ranged', 'physical'];
+                    const physicalTypes = ['smashing', 'stabbing', 'slicing'];
                     return !physicalTypes.includes(type);
                 })
                 .map(([type, data]) => ({
@@ -1282,27 +1309,39 @@ export default function CharacterStats() {
                                 const magnitudeType = effect.statModifier.magnitudeType;
                                 
                                 const resistanceMap = {
-                                    'physical_resistance': 'physical',
-                                    'bludgeoning_resistance': 'physical',
-                                    'piercing_resistance': 'physical',
-                                    'slashing_resistance': 'physical',
+                                    'smashing_resistance': 'smashing',
+                                    'bludgeoning_resistance': 'smashing',
+                                    'physical_resistance': 'smashing',
+                                    'stabbing_resistance': 'stabbing',
+                                    'piercing_resistance': 'stabbing',
+                                    'ranged_resistance': 'stabbing',
+                                    'arrow_resistance': 'stabbing',
+                                    'slicing_resistance': 'slicing',
+                                    'slashing_resistance': 'slicing',
                                     'ember_resistance': 'ember',
                                     'fire_resistance': 'ember',
                                     'radiant_resistance': 'sacred',
+                                    'holy_resistance': 'sacred',
                                     'divine_resistance': 'sacred',
+                                    'sacred_resistance': 'sacred',
                                     'rime_resistance': 'rime',
                                     'frost_resistance': 'rime',
                                     'cold_resistance': 'rime',
+                                    'ice_resistance': 'rime',
                                     'storm_resistance': 'storm',
                                     'lightning_resistance': 'storm',
-                                    'force_resistance': 'storm',
                                     'thunder_resistance': 'storm',
+                                    'electric_resistance': 'storm',
                                     'arcane_resistance': 'arcane',
+                                    'force_resistance': 'arcane',
                                     'primal_resistance': 'primal',
                                     'nature_resistance': 'primal',
+                                    'viscera_resistance': 'primal',
                                     'blight_resistance': 'blight',
                                     'necrotic_resistance': 'blight',
+                                    'shadow_resistance': 'blight',
                                     'void_resistance': 'blight',
+                                    'silence_resistance': 'blight',
                                     'poison_resistance': 'blight',
                                     'acid_resistance': 'blight',
                                     'wyrd_resistance': 'wyrd',
@@ -1338,32 +1377,41 @@ export default function CharacterStats() {
                                     const immunityMap = {
                                         'frost': 'rime',
                                         'cold': 'rime',
+                                        'ice': 'rime',
                                         'rime': 'rime',
                                         'fire': 'ember',
                                         'ember': 'ember',
                                         'lightning': 'storm',
+                                        'thunder': 'storm',
+                                        'electric': 'storm',
                                         'storm': 'storm',
                                         'acid': 'blight',
-                                        'force': 'storm',
+                                        'force': 'arcane',
                                         'necrotic': 'blight',
+                                        'shadow': 'blight',
+                                        'void': 'blight',
+                                        'silence': 'blight',
+                                        'poison': 'blight',
                                         'blight': 'blight',
                                         'radiant': 'sacred',
+                                        'holy': 'sacred',
                                         'divine': 'sacred',
+                                        'sacred': 'sacred',
                                         'psychic': 'wyrd',
-                                        'wyrd': 'wyrd',
-                                        'thunder': 'storm',
                                         'chaos': 'wyrd',
-                                        'void': 'blight',
+                                        'wyrd': 'wyrd',
                                         'nature': 'primal',
+                                        'viscera': 'primal',
                                         'primal': 'primal',
                                         'arcane': 'arcane',
                                         'bludgeoning': 'smashing',
                                         'smashing': 'smashing',
                                         'piercing': 'stabbing',
                                         'stabbing': 'stabbing',
+                                        'ranged': 'stabbing',
+                                        'arrow': 'stabbing',
                                         'slashing': 'slicing',
                                         'slicing': 'slicing',
-                                        'ranged': 'ranged',
                                         'physical': 'smashing'
                                     };
                                     
@@ -1669,15 +1717,18 @@ export default function CharacterStats() {
                         if (flatReduction > 0) {
                             // Find which items provide this flat reduction
                             // Check both normalized and original damage type (e.g., necrotic and shadow)
-                            const checkDamageTypes = damageType === 'blight' ? ['blight', 'necrotic', 'shadow', 'poison', 'acid', 'void'] : 
-                                                    damageType === 'sacred' ? ['sacred', 'radiant', 'holy'] : 
-                                                   damageType === 'rime' ? ['rime', 'frost', 'cold', 'ice'] :
-                                                   damageType === 'ember' ? ['ember', 'fire'] :
-                                                   damageType === 'storm' ? ['storm', 'lightning', 'force', 'thunder'] :
-                                                   damageType === 'primal' ? ['primal', 'nature', 'viscera'] :
-                                                   damageType === 'wyrd' ? ['wyrd', 'chaos', 'psychic'] :
-                                                   damageType === 'physical' ? ['physical', 'bludgeoning', 'piercing', 'slashing'] :
-                                                   [damageType];
+                            const checkDamageTypes = damageType === 'blight' ? ['blight', 'necrotic', 'shadow', 'poison', 'acid', 'void', 'silence'] :
+                                                    damageType === 'sacred' ? ['sacred', 'radiant', 'holy', 'divine'] :
+                                                    damageType === 'rime' ? ['rime', 'frost', 'cold', 'ice'] :
+                                                    damageType === 'ember' ? ['ember', 'fire'] :
+                                                    damageType === 'storm' ? ['storm', 'lightning', 'thunder', 'electric'] :
+                                                    damageType === 'primal' ? ['primal', 'nature', 'viscera'] :
+                                                    damageType === 'wyrd' ? ['wyrd', 'chaos', 'psychic'] :
+                                                    damageType === 'arcane' ? ['arcane', 'force'] :
+                                                    damageType === 'smashing' ? ['smashing', 'bludgeoning', 'physical'] :
+                                                    damageType === 'stabbing' ? ['stabbing', 'piercing', 'ranged', 'arrow'] :
+                                                    damageType === 'slicing' ? ['slicing', 'slashing'] :
+                                                    [damageType];
                             
                             Object.values(equipment).filter(Boolean).forEach(item => {
                                 let resData = null;
@@ -2305,7 +2356,11 @@ export default function CharacterStats() {
                         key={index}
                         className={`stat-row ${stat.isExperience ? 'experience-stat-row' : ''} ${stat.isLevel ? 'level-stat-row' : ''} enhanced-stat-row`}
                         onContextMenu={(e) => handleStatRightClick(e, stat)}
-                        style={{ cursor: isGMMode && stat.statName ? 'context-menu' : 'default' }}
+                        style={{
+                            cursor: isGMMode && stat.statName ? 'context-menu' : 'default',
+                            paddingLeft: '48px',
+                            paddingRight: '36px'
+                        }}
                     >
                         {/* Apply same layout to all stats: icon/label on left, value on right, description footer */}
                         <>
@@ -2316,15 +2371,27 @@ export default function CharacterStats() {
                                             src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
                                             alt={stat.label}
                                             className="stat-icon"
-                                            style={stat.color ? { borderColor: stat.color } : {}}
+                                            style={{
+                                                width: '120px !important',
+                                                height: '120px !important',
+                                                borderRadius: '10px',
+                                                borderColor: stat.color || undefined
+                                            }}
                                         />
                                     )}
                                     <div className="stat-info">
-                                        <span className="stat-label">{stat.label}:</span>
+                                        <span className="stat-label" style={{
+                                            fontSize: '26px !important',
+                                            fontWeight: '700 !important',
+                                            textTransform: 'uppercase !important'
+                                        }}>{stat.label}:</span>
                                     </div>
                                 </div>
                                 <div className="stat-value-container">
-                                    <span className="stat-value">
+                                    <span className="stat-value" style={{
+                                        fontSize: '26px !important',
+                                        fontWeight: '700 !important'
+                                    }}>
                                         {formatStatValue(stat.label, stat.value)}
                                     </span>
                                     {stat.modifier !== undefined && (
@@ -2407,26 +2474,28 @@ export default function CharacterStats() {
                 setHoveredStat(null);
             }
         }}>
-            <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
-                <button
-                    className="stats-label-toggle-button"
-                    onClick={() => setShowLabels(!showLabels)}
-                    title={showLabels ? 'Hide Labels' : 'Show Labels'}
-                >
-                    <span className="stats-toggle-icon">{showLabels ? '� - �' : '▶'}</span>
-                </button>
-                {Object.entries(statGroups).map(([key, group]) => (
+            {propGroup === undefined && (
+                <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
                     <button
-                        key={key}
-                        className={`stats-nav-button ${selectedStatGroup === key ? 'active' : ''}`}
-                        onClick={() => setSelectedStatGroup(key)}
-                        title={group.title}
+                        className="stats-label-toggle-button"
+                        onClick={() => setShowLabels(!showLabels)}
+                        title={showLabels ? 'Hide Labels' : 'Show Labels'}
                     >
-                        <img src={group.icon} alt="" className="stats-nav-icon" />
-                        {showLabels && <span className="stats-nav-text">{group.title}</span>}
+                        <span className="stats-toggle-icon">{showLabels ? ' - ' : '▶'}</span>
                     </button>
-                ))}
-            </div>
+                    {Object.entries(statGroups).map(([key, group]) => (
+                        <button
+                            key={key}
+                            className={`stats-nav-button ${selectedStatGroup === key ? 'active' : ''}`}
+                            onClick={() => setSelectedStatGroup(key)}
+                            title={group.title}
+                        >
+                            <img src={group.icon} alt="" className="stats-nav-icon" />
+                            {showLabels && <span className="stats-nav-text">{group.title}</span>}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="stats-content-area">
                 <div className="stats-section-header">

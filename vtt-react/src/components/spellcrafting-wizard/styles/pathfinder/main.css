@@ -296,33 +296,15 @@
   z-index: 2;
 }
 
-/* Individual progress segments */
-.spell-wizard-progress-segment {
-  position: relative;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-right: 1px solid rgba(45, 24, 16, 0.3);
-}
-
+/* Old segment styles removed — consolidated in main.css */
+.spell-wizard-progress-segment,
+.spell-wizard-progress-segment:hover,
+.spell-wizard-progress-segment.active,
+.spell-wizard-progress-segment.completed,
 .spell-wizard-progress-segment:last-child {
-  border-right: none;
-}
-
-/* Segment hover effects */
-.spell-wizard-progress-segment:hover {
-  background: rgba(212, 175, 55, 0.1);
-}
-
-.spell-wizard-progress-segment.active {
-  background: rgba(212, 175, 55, 0.2);
-}
-
-.spell-wizard-progress-segment.completed {
-  background: rgba(34, 139, 34, 0.1);
+  background: transparent;
+  border: none;
+  animation: none;
 }
 
 /* Step numbers in segments */
@@ -784,38 +766,9 @@
   transform: translateX(0);
 }
 
-/* Experience bar segment hover animations */
-.spell-wizard-progress-segment {
-  transform-origin: center;
-}
+/* Old segment hover animation removed — consolidated in main.css */
 
-.spell-wizard-progress-segment:hover:not(.active) {
-  animation: segment-hover 0.3s ease;
-}
-
-@keyframes segment-hover {
-  0% { background: transparent; }
-  50% { background: rgba(212, 175, 55, 0.15); }
-  100% { background: rgba(212, 175, 55, 0.1); }
-}
-
-/* Progress fill pulse animation for active state */
-.spell-wizard-progress-segment.active .spell-step-number {
-  animation: active-pulse 2s infinite;
-}
-
-@keyframes active-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 15px rgba(212, 175, 55, 0.6),
-      0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    box-shadow:
-      0 0 25px rgba(212, 175, 55, 0.8),
-      0 2px 6px rgba(0, 0, 0, 0.4);
-  }
-}
+/* Old pulse animation removed — consolidated in main.css */
 
 /* ===== CONTENT SECTIONS ===== */
 
@@ -2431,162 +2384,270 @@
   }
 }
 
-/* ===== ULTRA-PREMIUM PROGRESS BAR ENHANCEMENTS ===== */
+/* ===== WIZARD STEP ORBS — OVERLAY ===== */
 
+/* --- Overlay container --- transparent, just holds the orbs --- */
 .spellbook-wizard-layout .wizard-progress-overlay,
 .spellbook-layout .wizard-progress-overlay {
   position: absolute;
-  bottom: 0;
+  bottom: 22px;
   left: 0;
   right: 0;
-  height: 65px; 
-  background: var(--my-gradient-parchment-dark);
-  border-top: 1px solid rgba(139, 115, 85, 0.3);
+  height: 44px;
+  background: transparent;
+  border: none;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0 20px; /* Reduced padding */
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-  z-index: 1001;
-  backdrop-filter: blur(4px);
+  align-items: flex-end;
+  padding: 0 20px;
+  z-index: 10000;
+  box-shadow: none;
+  pointer-events: none;
 }
 
-/* Remove old orphan flourishes */
 .spellbook-wizard-layout .wizard-progress-overlay::before,
 .spellbook-wizard-layout .wizard-progress-overlay::after {
   display: none;
 }
 
+/* --- Invisible track (kept as flex container for segments) --- */
 .spellbook-wizard-layout .spell-wizard-progress-bar,
 .spellbook-layout .spell-wizard-progress-bar {
-  height: 24px; /* Slightly sleeker */
+  height: 100%;
   width: 100%;
-  margin: 0;
-  background: #1a0f0a;
-  border: 1px solid #5d3a24;
-  border-radius: 12px;
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    inset 0 1px 4px rgba(0, 0, 0, 0.6);
+  max-width: 600px;
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   position: relative;
   overflow: visible;
+  box-shadow: none;
 }
 
-/* Integrated Metal End-Caps */
 .spellbook-wizard-layout .spell-wizard-progress-bar::before,
 .spellbook-wizard-layout .spell-wizard-progress-bar::after {
-  content: '✥';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #daa520;
-  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
-  z-index: 5;
+  display: none;
 }
 
-.spellbook-wizard-layout .spell-wizard-progress-bar::before { left: -18px; }
-.spellbook-wizard-layout .spell-wizard-progress-bar::after { right: -18px; }
+/* --- Hide the fill entirely --- */
+.spellbook-wizard-layout .spell-wizard-progress-fill,
+.spellbook-layout .spell-wizard-progress-fill {
+  display: none;
+}
 
-.spellbook-wizard-layout .spell-wizard-progress-fill {
-  background: linear-gradient(135deg,
-    #b8860b 0%,
-    #ffd700 25%,
-    #daa520 50%,
-    #ffd700 75%,
-    #b8860b 100%
-  ) !important;
-  border-radius: 14px !important;
-  box-shadow:
-    0 0 15px rgba(212, 175, 55, 0.5),
-    inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+.spellbook-wizard-layout .spell-wizard-progress-fill::after,
+.spellbook-layout .spell-wizard-progress-fill::after {
+  display: none;
+}
+
+/* --- Segments row --- evenly distributed orbs --- */
+.spellbook-wizard-layout .spell-wizard-progress-segments,
+.spellbook-layout .spell-wizard-progress-segments {
   position: relative;
-}
-
-/* Enhanced Shine */
-.spellbook-wizard-layout .spell-wizard-progress-fill::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  display: flex;
+  width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  animation: premium-shine 4s infinite linear;
+  z-index: 2;
+  pointer-events: auto;
 }
 
-@keyframes premium-shine {
-  0% { left: -100%; }
-  20% { left: 100%; }
-  100% { left: 100%; }
+.spellbook-wizard-layout .spell-wizard-progress-segment,
+.spellbook-layout .spell-wizard-progress-segment {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent !important;
+  border: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
-/* Wax Seal Style Step Numbers */
-.spellbook-wizard-layout .spell-step-number {
-  width: 32px !important;
-  height: 32px !important;
-  background: radial-gradient(circle at 30% 30%, #f0e6d2 0%, #d5cbb0 50%, #a08c70 100%) !important;
-  border: 1px solid #8b7355 !important;
+/* Kill old segment state backgrounds and hover animation */
+.spellbook-wizard-layout .spell-wizard-progress-segment:hover,
+.spellbook-layout .spell-wizard-progress-segment:hover,
+.spellbook-wizard-layout .spell-wizard-progress-segment.active,
+.spellbook-layout .spell-wizard-progress-segment.active,
+.spellbook-wizard-layout .spell-wizard-progress-segment.completed,
+.spellbook-layout .spell-wizard-progress-segment.completed {
+  background: transparent !important;
+  animation: none !important;
+}
+
+/* --- Step orbs --- clean numbered buttons --- */
+.spellbook-wizard-layout .spell-step-number,
+.spellbook-layout .spell-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: 34px;
+  height: 34px;
+  background: var(--my-gradient-parchment-light);
+  color: var(--my-text-secondary);
+  border-radius: 50%;
+  font-family: var(--my-font-display);
+  font-size: 15px;
+  font-weight: 700;
+  border: 2px solid var(--my-brown-medium);
   box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
-  top: -16px !important;
-  font-size: 13px !important;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    0 2px 5px rgba(45, 24, 16, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-sizing: border-box;
+  animation: none !important;
 }
 
-.spellbook-wizard-layout .spell-wizard-progress-segment.active .spell-step-number {
-  background: radial-gradient(circle at 30% 30%, #ffd700 0%, #daa520 60%, #b8860b 100%) !important;
-  border-color: #ffd700 !important;
-  color: #1a0f0a !important;
-  transform: translateX(-50%) scale(1.3) translateY(-2px) !important;
+/* Active step — gold orb */
+.spellbook-wizard-layout .spell-wizard-progress-segment.active .spell-step-number,
+.spellbook-layout .spell-wizard-progress-segment.active .spell-step-number {
+  width: 38px;
+  height: 38px;
+  background: radial-gradient(circle at 35% 35%, var(--my-gold-light), var(--my-gold) 55%, var(--my-gold-dark));
+  color: var(--my-brown-darkest);
+  border-color: var(--my-gold-dark);
+  font-size: 16px;
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(212, 175, 55, 0.8),
-    inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
-  z-index: 100 !important;
+    0 0 12px rgba(212, 175, 55, 0.6),
+    0 3px 6px rgba(45, 24, 16, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  z-index: 15;
+  transform: none !important;
+  animation: none !important;
 }
 
-.spellbook-wizard-layout .spell-wizard-progress-segment.completed:not(.active) .spell-step-number {
-  background: radial-gradient(circle at 30% 30%, #a8e0a8 0%, #4caf50 60%, #2e7d32 100%) !important;
-  border-color: #2e7d32 !important;
-  color: white !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+/* Completed step — brown leather orb */
+.spellbook-wizard-layout .spell-wizard-progress-segment.completed .spell-step-number,
+.spellbook-layout .spell-wizard-progress-segment.completed .spell-step-number {
+  background: linear-gradient(145deg, var(--my-brown-medium), var(--my-brown-dark));
+  color: var(--my-parchment-light);
+  border-color: var(--my-brown-dark);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 2px 5px rgba(45, 24, 16, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
-/* Subtle separator between segments */
-.spellbook-wizard-layout .spell-wizard-progress-segment {
-  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+/* Completed + active — gold wins */
+.spellbook-wizard-layout .spell-wizard-progress-segment.completed.active .spell-step-number,
+.spellbook-layout .spell-wizard-progress-segment.completed.active .spell-step-number {
+  background: radial-gradient(circle at 35% 35%, var(--my-gold-light), var(--my-gold) 55%, var(--my-gold-dark));
+  color: var(--my-brown-darkest);
+  border-color: var(--my-gold-dark);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.6),
+    0 3px 6px rgba(45, 24, 16, 0.3);
 }
 
-.spellbook-wizard-layout .spell-wizard-progress-segment:hover .spell-step-number {
-  transform: translateX(-50%) translateY(-5px) !important;
+/* Hover — simple border highlight only, no movement */
+.spellbook-wizard-layout .spell-wizard-progress-segment:hover .spell-step-number,
+.spellbook-layout .spell-wizard-progress-segment:hover .spell-step-number {
+  border-color: var(--my-gold);
 }
 
-/* Pulsing effect for active step */
-.spellbook-wizard-layout .spell-wizard-progress-segment.active .spell-step-number::before {
+.spellbook-wizard-layout .spell-wizard-progress-segment.active:hover .spell-step-number,
+.spellbook-layout .spell-wizard-progress-segment.active:hover .spell-step-number {
+  box-shadow:
+    0 0 14px rgba(212, 175, 55, 0.7),
+    0 3px 6px rgba(45, 24, 16, 0.3);
+}
+
+/* --- Tooltips --- parchment popup above each orb --- */
+.spellbook-wizard-layout .spell-step-tooltip,
+.spellbook-layout .spell-step-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: var(--my-gradient-parchment-light);
+  border: 1px solid var(--my-brown-medium);
+  border-radius: 6px;
+  padding: 8px 12px;
+  min-width: 140px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 100;
+  box-shadow:
+    0 4px 12px rgba(45, 24, 16, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.spellbook-wizard-layout .spell-wizard-progress-segment:hover .spell-step-tooltip,
+.spellbook-layout .spell-wizard-progress-segment:hover .spell-step-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Tooltip arrow */
+.spellbook-wizard-layout .spell-step-tooltip::after,
+.spellbook-layout .spell-step-tooltip::after {
   content: '';
   position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border-radius: 50%;
-  background: rgba(212, 175, 55, 0.3);
-  animation: pulse-aura 2s infinite;
-  z-index: -1;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--my-brown-medium);
 }
 
-@keyframes pulse-aura {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.5); opacity: 0; }
+/* Tooltip title ("Step X") */
+.spellbook-wizard-layout .spell-tooltip-title,
+.spellbook-layout .spell-tooltip-title {
+  display: block;
+  font-family: var(--my-font-display);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--my-gold-dark);
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--my-brown-light);
 }
+
+/* Tooltip step name */
+.spellbook-wizard-layout .spell-tooltip-name,
+.spellbook-layout .spell-tooltip-name {
+  display: block;
+  font-family: var(--my-font-body);
+  font-size: 13px;
+  color: var(--my-text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Tooltip description */
+.spellbook-wizard-layout .spell-tooltip-description,
+.spellbook-layout .spell-tooltip-description {
+  display: block;
+  font-family: var(--my-font-body);
+  font-size: 11px;
+  color: var(--my-text-muted);
+  margin-top: 3px;
+  max-width: 200px;
+  white-space: normal;
+  line-height: 1.35;
+  font-style: italic;
+}
+
+/* Legacy overrides — cleaned up */
 
 /* ===== ELIMINATE EMPTY SPACE AROUND PROGRESS BAR ===== */
 

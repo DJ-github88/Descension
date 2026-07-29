@@ -13,7 +13,7 @@ export const CRUSADER_DATA = {
   title: "The Sol-Bound Zealot",
   icon: "Radiant/Divine Downward Sword",
   role: "Damage / Tank",
-  damageTypes: ["sacred", "ember", "physical", "storm"],
+  damageTypes: ["sacred", "ember", "smashing", "stabbing", "slicing", "storm"],
 
   restrictions: {
     allowedSubraces: [
@@ -35,12 +35,12 @@ export const CRUSADER_DATA = {
   livingOrder: {
     orderName: 'The Solvan Vigil',
     founder: {
-      name: '<LoreLink termId="lord-captain-vane-solvan">Lord-Captain Vane Solvan</LoreLink>',
+      name: 'Lord-Captain Vane Solvan',
       status: 'Fallen at the Wyrd-Breach. His shattered starlight blade is mounted above the Great Forge in Sundale.',
       note: 'The first to forge starlight steel into heavy battle-plates. He bound Aex\'s Willing Sacrifice to physical armor.'
     },
     currentLeader: {
-      name: '<LoreLink termId="hierophant-aethelgard">Hierophant Aethelgard</LoreLink>',
+      name: 'Hierophant Aethelgard',
       title: 'High Purger of the Dawn Vigil',
       characterization: 'An unyielding Solvarn zealot who treats starlight as a non-negotiable martial law.'
     },
@@ -240,7 +240,7 @@ export const CRUSADER_ABILITIES = [
     typeConfig: {
       school: 'sacred',
       icon: 'Radiant/Radiant Divinity',
-      tags: ['sacred', 'physical', 'melee'],
+      tags: ['sacred', 'smashing', 'melee'],
       castTime: 1,
       castTimeType: 'IMMEDIATE'
     },
@@ -261,7 +261,7 @@ export const CRUSADER_ABILITIES = [
     },
     damageConfig: {
       formula: '1d10 + strength + 1d6',
-      damageTypes: ['physical', 'sacred'],
+      damageTypes: ['smashing', 'stabbing', 'slicing', 'sacred'],
       resolution: 'DICE'
     },
     customMechanic: 'Generates +15 Radiant Fervor on hit.'
@@ -312,7 +312,7 @@ export const CRUSADER_ABILITIES = [
     name: 'Zealot\'s Inquisitive Eye',
     description: 'Channel Aex\'s pure light through your eyes to detect Wyrd-taint in food, soil, or civilian bloodlines.',
     level: 3,
-    spellType: 'UTILITY',
+    spellType: 'CHANNELED',
     icon: 'Utility/Barred Shield',
     effectTypes: ['buff'],
     typeConfig: {
@@ -355,7 +355,7 @@ export const CRUSADER_ABILITIES = [
     typeConfig: {
       school: 'sacred',
       icon: 'Evocation/Ground Slam',
-      tags: ['sacred', 'physical', 'aoe', 'control'],
+      tags: ['sacred', 'smashing', 'aoe', 'control'],
       castTime: 1,
       castTimeType: 'IMMEDIATE'
     },
@@ -376,7 +376,7 @@ export const CRUSADER_ABILITIES = [
     },
     damageConfig: {
       formula: '2d8 + strength',
-      damageTypes: ['physical', 'sacred'],
+      damageTypes: ['smashing', 'stabbing', 'slicing', 'sacred'],
       resolution: 'DICE',
       savingThrow: {
         ability: 'strength',
@@ -436,7 +436,7 @@ export const CRUSADER_ABILITIES = [
     name: 'Sanctified Hearth',
     description: 'Plant your greatsword into the snow for 10 minutes, creating a 20 ft warm holy zone that melts ice barriers.',
     level: 6,
-    spellType: 'UTILITY',
+    spellType: 'CHANNELED',
     icon: 'Fire/Burning Forge',
     effectTypes: ['buff'],
     typeConfig: {

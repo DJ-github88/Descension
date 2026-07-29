@@ -39,7 +39,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 4,
-        damageType: 'physical'
+        damageType: 'stabbing'
       }
     },
     baseStats: {
@@ -69,7 +69,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 6,
-        damageType: 'physical'
+        damageType: 'slicing'
       }
     },
     baseStats: {
@@ -100,7 +100,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 6,
-        damageType: 'physical'
+        damageType: 'smashing'
       }
     },
     baseStats: {
@@ -412,7 +412,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 6,
-        damageType: 'physical'
+        damageType: 'slicing'
       }
     },
     baseStats: {
@@ -443,7 +443,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 6,
-        damageType: 'physical'
+        damageType: 'smashing'
       }
     },
     baseStats: {
@@ -474,7 +474,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 6,
-        damageType: 'physical'
+        damageType: 'stabbing'
       }
     },
     baseStats: {
@@ -505,7 +505,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 8,
-        damageType: 'physical'
+        damageType: 'stabbing'
       }
     },
     baseStats: {

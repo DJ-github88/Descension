@@ -122,7 +122,7 @@ const STATUS_EFFECTS = {
       name: 'Bleed',
       description: 'The body remembers what the mind would forget. target takes physical damage over time that can stack.',
       type: 'dot',
-      damageType: 'physical',
+      damageType: 'smashing',
       severity: 'moderate',
       color: '#8B0000', // Dark red
       icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_rupture.jpg',

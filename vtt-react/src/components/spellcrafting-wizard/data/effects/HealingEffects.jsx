@@ -220,7 +220,7 @@ const HealingEffects = (props) => {
    hotProgressiveStages: currentHealingConfig.hotProgressiveStages || [],
    shieldFormula: currentHealingConfig.shieldFormula || '2d6 + HEA', // Separate formula for shield absorption
    shieldDuration: currentHealingConfig.shieldDuration || 3,
-   shieldDamageTypes: currentHealingConfig.shieldDamageTypes || 'all', // all, physical, magical, or specific types
+   shieldDamageTypes: currentHealingConfig.shieldDamageTypes || 'all', // all, magical, or specific canonical types
    shieldOverflow: currentHealingConfig.shieldOverflow || 'dissipate', // dissipate, convert_to_healing
    shieldBreakBehavior: currentHealingConfig.shieldBreakBehavior || 'fade', // fade, shatter
    shieldBreakEffect: currentHealingConfig.shieldBreakEffect || null, // spell effect triggered on shield break
@@ -1544,16 +1544,16 @@ const HealingEffects = (props) => {
           className="shield-select"
          >
           <option value="all">All Damage Types</option>
-          <option value="physical">Physical Damage Only</option>
           <option value="magical">Magical Damage Only</option>
-          <option value="fire">Fire Damage Only</option>
-          <option value="cold">Cold Damage Only</option>
-          <option value="lightning">Lightning Damage Only</option>
-          <option value="acid">Acid Damage Only</option>
-          <option value="poison">Poison Damage Only</option>
-          <option value="necrotic">Necrotic Damage Only</option>
-          <option value="radiant">Radiant Damage Only</option>
-          <option value="force">Force Damage Only</option>
+          <option value="smashing">Smashing Damage Only</option>
+          <option value="stabbing">Stabbing Damage Only</option>
+          <option value="slicing">Slicing Damage Only</option>
+          <option value="ember">Ember Damage Only</option>
+          <option value="rime">Rime Damage Only</option>
+          <option value="storm">Storm Damage Only</option>
+          <option value="blight">Blight Damage Only</option>
+          <option value="sacred">Sacred Damage Only</option>
+          <option value="arcane">Arcane Damage Only</option>
          </select>
         </div>
 
@@ -2475,16 +2475,16 @@ const HealingEffects = (props) => {
          className="shield-select"
         >
          <option value="all">All Damage Types</option>
-         <option value="physical">Physical Damage Only</option>
          <option value="magical">Magical Damage Only</option>
-         <option value="fire">Fire Damage Only</option>
-         <option value="cold">Cold Damage Only</option>
-         <option value="lightning">Lightning Damage Only</option>
-         <option value="acid">Acid Damage Only</option>
-         <option value="poison">Poison Damage Only</option>
-         <option value="necrotic">Necrotic Damage Only</option>
-         <option value="radiant">Radiant Damage Only</option>
-         <option value="force">Force Damage Only</option>
+         <option value="smashing">Smashing Damage Only</option>
+         <option value="stabbing">Stabbing Damage Only</option>
+         <option value="slicing">Slicing Damage Only</option>
+         <option value="ember">Ember Damage Only</option>
+         <option value="rime">Rime Damage Only</option>
+         <option value="storm">Storm Damage Only</option>
+         <option value="blight">Blight Damage Only</option>
+         <option value="sacred">Sacred Damage Only</option>
+         <option value="arcane">Arcane Damage Only</option>
         </select>
        </div>
 
@@ -2803,16 +2803,16 @@ const HealingEffects = (props) => {
          className="shield-select"
         >
          <option value="all">All Damage Types</option>
-         <option value="physical">Physical Damage Only</option>
          <option value="magical">Magical Damage Only</option>
-         <option value="fire">Fire Damage Only</option>
-         <option value="cold">Cold Damage Only</option>
-         <option value="lightning">Lightning Damage Only</option>
-         <option value="acid">Acid Damage Only</option>
-         <option value="poison">Poison Damage Only</option>
-         <option value="necrotic">Necrotic Damage Only</option>
-         <option value="radiant">Radiant Damage Only</option>
-         <option value="force">Force Damage Only</option>
+         <option value="smashing">Smashing Damage Only</option>
+         <option value="stabbing">Stabbing Damage Only</option>
+         <option value="slicing">Slicing Damage Only</option>
+         <option value="ember">Ember Damage Only</option>
+         <option value="rime">Rime Damage Only</option>
+         <option value="storm">Storm Damage Only</option>
+         <option value="blight">Blight Damage Only</option>
+         <option value="sacred">Sacred Damage Only</option>
+         <option value="arcane">Arcane Damage Only</option>
         </select>
        </div>
 

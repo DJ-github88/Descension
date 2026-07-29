@@ -150,3 +150,80 @@ Comprehensive scan of every `LoreLink termId` in `src` vs lore.json keys (93 uni
 - **Tier 5 — bulk IP/mythology cleanup**: ~803 real-world-myth proper nouns in creatures (Fenrir/Tiamat/Strigoi/"Yokai"…) + ~20 unratified deities; D&D race/fiend content in lootItems (dwarves/elves/orcs/goblins, "Runelord Thrain") & summonableTokens (Imp/Pit Fiend/Balor); public creatures.json ↔ src creatureData.json drift. Large, mostly cosmetic/low-lore-risk.
 - **Code surgery**: ✅ spell-dispatch DONE (P2-2) · ✅ timeline `classIds` anachronisms DONE (F9, full pass — 16 tags removed across 11 events; founding-year table ratified). ✅ F4 Layer A (pulse 55th→65th ordinal). ⏳ F4 Layer B (REBIRTH_CYCLES cadence re-spacing + significance rewrites) DEFERRED to a creative pass per user. (adaptTemplateForClass & resourceTypes confirmed dead code, left.)
 - **Tier 6 — content gaps**: missing NPCs (Bayarmaa Ordavan + 7 npcStore stubs); 41 of 49 factions with empty `members`; Solbrand Order faction entry; 6 broken NPC LoreLinks (create entries or strip).
+
+## ✅ RESOLVED — 26 Jul 2026: Dimension 2 (cross-reference integrity)
+
+Full audit script: `dimension2_audit.ps1`. Findings doc: `dimension2_audit.md`.
+
+**Layer A — relatedTerms (was 18 broken → 0):**
+- 13 creatures had short-form region keys (`iceheart`/`cragjaw`/`bryngloom`) in BOTH `region` + `relatedTerms`. **D13**: normalized to long forms (`iceheart-sea`/`cragjaw-peaks`/`bryngloom-forest`) — 26 token replacements via raw-text `.Replace()` (quoted tokens only; verified long forms unaffected by closing-quote position). Atomic write + validated (316 entries, 0 leaks, 0 mojibake).
+- 5 dead human-subrace refs in `human.relatedTerms` (thalren/tessen/solvarn/ordan/morren — keys exist only in `human.js`, no lore.json entries). **D14**: removed via substring-splice on the human block (mixed CRLF/LF line endings required `[regex]::Split` on `\r\n|\r|\n`, rejoin CRLF; strict "removed exactly 5" guard). `human.relatedTerms` 17→12.
+
+**Layer B — LoreLink termId in src (was 3 broken unique → 0):**
+- `termId="florae"` ×6 in `lunarchData.js`/`toxicologistData.js` → repointed to `briaran` (canonical Florae lore.json key per §4/§8/D7; inner text unchanged). Both files pass `node --check --input-type=module`.
+- `termId="hierophant-aethelgard"` + `termId="lord-captain-vane-solvan"` in `crusaderData.js` → **D15**: stripped to plain text (no entries exist; matches Session-2 NPC pattern). `node --check` OK.
+
+**Deferred (cosmetic):** `astril` self-references itself in `relatedTerms` (line 557). An initial Edit-tool attempt mis-targeted an identical `ancestor_wold/astril/false_prophet` sequence in `sundrift-vale` (different indentation) and removed a LEGITIMATE cross-ref; reverted from backup (MD5-verified to baseline). The self-ref is harmless (it resolves, just redundantly) and needs an entry-scoped removal script. Left for a later cleanup pass.
+
+**Cross-dimensional leads logged:** (a) `mimir` summary still says "heartwood, storm-glass, or **pine**" — D8 claimed masks were changed to "heartwood or storm-glass" but only the fullEntry was updated, not the summary → Dimension 3. (b) `rite-of-masks` fullEntry says "heartwood, storm-glass, or black birch" → Dimension 3 mask-material reconciliation. (c) `fex-vestara` + `alaric` use `region: frostmaw-holdfast` (a location, not a region; that location's region is nordhalla) → Dimension 11. (d) `skald`=type=subculture vs `merryn`=type=subrace → Dimension 14. (e) `crusader` class not in CANON_REFERENCE §9 → Dimension 6.
+
+**Encoding note:** lore.json has MIXED line endings — the D11 (`human`) and D12 (`seelie_accord`) entries use LF, while the rest of the file uses CRLF. The Q2 splice normalized the human block to CRLF; seelie_accord still has LF. Not a functional issue (JSON is line-ending-agnostic) but flagged for a future normalization pass if desired.
+
+**Backups:** `lore.json.bak-dim2-trivial-20260725-231031` (baseline), `lore.json.bak-dim2-decisions-20260726-123431` (pre-Q1/Q2), `lunarchData.js.bak-dim2-trivial-20260725-231031`, `toxicologistData.js.bak-dim2-trivial-20260725-231031`, `crusaderData.js.bak-dim2-decisions-20260726-123431`.
+
+## ✅ RESOLVED — 26 Jul 2026: Dimension 3 (description vs lore consistency)
+
+Full audit script: `dimension3_audit.ps1`. Findings doc: `dimension3_audit.md`. Fix script: `apply_dim3_mimir_fixes.ps1`.
+
+**Mechanical pass:**
+- Coverage: 35/193 creatures have lore entries; 158 without (Tier 5 IP cleanup, deferred to D18).
+- Type mismatches: 3 (gref/gambrel/stel — creatures.json uses monster subtypes like "fey"/"monstrosity" while lore.json uses broad category "creature"). Two different type systems, not contradictions. Deferred to D14.
+- Duplicate-word typos: 2 → 0 (gref "stooped stooped" in description + nature; FIXED via Edit replaceAll).
+- Lore-only creature types: 0.
+- Abilities framing: `abilities.json` is keyed by creature id, not class id — prompt's D3 "abilities vs lore class entries" is a mismatch. Class abilities live in `*Data.js`, not `abilities.json`. Flagged for D8.
+
+**Prose fixes applied (mimir entry — completing D8/D9/RESOLUTIONS Tier 2):**
+1. Summary: "heartwood, storm-glass, or pine masks" → "heartwood or storm-glass masks" (D8 completion — summary was missed when fullEntry was fixed).
+2. Sereth: "whose shame at his imperfect creation drove him to hide his people from the world itself" → "who died of its own contradictions and left its people hidden in the world" (RESOLUTIONS Tier 2 completion — canonical death cause + pronoun "it/its").
+3. Duplicate Mirror Mere sentence removed (stale "Masked territory" naming from pre-D9 era; preceding canonical sentence retained).
+4. "The Woven's living craft preserves" → "The Broken Mimir's living craft preserves" (D9 completion — "Woven" was missed when D9 dropped Masked/Woven/Unwoven).
+5. rite-of-masks: "heartwood, storm-glass, or black birch" → "heartwood or storm-glass" (D8 completion — third mask-material variant).
+
+**Deferred:**
+- Deep prose scan of remaining 34 matched creatures (only mimir manually investigated).
+- 158 creatures without lore entries (D18).
+- 3 type mismatches (D14).
+- "Woven Mimir" in `the_shifting_fen` entry + 5 other stale "Woven"/"Masked" refs in lore.json/classData/deepLocationData/CANON_REFERENCE (D15).
+
+**Backups:** `lore.json.dim3-backup-20260726-131814`. Validation: 316 entries, 0 leaks, 0 mojibake.
+
+## ✅ RESOLVED — 26 Jul 2026: Dimension 4 (faction hooks consistency)
+
+Findings doc: `dimension4_audit.md`. Fix scripts: `apply_dim4_cult_fix.ps1`, `apply_dim4_brine_fix.ps1`, `apply_dim4_legacy_fix.ps1`.
+
+**Fixes applied:**
+1. **factionStore.js duplicate removal** (F4-3): Removed 15 duplicate faction entries (lines 1665-1845). Eliminated corrupted `astril-synod` (had Scoured's relationships/lore/secrets copy-pasted). 82 -> 67 entries. Syntax verified via `node --check`. Backup: `factionStore.js.dim4-backup-20260726-132701`.
+2. **Cult naming fix** (F4-1): Renamed `cult_of_the_silent_dark` -> `cult_of_forgotten_shadow` in lore.json (key, id, term, alias, summary, fullEntry — all matching D4 canon). Updated 22 `relatedLore` references in `itemLoreData.js` (20) + `weapons/index.js` (2). Backups: `lore.json.dim4-cult-backup-20260726-133732`, `itemLoreData.js.dim4-cult-backup`, `weapons-index.js.dim4-cult-backup`.
+3. **Brine-Bond Syndicate merge** (F4-2): Merged duplicate lore.json entries. Kept hyphenated `brine-bond-syndicate` (more detailed), added unique relatedTerms (`mereval-steward`, `myrathil`) from underscored entry, removed underscored `brine_bond_syndicate` entry, updated 2 cross-references. 316 -> 315 entries. Backup: `lore.json.dim4-brine-backup-20260726-134631`.
+4. **Legacy faction removal** (F4-5): Removed 6 stale factions from factionStore.js (crown-coalition, blood-hammer-highlands, canopy-concordat, wyrd-host, scoured-syndicate, leviathan-empire). Used non-existent classes (voidwalker, shadowblade, etc.), empty members, referenced pre-D9 "Fractured Mimir". 67 -> 61 entries. Syntax verified. Backup: `factionStore.js.dim4-legacy-backup-20260726-134911`.
+
+**Deferred:**
+- F4-4: Icechamber Syndicate — no lore.json or factionStore.js entry; referenced in 15+ places. Deferred to D18.
+- F4-6: Faction key naming inconsistency (hyphens vs underscores in lore.json) — cosmetic, no functional impact.
+
+**Final state:** lore.json = 315 entries, 0 leaks, 0 mojibake. factionStore.js = 61 entries, syntax valid.
+
+## ✅ RESOLVED — 26 Jul 2026: Dimension 5 (biome ecology)
+
+Findings doc: `dimension5_audit.md`. Audit script: `dimension5_audit.ps1`.
+
+**Fixes applied:**
+1. **sirrush tags** (F5-1): Replaced duplicate `"dragon"` tag with `"sundale"` in creatures.json. Tags: `["dragon","dragon","serpent","horned"]` -> `["dragon","sundale","serpent","horned"]`. Habitat clearly mentions Sundale but tag was missing.
+
+**Verified clean:**
+- Tag region vs lore.json region: 0 mismatches across all 35 creatures with lore entries.
+- No duplicate tags remaining in any creature.
+- 1 border creature (skreika) correctly tagged Nordhalla with habitat mentioning Iceheart borders — not a bug.
+- 18 creatures with habitat not explicitly mentioning region name — all verified as using location names within the correct region. Not bugs.
+
+**Final state:** creatures.json = 193 entries, all with valid region tags. No region mismatches.

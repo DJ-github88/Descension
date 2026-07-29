@@ -9,6 +9,7 @@
     flex: 1;
     display: flex;
     height: 100%;
+    position: relative;
 }
 
 .quest-list-sidebar {
@@ -16,12 +17,16 @@
     border-right: 2px solid #8b7355;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .quest-list {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 8px;
+    min-height: 0;
 }
 
 /* Quest details area */
@@ -108,32 +113,43 @@
     pointer-events: none;
 }
 
-/* Sidebar Toggle Button */
+/* Sidebar Toggle Button — sits at the right edge of the sidebar (or where it
+   would be when collapsed) and slides out of view with the sidebar. */
 .quest-sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    left: 300px; /* matches .quest-list-sidebar width */
+    transform: translate(-100%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 48px;
-    background: #8b7355;
-    border: 1px solid #7a3b2e;
+    width: 20px;
+    height: 60px;
+    background: linear-gradient(to right, #7a3b2e, #5a1e12);
+    border: 1px solid #3a3a3a;
+    border-left: none;
     color: #f0e6d2;
     cursor: pointer;
-    z-index: 10;
-    align-self: center;
-    transition: all 0.2s ease;
+    z-index: 12;
+    transition: left 0.3s ease, background 0.2s ease, color 0.2s ease, transform 0.3s ease;
     padding: 0;
-    border-radius: 0 4px 4px 0;
-    margin-left: -1px; /* Overlap the border slightly */
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    font-size: 13px;
+    line-height: 1;
 }
 
 .quest-sidebar-toggle:hover {
-    background: #7a3b2e;
+    background: linear-gradient(to right, #8a4b3e, #7a3b2e);
     color: #fff;
 }
 
 .quest-sidebar-toggle.collapsed {
-    border-left: 1px solid #7a3b2e;
-    border-radius: 0 4px 4px 0;
+    left: 0;
+    transform: translate(0, -50%);
+    border-left: 1px solid #3a3a3a;
+    border-radius: 0 6px 6px 0;
 }
+
+/* The .quest-log-content needs to be a positioning context for the
+   absolutely-positioned toggle button (declared above). */

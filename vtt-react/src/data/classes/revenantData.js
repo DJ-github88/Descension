@@ -1267,7 +1267,7 @@ The Revenant can switch between two casting modes:
         damageTypes: ["blight"],
         resolution: "DICE",
         savingThrow: {
-          ability: "charisma",
+          ability: "spirit",
           difficultyClass: 20,
           saveOutcome: "negates",
         },

@@ -94,9 +94,17 @@ export const createInfoSlice = (set, get) => ({
         if (state.race && state.subrace) {
             const raceData = getFullRaceData(state.race, state.subrace);
             if (raceData) {
-                // Standard format: "Subrace Race" e.g. "Skald Human"
-                // This matches what most users expect for a display name
-                set({ raceDisplayName: `${raceData.subrace.name} ${raceData.race.name}` });
+                // Show the most specific name. If subrace name is the same as race name
+                // (e.g. "Mimir" / "Mimir"), dedupe to one. If they differ (e.g. "Arch Mimir"
+                // vs "Mimir"), show only the subrace name since it already implies the race
+                // and avoids noisy duplicates like "Arch Mimir (Mimir)".
+                const subName = raceData.subrace.name;
+                const raceName = raceData.race.name;
+                if (subName === raceName) {
+                    set({ raceDisplayName: subName });
+                } else {
+                    set({ raceDisplayName: subName });
+                }
             }
         } else if (state.race) {
             // If only race is selected, use the race's proper name
@@ -393,7 +401,7 @@ export const createInfoSlice = (set, get) => ({
 
                 // Clear old passives and resistances when race changes
                 // Reset all resistances to normal
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+                const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                 const resetResistances = {};
                 damageTypes.forEach(type => {
                     resetResistances[type] = { level: 100, multiplier: 1.0 };
@@ -419,8 +427,10 @@ export const createInfoSlice = (set, get) => ({
                     newState.racialTraits = getRacialSpells(state.race, value);
                     newState.racialLanguages = raceData.combinedTraits.languages;
                     newState.racialSpeed = raceData.combinedTraits.speed;
-                    // Format as "Subrace (Race)" e.g. "Skald (Human)"
-                    newState.raceDisplayName = `${raceData.subrace.name} (${raceData.race.name})`;
+                    // Show only the subrace name. The race is implied by the subrace
+                    // (e.g. "Arch Mimir" already conveys the Mimir lineage), so we avoid
+                    // noisy duplicates like "Arch Mimir (Mimir)" or "Skald (Human)".
+                    newState.raceDisplayName = raceData.subrace.name;
 
                     // Apply passive stat modifiers (resistances, vulnerabilities, immunities) to character stats
                     const passiveModifiers = getRacialStatModifiers(state.race, value);
@@ -430,7 +440,7 @@ export const createInfoSlice = (set, get) => ({
                     let updatedImmunities = [...(state.immunities || [])];
 
                     // Initialize all damage type resistances if they don't exist
-                    const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+                    const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                     damageTypes.forEach(type => {
                         if (!updatedResistances[type]) {
                             updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -469,31 +479,42 @@ export const createInfoSlice = (set, get) => ({
 
                                     // Map resistance stat names to resistance types
                                     const resistanceMap = {
-                                        'physical_resistance': 'physical',
-                                        'bludgeoning_resistance': 'physical',
-                                        'piercing_resistance': 'physical',
-                                        'slashing_resistance': 'physical',
+                                        'smashing_resistance': 'smashing',
+                                        'bludgeoning_resistance': 'smashing',
+                                        'physical_resistance': 'smashing',
+                                        'stabbing_resistance': 'stabbing',
+                                        'piercing_resistance': 'stabbing',
+                                        'ranged_resistance': 'stabbing',
+                                        'slicing_resistance': 'slicing',
+                                        'slashing_resistance': 'slicing',
                                         'ember_resistance': 'ember',
                                         'fire_resistance': 'ember',
-                                        'radiant_resistance': 'ember',
                                         'rime_resistance': 'rime',
                                         'frost_resistance': 'rime',
                                         'cold_resistance': 'rime',
+                                        'ice_resistance': 'rime',
                                         'storm_resistance': 'storm',
                                         'lightning_resistance': 'storm',
-                                        'force_resistance': 'storm',
                                         'thunder_resistance': 'storm',
-                                        'arcane_resistance': 'arcane',
+                                        'electric_resistance': 'storm',
                                         'primal_resistance': 'primal',
                                         'nature_resistance': 'primal',
+                                        'arcane_resistance': 'arcane',
+                                        'force_resistance': 'arcane',
                                         'blight_resistance': 'blight',
                                         'necrotic_resistance': 'blight',
+                                        'shadow_resistance': 'blight',
                                         'void_resistance': 'blight',
+                                        'silence_resistance': 'blight',
                                         'poison_resistance': 'blight',
                                         'acid_resistance': 'blight',
                                         'wyrd_resistance': 'wyrd',
                                         'psychic_resistance': 'wyrd',
-                                        'chaos_resistance': 'wyrd'
+                                        'chaos_resistance': 'wyrd',
+                                        'sacred_resistance': 'sacred',
+                                        'radiant_resistance': 'sacred',
+                                        'holy_resistance': 'sacred',
+                                        'divine_resistance': 'sacred'
                                     };
 
                                     const resistanceType = resistanceMap[statName];
@@ -542,31 +563,42 @@ export const createInfoSlice = (set, get) => ({
 
                                         // Map immunity names to damage types or conditions
                                         const immunityMap = {
-                                            'physical': 'physical',
-                                            'bludgeoning': 'physical',
-                                            'piercing': 'physical',
-                                            'slashing': 'physical',
+                                            'smashing': 'smashing',
+                                            'bludgeoning': 'smashing',
+                                            'physical': 'smashing',
+                                            'stabbing': 'stabbing',
+                                            'piercing': 'stabbing',
+                                            'ranged': 'stabbing',
+                                            'slicing': 'slicing',
+                                            'slashing': 'slicing',
                                             'ember': 'ember',
                                             'fire': 'ember',
-                                            'radiant': 'ember',
                                             'rime': 'rime',
                                             'frost': 'rime',
                                             'cold': 'rime',
+                                            'ice': 'rime',
                                             'storm': 'storm',
                                             'lightning': 'storm',
-                                            'force': 'storm',
                                             'thunder': 'storm',
+                                            'electric': 'storm',
                                             'arcane': 'arcane',
+                                            'force': 'arcane',
                                             'primal': 'primal',
                                             'nature': 'primal',
                                             'blight': 'blight',
                                             'necrotic': 'blight',
+                                            'shadow': 'blight',
                                             'void': 'blight',
+                                            'silence': 'blight',
                                             'poison': 'blight',
                                             'acid': 'blight',
                                             'wyrd': 'wyrd',
                                             'psychic': 'wyrd',
                                             'chaos': 'wyrd',
+                                            'sacred': 'sacred',
+                                            'radiant': 'sacred',
+                                            'holy': 'sacred',
+                                            'divine': 'sacred',
                                             'disease': 'disease',
                                             'exhaustion': 'exhaustion'
                                         };
@@ -629,13 +661,16 @@ export const createInfoSlice = (set, get) => ({
 
                                     // Map legacy damage type names to new types for vulnerabilities
                                     const vulnerabilityLegacyMap = {
-                                        'cold': 'rime', 'frost': 'rime',
-                                        'fire': 'ember', 'radiant': 'ember',
-                                        'lightning': 'storm', 'force': 'storm', 'thunder': 'storm',
-                                        'acid': 'blight', 'poison': 'blight', 'necrotic': 'blight', 'void': 'blight',
-                                        'nature': 'primal',
+                                        'cold': 'rime', 'frost': 'rime', 'ice': 'rime',
+                                        'fire': 'ember',
+                                        'lightning': 'storm', 'thunder': 'storm', 'electric': 'storm',
+                                        'acid': 'blight', 'poison': 'blight', 'necrotic': 'blight', 'void': 'blight', 'shadow': 'blight', 'silence': 'blight',
+                                        'nature': 'primal', 'viscera': 'primal',
                                         'psychic': 'wyrd', 'chaos': 'wyrd',
-                                        'bludgeoning': 'physical', 'piercing': 'physical', 'slashing': 'physical'
+                                        'force': 'arcane',
+                                        'radiant': 'sacred', 'holy': 'sacred', 'divine': 'sacred',
+                                        'bludgeoning': 'smashing', 'piercing': 'stabbing', 'ranged': 'stabbing', 'slashing': 'slicing',
+                                        'physical': 'smashing'
                                     };
                                     if (vulnerabilityLegacyMap[vulnerabilityType]) {
                                         vulnerabilityType = vulnerabilityLegacyMap[vulnerabilityType];
@@ -681,7 +716,7 @@ export const createInfoSlice = (set, get) => ({
                 let updatedImmunities = [...(state.immunities || [])];
 
                 // Initialize all damage type resistances if they don't exist
-                const damageTypes = ['physical', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
+                const damageTypes = ['smashing', 'stabbing', 'slicing', 'ember', 'rime', 'storm', 'arcane', 'primal', 'blight', 'wyrd', 'sacred'];
                 damageTypes.forEach(type => {
                     if (!updatedResistances[type]) {
                         updatedResistances[type] = { level: 100, multiplier: 1.0 };
@@ -700,17 +735,42 @@ export const createInfoSlice = (set, get) => ({
 
                                 // Map resistance stat names to resistance types
                                 const resistanceMap = {
-                                    'frost_resistance': 'frost',
-                                    'cold_resistance': 'frost', // Legacy support
-                                    'fire_resistance': 'fire',
-                                    'lightning_resistance': 'lightning',
-                                    'acid_resistance': 'poison',
-                                    'force_resistance': 'force',
-                                    'necrotic_resistance': 'necrotic',
-                                    'radiant_resistance': 'radiant',
-                                    'poison_resistance': 'poison',
-                                    'psychic_resistance': 'psychic',
-                                    'thunder_resistance': 'force'
+                                    'smashing_resistance': 'smashing',
+                                    'bludgeoning_resistance': 'smashing',
+                                    'physical_resistance': 'smashing',
+                                    'stabbing_resistance': 'stabbing',
+                                    'piercing_resistance': 'stabbing',
+                                    'ranged_resistance': 'stabbing',
+                                    'slicing_resistance': 'slicing',
+                                    'slashing_resistance': 'slicing',
+                                    'ember_resistance': 'ember',
+                                    'fire_resistance': 'ember',
+                                    'rime_resistance': 'rime',
+                                    'frost_resistance': 'rime',
+                                    'cold_resistance': 'rime',
+                                    'ice_resistance': 'rime',
+                                    'storm_resistance': 'storm',
+                                    'lightning_resistance': 'storm',
+                                    'thunder_resistance': 'storm',
+                                    'electric_resistance': 'storm',
+                                    'primal_resistance': 'primal',
+                                    'nature_resistance': 'primal',
+                                    'arcane_resistance': 'arcane',
+                                    'force_resistance': 'arcane',
+                                    'blight_resistance': 'blight',
+                                    'necrotic_resistance': 'blight',
+                                    'shadow_resistance': 'blight',
+                                    'void_resistance': 'blight',
+                                    'silence_resistance': 'blight',
+                                    'poison_resistance': 'blight',
+                                    'acid_resistance': 'blight',
+                                    'wyrd_resistance': 'wyrd',
+                                    'psychic_resistance': 'wyrd',
+                                    'chaos_resistance': 'wyrd',
+                                    'sacred_resistance': 'sacred',
+                                    'radiant_resistance': 'sacred',
+                                    'holy_resistance': 'sacred',
+                                    'divine_resistance': 'sacred'
                                 };
 
                                 const resistanceType = resistanceMap[statName];
@@ -782,9 +842,21 @@ export const createInfoSlice = (set, get) => ({
                                 let vulnerabilityType = effect.statusEffect.vulnerabilityType;
                                 const vulnerabilityPercent = effect.statusEffect.vulnerabilityPercent || 0;
 
-                                // Map legacy 'cold' to 'frost' for vulnerabilities
-                                if (vulnerabilityType === 'cold') {
-                                    vulnerabilityType = 'frost';
+                                // Map legacy damage type names to canonical types for vulnerabilities
+                                const pathVulnLegacyMap = {
+                                    'cold': 'rime', 'frost': 'rime', 'ice': 'rime',
+                                    'fire': 'ember',
+                                    'lightning': 'storm', 'thunder': 'storm', 'electric': 'storm',
+                                    'acid': 'blight', 'poison': 'blight', 'necrotic': 'blight', 'void': 'blight', 'shadow': 'blight', 'silence': 'blight',
+                                    'nature': 'primal', 'viscera': 'primal',
+                                    'psychic': 'wyrd', 'chaos': 'wyrd',
+                                    'force': 'arcane',
+                                    'radiant': 'sacred', 'holy': 'sacred', 'divine': 'sacred',
+                                    'bludgeoning': 'smashing', 'piercing': 'stabbing', 'ranged': 'stabbing', 'slashing': 'slicing',
+                                    'physical': 'smashing',
+                                };
+                                if (pathVulnLegacyMap[vulnerabilityType]) {
+                                    vulnerabilityType = pathVulnLegacyMap[vulnerabilityType];
                                 }
 
                                 // Initialize resistance if it doesn't exist

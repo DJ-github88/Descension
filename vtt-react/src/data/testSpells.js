@@ -1476,7 +1476,7 @@ export const TARGETING_TEST_SPELLS = [
   },
   damageConfig: {
    formula: '2d6+STR',
-   damageTypes: ['physical'],
+    damageTypes: ['smashing'],
    resolution: 'DICE'
   },
   resourceCost: {

@@ -43,7 +43,7 @@ export const LOOT_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 8,
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -137,7 +137,7 @@ export const LOOT_ITEMS = [
       baseDamage: {
         diceCount: 1,
         diceType: 12,
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -207,7 +207,7 @@ export const LOOT_ITEMS = [
       baseDamage: {
         diceCount: 3,
         diceType: 6,
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 4,
         bonusDamageType: 'rime'
       }

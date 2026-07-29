@@ -184,7 +184,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
       spellType: 'PASSIVE',
       effectTypes: ['buff', 'debuff'],
       typeConfig: {
-        school: 'physical',
+        school: 'smashing',
         icon: 'spell_arcane_teleportundercity',
         tags: ['stillness', 'discipline', 'shared', 'passive']
       },
@@ -233,7 +233,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
       spellType: 'PASSIVE',
       effectTypes: ['buff', 'debuff'],
       typeConfig: {
-        school: 'physical',
+        school: 'smashing',
         secondaryElement: 'blight',
         icon: 'spell_shadow_mindflay',
         tags: ['respiration', 'ash-filter', 'shared', 'passive']
@@ -584,7 +584,7 @@ The Waste-Solari were the first to notice the evidence of the Sol\'s Breath's di
           spellType: 'PASSIVE',
           effectTypes: ['buff'],
           typeConfig: {
-            school: 'physical',
+            school: 'smashing',
             icon: 'ability_rogue_sprint',
             tags: ['skirmish', 'terrain-bypass', 'leap', 'passive']
           },
@@ -617,7 +617,7 @@ The Waste-Solari were the first to notice the evidence of the Sol\'s Breath's di
           spellType: 'PASSIVE',
           effectTypes: ['buff', 'debuff'],
           typeConfig: {
-            school: 'physical',
+            school: 'smashing',
             icon: 'inv_stone_02',
             tags: ['combat', 'obsidian', 'bleed', 'recoil', 'passive']
           },
@@ -663,7 +663,7 @@ The Waste-Solari were the first to notice the evidence of the Sol\'s Breath's di
           spellType: 'ACTION',
           effectTypes: ['buff'],
           typeConfig: {
-            school: 'physical',
+            school: 'smashing',
             icon: 'ability_rogue_sprint',
             tags: ['dash', 'movement', 'opportunity-attack-immunity', 'active', 'thrask']
           },

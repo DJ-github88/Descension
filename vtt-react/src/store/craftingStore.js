@@ -37,7 +37,7 @@ export const PROFESSIONS = {
     id: 'first-aid',
     name: 'First Aid',
     description: 'The skill of treating wounds and creating medical supplies',
-    icon: 'spell_holy_sealofsacrifice',
+    icon: 'professions/first-aid.png',
     implemented: true
   }
 };
@@ -73,164 +73,21 @@ const initialState = {
   // Import recipes from data files and combine with default recipes
   availableRecipes: [
     ...ALL_RECIPES,
-    // Legacy/default recipes below
-    // Basic Alchemy Recipes
-    {
-      id: 'minor-healing-potion-recipe',
-      name: 'Minor Healing Potion',
-      profession: 'alchemy',
-      description: 'A basic healing potion that restores a small amount of health.',
-      requiredLevel: 0, // Untrained can make this
-      resultItemId: 'minor-healing-potion',
-      resultIcon: 'inv_potion_51',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'peacebloom', quantity: 2 },
-        { itemId: 'silverleaf', quantity: 1 },
-        { itemId: 'empty-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 1 }
-      ],
-      craftingTime: 3000, // 3 seconds
-      experienceGained: 1,
-      craftingTimeDisplay: '3 sec',
-      category: 'healing'
-    },
-    {
-      id: 'minor-mana-potion-recipe',
-      name: 'Minor Mana Potion',
-      profession: 'alchemy',
-      description: 'A basic mana potion that restores a small amount of mana.',
-      requiredLevel: 1, // Apprentice level
-      resultItemId: 'mana-potion',
-      resultIcon: 'inv_potion_76',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'mageroyal', quantity: 1 },
-        { itemId: 'silverleaf', quantity: 1 },
-        { itemId: 'empty-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 1 }
-      ],
-      craftingTime: 4500, // 4.5 seconds
-      experienceGained: 2,
-      craftingTimeDisplay: '4.5 sec',
-      category: 'mana'
-    },
-    {
-      id: 'elixir-of-fortitude-recipe',
-      name: 'Elixir of Fortitude',
-      profession: 'alchemy',
-      description: 'An elixir that temporarily increases health and constitution.',
-      requiredLevel: 2, // Journeyman level
-      resultItemId: 'elixir-of-fortitude',
-      resultIcon: 'inv_potion_43',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'earthroot', quantity: 3 },
-        { itemId: 'peacebloom', quantity: 2 },
-        { itemId: 'crystal-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 2 },
-        { itemId: 'alchemical-catalyst', quantity: 1 }
-      ],
-      craftingTime: 6500, // 6.5 seconds
-      experienceGained: 4,
-      craftingTimeDisplay: '6.5 sec',
-      category: 'enhancement'
-    },
-    {
-      id: 'greater-healing-potion-recipe',
-      name: 'Greater Healing Potion',
-      profession: 'alchemy',
-      description: 'A potent healing potion that restores a significant amount of health.',
-      requiredLevel: 2, // Apprentice level
-      resultItemId: 'greater-healing-potion',
-      resultIcon: 'inv_potion_54',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'peacebloom', quantity: 3 },
-        { itemId: 'earthroot', quantity: 2 },
-        { itemId: 'empty-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 2 }
-      ],
-      craftingTime: 5500, // 5.5 seconds
-      experienceGained: 3,
-      craftingTimeDisplay: '5.5 sec',
-      category: 'healing'
-    },
-    {
-      id: 'elixir-of-agility-recipe',
-      name: 'Elixir of Agility',
-      profession: 'alchemy',
-      description: 'An elixir that temporarily increases agility and movement speed.',
-      requiredLevel: 3, // Journeyman level
-      resultItemId: 'elixir-of-agility',
-      resultIcon: 'inv_potion_95',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'silverleaf', quantity: 4 },
-        { itemId: 'mageroyal', quantity: 1 },
-        { itemId: 'crystal-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 2 }
-      ],
-      craftingTime: 7500, // 7.5 seconds
-      experienceGained: 5,
-      craftingTimeDisplay: '7.5 sec',
-      category: 'enhancement'
-    },
-    {
-      id: 'poison-antidote-recipe',
-      name: 'Poison Antidote',
-      profession: 'alchemy',
-      description: 'A remedy that neutralizes most common poisons.',
-      requiredLevel: 2, // Apprentice level
-      resultItemId: 'poison-antidote',
-      resultIcon: 'inv_potion_17',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'silverleaf', quantity: 3 },
-        { itemId: 'peacebloom', quantity: 1 },
-        { itemId: 'empty-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 1 }
-      ],
-      craftingTime: 6000, // 6 seconds
-      experienceGained: 3,
-      craftingTimeDisplay: '6 sec',
-      category: 'utility'
-    },
-    {
-      id: 'elixir-of-intellect-recipe',
-      name: 'Elixir of Intellect',
-      profession: 'alchemy',
-      description: 'An elixir that temporarily increases intelligence and magical power.',
-      requiredLevel: 4, // Expert level
-      resultItemId: 'elixir-of-intellect',
-      resultIcon: 'inv_potion_09',
-      resultQuantity: 1,
-      materials: [
-        { itemId: 'mageroyal', quantity: 3 },
-        { itemId: 'earthroot', quantity: 2 },
-        { itemId: 'crystal-vial', quantity: 1 },
-        { itemId: 'distilled-water', quantity: 2 },
-        { itemId: 'alchemical-catalyst', quantity: 1 }
-      ],
-      craftingTime: 9000, // 9 seconds
-      experienceGained: 7,
-      craftingTimeDisplay: '9 sec',
-      category: 'enhancement'
-    },
-    // First Aid Recipes
+    // First Aid Recipes — not in data/recipes/, kept here.
+    // Material IDs updated to match the canonical item library.
     {
       id: 'basic-bandage-recipe',
       name: 'Basic Bandage',
       profession: 'first-aid',
       description: 'A simple cloth bandage used to stop bleeding and provide basic wound care.',
-      requiredLevel: 0, // Untrained can make this
+      requiredLevel: 0,
       resultItemId: 'basic-bandage',
       resultIcon: 'inv_misc_bandage_01',
       resultQuantity: 1,
       materials: [
-        { itemId: 'linen-cloth', quantity: 1 }
+        { itemId: 'linen-fiber', quantity: 1 }
       ],
-      craftingTime: 2000, // 2 seconds
+      craftingTime: 2000,
       experienceGained: 1,
       craftingTimeDisplay: '2 sec',
       category: 'bandage'
@@ -240,15 +97,15 @@ const initialState = {
       name: 'Heavy Bandage',
       profession: 'first-aid',
       description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
-      requiredLevel: 1, // Novice level
+      requiredLevel: 1,
       resultItemId: 'heavy-bandage',
       resultIcon: 'inv_misc_bandage_02',
       resultQuantity: 1,
       materials: [
-        { itemId: 'linen-cloth', quantity: 2 },
-        { itemId: 'healing-herb', quantity: 1 }
+        { itemId: 'linen-fiber', quantity: 2 },
+        { itemId: 'ashflower', quantity: 1 }
       ],
-      craftingTime: 3000, // 3 seconds
+      craftingTime: 3000,
       experienceGained: 2,
       craftingTimeDisplay: '3 sec',
       category: 'bandage'
@@ -258,16 +115,16 @@ const initialState = {
       name: 'Antiseptic Salve',
       profession: 'first-aid',
       description: 'A medicinal salve that prevents infection and promotes healing.',
-      requiredLevel: 2, // Journeyman level
+      requiredLevel: 2,
       resultItemId: 'antiseptic-salve',
       resultIcon: 'inv_misc_slime_01',
       resultQuantity: 1,
       materials: [
-        { itemId: 'healing-herb', quantity: 2 },
-        { itemId: 'aloe-vera', quantity: 1 },
-        { itemId: 'small-jar', quantity: 1 }
+        { itemId: 'ashflower', quantity: 2 },
+        { itemId: 'bitterroot', quantity: 1 },
+        { itemId: 'glass-vial', quantity: 1 }
       ],
-      craftingTime: 5000, // 5 seconds
+      craftingTime: 5000,
       experienceGained: 3,
       craftingTimeDisplay: '5 sec',
       category: 'salve'
@@ -277,16 +134,16 @@ const initialState = {
       name: 'Healing Kit',
       profession: 'first-aid',
       description: 'A complete medical kit containing bandages, salves, and basic medical tools.',
-      requiredLevel: 2, // Journeyman level
+      requiredLevel: 2,
       resultItemId: 'first-aid-kit',
       resultIcon: 'inv_misc_bag_10',
       resultQuantity: 1,
       materials: [
-        { itemId: 'linen-cloth', quantity: 3 },
-        { itemId: 'healing-herb', quantity: 2 },
-        { itemId: 'medical-tools', quantity: 1 }
+        { itemId: 'linen-fiber', quantity: 3 },
+        { itemId: 'ashflower', quantity: 2 },
+        { itemId: 'waxed-thread', quantity: 1 }
       ],
-      craftingTime: 7000, // 7 seconds
+      craftingTime: 7000,
       experienceGained: 4,
       craftingTimeDisplay: '7 sec',
       category: 'kit'
@@ -296,16 +153,16 @@ const initialState = {
       name: 'Herbal Poultice',
       profession: 'first-aid',
       description: 'A warm herbal poultice that soothes pain and accelerates natural healing.',
-      requiredLevel: 3, // Journeyman level
+      requiredLevel: 3,
       resultItemId: 'herbal-poultice',
       resultIcon: 'inv_misc_herb_07',
       resultQuantity: 1,
       materials: [
-        { itemId: 'healing-herb', quantity: 3 },
-        { itemId: 'aloe-vera', quantity: 2 },
-        { itemId: 'linen-cloth', quantity: 1 }
+        { itemId: 'ashflower', quantity: 3 },
+        { itemId: 'bitterroot', quantity: 2 },
+        { itemId: 'linen-fiber', quantity: 1 }
       ],
-      craftingTime: 6000, // 6 seconds
+      craftingTime: 6000,
       experienceGained: 5,
       craftingTimeDisplay: '6 sec',
       category: 'poultice'
@@ -315,16 +172,16 @@ const initialState = {
       name: 'Medical Splint',
       profession: 'first-aid',
       description: 'A sturdy splint used to immobilize broken or fractured bones.',
-      requiredLevel: 3, // Journeyman level
+      requiredLevel: 3,
       resultItemId: 'medical-splint',
       resultIcon: 'inv_misc_bone_01',
       resultQuantity: 1,
       materials: [
-        { itemId: 'wooden-stick', quantity: 2 },
-        { itemId: 'linen-cloth', quantity: 2 },
-        { itemId: 'leather-strip', quantity: 1 }
+        { itemId: 'wooden-haft', quantity: 2 },
+        { itemId: 'linen-fiber', quantity: 2 },
+        { itemId: 'leather-straps', quantity: 1 }
       ],
-      craftingTime: 8000, // 8 seconds
+      craftingTime: 8000,
       experienceGained: 5,
       craftingTimeDisplay: '8 sec',
       category: 'splint'
@@ -334,17 +191,17 @@ const initialState = {
       name: 'Advanced Healing Kit',
       profession: 'first-aid',
       description: 'An advanced medical kit with specialized tools and high-quality supplies for treating serious injuries.',
-      requiredLevel: 4, // Expert level
+      requiredLevel: 4,
       resultItemId: 'advanced-healing-kit',
       resultIcon: 'inv_misc_bag_11',
       resultQuantity: 1,
       materials: [
-        { itemId: 'linen-cloth', quantity: 5 },
-        { itemId: 'healing-herb', quantity: 3 },
-        { itemId: 'medical-tools', quantity: 2 },
+        { itemId: 'linen-fiber', quantity: 5 },
+        { itemId: 'ashflower', quantity: 3 },
+        { itemId: 'waxed-thread', quantity: 2 },
         { itemId: 'first-aid-kit', quantity: 1 }
       ],
-      craftingTime: 10000, // 10 seconds
+      craftingTime: 10000,
       experienceGained: 7,
       craftingTimeDisplay: '10 sec',
       category: 'kit'
@@ -568,18 +425,32 @@ const useCraftingStore = create(
     }),
     {
       name: 'crafting-storage',
-      version: 3,
+      version: 4,
       migrate: (persistedState, version) => {
         const safePersisted = persistedState || {};
+
+        // v4: Replace availableRecipes entirely with the canonical set.
+        // Older versions had legacy alchemy recipes with item IDs that don't
+        // exist in the item library (peacebloom, silverleaf, linen-cloth, etc).
+        // A clean replacement ensures only valid recipes remain.
+        if (version < 4) {
+          return {
+            ...safePersisted,
+            ...initialState,
+            // Preserve player progress
+            knownRecipes: { ...initialState.knownRecipes, ...(safePersisted.knownRecipes || {}) },
+            professionLevels: { ...initialState.professionLevels, ...(safePersisted.professionLevels || {}) },
+            professionExperience: { ...initialState.professionExperience, ...(safePersisted.professionExperience || {}) },
+            availableRecipes: initialState.availableRecipes
+          };
+        }
+
+        // v4+: just merge new recipes into existing ones
         const currentRecipes = safePersisted.availableRecipes || [];
         const initialStateRecipes = initialState.availableRecipes;
-        
-        // Create a map of existing recipe IDs
         const existingIds = new Set(currentRecipes.map(r => r.id));
-        
-        // Add new recipes that don't exist
         const newRecipes = initialStateRecipes.filter(r => !existingIds.has(r.id));
-        
+
         return {
           ...safePersisted,
           ...initialState,

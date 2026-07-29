@@ -176,7 +176,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
       ...(itemData.type === 'weapon' && itemData.weaponStats && {
         weaponStats: {
           damage: itemData.weaponStats.damage || { min: 0, max: 0 },
-          damageType: itemData.weaponStats.damageType || 'physical',
+          damageType: itemData.weaponStats.damageType || 'smashing',
           critChance: itemData.weaponStats.critChance || 0,
           critMultiplier: itemData.weaponStats.critMultiplier || 2,
           attackSpeed: itemData.weaponStats.attackSpeed || 1,

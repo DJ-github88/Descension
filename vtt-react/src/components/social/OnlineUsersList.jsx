@@ -22,12 +22,11 @@ import UserCard from './UserCard';
 import ConfirmationDialog from '../item-generation/ConfirmationDialog';
 import '../../styles/social-window.css';
 
-const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
+const OnlineUsersList = ({ activeTab, setActiveTab, onUserClick, onWhisper, onInviteToRoom }) => {
   const navigate = useNavigate();
   const windowScale = useSettingsStore(state => state.windowScale);
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
-  const [activeTab, setActiveTab] = useState('online'); // 'online', 'friends', 'ignored', or 'party'
   const [statusComment, setStatusComment] = useState('');
   const [statusCommentDraft, setStatusCommentDraft] = useState('');
   const [showAddFriendPopup, setShowAddFriendPopup] = useState(false);
@@ -226,7 +225,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     const targetUserId = contextMenu.user.userId || contextMenu.user.id || contextMenu.user.uid;
     const member = partyMembers.find(m => m.id === targetUserId);
     if (member) {
-      console.log('ðŸ - ‘ï¸ Removing party member:', member.name);
+      console.log('ï¿½ - ï¿½ï¸ Removing party member:', member.name);
       kickPartyMember(member.id);
     }
     closeContextMenu();
@@ -611,50 +610,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   return (
     <div className="online-users-list" onClick={handleOutsideClick}>
-      {/* Header with Tabs */}
-      <div className="users-list-header">
-
-        <div className="users-tabs">
-          <button
-            className={`users-tab ${activeTab === 'online' ? 'active' : ''}`}
-            onClick={() => setActiveTab('online')}
-            title="Online Users"
-          >
-            <i className="fas fa-globe"></i>
-            {onlineUsers.length > 0 && <span className="tab-count">{onlineUsers.length}</span>}
-          </button>
-          {!user?.isGuest && (
-            <button
-              className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
-              onClick={() => setActiveTab('friends')}
-              title="Friends"
-            >
-              <i className="fas fa-user-friends"></i>
-              {filteredFriends.length > 0 && <span className="tab-count">{filteredFriends.length}</span>}
-            </button>
-          )}
-          {!user?.isGuest && (
-            <button
-              className={`users-tab ${activeTab === 'ignored' ? 'active' : ''}`}
-              onClick={() => setActiveTab('ignored')}
-              title="Ignored Users"
-            >
-              <i className="fas fa-user-slash"></i>
-              {ignored.length > 0 && <span className="tab-count">{ignored.length}</span>}
-            </button>
-          )}
-          <button
-            className={`users-tab ${activeTab === 'party' ? 'active' : ''}`}
-            onClick={() => setActiveTab('party')}
-            title="Party Members"
-          >
-            <i className="fas fa-users"></i>
-            {isInParty && partyMembers.length > 0 && <span className="tab-count">{partyMembers.length}</span>}
-          </button>
-        </div>
-      </div>
-
-      {/* Search */}
+      {/* Search â€” view is now controlled by the COMMUNITY header dropdown */}
       <div className="users-search">
         <i className="fas fa-search"></i>
         <input

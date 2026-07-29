@@ -52,7 +52,16 @@ export const CHRONARCH_DATA = {
  * to Frostmaw. Each subrace treats the same temporal engine as a different object:
  * machine, body, or anchor.
  */
- subraceVariants: {
+ 
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['staff', 'orb', 'wand'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['orb', 'tome', 'wand']
+  },
+subraceVariants: {
  kethrin_fexrick: {
    subraceName: 'Clockwork Fexric - Fexric',
   title: 'The Gear-Stitcher',
@@ -1754,7 +1763,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Tempus Repetere",
-  somaticText: "Form a loop with index and thumb, pinning the target's timeline coordinate with a gray focus."
+  somaticText: "Form a loop with inagility and thumb, pinning the target's timeline coordinate with a gray focus."
   },
   resolution: "SAVE",
   effectTypes: ["debuff"],
@@ -2113,7 +2122,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   actionPoints: 1,
   components: ["verbal", "somatic"],
   verbalText: "Fluxus Resurgere",
-  somaticText: "Touch the fallen ally's heart, transferring their physical damage vectors into yourself as somatic strain."
+  somaticText: "Touch the fallen ally's heart, transferring their smashing damage vectors into yourself as somatic strain."
   },
   resolution: "DICE",
   effectTypes: ["healing"],

@@ -7,6 +7,13 @@
   background: linear-gradient(145deg, #f5f0e1 0%, #e8dcc6 100%);
 }
 
+/* Locked/restricted window: hides the redundant title bar that MythrillWindow
+   would otherwise render, giving the close button a clean top-right spot. */
+.journal-locked-window .wow-window-close-btn {
+  top: 10px !important;
+  right: 14px !important;
+}
+
 /* Journal tabs now use spellbook-tab-container and spellbook-tab-button classes from wow-window.css */
 
 /* Folder Bar */
@@ -1593,7 +1600,7 @@
 }
 
 .journal-locked-container.basic-lock {
-  background: linear-gradient(135deg, #1f252b 0%, #0e1115 100%);
+  background: linear-gradient(135deg, #2b251f 0%, #15110e 100%);
 }
 
 .journal-locked-card {
@@ -1612,7 +1619,7 @@
 }
 
 .journal-locked-container.basic-lock .journal-locked-card {
-  border-color: rgba(74, 158, 255, 0.15);
+  border-color: rgba(212, 175, 55, 0.15);
 }
 
 .journal-locked-icon-wrapper {
@@ -1629,9 +1636,9 @@
 }
 
 .journal-locked-icon-wrapper.basic {
-  background: rgba(74, 158, 255, 0.1);
-  border-color: rgba(74, 158, 255, 0.3);
-  box-shadow: 0 0 15px rgba(74, 158, 255, 0.2);
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
 .journal-locked-icon {
@@ -1640,7 +1647,7 @@
 }
 
 .journal-locked-icon-wrapper.basic .journal-locked-icon {
-  color: #4a9eff;
+  color: #d4af37;
 }
 
 .journal-locked-card h2 {

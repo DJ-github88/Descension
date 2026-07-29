@@ -23,7 +23,7 @@ import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
 import Button from '../common/Button';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -121,6 +121,22 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
         lore: state.lore
+    }));
+
+    // Subscribe to characterImage separately for reliable HUD portrait updates
+    const currentPlayerCharImage = useCharacterStore(state => state.lore?.characterImage || null);
+    const currentPlayerCharIcon = useCharacterStore(state => state.lore?.characterIcon || null);
+    const currentPlayerImgTransforms = useCharacterStore(state => state.lore?.imageTransformations || null);
+    const currentPlayerIconSettings = useCharacterStore(state => ({
+        iconBackgroundColor: state.lore?.iconBackgroundColor || null,
+        iconBorderColor: state.lore?.iconBorderColor || null,
+        iconBackgroundImage: state.lore?.iconBackgroundImage || null,
+        iconScale: state.lore?.iconScale ?? 1,
+        iconOffsetX: state.lore?.iconOffsetX ?? 0,
+        iconOffsetY: state.lore?.iconOffsetY ?? 0,
+        iconBackgroundScale: state.lore?.iconBackgroundScale ?? 2.5,
+        iconBackgroundOffsetX: state.lore?.iconBackgroundOffsetX ?? 0,
+        iconBackgroundOffsetY: state.lore?.iconBackgroundOffsetY ?? 0,
     }));
 
     // Only use store data if this is the current player
@@ -862,6 +878,108 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 className={`party-member-frame portrait-size-${hudPortraitSize} ${isCurrentPlayer ? 'current-player' : ''} ${isTargeted ? 'targeted' : ''} ${hasClassResource ? 'has-class-resource' : ''} ${hasClassResource ? `class-${classResourceType}` : ''}`}
                 onContextMenu={handleRightClick}
             >
+                {/* Portrait: absolutely positioned by CSS into the frame's portrait cutout */}
+                <div className="party-portrait">
+                    {(() => {
+                        // For current player, use direct store subscriptions (always up to date)
+                        // For party members, fall back to member.character.lore
+                        const charImage = isCurrentPlayer
+                            ? currentPlayerCharImage
+                            : (member.character?.lore?.characterImage || null);
+                        const charIcon = isCurrentPlayer
+                            ? currentPlayerCharIcon
+                            : (member.character?.lore?.characterIcon || null);
+                        const transforms = isCurrentPlayer
+                            ? currentPlayerImgTransforms
+                            : (member.character?.lore?.imageTransformations || null);
+                        const iconSettings = isCurrentPlayer
+                            ? currentPlayerIconSettings
+                            : {
+                                iconBackgroundColor: member.character?.lore?.iconBackgroundColor || null,
+                                iconBorderColor: member.character?.lore?.iconBorderColor || null,
+                                iconBackgroundImage: member.character?.lore?.iconBackgroundImage || null,
+                                iconScale: member.character?.lore?.iconScale ?? 1,
+                                iconOffsetX: member.character?.lore?.iconOffsetX ?? 0,
+                                iconOffsetY: member.character?.lore?.iconOffsetY ?? 0,
+                                iconBackgroundScale: member.character?.lore?.iconBackgroundScale ?? 2.5,
+                                iconBackgroundOffsetX: member.character?.lore?.iconBackgroundOffsetX ?? 0,
+                                iconBackgroundOffsetY: member.character?.lore?.iconBackgroundOffsetY ?? 0,
+                            };
+
+                        // Resolve the portrait: prefer characterImage (uploaded), fall back to characterIcon (built-in)
+                        const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : null);
+
+                        if (resolvedImage) {
+                            // For icons: show scene background behind the icon, matching character sheet style
+                            const isIcon = !charImage && charIcon;
+                            const containerStyle = {
+                                width: '100%',
+                                height: '100%',
+                                backgroundRepeat: 'no-repeat',
+                            };
+
+                            if (isIcon) {
+                                // Scene background behind the icon
+                                containerStyle.backgroundColor = iconSettings.iconBackgroundColor || '#f8f5eb';
+                                if (iconSettings.iconBackgroundImage) {
+                                    containerStyle.backgroundImage = `url(/assets/backgrounds/${encodeURIComponent(iconSettings.iconBackgroundImage)})`;
+                                    containerStyle.backgroundSize = `${(iconSettings.iconBackgroundScale || 2.5) * 100}%`;
+                                    containerStyle.backgroundPosition = `calc(50% + ${iconSettings.iconBackgroundOffsetX || 0}px) calc(50% + ${iconSettings.iconBackgroundOffsetY || 0}px)`;
+                                }
+                                containerStyle.display = 'flex';
+                                containerStyle.alignItems = 'center';
+                                containerStyle.justifyContent = 'center';
+                            }
+
+                            return (
+                                <div style={containerStyle}>
+                                    {isIcon ? (
+                                        <img
+                                            src={resolvedImage}
+                                            style={{
+                                                width: '80%',
+                                                height: '80%',
+                                                objectFit: 'contain',
+                                                transform: `scale(${iconSettings.iconScale || 1}) translate(${iconSettings.iconOffsetX || 0}px, ${iconSettings.iconOffsetY || 0}px)`,
+                                            }}
+                                            draggable={false}
+                                        />
+                                    ) : (
+                                        <div style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            backgroundImage: `url(${resolvedImage})`,
+                                            backgroundSize: transforms ? `${(transforms.scale || 1) * 130}%` : '140%',
+                                            backgroundPosition: transforms
+                                                ? `${50 + (transforms.positionX || 0) / 2}% ${50 - (transforms.positionY || 0) / 2}%`
+                                                : 'center 10%',
+                                            backgroundRepeat: 'no-repeat',
+                                            transform: transforms ? `rotate(${transforms.rotation || 0}deg)` : 'none',
+                                        }} />
+                                    )}
+                                </div>
+                            );
+                        }
+                        // Fallback: initial letter
+                        return (
+                            <div style={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '13px',
+                                fontWeight: 'bold',
+                                color: '#c8a96b',
+                                background: 'linear-gradient(135deg, #2a1b0e, #3d2a1d)',
+                                fontFamily: "'Cinzel', serif",
+                            }}>
+                                {(member.name || '?').charAt(0).toUpperCase()}
+                            </div>
+                        );
+                    })()}
+                </div>
+
                 {/* Info Section */}
                 <div className="party-member-info">
                     <div className="member-header">
@@ -2939,6 +3057,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Simple rule: Show HUDs for all room members
     // No complex leadership - room creator is GM, others are players
     // CRITICAL FIX: Filter to only show connected members or current-player
+    const seenMemberKeys = new Set();
     const displayMembers = partyMembers
         .filter(member => {
             // Always show current player
@@ -2948,6 +3067,15 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             if (isSelf || member.id === 'current-player') return true;
             // Only show other members if they are actually connected to the room
             return member.isConnected === true;
+        })
+        .filter(member => {
+            const isSelf = isSelfId(member.userId, member.userId, myIds) ||
+                isSelfId(member.id, member.userId, myIds) ||
+                isSelfId(member.socketId, member.userId, myIds);
+            const dedupKey = isSelf ? 'SELF_PLAYER' : (member.userId || member.id || member.socketId || member.name);
+            if (seenMemberKeys.has(dedupKey)) return false;
+            seenMemberKeys.add(dedupKey);
+            return true;
         })
         .map(member => {
             // Update current player with live character data

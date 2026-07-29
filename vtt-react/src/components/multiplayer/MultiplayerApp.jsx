@@ -82,9 +82,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     sessionStorage.setItem('enteringMultiplayer', 'true');
     return () => {
-      // Clear flag and reset targeting when leaving multiplayer
+      // Clear flag and reset stores when leaving multiplayer
       sessionStorage.removeItem('enteringMultiplayer');
       useTargetingStore.getState().resetStore?.();
+      usePartyStore.getState().resetStore?.();
     };
   }, []);
 

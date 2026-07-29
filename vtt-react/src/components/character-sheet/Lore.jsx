@@ -31,7 +31,7 @@ const BORDER_COLORS = [
 ];
 
 
-export default function Lore() {
+export default function Lore({ initialSection }) {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
     // PERFORMANCE OPTIMIZATION: Use selector to only subscribe to needed values
@@ -74,8 +74,15 @@ export default function Lore() {
     // Token settings are only available when not in inspection mode
     const { tokenSettings, updateTokenSettings } = inspectionData ? { tokenSettings: null, updateTokenSettings: null } : characterStore;
 
-    const [activeSection, setActiveSection] = useState('identity');
+    const [activeSection, setActiveSection] = useState(initialSection || 'identity');
     const [subPage, setSubPage] = useState(0);
+
+    // Sync activeSection when initialSection prop changes from dropdown selection
+    useEffect(() => {
+        if (initialSection) {
+            setActiveSection(initialSection);
+        }
+    }, [initialSection]);
 
     // Reset sub-page when active section changes
     useEffect(() => {
@@ -882,23 +889,47 @@ export default function Lore() {
         );
     };
 
+    // Section key mapping to ensure all sub-section IDs resolve safely
+    const SECTION_MAP = {
+        identity: 'identity',
+        heritage: 'heritage',
+        demeanor: 'personality',
+        ideals: 'personality',
+        bonds: 'relationships',
+        flaws: 'personality',
+        goals: 'goals',
+        fears: 'goals',
+        appearance: 'appearance',
+        allies: 'relationships',
+        enemies: 'relationships',
+        organizations: 'relationships',
+        notes: 'notes',
+        personality: 'personality',
+        relationships: 'relationships'
+    };
+
+    const resolvedSectionKey = SECTION_MAP[activeSection] || (sections[activeSection] ? activeSection : 'identity');
+    const currentSecData = sections[resolvedSectionKey] || sections.identity;
+
     const renderLeftFields = () => {
         return (
             <>
                 <div className="lore-section-header-enhanced">
                     <div className="section-title-wrapper">
-                        <img
-                            src={sections[activeSection].icon}
-                            alt=""
-                            className="lore-section-icon-enhanced"
-                        />
-                        <h2 className="lore-section-title-enhanced">{sections[activeSection].title}</h2>
+                        {currentSecData.icon && (
+                            <img
+                                src={currentSecData.icon}
+                                alt=""
+                                className="lore-section-icon-enhanced"
+                            />
+                        )}
+                        <h2 className="lore-section-title-enhanced">{currentSecData.title}</h2>
                     </div>
                     <div className="decorative-single-hr"></div>
                 </div>
 
                 <div className="lore-fields-enhanced">
-                    {sections[activeSection].leftFields.map(renderField)}
+                    {(currentSecData.leftFields || []).map(renderField)}
                 </div>
             </>
         );
@@ -951,22 +982,24 @@ export default function Lore() {
     const renderRightFields = () => {
         return (
             <>
-                {(!sections[activeSection].leftFields || sections[activeSection].leftFields.length === 0) && (
+                {(!currentSecData.leftFields || currentSecData.leftFields.length === 0) && (
                     <div className="lore-section-header-enhanced">
                         <div className="section-title-wrapper">
-                            <img
-                                src={sections[activeSection].icon}
-                                alt=""
-                                className="lore-section-icon-enhanced"
-                            />
-                            <h2 className="lore-section-title-enhanced">{sections[activeSection].title}</h2>
+                            {currentSecData.icon && (
+                                <img
+                                    src={currentSecData.icon}
+                                    alt=""
+                                    className="lore-section-icon-enhanced"
+                                />
+                            )}
+                            <h2 className="lore-section-title-enhanced">{currentSecData.title}</h2>
                         </div>
                         <div className="decorative-single-hr"></div>
                     </div>
                 )}
 
                 <div className="lore-fields-enhanced">
-                    {sections[activeSection].rightFields && sections[activeSection].rightFields.map(renderField)}
+                    {(currentSecData.rightFields || []).map(renderField)}
                 </div>
             </>
         );
@@ -1002,7 +1035,7 @@ export default function Lore() {
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? '� - �' : '▶'}</span>
+                    <span className="stats-toggle-icon">{showLabels ? ' - ' : '▶'}</span>
                 </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button
@@ -1026,20 +1059,20 @@ export default function Lore() {
                         <div className="page-filigree-border">
                             <div className="page-ornament top-ornament"></div>
                             <div className="book-page-content">
-                                {activeSection === 'identity' ? (
+                                {resolvedSectionKey === 'identity' ? (
                                     subPage === 0 ? (
                                         renderPortraitSummary()
                                     ) : (
                                         renderBackstoryPage()
                                     )
-                                ) : sections[activeSection].leftFields && sections[activeSection].leftFields.length > 0 ? (
+                                ) : currentSecData.leftFields && currentSecData.leftFields.length > 0 ? (
                                     renderLeftFields()
                                 ) : (
                                     renderPortraitSummary()
                                 )}
                             </div>
                             <div className="page-footer-strip">
-                                {activeSection === 'identity' && subPage === 1 ? (
+                                {resolvedSectionKey === 'identity' && subPage === 1 ? (
                                     <button
                                         type="button"
                                         className="book-page-flip-btn prev-page"
@@ -1053,7 +1086,7 @@ export default function Lore() {
                                     <span className="page-footer-spacer"></span>
                                 )}
                                 <div className="page-number-marker">
-                                    {activeSection === 'identity' ? (subPage === 0 ? 'Page I' : 'Page III') : 'Page I'}
+                                    {resolvedSectionKey === 'identity' ? (subPage === 0 ? 'Page I' : 'Page III') : 'Page I'}
                                 </div>
                                 <span className="page-footer-spacer"></span>
                             </div>
@@ -1072,13 +1105,13 @@ export default function Lore() {
                         <div className="page-filigree-border">
                             <div className="page-ornament top-ornament"></div>
                             <div className="book-page-content">
-                                {activeSection === 'identity' ? (
+                                {resolvedSectionKey === 'identity' ? (
                                     subPage === 0 ? (
                                         renderIdentityInputs()
                                     ) : (
                                         renderDecorativeFantasyPage()
                                     )
-                                ) : sections[activeSection].customRender ? (
+                                ) : currentSecData.customRender ? (
                                     renderHeritageSection()
                                 ) : (
                                     renderRightFields()
@@ -1087,9 +1120,9 @@ export default function Lore() {
                             <div className="page-footer-strip">
                                 <span className="page-footer-spacer"></span>
                                 <div className="page-number-marker">
-                                    {activeSection === 'identity' ? (subPage === 0 ? 'Page II' : 'Page IV') : 'Page II'}
+                                    {resolvedSectionKey === 'identity' ? (subPage === 0 ? 'Page II' : 'Page IV') : 'Page II'}
                                 </div>
-                                {activeSection === 'identity' && subPage === 0 ? (
+                                {resolvedSectionKey === 'identity' && subPage === 0 ? (
                                     <button
                                         type="button"
                                         className="book-page-flip-btn next-page"

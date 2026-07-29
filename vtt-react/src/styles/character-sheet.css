@@ -14,6 +14,14 @@
     --my-text-primary: #5c4033 !important;
     --my-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     --my-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+
+    /* Prevent text selection and the browser's default right-click menu   */
+    /* so they don't break immersion. Our custom context menus (e.g.      */
+    /* UnequipContextMenu) still work via React's onContextMenu handlers. */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Character Sheet - COMPLETELY ISOLATED */
@@ -32,6 +40,25 @@
     isolation: isolate;
     contain: layout style;
     background-image: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
+
+    /* Prevent text selection and default browser context menu from breaking */
+    /* the tabletop feel. Custom context menus (UnequipContextMenu, etc.)   */
+    /* still work via React's onContextMenu handlers.                     */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Inputs and textareas in the character sheet still need to be selectable
+   and editable - re-enable selection only for those. */
+.character-sheet input,
+.character-sheet textarea,
+.character-sheet [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 /* Clean Character Header */
@@ -827,11 +854,108 @@
 /* Equipment Layout Around Character */
 .equipment-layout {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     align-items: flex-start;
     justify-content: center;
-    padding: 10px;
+    padding: 32px 6px 8px 6px;
     flex-wrap: nowrap;
+}
+
+/* ============================================================ */
+/* 5-column row: stats-left | gear+portrait | stats-right        */
+/* Only enabled at wide viewports (>=1300px). Below that, the   */
+/* responsive media queries stack the layout vertically so no    */
+/* horizontal scrollbar can ever appear.                         */
+/* ============================================================ */
+.equipment-with-sides {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 220px;
+    gap: 22px;
+    align-items: start;
+    justify-items: center;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto 18px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.equipment-side {
+    width: 220px;
+    min-width: 0;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.equipment-side--left {
+    align-items: stretch;
+}
+
+.equipment-side--right {
+    align-items: stretch;
+}
+
+.equipment-center {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+}
+
+/* Decorative top-of-column accent line for the stat side panels */
+.equipment-side--left > .wow-base-stats-panel,
+.equipment-side--left > .vitals-stats-column,
+.equipment-side--right > .vitals-stats-column,
+.equipment-side--right > .vitals-resistance-strip {
+    position: relative;
+}
+
+.equipment-side--left > .wow-base-stats-panel::before,
+.equipment-side--right > .vitals-stats-column::before,
+.equipment-side--right > .vitals-resistance-strip::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8b7355, transparent);
+}
+
+/* Column header label at the top of each stat side panel.         */
+/* Uses a parchment-gradient background with a subtle text shadow    */
+/* so the header stays readable on any underlying texture (e.g.     */
+/* the character-view landscape background).                        */
+.equipment-side--left::before,
+.equipment-side--right::before {
+    content: attr(data-column-label);
+    display: block;
+    text-align: center;
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a2e1b;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 7px 8px 8px;
+    margin: 0 0 8px;
+    border: 1px solid #8b7355;
+    border-radius: 6px;
+    background:
+        linear-gradient(180deg,
+            rgba(250, 246, 238, 0.95) 0%,
+            rgba(232, 218, 192, 0.92) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 1px 3px rgba(107, 83, 68, 0.18);
+    text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7),
+        0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 /* Floating Potion Strip: across top of equipment grid */
@@ -859,9 +983,9 @@
 .left-equipment {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     align-items: center;
-    min-width: 60px;
+    min-width: 50px;
     justify-content: flex-start;
     padding-top: 0;
 }
@@ -873,15 +997,15 @@
     align-items: center;
     gap: 0;
     position: relative;
-    height: 518px;
+    height: 430px;
     justify-content: flex-start;
 }
 
 /* Equipment tab character image container - FORCE rectangular styling */
 .equipment-content .character-image-container,
 .character-sheet .equipment-content .character-image-container {
-    width: 280px !important;
-    height: 440px !important;
+    width: 240px !important;
+    height: 360px !important;
     max-width: 100% !important;
     border: 3px solid #8b7355 !important;
     border-radius: 8px !important;
@@ -938,9 +1062,9 @@
 .right-equipment {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     align-items: center;
-    min-width: 60px;
+    min-width: 50px;
     justify-content: flex-start;
     padding-top: 0;
 }
@@ -1062,207 +1186,213 @@
 /* Special styling for level and experience stats */
 .level-stat-row,
 .experience-stat-row {
-    padding: 18px 18px 12px 18px !important;
-    min-height: 100px !important;
-    margin-top: 20px !important;
-    margin-bottom: 10px !important;
+    padding: 16px 32px 14px 40px;
+    min-height: 90px;
+    margin-top: 16px;
+    margin-bottom: 12px;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.8) 0%,
-        rgba(250, 245, 235, 0.7) 100%) !important;
-    border: 2px solid rgba(139, 115, 85, 0.6) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    position: relative !important;
+        rgba(250, 245, 235, 0.7) 100%);
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 /* Apply same layout to all stats */
 .enhanced-stat-row {
-    padding: 18px 18px 12px 18px !important;
-    min-height: 100px !important;
-    margin-bottom: 10px !important;
+    padding: 16px 36px 14px 48px;
+    min-height: 90px;
+    margin-bottom: 12px;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.8) 0%,
-        rgba(250, 245, 235, 0.7) 100%) !important;
-    border: 2px solid rgba(139, 115, 85, 0.6) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    position: relative !important;
+        rgba(250, 245, 235, 0.7) 100%);
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 /* First stat in each group should have top margin */
 .enhanced-stat-row:first-child {
-    margin-top: 20px !important;
+    margin-top: 16px;
 }
 
 /* Apply same layout to all summary stats (backward compatibility) */
 .summary-stat-row {
-    padding: 18px 18px 12px 18px !important;
-    min-height: 100px !important;
-    margin-bottom: 10px !important;
+    padding: 16px 36px 14px 48px;
+    min-height: 90px;
+    margin-bottom: 12px;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.8) 0%,
-        rgba(250, 245, 235, 0.7) 100%) !important;
-    border: 2px solid rgba(139, 115, 85, 0.6) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    position: relative !important;
+        rgba(250, 245, 235, 0.7) 100%);
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 /* First summary stat should have top margin */
 .summary-stat-row:first-child {
-    margin-top: 20px !important;
+    margin-top: 16px;
 }
 
 /* Top row container for level/experience and all summary stats */
 .level-experience-top-row {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0;
 }
 
 .level-stat-row .stat-label-container,
 .experience-stat-row .stat-label-container,
 .summary-stat-row .stat-label-container,
 .enhanced-stat-row .stat-label-container {
-    display: flex !important;
-    align-items: center !important;
-    gap: 18px !important;
-    flex: 0 0 auto !important;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex: 0 0 auto;
 }
 
 .level-stat-row .stat-value-container,
 .experience-stat-row .stat-value-container,
 .summary-stat-row .stat-value-container,
 .enhanced-stat-row .stat-value-container {
-    flex-shrink: 0 !important;
-    margin-left: auto !important;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 /* Icons for all enhanced stats */
 .enhanced-stat-row .stat-icon {
-    width: 64px !important;
-    height: 64px !important;
-    border-radius: 10px !important;
-    border: 3px solid #8b7355 !important;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
-    flex-shrink: 0 !important;
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 10px;
+    border: 2px solid #8b7355;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
 }
 
 /* Labels for all enhanced stats */
 .enhanced-stat-row .stat-label {
-    font-size: 22px !important;
+    font-size: 26px !important;
     font-weight: 700 !important;
     color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
-    line-height: 1.3 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1.3;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px;
 }
 
 /* Values for all enhanced stats */
 .enhanced-stat-row .stat-value {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+    font-size: 26px !important;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Icons for all summary stats (backward compatibility) */
 .summary-stat-row .stat-icon {
-    width: 64px !important;
-    height: 64px !important;
-    border-radius: 10px !important;
-    border: 3px solid #8b7355 !important;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
-    flex-shrink: 0 !important;
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 10px;
+    border: 2px solid #8b7355;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
 }
 
 /* Labels for all summary stats (backward compatibility) */
 .summary-stat-row .stat-label {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
-    line-height: 1.3 !important;
+    font-size: 26px !important;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
 }
 
 /* Values for all summary stats (backward compatibility) */
 .summary-stat-row .stat-value {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+    font-size: 26px !important;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer description for level/experience and all summary stats */
 .stat-description-footer {
-    margin-top: auto !important;
-    text-align: center !important;
-    padding-top: 10px !important;
-    border-top: 1px solid rgba(139, 115, 85, 0.3) !important;
-    width: 100% !important;
-    flex-shrink: 0 !important;
+    margin-top: auto;
+    text-align: center;
+    padding-top: 8px;
+    border-top: 1px solid rgba(139, 115, 85, 0.3);
+    width: 100%;
+    flex-shrink: 0;
 }
 
 .level-stat-row .stat-description-footer .stat-description,
 .experience-stat-row .stat-description-footer .stat-description,
 .summary-stat-row .stat-description-footer .stat-description,
 .enhanced-stat-row .stat-description-footer .stat-description {
-    font-size: 12px !important;
-    color: #8b7355 !important;
-    font-style: italic !important;
-    font-weight: 500 !important;
-    display: block !important;
+    font-size: 14px;
+    color: #8b7355;
+    font-style: italic;
+    font-weight: 500;
+    display: block;
 }
 
 .level-stat-row .stat-icon,
 .experience-stat-row .stat-icon {
-    width: 64px !important;
-    height: 64px !important;
-    border-radius: 10px !important;
-    border: 3px solid #8b7355 !important;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
-    flex-shrink: 0 !important;
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    border: 2px solid #8b7355;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
 }
 
 .level-stat-row .stat-label,
 .experience-stat-row .stat-label {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
-    line-height: 1.3 !important;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .level-stat-row .stat-description,
 .experience-stat-row .stat-description {
-    font-size: 13px !important;
-    margin-top: 4px !important;
+    font-size: 13px;
+    margin-top: 4px;
 }
 
 
 .level-stat-row .stat-value,
 .experience-stat-row .stat-value {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .level-stat-row:hover,
 .experience-stat-row:hover,
 .summary-stat-row:hover,
 .enhanced-stat-row:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 6px 16px rgba(107, 83, 68, 0.4) !important;
-    border-color: rgba(107, 83, 68, 0.7) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(107, 83, 68, 0.4);
+    border-color: rgba(107, 83, 68, 0.7);
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.9) 0%,
-        rgba(250, 245, 235, 0.8) 100%) !important;
+        rgba(250, 245, 235, 0.8) 100%);
 }
 
 .stat-row:hover {
@@ -1525,14 +1655,14 @@
 
 /* Equipment Slots - New Layout Based Design */
 .gear-slot {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     background: linear-gradient(135deg,
         rgba(240, 230, 210, 0.95) 0%,
         rgba(220, 210, 190, 0.9) 50%,
         rgba(200, 190, 170, 0.85) 100%);
-    border: 3px solid #8b7355;
-    border-radius: 10px;
+    border: 2.5px solid #8b7355;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -1541,7 +1671,7 @@
     box-shadow:
         inset 0 2px 4px rgba(255, 255, 255, 0.4),
         inset 0 -2px 4px rgba(139, 115, 85, 0.3),
-        0 3px 8px rgba(0, 0, 0, 0.2);
+        0 2px 6px rgba(0, 0, 0, 0.2);
     position: relative;
     flex-shrink: 0;
 }
@@ -1551,16 +1681,16 @@
     box-shadow:
         inset 0 2px 4px rgba(255, 255, 255, 0.5),
         inset 0 -2px 4px rgba(139, 115, 85, 0.4),
-        0 5px 15px rgba(107, 83, 68, 0.4);
+        0 4px 12px rgba(107, 83, 68, 0.4);
     border-color: #6b5344;
 }
 
 .gear-slot img {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 .gear-slot.empty {
@@ -1581,7 +1711,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
     padding: 0;
     width: 100%;
     margin-top: auto;
@@ -1590,14 +1720,14 @@
 }
 
 .weapon-slot {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     background: linear-gradient(135deg,
         rgba(240, 230, 210, 0.95) 0%,
         rgba(220, 210, 190, 0.9) 50%,
         rgba(200, 190, 170, 0.85) 100%);
-    border: 3px solid #8b7355;
-    border-radius: 10px;
+    border: 2.5px solid #8b7355;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -1606,7 +1736,7 @@
     box-shadow:
         inset 0 2px 4px rgba(255, 255, 255, 0.4),
         inset 0 -2px 4px rgba(139, 115, 85, 0.3),
-        0 3px 8px rgba(0, 0, 0, 0.2);
+        0 2px 6px rgba(0, 0, 0, 0.2);
     position: relative;
     flex-shrink: 0;
 }
@@ -1616,16 +1746,16 @@
     box-shadow:
         inset 0 2px 4px rgba(255, 255, 255, 0.5),
         inset 0 -2px 4px rgba(139, 115, 85, 0.4),
-        0 5px 15px rgba(107, 83, 68, 0.4);
+        0 4px 12px rgba(107, 83, 68, 0.4);
     border-color: #6b5344;
 }
 
 .weapon-slot img {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 .weapon-slot.empty {
@@ -2190,10 +2320,10 @@
 
 .stat-description {
     font-family: 'Garamond', 'Times New Roman', serif;
-    font-size: 11px;
+    font-size: 14px;
     color: #8b7355;
     font-style: italic;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
 .stat-value {
@@ -2281,21 +2411,7 @@
 }
 
 .lore-book-navigation {
-    display: flex;
-    flex-direction: column;
-    width: 64px;
-    flex-shrink: 0;
-    gap: 6px;
-    z-index: 10;
-    transition: width 0.3s ease;
-    background: linear-gradient(135deg,
-        #d5cbb8 0%,
-        #cbc1ae 100%);
-    border-right: 3px solid #8b7355;
-    border-radius: 0;
-    padding: 12px 0;
-    align-items: center;
-    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
+    display: none !important;
 }
 
 .lore-book-navigation.with-labels {
@@ -2411,7 +2527,7 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     z-index: 1;
     height: 100%;
@@ -2436,7 +2552,7 @@
     height: 100%;
     background: radial-gradient(circle at center, #fbf7ee 0%, #faecd6 50%, #f1dcba 100%);
     position: relative;
-    padding: 20px;
+    padding: 12px 16px;
     overflow-y: hidden;
     color: #4a2e1b;
     box-sizing: border-box;
@@ -2451,16 +2567,16 @@
     height: 100%;
     min-height: 100%;
     position: relative;
-    padding: 20px 20px 12px 20px;
+    padding: 8px 16px 8px 16px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
 }
 
 .page-ornament {
-    height: 12px;
+    height: 8px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     background-image: radial-gradient(circle, #8b7355 2.5px, transparent 3.5px);
     background-size: 15px 12px;
     border-top: 1px double #8b7355;
@@ -3852,19 +3968,19 @@
 }
 
 .character-summary-stats .stats-content-area {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 !important;
-    padding: 20px !important;
-    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
 }
 
 .character-summary-stats .stats-fields {
-    display: block !important;
+    display: block;
 }
 
 .character-summary-stats .stats-content {
-    display: block !important;
+    display: block;
 }
 
 /* Character Stats Panel - Updated to match Lore/Skills styling */
@@ -3883,121 +3999,129 @@
 
 /* Override navigation button styles specifically for character summary */
 .character-summary-stats .stats-nav-button {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    padding: 12px 15px !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.6) 0%,
-        rgba(240, 230, 210, 0.4) 100%) !important;
-    border: 2px solid #a08c70 !important;
-    border-radius: 8px !important;
-    color: #5c4033 !important;
-    font-family: 'Cinzel', serif !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    text-align: left !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-    margin: 0 !important;
-    width: auto !important;
+        rgba(240, 230, 210, 0.4) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    color: #5c4033;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    width: auto;
 }
 
 .character-summary-stats .stats-nav-button:hover {
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.8) 0%,
-        rgba(240, 230, 210, 0.6) 100%) !important;
-    border-color: #6b5344 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+        rgba(240, 230, 210, 0.6) 100%);
+    border-color: #6b5344;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .character-summary-stats .stats-nav-button.active {
     background: linear-gradient(135deg,
         rgba(107, 83, 68, 0.9) 0%,
-        rgba(90, 30, 18, 0.8) 100%) !important;
-    color: #f0e6d2 !important;
-    border-color: #5c4033 !important;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        rgba(90, 30, 18, 0.8) 100%);
+    color: #f0e6d2;
+    border-color: #5c4033;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .character-summary-stats .stats-nav-icon {
-    width: 24px !important;
-    height: 24px !important;
-    border-radius: 4px !important;
-    border: 1px solid rgba(107, 83, 68, 0.3) !important;
-    object-fit: cover !important;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(107, 83, 68, 0.3);
+    object-fit: cover;
 }
 
 .character-summary-stats .stats-nav-text {
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: inherit !important;
+    font-size: 14px;
+    font-weight: 600;
+    color: inherit;
 }
 
 .character-summary-stats .stats-section-header {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    margin-bottom: 20px !important;
-    padding-bottom: 12px !important;
-    border-bottom: 2px solid rgba(107, 83, 68, 0.3) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-bottom: 2px solid rgba(107, 83, 68, 0.3);
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.12) 0%,
+        rgba(139, 115, 85, 0.04) 100%);
+    border-radius: 6px 6px 0 0;
 }
 
 .character-summary-stats .stats-section-icon {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 6px !important;
-    border: 2px solid #8b7355 !important;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 2px solid #8b7355;
 }
 
 .character-summary-stats .stats-section-title {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    color: #5c4033 !important;
-    margin: 0 !important;
-    font-family: 'Cinzel', serif !important;
+    font-size: 22px;
+    font-weight: 700;
+    color: #5c4033;
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
 }
 
 .character-summary-stats .stat-row {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 8px 12px !important;
-    margin-bottom: 6px !important;
-    background: rgba(255, 255, 255, 0.3) !important;
-    border: 1px solid rgba(107, 83, 68, 0.2) !important;
-    border-radius: 6px !important;
-    transition: all 0.2s ease !important;
-    position: relative !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 8px 20px;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(107, 83, 68, 0.2);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
 .character-summary-stats .stat-row:hover {
-    background: rgba(255, 255, 255, 0.5) !important;
-    border-color: rgba(107, 83, 68, 0.4) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(107, 83, 68, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .character-summary-stats .stat-label-container {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex: 1 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
 }
 
 .character-summary-stats .stat-label {
-    font-weight: 600 !important;
-    color: #000000 !important;
-    font-size: 14px !important;
+    font-weight: 600;
+    color: #000000;
+    font-size: 14px;
 }
 
 .character-summary-stats .stat-value {
-    font-weight: bold !important;
-    color: #000000 !important;
-    font-size: 14px !important;
-    text-align: right !important;
+    font-weight: bold;
+    color: #000000;
+    font-size: 14px;
+    text-align: right;
 }
 
 /* Ensure Experience and other gold-colored stat values have good contrast */
@@ -4122,7 +4246,7 @@
         #cbc1ae 100%);
     border-right: 3px solid #8b7355;
     padding: 20px 15px;
-    gap: 8px;
+    gap: 12px;
     box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -4141,7 +4265,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 15px;
+    padding: 14px 15px;
     background: linear-gradient(135deg,
         #faf6ee 0%,
         #f0e6d2 100%);
@@ -4305,27 +4429,36 @@
 .stats-section-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
+    justify-content: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
     border-bottom: 2px solid #8b7355;
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.12) 0%,
+        rgba(139, 115, 85, 0.04) 100%);
+    border-radius: 6px 6px 0 0;
 }
 
 .stats-section-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
     border: 2px solid #8b7355;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 
 .stats-section-title {
     font-family: 'Cinzel', serif;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
-    color: #6b5344;
+    color: #5c4033;
     margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: left;
 }
 
 .stats-fields {
@@ -4938,8 +5071,14 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 16px;
+    padding: 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+    container-type: inline-size;
 }
 
 /* Side panels responsive (kept for any leftover usage) */
@@ -5082,6 +5221,458 @@
     .equipment-side-panel.right-panel .potion-resource-row {
         flex-direction: row;
         gap: 24px;
+    }
+}
+
+/* ============================================================ */
+/* Equipment Section - Identity Header                          */
+/* Centered identity card above the gear layout, in TTRPG font. */
+/* ============================================================ */
+.equipment-identity-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 24px 12px;
+    margin: 4px 20px 8px;
+    background:
+        linear-gradient(180deg,
+            rgba(250, 246, 238, 0.92) 0%,
+            rgba(240, 230, 210, 0.78) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 10px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 8px rgba(107, 83, 68, 0.18);
+    position: relative;
+    width: calc(100% - 40px);
+    max-width: 720px;
+    align-self: center;
+}
+
+.equipment-identity-header::before,
+.equipment-identity-header::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #8b7355);
+    transform: translateY(-50%);
+}
+.equipment-identity-header::before { left: 12px; }
+.equipment-identity-header::after {
+    right: 12px;
+    background: linear-gradient(90deg, #8b7355, transparent);
+}
+
+.equipment-identity-name {
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #4a2e1f;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
+    letter-spacing: 1.5px;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.equipment-identity-subtitle {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 12px;
+    color: #5c4033;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.equipment-identity-subtitle .identity-pill {
+    color: #6b4423;
+    font-weight: 600;
+    font-style: normal;
+    padding: 0 4px;
+}
+
+.equipment-identity-subtitle .identity-pill + .identity-pill::before {
+    content: '•';
+    color: #8b7355;
+    margin-right: 6px;
+    margin-left: 2px;
+}
+
+/* ============================================================ */
+/* Equipment Section - Vitals Stat Panel                        */
+/* WoW-Classic inspired two-column stat readout.                */
+/* ============================================================ */
+
+/* Layout wrapper that places stat panels below the gear layout in
+   a 2-column row matching the equipment columns above. */
+.equipment-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 920px;
+    margin: 4px auto 18px;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.equipment-stats-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.equipment-stats-cell--left {
+    align-items: stretch;
+}
+
+.equipment-stats-cell--right {
+    align-items: stretch;
+}
+
+.vitals-stats-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    align-self: center;
+    padding: 12px 20px 16px;
+    margin: 0 20px;
+}
+
+.vitals-stats-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+}
+
+.vitals-stats-column {
+    background:
+        linear-gradient(180deg,
+            rgba(250, 246, 238, 0.92) 0%,
+            rgba(240, 230, 210, 0.78) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 6px rgba(107, 83, 68, 0.18);
+    position: relative;
+}
+
+.vitals-column-title {
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #5c4033;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+    margin: 0 0 8px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.35);
+}
+
+.vitals-stat-tile {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 6px;
+    gap: 12px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+.vitals-stat-tile:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+.vitals-stat-label {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 12px;
+    color: #5c4033;
+    flex-shrink: 0;
+}
+
+.vitals-stat-value {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3a2519;
+    text-align: right;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+}
+
+.vitals-stat-value--damage {
+    font-size: 14px;
+    color: #7a2b1e;
+}
+
+.vitals-stat-value--dim {
+    color: #8a7a65;
+    font-weight: 500;
+}
+
+/* ============================================================ */
+/* WoW Classic inspired base-stat cards                         */
+/* Big modifier with base value, parchment cards                */
+/* ============================================================ */
+.wow-base-stats-panel {
+    background:
+        linear-gradient(180deg,
+            rgba(250, 246, 238, 0.92) 0%,
+            rgba(240, 230, 210, 0.78) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 10px;
+    padding: 10px 12px 12px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 6px rgba(107, 83, 68, 0.18);
+}
+
+.wow-base-stats-panel .vitals-column-title {
+    margin: 0 0 10px 0;
+}
+
+.wow-base-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.wow-base-stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px 6px;
+    background:
+        linear-gradient(180deg,
+            rgba(255, 250, 240, 0.7) 0%,
+            rgba(220, 200, 170, 0.5) 100%);
+    border: 1.5px solid rgba(139, 115, 85, 0.5);
+    border-radius: 8px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(107, 83, 68, 0.15);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    min-height: 64px;
+}
+
+.wow-base-stat-card:hover {
+    transform: translateY(-1px);
+    border-color: #6b5344;
+}
+
+.wow-base-stat-label {
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #5c4033;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.wow-base-stat-mod {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    color: #3a2519;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    margin-bottom: 2px;
+}
+
+.wow-base-stat-mod.pos {
+    color: #2e6b35;
+}
+
+.wow-base-stat-mod.neg {
+    color: #8b2a1e;
+}
+
+.wow-base-stat-value {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    color: #6b5344;
+    opacity: 0.75;
+    line-height: 1;
+}
+
+/* Spell Power tile - looks like a regular stat tile (e.g. Healing   */
+/* Power) so it doesn't stand out visually. Clicking the whole tile    */
+/* cycles through the damage types (Ember -> Rime -> Storm -> ...).   */
+/* The type name in parens is colored reddish so the user knows which  */
+/* element is currently active.                                       */
+.vitals-stat-tile--clickable {
+    cursor: pointer;
+}
+
+.vitals-stat-tile--clickable:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+.vitals-sp-type-inline {
+    font-weight: 700;
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+/* Modified resistances strip (non-100% only) */
+.vitals-resistance-strip {
+    background:
+        linear-gradient(180deg,
+            rgba(250, 246, 238, 0.78) 0%,
+            rgba(240, 230, 210, 0.6) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.vitals-resistance-strip-label {
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #5c4033;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-right: 4px;
+    white-space: nowrap;
+}
+
+.vitals-resistance-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1.5px solid currentColor;
+    background: rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    cursor: default;
+    transition: transform 0.15s ease;
+}
+
+.vitals-resistance-chip:hover {
+    transform: translateY(-1px);
+}
+
+.vitals-resistance-chip-name {
+    text-transform: capitalize;
+}
+
+.vitals-resistance-chip-mult {
+    font-size: 10px;
+    opacity: 0.85;
+    font-weight: 700;
+}
+
+.vitals-resistance-empty {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 11px;
+    color: #8a7a65;
+    font-style: italic;
+}
+
+/* Responsive: 5-column layout collapses to 2-column stack (equipment */
+/* on top, stats below in two columns) when there's not enough space. */
+/* Uses container queries (based on .equipment-content width) instead  */
+/* of viewport media queries, so it works even in constrained panels.  */
+@container (max-width: 800px) {
+    .equipment-with-sides {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        padding: 0 8px;
+    }
+    .equipment-center {
+        grid-column: 1 / -1;
+        order: -1;
+    }
+    .equipment-side {
+        max-width: none;
+    }
+    .equipment-side--left {
+        order: 2;
+    }
+    .equipment-side--right {
+        order: 3;
+    }
+}
+
+@container (max-width: 700px) {
+    .equipment-stats-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 0 12px;
+    }
+    .vitals-stats-panel {
+        padding: 10px 14px 12px;
+        margin: 0 12px;
+    }
+    .equipment-identity-header {
+        margin: 4px 12px 8px;
+        padding: 12px 18px 10px;
+    }
+    .equipment-identity-name {
+        font-size: 18px;
+    }
+    .equipment-identity-header::before,
+    .equipment-identity-header::after {
+        width: 14px;
+    }
+}
+
+@container (max-width: 500px) {
+    .equipment-with-sides {
+        grid-template-columns: 1fr;
+        padding: 0 6px;
+    }
+    .equipment-side {
+        width: 100%;
+    }
+    .equipment-stats-row {
+        padding: 0 6px;
+    }
+    .vitals-stats-panel {
+        padding: 8px 8px 10px;
+        margin: 0 6px;
+    }
+    .vitals-stats-column {
+        padding: 8px 8px;
+    }
+    .vitals-stat-label,
+    .vitals-stat-value {
+        font-size: 11px;
+    }
+    .wow-base-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .wow-base-stat-card {
+        min-height: 56px;
+        padding: 6px 2px;
+    }
+    .wow-base-stat-mod {
+        font-size: 18px;
     }
 }
 
@@ -5376,6 +5967,27 @@
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }
 
+/* EXEMPT FONT AWESOME ICONS - they need their own font-family to render */
+.character-sheet-container i.fas,
+.character-sheet-container i.far,
+.character-sheet-container i.fab,
+.character-sheet-container i.fa,
+.character-sheet i.fas,
+.character-sheet i.far,
+.character-sheet i.fab,
+.character-sheet i.fa,
+.character-container i.fas,
+.character-container i.far,
+.character-container i.fab,
+.character-container i.fa,
+.character-navigation i.fas,
+.character-navigation i.far,
+.character-navigation i.fab,
+.character-navigation i.fa {
+    font-family: 'Font Awesome 6 Free' !important;
+    font-weight: 900 !important;
+}
+
 /* Specific protection for text elements */
 .character-container,
 .character-container h1,
@@ -5387,11 +5999,18 @@
 .character-container p,
 .character-container span,
 .character-container div,
-.character-container button,
 .character-container input,
 .character-container label {
     color: #5c4033 !important;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+}
+
+/* EXEMPT BUTTONS WITH EXPLICIT COLORS from forced text color */
+.character-container button.roll-table-btn,
+.character-container button.skill-simple-roll,
+.character-container .roll-table-btn,
+.character-container .skill-simple-roll {
+    color: #ffffff !important;
 }
 
 /* Ensure character container background is never overridden */
@@ -6537,13 +7156,13 @@
 
     .enhanced-stat-row .stat-icon,
     .summary-stat-row .stat-icon {
-        width: 48px !important;
-        height: 48px !important;
+        width: 80px !important;
+        height: 80px !important;
     }
 
     .enhanced-stat-row .stat-label,
     .summary-stat-row .stat-label {
-        font-size: 16px !important;
+        font-size: 18px !important;
         white-space: normal !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
@@ -6551,12 +7170,12 @@
 
     .enhanced-stat-row .stat-value,
     .summary-stat-row .stat-value {
-        font-size: 16px !important;
+        font-size: 18px !important;
     }
 
     .enhanced-stat-row .stat-label-container,
     .summary-stat-row .stat-label-container {
-        gap: 10px !important;
+        gap: 14px !important;
         min-width: 0 !important;
         flex: 1 1 0 !important;
     }
@@ -6603,13 +7222,13 @@
 
     .enhanced-stat-row .stat-icon,
     .summary-stat-row .stat-icon {
-        width: 40px !important;
-        height: 40px !important;
+        width: 64px !important;
+        height: 64px !important;
     }
 
     .enhanced-stat-row .stat-label,
     .summary-stat-row .stat-label {
-        font-size: 14px !important;
+        font-size: 16px !important;
         white-space: normal !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;

@@ -155,16 +155,13 @@
 }
 
 .tt-tab-content-area::-webkit-scrollbar {
-  width: 6px;
+  display: none;
+  width: 0;
 }
 
-.tt-tab-content-area::-webkit-scrollbar-track {
-  background: rgba(139, 115, 85, 0.1);
-}
-
-.tt-tab-content-area::-webkit-scrollbar-thumb {
-  background: rgba(139, 115, 85, 0.3);
-  border-radius: 3px;
+.tt-tab-content-area {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .tt-tab-content {

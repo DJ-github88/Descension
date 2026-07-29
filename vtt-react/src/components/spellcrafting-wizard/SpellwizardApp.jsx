@@ -1114,18 +1114,18 @@ const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
   ];
 
   const damageTypes = [
-    { id: 'fire', name: 'Fire' },
-    { id: 'frost', name: 'Frost' },
-    { id: 'lightning', name: 'Lightning' },
+    { id: 'smashing', name: 'Smashing' },
+    { id: 'stabbing', name: 'Stabbing' },
+    { id: 'slicing', name: 'Slicing' },
+    { id: 'ember', name: 'Ember' },
+    { id: 'rime', name: 'Rime' },
+    { id: 'storm', name: 'Storm' },
+    { id: 'primal', name: 'Primal' },
     { id: 'arcane', name: 'Arcane' },
-    { id: 'necrotic', name: 'Necrotic' },
-    { id: 'radiant', name: 'Radiant' },
-    { id: 'poison', name: 'Poison' },
-    { id: 'psychic', name: 'Psychic' },
-    { id: 'force', name: 'Force' },
-    { id: 'physical', name: 'Physical' },
-    { id: 'holy', name: 'Holy' },
-    { id: 'shadow', name: 'Shadow' }
+    { id: 'blight', name: 'Blight' },
+    { id: 'wyrd', name: 'Wyrd' },
+    { id: 'sacred', name: 'Sacred' },
+    { id: 'healing', name: 'Healing' }
   ];
 
   const generateSpell = () => {

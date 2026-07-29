@@ -152,17 +152,21 @@ const OutcomeConfigPanel = ({ title, tier, outcome, onChange, tierClass }) => {
               className="pf-config-select prophecy-unit-select"
             >
               <option value="">None</option>
-              <option value="fire">Fire</option>
-              <option value="necrotic">Necrotic</option>
-              <option value="psychic">Psychic</option>
-              <option value="force">Force</option>
-              <option value="lightning">Lightning</option>
-              <option value="frost">Frost</option>
-              <option value="poison">Poison</option>
-              <option value="physical">Physical</option>
-              <option value="chaos">Chaos</option>
-              <option value="void">Silence</option>
-              <option value="radiant">Radiant</option>
+              <optgroup label="Physical">
+                <option value="smashing">Smashing</option>
+                <option value="stabbing">Stabbing</option>
+                <option value="slicing">Slicing</option>
+              </optgroup>
+              <optgroup label="Magical">
+                <option value="ember">Ember</option>
+                <option value="rime">Rime</option>
+                <option value="storm">Storm</option>
+                <option value="primal">Primal</option>
+                <option value="arcane">Arcane</option>
+                <option value="blight">Blight</option>
+                <option value="wyrd">Wyrd</option>
+                <option value="sacred">Sacred</option>
+              </optgroup>
             </select>
           </div>
 
@@ -276,16 +280,21 @@ const OutcomeConfigPanel = ({ title, tier, outcome, onChange, tierClass }) => {
               className="pf-config-select prophecy-unit-select"
             >
               <option value="">None</option>
-              <option value="fire">Fire</option>
-              <option value="necrotic">Necrotic</option>
-              <option value="psychic">Psychic</option>
-              <option value="force">Force</option>
-              <option value="lightning">Lightning</option>
-              <option value="frost">Frost</option>
-              <option value="physical">Physical</option>
-              <option value="chaos">Chaos</option>
-              <option value="void">Silence</option>
-              <option value="radiant">Radiant</option>
+              <optgroup label="Physical">
+                <option value="smashing">Smashing</option>
+                <option value="stabbing">Stabbing</option>
+                <option value="slicing">Slicing</option>
+              </optgroup>
+              <optgroup label="Magical">
+                <option value="ember">Ember</option>
+                <option value="rime">Rime</option>
+                <option value="storm">Storm</option>
+                <option value="primal">Primal</option>
+                <option value="arcane">Arcane</option>
+                <option value="blight">Blight</option>
+                <option value="wyrd">Wyrd</option>
+                <option value="sacred">Sacred</option>
+              </optgroup>
               <option value="all">All</option>
             </select>
           </div>

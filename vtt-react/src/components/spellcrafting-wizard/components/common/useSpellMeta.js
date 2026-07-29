@@ -60,8 +60,8 @@ const useSpellMeta = ({ spell }) => {
       'psychic': 'spell-wyrd',
       'chaos': 'spell-wyrd',
     };
-    const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
-    return schoolMap[school.toLowerCase()] || 'spell-arcane';
+    const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || '';
+    return school ? (schoolMap[school.toLowerCase()] || 'spell-arcane') : '';
   };
 
   const getBorderColor = () => {

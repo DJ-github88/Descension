@@ -703,7 +703,7 @@ import {
        case 'sacred':
         visualization = 'Brilliant golden radiance descends from above, searing your target with sacred light.';
         break;
-       case 'physical':
+       case 'smashing':
         visualization = 'A brilliant light bursts forth, searing your target with sacred energy.';
         break;
        default:

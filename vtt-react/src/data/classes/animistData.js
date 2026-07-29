@@ -27,6 +27,15 @@ export const ANIMIST_DATA = {
    * voice, rune, spore, contract, heritage, or archive. The ancestral language
    * they all share is fracturing now, for reasons no one understands.
    */
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['staff', 'totem', 'spear'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['totem', 'tome', 'empty']
+  },
   subraceVariants: {
     ordan_human: {
       subraceName: 'Ordan',
@@ -146,7 +155,7 @@ export const ANIMIST_DATA = {
   name: "Animist",
   icon: "fas fa-seedling",
   role: "Support / Control / Terrain",
-  damageTypes: ["primal", "blight", "storm", "physical", "ember"],
+  damageTypes: ["primal", "blight", "storm", "smashing", "stabbing", "slicing", "ember"],
   implemented: true,
   
 
@@ -160,9 +169,9 @@ export const ANIMIST_DATA = {
   livingOrder: {
     orderName: 'The Silent Throat',
     founder: {
-      name: 'The First Singer (name lost)',
-      status: `Died unrecorded. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, someone began singing ancestor-names and the herds still found their way.`,
-      note: `The Ordan throat-singer who first discovered that the dead remember migration routes when the living no longer can. The name was never written  —  the Ordan had no script, and the throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to this lost origin.`
+      name: 'Kael the Herd-Runner',
+      status: `Dead. The first of the three named Animist founders, an Ordan throat-singer who sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, Kael began singing ancestor-names and the herds still found their way.`,
+      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to Kael's work.`
     },
     currentLeader: {
       name: 'Bayar Wind-Throat',
@@ -229,14 +238,14 @@ Animists are viewed with a mixture of deep respect and visceral fear. Their bone
 The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Morren</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
 
 **NOTABLE FIGURES**
-* **The First Singer (name lost)**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Navigation, not worship.
-* **The Groven Carver (name lost)**: The Skald trader who heard Ordan songs at a span-crossing and became the first to carve an ancestor-rune into living flesh.
-* **The Bog-Walker (name lost)**: The Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with deliberate intent.
+* **Kael the Herd-Runner**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
+* **Theron the Skald Scholar**: The Skald chronicler who heard Ordan songs at a span-crossing and became the first to carve an ancestor-rune into living flesh. Carved mathematical formulas of ancient clockwork songs into his own skin.
+* **Nyssa the Herbalist**: The Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with deliberate intent. Bargained with the ancient Wyrd.
 * **Bayar Wind-Throat**: The Ordan elder who still sings the pre-fracture tongue and watches the younger traditions drift.`
     },
     signatureQuote: {
       text: '"The stars went dark. The herds still moved. The wind still blew. But no one knew where we were going. So I asked the dead. They remembered. They always remember."',
-      speaker: 'The First Singer (name lost), attributed',
+      speaker: 'Kael the Herd-Runner, attributed',
       context: 'Ordan oral tradition, passed throat-to-throat for generations; first written down by a Skald trader at a Groven span-crossing'
     },
 
@@ -363,7 +372,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
         ],
         specPassive: {
           name: "Scarred Earth Domain",
-          description: "Gain +3 DR. When a totem you placed is within 10ft of you, gain resistance to all physical damage types. Your runic zones are permanent and cannot be dispelled. Enemies within your active network have magical resistances reduced by 25%."
+          description: "Gain +3 DR. When a totem you placed is within 10ft of you, gain resistance to all smashing damage types. Your runic zones are permanent and cannot be dispelled. Enemies within your active network have magical resistances reduced by 25%."
         },
       },
       {
@@ -510,7 +519,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       spellType: "ACTION",
       icon: "Slashing/Bloody Slash",
       effectTypes: ["buff"],
-      typeConfig: { school: "physical", icon: "Slashing/Bloody Slash", tags: ["buff","brand","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Slashing/Bloody Slash", tags: ["buff","brand","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: undefined, targetRestrictions: ["allies"] },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -529,7 +538,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       spellType: "ACTION",
       icon: "Healing/Heart Shield",
       effectTypes: ["buff"],
-      typeConfig: { school: "physical", icon: "Healing/Heart Shield", tags: ["buff","rune","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Healing/Heart Shield", tags: ["buff","rune","starter"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["allies"], areaShape: "circle", areaSize: 10 },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -606,7 +615,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       spellType: "ACTION",
       icon: "Bludgeoning/Hammer Crush",
       effectTypes: ["control"],
-      typeConfig: { school: "physical", icon: "Bludgeoning/Hammer Crush", tags: ["control","terrain"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Bludgeoning/Hammer Crush", tags: ["control","terrain"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "line", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["any"] },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -2 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -707,7 +716,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 15 },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 8, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      controlConfig: { controlType: "restraint", effects: [{ id : "animist_stone_restraint", name: "Gaean Hold", description: "Restrained by stone. Cannot move. DC 14 Strength save to break.", config: {"restraintType":"physical","breakOnDamage":false,"condition":"restrained"} }] },
+      controlConfig: { controlType: "restraint", effects: [{ id : "animist_stone_restraint", name: "Gaean Hold", description: "Restrained by stone. Cannot move. DC 14 strength check to break.", config: {"restraintType":"physical","breakOnDamage":false,"condition":"restrained"} }] },
       resolution: "AUTOMATIC",
       tags: ["control","area","primal"]
     ,
@@ -779,7 +788,7 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Wither",
       effectTypes: ["damage","debuff"],
-      typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["hazard","area","poison"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["hazard","area","blight"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemies"], areaShape: "circle", areaSize: 20 },
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 10, classResource: { type: "resonance", cost: 4 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },

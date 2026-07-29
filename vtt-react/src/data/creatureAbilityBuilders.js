@@ -16,20 +16,21 @@
 
 const DEFAULT_ICON = 'spell_misc_emotion';
 
-// Normalize a school/damage-type id to one of the 9 canonical Mythrill types:
-// physical, ember, rime, storm, arcane, primal, blight, wyrd, sacred.
+// Normalize a school/damage-type id to one of the canonical Mythrill types:
+// smashing, stabbing, slicing, ember, rime, storm, primal, arcane, blight, wyrd, sacred.
 // (Mirrors LEGACY_TYPE_MAP in damageTypes.js so creatures render the right badge.)
 const normalizeType = (t) => {
-  if (!t) return 'physical';
+  if (!t) return 'smashing';
   const map = {
     psychic: 'wyrd', chaos: 'wyrd',
-    radiant: 'sacred', sacred: 'sacred',
-    necrotic: 'blight', poison: 'blight', acid: 'blight', void: 'blight', shadow: 'blight',
+    radiant: 'sacred', sacred: 'sacred', holy: 'sacred', divine: 'sacred',
+    necrotic: 'blight', poison: 'blight', acid: 'blight', void: 'blight', shadow: 'blight', silence: 'blight',
     cold: 'rime', frost: 'rime', ice: 'rime',
     fire: 'ember',
-    lightning: 'storm', thunder: 'storm', force: 'storm', electric: 'storm', sonic: 'storm',
+    lightning: 'storm', thunder: 'storm', force: 'arcane', electric: 'storm', sonic: 'storm',
     nature: 'primal', viscera: 'primal',
-    slashing: 'physical', bludgeoning: 'physical', piercing: 'physical',
+    slashing: 'slicing', bludgeoning: 'smashing', piercing: 'stabbing',
+    physical: 'smashing', ranged: 'stabbing',
   };
   return map[t] || String(t).toLowerCase();
 };

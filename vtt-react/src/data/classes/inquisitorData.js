@@ -256,7 +256,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **Arcane Desecration**: Shattering active enchantments, silencing spoken incantations, and turning mana to boiling poison in the caster's throat
 **Wyrd Binding**: Commanding bound horrors through barbed chains of radiant will, using their supernatural violence to shred enemies
-**Relentless Purge**: Ripping curses, possessions, and crowd control from allies, though the process deals physical damage to the ally
+**Relentless Purge**: Ripping curses, possessions, and crowd control from allies, though the process deals smashing damage to the ally
 **Radiant Rupture**: Channeling white-hot alchemical silver to disintegrate evil and Wyrd-touched flesh
 
 **The Strength of the Twin Doctrine**:
@@ -268,7 +268,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 
 **The Agonizing Toll (Your Fatal Flaws)**:
 - **Rejection of All Magic**: Your body is a sterile Silence. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
-- **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and physical damage
+- **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and smashing damage
 - **The Hollow**: Authority decays by -1 per round when no supernatural contact occurs. At 0 Authority, bound entities make rebellion checks
 - **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no horror benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron
 - **The Screaming Blood**: The entities in your veins never sleep, extracting a steady psychic toll on your sanity`,
@@ -624,7 +624,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       level: 1,
       spellType: "ACTION",
       icon: "Utility/All Seeing Eye",
-      typeConfig: { school: "physical", icon: "Utility/Utility", tags: ["utility", "detect_magic", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "smashing", icon: "Utility/Utility", tags: ["utility", "detect_magic", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 40 },
       resourceCost: { actionPoints: 1, mana: 0 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
@@ -673,13 +673,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 0 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 0 },
         actionPoints: 1,
         components: ["verbal"],
    verbalText: "Inquisitor!",
       },
-      classResource: { type: "righteousAuthority", gain: 1 },
+      classResource: { type: "righteous_authority", gain: 1 },
       buffConfig: {
         buffType: "statModifier",
         effects: [
@@ -734,13 +734,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 0 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 0 },
         actionPoints: 1,
         components: ["somatic"],
    somaticText: "Channel inquisitor through gesture",
       },
-      classResource: { type: "righteousAuthority", gain: 1 },
+      classResource: { type: "righteous_authority", gain: 1 },
       buffConfig: {
         buffType: "statModifier",
         effects: [
@@ -775,7 +775,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_purge_the_defiled",
       name: "Purge the Defiled",
       description:
-        "Press raw rock salt into your ally's flesh to violently rip foreign magic from their nervous system. Removes all curses, possessions, and mental crowd control. Deals 1d8 physical damage to the ally. Gains 1 Authority if the affliction was supernatural.",
+        "Press raw rock salt into your ally's flesh to violently rip foreign magic from their nervous system. Removes all curses, possessions, and mental crowd control. Deals 1d8 smashing damage to the ally. Gains 1 Authority if the affliction was supernatural.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -794,15 +794,15 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         targetRestrictions: ["allies"],
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 0 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 0 },
         actionPoints: 1,
         mana: 6,
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: {
         formula: "1d8",
-        damageTypes: ["physical"],
+        damageTypes: ["smashing", "stabbing", "slicing"],
         resolution: "DICE",
       },
       utilityConfig: {
@@ -815,7 +815,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
           },
         ],
       },
-      classResource: { type: "righteousAuthority", gainOnSupernatural: 1 },
+      classResource: { type: "righteous_authority", gainOnSupernatural: 1 },
       resolution: "DICE",
       tags: ["purification", "dispel", "utility"],
     },
@@ -845,13 +845,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 0 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 0 },
         actionPoints: 1,
         components: ["verbal", "material"],
    verbalText: "Violent, violent purge!",
       },
-      classResource: { type: "righteousAuthority", gain: 1 },
+      classResource: { type: "righteous_authority", gain: 1 },
       buffConfig: {
         buffType: "statModifier",
         effects: [
@@ -909,13 +909,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 1 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 1 },
         actionPoints: 1,
         components: ["somatic"],
    somaticText: "Channel violent purge through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 1 },
+      classResource: { type: "righteous_authority", cost: 1 },
       utilityConfig: {
         utilityType: "movement",
         utilitySubtype: "speed",
@@ -980,14 +980,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 1 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 1 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
    verbalText: "Relentless, relentless strike!",
    somaticText: "Channel relentless strike through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 1 },
+      classResource: { type: "righteous_authority", cost: 1 },
       debuffConfig: {
         debuffType: "statPenalty",
         effects: [
@@ -1099,14 +1099,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 1 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 1 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
    verbalText: "Dominance, dominance restored!",
    somaticText: "Channel dominance restored through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 1, gainOnSupernatural: 1 },
+      classResource: { type: "righteous_authority", cost: 1, gainOnSupernatural: 1 },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
       purificationConfig: {
         purificationType: "remove_curse",
@@ -1148,13 +1148,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 1 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 1 },
         actionPoints: 1,
         components: ["somatic"],
    somaticText: "Channel dominance restored through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 1 },
+      classResource: { type: "righteous_authority", cost: 1 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       buffConfig: {
         buffType: "statusEffectBuff",
@@ -1208,13 +1208,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 2 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 2 },
         actionPoints: 1,
         components: ["verbal"],
    verbalText: "Shadow, shadow veil!",
       },
-      classResource: { type: "righteousAuthority", cost: 2 },
+      classResource: { type: "righteous_authority", cost: 2 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       utilityConfig: {
         utilityType: "environment",
@@ -1283,14 +1283,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 2 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 2 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
    verbalText: "Magic, resistance aura!",
    somaticText: "Spread arms wide, radiating magic resistance aura",
       },
-      classResource: { type: "righteousAuthority", cost: 2 },
+      classResource: { type: "righteous_authority", cost: 2 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       debuffConfig: {
         debuffType: "statPenalty",
@@ -1404,15 +1404,15 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 3 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 3 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Dominance, dominance restored!",
    somaticText: "Channel dominance restored through gesture",
         minimumAuthorityRequired: 3,
       },
-      classResource: { type: "righteousAuthority", cost: 3 },
+      classResource: { type: "righteous_authority", cost: 3 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       controlConfig: {
         controlType: "restrained",
@@ -1469,14 +1469,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 3 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 3 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Spirit, spirit bind!",
    somaticText: "Channel spirit bind through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 3, gainOnKill: 2 },
+      classResource: { type: "righteous_authority", cost: 3, gainOnKill: 2 },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: {
         formula: "6d10",
@@ -1550,14 +1550,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 4 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 4 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Warden's, warden's verdict!",
    somaticText: "Channel warden's verdict through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 4 },
+      classResource: { type: "righteous_authority", cost: 4 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       utilityConfig: {
         utilityType: "environment",
@@ -1609,14 +1609,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 5 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 5 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Anti-magic, anti-magic zone!",
    somaticText: "Spread arms wide, radiating anti-magic zone",
       },
-      classResource: { type: "righteousAuthority", cost: 5 },
+      classResource: { type: "righteous_authority", cost: 5 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "8d6",
@@ -1687,14 +1687,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: true,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 5 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 5 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Anti-magic, anti-magic burst!",
    somaticText: "Channel and release anti-magic burst",
       },
-      classResource: { type: "righteousAuthority", cost: 5 },
+      classResource: { type: "righteous_authority", cost: 5 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "3d8",
@@ -1740,7 +1740,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_judgment_day",
       name: "Judgment Day",
       description:
-        "Call down pillars of sacred fire in a 40-foot radius. Deals 10d10 ember damage (Charisma save DC 19 halves) against supernatural creatures.",
+        "Call down pillars of sacred fire in a 40-foot radius. Deals 10d10 ember damage (spirit save DC 19 halves) against supernatural creatures.",
       level: 8,
       spellType: "ACTION",
       effectTypes: ["damage"],
@@ -1769,14 +1769,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 6 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 6 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Anti-magic, anti-magic weakening!",
    somaticText: "Channel anti-magic weakening through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 6 },
+      classResource: { type: "righteous_authority", cost: 6 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "10d10",
@@ -1787,7 +1787,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       },
       resolution: "SAVE",
       savingThrow: {
-        ability: "charisma",
+        ability: "spirit",
         difficultyClass: 19,
         saveOutcome: "half_damage",
       },
@@ -1810,7 +1810,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_hexbreaker_armageddon",
       name: "Armageddon Edict",
       description:
-        "Erase all magic in a 100ft radius permanently. Deals 18d6 blight damage (Cha save DC 20 negates), all spells and enchantments destroyed, and supernatural casters who fail lose spellcasting permanently. All bound entities are simultaneously set to maximum Dominance Die for 3 rounds.",
+        "Erase all magic in a 100ft radius permanently. Deals 18d6 blight damage (spirit save DC 20 negates), all spells and enchantments destroyed, and supernatural casters who fail lose spellcasting permanently. All bound entities are simultaneously set to maximum Dominance Die for 3 rounds.",
       level: 10,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -1837,14 +1837,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         requiresConcentration: false,
       },
       resourceCost: {
-        resourceTypes: ["righteousAuthority"],
-        resourceValues: { righteousAuthority: 8 },
+        resourceTypes: ["righteous_authority"],
+        resourceValues: { righteous_authority: 8 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
    verbalText: "Anti-magic, anti-magic weakening!",
    somaticText: "Channel anti-magic weakening through gesture",
       },
-      classResource: { type: "righteousAuthority", cost: 8 },
+      classResource: { type: "righteous_authority", cost: 8 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "18d6",
@@ -1855,7 +1855,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       },
       resolution: "SAVE",
       savingThrow: {
-        ability: "charisma",
+        ability: "spirit",
         difficultyClass: 20,
         saveOutcome: "negates",
       },
@@ -1920,7 +1920,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 1, castTimeType: "MINUTES", tags: ["utility", "divination", "investigation", "social", "binding"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["spirits", "outsiders", "undead"] },
       durationConfig: { durationType: "minutes", durationValue: 10, durationUnit: "minutes" },
-      resourceCost: { resourceTypes: ["mana", "righteousAuthority"], resourceValues: { mana: 8, righteousAuthority: 1 }, actionPoints: 1, components: ["verbal", "somatic", "material"], verbalText: "By the Barbed Vow, you will answer", somaticText: "Drive a cold-iron stake into the circle's edge" },
+      resourceCost: { resourceTypes: ["mana", "righteous_authority"], resourceValues: { mana: 8, righteous_authority: 1 }, actionPoints: 1, components: ["verbal", "somatic", "material"], verbalText: "By the Barbed Vow, you will answer", somaticText: "Drive a cold-iron stake into the circle's edge" },
       resolution: "SAVE",
       utilityConfig: { utilityType: "divination", selectedEffects: [ { id: "bind_interrogate_truth", name: "Vow-Bound Truth", description: "A bound/captive entity answers up to 3 questions; it cannot lie to the Vow but may omit or riddle, and stronger entities (higher CR/level) get a Spirit save to resist each question.", mechanicsText: "Force a bound entity to answer 3 questions; no lies, may omit." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -1937,7 +1937,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 10, castTimeType: "MINUTES", tags: ["utility", "exorcism", "exploration", "investigation", "anti magic"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
       durationConfig: { durationType: "instant", durationValue: 0, durationUnit: "instant" },
-      resourceCost: { resourceTypes: ["mana", "righteousAuthority"], resourceValues: { mana: 10, righteousAuthority: 2 }, actionPoints: 1, components: ["verbal", "somatic", "material"], verbalText: "The three Names of unmaking", somaticText: "Ring the space in cold iron and salt, then speak it clean" },
+      resourceCost: { resourceTypes: ["mana", "righteous_authority"], resourceValues: { mana: 10, righteous_authority: 2 }, actionPoints: 1, components: ["verbal", "somatic", "material"], verbalText: "The three Names of unmaking", somaticText: "Ring the space in cold iron and salt, then speak it clean" },
       resolution: "AUTOMATIC",
       utilityConfig: { utilityType: "exorcism", selectedEffects: [ { id: "exorcise_place_cleanse", name: "Driven Out", description: "Expel a haunting/possession/curse/corruption from a place or object (not a creature). The entity is forced out and barred from the warded space; it is not destroyed. Powerful/anchored infestations require more Authority or a longer ritual.", mechanicsText: "Cleanse a place/object of haunting/curse/corruption." } ], power: "major" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -1954,7 +1954,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility", "social", "authority"] },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       durationConfig: { durationType: "hours", durationValue: 1, durationUnit: "hours" },
-      resourceCost: { resourceTypes: ["mana", "righteousAuthority"], resourceValues: { mana: 6, righteousAuthority: 1 }, actionPoints: 1, components: ["verbal"], verbalText: "By the authority of the Barbed Vow, I interdict" },
+      resourceCost: { resourceTypes: ["mana", "righteous_authority"], resourceValues: { mana: 6, righteous_authority: 1 }, actionPoints: 1, components: ["verbal"], verbalText: "By the authority of the Barbed Vow, I interdict" },
       resolution: "NONE",
       utilityConfig: { utilityType: "social", selectedEffects: [ { id: "barbed_interdict_authority", name: "Vested Authority", description: "For 1 hour, recognized institutions (temples, courts, garrisons) treat your supernatural demands as lawful, and you gain advantage on Intimidation and Persuasion with authority figures. Fails if you invoke it fraudulently  -  the Vow knows.", mechanicsText: "Lawful standing + advantage with authorities re supernatural matters, 1 hour." } ], duration: 1, durationUnit: "hours", power: "major" },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

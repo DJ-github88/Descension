@@ -1042,7 +1042,7 @@ export const ENRICHED_ACCESSORIES = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d6',
-            damageType: 'psychic',
+            damageType: 'wyrd',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',

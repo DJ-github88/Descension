@@ -32,7 +32,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -96,7 +96,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -161,7 +161,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -225,7 +225,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -289,7 +289,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd4',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -313,7 +313,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d4',
-            damageType: 'force',
+            damageType: 'arcane',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -418,7 +418,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -443,7 +443,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'poison',
+            damageType: 'blight',
             isDot: true,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -483,7 +483,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -545,7 +545,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 1
       }
     },
@@ -610,7 +610,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -635,7 +635,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d8',
-            damageType: 'shadow',
+            damageType: 'blight',
             isDot: true,
             dotDuration: 2,
             dotTickFrequency: 'round',
@@ -675,7 +675,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 1
       }
     },
@@ -804,7 +804,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 2
       }
     },
@@ -869,7 +869,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -894,7 +894,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d6',
-            damageType: 'cold',
+            damageType: 'rime',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -934,7 +934,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 1
       }
     },
@@ -1069,7 +1069,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'cold',
+        damageType: 'rime',
         bonusDamage: 3
       }
     },
@@ -1200,7 +1200,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -1330,7 +1330,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 3
       }
     },
@@ -1395,7 +1395,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'physical',
+        damageType: 'smashing',
         bonusDamage: 2
       }
     },
@@ -1523,7 +1523,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'poison',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -1548,7 +1548,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d8',
-            damageType: 'poison',
+            damageType: 'blight',
             isDot: true,
             dotDuration: 4,
             dotTickFrequency: 'round',
@@ -1589,7 +1589,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'psychic',
+        damageType: 'wyrd',
         bonusDamage: 3
       }
     },
@@ -1654,7 +1654,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 3
       }
     },
@@ -1785,7 +1785,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -1810,7 +1810,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'healing',
           effectConfig: {
             formula: '2d4',
-            damageType: 'shadow',
+            damageType: 'blight',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -1849,7 +1849,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd6',
-        damageType: 'physical',
+        damageType: 'stabbing',
         bonusDamage: 3
       }
     },
@@ -1874,7 +1874,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d6',
-            damageType: 'force',
+            damageType: 'arcane',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -1914,7 +1914,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'psychic',
+        damageType: 'wyrd',
         bonusDamage: 2
       }
     },
@@ -2045,7 +2045,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'cold',
+        damageType: 'rime',
         bonusDamage: 3
       }
     },
@@ -2070,7 +2070,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d10',
-            damageType: 'cold',
+            damageType: 'rime',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -2176,7 +2176,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd10',
-        damageType: 'physical',
+        damageType: 'slicing',
         bonusDamage: 2
       }
     },
@@ -2241,7 +2241,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 3
       }
     },
@@ -2266,7 +2266,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '1d8',
-            damageType: 'shadow',
+            damageType: 'blight',
             isDot: true,
             dotDuration: 3,
             dotTickFrequency: 'round',
@@ -2378,7 +2378,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd10',
-        damageType: 'cold',
+        damageType: 'rime',
         bonusDamage: 4
       }
     },
@@ -2510,7 +2510,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 4
       }
     },
@@ -2577,7 +2577,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd10',
-        damageType: 'psychic',
+        damageType: 'wyrd',
         bonusDamage: 5
       }
     },
@@ -2777,7 +2777,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd10',
-        damageType: 'force',
+        damageType: 'arcane',
         bonusDamage: 5
       }
     },
@@ -2802,7 +2802,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d10',
-            damageType: 'force',
+            damageType: 'arcane',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -2908,7 +2908,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd6',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 5
       }
     },
@@ -2933,7 +2933,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'damage',
           effectConfig: {
             formula: '2d6',
-            damageType: 'shadow',
+            damageType: 'blight',
             isDot: true,
             dotDuration: 4,
             dotTickFrequency: 'round',
@@ -3107,7 +3107,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 2,
         diceType: 'd8',
-        damageType: 'shadow',
+        damageType: 'blight',
         bonusDamage: 4
       }
     },
@@ -3132,7 +3132,7 @@ export const ENRICHED_WEAPONS = [
           effectType: 'healing',
           effectConfig: {
             formula: '3d6',
-            damageType: 'shadow',
+            damageType: 'blight',
             isDot: false,
             dotDuration: 0,
             dotTickFrequency: 'round',
@@ -3173,7 +3173,7 @@ export const ENRICHED_WEAPONS = [
       baseDamage: {
         diceCount: 1,
         diceType: 'd8',
-        damageType: 'psychic',
+        damageType: 'wyrd',
         bonusDamage: 4
       }
     },

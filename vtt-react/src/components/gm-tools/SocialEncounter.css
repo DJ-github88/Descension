@@ -48,6 +48,17 @@
     box-shadow: 0 0 0 2px #5a3810, 0 7px 24px rgba(120,70,10,0.5), inset 0 2px 0 rgba(255,235,120,0.35), inset 0 -2px 0 rgba(0,0,0,0.3) !important; 
 }
 
+/* Hide scrollbar for the encounter container */
+#social-encounter-scroll-container {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+#social-encounter-scroll-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+}
+
 /* Custom Scrollbar for the Dossier */
 #gm-encounter-dossier {
     scrollbar-width: thin;

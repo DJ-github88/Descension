@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
+import useCraftingStore, { SKILL_LEVELS, PROFESSIONS } from '../../store/craftingStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
 import useChatStore from '../../store/chatStore';
@@ -7,8 +7,9 @@ import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl } from '../../utils/assetManager';
+import CraftingStatusBar from './CraftingStatusBar';
 
-function FirstAidInterface({ onBack, activeTab, onTabChange }) {
+function FirstAidInterface({ onBack, activeTab, onTabChange, onLearnAllRecipes, onAddTestMaterials }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredMaterial, setHoveredMaterial] = useState(null);
@@ -464,126 +465,6 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
 
     const renderRecipes = () => (
         <div className="recipes-content">
-            <div className="recipes-header">
-                {/* Recipes Tabs with Skill Bar */}
-                <div className="recipes-header-tabs">
-                    {/* Active Crafting Progress - Always visible */}
-                    <div className="tabs-crafting-progress">
-                        {(() => {
-                            const activeItem = currentCraftingItem;
-                            return (
-                                <div className="active-crafting-compact">
-                                    <div className="crafting-progress-icon">
-                                        <img
-                                            src={getIconUrl(activeItem?.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
-                                            alt={activeItem?.recipe.name || 'No Active Crafting'}
-                                            onError={(e) => {
-                                                e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="crafting-progress-meter">
-                                        <div className="crafting-progress-header-compact">
-                                            <span className="crafting-item-name-compact">
-                                                {activeItem?.recipe.name || 'No Active Crafting'}
-                                            </span>
-                                            <span className="crafting-time-remaining-compact">
-                                                {activeItem ?
-                                                    Math.max(0, Math.ceil((activeItem.totalTime - (Date.now() - activeItem.startTime)) / 1000)) + 's' :
-                                                    '--'
-                                                }
-                                            </span>
-                                        </div>
-                                        <div className="crafting-progress-bar-compact">
-                                            {(() => {
-                                                let progressValue = 0;
-                                                if (activeItem && activeItem.startTime) {
-                                                    const elapsed = Date.now() - activeItem.startTime;
-                                                    const craftingTime = activeItem.totalTime || activeItem.recipe?.craftingTime || 5000;
-                                                    progressValue = Math.min(100, (elapsed / craftingTime) * 100);
-                                                }
-                                                const timeRemaining = activeItem && activeItem.startTime ?
-                                                    Math.max(0, Math.ceil((activeItem.totalTime - (Date.now() - activeItem.startTime)) / 1000)) : 0;
-                                                return (
-                                                    <div
-                                                        className="crafting-progress-fill-compact"
-                                                        style={{
-                                                            width: `${progressValue}%`,
-                                                            background: activeItem ?
-                                                                `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})` :
-                                                                '#666'
-                                                        }}
-                                                    ></div>
-                                                );
-                                            })()}
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })()}
-                    </div>
-
-                    {/* Crafting Queue Icons */}
-                    {(() => {
-                        const queuedItems = (craftingQueue || []).filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
-                        return queuedItems.length > 0 ? (
-                            <div className="tabs-queue-icons">
-                                {queuedItems.slice(0, 3).map((queuedItem, index) => (
-                                    <div key={queuedItem.id || index} className="queue-icon" title={queuedItem.recipe.name}>
-                                        <img
-                                            src={getIconUrl(queuedItem.recipe.resultIcon || 'inv_misc_bandage_01', 'items')}
-                                            alt={queuedItem.recipe.name}
-                                            onError={(e) => {
-                                                e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
-                                            }}
-                                        />
-                                        <div className="queue-position">{index + 1}</div>
-                                    </div>
-                                ))}
-                                {queuedItems.length > 3 && (
-                                    <div className="queue-overflow" title={`${queuedItems.length - 3} more items queued`}>
-                                        +{queuedItems.length - 3}
-                                    </div>
-                                )}
-                            </div>
-                        ) : null;
-                    })()}
-
-
-                    {/* Skill Progress Bar */}
-                    <div className="tabs-skill-bar">
-                        <div className="skill-progress-container">
-                            <div className="skill-progress-bar">
-                                <div
-                                    className="skill-progress-fill"
-                                    style={{
-                                        width: `${getSkillProgress()}%`,
-                                        background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
-                                    }}
-                                ></div>
-                                <div className="skill-progress-text">
-                                    {firstAidLevel >= 9 ? (
-                                        <span className="skill-maxed">Master Medic</span>
-                                    ) : experienceForNextLevel !== null && experienceForNextLevel !== undefined ? (
-                                        <>
-                                            <span className="skill-exp-current">{firstAidExperience}</span>
-                                            <span className="skill-exp-separator"> / </span>
-                                            <span className="skill-exp-required">{experienceForNextLevel}</span>
-                                            <span className="skill-exp-label"> XP</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="skill-exp-current">{firstAidExperience}</span>
-                                            <span className="skill-exp-label"> XP</span>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {knownRecipes.length === 0 ? (
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
@@ -625,7 +506,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                                             />
                                             {!craftCheck.canCraft && (
                                                 <div className="craft-overlay">
-                                                    <span>‚ú - </span>
+                                                    <span>ÔøΩ - </span>
                                                 </div>
                                             )}
                                         </div>
@@ -647,65 +528,52 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     const renderRecipeCrafting = () => {
         const resultItem = itemLibrary.find(item => item.id === selectedRecipe.resultItemId);
         const craftCheck = canCraftRecipe(selectedRecipe);
+        const craftingTimeDisplay = selectedRecipe.craftingTimeDisplay
+            || `${(selectedRecipe.craftingTime / 1000).toFixed(selectedRecipe.craftingTime % 1000 === 0 ? 0 : 1)} sec`;
 
         return (
             <div className="recipe-crafting-content">
-                <div className="recipe-crafting-header">
-                    <button
-                        className="back-to-recipes-btn"
-                        onClick={() => setSelectedRecipe(null)}
-                        title="Back to Recipes"
-                    >
-                        ‚Üê Back to Recipes
-                    </button>
-                    <div className="recipe-crafting-title">
-                        <h2>{selectedRecipe.name}</h2>
+                <div className="recipe-crafting-details">
+                    <div className="recipe-detail-top">
                         <div
-                            className="recipe-crafting-icon hoverable"
+                            className="recipe-result-icon-large hoverable"
                             onMouseEnter={(e) => resultItem && handleItemMouseEnter(resultItem, e)}
                             onMouseMove={handleItemMouseMove}
                             onMouseLeave={handleItemMouseLeave}
                         >
                             <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${resultItem?.iconId || selectedRecipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
+                                src={getIconUrl(resultItem?.iconId || selectedRecipe.resultIcon || 'inv_misc_bandage_01', 'items')}
                                 alt={selectedRecipe.name}
-                                onError={(e) => {
-                                    e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items');
-                                }}
+                                onError={(e) => { e.target.src = getIconUrl('animal-fabric-bandage-folded-orange-tan-red-details', 'items'); }}
                             />
                         </div>
-                    </div>
-                </div>
-
-                <div className="recipe-crafting-details">
-                    <div className="recipe-description-section">
-                        {resultItem?.description && (
-                            <div className="recipe-description">
-                                <h4>Item Description</h4>
-                                <p>{resultItem.description}</p>
-                            </div>
-                        )}
-
-                        <div className="recipe-requirements">
-                            <div className="requirement-item">
-                                <span className="requirement-label">Skill Required:</span>
-                                <span className="requirement-value">
-                                    {Object.values(SKILL_LEVELS).find(s => s.level === selectedRecipe.requiredLevel)?.name || 'Untrained'}
-                                </span>
-                            </div>
-                            <div className="requirement-item">
-                                <span className="requirement-label">Your Skill:</span>
-                                <span className="requirement-value" style={{
-                                    color: firstAidLevel >= selectedRecipe.requiredLevel ? '#4caf50' : '#f44336'
-                                }}>
-                                    {Object.values(SKILL_LEVELS).find(s => s.level === firstAidLevel)?.name || 'Untrained'}
-                                </span>
-                            </div>
-                            <div className="requirement-item">
-                                <span className="requirement-label">Crafting Time:</span>
-                                <span className="requirement-value">
-                                    {selectedRecipe.craftingTimeDisplay || 'Unknown'}
-                                </span>
+                        <div className="recipe-detail-meta">
+                            {resultItem?.description && (
+                                <p className="recipe-detail-desc">{resultItem.description}</p>
+                            )}
+                            <div className="recipe-stat-badges">
+                                <div className="recipe-stat-badge">
+                                    <i className="fas fa-certificate"></i>
+                                    <span className="badge-label">Skill</span>
+                                    <span className="badge-value">{Object.values(SKILL_LEVELS).find(s => s.level === selectedRecipe.requiredLevel)?.name || 'Untrained'}</span>
+                                </div>
+                                <div className={`recipe-stat-badge ${firstAidLevel >= selectedRecipe.requiredLevel ? 'met' : 'unmet'}`}>
+                                    <i className="fas fa-user-shield"></i>
+                                    <span className="badge-label">Yours</span>
+                                    <span className="badge-value">{Object.values(SKILL_LEVELS).find(s => s.level === firstAidLevel)?.name || 'Untrained'}</span>
+                                </div>
+                                <div className="recipe-stat-badge">
+                                    <i className="fas fa-clock"></i>
+                                    <span className="badge-label">Time</span>
+                                    <span className="badge-value">{craftingTimeDisplay}</span>
+                                </div>
+                                {selectedRecipe.experienceGained && (
+                                    <div className="recipe-stat-badge">
+                                        <i className="fas fa-star"></i>
+                                        <span className="badge-label">XP</span>
+                                        <span className="badge-value">+{selectedRecipe.experienceGained}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -730,9 +598,7 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                                             <img
                                                 src={getIconUrl(itemData?.iconId || 'inv_misc_questionmark', 'items')}
                                                 alt={itemData?.name}
-                                                onError={(e) => {
-                                                    e.target.src = getIconUrl('inv_misc_questionmark', 'items');
-                                                }}
+                                                onError={(e) => { e.target.src = getIconUrl('inv_misc_questionmark', 'items'); }}
                                             />
                                         </div>
                                         <div className="material-info">
@@ -746,7 +612,6 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                             })}
                         </div>
                     </div>
-
 
                     <div className="recipe-crafting-actions">
                         <div className="crafting-info">
@@ -762,22 +627,13 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
                                     {resultItem?.name || selectedRecipe.name}
                                 </span>
                             </div>
-                            {selectedRecipe.experienceGained && (
-                                <div className="crafting-xp">
-                                    <span className="xp-label">Experience Gained:</span>
-                                    <span className="xp-value">+{selectedRecipe.experienceGained} First Aid</span>
-                                </div>
-                            )}
                         </div>
 
                         <div className="crafting-buttons">
                             <button
                                 className="wow-button craft-button-large"
                                 disabled={!craftCheck.canCraft}
-                                onClick={() => {
-                                    console.log('Crafting: Craft Recipe button clicked for', selectedRecipe.name);
-                                    craftItem(selectedRecipe);
-                                }}
+                                onClick={() => craftItem(selectedRecipe)}
                                 title={craftCheck.reason || 'Craft this item'}
                             >
                                 Craft Recipe
@@ -874,6 +730,22 @@ function FirstAidInterface({ onBack, activeTab, onTabChange }) {
 
     return (
         <div className="alchemy-interface">
+            <CraftingStatusBar
+                professionId="first-aid"
+                professionName={PROFESSIONS?.FIRST_AID?.name || 'First Aid'}
+                professionLevel={firstAidLevel}
+                professionExperience={firstAidExperience}
+                experienceForNextLevel={experienceForNextLevel}
+                skillProgress={getSkillProgress()}
+                skillColor={getSkillLevelColor}
+                currentCraftingItem={currentCraftingItem}
+                craftingQueue={craftingQueue}
+                defaultIcon="inv_misc_bandage_01"
+                selectedRecipe={selectedRecipe}
+                onBackToRecipes={() => setSelectedRecipe(null)}
+                onLearnAllRecipes={onLearnAllRecipes}
+                onAddTestMaterials={onAddTestMaterials}
+            />
             <div className="alchemy-content">
                 {renderContent()}
             </div>

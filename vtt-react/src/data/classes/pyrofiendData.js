@@ -22,10 +22,23 @@ export const PYROFIEND_DATA = {
     "myrathil",
     "florae"
    ],
-  "narrativeUnlock": true,
-  "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
- },
+   "narrativeUnlock": true,
+   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
+  },
 
+  // Class Resource, generated per spell. Resource range/balance per design.
+  // Lore name: Inferno Veil (Lore: At Inferno Level 9, exactly 3 turns remain before permanent death)
+  classResource: { type: "inferno_veil", base: 0, max: 9, generationNote: "Builds with each spell cast (1 per cast). At max 9: 3 turns before patron consumes host. No reset, debt transfers on death." },
+
+
+  // EQUIPMENT (added 2026-07-28 audit fix)
+  // TODO: design team to add startingEquipment and proficiencies.
+  // TODO: review weapon/armor lists for class accuracy per lore compendium.
+  equipment: {
+   weapons: ['scorched_blade', 'fist', 'club'],
+   armor: ['light_armor', 'robes'],
+   offHand: ['empty', 'tome']
+  },
  /**
  * Subrace Variants, the Pyrofiend pacts with Scathrach, the Ashen Sovereign, and the
  * meaning of that pact inverts depending on who makes it. For the Solvarn it is the
@@ -429,7 +442,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Inferno Ascension**: 7 ? **8** (Ember Spark ascends +1)
 **Ember Damage Bonus**: +7 ? **+8**
-**Drawback (Level 8 - Fraud)**: 2d4 self-damage per turn, disadvantage on Dex checks
+**Drawback (Level 8 - Fraud)**: 2d4 self-damage per turn, disadvantage on agility checks
 
 **Mana**: 17 - 3 = 14/60
 
@@ -441,7 +454,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 **Inferno Descent**: 8 ? **6**
 **Ember Damage Bonus**: +8 ? **+6**
 **Healing**: 1d6 + spirit/3 ? [5] + 2 = 7 HP
-**Drawbacks Removed**: Level 8 Fraud (no more 2d4 self-damage, Dex checks restored)
+**Drawbacks Removed**: Level 8 Fraud (no more 2d4 self-damage, agility checks restored)
 
 **Mana**: 14 - 4 = 10/60
 **HP**: 25 + 7 = 32/45
@@ -475,7 +488,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 2. **Damage Scaling**: Level 0 (+0) ? Level 1 (+1) ? Level 3 (+3) ? Level 5 (+5) ? Level 7 (+7) ? Level 8 (+8)
 3. **Spell Synergy**: Ember Spark (starter DoT) ? Cinder Bolt (AoE clear) ? Fireball (big AoE) ? Hellfire Wave (massive cone nuke)
 4. **Infernal Surge**: The shared Path Passive triggered at Level 5+, adding +2d6 to the Hellfire Wave for 72 total damage
-5. **Drawback Escalation**: Level 1 (hit chance) ? Level 3 (movement) ? Level 5 (bleeding) ? Level 7 (suffocation) ? Level 8 (self-damage + Dex loss). **Note: Drawbacks do NOT stack**, you only suffer the penalty of your current level.
+5. **Drawback Escalation**: Level 1 (hit chance) ? Level 3 (movement) ? Level 5 (bleeding) ? Level 7 (suffocation) ? Level 8 (self-damage + agility loss). **Note: Drawbacks do NOT stack**, you only suffer the penalty of your current level.
 6. **The Demon's Bargain**: Level 9 gives +10 instead of +9, disproportionate power for the final, deadliest drawback (death in 3 of your turns)
 7. **Cooling Ember**: Descended from 8 ? 6 ? 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
 8. **Resource Tension**: Nearly ran out of mana (6/60 remaining). Ascension costs spells, and spells cost mana.
@@ -575,7 +588,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
    "Heresy",
   ],
   ["7", "+7", "-15ft Speed, 1d6 Suffocation", "Violence"],
-  ["8", "+8", "2d4 Self-dmg, Disadv Dex", "Fraud"],
+  ["8", "+8", "2d4 Self-dmg, Disadv agility", "Fraud"],
   ["9", "+10", "4d8 Self-dmg, Death in 3 Turns, Scathrach Manifests", "Treachery"],
   ],
  },
@@ -1351,7 +1364,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    { id : "pull",
    name: "Pull",
    description:
-    "Pulls the target 15 feet toward the caster. DC 14 Strength save negates.",
+    "Pulls the target 15 feet toward the caster. DC 14 strength check negates.",
    config: {
     movementType: "pull",
     distance: 15,

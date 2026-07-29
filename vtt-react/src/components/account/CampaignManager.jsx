@@ -12,6 +12,7 @@ import { useTooltipPosition } from '../../components/common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
 import campaignService from '../../services/campaignService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
+import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
@@ -2077,15 +2078,7 @@ const CampaignManager = ({ user }) => {
                                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(l => <option key={l} value={l}>{l === 0 ? 'Cantrip' : `Level ${l}`}</option>)}
                               </select>
                               <select value={spell.school} onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })} className="small-select">
-                                <option value="physical">Physical</option>
-                                <option value="ember">Ember</option>
-                                <option value="rime">Rime</option>
-                                <option value="storm">Storm</option>
-                                <option value="arcane">Arcane</option>
-                                <option value="primal">Primal</option>
-                                <option value="blight">Blight</option>
-                                <option value="wyrd">Wyrd</option>
-                                <option value="sacred">Sacred</option>
+                                {SPELL_DAMAGE_TYPES.map(t => <option key={t} value={t}>{getDamageType(t)?.name || t}</option>)}
                               </select>
                             </div>
                             <div className="field-row">

@@ -47,7 +47,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
       if (diceCount > 0) {
         let d = `${diceCount}d${diceType}`;
         if (bonus > 0) d += `+${bonus}`;
-        if (damageType && damageType !== 'physical') d += ` ${damageType}`;
+        if (damageType && damageType !== 'smashing') d += ` ${damageType}`;
         stats.push(d);
       }
     }
@@ -59,13 +59,13 @@ const SimpleCreatureTooltip = ({ creature }) => {
     const effects = [];
     (ability.effects || []).forEach(e => {
       const t = e.type?.toLowerCase() || '';
-      if (t === 'damage') effects.push(e.formula ? `${e.formula} ${(e.damageType || 'physical')} damage` : `${e.damageType || 'physical'} damage`);
+      if (t === 'damage') effects.push(e.formula ? `${e.formula} ${(e.damageType || 'smashing')} damage` : `${e.damageType || 'smashing'} damage`);
       else if (t === 'healing' || t === 'heal') effects.push(e.formula ? `${e.formula} healing` : 'Healing');
       else if (e.name) effects.push(e.name);
     });
     if (ability.damageConfig) {
       const f = ability.damageConfig.formula || ability.damageConfig.damageFormula || '';
-      const dt = ability.damageConfig.damageType || (ability.damageConfig.damageTypes?.[0]) || 'physical';
+      const dt = ability.damageConfig.damageType || (ability.damageConfig.damageTypes?.[0]) || 'smashing';
       if (f) effects.push(`${f} ${dt} damage`);
     }
     if (ability.healingConfig?.formula) effects.push(`${ability.healingConfig.formula} healing`);

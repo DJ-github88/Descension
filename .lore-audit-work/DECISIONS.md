@@ -97,3 +97,25 @@ These 5 decisions were ratified by the worldowner after the two-pass lore audit.
 - PowerShell 5.1 reads script files without UTF-8-BOM as CP1252, corrupting em-dashes and other non-ASCII chars in here-strings. Mitigation: keep scripts pure-ASCII, build non-ASCII at runtime via `[char]` codes, then run `fix-mojibake.ps1` after edits.
 - "Orphan file" audit claims must be verified via grep/import-check before deletion, even when an audit explicitly says "no runtime imports" — codebases evolve.
 - `$LASTEXITSTATE` is unreliable for native commands in some PowerShell 5.1 sessions. Use ES-module import via `node -e "import(...)"` for syntax validation instead.
+
+---
+
+# CANON DECISIONS — RATIFIED 26 July 2026 (Dimension 2: cross-reference integrity wave)
+
+## D13. Region keys canonicalized — long forms only
+- **Decision:** The short-form region values (`iceheart`, `cragjaw`, `bryngloom`) are NON-CANONICAL; the long forms (`iceheart-sea`, `cragjaw-peaks`, `bryngloom-forest`) are the sole canonical region keys.
+- **Rationale:** The short forms had 0 lore.json entries, appeared in only 13 of ~200+ entries (all creatures), and every other entry (regions, locations, houses, creatures) used the long forms. The COMPREHENSIVE_LORE_AUDIT_PROMPT_v2.md §2 region list's inclusion of both forms was vestigial. Long forms have dedicated region entries; short forms were shorthand that produced dead `relatedTerms` cross-refs.
+- **Action:** Normalized 13 creatures (4 iceheart + 5 cragjaw + 4 bryngloom) — both their `region` field and their `relatedTerms` entry repointed to the long forms (26 token replacements). lore.json now uses only long-form region keys.
+- **Cross-references:** affects pelagos, egbere, gaki, kamaitachi, tengu_scout, vodyan, spume_of_the_drowned, writ_of_passage, storm_crows, sump_scrabs, grandmother_of_the_bog, debt_revenant, cycle_eater.
+
+## D14. Human subrace relatedTerms — dead cross-refs removed
+- **Decision:** Remove the 5 dead subrace cross-refs (`thalren`, `tessen`, `solvarn`, `ordan`, `morren`) from the `human` entry's `relatedTerms`. Retain `skald` (type=subculture) and `merryn` (type=subrace), which resolve, plus the 7 houses + Breach/Warden/Aex.
+- **Rationale:** The 5 keys exist only as subrace IDs in `human.js`; they have no lore.json entries, so the cross-refs were dead tooltips. Worldowner chose removal over authoring 5 new subrace entries (deferred to a future Dimension 18 prose-enrichment pass if desired). `human.relatedTerms` now has 12 valid cross-refs (was 17, 5 dead).
+- **Action:** lore.json `human.relatedTerms` reduced 17→12.
+- **Cross-references:** D11 (authored the human entry with the original 17 relatedTerms). Note: `skald`=type=subculture vs `merryn`=type=subrace is a minor type-field inconsistency flagged for Dimension 14.
+
+## D15. Crusader NPC LoreLinks — stripped to plain text
+- **Decision:** Strip the `<LoreLink>` tooltip wrapping from `hierophant-aethelgard` and `lord-captain-vane-solvan` in `crusaderData.js`; keep both names as plain text.
+- **Rationale:** Neither NPC has a lore.json entry, so the LoreLinks produced dead tooltips. Matches the Session-2 pattern for un-entry'd flavor NPCs. Hierophant Aethelgard (canon-named in §7, referenced across sundale/house_solvan/dawn_vigil/the-sundale-civil-war) and Lord-Captain Vane Solvan (minor fallen founder) can be elevated to full entries in a future Dimension 18 pass if desired.
+- **Action:** `crusaderData.js` `livingOrder.founder.name` + `livingOrder.currentLeader.name` converted from `<LoreLink termId="...">Name</LoreLink>` to plain `Name`.
+- **Cross-references:** Crusader is a live `comingSoon: true` class (registered in `classes/index.js`); not in CANON_REFERENCE §9 class list — its canonical-class status is unaddressed (outside Dimension 2 scope; flagged for Dimension 6).

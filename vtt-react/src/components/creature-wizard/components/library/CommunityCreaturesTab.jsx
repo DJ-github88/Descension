@@ -271,10 +271,9 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
     return (
       <div
         key={creature.id}
-        className="community-creature-card-wrapper"
+        className="community-card-wrapper"
         onClick={(e) => {
-          // Don't trigger if clicking the download button
-          if (!e.target.closest('.download-creature-btn')) {
+          if (!e.target.closest('.community-download-btn')) {
             handleCreatureClick(completeCreature, e);
           }
         }}
@@ -282,8 +281,8 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
         onMouseLeave={() => handleMouseLeave(completeCreature)}
       >
         <CompactCreatureCard creature={completeCreature} />
-        <div className="community-creature-actions">
-          <div className="creature-stats">
+        <div className="community-card-actions">
+          <div className="community-card-stats">
             <span className="download-count">
               <i className="fas fa-download"></i> {creature.downloadCount || 0}
             </span>
@@ -291,57 +290,51 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
               <i className="fas fa-star"></i> {(creature.rating || 0).toFixed(1)} ({creature.ratingCount || 0})
             </span>
           </div>
-          <button
-            className="download-creature-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDownloadCreature(creature);
-            }}
-            disabled={downloadingCreatures.has(creature.id)}
-          >
-            {downloadingCreatures.has(creature.id) ? (
-              <>
-                <i className="fas fa-spinner fa-spin"></i> Downloading...
-              </>
-            ) : (
-              <>
-                <i className="fas fa-download"></i> Add to Library
-              </>
-            )}
-          </button>
+          <div className="community-card-interactions">
+            <button
+              className="community-download-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDownloadCreature(creature);
+              }}
+              disabled={downloadingCreatures.has(creature.id)}
+            >
+              {downloadingCreatures.has(creature.id) ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i> Downloading...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-download"></i> Add to Library
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="community-creatures-container">
-      {/* Header */}
-      <div className="community-header">
-        <h2 className="community-title">Community Creatures</h2>
-        <p className="community-subtitle">
-          Discover and download creatures created by the community
-        </p>
-      </div>
-
-      {/* Search Bar and Sort */}
-      <div className="community-tab-search-section community-search">
-        <form onSubmit={handleSearch} className="community-tab-search-form search-form">
-          <div className="community-tab-search-input-group">
+    <div className="community-creatures-tab">
+      {/* Top Controls Bar */}
+      <div className="premium-community-controls">
+        <form onSubmit={handleSearch} className="premium-search-form">
+          <div className="premium-search-input-group">
             <input
               type="text"
               placeholder="Search community creatures..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="community-tab-search-input search-input"
+              className="premium-search-input"
             />
-            <button type="submit" className="community-tab-search-btn search-btn">
+            <button type="submit" className="premium-search-btn">
               <i className="fas fa-search"></i>
             </button>
           </div>
         </form>
         <div className="sort-controls">
-          <label>Sort by:</label>
+          <label>Sort:</label>
           <select
             value={sortBy}
             onChange={(e) => changeSortBy(e.target.value)}
@@ -354,99 +347,172 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
           </select>
         </div>
         {(searchTerm || selectedCategory) && (
-          <button onClick={clearSelection} className="community-tab-clear-btn clear-search-btn" title="Clear search/filter">
-            <i className="fas fa-times"></i>
+          <button onClick={clearSelection} className="premium-clear-btn" title="Clear search/filter">
+            <i className="fas fa-times-circle"></i> Clear
           </button>
         )}
       </div>
 
-      {/* Loading State */}
-      {loading && creatures.length === 0 && (
-        <div className="loading-state">
-          <i className="fas fa-spinner fa-spin"></i>
-          <p>Loading creatures...</p>
-        </div>
-      )}
-
-      {/* Error State */}
-      {error && (
-        <div className="community-error-state">
-          <div className="error-icon">
-            <i className="fas fa-exclamation-triangle"></i>
-          </div>
-          <h3>Unable to Connect to Community</h3>
-          <p>
-            We're having trouble connecting to the community creature database.
-            This might be due to network issues or the service being temporarily unavailable.
-          </p>
-          <p className="error-details">
-            <strong>Don't worry!</strong> You can still use the creature wizard to create your own creatures,
-            and they'll be saved to your local library.
-          </p>
-          <div className="error-actions">
-            <button
-              onClick={() => window.location.reload()}
-              className="retry-btn"
-            >
-              <i className="fas fa-redo"></i> Try Again
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Browse Community Section */}
-      {!selectedCategory && !searchTerm && (
-        <>
-          {/* Categories */}
-          <div className="community-categories">
-            <h3>Browse by Category</h3>
-            <div className="categories-grid">
-              {categories.map(category => (
-                <div
-                  key={category.id}
-                  className="category-card"
-                  onClick={() => selectCategory(category.id)}
-                  style={{
-                    '--category-color': category.color
-                  }}
-                >
-                  <div className="category-icon">
-                    <img
-                      src={`https://wow.zamimg.com/images/wow/icons/large/${category.icon}.jpg`}
-                      alt={category.name}
-                      onError={(e) => {
-                        e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
-                      }}
-                    />
-                  </div>
-                  <h4>{category.name}</h4>
-                  <p>{category.description}</p>
-                  {category.creatureCount !== undefined && (
-                    <div className="category-creature-count">
-                      <i className="fas fa-dragon"></i>
-                      {category.creatureCount} creatures
-                    </div>
-                  )}
-                </div>
-              ))}
+      {/* Content */}
+      <div className="community-content">
+        {/* Mini Header */}
+        <div className="community-minimal-header">
+          <div className="minimal-header-content">
+            <h1>Community Creatures</h1>
+            <div className="header-stats">
+              <span className="header-stat"><i className="fas fa-dragon"></i> {creatures.length} creatures</span>
+              <span className="header-stat"><i className="fas fa-star"></i> {featuredCreatures.length} featured</span>
             </div>
           </div>
+        </div>
 
-          {/* Featured Creatures */}
-          {featuredCreatures.length > 0 && (
-            <div className="featured-creatures">
-              <h3>Featured Creatures</h3>
-              <div className="creatures-grid">
-                {featuredCreatures.map(renderCreatureCard)}
+        {/* Loading State */}
+        {loading && creatures.length === 0 && (
+          <div className="loading-state">
+            <i className="fas fa-spinner fa-spin"></i>
+            <p>Loading creatures...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="community-error-state">
+            <div className="error-icon">
+              <i className="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Unable to Connect to Community</h3>
+            <p>
+              We're having trouble connecting to the community creature database.
+              This might be due to network issues or the service being temporarily unavailable.
+            </p>
+            <p className="error-details">
+              <strong>Don't worry!</strong> You can still use the creature wizard to create your own creatures,
+              and they'll be saved to your local library.
+            </p>
+            <div className="error-actions">
+              <button
+                onClick={() => window.location.reload()}
+                className="retry-btn"
+              >
+                <i className="fas fa-redo"></i> Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Browse Community Section */}
+        {!selectedCategory && !searchTerm && (
+          <>
+            {/* Categories */}
+            <div className="community-categories-section browse-section">
+              <div className="section-header">
+                <i className="fas fa-filter"></i>
+                <h3>Browse by Category</h3>
+              </div>
+              <div className="categories-grid compact-grid">
+                {categories.map(category => (
+                  <div
+                    key={category.id}
+                    className="category-tile"
+                    onClick={() => selectCategory(category.id)}
+                  >
+                    <div className="tile-icon">
+                      <img
+                        src={`/assets/icons/creatures/${category.icon || 'Monsters/Icon1'}.png`}
+                        alt={category.name}
+                        onError={(e) => {
+                          e.target.src = "/assets/icons/creatures/Monsters/Icon1.png";
+                        }}
+                      />
+                    </div>
+                    <div className="tile-info">
+                      <h4>{category.name}</h4>
+                      <span className="tile-count">{category.creatureCount || 0} creatures</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          )}
 
-          {/* All Community Creatures */}
-          <div className="creature-results">
+            {/* Featured Creatures */}
+            {featuredCreatures.length > 0 && (
+              <div className="featured-creatures-section">
+                <div className="section-header">
+                  <i className="fas fa-star"></i>
+                  <h3>Featured Creatures</h3>
+                </div>
+                <div className="creatures-grid">
+                  {featuredCreatures.map(renderCreatureCard)}
+                </div>
+              </div>
+            )}
+
+            {/* All Community Creatures */}
+            <div className="creature-results-section">
+              <div className="results-header">
+                <h3>All Community Creatures</h3>
+                <span className="results-count">{creatures.length} creatures</span>
+              </div>
+
+              {loading && creatures.length === 0 ? (
+                <div className="loading-state">
+                  <i className="fas fa-spinner fa-spin"></i>
+                  <p>Loading creatures...</p>
+                </div>
+              ) : creatures.length === 0 ? (
+                <div className="empty-state">
+                  <i className="fas fa-search"></i>
+                  <p>No creatures found</p>
+                </div>
+              ) : (
+                <>
+                  <div className="creatures-grid">
+                    {creatures
+                      .sort((a, b) => {
+                        const ratingA = a.rating || 0;
+                        const ratingB = b.rating || 0;
+                        if (ratingA !== ratingB) return ratingB - ratingA;
+                        return (b.downloadCount || 0) - (a.downloadCount || 0);
+                      })
+                      .map(renderCreatureCard)}
+                  </div>
+                  
+                  {hasMore && (
+                    <div className="load-more">
+                      <button 
+                        onClick={loadMoreCreatures} 
+                        disabled={loading}
+                        className="load-more-btn"
+                      >
+                        {loading ? (
+                          <>
+                            <i className="fas fa-spinner fa-spin"></i> Loading...
+                          </>
+                        ) : (
+                          <>
+                            <i className="fas fa-chevron-down"></i> Load More
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Search/Category Results */}
+        {(selectedCategory || searchTerm) && (
+          <div className="creature-results-section">
             <div className="results-header">
-              <h3>All Community Creatures</h3>
-              <span className="results-count">{creatures.length} creatures</span>
+              <h3>
+                {selectedCategory 
+                  ? `${categories.find(c => c.id === selectedCategory)?.name || 'Category'} Creatures`
+                  : `Search Results for "${searchTerm}"`
+                }
+              </h3>
+              <span className="results-count">{creatures.length} creatures found</span>
             </div>
 
             {loading && creatures.length === 0 ? (
@@ -462,15 +528,7 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
             ) : (
               <>
                 <div className="creatures-grid">
-                  {creatures
-                    .sort((a, b) => {
-                      // Sort by rating (highest first), then by download count
-                      const ratingA = a.rating || 0;
-                      const ratingB = b.rating || 0;
-                      if (ratingA !== ratingB) return ratingB - ratingA;
-                      return (b.downloadCount || 0) - (a.downloadCount || 0);
-                    })
-                    .map(renderCreatureCard)}
+                  {creatures.map(renderCreatureCard)}
                 </div>
                 
                 {hasMore && (
@@ -495,61 +553,8 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
               </>
             )}
           </div>
-        </>
-      )}
-
-      {/* Search/Category Results */}
-      {(selectedCategory || searchTerm) && (
-        <div className="creature-results">
-          <div className="results-header">
-            <h3>
-              {selectedCategory 
-                ? `${categories.find(c => c.id === selectedCategory)?.name || 'Category'} Creatures`
-                : `Search Results for "${searchTerm}"`
-              }
-            </h3>
-            <span className="results-count">{creatures.length} creatures found</span>
-          </div>
-
-          {loading && creatures.length === 0 ? (
-            <div className="loading-state">
-              <i className="fas fa-spinner fa-spin"></i>
-              <p>Loading creatures...</p>
-            </div>
-          ) : creatures.length === 0 ? (
-            <div className="empty-state">
-              <i className="fas fa-search"></i>
-              <p>No creatures found</p>
-            </div>
-          ) : (
-            <>
-              <div className="creatures-grid">
-                {creatures.map(renderCreatureCard)}
-              </div>
-              
-              {hasMore && (
-                <div className="load-more">
-                  <button 
-                    onClick={loadMoreCreatures} 
-                    disabled={loading}
-                    className="load-more-btn"
-                  >
-                    {loading ? (
-                      <>
-                        <i className="fas fa-spinner fa-spin"></i> Loading...
-                      </>
-                    ) : (
-                      <>
-                        <i className="fas fa-chevron-down"></i> Load More
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Tooltip Portal */}
       {hoveredCreature && ReactDOM.createPortal(
@@ -559,22 +564,19 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
             position: 'fixed',
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
-            zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
+            zIndex: 2147483647
           }}
         >
           <div
             ref={tooltipRef}
             className="creature-card-hover-preview-interactive"
             onWheel={(e) => {
-              // Stop propagation to prevent background scrolling when scrolling tooltip
               e.stopPropagation();
             }}
             onMouseEnter={() => {
-              // Keep tooltip visible when hovering over it
               setHoveredCreature(hoveredCreature);
             }}
             onMouseLeave={() => {
-              // Hide tooltip when leaving it
               setHoveredCreature(null);
             }}
           >

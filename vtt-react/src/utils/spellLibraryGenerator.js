@@ -151,7 +151,7 @@ function getDamageTypesForTheme(theme) {
  ELEMENTAL: ['ember', 'rime', 'storm', 'blight'],
  ARCANE: ['storm', 'wyrd', 'ember'],
  DIVINE: ['sacred', 'ember', 'blight', 'storm'],
- NATURE: ['blight', 'primal', 'physical'],
+  NATURE: ['blight', 'primal', 'smashing'],
  MIND: ['wyrd', 'blight'],
  TEMPORAL: ['storm', 'blight', 'ember']
  };

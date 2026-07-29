@@ -413,7 +413,7 @@ export function getSuggestedMaterialComponent(spellConfig) {
           cost: 0,
           consumed: true
         };
-      case 'physical':
+      case 'smashing':
         return {
           name: 'Iron Filings',
           description: 'A pinch of iron filings',

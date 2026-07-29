@@ -195,7 +195,7 @@ export const WEAPON_FACE_TEXT = {
     }
 };
 
-export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSkill: propSetSelectedSkill } = {}) {
+export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSkill: propSetSelectedSkill, selectedCategory: propCategory } = {}) {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
     const characterStore = useCharacterStore();
@@ -597,8 +597,10 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                             </div>
                         </div>
                         <div className="skill-simple-header-right">
-                            <div className="skill-simple-die-badge" style={{ borderColor: rank.color }}>
-                                <span className="die-badge-size">d{DIE_SIZE_MAP[effectiveRank.key]}</span>
+                            <div className="skill-simple-die-wrapper">
+                                <div className={`skill-simple-die-badge die-shape-${DIE_SIZE_MAP[effectiveRank.key]}`} style={{ '--die-border-color': rank.color }}>
+                                    <span className="die-badge-size">d{DIE_SIZE_MAP[effectiveRank.key]}</span>
+                                </div>
                                 <span className="die-badge-rank">{effectiveRank.name}</span>
                             </div>
                             <div className="skill-simple-controls">
@@ -808,6 +810,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                             <div
                                                 key={die}
                                                 className={`die-selector-icon ${selectedDie === die ? 'selected' : ''}`}
+                                                data-die={die}
                                                 onClick={() => setSelectedDie(die)}
                                                 title={`${die.toUpperCase()} - ${
                                                     die === 'd4' ? 'Very Easy' :
@@ -924,8 +927,23 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         }));
     };
 
+    // Filter categories when controlled via dropdown
+    const CATEGORY_ID_MAP = {
+        combat: 'Combat Mastery',
+        exploration: 'Exploration & Survival',
+        social: 'Social & Influence',
+        arcane: 'Arcane Studies'
+    };
+    const filteredCategories = propCategory !== undefined
+        ? Object.entries(skillsByCategory).filter(([categoryName]) => {
+            const targetName = CATEGORY_ID_MAP[propCategory];
+            return categoryName === targetName;
+        })
+        : Object.entries(skillsByCategory);
+
     return (
         <div className={`skills-container ${selectedSkill ? 'has-selected-skill' : ''}`}>
+            {propCategory === undefined && (
             <div className={`skills-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
                 <button
                     className="skills-sidebar-toggle-button"
@@ -1063,6 +1081,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                     })
                 ))}
             </div>
+            )}
 
             <div className={`skills-content ${selectedSkill ? 'active-skill-detail' : ''}`}>
                 {renderSkillDetail()}

@@ -17,14 +17,14 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   source: 'general',
   categoryIds: ['general_actions'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_meleedamage',
    tags: ['attack', 'combat', 'universal']
   },
-  damageConfig: {
-   formula: 'weapon_die + attribute_modifier',
-   elementType: 'physical',
-   damageType: 'direct',
+   damageConfig: {
+    formula: 'weapon_die + attribute_modifier',
+    elementType: 'smashing',
+    damageType: 'direct',
    canCrit: true,
    critMultiplier: 1,
    critDiceOnly: false
@@ -298,25 +298,25 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   source: 'general',
   categoryIds: ['general_reactions'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_warrior_cleave',
    tags: ['reaction', 'offensive', 'universal']
   },
   damageConfig: {
    formula: 'weapon_die',
-   weaponDependent: true,
-   usesWeaponDice: true,
-   addAttributeModifier: true,
-   damageType: 'physical', // Default fallback, but weapon-dependent will override with actual weapon type
-   canCrit: true,
-   critMultiplier: 1,
-   critDiceOnly: false
-  },
-  targetingConfig: {
-   targetingType: 'single',
-   rangeType: 'touch',
-   rangeDistance: 5,
-   targetRestrictions: ['enemy']
+    weaponDependent: true,
+    usesWeaponDice: true,
+    addAttributeModifier: true,
+    damageType: 'smashing', // Default fallback, but weapon-dependent will override with actual weapon type
+    canCrit: true,
+    critMultiplier: 1,
+    critDiceOnly: false
+   },
+   targetingConfig: {
+    targetingType: 'single',
+    rangeType: 'touch',
+    rangeDistance: 5,
+    targetRestrictions: ['enemy']
   },
   resourceCost: {
    resourceTypes: [],
@@ -390,16 +390,16 @@ export const UNIVERSAL_COMBAT_SPELLS = [
   source: 'general',
   categoryIds: ['general_reactions'],
   typeConfig: {
-   school: 'physical',
+   school: 'smashing',
    icon: 'ability_warrior_riposte',
    tags: ['reaction', 'offensive', 'universal']
   },
   damageConfig: {
    formula: 'weapon_die', // Will be replaced by actual weapon dice when weapon-dependent
-   weaponDependent: true,
-   usesWeaponDice: true,
-   addAttributeModifier: false,
-   damageType: 'physical', // Default fallback, but weapon-dependent will override with actual weapon type
+    weaponDependent: true,
+    usesWeaponDice: true,
+    addAttributeModifier: false,
+    damageType: 'smashing', // Default fallback, but weapon-dependent will override with actual weapon type
    canCrit: true,
    critMultiplier: 1,
    critDiceOnly: false,

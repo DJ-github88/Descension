@@ -781,7 +781,7 @@ export const CLASS_RESOURCE_TYPES = {
  },
 
  'Inquisitor': {
-  id: 'righteousAuthority',
+  id: 'righteous_authority',
   name: 'Righteous Authority',
   shortName: 'Authority',
   type: 'hexbreaker-charges',
@@ -1432,13 +1432,13 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
  }
 };
 
-// REAVER PATH
+// REAVER PATH (Blood-Heat per lore compendium: Class Data 2026-07-28 audit)
 CLASS_RESOURCE_TYPES['Berserker'] = {
- id: 'rageStates',
- name: 'Rage States',
- shortName: 'RAGE',
- type: 'rage',
- description: 'Fury escalates from a smoldering ember to a full apocalypse of rage. Escalating fury from 0-100 with six distinct Rage States',
+ id: 'bloodHeat',
+ name: 'Blood-Heat',
+ shortName: 'BLOOD-HEAT',
+ type: 'blood_heat',
+ description: 'The Hunger Pact fuses Nordhalla cold and Sundale heat into a single fury. The blood boils from smoldering ember to full apocalypse. Escalating fury from 0-100 with six distinct Blood-Heat States',
  visual: {
   type: 'dual-dice',
   count: 2,
@@ -1448,7 +1448,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
   activeColor: '#8B0000',
   glowColor: '#FF4500',
   icon: 'fas fa-axe-battle',
-  effects: ['rage', 'fury', 'escalation']
+  effects: ['blood_heat', 'fury', 'escalation']
  },
  mechanics: {
   max: 100,

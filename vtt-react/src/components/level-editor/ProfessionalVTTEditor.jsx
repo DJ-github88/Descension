@@ -22,7 +22,7 @@ import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
 import LayersPanel from './LayersPanel';
-import EditorStatusBar from './EditorStatusBar';
+
 import { useEditorKeyboard } from './useEditorKeyboard';
 
 import './styles/ProfessionalVTTEditor.css';
@@ -2729,17 +2729,17 @@ const ProfessionalVTTEditor = () => {
                 className="professional-vtt-editor"
             >
                 <div className="vtt-editor-content">
+                    {/* Layer Panel Toggle Overlay Button */}
+                    <button
+                        className="layer-panel-overlay-toggle"
+                        onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                        title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
+                    >
+                        <i className={`fas ${isLayersPanelCollapsed ? 'fa-layer-group' : 'fa-times'}`}></i>
+                    </button>
+
                     {/* Tool Settings - Full Width */}
                     <div className="vtt-tool-settings">
-                        {/* Layer Panel Toggle Overlay Button */}
-                        <button
-                            className="layer-panel-overlay-toggle"
-                            onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                            title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
-                        >
-                            {isLayersPanelCollapsed ? '� - �' : '▶'}
-                        </button>
-
                         {/* Render tool-specific components */}
                         {activeTab === 'drawing' && (
                             <DrawingTools
@@ -2812,16 +2812,6 @@ const ProfessionalVTTEditor = () => {
                         onClearAll={clearAllProfessionalData}
                     />
                 </div>
-
-                {/* Status Bar + Shortcuts Bar (extracted component) */}
-                <EditorStatusBar
-                    activeTab={activeTab}
-                    selectedTool={selectedTool}
-                    drawingLayers={drawingLayers}
-                    hasUnsavedChanges={hasUnsavedChanges}
-                    onUndo={undo}
-                    onRedo={redo}
-                />
 
             </MythrillWindow>
 

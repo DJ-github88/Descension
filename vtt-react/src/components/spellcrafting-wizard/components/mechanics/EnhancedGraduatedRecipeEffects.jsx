@@ -1903,7 +1903,9 @@ const EnhancedGraduatedRecipeEffects = ({
             onChange={(e) => updateEffectLevel(level, 'shieldDamageTypes', e.target.value)}
            >
             <option value="all">All Damage</option>
-            <option value="physical">Physical Only</option>
+            <option value="smashing">Smashing Only</option>
+            <option value="stabbing">Stabbing Only</option>
+            <option value="slicing">Slicing Only</option>
             <option value="magical">Magical Only</option>
            </select>
           </div>

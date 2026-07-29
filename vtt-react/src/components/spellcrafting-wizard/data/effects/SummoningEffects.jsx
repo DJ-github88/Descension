@@ -859,11 +859,11 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                                       }}
                                       className="config-select"
                                     >
-                                      <option value="force">Force</option>
-                                      <option value="fire">Fire</option>
-                                      <option value="cold">Cold</option>
-                                      <option value="lightning">Lightning</option>
-                                      <option value="necrotic">Necrotic</option>
+                                      <option value="arcane">Arcane</option>
+                                      <option value="ember">Ember</option>
+                                      <option value="rime">Rime</option>
+                                      <option value="storm">Storm</option>
+                                      <option value="blight">Blight</option>
                                     </select>
                                   </div>
                                   <div className="config-field">

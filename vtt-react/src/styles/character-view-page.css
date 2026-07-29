@@ -835,10 +835,17 @@
 /* Content areas */
 .character-view-content .character-content-area,
 .character-view-content .stats-content-area,
-.character-view-content .skills-content,
 .character-view-content .lore-content {
   background: transparent;
   padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.character-view-content .skills-content {
+  background: transparent;
+  padding: 20px 0 0 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -933,6 +940,9 @@
   border-radius: 0;
   padding: 12px 20px;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .character-view-content .character-section-title,
@@ -941,6 +951,10 @@
 .character-view-content .lore-section-title {
   color: #5a3825;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* Lore fields container */
@@ -962,6 +976,7 @@
   justify-content: flex-start;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .character-view-content .equipment-layout {
@@ -970,8 +985,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 40px;
+  padding: 60px 0 20px 0;
   gap: 30px;
+  width: 100%;
 }
 
 /* Make stats-container inside character-summary transparent in full-page view */
@@ -1131,7 +1147,7 @@
 
 .character-view-content .skills-content {
   background: transparent !important;
-  padding: 20px;
+  padding: 20px 0 0 0;
 }
 
 .character-view-content .skill-detail-view {

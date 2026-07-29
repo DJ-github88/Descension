@@ -14,8 +14,22 @@ import {
   getFeaturedCreatures,
   downloadCreature,
   rateCreature,
-  uploadCreature
+  uploadCreature,
+  seedTestCreature,
+  initializeCreatureCategories,
+  cleanupDuplicateCreatures
 } from '../services/firebase/communityCreatureService';
+
+let creaturesInitPromise = null;
+function ensureCreaturesInit(sortByValue) {
+  if (!creaturesInitPromise) {
+    creaturesInitPromise = (async () => {
+      await cleanupDuplicateCreatures();
+      await seedTestCreature();
+    })();
+  }
+  return creaturesInitPromise;
+}
 
 export function useCommunityCreatures() {
   // State management
@@ -33,6 +47,8 @@ export function useCommunityCreatures() {
   const loadCategories = useCallback(async () => {
     try {
       setError(null);
+      // Always ensure categories are initialized in Firestore
+      await initializeCreatureCategories();
       const categoriesData = await getCreatureCategories();
       setCategories(categoriesData);
     } catch (err) {
@@ -62,19 +78,17 @@ export function useCommunityCreatures() {
     try {
       setLoading(true);
       setError(null);
-      
+
+      // One-time cleanup + seed (deduped via shared promise)
+      if (!loadMore) await ensureCreaturesInit(sortByValue);
+
       const result = await getAllCommunityCreatures(
         20,
         loadMore ? lastDoc : null,
         sortByValue
       );
       
-      if (loadMore) {
-        setCreatures(prev => [...prev, ...result.creatures]);
-      } else {
-        setCreatures(result.creatures);
-      }
-      
+      setCreatures(result.creatures);
       setHasMore(result.hasMore);
       setLastDoc(result.lastDoc);
     } catch (err) {
