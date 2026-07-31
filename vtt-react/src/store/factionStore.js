@@ -623,7 +623,7 @@ const SEEDED_FACTIONS = [
   colors: { primary: '#d4a030', secondary: '#1a1a2e' },
   publicGoal: 'Expeditionary companies range into every region seeking Monolith fragments. Their sigil is a rising sun pierced by obsidian.',
   publicDescription:
-   'The Dawn Vigil is the most militant of the Solvarn restoration factions (a fighting order that believes the Sundered Monoliths can be reassembled to restart Sol. Their expeditionary companies) small bands of Solvarn Martyrs, Pyrofiends, and Augurs: operate across all seven regions, recovering Monolith fragments by any means necessary.',
+   'The Dawn Vigil is the most militant of the Solari restoration factions (a fighting order that believes the Sundered Monoliths can be reassembled to restart Sol. Their expeditionary companies) small bands of Solari Martyrs, Pyrofiends, and Augurs: operate across all seven regions, recovering Monolith fragments by any means necessary.',
   hiddenAgenda:
        'The Vigil\'s inner council has calculated that reassembling the Monoliths will not restart Sol: it will summon Keth-Amar back to finish the meal. They continue the expeditions in full knowledge of this, for the inner council means to draw the Sun-Eater down deliberately and bind the predator as Aex once bound Sol â€” caging it with another sacrifice rather than letting the seal fail on its own terms.',
    leader: {
@@ -728,7 +728,7 @@ const SEEDED_FACTIONS = [
   leader: {
    npcId: 'solvan-steward',
    title: 'Steward of Emberspire',
-   description: 'The Steward of Emberspire: the Solvan refuse to call anyone "Lord" until the sun returns.'
+   description: 'The Steward of Emberspire: the Solari refuse to call anyone "Lord" until the sun returns.'
   },
    members: [
     { npcId: 'solvan-steward', role: 'Steward of Emberspire (Acting Head)', locationId: 'great-forge' }
@@ -760,7 +760,7 @@ quests: []
   leader: {
     npcId: 'grandmaster-solbrand',
     title: 'Grandmaster of the Sun',
-    description: 'The Grandmaster of the Sun is elected by the Chapter of Ten for a seven-year term, or until death. The current Grandmaster, a Solvan noble who carved his own sun-sword from a fragment of Emberspire\'s caldera glass, has held the post for seventeen years â€” longer than any predecessor since the Dimming began.'
+    description: 'The Grandmaster of the Sun is elected by the Chapter of Ten for a seven-year term, or until death. The current Grandmaster, a Solari noble who carved his own sun-sword from a fragment of Emberspire\'s caldera glass, has held the post for seventeen years â€” longer than any predecessor since the Dimming began.'
   },
   members: [
     { npcId: 'grandmaster-solbrand', role: 'Grandmaster of the Sun', locationId: 'sun-keep' },
@@ -1748,13 +1748,13 @@ quests: []
    },
    {
     id: 'morren-peat-cutters',
-    name: 'Morren Peat Cutters',
+    name: 'Vreken Peat Cutters',
     type: 'guild',
     regionId: 'bryngloom-forest',
     icon: '/assets/icons/factions/default.png',
     colors: { primary: '#3a2a1a', secondary: '#6a4a2a' },
     publicGoal: 'Harvest and distribute Bryngloom peat for fuel and alchemical use',
-    publicDescription: 'The Morren peat cutters provide essential labor and root-system maintenance in Aran-Glen in exchange for settlement rights. They have learned Kessen root-reading to identify medicinal compounds in the bog-growth.'
+    publicDescription: 'The Vreken peat cutters provide essential labor and root-system maintenance in Aran-Glen in exchange for settlement rights. They have learned Kessen root-reading to identify medicinal compounds in the bog-growth.'
    },
    {
     id: 'myrathil-shore',

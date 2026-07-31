@@ -42,7 +42,7 @@ export const CRUSADER_DATA = {
     currentLeader: {
       name: 'Hierophant Aethelgard',
       title: 'High Purger of the Dawn Vigil',
-      characterization: 'An unyielding Solvarn zealot who treats starlight as a non-negotiable martial law.'
+      characterization: 'An unyielding Solari zealot who treats starlight as a non-negotiable martial law.'
     },
     headquarters: { name: 'The Obsidian Citadel', locationId: 'sundale' },
     crisisConnection: 'Aethelgard demands Crusaders reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth-Amar.'
@@ -57,7 +57,7 @@ export const CRUSADER_DATA = {
     title: "The Crusader",
     subtitle: "The Sol-Bound Zealot",
     illustration: "/assets/images/classes/crusader_illustration.png",
-    illustrationCaption: "A Solvarn Crusader channeling Aex's starlight song through a shattered greatsword.",
+    illustrationCaption: "A Solari Crusader channeling Aex's starlight song through a shattered greatsword.",
     originStory: `Born in Year 11 of the Dimming post-Great Breach, the Crusader path was forged when House Solvan knights recognized that faith alone could not hold back Keth-Amar's Wyrd-spawns. They embedded shattered starlight relics directly into their heavy plate and weapons, converting Aex's Willing Sacrifice into a martial frequency of destruction.`,
     quickOverview: {
       title: "Quick Overview",
@@ -79,7 +79,7 @@ Forged during the Dimming when Solvan knights bound Aex's starlight song to heav
 Highly revered in Sundale and Emberspire; viewed with caution by Atropolis archivists who fear religious zeal.
 
 **RACES & CULTURAL AFFILIATION**
-Solvarn humans carry the ancestral starlight lineage; Skald humans fuse it with the Hunger Pact; Waste-Solari draw geothermal magma-fire; Stellar Astril refract it through crystal skin.
+Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hunger Pact; Waste-Solari draw geothermal magma-fire; Stellar Astril refract it through crystal skin.
 
 **NOTABLE FIGURES**
 * **Lord-Captain Vane Solvan**: The first to forge starlight steel into heavy battle-plates.
@@ -122,14 +122,14 @@ Solvarn humans carry the ancestral starlight lineage; Skald humans fuse it with 
 
   subraceVariants: {
     solvarn_human: {
-      subraceName: 'Solvarn',
+      subraceName: 'Solari',
       title: 'The Starlight-Blade',
-      reframe: `Descendants of the original <LoreLink termId="house_solvan">Solvarn</LoreLink> knights who wielded the starlight blade at the Binding. To a Solvarn Crusader, every strike is an act of penance for the knife that flayed <LoreLink termId="aex">Aex</LoreLink>. They carry shattered fragments of starlight-forged steel embedded in their greatswords, converting ancestral guilt into blinding solar zeal.`,
+      reframe: `Descendants of the original <LoreLink termId="house_solvan">Solvarn</LoreLink> knights who wielded the starlight blade at the Binding. To a Solari Crusader, every strike is an act of penance for the knife that flayed <LoreLink termId="aex">Aex</LoreLink>. They carry shattered fragments of starlight-forged steel embedded in their greatswords, converting ancestral guilt into blinding solar zeal.`,
       signatureAbility: {
         name: 'Starlight Resonance',
         description: `Radiant Fervor builds 50% faster near Solvan relics or active sun-beacons. Standing on consecrated ground causes your Greatsword strikes to deal +1d4 bonus sacred damage.`
       },
-      currentCrisisAngle: `The Dawn Vigil's schism cuts deepest among Solvarn Crusaders: the High Hierophants demand Crusaders reforge the Sundered Monoliths, while veteran Crusaders who have seen the Wyrd-taint in the 7th Monolith suspect the ritual is a trap engineered by Keth-Amar.`,
+      currentCrisisAngle: `The Dawn Vigil's schism cuts deepest among Solari Crusaders: the High Hierophants demand Crusaders reforge the Sundered Monoliths, while veteran Crusaders who have seen the Wyrd-taint in the 7th Monolith suspect the ritual is a trap engineered by Keth-Amar.`,
       signatureQuote: {
         text: '"My ancestor held the knife that flayed the star\'s child. I hold the blade that will cut down anything that tries to finish the meal."',
         speaker: 'Lord-Captain Vane Solvan',
@@ -165,7 +165,7 @@ Solvarn humans carry the ancestral starlight lineage; Skald humans fuse it with 
       signatureQuote: {
         text: '"You pray to a sun you never saw. I pray to the boiling mud under my boots. Let us see whose god hits harder."',
         speaker: 'Korr Vulcan-Shield',
-        context: 'Addressing a Solvarn priest in the Harath-Vault'
+        context: 'Addressing a Solari priest in the Harath-Vault'
       }
     },
 

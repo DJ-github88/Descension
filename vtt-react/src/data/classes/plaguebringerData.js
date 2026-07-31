@@ -42,13 +42,13 @@ export const PLAGUEBRINGER_DATA = {
    "ordan_human"
   ],
   "narrativeUnlock": false,
-  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Morren's desperation drives acceptance."
+  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Vreken's desperation drives acceptance."
  },
 
  /**
  * Subrace Variants, the Plaguebringer cultivates living disease inside their own body,
  * and what that body *is* determines what it can host. The Drun Neth are half-dead
- * already. The Morren are desperate enough to accept anything. The Vreken castes
+ * already. The Vreken are desperate enough to accept anything. The Vreken castes
  * carry the disease on the forest's own infrastructure.
  */
  
@@ -78,18 +78,18 @@ subraceVariants: {
  },
 
  morren_human: {
-  subraceName: 'Morren',
+  subraceName: 'Vreken',
   title: 'The Desperation-Cultivator',
-  reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> took to the Plaguebringer path out of pure desperation, the bog's pharmacological resources were their only wield against the Neth contract-economy, and cultivating the hush itself as a weapon was the one act the Neth could not tax. A Morren Plaguebringer does not love disease; they *need* it, the way a debtor needs the one skill their creditor cannot repossess.`,
+  reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> took to the Plaguebringer path out of pure desperation, the bog's pharmacological resources were their only wield against the Neth contract-economy, and cultivating the hush itself as a weapon was the one act the Neth could not tax. A Vreken Plaguebringer does not love disease; they *need* it, the way a debtor needs the one skill their creditor cannot repossess.`,
   signatureAbility: {
   name: 'Debt-Immunity',
-  description: `Cultivated diseases are engineered to be *untaxable*, they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Morren Plaguebringer's Virulence is, by design, the one property Morvane has no jurisdiction over.`
+  description: `Cultivated diseases are engineered to be *untaxable*, they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Vreken Plaguebringer's Virulence is, by design, the one property Morvane has no jurisdiction over.`
   },
-  currentCrisisAngle: `As the foundational strain collapses and cultivated diseases turn virulent against the host, the Morren Plaguebringers face a bitter symmetry: the weapon they built to escape debt is now *costing them their lives*, and the Neth have offered to "renegotiate" their contracts in exchange for the cultivation techniques. The Morren are dying of the one freedom they ever had, and their creditors are circling.`,
+  currentCrisisAngle: `As the foundational strain collapses and cultivated diseases turn virulent against the host, the Vreken Plaguebringers face a bitter symmetry: the weapon they built to escape debt is now *costing them their lives*, and the Neth have offered to "renegotiate" their contracts in exchange for the cultivation techniques. The Vreken are dying of the one freedom they ever had, and their creditors are circling.`,
   signatureQuote: {
   text: '"I grew the hush in my veins because it was the only thing you could not ledger. Now it is killing me, and you offer to save me if I sign it over. I will die first. That, at least, you cannot tax."',
   speaker: 'Mor-Vespera',
-  context: 'A Morren Plaguebringer, to a Neth renegotiator, the week her strain turned'
+  context: 'A Vreken Plaguebringer, to a Neth renegotiator, the week her strain turned'
   }
  },
 
@@ -172,7 +172,7 @@ The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot 
 
 That was three centuries ago. Vespera's foundational bacterial strain, the original rot she pulled from the Sunken Spire, is dying. Cultivated diseases across all practitioners are mutating into forms that attack their hosts. The Root-Veil has begun actively rejecting them. The forest has decided the art is a disease worth curing.
 
-Each subrace hosts the affliction differently. The Drun Neth are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Morren cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
+Each subrace hosts the affliction differently. The Drun Neth are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Vreken cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
 
 Vespera is bedridden. She has tasked her cultivators with engineering a successor strain before she dies. The project is failing. The Root-Veil is deliberately killing the foundational strain, and the virulent mutations are spreading through the network to organisms that never encountered a plaguebringer at all.`,
  title: "The Plaguebringer",
@@ -200,7 +200,7 @@ The plaguebringer's rot-vessel was born in the peat-bog sinks of the <LoreLink t
 Plaguebringers are feared and outlawed in every civilized city, forced to reside in the Over-Shanties or the forest sumps.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLink> and the Morren outcasts.
+The class is heavily practiced by the <LoreLink termId="neth">Drun Neth</LoreLink> and the Vreken outcasts.
 
 **NOTABLE FIGURES**
 * **Vespera the Rot-Vessel**: The alchemist who saved her family from the spore-hush at the price of hosting active decay.

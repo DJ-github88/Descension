@@ -39,7 +39,7 @@ export const FALSE_PROPHET_DATA = {
      "solari"
     ],
    "narrativeUnlock": true,
-       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Morren live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
+       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Vreken live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
  },
 
  /**
@@ -82,27 +82,27 @@ export const FALSE_PROPHET_DATA = {
  },
 
  morren_human: {
-  subraceName: 'Morren',
+  subraceName: 'Vreken',
   title: 'The Debt-Preacher',
-  reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live in debt-trapped desperation adjacent to the <LoreLink termId="morvane">Morvane</LoreLink>'s power, and a Morren False Prophet sells the one thing every Morren family would pay anything for: salvation from the Neth contract-debt. Their manufactured faith is a counter-currency, devotion in lieu of gold, belief in lieu of blood, the congregation paying in worship what their families owe in interest.`,
+  reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> live in debt-trapped desperation adjacent to the <LoreLink termId="morvane">Morvane</LoreLink>'s power, and a Vreken False Prophet sells the one thing every Vreken family would pay anything for: salvation from the Neth contract-debt. Their manufactured faith is a counter-currency, devotion in lieu of gold, belief in lieu of blood, the congregation paying in worship what their families owe in interest.`,
   signatureAbility: {
   name: 'Indulgence-Economy',
-  description: `The Prophet's congregation pays devotion in direct proportion to their inherited debt; the more a follower owes the Neth, the more powerful the Prophet's faith-effects become when channeling through them. The Morren False Prophet is, in effect, a competing creditor.`
+  description: `The Prophet's congregation pays devotion in direct proportion to their inherited debt; the more a follower owes the Neth, the more powerful the Prophet's faith-effects become when channeling through them. The Vreken False Prophet is, in effect, a competing creditor.`
   },
-  currentCrisisAngle: `The Voice's instructions to open "the way" in the Frozen Archive have been read by the Morren Debt-Preachers as a promise: a way out of the contract-system entirely. Some have begun preaching that Morvane itself is the first False Prophet, that the entire Neth contract-economy is a manufactured faith eight centuries old. If they are right, the Morren are not heretics. If they are wrong, Morvane's Sanction will be absolute.`,
+  currentCrisisAngle: `The Voice's instructions to open "the way" in the Frozen Archive have been read by the Vreken Debt-Preachers as a promise: a way out of the contract-system entirely. Some have begun preaching that Morvane itself is the first False Prophet, that the entire Neth contract-economy is a manufactured faith eight centuries old. If they are right, the Vreken are not heretics. If they are wrong, Morvane's Sanction will be absolute.`,
   signatureQuote: {
   text: '"Your grandmother signed a contract with a thing that eats debts. I am offering you a power who will tear it up. Tell me again which one of us is the fraud."',
   speaker: 'Preacher Mor-Velk',
-  context: 'A Morren Debt-Preacher, to a Neth tax-collector, the night before his arrest'
+  context: 'A Vreken Debt-Preacher, to a Neth tax-collector, the night before his arrest'
   }
  },
 
  solvarn_human: {
-  subraceName: 'Solvarn Human',
+  subraceName: 'Solari',
   title: 'The Honest Heretic',
-  reframe: `Preaches the Silence to exhausted Ash-Dwellers who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  —  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solvarn False Prophet does not lie. That is what makes them a prophet.
+  reframe: `Preaches the Silence to exhausted Ash-Dwellers who have never seen the sun. Their doctrine is the most dangerous because it is closest to the truth: Sol is not coming back. The vigil is a lie. The Dawn Vigil has been selling hope for eight centuries, and the Honest Heretic simply stops selling it. The congregation's despair is bottomless  —  and the Madness Points flow faster from telling the truth than from any manufactured revelation. The Solari False Prophet does not lie. That is what makes them a prophet.
 
-The faith reached Sundale through the Hunger Road  —  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Morren debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Solari. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
+The faith reached Sundale through the Hunger Road  —  the same trade route that carried Ordan wool and Skald iron across the Cragjaw spans. Vreken debt-caravans, already touched by the Congregation's message of debt-salvation, carried Li Wei's gospel south when they traveled to Sundale to negotiate coal contracts with the Solari. The Ash-Dwellers, exhausted by eight centuries of vigil, were primed for a doctrine that told them the sun was never coming back. The Honest Heretic preaches what the Ash-Dwellers already suspect: the vigil is a lie.`,
   signatureAbility: {
   name: 'Unvarnished Truth',
   description: `Madness Points are generated by speaking the literal, despairing truth to a congregation that has been fed hope for centuries. The Honest Heretic's doctrine is the most dangerous because it is true: Sol is not returning, the vigil is meaningless, and telling people this generates more Madness than any lie ever could.`
@@ -111,7 +111,7 @@ The faith reached Sundale through the Hunger Road  —  the same trade route tha
   signatureQuote: {
   text: '"They burned the last preacher who lied to them. They will burn me for telling the truth. The fire is the same. The only difference is that I deserve it less."',
   speaker: 'Ash-Preacher Sol-Venn',
-  context: 'A Solvarn Honest Heretic, the night before his scheduled execution'
+  context: 'A Solari Honest Heretic, the night before his scheduled execution'
   }
  },
 
@@ -150,7 +150,7 @@ The faith reached Sundale through the Hunger Road  —  the same trade route tha
  currentLeader: {
   name: '<LoreLink termId="mor-vereth">Cell-Mother Mor-Vereth</LoreLink>',
   title: 'Weaver of the Congregation',
-  characterization: `A <LoreLink termId="house_morrath">Morren</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Neth-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone.`
+  characterization: `A <LoreLink termId="house_morrath">Vreken</LoreLink> debtor who heard the Voice through <LoreLink termId="li-wei">Li Wei</LoreLink>'s breathing and built the cell-network around it. She is cold, organized, and genuinely uncertain whether she is leading a liberation movement or steering millions toward something she cannot see. She keeps <LoreLink termId="li-wei">Li Wei</LoreLink> alive because the Voice will not speak through any other throat. She keeps a private ledger  —  Neth-made, contract-grade  —  in which she records every cell-member who has died following her instructions. The ledger is thicker than any she kept during her debt-collection years. She updates it on the last night of every month, alone, by candlelight. She has never shown it to anyone.`
  },
  headquarters: { name: 'The Crater of the First Silence (cell-network, no fixed seat)', locationId: 'starfall_vale' },
  crisisConnection: `<LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> is the one receiving the Voice's new, specific instructions, *descend to the Frozen Archive's lowest vault, open the way*, and she is terrified because the instructions are no longer suggestions. <LoreLink termId="li-wei">Li Wei</LoreLink>'s heart has begun beating in the rhythm of the commands, and the Congregation's cells across every region are reporting the same rhythm. Whatever is trapped beneath the Archive is using the faith to free itself, and <LoreLink termId="mor-vereth">Mor-Vereth</LoreLink> does not know how to stop a power she invented.`
@@ -159,7 +159,7 @@ The faith reached Sundale through the Hunger Road  —  the same trade route tha
  worldFriction: [
   { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true resonance. A Prophet identified by the Astril elders is subject to immediate crystal-binding and exile; repeat offenders are "quieted." The Quieting of Year 720  —  when Synod crystal-binders publicly sealed twelve False Prophets in the plaza of Synod Hold, only for the gathered crowd to hear the sealed Prophets continue preaching from within their crystal prisons. The synod-elders called it heresy. The crowd called it a miracle. The Congregation tripled in size within the year.', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
  { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil considers manufactured revelation a direct threat to the Reforging theology; False Prophets in Sundale are burned as heretics alongside suspected Pyrofiends.' },
- { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Morren debt-population is desperate enough to believe anything.' }
+ { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Neth are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Vreken debt-population is desperate enough to believe anything.' }
  ],
 
  overview: {
@@ -167,13 +167,13 @@ The faith reached Sundale through the Hunger Road  —  the same trade route tha
 
 The first was Li Wei, an Ordan herd-watcher in the Sundrift Vale. He followed a falling meteor into a deep crystalline crater and found not metal but a sundered monolith humming with a black vacuum, the space where Sol's light had been. When he looked directly into that silence, he saw the gospel of the Silence. He returned with blank white eyes and a mind permanently shattered by the competing voices of dead stars. He cannot lead. He can only listen. The Congregation of the Silence formed around his breathing without his consent.
 
-Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Morren sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solvarn preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
+Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Vreken sell salvation from Neth contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Neth who know exactly what they are. The Solari preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
 
-The faith reached Sundale through the Hunger Road. Morren debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Solari forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
+The faith reached Sundale through the Hunger Road. Vreken debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Solari forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
 
 The Synod Hold has hunted the Congregation since the Quieting of Year 720, when Synod crystal-binders publicly sealed twelve prophets and the gathered crowd heard them continue preaching from within their crystal prisons. The Synod called it heresy. The crowd called it miracle. The Congregation tripled.
 
-The cell-network is run by Cell-Mother Mor-Vereth, a Morren debtor who keeps Li Wei alive because the Voice will not speak through any other throat. She maintains a private ledger recording every cell-member who has died following her instructions. She updates it on the last night of every month, alone. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
+The cell-network is run by Cell-Mother Mor-Vereth, a Vreken debtor who keeps Li Wei alive because the Voice will not speak through any other throat. She maintains a private ledger recording every cell-member who has died following her instructions. She updates it on the last night of every month, alone. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
 
 The Voice itself has grown louder. It has begun giving specific instructions: descend to the lowest vault of the Frozen Archive, open the way. Something beneath the Archive is using the faith to free itself, and Mor-Vereth does not know how to stop a power she invented.`,
   title: "The False Prophet",
@@ -203,11 +203,11 @@ The false prophet's blinding fervor was born in the starless steppe of the <Lore
 False Prophets are viewed with deep suspicion in civilized kingdoms, often treated as dangerous heretics, though they lead small, devoted followings among the steppe nomads.
 
 **RACES & CULTURAL AFFILIATION**
-The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> humans, <LoreLink termId="house_solvan">Solvarn</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
+The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-trapped <LoreLink termId="house_morrath">Vreken</LoreLink>, <LoreLink termId="house_solvan">Solari</LoreLink> Ash-Dwellers who preach truth to exhausted congregations, and the sealed-keep <LoreLink termId="house_tesshan">Tessen</LoreLink> whose captive audience amplifies the voice from the vault.
 
 **NOTABLE FIGURES**
 * **Li Wei the Blind Prophet**: The herd-watcher who stared into the silence where Sol once shone and returned blind, the competing voices of dead stars burning his sight away.
-* **Seraphina the Silent**: A Morren debtor who built the first cell-congregation in the peat-bogs before Mor-Vereth reorganized the network.`
+* **Seraphina the Silent**: A Vreken debtor who built the first cell-congregation in the peat-bogs before Mor-Vereth reorganized the network.`
  },
 
  signatureQuote: {

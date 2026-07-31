@@ -22,7 +22,7 @@ export const REVENANT_DATA = {
    * Subrace Variants, the Revenant refuses death, and the *reason* for that refusal
    * is what makes each variant distinct. The Vreken refuse death because their ancestors
    * need them. The Drun Neth refuse it because they are already legally dead. The
-   * Morren refuse it because their contracts survive the body. The Tessen refuse it
+   * Vreken refuse it because their contracts survive the body. The Tessen refuse it
    * because their bloodline cannot end.
    */
   subraceVariants: {
@@ -75,18 +75,18 @@ export const REVENANT_DATA = {
     },
 
     morren_human: {
-      subraceName: 'Morren',
+      subraceName: 'Vreken',
       title: 'The Debt-Revenant',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> become Revenants for the most Morren reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Morren Revenant is not refusing death, they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Morren, is the final clause in a bargain they never wanted.`,
+      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> become Revenants for the most Vreken reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Vreken Revenant is not refusing death, they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Vreken, is the final clause in a bargain they never wanted.`,
       signatureAbility: {
         name: 'Corvée-Animation',
-        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Morren Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill, the Neth will not let a major debtor simply die.`
+        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Vreken Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill, the Neth will not let a major debtor simply die.`
       },
-      currentCrisisAngle: `The bog-graves waking has the Morren Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Morren Revenants, sustained entirely by that system, will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
+      currentCrisisAngle: `The bog-graves waking has the Vreken Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Vreken Revenants, sustained entirely by that system, will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
       signatureQuote: {
         text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall, and for the first time in two hundred years, I am not certain that falling would be a mercy."',
         speaker: 'Debt-Revenant Mor-Kael',
-        context: 'A Morren Revenant, watching the dead pass his contract-post'
+        context: 'A Vreken Revenant, watching the dead pass his contract-post'
       }
     },
 
@@ -182,7 +182,7 @@ The art emerged from the Bryngloom Forest during the later centuries of the Dimm
 
 When the bog-graves began waking without permission and the dead started marching toward the Sundered Monoliths, the two traditions recognized they were fighting the same war. Kora provided the blood-fueled sacrifice. Vesper provided the frost-stasis phylactery. Together they created a practitioner who charges their phylactery through enemy kills and resurrects from stored life force when slain, triggering a battlefield-wide freeze. The revenant's voice comes out as a whisper, and their hands are always cold.
 
-Each subrace refuses death for different reasons. The Clean Vreken refuse because their ancestors need a living voice to speak through, the revenant state continued service, the host kept half-alive so the dead keep speaking. The Marked Vreken achieve the state through the Root-Veil itself, consciousness smeared across miles of mycelium, dying everywhere and nowhere, nearly impossible to permanently kill but feeling every wound the forest feels. The Drun Neth are legal non-existence made metaphysical. Severed from the First Contract, invisible to Morvane, death cannot claim what legally does not exist. They are the freest undead and the loneliest. The Morren are denied death by the contract-economy that owned them in life. Undeath is the final clause, power scaling with outstanding debt, because the Neth will not let a major debtor simply die. The Tessen anchor their souls to ancestral keep architecture. As long as the keep stands, they cannot be destroyed. The keeps are failing.
+Each subrace refuses death for different reasons. The Clean Vreken refuse because their ancestors need a living voice to speak through, the revenant state continued service, the host kept half-alive so the dead keep speaking. The Marked Vreken achieve the state through the Root-Veil itself, consciousness smeared across miles of mycelium, dying everywhere and nowhere, nearly impossible to permanently kill but feeling every wound the forest feels. The Drun Neth are legal non-existence made metaphysical. Severed from the First Contract, invisible to Morvane, death cannot claim what legally does not exist. They are the freest undead and the loneliest. The Vreken are denied death by the contract-economy that owned them in life. Undeath is the final clause, power scaling with outstanding debt, because the Neth will not let a major debtor simply die. The Tessen anchor their souls to ancestral keep architecture. As long as the keep stands, they cannot be destroyed. The keeps are failing.
 
 Twelve revenants have been found drained of blood but showing no wounds. The Cult of Forgotten Shadow, a silent order operating from the deepest peat-bogs where the Bryngloom's light never reaches, offers Silence-stasis, clean immortality requiring no life-force harvesting. Half the remaining revenants have accepted the offer. The other half suspect the Silence is replacing their souls.`,
 
@@ -211,7 +211,7 @@ The Revenant tradition was born from the convergence of two death-magic schools 
 Revenants are feared and respected in the catacombs of the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> but viewed as dark omens in surface cities. Their presence causes temperatures to drop. Their blood glows faintly in the dark.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> (blood covenant tradition) and the <LoreLink termId="neth">Drun Neth</LoreLink> (frost stasis tradition). Desperate human Morren also take the path.
+The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</LoreLink> (blood covenant tradition) and the <LoreLink termId="neth">Drun Neth</LoreLink> (frost stasis tradition). Desperate Vreken also take the path.
 
 **NOTABLE FIGURES**
 * **Kora the Veil-Speaker**: The first caller whose voice turned to whispers to keep the crypt-lights burning.

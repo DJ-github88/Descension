@@ -15,14 +15,14 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Morren dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
+      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Vreken dismantled Neth contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   /**
    * Subrace Variants, the Inquisitor severs corrupted supernatural bonds, and what
    * counts as "corruption" depends on what your people are surrounded by. The tradition
    * has two roots, Vreken mycelial-hunting (Bryngloom) and Thalren anti-Wyrd paranoia
-   * (Frostwood), and the Morren are the bridge, turning the contract-law that binds
+   * (Frostwood), and the Vreken are the bridge, turning the contract-law that binds
    * them into the weapon that unbinds others.
    */
   subraceVariants: {
@@ -75,18 +75,18 @@ export const INQUISITOR_DATA = {
     },
 
     morren_human: {
-      subraceName: 'Morren',
+      subraceName: 'Vreken',
       title: 'The Contract-Severer',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Morren Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts*, the corrupted familiar, the broken oath, the faustian bargain, and they sever them with the same legal precision the Neth used to write them.`,
+      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Vreken Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts*, the corrupted familiar, the broken oath, the faustian bargain, and they sever them with the same legal precision the Neth used to write them.`,
       signatureAbility: {
         name: 'Clause-Severance',
-        description: `Corrupted magical bonds are severed through contract-law inversion, the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Morren are uniquely suited: they have been reading fine print since birth.`
+        description: `Corrupted magical bonds are severed through contract-law inversion, the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Vreken are uniquely suited: they have been reading fine print since birth.`
       },
-      currentCrisisAngle: `The Wyrd is bleeding faster, and the Morren Inquisitors have noticed the new entities do not *have* contracts, they cannot be severed because they were never bound. A Morren Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
+      currentCrisisAngle: `The Wyrd is bleeding faster, and the Vreken Inquisitors have noticed the new entities do not *have* contracts, they cannot be severed because they were never bound. A Vreken Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
      signatureQuote: {
        text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
        speaker: 'Severer Mor-Kael',
-       context: 'A Morren Inquisitor, requesting transfer from contract-work to the deep groves'
+       context: 'A Vreken Inquisitor, requesting transfer from contract-work to the deep groves'
      }
    },
 
@@ -183,7 +183,7 @@ When the incursion rate tripled, the two hunters met at the border between their
 
 Only forty-seven inquisitors remain. The Wyrd is bleeding faster, and new entities are emerging that fall outside the order's entire methodology, things with no contracts to sever, no faces to bait, no names to bind. The current leader, High-Severer Vrael the Forty-Seventh, has begun training recruits in forbidden techniques. Not severing corruption, but binding it. The founders would have considered this heresy. Vrael considers it survival.
 
-Each subrace hunts through their own culture's strengths. The Marked Vreken track corruption through the mycelial network itself, the forest's nervous system. The Clean Vreken identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Marked sever. The Thalren open their own veins as bait, each wound a permanent scar of intended betrayal. The Morren hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Woven Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Righteous Authority building from patience rather than pursuit.`,
+Each subrace hunts through their own culture's strengths. The Marked Vreken track corruption through the mycelial network itself, the forest's nervous system. The Clean Vreken identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Marked sever. The Thalren open their own veins as bait, each wound a permanent scar of intended betrayal. The Vreken hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Woven Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Righteous Authority building from patience rather than pursuit.`,
 
     quickOverview: {
       title: "The Weight of Authority",
@@ -207,7 +207,7 @@ The Inquisition was born from the convergence of two traditions: the Vreken Barb
 Inquisitors are feared, respected, and deeply isolated. They are tolerated at the margins of <LoreLink termId="sunken_spire">The Sunken Spire</LoreLink> and Atropolis, welcomed in frontier settlements of the Reach, but never fully trusted. Their skin crawls with contained horrors, their voices carry undertones that are not their own, and the cold iron they carry interferes with divination and healing.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the Ghost-Mycelium, the Thalren humans of the Frostwood Reach, the debt-trapped <LoreLink termId="house_morrath">Morren</LoreLink> who turned contract-law into severance, and the <LoreLink termId="mimir">Woven Mimir</LoreLink> Fog-Sentinels who watch the Ironwood Palisade.
+The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the Ghost-Mycelium, the Thalren humans of the Frostwood Reach, the debt-trapped <LoreLink termId="house_morrath">Vreken</LoreLink> who turned contract-law into severance, and the <LoreLink termId="mimir">Woven Mimir</LoreLink> Fog-Sentinels who watch the Ironwood Palisade.
 
 **NOTABLE FIGURES**
 * **Orven the Still-Handed**: Vreken founder of the Barbed Vow who tracked his own sister into the sinking bogs.

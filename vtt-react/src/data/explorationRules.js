@@ -348,7 +348,7 @@ export const EXPLORATION_RULES = {
         type: 'travel',
         description: 'Hidden peat-quagmires that swallow travelers who stray from the roots.',
         resolution: {
-          requirement: 'Requires a Morren guide OR active Survival check (DC 13) to spot sink-pools.',
+          requirement: 'Requires a Vreken guide OR active Survival check (DC 13) to spot sink-pools.',
           success: 'On course.',
           failure: 'One random party member sinks into the peat-mud. Requires an Athletics check (DC 14) from an ally to pull them out, or the sinking character takes 1 level of exhaustion and loses one random piece of gear.'
         }

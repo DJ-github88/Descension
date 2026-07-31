@@ -200,7 +200,7 @@ export const BIOMES = [
       { range: [7, 7], type: 'discovery', label: 'Ancient Tracks', note: 'Survival vs moderate die (d8) to identify.' },
       { range: [8, 8], type: 'combat', label: 'Cinder-Beast Hatchlings', note: 'Ember damage. Fire or area effects disperse.' },
       { range: [9, 9], type: 'social', label: 'Solari Waste-Solari Rangers', note: 'Will trade volcanic goods for water and obsidian.' },
-      { range: [10, 10], type: 'social', label: 'Solvarn Pilgrims', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
+      { range: [10, 10], type: 'social', label: 'Solari Pilgrims', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
       { range: [11, 11], type: 'combat', label: 'Sun-Husk', note: 'Tremorsense. Survival vs challenging die (d10) to detect.' },
       { range: [12, 12], type: 'combat', label: 'Debt-Revenant', note: 'Rises from ash. Fire and radiant vulnerability.' },
       { range: [13, 13], type: 'hazard', label: 'Basalt Collapse', note: 'Survival vs challenging die (d10) to detect.' },

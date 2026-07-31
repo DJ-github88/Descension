@@ -16,7 +16,7 @@ export const HARBINGER_DATA = {
      "ordan_human"
    ],
    "narrativeUnlock": true,
-    "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solvarn live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
+    "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
  },
 
  /**
@@ -59,18 +59,18 @@ export const HARBINGER_DATA = {
   },
 
   solvarn_human: {
-   subraceName: 'Solvarn',
+   subraceName: 'Solari',
    title: 'The Dying-Light Doomsayer',
-   reframe: `The <LoreLink termId="house_solvan">Solvarn</LoreLink> live in the dying light of Sundale, tending the tomb of a star they helped bury. A Solvarn Harbinger reads the arithmetic of Sol's final extinguishment, the exact, grinding math of when the last warmth fails, and weaponizes the certainty. They are the tradition's purest Malakor inheritors: the ones who calculated doom and decided to *use* it.`,
+   reframe: `The <LoreLink termId="house_solvan">Solari</LoreLink> live in the dying light of Sundale, tending the tomb of a star they helped bury. A Solari Harbinger reads the arithmetic of Sol's final extinguishment, the exact, grinding math of when the last warmth fails, and weaponizes the certainty. They are the tradition's purest Malakor inheritors: the ones who calculated doom and decided to *use* it.`,
    signatureAbility: {
     name: 'Dimming-Arithmetic',
-    description: `Mayhem-pressure scales with the ambient decay of light and warmth; a Solvarn Harbinger is strongest at dusk, at winter, and in the deepening dark of the world they helped make. Their magic is fueled by the very catastrophe their ancestors caused.`
+    description: `Mayhem-pressure scales with the ambient decay of light and warmth; a Solari Harbinger is strongest at dusk, at winter, and in the deepening dark of the world they helped make. Their magic is fueled by the very catastrophe their ancestors caused.`
    },
-   currentCrisisAngle: `The Solvarn Harbingers have calculated something they will not share with the <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>: the permanent Chaos Pockets are accelerating Sol's dimming. Every Pocket is a small hole through which the star's remaining warmth bleeds. The Harbingers know the world ends sooner than the Vigil preaches, and some have begun preaching the opposite, that the Pockets are not a crisis but a *mercy killing*.`,
+   currentCrisisAngle: `The Solari Harbingers have calculated something they will not share with the <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>: the permanent Chaos Pockets are accelerating Sol's dimming. Every Pocket is a small hole through which the star's remaining warmth bleeds. The Harbingers know the world ends sooner than the Vigil preaches, and some have begun preaching the opposite, that the Pockets are not a crisis but a *mercy killing*.`,
    signatureQuote: {
     text: '"My ancestors murdered the sun and called it salvation. I am merely honest about what comes after. The math does not lie. I simply read it first."',
     speaker: 'Scryer Sol-Varen',
-    context: 'A Solvarn Harbinger, burning a Dawn Vigil proclamation'
+    context: 'A Solari Harbinger, burning a Dawn Vigil proclamation'
    }
   },
 
@@ -125,7 +125,7 @@ He published his findings. The Frozen Archive suppressed them. The calculations 
 
 Xyris was a Solvarn student who found Malakor's suppressed papers. She was the first to apply the math practically: if freeze was entropy and entropy was measurable, then entropy could be directed. She tore the first Chaos Pocket in the Sundrift Vale, a localized acceleration of the freeze, weaponized. The hole killed her. It also proved the principle. Malakor provided the truth. Xyris proved it could be used.
 
-Each subrace channels a different apocalypse. The Earthen Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Stellar Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solvarn read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
+Each subrace channels a different apocalypse. The Earthen Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Stellar Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solari read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
 
 The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.`,
    title: "The Harbinger",
@@ -155,7 +155,7 @@ The math could not be suppressed forever. Other mathematicians found Malakor's w
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  â€”  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solvarn read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
+This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  â€”  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solari read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
 
 **NOTABLE FIGURES**
 * **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.

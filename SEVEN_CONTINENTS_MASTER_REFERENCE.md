@@ -96,7 +96,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 - **Settlements:**
   - **Cities:** Frosthold Citadel (royal seat, carved into Bearsbeard's Beak); The Frozen Archive (glacier-tomb city; dead stand upright in ice; birthplace of the Augur tradition).
   - **✦ Minor:** Frost-Tithe Cradle-Camp, Ravencall Eyrie (Corvani), Glacier-Song Hermitage.
-- **Landmarks:** Bearsbeard's Beak (highest peak), Skadi's Col (flesh-stripping wind gap), The Hunger Glaciers, The Still Crag (Rime-Born memory-freezing rites).
+- **Landmarks:** Bearsbeard's Beak (highest peak), Skadi's Col (flesh-stripping wind gap), The Hunger Glaciers, Þögn, the old Still Crag (Rime-Born memory-freezing rites).
 - **Ruins:** Rimor's Hearth (buried keep, stubborn steam vents).
 - **Creatures & Wyrd:** **Stel**, **Helhest** (3-legged plague-horse, anchors glaciers), Glacier Wyrm / **Skreika** (ice-dragon), Jutul-king, Perchtar (marching winter judges), Rimor (hearth-parasite).
 - **Intricacies:** the **Sunder-Wall** spans the tundra, funneling all migration through taxed gates. The **Frost-Tithe** drains Rime-Born mothers' warmth at every birth.
@@ -145,7 +145,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 3B · The Ashen Fringe *(ash-plain ring & population belt)*
 - **Geography:** hot, dry, ash-fall; volcanic ash plains, sulfur sumps, basalt.
-- **Races & subraces here:** **Emberth** — **Korr** (deep-vault priestly elite, charcoal skin) & **Thrask** (surface ash-rangers/miners, bronze skin); **Solvarn humans** (sun-vigil martyrs); conscripted Martyrs.
+- **Races & subraces here:** **Emberth** — **Korr** (deep-vault priestly elite, charcoal skin) & **Thrask** (surface ash-rangers/miners, bronze skin); **Solari** (sun-vigil martyrs); conscripted Martyrs.
 - **Factions:** Dawn Vigil, House Solvan (sidelined), Sulfur Cartel, Martyr Brigades, Emberth Watchers.
 - **Settlements:**
   - **Cities:** Harath-Vault (~600; Emberth subterranean capital; the Great Forge + Sol's Breath); The Great Forge (black-iron cavern city); Solvan's Stand (dying Solvan capital, 30,000→<4,000).
@@ -157,7 +157,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 3C · The Green Rim *(warm coastal ring & breadbasket)*
 - **Geography:** warm, mild, sea-breezes; coastal plains, sheltered valleys, hot-springs, oasis groves.
-- **Races & subraces here:** wealthy **Solvarn**; **Merryn trader** captains; Emberth exiles; Risen sympathizers.
+- **Races & subraces here:** wealthy **Solari**; **Merryn trader** captains; Emberth exiles; Risen sympathizers.
 - **Factions:** Dawn Vigil (nominal), smuggler captains, sun-veneration revival cults.
 - **Settlements:**
   - **Settlements:** Konjaw Port (most cosmopolitan), Ember Lagoon (only warm-water port), Basalt Shyr, Ironjaw Village, Breezebough.
@@ -329,7 +329,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 6D · The Bogpost March *(southern marsh-transition fringe)*
 - **Geography:** damp, foggy; marshy steppe, peat-edges, river-crossings.
-- **Races & subraces here:** Ordan; **Morren humans** (peat-cutters); Bryngloom Neth travelers.
+- **Races & subraces here:** Ordan; **Vreken** (peat-cutters); Bryngloom Neth travelers.
 - **Factions:** Bogpost Trade-Council, Ordan March Wardens, Bryngloom Frontier Posts.
 - **Settlements:**
   - **Settlement:** Morren's Bogpost (the only major Bryngloom↔Sundrift trade gateway).
@@ -354,7 +354,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 7A · The Canopy-Heart *(central canopy-grove & political core)*
 - **Geography:** damp, mild, foggy under canopy; living ironwood cathedral-grove, central lake, peat-bog, hanging slums.
-- **Races & subraces here:** **Neth** (pact-bound, non-breathing legalists) — **High Neth / Loyalists** (porcelain-lined, retain warmth/fertility; Atropolis canopy) · **Pale Neth / Conspirators** (cold undead, ashen-skinned; Over-Shanty Deep-Quarter) · **Hallowed Neth / Profane** (semi-translucent spirit conduits; Morvane's Threshold Shrines). Older caste shorthand: Velun / Kessen / Drun. Also **Morren humans** & **Vreken**.
+- **Races & subraces here:** **Neth** (pact-bound, non-breathing legalists) — **High Neth / Loyalists** (porcelain-lined, retain warmth/fertility; Atropolis canopy) · **Pale Neth / Conspirators** (cold undead, ashen-skinned; Over-Shanty Deep-Quarter) · **Hallowed Neth / Profane** (semi-translucent spirit conduits; Morvane's Threshold Shrines). Older caste shorthand: Velun / Kessen / Drun. Also **Vreken**; the Bryngloom's human population was absorbed into the Vreken, so no separate Morren humans remain.
 - **Factions:** House Morrath, Velun Pact-Lords, Over-Shanty syndicates, **Cult of Forgotten Shadow** (founded here).
 - **Settlements:**
   - **City:** Atropolis (suspended canopy-city grown from living ironwoods; the First Contract visible in the Heart-Vault).
@@ -362,7 +362,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
   - **✦ Minor:** Heart-Vault Archive-Hamlet, Memory-Glass Workshop, Branch-Walkway Dwelling, Peat-Press Engine-Camp, Tapestry-Ward Boarding-House, Dangling Keel Tavern.
 - **Landmarks:** The Great Registry, the Peat-Presses.
 - **Creatures & Wyrd:** **Debt-Revenant** (risen to complete broken contracts), **Grandmother of the Bog** (offers life-extensions for memories).
-- **Intricacies:** the Peat-Debt Bondage system — poor Morren mortgage their children's future lifelines for rations.
+- **Intricacies:** the Peat-Debt Bondage system — poor Vreken mortgage their children's future lifelines for rations.
 
 ### 7B · The Sunken Basin *(south-eastern sinkhole & inverted cathedral)*
 - **Geography:** damp, spore-thick; sinkhole, inverted gothic, fungal forests.
@@ -378,7 +378,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 7C · The Peat-Wastes *(northern acid peat-bog)*
 - **Geography:** damp, sulfuric, foggy; acid peat-bog, liquefying mud, dead ironwood stumps.
-- **Races & subraces here:** **Morren** (Defaulted underclass); Debt-Revenants (conscripted undead); Over-Lit Vreken.
+- **Races & subraces here:** **Vreken** (Defaulted underclass); Debt-Revenants (conscripted undead); Over-Lit Vreken.
 - **Factions:** Peat-Press Cartel, Morrath Marshals, Debt-Revenant foremen.
 - **Landmarks:** Widow's Quagmire, **Black Fen** (the Final Clause — legal void where Morvane has no jurisdiction), Drowned Dingle.
 - **✦ Minor:** Peat-Press Forge-Camp, Rot-Fume Hut, Final-Clause Marker, Contract-Dumping Grounds.
@@ -387,7 +387,7 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 
 ### 7D · The Western Bayous *(western wetland edge & fae-old border)*
 - **Geography:** damp, mild, misty; ironwood bayous, river-cliffs, ancient fae-contracts carved in bark.
-- **Races & subraces here:** **Neth Kessen** (probability-weavers); Morren fishermen; Covenbane inquisitors.
+- **Races & subraces here:** **Neth Kessen** (probability-weavers); Vreken fishermen; Covenbane inquisitors.
 - **Factions:** Kessen Loom-Council, Covenbane Inquisition, Drowned-Dingle smugglers.
 - **Settlements:**
   - **Settlements:** Aran-Glen (~300; Kessen living-wood village), Covenbane Stronghold (Inquisition seat).
@@ -424,10 +424,10 @@ Starting continent (unlocked by default): **Frostwood Reach**.
 |---|---|---|---|
 | **Thalren** | Frostwood Reach | Ironheart Vales (rulers), Drowned Fens (the Forgotten outcasts) | Archivists; chained journals; the Ledgered vs the Forgotten |
 | **Skald** | Nordhalla | All 3; expat colony in Frostwood (Skald's Landing, Grevtholm) | Endurance-purists; dead entombed standing in glacier-ice. Subfolk: Bloodhammer, Rune Keeper, **Frostbound** |
-| **Solvarn** | Sundale | Ashen Fringe, Green Rim, Glitterwood (exiles) | Sun-vigil martyrs; pray to a buried god |
+| **Solari** | Sundale | Ashen Fringe, Green Rim, Glitterwood (exiles) | Sun-vigil martyrs; pray to a buried god |
 | **Merryn** | Iceheart Sea | Merrow Archipelago (primary); expats in Sundale (Ember Lagoon/Konjaw), Nordhalla (Ember-Tide), Bryngloom (Merryn's Drift/Great Mere) | Pirate-gamblers; tattoo-contracts on skin |
 | **Ordan** | Sundrift Vale | All 5 | Nomadic horse-riders, throat-singers; Mounted vs Unmounted |
-| **Morren** | Bryngloom Forest | All 6 (Defaulted underclass); trade outpost at Sundrift's Morren's Bogpost | Debtors trading labor & memory to the Neth |
+| **Vreken** | Bryngloom Forest | All 6 (Defaulted underclass); trade outpost at Sundrift's Morren's Bogpost | The Morren were absorbed into the Vreken; debt-bound underclass trading labor & memory to the Neth |
 | **Tessen** | Cragjaw Peaks | Frostmaw Massif, Gorge-Web | Most isolated human culture; no open sky in ~25–30 generations |
 
 ### NON-HUMAN RACES (with subraces/castes & subregion placement)

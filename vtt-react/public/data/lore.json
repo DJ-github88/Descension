@@ -77,7 +77,7 @@
                                            "skalds_landing",
                                            "skalds_longport",
                                            "stel",
-                                           "the_still_crag",
+                                           "thögn",
                                            "the_warden",
                                            "vargtor",
                                            "vesperas_perch",
@@ -86,7 +86,7 @@
                                            "animist",
                                            "malakor",
                                            "theron",
-                                           "frostcirque",
+                                           "gjaldhringr",
                                            "xyris",
                                            "sera-three-scars",
                                            "skadi-glass-eye",
@@ -261,7 +261,7 @@
                              "type":  "region",
                              "region":  "bryngloom-forest",
                              "summary":  "A twilight ironwood canopy and sinking peat-bog, governed by the First Contract and the Great Registry.",
-                             "fullEntry":  "The Bryngloom Forest is a twilight swamp where the trees glow and the bogs remember what falls into them. Since the Neth signed the First Contract with Morvane, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry at Atropolis. Passage is controlled via the living-ironwood Toll-Dikes, and the economy is driven by the Peat-Debt Bondage. Poor Morren are trapped in peonage, while deceased debtors are conscripted into postmortem labor as Debt-Revenants. Traditional Swamp-Song animism is suppressed under Registry-Rituals.",
+                             "fullEntry":  "The Bryngloom Forest is a twilight swamp where the trees glow and the bogs remember what falls into them. Since the Neth signed the First Contract with Morvane, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry at Atropolis. Passage is controlled via the living-ironwood Toll-Dikes, and the economy is driven by the Peat-Debt Bondage. Poor Vreken are trapped in peonage, while deceased debtors are conscripted into postmortem labor as Debt-Revenants. Traditional Swamp-Song animism is suppressed under Registry-Rituals.",
                              "relatedTerms":  [
                                                   "animist",
                                                   "aran_glen",
@@ -714,7 +714,7 @@
                                             "silent_seventh",
                                             "the_breach",
                                             "the_deepening",
-                                            "the_still_crag",
+                                            "thögn",
                                             "titan",
                                             "warden"
                                         ]
@@ -801,8 +801,8 @@
                      "term":  "Solbrand",
                      "type":  "faction",
                      "region":  "sundale",
-                     "summary":  "The Order of Solbrand \u2014 a human Solvan military order of sun-knights, sworn to defend Sundale and the vault of Sol as the sworn sword of House Solvan.",
-                     "fullEntry":  "The Order of Solbrand is a human Solvan military order of sun-knights, distinct from Sol (the bound star), the Embers of Sol (the parent faith: Dawn Vigil / Risen / Scoured), and Aex (Sol\u0027s firstborn). Where the Dawn Vigil worships, the Order of Solbrand rides: heavy cavalry on ash-stallions, their plate lacquered in solar gold, their oaths older than the Vigil itself. They are the last surviving Solvan knightly tradition, proud, austere, and increasingly at odds with a theocracy that claims authority over everything Sol touches.\n\nFounded shortly after the Breach when House Solvan\u0027s surviving heirs needed a martial arm that could operate where the Dawn Vigil\u0027s theocracy could not openly go, the Order took its name from the ancient Solvan word for \"sun\u0027s shield.\" Their sigil is a rising sun pierced by an obsidian blade \u2014 the knife that flayed Aex, the knife that broke. Their plate is lacquered in sun-gold over blackened steel; their steeds are ash-stallions bred in Emberspire\u0027s caldera. They do not worship Sol; they guard what remains of Sol\u0027s legacy.\n\nThe Order maintains chapters at the Great Forge (Sundale), the Sun-Keep (Sundale), and the Ashen Escarpment. Their Grandmaster is elected by the Chapter of Ten for a seven-year term, or until death. Current Grandmaster: Vael Ardent-Sun, a Solvan noble who carved his own sun-sword from a fragment of Emberspire\u0027s caldera glass.",
+                     "summary":  "The Order of Solbrand \u2014 a Solari military order of sun-knights, sworn to defend Sundale and the vault of Sol as the sworn sword of House Solvan.",
+                     "fullEntry":  "The Order of Solbrand is a Solari military order of sun-knights, distinct from Sol (the bound star), the Embers of Sol (the parent faith: Dawn Vigil / Risen / Scoured), and Aex (Sol\u0027s firstborn). Where the Dawn Vigil worships, the Order of Solbrand rides: heavy cavalry on ash-stallions, their plate lacquered in solar gold, their oaths older than the Vigil itself. They are the last surviving Solari knightly tradition, proud, austere, and increasingly at odds with a theocracy that claims authority over everything Sol touches.\n\nFounded shortly after the Breach when House Solvan\u0027s surviving heirs needed a martial arm that could operate where the Dawn Vigil\u0027s theocracy could not openly go, the Order took its name from the ancient Solvan word for \"sun\u0027s shield.\" Their sigil is a rising sun pierced by an obsidian blade \u2014 the knife that flayed Aex, the knife that broke. Their plate is lacquered in sun-gold over blackened steel; their steeds are ash-stallions bred in Emberspire\u0027s caldera. They do not worship Sol; they guard what remains of Sol\u0027s legacy.\n\nThe Order maintains chapters at the Great Forge (Sundale), the Sun-Keep (Sundale), and the Ashen Escarpment. Their Grandmaster is elected by the Chapter of Ten for a seven-year term, or until death. Current Grandmaster: Vael Ardent-Sun, a Solari noble who carved his own sun-sword from a fragment of Emberspire\u0027s caldera glass.",
                      "relatedTerms":  [
                                           "house_solvan",
                                           "sundale",
@@ -941,7 +941,7 @@
                                          ]
                     },
     "harbinger":  {
-                      "nativeWeaving":  "**Ecological.** Entropy-reading arises in cultures that have waited for extinction long enough to weaponize it, Nordhalla\u0027s glacier-stasis and the Sundrift\u0027s darkened sky. **Cultural.** Skald doom-saga crossed with Ordan steppe-nihilism. **Founder.** Xyris tore reality in the Sundrift and Malakor calculated the doom-arithmetic in Nordhalla, products of the Glacier Bargain and the Ordavan migration-bargain. **Subrace-native.** High Astril, Solvarn, Rune Keeper Skald, Ord, the cultures proximate to entropy.",
+                      "nativeWeaving":  "**Ecological.** Entropy-reading arises in cultures that have waited for extinction long enough to weaponize it, Nordhalla\u0027s glacier-stasis and the Sundrift\u0027s darkened sky. **Cultural.** Skald doom-saga crossed with Ordan steppe-nihilism. **Founder.** Xyris tore reality in the Sundrift and Malakor calculated the doom-arithmetic in Nordhalla, products of the Glacier Bargain and the Ordavan migration-bargain. **Subrace-native.** High Astril, Solari, Rune Keeper Skald, Ord, the cultures proximate to entropy.",
                       "id":  "harbinger",
                       "term":  "Harbinger",
                       "type":  "class",
@@ -998,7 +998,7 @@
                                         ]
                    },
     "revenant":  {
-                     "nativeWeaving":  "**Ecological.** Undeath-as-obligation requires the bog-preservation and mycelial Root-Veil that keep the Bryngloom dead \"available\" rather than gone. **Cultural.** Vreken-Neth reincarnation-contract law; the Postmortem Corv\u00E9e treats death as a renegotiated clause. **Founder.** Kora\u0027s blood-covenant and Vesper\u0027s frost-stasis phylactery, both products of the First Contract Stratum. **Subrace-native.** Clean Vreken, Drun Neth, Morren, the peoples whose cultures accept undeath as continuation of obligation.",
+                     "nativeWeaving":  "**Ecological.** Undeath-as-obligation requires the bog-preservation and mycelial Root-Veil that keep the Bryngloom dead \"available\" rather than gone. **Cultural.** Vreken-Neth reincarnation-contract law; the Postmortem Corv\u00E9e treats death as a renegotiated clause. **Founder.** Kora\u0027s blood-covenant and Vesper\u0027s frost-stasis phylactery, both products of the First Contract Stratum. **Subrace-native.** Clean Vreken, Drun Neth, the peoples whose cultures accept undeath as continuation of obligation.",
                      "id":  "revenant",
                      "term":  "Revenant",
                      "type":  "class",
@@ -1089,7 +1089,7 @@
                                        ]
                   },
     "false_prophet":  {
-                          "nativeWeaving":  "**Ecological.** Manufactured meaning arises on a steppe where the sky went dark and the herds must move forever, desperation cosmology. **Cultural.** Ordan steppe-shamanism weaponized into nihilist gospel; the silent ancestral mounds. **Founder.** Li Wei, an Ordan herd-watcher, followed a meteor into a Sundered Monolith crater, a product of the Ordavan migration-bargain and the Silence Between Stars. **Subrace-native.** Ordan, Astril, Morren, the desperate and the heritageless.",
+                          "nativeWeaving":  "**Ecological.** Manufactured meaning arises on a steppe where the sky went dark and the herds must move forever, desperation cosmology. **Cultural.** Ordan steppe-shamanism weaponized into nihilist gospel; the silent ancestral mounds. **Founder.** Li Wei, an Ordan herd-watcher, followed a meteor into a Sundered Monolith crater, a product of the Ordavan migration-bargain and the Silence Between Stars. **Subrace-native.** Ordan, Astril, Vreken, the desperate and the heritageless.",
                           "id":  "false_prophet",
                           "term":  "False Prophet",
                           "type":  "class",
@@ -1162,7 +1162,7 @@
                                   ]
              },
     "animist":  {
-                    "nativeWeaving":  "**Ecological.** Ancestral spirit-channeling requires three biomes, steppe totemic communion, bog spore-inhalation, glacier runic inscription, hence three roots. **Cultural.** Ordan throat-song, Vreken bog-spirit communion, and Skald runic ancestor-veneration. **Founder.** Kael (Ordan), Nyssa (Vreken), and Theron (Skald) each pioneered a root, each a product of their region\u0027s Deep Stratum. **Subrace-native.** Ordan, High Astril, Clean Vreken, Morren, Rune Keeper Skald, Velun Neth.",
+                    "nativeWeaving":  "**Ecological.** Ancestral spirit-channeling requires three biomes, steppe totemic communion, bog spore-inhalation, glacier runic inscription, hence three roots. **Cultural.** Ordan throat-song, Vreken bog-spirit communion, and Skald runic ancestor-veneration. **Founder.** Kael (Ordan), Nyssa (Vreken), and Theron (Skald) each pioneered a root, each a product of their region\u0027s Deep Stratum. **Subrace-native.** Ordan, High Astril, Clean Vreken, Rune Keeper Skald, Velun Neth.",
                     "id":  "animist",
                     "term":  "Animist",
                     "type":  "class",
@@ -1219,7 +1219,7 @@
                                      ]
                 },
     "martyr":  {
-                   "nativeWeaving":  "**Ecological.** Willing-suffering theology arises at Sol\u0027s tomb, where the volcanic theocracy demands sacrifice to feed the failing Solbrand. **Cultural.** Solbrand solar-sacrifice cosmology and the Solvan Heir-Purge. **Founder.** Sera Solvan carved her sacrificed child\u0027s name into her arm, a product of the ur-bargain (Sundale is the wound itself). **Subrace-native.** Solvarn (sun-vigil), Hollow-Solari Solari (Vault-Breath), Velun Neth (contract-martyrdom).",
+                   "nativeWeaving":  "**Ecological.** Willing-suffering theology arises at Sol\u0027s tomb, where the volcanic theocracy demands sacrifice to feed the failing Solbrand. **Cultural.** Solbrand solar-sacrifice cosmology and the Solvan Heir-Purge. **Founder.** Sera Solvan carved her sacrificed child\u0027s name into her arm, a product of the ur-bargain (Sundale is the wound itself). **Subrace-native.** Solari (sun-vigil), Hollow-Solari Solari (Vault-Breath), Velun Neth (contract-martyrdom).",
                    "id":  "martyr",
                    "term":  "Martyr",
                    "type":  "class",
@@ -1250,7 +1250,7 @@
                                       ]
                  },
     "plaguebringer":  {
-                          "nativeWeaving":  "**Ecological.** Disease-hosting requires the Bryngloom\u0027s unique fungal-bog substrate, the spore-hush and the bog-rot. **Cultural.** Vreken bog-plague sainthood. **Founder.** Vespera bonded with bog-rot to cure the spore-hush, a product of the First Contract and Root-Veil Stratum. **Subrace-native.** Drun Neth (partial-death allows hosting), Morren (desperation), Clean Vreken.",
+                          "nativeWeaving":  "**Ecological.** Disease-hosting requires the Bryngloom\u0027s unique fungal-bog substrate, the spore-hush and the bog-rot. **Cultural.** Vreken bog-plague sainthood. **Founder.** Vespera bonded with bog-rot to cure the spore-hush, a product of the First Contract and Root-Veil Stratum. **Subrace-native.** Drun Neth (partial-death allows hosting), Clean Vreken (desperation).",
                           "id":  "plaguebringer",
                           "term":  "Plaguebringer",
                           "type":  "class",
@@ -1264,7 +1264,7 @@
                                            ]
                       },
     "pyrofiend":  {
-                      "nativeWeaving":  "**Ecological.** The fire-pact requires proximity to Scathrach\u0027s influence beneath Emberspire and a culture that frames self-destruction as power. **Cultural.** Solbrand volcanic forge-cult and solar-sacrifice. **Founder.** A cabal of Solvarn occultists swallowed Scathrach\u0027s coals beneath Emberspire, products of the ur-bargain\u0027s wound. **Subrace-native.** Waste-Solari Solari and Solvarn outcasts; cold-adapted cultures reject fire-pacts.",
+                      "nativeWeaving":  "**Ecological.** The fire-pact requires proximity to Scathrach\u0027s influence beneath Emberspire and a culture that frames self-destruction as power. **Cultural.** Solbrand volcanic forge-cult and solar-sacrifice. **Founder.** A cabal of Solvarn occultists swallowed Scathrach\u0027s coals beneath Emberspire, products of the ur-bargain\u0027s wound. **Subrace-native.** Waste-Solari Solari and Solari outcasts; cold-adapted cultures reject fire-pacts.",
                       "id":  "pyrofiend",
                       "term":  "Pyrofiend",
                       "type":  "class",
@@ -1281,7 +1281,7 @@
                                        ]
                   },
     "spellguard":  {
-                       "nativeWeaving":  "**Ecological.** Magical-defense engineering requires the volcanic forge-tradition and the Solbrand\u0027s residual energy. **Cultural.** Forge-cult precision crossed with anti-Wyrd paranoia. **Founder.** Damon the Solari smith blocked a solar flare with an alchemical tower shield during the entombment, a product of the Emberspire wound. **Subrace-native.** Velun Neth (magical cancellation), Thalren, Solvarn, Hollow-Solari Solari.",
+                       "nativeWeaving":  "**Ecological.** Magical-defense engineering requires the volcanic forge-tradition and the Solbrand\u0027s residual energy. **Cultural.** Forge-cult precision crossed with anti-Wyrd paranoia. **Founder.** Damon the Solari smith blocked a solar flare with an alchemical tower shield during the entombment, a product of the Emberspire wound. **Subrace-native.** Velun Neth (magical cancellation), Thalren, Solari.",
                        "id":  "spellguard",
                        "term":  "Spellguard",
                        "type":  "class",
@@ -1389,9 +1389,9 @@
                                            "house_skalvyr",
                                            "nordhalla",
                                            "stel",
-                                           "the_still_crag",
+                                           "thögn",
                                            "vargtor",
-                                           "frostcirque"
+                                           "gjaldhringr"
                                        ]
                   },
     "atropolis":  {
@@ -2116,8 +2116,8 @@
                        "term":  "Dawn Vigil",
                        "type":  "faction",
                        "region":  "sundale",
-                       "summary":  "Born in the Dimming as quiet Monolith-trackers, the Dawn Vigil now marches under Hierophant Aethelgard, sending Solvarn Martyrs and Pyrofiends across the world to seize Sundered fragments: publicly to relight Sol, privately to keep anyone from summoning Keth-Amar back.",
-                       "fullEntry":  "For generations after the Dimming, the Dawn Vigil were quiet. A monastic order of Martyrs, they tracked the scattered Sundered Monoliths in secret, marking locations on ash-paper maps and praying for the day Sol would relight. They kept the old faith and asked nothing of anyone.\n\nThen Hierophant Aethelgard took the chair. Within two decades she had militarized the order, seized the keeps of Sundale, and turned a cloister into an army on the march. Now bands of Solvarn Martyrs, Pyrofiends, and Augurs march into every region under a sigil of a rising sun pierced by obsidian, taking Sundered fragments by whatever means the moment requires. Publicly, the Vigil serves the restoration of House Solvan.\n\nThe Vigil\u0027s inner council has done the math, and the answer is worse than the faithful fear. Reassembling the Monoliths will not bring Sol back. It will summon Keth-Amar to finish what was started at the Breach. They keep marching anyway, because if they do not assemble the fragments first, someone else will.\n\nThe ash keeps falling on Sundale. The keeps fly the obsidian sun. If you carry Martyr scars or Augur sight, the Vigil has a use for you, and the work isn\u0027t done.",
+                       "summary":  "Born in the Dimming as quiet Monolith-trackers, the Dawn Vigil now marches under Hierophant Aethelgard, sending Solari Martyrs and Pyrofiends across the world to seize Sundered fragments: publicly to relight Sol, privately to keep anyone from summoning Keth-Amar back.",
+                       "fullEntry":  "For generations after the Dimming, the Dawn Vigil were quiet. A monastic order of Martyrs, they tracked the scattered Sundered Monoliths in secret, marking locations on ash-paper maps and praying for the day Sol would relight. They kept the old faith and asked nothing of anyone.\n\nThen Hierophant Aethelgard took the chair. Within two decades she had militarized the order, seized the keeps of Sundale, and turned a cloister into an army on the march. Now bands of Solari Martyrs, Pyrofiends, and Augurs march into every region under a sigil of a rising sun pierced by obsidian, taking Sundered fragments by whatever means the moment requires. Publicly, the Vigil serves the restoration of House Solvan.\n\nThe Vigil\u0027s inner council has done the math, and the answer is worse than the faithful fear. Reassembling the Monoliths will not bring Sol back. It will summon Keth-Amar to finish what was started at the Breach. They keep marching anyway, because if they do not assemble the fragments first, someone else will.\n\nThe ash keeps falling on Sundale. The keeps fly the obsidian sun. If you carry Martyr scars or Augur sight, the Vigil has a use for you, and the work isn\u0027t done.",
                        "relatedTerms":  [
                                             "emberspire",
                                             "house_solvan",
@@ -2310,29 +2310,29 @@
                                          "rime_born"
                                      ]
                 },
-    "the_still_crag":  {
-                           "id":  "the_still_crag",
-                           "term":  "The Still Crag",
+    "thögn":  {
+                           "id":  "thögn",
+                           "term":  "Þögn",
                            "type":  "location",
                            "region":  "nordhalla",
-                           "summary":  "A cliff face and glacial hollow perpetually frozen in absolute silence, where the Rime-Born perform memory-freezing rites.",
-                           "fullEntry":  "The Still Crag is a cliff face where no wind blows, no sound carries, and the ice sculptures of unknown figures stand frozen in attitudes of supplication. The Rime-Born believe the crag is where Aethil\u0027s breath physically touched the mountain during the Glacier Bargain, freezing everything it touched into permanent, silent witness. Within the crag lies Frostcirque, a natural glacial amphitheater where the ice walls are covered in runic script. Here, the Rime-Born perform their Memory-Freezing rites, preserving their most important experiences in blocks of glacier ice stored in the walls for eternity. Stand on the Still Crag and you\u0027ll feel the silence press against your ears; Aethil\u0027s breath froze this place mid-word, and the word has never been spoken since.",
+                           "summary":  "A cliff face perpetually frozen in absolute silence, where Aethil's breath touched the mountain during the Binding.",
+                           "fullEntry":  "Þögn is a cliff face where no wind blows, no sound carries, and the ice sculptures of unknown figures stand frozen in attitudes of supplication. The Skald believe the crag is where Aethil's breath physically touched the mountain during the Binding, freezing everything it touched into permanent, silent witness. Within the crag lies Gjaldhringr, a natural glacial amphitheater where the ice walls are covered in runic script — the deal itself, written in ice. Here the Rime-Born perform their Memory-Freezing rites, preserving their most important experiences in blocks of glacier ice stored in the walls for eternity. Stand on Þögn and you'll feel the silence press against your ears; Aethil's breath froze this place mid-word, and the word has never been spoken since.",
                            "relatedTerms":  [
                                                 "nordhalla",
                                                 "rime_born",
                                                 "the_warden",
-                                                "frostcirque"
+                                                "gjaldhringr"
                                             ]
                        },
-    "frostcirque":  {
-                        "id":  "frostcirque",
-                        "term":  "Frostcirque",
+    "gjaldhringr":  {
+                        "id":  "gjaldhringr",
+                        "term":  "Gjaldhringr",
                         "type":  "location",
                         "region":  "nordhalla",
-                        "summary":  "A natural glacial amphitheater within the Still Crag, its ice walls covered in runic script, where the Rime-Born perform their Memory-Freezing rites.",
-                        "fullEntry":  "Frostcirque is the heart of the Still Crag, a natural glacial amphitheater where the ice walls are covered in runic script so dense it reads as texture. Here the Rime-Born perform their Memory-Freezing rites, preserving their most important experiences in blocks of glacier ice stored in the walls for eternity. Pilgrims who press a palm to the scrim report a sensation of having always been cold, as though the amphitheater remembers every visitor. Press your hand to the Frostcirque ice and you\u0027ll feel every Rime-Born who pressed theirs before you; the memory-freezing works both ways, and the ice remembers hands as readily as it remembers rites.",
+                        "summary":  "A natural glacial amphitheater within Þögn, its ice walls covered in the runic script of Aethil's deal.",
+                        "fullEntry":  "Gjaldhringr is the heart of Þögn, a natural glacial amphitheater where the ice walls are covered in runic script so dense it reads as texture — the deal itself, written in ice by Aethil. Here the Rime-Born perform their Memory-Freezing rites, preserving their most important experiences in blocks of glacier ice stored in the walls for eternity. The runic script on the amphitheater's walls is the deal: Aethil's gift and the houses' sacrifice, sealed in glacier ice forever. Pilgrims who press a palm to the scrim report a sensation of having always been cold, as though the amphitheater remembers every visitor. Press your hand to the Gjaldhringr ice and you'll feel every Rime-Born who pressed theirs before you; the memory-freezing works both ways, and the ice remembers hands as readily as it remembers rites.",
                         "relatedTerms":  [
-                                             "the_still_crag",
+                                             "thögn",
                                              "rime_born",
                                              "nordhalla"
                                          ]
@@ -2355,8 +2355,8 @@
                             "term":  "Sol\u0027s Anvil Mesa",
                             "type":  "location",
                             "region":  "sundale",
-                            "summary":  "A massive flat-topped mountain where Solvarn sun-priests hold ceremonies during rare moments of volcanic clarity.",
-                            "fullEntry":  "Sol\u0027s Anvil Mesa is the spiritual high ground of Sundale, a massive basalt mesa whose flat surface has been carved with solar calendars, prophecy charts, and genealogical records stretching back to the Binding. When the volcanic haze clears enough to glimpse the buried sun\u0027s residual glow, Solvarn sun-priests ascend the mesa to conduct their holiest ceremonies. The mesa appears to float above the ashlands, an illusion of heat-shimmer, creating the impression that it has been lifted toward the sun it worships. Climb the Anvil at the right hour and you\u0027ll see the carved calendars glow with the residual light of the star they were cut to honor; the priests say the mesa remembers every dawn since the Binding, and the carvings are still being added.",
+                            "summary":  "A massive flat-topped mountain where Solari sun-priests hold ceremonies during rare moments of volcanic clarity.",
+                            "fullEntry":  "Sol\u0027s Anvil Mesa is the spiritual high ground of Sundale, a massive basalt mesa whose flat surface has been carved with solar calendars, prophecy charts, and genealogical records stretching back to the Binding. When the volcanic haze clears enough to glimpse the buried sun\u0027s residual glow, Solari sun-priests ascend the mesa to conduct their holiest ceremonies. The mesa appears to float above the ashlands, an illusion of heat-shimmer, creating the impression that it has been lifted toward the sun it worships. Climb the Anvil at the right hour and you\u0027ll see the carved calendars glow with the residual light of the star they were cut to honor; the priests say the mesa remembers every dawn since the Binding, and the carvings are still being added.",
                             "relatedTerms":  [
                                                  "house_solvan",
                                                  "solbrand",
@@ -2368,8 +2368,8 @@
                                  "term":  "The Ashen Escarpment",
                                  "type":  "location",
                                  "region":  "sundale",
-                                 "summary":  "A long, steep slope of compacted volcanic ash forming Sundale\u0027s natural border, dotted with Solvarn watchtowers.",
-                                 "fullEntry":  "The Ashen Escarpment is Sundale\u0027s defensive wall, a miles-long ridge of compacted volcanic ash that rises sharply from the lowland approaches. Solvarn watchtowers dot the rim, their eternal signal-fires burning with heartwood resin and visible across the ashlands. The escarpment is treacherous to climb: the ash is packed hard as stone in places, but a wrong step can send a traveler sliding into glass-scarred gullies. It serves as both natural fortification and pilgrimage route for those approaching Emberspire from the lowlands. Climb the escarpment as a pilgrim and the signal-fires will track you the whole way; climb it as anything else, and the Solvarn will know before you reach the top.",
+                                 "summary":  "A long, steep slope of compacted volcanic ash forming Sundale\u0027s natural border, dotted with Solari watchtowers.",
+                                 "fullEntry":  "The Ashen Escarpment is Sundale\u0027s defensive wall, a miles-long ridge of compacted volcanic ash that rises sharply from the lowland approaches. Solari watchtowers dot the rim, their eternal signal-fires burning with heartwood resin and visible across the ashlands. The escarpment is treacherous to climb: the ash is packed hard as stone in places, but a wrong step can send a traveler sliding into glass-scarred gullies. It serves as both natural fortification and pilgrimage route for those approaching Emberspire from the lowlands. Climb the escarpment as a pilgrim and the signal-fires will track you the whole way; climb it as anything else, and the Solari will know before you reach the top.",
                                  "relatedTerms":  [
                                                       "dawn_vigil",
                                                       "house_solvan",
@@ -2396,7 +2396,7 @@
                          "type":  "location",
                          "region":  "sundale",
                          "summary":  "Sundale\u0027s only port, a warm saltwater lagoon heated by volcanic vents where Solari and Merryn traders coexist.",
-                         "fullEntry":  "Ember Lagoon is Sundale\u0027s lifeline to the outside world, the only harbor where the water does not freeze, warmed perpetually by volcanic vents beneath the seabed. The lagoon glows orange-red at night, earning it the Merryn nickname \"the Boiling Door.\" It is a rare point of genuine cooperation between Solari, Solvarn, and Merryn: the Solari control the port infrastructure, the Solvarn maintain the shrine to Sol on the eastern cliff, and the Merryn operate the shipping lanes. Three cultures, one harbor, constant tension, constant profit. Dock at the Boiling Door and you\u0027ll trade with three peoples who agree on nothing but the price of passage; the lagoon keeps the peace by being too valuable to fight over.",
+                         "fullEntry":  "Ember Lagoon is Sundale\u0027s lifeline to the outside world, the only harbor where the water does not freeze, warmed perpetually by volcanic vents beneath the seabed. The lagoon glows orange-red at night, earning it the Merryn nickname \"the Boiling Door.\" It is a rare point of genuine cooperation between the Solari and the Merryn: the Solari control the port infrastructure and maintain the shrine to Sol on the eastern cliff, while the Merryn operate the shipping lanes. Two cultures, one harbor, constant tension, constant profit. Dock at the Boiling Door and you\u0027ll trade with two peoples who agree on nothing but the price of passage; the lagoon keeps the peace by being too valuable to fight over.",
                          "relatedTerms":  [
                                               "basalt_shyr",
                                               "solari",
@@ -2556,8 +2556,8 @@
                             "term":  "Morren\u0027s Bogpost",
                             "type":  "location",
                             "region":  "sundrift-vale",
-                            "summary":  "A Morren trading outpost at the forest-steppe edge, the primary exchange point between Bryngloom and Sundrift goods.",
-                            "fullEntry":  "Morren\u0027s Bogpost is the primary trade gateway between the Bryngloom Forest and the Sundrift Vale, a cluster of squat peat-stone buildings that smell perpetually of bog-water. Morren debt-brokers here exchange Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, for Ordan wool and hide. The credit terms are always generous. The interest always compounds. The Bogpost is the Morren\u0027s most successful financial outpost outside the Bryngloom. Trade at the Bogpost and you\u0027ll get generous terms; the Morren count on the interest, not the principal, and the bog-water smell is the last thing you\u0027ll remember about the deal you shouldn\u0027t have made.",
+                            "summary":  "A Vreken trading outpost at the forest-steppe edge, the primary exchange point between Bryngloom and Sundrift goods.",
+                            "fullEntry":  "Morren\u0027s Bogpost is the primary trade gateway between the Bryngloom Forest and the Sundrift Vale, a cluster of squat peat-stone buildings that smell perpetually of bog-water. Vreken debt-brokers here exchange Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, for Ordan wool and hide. The credit terms are always generous. The interest always compounds. The Bogpost is the Vreken\u0027s most successful financial outpost outside the Bryngloom. Trade at the Bogpost and you\u0027ll get generous terms; the Vreken count on the interest, not the principal, and the bog-water smell is the last thing you\u0027ll remember about the deal you shouldn\u0027t have made.",
                             "relatedTerms":  [
                                                  "bryngloom-forest",
                                                  "house_morrath",
@@ -3156,7 +3156,7 @@
                            "type":  "location",
                            "region":  "bryngloom-forest",
                            "summary":  "A treacherous swamp of bottomless black peat filled with the preserved, aware corpses of ancient debtors risen from broken contracts.",
-                           "fullEntry":  "The Peat-Bog Sinks are the Bryngloom\u0027s most lethal natural hazard, a swamp of bottomless, preserving black peat where the acidic water is thick enough to walk on and deep enough to swallow anything that breaks the surface. The preserved corpses of ancient debtors lie suspended in the peat, aware and watching through clouded eyes, risen when their contracts were broken by death. Morren Peat-Cutters harvest the bog\u0027s surface layers with practiced caution, while Drun Outcasts use the deeper sinks as disposal sites for things that must never be found.",
+                           "fullEntry":  "The Peat-Bog Sinks are the Bryngloom\u0027s most lethal natural hazard, a swamp of bottomless, preserving black peat where the acidic water is thick enough to walk on and deep enough to swallow anything that breaks the surface. The preserved corpses of ancient debtors lie suspended in the peat, aware and watching through clouded eyes, risen when their contracts were broken by death. Vreken Peat-Cutters harvest the bog\u0027s surface layers with practiced caution, while Drun Outcasts use the deeper sinks as disposal sites for things that must never be found.",
                            "relatedTerms":  [
                                                 "bryngloom-forest",
                                                 "over_shanty",
@@ -3183,8 +3183,8 @@
                         "term":  "Over-Shanty",
                         "type":  "location",
                         "region":  "bryngloom-forest",
-                        "summary":  "A chaotic hanging slum of rope-bridges beneath Atropolis, populated by Drun outcasts and Morren peat-cutters beyond the First Contract\u0027s reach.",
-                        "fullEntry":  "Over-Shanty is the Bryngloom\u0027s open secret, a chaotic slum of rope-bridges and ramshackle cabins suspended beneath Atropolis\u0027s main platforms, populated by Drun Neth who burned their names from the First Contract and Morren peat-cutters who never had names there to begin with. No Neth law applies here. No Vreken ancestor watches. The Cult of Forgotten Shadow operates openly, running a memory-trade in extracted experiences that the Velun Pact-Lords officially deny exists. Everything in the Shanty sways, everything is for sale, and everyone is running from something.",
+                        "summary":  "A chaotic hanging slum of rope-bridges beneath Atropolis, populated by Drun outcasts and Vreken peat-cutters beyond the First Contract\u0027s reach.",
+                        "fullEntry":  "Over-Shanty is the Bryngloom\u0027s open secret, a chaotic slum of rope-bridges and ramshackle cabins suspended beneath Atropolis\u0027s main platforms, populated by Drun Neth who burned their names from the First Contract and Vreken peat-cutters who never had names there to begin with. No Neth law applies here. No Vreken ancestor watches. The Cult of Forgotten Shadow operates openly, running a memory-trade in extracted experiences that the Velun Pact-Lords officially deny exists. Everything in the Shanty sways, everything is for sale, and everyone is running from something.",
                         "relatedTerms":  [
                                              "atropolis",
                                              "bryngloom-forest",
@@ -3198,8 +3198,8 @@
                            "term":  "Drowned Dingle",
                            "type":  "location",
                            "region":  "bryngloom-forest",
-                           "summary":  "A permanently flooded woodland valley where petrified ironwood trees chime like bells and Morren peat-cutters harvest in flat-bottomed boats.",
-                           "fullEntry":  "The Drowned Dingle is the Bryngloom\u0027s most melancholic landscape, a wooded valley permanently flooded by bog water where dead ironwood trees stand like skeletal fingers above the dark surface, their petrified branches chiming like bells when the wind blows. Morren peat-cutters navigate the dingle in flat-bottomed boats, harvesting peat and occasionally pulling preserved corpses from the depths. The sound of the chiming trees carries for miles, a slow, random music that the Vreken claim are the voices of ancestors trying to speak through wood instead of bone.",
+                           "summary":  "A permanently flooded woodland valley where petrified ironwood trees chime like bells and Vreken peat-cutters harvest in flat-bottomed boats.",
+                           "fullEntry":  "The Drowned Dingle is the Bryngloom\u0027s most melancholic landscape, a wooded valley permanently flooded by bog water where dead ironwood trees stand like skeletal fingers above the dark surface, their petrified branches chiming like bells when the wind blows. Vreken peat-cutters navigate the dingle in flat-bottomed boats, harvesting peat and occasionally pulling preserved corpses from the depths. The sound of the chiming trees carries for miles, a slow, random music that the Vreken claim are the voices of ancestors trying to speak through wood instead of bone.",
                            "relatedTerms":  [
                                                 "black_fen",
                                                 "bryngloom-forest",
@@ -3212,8 +3212,8 @@
                                  "term":  "Thalren\u0027s Ledger-Post",
                                  "type":  "location",
                                  "region":  "bryngloom-forest",
-                                 "summary":  "A shared Thalren-Morren archive outpost on the forest edge, where scribes copy Neth contract records onto vellum as insurance against the fog.",
-                                 "fullEntry":  "Thalren\u0027s Ledger-Post is a rare collaboration between two cultures that have little else in common, a hybrid outpost of peat-stone and ironwood where Thalren scribes copy Neth contract records onto calfskin vellum, creating duplicates that the fog cannot consume and the peat cannot dissolve. The Morren who co-manage the outpost see it as a business opportunity, charging the Neth for archival services while selling the Thalren access to Bryngloom trade routes. It serves as neutral ground in a forest where neutrality is a commodity more precious than gold.",
+                                                                   "summary":  "A shared Thalren-Vreken archive outpost on the forest edge, where scribes copy Neth contract records onto vellum as insurance against the fog.",
+                                 "fullEntry":  "Thalren\u0027s Ledger-Post is a rare collaboration between two cultures that have little else in common, a hybrid outpost of peat-stone and ironwood where Thalren scribes copy Neth contract records onto calfskin vellum, creating duplicates that the fog cannot consume and the peat cannot dissolve. The Vreken who co-manage the outpost see it as a business opportunity, charging the Neth for archival services while selling the Thalren access to Bryngloom trade routes. It serves as neutral ground in a forest where neutrality is a commodity more precious than gold.",
                                  "relatedTerms":  [
                                                       "bryngloom-forest",
                                                       "merryns_drift",
@@ -3713,7 +3713,7 @@
                            "role":  "Steward of House Solvan",
                            "region":  "sundale",
                            "summary":  "Caretaker of House Solvan, who refuse to call anyone Lord until the sun returns from its tomb.",
-                           "fullEntry":  "The Steward of Emberspire manages House Solvan\u0027s affairs from the Great Forge, a position defined by absence: the Solvarn refuse to recognize any title higher than \"Steward\" until Sol, the buried star they helped entomb beneath Emberspire, is released from its prison. The current Steward oversees a house defined by guilt, vigil, and a founding crime they cannot undo. Every Solvarn Martyr who takes the Vow, every Pyrofiend who swallows Scathrach\u0027s coal, does so under the Steward\u0027s silent, complicit gaze. Hold the Steward\u0027s seat and you hold a house that won\u0027t call you Lord, a crime that won\u0027t stay buried, and a star that won\u0027t stop pressing against the door you sealed it behind.",
+                           "fullEntry":  "The Steward of Emberspire manages House Solvan\u0027s affairs from the Great Forge, a position defined by absence: the Solari refuse to recognize any title higher than \"Steward\" until Sol, the buried star they helped entomb beneath Emberspire, is released from its prison. The current Steward oversees a house defined by guilt, vigil, and a founding crime they cannot undo. Every Solari Martyr who takes the Vow, every Pyrofiend who swallows Scathrach\u0027s coal, does so under the Steward\u0027s silent, complicit gaze. Hold the Steward\u0027s seat and you hold a house that won\u0027t call you Lord, a crime that won\u0027t stay buried, and a star that won\u0027t stop pressing against the door you sealed it behind.",
                            "relatedTerms":  [
                                                 "great_forge",
                                                 "sundale",
@@ -4004,7 +4004,7 @@
                         "role":  "Founder of the Martyr Path",
                         "region":  "sundale",
                         "summary":  "The Solvarn noblewoman who carved her sacrificed child\u0027s name into her arm and founded willing suffering as a sacred art.",
-                        "fullEntry":  "Sera Solvan carved her sacrificed child\u0027s name into her own arm after the ritual that kept Sol imprisoned beneath Emberspire, and declared every wound willingly absorbed a small death in imitation of the buried star she helped entomb. The Devotion Gauge, the measure of accumulated suffering that generates miraculous protection, was born from her pain. Her house, the Solvarn, now conscript their own children into Martyr training. What Sera created as a personal act of atonement has become a factory of consecrated suffering. Take the Vow that Sera carved into her own skin and you inherit her grief and her Gauge; the question the Solvarn no longer ask is whether the suffering still serves the star, or whether it has started serving itself.",
+                        "fullEntry":  "Sera Solvan carved her sacrificed child\u0027s name into her own arm after the ritual that kept Sol imprisoned beneath Emberspire, and declared every wound willingly absorbed a small death in imitation of the buried star she helped entomb. The Devotion Gauge, the measure of accumulated suffering that generates miraculous protection, was born from her pain. Her house, the Solari, now conscript their own children into Martyr training. What Sera created as a personal act of atonement has become a factory of consecrated suffering. Take the Vow that Sera carved into her own skin and you inherit her grief and her Gauge; the question the Solari no longer ask is whether the suffering still serves the star, or whether it has started serving itself.",
                         "relatedTerms":  [
                                              "emberspire",
                                              "sundale",
@@ -4527,8 +4527,8 @@
                       "term":  "The Risen",
                       "type":  "faction",
                       "region":  "sundale",
-                      "summary":  "The old Solari faith of Sundale, holding the Harath-Vault and tending the Solbrand. They believe Sol will rise when it is ready \u2014 not when the Vigil forces it. The Hollow-Solari and the deep-born Solvarn still stand with them.",
-                      "fullEntry":  "Someone has to tend the fire, or there\u0027s no fire to come back to. That is the whole of the Risen\u0027s faith. They hold to the original Solari theology: keep the Solbrand at any cost, hide the Sundered Monolith shards from those who would reassemble them, and Sol will rise the day the seal is whole again. In a Sundale that is eating itself over what the Solbrand actually is, the Risen are the ones who still call it Sol\u0027s warmth and mean it.\n\nThey keep the Harath-Vault as their stronghold and draw their strength from the Hollow-Solari Solari, the Solvarn deep-born, and the old Martyr families who can still remember when the fire answered back. They are the largest of the three factions, and the slowest to raise a hand against a brother, which is why they keep losing ground to those who aren\u0027t.\n\nThey aren\u0027t alone in this war. The Sunderer preach that the Solbrand is Keth-Amar\u0027s feeding line and must be put out. The Scoured deface their forge-marks and hunt Monolith Shards to seal the breach rather than reassemble it. The Risen call both of them heretics, mean it, and keep tending the flame.\n\nThe Solbrand still burns, for now. If you can still feel warmth in it, the Risen have a place for you at the forge, and a long night\u0027s work to share.",
+                      "summary":  "The old Solari faith of Sundale, holding the Harath-Vault and tending the Solbrand. They believe Sol will rise when it is ready \u2014 not when the Vigil forces it. The Hollow-Solari and the deep-born Solari still stand with them.",
+                      "fullEntry":  "Someone has to tend the fire, or there\u0027s no fire to come back to. That is the whole of the Risen\u0027s faith. They hold to the original Solari theology: keep the Solbrand at any cost, hide the Sundered Monolith shards from those who would reassemble them, and Sol will rise the day the seal is whole again. In a Sundale that is eating itself over what the Solbrand actually is, the Risen are the ones who still call it Sol\u0027s warmth and mean it.\n\nThey keep the Harath-Vault as their stronghold and draw their strength from the Hollow-Solari Solari, the Solari deep-born, and the old Martyr families who can still remember when the fire answered back. They are the largest of the three factions, and the slowest to raise a hand against a brother, which is why they keep losing ground to those who aren\u0027t.\n\nThey aren\u0027t alone in this war. The Sunderer preach that the Solbrand is Keth-Amar\u0027s feeding line and must be put out. The Scoured deface their forge-marks and hunt Monolith Shards to seal the breach rather than reassemble it. The Risen call both of them heretics, mean it, and keep tending the flame.\n\nThe Solbrand still burns, for now. If you can still feel warmth in it, the Risen have a place for you at the forge, and a long night\u0027s work to share.",
                       "relatedTerms":  [
                                            "sundale",
                                            "dawn_vigil",
@@ -5195,7 +5195,7 @@
                   "type":  "race",
                   "region":  "atropolis",
                   "summary":  "The shortest-lived people of Mythrill, whose seven noble houses struck the bargains that bound Sol and broke the world, and whose regional subraces still carry the consequences of those bargains in blood and climate.",
-                  "fullEntry":  "The humans were already on Mythrill when Sol entered its Deepening, and they were the ones who answered. Seven noble houses went to the Warden: Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, Viridane. Six of them broke. The seventh refused. The Bargains that came of that meeting, and the Breach that followed, remade the world and remade the humans who lived in it.\n\nThe seven regional subraces of humanity still carry the Bargains in their blood. The Thalren of the Frostwood Reach trade clarity for insulating fog. The Skald of Nordhalla traded summer for halted glaciers. The Tessen of the Cragjaw Peaks traded visibility for eternal blizzard-veil. The Solvarn of Sundale wielded the knife that flayed Aex and bear the guilt. The Merryn of the Iceheart Sea traded calm waters for perpetual storms. The Ordavan of Sundrift Vale traded fertile soil for endless grass and a sky the constellations flee. The Morren of the Bryngloom Forest walk the bog under the Neth First Contract. Each subrace is human; each subrace is what their bargain made them.\n\nHumans are the shortest-lived people of Mythrill, the most prolific, and the ones whose ancestors decided the shape of the world. They do not get to forget it. Every human carries a house-name in their lineage, and every house-name carries a bargain, and every bargain is still being paid.",
+                  "fullEntry":  "The humans were already on Mythrill when Sol entered its Deepening, and they were the ones who answered. Seven noble houses went to the Warden: Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, Viridane. Six of them broke. The seventh refused. The Bargains that came of that meeting, and the Breach that followed, remade the world and remade the humans who lived in it.\n\nThe five regional subraces of humanity still carry the Bargains in their blood. The Thalren of the Frostwood Reach trade clarity for insulating fog. The Skald of Nordhalla traded summer for halted glaciers. The Tessen of the Cragjaw Peaks traded visibility for eternal blizzard-veil. The Merryn of the Iceheart Sea traded calm waters for perpetual storms. The Ordavan of Sundrift Vale traded fertile soil for endless grass and a sky the constellations flee. Two houses paid the deepest price of all: the Solvarn of Sundale wielded the knife that flayed Aex, and Ember transformed them into the Solari, who bear the guilt as something more than human; the Morren of the Bryngloom Forest, who walked the bog under the Neth First Contract, were absorbed into the Vreken. Each surviving human subrace is what their bargain made them.\n\nHumans are the shortest-lived people of Mythrill, the most prolific, and the ones whose ancestors decided the shape of the world. They do not get to forget it. Every human carries a house-name in their lineage, and every house-name carries a bargain, and every bargain is still being paid.",
                   "relatedTerms":  [
                                        "skald",
                                        "merryn",

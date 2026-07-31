@@ -23,7 +23,7 @@ export const PYROFIEND_DATA = {
     "florae"
    ],
    "narrativeUnlock": true,
-   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Morren would willingly make that pact. The cold-loving Skald see it as antithetical."
+   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Vreken would willingly make that pact. The cold-loving Skald see it as antithetical."
   },
 
   // Class Resource, generated per spell. Resource range/balance per design.
@@ -41,25 +41,25 @@ export const PYROFIEND_DATA = {
   },
  /**
  * Subrace Variants, the Pyrofiend pacts with Scathrach, the Ashen Sovereign, and the
- * meaning of that pact inverts depending on who makes it. For the Solvarn it is the
+ * meaning of that pact inverts depending on who makes it. For the Solari it is the
  * original blasphemy. For the Waste-Solari it is the dark mirror of their forge-craft. For
  * the Skald it is the ultimate treason, a betrayal of the cold their entire culture
  * worships.
  */
  subraceVariants: {
  solvarn_human: {
-  subraceName: 'Solvarn',
+  subraceName: 'Solari',
   title: 'The Sun-Blasphemer',
-  reframe: `This is the original tradition, the cabal of <LoreLink termId="house_solvan">Solvarn</LoreLink> occultists who, in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, swallowed Scathrach's burning coals. For the Solvarn, the pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. A Solvarn Pyrofiend's fire is not foreign, it is the *perverted echo* of the star they entombed, and every spell is a small re-enactment of the crime.`,
+  reframe: `This is the original tradition, the cabal of <LoreLink termId="house_solvan">Solvarn</LoreLink> occultists who, in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, swallowed Scathrach's burning coals. For the Solari, the pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. A Solari Pyrofiend's fire is not foreign, it is the *perverted echo* of the star they entombed, and every spell is a small re-enactment of the crime.`,
   signatureAbility: {
   name: 'Solar-Perversion',
-   description: `Inferno-Veil generation is amplified by proximity to Sol's Breath's residual warmth, the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solvarn Pyrofiends operate literally atop Sol's grave, and the grave, the Hollow-Solari whisper, is dimmer for their presence.`
+   description: `Inferno-Veil generation is amplified by proximity to Sol's Breath's residual warmth, the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solari Pyrofiends operate literally atop Sol's grave, and the grave, the Hollow-Solari whisper, is dimmer for their presence.`
   },
-  currentCrisisAngle: `Scathrach calling in all debts simultaneously reads, to the Solvarn, as the *completion of an eight-century plot*: the Ashen Sovereign nested beneath Emberspire to *feed on the buried star*, and the Pyrofiends were always the delivery mechanism. The Solvarn Pyrofiends are realizing they were never partners in the pact, they were cutlery, and the meal is ready.`,
+  currentCrisisAngle: `Scathrach calling in all debts simultaneously reads, to the Solari, as the *completion of an eight-century plot*: the Ashen Sovereign nested beneath Emberspire to *feed on the buried star*, and the Pyrofiends were always the delivery mechanism. The Solari Pyrofiends are realizing they were never partners in the pact, they were cutlery, and the meal is ready.`,
   signatureQuote: {
   text: '"We buried the sun to save it, then fed it to the thing beneath our feet. I have been the fork. I did not know. Scathrach always sets a long table."',
   speaker: 'Acolyte Sol-Vesh',
-  context: 'A Solvarn Pyrofiend, the night Scathrach named the price'
+  context: 'A Solari Pyrofiend, the night Scathrach named the price'
   }
  },
 
@@ -152,7 +152,7 @@ export const PYROFIEND_DATA = {
  },
 
  worldFriction: [
- { region: 'sundale', status: 'used-and-distrusted', consequence: 'The Dawn Vigil would purge Pyrofiends as horror-bound heretics, but Scathrach fire is tactically indispensable against the Wyrd, so the Vigil "secondments" known Pyrofiends into suicidal vanguard units, a sentence dressed as service. A Pyrofiend who refuses is burned as a heretic; one who accepts is burned by Scathrach.', workaround: 'The Solvarn Apostate\'s Path (accelerating one\'s own conversion) is, politically, the only way to be "useful" enough to delay execution. There is no safe status for a Pyrofiend in Sundale.' },
+ { region: 'sundale', status: 'used-and-distrusted', consequence: 'The Dawn Vigil would purge Pyrofiends as horror-bound heretics, but Scathrach fire is tactically indispensable against the Wyrd, so the Vigil "secondments" known Pyrofiends into suicidal vanguard units, a sentence dressed as service. A Pyrofiend who refuses is burned as a heretic; one who accepts is burned by Scathrach.', workaround: 'The Solari Apostate\'s Path (accelerating one\'s own conversion) is, politically, the only way to be "useful" enough to delay execution. There is no safe status for a Pyrofiend in Sundale.' },
  { region: 'nordhalla', status: 'antithetical', consequence: 'The cold-worshipping Skald consider fire-pacts an abomination; a Pyrofiend in the glacier-keeps is killed on sight as a thermal pollutant, their very presence melts the archive-ice.' }
  ],
 
@@ -167,7 +167,7 @@ The first practitioners were the First Cabal, seven Solvarn occultists who drew 
 
 The Inferno Veil measures how much of Scathrach's fire runs through the host at any moment, ascending through ten levels. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, a three-turn death clock begins, the body detonating in a thirty-foot radius and the soul claimed by Scathrach.
 
-Each subrace burns for different reasons. The Solvarn are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Waste-Solari treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Waste-Solari can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
+Each subrace burns for different reasons. The Solari are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Waste-Solari treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Waste-Solari can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
 
 The Morgh Groven discovered the fire independently, no pact, no Scathrach. They ignite the dormant alchemical serum residue still circulating in Groven veins, the same compounds the Deep Alchemists used to reshape Thrumm into servitors. A Morgh pyrofiend dies on their own terms. No entity collects their debt, so no entity can be bargained with for more time. This is both their strength and their tragedy.
 
@@ -197,7 +197,7 @@ The price of this fiery pact was a sulfurous, burning ember nesting in his chest
 Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, where their destructive potential is used to clear volcanic blockades.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Waste-Solari and hot-blooded Solvarn humans.
+The class is heavily practiced by the Waste-Solari and hot-blooded Solari.
 
 **NOTABLE FIGURES**
 * **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Hollow-Solari forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solvarn occultists of the First Cabal who first welcomed the Sovereign by swallowing Wyrd-touched coals in the obsidian cavern beneath Emberspire.

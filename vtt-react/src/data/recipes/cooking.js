@@ -9,7 +9,7 @@ export const COOKING_RECIPES = [
     id: 'dried-rations-recipe',
     name: 'Dried Rations',
     profession: 'cooking',
-    description: 'Cured with bog-peat whiskey from the Frostwood Reach by Morren caravan-trail cooks. Preserve and dry food for long-term storage.',
+    description: 'Cured with bog-peat whiskey from the Frostwood Reach by Vreken caravan-trail cooks. Preserve and dry food for long-term storage.',
     requiredLevel: 0,
     resultItemId: 'dried-rations',
     resultQuantity: 3,

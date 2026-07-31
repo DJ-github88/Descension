@@ -258,7 +258,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Celestial' && (
                 <>
                   <li><i className="fas fa-check"></i> Lumian echo and its Astril vessels</li>
-                  <li><i className="fas fa-check"></i> Solvarn martyrs who tend Emberspire's wound</li>
+                  <li><i className="fas fa-check"></i> Solari martyrs who tend Emberspire's wound</li>
                   <li><i className="fas fa-check"></i> Hollow-Solari Sun-Speakers in their sacred vigil</li>
                   <li><i className="fas fa-check"></i> Those who carry the memory of stars in their blood</li>
                 </>
@@ -377,7 +377,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Sundari' && (
                 <>
                   <li><i className="fas fa-check"></i> Solari of Sundale: both Hollow-Solari and Waste-Solari</li>
-                  <li><i className="fas fa-check"></i> Solvarn humans who tend Emberspire's wound</li>
+                  <li><i className="fas fa-check"></i> Solari who tend Emberspire's wound</li>
                   <li><i className="fas fa-check"></i> Pilgrims who have witnessed Sol's Breath's fading</li>
                   <li><i className="fas fa-check"></i> Forge-priests of the Harath-Vault</li>
                 </>

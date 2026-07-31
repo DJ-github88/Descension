@@ -331,9 +331,9 @@ export const ZONE_DATA = [
  {
  "id": "the-still-crag",
  "regionId": "nordhalla",
- "name": "The Still Crag",
+ "name": "Þögn",
  "type": "wilderness",
-  "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the crag is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
+  "description": "A cliff face perpetually frozen in rime where no wind blows and no sound carries. The Rime-Born claim the cliff is where Keth-Amar's breath touched the mountain during the Glacier Bargain. Ice sculptures of unknown figures stand frozen in attitudes of supplication along the cliff face, no one knows who carved them or who they depict.",
  "dangerLevel": "high",
  "factions": [
   "Rime-Born Rune Keepers"
@@ -579,7 +579,7 @@ export const ZONE_DATA = [
  "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Hollow-Solari tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Hollow-Solari tending-clan has protected Sol's Breath here since before the Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Dimming.",
  "dangerLevel": "extreme",
  "factions": [
-  "Solvarn Martyrs",
+  "Solari Martyrs",
   "Solari Watchers"
  ],
   "connections": [
@@ -673,10 +673,10 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Sol's Anvil Mesa",
  "type": "wilderness",
- "description": "A massive flat-topped mountain of black basalt where Solvarn sun-priests hold outdoor ceremonies during the rare moments when volcanic haze clears enough to glimpse the buried sun's residual glow. The mesa surface is carved with solar calendars and prophecy charts stretching back centuries. Heat-shimmer makes the mesa appear to float above the ashlands.",
+ "description": "A massive flat-topped mountain of black basalt where Solari sun-priests hold outdoor ceremonies during the rare moments when volcanic haze clears enough to glimpse the buried sun's residual glow. The mesa surface is carved with solar calendars and prophecy charts stretching back centuries. Heat-shimmer makes the mesa appear to float above the ashlands.",
  "dangerLevel": "medium",
  "factions": [
-  "Solvarn Martyrs",
+  "Solari Martyrs",
   "Dawn Vigil"
  ],
  "connections": [
@@ -692,7 +692,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Ashen Escarpment",
  "type": "wilderness",
- "description": "A long, steep slope of compacted volcanic ash that forms the natural border between Sundale and the lowland approaches. The ash is packed hard as stone in places, but a wrong step can send a traveler sliding hundreds of feet into glass-scarred gullies. Solvarn watchtowers dot the escarpment rim, their eternal signal-fires burning with heartwood resin.",
+ "description": "A long, steep slope of compacted volcanic ash that forms the natural border between Sundale and the lowland approaches. The ash is packed hard as stone in places, but a wrong step can send a traveler sliding hundreds of feet into glass-scarred gullies. Solari watchtowers dot the escarpment rim, their eternal signal-fires burning with heartwood resin.",
  "dangerLevel": "high",
  "factions": [
   "Dawn Vigil"
@@ -1131,10 +1131,10 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "Morren's Bogpost",
  "type": "settlement",
- "description": "A Morren trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Morren traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Dimming as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
+ "description": "A Vreken trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Vreken traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Dimming as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
  "dangerLevel": "medium",
  "factions": [
-  "Morren Traders",
+  "Vreken Traders",
   "Kessen Merchants"
  ],
  "connections": [
@@ -1207,7 +1207,7 @@ export const ZONE_DATA = [
  "description": "A treacherous swamp of bottomless, preserving black peat and sinking moss. The water is thick and acidic, and the bogs are filled with the preserved, aware corpses of ancient debtors who rose when their contracts were broken by death.",
  "dangerLevel": "high",
  "factions": [
-  "Morren Peat-Cutters",
+  "Vreken Peat-Cutters",
   "Drun Outcasts"
  ],
  "connections": [
@@ -1224,11 +1224,11 @@ export const ZONE_DATA = [
  "regionId": "bryngloom-forest",
  "name": "Over-Shanty",
  "type": "settlement",
- "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Morren peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in the mid-Dimming centuries at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
+ "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in the mid-Dimming centuries at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
  "dangerLevel": "high",
  "factions": [
   "Drun Outcasts",
-  "Morren Peat-Cutters"
+  "Vreken Peat-Cutters"
  ],
  "connections": [
   "peat-bog-sinks",
@@ -1246,7 +1246,7 @@ export const ZONE_DATA = [
  "description": "A treacherous bog area where the ground liquefies without warning, swallowing travelers whole. The quagmire earned its name from the Morren widows who, according to legend, walked into the bog willingly to join their debt-dead husbands, and now preserve forever in the peat, their hands still clutching unsigned contract-fragments.",
  "dangerLevel": "extreme",
  "factions": [
-  "Morren Peat-Cutters"
+  "Vreken Peat-Cutters"
  ],
  "connections": [
   "peat-bog-sinks",
@@ -1437,11 +1437,11 @@ export const ZONE_DATA = [
  "regionId": "frostwood-reach",
  "name": "Meadowglen Crossing",
  "type": "settlement",
- "description": "A waystation on the wide grass valley between the Frostwood Reach and Sundale, the only place where the ironwood thins enough to graze cattle. A market-town of mixed Thalren and Solvarn, the Crossing is officially under Greymark's writ but in practice answers to whichever side of the valley sent the last patrol. Trades: peat-iron, Solvan sulfur-lamps, Mist-Sentinel fish.",
+ "description": "A waystation on the wide grass valley between the Frostwood Reach and Sundale, the only place where the ironwood thins enough to graze cattle. A market-town of mixed Thalren and Solari, the Crossing is officially under Greymark's writ but in practice answers to whichever side of the valley sent the last patrol. Trades: peat-iron, Solvan sulfur-lamps, Mist-Sentinel fish.",
  "dangerLevel": "low",
  "factions": [
   "House Thalreth (nominally)",
-  "Solvarn exiles",
+  "Solari exiles",
   "Merryn caravan-captains"
  ],
  "connections": [
@@ -1618,7 +1618,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Thornshire Colony",
  "type": "settlement",
- "description": "A penal colony of thorn-vines and black basalt huts on the Ashen Fringe, where the Dawn Vigil sends the incorrigible, conscripted Martyrs who refused, heretics who recanted, debt-defaulters from the Solvarn nobility. The colony is surrounded by a hedge of bramble-thorns that grows inward by an inch every season; no one knows what lies outside it now.",
+ "description": "A penal colony of thorn-vines and black basalt huts on the Ashen Fringe, where the Dawn Vigil sends the incorrigible, conscripted Martyrs who refused, heretics who recanted, debt-defaulters from the Solari nobility. The colony is surrounded by a hedge of bramble-thorns that grows inward by an inch every season; no one knows what lies outside it now.",
  "dangerLevel": "medium",
  "factions": [
   "Dawn Vigil (overlord)",
@@ -2161,10 +2161,10 @@ export const ZONE_DATA = [
  "regionId": "bryngloom-forest",
  "name": "Drowned Dingle",
  "type": "wilderness",
- "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Morren peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Neth Kessen; they believe each submerged trunk is a sealed contract.",
+ "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Vreken peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Neth Kessen; they believe each submerged trunk is a sealed contract.",
  "dangerLevel": "medium",
  "factions": [
-  "Morren smugglers",
+  "Vreken smugglers",
   "Neth Kessen (pilgrims)"
  ],
  "connections": [
@@ -2239,7 +2239,7 @@ export const ZONE_DATA = [
  "dangerLevel": "medium",
  "factions": [
   "House Solvan (Stewards)",
-  "Solvarn Martyrs (veterans)"
+  "Solari Martyrs (veterans)"
  ],
  "connections": [
   "the-ashen-escarpment",
@@ -2580,7 +2580,7 @@ export const ZONE_DATA = [
    "regionId": "nordhalla",
    "name": "The Breathless Stair",
    "type": "wilderness",
-   "description": "A wind-scoured stair cut into the cliff to the Still Crag; Rime-Born climb it for memory-freezing rites.",
+   "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
    "dangerLevel": "low",
    "factions": [],
    "connections": [
@@ -2710,7 +2710,7 @@ export const ZONE_DATA = [
    "regionId": "sundale",
    "name": "Ash-Dweller Shanty",
    "type": "settlement",
-   "description": "Toxic surface shanties of Thrask miners and Solvarn refugees; 'Ashen Throat' lung-rot is universal.",
+   "description": "Toxic surface shanties of Thrask miners and Solari refugees; 'Ashen Throat' lung-rot is universal.",
    "dangerLevel": "low",
    "factions": [],
    "connections": [
@@ -2996,7 +2996,7 @@ export const ZONE_DATA = [
    "regionId": "iceheart-sea",
    "name": "Half-Salt Bog Hamlet",
    "type": "settlement",
-   "description": "A brackish-water hamlet of Morren peat-cutters and Vreken pool-dwellers.",
+   "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
    "dangerLevel": "low",
    "factions": [],
    "connections": [
@@ -3386,7 +3386,7 @@ export const ZONE_DATA = [
    "regionId": "sundrift-vale",
    "name": "Peat-Edge Ford Hamlet",
    "type": "settlement",
-   "description": "A hamlet at the marshy ford where Ordan horse-traders and Morren peat-cutters meet and intermarry.",
+   "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
    "dangerLevel": "low",
    "factions": [],
    "connections": [
@@ -3568,7 +3568,7 @@ export const ZONE_DATA = [
    "regionId": "bryngloom-forest",
    "name": "Rot-Fume Hut",
    "type": "settlement",
-   "description": "A Morren peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+   "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
    "dangerLevel": "low",
    "factions": [],
    "connections": [
@@ -4090,7 +4090,7 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "The Breathless Stair",
  "type": "wilderness",
- "description": "A wind-scoured stair cut into the cliff to the Still Crag; Rime-Born climb it for memory-freezing rites.",
+ "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -4350,7 +4350,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Ash-Dweller Shanty",
  "type": "settlement",
- "description": "Toxic surface shanties of Thrask miners and Solvarn refugees; 'Ashen Throat' lung-rot is universal.",
+ "description": "Toxic surface shanties of Thrask miners and Solari refugees; 'Ashen Throat' lung-rot is universal.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -4480,7 +4480,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Sun-Shrine Mile",
  "type": "wilderness",
- "description": "A line of small disc-altars along the meadow road where Solvarn still pray at dawn.",
+ "description": "A line of small disc-altars along the meadow road where Solari still pray at dawn.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -4519,7 +4519,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Smooth-Skinned Enclave",
  "type": "settlement",
- "description": "A village of old Solvan noble exiles living in longhouses grown into living trees.",
+ "description": "A village of old Solari noble exiles living in longhouses grown into living trees.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -4883,7 +4883,7 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Half-Salt Bog Hamlet",
  "type": "settlement",
- "description": "A brackish-water hamlet of Morren peat-cutters and Vreken pool-dwellers.",
+ "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -5325,7 +5325,7 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "Peat-Edge Ford Hamlet",
  "type": "settlement",
- "description": "A hamlet at the marshy ford where Ordan horse-traders and Morren peat-cutters meet and intermarry.",
+ "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -5546,7 +5546,7 @@ export const ZONE_DATA = [
  "regionId": "bryngloom-forest",
  "name": "Rot-Fume Hut",
  "type": "settlement",
- "description": "A Morren peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+ "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -6133,7 +6133,7 @@ export const ZONE_DATA = [
  "regionId": "nordhalla",
  "name": "The Breathless Stair",
  "type": "wilderness",
- "description": "A wind-scoured stair cut into the cliff to the Still Crag; Rime-Born climb it for memory-freezing rites.",
+ "description": "A wind-scoured stair cut into the cliff to Þögn; Rime-Born climb it for memory-freezing rites.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -6393,7 +6393,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "Ash-Dweller Shanty",
  "type": "settlement",
- "description": "Toxic surface shanties of Thrask miners and Solvarn refugees; 'Ashen Throat' lung-rot is universal.",
+ "description": "Toxic surface shanties of Thrask miners and Solari refugees; 'Ashen Throat' lung-rot is universal.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -6523,7 +6523,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Sun-Shrine Mile",
  "type": "wilderness",
- "description": "A line of small disc-altars along the meadow road where Solvarn still pray at dawn.",
+ "description": "A line of small disc-altars along the meadow road where Solari still pray at dawn.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -6562,7 +6562,7 @@ export const ZONE_DATA = [
  "regionId": "sundale",
  "name": "The Smooth-Skinned Enclave",
  "type": "settlement",
- "description": "A village of old Solvan noble exiles living in longhouses grown into living trees.",
+ "description": "A village of old Solari noble exiles living in longhouses grown into living trees.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -6926,7 +6926,7 @@ export const ZONE_DATA = [
  "regionId": "iceheart-sea",
  "name": "Half-Salt Bog Hamlet",
  "type": "settlement",
- "description": "A brackish-water hamlet of Morren peat-cutters and Vreken pool-dwellers.",
+ "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -7368,7 +7368,7 @@ export const ZONE_DATA = [
  "regionId": "sundrift-vale",
  "name": "Peat-Edge Ford Hamlet",
  "type": "settlement",
- "description": "A hamlet at the marshy ford where Ordan horse-traders and Morren peat-cutters meet and intermarry.",
+ "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [
@@ -7589,7 +7589,7 @@ export const ZONE_DATA = [
  "regionId": "bryngloom-forest",
  "name": "Rot-Fume Hut",
  "type": "settlement",
- "description": "A Morren peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+ "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
  "dangerLevel": "low",
  "factions": [],
  "connections": [

@@ -1,4 +1,4 @@
-﻿# Mythrill Creature Compendium
+# Mythrill Creature Compendium
 ## The Expanded Wyrd-Bestiary  -  140 Original Creatures Across the Seven Regions
 
 > Each entry fuses two real-world folklore traditions, filtered through the Wyrd and adapted to the Age of the Dimming. Creatures are grouped by region and culture. Existing bestiary creatures (Gref, Mogwai, Yuki-Onna, etc.) are excluded  -  these are all-new.
@@ -787,7 +787,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Heart-Weigher:** Ammits guard the approaches to Emberspire's inner chambers. They can sense the moral "weight" of an individual  -  those burdened by Wyrd-corruption or broken oaths are detected at range and devoured. Those with clear consciences pass unharmed.
-- **The Erasure-Beast:** Those consumed by the Ammit do not merely die  -  their names are erased from the volcanic stone-records around Emberspire. It is the only known force that can undo Emberth burn-mark inscriptions. Solvarn humans consider being devoured by an Ammit the ultimate dishonor  -  worse than death.
+- **The Erasure-Beast:** Those consumed by the Ammit do not merely die  -  their names are erased from the volcanic stone-records around Emberspire. It is the only known force that can undo Emberth burn-mark inscriptions. Solari consider being devoured by an Ammit the ultimate dishonor  -  worse than death.
 
 ---
 
@@ -803,7 +803,7 @@
 - **The Face:** A donkey-skull head with enormous, lamp-like eyes that weep liquid fire. Her mouth is filled with donkey-teeth and a second, human mouth behind them that speaks in a woman's voice  -  always weeping, always apologizing.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Child-Stealer:** Lamashtus prowl the outskirts of Solvarn settlements, drawn to the crying of infants. They do not kill  -  they steal children from their cradles and absorb them into their distended bellies, adding to the screaming chorus within. The stolen children are not digested but preserved in eternal torment.
+- **The Child-Stealer:** Lamashtus prowl the outskirts of Solari settlements, drawn to the crying of infants. They do not kill  -  they steal children from their cradles and absorb them into their distended bellies, adding to the screaming chorus within. The stolen children are not digested but preserved in eternal torment.
 - **The Protection-Paradox:** The only ward against Lamashtus is the image of Pazuzu  -  carved on a door or worn as an amulet. Ironically, the Pazuzu (creature 41) is her natural enemy; where one hunts, the other refuses to nest. Thrask parents position their camps between Pazuzu territory and Lamashtu territory for mutual protection.
 
 ---
@@ -1041,7 +1041,7 @@
 - **The Face:** A rounded, puppy-like version of the adult Sirrush's horned head  -  the single crown-horn is a soft nub. Its eyes are enormous, golden, and permanently wide with curiosity. It croaks and tilts its head at everything.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Sacred-Juvenile:** Mushussuren are the juvenile form of the Sirrush  -  and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solvarn children sometimes raise orphaned Mushussuren as pets  -  a practice the Korr tolerate because the bond encourages the adult Sirrush to guard the child's village.
+- **The Sacred-Juvenile:** Mushussuren are the juvenile form of the Sirrush  -  and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solari children sometimes raise orphaned Mushussuren as pets  -  a practice the Korr tolerate because the bond encourages the adult Sirrush to guard the child's village.
 - **The Life-Breath:** Drawing from Heket's fertility-domain, the breath of a Mushussu can accelerate plant growth. A garden visited by a Mushussu produces double yields. In Sundale's ash-choked soil, this ability is priceless  -  Thrask farmers leave offering-bowls of milk near Sirrush nesting-grounds to encourage juvenile visits.
 
 
@@ -2157,7 +2157,7 @@
 - **The Face:** An old man's face on a child's body  -  deep wrinkles, a magnificent mustache, and bushy eyebrows that almost obscure beady, watchful black eyes. Its expression cycles between satisfaction (when the household is well-run) and disapproval (when someone leaves a mess).
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Threshold-Guardian:** Each Domovoi is bound to a specific dwelling  -  a Neth branch-platform, a Morren cottage, or a Vreken crypt-chamber. It guards the threshold against unauthorized entry, misfortune, and Wyrd-corruption. A home with a resident Domovoi never burns down, never floods, and never suffers structural failure.
+- **The Threshold-Guardian:** Each Domovoi is bound to a specific dwelling  -  a Neth branch-platform, or a Vreken cottage or crypt-chamber. It guards the threshold against unauthorized entry, misfortune, and Wyrd-corruption. A home with a resident Domovoi never burns down, never floods, and never suffers structural failure.
 - **The Household-Auditor:** Like the Ganas (cosmic bureaucrats), it maintains a ledger of the household's moral economy  -  every act of kindness and every act of cruelty, recorded with accountant-precision. When the Neth's First Contract anniversary arrives, the Domovoi presents its ledger to the Morvane. Households with positive ledgers receive extensions on their contracts; households with negative ledgers find their preservation-clauses quietly expiring.
 
 ---
@@ -2191,7 +2191,7 @@
 - **The Face:** Three distinct dragon-faces: the red head is feral and roaring, the green head is sly and hissing, and the blue head is serene and watchful. All three share the same ancient, golden eyes  -  the eyes of a creature that has outlived civilizations and remembers everything with perfect, merciless clarity.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Bog-Dragon:** The Zmey-Bog dwells in the deepest, most inaccessible bog-pools  -  the ones that the Neth have mapped as "un-negotiable" on their contracts (meaning no deal with the Keeper covers entry). It hoards not gold but contracts  -  original Neth First Contract fragments, ancient Vreken burial-charters, and Morren debt-papers  -  stolen from the archives and submerged in its peat-pool.
+- **The Bog-Dragon:** The Zmey-Bog dwells in the deepest, most inaccessible bog-pools  -  the ones that the Neth have mapped as "un-negotiable" on their contracts (meaning no deal with the Keeper covers entry). It hoards not gold but contracts  -  original Neth First Contract fragments, ancient Vreken burial-charters, and Vreken debt-papers  -  stolen from the archives and submerged in its peat-pool.
 - **The Tribute-Taker:** Like its Slavic predecessor, it demands tribute. The Neth of Atropolis must deliver one contract-scroll per decade to the Zmey's pool, or it will surface and begin dismantling the canopy-city's branch-walkways. The irony is not lost on the Neth: they pay tribute to a creature that hoards the very thing they cannot live without  -  the legal documents that sustain their immortality.
 
 ---
@@ -2344,7 +2344,7 @@
 - **The Face:** Its own face  -  but frozen in the moment of death. The expression varies: some show terror, others relief, others the vacant stare of the Fading. The eyes are the most disturbing feature  -  they are alive, aware, and screaming with the knowledge that the creature is trapped in a parody of life, feeding on those it loved.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Debt-Revenant:** Vourdalak-Debts are the Bryngloom's most common and most pitied creatures. They are Neth or Morren who died with unfulfilled contract-obligations  -  the Morvane has returned them to a half-life, bound to complete the terms of their broken contracts. They return to their families, appearing alive, and slowly drain vitality from their loved ones to sustain their own false existence.
+- **The Debt-Revenant:** Vourdalak-Debts are the Bryngloom's most common and most pitied creatures. They are Neth or Vreken who died with unfulfilled contract-obligations  -  the Morvane has returned them to a half-life, bound to complete the terms of their broken contracts. They return to their families, appearing alive, and slowly drain vitality from their loved ones to sustain their own false existence.
 - **The Madness-Speaker:** Like the Pishacha, it can possess the living  -  but only those who share its bloodline. A possessed family member speaks in the Vourdalak's voice, revealing secrets the dead person knew: contract-loopholes, hidden debts, the location of buried artifacts. The Neth consider Vourdalak-possession both a curse and a source of critical intelligence  -  the dead see contractual implications the living cannot.
 
 ---

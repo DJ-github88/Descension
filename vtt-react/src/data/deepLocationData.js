@@ -224,13 +224,13 @@ DEEP_LOCATIONS['over-shanty'] = {
   description: 'A crooked rope-bridge spanning a darkness pierced by a single bioluminescent lantern'
  },
  population: 600,
- dominantRaces: ['Drun Neth', 'Morren humans', 'Outcast Vreken'],
+ dominantRaces: ['Drun Neth', 'Vreken', 'Outcast Vreken'],
  leadership: {
   type: 'none',
   title: 'No formal governance, ruled by a shifting balance of gang influence and survival-of-the-fittest',
   leaderId: null,
   description:
-   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Drun Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Morren peat-cutters.'
+   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Drun Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Vreken peat-cutters.'
  },
  defenses: {
   militiaSize: 0,
@@ -286,7 +286,7 @@ DEEP_LOCATIONS['over-shanty'] = {
    type: 'tavern',
    description:
     'A repurposed ship\'s hull suspended by chains directly over the deepest bog. The floor has a glass portal showing the darkness below. Patrons toss coins through the portal for luck, the coins fall for nearly a minute before they hit the peat. The Keel serves "bog-brew", a murky, potent spirit distilled from fermented peat-moss.',
-   proprietor: 'Captain Gravis (Morren human, former smuggler)',
+   proprietor: 'Captain Gravis (Vreken, former smuggler)',
    notableFeatures: [
     'The Glass Floor: a rare piece of actual glass, showing the endless drop below',
     'The Wanted Board: a wall of fugitive notices and bounty posters, updated daily by the Cult\'s information network'
@@ -317,7 +317,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   description: 'A circle of seven standing stones against a starless sky, each stone inscribed with the crest of a noble house'
  },
  population: 800,
- dominantRaces: ['Solvarn humans', 'Astril (Stellar Astril)'],
+ dominantRaces: ['Solari', 'Astril (Stellar Astril)'],
  leadership: {
   type: 'noble_house',
   title: 'Steppe-Lord',
@@ -581,7 +581,7 @@ DEEP_LOCATIONS['ember-lagoon'] = {
   description: 'A steaming lagoon cradled by black basalt, its waters glowing orange-red'
  },
  population: 350,
- dominantRaces: ['Solari', 'Solvarn humans', 'Merryn traders'],
+ dominantRaces: ['Solari', 'Merryn traders'],
  leadership: {
   type: 'guild',
   title: 'Harbour-Master',
@@ -602,7 +602,7 @@ DEEP_LOCATIONS['ember-lagoon'] = {
  },
  atmosphere: {
   mood:
-   'Busy, humid, and loud. Ember Lagoon is the closest thing Sundale has to a cosmopolitan port. Solari, Solvarn, and Merryn all rub shoulders on the docks. The air is thick with steam and the smell of cooking fish. Arguments in three languages echo off the basalt cliffs.',
+   'Busy, humid, and loud. Ember Lagoon is the closest thing Sundale has to a cosmopolitan port. Solari and Merryn all rub shoulders on the docks. The air is thick with steam and the smell of cooking fish. Arguments in three languages echo off the basalt cliffs.',
   architecture:
    'Dock buildings of black basalt and iron, their walls running with condensation. Every structure is built to withstand tremors, low, wide, and anchored with iron stays. The Solari buildings feature open-air forge-hearths instead of fireplaces. The Merryn quarter is built on stilts over the water, swaying gently with the thermal currents.',
   sounds:
@@ -641,11 +641,11 @@ DEEP_LOCATIONS['ember-lagoon'] = {
    name: "Sol's Shrine",
    type: 'temple',
    description:
-    'A natural cave in the eastern cliff wall where thermal light filters through volcanic crystal, creating a perpetual sunrise effect. Solvarn pilgrims come here to pray to the buried sun, the cave\'s warmth is considered Sol\'s breath, and the orange light is taken as proof the star still lives.',
+     'A natural cave in the eastern cliff wall where thermal light filters through volcanic crystal, creating a perpetual sunrise effect. Solari pilgrims come here to pray to the buried sun, the cave\'s warmth is considered Sol\'s breath, and the orange light is taken as proof the star still lives.',
    proprietor: 'Dawn Vigil',
    notableFeatures: [
     'The Sun-Crystal: a massive volcanic crystal in the cave ceiling that refracts thermal light into a convincing solar spectrum',
-    'The Prayer-Walls: covered in Solvarn prayers carved in Sundari script, some dating back centuries, worn smooth by the touching of thousands of hands'
+     'The Prayer-Walls: covered in Solari prayers carved in Sundari script, some dating back centuries, worn smooth by the touching of thousands of hands'
    ]
   }
  ],
@@ -673,7 +673,7 @@ DEEP_LOCATIONS['aran-glen'] = {
   description: 'A living ironwood tree shaped into an archway, its roots forming a perfect circle'
  },
  population: 300,
- dominantRaces: ['Kessen Neth', 'Morren humans'],
+ dominantRaces: ['Kessen Neth', 'Vreken'],
  leadership: {
   type: 'contractual',
   title: 'Grove-Steward',
@@ -737,7 +737,7 @@ DEEP_LOCATIONS['aran-glen'] = {
    proprietor: 'Kessen Artisans\' Collective',
    notableFeatures: [
     'The Growing-Furniture Row: chairs, tables, and shelving that are still alive, buyers must sign a maintenance contract',
-    'The Bog-Apothecary: a stall run by a Morren herbalist who has learned Kessen root-reading to identify medicinal compounds'
+     'The Bog-Apothecary: a stall run by a Vreken herbalist who has learned Kessen root-reading to identify medicinal compounds'
    ]
   }
  ],
@@ -1041,7 +1041,7 @@ DEEP_LOCATIONS['harath-vault'] = {
   description: 'A volcanic forge-anvil superimposed on a blood-red sun, crossed by a ceremonial hammer'
  },
  population: 600,
- dominantRaces: ['Solari', 'Solvarn humans', 'Groven'],
+ dominantRaces: ['Solari', 'Groven'],
  leadership: {
   type: 'religious_order',
   title: 'Blood-Priest of the Forge',
@@ -1312,7 +1312,7 @@ DEEP_LOCATIONS['atropolis'] = {
     description: 'A silver scroll bound in living ironwood roots, holding a single drop of frozen starlight'
   },
   population: 4500,
-  dominantRaces: ['High Neth', 'Pale Neth', 'Morren humans'],
+  dominantRaces: ['High Neth', 'Pale Neth', 'Vreken'],
   leadership: {
     type: 'noble_house',
     title: 'High Archivist of the First Contract',

@@ -22,7 +22,7 @@ export const MARTYR_DATA = {
       "mimir"
     ],
    "narrativeUnlock": true,
-   "justification": "Requires a theological framework for willing suffering. Solvarn have the sun-vigil. Hollow-Solari have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
+   "justification": "Requires a theological framework for willing suffering. Solari have the sun-vigil. Hollow-Solari have the Vault-Breath. Velun Neth have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
   },
 
   // Class Resource, generated per spell. Resource range/balance per design.
@@ -40,20 +40,20 @@ export const MARTYR_DATA = {
   },
  /**
   * Subrace Variants, every Martyr absorbs suffering into their own body, but the
-  * *theology* of that absorption differs. To the Solvarn it is prayer. To the Hollow-Solari it
+   * *theology* of that absorption differs. To the Solari it is prayer. To the Hollow-Solari it
   * is vigil. To the Velun Neth it is contract-fulfillment. To the Skald it is the Ironclad
   * path, the body as a furnace-weapon, the Dreadnaught tradition reborn.
   */
  subraceVariants: {
   solvarn_human: {
-   subraceName: 'Solvarn',
-   title: 'The Sun-Vigil',
-   reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solvarn</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink>, suffering as prayer, the Martyr's body a living tomb-mass. A Solvarn Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion Gauge glows like a buried star.`,
+    subraceName: 'Solari',
+    title: 'The Sun-Vigil',
+   reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solari</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink>, suffering as prayer, the Martyr's body a living tomb-mass. A Solari Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion Gauge glows like a buried star.`,
    signatureAbility: {
     name: 'Solar-Imitation',
-    description: `Devotion-generation is amplified when the Martyr absorbs damage that would have struck a *specifically named* ally, the Solvarn must name who they are dying for, mirroring Sera naming her child. Generalized protection generates less Devotion than the deliberate, named sacrifice.`
+    description: `Devotion-generation is amplified when the Martyr absorbs damage that would have struck a *specifically named* ally, the Solari must name who they are dying for, mirroring Sera naming her child. Generalized protection generates less Devotion than the deliberate, named sacrifice.`
    },
-   currentCrisisAngle: `The conscription crisis cuts deepest among the Solvarn: the noble houses have learned that "recruiting" Martyrs through child-training produces cadres that fight three times as long. The Solvarn Martyrs are watching their sacred prayer industrialized into a strategic resource, and the veterans cannot decide whether to be honored or horrified that the houses finally found a use for their grief.`,
+   currentCrisisAngle: `The conscription crisis cuts deepest among the Solari: the noble houses have learned that "recruiting" Martyrs through child-training produces cadres that fight three times as long. The Solari Martyrs are watching their sacred prayer industrialized into a strategic resource, and the veterans cannot decide whether to be honored or horrified that the houses finally found a use for their grief.`,
    signatureQuote: {
     text: '"I carved my son\'s name into my arm so the world would not forget him. Now the houses carve other children\'s names into other arms, and call it muster. My prayer has become a draft-notice."',
     speaker: 'Sera Solvan',
@@ -89,7 +89,7 @@ export const MARTYR_DATA = {
    signatureQuote: {
     text: '"I suffer because I agreed to suffer, in writing, with witnesses, at a fair rate of exchange. What you call martyrdom I call a satisfied clause. Do not sentimentalize my contract."',
     speaker: 'Covenant-Martyr Vel-Ossar',
-    context: 'A Velun Neth Martyr, rejecting a Solvarn priest\'s blessing'
+    context: 'A Velun Neth Martyr, rejecting a Solari priest\'s blessing'
    }
   },
 
@@ -110,18 +110,18 @@ export const MARTYR_DATA = {
    },
 
    morren_human: {
-    subraceName: 'Morren',
+    subraceName: 'Vreken',
     title: 'The Debt-Flesh',
-    reframe: `A <LoreLink termId="house_morrath">Morren</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Morren Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion Gauge fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Morren Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
+    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Neth</LoreLink> contract-economy recognizes suffering as a valid form of payment  -  <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion Gauge fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
     signatureAbility: {
      name: 'Debt-Absorption',
-     description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Morren Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
+     description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Vreken Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
     },
-    currentCrisisAngle: `The Morren Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Morren Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Neth contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Morren in the peat-crypts becomes a mint.`,
+    currentCrisisAngle: `The Vreken Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Vreken Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Neth contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Vreken in the peat-crypts becomes a mint.`,
     signatureQuote: {
      text: '"I do not bleed for faith. I bleed because it is due. My body is a receipt, my scars are itemized, and Morvane is the only creditor I have ever trusted to keep the books honest."',
      speaker: 'Mor-Vash the Ledger-Kept',
-     context: 'A Morren Martyr, adding a fresh entry to his scar-ledger'
+     context: 'A Vreken Martyr, adding a fresh entry to his scar-ledger'
     }
    }
   },
@@ -144,7 +144,7 @@ export const MARTYR_DATA = {
   currentLeader: {
    name: '<LoreLink termId="sol-kaessen">Vigil-Mother Sol-Kaessen</LoreLink>',
    title: 'Keeper of the First Scar',
-   characterization: `A Solvarn woman who has absorbed so much suffering that she glows faintly in the dark, the Devotion Gauge made visible. She is the Covenant's moral center and its greatest hypocrisy: she genuinely believes in the willing sacrifice, and she has presided over the noble houses' conscription program without intervening, because the conscripted Martyrs keep the people of <LoreLink termId="sundale">Sundale</LoreLink> alive. She has not decided whether she is a saint or a collaborator.`
+       characterization: `A Solari woman who has absorbed so much suffering that she glows faintly in the dark, the Devotion Gauge made visible. She is the Covenant's moral center and its greatest hypocrisy: she genuinely believes in the willing sacrifice, and she has presided over the noble houses' conscription program without intervening, because the conscripted Martyrs keep the people of <LoreLink termId="sundale">Sundale</LoreLink> alive. She has not decided whether she is a saint or a collaborator.`
   },
   headquarters: { name: 'The Scar-Shrine, beneath Emberspire', locationId: 'emberspire' },
   crisisConnection: `<LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> is being crushed between the Covenant's founding principle (willing sacrifice) and the houses' practice (conscripted child-training). The conscripted Martyrs heal less cleanly, and several have begun *absorbing without consent*, pulling suffering from allies who did not offer it, the Devotion Gauge corrupting into something predatory. <LoreLink termId="sol-kaessen">Sol-Kaessen</LoreLink> suspects the houses know and consider it a feature. She is one quiet order away from open schism with Sundale's theocracy.`
@@ -165,7 +165,7 @@ The wound did not heal correctly. It became a glowing solar scar that pulsed wit
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Each subrace approaches the sacrifice differently. The Solvarn treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Morren pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
+Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Velun Neth sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion Gauge a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Neth accepting suffering as valid debt payment.
 
 Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
@@ -193,7 +193,7 @@ The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sun
 Martyrs are highly respected as sacred guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Solvarn humans and the <LoreLink termId="solari">Hollow-Solari</LoreLink>.
+The class is heavily practiced by the Solari and the <LoreLink termId="solari">Hollow-Solari</LoreLink>.
 
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.

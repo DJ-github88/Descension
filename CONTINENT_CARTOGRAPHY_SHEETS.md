@@ -15,7 +15,7 @@
 | 🏚 | 380 | 420 | ruin | Rimor's Hearth |
 | 📍 | 980 | 180 | wilderness | Hunger Glaciers |
 | 📍 | 1120 | 200 | wilderness | Skadi's Col |
-| 📍 | 620 | 560 | wilderness | The Still Crag |
+| 📍 | 620 | 560 | wilderness | Þögn |
 | 🏰 | 1175 | 251 | city | Frosthold Citadel |
 | 🏔 | 351 | 571 | wilderness | Bearsbeard's Beak |
 

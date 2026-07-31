@@ -209,13 +209,13 @@ South of the Shyr, the landscape is punctuated by **Cinderhoodoo**, a cluster of
 
 Carved radially into the volcanic throat of a dormant secondary caldera sits **The Harath-Vault**, the massive subterranean capital of the Emberth forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways.
 
-To fuel the city's production and feed the Dawn Vigil's armies, the state enforces the **Caldera Labor-Levies**. Young Solvarn and Thrask are forcibly conscripted into the **Martyr Brigades** - suicidal work details sent into active volcanic rifts to mine raw obsidian. Furthermore, the priests of the **Sulfur Cartel** hold an absolute monopoly on all geothermal coal, volcanic sulfur, and Sol's Breath steel, charging exorbitant rates to surface outposts in exchange for heat and safety.
+To fuel the city's production and feed the Dawn Vigil's armies, the state enforces the **Caldera Labor-Levies**. Young Solari and Thrask are forcibly conscripted into the **Martyr Brigades** - suicidal work details sent into active volcanic rifts to mine raw obsidian. Furthermore, the priests of the **Sulfur Cartel** hold an absolute monopoly on all geothermal coal, volcanic sulfur, and Sol's Breath steel, charging exorbitant rates to surface outposts in exchange for heat and safety.
 
 At the Vault's absolute center is **The Great Forge**, where oversized obsidian anvils are worked. In the inner ring sits **The Harath-Chamber**, where the **Korr Sun-Speakers** traditionally kneeled in six-hour shifts, practicing the Vault-Breath in absolute silence around the **Sol's Breath** (the last eternal ember of Sol). Lately, however, this quietist tradition has been outlawed. The Dawn Vigil has launched **The Purging of the Silent Vow**, arresting quietist monks and replacing them with zealots who preach the active crusading path of the [Pyrofiend](file:///d:/VTT/vtt-react/src/data/classes/pyrofiendData.js).
 
 **The Subrace Friction & The Social Divide**
 
-The population is split into two sharp castes. The **Deep-Born** are wealthy Solvarn nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solvarn refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
+The population is split into two sharp castes. The **Deep-Born** are wealthy Solari nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solari refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
 
 The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured**  -  heretical Emberth who have ritually defaced their forge-marks  -  scour the wastes for Sundered Monoliths, believing that sealing the breach will let Sol die in peace rather than be eaten.
 
@@ -402,7 +402,7 @@ Taverns in the Mound-Camps are large yurt structures that smell of mutton fat an
 > - **House Morrath:** The noble house led by Regent Morrath Neth, who enforces the First Contract.
 > - **The Great Registry:** The central archive at Atropolis where all citizen debts and lifespans are recorded.
 > - **The Postmortem Corvée:** The legal conscription of deceased debtors resurrected as Debt-Revenants to clear balances.
-> - **The Peat-Debt Bondage:** The economic system where poor Morren mortgage their memories and lifelines for rations.
+> - **The Peat-Debt Bondage:** The economic system where poor Vreken mortgage their memories and lifelines for rations.
 > - **The Toll-Dikes:** Fortified living-ironwood gates across the swamp channels controlling passage.
 
 **The Regional Landscape & Current Vibe**
@@ -425,7 +425,7 @@ The Bryngloom's power is split between the canopy city of **Atropolis** and the 
 
 **The Subrace Friction & The Social Divide**
 
-The population is split into two castes. **The Contracted** are high-born Neth and wealthy merchants who hold active credits and live in the clean high canopy of Atropolis. **The Defaulted** are impoverished Morren humans and Marked Vreken who live in damp peat-shanties on the forest floor, breathing toxic rot-fumes and working the sumps.
+The population is split into two castes. **The Contracted** are high-born Neth and wealthy merchants who hold active credits and live in the clean high canopy of Atropolis. **The Defaulted** are impoverished Vreken of both bloodlines who live in damp peat-shanties on the forest floor, breathing toxic rot-fumes and working the sumps.
 
 The **Neth** are divided into three bloodlines. The **Velun** are the pact-lords and arcanists. unable to lie, they govern the high libraries. The **Kessen** are the gamblers and weavers, reading the probability-web of the forest floor. The **Drun** are the severed outcasts. Immune to magic but legally non-existent under Neth law, they live in the canopy-sumps. The bog's most infamous landmark is **Black Fen**, a stretch of dead water serving as the contract court's dumping ground.
 
@@ -441,7 +441,7 @@ The regional Sundered Monolith rests at the bottom of a bog-pool that has no bot
 
 **Daily Life, Trade & Food**
 
-Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Scribe-Cartel's monopoly. Poor Morren are trapped in perpetual debt, mortgaging their children's future lifelines.
+Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Scribe-Cartel's monopoly. Poor Vreken are trapped in perpetual debt, mortgaging their children's future lifelines.
 
 In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Merchants and pact-mages negotiate details of shipping covenants over tea. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.
 
@@ -457,19 +457,19 @@ In Atropolis, taverns are open-air branch platforms suspended high in the canopy
 
 Humans comprise the largest overall population of Mythrill, spread across every continent in seven distinct regional subcultures  -  each shaped by the dark bargain their noble ancestors made, each adapted to a different corner of a dying world. They are the shortest-lived sapient species and the most dangerous, driven not by strength or speed but by a pathological refusal to accept that the odds apply to them.
 
-The seven human bloodlines are: the **Thalren** of Frostwood Reach (journal-keepers, archivists, the most literate human culture); the **Skald** of Nordhalla (endurance-purists, bloodline-keepers, who encase their dead in glacier-tombs); the **Tessen** of the Cragjaw Peaks (the most isolated human culture, keep-dwellers facing severe population decline in the frozen summits); the **Solvarn** of Sundale (martyrs who stay in the ashlands because leaving would mean admitting their ancestors' sacrifice was meaningless); the **Merryn** of the Iceheart Sea (pirate-gamblers, luck-worshippers, whose tattooed skin is a legal document); the **Ordan** of the Sundrift Vale (nomads who follow the endless herds, navigating by throat-sung ancestor-maps); and the **Morren** of the Bryngloom Forest (debtors trading labor and memory to the Neth for protection).
+The five human bloodlines are: the **Thalren** of Frostwood Reach (journal-keepers, archivists, the most literate human culture); the **Skald** of Nordhalla (endurance-purists, bloodline-keepers, who encase their dead in glacier-tombs); the **Tessen** of the Cragjaw Peaks (the most isolated human culture, keep-dwellers facing severe population decline in the frozen summits); the **Merryn** of the Iceheart Sea (pirate-gamblers, luck-worshippers, whose tattooed skin is a legal document); and the **Ordan** of the Sundrift Vale (nomads who follow the endless herds, navigating by throat-sung ancestor-maps). The **Solvarn** of Sundale were transformed by Ember into the **Solari**, a separate race no longer human; the **Morren** of the Bryngloom Forest were absorbed into the **Vreken**.
 
 **The Internal Fractures**
 
-Humanity is not united and never has been. The Thalren view the Skald as savages who lost their nerve along with their warmth; the Skald view the Thalren as soft fog-dwellers who traded memory for comfort. The Solvarn view the Merryn as frivolous gamblers who wager with lives the Solvarn consider sacred. The Tessen view everyone as threats  -  isolation does not breed trust. The Ordan view all settled peoples as fundamentally weak  -  a house is a cage, a city is a grave. The Morren barely interact with other humans at all.
+Humanity is not united and never has been. The Thalren view the Skald as savages who lost their nerve along with their warmth; the Skald view the Thalren as soft fog-dwellers who traded memory for comfort. The Solari view the Merryn as frivolous gamblers who wager with lives the Solari consider sacred. The Tessen view everyone as threats  -  isolation does not breed trust. The Ordan view all settled peoples as fundamentally weak  -  a house is a cage, a city is a grave. The Vreken, who absorbed the Morren, barely interact with humans at all.
 
-Yet they trade. Human merchant networks span the continents, not because humans trust each other but because the Thalren need Nordhalla iron, the Solvarn need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride.
+Yet they trade. Human merchant networks span the continents, not because humans trust each other but because the Thalren need Nordhalla iron, the Solari need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride.
 
 The folk speak of an "eighth house"  -  **House Viridane**  -  the family that refused Keth-Amar's bargain. The name struck from every record. The truth is more subtle: there were seven original signatories including Viridane, who were erased and replaced by House Morrath to maintain the fiction of seven signatures. The Briaran, descendants of Viridane's flight, call themselves the eighth house in defiance: the living proof that one family refused. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know fragments of the truth through Neth records.
 
 **Proximal Relations**
 
-Humans are the connective tissue of Mythrill's economy  -  not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Rime-Born. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Morren villages owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for sp## The Mimir  -  The Mask-Bound
+Humans are the connective tissue of Mythrill's economy  -  not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Rime-Born. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Vreken crypt-monasteries owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for sp## The Mimir  -  The Mask-Bound
 
 **The Current State**
 
@@ -509,7 +509,7 @@ The Emberth are divided into three volcanic lineages:
 
 **Proximal Relations**
 
-The Emberth and the frost-touched clans of the **Rime-Born** share a deep, unspoken kinship  -  both were shaped by opposite extremes of the same catastrophe. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood. The **Solvarn** humans share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
+The Emberth and the frost-touched clans of the **Rime-Born** share a deep, unspoken kinship  -  both were shaped by opposite extremes of the same catastrophe. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood. The **Solari** share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
 
 ---
 
@@ -981,7 +981,7 @@ A grim, tragic practitioner of corruption who treats the battlefield as a garden
 Plaguebringers are kept at arm's length even by those who depend on them. They find grudging employ in the quarantine-quarters of the Sunken Spire and the bog-research outposts along Vel-Keth Bayou, and they are turned away at the gates of every settlement that has survived a plague.
 
 ### Races & Cultural Affiliation
-A **Vreken** discipline at root, drawn from the same fungal-alchemical tradition as the hush itself. **Morren** humans of the bog (already saturated with Neth contract-toxins) and a growing **Fexrick** cohort (whose toxin-resistant biology makes them ideal hosts) round out the order.
+A **Vreken** discipline at root, drawn from the same fungal-alchemical tradition as the hush itself. **Vreken** of the bog (already saturated with Neth contract-toxins) and a growing **Fexrick** cohort (whose toxin-resistant biology makes them ideal hosts) round out the order.
 
 > *"They call me a monster. They are right. But I did not make myself this way  -  I was born into a world that was already rotting, and I learned to breathe the decay."*
 
@@ -1057,7 +1057,7 @@ In the floating alleys of Merrowport, the **Merryn** pirate captain **Jax** wage
 Gambits are at home in the floating gambling-halls of Merrowport and the rune-trading posts of the Cragjaw canyons, where a wager and a card-reading are equally binding. They are watched carefully in Atropolis (the Neth contract-houses view unsanctioned fate-manipulation as unlicensed legal practice) and welcomed anywhere a bad outcome needs undoing.
 
 ### Races & Cultural Affiliation
-The **Merryn** pirate-gamblers and the **Kessen Neth** fate-weavers are the twin roots. The fused tradition draws **Corvani** raven-marked diviners and the occasional desperate **Solvarn** willing to bet against a world that already took everything from them.
+The **Merryn** pirate-gamblers and the **Kessen Neth** fate-weavers are the twin roots. The fused tradition draws **Corvani** raven-marked diviners and the occasional desperate **Solari** willing to bet against a world that already took everything from them.
 
 > *"I do not gamble against the house. I am the house. The stakes are your luck, and I am very, very good at collecting."*
 
@@ -1106,8 +1106,8 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 |---|---|---|---|
 | **Skadi's Col** | Wilderness | Skald | Old Norse mythological reference (Ymir) + terrain (Col). Saga-style possessive naming. |
 | **Vargtor** | Settlement | Skald | Old Norse compound (Varg = wolf, Tor = rocky hill). Pure Skald topographic naming. |
-| **Frostcirque** | Ruin | Rime-Born | Elemental (Frost) + terrain (Cirque). Stark, elemental naming  -  the Rime-Born do not decorate words. |
-| **The Still Crag** | Wilderness | Rime-Born | Elemental adjective + terrain (Crag). The Rime-Born name for where the Warden touched. |
+| **Gjaldhringr** | Ruin | Rime-Born | One word, below the Silence. The Rime-Born broke their own naming pattern for the amphitheater where the deal was written in ice. |
+| **Þögn** | Wilderness | Rime-Born | One word, "The Silence"  -  no adjective, no terrain. The Rime-Born name for where the Warden touched, so stark it defies description. |
 | **Rook's Promontory** | Wilderness | Corvani | Gothic avian (Rook) + terrain (Promontory). Corvani name their landmarks after birds. |
 | **The Black Firth** | Wilderness | Skald | Descriptive + terrain (Firth, the Norse term for a narrow inlet). Geographic naming. |
 | **Vespera's Perch** | Settlement | Corvani | Gothic possessive (Vespera) + roosting term. The Corvani name places after their own. |

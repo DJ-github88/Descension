@@ -89,7 +89,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Morren guild-stamped marks from the wagon-fort markets. Earnings from guild craft sales'
+        description: 'Vreken guild-stamped marks from the wagon-fort markets. Earnings from guild craft sales'
     },
     
     hermit: {
@@ -113,7 +113,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 25,
         silver: 0,
         copper: 0,
-        description: 'Morren caravan-trade silver, bound for the holding markets. Starting trade capital'
+        description: 'Vreken caravan-trade silver, bound for the holding markets. Starting trade capital'
     },
     
     urchin: {

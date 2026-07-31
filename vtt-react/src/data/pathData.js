@@ -101,7 +101,7 @@ export const PATH_DATA = {
     scarred: {
         id: 'scarred',
         name: 'The Scarred',
-        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Echo-Submersion. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Morren debtors carry this. You carry this.',
+        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Echo-Submersion. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Vreken debtors carry this. You carry this.',
         icon: 'fas fa-skull',
         statModifiers: {
             constitution: 2,

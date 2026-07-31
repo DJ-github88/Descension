@@ -109,18 +109,18 @@ The Caustic Fexric did not adopt Merryn gambling  â€”  they independently d
   },
 
   solvarn_human: {
-    subraceName: 'Solvarn Human',
+    subraceName: 'Solari',
     title: 'The Sun-Wager',
-    reframe: `Bets on Sol's return with terminal optimism. Every Fortune Point is a wager placed on a miracle that has not happened for eight centuries. The Solvarn Gambit is a pilgrimage-gambler, walking from shrine to shrine, placing the same bet at every altar. When they win  â€”  and sometimes, against all probability, they do  â€”  they credit the dying sun. When they lose, they consider it a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers.`,
+    reframe: `Bets on Sol's return with terminal optimism. Every Fortune Point is a wager placed on a miracle that has not happened for eight centuries. The Solari Gambit is a pilgrimage-gambler, walking from shrine to shrine, placing the same bet at every altar. When they win  â€”  and sometimes, against all probability, they do  â€”  they credit the dying sun. When they lose, they consider it a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers.`,
     signatureAbility: {
       name: 'Sun-Shrine Pilgrimage',
-      description: `Fortune Points are generated as pilgrimage-wagers placed at Sol-shrines across Sundale; each successful wager is credited to the dying sun, while each loss is counted as a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers, and the Solvarn Gambit carries that historical debt in every throw.`
+      description: `Fortune Points are generated as pilgrimage-wagers placed at Sol-shrines across Sundale; each successful wager is credited to the dying sun, while each loss is counted as a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers, and the Solari Gambit carries that historical debt in every throw.`
     },
     currentCrisisAngle: `The Dawn Vigil has begun to notice the pilgrimage-gamblers, and they are uncertain whether to condemn or celebrate them. A Gambit who credits every win to Sol is, technically, proselytizing. A Gambit who considers every loss a tithe is, technically, donating. The theology is sound. The methodology makes the Vigil deeply uncomfortable.`,
     signatureQuote: {
       text: '"I have placed the same bet at seventeen altars. I have lost at sixteen of them. The seventeenth paid out at twelve-to-one. Sol is not dead. Sol is slow."',
       speaker: 'Pilgrim-Gambler Sol-Drenn',
-      context: 'A Solvarn Sun-Wager, counting winnings on the steps of a Dawn Vigil shrine'
+      context: 'A Solari Sun-Wager, counting winnings on the steps of a Dawn Vigil shrine'
     }
   },
 
@@ -169,7 +169,7 @@ The Caustic Fexric did not adopt Merryn gambling  â€”  they independently d
   worldFriction: [
     { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated, they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
     { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' },
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Morren debtors buy back their names through underground wagers.' }
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Neth script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Vreken debtors buy back their names through underground wagers.' }
   ],
 
   overview: {
@@ -179,7 +179,7 @@ The first was Jax, a Merryn pirate captain who wagered his lifeline against a fr
 
 Each subrace gambles through their own culture's understanding of chance. The Merryn wager voyage-shares with salt-coral dice, strongest on open water where the sea can hear them. The Shore Myrathil read probability in foam-patterns and the color-shift of their skin, paying in memory, their bioluminescence dimming with each stake. The Kessen Neth treat every hand as a clause analysis, structuring wagers so losing benefits them more than winning. The Ithran Groven bet on structural failure, when the Ancestor-Span will crack, how much weight the calcified dead can bear, their calculations terrifyingly precise against non-random events.
 
-The Caustic Fexric did not adopt Merryn gambling. They independently discovered probability manipulation through salvage-hustling. A hustler named Gear-Rat Jix encountered a Merryn gambit at Ironjaw Port during the Toll Wars and recognized the shared language, stealing a Merryn deck and replacing the salt-coral dice with weighted gear-teeth. The Solvarn gamble on the sun, pilgrimage-gamblers walking from shrine to shrine placing the same bet that has not paid out for eight centuries.
+The Caustic Fexric did not adopt Merryn gambling. They independently discovered probability manipulation through salvage-hustling. A hustler named Gear-Rat Jix encountered a Merryn gambit at Ironjaw Port during the Toll Wars and recognized the shared language, stealing a Merryn deck and replacing the salt-coral dice with weighted gear-teeth. The Solari gamble on the sun, pilgrimage-gamblers walking from shrine to shrine placing the same bet that has not paid out for eight centuries.
 
 The Karmic Debt that every gambit accrues is collected by an entity Lyra calls the Debtor, not a god, not a Wyrd-lord, but something older. The Deck-Burners, Lyra's radical faction, intend to force it to show itself by burning their rune-cards to collapse probability into certainty. If the ritual fails, every living gambit's Karmic Debt is collected simultaneously.
 
@@ -209,7 +209,7 @@ The Gambit's power was born from two founding events. In the floating alleys of 
 Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Neth pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solvarn</LoreLink> who bet on Sol's return.
+The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the Kessen <LoreLink termId="neth">Neth</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solari</LoreLink> who bet on Sol's return.
 
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.

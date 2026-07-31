@@ -321,8 +321,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'terrain',
       action: 'DRAW',
-      text: 'The Still Crag: cliff face in absolute silence',
-      why: 'The Still Crag is a massive cliff face wreathed in absolute silence. Located in the Glacier-Heart, it is surrounded by frozen plains. It is a sacred site where the Rime-Born perform their memory-freezing rites, utilizing the eerie lack of wind to meditate without distraction.',
+      text: 'Þögn: cliff face in absolute silence',
+      why: 'Þögn is a massive cliff face wreathed in absolute silence. Located in the Glacier-Heart, it is surrounded by frozen plains. It is a sacred site where the Rime-Born perform their memory-freezing rites, utilizing the eerie lack of wind to meditate without distraction.',
       inkarnate: 'Cliff face icon'
     },
     {
@@ -1028,7 +1028,7 @@ const CHECKLIST_TEMPLATE = {
     { category: 'cities', action: 'PLACE', text: 'Synod Hold: Astril crystal-lattice fortress (800 pop)', why: 'Pale limestone, concentric rings, every entrance faces east', inkarnate: 'Fortress icon (crystal)' },
     { category: 'cities', action: 'PLACE', text: 'Mound-Camps: sprawling seasonal wool-yurt settlement', why: 'Commercial heartbeat of the Vale', inkarnate: 'Yurt circle' },
     { category: 'cities', action: 'PLACE', text: 'The Moundwatch: cairn-checkpoint with sentry-posts (eastern Wolds)', why: 'Herd-Tithe collection point, continuous chronicle of Ordan people', inkarnate: 'Checkpoint icon' },
-    { category: 'cities', action: 'PLACE', text: 'Morren\'s Bogpost: Morren trading outpost at forest-steppe edge', why: 'Only major trade gateway between Bryngloom and Sundrift Vale', inkarnate: 'Trading post icon' },
+    { category: 'cities', action: 'PLACE', text: 'Morren\'s Bogpost: Vreken trading outpost at forest-steppe edge', why: 'Only major trade gateway between Bryngloom and Sundrift Vale', inkarnate: 'Trading post icon' },
     // LANDMARKS
     { category: 'landmarks', action: 'MARK', text: 'The Ancestor Mounds: vast network of 20 generations of burial barrows', why: 'Each mound emits a unique hum', inkarnate: 'Many mound icons' },
     // ROUTES
@@ -1060,7 +1060,7 @@ const CHECKLIST_TEMPLATE = {
     // CITIES
     { category: 'cities', action: 'PLACE', text: 'Atropolis: magnificent suspended canopy-city (Neth capital)', why: 'The First Contract is preserved here in the Heart-Vault', inkarnate: 'Canopy city icon' },
     { category: 'cities', action: 'PLACE', text: 'The Sunken Spire: Vreken inverted capital, 400 ft down into a sinkhole', why: 'Crypt-Council rules here', inkarnate: 'Inverted spire' },
-    { category: 'cities', action: 'PLACE', text: 'Over-Shanty: hanging slum of rope-bridges beneath Atropolis (600 pop)', why: 'Drun outcasts, Morren peat-cutters, Dangling Keel tavern', inkarnate: 'Hanging slum' },
+    { category: 'cities', action: 'PLACE', text: 'Over-Shanty: hanging slum of rope-bridges beneath Atropolis (600 pop)', why: 'Drun outcasts, Vreken peat-cutters, Dangling Keel tavern', inkarnate: 'Hanging slum' },
     { category: 'cities', action: 'PLACE', text: 'Aran-Glen: Kessen Neth village of living ironwood (300 pop)', why: 'Every structure is grown, not built', inkarnate: 'Living-wood village' },
     { category: 'cities', action: 'PLACE', text: 'Covenbane Stronghold: Inquisition seat in the western bayous', why: 'Black ironwood and cold-iron bars, hanging-cages preserved', inkarnate: 'Fortress icon' },
     { category: 'cities', action: 'PLACE', text: 'Monks of the Sunken Stone: Velun monastery on the largest Great Mere island', why: 'Half-submerged in high water, dive to read old record-stones', inkarnate: 'Monastery on island' },

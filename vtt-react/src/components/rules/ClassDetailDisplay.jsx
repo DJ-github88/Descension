@@ -768,7 +768,7 @@ const classFallbacks = {
  ],
  martyr: [
   { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Hollow-Solari Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
-   { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solvarn Human Martyr wreathed in iron chains holding a Sol\'s Breath stone amulet.' },
+   { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solari Martyr wreathed in iron chains holding a Sol\'s Breath stone amulet.' },
   { url: '/assets/images/classes/martyr_illustration_3.png', caption: 'A Marked Vreken Martyr wreathed in starry cosmic chains absorbing stellar pain.' }
  ],
  toxicologist: [
@@ -787,9 +787,9 @@ const classFallbacks = {
   { url: '/assets/images/classes/minstrel_illustration_3.png', caption: 'A Tessen Human Minstrel playing a small, ornate harp with swirling wind currents.' }
  ],
  inquisitor: [
-  { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solvarn Human Barbed-Vow Inquisitor wreathed in cold iron chains.' },
+  { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solari Barbed-Vow Inquisitor wreathed in cold iron chains.' },
   { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' },
-  { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Morren Human Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
+  { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Vreken Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
  ],
  apex: [
   { url: '/assets/images/classes/apex_illustration.png', caption: 'A Shorn Florae Silent Hunter Apex drawing a recurve bow.' },

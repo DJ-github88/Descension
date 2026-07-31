@@ -1261,7 +1261,7 @@ export const HUMAN_SUBRACE_ITEMS = [
     },
     {
         id: 'solvarn-ash-glass-brooch',
-        name: 'Solvarn Ash-Glass Brooch',
+        name: 'Solari Ash-Glass Brooch',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
@@ -1303,7 +1303,7 @@ export const HUMAN_SUBRACE_ITEMS = [
     },
     {
         id: 'morren-bog-wood-charm',
-        name: 'Morren Bog-Wood Charm',
+        name: 'Vreken Bog-Wood Charm',
         type: 'accessory',
         subtype: 'NECKLACE',
         quality: 'uncommon',

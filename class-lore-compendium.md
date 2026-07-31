@@ -13,13 +13,13 @@
 **Role in World:** Vehicle of three ancestral traditions simultaneously. They erupt bone totems, invoke spirits through curses, and carve runic networks into the earth. Animists are essential in wilderness expeditions and siege defense, but deeply unsettling in settled communities due to their bone spurs, glowing inscriptions, and spirit-static hallucinations.
 
 **Cultural Affiliation:**
-The class is practiced by the Ordan humans, Vashir Astril, Clean Vreken, Morren humans, Rune Keeper Skald, and Velun Neth.
+The class is practiced by the Ordan humans, Vashir Astril, Clean Vreken, Rune Keeper Skald, and Velun Neth.
 
 Six subrace variants exist:
 - **Ordan ("The Steppe-Throat")**: Sings ancestors through overtones. The ancestor lives in the overtone, the second voice the throat produces, woven into the mane-hair of migration-horses.
 - **Vashir Astril ("The Heritage-Conduit")**: Commune with the Lumia heritage fragment of a dead world's biosphere in their own blood. The heritage is not external — it is the host.
 - **Clean Vreken ("The Spore-Inhaler")**: Inhale bioluminescent spores carrying the Wyrd, letting the ancestral dead ride fungal particles into the lungs. Their Animism is the oldest of the three root traditions, older than Kora, older than the Root-Veil contract.
-- **Morren ("The Debt-Bound")**: Summon the specific forebear whose unpaid contract still accrues interest against their family. The ancestor is not honored — it is *owed*.
+- **Vreken ("The Debt-Bound")**: Summon the specific forebear whose unpaid contract still accrues interest against their family. The ancestor is not honored — it is *owed*.
 - **Skald ("The Rune-Keeper")**: Carve ancestors' names into their own skin; the rune IS the ancestor, and the scar-tissue is its house.
 - **Velun Neth ("The Ledger-Summoner")**: File a request rather than commune. The ancestor is a recorded entry in the great archive of Atropolis, summoned through proper citation, offer, and acknowledgment of outstanding obligation.
 
@@ -152,7 +152,7 @@ Three subrace variants exist:
 
 **Identity:** The False Prophet does not worship — they channel. They preach the Silence as absolute revelation, accumulating Madness Points through sermons and psychic rituals that strip away the barriers between minds. Their spells grow devastating with accumulated strain, but the weight threatens to overwhelm them from within. They walk a razor edge between transcendence and collapse.
 
-**Role in World:** Hunted by the Synod-Hold, where deceptive light is recognized as toxic forgery of true resonance. Persecuted in Sundale as heretics. Tolerated in the Bryngloom among the desperate Morren debt-population. They lead small, devoted followings among the desperate and the disenfranchised.
+**Role in World:** Hunted by the Synod-Hold, where deceptive light is recognized as toxic forgery of true resonance. Persecuted in Sundale as heretics. Tolerated in the Bryngloom among the desperate Vreken debt-population. They lead small, devoted followings among the desperate and the disenfranchised.
 
 **Cultural Affiliation:**
 The class is practiced by desperate humans and the Astril.
@@ -160,11 +160,11 @@ The class is practiced by desperate humans and the Astril.
 Three subrace variants exist:
 - **Vashir Astril ("The False Star")**: Borrow the credibility of their genuine Lumia heritage as cover for manufactured doctrine. The congregation cannot tell the prophet from the temple.
 - **Silath Astril ("The Gagged Evangelist")**: Weaponize the suppression of their heritage. The captive's desperate need to be heard is the engine of the congregation's fervor. Faith is built on a hostage's screaming.
-- **Morren ("The Debt-Preacher")**: Sell salvation from Neth contract-debt as a counter-currency — devotion in lieu of gold, belief in lieu of blood. The more a follower owes, the more powerful the faith-effects become. A competing creditor.
+- **Vreken ("The Debt-Preacher")**: Sell salvation from Neth contract-debt as a counter-currency — devotion in lieu of gold, belief in lieu of blood. The more a follower owes, the more powerful the faith-effects become. A competing creditor.
 
 **Fatal Flaw / Crisis:** Madness builds to 20 and triggers Insanity Convulsion. The Voice of the Silence is getting louder and giving specific instructions: "Go to the Frozen Archive. Descend to the lowest vault. Open the way." The Congregation is divided. Some hear beneath the Voice a scraping sound, like claws on stone. They believe the Voice is using them to free something that has been trapped since the Deepening.
 
-**Founder(s):** Li Wei the Blind Prophet — alive, barely. He gouged his own physical sight to perceive the guiding embers. He cannot lead; he can only listen. The Congregation formed around him without his consent. Current leader: Cell-Mother Mor-Vereth, a Morren debtor who built the cell-network around Li Wei's breathing. She keeps him alive because the Voice will not speak through any other throat. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
+**Founder(s):** Li Wei the Blind Prophet — alive, barely. He gouged his own physical sight to perceive the guiding embers. He cannot lead; he can only listen. The Congregation formed around him without his consent. Current leader: Cell-Mother Mor-Vereth, a Vreken debtor who built the cell-network around Li Wei's breathing. She keeps him alive because the Voice will not speak through any other throat. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
 
 ---
 
@@ -200,12 +200,12 @@ Four subrace variants exist:
 **Role in World:** Wanted in the Sundrift Vale (House Ordavan blames them for reality-tears). Distrusted at the Frozen Archive (too valuable to exile, but watched). They practice in the nomadic yurt-camps of the Vale or the deep subterranean sumps of Frostmaw Holdfast.
 
 **Cultural Affiliation:**
-The class is heavily practiced by the crystal-skinned Vashir Astril, the Solvarn humans, and the Rune Keeper Skald.
+The class is heavily practiced by the crystal-skinned Vashir Astril, the Solari, and the Rune Keeper Skald.
 
 Four subrace variants exist:
 - **Vashir Astril ("The Entropy-Symphony")**: Hear the Lumia heritage's death-crescendo as entropy made musical. Channeling the slow death of a buried world as a symphony. Are, in effect, accelerating their own heritage's death.
 - **Silath Astril ("The Suppressed Catastrophe")**: Weaponize the suppressed heritage's gagged warnings of doom. Burn their captive's love for the world as fuel.
-- **Solvarn ("The Dying-Light Doomsayer")**: Read the arithmetic of Sol's final extinguishment and weaponize the certainty. Strongest at dusk, in winter, and in the deepening dark. Their magic is fueled by the very catastrophe their ancestors caused.
+- **Solari ("The Dying-Light Doomsayer")**: Read the arithmetic of Sol's final extinguishment and weaponize the certainty. Strongest at dusk, in winter, and in the deepening dark. Their magic is fueled by the very catastrophe their ancestors caused.
 - **Tessen ("The Extinction-Architect")**: Have rehearsed the apocalypse for four centuries. Each Wild Surge is a scenario they have lived through in their mind a thousand times. The catastrophe is choreography.
 
 **Fatal Flaw / Crisis:** At 100 Mayhem, a d100 Master Wild Surge triggers with molecular dissociation. The Chaos Pockets are becoming permanent, accelerating Sol's dimming. The prophecy equations are contradicting themselves. "Prophetic Paradox Zones" have emerged where prophecies resolve as both Prophesied AND Outside simultaneously. The Doom-Choir's own magic is measurably ending the world faster.
@@ -229,7 +229,7 @@ Four subrace variants exist:
 - **Marked Vreken ("The Mycelium-Hunter")**: Hunt through the mycelial network itself, tracking corruption through the forest's nervous system. Cut spiritual infection where it roots in the forest.
 - **Clean Vreken ("The Glow-Auditor")**: Read bioluminescent signatures of corrupted bonds the way a scribe reads ink. Diagnosticians who find what the Marked sever.
 - **Thalren ("The Salt-Scarred")**: Open their own veins to draw Wyrd face-stealers into living flesh, baiting them with deliberately breakable oaths. Elias's original tradition.
-- **Morren ("The Contract-Severer")**: Hunt rogue contracts — corrupted familiars, broken oaths, Faustian bargains — severing them with the same legal precision the Neth used to write them. Draft the annulment.
+- **Vreken ("The Contract-Severer")**: Hunt rogue contracts — corrupted familiars, broken oaths, Faustian bargains — severing them with the same legal precision the Neth used to write them. Draft the annulment.
 
 **Fatal Flaw / Crisis:** Only 47 active Inquisitors remain. The Wyrd is bleeding faster, and the incursion rate has tripled. New, unnamed entities in the deep groves have no contracts to sever and no faces to bait — they fall outside the Inquisitor's entire art. The mycelial rash now marks every active Inquisitor and spreads to their families. Recruits are refusing the oath. The current leader, Vrael the Forty-Seventh, has begun training recruits in forbidden techniques — not severing corruption, but *binding* it.
 
@@ -271,10 +271,10 @@ Six subrace variants exist:
 **Role in World:** Celebrated and conscripted in Sundale. Drafted by noble houses as strategic resources — a Martyr cadre extends a battalion fight-duration threefold. Distrusted in the Bryngloom (the Neth read Devotion as an unfiled transfer). Hunted in Nordhalla (House Skalvyr outlaws the blood-vow).
 
 **Cultural Affiliation:**
-The class is heavily practiced by the Solvarn humans and the Korr Emberth.
+The class is heavily practiced by the Solari and the Korr Emberth.
 
 Four subrace variants exist:
-- **Solvarn ("The Sun-Vigil")**: Sera's original tradition. Every wound absorbed is a small death in imitation of Sol's entombment — suffering as prayer, the body as living tomb-mass.
+- **Solari ("The Sun-Vigil")**: Sera's original tradition. Every wound absorbed is a small death in imitation of Sol's entombment — suffering as prayer, the body as living tomb-mass.
 - **Korr Emberth ("The Vault-Silent")**: Frame every absorbed wound as another minute of vigil over the Sol's Breath. The Vault-Breath as template.
 - **Velun Neth ("The Contract-Martyr")**: Sacrifice per explicit contract terms. The suffering is legally binding and the protection it generates is a delivered obligation. A ledger of fulfilled clauses.
 - **Skald ("The Ironclad")**: The Dreadnaught tradition reborn. Sealed in riveted iron plate with heating-pipes, converting incoming damage into combustion pressure. The only Martyr variant that converts absorbed suffering into offensive output.
@@ -317,11 +317,11 @@ Four subrace variants exist:
 **Role in World:** Persecuted (the Root-Veil is rejecting the Marked cultivators; the Neth Regency classifies cultivation as capital offense). Shunned everywhere else — a traveling Plaguebringer is housed outside walls and trades through intermediaries. This is quarantine, not persecution.
 
 **Cultural Affiliation:**
-The class is heavily practiced by the Drun Neth and the Morren outcasts.
+The class is heavily practiced by the Drun Neth and the Vreken outcasts.
 
 Four subrace variants exist:
 - **Drun Neth ("The Silence-Host")**: The ideal substrate. Their partial-death means their body no longer resists foreign biology. A halfway-corpse whose decay hosts the substrate.
-- **Morren ("The Desperation-Cultivator")**: Took to the path out of pure desperation. Cultivating the hush was the one act the Neth could not tax. Engineered diseases are that one property Morvane has no jurisdiction over.
+- **Vreken ("The Desperation-Cultivator")**: Took to the path out of pure desperation. Cultivating the hush was the one act the Neth could not tax. Engineered diseases are that one property Morvane has no jurisdiction over.
 - **Clean Vreken ("The Glow-Culture")**: Cultivated diseases express as visible bioluminescent patterns — a living map of light enabling surgical precision but broadcasting to every Vreken nearby.
 - **Marked Vreken ("The Mycelium-Vector")**: Deliver disease through the Root-Veil itself. A single Marked Plaguebringer can blight a grove through the roots beneath it.
 
@@ -340,10 +340,10 @@ Four subrace variants exist:
 **Role in World:** Used and distrusted in Sundale (the Dawn Vigil secondments Pyrofiends into suicidal vanguard units). Antithetical in Nordhalla (killed on sight as thermal pollutants — their presence melts the archive-ice). Tactically indispensable against the Wyrd, but never safe.
 
 **Cultural Affiliation:**
-The class is heavily practiced by the Thrask Emberth and hot-blooded Solvarn humans.
+The class is heavily practiced by the Thrask Emberth and hot-blooded Solari.
 
 Three subrace variants exist:
-- **Solvarn ("The Sun-Blasphemer")**: The original tradition. The pact is the founding blasphemy — they helped bury the sun, then made a deal with the thing nesting in its tomb. Their fire is the perverted echo of the star they entombed.
+- **Solari ("The Sun-Blasphemer")**: The original tradition. The pact is the founding blasphemy — they helped bury the sun, then made a deal with the thing nesting in its tomb. Their fire is the perverted echo of the star they entombed.
 - **Thrask Emberth ("The Forge-Damned")**: Treat the pact as the dark mirror of their forge-craft. The body itself is the workpiece, Wyrd-fire as the forge. Can direct which body parts calcify into heat-resistant forge-plate.
 - **Skald ("The Cold-Traitor")**: Rarest, most reviled. Rejected the cold their culture worships. Their fire is not faith — it is revenge against the frost that broke them. Draws extra power from cold environments.
 
@@ -362,13 +362,13 @@ Three subrace variants exist:
 **Role in World:** Persecuted in the Bryngloom (blamed for the waking bog-graves, subject to the Keeper's Sanction). Distrusted in the Sundrift Vale (the Ordan consider them corpse-violators). Hunted in Nordhalla (the Skald view them as abomination-kin of the glacier-dead).
 
 **Cultural Affiliation:**
-The class is heavily practiced by the Clean Vreken (blood covenant tradition) and the Drun Neth (frost stasis tradition). Desperate human Morren also take the path.
+The class is heavily practiced by the Clean Vreken (blood covenant tradition) and the Drun Neth (frost stasis tradition). Morren-blood Vreken also take the path.
 
 Five subrace variants exist:
 - **Clean Vreken ("The Ancestor-Bound")**: Refuse death because their ancestors need a living voice to speak through. The Revenant state is continued service — the host kept half-alive so the dead can keep speaking.
 - **Marked Vreken ("The Mycelium-Dead")**: Achieve the Revenant state through the Root-Veil itself. Consciousness smeared across miles of mycelium — dying everywhere and nowhere. Nearly impossible to permanently kill.
 - **Drun Neth ("The Contract-Expired")**: Fulfillment of legal non-existence made metaphysical. Invisible to the Keeper, unbound from the First Contract, death cannot claim them. The freest undead and the loneliest.
-- **Morren ("The Debt-Revenant")**: Denied death by the contract-economy that owned them in life. Undeath is the final clause in a bargain they never wanted. Cannot choose to rest, only to work.
+- **Vreken ("The Debt-Revenant")**: Denied death by the contract-economy that owned them in life. Undeath is the final clause in a bargain they never wanted. Cannot choose to rest, only to work.
 - **Tessen ("The Keep-Waked")**: Undeath as dynastic preservation — refusing to let a bloodline end. Soul anchored to the keep itself; as long as it stands, they cannot be destroyed.
 
 **Fatal Flaw / Crisis:** The bog-graves are waking on their own, the dead marching toward the Sundered Monoliths without permission. Twelve Revenants found dead, bodies drained of blood but showing no wounds. The Cult of Forgotten Shadow offers Silence-stasis — "clean immortality" requiring no life-force harvesting. Half the remaining Revenants have accepted it; the other half suspect the Silence is replacing their souls. The Keeper cannot see the Drun variant, but the dead are no longer waiting.
@@ -415,7 +415,7 @@ The class is heavily practiced by the Velun Neth and the Thalren humans.
 Five subrace variants exist:
 - **Velun Neth ("The Clause-Canceller")**: Cancel spells through legal-inversion — drafting the annulment. A fireball is an aggressively-worded offer; the response is a timely rejection on procedural grounds. Lowest radiation intake but fails against wild Wyrd.
 - **Thalren ("The Wyrd-Defuser")**: Defuse magic like a sapper defuses a trap — identify trigger, payload, and failsafe, then neutralize each in sequence. Only method that reliably catches layered spells.
-- **Solvarn ("The Tomb-Aegis")**: Absorb magic raw, practice-tested against Sol's Breath-scale eruptions. Take the most Silence Resonance but can absorb the largest single bursts.
+- **Solari ("The Tomb-Aegis")**: Absorb magic raw, practice-tested against Sol's Breath-scale eruptions. Take the most Silence Resonance but can absorb the largest single bursts.
 - **Korr Emberth ("The Silent-Guard")**: Intercept from Vault-Breath stillness, becoming a silence that magic *falls into* rather than strikes. The steadiest variant — but cannot intercept while moving.
 - **Thrask Emberth ("The Forge-Shield")**: Deflect and redirect rather than absorb. Treat incoming magic as a thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
@@ -439,7 +439,7 @@ The class is heavily practiced by the Thalren humans and the Unwoven Mimir.
 Five subrace variants exist:
 - **Thalren ("The Fog-Distiller")**: Varis's original tradition. Distill venom from fog-predators and optimize for area-denial, slow-acting, persistent — a poison laid today that blooms in a week.
 - **Unwoven Mimir ("The Floor-Brewer")**: Brew from the canopy's undergrowth — the slow chemistry of decomposition. The longest-lasting agents in the tradition.
-- **Morren ("The Bog-Chemist")**: Read the Bryngloom bog's chemistry from centuries of peat-debt. The most versatile chemists, drawing from the richest pharmacological treasury in the known world, including the contract-preserving ichor.
+- **Vreken ("The Bog-Chemist")**: Read the Bryngloom bog's chemistry from centuries of peat-debt. The most versatile chemists, drawing from the richest pharmacological treasury in the known world, including the contract-preserving ichor.
 - **Trueborn Briaran ("The Thorn-Venom")**: Distill their own fae-touched thorn-blood. Every Trueborn's poisons are unique to their bloodline — deeply personal and uncounterable.
 - **Shorn Briaran ("The Hidden-Cuil")**: Brew in absolute secret among Thalren neighbors who would kill them. Toxins engineered for untraceability — the tradition's assassins.
 

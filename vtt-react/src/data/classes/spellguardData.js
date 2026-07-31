@@ -35,7 +35,7 @@ export const SPELLGUARD_DATA = {
  /**
   * Subrace Variants, the Spellguard dismantles incoming magic, and how they dismantle
   * it depends on what tradition of "understanding magic" they inherited. The Neth cancel
-  * it legally. The Thalren defuse it like a Wyrd-trap. The Solvarn shield it like a
+   * it legally. The Thalren defuse it like a Wyrd-trap. The Solari shield it like a
   * tomb-guard. The Solari intercept it like a forge-rupture.
   */
  
@@ -81,18 +81,18 @@ subraceVariants: {
   },
 
   solvarn_human: {
-   subraceName: 'Solvarn',
+   subraceName: 'Solari',
    title: 'The Tomb-Aegis',
-   reframe: `The <LoreLink termId="house_solvan">Solvarn</LoreLink> have stood vigil over <LoreLink termId="emberspire">Sol's tomb</LoreLink> for eight centuries, and a Spellguard among them treats incoming magic as *another eruption from the buried star*, something to be shielded, contained, and held until it cools. The Solvarn are the tradition's pure *sponges*, absorbing magic the way a tomb-wall absorbs the volatile resonance of an imprisoned spirit.`,
+   reframe: `The <LoreLink termId="house_solvan">Solari</LoreLink> have stood vigil over <LoreLink termId="emberspire">Sol's tomb</LoreLink> for eight centuries, and a Spellguard among them treats incoming magic as *another eruption from the buried star*, something to be shielded, contained, and held until it cools. The Solari are the tradition's pure *sponges*, absorbing magic the way a tomb-wall absorbs the volatile resonance of an imprisoned spirit.`,
    signatureAbility: {
     name: 'Tomb-Shielding',
-     description: `Incoming spells are absorbed raw into the Spellguard's flesh, then contained, held in the body until they can be vented or redirected. The Solvarn take on the most Silence Resonance of any variant, but they can absorb the largest single bursts, having practiced against Sol's Breath-scale eruptions their whole lives.`
+     description: `Incoming spells are absorbed raw into the Spellguard's flesh, then contained, held in the body until they can be vented or redirected. The Solari take on the most Silence Resonance of any variant, but they can absorb the largest single bursts, having practiced against Sol's Breath-scale eruptions their whole lives.`
    },
-   currentCrisisAngle: `The rising ambient magic is, to the Solvarn, a familiar enemy, this is what their ancestors shielded against. But the scale is wrong: the ambient level is approaching Sol's Breath-volatility *everywhere*, and the Solvarn Spellguards, trained for rare spikes, are being asked to sustain tomb-level absorption *continuously*. Several have begun glowing so brightly they cannot hide, and the Dawn Vigil has begun "recruiting" them as walking beacons.`,
+   currentCrisisAngle: `The rising ambient magic is, to the Solari, a familiar enemy, this is what their ancestors shielded against. But the scale is wrong: the ambient level is approaching Sol's Breath-volatility *everywhere*, and the Solari Spellguards, trained for rare spikes, are being asked to sustain tomb-level absorption *continuously*. Several have begun glowing so brightly they cannot hide, and the Dawn Vigil has begun "recruiting" them as walking beacons.`,
    signatureQuote: {
     text: '"I was built to catch a star\'s death-rattle once a season. Now the whole world hums at that frequency. I am a tomb-wall asked to be a sky. I cannot be a sky."',
     speaker: 'Aegis Sol-Varen',
-    context: 'A Solvarn Spellguard, glowing too brightly to enter Merrowport unnoticed'
+    context: 'A Solari Spellguard, glowing too brightly to enter Merrowport unnoticed'
    }
   },
 
@@ -172,7 +172,7 @@ The first was Damon, a Solari blacksmith working the forge-keeps during the Bind
 
 The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
 
-Each subrace absorbs differently. The Velun Neth cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solvarn absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
+Each subrace absorbs differently. The Velun Neth cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
 Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Silence Resonance faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
   title: "The Spellguard",

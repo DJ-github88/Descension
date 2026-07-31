@@ -87,18 +87,18 @@ export const ANIMIST_DATA = {
     },
 
     morren_human: {
-      subraceName: 'Morren',
+      subraceName: 'Vreken',
       title: 'The Debt-Bound',
-      reframe: `The <LoreLink termId="house_morrath">Morren</LoreLink> are debtors to the Neth, and a Morren Animist channels no glorious ancestor, they summon the specific forebear whose unpaid contract still accrues interest against their family. Adapted from the Ordan ancestor-compass technique through Neth contract-culture: the Morren took the concept of the dead remembering obligations and applied it legally. The ancestor is not honored. The ancestor is *owed*. Every Morren family recites their contract at mealtimes; the Animist makes that recitation literal.`,
+      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> are debtors to the Neth, and a Vreken Animist channels no glorious ancestor, they summon the specific forebear whose unpaid contract still accrues interest against their family. Adapted from the Ordan ancestor-compass technique through Neth contract-culture: the Vreken took the concept of the dead remembering obligations and applied it legally. The ancestor is not honored. The ancestor is *owed*. Every Vreken family recites their contract at mealtimes; the Animist makes that recitation literal.`,
       signatureAbility: {
         name: 'Contract-Invocation',
-        description: `The spirit summoned is the family's debt-ancestor; it bargains for service rather than aiding freely, each invocation incrementally renegotiating an inherited obligation. Power, for a Morren Animist, is also a form of payment, and the interest compounds.`
+        description: `The spirit summoned is the family's debt-ancestor; it bargains for service rather than aiding freely, each invocation incrementally renegotiating an inherited obligation. Power, for a Vreken Animist, is also a form of payment, and the interest compounds.`
       },
-      currentCrisisAngle: `The Morren are the only tradition whose ancestors are *legally* bound. When the dialect fractured, the debt-ancestors began refusing to acknowledge renegotiations, demanding the original terms, in the original language, which the living no longer speak correctly. Families are being called to account for debts they cannot even recite, and Morvane's Sanction looms.`,
+      currentCrisisAngle: `The Vreken are the only tradition whose ancestors are *legally* bound. When the dialect fractured, the debt-ancestors began refusing to acknowledge renegotiations, demanding the original terms, in the original language, which the living no longer speak correctly. Families are being called to account for debts they cannot even recite, and Morvane's Sanction looms.`,
       signatureQuote: {
         text: '"My grandmother borrowed her survival and left me the bill. Now she will not leave until I have read it back to her, correctly, in a language neither of us remembers."',
         speaker: 'Petr Debt-Son',
-        context: 'A Morren Animist, the night before his family\'s contract-review'
+        context: 'A Vreken Animist, the night before his family\'s contract-review'
       }
     },
 
@@ -171,7 +171,7 @@ export const ANIMIST_DATA = {
     founder: {
       name: 'Kael the Herd-Runner',
       status: `Dead. The first of the three named Animist founders, an Ordan throat-singer who sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, Kael began singing ancestor-names and the herds still found their way.`,
-      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Morren, Astril, Velun Neth) all trace their root technique to Kael's work.`
+      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Astril, Velun Neth) all trace their root technique to Kael's work.`
     },
     currentLeader: {
       name: 'Bayar Wind-Throat',
@@ -235,7 +235,7 @@ There were no three founders. There was one lost Ordan throat-singer whose name 
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Morren</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
+The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Neth contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the Velun <LoreLink termId="neth">Neth</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
 
 **NOTABLE FIGURES**
 * **Kael the Herd-Runner**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
@@ -259,7 +259,7 @@ The root technique originated among the <LoreLink termId="house_ordavan">Ordan</
 
 The oldest dead  —  those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for pre-Deepening ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
 
-The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Morren debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
+The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Vreken debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
 
 The Animists call this the Fading. The dead are not fragmenting because the traditions divided. The traditions are dividing because the dead are fragmenting  —  and every Animist, regardless of culture, is trying to hold a conversation with ancestors who increasingly do not speak the same language as each other.
 
