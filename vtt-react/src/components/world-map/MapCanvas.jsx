@@ -5,6 +5,7 @@ import LocationPins from './LocationPins';
 import PlayerAnnotationsLayer from './PlayerAnnotationsLayer';
 import MapControls from './MapControls';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
+import { getSubregionMap } from '../../data/subregionMaps';
 
 const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
 const MAP_WIDTH = 4096;
@@ -13,6 +14,8 @@ const MAP_HEIGHT = 3072;
 const MapCanvas = ({
   phase,
   initialTransform,
+  activeMapId = 'mythril',
+  onEnterSubregionMap,
   devMode,
   devTool,
   currentRegion,
@@ -55,7 +58,8 @@ const MapCanvas = ({
 
   // Dual Map Mode props
   mapVersion,
-  onToggleMapVersion
+  onToggleMapVersion,
+  targetZoomPoint
 }) => {
   const transformRef = useRef(null);
   const [driftEnabled, setDriftEnabled] = useState(false);
@@ -69,6 +73,36 @@ const MapCanvas = ({
 
   // Dynamic minScale to allow viewing the entire map
   const [minScale, setMinScale] = useState(0.15);
+
+  // Handle smooth camera zoom to target subregion point
+  useEffect(() => {
+    if (targetZoomPoint && transformRef.current) {
+      const { x, y, scale = 1.85, duration = 600 } = targetZoomPoint;
+      const ref = transformRef.current;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const posX = W / 2 - x * scale;
+      const posY = H / 2 - y * scale;
+      ref.setTransform(posX, posY, scale, duration, 'easeOutCubic');
+    }
+  }, [targetZoomPoint]);
+
+  // Center and fit the entire new map into view whenever activeMapId changes (e.g. entering subregion map)
+  useEffect(() => {
+    if (transformRef.current && activeMapId) {
+      const timer = setTimeout(() => {
+        if (transformRef.current) {
+          const W = window.innerWidth;
+          const H = window.innerHeight;
+          const fitScale = Math.min(W / 4096, H / 3072) * 0.92;
+          const fitPosX = (W - 4096 * fitScale) / 2;
+          const fitPosY = (H - 3072 * fitScale) / 2;
+          transformRef.current.setTransform(fitPosX, fitPosY, fitScale, 0);
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [activeMapId]);
 
   // Sync zoom-pan to shared coordinates when activeShare changes
   useEffect(() => {
@@ -357,19 +391,29 @@ const MapCanvas = ({
                   className="map-content"
                   style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative', cursor: toolCursor || undefined }}
                 >
-                <img
-                  src={mapVersion === 'legacy' ? `${process.env.PUBLIC_URL || ''}/assets/images/watercolor_map.png` : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}
-                  alt="Mythrill World Map"
-                  style={{
-                    width: MAP_WIDTH,
-                    height: MAP_HEIGHT,
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0
-                  }}
-                  draggable={false}
-                />
+                {(() => {
+                  const subMapObj = activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
+                  const activeImgSrc = subMapObj?.image
+                    ? subMapObj.image
+                    : (mapVersion === 'legacy'
+                        ? `${process.env.PUBLIC_URL || ''}/assets/images/watercolor_map.png`
+                        : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+                  return (
+                    <img
+                      src={activeImgSrc}
+                      alt={subMapObj?.name || "Mythrill World Map"}
+                      style={{
+                        width: MAP_WIDTH,
+                        height: MAP_HEIGHT,
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0
+                      }}
+                      draggable={false}
+                    />
+                  );
+                })()}
 
                 <svg
                   className="map-overlay-svg"
@@ -386,8 +430,9 @@ const MapCanvas = ({
                   onClick={(e) => onMapClick(e, transformRef)}
                   onMouseMove={handleMouseMoveInternal}
                   onContextMenu={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     if (devMode && devTool === 'drawRegion') {
-                      e.preventDefault();
                       if (drawingPoints && drawingPoints.length > 0) {
                         setDrawingPoints([]);
                         setCursorPos(null);
@@ -400,37 +445,38 @@ const MapCanvas = ({
                       <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.75" />
                     </filter>
                   </defs>
-                  {devMode && (
-                    <RegionOverlay
-                      key={`regions-${updateTrigger}`}
-                      selectedRegionId={selectedRegionId}
-                      hoveredRegionId={hoveredRegionId}
-                      setSelectedRegionId={setSelectedRegionId}
-                      setSidebarOpen={setSidebarOpen}
-                      setHoveredRegionId={setHoveredRegionId}
-                      setSelectedLocationId={setSelectedLocationId}
-                      devMode={devMode}
-                      getImageCoords={getImageCoords}
-                      onResolveClick={onResolveClick}
-                    />
-                  )}
-                  {devMode && (
-                    <LocationPins
-                      key={`pins-${updateTrigger}`} // Force re-render on edit operations
-                      selectedRegionId={selectedRegionId}
-                      setSelectedRegionId={setSelectedRegionId}
-                      setSelectedLocationId={setSelectedLocationId}
-                      setSidebarOpen={setSidebarOpen}
-                      devMode={devMode}
-                      devTool={devTool}
-                      onDeletePin={handleDeletePin}
-                      onDragStart={handleDragStart}
-                      onResolveClick={onResolveClick}
-                      currentCampaign={currentCampaign}
-                      selectedDevPinId={selectedDevPinId}
-                      onSelectForMove={onSelectForMove}
-                    />
-                  )}
+                  {/* Region Polygons & Boundaries Overlay (Always visible for hover highlight & exploration) */}
+                  <RegionOverlay
+                    key={`regions-${updateTrigger}-${activeMapId}`}
+                    activeMapId={activeMapId}
+                    selectedRegionId={selectedRegionId}
+                    hoveredRegionId={hoveredRegionId}
+                    setSelectedRegionId={setSelectedRegionId}
+                    setSidebarOpen={setSidebarOpen}
+                    setHoveredRegionId={setHoveredRegionId}
+                    setSelectedLocationId={setSelectedLocationId}
+                    devMode={devMode}
+                    devTool={devTool}
+                    getImageCoords={getImageCoords}
+                    onResolveClick={onResolveClick}
+                  />
+
+                  {/* Canonical Location Pins Overlay */}
+                  <LocationPins
+                    key={`pins-${updateTrigger}-${activeMapId}`}
+                    selectedRegionId={selectedRegionId}
+                    setSelectedRegionId={setSelectedRegionId}
+                    setSelectedLocationId={setSelectedLocationId}
+                    setSidebarOpen={setSidebarOpen}
+                    devMode={devMode}
+                    devTool={devTool}
+                    onDeletePin={handleDeletePin}
+                    onDragStart={handleDragStart}
+                    onResolveClick={onResolveClick}
+                    currentCampaign={currentCampaign}
+                    selectedDevPinId={selectedDevPinId}
+                    onSelectForMove={onSelectForMove}
+                  />
 
                   {/* Player Annotations Layer */}
                   <PlayerAnnotationsLayer

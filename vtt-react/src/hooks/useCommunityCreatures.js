@@ -70,8 +70,12 @@ export function useCommunityCreatures() {
 
   // Load categories on mount
   useEffect(() => {
-    loadCategories();
-    loadFeaturedCreatures();
+    (async () => {
+      // Run init (cleanup + seed) BEFORE loading featured/categories
+      await ensureCreaturesInit('rating');
+      loadCategories();
+      loadFeaturedCreatures();
+    })();
   }, [loadCategories, loadFeaturedCreatures]);
 
   const loadAllCreatures = useCallback(async (sortByValue = sortBy, loadMore = false) => {

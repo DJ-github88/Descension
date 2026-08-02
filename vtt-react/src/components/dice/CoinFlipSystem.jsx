@@ -1,109 +1,55 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import useChatStore from '../../store/chatStore';
 import useCharacterStore from '../../store/characterStore';
+import PhysicsCoinScene, { COIN_THEMES } from './PhysicsCoinScene';
 import './CoinFlipSystem.css';
 
 const CoinFlipSystem = () => {
   const [flipCount, setFlipCount] = useState(1);
+  const [coinTheme, setCoinTheme] = useState('ancient_gold');
   const [flippedCoins, setFlippedCoins] = useState([]);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const containerRef = useRef(null);
+  const [show3DScene, setShow3DScene] = useState(false);
+
   const { addNotification } = useChatStore();
   const characterName = useCharacterStore((state) => state.name);
 
-  // Flip a single coin
-  const flipCoin = () => {
-    // Random result: heads (0) or tails (1)
-    const result = Math.random() < 0.5 ? 'heads' : 'tails';
-    return result;
-  };
-
-  // Flip coins
+  // Trigger 3D Coin Flip Overlay
   const handleFlip = () => {
-    if (isFlipping) return;
-    
-    setIsFlipping(true);
-    setFlippedCoins([]);
-    
-    // Create array of coins to flip
-    const coinsToFlip = Array.from({ length: Math.min(flipCount, 10) }, (_, index) => ({
+    const coinsToFlip = Array.from({ length: Math.min(Math.max(1, flipCount), 10) }, (_, index) => ({
       id: `coin-${Date.now()}-${index}`,
-      result: null,
-      isFlipping: true,
-      flipRotation: 0
+      result: Math.random() < 0.5 ? 'heads' : 'tails',
     }));
-    
+
     setFlippedCoins(coinsToFlip);
-    
-    // Store results as they're generated for notification
-    const coinResults = [];
-    
-    // Animate each coin flip
-    coinsToFlip.forEach((coin, index) => {
-      // Flip animation timing - result determined immediately, animation is visual
-      const result = flipCoin();
-      coinResults.push({ id: coin.id, result });
-      
-      // Start flipping animation with result stored immediately
-      setTimeout(() => {
-        setFlippedCoins(prev => prev.map(c => {
-          if (c.id === coin.id) {
-            return {
-              ...c,
-              result, // Store result immediately so animation knows which side to show
-              isFlipping: true
-            };
-          }
-          return c;
-        }));
-      }, index * 200);
-      
-      // End flipping animation - result appears exactly when animation completes
-      // Use animation end time (2500ms) + stagger delay
-      setTimeout(() => {
-        setFlippedCoins(prev => prev.map(c => {
-          if (c.id === coin.id) {
-            return {
-              ...c,
-              isFlipping: false // Animation completes, coin has landed, result appears
-            };
-          }
-          return c;
-        }));
-      }, index * 300 + 2500); // Animation duration is 2.5s, result appears exactly when it lands
+    setShow3DScene(true);
+  };
+
+  // Called when 3D Scene animation settles
+  const handleFlipComplete = (results) => {
+    setFlippedCoins(results);
+    const headsCount = results.filter((c) => c.result === 'heads').length;
+    const tailsCount = results.filter((c) => c.result === 'tails').length;
+    const resultString = results.map((c) => (c.result === 'heads' ? 'Heads' : 'Tails')).join(', ');
+
+    addNotification('combat', {
+      type: 'coin_flip',
+      sender: characterName || 'Player',
+      flipCount: results.length,
+      headsCount,
+      tailsCount,
+      results: resultString,
+      theme: COIN_THEMES[coinTheme]?.name || coinTheme,
+      timestamp: new Date().toISOString(),
     });
-    
-    // Reset flipping state after all coins are done
-    setTimeout(() => {
-      setIsFlipping(false);
-      
-      // Add notification to combat tab using stored results
-      const headsCount = coinResults.filter(c => c.result === 'heads').length;
-      const tailsCount = coinResults.filter(c => c.result === 'tails').length;
-      const results = coinResults.map(c => c.result === 'heads' ? 'Heads' : 'Tails').join(', ');
-      
-      addNotification('combat', {
-        type: 'coin_flip',
-        sender: characterName || 'Player',
-        flipCount: coinsToFlip.length,
-        headsCount,
-        tailsCount,
-        results,
-        timestamp: new Date().toISOString()
-      });
-    }, coinsToFlip.length * 300 + 2700);
   };
 
-  // Clear all coins
-  const handleClear = () => {
-    setFlippedCoins([]);
-    setIsFlipping(false);
+  const handleDismiss = () => {
+    setShow3DScene(false);
   };
 
-  // Re-flip all coins
-  const handleReFlip = () => {
-    handleFlip();
-  };
+  const headsCount = flippedCoins.filter((c) => c.result === 'heads').length;
+  const tailsCount = flippedCoins.filter((c) => c.result === 'tails').length;
 
   return (
     <div className="coin-flip-system">
@@ -111,132 +57,108 @@ const CoinFlipSystem = () => {
       <div className="coin-flip-controls">
         <div className="flip-count-control">
           <label>Coins to Flip:</label>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={flipCount}
-            onChange={(e) => setFlipCount(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
-            className="flip-count-input"
-            disabled={isFlipping || flippedCoins.length > 0}
-          />
-        </div>
-        <div className="flip-actions">
-          {flippedCoins.length === 0 ? (
+          <div className="count-stepper-group">
             <button
-              className="flip-button"
-              onClick={handleFlip}
-              disabled={isFlipping}
+              type="button"
+              className="count-step-btn"
+              onClick={() => setFlipCount((prev) => Math.max(1, prev - 1))}
+              title="Decrease count"
             >
-              {isFlipping ? 'Flipping...' : `Flip ${flipCount} Coin${flipCount > 1 ? 's' : ''}`}
+              −
             </button>
-          ) : (
-            <>
+            <input
+              type="number"
+              min="1"
+              max="10"
+              value={flipCount}
+              onChange={(e) => setFlipCount(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))}
+              className="flip-count-input"
+            />
+            <button
+              type="button"
+              className="count-step-btn"
+              onClick={() => setFlipCount((prev) => Math.min(10, prev + 1))}
+              title="Increase count"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        <div className="quick-count-presets">
+          {[1, 2, 3, 4, 5, 10].map((num) => (
+            <button
+              key={num}
+              type="button"
+              className={`quick-count-btn ${flipCount === num ? 'active' : ''}`}
+              onClick={() => setFlipCount(num)}
+            >
+              {num}
+            </button>
+          ))}
+        </div>
+
+        {/* Theme Picker */}
+        <div className="coin-theme-section">
+          <label className="coin-theme-label">Coin Look:</label>
+          <div className="coin-theme-grid">
+            {Object.values(COIN_THEMES).map((theme) => (
               <button
-                className="reflip-button"
-                onClick={handleReFlip}
-                disabled={isFlipping}
+                key={theme.id}
+                className={`coin-theme-btn ${coinTheme === theme.id ? 'active' : ''}`}
+                onClick={() => setCoinTheme(theme.id)}
+                title={theme.name}
               >
-                {isFlipping ? 'Flipping...' : 'Flip Again'}
+                <span
+                  className="coin-theme-swatch"
+                  style={{
+                    background: `radial-gradient(circle, ${theme.primaryColor}, ${theme.secondaryColor})`,
+                    borderColor: theme.edgeColor,
+                  }}
+                />
+                <span className="theme-title">{theme.name}</span>
               </button>
-              <button
-                className="clear-button"
-                onClick={handleClear}
-                disabled={isFlipping}
-              >
-                Clear
-              </button>
-            </>
-          )}
+            ))}
+          </div>
+        </div>
+
+        <div className="flip-actions">
+          <button className="flip-button" onClick={handleFlip}>
+            Flip {flipCount} Coin{flipCount > 1 ? 's' : ''} in 3D
+          </button>
         </div>
       </div>
 
-      {/* Coins Display */}
-      <div className="coin-flip-area" ref={containerRef}>
-        {flippedCoins.length === 0 ? (
-          <div className="coin-flip-empty">
-            <div className="coin-preview">
-              <div className="coin coin-preview-coin">
-                <div className="coin-side coin-heads">
-                  <div className="coin-content">
-                    <div className="coin-pattern coin-pattern-heads"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p>Click "Flip Coins" to begin</p>
-          </div>
-        ) : (
-          <div className="flipped-coins-container">
-            {flippedCoins.map((coin, index) => {
-              const isFlipping = coin.isFlipping;
-              const result = coin.result;
-              
-              return (
-                <div
-                  key={coin.id}
-                  className={`coin-wrapper ${isFlipping ? 'flipping' : ''} ${result ? `result-${result}` : ''}`}
-                  style={{ '--coin-index': index }}
-                >
-                  <div className="coin-flip-container">
-                    {/* Coin */}
-                    <div 
-                      className={`coin ${isFlipping ? 'flipping' : ''} ${result ? `result-${result}` : ''}`}
-                      style={!isFlipping && result ? {
-                        transform: result === 'heads' ? 'rotateY(1800deg)' : 'rotateY(1980deg)'
-                      } : undefined}
-                    >
-                      {/* Heads side */}
-                      <div className="coin-side coin-heads">
-                        <div className="coin-content">
-                          <div className="coin-pattern coin-pattern-heads"></div>
-                        </div>
-                      </div>
-                      
-                      {/* Tails side */}
-                      <div className="coin-side coin-tails">
-                        <div className="coin-content">
-                          <div className="coin-pattern coin-pattern-tails"></div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Result indicator - appears exactly when animation completes */}
-                    {result && !isFlipping && (
-                      <div className={`coin-result ${result} result-visible`}>
-                        <span className="result-text">{result === 'heads' ? 'Heads' : 'Tails'}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Instructions */}
-      {flippedCoins.length > 0 && !isFlipping && (
+      {/* Latest Result Summary if available */}
+      {flippedCoins.length > 0 && !show3DScene && (
         <div className="coin-flip-instructions">
           <div className="coin-results-summary">
             <div className="result-count">
               <span className="result-label">Heads:</span>
-              <span className="result-value heads">
-                {flippedCoins.filter(c => c.result === 'heads').length}
-              </span>
+              <span className="result-value heads">{headsCount}</span>
             </div>
             <div className="result-count">
               <span className="result-label">Tails:</span>
-              <span className="result-value tails">
-                {flippedCoins.filter(c => c.result === 'tails').length}
-              </span>
+              <span className="result-value tails">{tailsCount}</span>
             </div>
           </div>
         </div>
       )}
+
+      {/* Full Screen 3D Coin Flip Scene via Portal */}
+      {show3DScene &&
+        ReactDOM.createPortal(
+          <PhysicsCoinScene
+            coinsToFlip={flippedCoins}
+            coinTheme={coinTheme}
+            onFlipComplete={handleFlipComplete}
+            onDismiss={handleDismiss}
+            isVisible={show3DScene}
+          />,
+          document.body
+        )}
     </div>
   );
 };
 
 export default CoinFlipSystem;
-

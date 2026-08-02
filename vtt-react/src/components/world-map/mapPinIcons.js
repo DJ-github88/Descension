@@ -59,6 +59,22 @@ const PIN_ICONS = {
     viewBox: '0 0 24 24',
     path: 'M12 2a3 3 0 00-3 3v8H5v-2H3v6h2v-2h4v3a3 3 0 006 0v-3h4v2h2v-6h-2v2h-4V5a3 3 0 00-3-3z'
   },
+  city: {
+    viewBox: '0 0 24 24',
+    path: 'M4 22V12l4-3v2h2V8l2-1 2 1v3h2V9l4 3v10h-5v-4H9v4H4zM10 22v-3M14 22v-3'
+  },
+  settlement: {
+    viewBox: '0 0 24 24',
+    path: 'M4 21V12l8-8 8 8v9h-6v-6h-4v6H4zM8 21v-6M16 21v-6'
+  },
+  wilderness: {
+    viewBox: '0 0 24 24',
+    path: 'M12 2a5 5 0 00-5 6c0 2 1 3 2 4H7c-2 0-4 2-4 4h18c0-2-2-4-4-4h-2c1-1 2-2 2-4a5 5 0 00-5-6zM12 23V18'
+  },
+  submap: {
+    viewBox: '0 0 24 24',
+    path: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'
+  },
   custom: {
     viewBox: '0 0 24 24',
     path: 'M12 2l2 9 9 2-9 2-2 9-2-9L1 13l9-2z'

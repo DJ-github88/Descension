@@ -6,8 +6,7 @@ export const GAMBIT_DATA = {
             "shoreling_myrathil",
            "kessen_neth",
            "ithran_groven",
-           "drall_fexric",
-           "solvarn_human"
+           "drall_fexric"
        ],
       "hardBlocks": [
           "tessen_human",
@@ -107,23 +106,6 @@ The Caustic Fexric did not adopt Merryn gambling  â€”  they independently d
       context: 'A Caustic Fexric Gambit, caught with a rigged dealing-machine, addressing the crowd'
     }
   },
-
-  solvarn_human: {
-    subraceName: 'Solari',
-    title: 'The Sun-Wager',
-    reframe: `Bets on Sol's return with terminal optimism. Every Fortune Point is a wager placed on a miracle that has not happened for eight centuries. The Solari Gambit is a pilgrimage-gambler, walking from shrine to shrine, placing the same bet at every altar. When they win  â€”  and sometimes, against all probability, they do  â€”  they credit the dying sun. When they lose, they consider it a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers.`,
-    signatureAbility: {
-      name: 'Sun-Shrine Pilgrimage',
-      description: `Fortune Points are generated as pilgrimage-wagers placed at Sol-shrines across Sundale; each successful wager is credited to the dying sun, while each loss is counted as a tithe. The Karmic Debt is the accumulated weight of four centuries of lost wagers, and the Solari Gambit carries that historical debt in every throw.`
-    },
-    currentCrisisAngle: `The Dawn Vigil has begun to notice the pilgrimage-gamblers, and they are uncertain whether to condemn or celebrate them. A Gambit who credits every win to Sol is, technically, proselytizing. A Gambit who considers every loss a tithe is, technically, donating. The theology is sound. The methodology makes the Vigil deeply uncomfortable.`,
-    signatureQuote: {
-      text: '"I have placed the same bet at seventeen altars. I have lost at sixteen of them. The seventeenth paid out at twelve-to-one. Sol is not dead. Sol is slow."',
-      speaker: 'Pilgrim-Gambler Sol-Drenn',
-      context: 'A Solari Sun-Wager, counting winnings on the steps of a Dawn Vigil shrine'
-    }
-  },
-
 
   id: "gambit",
   name: "Gambit",

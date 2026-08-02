@@ -1260,27 +1260,6 @@ export const HUMAN_SUBRACE_ITEMS = [
         }
     },
     {
-        id: 'solvarn-ash-glass-brooch',
-        name: 'Solari Ash-Glass Brooch',
-        type: 'accessory',
-        subtype: 'TRINKET',
-        quality: 'uncommon',
-        description: 'A brooch of dark volcanic ash-glass from Sundale. It reflects the orange glow of the calderas and warms the skin.',
-        iconId: 'inv_misc_gem_pearl_05',
-        value: { platinum: 0, gold: 7, silver: 25, copper: 0 },
-        weight: 0.2,
-        width: 1,
-        height: 1,
-        slots: ['trinket1', 'trinket2'],
-        baseStats: {
-            charisma: { value: 1, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            subraces: ['solvarn_human']
-        }
-    },
-    {
         id: 'ordan-steppe-stave-fitting',
         name: 'Ordan Steppe-Stave Fitting',
         type: 'accessory',
@@ -1299,27 +1278,6 @@ export const HUMAN_SUBRACE_ITEMS = [
         },
         availableFor: {
             subraces: ['ordan_human']
-        }
-    },
-    {
-        id: 'morren-bog-wood-charm',
-        name: 'Vreken Bog-Wood Charm',
-        type: 'accessory',
-        subtype: 'NECKLACE',
-        quality: 'uncommon',
-        description: 'A charm carved from petrified bog-wood from the Bryngloom, smelling of moss and wet peat. It wards off the memory-stealing fog.',
-        iconId: 'inv_jewelry_necklace_18',
-        value: { platinum: 0, gold: 8, silver: 40, copper: 0 },
-        weight: 0.2,
-        width: 1,
-        height: 1,
-        slots: ['neck'],
-        baseStats: {
-            constitution: { value: 1, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
-        },
-        availableFor: {
-            subraces: ['morren_human']
         }
     }
 ];

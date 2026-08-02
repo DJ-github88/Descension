@@ -16,12 +16,11 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const SPELLGUARD_DATA = {
  restrictions: {
    "allowedSubraces": [
-     "velun_neth",
-     "thalren_human",
-     "solvarn_human",
-     "korr_solari",
-     "thrask_solari"
-   ],
+      "velun_neth",
+      "thalren_human",
+      "korr_solari",
+      "thrask_solari"
+    ],
    "hardBlocks": [
      "myrathil",
      "ordan_human",
@@ -78,25 +77,9 @@ subraceVariants: {
     speaker: 'Defuser Thal-Veyr',
     context: 'A Thalren Spellguard, confronting the first wild-magic eruption he could not parse'
    }
-  },
-
-  solvarn_human: {
-   subraceName: 'Solari',
-   title: 'The Tomb-Aegis',
-   reframe: `The <LoreLink termId="house_solvan">Solari</LoreLink> have stood vigil over <LoreLink termId="emberspire">Sol's tomb</LoreLink> for eight centuries, and a Spellguard among them treats incoming magic as *another eruption from the buried star*, something to be shielded, contained, and held until it cools. The Solari are the tradition's pure *sponges*, absorbing magic the way a tomb-wall absorbs the volatile resonance of an imprisoned spirit.`,
-   signatureAbility: {
-    name: 'Tomb-Shielding',
-     description: `Incoming spells are absorbed raw into the Spellguard's flesh, then contained, held in the body until they can be vented or redirected. The Solari take on the most Silence Resonance of any variant, but they can absorb the largest single bursts, having practiced against Sol's Breath-scale eruptions their whole lives.`
    },
-   currentCrisisAngle: `The rising ambient magic is, to the Solari, a familiar enemy, this is what their ancestors shielded against. But the scale is wrong: the ambient level is approaching Sol's Breath-volatility *everywhere*, and the Solari Spellguards, trained for rare spikes, are being asked to sustain tomb-level absorption *continuously*. Several have begun glowing so brightly they cannot hide, and the Dawn Vigil has begun "recruiting" them as walking beacons.`,
-   signatureQuote: {
-    text: '"I was built to catch a star\'s death-rattle once a season. Now the whole world hums at that frequency. I am a tomb-wall asked to be a sky. I cannot be a sky."',
-    speaker: 'Aegis Sol-Varen',
-    context: 'A Solari Spellguard, glowing too brightly to enter Merrowport unnoticed'
-   }
-  },
 
-  korr_solari: {
+   korr_solari: {
     subraceName: 'Hollow-Solari - Thyrm',
    title: 'The Silent-Guard',
    reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend Sol's Breath in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness, the same meditative suspension they use to tend the buried star. The Hollow-Solari are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,

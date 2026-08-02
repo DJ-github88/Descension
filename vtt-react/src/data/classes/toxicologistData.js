@@ -9,13 +9,12 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const TOXICOLOGIST_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "thalren_human",
-          "tethered_mimir",
-          "morren_human",
-          "florae_unified",
-          "florae_unified",
-          "drun_neth"
-      ],
+           "thalren_human",
+           "tethered_mimir",
+           "florae_unified",
+           "florae_unified",
+           "drun_neth"
+       ],
       "hardBlocks": [
           "solari",
           "fexrick"
@@ -70,22 +69,6 @@ export const TOXICOLOGIST_DATA = {
         text: '"I brew what the floor gives me. The floor is giving me something new. It does not stay where I pour it. I am afraid I have poisoned the only home I had."',
         speaker: 'Tethered Mir-Naeth',
         context: 'A Tethered Toxicologist, abandoning her floor-dwelling to a spreading bloom of her own toxin'
-      }
-    },
-
-    morren_human: {
-      subraceName: 'Vreken',
-      title: 'The Bog-Chemist',
-      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> know the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> bog's chemistry from centuries of peat-debt, every peat-cut, every bog-preserved corpse, every alchemical moss they harvested for the Neth taught them what the water remembers. A Vreken Toxicologist does not hunt predators or cultivate decay; they *read the bog*, weaponizing a wetland they have been forced to work for over four hundred years.`,
-      signatureAbility: {
-        name: 'Bog-Reading',
-        description: `Toxins are derived from bog-chemistry, peat-acids, alchemical moss, the preservative ichor that sustains the First Contract. The Vreken are the tradition's most *versatile* chemists, drawing from the richest pharmacological treasury in the known world, and the only variant whose reagents include the contract-preserving ichor itself.`
-      },
-      currentCrisisAngle: `The bog's chemistry is shifting as the Root-Veil rejects the Marked (the Plaguebringer crisis), and the Vreken Toxicologists are losing their most potent reagent, the preservative ichor, as the mycelial network that produces it recoils. Some Vreken have begun *intercepting* the ichor shipments meant for the Neth's contract-rituals, a theft that carries the Keeper's Sanction, because it is the only way to keep their craft alive.`,
-      signatureQuote: {
-        text: '"I have read this bog for over four hundred years of my family\'s debt. Now the bog is changing its mind, and I am stealing from the Neth to keep my chemistry. The Ledger will strike me. The bog will not."',
-        speaker: 'Mor-Velk the Wet',
-        context: 'A Vreken Toxicologist, the night of her first ichor-theft'
       }
     },
 

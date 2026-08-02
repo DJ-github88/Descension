@@ -11,11 +11,10 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const PYROFIEND_DATA = {
  restrictions: {
   "allowedSubraces": [
-   "solvarn_human",
-   "thrask_solari",
-   "skald_human",
-   "morgh_groven"
-  ],
+    "thrask_solari",
+    "skald_human",
+    "morgh_groven"
+   ],
    "hardBlocks": [
     "neth",
     "mimir",
@@ -47,22 +46,6 @@ export const PYROFIEND_DATA = {
  * worships.
  */
  subraceVariants: {
- solvarn_human: {
-  subraceName: 'Solari',
-  title: 'The Sun-Blasphemer',
-  reframe: `This is the original tradition, the cabal of <LoreLink termId="house_solvan">Solvarn</LoreLink> occultists who, in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, swallowed Scathrach's burning coals. For the Solari, the pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. A Solari Pyrofiend's fire is not foreign, it is the *perverted echo* of the star they entombed, and every spell is a small re-enactment of the crime.`,
-  signatureAbility: {
-  name: 'Solar-Perversion',
-   description: `Inferno-Veil generation is amplified by proximity to Sol's Breath's residual warmth, the Pyrofiend drinks the dying star's own heat and channels it through Scathrach's filter. The most potent Solari Pyrofiends operate literally atop Sol's grave, and the grave, the Hollow-Solari whisper, is dimmer for their presence.`
-  },
-  currentCrisisAngle: `Scathrach calling in all debts simultaneously reads, to the Solari, as the *completion of an eight-century plot*: the Ashen Sovereign nested beneath Emberspire to *feed on the buried star*, and the Pyrofiends were always the delivery mechanism. The Solari Pyrofiends are realizing they were never partners in the pact, they were cutlery, and the meal is ready.`,
-  signatureQuote: {
-  text: '"We buried the sun to save it, then fed it to the thing beneath our feet. I have been the fork. I did not know. Scathrach always sets a long table."',
-  speaker: 'Acolyte Sol-Vesh',
-  context: 'A Solari Pyrofiend, the night Scathrach named the price'
-  }
- },
-
  thrask_solari: {
    subraceName: 'Waste-Solari - Thyrm',
   title: 'The Forge-Damned',

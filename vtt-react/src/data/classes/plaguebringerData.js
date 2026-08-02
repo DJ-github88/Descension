@@ -21,26 +21,24 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const PLAGUEBRINGER_DATA = {
  restrictions: {
   "allowedSubraces": [
-   "drun_neth",
-   "morren_human",
-   "clean_vreken",
-   "marked_vreken"
-  ],
-  "hardBlocks": [
-   "astril",
-   "skald_human",
-   "solari",
-   "groven",
-   "fexrick",
-   "myrathil",
-   "florae",
-   "mimir",
-   "thalren_human",
-   "tessen_human",
-   "solvarn_human",
-   "merryn_human",
-   "ordan_human"
-  ],
+    "drun_neth",
+    "clean_vreken",
+    "marked_vreken"
+   ],
+   "hardBlocks": [
+    "astril",
+    "skald_human",
+    "solari",
+    "groven",
+    "fexrick",
+    "myrathil",
+    "florae",
+    "mimir",
+    "thalren_human",
+    "tessen_human",
+    "merryn_human",
+    "ordan_human"
+   ],
   "narrativeUnlock": false,
   "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Drun Neth's partial-death allows hosting. Vreken's desperation drives acceptance."
  },
@@ -74,22 +72,6 @@ subraceVariants: {
   text: '"I was legally dead before I swallowed the first culture. Everything since has been interest on a debt I never owed. Let the strain die. I have been dying for years."',
   speaker: 'Drun Vel-Kaassen',
   context: 'A Drun Plaguebringer, declining treatment for the collapsing strain'
-  }
- },
-
- morren_human: {
-  subraceName: 'Vreken',
-  title: 'The Desperation-Cultivator',
-  reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> took to the Plaguebringer path out of pure desperation, the bog's pharmacological resources were their only wield against the Neth contract-economy, and cultivating the hush itself as a weapon was the one act the Neth could not tax. A Vreken Plaguebringer does not love disease; they *need* it, the way a debtor needs the one skill their creditor cannot repossess.`,
-  signatureAbility: {
-  name: 'Debt-Immunity',
-  description: `Cultivated diseases are engineered to be *untaxable*, they cannot be traced, cannot be contracted under Neth law, cannot be seized as assets. A Vreken Plaguebringer's Virulence is, by design, the one property Morvane has no jurisdiction over.`
-  },
-  currentCrisisAngle: `As the foundational strain collapses and cultivated diseases turn virulent against the host, the Vreken Plaguebringers face a bitter symmetry: the weapon they built to escape debt is now *costing them their lives*, and the Neth have offered to "renegotiate" their contracts in exchange for the cultivation techniques. The Vreken are dying of the one freedom they ever had, and their creditors are circling.`,
-  signatureQuote: {
-  text: '"I grew the hush in my veins because it was the only thing you could not ledger. Now it is killing me, and you offer to save me if I sign it over. I will die first. That, at least, you cannot tax."',
-  speaker: 'Mor-Vespera',
-  context: 'A Vreken Plaguebringer, to a Neth renegotiator, the week her strain turned'
   }
  },
 

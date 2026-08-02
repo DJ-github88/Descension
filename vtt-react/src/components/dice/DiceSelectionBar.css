@@ -94,8 +94,9 @@
   position: absolute;
   bottom: 60px;
   left: 0;
-  width: 320px;
-  max-height: 70vh;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  max-height: 75vh;
   background: var(--my-gradient-parchment);
   border: 2px solid var(--my-gold);
   border-radius: 12px;
@@ -106,6 +107,8 @@
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
   animation: slideUp 0.2s ease-out;
   pointer-events: auto; /* Ensure dropdown is clickable */
   z-index: 10002; /* Above button */
@@ -115,9 +118,9 @@
 
 /* Cards dropdown - adjust width to fit content */
 .dice-dropdown-cards {
-  width: fit-content;
-  min-width: 320px;
-  max-width: calc(100vw - 40px);
+  width: 340px;
+  min-width: 300px;
+  max-width: calc(100vw - 32px);
 }
 
 @keyframes slideUp {
@@ -636,4 +639,125 @@
   text-transform: uppercase;
   letter-spacing: 0.3px;
   white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   Enhanced Polyhedral Dice Visual Styles (d4, d6, d8, d10, d12, d20, d100)
+   ========================================================================== */
+
+.dice-select-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(32, 26, 42, 0.9) 0%, rgba(18, 14, 26, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  padding: 10px;
+  color: #f0e6d2;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  box-shadow: 
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.dice-select-button::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 0%, var(--dice-color, rgba(212, 175, 55, 0.2)), transparent 70%);
+  opacity: 0.3;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.dice-select-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: var(--my-gold);
+  color: #ffffff;
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.5),
+    0 0 14px var(--dice-color, rgba(212, 175, 55, 0.5)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.dice-select-button:hover::before {
+  opacity: 0.7;
+}
+
+.dice-select-button.selected {
+  background: linear-gradient(135deg, rgba(65, 48, 22, 0.95) 0%, rgba(28, 20, 10, 0.98) 100%);
+  border-color: var(--my-gold);
+  color: #fff8e7;
+  box-shadow: 
+    0 0 16px rgba(212, 175, 55, 0.6),
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 0 10px rgba(212, 175, 55, 0.35);
+}
+
+.dice-icon-shape {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.dice-select-button:hover .dice-icon-shape {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Polyhedral Shape Icons */
+.dice-btn-d4 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(135deg, #ff6b6b 0%, #c0392b 100%);
+}
+
+.dice-btn-d6 .dice-icon-shape {
+  border-radius: 3px;
+  background: linear-gradient(135deg, #4ea8de 0%, #2b6cb0 100%);
+}
+
+.dice-btn-d8 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: linear-gradient(135deg, #51cf66 0%, #27ae60 100%);
+}
+
+.dice-btn-d10 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 100% 35%, 50% 100%, 0% 35%);
+  background: linear-gradient(135deg, #cc5de8 0%, #8e44ad 100%);
+}
+
+.dice-btn-dpercent .dice-icon-shape {
+  clip-path: polygon(50% 0%, 100% 35%, 50% 100%, 0% 35%);
+  background: linear-gradient(135deg, #f06595 0%, #d6336c 100%);
+}
+
+.dice-btn-d12 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 95% 30%, 80% 90%, 20% 90%, 5% 30%);
+  background: linear-gradient(135deg, #fcc419 0%, #d35400 100%);
+}
+
+.dice-btn-d20 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  background: linear-gradient(135deg, #ff922b 0%, #e67e22 100%);
+}
+
+.dice-btn-d100 .dice-icon-shape {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+}
+
+.dice-btn-label {
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }

@@ -29,19 +29,17 @@ export const CHRONARCH_DATA = {
     "tessen_human",
     "velun_neth"
    ],
-  "hardBlocks": [
-   "thalren_human",
-   "skald_human",
-   "solvarn_human",
-   "merryn_human",
-   "ordan_human",
-   "morren_human",
-   "astril",
-   "vreken",
-   "florae",
-   "myrathil",
-   "mimir"
-  ],
+   "hardBlocks": [
+    "thalren_human",
+    "skald_human",
+    "merryn_human",
+    "ordan_human",
+    "astril",
+    "vreken",
+    "florae",
+    "myrathil",
+    "mimir"
+   ],
   "narrativeUnlock": true,
   "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique, it requires Fexric gear-craft and Groven bone-knowledge."
  },

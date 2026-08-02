@@ -3,16 +3,18 @@ import { REGION_POLYGONS, BASELINE_REGION_POLYGONS } from '../../data/regionPoly
 import { LOCATION_COORDINATES, BASELINE_LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { PIN_TYPE_OPTIONS } from './mapPinIcons';
 import PIN_ICONS from './mapPinIcons';
+import { SUBREGIONS } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
+import { saveCustomMap } from '../../data/subregionMaps';
 import './DevEditor.css';
 
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
-const REGION_OPTIONS = Object.values(REGION_POLYGONS).map(r => ({
-  id: r.id,
-  name: r.name
-}));
+const REGION_OPTIONS = [
+  ...Object.values(REGION_POLYGONS).map(r => ({ id: r.id, name: `[Region] ${r.name}` })),
+  ...Object.values(SUBREGIONS).map(s => ({ id: s.id, name: `[Subregion] ${s.name}` }))
+];
 
 const CustomSelect = ({ value, onChange, options, placeholder = 'Select...', width = '160px' }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -175,6 +177,16 @@ const DevEditor = ({
   // Inspector draft coordinates for the currently selected dev pin.
   const [draftX, setDraftX] = useState('');
   const [draftY, setDraftY] = useState('');
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [selectedParentRegion, setSelectedParentRegion] = useState(
+    REGION_POLYGONS[currentRegion]?.id || SUBREGIONS[currentRegion]?.regionId || 'nordhalla'
+  );
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 4500);
+  };
 
   // Sync the inspector inputs whenever the selection changes, and also while
   // the pin is being dragged (updateTrigger bumps from WorldMapImmerse): but
@@ -188,6 +200,19 @@ const DevEditor = ({
   }, [selectedDevPinId, updateTrigger]);
 
   if (!devMode) return null;
+
+  const MAIN_REGION_OPTIONS = Object.values(REGION_POLYGONS).map(r => ({
+    id: r.id,
+    name: r.name
+  }));
+
+  const activeParentObj = REGION_POLYGONS[selectedParentRegion];
+  const subregionsForActiveParent = Object.values(SUBREGIONS).filter(s => s.regionId === selectedParentRegion);
+
+  const SUBREGION_OPTIONS = [
+    ...(activeParentObj ? [{ id: activeParentObj.id, name: `[Whole Region] ${activeParentObj.name}` }] : []),
+    ...subregionsForActiveParent.map(s => ({ id: s.id, name: s.name }))
+  ];
 
   const regionZones = (currentRegion ? ZONE_DATA.filter(z => z.regionId === currentRegion) : ZONE_DATA).map(z => {
     const regionName = REGION_POLYGONS[z.regionId]?.name || z.regionId;
@@ -317,253 +342,337 @@ const DevEditor = ({
     setExportModalOpen(true);
   };
 
+  const handleClearAllPresetData = () => {
+    showConfirm(
+      'Are you sure you want to CLEAR ALL default location pins and drawn region boundaries? This will leave your map canvas empty so you can draw your custom subregions and pins from scratch.',
+      () => {
+        Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
+        localStorage.setItem('mythrill_location_coordinates', JSON.stringify({}));
+
+        Object.values(REGION_POLYGONS).forEach(r => {
+          r.points = [];
+        });
+        localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+
+        setDrawingPoints([]);
+        if (onUpdate) onUpdate();
+      }
+    );
+  };
+
+  const handleResetToDefaults = () => {
+    showConfirm(
+      'Are you sure you want to RESET all location pins and region boundaries back to original canonical defaults?',
+      () => {
+        Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
+        Object.assign(LOCATION_COORDINATES, JSON.parse(JSON.stringify(BASELINE_LOCATION_COORDINATES)));
+        localStorage.setItem('mythrill_location_coordinates', JSON.stringify(LOCATION_COORDINATES));
+
+        Object.keys(REGION_POLYGONS).forEach(key => {
+          if (BASELINE_REGION_POLYGONS[key]) {
+            REGION_POLYGONS[key].points = [...(BASELINE_REGION_POLYGONS[key].points || [])];
+            REGION_POLYGONS[key].labelPosition = [...(BASELINE_REGION_POLYGONS[key].labelPosition || [])];
+          }
+        });
+        localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+
+        setDrawingPoints([]);
+        if (onUpdate) onUpdate();
+      }
+    );
+  };
+
+  const handleResetSingleRegion = () => {
+    if (!currentRegion) return;
+    const regName = REGION_POLYGONS[currentRegion]?.name || SUBREGIONS[currentRegion]?.name || currentRegion;
+    showConfirm(
+      `Are you sure you want to reset boundaries for "${regName}" back to original code defaults?`,
+      () => {
+        if (BASELINE_REGION_POLYGONS[currentRegion]) {
+          REGION_POLYGONS[currentRegion].points = [...(BASELINE_REGION_POLYGONS[currentRegion].points || [])];
+          REGION_POLYGONS[currentRegion].labelPosition = [...(BASELINE_REGION_POLYGONS[currentRegion].labelPosition || [])];
+        } else if (REGION_POLYGONS[currentRegion]) {
+          REGION_POLYGONS[currentRegion].points = [];
+        }
+        if (SUBREGIONS[currentRegion]) {
+          SUBREGIONS[currentRegion].points = [];
+        }
+
+        // Update localStorage
+        try {
+          localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+        } catch (e) {}
+
+        setDrawingPoints([]);
+        if (onUpdate) onUpdate();
+      }
+    );
+  };
+
   const handleCopy = (text, type) => {
     navigator.clipboard.writeText(text);
     setCopiedType(type);
     setTimeout(() => setCopiedType(null), 2000);
   };
 
+  const handleCompleteBoundary = () => {
+    if (drawingPoints.length >= 3 && currentRegion) {
+      const target = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
+      const targetName = target?.name || currentRegion;
+      showConfirm(
+        `Are you sure you want to complete and save boundaries for "${targetName}"?`,
+        () => {
+          const cx = Math.round(drawingPoints.reduce((s, p) => s + p[0], 0) / drawingPoints.length);
+          const cy = Math.round(drawingPoints.reduce((s, p) => s + p[1], 0) / drawingPoints.length);
+          if (REGION_POLYGONS[currentRegion]) {
+            REGION_POLYGONS[currentRegion].points = [...drawingPoints];
+            REGION_POLYGONS[currentRegion].labelPosition = [cx, cy];
+          } else if (SUBREGIONS[currentRegion]) {
+            SUBREGIONS[currentRegion].points = [...drawingPoints];
+            SUBREGIONS[currentRegion].labelPosition = [cx, cy];
+          }
+          setDrawingPoints([]);
+          if (onUpdate) onUpdate();
+        }
+      );
+    }
+  };
+
+  const handleUploadImageFile = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/png, image/jpeg, image/webp';
+    input.onchange = (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (evt) => {
+        const base64 = evt.target.result;
+        const target = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
+        const mapName = target?.name || currentRegion;
+        const mapData = {
+          id: currentRegion,
+          name: `${mapName} Regional Map`,
+          regionId: currentRegion,
+          mapType: 'subregion',
+          image: base64,
+          description: `Custom uploaded map asset for ${mapName}.`,
+          width: 4096,
+          height: 3072,
+          subregions: []
+        };
+        await saveCustomMap(mapData);
+        if (onUpdate) onUpdate();
+        showToast(`Successfully uploaded custom subregion map for "${mapName}"!`);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  };
+
+  const handleCopyJsSnippet = () => {
+    if (!currentRegion) return;
+    const reg = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
+    if (!reg) return;
+    const pts = (drawingPoints && drawingPoints.length >= 3 ? drawingPoints : reg.points || []);
+    const ptsStr = pts.map(p => `[${p[0]}, ${p[1]}]`).join(', ');
+    const cx = pts.length > 0 ? Math.round(pts.reduce((s, p) => s + p[0], 0) / pts.length) : (reg.labelPosition?.[0] || 0);
+    const cy = pts.length > 0 ? Math.round(pts.reduce((s, p) => s + p[1], 0) / pts.length) : (reg.labelPosition?.[1] || 0);
+    const jsSnippet = `'${reg.id}': {\n id: '${reg.id}',\n name: '${reg.name}',\n points: [${ptsStr}],\n color: '${reg.color || 'rgba(70, 150, 220, 0.18)'}',\n glowColor: '${reg.glowColor || 'rgba(120, 200, 255, 0.75)'}',\n labelPosition: [${cx}, ${cy}]\n}`;
+    navigator.clipboard.writeText(jsSnippet);
+    setCopiedType('jsSnippet');
+    setTimeout(() => setCopiedType(null), 2500);
+  };
+
   return (
     <>
-      <div className="dev-editor-toolbar">
-        <div className="dev-toolbar-brand">
-          <i className="fas fa-feather-alt"></i>
-          <span>GM Editor</span>
-        </div>
-        
-        <div className="dev-toolbar-divider" />
-
-        <div className="dev-toolbar-section">
-          <span className="dev-toolbar-label">Mode:</span>
-          <div className="dev-btn-group">
-            <button
-              className={`dev-tool-btn ${devTool === 'drawRegion' ? 'active' : ''}`}
-              onClick={() => setDevTool('drawRegion')}
-            >
-              <i className="fas fa-draw-polygon"></i> Draw Region
-            </button>
-            <button
-              className={`dev-tool-btn ${devTool === 'placePin' ? 'active' : ''}`}
-              onClick={() => setDevTool('placePin')}
-            >
-              <i className="fas fa-map-pin"></i> Place Pin
-            </button>
-            <button
-              className={`dev-tool-btn ${devTool === 'movePin' ? 'active' : ''}`}
-              onClick={() => setDevTool('movePin')}
-              title="Select and nudge existing pins (arrow keys = 1px, Shift = 10px)"
-            >
-              <i className="fas fa-arrows-up-down-left-right"></i> Move
-            </button>
-            <button
-              className={`dev-tool-btn danger-active ${devTool === 'erasePin' ? 'active' : ''}`}
-              onClick={() => setDevTool('erasePin')}
-            >
-              <i className="fas fa-eraser"></i> Erase Pin
-            </button>
-          </div>
-        </div>
-
-        {devTool === 'drawRegion' && (
+      <div className={`dev-editor-card ${isMinimized ? 'minimized' : ''}`}>
+        {isMinimized ? (
+          <button className="dev-card-expand-btn" onClick={() => setIsMinimized(false)}>
+            <i className="fas fa-compass"></i> <span>GM Cartography Tools</span>
+          </button>
+        ) : (
           <>
-            <div className="dev-toolbar-divider" />
-            <div className="dev-toolbar-section">
-              <span className="dev-toolbar-label">Region:</span>
-              <CustomSelect
-                value={currentRegion}
-                onChange={setCurrentRegion}
-                options={REGION_OPTIONS}
-                placeholder="Select region..."
-                width="160px"
-              />
-
-              <div className="dev-btn-group">
-                <button
-                  className="dev-tool-btn secondary"
-                  onClick={() => setDrawingPoints([])}
-                  disabled={!drawingPoints || drawingPoints.length === 0}
-                  title="Clear current drawing draft"
-                >
-                  <i className="fas fa-undo"></i> Clear Draft
-                </button>
-
-                <button
-                  className="dev-tool-btn secondary"
-                  onClick={() => {
-                    if (drawingPoints.length > 0) {
-                      setDrawingPoints(drawingPoints.slice(0, -1));
-                    }
-                  }}
-                  disabled={!drawingPoints || drawingPoints.length === 0}
-                  title="Undo last placed point"
-                >
-                  <i className="fas fa-step-backward"></i> Undo Point
-                </button>
+            <div className="dev-card-header">
+              <div className="dev-card-title">
+                <i className="fas fa-feather-alt"></i>
+                <span>GM Cartography &amp; World Editor</span>
               </div>
-
-              <button
-                className="dev-tool-btn primary"
-                onClick={() => {
-                  if (drawingPoints.length >= 3 && currentRegion) {
-                    const existing = REGION_POLYGONS[currentRegion];
-                    showConfirm(
-                      `Are you sure you want to complete and save the boundaries for "${existing.name}"?`,
-                      () => {
-                        const cx = drawingPoints.reduce((s, p) => s + p[0], 0) / drawingPoints.length;
-                        const cy = drawingPoints.reduce((s, p) => s + p[1], 0) / drawingPoints.length;
-                        existing.points = [...drawingPoints];
-                        existing.labelPosition = [Math.round(cx), Math.round(cy)];
-                        setDrawingPoints([]);
-                        if (onUpdate) onUpdate();
-                      }
-                    );
-                  }
-                }}
-                disabled={!drawingPoints || drawingPoints.length < 3 || !currentRegion}
-              >
-                <i className="fas fa-check"></i> Complete Region
-              </button>
-
-              <button
-                className="dev-tool-btn danger"
-                onClick={() => {
-                  if (currentRegion) {
-                    showConfirm(
-                      `Are you sure you want to clear the existing saved boundaries for "${REGION_POLYGONS[currentRegion].name}"? This will hide the polygon until you draw and complete a new one.`,
-                      () => {
-                        REGION_POLYGONS[currentRegion].points = [];
-                        setDrawingPoints([]);
-                        if (onUpdate) onUpdate();
-                      }
-                    );
-                  }
-                }}
-                disabled={!currentRegion || !REGION_POLYGONS[currentRegion]?.points || REGION_POLYGONS[currentRegion].points.length === 0}
-                title="Delete saved boundaries for this region"
-              >
-                <i className="fas fa-trash-alt"></i> Clear Saved
+              <button className="dev-card-minimize-btn" onClick={() => setIsMinimized(true)} title="Minimize panel">
+                <i className="fas fa-minus"></i>
               </button>
             </div>
-          </>
-        )}
 
-        {devTool === 'placePin' && (
-          <>
-            <div className="dev-toolbar-divider" />
-            <div className="dev-toolbar-section">
-              <span className="dev-toolbar-label">Pin Type:</span>
-              <CustomPinTypePicker
-                value={selectedPinType}
-                onChange={setSelectedPinType}
-                options={PIN_TYPE_OPTIONS}
-              />
+            {/* Editor Mode Tabs */}
+            <div className="dev-card-tabs">
+              <button
+                className={`dev-tab-btn ${devTool === 'drawRegion' ? 'active' : ''}`}
+                onClick={() => setDevTool('drawRegion')}
+              >
+                <i className="fas fa-draw-polygon"></i> Draw Boundary
+              </button>
+              <button
+                className={`dev-tab-btn ${devTool === 'placePin' ? 'active' : ''}`}
+                onClick={() => setDevTool('placePin')}
+              >
+                <i className="fas fa-map-pin"></i> Place Pin
+              </button>
+              <button
+                className={`dev-tab-btn ${devTool === 'movePin' ? 'active' : ''}`}
+                onClick={() => setDevTool('movePin')}
+              >
+                <i className="fas fa-arrows-up-down-left-right"></i> Move
+              </button>
+              <button
+                className={`dev-tab-btn ${devTool === 'erasePin' ? 'active' : ''}`}
+                onClick={() => setDevTool('erasePin')}
+              >
+                <i className="fas fa-eraser"></i> Erase
+              </button>
+            </div>
 
-              <div className="dev-toolbar-divider mini" />
+            {/* Step-by-step Cartography Workflow when drawing boundaries */}
+            {devTool === 'drawRegion' && (
+              <div className="dev-card-workflow animate-fade-in">
+                {/* Step 1 */}
+                <div className="workflow-step">
+                  <span className="step-num">Step 1</span>
+                  <span className="step-label">Select Continent &amp; Subregion Target:</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+                    <div>
+                      <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        1. Realm / Continent:
+                      </span>
+                      <CustomSelect
+                        value={selectedParentRegion}
+                        onChange={(newParentId) => {
+                          setSelectedParentRegion(newParentId);
+                          setCurrentRegion(newParentId);
+                        }}
+                        options={MAIN_REGION_OPTIONS}
+                        placeholder="Select Continent..."
+                        width="100%"
+                      />
+                    </div>
 
-              <span className="dev-toolbar-label">Source:</span>
-              <CustomSelect
-                value={pinSourceType}
-                onChange={setPinSourceType}
-                options={[
-                  { id: 'world', label: 'World Lore' },
-                  ...(currentCampaign ? [
-                    { id: 'campaignLocation', label: 'Campaign Location' },
-                    { id: 'campaignLore', label: 'Campaign Lore' }
-                  ] : []),
-                  { id: 'custom', label: 'Custom Pin' }
-                ]}
-                placeholder="Select source..."
-                width="150px"
-              />
+                    <div>
+                      <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        2. Target Subregion / Zone:
+                      </span>
+                      <CustomSelect
+                        value={currentRegion}
+                        onChange={setCurrentRegion}
+                        options={SUBREGION_OPTIONS}
+                        placeholder="Select Subregion..."
+                        width="100%"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-              {pinSourceType === 'world' && (
-                <>
-                  <span className="dev-toolbar-label">Zone:</span>
-                  <CustomSelect
-                    value={selectedZoneId}
-                    onChange={setSelectedZoneId}
-                    options={regionZones}
-                    placeholder="Select zone..."
-                    width="160px"
-                  />
-                </>
-              )}
+                {/* Step 2 */}
+                <div className="workflow-step">
+                  <span className="step-num">Step 2</span>
+                  <span className="step-label">Click Map Image to Outline Boundary:</span>
+                  <div className="step-actions">
+                    <button
+                      className="dev-tool-btn secondary"
+                      onClick={() => setDrawingPoints([])}
+                      disabled={!drawingPoints || drawingPoints.length === 0}
+                    >
+                      <i className="fas fa-undo" /> Clear ({drawingPoints?.length || 0} pts)
+                    </button>
+                    <button
+                      className="dev-tool-btn secondary"
+                      onClick={() => { if (drawingPoints.length > 0) setDrawingPoints(drawingPoints.slice(0, -1)); }}
+                      disabled={!drawingPoints || drawingPoints.length === 0}
+                    >
+                      <i className="fas fa-step-backward" /> Undo Point
+                    </button>
+                    <button
+                      className="dev-tool-btn primary"
+                      onClick={handleCompleteBoundary}
+                      disabled={!drawingPoints || drawingPoints.length < 3 || !currentRegion}
+                    >
+                      <i className="fas fa-check" /> Complete Boundary
+                    </button>
+                    <button
+                      className="dev-tool-btn danger"
+                      onClick={handleResetSingleRegion}
+                      disabled={!currentRegion}
+                      title="Reset this region's boundaries back to original code defaults"
+                    >
+                      <i className="fas fa-rotate-left" /> Reset Code Default
+                    </button>
+                  </div>
+                </div>
 
-              {pinSourceType === 'campaignLocation' && (
-                <>
-                  <span className="dev-toolbar-label">Location:</span>
-                  <CustomSelect
-                    value={selectedCampaignLocId}
-                    onChange={setSelectedCampaignLocId}
-                    options={campaignLocations}
-                    placeholder="Select location..."
-                    width="160px"
-                  />
-                </>
-              )}
+                {/* Step 3 */}
+                <div className="workflow-step">
+                  <span className="step-num">Step 3</span>
+                  <span className="step-label">Attach Subregion Map Asset &amp; Code:</span>
+                  <div className="step-actions">
+                    <button
+                      className="dev-tool-btn secondary"
+                      onClick={handleUploadImageFile}
+                      disabled={!currentRegion}
+                    >
+                      <i className="fas fa-image" /> Upload Subregion Map
+                    </button>
+                    <button
+                      className="dev-tool-btn secondary"
+                      onClick={handleCopyJsSnippet}
+                      disabled={!currentRegion}
+                    >
+                      <i className="fas fa-code" /> {copiedType === 'jsSnippet' ? 'Copied JS!' : 'Copy JS Code'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
-              {pinSourceType === 'campaignLore' && (
-                <>
-                  <span className="dev-toolbar-label">Lore:</span>
-                  <CustomSelect
-                    value={selectedCampaignLoreId}
-                    onChange={setSelectedCampaignLoreId}
-                    options={campaignLoreArticles}
-                    placeholder="Select lore..."
-                    width="160px"
-                  />
-                </>
-              )}
-
-              {pinSourceType === 'custom' && (
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    className="dev-input"
-                    placeholder="Pin Name"
-                    value={customPinName}
-                    onChange={(e) => setCustomPinName(e.target.value)}
-                    style={{ width: '120px' }}
-                  />
-                  <input
-                    type="text"
-                    className="dev-input"
-                    placeholder="Description (optional)"
-                    value={customPinDesc}
-                    onChange={(e) => setCustomPinDesc(e.target.value)}
-                    style={{ width: '160px' }}
+            {/* Place Pin Mode */}
+            {devTool === 'placePin' && (
+              <div className="dev-card-workflow animate-fade-in">
+                <div className="workflow-step">
+                  <span className="step-label">Pin Category &amp; Icon:</span>
+                  <CustomPinTypePicker
+                    value={selectedPinType}
+                    onChange={setSelectedPinType}
+                    options={PIN_TYPE_OPTIONS}
                   />
                 </div>
-              )}
+                <div className="workflow-step">
+                  <span className="step-label">Data Source:</span>
+                  <CustomSelect
+                    value={pinSourceType}
+                    onChange={setPinSourceType}
+                    options={[
+                      { id: 'world', label: 'World Lore' },
+                      ...(currentCampaign ? [
+                        { id: 'campaignLocation', label: 'Campaign Location' },
+                        { id: 'campaignLore', label: 'Campaign Lore' }
+                      ] : []),
+                      { id: 'custom', label: 'Custom Pin' }
+                    ]}
+                    placeholder="Select source..."
+                    width="100%"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Footer Quick Actions */}
+            <div className="dev-footer-actions">
+              <button className="dev-tool-btn danger" onClick={handleClearAllPresetData} title="Clear preset data">
+                <i className="fas fa-trash-can"></i> Clear Map
+              </button>
+              <button className="dev-tool-btn export" onClick={handleExport} title="Copy coordinate changes">
+                <i className="fas fa-code"></i> Export {changeCount > 0 ? `(${changeCount})` : ''}
+              </button>
             </div>
           </>
         )}
-
-        <div className="dev-toolbar-divider" />
-
-        <div className="dev-toolbar-section dev-toolbar-right">
-          <button className="dev-tool-btn export" onClick={handleExport} title="Copy coordinate changes for your code agent">
-            <i className="fas fa-code"></i> Export
-            {changeCount > 0 && (
-              <span className="dev-export-badge">{changeCount}</span>
-            )}
-          </button>
-          {devTool === 'movePin' && (
-            <span className="dev-point-count">
-              {selectedDevPinId ? `${selectedPinZone?.name || selectedDevPinId}` : 'select a pin'}
-            </span>
-          )}
-          {((devTool === 'drawRegion' && drawingPoints && drawingPoints.length > 0) ||
-            (devTool === 'placePin' && selectedPinType)) && (
-            <span className="dev-point-count">
-              {devTool === 'drawRegion' ? (
-                <>{drawingPoints.length} {drawingPoints.length === 1 ? 'pt' : 'pts'}</>
-              ) : (
-                <>{selectedPinType}</>
-              )}
-            </span>
-          )}
-        </div>
       </div>
 
       {exportModalOpen && (
@@ -642,7 +751,15 @@ const DevEditor = ({
                 />
               </div>
             </div>
-            <div className="dev-modal-footer">
+            <div className="dev-modal-footer" style={{ justifyContent: 'space-between', width: '100%' }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="dev-tool-btn danger" onClick={handleClearAllPresetData} title="Clear all preset pins & regions to draw from scratch">
+                  <i className="fas fa-trash-can"></i> Clear All Pins & Regions
+                </button>
+                <button className="dev-tool-btn" onClick={handleResetToDefaults} title="Restore original canonical baseline data">
+                  <i className="fas fa-rotate-left"></i> Restore Defaults
+                </button>
+              </div>
               <button className="dev-tool-btn primary" onClick={() => setExportModalOpen(false)}>
                 Done
               </button>
@@ -706,6 +823,16 @@ const DevEditor = ({
               <span>Click a pin on the map to select &amp; move it</span>
             </div>
           )}
+        </div>
+      )}
+
+      {toastMessage && (
+        <div className="dev-parchment-toast animate-fade-in-up">
+          <i className="fas fa-scroll toast-icon" />
+          <span>{toastMessage}</span>
+          <button className="toast-close-btn" onClick={() => setToastMessage(null)}>
+            <i className="fas fa-times" />
+          </button>
         </div>
       )}
     </>

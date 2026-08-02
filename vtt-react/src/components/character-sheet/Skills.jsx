@@ -233,6 +233,13 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     const [selectedWeaponType, setSelectedWeaponType] = useState('sword');
     const [showCompletedQuests, setShowCompletedQuests] = useState(true);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    // Per-skill roll mode: 'normal' | 'advantage' | 'disadvantage'.
+    // Advantage rolls 2× the die and keeps the better outcome; disadvantage
+    // keeps the worse. Applies to both simple (DC) and table skill rolls.
+    const [rollModeBySkill, setRollModeBySkill] = useState({});
+    const getRollMode = (skillId) => rollModeBySkill[skillId] || 'normal';
+    const setRollMode = (skillId, mode) =>
+        setRollModeBySkill((prev) => ({ ...prev, [skillId]: mode }));
 
     const WEAPON_TYPE_LABELS = {
         sword: 'Sword',
@@ -494,21 +501,33 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         return skill.rollableTable; // Fallback for old format
     };
 
+    // Map roll mode → number of dice rolled.
+    const QUANTITY_BY_MODE = {
+        'normal': 1,
+        'advantage': 2,
+        'disadvantage': 2,
+        'double-advantage': 3,
+        'double-disadvantage': 3,
+    };
+
     // Simple skill roll: trigger 3D physical dice rolling
     const rollSimpleSkill = (skill, skillId) => {
         const rank = getSkillRank(skillId);
         const dieSize = DIE_SIZE_MAP[rank.key];
         const dieType = `d${dieSize}`;
-        
+        const mode = getRollMode(skillId);
+        const quantity = QUANTITY_BY_MODE[mode] || 1;
+
         const diceStore = useDiceStore.getState();
         diceStore.clearSelectedDice();
-        diceStore.addDice(dieType, 1);
+        diceStore.addDice(dieType, quantity);
         diceStore.startRoll({
             type: 'skill',
             skillId,
             skillName: skill.name,
             rollType: 'simple',
-            dieSize
+            dieSize,
+            mode
         });
     };
 
@@ -518,10 +537,12 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
         const dieKey = isWeaponMastery ? 'd8' : selectedDie;
         const tableId = getCurrentRollableTable(skill, skillId, rank.key, dieKey);
-        
+        const mode = getRollMode(skillId);
+        const quantity = QUANTITY_BY_MODE[mode] || 1;
+
         const diceStore = useDiceStore.getState();
         diceStore.clearSelectedDice();
-        diceStore.addDice(dieKey, 1);
+        diceStore.addDice(dieKey, quantity);
         diceStore.startRoll({
             type: 'skill',
             skillId,
@@ -529,7 +550,8 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
             rollType: 'table',
             tableId,
             dieKey,
-            weaponType: selectedWeaponType
+            weaponType: selectedWeaponType,
+            mode
         });
     };
 
@@ -544,6 +566,46 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
     };
 
     const getWeaponTypeRank = (weaponType) => getSkillRank('weaponMastery', weaponType);
+
+    // Five-state roll-mode toggle. Persists per skill in component state
+    // (lost on full page reload). The selected mode rolls 1, 2, or 3 dice
+    // and the "kept" value is the highest (advantage) or lowest (disadvantage).
+    const ROLL_MODES = [
+        { key: 'normal',               label: 'Normal',           icon: 'fa-equals',          desc: 'Roll the die normally.' },
+        { key: 'advantage',            label: 'Advantage',        icon: 'fa-arrow-trend-up',  desc: 'Roll 2 dice, keep the highest.' },
+        { key: 'double-advantage',     label: 'Double Advantage', icon: 'fa-angles-up',       desc: 'Roll 3 dice, keep the highest.' },
+        { key: 'disadvantage',         label: 'Disadvantage',     icon: 'fa-arrow-trend-down',desc: 'Roll 2 dice, keep the lowest.' },
+        { key: 'double-disadvantage',  label: 'Double Disadvantage', icon: 'fa-angles-down', desc: 'Roll 3 dice, keep the lowest.' },
+    ];
+
+    const renderRollModeToggle = (skillId) => {
+        const mode = getRollMode(skillId);
+        const currentMode = ROLL_MODES.find((m) => m.key === mode) || ROLL_MODES[0];
+        return (
+            <div className="roll-mode-wrapper">
+                <div
+                    className="roll-mode-toggle"
+                    role="group"
+                    aria-label="Roll with advantage or disadvantage"
+                >
+                    {ROLL_MODES.map((opt) => (
+                        <button
+                            key={opt.key}
+                            type="button"
+                            className={`roll-mode-btn roll-mode-${opt.key} ${mode === opt.key ? 'active' : ''}`}
+                            onClick={() => setRollMode(skillId, opt.key)}
+                            title={`${opt.label}: ${opt.desc}`}
+                            aria-label={opt.label}
+                            aria-pressed={mode === opt.key}
+                        >
+                            <i className={`fas ${opt.icon}`}></i>
+                        </button>
+                    ))}
+                </div>
+                <div className="roll-mode-description">{currentMode.desc}</div>
+            </div>
+        );
+    };
 
     // Render skill detail view (right side)
     const renderSkillDetail = () => {
@@ -622,6 +684,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                         </option>
                                     ))}
                                 </select>
+                                {renderRollModeToggle(selectedSkill)}
                                 <button
                                     className="roll-table-btn skill-simple-roll"
                                     onClick={() => rollSimpleSkill(skill, selectedSkill)}
@@ -671,12 +734,15 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                             </div>
                         </div>
                         {(skill.rollableTable || skill.rollableTables) && (
-                            <button
-                                className="roll-table-btn"
-                                onClick={() => rollSkillTable(skill, selectedSkill)}
-                            >
-                                <i className="fas fa-dice"></i> Roll
-                            </button>
+                            <div className="skill-table-controls">
+                                {renderRollModeToggle(selectedSkill)}
+                                <button
+                                    className="roll-table-btn"
+                                    onClick={() => rollSkillTable(skill, selectedSkill)}
+                                >
+                                    <i className="fas fa-dice"></i> Roll
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}

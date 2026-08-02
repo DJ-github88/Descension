@@ -1828,3 +1828,119 @@
         width: 100%;
     }
 }
+
+/* Roll-mode toggle: Normal | Advantage | Disadvantage
+   Used on both simple and table skill rolls. Per-skill state lives in
+   Skills.jsx. Active state colors: gold for advantage, dark-red for
+   disadvantage, parchment-neutral for normal. */
+.skill-table-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.roll-mode-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.roll-mode-toggle {
+    display: inline-flex;
+    border: 1.5px solid #8b7355;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(252,248,238,0.9) 100%);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
+    height: 32px;
+}
+
+.roll-mode-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #5a2a0f;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0 9px;
+    height: 100%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    border-right: 1px solid #d8c9a8;
+}
+
+.roll-mode-btn:last-child {
+    border-right: 0;
+}
+
+.roll-mode-btn:hover {
+    background: rgba(201, 168, 76, 0.12);
+    color: #3e1a0a;
+}
+
+.roll-mode-btn.active {
+    color: #fff;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.18);
+}
+
+.roll-mode-btn.roll-mode-normal.active {
+    background: linear-gradient(135deg, #8a2e1d 0%, #5e1c10 100%);
+}
+
+.roll-mode-btn.roll-mode-advantage.active {
+    background: linear-gradient(135deg, #c9a84c 0%, #8a2e1d 100%);
+    color: #2a1500;
+}
+
+.roll-mode-btn.roll-mode-double-advantage.active {
+    background: linear-gradient(135deg, #f0c060 0%, #b8862a 60%, #5a2a0f 100%);
+    color: #1a0a00;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25), 0 0 10px rgba(240, 192, 96, 0.45);
+}
+
+.roll-mode-btn.roll-mode-disadvantage.active {
+    background: linear-gradient(135deg, #5a2a0f 0%, #2a1100 100%);
+}
+
+.roll-mode-btn.roll-mode-double-disadvantage.active {
+    background: linear-gradient(135deg, #4a1a0a 0%, #1a0500 60%, #000 100%);
+    color: #ffd0d0;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.25), 0 0 10px rgba(180, 30, 30, 0.45);
+}
+
+.roll-mode-btn i {
+    font-size: 12px;
+}
+
+.roll-mode-description {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: rgba(90, 42, 15, 0.85);
+    line-height: 1.2;
+    max-width: 100%;
+}
+
+@media (max-width: 480px) {
+    .roll-mode-toggle {
+        height: 30px;
+    }
+    .roll-mode-btn {
+        padding: 0 6px;
+        font-size: 10px;
+    }
+    .roll-mode-description {
+        font-size: 0.58rem;
+    }
+}

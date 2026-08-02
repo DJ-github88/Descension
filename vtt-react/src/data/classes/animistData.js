@@ -86,22 +86,6 @@ export const ANIMIST_DATA = {
       }
     },
 
-    morren_human: {
-      subraceName: 'Vreken',
-      title: 'The Debt-Bound',
-      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> are debtors to the Neth, and a Vreken Animist channels no glorious ancestor, they summon the specific forebear whose unpaid contract still accrues interest against their family. Adapted from the Ordan ancestor-compass technique through Neth contract-culture: the Vreken took the concept of the dead remembering obligations and applied it legally. The ancestor is not honored. The ancestor is *owed*. Every Vreken family recites their contract at mealtimes; the Animist makes that recitation literal.`,
-      signatureAbility: {
-        name: 'Contract-Invocation',
-        description: `The spirit summoned is the family's debt-ancestor; it bargains for service rather than aiding freely, each invocation incrementally renegotiating an inherited obligation. Power, for a Vreken Animist, is also a form of payment, and the interest compounds.`
-      },
-      currentCrisisAngle: `The Vreken are the only tradition whose ancestors are *legally* bound. When the dialect fractured, the debt-ancestors began refusing to acknowledge renegotiations, demanding the original terms, in the original language, which the living no longer speak correctly. Families are being called to account for debts they cannot even recite, and Morvane's Sanction looms.`,
-      signatureQuote: {
-        text: '"My grandmother borrowed her survival and left me the bill. Now she will not leave until I have read it back to her, correctly, in a language neither of us remembers."',
-        speaker: 'Petr Debt-Son',
-        context: 'A Vreken Animist, the night before his family\'s contract-review'
-      }
-    },
-
     skald_human: {
       subraceName: 'Skald',
       title: 'The Rune-Keeper',

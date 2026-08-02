@@ -19,12 +19,11 @@ export const AUGUR_DATA = {
    "marked_vreken",
    "korr_solari"
   ],
-  "hardBlocks": [
-   "merryn_human",
-   "ordan_human",
-   "morren_human",
-   "myrathil"
-  ],
+   "hardBlocks": [
+    "merryn_human",
+    "ordan_human",
+    "myrathil"
+   ],
   "narrativeUnlock": true,
   "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordan leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection."
  },

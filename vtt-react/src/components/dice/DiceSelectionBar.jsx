@@ -32,6 +32,17 @@ const DiceSelectionBar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Do not close if clicking inside a 3D scene overlay portal
+      if (
+        event.target &&
+        event.target.closest &&
+        event.target.closest(
+          '.physics-card-overlay, .physics-coin-overlay, .physics-dice-overlay, .landed-coin-marker, .card-3d-result-area, .coin-3d-result-area'
+        )
+      ) {
+        return;
+      }
+
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
         setSelectedOrb(null);
@@ -151,7 +162,7 @@ const DiceSelectionBar = () => {
                 onClick={clearSelectedDice}
                 title="Clear all"
               >
-                Ã - 
+                ï¿½ - 
               </button>
             )}
           </div>
@@ -168,7 +179,8 @@ const DiceSelectionBar = () => {
                   disabled={isRolling}
                   title={`Quick roll ${diceType.name}`}
                 >
-                  {diceType.name}
+                  <span className="dice-icon-shape" />
+                  <span className="dice-btn-label">{diceType.name}</span>
                 </button>
               ))}
               <button
@@ -201,12 +213,13 @@ const DiceSelectionBar = () => {
                 return (
                   <div key={diceType.id} className="dice-item">
                     <button
-                      className={`dice-select-button ${quantity > 0 ? 'selected' : ''}`}
+                      className={`dice-select-button dice-btn-${diceType.id} ${quantity > 0 ? 'selected' : ''}`}
                       onClick={(e) => handleDiceClick(diceType.id, e)}
                       style={{ '--dice-color': diceType.color }}
                       title={`${diceType.name} (${diceType.sides} sides)`}
                     >
-                      {diceType.name}
+                      <span className="dice-icon-shape" />
+                      <span className="dice-btn-label">{diceType.name}</span>
                     </button>
                     {quantity > 0 && (
                       <div className="dice-quantity-control">

@@ -15,6 +15,7 @@ import ProfileEditModal from './ProfileEditModal';
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
 import AccountSocialManager from './AccountSocialManager';
+import AccountMapManager from './AccountMapManager';
 import StorageUsageWidget from './StorageUsageWidget';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -456,6 +457,14 @@ const AccountDashboard = ({ user }) => {
                   <span>Social</span>
                 </button>
               )}
+              {!isGuest && (
+                <button
+                  className={`fan-tab ${activeTab === 'maps' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('maps')}
+                >
+                  <span>World & Subregions</span>
+                </button>
+              )}
               <button
                 className={`fan-tab ${activeTab === 'membership' ? 'active' : ''}`}
                 onClick={() => setActiveTab('membership')}
@@ -880,6 +889,12 @@ const AccountDashboard = ({ user }) => {
           {activeTab === 'social' && (
             <div className="tab-content">
               <AccountSocialManager />
+            </div>
+          )}
+
+          {activeTab === 'maps' && (
+            <div className="tab-content">
+              <AccountMapManager />
             </div>
           )}
 

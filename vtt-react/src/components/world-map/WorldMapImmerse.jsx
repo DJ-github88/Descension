@@ -19,6 +19,8 @@ import subscriptionService from '../../services/subscriptionService';
 
 // Data references
 import { REGION_POLYGONS } from '../../data/regionPolygons';
+import { SUBREGIONS } from '../../data/subregions';
+import { getSubregionMap } from '../../data/subregionMaps';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { ZONE_DATA } from '../../data/zoneData';
 import { pointInPolygon } from './RegionOverlay';
@@ -29,6 +31,7 @@ import './WorldMapImmerse.css';
 const saveRegionsToCache = () => {
  try {
   localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+  localStorage.setItem('mythrill_subregion_polygons', JSON.stringify(SUBREGIONS));
  } catch (e) {
   console.error('Failed to cache region polygons:', e);
  }
@@ -48,13 +51,36 @@ try {
   const parsed = JSON.parse(cachedRegions);
   Object.keys(parsed).forEach(key => {
    if (REGION_POLYGONS[key]) {
-    REGION_POLYGONS[key].points = parsed[key].points || [];
-    REGION_POLYGONS[key].labelPosition = parsed[key].labelPosition || REGION_POLYGONS[key].labelPosition;
+    if (parsed[key].points && parsed[key].points.length > 0) {
+     REGION_POLYGONS[key].points = parsed[key].points;
+    }
+    if (parsed[key].labelPosition && parsed[key].labelPosition.length === 2 && parsed[key].labelPosition[0] > 0) {
+     REGION_POLYGONS[key].labelPosition = parsed[key].labelPosition;
+    }
    }
   });
  }
 } catch (e) {
  console.warn('Could not restore cached region polygons:', e);
+}
+
+try {
+ const cachedSubregions = localStorage.getItem('mythrill_subregion_polygons');
+ if (cachedSubregions) {
+  const parsed = JSON.parse(cachedSubregions);
+  Object.keys(parsed).forEach(key => {
+   if (SUBREGIONS[key]) {
+    if (parsed[key].points && parsed[key].points.length > 0) {
+     SUBREGIONS[key].points = parsed[key].points;
+    }
+    if (parsed[key].labelPosition && parsed[key].labelPosition.length === 2 && parsed[key].labelPosition[0] > 0) {
+     SUBREGIONS[key].labelPosition = parsed[key].labelPosition;
+    }
+   }
+  });
+ }
+} catch (e) {
+ console.warn('Could not restore cached subregion polygons:', e);
 }
 
 try {
@@ -79,13 +105,93 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  const [selectedLocationId, setSelectedLocationId] = useState(null);
  const [hoveredRegionId, setHoveredRegionId] = useState(null);
 
- // Dual Map Mode: 'modern' (Map 2.0 Student Edition) vs 'legacy' (Map 1.0 Watercolor)
- const [mapVersion, setMapVersion] = useState('modern');
- const toggleMapVersion = useCallback(() => {
-   setMapVersion(prev => (prev === 'modern' ? 'legacy' : 'modern'));
- }, []);
- 
- const [updateTrigger, setUpdateTrigger] = useState(0);
+  // Dual Map Mode: 'modern' (Map 2.0 Student Edition) vs 'legacy' (Map 1.0 Watercolor)
+  const [mapVersion, setMapVersion] = useState('modern');
+  const toggleMapVersion = useCallback(() => {
+    setMapVersion(prev => (prev === 'modern' ? 'legacy' : 'modern'));
+  }, []);
+
+  // Subregion Map state & transitions
+  const [activeMapId, setActiveMapId] = useState('mythril');
+  const [mapStack, setMapStack] = useState([{ id: 'mythril', name: 'World Map of Mythril' }]);
+  const [subregionTransition, setSubregionTransition] = useState({ active: false, targetName: '' });
+  const [targetZoomPoint, setTargetZoomPoint] = useState(null);
+
+  const handleEnterSubregionMap = useCallback((regionId) => {
+    const targetObj = REGION_POLYGONS[regionId] || SUBREGIONS[regionId];
+    const mapData = getSubregionMap(regionId);
+    const subregionName = targetObj?.name || mapData?.name || regionId;
+
+    let center = [2048, 1536];
+    if (targetObj?.labelPosition && targetObj.labelPosition.length === 2 && targetObj.labelPosition[0] > 0) {
+      center = targetObj.labelPosition;
+    } else if (targetObj?.points && targetObj.points.length >= 3) {
+      const sumX = targetObj.points.reduce((s, p) => s + p[0], 0);
+      const sumY = targetObj.points.reduce((s, p) => s + p[1], 0);
+      center = [Math.round(sumX / targetObj.points.length), Math.round(sumY / targetObj.points.length)];
+    }
+
+    // Smoothly accelerate & camera-zoom into subregion centroid over 800ms
+    setTargetZoomPoint({ x: center[0], y: center[1], scale: 1.85, duration: 800, id: Date.now() });
+
+    // Activate RPG Transition Overlay fog curtain
+    setSubregionTransition({ active: true, targetName: subregionName });
+    setSidebarOpen(false);
+
+    // Swap map asset at 650ms while transition curtain fully covers screen
+    setTimeout(() => {
+      setActiveMapId(regionId);
+      setMapStack(prev => [...prev, { id: regionId, name: subregionName }]);
+    }, 650);
+
+    // Clear transition curtain at 1400ms after reveal
+    setTimeout(() => {
+      setSubregionTransition({ active: false, targetName: '' });
+      setTargetZoomPoint(null);
+    }, 1400);
+  }, []);
+
+  const handleReturnToParentMap = useCallback(() => {
+    if (mapStack.length <= 1) return;
+    const parentObj = mapStack[mapStack.length - 2] || { id: 'mythril', name: 'World Map of Mythril' };
+    setSubregionTransition({ active: true, targetName: parentObj.name });
+    setSidebarOpen(false);
+    setSelectedRegionId(null);
+    setSelectedLocationId(null);
+
+    setTimeout(() => {
+      setActiveMapId(parentObj.id);
+      setMapStack(prev => prev.slice(0, -1));
+    }, 400);
+
+    setTimeout(() => {
+      setSubregionTransition({ active: false, targetName: '' });
+    }, 900);
+  }, [mapStack]);
+
+  // Camera zoom-in when selecting a continent region or subregion on the world map
+  useEffect(() => {
+    if (!selectedRegionId || activeMapId !== 'mythril') return;
+
+    const targetObj = REGION_POLYGONS[selectedRegionId] || SUBREGIONS[selectedRegionId];
+    if (!targetObj) return;
+
+    let center = [2048, 1536];
+    if (targetObj.labelPosition && targetObj.labelPosition.length === 2 && targetObj.labelPosition[0] > 0) {
+      center = targetObj.labelPosition;
+    } else if (targetObj.points && targetObj.points.length >= 3) {
+      const sumX = targetObj.points.reduce((s, p) => s + p[0], 0);
+      const sumY = targetObj.points.reduce((s, p) => s + p[1], 0);
+      center = [Math.round(sumX / targetObj.points.length), Math.round(sumY / targetObj.points.length)];
+    }
+
+    const isSub = !!SUBREGIONS[selectedRegionId];
+    const targetScale = isSub ? 1.35 : 0.85;
+
+    setTargetZoomPoint({ x: center[0], y: center[1], scale: targetScale, duration: 850, id: Date.now() });
+  }, [selectedRegionId, activeMapId]);
+
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
  // Dev mode and editor state
  const [devMode, setDevMode] = useState(false);
@@ -129,6 +235,16 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
    }
   });
  };
+
+  useEffect(() => {
+    const preventDefaultContextMenu = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener('contextmenu', preventDefaultContextMenu, { capture: true });
+    return () => {
+      window.removeEventListener('contextmenu', preventDefaultContextMenu, { capture: true });
+    };
+  }, []);
 
  const [transformState, setTransformState] = useState({ scale: 0.4, positionX: 0, positionY: 0 });
 
@@ -306,9 +422,13 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      const first = drawingPoints[0];
      const dist = Math.hypot(coords[0] - first[0], coords[1] - first[1]);
      if (dist < 30 && drawingPoints.length >= 3) {
-      const existing = REGION_POLYGONS[currentRegion];
+      const existing = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
+      if (!existing) {
+       console.warn(`Target region or subregion "${currentRegion}" not found.`);
+       return;
+      }
       showConfirm(
-       `Are you sure you want to complete and save the boundaries for "${existing.name}"?`,
+       `Are you sure you want to complete and save the boundaries for "${existing.name || currentRegion}"?`,
        () => {
         const cx = drawingPoints.reduce((s, p) => s + p[0], 0) / drawingPoints.length;
         const cy = drawingPoints.reduce((s, p) => s + p[1], 0) / drawingPoints.length;
@@ -318,11 +438,11 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
         saveRegionsToCache();
         setUpdateTrigger(prev => prev + 1);
         showDevToast('region', {
-         id: existing.id,
-         name: existing.name,
+         id: existing.id || currentRegion,
+         name: existing.name || currentRegion,
          points: [...existing.points],
-         color: existing.color,
-         glowColor: existing.glowColor,
+         color: existing.color || 'rgba(70, 150, 220, 0.18)',
+         glowColor: existing.glowColor || 'rgba(120, 200, 255, 0.75)',
          labelPosition: [...existing.labelPosition]
         });
        }
@@ -665,13 +785,42 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
 
  const canDragPlayerPins = tierInfo ? tierInfo.tierKey !== 'FREE' : false;
 
- return (
-  <div className={`world-map-immersive phase-${phase} ${sidebarOpen ? 'sidebar-open' : ''}`}>
-   <BurnedParchmentBorder visible={showBorder} />
+  return (
+   <div className={`world-map-immersive phase-${phase} ${sidebarOpen ? 'sidebar-open' : ''}`}>
+    <BurnedParchmentBorder visible={showBorder} />
 
-   <MapCanvas
+    {/* Subregion Breadcrumb Bar */}
+    {activeMapId !== 'mythril' && (
+     <div className="subregion-breadcrumb-bar animate-fade-in-down">
+      <button className="btn-back-main-map" onClick={handleReturnToParentMap}>
+       <i className="fas fa-arrow-left"></i> Return to World Map
+      </button>
+      <div className="breadcrumb-trail">
+       <span className="breadcrumb-item clickable" onClick={handleReturnToParentMap}>World Map</span>
+       <i className="fas fa-chevron-right breadcrumb-separator"></i>
+       <span className="breadcrumb-item active">{mapStack[mapStack.length - 1]?.name || 'Subregion Map'}</span>
+      </div>
+     </div>
+    )}
+
+    {/* Atmospheric Subregion Transition Overlay */}
+    {subregionTransition.active && (
+     <div className="subregion-transition-overlay">
+      <div className="subregion-transition-card">
+       <i className="fas fa-compass transition-compass"></i>
+       <span className="transition-subtitle">Entering Realm</span>
+       <h3 className="transition-target-title">{subregionTransition.targetName}</h3>
+       <div className="transition-glow-line"></div>
+      </div>
+     </div>
+    )}
+
+    <MapCanvas
     phase={phase}
     initialTransform={initialTransform}
+    activeMapId={activeMapId}
+    targetZoomPoint={targetZoomPoint}
+    onEnterSubregionMap={handleEnterSubregionMap}
     devMode={devMode}
     devTool={devTool}
     currentRegion={currentRegion}
@@ -818,6 +967,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     open={sidebarOpen}
     onClose={handleSidebarClose}
     currentCampaign={currentCampaign}
+    onEnterSubregionMap={handleEnterSubregionMap}
    />
 
    <DevEditor
@@ -861,8 +1011,8 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     <div className="custom-confirm-overlay animate-fade-in" onClick={customConfirm.onCancel}>
      <div className="custom-confirm-card" onClick={e => e.stopPropagation()}>
       <div className="custom-confirm-header">
-       <i className="fas fa-exclamation-triangle confirm-warn-icon"></i>
-       <h3>Are You Sure?</h3>
+       <i className="fas fa-scroll confirm-warn-icon"></i>
+       <h3>Confirmation Required</h3>
       </div>
       <div className="custom-confirm-body">
        <p>{customConfirm.message}</p>
@@ -891,8 +1041,8 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
       <i className="fas fa-check-circle dev-toast-icon"></i>
       <span className="dev-toast-title">
        {devToast.type === 'region'
-        ? `${devToast.item.name} boundary saved`
-        : `Pin "${devToast.item.key}" placed`}
+        ? `${devToast.item?.name || 'Region'} boundary saved`
+        : `Pin "${devToast.item?.key || ''}" placed`}
       </span>
       <button className="dev-toast-close" onClick={dismissDevToast}>
        <i className="fas fa-times"></i>

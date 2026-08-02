@@ -26,11 +26,9 @@ export const LUNARCH_DATA = {
           "groven",
           "fexrick",
           "myrathil",
-          "solvarn_human",
           "merryn_human",
           "ordan_human",
-          "tessen_human",
-          "morren_human"
+          "tessen_human"
       ],
       "narrativeUnlock": true,
       "justification": "Requires fog-dense environments where silence-light is accessible. The parasite specifically responded to Viridane blood. Non-Florae who enter the moonlit groves may be chosen, but the Florae are the original bloodline."

@@ -1,43 +1,344 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
 import * as CANNON from 'cannon-es';
 import useDiceStore, { DICE_PRESETS } from '../../store/diceStore';
 import './PhysicsDiceScene.css';
 
 const FONT = "'Cinzel', 'Times New Roman', serif";
 
-function createNumberTexture(num, type) {
-  const size = 256;
+// Build a procedural body surface — a subtle noise normal map and a matching
+// roughness map — that gives the dice a matte, slightly weathered stone feel
+// rather than smooth plastic. Used for the dice BODY (not the number plates).
+// Build a procedural body surface — a 2-octave FBM noise normal map + a
+// matching roughness map — that gives the dice a matte, weathered-stone feel
+// without producing blocky patterns. The previous version used a 24x24 grid
+// with 2x tiling, which produced visible ~10px squares on small dice faces.
+// This version samples a broad (48x48) octave plus a fine (256x256) octave
+// through a smoothstep interpolator, with NO repeat (ClampToEdge wrapping) so
+// each face shows the full continuous noise field once.
+function createBodySurfaceTextures(seed = 1) {
+  const size = 512;
+  const GRID_BROAD = 48;   // broad stone features (~10px per cell)
+  const GRID_FINE = 256;   // fine grain (~2px per cell)
+
+  let s = seed >>> 0;
+  const rand = () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+
+  const gridBroad = new Float32Array(GRID_BROAD * GRID_BROAD);
+  const gridFine = new Float32Array(GRID_FINE * GRID_FINE);
+  for (let i = 0; i < gridBroad.length; i++) gridBroad[i] = rand();
+  for (let i = 0; i < gridFine.length; i++) gridFine[i] = rand();
+
+  // Smoothstep (Hermite, C1-continuous) so the bilinear interpolation of
+  // the noise grid has no visible seams between cells.
+  const smooth = (t) => t * t * (3 - 2 * t);
+
+  const sampleGrid = (grid, GRID, u, v) => {
+    const fx = u * GRID;
+    const fy = v * GRID;
+    const x0 = Math.floor(fx);
+    const y0 = Math.floor(fy);
+    const x1 = (x0 + 1) % GRID;
+    const y1 = (y0 + 1) % GRID;
+    const tx = smooth(fx - x0);
+    const ty = smooth(fy - y0);
+    const a = grid[y0 * GRID + x0];
+    const b = grid[y0 * GRID + x1];
+    const c = grid[y1 * GRID + x0];
+    const d = grid[y1 * GRID + x1];
+    const ab = a + (b - a) * tx;
+    const cd = c + (d - c) * tx;
+    return ab + (cd - ab) * ty;
+  };
+
+  // 2-octave FBM: broad features drive shape, fine grain drives texture.
+  const fbm = (u, v) =>
+    0.58 * sampleGrid(gridBroad, GRID_BROAD, u, v) +
+    0.42 * sampleGrid(gridFine, GRID_FINE, u, v);
+
+  const nCanvas = document.createElement('canvas');
+  nCanvas.width = nCanvas.height = size;
+  const nCtx = nCanvas.getContext('2d');
+  const nImg = nCtx.createImageData(size, size);
+
+  const rCanvas = document.createElement('canvas');
+  rCanvas.width = rCanvas.height = size;
+  const rCtx = rCanvas.getContext('2d');
+  const rImg = rCtx.createImageData(size, size);
+
+  // Tuned subtle: visible up close, not garish. Lower than the previous build.
+  const NORMAL_STRENGTH = 0.38;
+  const ROUGH_BASE = 0.80;
+  const ROUGH_VAR = 0.10;
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const u = x / size, v = y / size;
+      // Central-difference gradient on the FBM field for the normal map.
+      const e = 1 / size;
+      const hL = fbm(((u - e) + 1) % 1, v);
+      const hR = fbm((u + e) % 1, v);
+      const hD = fbm(u, ((v - e) + 1) % 1);
+      const hU = fbm(u, (v + e) % 1);
+      let nx = (hL - hR) * NORMAL_STRENGTH;
+      let ny = (hD - hU) * NORMAL_STRENGTH;
+      let nz = 1.0;
+      const len = Math.hypot(nx, ny, nz) || 1;
+      nx /= len; ny /= len; nz /= len;
+      const i = (y * size + x) * 4;
+      nImg.data[i]     = Math.round((nx * 0.5 + 0.5) * 255);
+      nImg.data[i + 1] = Math.round((ny * 0.5 + 0.5) * 255);
+      nImg.data[i + 2] = Math.round((nz * 0.5 + 0.5) * 255);
+      nImg.data[i + 3] = 255;
+
+      const h = fbm(u, v);
+      const r = Math.min(1, Math.max(0, ROUGH_BASE + (h - 0.5) * ROUGH_VAR * 2));
+      const g = Math.round(r * 255);
+      rImg.data[i] = g;
+      rImg.data[i + 1] = g;
+      rImg.data[i + 2] = g;
+      rImg.data[i + 3] = 255;
+    }
+  }
+  nCtx.putImageData(nImg, 0, 0);
+  rCtx.putImageData(rImg, 0, 0);
+
+  const normalMap = new THREE.CanvasTexture(nCanvas);
+  normalMap.colorSpace = THREE.NoColorSpace; // normal maps are linear data
+  normalMap.wrapS = normalMap.wrapT = THREE.ClampToEdgeWrapping;
+  normalMap.anisotropy = 4;
+
+  const roughnessMap = new THREE.CanvasTexture(rCanvas);
+  roughnessMap.colorSpace = THREE.NoColorSpace;
+  roughnessMap.wrapS = roughnessMap.wrapT = THREE.ClampToEdgeWrapping;
+  roughnessMap.anisotropy = 4;
+
+  return { normalMap, roughnessMap };
+}
+
+// A subtle per-die color variation so a set of dice doesn't look stamped from
+// the same mold. Returns a new THREE.Color derived from `base`.
+function varyDieColor(base) {
+  const c = base.clone();
+  // HSL nudge — keep the hue, nudge lightness/saturation ±2%.
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl);
+  hsl.l = Math.max(0, Math.min(1, hsl.l + (Math.random() - 0.5) * 0.05));
+  hsl.s = Math.max(0, Math.min(1, hsl.s + (Math.random() - 0.5) * 0.04));
+  c.setHSL(hsl.h, hsl.s, hsl.l);
+  return c;
+}
+
+// Per-preset cache so every die in a set shares the same particle texture
+// (saves ~2-3ms per die and 2MB per die of GPU memory).
+const particleTextureCache = new Map();
+function getParticleTexture(effect) {
+  let tex = particleTextureCache.get(effect);
+  if (!tex) {
+    tex = createParticleTexture(effect);
+    particleTextureCache.set(effect, tex);
+  }
+  return tex;
+}
+function disposeParticleTextureCache() {
+  particleTextureCache.forEach((t) => t.dispose());
+  particleTextureCache.clear();
+}
+
+// Procedural point-sprite texture for the die's inner/outer particles. The
+// previous version used bare PointsMaterial which renders as a flat square
+// quad (sized to the point), so every preset looked like "colored squares
+// floating around the die". Now each preset's effect has a real sprite
+// drawn at 128px: a soft circular halo plus a themed foreground shape:
+//   frost      -> 6-pointed snowflake
+//   fire       -> teardrop flame
+//   lightning  -> 4-pointed spark
+//   void       -> dark orb with purple rim
+//   nature     -> sparkle + small leaf
+// Returns a 128x128 CanvasTexture with a soft alpha falloff for blending.
+function createParticleTexture(effect) {
+  const size = 128;
   const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = canvas.height = size;
   const ctx = canvas.getContext('2d');
+  const cx = size / 2;
+  const cy = size / 2;
 
-  let displayNum = num.toString();
-  if (type === 'd10' && num === 10) displayNum = '0';
-  if (type === 'dpercent') displayNum = (num * 10).toString().padStart(2, '0');
+  // Soft circular base — universal halo behind every themed shape.
+  const base = ctx.createRadialGradient(cx, cy, 0, cx, cy, size / 2);
+  base.addColorStop(0.00, 'rgba(255,255,255,1)');
+  base.addColorStop(0.25, 'rgba(255,255,255,0.7)');
+  base.addColorStop(0.60, 'rgba(255,255,255,0.2)');
+  base.addColorStop(1.00, 'rgba(255,255,255,0)');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, size, size);
 
-  ctx.fillStyle = '#c9a84c';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const fontSize = displayNum.length > 2 ? 90 : displayNum.length > 1 ? 110 : 130;
-  ctx.font = `bold ${fontSize}px ${FONT}`;
-  ctx.shadowColor = 'rgba(0,0,0,0.8)';
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-  ctx.fillText(displayNum, size / 2, size / 2);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
 
-  if (displayNum === '6' || displayNum === '9') {
-    ctx.fillRect(size / 2 - 30, size / 2 + 65, 60, 6);
+  if (effect === 'frost') {
+    // 6-pointed snowflake with barbs.
+    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 6; i++) {
+      const a = (i * Math.PI) / 3;
+      const tipX = cx + Math.cos(a) * 32;
+      const tipY = cy + Math.sin(a) * 32;
+      const midX = cx + Math.cos(a) * 18;
+      const midY = cy + Math.sin(a) * 18;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(tipX, tipY);
+      ctx.stroke();
+      // Barbs branching off the middle of each arm.
+      const barbLen = 9;
+      for (const sign of [-1, 1]) {
+        const ax = midX + Math.cos(a + sign * Math.PI / 3) * barbLen;
+        const ay = midY + Math.sin(a + sign * Math.PI / 3) * barbLen;
+        ctx.beginPath();
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(ax, ay);
+        ctx.stroke();
+      }
+    }
+    // Tiny center dot.
+    ctx.fillStyle = 'rgba(255,255,255,1)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (effect === 'fire') {
+    // Teardrop flame with bright center, warm outer falloff.
+    const flame = ctx.createRadialGradient(cx, cy + 6, 0, cx, cy + 6, 38);
+    flame.addColorStop(0.0, 'rgba(255,255,220,1)');
+    flame.addColorStop(0.35, 'rgba(255,190,90,0.85)');
+    flame.addColorStop(0.7, 'rgba(255,110,40,0.5)');
+    flame.addColorStop(1.0, 'rgba(220,40,10,0)');
+    ctx.fillStyle = flame;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 32);
+    ctx.bezierCurveTo(cx + 22, cy - 8, cx + 20, cy + 20, cx, cy + 30);
+    ctx.bezierCurveTo(cx - 20, cy + 20, cx - 22, cy - 8, cx, cy - 32);
+    ctx.closePath();
+    ctx.fill();
+  } else if (effect === 'lightning') {
+    // 4-pointed spark/star with long arms.
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 34);
+    ctx.lineTo(cx + 7, cy - 7);
+    ctx.lineTo(cx + 34, cy);
+    ctx.lineTo(cx + 7, cy + 7);
+    ctx.lineTo(cx, cy + 34);
+    ctx.lineTo(cx - 7, cy + 7);
+    ctx.lineTo(cx - 34, cy);
+    ctx.lineTo(cx - 7, cy - 7);
+    ctx.closePath();
+    ctx.fill();
+  } else if (effect === 'void') {
+    // Dark orb with purple rim glow.
+    const orb = ctx.createRadialGradient(cx, cy, 4, cx, cy, 32);
+    orb.addColorStop(0.00, 'rgba(35,18,55,1)');
+    orb.addColorStop(0.45, 'rgba(60,30,85,0.95)');
+    orb.addColorStop(0.70, 'rgba(120,60,170,0.7)');
+    orb.addColorStop(0.90, 'rgba(180,110,230,0.35)');
+    orb.addColorStop(1.00, 'rgba(120,60,170,0)');
+    ctx.fillStyle = orb;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 32, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (effect === 'nature') {
+    // 4-pointed sparkle with a small leaf accent.
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 28);
+    ctx.lineTo(cx + 9, cy - 9);
+    ctx.lineTo(cx + 28, cy);
+    ctx.lineTo(cx + 9, cy + 9);
+    ctx.lineTo(cx, cy + 28);
+    ctx.lineTo(cx - 9, cy + 9);
+    ctx.lineTo(cx - 28, cy);
+    ctx.lineTo(cx - 9, cy - 9);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = 'rgba(180,240,130,0.75)';
+    ctx.beginPath();
+    ctx.ellipse(cx + 2, cy + 2, 5, 11, Math.PI / 4, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    // Generic soft dot for unknown effects.
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
   return tex;
 }
 
+/**
+ * Draws a premium engraved-metallic number onto a face canvas.
+ * Layered passes: deep shadow core -> metallic vertical gradient ->
+ * dark outline -> crisp top highlight (embossed bevel look).
+ */
+function drawPremiumNumber(ctx, text, x, y, fontPx, numberColor, rotation = 0) {
+  const base = new THREE.Color(numberColor || '#dbb85c');
+  const lighter = base.clone().lerp(new THREE.Color('#ffffff'), 0.55);
+  const darker = base.clone().lerp(new THREE.Color('#000000'), 0.45);
+
+  ctx.save();
+  ctx.translate(x, y);
+  if (rotation) ctx.rotate(rotation);
+  ctx.font = `bold ${fontPx}px ${FONT}`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Deep engraved shadow core
+  ctx.shadowColor = 'rgba(0,0,0,0.9)';
+  ctx.shadowBlur = fontPx * 0.12;
+  ctx.shadowOffsetY = fontPx * 0.05;
+  ctx.fillStyle = 'rgba(0,0,0,0.85)';
+  ctx.fillText(text, 0, 0);
+
+  // Metallic gradient body
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+  const grad = ctx.createLinearGradient(0, -fontPx * 0.55, 0, fontPx * 0.55);
+  grad.addColorStop(0, `#${lighter.getHexString()}`);
+  grad.addColorStop(0.45, `#${base.getHexString()}`);
+  grad.addColorStop(1, `#${darker.getHexString()}`);
+  ctx.fillStyle = grad;
+  ctx.fillText(text, 0, 0);
+
+  // Dark separation outline
+  ctx.lineWidth = Math.max(1.5, fontPx * 0.02);
+  ctx.strokeStyle = 'rgba(0,0,0,0.45)';
+  ctx.strokeText(text, 0, 0);
+
+  // Crisp top highlight (embossed bevel)
+  ctx.globalAlpha = 0.55;
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.fillText(text, 0, -fontPx * 0.045);
+
+  ctx.restore();
+}
+
 function createNumberTextureWithColor(num, type, numberColor) {
-  const size = 256;
+  const size = 512;
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
@@ -47,22 +348,41 @@ function createNumberTextureWithColor(num, type, numberColor) {
   if (type === 'd10' && num === 10) displayNum = '0';
   if (type === 'dpercent') displayNum = (num * 10).toString().padStart(2, '0');
 
-  ctx.fillStyle = numberColor || '#c9a84c';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const fontSize = displayNum.length > 2 ? 90 : displayNum.length > 1 ? 110 : 130;
-  ctx.font = `bold ${fontSize}px ${FONT}`;
-  ctx.shadowColor = 'rgba(0,0,0,0.8)';
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-  ctx.fillText(displayNum, size / 2, size / 2);
+  const cx = size / 2;
+  const cy = size / 2;
 
+  // Soft dark medallion behind the number for readability on reflective faces
+  const medallion = ctx.createRadialGradient(cx, cy, size * 0.05, cx, cy, size * 0.46);
+  medallion.addColorStop(0, 'rgba(0,0,0,0.38)');
+  medallion.addColorStop(0.7, 'rgba(0,0,0,0.16)');
+  medallion.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = medallion;
+  ctx.beginPath();
+  ctx.arc(cx, cy, size * 0.46, 0, Math.PI * 2);
+  ctx.fill();
+
+  const fontPx = displayNum.length > 2 ? size * 0.34 : displayNum.length > 1 ? size * 0.42 : size * 0.5;
+  drawPremiumNumber(ctx, displayNum, cx, cy, fontPx, numberColor);
+
+  // Disambiguation bar for 6 / 9
   if (displayNum === '6' || displayNum === '9') {
-    ctx.fillRect(size / 2 - 30, size / 2 + 65, 60, 6);
+    const w = fontPx * 0.6;
+    const h = Math.max(6, fontPx * 0.06);
+    const uy = cy + fontPx * 0.58;
+    const barColor = new THREE.Color(numberColor || '#dbb85c');
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = `#${barColor.getHexString()}`;
+    ctx.beginPath();
+    ctx.roundRect(cx - w / 2, uy, w, h, h / 2);
+    ctx.fill();
+    ctx.restore();
   }
 
   const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
   return tex;
 }
 
@@ -73,36 +393,17 @@ function createD4FaceTexture(nTop, nRight, nLeft, numberColor) {
   canvas.height = size;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = numberColor || '#c9a84c';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.font = `bold 80px ${FONT}`;
-  ctx.shadowColor = 'rgba(0,0,0,0.8)';
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-
-  const R = 95;
+  const R = 100;
   const cx = 256, cy = 256;
+  const fontPx = 88;
 
-  ctx.save();
-  ctx.translate(cx, cy - R);
-  ctx.fillText(nTop, 0, 0);
-  ctx.restore();
-
-  ctx.save();
-  ctx.translate(cx + R * Math.cos(Math.PI / 6), cy + R * Math.sin(Math.PI / 6));
-  ctx.rotate(120 * Math.PI / 180);
-  ctx.fillText(nRight, 0, 0);
-  ctx.restore();
-
-  ctx.save();
-  ctx.translate(cx - R * Math.cos(Math.PI / 6), cy + R * Math.sin(Math.PI / 6));
-  ctx.rotate(-120 * Math.PI / 180);
-  ctx.fillText(nLeft, 0, 0);
-  ctx.restore();
+  drawPremiumNumber(ctx, nTop, cx, cy - R, fontPx, numberColor);
+  drawPremiumNumber(ctx, nRight, cx + R * Math.cos(Math.PI / 6), cy + R * Math.sin(Math.PI / 6), fontPx, numberColor, 120 * Math.PI / 180);
+  drawPremiumNumber(ctx, nLeft, cx - R * Math.cos(Math.PI / 6), cy + R * Math.sin(Math.PI / 6), fontPx, numberColor, -120 * Math.PI / 180);
 
   const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
   return tex;
 }
 
@@ -141,14 +442,14 @@ function generateD10Geometry() {
 
 function generateBaseGeometry(type) {
   if (type === 'd4') return new THREE.TetrahedronGeometry(1.6);
-  if (type === 'd6') return new THREE.BoxGeometry(1.4, 1.4, 1.4);
+  if (type === 'd6') return new RoundedBoxGeometry(1.5, 1.5, 1.5, 3, 0.16);
   if (type === 'd8') return new THREE.OctahedronGeometry(1.3);
   if (type === 'd12') return new THREE.DodecahedronGeometry(1.1);
   if (type === 'd20') return new THREE.IcosahedronGeometry(1.2);
   if (type === 'd10' || type === 'dpercent') return generateD10Geometry();
 }
 
-function createInnerParticles(preset, innerColor) {
+function createInnerParticles(preset, innerColor, spriteTexture) {
   if (!preset || !preset.innerEffect) return null;
 
   const effect = preset.innerEffect;
@@ -205,19 +506,27 @@ function createInnerParticles(preset, innerColor) {
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-  const color = new THREE.Color(innerColor || '#ffffff');
+  // Dark-colored effects (frost blue, void purple) need NormalBlending on
+  // the light parchment table — additive of dark on light is barely visible.
+  // Everything else uses AdditiveBlending so the shapes glow.
+  const useNormal = effect === 'frost' || effect === 'void';
+  const materialColor = useNormal
+    ? new THREE.Color('#ffffff')
+    : new THREE.Color(innerColor || '#ffffff');
+
   const material = new THREE.PointsMaterial({
-    color: color,
-    size: 0.1,
+    color: materialColor,
+    size: 0.20,
+    map: spriteTexture || null,
     transparent: true,
-    opacity: 0.85,
-    blending: THREE.AdditiveBlending,
+    opacity: useNormal ? 0.75 : 0.9,
+    blending: useNormal ? THREE.NormalBlending : THREE.AdditiveBlending,
     depthWrite: false,
     sizeAttenuation: true,
   });
 
   const points = new THREE.Points(geometry, material);
-  points.userData = { velocities, lifetimes, effect };
+  points.userData = { velocities, lifetimes, effect, spriteTexture };
 
   return points;
 }
@@ -256,17 +565,17 @@ function updateInnerParticles(particles, dt) {
 
   if (effect === 'lightning' && Math.random() < 0.12) {
     particles.material.opacity = 1.0;
-    particles.material.size = 0.18;
+    particles.material.size = 0.26;
   } else if (effect === 'fire' && Math.random() < 0.15) {
     particles.material.opacity = 1.0;
-    particles.material.size = 0.16;
+    particles.material.size = 0.30;
   } else {
-    particles.material.opacity += (0.75 - particles.material.opacity) * dt * 5;
-    particles.material.size += (0.1 - particles.material.size) * dt * 5;
+    particles.material.opacity += (0.85 - particles.material.opacity) * dt * 5;
+    particles.material.size += (0.20 - particles.material.size) * dt * 5;
   }
 }
 
-function createOuterParticles(preset) {
+function createOuterParticles(preset, spriteTexture) {
   if (!preset || !preset.outerEffect) return null;
 
   const effect = preset.outerEffect;
@@ -345,18 +654,37 @@ function createOuterParticles(preset) {
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
+  // Per-preset sized so each themed shape is clearly readable on the
+  // parchment table. Particles drift just outside the die so they're not
+  // occluded by the body.
+  const sizeByEffect = {
+    frost: 0.28,
+    fire: 0.26,
+    lightning: 0.22,
+    void: 0.26,
+    nature: 0.26,
+  };
+
+  // Particles with dark colors (frost blue, void purple) don't read well
+  // additively on the light parchment table — additive of dark on light is
+  // barely visible. Switch them to NormalBlending so the dark colors
+  // actually paint over the background.
+  const useNormal = effect === 'frost' || effect === 'void';
+
   const material = new THREE.PointsMaterial({
-    size: effect === 'lightning' ? 0.14 : effect === 'fire' ? 0.12 : 0.1,
+    size: sizeByEffect[effect] || 0.24,
+    color: 0xffffff,
+    map: spriteTexture || null,
     transparent: true,
-    opacity: 0.9,
-    blending: THREE.AdditiveBlending,
+    opacity: useNormal ? 0.85 : 0.95,
+    blending: useNormal ? THREE.NormalBlending : THREE.AdditiveBlending,
     depthWrite: false,
     sizeAttenuation: true,
     vertexColors: true,
   });
 
   const points = new THREE.Points(geometry, material);
-  points.userData = { velocities, lifetimes, maxLifetimes, effect };
+  points.userData = { velocities, lifetimes, maxLifetimes, effect, spriteTexture };
   return points;
 }
 
@@ -389,59 +717,40 @@ function updateOuterParticles(particles, dt) {
   if (effect === 'lightning') {
     if (Math.random() < 0.18) {
       particles.material.opacity = 1.0;
-      particles.material.size = 0.22;
+      particles.material.size = 0.32;
     } else {
-      particles.material.opacity += (0.5 - particles.material.opacity) * dt * 8;
-      particles.material.size += (0.14 - particles.material.size) * dt * 8;
+      particles.material.opacity += (0.8 - particles.material.opacity) * dt * 8;
+      particles.material.size += (0.22 - particles.material.size) * dt * 8;
     }
   } else if (effect === 'fire') {
     if (Math.random() < 0.1) {
       particles.material.opacity = 1.0;
-      particles.material.size = 0.2;
+      particles.material.size = 0.34;
     } else {
-      particles.material.opacity += (0.7 - particles.material.opacity) * dt * 4;
-      particles.material.size += (0.12 - particles.material.size) * dt * 4;
+      particles.material.opacity += (0.9 - particles.material.opacity) * dt * 4;
+      particles.material.size += (0.26 - particles.material.size) * dt * 4;
     }
   } else if (effect === 'frost') {
     if (Math.random() < 0.06) {
       particles.material.opacity = 1.0;
-      particles.material.size = 0.18;
+      particles.material.size = 0.34;
     } else {
-      particles.material.opacity += (0.65 - particles.material.opacity) * dt * 3;
-      particles.material.size += (0.1 - particles.material.size) * dt * 3;
+      particles.material.opacity += (0.85 - particles.material.opacity) * dt * 3;
+      particles.material.size += (0.28 - particles.material.size) * dt * 3;
     }
   } else if (effect === 'void') {
-    particles.material.opacity += (0.55 - particles.material.opacity) * dt * 2;
-    particles.material.size += (0.1 - particles.material.size) * dt * 2;
+    particles.material.opacity += (0.95 - particles.material.opacity) * dt * 2;
+    particles.material.size += (0.26 - particles.material.size) * dt * 2;
   } else if (effect === 'nature') {
-    particles.material.opacity += (0.6 - particles.material.opacity) * dt * 3;
-    particles.material.size += (0.1 - particles.material.size) * dt * 3;
+    particles.material.opacity += (0.9 - particles.material.opacity) * dt * 3;
+    particles.material.size += (0.26 - particles.material.size) * dt * 3;
   }
 }
 
 function createGlowAura(preset) {
-  if (!preset || !preset.glowColor) return null;
-
-  const glowColor = new THREE.Color(preset.glowColor);
-  const geometry = new THREE.SphereGeometry(1.8, 32, 32);
-  const material = new THREE.MeshBasicMaterial({
-    color: glowColor,
-    transparent: true,
-    opacity: preset.glowIntensity * 0.3,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    side: THREE.BackSide,
-  });
-
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.userData = {
-    baseIntensity: preset.glowIntensity,
-    baseOpacity: preset.glowIntensity * 0.3,
-    phase: Math.random() * Math.PI * 2,
-    effect: preset.innerEffect || preset.outerEffect,
-  };
-
-  return mesh;
+  // Disabled: the additive aura sphere was designed for the old dark void
+  // backdrop. On the real (light) table it renders as a hazy halo blob.
+  return null;
 }
 
 function updateGlowAura(glow, dt, time) {
@@ -884,37 +1193,80 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   const group = new THREE.Group();
   const edgeColor = preset ? preset.edgeColor : '#c9a84c';
   const numberColor = preset ? preset.numberColor : '#c9a84c';
-  const bodyColor = colorHex || (preset ? preset.bodyColor : '#1a0f30');
+  const baseBodyColor = colorHex || (preset ? preset.bodyColor : '#1a0f30');
+  // Per-die subtle color variation so a set doesn't look stamped.
+  const bodyColor = varyDieColor(new THREE.Color(baseBodyColor));
   const emissive = preset ? preset.emissive : '#1a0f30';
   const emissiveIntensity = preset ? preset.emissiveIntensity : 0.15;
   const transparent = preset ? preset.transparent : false;
   const opacity = preset ? preset.opacity : 1.0;
-  const roughness = preset ? (preset.roughness !== undefined ? preset.roughness : 0.2) : 0.2;
-  const metalness = preset ? (preset.metalness !== undefined ? preset.metalness : 0.6) : 0.6;
+  // Less glossy floor: never let preset roughness drop below 0.45 (no plastic
+  // mirror) and never let metalness exceed 0.35.
+  const presetRoughness = preset ? (preset.roughness !== undefined ? preset.roughness : 0.55) : 0.55;
+  const roughness = Math.max(0.45, presetRoughness);
+  const presetMetalness = preset ? (preset.metalness !== undefined ? preset.metalness : 0.4) : 0.4;
+  const metalness = Math.min(0.35, presetMetalness);
+
+  // Per-die surface textures so no two dice look stamped from the same mold.
+  // Cheap (a few ms) — a 512x512 canvas of smooth FBM noise.
+  const surfaceTextures = createBodySurfaceTextures(Math.floor(Math.random() * 0x7fffffff));
+  const normalMap = surfaceTextures.normalMap;
+  const roughnessMap = surfaceTextures.roughnessMap;
 
   let geom = generateBaseGeometry(type);
-  geom = geom.toNonIndexed();
+  geom = geom.index ? geom.toNonIndexed() : geom;
   geom.computeVertexNormals();
 
   const posAttr = geom.attributes.position;
   const sides = [];
 
-  for (let i = 0; i < posAttr.count; i += 3) {
-    const vA = new THREE.Vector3(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
-    const vB = new THREE.Vector3(posAttr.getX(i + 1), posAttr.getY(i + 1), posAttr.getZ(i + 1));
-    const vC = new THREE.Vector3(posAttr.getX(i + 2), posAttr.getY(i + 2), posAttr.getZ(i + 2));
-
-    const faceNormal = new THREE.Vector3().subVectors(vB, vA).cross(new THREE.Vector3().subVectors(vC, vA)).normalize();
-
-    const tolerance = (type === 'd10' || type === 'dpercent') ? 0.2 : 0.05;
-    let side = sides.find(s => s.normal.angleTo(faceNormal) < tolerance);
-    if (!side) {
-      side = { normal: faceNormal.clone(), vertices: [], centroid: new THREE.Vector3() };
-      sides.push(side);
-    } else {
-      side.normal.add(faceNormal).normalize();
+  // For d6 (RoundedBoxGeometry), the 6 main faces have well-known axis-aligned
+  // positions and normals regardless of how the underlying geometry clusters
+  // its triangles. Hardcoding the 6 sides gives a deterministic number layout
+  // (and a clean plate placement) without depending on the cluster filter.
+  if (type === 'd6') {
+    const D6_AXES = [
+      { normal: new THREE.Vector3( 0,  1,  0), centroid: new THREE.Vector3( 0,  0.75,  0) },
+      { normal: new THREE.Vector3( 0, -1,  0), centroid: new THREE.Vector3( 0, -0.75,  0) },
+      { normal: new THREE.Vector3( 1,  0,  0), centroid: new THREE.Vector3( 0.75, 0,  0) },
+      { normal: new THREE.Vector3(-1,  0,  0), centroid: new THREE.Vector3(-0.75, 0,  0) },
+      { normal: new THREE.Vector3( 0,  0,  1), centroid: new THREE.Vector3( 0,  0,  0.75) },
+      { normal: new THREE.Vector3( 0,  0, -1), centroid: new THREE.Vector3( 0,  0, -0.75) },
+    ];
+    for (const a of D6_AXES) {
+      sides.push({
+        normal: a.normal.clone(),
+        referenceNormal: a.normal.clone(),
+        vertices: [a.centroid.clone()], // placeholder; used for plate positioning
+        centroid: a.centroid.clone(),
+      });
     }
-    side.vertices.push(vA, vB, vC);
+  } else {
+    for (let i = 0; i < posAttr.count; i += 3) {
+      const vA = new THREE.Vector3(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
+      const vB = new THREE.Vector3(posAttr.getX(i + 1), posAttr.getY(i + 1), posAttr.getZ(i + 1));
+      const vC = new THREE.Vector3(posAttr.getX(i + 2), posAttr.getY(i + 2), posAttr.getZ(i + 2));
+
+      const faceNormal = new THREE.Vector3().subVectors(vB, vA).cross(new THREE.Vector3().subVectors(vC, vA)).normalize();
+
+      const tolerance = (type === 'd10' || type === 'dpercent') ? 0.2 : 0.05;
+      let side = sides.find(s => s.referenceNormal.angleTo(faceNormal) < tolerance);
+      if (!side) {
+        side = { normal: faceNormal.clone(), referenceNormal: faceNormal.clone(), vertices: [], centroid: new THREE.Vector3() };
+        sides.push(side);
+      } else {
+        side.normal.add(faceNormal).normalize();
+      }
+      side.vertices.push(vA, vB, vC);
+    }
+  }
+
+  // Rounded/beveled geometry (d6) creates tiny extra normal clusters along the
+  // bevels — keep only the N largest clusters, i.e. the true faces.
+  const expectedFaces = { d4: 4, d6: 6, d8: 8, d10: 10, d12: 12, d20: 20, dpercent: 10 }[type];
+  if (expectedFaces && sides.length > expectedFaces) {
+    sides.sort((a, b) => b.vertices.length - a.vertices.length);
+    sides.length = expectedFaces;
   }
 
   const N = sides.length;
@@ -955,8 +1307,15 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
       const nRight = uniqueVerts.find(uv => uv.distanceTo(vRight) < 0.1).d4Num;
       const nLeft = uniqueVerts.find(uv => uv.distanceTo(vLeft) < 0.1).d4Num;
 
+      const faceTex = createD4FaceTexture(nTop, nRight, nLeft, numberColor);
       const plateMat = new THREE.MeshStandardMaterial({
-        map: createD4FaceTexture(nTop, nRight, nLeft, numberColor), transparent: true,
+        map: faceTex,
+        emissive: new THREE.Color(numberColor || '#dbb85c'),
+        emissiveMap: faceTex,
+        emissiveIntensity: 0.35,
+        roughness: 0.35,
+        metalness: 0.55,
+        transparent: true,
         depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1
       });
 
@@ -976,30 +1335,47 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
       color: bodyColor,
       roughness: roughness,
       metalness: metalness,
+      envMapIntensity: 0.3,
+      specularIntensity: 0.2,
       emissive: emissive,
       emissiveIntensity: emissiveIntensity,
       transparent: transparent,
       opacity: opacity,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      sheen: 1.0,
+      clearcoat: 0.0,
+      sheen: 0.1,
       sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
-      sheenRoughness: 0.2
+      sheenRoughness: 0.4,
+      normalMap: normalMap,
+      normalScale: new THREE.Vector2(0.55, 0.55),
+      roughnessMap: roughnessMap
     });
     const mesh = new THREE.Mesh(geom, solidMat);
     mesh.castShadow = true; mesh.receiveShadow = true;
     group.add(mesh);
 
-    const edges = new THREE.LineSegments(
-      new THREE.EdgesGeometry(geom),
-      new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 2, transparent: true, opacity: 0.8 })
-    );
+    // Thicker, screen-space edge lines via LineSegments2 (addons).
+    const edgeGeo = new THREE.EdgesGeometry(geom, 15);
+    const edgePositions = Array.from(edgeGeo.attributes.position.array);
+    const lineGeo = new LineSegmentsGeometry();
+    lineGeo.setPositions(edgePositions);
+    const lineMat = new LineMaterial({
+      color: edgeColor,
+      linewidth: 2.5,
+      worldUnits: false,
+      transparent: true,
+      opacity: 0.95,
+      depthTest: true
+    });
+    const edges = new LineSegments2(lineGeo, lineMat);
+    edges.computeLineDistances();
     group.add(edges);
 
-    const innerParticles = createInnerParticles(preset, preset?.innerColor);
+    const innerSprite = preset?.innerEffect ? getParticleTexture(preset.innerEffect) : null;
+    const outerSprite = preset?.outerEffect ? getParticleTexture(preset.outerEffect) : null;
+    const innerParticles = createInnerParticles(preset, preset?.innerColor, innerSprite);
     if (innerParticles) group.add(innerParticles);
 
-    const outerParticles = createOuterParticles(preset);
+    const outerParticles = createOuterParticles(preset, outerSprite);
     if (outerParticles) group.add(outerParticles);
 
     const glowAura = createGlowAura(preset);
@@ -1008,16 +1384,23 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
     const themeGeometry = createThemeGeometry(preset);
     if (themeGeometry) group.add(themeGeometry);
 
-    return { group, sides, maxNumber: 4, d4Verts: uniqueVerts, innerParticles, outerParticles, glowAura, themeGeometry };
+    return { group, sides, maxNumber: 4, d4Verts: uniqueVerts, innerParticles, outerParticles, glowAura, themeGeometry, surfaceTextures };
   }
 
   let numbers = [];
   if (type === 'dpercent') {
+    // Standard d10 percentiles: 00-90 in opposite-pairs (00-90, 10-80, 20-70...).
     numbers = [10, 2, 8, 4, 6, 3, 7, 5, 1, 9];
   } else if (N === 10) {
     numbers = [10, 2, 8, 4, 6, 3, 7, 5, 1, 9];
   } else if (N === 20) {
     numbers = [20, 1, 14, 9, 12, 5, 8, 13, 3, 18, 7, 16, 2, 19, 6, 15, 11, 10, 4, 17];
+  } else if (type === 'd6') {
+    // Standard d6: opposite faces sum to 7. After sort-by-(y desc, angle asc)
+    // the order is [top, side0, side1, side2, side3, bottom] — pairs of
+    // opposite sides are at indices (0,5), (1,3), (2,4). Assign numbers
+    // accordingly so 1↔6, 2↔5, 3↔4.
+    numbers = [1, 2, 3, 5, 4, 6];
   } else {
     for (let i = 1; i <= N; i++) numbers.push(i);
   }
@@ -1030,14 +1413,49 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   });
 
   sides.forEach((side, i) => {
-    const sum = new THREE.Vector3();
-    side.vertices.forEach(v => sum.add(v));
-    side.centroid = sum.divideScalar(side.vertices.length);
+    // For d6 (RoundedBox), the centroid is exactly on the dominant axis
+    // (±0.75) and the normal is the axis direction. This guarantees the
+    // number plate is perfectly axis-aligned and centered on the face.
+    if (type === 'd6') {
+      const n = side.normal;
+      const ax = Math.abs(n.x), ay = Math.abs(n.y), az = Math.abs(n.z);
+      if (ax > ay && ax > az) {
+        const sx = Math.sign(side.normal.x);
+        side.normal.set(sx, 0, 0);
+        side.centroid.set(sx * 0.75, 0, 0);
+      } else if (ay > az) {
+        const sy = Math.sign(side.normal.y);
+        side.normal.set(0, sy, 0);
+        side.centroid.set(0, sy * 0.75, 0);
+      } else {
+        const sz = Math.sign(side.normal.z);
+        side.normal.set(0, 0, sz);
+        side.centroid.set(0, 0, sz * 0.75);
+      }
+    } else {
+      const sum = new THREE.Vector3();
+      side.vertices.forEach(v => sum.add(v));
+      side.centroid = sum.divideScalar(side.vertices.length);
+    }
     side.num = numbers[i];
 
-    let pSize = type === 'd20' ? 0.65 : (type === 'd10' || type === 'dpercent') ? 0.6 : type === 'd12' ? 0.7 : 0.8;
+    // d6 face is ~1.18 wide (RoundedBox 1.5 minus bevel) — a 0.95 plate covers
+    // ~80% of the flat face so the number is clearly readable.
+    // d20/d12/d10 use smaller plates because their faces are smaller polygons.
+    let pSize = type === 'd6' ? 0.95
+              : type === 'd20' ? 0.7
+              : type === 'd12' ? 0.75
+              : (type === 'd10' || type === 'dpercent') ? 0.62
+              : 0.8;
+    const numTex = createNumberTextureWithColor(side.num, type, numberColor);
     const plateMat = new THREE.MeshStandardMaterial({
-      map: createNumberTextureWithColor(side.num, type, numberColor), transparent: true,
+      map: numTex,
+      emissive: new THREE.Color(numberColor || '#dbb85c'),
+      emissiveMap: numTex,
+      emissiveIntensity: 0.4,
+      roughness: 0.35,
+      metalness: 0.55,
+      transparent: true,
       depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1
     });
     const plate = new THREE.Mesh(new THREE.PlaneGeometry(pSize, pSize), plateMat);
@@ -1063,7 +1481,12 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
         });
         plate.up.copy(bestV.clone().sub(side.centroid).normalize());
       }
-      plate.position.copy(side.centroid).multiplyScalar(type === 'd20' ? 1.02 : 1.03);
+      // d6 RoundedBox face is a flat plane at the centroid's full extent
+      // (±0.75), so 1.005 keeps the plate flush with the face (no z-fight,
+      // polygonOffset handles the rest). Sharp polyhedra need a slight lift
+      // (1.02-1.03) because their face centroids can sit inside the body.
+      const platePosMul = type === 'd6' ? 1.005 : type === 'd20' ? 1.02 : 1.03;
+      plate.position.copy(side.centroid).multiplyScalar(platePosMul);
       plate.lookAt(side.centroid.clone().add(side.normal));
     }
 
@@ -1075,30 +1498,48 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
     color: bodyColor,
     roughness: roughness,
     metalness: metalness,
+    envMapIntensity: 0.3,
+    specularIntensity: 0.2,
     emissive: emissive,
     emissiveIntensity: emissiveIntensity,
     transparent: transparent,
     opacity: opacity,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.1,
-    sheen: 1.0,
+    clearcoat: 0.0,
+    sheen: 0.1,
     sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
-    sheenRoughness: 0.2
+    sheenRoughness: 0.4,
+    normalMap: normalMap,
+    normalScale: new THREE.Vector2(0.55, 0.55),
+    roughnessMap: roughnessMap
   });
   const mesh = new THREE.Mesh(geom, solidMat);
   mesh.castShadow = true; mesh.receiveShadow = true;
   group.add(mesh);
 
-  const edges = new THREE.LineSegments(
-    new THREE.EdgesGeometry(geom),
-    new THREE.LineBasicMaterial({ color: edgeColor, linewidth: 2, transparent: true, opacity: 0.8 })
-  );
+  // Real 3D-feeling edge bevels via LineSegments2 (addons) — supports
+  // screen-space pixel width that LineSegments can't.
+  const edgeGeo = new THREE.EdgesGeometry(geom, 15);
+  const edgePositions = Array.from(edgeGeo.attributes.position.array);
+  const lineGeo = new LineSegmentsGeometry();
+  lineGeo.setPositions(edgePositions);
+  const lineMat = new LineMaterial({
+    color: edgeColor,
+    linewidth: 2.5,
+    worldUnits: false,
+    transparent: true,
+    opacity: 0.95,
+    depthTest: true
+  });
+  const edges = new LineSegments2(lineGeo, lineMat);
+  edges.computeLineDistances();
   group.add(edges);
 
-  const innerParticles = createInnerParticles(preset, preset?.innerColor);
+  const innerSprite = preset?.innerEffect ? getParticleTexture(preset.innerEffect) : null;
+  const outerSprite = preset?.outerEffect ? getParticleTexture(preset.outerEffect) : null;
+  const innerParticles = createInnerParticles(preset, preset?.innerColor, innerSprite);
   if (innerParticles) group.add(innerParticles);
 
-  const outerParticles = createOuterParticles(preset);
+  const outerParticles = createOuterParticles(preset, outerSprite);
   if (outerParticles) group.add(outerParticles);
 
   const glowAura = createGlowAura(preset);
@@ -1107,7 +1548,7 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   const themeGeometry = createThemeGeometry(preset);
   if (themeGeometry) group.add(themeGeometry);
 
-  return { group, sides, maxNumber: N, innerParticles, outerParticles, glowAura, themeGeometry };
+  return { group, sides, maxNumber: N, innerParticles, outerParticles, glowAura, themeGeometry, surfaceTextures };
 }
 
 function createPhysicsBody(geom) {
@@ -1160,7 +1601,15 @@ const PhysicsDiceScene = ({
   const physicsMaterialRef = useRef(null);
   const boundsRef = useRef({ x: 10, z: 10 });
   const groundMeshRef = useRef(null);
-  const gridRef = useRef(null);
+  const envMapRef = useRef(null);
+  const lineMaterialsRef = useRef([]);
+  const dismissTimerRef = useRef(null);
+  // Remember the most recent rollContext so Reroll can re-apply the same
+  // mode (Advantage / Double Advantage / etc.) — without this, the
+  // finishAllRolls after a reroll has no context to read (finishRoll
+  // clears it from the store), so the reroll result is processed as a
+  // plain roll with no advantage math.
+  const lastRollContextRef = useRef(null);
 
   const getPreset = useCallback(() => {
     return DICE_PRESETS[activePreset] || DICE_PRESETS.classic;
@@ -1176,32 +1625,44 @@ const PhysicsDiceScene = ({
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(w, h);
+    renderer.setClearColor(0x000000, 0); // fully transparent — the table shows through
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.0;
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0a10, 0.015);
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
-    camera.position.set(0, 24, 0);
+    // Image-based lighting: realistic PBR reflections on the dice bodies
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = envTex;
+    scene.environmentIntensity = 0.3;
+    envMapRef.current = envTex;
+    pmrem.dispose();
+
+    // Per-die surface textures are generated inside buildDiceObject so each
+    // die in a set has unique character (no shared surface pattern).
+
+    const camera = new THREE.PerspectiveCamera(44, w / h, 0.1, 100);
+    camera.position.set(0, 16, 0);
     camera.up.set(0, 0, -1);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
-    scene.add(new THREE.AmbientLight(0x3a3a50, 0.8));
+    scene.add(new THREE.AmbientLight(0x404050, 0.45));
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e8, 2.5);
-    keyLight.position.set(4, 20, 6);
+    const keyLight = new THREE.DirectionalLight(0xfff5e8, 2.2);
+    keyLight.position.set(8, 16, 9); // angled — avoids straight-down mirror flash into the top-down camera
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 2048;
     keyLight.shadow.mapSize.height = 2048;
     keyLight.shadow.camera.near = 0.5;
     keyLight.shadow.camera.far = 40;
+    keyLight.shadow.bias = -0.0004;
     const d = 14;
     keyLight.shadow.camera.left = -d;
     keyLight.shadow.camera.right = d;
@@ -1209,11 +1670,11 @@ const PhysicsDiceScene = ({
     keyLight.shadow.camera.bottom = -d;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x5a7aaa, 0.9);
+    const fillLight = new THREE.DirectionalLight(0x5a7aaa, 0.55);
     fillLight.position.set(-8, 10, -8);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(0x6688cc, 0.6);
+    const rimLight = new THREE.DirectionalLight(0x6688cc, 0.45);
     rimLight.position.set(0, 5, -12);
     scene.add(rimLight);
 
@@ -1221,19 +1682,14 @@ const PhysicsDiceScene = ({
     dieGlowRef.current = dieGlow;
     scene.add(dieGlow);
 
-    const preset = DICE_PRESETS[activePreset] || DICE_PRESETS.classic;
+    // Invisible ground plane: catches soft shadows so dice sit ON the table
     const groundGeo = new THREE.PlaneGeometry(100, 100);
-    const groundMat = new THREE.MeshStandardMaterial({ color: preset.groundColor || 0x14141c, roughness: 0.9, metalness: 0.1 });
+    const groundMat = new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.38 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
     scene.add(ground);
     groundMeshRef.current = ground;
-
-    const gridHelper = new THREE.GridHelper(100, 50, 0x303040, 0x1e1e28);
-    gridHelper.position.y = 0.01;
-    scene.add(gridHelper);
-    gridRef.current = gridHelper;
 
     const world = new CANNON.World();
     world.gravity.set(0, -40, 0);
@@ -1297,12 +1753,19 @@ const PhysicsDiceScene = ({
     activeDiceRef.current.forEach(d => {
       scene.remove(d.diceObj.group);
       world.removeBody(d.body);
+      // Dispose per-die surface textures (allocated per-die since the prior roll).
+      d.diceObj.surfaceTextures?.normalMap?.dispose();
+      d.diceObj.surfaceTextures?.roughnessMap?.dispose();
     });
     activeDiceRef.current = [];
     resultsRef.current = [];
     settlingFramesRef.current = [];
     onCompleteFiredRef.current = false;
     setResultState(null);
+    // Clear stale skill outcome and any line materials from the previous roll.
+    useDiceStore.setState({ skillOutcome: null });
+    lineMaterialsRef.current.forEach((m) => m.dispose && m.dispose());
+    lineMaterialsRef.current = [];
 
     const { x: boundX, z: boundZ } = boundsRef.current;
     const preset = getPreset();
@@ -1313,9 +1776,18 @@ const PhysicsDiceScene = ({
     diceToRoll.forEach((die, index) => {
       const diceType = die.type;
       const diceObj = buildDiceObject(diceType, diceColor, preset, renderer, scene);
-      const geom = generateBaseGeometry(diceType).toNonIndexed();
-      geom.computeVertexNormals();
-      const shape = createPhysicsBody(geom);
+      // Rounded d6 uses a simple box physics proxy — a ConvexPolyhedron built
+      // from beveled geometry has near-degenerate faces that destabilize the
+      // solver (dice never settle / fall through). A box is robust and feels right.
+      let shape;
+      if (diceType === 'd6') {
+        shape = new CANNON.Box(new CANNON.Vec3(0.74, 0.74, 0.74));
+      } else {
+        let physGeom = generateBaseGeometry(diceType);
+        physGeom = physGeom.index ? physGeom.toNonIndexed() : physGeom;
+        physGeom.computeVertexNormals();
+        shape = createPhysicsBody(physGeom);
+      }
       const body = new CANNON.Body({
         mass: 10,
         material: physicsMaterialRef.current,
@@ -1366,6 +1838,14 @@ const PhysicsDiceScene = ({
         yawT: 0,
         yawActive: false,
         rolledNumber: 0,
+      });
+
+      // Register the new LineMaterial so its resolution tracks viewport size.
+      diceObj.group.traverse((obj) => {
+        if (obj.isLineSegments2 && obj.material && !lineMaterialsRef.current.includes(obj.material)) {
+          obj.material.resolution.set(containerRef.current.clientWidth, containerRef.current.clientHeight);
+          lineMaterialsRef.current.push(obj.material);
+        }
       });
 
       settlingFramesRef.current.push(0);
@@ -1573,7 +2053,9 @@ const PhysicsDiceScene = ({
 
         activeDiceRef.current.forEach((die, idx) => {
           if (die.isPercentilePair) {
-            const groupKey = diceToRoll[idx]?.id?.replace(/_[dp][0-9]*$/, '') || `pair_${idx}`;
+            // Dice ids look like "d100_1730..._0_pct" / "d100_1730..._0_d10" —
+            // strip the "_pct" / "_d10" suffix so both halves land in ONE group.
+            const groupKey = diceToRoll[idx]?.id?.replace(/_(pct|d\d+)$/, '') || `pair_${idx}`;
             if (!pairGroups[groupKey]) pairGroups[groupKey] = {};
             if (die.type === 'dpercent') {
               pairGroups[groupKey].percentile = die.rolledNumber;
@@ -1603,12 +2085,24 @@ const PhysicsDiceScene = ({
         });
 
         const total = results.reduce((sum, r) => sum + r.value, 0);
+        // "MAXIMUM DAMAGE" / "CRITICAL FAILURE" labels are only accurate when
+        // EVERY die in the pool hit its extreme. For a single die, that's
+        // its own max/min; for multi-die pools, ALL dice need to be max/min
+        // (e.g. 3d4=12 for max damage, 3d4=3 for min). Per-die max for 3d4
+        // would say "MAXIMUM DAMAGE" for any total ≥ 4, which is wrong.
         const maxValues = results.map(r => {
+          if (r.type === 'd100') return 100;
           const diceType = r.type.replace('d', '');
-          return parseInt(diceType) || 20;
+          return parseInt(diceType, 10) || 20;
         });
-        const hasCrit = results.some((r, i) => r.value === maxValues[i] && r.type !== 'd100');
-        const hasFail = results.some(r => r.value === 1);
+        const minValues = results.map(r => {
+          if (r.type === 'd100') return 1;
+          return 1;
+        });
+        const allMaxed = results.length > 0 && results.every((r, i) => r.value === maxValues[i]);
+        const allMinned = results.length > 0 && results.every((r, i) => r.value === minValues[i]);
+        const hasCrit = allMaxed;
+        const hasFail = allMinned;
 
         setResultState({ results, total, hasCrit, hasFail });
 
@@ -1682,6 +2176,13 @@ const PhysicsDiceScene = ({
 
   useEffect(() => {
     if (!isVisible || diceToRoll.length === 0) return;
+    // When a roll kicks off, snapshot the current rollContext from the
+    // dice store so a Reroll can re-apply the same mode (advantage /
+    // disadvantage / etc.) — finishRoll clears rollContext from the
+    // store on completion, so we wouldn't otherwise know it on reroll.
+    if (useDiceStore.getState().rollContext) {
+      lastRollContextRef.current = useDiceStore.getState().rollContext;
+    }
     throwAllDice();
   }, [isVisible, diceToRoll, throwAllDice]);
 
@@ -1707,6 +2208,8 @@ const PhysicsDiceScene = ({
       rendererRef.current.setSize(w, h);
       cameraRef.current.aspect = w / h;
       cameraRef.current.updateProjectionMatrix();
+      // LineMaterial needs the viewport resolution for its screen-space line widths.
+      lineMaterialsRef.current.forEach((m) => m.resolution.set(w, h));
       updateBounds(w, h);
     };
 
@@ -1716,6 +2219,17 @@ const PhysicsDiceScene = ({
 
   useEffect(() => {
     return () => {
+      if (dismissTimerRef.current) {
+        clearTimeout(dismissTimerRef.current);
+        dismissTimerRef.current = null;
+      }
+      if (envMapRef.current) {
+        envMapRef.current.dispose();
+        envMapRef.current = null;
+      }
+      lineMaterialsRef.current.forEach((m) => m.dispose && m.dispose());
+      lineMaterialsRef.current = [];
+      disposeParticleTextureCache();
       if (rendererRef.current) {
         rendererRef.current.dispose();
         if (rendererRef.current.domElement.parentElement) {
@@ -1730,14 +2244,20 @@ const PhysicsDiceScene = ({
     };
   }, []);
 
-  const handleClickBackground = useCallback((e) => {
-    if (e.target.closest('.dice-3d-result-area') || e.target.closest('.dice-3d-reroll-btn') || e.target.closest('.dice-3d-close-btn')) {
-      return;
-    }
-    if (onDismiss && resultState && !isRolling) {
+  // Auto-dismiss the result chip after a few seconds — it is informational,
+  // not modal. A reroll or a manual Dismiss clears the timer.
+  useEffect(() => {
+    if (!resultState || isRolling || !onDismiss) return;
+    dismissTimerRef.current = setTimeout(() => {
       onDismiss();
-    }
-  }, [onDismiss, resultState, isRolling]);
+    }, 7000);
+    return () => {
+      if (dismissTimerRef.current) {
+        clearTimeout(dismissTimerRef.current);
+        dismissTimerRef.current = null;
+      }
+    };
+  }, [resultState, isRolling, onDismiss]);
 
   const formatResultDisplay = useCallback((value, type) => {
     if (type === 'd10' && value === 10) return '0';
@@ -1747,41 +2267,82 @@ const PhysicsDiceScene = ({
   }, []);
 
   return (
-    <div className={`dice-3d-overlay ${isVisible ? 'visible' : ''}`} onClick={handleClickBackground}>
+    <div className={`dice-3d-overlay ${isVisible ? 'visible' : ''}`}>
       <div className="dice-3d-canvas-container" ref={containerRef} />
 
       {resultState && (
-        <div className={`dice-3d-result-area ${skillOutcome ? skillOutcome.type : (resultState.hasCrit ? 'crit' : '')} ${!skillOutcome && resultState.hasFail ? 'fail' : ''}`}>
-          <div className="dice-3d-result-label">
-            {skillOutcome ? skillOutcome.skillName.toUpperCase() : 'Result'}
-          </div>
+        <div className={`dice-3d-result-area ${skillOutcome ? skillOutcome.type : (resultState.hasCrit ? 'crit' : '')} ${!skillOutcome && resultState.hasFail ? 'fail' : ''} ${skillOutcome?.mode && skillOutcome.mode !== 'normal' ? `mode-${skillOutcome.mode}` : ''}`}>
           <div className={`dice-3d-result-number ${!skillOutcome && resultState.hasCrit ? 'nat20' : ''} ${!skillOutcome && resultState.hasFail ? 'nat1' : ''}`}>
-            {resultState.results.length === 1
-              ? formatResultDisplay(resultState.results[0].value, resultState.results[0].type)
-              : resultState.total}
+            {skillOutcome?.chosenValue != null
+              ? skillOutcome.chosenValue
+              : resultState.results.length === 1
+                ? formatResultDisplay(resultState.results[0].value, resultState.results[0].type)
+                : resultState.total}
           </div>
-          {skillOutcome ? (
-            <div className="dice-3d-result-breakdown" style={{ fontSize: '14px', marginTop: '4px', opacity: 0.8 }}>
-              {skillOutcome.message}
+          <div className="dice-3d-result-info">
+            <div className="dice-3d-result-label-row">
+              <span className="dice-3d-result-label">
+                {skillOutcome ? skillOutcome.skillName.toUpperCase() : 'Result'}
+              </span>
+              {skillOutcome?.mode && skillOutcome.mode !== 'normal' && (
+                <span
+                  className={`dice-3d-mode-badge dice-3d-mode-${skillOutcome.mode}`}
+                  title={{
+                    'advantage': 'Advantage — kept the highest of 2 dice',
+                    'disadvantage': 'Disadvantage — kept the lowest of 2 dice',
+                    'double-advantage': 'Double Advantage — kept the highest of 3 dice',
+                    'double-disadvantage': 'Double Disadvantage — kept the lowest of 3 dice',
+                  }[skillOutcome.mode] || ''}
+                >
+                  {skillOutcome.mode === 'advantage' ? 'ADV' :
+                   skillOutcome.mode === 'disadvantage' ? 'DIS' :
+                   skillOutcome.mode === 'double-advantage' ? '2×ADV' :
+                   skillOutcome.mode === 'double-disadvantage' ? '2×DIS' : ''}
+                </span>
+              )}
             </div>
-          ) : (
-            resultState.results.length > 1 && (
+            {(() => {
+              if (skillOutcome) {
+                if (!skillOutcome.flavor) return null;
+                return <div className="dice-3d-result-flavor">{skillOutcome.flavor}</div>;
+              }
+              if (resultState.hasCrit) {
+                return <div className="dice-3d-result-flavor nat20">MAXIMUM DAMAGE!</div>;
+              }
+              if (resultState.hasFail) {
+                return <div className="dice-3d-result-flavor nat1">CRITICAL FAILURE.</div>;
+              }
+              return <div className="dice-3d-result-flavor">Total: {resultState.total}</div>;
+            })()}
+            {skillOutcome ? (
               <div className="dice-3d-result-breakdown">
-                {resultState.results.map((r, i) => (
-                  <span key={i} className="dice-3d-breakdown-item">
-                    {r.type === 'd100'
-                      ? `D100: ${r.percentileValue !== undefined ? String(r.percentileValue).padStart(2, '0') : ''}+${r.d10Value || 0} = ${r.value}`
-                      : `${r.type.toUpperCase()}: ${formatResultDisplay(r.value, r.type)}`}
-                  </span>
-                ))}
+                <span className="dice-3d-breakdown-item">{skillOutcome.message}</span>
               </div>
-            )
-          )}
-          <div className={`dice-3d-result-flavor ${!skillOutcome && resultState.hasCrit ? 'nat20' : ''} ${!skillOutcome && resultState.hasFail ? 'nat1' : ''}`} style={{ fontSize: '15px', color: '#dbb85c', marginTop: '8px' }}>
-            {skillOutcome ? skillOutcome.flavor : (resultState.hasCrit ? 'MAXIMUM DAMAGE!' : resultState.hasFail ? 'CRITICAL FAILURE.' : `Total: ${resultState.total}`)}
+            ) : (
+              resultState.results.length > 1 && (
+                <div className="dice-3d-result-breakdown">
+                  {resultState.results.map((r, i) => (
+                    <span key={i} className="dice-3d-breakdown-item">
+                      {r.type === 'd100'
+                        ? `D100: ${r.percentileValue !== undefined ? String(r.percentileValue).padStart(2, '0') : ''}+${r.d10Value || 0} = ${r.value}`
+                        : `${r.type.toUpperCase()}: ${formatResultDisplay(r.value, r.type)}`}
+                    </span>
+                  ))}
+                </div>
+              )
+            )}
           </div>
           <div className="dice-3d-result-actions">
-            <button className="dice-3d-reroll-btn" onClick={(e) => { e.stopPropagation(); throwAllDice(); }}>
+            <button className="dice-3d-reroll-btn" onClick={(e) => {
+              e.stopPropagation();
+              // finishRoll() in the store clears rollContext after a roll
+              // completes; re-apply the last context so the advantage math
+              // runs on the reroll too.
+              if (lastRollContextRef.current) {
+                useDiceStore.setState({ rollContext: lastRollContextRef.current });
+              }
+              throwAllDice();
+            }}>
               Reroll
             </button>
             <button className="dice-3d-close-btn" onClick={(e) => { e.stopPropagation(); onDismiss && onDismiss(); }}>

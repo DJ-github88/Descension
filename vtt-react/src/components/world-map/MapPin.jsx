@@ -28,14 +28,29 @@ const MapPin = ({
 
   if (!icon) return null;
 
-  const outerFill = isErasing ? '#2c0c0c' : '#1c120a';
-  const outerStroke = isErasing
-    ? '#ff5252'
-    : (isSelected || isHovered ? '#ffe082' : '#C4A44A');
-  const innerStroke = isErasing
-    ? 'rgba(255, 82, 82, 0.4)'
-    : ((isSelected || isHovered) ? 'rgba(255, 224, 130, 0.6)' : 'rgba(255, 224, 130, 0.25)');
-  const pathFill = isErasing ? '#ff8a80' : ((isSelected || isHovered) ? '#ffffff' : '#ebd5a3');
+  // Pin Theme Palette based on pin type
+  const PIN_THEMES = {
+    city:       { border: '#F5D061', bg: '#6b1717', path: '#FFF5DC' },
+    fortress:   { border: '#F5D061', bg: '#6b1717', path: '#FFF5DC' },
+    settlement: { border: '#E6A145', bg: '#4d2d14', path: '#FFE5B4' },
+    house:      { border: '#E6A145', bg: '#4d2d14', path: '#FFE5B4' },
+    wilderness: { border: '#58D68D', bg: '#163d27', path: '#D4EFDF' },
+    tree:       { border: '#58D68D', bg: '#163d27', path: '#D4EFDF' },
+    mountain:   { border: '#5DADE2', bg: '#1b3452', path: '#E8F8F5' },
+    cave:       { border: '#5DADE2', bg: '#1b3452', path: '#E8F8F5' },
+    ruin:       { border: '#BB8FCE', bg: '#391b4d', path: '#F5EEF8' },
+    tomb:       { border: '#BB8FCE', bg: '#391b4d', path: '#F5EEF8' },
+    camp:       { border: '#F39C12', bg: '#4a2c00', path: '#FDEBD0' },
+    custom:     { border: '#F4D03F', bg: '#2a1a0e', path: '#FEF9E7' }
+  };
+
+  const theme = isErasing
+    ? { border: '#FF5252', bg: '#3D0A0A', path: '#FF8A80' }
+    : (PIN_THEMES[pinType] || PIN_THEMES.custom);
+
+  const markerBorder = isSelected || isHovered ? '#FFFFFF' : theme.border;
+  const markerFill = theme.bg;
+  const glyphFill = isSelected || isHovered ? '#FFFFFF' : theme.path;
 
   return (
     <g
@@ -71,82 +86,88 @@ const MapPin = ({
         }
       }}
       onContextMenu={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (devMode) {
-          e.preventDefault();
-          e.stopPropagation();
           onDeletePin(zoneId);
         }
       }}
       onMouseEnter={() => onHover(zoneId)}
       onMouseLeave={() => onLeave()}
-      style={{ cursor: devMode ? (devTool === 'erasePin' ? 'pointer' : (isMoveMode ? 'grab' : 'grab')) : 'pointer', pointerEvents: 'auto' }}
+      style={{ cursor: devMode ? (devTool === 'erasePin' ? 'pointer' : 'grab') : 'pointer', pointerEvents: 'auto' }}
     >
-      {hasDeep && (
-        <circle cx="0" cy="16" r="2.5" fill="#C4A44A" opacity="0.8" />
-      )}
-
-      {/* Selection pulse ring */}
+      {/* Pulse ring for selected pin */}
       {isSelected && (
-        <circle cx="0" cy="0" r="18" fill="none" stroke="#ffe082" strokeWidth="1" opacity="0.7" className="pin-selected-pulse" />
+        <circle cx="0" cy="-20" r="22" fill="none" stroke="#FFE082" strokeWidth="2" opacity="0.85" className="pin-selected-pulse" />
       )}
 
-      <g className="pin-icon-group">
-        {/* Outer gold ring */}
-        <circle
-          cx="0"
-          cy="0"
-          r="14"
-          fill={outerFill}
-          stroke={outerStroke}
-          strokeWidth={isSelected ? 2 : 1.5}
+      <g className="pin-icon-group" style={{ transition: 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)', transform: isHovered ? 'scale(1.2) translateY(-3px)' : 'scale(1)' }}>
+        {/* Outer Teardrop Pin Shield Path (Tip at 0, 0) */}
+        <path
+          d="M 0 0 C -12 -12 -14 -28 0 -36 C 14 -28 12 -12 0 0 Z"
+          fill={markerFill}
+          stroke={markerBorder}
+          strokeWidth={isSelected ? 2.5 : 1.8}
           filter="url(#pinShadow)"
           style={{ transition: 'stroke 0.2s ease, fill 0.2s ease' }}
         />
-        {/* Inner fine gold ring */}
+
+        {/* Inner Gold Bezel Ring */}
         <circle
           cx="0"
-          cy="0"
-          r="11"
+          cy="-22"
+          r="10"
           fill="none"
-          stroke={innerStroke}
-          strokeWidth="0.75"
-          style={{ transition: 'stroke 0.2s ease' }}
+          stroke={markerBorder}
+          strokeWidth="0.8"
+          opacity="0.6"
         />
 
-        {/* SVG Icon centered & scaled inside */}
-        <g transform="translate(-8, -8) scale(0.66)" style={{ pointerEvents: 'none' }}>
+        {/* SVG Glyph Icon Centered in Upper Head */}
+        <g transform="translate(-7, -29) scale(0.58)" style={{ pointerEvents: 'none' }}>
           <svg viewBox={icon.viewBox} width="24" height="24">
             <path
               d={icon.path}
-              fill={pathFill}
-              stroke="rgba(0, 0, 0, 0.6)"
+              fill={glyphFill}
+              stroke="rgba(0, 0, 0, 0.5)"
               strokeWidth="0.5"
               style={{ transition: 'fill 0.2s ease' }}
             />
           </svg>
         </g>
+
+        {/* Sub-map Badge Indicator */}
+        {hasDeep && (
+          <g transform="translate(10, -32)">
+            <circle cx="0" cy="0" r="5" fill="#1C120A" stroke="#F5D061" strokeWidth="1" />
+            <circle cx="0" cy="0" r="2" fill="#F5D061" />
+          </g>
+        )}
       </g>
 
-      {isHovered && (
+      {/* Hover Name Label */}
+      {isHovered && name && (
         <g className="pin-label-group" style={{ pointerEvents: 'none' }}>
           <rect
-            x={-name.length * 3.5}
-            y="16"
-            width={name.length * 7}
-            height="20"
-            rx="3"
-            fill="rgba(44, 24, 16, 0.9)"
-            stroke={isErasing ? 'rgba(255, 82, 82, 0.4)' : 'rgba(212, 175, 55, 0.3)'}
-            strokeWidth="0.5"
+            x={-name.length * 4 - 8}
+            y="-52"
+            width={name.length * 8 + 16}
+            height="22"
+            rx="4"
+            fill="rgba(18, 11, 6, 0.95)"
+            stroke={markerBorder}
+            strokeWidth="1"
+            filter="url(#pinShadow)"
           />
           <text
             x="0"
-            y="30"
+            y="-37"
             textAnchor="middle"
-            fill={isErasing ? '#ff8a80' : '#f0e6d2'}
+            fill="#FFF5DC"
             fontFamily="'Cinzel', serif"
-            fontSize="9"
-            style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}
+            fontSize="10"
+            fontWeight="600"
+            style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9)' }}
           >
             {name}
           </text>

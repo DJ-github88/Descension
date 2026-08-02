@@ -17,7 +17,6 @@ export const CRUSADER_DATA = {
 
   restrictions: {
     allowedSubraces: [
-      "solvarn_human",
       "skald_human",
       "thrask_solari",
       "silath_astril"
@@ -121,22 +120,6 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
   },
 
   subraceVariants: {
-    solvarn_human: {
-      subraceName: 'Solari',
-      title: 'The Starlight-Blade',
-      reframe: `Descendants of the original <LoreLink termId="house_solvan">Solvarn</LoreLink> knights who wielded the starlight blade at the Binding. To a Solari Crusader, every strike is an act of penance for the knife that flayed <LoreLink termId="aex">Aex</LoreLink>. They carry shattered fragments of starlight-forged steel embedded in their greatswords, converting ancestral guilt into blinding solar zeal.`,
-      signatureAbility: {
-        name: 'Starlight Resonance',
-        description: `Radiant Fervor builds 50% faster near Solvan relics or active sun-beacons. Standing on consecrated ground causes your Greatsword strikes to deal +1d4 bonus sacred damage.`
-      },
-      currentCrisisAngle: `The Dawn Vigil's schism cuts deepest among Solari Crusaders: the High Hierophants demand Crusaders reforge the Sundered Monoliths, while veteran Crusaders who have seen the Wyrd-taint in the 7th Monolith suspect the ritual is a trap engineered by Keth-Amar.`,
-      signatureQuote: {
-        text: '"My ancestor held the knife that flayed the star\'s child. I hold the blade that will cut down anything that tries to finish the meal."',
-        speaker: 'Lord-Captain Vane Solvan',
-        context: 'To a Dawn Vigil initiate before the charge into the Wyrd-breach'
-      }
-    },
-
     skald_human: {
       subraceName: 'Skald',
       title: 'The Frost-Hearth Zealot',

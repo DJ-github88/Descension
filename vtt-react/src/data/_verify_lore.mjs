@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const loreJsonPath = path.join(__dirname, '../../../public/data/lore.json');
+const loreJsonPath = path.join(__dirname, '../../public/data/lore.json');
 const dict = JSON.parse(fs.readFileSync(loreJsonPath, 'utf8'));
 const keys = Object.keys(dict);
 

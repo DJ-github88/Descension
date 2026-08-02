@@ -50,7 +50,6 @@ export const BACKGROUND_DATA = {
         "sundale"
       ],
       "allowedSubraces": [
-        "solvarn_human",
         "korr_solari",
         "thrask_solari",
         "thalren_human"
@@ -100,7 +99,6 @@ export const BACKGROUND_DATA = {
       ],
       "allowedSubraces": [
         "thrask_solari",
-        "solvarn_human",
         "korr_solari"
       ],
       "narrativeUnlock": true,
@@ -337,7 +335,6 @@ export const BACKGROUND_DATA = {
         "velun_neth",
         "kessen_neth",
         "drun_neth",
-        "morren_human",
         "clean_vreken",
         "marked_vreken"
       ],
@@ -624,7 +621,6 @@ export const BACKGROUND_DATA = {
         "velun_neth",
         "kessen_neth",
         "drun_neth",
-        "morren_human",
         "clean_vreken",
         "marked_vreken"
       ],
@@ -674,7 +670,6 @@ export const BACKGROUND_DATA = {
         "bryngloom-forest"
       ],
       "allowedSubraces": [
-        "morren_human",
         "drun_neth",
         "marked_vreken",
         "clean_vreken"

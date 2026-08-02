@@ -3,6 +3,7 @@ import useWorldStore from '../../store/worldStore';
 import { getEnrichedZone } from '../../data/deepLocationData';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
+import { SUBREGIONS, getSubregionsByRegion } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
 import './LoreSidebar.css';
 
@@ -21,19 +22,38 @@ const ZONE_TYPE_ICONS = {
   tomb: 'fa-skull'
 };
 
-// Location categories for grouping/filtering
+// Expanded Location subcategories for rich grouping/filtering
 const CATEGORIES = [
-  { id: 'civic',      label: 'Cities & Settlements', icon: 'fa-city',      match: ['city', 'settlement', 'fortress', 'house', 'port', 'tower'] },
-  { id: 'wilderness', label: 'Wilds & Wilderness',   icon: 'fa-tree',      match: ['wilderness', 'mountain', 'tree', 'water', 'beast'] },
-  { id: 'ruins',      label: 'Ruins & Mysteries',    icon: 'fa-archway',   match: ['ruin', 'tomb', 'cave', 'shrine', 'magic', 'door'] },
-  { id: 'camps',      label: 'Camps & Custom Marks', icon: 'fa-fire',      match: ['camp', 'custom'] }
+  { id: 'capitals',   label: 'Capitals & Seats of Power',         icon: 'fa-crown',             match: ['capital', 'seat'] },
+  { id: 'military',   label: 'Fortresses & Military Holds',       icon: 'fa-shield-halved',     match: ['fortress', 'stronghold', 'watchtower', 'keep'] },
+  { id: 'maritime',   label: 'Ports, Coastal & Geothermal Havens', icon: 'fa-anchor',            match: ['port', 'harbor', 'coastal', 'vent'] },
+  { id: 'industrial', label: 'Forge Villages & Outposts',         icon: 'fa-hammer',            match: ['forge', 'mining', 'woodcutting', 'sump'] },
+  { id: 'sacred',     label: 'Sacred Archives, Shrines & Temples',  icon: 'fa-book-archive',      match: ['archive', 'temple', 'shrine', 'sacred'] },
+  { id: 'subraces',   label: 'Subrace & Clan Enclaves',           icon: 'fa-users-between-lines', match: ['corvani', 'fexric', 'animist', 'osling'] },
+  { id: 'occult',     label: 'Hungríd Cult & Occupation',         icon: 'fa-skull',             match: ['cult', 'hungrid', 'watchtown'] },
+  { id: 'wilderness', label: 'Peaks, Glaciers & Wilds',           icon: 'fa-mountain-sun',      match: ['wilderness', 'mountain', 'glacier', 'forest'] },
+  { id: 'civic',      label: 'Cities, Towns & Settlements',       icon: 'fa-city',              match: ['city', 'town', 'settlement', 'village'] },
+  { id: 'camps',      label: 'Camps & Marks',                     icon: 'fa-fire',              match: ['camp', 'custom'] }
 ];
 
-const categorize = (type) => {
+const categorize = (loc) => {
+  const type = (typeof loc === 'string' ? loc : loc?.type || '').toLowerCase();
+  const id = (loc?.id || '').toLowerCase();
+  const desc = (loc?.description || '').toLowerCase();
+
+  if (['frostholm', 'snowcall-city', 'greymark-keep', 'snowcall'].includes(id) || type.includes('capital')) return 'capitals';
+  if (['stonegrip', 'ymirs-hold', 'vargtor', 'sunder-wall-gates', 'kildvagt', 'bridhe-keep'].includes(id) || type.includes('fortress') || type.includes('stronghold') || type.includes('watchtower')) return 'military';
+  if (['fjord-gate', 'xardins-hearth', 'midhofn', 'saltgrinn', 'kildhavn', 'ash-tide-village', 'havhavn', 'black-firth', 'smugglers-cove', 'icefang-haven'].includes(id) || type.includes('port') || type.includes('harbor') || type.includes('coastal')) return 'maritime';
+  if (['frozen-archive', 'thogn', 'gjaldhringr', 'run', 'chant-mounds', 'glacier-song-hermitage'].includes(id) || type.includes('archive') || type.includes('temple') || type.includes('shrine') || type.includes('sacred')) return 'sacred';
+  if (['svalghjartas-keep', 'grimuvard', 'ulvard', 'kolvard', 'bjargsten-camp', 'varmagrim', 'blizzards-end'].includes(id) || desc.includes('hungríd') || desc.includes('cult') || desc.includes('sylvén')) return 'occult';
+  if (['stahlberg', 'hrafnest', 'rooks-promontory', 'hrafnskogur', 'kolhyrna', 'grimefrost', 'kapp', 'blodholl'].includes(id) || desc.includes('corvani') || desc.includes('fexric') || desc.includes('berserker trial')) return 'subraces';
+  if (['frostmead', 'frostdell', 'bloodhammer-sump', 'whale-oil-row', 'iron-ore-quay', 'logging-camps'].includes(id) || type.includes('forge') || type.includes('mine') || desc.includes('sump') || desc.includes('warehouse')) return 'industrial';
+  if (['whispering-pine', 'hunger-glaciers', 'eldoyane', 'icetalon-peaks', 'bearsbeards-beak', 'skadis-col', 'cracked-cyst', 'endless-steppe', 'rimors-hearth'].includes(id) || type.includes('wilderness') || type.includes('mountain') || type.includes('glacier') || type.includes('forest')) return 'wilderness';
+
   for (const cat of CATEGORIES) {
-    if (cat.match.includes(type)) return cat.id;
+    if (cat.match.some((m) => type.includes(m))) return cat.id;
   }
-  return 'camps';
+  return 'civic';
 };
 
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
@@ -55,12 +75,13 @@ const EXAMPLE_LOCATIONS = [
   { id: '__ex_scoutnote',   name: 'Example (Scout’s Chalk Note',   type: 'custom',     description: 'A hand-scrawled marker on a boulder: "Wyrm tracks) three days fresh. Heading north.: V."' }
 ];
 
-const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open, onClose, currentCampaign }) => {
+const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open, onClose, currentCampaign, onEnterSubregionMap }) => {
   const { getRegion, lockedRegions, unlockRegion } = useWorldStore();
   const [expandedLocation, setExpandedLocation] = useState(null);
   const [collapsedGroups, setCollapsedGroups] = useState(() => new Set());
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState('locations'); // 'locations' | 'overview'
   const containerRef = useRef(null);
 
   // Expand + scroll to a selected pin location when it changes.
@@ -90,22 +111,49 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
     setCollapsedGroups(new Set());
   }, [regionId]);
 
-  const region = getRegion(regionId);
-  const danger = DANGER_LABELS[region?.dangerLevel] || DANGER_LABELS.medium;
-  const regionAccent = REGION_POLYGONS[regionId]?.glowColor || 'rgba(196, 164, 74, 0.6)';
+  const subregionObj = SUBREGIONS[regionId];
+  const parentRegion = useMemo(() => subregionObj ? getRegion(subregionObj.regionId) : null, [subregionObj, getRegion]);
+  const region = useMemo(() => {
+    if (subregionObj) {
+      return {
+        id: subregionObj.id,
+        name: subregionObj.name,
+        description: subregionObj.description,
+        climate: subregionObj.climate,
+        dominantTerrain: subregionObj.dominantTerrain,
+        primaryRaces: subregionObj.primaryRaces,
+        primaryFactions: subregionObj.primaryFactions,
+        dangerLevel: parentRegion?.dangerLevel || 'high',
+        isSubregion: true,
+        regionId: subregionObj.regionId,
+        parentRegionName: parentRegion?.name || 'Nordhalla'
+      };
+    }
+    return getRegion(regionId);
+  }, [regionId, subregionObj, parentRegion, getRegion]);
 
-  // Resolve placed pins for this region into enriched location objects.
+  const danger = DANGER_LABELS[region?.dangerLevel] || DANGER_LABELS.medium;
+  const regionAccent = REGION_POLYGONS[regionId]?.glowColor || (subregionObj ? 'rgba(212, 175, 55, 0.8)' : 'rgba(196, 164, 74, 0.6)');
+
+  // Resolve placed pins for this region or subregion into enriched location objects.
   const enrichedLocations = useMemo(() => {
     const out = [];
+    const addedIds = new Set();
+
     Object.entries(LOCATION_COORDINATES).forEach(([pinId, coord]) => {
       const zone = ZONE_DATA.find((z) => z.id === pinId);
-      const belongs =
-        (zone && zone.regionId === regionId) || coord.regionId === regionId;
+      const belongs = subregionObj
+        ? (subregionObj.zoneIds?.includes(pinId) || coord.subregionId === regionId || zone?.subregionId === regionId)
+        : ((zone && zone.regionId === regionId) || coord.regionId === regionId);
+
       if (!belongs) return;
 
       if (zone) {
         const e = getEnrichedZone(pinId);
-        if (e) out.push(e);
+        if (e) {
+          out.push(e);
+          addedIds.add(pinId);
+        }
         return;
       }
 
@@ -130,19 +178,46 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       }
 
       out.push({ id: pinId, regionId, name, description, type, isDeep: false });
+      addedIds.add(pinId);
     });
+
+    // For subregions, load any defined zones in subregionObj.zoneIds if not placed as canvas pins yet
+    if (subregionObj && subregionObj.zoneIds) {
+      subregionObj.zoneIds.forEach((zId) => {
+        if (!addedIds.has(zId)) {
+          const e = getEnrichedZone(zId);
+          if (e) {
+            out.push(e);
+            addedIds.add(zId);
+          }
+        }
+      });
+    }
+
+    // For top-level continent regions, load all canonical zones belonging to this region
+    if (!subregionObj && regionId) {
+      ZONE_DATA.filter((z) => z.regionId === regionId).forEach((z) => {
+        if (!addedIds.has(z.id)) {
+          const e = getEnrichedZone(z.id);
+          if (e) {
+            out.push(e);
+            addedIds.add(z.id);
+          }
+        }
+      });
+    }
 
     // ⚑ DEMO EXAMPLES: inject example entries into whatever region is open,
     // tagged onto the current regionId so they always render. Delete with the
     // EXAMPLE block at the top of this file.
-    if (EXAMPLES_ENABLED && regionId) {
+    if (EXAMPLES_ENABLED && regionId && out.length === 0) {
       EXAMPLE_LOCATIONS.forEach((ex) => {
         out.push({ ...ex, regionId, isDeep: false, __example: true });
       });
     }
 
     return out;
-  }, [regionId, currentCampaign]);
+  }, [regionId, subregionObj, currentCampaign]);
 
   // Apply search + category filter.
   const filteredLocations = useMemo(() => {
@@ -165,6 +240,13 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       major: major ? major.name : null
     };
   }, [enrichedLocations]);
+
+  const subregionsList = useMemo(() => {
+    if (subregionObj) {
+      return getSubregionsByRegion(subregionObj.regionId);
+    }
+    return getSubregionsByRegion(regionId);
+  }, [regionId, subregionObj]);
 
   // Now that all hooks have run, bail out if there's nothing to render.
   if (!open || !regionId) return null;
@@ -211,9 +293,6 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
             <span className="lore-location-type">{loc.type}</span>
           </div>
           <div className="lore-location-right">
-            <span className="lore-location-danger" style={{ color: DANGER_LABELS[loc.dangerLevel]?.color || '#888' }}>
-              {loc.dangerLevel}
-            </span>
             <i className={`fas fa-chevron-right expand-arrow ${isExpanded ? 'rotated' : ''}`} />
           </div>
         </div>
@@ -370,11 +449,19 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
         ) : region ? (
           <>
             <div className="lore-sidebar-header">
-              <div className="lore-danger-badge" style={{ borderColor: danger.color }}>
-                <span style={{ color: danger.color }}>{danger.label}</span>
+              <div className="lore-realm-badge">
+                <span>{region.isSubregion ? `${region.parentRegionName || 'Nordhalla'} Subrealm` : 'Continent Realm'}</span>
               </div>
               <h2 className="lore-region-name">{region.name}</h2>
               <p className="lore-region-desc">{region.description}</p>
+              {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
+                <button
+                  className="lore-enter-subregion-btn animate-fade-in"
+                  onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
+                >
+                  <i className="fas fa-map-marked-alt"></i> Enter {region.name} Map
+                </button>
+              )}
             </div>
 
             {/* Region overview stat strip */}
@@ -385,131 +472,281 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
               </div>
               <div className="lore-overview-divider" />
               <div className="lore-overview-stat">
-                <span className="lore-overview-stat-value" style={{ color: danger.color }}>{danger.label}</span>
-                <span className="lore-overview-stat-label">Danger</span>
+                <span className="lore-overview-stat-value">{subregionsList.length}</span>
+                <span className="lore-overview-stat-label">Subrealms</span>
               </div>
               <div className="lore-overview-divider" />
               <div className="lore-overview-stat wide">
                 <span className="lore-overview-stat-value small">
-                  {stats.major || '-'}
+                  {region.ruler ? 'House Skalvyr' : 'Established'}
                 </span>
-                <span className="lore-overview-stat-label">Seat</span>
+                <span className="lore-overview-stat-label">Dominance</span>
               </div>
             </div>
 
-            {/* Search + filter controls */}
-            <div className="lore-controls">
-              <div className="lore-search-wrap">
-                <i className="fas fa-search lore-search-icon" />
-                <input
-                  className="lore-search-input"
-                  type="text"
-                  placeholder="Search locations…"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                {searchTerm && (
-                  <button className="lore-search-clear" onClick={() => setSearchTerm('')} title="Clear">
-                    <i className="fas fa-times" />
-                  </button>
-                )}
-              </div>
-              <div className="lore-filter-chips">
-                {FILTER_CHIPS.map((chip) => {
-                  const count = chip.id === 'all'
-                    ? enrichedLocations.length
-                    : stats.byCat[chip.id] || 0;
-                  if (chip.id !== 'all' && count === 0) return null;
-                  return (
-                    <button
-                      key={chip.id}
-                      className={`lore-chip ${activeFilter === chip.id ? 'active' : ''}`}
-                      onClick={() => setActiveFilter(chip.id)}
-                    >
-                      <i className={`fas ${chip.icon}`} />
-                      <span>{chip.label}</span>
-                      <span className="lore-chip-count">{count}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* ⚑ DEMO EXAMPLES banner: remove with the EXAMPLE block at top of file */}
-            {EXAMPLES_ENABLED && (
-              <div className="lore-examples-banner">
-                <i className="fas fa-flask" />
-                <span>Showing <strong>{EXAMPLE_LOCATIONS.length}</strong> demo locations across all categories.</span>
-                <span className="lore-examples-hint">Set <code>EXAMPLES_ENABLED = false</code> in LoreSidebar.jsx to hide.</span>
-              </div>
-            )}
-
-            {/* Grouped locations */}
-            <div className="lore-locations-grouped">
-              {filteredLocations.length === 0 ? (
-                <div className="lore-empty-state">
-                  <i className="fas fa-search-minus" />
-                  <p>No locations match your search.</p>
-                </div>
-              ) : (
-                CATEGORIES.map((cat) => {
-                  const catLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
-                  if (catLocs.length === 0) return null;
-                  const collapsed = collapsedGroups.has(cat.id);
-                  return (
-                    <div key={cat.id} className="lore-sidebar-group">
-                      <button
-                        className={`lore-sidebar-group-header ${collapsed ? 'collapsed' : ''} group-header-${cat.id}`}
-                        onClick={() => toggleGroup(cat.id)}
-                      >
-                        <i className={`fas fa-chevron-right lore-sidebar-group-caret`} />
-                        <i className={`fas ${cat.icon} lore-sidebar-group-icon`} />
-                        <span className="lore-sidebar-group-title">{cat.label}</span>
-                        <span className="lore-sidebar-group-count">{catLocs.length}</span>
-                      </button>
-                      {!collapsed && (
-                        <div className="lore-locations-list">
-                          {catLocs.map(renderLocationCard)}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
+            {/* Navigation tab bar */}
+            <div className="lore-tab-bar">
+              <button
+                className={`lore-tab-btn ${activeTab === 'locations' ? 'active' : ''}`}
+                onClick={() => setActiveTab('locations')}
+              >
+                <i className="fas fa-location-dot" /> Locations ({stats.total})
+              </button>
+              {subregionsList.length > 0 && (
+                <button
+                  className={`lore-tab-btn ${activeTab === 'subregions' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('subregions')}
+                >
+                  <i className="fas fa-layer-group" /> Subregions ({subregionsList.length})
+                </button>
               )}
-            </div>
-
-            {/* Region details */}
-            <div className="lore-sidebar-section">
-              <h3 className="lore-section-title">
-                <i className="fas fa-compass" /> Region Details
-              </h3>
-              <div className="lore-detail-grid">
-                <div className="lore-detail-item">
-                  <span className="lore-detail-label">Danger Level</span>
-                  <span className="lore-detail-value" style={{ color: danger.color }}>{danger.label}</span>
-                </div>
-                <div className="lore-detail-item">
-                  <span className="lore-detail-label">Settlements</span>
-                  <span className="lore-detail-value">{stats.byCat.civic}</span>
-                </div>
-                <div className="lore-detail-item">
-                  <span className="lore-detail-label">Wilds</span>
-                  <span className="lore-detail-value">{stats.byCat.wilderness}</span>
-                </div>
-                <div className="lore-detail-item">
-                  <span className="lore-detail-label">Ruins &amp; Mysteries</span>
-                  <span className="lore-detail-value">{stats.byCat.ruins}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="lore-sidebar-section region-immerse-section">
-              <button className="region-immerse-btn" disabled title="Coming in a future update">
-                <i className="fas fa-compass" />
-                Immerse: Explore {region?.name || 'Region'}
-                <span className="region-immerse-badge">Soon</span>
+              <button
+                className={`lore-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+                onClick={() => setActiveTab('overview')}
+              >
+                <i className="fas fa-book-open" /> Region Lore
               </button>
             </div>
+
+            {activeTab === 'locations' ? (
+              <>
+                {/* Search + filter controls */}
+                <div className="lore-controls">
+                  <div className="lore-search-wrap">
+                    <i className="fas fa-search lore-search-icon" />
+                    <input
+                      className="lore-search-input"
+                      type="text"
+                      placeholder="Search locations…"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchTerm && (
+                      <button className="lore-search-clear" onClick={() => setSearchTerm('')} title="Clear">
+                        <i className="fas fa-times" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="lore-filter-chips">
+                    {FILTER_CHIPS.map((chip) => {
+                      const count = chip.id === 'all'
+                        ? enrichedLocations.length
+                        : stats.byCat[chip.id] || 0;
+                      if (chip.id !== 'all' && count === 0) return null;
+                      return (
+                        <button
+                          key={chip.id}
+                          className={`lore-chip ${activeFilter === chip.id ? 'active' : ''}`}
+                          onClick={() => setActiveFilter(chip.id)}
+                        >
+                          <i className={`fas ${chip.icon}`} />
+                          <span>{chip.label}</span>
+                          <span className="lore-chip-count">{count}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Grouped locations */}
+                <div className="lore-locations-grouped">
+                  {filteredLocations.length === 0 ? (
+                    <div className="lore-empty-state-card animate-fade-in">
+                      <div className="empty-card-icon"><i className="fas fa-drafting-compass" /></div>
+                      <h4>Uncharted Realm Territory</h4>
+                      <p>No location pins have been recorded here yet. As GM or Adventurer, you can explore the regional map or draw custom subregions!</p>
+                      {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
+                        <button
+                          className="btn-explore-sub-realm"
+                          onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
+                        >
+                          <i className="fas fa-compass" /> Open Regional Cartography
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    CATEGORIES.map((cat) => {
+                      const catLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
+                      if (catLocs.length === 0) return null;
+                      const collapsed = collapsedGroups.has(cat.id);
+                      return (
+                        <div key={cat.id} className="lore-sidebar-group">
+                          <button
+                            className={`lore-sidebar-group-header ${collapsed ? 'collapsed' : ''} group-header-${cat.id}`}
+                            onClick={() => toggleGroup(cat.id)}
+                          >
+                            <i className={`fas fa-chevron-right lore-sidebar-group-caret`} />
+                            <i className={`fas ${cat.icon} lore-sidebar-group-icon`} />
+                            <span className="lore-sidebar-group-title">{cat.label}</span>
+                            <span className="lore-sidebar-group-count">{catLocs.length}</span>
+                          </button>
+                          {!collapsed && (
+                            <div className="lore-locations-list">
+                              {catLocs.map(renderLocationCard)}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </>
+            ) : activeTab === 'subregions' ? (
+              <div className="lore-subregions-tab-content animate-fade-in">
+                <p className="subregion-section-intro">
+                  Geographical provinces and micro-climates within <strong>{region.name}</strong>:
+                </p>
+                <div className="subregion-cards-list">
+                  {subregionsList.map((sub) => (
+                    <div key={sub.id} className="subregion-lore-card">
+                      <div className="subregion-card-header">
+                        <h4><i className="fas fa-mountain-sun" /> {sub.name}</h4>
+                      </div>
+                      <p className="subregion-card-desc">{sub.description}</p>
+                      
+                      <div className="subregion-meta-grid">
+                        {sub.climate && (
+                          <div className="subregion-meta-item">
+                            <span className="meta-label">Climate:</span>
+                            <span className="meta-val">{sub.climate}</span>
+                          </div>
+                        )}
+                        {sub.dominantTerrain && (
+                          <div className="subregion-meta-item">
+                            <span className="meta-label">Terrain:</span>
+                            <span className="meta-val">{sub.dominantTerrain}</span>
+                          </div>
+                        )}
+                        {sub.primaryFactions && sub.primaryFactions.length > 0 && (
+                          <div className="subregion-meta-item">
+                            <span className="meta-label">Factions:</span>
+                            <span className="meta-val">{sub.primaryFactions.join(', ')}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="subregion-card-actions">
+                        <button
+                          className="btn-open-subregion"
+                          onClick={() => onEnterSubregionMap && onEnterSubregionMap(sub.id || regionId)}
+                        >
+                          <i className="fas fa-compass" /> Enter {sub.name} Map
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="lore-overview-tab-content animate-fade-in">
+                <div className="lore-sidebar-section">
+                  <h3 className="lore-section-title">
+                    <i className="fas fa-scroll" /> Lore &amp; Overview
+                  </h3>
+                  <p className="lore-tab-description">{region?.loreOverview || region?.description}</p>
+                </div>
+
+                {region?.ruler && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-crown" /> Sovereign &amp; Governance
+                    </h3>
+                    <p className="lore-tab-description"><strong>Ruler:</strong> {region.ruler}</p>
+                  </div>
+                )}
+
+                {(region?.climate || region?.dominantTerrain) && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-snowflake" /> Environment &amp; Climate
+                    </h3>
+                    {region.climate && <p className="lore-tab-description"><strong>Climate:</strong> {region.climate}</p>}
+                    {region.dominantTerrain && <p className="lore-tab-description" style={{ marginTop: 4 }}><strong>Terrain:</strong> {region.dominantTerrain}</p>}
+                  </div>
+                )}
+
+                {region?.historyLore && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-book" /> History &amp; The Glacier Bargain
+                    </h3>
+                    <p className="lore-tab-description">{region.historyLore}</p>
+                  </div>
+                )}
+
+                {region?.primaryRaces && region.primaryRaces.length > 0 && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-users" /> Peoples &amp; Demographics
+                    </h3>
+                    <div className="lore-tags-container">
+                      {region.primaryRaces.map((r, i) => (
+                        <span key={i} className="lore-tag-chip">{r}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {region?.primaryFactions && region.primaryFactions.length > 0 && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-shield-halved" /> Ruling Factions &amp; Powers
+                    </h3>
+                    <div className="lore-tags-container">
+                      {region.primaryFactions.map((f, i) => (
+                        <span key={i} className="lore-tag-chip faction">{f}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {region?.threats && region.threats.length > 0 && (
+                  <div className="lore-sidebar-section">
+                    <h3 className="lore-section-title">
+                      <i className="fas fa-skull" /> Regional Perils &amp; Threats
+                    </h3>
+                    <ul className="lore-threats-list">
+                      {region.threats.map((t, i) => (
+                        <li key={i}><i className="fas fa-skull-crossbones" /> {t}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Region details grid */}
+                <div className="lore-sidebar-section">
+                  <h3 className="lore-section-title">
+                    <i className="fas fa-compass" /> Region Metrics
+                  </h3>
+                  <div className="lore-detail-grid">
+                    <div className="lore-detail-item">
+                      <span className="lore-detail-label">Subrealms</span>
+                      <span className="lore-detail-value">{subregionsList.length}</span>
+                    </div>
+                    <div className="lore-detail-item">
+                      <span className="lore-detail-label">Settlements</span>
+                      <span className="lore-detail-value">{stats.byCat.civic}</span>
+                    </div>
+                    <div className="lore-detail-item">
+                      <span className="lore-detail-label">Wilds</span>
+                      <span className="lore-detail-value">{stats.byCat.wilderness}</span>
+                    </div>
+                    <div className="lore-detail-item">
+                      <span className="lore-detail-label">Ruins &amp; Mysteries</span>
+                      <span className="lore-detail-value">{stats.byCat.ruins}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lore-sidebar-section region-immerse-section">
+                  <button className="region-immerse-btn" disabled title="Coming in a future update">
+                    <i className="fas fa-compass" />
+                    Immerse: Explore {region?.name || 'Region'}
+                    <span className="region-immerse-badge">Soon</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         ) : null}
       </div>

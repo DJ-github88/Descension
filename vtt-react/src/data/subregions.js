@@ -52,14 +52,16 @@ export const SUBREGIONS = {
   // ========================================================================
   'nordhalla-glacier-heart': {
     id: 'nordhalla-glacier-heart',
-    name: 'Frosthold Pass & Rime-Spire Peaks',
+    name: 'Rime-Spire Peaks',
     regionId: 'nordhalla',
     description: 'The cold, sparsely populated interior of Nordhalla, endless whiteout glaciers, shifting crevasses, and the brooding peaks that mark the spine of the continent. The Frost-Tithe mothers and the Hunger Pact consumptions happen here. The Rime-Born, the Frostbound, and the Stel (glacier-memories given form) stalk these wastes.',
     climate: 'Polar, perpetual blizzard in winter, brief white summer',
     dominantTerrain: 'Glaciers, ice fields, frozen chasms, granite peaks',
     primaryRaces: ['Rime-Born', 'Frostbound', 'Corvani (clan flocks)'],
     primaryFactions: ['House Skalvyr (royal seat)', 'Skald Keepers'],
-    zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'skadis-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak']
+    zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'skadis-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak'],
+    points: [[2, 2], [5, 196], [60, 162], [114, 208], [154, 254], [298, 219], [263, 156], [360, 260], [424, 324], [646, 328], [764, 353], [743, 220], [684, 99], [662, 8]],
+    labelPosition: [370, 199]
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',

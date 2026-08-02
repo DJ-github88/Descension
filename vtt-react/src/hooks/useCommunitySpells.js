@@ -279,10 +279,14 @@ export function useCommunitySpells() {
 
   // Load spells on mount and when sort changes
   useEffect(() => {
-    loadFeaturedSpells();
-    if (!searchTerm) {
-      loadSpells();
-    }
+    (async () => {
+      // Run init (cleanup + seed) BEFORE loading featured/spells
+      await ensureSpellsInit('rating');
+      loadFeaturedSpells();
+      if (!searchTerm) {
+        loadSpells();
+      }
+    })();
   }, [sortBy, loadFeaturedSpells, loadSpells, searchTerm]);
 
   // Load spells when search term changes

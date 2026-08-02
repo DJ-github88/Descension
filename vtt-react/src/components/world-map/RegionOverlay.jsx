@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
+import { SUBREGIONS } from '../../data/subregions';
 import useWorldStore from '../../store/worldStore';
 import './RegionOverlay.css';
 
@@ -17,6 +18,7 @@ const pointInPolygon = (x, y, polygon) => {
 };
 
 const RegionOverlay = ({
+  activeMapId = 'mythril',
   selectedRegionId,
   hoveredRegionId,
   setSelectedRegionId,
@@ -24,6 +26,7 @@ const RegionOverlay = ({
   setHoveredRegionId,
   setSelectedLocationId,
   devMode,
+  devTool,
   getImageCoords,
   onResolveClick
 }) => {
@@ -48,9 +51,42 @@ const RegionOverlay = ({
     return [sum[0] / points.length, sum[1] / points.length];
   };
 
-  const regionsWithPolygons = Object.values(REGION_POLYGONS).filter(
-    r => r.points && r.points.length >= 3
-  );
+  const regionsWithPolygons = useMemo(() => {
+    // Hide continent region overlays when viewing a subregion map asset (unless drawing in devMode)
+    if (activeMapId !== 'mythril' && !(devMode && devTool === 'drawRegion')) {
+      return [];
+    }
+
+    const map = {};
+    Object.values(REGION_POLYGONS).forEach(r => {
+      if (r.points && r.points.length >= 3 && !SUBREGIONS[r.id]) {
+        map[r.id] = { ...r, isSubregion: false };
+      }
+    });
+
+    Object.values(SUBREGIONS).forEach(s => {
+      if (s.points && s.points.length >= 3) {
+        // Strict rule: subregions ONLY become visible when main region (s.regionId) or subregion (s.id) is selected, or in drawRegion devMode.
+        const parentSelected = selectedRegionId === s.regionId;
+        const subSelected = selectedRegionId === s.id;
+
+        if (parentSelected || subSelected || (devMode && devTool === 'drawRegion')) {
+          map[s.id] = {
+            id: s.id,
+            name: s.name,
+            points: s.points,
+            color: 'rgba(70, 150, 220, 0.18)',
+            glowColor: 'rgba(120, 200, 255, 0.75)',
+            labelPosition: s.labelPosition || [],
+            isSubregion: true,
+            parentRegionId: s.regionId
+          };
+        }
+      }
+    });
+
+    return Object.values(map);
+  }, [activeMapId, selectedRegionId, hoveredRegionId, devMode, devTool]);
 
   if (regionsWithPolygons.length === 0) {
     return null;
@@ -62,17 +98,29 @@ const RegionOverlay = ({
         const isSelected = selectedRegionId === region.id;
         const isHovered = hoveredRegionId === region.id;
         const isLocked = lockedRegions?.includes(region.id);
-        const center = getCenter(region.points);
+        const center = (region.labelPosition && region.labelPosition.length === 2 && region.labelPosition[0] > 0)
+          ? region.labelPosition
+          : getCenter(region.points);
         const displayName = isLocked ? `🔒 ${region.name}` : region.name;
+        const isSubregion = region.isSubregion;
 
         return (
-          <g key={region.id}>
+          <g key={region.id} style={{ pointerEvents: 'auto' }}>
             <polygon
               points={getPolygonPoints(region.points)}
-              className={`region-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${isLocked ? 'locked' : ''}`}
+              className={isSubregion ? `subregion-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}` : `region-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${isLocked ? 'locked' : ''}`}
               data-region-id={region.id}
-              fill={region.color}
-              stroke={region.glowColor || region.color}
+              fill={isSubregion ? 'transparent' : (isSelected ? 'transparent' : (region.color || 'rgba(107, 26, 26, 0.15)'))}
+              stroke={
+                isSubregion
+                  ? 'rgba(212, 175, 55, 0.75)'
+                  : isSelected
+                  ? 'rgba(120, 200, 255, 0.22)'
+                  : isHovered
+                  ? (region.glowColor || 'rgba(120, 200, 255, 0.85)')
+                  : (region.glowColor || 'rgba(120, 200, 255, 0.45)')
+              }
+              strokeWidth={isSubregion ? (isSelected ? 3 : isHovered ? 2.5 : 2) : (isSelected ? 1.5 : isHovered ? 2.5 : 1.8)}
               onClick={(e) => {
                 e.stopPropagation();
                 if (getImageCoords && onResolveClick) {
@@ -91,7 +139,7 @@ const RegionOverlay = ({
               }}
               onMouseEnter={() => setHoveredRegionId(region.id)}
               onMouseLeave={() => setHoveredRegionId(null)}
-              style={{ cursor: devMode ? 'default' : 'pointer', pointerEvents: devMode ? 'none' : 'auto' }}
+              style={{ cursor: 'pointer', pointerEvents: (devMode && devTool === 'drawRegion') ? 'none' : 'all' }}
             />
 
             {isHovered && !isSelected && (

@@ -19,7 +19,7 @@ export const DICE_PRESETS = {
   classic: {
     id: 'classic',
     name: 'Classic',
-    icon: 'â - †',
+    icon: 'ï¿½ - ï¿½',
     bodyColor: '#1a0f30',
     edgeColor: '#dbb85c',
     numberColor: '#dbb85c',
@@ -320,5 +320,10 @@ const useDiceStore = create(
     }
   )
 );
+
+// Expose for debugging/manual testing (matches window.combatStore / window.gameStore conventions)
+if (typeof window !== 'undefined') {
+  window.diceStore = useDiceStore;
+}
 
 export default useDiceStore;

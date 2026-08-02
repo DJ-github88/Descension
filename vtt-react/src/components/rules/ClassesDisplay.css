@@ -105,42 +105,51 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    padding: 6px 14px;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 243, 230, 0.9));
-    border: 1.5px solid rgba(139, 105, 20, 0.2);
+    padding: 7px 16px;
+    background: linear-gradient(145deg, rgba(255, 252, 245, 0.95), rgba(240, 230, 210, 0.9));
+    border: 1.5px solid rgba(139, 105, 20, 0.25);
     border-radius: 8px;
     cursor: pointer;
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
-    font-weight: 600;
-    color: #5a3a1e;
+    font-weight: 700;
+    color: #4a2e16;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.2s ease;
+    letter-spacing: 0.6px;
+    transition: all 0.25s ease;
     white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .role-filter-btn i {
     font-size: 0.75rem;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .role-filter-btn:hover {
-    border-color: rgba(212, 175, 55, 0.5);
-    background: linear-gradient(145deg, rgba(255, 252, 240, 0.95), rgba(252, 248, 235, 0.95));
-    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
+    border-color: rgba(212, 175, 55, 0.75);
+    background: linear-gradient(145deg, rgba(255, 255, 245, 1), rgba(245, 235, 215, 0.98));
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
+}
+
+.role-filter-btn:hover i {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 .role-filter-btn.active {
-    background: linear-gradient(145deg, #d4af37, #b8941f);
-    border-color: #a08620;
-    color: #fdfaf3;
-    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.35);
+    background: linear-gradient(145deg, #d4af37, #997515);
+    border-color: #f5e6a0;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255, 240, 180, 0.4);
 }
 
 .role-filter-btn.active i {
     opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
 }
 
 .role-filter-count {
@@ -151,14 +160,15 @@
     height: 18px;
     padding: 0 6px;
     border-radius: 999px;
-    background: rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.1);
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1;
 }
 
 .role-filter-btn.active .role-filter-count {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.22);
+    color: #fff8e7;
 }
 
 /* ===== DAMAGE TYPE FILTERS ===== */
@@ -183,22 +193,24 @@
 
 .damage-filter-label i {
     margin-right: 4px;
+    color: #d4af37;
 }
 
 .damage-type-btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.75);
-    border: 1.5px solid rgba(139, 105, 20, 0.12);
+    gap: 6px;
+    padding: 5px 11px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(139, 105, 20, 0.18);
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: #5a3a1e;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #4a2e16;
     transition: all 0.2s ease;
     white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .dmg-dot {
@@ -208,24 +220,26 @@
     background: var(--dmg-color, #888);
     display: inline-block;
     flex-shrink: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 6px var(--dmg-color, rgba(0,0,0,0.2));
 }
 
 .damage-type-btn:hover {
     border-color: var(--dmg-color, #d4af37);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--dmg-color, rgba(0, 0, 0, 0.15));
+    transform: translateY(-1px);
 }
 
 .damage-type-btn.active {
     background: var(--dmg-color, #d4af37);
     border-color: var(--dmg-color, #d4af37);
     color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 3px 10px var(--dmg-color, rgba(0, 0, 0, 0.35));
 }
 
 .damage-type-btn.active .dmg-dot {
     background: white;
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
 /* ===== FILTER INFO ===== */
@@ -412,35 +426,38 @@
 
 .class-row-dmg-tag {
     display: inline-block;
-    padding: 2px 7px;
+    padding: 3px 8px;
     border-radius: 999px;
-    color: white;
+    color: #ffffff;
     font-size: 0.58rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
     line-height: 1.5;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .class-row-cta {
     font-family: 'Cinzel', serif;
     font-size: 0.72rem;
     font-weight: 700;
-    color: #8b6914;
-    letter-spacing: 0.6px;
-    opacity: 0;
+    color: #ffd479;
+    letter-spacing: 0.8px;
+    opacity: 0.95;
     transition: opacity 0.25s ease, background 0.25s ease, border-color 0.25s ease,
                 box-shadow 0.25s ease, color 0.25s ease, transform 0.2s ease;
     white-space: nowrap;
     padding: 8px 20px;
     border-radius: 5px;
-    border: 1px solid rgba(139, 105, 20, 0.3);
-    background: rgba(139, 105, 20, 0.08);
+    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, rgba(40, 28, 12, 0.5) 0%, rgba(20, 14, 6, 0.65) 100%);
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 230, 140, 0.15);
 }
 
 .class-row-cta::before {
@@ -455,10 +472,10 @@
 
 .class-row:hover .class-row-cta {
     opacity: 1;
-    background: rgba(139, 105, 20, 0.18);
-    border-color: rgba(255, 212, 121, 0.45);
-    box-shadow: 0 0 14px rgba(255, 212, 121, 0.22), inset 0 1px 0 rgba(255, 212, 121, 0.14);
-    color: #ffd479;
+    background: linear-gradient(135deg, rgba(70, 48, 20, 0.7) 0%, rgba(35, 24, 10, 0.85) 100%);
+    border-color: rgba(255, 212, 121, 0.65);
+    box-shadow: 0 0 18px rgba(255, 212, 121, 0.35), inset 0 1px 0 rgba(255, 212, 121, 0.25);
+    color: #ffe49e;
     transform: translateY(-1px);
 }
 
@@ -672,7 +689,55 @@
    Heavy glows, animated borders, clip-paths, strong pulse.
    ============================================================ */
 
-/* ===== BERSERKER - Blood-Hunger: ALWAYS ON, brutal slash shape ===== */
+/* ===== 1. ARCANONEER - Elemental Spheres: Multi-Elemental Nexus Badge ===== */
+.class-row-arcanoneer .class-row-cta {
+    opacity: 1 !important;
+    color: #ffaa44 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(255, 170, 68, 0.65) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(154, 52, 18, 0.35) 0%,
+        rgba(67, 56, 202, 0.22) 50%,
+        rgba(13, 148, 136, 0.28) 100%) !important;
+    text-shadow: 0 0 12px rgba(255, 170, 68, 0.85), 0 0 24px rgba(168, 85, 247, 0.45);
+    box-shadow:
+        0 0 16px rgba(255, 170, 68, 0.48),
+        0 0 34px rgba(129, 140, 248, 0.2),
+        inset 0 1px 0 rgba(254, 215, 170, 0.2);
+    clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0% 50%);
+    animation: cta-arc-elem-pulse 3.8s ease-in-out infinite !important;
+}
+.class-row-arcanoneer:hover .class-row-cta {
+    color: #ffd188 !important;
+    border-color: rgba(253, 186, 116, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(194, 65, 12, 0.48) 0%,
+        rgba(79, 70, 229, 0.35) 50%,
+        rgba(15, 118, 110, 0.38) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(255, 170, 68, 0.85),
+        0 0 58px rgba(165, 180, 252, 0.42),
+        inset 0 1px 0 rgba(255, 237, 213, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-arcanoneer:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(255, 170, 68, 1));
+    animation: cta-arrow-elem 0.45s ease-in-out infinite alternate;
+}
+@keyframes cta-arc-elem-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(255, 170, 68, 0.4), 0 0 28px rgba(129, 140, 248, 0.16); border-color: rgba(255, 170, 68, 0.55); }
+    50% { box-shadow: 0 0 26px rgba(253, 186, 116, 0.75), 0 0 52px rgba(165, 180, 252, 0.35); border-color: rgba(254, 215, 170, 0.88); }
+}
+@keyframes cta-arrow-elem {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 2. BERSERKER - Blood-Hunger: Savage crimson slash polygon ===== */
 .class-row-berserker .class-row-cta {
     opacity: 1 !important;
     color: #ff4444 !important;
@@ -734,7 +799,188 @@
     100% { transform: translateX(9px); }
 }
 
-/* ===== REVENANT - Death Toll: ALWAYS ON, ghostly spectral float ===== */
+/* ===== 3. SHAPER - Groven Bone-Craft: Kinetic Flux Pill ===== */
+.class-row-shaper .class-row-cta {
+    opacity: 1 !important;
+    color: #f5e6c8 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(205, 163, 122, 0.6) !important;
+    border-radius: 14px 4px 14px 4px !important;
+    background: linear-gradient(135deg,
+        rgba(120, 88, 56, 0.35) 0%,
+        rgba(68, 48, 28, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(245, 230, 200, 0.7), 0 0 24px rgba(180, 135, 90, 0.4);
+    box-shadow:
+        0 0 16px rgba(205, 163, 122, 0.42),
+        0 0 32px rgba(140, 105, 70, 0.18),
+        inset 0 1px 0 rgba(250, 240, 220, 0.2);
+    animation: cta-shap-flux-pulse 4.5s ease-in-out infinite !important;
+}
+.class-row-shaper:hover .class-row-cta {
+    color: #ffffff !important;
+    border-color: rgba(235, 200, 165, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(155, 115, 75, 0.48) 0%,
+        rgba(90, 65, 40, 0.35) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(225, 185, 145, 0.8),
+        0 0 56px rgba(175, 135, 95, 0.38),
+        inset 0 1px 0 rgba(255, 250, 240, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-shaper:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(245, 230, 200, 1));
+    animation: cta-arrow-flux 0.5s ease-in-out infinite alternate;
+}
+@keyframes cta-shap-flux-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(205, 163, 122, 0.35), 0 0 28px rgba(140, 105, 70, 0.15); border-color: rgba(205, 163, 122, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(235, 200, 165, 0.68), 0 0 52px rgba(185, 145, 105, 0.32); border-color: rgba(250, 235, 210, 0.85); }
+}
+@keyframes cta-arrow-flux {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 4. HARBINGER - Mayhem & Entropic Ash: Chaos Rift Badge ===== */
+.class-row-harbinger .class-row-cta {
+    opacity: 1 !important;
+    color: #e084fc !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(192, 132, 252, 0.6) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(107, 33, 168, 0.35) 0%,
+        rgba(192, 38, 211, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(224, 132, 252, 0.8), 0 0 24px rgba(168, 85, 247, 0.45);
+    box-shadow:
+        0 0 16px rgba(192, 132, 252, 0.45),
+        0 0 34px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(245, 208, 254, 0.2);
+    clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+    animation: cta-harb-mayhem-pulse 3.8s ease-in-out infinite !important;
+}
+.class-row-harbinger:hover .class-row-cta {
+    color: #f5d0fe !important;
+    border-color: rgba(232, 121, 249, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(147, 51, 234, 0.48) 0%,
+        rgba(217, 70, 239, 0.35) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(232, 121, 249, 0.85),
+        0 0 58px rgba(168, 85, 247, 0.42),
+        inset 0 1px 0 rgba(250, 232, 255, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-harbinger:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(232, 121, 249, 1));
+    animation: cta-arrow-mayhem 0.4s ease-in-out infinite alternate;
+}
+@keyframes cta-harb-mayhem-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(192, 132, 252, 0.38), 0 0 28px rgba(147, 51, 234, 0.16); border-color: rgba(192, 132, 252, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(232, 121, 249, 0.72), 0 0 52px rgba(192, 38, 211, 0.35); border-color: rgba(245, 208, 254, 0.85); }
+}
+@keyframes cta-arrow-mayhem {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 5. CHRONARCH - Clockwork Engines: Temporal Gold Chassis ===== */
+.class-row-chronarch .class-row-cta {
+    opacity: 1 !important;
+    color: #ffcc44 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(255, 204, 68, 0.65) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(135deg,
+        rgba(110, 80, 20, 0.38) 0%,
+        rgba(55, 38, 8, 0.25) 100%) !important;
+    text-shadow: 0 0 12px rgba(255, 204, 68, 0.8), 0 0 24px rgba(217, 119, 6, 0.4);
+    box-shadow:
+        0 0 16px rgba(255, 204, 68, 0.45),
+        0 0 34px rgba(180, 120, 20, 0.18),
+        inset 0 1px 0 rgba(254, 240, 138, 0.2);
+    animation: cta-chron-tick-pulse 4s ease-in-out infinite !important;
+}
+.class-row-chronarch:hover .class-row-cta {
+    color: #ffed4a !important;
+    border-color: rgba(254, 240, 138, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(145, 105, 25, 0.5) 0%,
+        rgba(85, 60, 12, 0.38) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(255, 204, 68, 0.85),
+        0 0 58px rgba(217, 119, 6, 0.42),
+        inset 0 1px 0 rgba(254, 249, 195, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-chronarch:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(255, 204, 68, 1));
+    animation: cta-arrow-tick 0.5s steps(2, jump-none) infinite;
+}
+@keyframes cta-chron-tick-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(255, 204, 68, 0.38), 0 0 28px rgba(180, 120, 20, 0.15); border-color: rgba(255, 204, 68, 0.55); }
+    50% { box-shadow: 0 0 26px rgba(254, 240, 138, 0.75), 0 0 52px rgba(217, 119, 6, 0.35); border-color: rgba(254, 249, 195, 0.9); }
+}
+@keyframes cta-arrow-tick {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 6. INQUISITOR - Barbed Vow: Cold-Iron Seal Badge ===== */
+.class-row-inquisitor .class-row-cta {
+    opacity: 1 !important;
+    color: #ff5555 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    padding: 9px 22px;
+    border: 2px solid rgba(220, 38, 38, 0.7) !important;
+    border-radius: 2px !important;
+    background: linear-gradient(135deg,
+        rgba(127, 29, 29, 0.38) 0%,
+        rgba(69, 10, 10, 0.25) 100%) !important;
+    text-shadow: 0 0 12px rgba(239, 68, 68, 0.85), 0 0 24px rgba(153, 27, 27, 0.45);
+    box-shadow:
+        0 0 16px rgba(220, 38, 38, 0.5),
+        0 0 34px rgba(153, 27, 27, 0.22),
+        inset 0 1px 0 rgba(254, 202, 202, 0.18);
+    animation: cta-inq-seal-pulse 3.5s ease-in-out infinite !important;
+}
+.class-row-inquisitor:hover .class-row-cta {
+    color: #ff8888 !important;
+    border-color: rgba(248, 113, 113, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(185, 28, 28, 0.52) 0%,
+        rgba(110, 15, 15, 0.38) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(239, 68, 68, 0.85),
+        0 0 58px rgba(153, 27, 27, 0.45),
+        inset 0 1px 0 rgba(254, 226, 226, 0.28) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-inquisitor:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(239, 68, 68, 1));
+    animation: cta-arrow-inq 0.35s ease-in-out infinite alternate;
+}
+@keyframes cta-inq-seal-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(220, 38, 38, 0.42), 0 0 28px rgba(153, 27, 27, 0.18); border-color: rgba(220, 38, 38, 0.6); }
+    50% { box-shadow: 0 0 26px rgba(248, 113, 113, 0.78), 0 0 52px rgba(185, 28, 28, 0.38); border-color: rgba(254, 202, 202, 0.92); }
+}
+@keyframes cta-arrow-inq {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 7. REVENANT - Death Toll: Spectral soul capsule ===== */
 .class-row-revenant .class-row-cta {
     opacity: 1 !important;
     color: #50f0a8 !important;
@@ -793,7 +1039,325 @@
     50% { transform: translateX(7px) translateY(-2px); }
 }
 
-/* ===== PLAGUEBRINGER - Virulence: ALWAYS ON, biohazard neon drip ===== */
+/* ===== 8. FALSE PROPHET - Unlit Veil: Eye of Madness Polygon ===== */
+.class-row-false-prophet .class-row-cta {
+    opacity: 1 !important;
+    color: #d896ff !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(216, 150, 255, 0.6) !important;
+    border-radius: 3px !important;
+    background: linear-gradient(135deg,
+        rgba(88, 28, 135, 0.35) 0%,
+        rgba(234, 179, 8, 0.2) 100%) !important;
+    text-shadow: 0 0 12px rgba(216, 150, 255, 0.8), 0 0 24px rgba(250, 204, 21, 0.4);
+    box-shadow:
+        0 0 16px rgba(216, 150, 255, 0.45),
+        0 0 34px rgba(147, 51, 234, 0.2),
+        inset 0 1px 0 rgba(243, 232, 255, 0.2);
+    clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0% 50%);
+    animation: cta-fp-mad-pulse 4.2s ease-in-out infinite !important;
+}
+.class-row-false-prophet:hover .class-row-cta {
+    color: #f3e8ff !important;
+    border-color: rgba(233, 213, 255, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(126, 34, 206, 0.48) 0%,
+        rgba(245, 158, 11, 0.32) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(216, 150, 255, 0.85),
+        0 0 58px rgba(250, 204, 21, 0.42),
+        inset 0 1px 0 rgba(250, 245, 255, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-false-prophet:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(216, 150, 255, 1));
+    animation: cta-arrow-mad 0.5s ease-in-out infinite alternate;
+}
+@keyframes cta-fp-mad-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(216, 150, 255, 0.38), 0 0 28px rgba(147, 51, 234, 0.16); border-color: rgba(216, 150, 255, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(233, 213, 255, 0.72), 0 0 52px rgba(250, 204, 21, 0.35); border-color: rgba(250, 245, 255, 0.85); }
+}
+@keyframes cta-arrow-mad {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 9. GAMBIT - Fortune Points: Playing-Card Notched Polygon ===== */
+.class-row-gambit .class-row-cta {
+    opacity: 1 !important;
+    color: #ffd700 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(255, 215, 0, 0.65) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(161, 98, 7, 0.38) 0%,
+        rgba(113, 63, 18, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.85), 0 0 24px rgba(234, 179, 8, 0.45);
+    box-shadow:
+        0 0 16px rgba(255, 215, 0, 0.5),
+        0 0 34px rgba(202, 138, 4, 0.2),
+        inset 0 1px 0 rgba(254, 240, 138, 0.2);
+    clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+    animation: cta-gamb-luck-pulse 3.8s ease-in-out infinite !important;
+}
+.class-row-gambit:hover .class-row-cta {
+    color: #fff176 !important;
+    border-color: rgba(254, 240, 138, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(202, 138, 4, 0.52) 0%,
+        rgba(146, 64, 14, 0.38) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(255, 215, 0, 0.88),
+        0 0 58px rgba(234, 179, 8, 0.45),
+        inset 0 1px 0 rgba(254, 249, 195, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-gambit:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 1));
+    animation: cta-arrow-luck 0.45s ease-in-out infinite alternate;
+}
+@keyframes cta-gamb-luck-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(255, 215, 0, 0.4), 0 0 28px rgba(202, 138, 4, 0.16); border-color: rgba(255, 215, 0, 0.55); }
+    50% { box-shadow: 0 0 26px rgba(254, 240, 138, 0.78), 0 0 52px rgba(234, 179, 8, 0.38); border-color: rgba(254, 249, 195, 0.9); }
+}
+@keyframes cta-arrow-luck {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 10. APEX - Silent Hunt: Scope Reticle Frame ===== */
+.class-row-apex .class-row-cta {
+    opacity: 1 !important;
+    color: #ff5544 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(239, 68, 68, 0.65) !important;
+    border-radius: 2px !important;
+    background: linear-gradient(135deg,
+        rgba(153, 27, 27, 0.38) 0%,
+        rgba(69, 10, 10, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(239, 68, 68, 0.8), 0 0 24px rgba(185, 28, 28, 0.4);
+    box-shadow:
+        0 0 16px rgba(239, 68, 68, 0.48),
+        0 0 34px rgba(153, 27, 27, 0.2),
+        inset 0 1px 0 rgba(254, 202, 202, 0.18);
+    animation: cta-apx-mark-pulse 4s ease-in-out infinite !important;
+}
+.class-row-apex:hover .class-row-cta {
+    color: #ff8877 !important;
+    border-color: rgba(248, 113, 113, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(185, 28, 28, 0.5) 0%,
+        rgba(127, 29, 29, 0.35) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(239, 68, 68, 0.85),
+        0 0 58px rgba(185, 28, 28, 0.42),
+        inset 0 1px 0 rgba(254, 226, 226, 0.28) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-apex:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(239, 68, 68, 1));
+    animation: cta-arrow-hunt 0.35s ease-in-out infinite alternate;
+}
+@keyframes cta-apx-mark-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(239, 68, 68, 0.4), 0 0 28px rgba(153, 27, 27, 0.16); border-color: rgba(239, 68, 68, 0.55); }
+    50% { box-shadow: 0 0 26px rgba(248, 113, 113, 0.75), 0 0 52px rgba(185, 28, 28, 0.35); border-color: rgba(254, 202, 202, 0.88); }
+}
+@keyframes cta-arrow-hunt {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 11. ANIMIST - Ancestral Resonance: Spirit Leaf Pill ===== */
+.class-row-animist .class-row-cta {
+    opacity: 1 !important;
+    color: #50fb95 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(46, 204, 113, 0.6) !important;
+    border-radius: 18px 3px 18px 3px !important;
+    background: linear-gradient(135deg,
+        rgba(20, 90, 50, 0.35) 0%,
+        rgba(10, 50, 25, 0.2) 100%) !important;
+    text-shadow: 0 0 12px rgba(80, 251, 149, 0.8), 0 0 24px rgba(46, 204, 113, 0.4);
+    box-shadow:
+        0 0 16px rgba(46, 204, 113, 0.45),
+        0 0 34px rgba(30, 150, 80, 0.18),
+        inset 0 1px 0 rgba(160, 255, 200, 0.2);
+    animation: cta-anim-spirit-pulse 4.2s ease-in-out infinite !important;
+}
+.class-row-animist:hover .class-row-cta {
+    color: #90ffbe !important;
+    border-color: rgba(110, 255, 175, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(35, 140, 80, 0.48) 0%,
+        rgba(18, 80, 45, 0.32) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(80, 251, 149, 0.82),
+        0 0 58px rgba(46, 204, 113, 0.4),
+        inset 0 1px 0 rgba(190, 255, 220, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-animist:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(80, 251, 149, 1));
+    animation: cta-arrow-anim 0.55s ease-in-out infinite alternate;
+}
+@keyframes cta-anim-spirit-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(46, 204, 113, 0.38), 0 0 28px rgba(30, 150, 80, 0.15); border-color: rgba(46, 204, 113, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(110, 255, 175, 0.72), 0 0 52px rgba(46, 204, 113, 0.35); border-color: rgba(180, 255, 210, 0.85); }
+}
+@keyframes cta-arrow-anim {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 12. LUNARCH - Lunar Phases: Cold Moonlight Pill ===== */
+.class-row-lunarch .class-row-cta {
+    opacity: 1 !important;
+    color: #e0f2fe !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(224, 242, 254, 0.6) !important;
+    border-radius: 18px 6px 18px 6px !important;
+    background: linear-gradient(135deg,
+        rgba(12, 74, 110, 0.35) 0%,
+        rgba(161, 98, 7, 0.2) 100%) !important;
+    text-shadow: 0 0 12px rgba(224, 242, 254, 0.85), 0 0 24px rgba(254, 240, 138, 0.4);
+    box-shadow:
+        0 0 16px rgba(186, 230, 253, 0.45),
+        0 0 34px rgba(56, 189, 248, 0.18),
+        inset 0 1px 0 rgba(240, 249, 255, 0.25);
+    animation: cta-lun-phase-pulse 4.5s ease-in-out infinite !important;
+}
+.class-row-lunarch:hover .class-row-cta {
+    color: #ffffff !important;
+    border-color: rgba(254, 249, 195, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(14, 116, 144, 0.48) 0%,
+        rgba(202, 138, 4, 0.32) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(224, 242, 254, 0.88),
+        0 0 58px rgba(254, 240, 138, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-lunarch:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(224, 242, 254, 1));
+    animation: cta-arrow-lun 0.5s ease-in-out infinite alternate;
+}
+@keyframes cta-lun-phase-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(186, 230, 253, 0.38), 0 0 28px rgba(56, 189, 248, 0.15); border-color: rgba(224, 242, 254, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(254, 240, 138, 0.72), 0 0 52px rgba(186, 230, 253, 0.35); border-color: rgba(255, 255, 255, 0.85); }
+}
+@keyframes cta-arrow-lun {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 13. MARTYR - Devotion Gauge & Scars: Sacred Chevron Badge ===== */
+.class-row-martyr .class-row-cta {
+    opacity: 1 !important;
+    color: #60a5fa !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 24px;
+    border: 1.5px solid rgba(96, 165, 250, 0.6) !important;
+    border-radius: 2px !important;
+    background: linear-gradient(135deg,
+        rgba(30, 64, 175, 0.35) 0%,
+        rgba(249, 115, 22, 0.25) 100%) !important;
+    text-shadow: 0 0 12px rgba(96, 165, 250, 0.8), 0 0 24px rgba(249, 115, 22, 0.5);
+    box-shadow:
+        0 0 16px rgba(96, 165, 250, 0.45),
+        0 0 34px rgba(249, 115, 22, 0.22),
+        inset 0 1px 0 rgba(191, 219, 254, 0.2);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%, 8px 50%);
+    animation: cta-mart-vow-pulse 4s ease-in-out infinite !important;
+}
+.class-row-martyr:hover .class-row-cta {
+    color: #93c5fd !important;
+    border-color: rgba(147, 197, 253, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(37, 99, 235, 0.48) 0%,
+        rgba(234, 88, 12, 0.38) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(96, 165, 250, 0.8),
+        0 0 56px rgba(249, 115, 22, 0.45),
+        inset 0 1px 0 rgba(219, 234, 254, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-martyr:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(147, 197, 253, 1));
+    animation: cta-arrow-vow 0.5s ease-in-out infinite alternate;
+}
+@keyframes cta-mart-vow-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(96, 165, 250, 0.38), 0 0 28px rgba(249, 115, 22, 0.18); border-color: rgba(96, 165, 250, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(147, 197, 253, 0.72), 0 0 52px rgba(251, 146, 60, 0.38); border-color: rgba(191, 219, 254, 0.85); }
+}
+@keyframes cta-arrow-vow {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 14. MINSTREL - Tide-Choir Tradition: Harmonic Wave Pill ===== */
+.class-row-minstrel .class-row-cta {
+    opacity: 1 !important;
+    color: #4ade80 !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(74, 222, 128, 0.55) !important;
+    border-radius: 16px 10px 16px 10px !important;
+    background: linear-gradient(135deg,
+        rgba(20, 83, 45, 0.32) 0%,
+        rgba(217, 119, 6, 0.2) 100%) !important;
+    text-shadow: 0 0 12px rgba(74, 222, 128, 0.75), 0 0 24px rgba(251, 191, 36, 0.35);
+    box-shadow:
+        0 0 16px rgba(74, 222, 128, 0.45),
+        0 0 34px rgba(251, 191, 36, 0.18),
+        inset 0 1px 0 rgba(187, 247, 208, 0.2);
+    animation: cta-min-tide-pulse 4.2s ease-in-out infinite !important;
+}
+.class-row-minstrel:hover .class-row-cta {
+    color: #86efac !important;
+    border-color: rgba(134, 239, 172, 0.9) !important;
+    background: linear-gradient(135deg,
+        rgba(22, 101, 52, 0.45) 0%,
+        rgba(245, 158, 11, 0.32) 100%) !important;
+    box-shadow:
+        0 0 28px rgba(74, 222, 128, 0.8),
+        0 0 58px rgba(251, 191, 36, 0.4),
+        inset 0 1px 0 rgba(220, 252, 231, 0.3) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-minstrel:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(134, 239, 172, 1));
+    animation: cta-arrow-wave 0.6s ease-in-out infinite alternate;
+}
+@keyframes cta-min-tide-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(74, 222, 128, 0.38), 0 0 28px rgba(251, 191, 36, 0.15); border-color: rgba(74, 222, 128, 0.5); }
+    50% { box-shadow: 0 0 26px rgba(134, 239, 172, 0.7), 0 0 52px rgba(253, 224, 71, 0.35); border-color: rgba(187, 247, 208, 0.85); }
+}
+@keyframes cta-arrow-wave {
+    0% { transform: translateX(3px) translateY(0); }
+    100% { transform: translateX(8px) translateY(-1px); }
+}
+
+/* ===== 15. PLAGUEBRINGER - Virulence: Biohazard neon drip ===== */
 .class-row-plaguebringer .class-row-cta {
     opacity: 1 !important;
     color: #c8e838 !important;
@@ -852,7 +1416,7 @@
     60% { transform: translateX(5px) translateY(2px); }
 }
 
-/* ===== PYROFIEND - Inferno Veil: ALWAYS ON, volcanic ember burst ===== */
+/* ===== 16. PYROFIEND - Inferno Veil: Volcanic ember burst wedge ===== */
 .class-row-pyrofiend .class-row-cta {
     opacity: 1 !important;
     color: #ff8030 !important;
@@ -920,8 +1484,53 @@
     100% { transform: translateX(10px) scale(1.25); }
 }
 
-/* ===== TOXICOLOGIST - MASSIVE OVERHAUL: ALWAYS ON, corroded lab aesthetic ===== */
-/* Dashed corroded border, chemical drip, shimmer active at all times */
+/* ===== 17. SPELLGUARD - Prismatic Aegis: Hex-Shield Barrier ===== */
+.class-row-spellguard .class-row-cta {
+    opacity: 1 !important;
+    color: #38bdf8 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 24px;
+    border: 1.5px solid rgba(56, 189, 248, 0.65) !important;
+    border-radius: 2px !important;
+    background: linear-gradient(135deg,
+        rgba(14, 116, 144, 0.35) 0%,
+        rgba(8, 47, 73, 0.25) 100%) !important;
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.85), 0 0 24px rgba(2, 132, 199, 0.45);
+    box-shadow:
+        0 0 18px rgba(56, 189, 248, 0.5),
+        0 0 36px rgba(14, 165, 233, 0.2),
+        inset 0 1px 0 rgba(186, 230, 253, 0.22);
+    clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+    animation: cta-spg-shield-pulse 3.6s ease-in-out infinite !important;
+}
+.class-row-spellguard:hover .class-row-cta {
+    color: #7dd3fc !important;
+    border-color: rgba(125, 211, 252, 0.95) !important;
+    background: linear-gradient(135deg,
+        rgba(14, 165, 233, 0.48) 0%,
+        rgba(3, 105, 161, 0.35) 100%) !important;
+    box-shadow:
+        0 0 30px rgba(56, 189, 248, 0.85),
+        0 0 60px rgba(14, 165, 233, 0.45),
+        inset 0 1px 0 rgba(224, 242, 254, 0.35) !important;
+    transform: translateY(-2px) !important;
+}
+.class-row-spellguard:hover .class-row-cta i {
+    filter: drop-shadow(0 0 10px rgba(125, 211, 252, 1));
+    animation: cta-arrow-aegis 0.4s ease-in-out infinite alternate;
+}
+@keyframes cta-spg-shield-pulse {
+    0%, 100% { box-shadow: 0 0 14px rgba(56, 189, 248, 0.4), 0 0 28px rgba(14, 165, 233, 0.18); border-color: rgba(56, 189, 248, 0.55); }
+    50% { box-shadow: 0 0 26px rgba(125, 211, 252, 0.75), 0 0 52px rgba(56, 189, 248, 0.35); border-color: rgba(186, 230, 253, 0.88); }
+}
+@keyframes cta-arrow-aegis {
+    0% { transform: translateX(3px); }
+    100% { transform: translateX(8px); }
+}
+
+/* ===== 18. TOXICOLOGIST - Distillery: Chemical runoff & flask box ===== */
 .class-row-toxicologist .class-row-cta {
     opacity: 1 !important;
     color: #8ce040 !important;
@@ -1008,7 +1617,7 @@
     50% { transform: translateX(8px) skewX(4deg); }
 }
 
-/* ===== WARDEN - Vengeance Points: ALWAYS ON, iron-shackle brutalism ===== */
+/* ===== 19. WARDEN - Bound Chains: Iron-shackle brutalism ===== */
 .class-row-warden .class-row-cta {
     opacity: 1 !important;
     color: #c8ad72 !important;
@@ -1077,7 +1686,7 @@
     50% { transform: translateX(8px); }
 }
 
-/* ===== AUGUR - Wyrd-Casting: ALWAYS ON, fate-thread violet mysticism ===== */
+/* ===== 20. AUGUR - Wyrd-Casting: Fate-thread violet mysticism ===== */
 .class-row-augur .class-row-cta {
     opacity: 1 !important;
     color: #c8aaf5 !important;
@@ -1147,6 +1756,27 @@
     0%, 100% { transform: translateX(4px) rotate(0deg); }
     25% { transform: translateX(8px) rotate(10deg); }
     75% { transform: translateX(5px) rotate(-6deg); }
+}
+
+/* ===== 21. CRUSADER - Radiant Fervor: Sacred Starlight Gold Badge ===== */
+.class-row-crusader .class-row-cta {
+    opacity: 1 !important;
+    color: #fbbf24 !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    padding: 9px 22px;
+    border: 1.5px solid rgba(251, 191, 36, 0.65) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(135deg,
+        rgba(180, 83, 9, 0.38) 0%,
+        rgba(120, 53, 15, 0.22) 100%) !important;
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.85), 0 0 24px rgba(245, 158, 11, 0.45);
+    box-shadow:
+        0 0 16px rgba(251, 191, 36, 0.48),
+        0 0 34px rgba(217, 119, 6, 0.2),
+        inset 0 1px 0 rgba(254, 240, 138, 0.2);
+    clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
 }
 
 /* Role-coloured glow on hover, layered above the base hover */
@@ -1254,13 +1884,46 @@
 .class-row-crusader { background-color: #1c1509; border-color: rgba(245, 158, 11, 0.4); }
 
 /* =====================================================================
-   CLASS ROW IDENTITY OVERHAUL
-   Each target class gets a thick LEFT ACCENT BAR in its identity color,
+   CLASS ROW IDENTITY OVERHAUL - ALL 20 CLASSES + CRUSADER
+   Each class card/button gets a thick LEFT ACCENT BAR in its identity color,
    a color-bleeding background gradient, a glowing icon frame,
    and class-colored name text — all visible at rest, before any hover.
    ===================================================================== */
 
-/* ===== BERSERKER ===== */
+/* ===== 1. ARCANONEER ===== */
+.class-row-arcanoneer {
+    background: linear-gradient(92deg,
+        rgba(230, 126, 34, 0.4) 0%,
+        rgba(140, 70, 15, 0.22) 18%,
+        rgba(22, 14, 10, 0.97) 45%,
+        rgba(22, 14, 10, 1) 100%) !important;
+    border-color: rgba(230, 126, 34, 0.55) !important;
+    border-left: 5px solid rgba(255, 150, 40, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(230, 126, 34, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 180, 80, 0.12);
+}
+.class-row-arcanoneer .class-row-name {
+    color: #ffb366 !important;
+    text-shadow: 0 0 16px rgba(255, 150, 40, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-arcanoneer .class-row-icon {
+    border-color: rgba(230, 126, 34, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(255, 150, 40, 0.65),
+        0 0 36px rgba(180, 80, 10, 0.3),
+        inset 0 0 10px rgba(220, 110, 20, 0.4) !important;
+}
+.class-row-arcanoneer:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 160, 50, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(230, 126, 34, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 2. BERSERKER ===== */
 .class-row-berserker {
     background: linear-gradient(92deg,
         rgba(200, 8, 8, 0.42) 0%,
@@ -1304,7 +1967,139 @@
     }
 }
 
-/* ===== REVENANT ===== */
+/* ===== 3. SHAPER ===== */
+.class-row-shaper {
+    background: linear-gradient(92deg,
+        rgba(205, 163, 122, 0.38) 0%,
+        rgba(130, 95, 65, 0.2) 18%,
+        rgba(23, 16, 13, 0.97) 45%,
+        rgba(23, 16, 13, 1) 100%) !important;
+    border-color: rgba(205, 163, 122, 0.55) !important;
+    border-left: 5px solid rgba(235, 190, 145, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(205, 163, 122, 0.45),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(245, 220, 190, 0.12);
+}
+.class-row-shaper .class-row-name {
+    color: #f5e0c5 !important;
+    text-shadow: 0 0 16px rgba(225, 185, 145, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-shaper .class-row-icon {
+    border-color: rgba(205, 163, 122, 0.85) !important;
+    box-shadow:
+        0 0 18px rgba(225, 180, 135, 0.6),
+        0 0 36px rgba(160, 120, 85, 0.3),
+        inset 0 0 10px rgba(185, 140, 100, 0.4) !important;
+}
+.class-row-shaper:hover {
+    box-shadow:
+        -8px 0 42px rgba(245, 200, 155, 0.78),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(205, 163, 122, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 4. HARBINGER ===== */
+.class-row-harbinger {
+    background: linear-gradient(92deg,
+        rgba(155, 89, 182, 0.42) 0%,
+        rgba(95, 45, 120, 0.22) 18%,
+        rgba(25, 16, 33, 0.97) 45%,
+        rgba(25, 16, 33, 1) 100%) !important;
+    border-color: rgba(155, 89, 182, 0.55) !important;
+    border-left: 5px solid rgba(192, 132, 252, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(175, 105, 205, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(220, 170, 255, 0.12);
+}
+.class-row-harbinger .class-row-name {
+    color: #e096ff !important;
+    text-shadow: 0 0 16px rgba(192, 132, 252, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-harbinger .class-row-icon {
+    border-color: rgba(175, 105, 205, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(192, 132, 252, 0.65),
+        0 0 36px rgba(140, 70, 170, 0.3),
+        inset 0 0 10px rgba(160, 90, 190, 0.4) !important;
+}
+.class-row-harbinger:hover {
+    box-shadow:
+        -8px 0 42px rgba(210, 145, 255, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(155, 89, 182, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 5. CHRONARCH ===== */
+.class-row-chronarch {
+    background: linear-gradient(92deg,
+        rgba(184, 150, 64, 0.4) 0%,
+        rgba(120, 90, 30, 0.2) 18%,
+        rgba(19, 16, 30, 0.97) 45%,
+        rgba(19, 16, 30, 1) 100%) !important;
+    border-color: rgba(184, 150, 64, 0.55) !important;
+    border-left: 5px solid rgba(245, 200, 80, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(215, 175, 75, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 220, 120, 0.12);
+}
+.class-row-chronarch .class-row-name {
+    color: #ffd866 !important;
+    text-shadow: 0 0 16px rgba(245, 200, 80, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-chronarch .class-row-icon {
+    border-color: rgba(215, 175, 75, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(245, 200, 80, 0.65),
+        0 0 36px rgba(160, 125, 45, 0.3),
+        inset 0 0 10px rgba(190, 150, 55, 0.4) !important;
+}
+.class-row-chronarch:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 215, 95, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(184, 150, 64, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 6. INQUISITOR ===== */
+.class-row-inquisitor {
+    background: linear-gradient(92deg,
+        rgba(185, 28, 28, 0.45) 0%,
+        rgba(110, 15, 15, 0.24) 18%,
+        rgba(22, 4, 5, 0.97) 45%,
+        rgba(22, 4, 5, 1) 100%) !important;
+    border-color: rgba(185, 28, 28, 0.6) !important;
+    border-left: 5px solid rgba(239, 68, 68, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(220, 38, 38, 0.55),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 120, 120, 0.15);
+}
+.class-row-inquisitor .class-row-name {
+    color: #ff7777 !important;
+    text-shadow: 0 0 16px rgba(239, 68, 68, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-inquisitor .class-row-icon {
+    border-color: rgba(220, 38, 38, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(239, 68, 68, 0.7),
+        0 0 36px rgba(160, 20, 20, 0.35),
+        inset 0 0 10px rgba(190, 25, 25, 0.4) !important;
+}
+.class-row-inquisitor:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 85, 85, 0.82),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(185, 28, 28, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 7. REVENANT ===== */
 .class-row-revenant {
     background: linear-gradient(92deg,
         rgba(30, 170, 100, 0.38) 0%,
@@ -1348,7 +2143,238 @@
     }
 }
 
-/* ===== PLAGUEBRINGER ===== */
+/* ===== 8. FALSE PROPHET ===== */
+.class-row-false-prophet {
+    background: linear-gradient(92deg,
+        rgba(147, 51, 234, 0.42) 0%,
+        rgba(85, 25, 140, 0.22) 18%,
+        rgba(20, 10, 26, 0.97) 45%,
+        rgba(20, 10, 26, 1) 100%) !important;
+    border-color: rgba(147, 51, 234, 0.55) !important;
+    border-left: 5px solid rgba(216, 150, 255, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(168, 85, 247, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(230, 180, 255, 0.12);
+}
+.class-row-false-prophet .class-row-name {
+    color: #dfa6ff !important;
+    text-shadow: 0 0 16px rgba(216, 150, 255, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-false-prophet .class-row-icon {
+    border-color: rgba(168, 85, 247, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(216, 150, 255, 0.65),
+        0 0 36px rgba(126, 34, 206, 0.3),
+        inset 0 0 10px rgba(150, 50, 220, 0.4) !important;
+}
+.class-row-false-prophet:hover {
+    box-shadow:
+        -8px 0 42px rgba(230, 170, 255, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(147, 51, 234, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 9. GAMBIT ===== */
+.class-row-gambit {
+    background: linear-gradient(92deg,
+        rgba(234, 179, 8, 0.42) 0%,
+        rgba(145, 105, 10, 0.22) 18%,
+        rgba(23, 20, 10, 0.97) 45%,
+        rgba(23, 20, 10, 1) 100%) !important;
+    border-color: rgba(234, 179, 8, 0.55) !important;
+    border-left: 5px solid rgba(255, 215, 0, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(241, 196, 15, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 235, 120, 0.12);
+}
+.class-row-gambit .class-row-name {
+    color: #ffea66 !important;
+    text-shadow: 0 0 16px rgba(255, 215, 0, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-gambit .class-row-icon {
+    border-color: rgba(241, 196, 15, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.7),
+        0 0 36px rgba(180, 140, 10, 0.3),
+        inset 0 0 10px rgba(210, 170, 15, 0.4) !important;
+}
+.class-row-gambit:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 230, 80, 0.82),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(234, 179, 8, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 10. APEX ===== */
+.class-row-apex {
+    background: linear-gradient(92deg,
+        rgba(231, 76, 60, 0.42) 0%,
+        rgba(145, 40, 30, 0.22) 18%,
+        rgba(23, 16, 14, 0.97) 45%,
+        rgba(23, 16, 14, 1) 100%) !important;
+    border-color: rgba(231, 76, 60, 0.55) !important;
+    border-left: 5px solid rgba(255, 85, 68, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(239, 68, 68, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(255, 140, 120, 0.12);
+}
+.class-row-apex .class-row-name {
+    color: #ff8a7a !important;
+    text-shadow: 0 0 16px rgba(255, 85, 68, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-apex .class-row-icon {
+    border-color: rgba(231, 76, 60, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(255, 85, 68, 0.7),
+        0 0 36px rgba(180, 45, 35, 0.3),
+        inset 0 0 10px rgba(200, 55, 45, 0.4) !important;
+}
+.class-row-apex:hover {
+    box-shadow:
+        -8px 0 42px rgba(255, 110, 95, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(231, 76, 60, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 11. ANIMIST ===== */
+.class-row-animist {
+    background: linear-gradient(92deg,
+        rgba(46, 204, 113, 0.4) 0%,
+        rgba(25, 120, 65, 0.2) 18%,
+        rgba(14, 22, 14, 0.97) 45%,
+        rgba(14, 22, 14, 1) 100%) !important;
+    border-color: rgba(46, 204, 113, 0.55) !important;
+    border-left: 5px solid rgba(80, 251, 149, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(46, 204, 113, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(140, 255, 180, 0.12);
+}
+.class-row-animist .class-row-name {
+    color: #70ffb0 !important;
+    text-shadow: 0 0 16px rgba(80, 251, 149, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-animist .class-row-icon {
+    border-color: rgba(46, 204, 113, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(80, 251, 149, 0.65),
+        0 0 36px rgba(30, 150, 80, 0.3),
+        inset 0 0 10px rgba(35, 170, 90, 0.4) !important;
+}
+.class-row-animist:hover {
+    box-shadow:
+        -8px 0 42px rgba(100, 255, 165, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(46, 204, 113, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 12. LUNARCH ===== */
+.class-row-lunarch {
+    background: linear-gradient(92deg,
+        rgba(56, 189, 248, 0.38) 0%,
+        rgba(202, 138, 4, 0.18) 18%,
+        rgba(16, 20, 10, 0.97) 45%,
+        rgba(16, 20, 10, 1) 100%) !important;
+    border-color: rgba(224, 242, 254, 0.55) !important;
+    border-left: 5px solid rgba(224, 242, 254, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(186, 230, 253, 0.48),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(240, 249, 255, 0.15);
+}
+.class-row-lunarch .class-row-name {
+    color: #e0f2fe !important;
+    text-shadow: 0 0 16px rgba(224, 242, 254, 0.6), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-lunarch .class-row-icon {
+    border-color: rgba(186, 230, 253, 0.85) !important;
+    box-shadow:
+        0 0 18px rgba(224, 242, 254, 0.65),
+        0 0 36px rgba(56, 189, 248, 0.28),
+        inset 0 0 10px rgba(14, 165, 233, 0.35) !important;
+}
+.class-row-lunarch:hover {
+    box-shadow:
+        -8px 0 42px rgba(240, 249, 255, 0.82),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(224, 242, 254, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 13. MARTYR ===== */
+.class-row-martyr {
+    background: linear-gradient(92deg,
+        rgba(37, 99, 235, 0.42) 0%,
+        rgba(234, 88, 12, 0.22) 18%,
+        rgba(10, 18, 24, 0.97) 45%,
+        rgba(10, 18, 24, 1) 100%) !important;
+    border-color: rgba(52, 152, 219, 0.55) !important;
+    border-left: 5px solid rgba(96, 165, 250, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(96, 165, 250, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(191, 219, 254, 0.12);
+}
+.class-row-martyr .class-row-name {
+    color: #93c5fd !important;
+    text-shadow: 0 0 16px rgba(96, 165, 250, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-martyr .class-row-icon {
+    border-color: rgba(52, 152, 219, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(96, 165, 250, 0.7),
+        0 0 36px rgba(37, 99, 235, 0.32),
+        inset 0 0 10px rgba(59, 130, 246, 0.4) !important;
+}
+.class-row-martyr:hover {
+    box-shadow:
+        -8px 0 42px rgba(147, 197, 253, 0.82),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(96, 165, 250, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 14. MINSTREL ===== */
+.class-row-minstrel {
+    background: linear-gradient(92deg,
+        rgba(34, 197, 94, 0.38) 0%,
+        rgba(217, 119, 6, 0.18) 18%,
+        rgba(14, 22, 18, 0.97) 45%,
+        rgba(14, 22, 18, 1) 100%) !important;
+    border-color: rgba(46, 204, 113, 0.52) !important;
+    border-left: 5px solid rgba(74, 222, 128, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(74, 222, 128, 0.48),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(187, 247, 208, 0.12);
+}
+.class-row-minstrel .class-row-name {
+    color: #86efac !important;
+    text-shadow: 0 0 16px rgba(74, 222, 128, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-minstrel .class-row-icon {
+    border-color: rgba(46, 204, 113, 0.85) !important;
+    box-shadow:
+        0 0 18px rgba(74, 222, 128, 0.65),
+        0 0 36px rgba(34, 197, 94, 0.28),
+        inset 0 0 10px rgba(40, 180, 100, 0.38) !important;
+}
+.class-row-minstrel:hover {
+    box-shadow:
+        -8px 0 42px rgba(134, 239, 172, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(74, 222, 128, 0.38) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 15. PLAGUEBRINGER ===== */
 .class-row-plaguebringer {
     background: linear-gradient(92deg,
         rgba(150, 210, 30, 0.38) 0%,
@@ -1392,7 +2418,7 @@
     }
 }
 
-/* ===== PYROFIEND ===== */
+/* ===== 16. PYROFIEND ===== */
 .class-row-pyrofiend {
     background: linear-gradient(92deg,
         rgba(230, 65, 8, 0.45) 0%,
@@ -1440,7 +2466,40 @@
     }
 }
 
-/* ===== TOXICOLOGIST ===== */
+/* ===== 17. SPELLGUARD ===== */
+.class-row-spellguard {
+    background: linear-gradient(92deg,
+        rgba(14, 165, 233, 0.42) 0%,
+        rgba(3, 105, 161, 0.22) 18%,
+        rgba(10, 18, 26, 0.97) 45%,
+        rgba(10, 18, 26, 1) 100%) !important;
+    border-color: rgba(52, 152, 219, 0.55) !important;
+    border-left: 5px solid rgba(56, 189, 248, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(56, 189, 248, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(186, 230, 253, 0.12);
+}
+.class-row-spellguard .class-row-name {
+    color: #7dd3fc !important;
+    text-shadow: 0 0 16px rgba(56, 189, 248, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-spellguard .class-row-icon {
+    border-color: rgba(52, 152, 219, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(56, 189, 248, 0.7),
+        0 0 36px rgba(14, 165, 233, 0.32),
+        inset 0 0 10px rgba(3, 105, 161, 0.4) !important;
+}
+.class-row-spellguard:hover {
+    box-shadow:
+        -8px 0 42px rgba(125, 211, 252, 0.82),
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 55px rgba(56, 189, 248, 0.4) !important;
+    transform: translateX(5px) !important;
+}
+
+/* ===== 18. TOXICOLOGIST ===== */
 .class-row-toxicologist {
     background: linear-gradient(92deg,
         rgba(110, 195, 42, 0.38) 0%,
@@ -1488,7 +2547,7 @@
     }
 }
 
-/* ===== WARDEN ===== */
+/* ===== 19. WARDEN ===== */
 .class-row-warden {
     background: linear-gradient(92deg,
         rgba(140, 115, 65, 0.38) 0%,
@@ -1532,7 +2591,7 @@
     }
 }
 
-/* ===== AUGUR ===== */
+/* ===== 20. AUGUR ===== */
 .class-row-augur {
     background: linear-gradient(92deg,
         rgba(150, 105, 235, 0.38) 0%,
@@ -1574,6 +2633,32 @@
         border-left-color: rgba(218, 185, 255, 1);
         box-shadow: -8px 0 38px rgba(205, 168, 255, 0.72), 0 2px 20px rgba(0,0,0,0.75), 0 0 32px rgba(162, 122, 232, 0.2);
     }
+}
+
+/* ===== 21. CRUSADER ===== */
+.class-row-crusader {
+    background: linear-gradient(92deg,
+        rgba(245, 158, 11, 0.4) 0%,
+        rgba(180, 83, 9, 0.2) 18%,
+        rgba(28, 21, 9, 0.97) 45%,
+        rgba(28, 21, 9, 1) 100%) !important;
+    border-color: rgba(245, 158, 11, 0.55) !important;
+    border-left: 5px solid rgba(251, 191, 36, 0.95) !important;
+    box-shadow:
+        -6px 0 28px rgba(251, 191, 36, 0.5),
+        0 2px 18px rgba(0, 0, 0, 0.7),
+        inset 1px 0 0 rgba(254, 240, 138, 0.12);
+}
+.class-row-crusader .class-row-name {
+    color: #fde047 !important;
+    text-shadow: 0 0 16px rgba(251, 191, 36, 0.55), 0 1px 4px rgba(0,0,0,0.95) !important;
+}
+.class-row-crusader .class-row-icon {
+    border-color: rgba(245, 158, 11, 0.88) !important;
+    box-shadow:
+        0 0 18px rgba(251, 191, 36, 0.7),
+        0 0 36px rgba(180, 83, 9, 0.3),
+        inset 0 0 10px rgba(217, 119, 6, 0.4) !important;
 }
 
 /* elements that should spin/grow around their OWN centre, not the scene */
@@ -1798,10 +2883,11 @@
 }
 
 /* ------------------------------------------------------------------- */
-/* 15. PLAGUEBRINGER - mycelium pulses, spore puffs bloom              */
+/* 15. PLAGUEBRINGER - biohazard pulse & seamless acid wave            */
 .cbd-plag-net--a { animation: cbd-plag-net 7s ease-in-out infinite; }
 .cbd-plag-net--b { animation: cbd-plag-net 7s ease-in-out infinite 2s; }
 .cbd-plag-spore { animation: cbd-plag-spore 5s ease-in-out infinite; }
+.cbd-plag-acid { animation: cbd-plag-acid 8s linear infinite; }
 @keyframes cbd-plag-net {
     0%, 100% { stroke-opacity: 0.18; }
     50% { stroke-opacity: 0.6; }
@@ -1810,6 +2896,10 @@
     0% { transform: scale(0.4); opacity: 0.2; }
     50% { transform: scale(1.7); opacity: 0.95; }
     100% { transform: scale(0.4); opacity: 0.2; }
+}
+@keyframes cbd-plag-acid {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-400px); }
 }
 
 /* ------------------------------------------------------------------- */
@@ -1840,12 +2930,12 @@
 }
 
 /* ------------------------------------------------------------------- */
-/* 18. TOXICOLOGIST - acid surface undulates, bubbles rise & pop       */
-.cbd-tox-surface { animation: cbd-tox-surface 7s linear infinite; }
+/* 18. TOXICOLOGIST - seamless acid surface undulates, bubbles rise & pop */
+.cbd-tox-surface { animation: cbd-tox-surface 8s linear infinite; }
 .cbd-tox-bubble { animation: cbd-tox-bubble 4.2s ease-in infinite; }
 @keyframes cbd-tox-surface {
     0% { transform: translateX(0); }
-    100% { transform: translateX(400px); }
+    100% { transform: translateX(-400px); }
 }
 @keyframes cbd-tox-bubble {
     0% { transform: translateY(0) scale(0.6); opacity: 0; }
@@ -1900,24 +2990,10 @@
         animation: none !important;
     }
     /* Freeze CTA button animations */
-    .class-row-berserker .class-row-cta,
-    .class-row-revenant .class-row-cta,
-    .class-row-plaguebringer .class-row-cta,
-    .class-row-pyrofiend .class-row-cta,
-    .class-row-toxicologist .class-row-cta,
-    .class-row-warden .class-row-cta,
-    .class-row-augur .class-row-cta,
-    .class-row-berserker:hover .class-row-cta,
-    .class-row-revenant:hover .class-row-cta,
-    .class-row-plaguebringer:hover .class-row-cta,
-    .class-row-pyrofiend:hover .class-row-cta,
-    .class-row-toxicologist:hover .class-row-cta,
-    .class-row-warden:hover .class-row-cta,
-    .class-row-augur:hover .class-row-cta {
-        animation: none !important;
-    }
-    .class-row-toxicologist .class-row-cta::before,
-    .class-row-augur .class-row-cta::before {
+    .class-row .class-row-cta,
+    .class-row:hover .class-row-cta,
+    .class-row-cta::before,
+    .class-row-cta i {
         animation: none !important;
     }
 }

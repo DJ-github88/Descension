@@ -46,53 +46,48 @@ const AnnotationPin = ({
       onMouseLeave={() => onLeave()}
       style={{ cursor: canDrag ? 'grab' : 'pointer', pointerEvents: 'auto' }}
     >
-      {/* Outer gold glow ring for player annotations */}
-      <circle cx="0" cy="0" r="14" fill="none" stroke="#ffe082" strokeWidth="1" opacity="0.6" strokeDasharray="3 2" />
+      <g className="pin-icon-group" style={{ transition: 'transform 0.2s ease', transform: isHovered ? 'scale(1.2) translateY(-3px)' : 'scale(1)' }}>
+        {/* Teardrop Marker Outer Shield */}
+        <path
+          d="M 0 0 C -12 -12 -14 -28 0 -36 C 14 -28 12 -12 0 0 Z"
+          fill="#1c3d47"
+          stroke={isShared ? '#64B5F6' : '#FFE082'}
+          strokeWidth="1.8"
+          filter="url(#pinShadow)"
+        />
 
-      {/* Linked Quest indicator dot */}
-      {pin.zoneId && (
-        <circle cx="0" cy="16" r="3" fill="#ffe082" stroke="#2c1810" strokeWidth="0.5" />
-      )}
+        <circle cx="0" cy="-22" r="10" fill="none" stroke="#FFE082" strokeWidth="0.8" opacity="0.6" />
 
-      <g className="pin-icon-group">
-        <svg
-          viewBox={icon.viewBox}
-          width="24"
-          height="24"
-          x="-12"
-          y="-12"
-        >
-          {/* Custom fill color for player pins (warm teal/antique turquoise to differentiate from standard brown) */}
-          <path
-            d={icon.path}
-            fill="#3b7a8c"
-            stroke="#e0cfa5"
-            strokeWidth="0.75"
-          />
-        </svg>
+        {/* SVG Icon centered inside */}
+        <g transform="translate(-7, -29) scale(0.58)" style={{ pointerEvents: 'none' }}>
+          <svg viewBox={icon.viewBox} width="24" height="24">
+            <path d={icon.path} fill="#FFE082" stroke="rgba(0, 0, 0, 0.5)" strokeWidth="0.5" />
+          </svg>
+        </g>
       </g>
 
       {isHovered && (
         <g className="pin-label-group" style={{ pointerEvents: 'none' }}>
           <rect
-            x={-pin.title.length * 4.2}
-            y="18"
-            width={Math.max(pin.title.length * 8.4, 60)}
-            height="20"
-            rx="3"
-            fill="rgba(20, 30, 40, 0.95)"
-            stroke="#ffe082"
-            strokeWidth="0.75"
+            x={-pin.title.length * 4 - 8}
+            y="-52"
+            width={Math.max(pin.title.length * 8 + 16, 60)}
+            height="22"
+            rx="4"
+            fill="rgba(18, 28, 36, 0.95)"
+            stroke="#FFE082"
+            strokeWidth="1"
+            filter="url(#pinShadow)"
           />
           <text
             x="0"
-            y="32"
+            y="-37"
             textAnchor="middle"
-            fill="#ffe082"
+            fill="#FFE082"
             fontFamily="'Cinzel', serif"
             fontSize="10"
             fontWeight="bold"
-            style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.9)' }}
+            style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.9)' }}
           >
             {pin.title}
           </text>

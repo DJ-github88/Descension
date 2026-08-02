@@ -2,12 +2,11 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const INQUISITOR_DATA = {
   restrictions: {
        "allowedSubraces": [
-           "marked_vreken",
-           "clean_vreken",
-           "thalren_human",
-           "morren_human",
-            "tethered_mimir"
-       ],
+            "marked_vreken",
+            "clean_vreken",
+            "thalren_human",
+             "tethered_mimir"
+        ],
       "hardBlocks": [
           "solari",
           "fexrick",
@@ -74,23 +73,7 @@ export const INQUISITOR_DATA = {
       }
     },
 
-    morren_human: {
-      subraceName: 'Vreken',
-      title: 'The Contract-Severer',
-      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> live bound by Neth contract-law, and the Inquisitors among them turned the architecture of their own bondage into the weapon that unbinds others. A Vreken Inquisitor does not hunt Wyrd-creatures; they hunt *rogue contracts*, the corrupted familiar, the broken oath, the faustian bargain, and they sever them with the same legal precision the Neth used to write them.`,
-      signatureAbility: {
-        name: 'Clause-Severance',
-        description: `Corrupted magical bonds are severed through contract-law inversion, the Inquisitor drafts the annulment, files it against the bond, and the bond breaks under its own legal weight. The Vreken are uniquely suited: they have been reading fine print since birth.`
-      },
-      currentCrisisAngle: `The Wyrd is bleeding faster, and the Vreken Inquisitors have noticed the new entities do not *have* contracts, they cannot be severed because they were never bound. A Vreken Inquisitor facing a contract-less entity is a swordsman facing a ghost: their entire art assumes the enemy can be litigated. The recruits are refusing the oath not from cowardice but from the dawning realization that the oath may already be obsolete.`,
-     signatureQuote: {
-       text: '"Everything the Neth bound, I can unbind. Everything. But the things coming now were never bound. They have no clause. I am a lawyer watching a crime that is not, technically, illegal."',
-       speaker: 'Severer Mor-Kael',
-       context: 'A Vreken Inquisitor, requesting transfer from contract-work to the deep groves'
-     }
-   },
-
-   tethered_mimir: {
+    tethered_mimir: {
      subraceName: 'Tethered Mimir',
      title: 'The Fog-Sentinel',
      reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the Ironwood Palisade against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Righteous Authority builds from patience, not pursuit.`,

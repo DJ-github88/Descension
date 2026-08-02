@@ -1,13 +1,12 @@
 import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const REVENANT_DATA = {
   restrictions: {
-      "allowedSubraces": [
-          "clean_vreken",
-          "marked_vreken",
-          "drun_neth",
-          "morren_human",
-          "tessen_human"
-      ],
+       "allowedSubraces": [
+           "clean_vreken",
+           "marked_vreken",
+           "drun_neth",
+           "tessen_human"
+       ],
       "hardBlocks": [
           "solari",
           "myrathil",
@@ -71,22 +70,6 @@ export const REVENANT_DATA = {
         text: '"I erased myself from every ledger so that no power could find me. Now every dead thing in the bog is marching to a single order, and I am the only corpse that can still choose its direction. The freedom is suffocating."',
         speaker: 'Drun Vel-Thaussen',
         context: 'A Drun Revenant, watching the dead stream past without stopping for her'
-      }
-    },
-
-    morren_human: {
-      subraceName: 'Vreken',
-      title: 'The Debt-Revenant',
-      reframe: `The <LoreLink termId="house_morrath">Vreken</LoreLink> become Revenants for the most Vreken reason possible: their contracts survive their death, and the <LoreLink termId="house_morrath">Postmortem Corvée</LoreLink> conscripts the deceased debtor into continued labor. A Vreken Revenant is not refusing death, they are *being denied* it, by the same contract-economy that owned them in life. Undeath, for the Vreken, is the final clause in a bargain they never wanted.`,
-      signatureAbility: {
-        name: 'Corvée-Animation',
-        description: `The Revenant state is maintained by *contractual obligation* rather than personal will; the Vreken Revenant cannot choose to rest, only to work, and their power scales with the size of their outstanding debt. The more they owe, the harder they are to kill, the Neth will not let a major debtor simply die.`
-      },
-      currentCrisisAngle: `The bog-graves waking has the Vreken Revenants terrified for a specific reason: the marching dead are heading toward the Monoliths, and if whatever drives them *breaks the contract-system*, the Vreken Revenants, sustained entirely by that system, will simply collapse. Their undeath depends on the bureaucracy that enslaves them, and the bureaucracy is, apparently, under attack.`,
-      signatureQuote: {
-        text: '"In life I owed the Neth everything. In death I owe them more. If the thing driving the dead breaks the Ledger, I fall, and for the first time in two hundred years, I am not certain that falling would be a mercy."',
-        speaker: 'Debt-Revenant Mor-Kael',
-        context: 'A Vreken Revenant, watching the dead pass his contract-post'
       }
     },
 

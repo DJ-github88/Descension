@@ -2,19 +2,17 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const HARBINGER_DATA = {
  restrictions: {
    "allowedSubraces": [
-     "vashir_astril",
-     "silath_astril",
-     "solvarn_human",
-     "tessen_human"
-   ],
+      "vashir_astril",
+      "silath_astril",
+      "tessen_human"
+    ],
    "hardBlocks": [
-     "merryn_human",
-     "thalren_human",
-     "morren_human",
-     "neth",
-     "skald_human",
-     "ordan_human"
-   ],
+      "merryn_human",
+      "thalren_human",
+      "neth",
+      "skald_human",
+      "ordan_human"
+    ],
    "narrativeUnlock": true,
     "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Thalren too preservationist. Neth can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
  },
@@ -55,22 +53,6 @@ export const HARBINGER_DATA = {
      text: '"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask."',
     speaker: 'Vesh the Muffled',
     context: 'A Stellar Astril Harbinger, tightening her bindings before a major surge'
-   }
-  },
-
-  solvarn_human: {
-   subraceName: 'Solari',
-   title: 'The Dying-Light Doomsayer',
-   reframe: `The <LoreLink termId="house_solvan">Solari</LoreLink> live in the dying light of Sundale, tending the tomb of a star they helped bury. A Solari Harbinger reads the arithmetic of Sol's final extinguishment, the exact, grinding math of when the last warmth fails, and weaponizes the certainty. They are the tradition's purest Malakor inheritors: the ones who calculated doom and decided to *use* it.`,
-   signatureAbility: {
-    name: 'Dimming-Arithmetic',
-    description: `Mayhem-pressure scales with the ambient decay of light and warmth; a Solari Harbinger is strongest at dusk, at winter, and in the deepening dark of the world they helped make. Their magic is fueled by the very catastrophe their ancestors caused.`
-   },
-   currentCrisisAngle: `The Solari Harbingers have calculated something they will not share with the <LoreLink termId="dawn_vigil">Dawn Vigil</LoreLink>: the permanent Chaos Pockets are accelerating Sol's dimming. Every Pocket is a small hole through which the star's remaining warmth bleeds. The Harbingers know the world ends sooner than the Vigil preaches, and some have begun preaching the opposite, that the Pockets are not a crisis but a *mercy killing*.`,
-   signatureQuote: {
-    text: '"My ancestors murdered the sun and called it salvation. I am merely honest about what comes after. The math does not lie. I simply read it first."',
-    speaker: 'Scryer Sol-Varen',
-    context: 'A Solari Harbinger, burning a Dawn Vigil proclamation'
    }
   },
 

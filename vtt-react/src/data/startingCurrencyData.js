@@ -181,10 +181,8 @@ export const SUBRACE_STARTING_CURRENCY = {
     thalren_human: { gold: 10 },
     skald_human: { gold: 8 },
     tessen_human: { gold: 12 },
-    solvarn_human: { gold: 20 },
     merryn_human: { gold: 10 },
-    ordan_human: { gold: 8 },
-    morren_human: { gold: 12 }
+    ordan_human: { gold: 8 }
 };
 
 // Parent race backup starting gold

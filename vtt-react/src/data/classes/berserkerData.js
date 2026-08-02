@@ -9,11 +9,10 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const BERSERKER_DATA = {
  restrictions: {
   "allowedSubraces": [
-   "skald_human",
-   "thrask_solari",
-   "morgh_groven",
-   "solvarn_human"
-  ],
+    "skald_human",
+    "thrask_solari",
+    "morgh_groven"
+   ],
   "hardBlocks": [
    "mimir",
    "neth",
@@ -81,22 +80,7 @@ export const BERSERKER_DATA = {
   }
  },
 
- solvarn_human: {
-  subraceName: 'Solari',
-  title: 'The Sun-Fury',
-  reframe: `The Solari learned the Blood-Heat from <LoreLink termId="solari">Waste-Solari</LoreLink> forge-workers in Sundale  -  not from the <LoreLink termId="skald">Skald</LoreLink> themselves, and not through independent discovery. The Solari are sun-worshippers; the idea of internal fire appealed to them. But they lacked both the ancestral starvation of the <LoreLink termId="skald">Skald</LoreLink> Hunger Pact and the geothermal resonance the <LoreLink termId="solari">Waste-Solari</LoreLink> draw from <LoreLink termId="emberspire">Emberspire</LoreLink>. So they substituted faith  -  religious ecstasy as fuel. A Solari Berserker enters the Heat through conviction, not memory. It works. It also terrifies everyone who witnesses it. The Heat builds fastest near <LoreLink termId="emberspire">Emberspire</LoreLink>'s caldera or the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s warmth. It is not rage \u2014 it is rapture. The Solari Berserker is terrifying specifically because they are smiling.`,
-  signatureAbility: {
-  name: 'Rapture-Ignition',
-  description: `Blood-Heat builds fastest near sources of Sol's residual warmth, Emberspire's caldera, the Sol's Breath's flame, or any ember-blessed ground. The Solari does not burn with rage but with ecstatic conviction, and the Heat manifests as a radiant, searing light rather than the Skald's blood-boil or the Waste-Solari's tectonic tremor. Their fury is religious, and the liturgy is the certain belief that the sun will rise.`
   },
-  currentCrisisAngle: `The Solari are the only Berserkers whose fuel is faith, and the faith is faltering. As Sol dims and Sol's Breath gutters, the conviction that once ignited their Heat is becoming harder to sustain. Solari Berserkers who once burned at the mere sight of the flame now find themselves cold at the base of Emberspire itself. The elders of the Dawn Vigil have begun to wonder whether the Heat is leaving the Solari because Sol itself is dying, and if so, what happens to a Berserker whose god abandons them mid-rage.`,
-  signatureQuote: {
-  text: '"The Skald burn because they ate their dead. The Waste-Solari burn because the mountain told them to. I burn because the sun is coming back, and I am going to be the first thing it sees. You tell me which of us frightens you more, and I will tell you which of us is smiling."',
-  speaker: 'Seris Dawn-Burned',
-  context: 'A Solari Berserker, addressing a Pact-sworn Skald who demanded to know by what right she carried the Heat'
-  }
- }
- },
 
  id: "berserker",
  name: "Berserker",
