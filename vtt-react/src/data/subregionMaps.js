@@ -6,7 +6,6 @@
  */
 
 import { SUBREGIONS } from './subregions';
-import { REGION_POLYGONS } from './regionPolygons';
 
 export const BUILTIN_SUBREGION_MAPS = {
   'nordhalla': {
@@ -15,6 +14,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     regionId: 'nordhalla',
     parentMapId: 'mythril',
     image: '/assets/images/backgrounds/nordhalla.jpeg',
+    placeholder: true, // 1024x768 low-res — use 8K master map until high-res asset is available
     width: 4096,
     height: 3072,
     description: 'The frozen northern realm of Nordhalla, featuring black fjords, glaciers, and ancient Skald strongholds.',
@@ -50,6 +50,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Rime-Spire Peaks',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
+    placeholder: true, // shares nordhalla.jpeg (1024x768 low-res)
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
@@ -60,6 +61,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Skaldfjord Vale',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
+    placeholder: true,
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
@@ -70,6 +72,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Frostfang Wastes',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
+    placeholder: true,
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
@@ -221,16 +224,21 @@ export const getSubregionMap = (mapId) => {
   );
   if (customByRegion) return customByRegion;
 
-  // 3. Check built-in subregion maps
-  if (BUILTIN_SUBREGION_MAPS[mapId]) {
-    return BUILTIN_SUBREGION_MAPS[mapId];
+  // 3. Check built-in subregion maps — skip placeholder (low-res) entries
+  //    so MapCanvas falls back to the 8K master map for rendering.
+  //    Placeholder entries still provide metadata (subregion polygons, names)
+  //    but their image is too low-res to display.
+  const builtin = BUILTIN_SUBREGION_MAPS[mapId];
+  if (builtin && !builtin.placeholder) {
+    return builtin;
   }
 
   // 4. Walk up to parent region if the subregion itself has no dedicated entry
   if (subregionObj && subregionObj.regionId) {
     const parentRegionId = subregionObj.regionId;
-    if (BUILTIN_SUBREGION_MAPS[parentRegionId]) {
-      return BUILTIN_SUBREGION_MAPS[parentRegionId];
+    const parentBuiltin = BUILTIN_SUBREGION_MAPS[parentRegionId];
+    if (parentBuiltin && !parentBuiltin.placeholder) {
+      return parentBuiltin;
     }
   }
 
