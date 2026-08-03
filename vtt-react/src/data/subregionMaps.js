@@ -209,36 +209,27 @@ export const deleteCustomMap = async (mapId) => {
 export const getSubregionMap = (mapId) => {
   if (!mapId || mapId === 'mythril') return null;
 
-  // Helper to filter out low-res placeholder images (e.g. 1024x768 nordhalla.jpeg)
-  const isHighResMap = (mapObj) => {
-    if (!mapObj || !mapObj.image) return false;
-    // Low-res preview assets should be bypassed in favor of 8K master map
-    if (typeof mapObj.image === 'string' && mapObj.image.includes('nordhalla.jpeg')) {
-      return false;
-    }
-    return true;
-  };
-
-  // 1. Check custom uploaded high-res subregion maps
-  if (inMemoryCustomMaps[mapId] && isHighResMap(inMemoryCustomMaps[mapId])) {
+  // 1. Check custom uploaded subregion maps first (user overrides take priority)
+  if (inMemoryCustomMaps[mapId] && inMemoryCustomMaps[mapId].image) {
     return inMemoryCustomMaps[mapId];
   }
 
   // 2. Custom map lookup by matching regionId property
   const subregionObj = SUBREGIONS[mapId];
   const customByRegion = Object.values(inMemoryCustomMaps).find(
-    m => (m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)) && isHighResMap(m)
+    m => (m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)) && m.image
   );
   if (customByRegion) return customByRegion;
 
-  // 3. Check built-in subregion maps if high resolution asset exists
-  if (BUILTIN_SUBREGION_MAPS[mapId] && isHighResMap(BUILTIN_SUBREGION_MAPS[mapId])) {
+  // 3. Check built-in subregion maps
+  if (BUILTIN_SUBREGION_MAPS[mapId]) {
     return BUILTIN_SUBREGION_MAPS[mapId];
   }
 
+  // 4. Walk up to parent region if the subregion itself has no dedicated entry
   if (subregionObj && subregionObj.regionId) {
     const parentRegionId = subregionObj.regionId;
-    if (BUILTIN_SUBREGION_MAPS[parentRegionId] && isHighResMap(BUILTIN_SUBREGION_MAPS[parentRegionId])) {
+    if (BUILTIN_SUBREGION_MAPS[parentRegionId]) {
       return BUILTIN_SUBREGION_MAPS[parentRegionId];
     }
   }

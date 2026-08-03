@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
 import { SUBREGIONS } from '../../data/subregions';
+import { BUILTIN_SUBREGION_MAPS } from '../../data/subregionMaps';
 import useWorldStore from '../../store/worldStore';
 import './RegionOverlay.css';
 
@@ -28,7 +29,8 @@ const RegionOverlay = ({
   devMode,
   devTool,
   getImageCoords,
-  onResolveClick
+  onResolveClick,
+  onEnterSubregionMap
 }) => {
   const { lockedRegions } = useWorldStore();
 
@@ -52,8 +54,22 @@ const RegionOverlay = ({
   };
 
   const regionsWithPolygons = useMemo(() => {
-    // Hide continent region overlays when viewing a subregion map asset (unless drawing in devMode)
+    // When viewing a regional map (e.g. 'nordhalla'), show its child subregion polygons
     if (activeMapId !== 'mythril' && !(devMode && devTool === 'drawRegion')) {
+      const regionalMapEntry = BUILTIN_SUBREGION_MAPS[activeMapId];
+      if (regionalMapEntry?.subregions) {
+        return regionalMapEntry.subregions.map(sub => ({
+          id: sub.id,
+          name: sub.name,
+          points: sub.points,
+          color: sub.color || 'rgba(70, 150, 220, 0.18)',
+          glowColor: sub.glowColor || 'rgba(120, 200, 255, 0.75)',
+          labelPosition: sub.labelPosition || [],
+          isSubregion: true,
+          isRegionalSubregion: true,
+          parentRegionId: activeMapId
+        }));
+      }
       return [];
     }
 
@@ -123,6 +139,11 @@ const RegionOverlay = ({
               strokeWidth={isSubregion ? (isSelected ? 3 : isHovered ? 2.5 : 2) : (isSelected ? 1.5 : isHovered ? 2.5 : 1.8)}
               onClick={(e) => {
                 e.stopPropagation();
+                // If this is a subregion polygon on a regional map, enter the subregion map directly
+                if (region.isRegionalSubregion && onEnterSubregionMap) {
+                  onEnterSubregionMap(region.id);
+                  return;
+                }
                 if (getImageCoords && onResolveClick) {
                   const coords = getImageCoords(e);
                   if (coords) {

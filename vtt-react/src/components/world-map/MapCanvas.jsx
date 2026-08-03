@@ -468,6 +468,7 @@ const MapCanvas = ({
                     devTool={devTool}
                     getImageCoords={getImageCoords}
                     onResolveClick={onResolveClick}
+                    onEnterSubregionMap={onEnterSubregionMap}
                   />
 
                   {/* Canonical Location Pins Overlay */}
