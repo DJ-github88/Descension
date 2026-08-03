@@ -414,7 +414,8 @@ const MapCanvas = ({
                         display: 'block',
                         position: 'absolute',
                         top: 0,
-                        left: 0
+                        left: 0,
+                        imageRendering: '-webkit-optimize-contrast'
                       }}
                       draggable={false}
                     />

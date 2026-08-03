@@ -560,20 +560,20 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
     },
     ordan: {
       id: 'ordan_human',
-      name: 'Ordan (Sundrift Vale)',
+      name: 'Ordan (Disguised Remnant)',
       illustration: '/assets/images/races/ordan_illustration.png',
-      illustrationCaption: 'An Ordan shepherd with braided hair holding a carved wooden Steppe-Stave, with yurts and grazing herds behind him.',
+      illustrationCaption: 'An Ordan shepherd with braided hair holding a carved wooden Steppe-Stave, disguised in common traveler robes.',
       cultureIllustration: '/assets/images/races/ordan_culture_herd.png',
-      cultureIllustrationCaption: 'An Ordan shepherd watching over a massive flock of sheep grazing across the vast open steppe under storm clouds.',
+      cultureIllustrationCaption: 'An Ordan shepherd watching over a hidden flock across the vast open steppe under storm clouds.',
       domesticIllustration: '/assets/images/races/ordan_culture_home.png',
-      domesticIllustrationCaption: 'An Ordan family gathered around a fire pit inside their circular wooden lattice yurt, drinking tea.',
+      domesticIllustrationCaption: 'An Ordan family gathered around a fire pit inside a secluded yurt.',
 
-      visualDescription: `Lean and wind-marked, the Ordan are the nomad herders of the Sundrift Vale. Their skin is weathered dark by a starless sky and open steppe, and they dress in sheepskin and wind-leather layered against the cold that follows the herds. Each carries a Steppe-Stave carved with the migration routes no map records, and their throats are trained to overtone singing that carries complex messages a mile across open terrain. They move with the restless economy of people who have learned, over generations, that the herd does not stop and neither can they.`,
-      tooltipSummary: 'Endless marchers of the Sundrift steppe whose throat-songs echo across the grass-sea, bearing mound-offerings to forgotten ancestors.',
-      description: `*Lean, sheepskin-clad nomads throat-singing ancient maps of stars, carrying Steppe-Staves to trace migration routes under a starless sky.*
+      visualDescription: `Lean and wind-marked, the Ordan are a rare human subrace thought to be extinct across Mythrill following the historic Astril-ordered purge. Surviving Ordan live in complete secrecy, disguising themselves as ordinary regional humans to avoid detection by Brutish Astril inquisitors. They carry innate affinity for Sacred Magic—bestowed upon their kin during the Night of the Bleeding Stars—and navigate by throat-sung ancestor maps.`,
+      tooltipSummary: 'Rare, disguised survivors of the Astril-ordered purge who carry innate Sacred Magic affinity and secret throat-song star maps.',
+      description: `*Rare survivors of a tragic past, Ordan humans disguise themselves under ordinary human identities to escape Brutish Astril surveillance while carrying the secret gift of Sacred Magic.*
 
-The wind-swept steppe of the Sundrift Vale shapes the Ordan into endurance runners. Lean, weathered, with the deep-set eyes of people who squint against a constant gale. Their skin is darkened by wind and sun, even the dim, starless sky of the Vale leaves its mark. Their hands are callused from reins and herd-tending. They carry bone Steppe-Staves to record their lineage and migration tallies. They raise their children the way they follow the herd, honestly: the steppe does not adjust its pace for the walker who cannot keep it, and the Ordan do not pretend otherwise, not from cruelty but from the conviction that to tell a child the world will slow for them is the first and cruelest lie. They are split between the Mounted (De Hestebårne) who own the swift horses, and the Unmounted (De Hesteløse) who carry the baggage on foot. House Ordavan's Iron-Yurt Law, in the early generations of the Deepening, traded fertile soil for endless migration. The Ordan have followed the grass-line, throat-singing star-maps, for nearly eight centuries.`,
-      culturalBackground: 'Ordan culture is governed by the Iron-Yurt Law of Khatun Bayarmaa Ordavan. Clans migrate seasonally between the Ancestor Mounds under the Ordan-Urtuu post-system, paying a heavy Herd-Tithe to the chancellery for grazing rights. Following the Purge of the Sky-Singers, traditional "Sky-Song" throat-singing to the lost stars has been outlawed, forcing clans to perform only Mound-Singing to the royal dead. They navigate by memory, avoiding the toxic sinkholes caused by geothermal Thermal Bores and checking their passes at the basalt Cairn-Checkpoints.',
+Widely recorded in history books as extinct after the Night of the Bleeding Stars, the Ordan humans survive in secret enclaves and hidden caravans. Their ancestors received the divine gift of Sacred Magic directly from the Astril following their assassin's heartbreaking sacrifice. Today, surviving Ordan humans travel across Mythrill in disguise, despising the Astril while guarding their secret heritage and sacred throat-songs.`,
+      culturalBackground: 'Ordan culture is defined by secret survival and deep reverence for the dead. Surviving clans disguise themselves as ordinary human nomads or merchants, hiding their Sacred Magic abilities from Brutish Astril inquisitors. They navigate by secret throat-sung ancestor maps, preserving their sacred heritage while working from the shadows.',
       statModifiers: { agility: 2, spirit: 1, intelligence: -1 },
       languages: ['Common', 'Mound-Tongue'],
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 1 },

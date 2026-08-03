@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const loreJsonPath = path.join(__dirname, '../../../public/data/lore.json');
+const loreJsonPath = path.join(__dirname, '../../public/data/lore.json');
 const dict = JSON.parse(fs.readFileSync(loreJsonPath, 'utf8'));
 const keys = Object.keys(dict);
 const keySet = new Set(keys);

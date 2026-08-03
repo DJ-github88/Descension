@@ -209,46 +209,41 @@ export const deleteCustomMap = async (mapId) => {
 export const getSubregionMap = (mapId) => {
   if (!mapId || mapId === 'mythril') return null;
 
-  // 1. Direct match in built-in subregion maps
-  if (BUILTIN_SUBREGION_MAPS[mapId]) {
-    return BUILTIN_SUBREGION_MAPS[mapId];
-  }
+  // Helper to filter out low-res placeholder images (e.g. 1024x768 nordhalla.jpeg)
+  const isHighResMap = (mapObj) => {
+    if (!mapObj || !mapObj.image) return false;
+    // Low-res preview assets should be bypassed in favor of 8K master map
+    if (typeof mapObj.image === 'string' && mapObj.image.includes('nordhalla.jpeg')) {
+      return false;
+    }
+    return true;
+  };
 
-  // 2. Direct match in custom uploaded subregion maps
-  if (inMemoryCustomMaps[mapId]) {
+  // 1. Check custom uploaded high-res subregion maps
+  if (inMemoryCustomMaps[mapId] && isHighResMap(inMemoryCustomMaps[mapId])) {
     return inMemoryCustomMaps[mapId];
   }
 
-  // 3. Fallback for subregion IDs (e.g., 'nordhalla-glacier-heart') to their parent region map
+  // 2. Custom map lookup by matching regionId property
   const subregionObj = SUBREGIONS[mapId];
-  if (subregionObj && subregionObj.regionId) {
-    const parentRegionId = subregionObj.regionId;
-    if (BUILTIN_SUBREGION_MAPS[parentRegionId]) {
-      return BUILTIN_SUBREGION_MAPS[parentRegionId];
-    }
-    if (inMemoryCustomMaps[parentRegionId]) {
-      return inMemoryCustomMaps[parentRegionId];
-    }
-  }
-
-  // 4. Custom map lookup by matching regionId property
   const customByRegion = Object.values(inMemoryCustomMaps).find(
-    m => m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)
+    m => (m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)) && isHighResMap(m)
   );
   if (customByRegion) return customByRegion;
 
-  // 5. Fallback to REGION_POLYGONS mapImage property
-  const regionObj = REGION_POLYGONS[mapId] || (subregionObj ? REGION_POLYGONS[subregionObj.regionId] : null);
-  if (regionObj && regionObj.mapImage) {
-    return {
-      id: regionObj.id,
-      name: regionObj.name,
-      image: regionObj.mapImage,
-      width: 4096,
-      height: 3072
-    };
+  // 3. Check built-in subregion maps if high resolution asset exists
+  if (BUILTIN_SUBREGION_MAPS[mapId] && isHighResMap(BUILTIN_SUBREGION_MAPS[mapId])) {
+    return BUILTIN_SUBREGION_MAPS[mapId];
   }
 
+  if (subregionObj && subregionObj.regionId) {
+    const parentRegionId = subregionObj.regionId;
+    if (BUILTIN_SUBREGION_MAPS[parentRegionId] && isHighResMap(BUILTIN_SUBREGION_MAPS[parentRegionId])) {
+      return BUILTIN_SUBREGION_MAPS[parentRegionId];
+    }
+  }
+
+  // Fallback to null so MapCanvas uses 8192x6016 8K master map asset
   return null;
 };
 
