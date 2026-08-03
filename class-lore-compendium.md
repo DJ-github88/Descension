@@ -1,6 +1,9 @@
 # MYTHRILL CLASS LORE COMPENDIUM
 
-## Complete Lore Reference for All 20 Playable Classes
+## Complete Lore Reference for All 21 Playable Classes
+
+> **Status:** Canonical as of August 2026 Ratified Master Lore Locks.
+> **Master Framework:** All 21 classes draw power from the 8 Magics (Ember, Blight, Sacred, Arcane, Storm, Rime, Primal, Wyrd), Aex Shard catalysts, ancestral contracts, or celestial/native deity bonds under the 475-Year Epoch Master Timeline.
 
 ---
 

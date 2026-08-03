@@ -6,6 +6,7 @@
  */
 
 import { SUBREGIONS } from './subregions';
+import { REGION_POLYGONS } from './regionPolygons';
 
 export const BUILTIN_SUBREGION_MAPS = {
   'nordhalla': {
@@ -43,6 +44,36 @@ export const BUILTIN_SUBREGION_MAPS = {
         points: [[600, 2100], [2600, 2000], [2500, 2900], [400, 2800]]
       }
     ]
+  },
+  'nordhalla-glacier-heart': {
+    id: 'nordhalla-glacier-heart',
+    name: 'Rime-Spire Peaks',
+    regionId: 'nordhalla',
+    parentMapId: 'nordhalla',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
+    width: 4096,
+    height: 3072,
+    description: 'The cold interior of Nordhalla: Rime-Spire Peaks whiteout glaciers and shifting crevasses.'
+  },
+  'nordhalla-fjord-coast': {
+    id: 'nordhalla-fjord-coast',
+    name: 'Stormveil Fjords',
+    regionId: 'nordhalla',
+    parentMapId: 'nordhalla',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
+    width: 4096,
+    height: 3072,
+    description: 'The long eastern seaboard of Nordhalla: Stormveil Fjords black granite sea-cliffs.'
+  },
+  'nordhalla-southern-shore': {
+    id: 'nordhalla-southern-shore',
+    name: 'Brimstone Shore',
+    regionId: 'nordhalla',
+    parentMapId: 'nordhalla',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
+    width: 4096,
+    height: 3072,
+    description: 'The southern coast of Nordhalla: Brimstone Shore volcanic black-sand beaches.'
   }
 };
 
@@ -176,10 +207,49 @@ export const deleteCustomMap = async (mapId) => {
 };
 
 export const getSubregionMap = (mapId) => {
-  if (!mapId) return null;
-  const builtin = BUILTIN_SUBREGION_MAPS[mapId];
-  if (builtin) return builtin;
-  return inMemoryCustomMaps[mapId] || null;
+  if (!mapId || mapId === 'mythril') return null;
+
+  // 1. Direct match in built-in subregion maps
+  if (BUILTIN_SUBREGION_MAPS[mapId]) {
+    return BUILTIN_SUBREGION_MAPS[mapId];
+  }
+
+  // 2. Direct match in custom uploaded subregion maps
+  if (inMemoryCustomMaps[mapId]) {
+    return inMemoryCustomMaps[mapId];
+  }
+
+  // 3. Fallback for subregion IDs (e.g., 'nordhalla-glacier-heart') to their parent region map
+  const subregionObj = SUBREGIONS[mapId];
+  if (subregionObj && subregionObj.regionId) {
+    const parentRegionId = subregionObj.regionId;
+    if (BUILTIN_SUBREGION_MAPS[parentRegionId]) {
+      return BUILTIN_SUBREGION_MAPS[parentRegionId];
+    }
+    if (inMemoryCustomMaps[parentRegionId]) {
+      return inMemoryCustomMaps[parentRegionId];
+    }
+  }
+
+  // 4. Custom map lookup by matching regionId property
+  const customByRegion = Object.values(inMemoryCustomMaps).find(
+    m => m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)
+  );
+  if (customByRegion) return customByRegion;
+
+  // 5. Fallback to REGION_POLYGONS mapImage property
+  const regionObj = REGION_POLYGONS[mapId] || (subregionObj ? REGION_POLYGONS[subregionObj.regionId] : null);
+  if (regionObj && regionObj.mapImage) {
+    return {
+      id: regionObj.id,
+      name: regionObj.name,
+      image: regionObj.mapImage,
+      width: 4096,
+      height: 3072
+    };
+  }
+
+  return null;
 };
 
 export const getAllAvailableSubregionMaps = () => {

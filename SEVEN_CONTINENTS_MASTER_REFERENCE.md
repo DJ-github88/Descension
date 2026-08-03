@@ -1,35 +1,35 @@
 # THE SEVEN CONTINENTS — MASTER REFERENCE
 ### The definitive world bible for Mythrill (for GMs, map-makers, and AI agents)
 
-> **Status:** Canonical as of the four ratified locks — (1) the **False Monolith = House Morrath's** hollow shard (Bryngloom); Viridane's is the hidden TRUE cleansing seventh. (2) The **Dead Moon = dormant star with a slumbering deity within** (the "egg"); named **Selunis**. (3) The boundary entity = **Morvane** (alias: the Watcher in the Mist / Keeper of the Last Threshold). (4) **Martyr founded Year ~12** (dawn of the Dimming).
->
-> **Geographic logic:** the world's warmth radiates outward from **Sundale** (the buried-sun heart). The closer to Sundale, the warmer; the farther, the colder — ending in polar **Nordhalla**. Every region bears a Dark Bargain struck with the cosmic predator **Keth-Amar**, enforced by **Morvane** (the grammar of consequence). The world is **~800 years** into the Age of the Dimming.
+> **Status:** Canonical as of August 2026 Ratified Master Lore Locks.
+> **Master Timeline:** 475 Years Total (Year 0 = Great Binding & Astril crash; Year 300 = Keth Amar arrival & 25-yr Wyrd infiltration; Year 325 = Blizzard's End Massacre & Aex Shattering; Year 475 = Present Day / Freezing Era, 150 years after the fall).
 
 ---
 
-## COSMOLOGY QUICK-REFERENCE (so any AI understands the frame)
+## COSMOLOGY QUICK-REFERENCE (Single Source of Truth)
 
-- **Sol** — the buried sun, entombed beneath Sundale in Year 3. Alive, suspended in twilight, slowly being drunk by Keth-Amar.
-- **Aex** — Sol's firstborn, flayed alive by House Solvan to weave the binding seal. Still conscious, stretched across the vault; recently gone silent (listening, not dead).
-- **Keth-Amar** — the Sun-Eater, a cosmic star-predator. Pressed against the partial seal, leaking the **Wyrd** (corruption grown from local fears) through the cracks. Hunts through knowledge.
-- **Morvane** — the world's memory/conscience; the boundary between life & death. Fracturing under Keth-Amar's pressure.
-- **The Wyrd** — Keth-Amar's corruption, layered: Wyrd-Taint (soil) → Wyrd-Wisp (manifest fear) → Wyrd-Spawn (animated nightmare, unique per region) → Wyrd-Channel (boss-tier).
-- **The Sundered Monoliths** — 7 fragments of Aex's hide. **6 true + 1 false (Morrath) + 1 hidden true (Viridane).** They are waking.
-- **The Binding (Y3)** — 7 houses sealed Sol. **The Breach (Y11)** — 6 heirs marched; seal cracked. House Viridane refused & fled (→ became the Briaran); House Morrath subbed in as a fake 7th signatory.
+- **Sol** — Infant unhatched sun entombed in a thermal shell deep within Mythrill's core.
+- **Aex & Aethil** — Celestial Mother & Father Deities. Forfeited Celestial status upon divine descent. Aex wrapped her form around Sol; her shattered body fell as **Aex Shards** across continents during the Blizzard's End massacre.
+- **The Sister Moon** — Slumbering moon frozen solid in orbit to act as a thermal buffer, anchoring **Rime Magic**.
+- **Keth-Amar** — Cosmic star-predator who devoured 3 House heirs at Blizzard's End, was injured by Aex's core shield, and now drapes Mythrill in **Wyrd Magic** from the sky.
+- **The 7th House (Masked Acolytes)** — Secretly created by an **Unknown Dominator Deity** seeking world domination. Forged a **7th Counterfeit Monolith** to fool Keth Amar. Capital at *Vespera's Crown*. Playable origin carrying the **Watcher's Spark** (BG3-style Entity Watcher).
+- **Aex Cracks & Geothermal Topography** — Lineage deaths (Vreken Bryngloom massacre, Ordan assassin purge, Frostwood Artificial Sun meltdown) cracked Aex's shell, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
+- **Astril Subrace Schism** — Stargazer Astril (peaceful scholars) vs Brutish Astril (warlike conquerors who demanded the Ordan purge). Ordan humans survive disguised as ordinary humans.
+- **House of Viridane** — Fled Cragjaw Peaks to Frostwood Reach, witnessing the meltdown and unmasking the truth that heir deaths crack Aex rather than healing Sol.
 
 ---
 
 # THE SEVEN CONTINENTS — AT A GLANCE
 
-| # | Continent | Biome | Danger | House | Bargain price | # Subregions |
+| # | Continent | Biome | Danger | House Anchor | Geothermal / Regional Scar | Subregions |
 |---|---|---|---|---|---|---|
-| 1 | Frostwood Reach | Forest | Medium | Thalreth | Memory decays per generation | 3 |
-| 2 | Nordhalla | Arctic | Extreme | Skalvyr | Summer never returns | 3 |
-| 3 | Sundale | Desert | High | Solvan | Ancestral lands die | 4 |
-| 4 | Iceheart Sea | Ocean | Extreme | Mereval | The sea never sleeps | 6 |
-| 5 | Cragjaw Peaks | Underdark | Extreme | Tesshan | Every landmark buried | 3 |
-| 6 | Sundrift Vale | Steppe | Medium | Ordavan | Constellations erased | 5 |
-| 7 | Bryngloom Forest | Swamp | High | (Morrath regent / Neth ancestors) | Death is a renegotiated clause | 6 |
+| 1 | Frostwood Reach | Thermal Forest | Medium | Thalren / Viridane | Artificial Sun meltdown steam vents | 3 |
+| 2 | Nordhalla | Arctic Glacier | Extreme | Skald | Blizzard's End massacre site | 3 |
+| 3 | Sundale | Volcanic Core | High | Solari | Sol's volcanic heat venting | 4 |
+| 4 | Iceheart Sea | Frozen Ocean | Extreme | Merryn | Sister Moon's icy tidal pull | 6 |
+| 5 | Cragjaw Peaks | Mountain Chasms | Extreme | Tessen | Jagged tectonic upheavals | 3 |
+| 6 | Sundrift Vale | Starlight Steppe | Medium | Ordan (Hidden) | Ordan purge geothermal warmth | 5 |
+| 7 | Bryngloom Forest | Sunken Swamp | High | Vreken | Vreken noble massacre sulfur bogs | 6 |
 
 Starting continent (unlocked by default): **Frostwood Reach**.
 

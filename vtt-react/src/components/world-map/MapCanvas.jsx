@@ -393,11 +393,17 @@ const MapCanvas = ({
                 >
                 {(() => {
                   const subMapObj = activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
-                  const activeImgSrc = subMapObj?.image
+                  const rawSrc = subMapObj?.image
                     ? subMapObj.image
                     : (mapVersion === 'legacy'
                         ? `${process.env.PUBLIC_URL || ''}/assets/images/watercolor_map.png`
                         : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+                  
+                  const publicUrl = process.env.PUBLIC_URL || '';
+                  const activeImgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('data:') || (publicUrl && rawSrc.startsWith(publicUrl)))
+                    ? rawSrc
+                    : `${publicUrl}${rawSrc.startsWith('/') ? '' : '/'}${rawSrc}`;
+
                   return (
                     <img
                       src={activeImgSrc}
