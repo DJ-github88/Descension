@@ -74,8 +74,9 @@ const LocationPins = ({
       let name = '';
       let type = coord.pinType || 'custom';
       let hasDeep = !!DEEP_LOCATIONS[pinId];
-      let pinMapId = coord.mapId || 'mythril';
-      let pinRegionId = coord.regionId || zone?.regionId;
+      const pinMapId = coord.mapId;
+      const pinSubregionId = coord.subregionId || zone?.subregionId;
+      const pinRegionId = coord.regionId || zone?.regionId;
 
       if (zone) {
         name = zone.name;
@@ -101,12 +102,15 @@ const LocationPins = ({
       // When exploring a specific subregion map (e.g. activeMapId === 'nordhalla-glacier-heart'):
       // ONLY render pins scoped to that subregion map!
       // When on master world map (activeMapId === 'mythril' or null):
-      // Hide subregion-exclusive pins (mapId !== 'mythril')!
+      // Hide pins that belong to subregions (subregionId / mapId !== 'mythril')!
       if (activeMapId && activeMapId !== 'mythril') {
-        const matchesSubmap = pinMapId === activeMapId || pinRegionId === activeMapId;
+        const matchesSubmap = (pinMapId === activeMapId) || 
+                             (pinSubregionId === activeMapId) || 
+                             (pinRegionId === activeMapId);
         if (!matchesSubmap) return null;
-      } else if (!activeMapId || activeMapId === 'mythril') {
-        if (pinMapId && pinMapId !== 'mythril') return null;
+      } else {
+        const isSubrealmOnly = (pinMapId && pinMapId !== 'mythril') || !!pinSubregionId;
+        if (isSubrealmOnly) return null;
       }
 
       return {
