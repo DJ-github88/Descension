@@ -29,15 +29,15 @@ export const BUILTIN_SUBREGION_MAPS = {
       },
       {
         id: 'nordhalla-fjord-coast',
-        name: 'Stormveil Fjords',
+        name: 'Skaldfjord Vale',
         color: 'rgba(70, 150, 220, 0.18)',
         glowColor: 'rgba(120, 200, 255, 0.75)',
         labelPosition: [3200, 1800],
         points: [[2900, 600], [3900, 800], [3800, 2600], [2800, 2200]]
       },
       {
-        id: 'nordhalla-southern-shore',
-        name: 'Brimstone Shore',
+        id: 'nordhalla-frostfang-wastes',
+        name: 'Frostfang Wastes',
         color: 'rgba(70, 150, 220, 0.18)',
         glowColor: 'rgba(120, 200, 255, 0.75)',
         labelPosition: [1600, 2400],
@@ -53,27 +53,27 @@ export const BUILTIN_SUBREGION_MAPS = {
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
-    description: 'The cold interior of Nordhalla: Rime-Spire Peaks whiteout glaciers and shifting crevasses.'
+    description: 'The warm, varied west-central subregion of Nordhalla: Rime-Spire Peaks, geothermal pine forests, coastal harbors, and ancient keeps.'
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
-    name: 'Stormveil Fjords',
+    name: 'Skaldfjord Vale',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
-    description: 'The long eastern seaboard of Nordhalla: Stormveil Fjords black granite sea-cliffs.'
+    description: 'The settled river and fjord corridor of Nordhalla: Skaldfjord Vale, Frostholm capital, and the Frozen Archive.'
   },
-  'nordhalla-southern-shore': {
-    id: 'nordhalla-southern-shore',
-    name: 'Brimstone Shore',
+  'nordhalla-frostfang-wastes': {
+    id: 'nordhalla-frostfang-wastes',
+    name: 'Frostfang Wastes',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
-    description: 'The southern coast of Nordhalla: Brimstone Shore volcanic black-sand beaches.'
+    description: 'The desolate whiteout glaciers beyond the Sunder-Wall: Frostfang Wastes, Øsling barrows, and Blizzard\'s End.'
   }
 };
 

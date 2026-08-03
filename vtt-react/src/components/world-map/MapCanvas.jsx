@@ -408,6 +408,8 @@ const MapCanvas = ({
                     <img
                       src={activeImgSrc}
                       alt={subMapObj?.name || "Mythrill World Map"}
+                      decoding="async"
+                      loading="eager"
                       style={{
                         width: MAP_WIDTH,
                         height: MAP_HEIGHT,
@@ -471,6 +473,7 @@ const MapCanvas = ({
                   {/* Canonical Location Pins Overlay */}
                   <LocationPins
                     key={`pins-${updateTrigger}-${activeMapId}`}
+                    activeMapId={activeMapId}
                     selectedRegionId={selectedRegionId}
                     setSelectedRegionId={setSelectedRegionId}
                     setSelectedLocationId={setSelectedLocationId}

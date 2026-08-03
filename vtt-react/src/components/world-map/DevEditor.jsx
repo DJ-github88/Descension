@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { REGION_POLYGONS, BASELINE_REGION_POLYGONS } from '../../data/regionPolygons';
 import { LOCATION_COORDINATES, BASELINE_LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { PIN_TYPE_OPTIONS } from './mapPinIcons';
 import PIN_ICONS from './mapPinIcons';
 import { SUBREGIONS } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
+import { DEEP_LOCATIONS } from '../../data/deepLocationData';
 import { saveCustomMap } from '../../data/subregionMaps';
 import './DevEditor.css';
 
@@ -71,69 +72,30 @@ const CustomSelect = ({ value, onChange, options, placeholder = 'Select...', wid
 };
 
 const CustomPinTypePicker = ({ value, onChange, options }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const activeOption = options.find(o => o.id === value) || options[0];
-  const ActiveIcon = PIN_ICONS[activeOption.id];
-
   return (
-    <div className="custom-pin-type-picker-container" ref={dropdownRef}>
-      <button 
-        type="button"
-        className={`custom-pin-type-picker-toggle ${isOpen ? 'open' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        title={`Pin Type: ${activeOption.label}`}
-      >
-        {ActiveIcon && (
-          <svg viewBox={ActiveIcon.viewBox} width="16" height="16">
-            <path d={ActiveIcon.path} fill="#ebd5a3" />
-          </svg>
-        )}
-        <span className="picker-active-label">{activeOption.label}</span>
-        <i className={`fas fa-chevron-${isOpen ? 'up' : 'down'} picker-arrow`}></i>
-      </button>
-
-      {isOpen && (
-        <div className="custom-pin-type-picker-popover animate-fade-in-up">
-          <div className="picker-popover-header">Select Pin Type</div>
-          <div className="custom-pin-type-grid">
-            {options.map(pt => {
-              const icon = PIN_ICONS[pt.id];
-              const isActive = pt.id === value;
-              return (
-                <button
-                  key={pt.id}
-                  type="button"
-                  className={`custom-pin-type-cell ${isActive ? 'active' : ''}`}
-                  onClick={() => {
-                    onChange(pt.id);
-                    setIsOpen(false);
-                  }}
-                  title={pt.label}
-                >
-                  {icon && (
-                    <svg viewBox={icon.viewBox} width="20" height="20">
-                      <path d={icon.path} fill={isActive ? '#ffe082' : '#ebd5a3'} />
-                    </svg>
-                  )}
-                  <span className="pin-cell-label">{pt.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+    <div className="custom-pin-type-picker-inline">
+      <div className="custom-pin-type-grid">
+        {options.map((pt) => {
+          const icon = PIN_ICONS[pt.id];
+          const isActive = pt.id === value;
+          return (
+            <button
+              key={pt.id}
+              type="button"
+              className={`custom-pin-type-cell ${isActive ? 'active' : ''}`}
+              onClick={() => onChange(pt.id)}
+              title={pt.label}
+            >
+              {icon && (
+                <svg viewBox={icon.viewBox} width="16" height="16">
+                  <path d={icon.path} fill={isActive ? '#ffe082' : '#ebd5a3'} />
+                </svg>
+              )}
+              <span className="picker-cell-label">{pt.label.split('/')[0]}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -166,13 +128,21 @@ const DevEditor = ({
   showConfirm,
   selectedDevPinId,
   setSelectedDevPinId,
-  updateTrigger
+  setSelectedLocationId,
+  setSidebarOpen,
+  onDeletePin,
+  updateTrigger,
+  setDevMode
 }) => {
 
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [exportData, setExportData] = useState({ regions: '', locations: '' });
   const [copiedType, setCopiedType] = useState(null);
   const [exportFormat, setExportFormat] = useState('agent');
+
+  // Search & filter state for linking World Lore locations in Place Pin mode
+  const [loreSearchTerm, setLoreSearchTerm] = useState('');
+  const [loreRegionFilter, setLoreRegionFilter] = useState('all');
 
   // Inspector draft coordinates for the currently selected dev pin.
   const [draftX, setDraftX] = useState('');
@@ -183,10 +153,75 @@ const DevEditor = ({
   );
   const [toastMessage, setToastMessage] = useState(null);
 
+  // Undo / Redo Action History Stack
+  const [historyStack, setHistoryStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4500);
   };
+
+  const saveSnapshot = useCallback((actionName = 'Edit') => {
+    const coordsSnapshot = JSON.parse(JSON.stringify(LOCATION_COORDINATES));
+    const pointsSnapshot = [...(drawingPoints || [])];
+    setHistoryStack(prev => [...prev, { name: actionName, coords: coordsSnapshot, points: pointsSnapshot }]);
+    setRedoStack([]);
+  }, [drawingPoints]);
+
+  const handleUndo = useCallback(() => {
+    if (historyStack.length === 0) return;
+    const last = historyStack[historyStack.length - 1];
+    const currentCoords = JSON.parse(JSON.stringify(LOCATION_COORDINATES));
+    const currentPoints = [...(drawingPoints || [])];
+
+    setRedoStack(prev => [...prev, { name: 'Revert', coords: currentCoords, points: currentPoints }]);
+    setHistoryStack(prev => prev.slice(0, -1));
+
+    Object.keys(LOCATION_COORDINATES).forEach(k => delete LOCATION_COORDINATES[k]);
+    Object.assign(LOCATION_COORDINATES, last.coords);
+
+    if (setDrawingPoints) setDrawingPoints(last.points);
+    if (onUpdate) onUpdate();
+    showToast(`Undid action: ${last.name}`);
+  }, [historyStack, drawingPoints, setDrawingPoints, onUpdate]);
+
+  const handleRedo = useCallback(() => {
+    if (redoStack.length === 0) return;
+    const next = redoStack[redoStack.length - 1];
+    const currentCoords = JSON.parse(JSON.stringify(LOCATION_COORDINATES));
+    const currentPoints = [...(drawingPoints || [])];
+
+    setHistoryStack(prev => [...prev, { name: 'Redo', coords: currentCoords, points: currentPoints }]);
+    setRedoStack(prev => prev.slice(0, -1));
+
+    Object.keys(LOCATION_COORDINATES).forEach(k => delete LOCATION_COORDINATES[k]);
+    Object.assign(LOCATION_COORDINATES, next.coords);
+
+    if (setDrawingPoints) setDrawingPoints(next.points);
+    if (onUpdate) onUpdate();
+    showToast(`Redid action`);
+  }, [redoStack, drawingPoints, setDrawingPoints, onUpdate]);
+
+  useEffect(() => {
+    if (!devMode) return;
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+        if (e.shiftKey) {
+          e.preventDefault();
+          handleRedo();
+        } else {
+          e.preventDefault();
+          handleUndo();
+        }
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || e.key === 'Y')) {
+        e.preventDefault();
+        handleRedo();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [devMode, handleUndo, handleRedo]);
 
   // Sync the inspector inputs whenever the selection changes, and also while
   // the pin is being dragged (updateTrigger bumps from WorldMapImmerse): but
@@ -199,22 +234,23 @@ const DevEditor = ({
     if (!focused) { setDraftX(String(c.x)); setDraftY(String(c.y)); }
   }, [selectedDevPinId, updateTrigger]);
 
-  if (!devMode) return null;
+  const campaignLocations = currentCampaign?.campaignData?.locations || [];
+  const campaignLoreArticles = currentCampaign?.campaignData?.homebrew?.lore || [];
 
-  const MAIN_REGION_OPTIONS = Object.values(REGION_POLYGONS).map(r => ({
+  const MAIN_REGION_OPTIONS = useMemo(() => Object.values(REGION_POLYGONS).map(r => ({
     id: r.id,
     name: r.name
-  }));
+  })), []);
 
   const activeParentObj = REGION_POLYGONS[selectedParentRegion];
   const subregionsForActiveParent = Object.values(SUBREGIONS).filter(s => s.regionId === selectedParentRegion);
 
-  const SUBREGION_OPTIONS = [
+  const SUBREGION_OPTIONS = useMemo(() => [
     ...(activeParentObj ? [{ id: activeParentObj.id, name: `[Whole Region] ${activeParentObj.name}` }] : []),
     ...subregionsForActiveParent.map(s => ({ id: s.id, name: s.name }))
-  ];
+  ], [activeParentObj, subregionsForActiveParent]);
 
-  const regionZones = (currentRegion ? ZONE_DATA.filter(z => z.regionId === currentRegion) : ZONE_DATA).map(z => {
+  const regionZones = useMemo(() => (currentRegion ? ZONE_DATA.filter(z => z.regionId === currentRegion) : ZONE_DATA).map(z => {
     const regionName = REGION_POLYGONS[z.regionId]?.name || z.regionId;
     const isPlaced = !!LOCATION_COORDINATES[z.id];
     return {
@@ -222,9 +258,59 @@ const DevEditor = ({
       name: `${z.name}: ${regionName}`,
       badge: isPlaced ? null : 'not placed'
     };
-  });
-  const campaignLocations = currentCampaign?.campaignData?.locations || [];
-  const campaignLoreArticles = currentCampaign?.campaignData?.homebrew?.lore || [];
+  }), [currentRegion]);
+
+  const mapZoneTypeToPinType = useCallback((type) => {
+    const t = (type || '').toLowerCase();
+    if (t.includes('city') || t.includes('capital')) return 'city';
+    if (t.includes('fortress') || t.includes('stronghold') || t.includes('watchtower') || t.includes('keep')) return 'fortress';
+    if (t.includes('port') || t.includes('harbor') || t.includes('coastal')) return 'harbor';
+    if (t.includes('archive') || t.includes('temple') || t.includes('shrine') || t.includes('sacred')) return 'shrine';
+    if (t.includes('ruin')) return 'ruin';
+    if (t.includes('tomb')) return 'tomb';
+    if (t.includes('camp')) return 'camp';
+    if (t.includes('mine') || t.includes('forge') || t.includes('industrial') || t.includes('sump')) return 'tower';
+    if (t.includes('mountain') || t.includes('peak') || t.includes('col')) return 'mountain';
+    if (t.includes('forest') || t.includes('grove')) return 'forest';
+    if (t.includes('cave') || t.includes('dungeon')) return 'cave';
+    if (t.includes('settlement') || t.includes('town') || t.includes('village')) return 'settlement';
+    return 'poi';
+  }, []);
+
+  const filteredWorldZones = useMemo(() => {
+    const term = loreSearchTerm.trim().toLowerCase();
+    return ZONE_DATA.filter((z) => {
+      if (loreRegionFilter !== 'all') {
+        if (z.regionId !== loreRegionFilter && z.subregionId !== loreRegionFilter) return false;
+      }
+      if (term) {
+        return `${z.name} ${z.id} ${z.type} ${z.regionId} ${z.subregionId || ''}`.toLowerCase().includes(term);
+      }
+      return true;
+    });
+  }, [loreSearchTerm, loreRegionFilter]);
+
+  const activePlacementTarget = useMemo(() => {
+    if (devTool !== 'placePin') return null;
+    if (pinSourceType === 'world' && selectedZoneId) {
+      const z = ZONE_DATA.find((item) => item.id === selectedZoneId);
+      return z ? { name: z.name, sub: `${z.type} • ${z.regionId}` } : null;
+    }
+    if (pinSourceType === 'campaignLocation' && selectedCampaignLocId) {
+      const cl = campaignLocations.find((l) => String(l.id) === String(selectedCampaignLocId));
+      return cl ? { name: cl.name, sub: 'Campaign Location' } : null;
+    }
+    if (pinSourceType === 'campaignLore' && selectedCampaignLoreId) {
+      const cl = campaignLoreArticles.find((l) => String(l.id) === String(selectedCampaignLoreId));
+      return cl ? { name: cl.title, sub: 'Campaign Lore' } : null;
+    }
+    if (pinSourceType === 'custom' && customPinName.trim()) {
+      return { name: customPinName, sub: 'Custom Marker' };
+    }
+    return null;
+  }, [devTool, pinSourceType, selectedZoneId, selectedCampaignLocId, selectedCampaignLoreId, customPinName, campaignLocations, campaignLoreArticles]);
+
+  if (!devMode) return null;
 
   const getDrawnRegions = () => {
     const out = {};
@@ -488,19 +574,57 @@ const DevEditor = ({
     <>
       <div className={`dev-editor-card ${isMinimized ? 'minimized' : ''}`}>
         {isMinimized ? (
-          <button className="dev-card-expand-btn" onClick={() => setIsMinimized(false)}>
-            <i className="fas fa-compass"></i> <span>GM Cartography Tools</span>
-          </button>
+          <div className="dev-minimized-bar">
+            <button className="dev-card-expand-btn" onClick={() => setIsMinimized(false)}>
+              <i className="fas fa-compass"></i> <span>GM Cartography Tools</span>
+            </button>
+            {setDevMode && (
+              <button
+                className="dev-card-close-editor-btn mini"
+                onClick={() => setDevMode(false)}
+                title="Close &amp; Exit GM Cartography Editor Mode"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
         ) : (
           <>
             <div className="dev-card-header">
               <div className="dev-card-title">
                 <i className="fas fa-feather-alt"></i>
-                <span>GM Cartography &amp; World Editor</span>
+                <span>GM Cartography Editor</span>
               </div>
-              <button className="dev-card-minimize-btn" onClick={() => setIsMinimized(true)} title="Minimize panel">
-                <i className="fas fa-minus"></i>
-              </button>
+              <div className="dev-header-actions">
+                <button
+                  className="dev-undo-btn"
+                  onClick={handleUndo}
+                  disabled={historyStack.length === 0}
+                  title="Undo last map edit (Ctrl+Z)"
+                >
+                  <i className="fas fa-rotate-left"></i> Undo ({historyStack.length})
+                </button>
+                <button
+                  className="dev-undo-btn"
+                  onClick={handleRedo}
+                  disabled={redoStack.length === 0}
+                  title="Redo map edit (Ctrl+Y)"
+                >
+                  <i className="fas fa-rotate-right"></i> Redo ({redoStack.length})
+                </button>
+                <button className="dev-card-minimize-btn" onClick={() => setIsMinimized(true)} title="Minimize panel">
+                  <i className="fas fa-minus"></i>
+                </button>
+                {setDevMode && (
+                  <button
+                    className="dev-card-close-editor-btn"
+                    onClick={() => setDevMode(false)}
+                    title="Close &amp; Exit GM Cartography Editor Mode"
+                  >
+                    <i className="fas fa-times"></i> Exit
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Editor Mode Tabs */}
@@ -531,136 +655,332 @@ const DevEditor = ({
               </button>
             </div>
 
-            {/* Step-by-step Cartography Workflow when drawing boundaries */}
-            {devTool === 'drawRegion' && (
-              <div className="dev-card-workflow animate-fade-in">
-                {/* Step 1 */}
-                <div className="workflow-step">
-                  <span className="step-num">Step 1</span>
-                  <span className="step-label">Select Continent &amp; Subregion Target:</span>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
-                    <div>
-                      <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        1. Realm / Continent:
-                      </span>
+            {/* Scrollable Workflow Body */}
+            <div className="dev-card-scrollable-body">
+              {/* Step-by-step Cartography Workflow when drawing boundaries */}
+              {devTool === 'drawRegion' && (
+                <div className="dev-card-workflow animate-fade-in">
+                  {/* Step 1 */}
+                  <div className="workflow-step">
+                    <span className="step-num">Step 1</span>
+                    <span className="step-label">Select Continent &amp; Subregion Target:</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+                      <div>
+                        <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                          1. Realm / Continent:
+                        </span>
+                        <CustomSelect
+                          value={selectedParentRegion}
+                          onChange={(newParentId) => {
+                            setSelectedParentRegion(newParentId);
+                            setCurrentRegion(newParentId);
+                          }}
+                          options={MAIN_REGION_OPTIONS}
+                          placeholder="Select Continent..."
+                          width="100%"
+                        />
+                      </div>
+
+                      <div>
+                        <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                          2. Target Subregion / Zone:
+                        </span>
+                        <CustomSelect
+                          value={currentRegion}
+                          onChange={setCurrentRegion}
+                          options={SUBREGION_OPTIONS}
+                          placeholder="Select Subregion..."
+                          width="100%"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="workflow-step">
+                    <span className="step-num">Step 2</span>
+                    <span className="step-label">Click Map Image to Outline Boundary:</span>
+                    <div className="step-actions">
+                      <button
+                        className="dev-tool-btn secondary"
+                        onClick={() => setDrawingPoints([])}
+                        disabled={!drawingPoints || drawingPoints.length === 0}
+                      >
+                        <i className="fas fa-undo" /> Clear ({drawingPoints?.length || 0} pts)
+                      </button>
+                      <button
+                        className="dev-tool-btn secondary"
+                        onClick={() => { if (drawingPoints.length > 0) setDrawingPoints(drawingPoints.slice(0, -1)); }}
+                        disabled={!drawingPoints || drawingPoints.length === 0}
+                      >
+                        <i className="fas fa-step-backward" /> Undo Point
+                      </button>
+                      <button
+                        className="dev-tool-btn primary"
+                        onClick={handleCompleteBoundary}
+                        disabled={!drawingPoints || drawingPoints.length < 3 || !currentRegion}
+                      >
+                        <i className="fas fa-check" /> Complete Boundary
+                      </button>
+                      <button
+                        className="dev-tool-btn danger"
+                        onClick={handleResetSingleRegion}
+                        disabled={!currentRegion}
+                        title="Reset this region's boundaries back to original code defaults"
+                      >
+                        <i className="fas fa-rotate-left" /> Reset Code Default
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="workflow-step">
+                    <span className="step-num">Step 3</span>
+                    <span className="step-label">Attach Subregion Map Asset &amp; Code:</span>
+                    <div className="step-actions">
+                      <button
+                        className="dev-tool-btn secondary"
+                        onClick={handleUploadImageFile}
+                        disabled={!currentRegion}
+                      >
+                        <i className="fas fa-image" /> Upload Subregion Map
+                      </button>
+                      <button
+                        className="dev-tool-btn secondary"
+                        onClick={handleCopyJsSnippet}
+                        disabled={!currentRegion}
+                      >
+                        <i className="fas fa-code" /> {copiedType === 'jsSnippet' ? 'Copied JS!' : 'Copy JS Code'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Place Pin Mode */}
+              {devTool === 'placePin' && (
+                <div className="dev-card-workflow animate-fade-in">
+                  {/* Step 1: Data Source Selection */}
+                  <div className="workflow-step">
+                    <span className="step-num">Step 1</span>
+                    <span className="step-label">Select Lore Data Source:</span>
+                    <CustomSelect
+                      value={pinSourceType}
+                      onChange={(newSource) => {
+                        setPinSourceType(newSource);
+                      }}
+                      options={[
+                        { id: 'world', label: 'World Lore (Canonical POIs)' },
+                        ...(currentCampaign ? [
+                          { id: 'campaignLocation', label: 'Campaign Custom Location' },
+                          { id: 'campaignLore', label: 'Campaign Lore Article' }
+                        ] : []),
+                        { id: 'custom', label: 'New Custom Marker' }
+                      ]}
+                      placeholder="Select source..."
+                      width="100%"
+                    />
+                  </div>
+
+                  {/* Step 2: Target Lore Location Selector */}
+                  {pinSourceType === 'world' && (
+                    <div className="workflow-step lore-target-step">
+                      <span className="step-num">Step 2</span>
+                      <span className="step-label">Link to World Lore Location:</span>
+                      
+                      {/* Search & Filter bar */}
+                      <div className="lore-selector-controls">
+                        <div className="lore-search-input-wrap">
+                          <i className="fas fa-search search-icon" />
+                          <input
+                            type="text"
+                            className="dev-input lore-search-field"
+                            placeholder="Search lore locations (e.g. Hvalhavn)..."
+                            value={loreSearchTerm}
+                            onChange={(e) => setLoreSearchTerm(e.target.value)}
+                          />
+                          {loreSearchTerm && (
+                            <button className="clear-search-btn" onClick={() => setLoreSearchTerm('')}>
+                              <i className="fas fa-times" />
+                            </button>
+                          )}
+                        </div>
+                        
+                        <div className="lore-region-filter-wrap">
+                          <select
+                            className="dev-native-select"
+                            value={loreRegionFilter}
+                            onChange={(e) => setLoreRegionFilter(e.target.value)}
+                          >
+                            <option value="all">All Regions &amp; Subrealms</option>
+                            <option value="nordhalla">Nordhalla (All)</option>
+                            <option value="nordhalla-glacier-heart">  ↳ Rime-Spire Peaks</option>
+                            <option value="nordhalla-fjord-coast">  ↳ Skaldfjord Vale</option>
+                            <option value="nordhalla-frostfang-wastes">  ↳ Frostfang Wastes</option>
+                            <option value="frostwood-reach">Frostwood Reach</option>
+                            <option value="sundale">Sundale</option>
+                            <option value="bryngloom-forest">Bryngloom Forest</option>
+                            <option value="cragjaw-peaks">Cragjaw Peaks</option>
+                            <option value="iceheart-sea">Iceheart Sea</option>
+                            <option value="sundrift-vale">Sundrift Vale</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Zone options list */}
+                      <div className="lore-location-picker-list">
+                        {filteredWorldZones.length === 0 ? (
+                          <div className="empty-picker-notice">
+                            <i className="fas fa-search-minus" /> No matching lore locations found.
+                          </div>
+                        ) : (
+                          filteredWorldZones.map((z) => {
+                            const isSelected = selectedZoneId === z.id;
+                            const isPlaced = !!LOCATION_COORDINATES[z.id];
+                            const hasDeep = !!DEEP_LOCATIONS[z.id];
+                            const coord = LOCATION_COORDINATES[z.id];
+                            return (
+                              <button
+                                key={z.id}
+                                type="button"
+                                className={`lore-picker-item ${isSelected ? 'active' : ''} ${isPlaced ? 'placed' : 'unplaced'}`}
+                                onClick={() => {
+                                  setSelectedZoneId(z.id);
+                                  const suggested = mapZoneTypeToPinType(z.type);
+                                  setSelectedPinType(suggested);
+                                }}
+                              >
+                                <div className="picker-item-main">
+                                  <span className="picker-item-title">{z.name}</span>
+                                  <span className="picker-item-type">{z.type}</span>
+                                </div>
+                                <div className="picker-item-badges">
+                                  {hasDeep && (
+                                    <span className="badge-deep" title="Deep Lore Profile Available">
+                                      <i className="fas fa-gem" /> Deep
+                                    </span>
+                                  )}
+                                  {isPlaced ? (
+                                    <div className="badge-placed-wrap">
+                                      <span className="badge-placed" title={`Placed on map at (${coord.x}, ${coord.y})`}>
+                                        <i className="fas fa-map-pin" /> Placed ({coord.x},{coord.y})
+                                      </span>
+                                      <button
+                                        type="button"
+                                        className="badge-unplace-btn"
+                                        title={`Remove pin placement for ${z.name}`}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          saveSnapshot(`Unplace ${z.name}`);
+                                          delete LOCATION_COORDINATES[z.id];
+                                          if (selectedDevPinId === z.id) setSelectedDevPinId(null);
+                                          if (onUpdate) onUpdate();
+                                          showToast(`Unplaced "${z.name}" from map`);
+                                        }}
+                                      >
+                                        <i className="fas fa-times" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <span className="badge-unplaced" title="Not placed yet - click map to drop pin">
+                                      <i className="fas fa-sparkles" /> Unplaced
+                                    </span>
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {pinSourceType === 'campaignLocation' && (
+                    <div className="workflow-step">
+                      <span className="step-num">Step 2</span>
+                      <span className="step-label">Select Campaign Location:</span>
                       <CustomSelect
-                        value={selectedParentRegion}
-                        onChange={(newParentId) => {
-                          setSelectedParentRegion(newParentId);
-                          setCurrentRegion(newParentId);
-                        }}
-                        options={MAIN_REGION_OPTIONS}
-                        placeholder="Select Continent..."
+                        value={selectedCampaignLocId}
+                        onChange={setSelectedCampaignLocId}
+                        options={campaignLocations.map(l => ({
+                          id: String(l.id),
+                          name: l.name,
+                          badge: LOCATION_COORDINATES[`campaign-loc-${l.id}`] ? 'Placed' : 'Unplaced'
+                        }))}
+                        placeholder="Select Campaign Location..."
                         width="100%"
                       />
                     </div>
+                  )}
 
-                    <div>
-                      <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        2. Target Subregion / Zone:
-                      </span>
+                  {pinSourceType === 'campaignLore' && (
+                    <div className="workflow-step">
+                      <span className="step-num">Step 2</span>
+                      <span className="step-label">Select Campaign Lore Article:</span>
                       <CustomSelect
-                        value={currentRegion}
-                        onChange={setCurrentRegion}
-                        options={SUBREGION_OPTIONS}
-                        placeholder="Select Subregion..."
+                        value={selectedCampaignLoreId}
+                        onChange={setSelectedCampaignLoreId}
+                        options={campaignLoreArticles.map(l => ({
+                          id: String(l.id),
+                          name: l.title,
+                          badge: LOCATION_COORDINATES[`campaign-lore-${l.id}`] ? 'Placed' : 'Unplaced'
+                        }))}
+                        placeholder="Select Campaign Lore Article..."
                         width="100%"
                       />
                     </div>
-                  </div>
-                </div>
+                  )}
 
-                {/* Step 2 */}
-                <div className="workflow-step">
-                  <span className="step-num">Step 2</span>
-                  <span className="step-label">Click Map Image to Outline Boundary:</span>
-                  <div className="step-actions">
-                    <button
-                      className="dev-tool-btn secondary"
-                      onClick={() => setDrawingPoints([])}
-                      disabled={!drawingPoints || drawingPoints.length === 0}
-                    >
-                      <i className="fas fa-undo" /> Clear ({drawingPoints?.length || 0} pts)
-                    </button>
-                    <button
-                      className="dev-tool-btn secondary"
-                      onClick={() => { if (drawingPoints.length > 0) setDrawingPoints(drawingPoints.slice(0, -1)); }}
-                      disabled={!drawingPoints || drawingPoints.length === 0}
-                    >
-                      <i className="fas fa-step-backward" /> Undo Point
-                    </button>
-                    <button
-                      className="dev-tool-btn primary"
-                      onClick={handleCompleteBoundary}
-                      disabled={!drawingPoints || drawingPoints.length < 3 || !currentRegion}
-                    >
-                      <i className="fas fa-check" /> Complete Boundary
-                    </button>
-                    <button
-                      className="dev-tool-btn danger"
-                      onClick={handleResetSingleRegion}
-                      disabled={!currentRegion}
-                      title="Reset this region's boundaries back to original code defaults"
-                    >
-                      <i className="fas fa-rotate-left" /> Reset Code Default
-                    </button>
-                  </div>
-                </div>
+                  {pinSourceType === 'custom' && (
+                    <div className="workflow-step custom-pin-inputs">
+                      <span className="step-num">Step 2</span>
+                      <span className="step-label">Configure Custom Marker Details:</span>
+                      <input
+                        type="text"
+                        className="dev-input"
+                        placeholder="Marker Title (e.g. Ancient Dragon Barrow)..."
+                        value={customPinName}
+                        onChange={(e) => setCustomPinName(e.target.value)}
+                      />
+                      <textarea
+                        className="dev-textarea"
+                        placeholder="Marker Notes &amp; Lore Description..."
+                        value={customPinDesc}
+                        onChange={(e) => setCustomPinDesc(e.target.value)}
+                        rows={2}
+                      />
+                    </div>
+                  )}
 
-                {/* Step 3 */}
-                <div className="workflow-step">
-                  <span className="step-num">Step 3</span>
-                  <span className="step-label">Attach Subregion Map Asset &amp; Code:</span>
-                  <div className="step-actions">
-                    <button
-                      className="dev-tool-btn secondary"
-                      onClick={handleUploadImageFile}
-                      disabled={!currentRegion}
-                    >
-                      <i className="fas fa-image" /> Upload Subregion Map
-                    </button>
-                    <button
-                      className="dev-tool-btn secondary"
-                      onClick={handleCopyJsSnippet}
-                      disabled={!currentRegion}
-                    >
-                      <i className="fas fa-code" /> {copiedType === 'jsSnippet' ? 'Copied JS!' : 'Copy JS Code'}
-                    </button>
+                  {/* Step 3: Pin Category & Icon Picker */}
+                  <div className="workflow-step">
+                    <span className="step-num">Step 3</span>
+                    <span className="step-label">Pin Category &amp; Icon:</span>
+                    <CustomPinTypePicker
+                      value={selectedPinType}
+                      onChange={setSelectedPinType}
+                      options={PIN_TYPE_OPTIONS}
+                    />
                   </div>
-                </div>
-              </div>
-            )}
 
-            {/* Place Pin Mode */}
-            {devTool === 'placePin' && (
-              <div className="dev-card-workflow animate-fade-in">
-                <div className="workflow-step">
-                  <span className="step-label">Pin Category &amp; Icon:</span>
-                  <CustomPinTypePicker
-                    value={selectedPinType}
-                    onChange={setSelectedPinType}
-                    options={PIN_TYPE_OPTIONS}
-                  />
+                  {/* Placement Guidance Banner */}
+                  {activePlacementTarget && (
+                    <div className="dev-placement-guidance animate-fade-in">
+                      <i className="fas fa-crosshairs guidance-icon" />
+                      <div className="guidance-text">
+                        <span className="guidance-title">Target Ready to Place</span>
+                        <span className="guidance-target">
+                          <strong>{activePlacementTarget.name}</strong> ({activePlacementTarget.sub})
+                        </span>
+                        <span className="guidance-instruction">
+                          Click anywhere on the map image to drop this pin
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="workflow-step">
-                  <span className="step-label">Data Source:</span>
-                  <CustomSelect
-                    value={pinSourceType}
-                    onChange={setPinSourceType}
-                    options={[
-                      { id: 'world', label: 'World Lore' },
-                      ...(currentCampaign ? [
-                        { id: 'campaignLocation', label: 'Campaign Location' },
-                        { id: 'campaignLore', label: 'Campaign Lore' }
-                      ] : []),
-                      { id: 'custom', label: 'Custom Pin' }
-                    ]}
-                    placeholder="Select source..."
-                    width="100%"
-                  />
-                </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Footer Quick Actions */}
             <div className="dev-footer-actions">
@@ -768,15 +1088,15 @@ const DevEditor = ({
         </div>
       )}
 
-      {/* Move-tool inspector: precise coordinate editing for the selected pin */}
-      {devTool === 'movePin' && (
+      {/* Dev Pin Inspector: precise coordinate editing, lore sidebar linking, and pin management */}
+      {(devTool === 'movePin' || devTool === 'placePin') && (
         <div className="dev-move-inspector animate-fade-in-up">
           {selectedDevPinId && selectedPin ? (
             <>
               <div className="dev-inspector-head">
-                <i className="fas fa-arrows-up-down-left-right dev-inspector-grip" />
+                <i className="fas fa-map-pin dev-inspector-grip" />
                 <div className="dev-inspector-title">
-                  <span className="dev-inspector-name">{selectedPinZone?.name || selectedDevPinId}</span>
+                  <span className="dev-inspector-name">{selectedPinZone?.name || selectedPin.name || selectedDevPinId}</span>
                   <span className="dev-inspector-region">{selectedRegionName}</span>
                 </div>
                 <button
@@ -788,6 +1108,7 @@ const DevEditor = ({
                   <i className="fas fa-times" />
                 </button>
               </div>
+              
               <div className="dev-inspector-coords">
                 <label className="dev-coord-field">
                   <span className="dev-coord-label">X</span>
@@ -812,15 +1133,88 @@ const DevEditor = ({
                   />
                 </label>
               </div>
+
+              {/* Icon Type Switcher */}
+              <div className="dev-inspector-icon-picker">
+                <span className="dev-coord-label" style={{ display: 'block', marginBottom: '4px', fontSize: '0.72rem' }}>
+                  Pin Icon Category:
+                </span>
+                <div className="dev-icon-grid" style={{ maxHeight: '100px' }}>
+                  {PIN_TYPE_OPTIONS.map((pt) => {
+                    const iconObj = PIN_ICONS[pt.id];
+                    const isActive = (selectedPin.pinType || 'custom') === pt.id;
+                    return (
+                      <button
+                        key={pt.id}
+                        type="button"
+                        className={`dev-icon-cell ${isActive ? 'active' : ''}`}
+                        onClick={() => {
+                          saveSnapshot(`Change icon to ${pt.label}`);
+                          selectedPin.pinType = pt.id;
+                          if (onUpdate) onUpdate();
+                        }}
+                        title={`Change icon to ${pt.label}`}
+                      >
+                        {iconObj && (
+                          <svg viewBox={iconObj.viewBox} width="14" height="14">
+                            <path d={iconObj.path} fill={isActive ? '#ffe082' : '#ebd5a3'} />
+                          </svg>
+                        )}
+                        <span className="dev-icon-cell-label">{pt.label.split('/')[0]}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="dev-inspector-actions">
+                {setSelectedLocationId && setSidebarOpen && (
+                  <button
+                    className="dev-inspector-btn lore-btn"
+                    onClick={() => {
+                      setSelectedLocationId(selectedDevPinId);
+                      setSidebarOpen(true);
+                    }}
+                    title="Open Immersion Sidebar for this location"
+                  >
+                    <i className="fas fa-book-open" /> Open Lore Sidebar
+                  </button>
+                )}
+                {devTool !== 'movePin' && (
+                  <button
+                    className="dev-inspector-btn move-btn"
+                    onClick={() => setDevTool('movePin')}
+                    title="Switch to drag-and-move mode"
+                  >
+                    <i className="fas fa-arrows-up-down-left-right" /> Move
+                  </button>
+                )}
+                <button
+                  className="dev-inspector-btn delete-btn"
+                  onClick={() => {
+                    if (onDeletePin) {
+                      onDeletePin(selectedDevPinId);
+                    } else {
+                      delete LOCATION_COORDINATES[selectedDevPinId];
+                      setSelectedDevPinId(null);
+                      if (onUpdate) onUpdate();
+                    }
+                  }}
+                  title="Remove this pin from the map"
+                >
+                  <i className="fas fa-trash-can" /> Delete Pin
+                </button>
+              </div>
+
               <div className="dev-inspector-hint">
                 <i className="fas fa-keyboard" />
-                <span>Arrow keys nudge 1px · <kbd>Shift</kbd>+arrows 10px · drag to move</span>
+                <span>Arrow keys nudge 1px · <kbd>Shift</kbd>+arrows 10px</span>
               </div>
             </>
           ) : (
             <div className="dev-inspector-empty">
               <i className="fas fa-hand-pointer" />
-              <span>Click a pin on the map to select &amp; move it</span>
+              <span>{devTool === 'placePin' ? 'Select a lore location above and click on the map to drop a pin' : 'Click any pin on the map to inspect, move, or open its lore'}</span>
             </div>
           )}
         </div>

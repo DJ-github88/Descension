@@ -1426,6 +1426,212 @@ DEEP_LOCATIONS['the-sunken-spire'] = {
   npcs: ['aedris-first-lit', 'veil-speaker-theron']
 };
 
+
+
+// =============================================================================
+// NORDHALLA, Hvalhavn (deep)
+// =============================================================================
+DEEP_LOCATIONS['hvalhavn'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/hvalhavn.png',
+    colors: { primary: '#1b2a38', secondary: '#90a4ae' },
+    description: 'A shattered harpoon crossed over a frozen wolf jaw on a pale slate field'
+  },
+  population: 80,
+  dominantRaces: ['Skald (abandoned)', 'Hungríd Cultists'],
+  leadership: {
+    type: 'cult_occupation',
+    title: 'Hungríd Tooth-Overseer',
+    leaderId: 'tooth-enforcer-kol',
+    description: 'The village is largely abandoned by its native fishermen. A Hungríd Tooth squad under Overseer Kol occupies the harbor to monitor northern trial traffic and guard the memory of Úlfrekr\'s murder from unearthing.'
+  },
+  defenses: {
+    militiaSize: 25,
+    fortifications: 'Decaying timber palisades and stone whale-oil vats converted into barricades by the Hungríd garrison.',
+    watchPresence: 'Hungríd Tooth-Enforcers watch the shoreline from the abandoned watch-post atop the fish-drying hill.'
+  },
+  economy: {
+    primary: 'Desolate staging post for northern Hungríd supply runs',
+    secondary: ['Abandoned cod-curing', 'Hungríd surveillance'],
+    status: 'decaying'
+  },
+  atmosphere: {
+    mood: 'Haunted, desolate, and bone-chilling. The abandoned longhouses creak under the arctic wind, and locals speak in hushed whispers of the day Sylvén walked back alone from the ice.',
+    architecture: 'Traditional Skald sea-timber longhouses with turf roofs, now rotting and snow-drifted. Runic markers commemorating Úlfrekr stand in the town square, unaware of the lie.',
+    sounds: 'The hollow whistling of arctic wind through empty timber halls, the creak of abandoned salt-racks, and the heavy boots of Hungríd enforcers.',
+    smells: 'Rancid cod oil, old sea-salt, wood-rot, and the metallic chill of rime-frost.',
+    lighting: 'Pale polar gloom by day, flickering whale-oil torches at the Hungríd guard post by night.'
+  },
+  history: {
+    founded: 'in the early generations of the Dimming',
+    foundedBy: 'Skald Fisher-Clans',
+    foundingStory: 'Founded as a northern whaling and fishing haven. Hvalhavn was the home village of brothers Úlfrekr and Sylvén. During a desperate polar wolf hunt deep in the arctic wastes, Sylvén abandoned/murdered Úlfrekr, returned alone, and lied that his brother died saving him. Sylvén used the village\'s sympathy to rally followers before consuming the Swallow-Heart.',
+    significantEvents: [
+      { date: 'Generations ago', event: 'Úlfrekr and Sylvén track polar wolves into the whiteout; Úlfrekr is betrayed and left to be consumed' },
+      { date: 'Generations ago', event: 'Sylvén returns to Hvalhavn alone, fabricates the hero legend of Úlfrekr, and begins gathering his cult' },
+      { date: 'Recent years', event: 'Sylvén\'s Hungríd cult occupies Hvalhavn, driving out most remaining villagers to preserve the founder\'s secret' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'ulfreks-cairn',
+      name: 'Úlfrekr\'s Memorial Cairn',
+      type: 'tomb',
+      description: 'A tall stone cairn erected in the village center. The inscription praises Úlfrekr as a hero who died protecting his brother. Behind the stones lies an empty grave.',
+      proprietor: 'Village Elders (Historical)',
+      notableFeatures: [
+        'The False Inscription: runic saga extolling Úlfrekr\'s self-sacrifice',
+        'The Hidden Stash: a hollow behind the keystone holding Sylvén\'s original blood-stained hunting knife'
+      ]
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'the-hungrid', influence: 'dominant', description: 'Occupies the village to suppress the truth of Sylvén\'s origin' },
+    { factionId: 'skald-expatriates', influence: 'minor', description: 'A few elderly villagers who remember the brothers before the ice took Sylvén' }
+  ],
+  travelConnections: [
+    { destinationId: 'kolvard', distance: '12 miles', travelTime: '4 hours', route: 'Mountain trial road monitored by Hungríd posts' },
+    { destinationId: 'svalghjartas-keep', distance: '25 miles', travelTime: '1 day', route: 'Glacial trail into the deep northern ice' }
+  ],
+  classPresence: ['berserker', 'harbinger', 'revenant'],
+  npcs: ['sylven', 'ulfrekr-memory']
+};
+
+// =============================================================================
+// NORDHALLA, Svalghjartas Keep (deep)
+// =============================================================================
+DEEP_LOCATIONS['svalghjartas-keep'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/svalghjarta.png',
+    colors: { primary: '#4a0e17', secondary: '#78909c' },
+    description: 'A frozen pulsating heart encased in jagged blue ice spires'
+  },
+  population: 400,
+  dominantRaces: ['Hungríd Cultists', 'The Frostborn', 'The Tooth', 'The Starved'],
+  leadership: {
+    type: 'cult_theocracy',
+    title: 'The Hollow King (Heart-Eater)',
+    leaderId: 'sylven-hollow-king',
+    description: 'Sylvén, the Hollow King, rules from the central dais over the Swallow-Heart. He is rime-infused and can freeze a heart with a touch to the chest. He commands the Frostborn (his marked inner circle) and the Tooth enforcers.'
+  },
+  defenses: {
+    militiaSize: 150,
+    fortifications: 'Constructed directly into the glacier walls around the Swallow-Heart carcass. The keep walls are solid black ice reinforced with rime-wards.',
+    watchPresence: 'Frostborn sentinels wielding cold-iron halberds patrol the icy ramparts, their skin glistening with frost.'
+  },
+  economy: {
+    primary: 'Child sacrifice rituals and rime-power extraction',
+    secondary: ['Bounty collection across Nordhalla', 'Rime-frost weapon forging'],
+    status: 'flourishing_cult'
+  },
+  atmosphere: {
+    mood: 'Malevolent, freezing, and suffocating. The ice walls throb with a faint, sickening heartbeat. The air is so cold that breath turns to crystals before falling to the floor.',
+    architecture: 'Monolithic black ice and stone pillars surrounding a colossal frozen ribcage where the Swallow-Heart pulses with blue void-light.',
+    sounds: 'The deep, subterranean thump of the Swallow-Heart, the quiet weeping of captives in the lower ice-cages, and Sylvén\'s rasping sermons.',
+    smells: 'Rime-frost, copper blood, ozone, and old snow.',
+    lighting: 'Pulsing cyan and cobalt illumination emanating from the Swallow-Heart itself.'
+  },
+  history: {
+    founded: 'Generations ago',
+    foundedBy: 'Sylvén (The Hollow King)',
+    foundingStory: 'After abandoning his brother Úlfrekr in the northern whiteout, Sylvén discovered the buried carcass of the Swallow-Heart in the glacier. Consuming its void-warm blood, he gained the power of rime-touch and founded the Hungríd cult, convincing followers that child sacrifices feed a benevolent deity.',
+    significantEvents: [
+      { date: 'Generations ago', event: 'Sylvén consumes the Swallow-Heart\'s core and becomes the Hollow King' },
+      { date: 'Decades ago', event: 'The Frostborn inner circle is formed; the Tooth enforcers begin kidnapping children across Nordhalla' },
+      { date: 'Recent months', event: 'The Heart\'s pulse accelerates; ice walls begin thawing as the void-corruption leaks toward Þögn' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'heart-chamber',
+      name: 'The Swallow-Heart Chamber',
+      type: 'sanctuary',
+      description: 'The central vault housing the massive pulsing heart of the Swallow-Heart. Sylvén sits upon the frozen dais above it.',
+      proprietor: 'Sylvén',
+      notableFeatures: [
+        'The Swallow-Heart: a 20-foot pulsing void organ encased in crystal ice',
+        'The Sacrifice Chute: a smooth ice tunnel descending into the heart\'s digestive pit'
+      ]
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'the-hungrid', influence: 'dominant', description: 'Sylvén\'s cult seat of power' }
+  ],
+  travelConnections: [
+    { destinationId: 'gjaldhringr', distance: '15 miles', travelTime: '6 hours', route: 'Glacial chasm trail' },
+    { destinationId: 'hvalhavn', distance: '25 miles', travelTime: '1 day', route: 'Frozen northern trail' }
+  ],
+  classPresence: ['harbinger', 'berserker', 'pyrofiend', 'warden'],
+  npcs: ['sylven-hollow-king']
+};
+
+// =============================================================================
+// NORDHALLA, Snowcall City (deep)
+// =============================================================================
+DEEP_LOCATIONS['snowcall-city'] = {
+  heraldry: {
+    iconUrl: '/assets/heraldry/snowcall.png',
+    colors: { primary: '#2c3e50', secondary: '#ecf0f1' },
+    description: 'A silver horn emitting frost-flakes over a granite cliff profile'
+  },
+  population: 3200,
+  dominantRaces: ['Skald', 'High Neth', 'Corvani'],
+  leadership: {
+    type: 'council',
+    title: 'Charter-Steward',
+    leaderId: 'solvan-steward',
+    description: 'Governed by the Snowcall Charter-Council representing House Skalvyr, the High Neth Scriptorium, and the Corvani Roost-Merchants.'
+  },
+  defenses: {
+    militiaSize: 200,
+    fortifications: 'Granite curtain walls and steam-heated gatehouses defending the cliff approach.',
+    watchPresence: 'Skald Ice-Guard and Corvani cliff-scouts patrol the perimeter.'
+  },
+  economy: {
+    primary: 'Trade hub between Rime-Spire Peaks and Skaldfjord Vale',
+    secondary: ['High Neth legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
+    status: 'prosperous'
+  },
+  atmosphere: {
+    mood: 'Bustling, crisp, and multi-cultural. Snowcall is the warmest and most welcoming urban center in Nordhalla.',
+    architecture: 'High Skald longhalls blended with slate-roofed High Neth townhouses and high cliffside Corvani roost-towers.',
+    sounds: 'Market calls in three languages, Corvani screech-shouts, and the steady hum of under-street steam pipes.',
+    smells: 'Pine smoke, roasting elk meat, parchment ink, and crisp mountain air.',
+    lighting: 'Warm amber lantern-light reflected off snow drifts and slate roofs.'
+  },
+  history: {
+    founded: '2nd century of the Dimming',
+    foundedBy: 'Skald-Neth Trade Coalition',
+    foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where High Neth immigrants could settle safely alongside Skald clans.',
+    significantEvents: [
+      { date: '2nd century', event: 'Snowcall Charter signed establishing the High Neth Quarter' }
+    ]
+  },
+  subLocations: [
+    {
+      id: 'high-neth-quarter',
+      name: 'The High Neth Quarter',
+      type: 'settlement',
+      description: 'A slate-roofed district of legal scribes, ink-refiners, and contract archivists.',
+      proprietor: 'High Neth Guild',
+      notableFeatures: ['The Slate Scriptorium']
+    }
+  ],
+  connectedMaps: [],
+  factionPresence: [
+    { factionId: 'house-skalvyr', influence: 'dominant', description: 'Regional seat of authority' },
+    { factionId: 'high-neth', influence: 'strong', description: 'Control legal trade and archives' }
+  ],
+  travelConnections: [
+    { destinationId: 'saltgrinn', distance: '4 miles', travelTime: '1 hour', route: 'Winding cliff stairs' },
+    { destinationId: 'stonegrip', distance: '10 miles', travelTime: '4 hours', route: 'Icetalon pass road' }
+  ],
+  classPresence: ['augur', 'minstrel', 'chronarch'],
+  npcs: ['solvan-steward']
+};
+
 const getDeepLocation = (locationId) => DEEP_LOCATIONS[locationId] || null;
 
 const getEnrichedZone = (zoneId) => {

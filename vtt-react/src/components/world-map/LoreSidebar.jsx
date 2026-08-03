@@ -35,8 +35,7 @@ const CATEGORIES = [
   { id: 'civic',      label: 'Cities, Towns & Settlements',       icon: 'fa-city',              match: ['city', 'town', 'settlement', 'village'] },
   { id: 'camps',      label: 'Camps & Marks',                     icon: 'fa-fire',              match: ['camp', 'custom'] }
 ];
-
-const categorize = (loc) => {
+const categorize = (loc) => {
   const type = (typeof loc === 'string' ? loc : loc?.type || '').toLowerCase();
   const id = (loc?.id || '').toLowerCase();
   const desc = (loc?.description || '').toLowerCase();
@@ -45,9 +44,9 @@ const categorize = (loc) => {
   if (['stonegrip', 'ymirs-hold', 'vargtor', 'sunder-wall-gates', 'kildvagt', 'bridhe-keep'].includes(id) || type.includes('fortress') || type.includes('stronghold') || type.includes('watchtower')) return 'military';
   if (['fjord-gate', 'xardins-hearth', 'midhofn', 'saltgrinn', 'kildhavn', 'ash-tide-village', 'havhavn', 'black-firth', 'smugglers-cove', 'icefang-haven'].includes(id) || type.includes('port') || type.includes('harbor') || type.includes('coastal')) return 'maritime';
   if (['frozen-archive', 'thogn', 'gjaldhringr', 'run', 'chant-mounds', 'glacier-song-hermitage'].includes(id) || type.includes('archive') || type.includes('temple') || type.includes('shrine') || type.includes('sacred')) return 'sacred';
-  if (['svalghjartas-keep', 'grimuvard', 'ulvard', 'kolvard', 'bjargsten-camp', 'varmagrim', 'blizzards-end'].includes(id) || desc.includes('hungríd') || desc.includes('cult') || desc.includes('sylvén')) return 'occult';
+  if (['svalghjartas-keep', 'hvalhavn', 'grimuvard', 'ulvard', 'kolvard', 'bjargsten-camp', 'varmagrim', 'blizzards-end', 'whispering-pine-logging-camps'].includes(id) || desc.includes('hungríd') || desc.includes('cult') || desc.includes('sylvén')) return 'occult';
   if (['stahlberg', 'hrafnest', 'rooks-promontory', 'hrafnskogur', 'kolhyrna', 'grimefrost', 'kapp', 'blodholl'].includes(id) || desc.includes('corvani') || desc.includes('fexric') || desc.includes('berserker trial')) return 'subraces';
-  if (['frostmead', 'frostdell', 'bloodhammer-sump', 'whale-oil-row', 'iron-ore-quay', 'logging-camps'].includes(id) || type.includes('forge') || type.includes('mine') || desc.includes('sump') || desc.includes('warehouse')) return 'industrial';
+  if (['frostmead', 'frostdell', 'bloodhammer-sump', 'whale-oil-row', 'iron-ore-quay', 'logging-camps'].includes(id) || type.includes('forge') || type.includes('mine') || desc.includes('sump') || desc.includes('warehouse') || type.includes('industrial')) return 'industrial';
   if (['whispering-pine', 'hunger-glaciers', 'eldoyane', 'icetalon-peaks', 'bearsbeards-beak', 'skadis-col', 'cracked-cyst', 'endless-steppe', 'rimors-hearth'].includes(id) || type.includes('wilderness') || type.includes('mountain') || type.includes('glacier') || type.includes('forest')) return 'wilderness';
 
   for (const cat of CATEGORIES) {
@@ -58,11 +57,11 @@ const categorize = (loc) => {
 
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
-// ╔══════════════════════════════════════════════════════════════════════� - 
-// ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.  ║
-// ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when     ║
-// ║  you're done looking. Example entries are tagged `__example: true`.   ║
-// ╚══════════════════════════════════════════════════════════════════════╝
+// ╔═════════════════════════════════════════════════════════════════════════╗
+// ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.      ║
+// ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when        ║
+// ║  you're done looking. Example entries are tagged `__example: true`.      ║
+// ╚═════════════════════════════════════════════════════════════════════════╝
 const EXAMPLES_ENABLED = false;
 const EXAMPLE_LOCATIONS = [
   { id: '__ex_blackiron',   name: 'Example: Blackiron City',     type: 'city',       description: 'A smog-laden smelting capital built around a dying volcanic vent. Bells ring shift-changes every six hours.' },
@@ -181,14 +180,14 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       addedIds.add(pinId);
     });
 
-    // For subregions, load any defined zones in subregionObj.zoneIds if not placed as canvas pins yet
-    if (subregionObj && subregionObj.zoneIds) {
-      subregionObj.zoneIds.forEach((zId) => {
-        if (!addedIds.has(zId)) {
-          const e = getEnrichedZone(zId);
+    // For subregions, load all defined zones in subregionObj.zoneIds or matching zone.subregionId
+    if (subregionObj) {
+      ZONE_DATA.filter((z) => subregionObj.zoneIds?.includes(z.id) || z.subregionId === regionId).forEach((z) => {
+        if (!addedIds.has(z.id)) {
+          const e = getEnrichedZone(z.id);
           if (e) {
             out.push(e);
-            addedIds.add(zId);
+            addedIds.add(z.id);
           }
         }
       });
@@ -454,13 +453,36 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
               </div>
               <h2 className="lore-region-name">{region.name}</h2>
               <p className="lore-region-desc">{region.description}</p>
-              {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
-                <button
-                  className="lore-enter-subregion-btn animate-fade-in"
-                  onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
-                >
-                  <i className="fas fa-map-marked-alt"></i> Enter {region.name} Map
-                </button>
+              {region.isSubregion ? (
+                (REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
+                  <button
+                    className="lore-enter-subregion-btn animate-fade-in"
+                    onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
+                  >
+                    <i className="fas fa-compass"></i> Focus {region.name} Map
+                  </button>
+                )
+              ) : (
+                subregionsList.length > 0 && (
+                  <div className="lore-subregion-action-bar animate-fade-in">
+                    <span className="subregion-action-label">Explore Subrealms:</span>
+                    <div className="subregion-action-btns">
+                      {subregionsList.map((sub) => (
+                        <button
+                          key={sub.id}
+                          type="button"
+                          className="lore-subrealm-pill-btn"
+                          onClick={() => {
+                            if (setSelectedLocationId) setSelectedLocationId(null);
+                            if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
+                          }}
+                        >
+                          <i className="fas fa-compass" /> {sub.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )
               )}
             </div>
 

@@ -25,6 +25,7 @@ import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { ZONE_DATA } from '../../data/zoneData';
 import { pointInPolygon } from './RegionOverlay';
 import campaignService from '../../services/campaignService';
+import { preloadMapAssets } from '../../utils/mapImagePreloader';
 import './WorldMapImmerse.css';
 
 // Load cached drawn regions and pins from localStorage on initial load
@@ -237,6 +238,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  };
 
   useEffect(() => {
+    preloadMapAssets();
     const preventDefaultContextMenu = (e) => {
       e.preventDefault();
     };
@@ -455,11 +457,12 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
 
    if (devTool === 'placePin') {
     let pinKey = '';
-    let pinData = {
+    const pinData = {
      x: coords[0],
      y: coords[1],
      pinType: selectedPinType,
-     regionId: currentRegion || selectedRegionId || ''
+     regionId: currentRegion || selectedRegionId || '',
+     mapId: activeMapId || 'mythril'
     };
 
     if (pinSourceType === 'world') {
@@ -498,6 +501,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
 
     LOCATION_COORDINATES[pinKey] = pinData;
     saveCoordsToCache();
+    setSelectedDevPinId(pinKey);
     setUpdateTrigger(prev => prev + 1);
     showDevToast('pin', { key: pinKey, data: { ...pinData } });
    }
@@ -1002,9 +1006,12 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     showConfirm={showConfirm}
     selectedDevPinId={selectedDevPinId}
     setSelectedDevPinId={setSelectedDevPinId}
+    setSelectedLocationId={setSelectedLocationId}
+    setSidebarOpen={setSidebarOpen}
     updateTrigger={updateTrigger}
     mapVersion={mapVersion}
     onToggleMapVersion={toggleMapVersion}
+    setDevMode={setDevMode}
    />
 
    {customConfirm.isOpen && (

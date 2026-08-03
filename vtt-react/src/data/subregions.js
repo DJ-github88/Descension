@@ -54,36 +54,55 @@ export const SUBREGIONS = {
     id: 'nordhalla-glacier-heart',
     name: 'Rime-Spire Peaks',
     regionId: 'nordhalla',
-    description: 'The cold, sparsely populated interior of Nordhalla, endless whiteout glaciers, shifting crevasses, and the brooding peaks that mark the spine of the continent. The Frost-Tithe mothers and the Hunger Pact consumptions happen here. The Rime-Born, the Frostbound, and the Stel (glacier-memories given form) stalk these wastes.',
-    climate: 'Polar, perpetual blizzard in winter, brief white summer',
-    dominantTerrain: 'Glaciers, ice fields, frozen chasms, granite peaks',
-    primaryRaces: ['Rime-Born', 'Frostbound', 'Corvani (clan flocks)'],
-    primaryFactions: ['House Skalvyr (royal seat)', 'Skald Keepers'],
-    zoneIds: ['frozen-archive', 'rimors-hearth', 'hunger-glaciers', 'skadis-col', 'the-still-crag', 'frosthold-citadel', 'bearsbeards-beak'],
+    description: 'The warm, varied west-central region of Nordhalla — encompassing the Icetalon Peaks, the geothermal-warmed Whispering Pine Forest, and the southern coast facing Sundale. Here lies Snowcall City, the Corvani roosts, the Berserker trial grounds of Blóðhöll, the sacred cliff of Þögn, and the sinister fortress of Sválghjarta\'s Keep built around the Swallow-Heart.',
+    climate: 'Varied sub-arctic, geothermal pine lowlands, biting alpine winds',
+    dominantTerrain: 'Granite peaks, geothermal pine forests, blue ice spires, black-sand beaches',
+    primaryRaces: ['Skald', 'High Neth', 'Pale Neth', 'Corvani', 'Fexric refugees', 'Rime-Touched'],
+    primaryFactions: ['House Skalvyr', 'The Hungríd Cult', 'Pale Neth of Saltgrinn', 'Corvani Flocks', 'Skald Berserkers'],
+    zoneIds: [
+      'snowcall-city', 'hvalhavn', 'svalghjartas-keep', 'stonegrip', 'frostdell',
+      'xardins-hearth', 'eldoyane', 'saltgrinn', 'midhofn', 'saltbryggja', 'kildvagt',
+      'kildhavn', 'bearsbeards-beak', 'skadis-col', 'thogn', 'gjaldhringr',
+      'cracked-cyst', 'breathless-stair', 'glacier-song-hermitage', 'ash-tide-village', 'ember-tide-way',
+      'mord-cradle-camp', 'hrafnskogur', 'whispering-pine', 'rime-spires', 'endless-steppe',
+      'stahlberg', 'hrafnest', 'rooks-promontory', 'kolhyrna', 'run',
+      'kapp', 'blodholl', 'havhavn', 'whispering-pine-logging-camps', 'bjargsten-camp',
+      'varmagrim', 'grimuvard', 'ulvard', 'kolvard'
+    ],
     points: [[2, 2], [5, 196], [60, 162], [114, 208], [154, 254], [298, 219], [263, 156], [360, 260], [424, 324], [646, 328], [764, 353], [743, 220], [684, 99], [662, 8]],
     labelPosition: [370, 199]
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
-    name: 'Stormveil Fjords',
+    name: 'Skaldfjord Vale',
     regionId: 'nordhalla',
-    description: 'The long eastern seaboard of Nordhalla, where the black fjords cut deep into the cliff walls. This is the warmest, most populated face of the continent. The only place where agriculture is possible, where trade ships can dock, and where the Icechamber Syndicate runs its monopoly. The Fastboende (settled loyalists) cluster here; the Fredl�se (outlaw clans) try to survive on the edges.',
-    climate: 'Cold-temperate maritime, moderated by sea',
-    dominantTerrain: 'Black granite fjords, sea-cliffs, harbor towns, fish-farms',
-    primaryRaces: ['Skald humans', 'Merryn expatriates', 'occasional Corvani'],
-    primaryFactions: ['Icechamber Syndicate', 'Fastboende clan confederations', 'Skald Keepers'],
-    zoneIds: ['fjord-gate', 'bloodhammer-sump', 'eldonholm', 'vesperas-perch', 'rooks-promontory', 'vargtor', 'spars-folly']
+    description: 'The settled river and fjord corridor of Nordhalla, anchored by the capital Frostholm and the Sunder-Wall. Home to the legendary Frozen Archive, the Bloodhammer Sump forges, and the primary naval harbors of the Icechamber Syndicate.',
+    climate: 'Cold-temperate maritime, sea-moderated fjord valleys',
+    dominantTerrain: 'Granite fjords, deep river corridors, ice-carved keeps, slate docks',
+    primaryRaces: ['Skald humans', 'Vaegfolk', 'Bloodhammer clan', 'Astril scholars'],
+    primaryFactions: ['House Skalvyr (Royal Seat)', 'Icechamber Syndicate', 'Skald Keepers', 'Sea-Guard'],
+    zoneIds: [
+      'frostholm', 'frozen-archive', 'frostmead', 'icerill', 'vargtor',
+      'fjord-gate', 'ymirs-hold', 'eldonholm', 'black-firth', 'hearth-glow-tavern-cluster',
+      'whale-oil-row', 'iron-ore-quay', 'vargtower-beacon', 'cod-drying-racks', 'frost-tithe-cradle-camp',
+      'ravencall-eyrie', 'jaarn-tand-cairn-line', 'sunder-wall-gates', 'vaegfolk-river-steads', 'ice-locks',
+      'bridhe-keep', 'bloodhammer-sump'
+    ]
   },
-  'nordhalla-southern-shore': {
-    id: 'nordhalla-southern-shore',
-    name: 'Brimstone Shore',
+  'nordhalla-frostfang-wastes': {
+    id: 'nordhalla-frostfang-wastes',
+    name: 'Frostfang Wastes',
     regionId: 'nordhalla',
-    description: 'The southern coast of Nordhalla, facing the open sea toward Sundale. Less defended than the Fjord-Coast; the Skald navy patrols, but smugglers and Fredl�se raiders use the long, broken shoreline to slip past the Icechamber Syndicate. Xardin\'s Hearth, the southernmost major settlement, sits on a volcanic vent that keeps the harbor ice-free year-round.',
-    climate: 'Cold but milder, sea-moderated',
-    dominantTerrain: 'Volcanic black-sand beaches, sea-cliffs, geothermal hot-springs',
-    primaryRaces: ['Skald humans', 'Smuggler crews', 'Fredl�se outlaws'],
-    primaryFactions: ['Skald navy', 'Fredl�se clans', 'Xardin\'s Trading Company'],
-    zoneIds: ['xardins-hearth', 'southern-shore-smugglers-cove']
+    description: 'The desolate, wind-scoured whiteout glaciers beyond the Sunder-Wall. The nomadic Øsling clans hunt mammoths here, where ancient ruins like Blizzard\'s End and the dark Heir-Mounds mark the true history of the Seal-Breaking.',
+    climate: 'Polar, perpetual blizzards, summer lasts eight weeks',
+    dominantTerrain: 'Whiteout glaciers, shifting crevasses, ancient barrows, granite tundra',
+    primaryRaces: ['Øsling clans', 'Frost Chanters', 'Jutul frost-giants', 'Endurance Purists'],
+    primaryFactions: ['Øsling Clan Confederation', 'The Stone-Speakers', 'Jutul Warbands'],
+    zoneIds: [
+      'grimefrost', 'blizzards-end', 'hunger-glaciers', 'rimors-hearth', 'mute-hearth-ruin',
+      'spars-folly', 'drowned-longship-reef', 'outlaws-freshet', 'southern-shore-smugglers-cove', 'heir-mounds',
+      'jutul-holds', 'chant-mounds', 'mammoth-fields', 'white-cleft'
+    ]
   },
 
   // ========================================================================

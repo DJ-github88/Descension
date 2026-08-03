@@ -1443,24 +1443,24 @@
    ========================================================================== */
 .dev-toast {
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   left: 24px;
   z-index: 10001;
-  background: linear-gradient(135deg, rgba(32, 19, 11, 0.97) 0%, rgba(21, 11, 6, 0.98) 100%);
-  border: 1px solid rgba(196, 164, 74, 0.4);
+  background: linear-gradient(145deg, #f7f2e6 0%, #eadecb 100%);
+  border: 2px solid #8b2626;
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(212, 175, 55, 0.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px #c49a45;
   padding: 14px 18px;
   min-width: 300px;
   max-width: 420px;
   font-family: 'Cinzel', serif;
-  backdrop-filter: blur(12px);
+  color: #2b1810;
   animation: devToastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes devToastSlideIn {
-  from { opacity: 0; transform: translateX(-20px) translateY(10px); }
-  to { opacity: 1; transform: translateX(0) translateY(0); }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .dev-toast-header {
@@ -1471,21 +1471,21 @@
 }
 
 .dev-toast-icon {
-  color: #6abf69;
+  color: #2e7d32;
   font-size: 16px;
 }
 
 .dev-toast-title {
   font-size: 13px;
-  color: #f5ebd5;
-  font-weight: 600;
+  color: #8b2626;
+  font-weight: 800;
   flex: 1;
 }
 
 .dev-toast-close {
   background: transparent;
   border: none;
-  color: rgba(240, 230, 210, 0.4);
+  color: #8b2626;
   cursor: pointer;
   font-size: 14px;
   padding: 2px;
@@ -1493,13 +1493,14 @@
 }
 
 .dev-toast-close:hover {
-  color: #ebd5a3;
+  color: #a83232;
 }
 
 .dev-toast-meta {
   font-size: 11px;
-  color: rgba(240, 230, 210, 0.5);
-  font-family: 'Courier New', monospace;
+  color: #4a3319;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
@@ -1512,11 +1513,12 @@
   flex: 1;
   padding: 7px 12px;
   border-radius: 5px;
-  border: 1px solid rgba(196, 164, 74, 0.3);
-  background: rgba(196, 164, 74, 0.08);
-  color: #ebd5a3;
+  border: 1.5px solid #a67c2e;
+  background: #fcf9f2;
+  color: #2b1810;
   font-size: 11px;
   font-family: 'Cinzel', serif;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1526,20 +1528,20 @@
 }
 
 .dev-toast-btn:hover {
-  background: rgba(196, 164, 74, 0.15);
-  border-color: rgba(212, 175, 55, 0.5);
-  color: #ffe082;
+  background: #8b2626;
+  border-color: #c49a45;
+  color: #ffffff;
 }
 
 .dev-toast-btn.agent {
-  background: rgba(59, 122, 140, 0.1);
-  border-color: rgba(59, 122, 140, 0.3);
-  color: #81d4fa;
+  background: linear-gradient(135deg, #1b2a38 0%, #2c3e50 100%);
+  border-color: #64b5f6;
+  color: #ffffff;
 }
 
 .dev-toast-btn.agent:hover {
-  background: rgba(59, 122, 140, 0.2);
-  border-color: rgba(59, 122, 140, 0.5);
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  box-shadow: 0 0 10px rgba(100, 181, 246, 0.4);
 }
 
 /* ==========================================================================

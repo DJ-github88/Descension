@@ -1,9 +1,11 @@
 import React from 'react';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { ZONE_DATA } from '../../data/zoneData';
+import { DEEP_LOCATIONS } from '../../data/deepLocationData';
 import MapPin from './MapPin';
 
 const LocationPins = ({
+  activeMapId,
   selectedRegionId,
   setSelectedRegionId,
   setSelectedLocationId,
@@ -18,7 +20,6 @@ const LocationPins = ({
   onSelectForMove
 }) => {
   const [hoveredPin, setHoveredPin] = React.useState(null);
-  const deepZoneIds = ['greymark-keep', 'frozen-archive', 'over-shanty', 'synod-hold'];
 
   const handlePinClick = (zoneId) => {
     const coord = LOCATION_COORDINATES[zoneId];
@@ -72,7 +73,9 @@ const LocationPins = ({
       const zone = ZONE_DATA.find(z => z.id === pinId);
       let name = '';
       let type = coord.pinType || 'custom';
-      let hasDeep = deepZoneIds.includes(pinId);
+      let hasDeep = !!DEEP_LOCATIONS[pinId];
+      let pinMapId = coord.mapId || 'mythril';
+      let pinRegionId = coord.regionId || zone?.regionId;
 
       if (zone) {
         name = zone.name;
@@ -92,6 +95,18 @@ const LocationPins = ({
         } else {
           name = pinId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
         }
+      }
+
+      // MAP FILTERING:
+      // When exploring a specific subregion map (e.g. activeMapId === 'nordhalla-glacier-heart'):
+      // ONLY render pins scoped to that subregion map!
+      // When on master world map (activeMapId === 'mythril' or null):
+      // Hide subregion-exclusive pins (mapId !== 'mythril')!
+      if (activeMapId && activeMapId !== 'mythril') {
+        const matchesSubmap = pinMapId === activeMapId || pinRegionId === activeMapId;
+        if (!matchesSubmap) return null;
+      } else if (!activeMapId || activeMapId === 'mythril') {
+        if (pinMapId && pinMapId !== 'mythril') return null;
       }
 
       return {
