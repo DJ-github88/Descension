@@ -1,21 +1,30 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getPublicUrl } from '../config/env';
 
-const CHECK_INTERVAL = 30000; // Check every 30 seconds
+const CHECK_INTERVAL = 45000; // Check every 45 seconds
 const AUTO_RELOAD_DELAY = 5; // 5-second auto-reload countdown
+const COOLDOWN_MS = 15000; // Minimum 15 seconds between update reloads to prevent infinite loops
 
 export function useVersionCheck() {
   const [hasUpdate, setHasUpdate] = useState(false);
   const [latestInfo, setLatestInfo] = useState(null);
   const [countdown, setCountdown] = useState(AUTO_RELOAD_DELAY);
-  const initialVersionRef = useRef(null);
   const isCheckingRef = useRef(false);
 
-  const localCommit = process.env.REACT_APP_COMMIT_SHA || null;
-  const localBuildTime = process.env.REACT_APP_BUILD_TIME || null;
+  const localCommit = process.env.REACT_APP_COMMIT_SHA && process.env.REACT_APP_COMMIT_SHA !== 'unknown' 
+    ? process.env.REACT_APP_COMMIT_SHA 
+    : null;
   const localVersion = process.env.REACT_APP_VERSION || null;
 
   const triggerUpdate = useCallback(() => {
+    if (latestInfo?.commitSha) {
+      sessionStorage.setItem('mythrill_active_commit', latestInfo.commitSha);
+    }
+    if (latestInfo?.version) {
+      sessionStorage.setItem('mythrill_active_version', latestInfo.version);
+    }
+    sessionStorage.setItem('mythrill_last_reload_time', Date.now().toString());
+
     // If service worker is waiting, send skip waiting command first
     if (window.__swRegistration && window.__swRegistration.waiting) {
       try {
@@ -24,16 +33,24 @@ export function useVersionCheck() {
         console.warn('[VersionCheck] Error posting SKIP_WAITING to service worker:', err);
       }
     }
-    // Force reload from server ignoring cache
+
+    // Force reload from server
     window.location.reload(true);
-  }, []);
+  }, [latestInfo]);
 
   const checkRemoteVersion = useCallback(async () => {
     if (isCheckingRef.current) return;
+
+    // Loop protection: Cooldown check after reload
+    const lastReload = parseInt(sessionStorage.getItem('mythrill_last_reload_time') || '0', 10);
+    if (Date.now() - lastReload < COOLDOWN_MS) {
+      return;
+    }
+
     isCheckingRef.current = true;
 
     try {
-      // Trigger SW check if SW is active
+      // Trigger SW check if active
       if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
         try {
           const reg = await navigator.serviceWorker.ready;
@@ -41,7 +58,7 @@ export function useVersionCheck() {
             await reg.update();
           }
         } catch (swErr) {
-          // Ignore SW check errors silently
+          // Ignore SW update error
         }
       }
 
@@ -63,45 +80,46 @@ export function useVersionCheck() {
       }
 
       const remoteInfo = await response.json();
-      if (!remoteInfo || (!remoteInfo.commitSha && !remoteInfo.version && !remoteInfo.buildTime)) {
+      if (!remoteInfo || !remoteInfo.commitSha || remoteInfo.commitSha === 'unknown') {
         isCheckingRef.current = false;
         return;
       }
 
-      // Establish initial ref if local build values are unavailable
-      if (!initialVersionRef.current) {
-        initialVersionRef.current = {
-          commitSha: localCommit || remoteInfo.commitSha,
-          buildTime: localBuildTime || remoteInfo.buildTime,
-          version: localVersion || remoteInfo.version
-        };
+      // Determine active commit and version for current browser session
+      let activeCommit = sessionStorage.getItem('mythrill_active_commit') || localCommit;
+      let activeVersion = sessionStorage.getItem('mythrill_active_version') || localVersion;
+
+      // If active baseline is not yet stored, initialize with initial remote response
+      if (!activeCommit) {
+        activeCommit = remoteInfo.commitSha;
+        sessionStorage.setItem('mythrill_active_commit', activeCommit);
+      }
+      if (!activeVersion) {
+        activeVersion = remoteInfo.version;
+        sessionStorage.setItem('mythrill_active_version', activeVersion);
       }
 
-      const baseline = initialVersionRef.current;
-      
-      // Determine if remote version differs from baseline
-      const isCommitDifferent = remoteInfo.commitSha && baseline.commitSha && remoteInfo.commitSha !== baseline.commitSha;
-      const isBuildTimeDifferent = remoteInfo.buildTime && baseline.buildTime && remoteInfo.buildTime !== baseline.buildTime;
-      const isVersionDifferent = remoteInfo.version && baseline.version && remoteInfo.version !== baseline.version;
+      // Compare remote version against active session baseline (commitSha and version only, excluding raw buildTime)
+      const isCommitDifferent = remoteInfo.commitSha && activeCommit && remoteInfo.commitSha !== activeCommit;
+      const isVersionDifferent = remoteInfo.version && activeVersion && remoteInfo.version !== activeVersion;
 
-      if (isCommitDifferent || isBuildTimeDifferent || isVersionDifferent) {
-        console.log('[VersionCheck] Mismatch detected between client and remote server:', {
-          current: baseline,
+      if (isCommitDifferent || isVersionDifferent) {
+        console.log('[VersionCheck] Real update available on remote server:', {
+          active: { commit: activeCommit, version: activeVersion },
           remote: remoteInfo
         });
         setLatestInfo(remoteInfo);
         setHasUpdate(true);
       }
     } catch (error) {
-      console.warn('[VersionCheck] Failed to check remote version:', error.message);
+      console.warn('[VersionCheck] Version fetch error:', error.message);
     } finally {
       isCheckingRef.current = false;
     }
-  }, [localCommit, localBuildTime, localVersion]);
+  }, [localCommit, localVersion]);
 
   // Periodic polling & event listeners
   useEffect(() => {
-    // Initial check
     checkRemoteVersion();
 
     const intervalId = setInterval(checkRemoteVersion, CHECK_INTERVAL);
@@ -117,6 +135,10 @@ export function useVersionCheck() {
     };
 
     const handleSwUpdate = (event) => {
+      const lastReload = parseInt(sessionStorage.getItem('mythrill_last_reload_time') || '0', 10);
+      if (Date.now() - lastReload < COOLDOWN_MS) {
+        return;
+      }
       if (event.detail) {
         window.__swRegistration = event.detail;
       }
@@ -135,7 +157,7 @@ export function useVersionCheck() {
     };
   }, [checkRemoteVersion]);
 
-  // Countdown timer for automatic update when update is available
+  // Countdown timer when update modal is active
   useEffect(() => {
     if (!hasUpdate) return;
 
