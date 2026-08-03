@@ -28,6 +28,7 @@ import AccessibilityController from "./components/common/AccessibilityController
 import LandingPage from "./components/landing/LandingPage";
 import AuthModal from "./components/auth/AuthModal";
 import UserProfile from "./components/auth/UserProfile";
+
 import DialogueSystem from "./components/dialogue/DialogueSystem";
 import DialogueControls from "./components/dialogue/DialogueControls";
 import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
@@ -35,6 +36,8 @@ import { FloatingCombatTextManager } from "./components/combat/FloatingCombatTex
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
+import { useVersionCheck } from "./hooks/useVersionCheck";
+import VersionUpdateModal from "./components/common/VersionUpdateModal";
 import { clearLocalRoom } from "./utils/localRoom";
 import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -1047,28 +1050,9 @@ const AppContent = ({
   const navigate = useNavigate();
   const location = useLocation();
   const isGameRoute = location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
+  const { hasUpdate, latestInfo, countdown, triggerUpdate } = useVersionCheck();
 
-  const [swRegistration, setSwRegistration] = useState(null);
 
-  useEffect(() => {
-    const handleUpdate = (e) => {
-      if (e.detail) {
-        setSwRegistration(e.detail);
-      }
-    };
-    window.addEventListener('swUpdateAvailable', handleUpdate);
-    return () => window.removeEventListener('swUpdateAvailable', handleUpdate);
-  }, []);
-
-  // Auto-activate new service worker and reload when an update is detected
-  useEffect(() => {
-    if (!swRegistration) return;
-    if (swRegistration.waiting) {
-      swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    } else {
-      window.location.reload();
-    }
-  }, [swRegistration]);
 
   // Condition cleanup - runs every second while in a game to remove expired buffs/debuffs.
   // Fallback for in-game views where TargetHUD/PartyHUD aren't mounted; skipped on the landing page.
@@ -1355,15 +1339,15 @@ const AppContent = ({
       {/* Cookie Consent Banner */}
       <CookieConsent />
 
-       {/* PWA Update Banner - auto-activates new version */}
-       {swRegistration && (
-         <div className="sw-update-banner">
-           <div className="sw-update-content">
-              <i className="fas fa-sync-alt sw-update-icon"></i>
-             <span>A new version of Mythrill is available — updating...</span>
-           </div>
-         </div>
-       )}
+       {/* Version Update Modal */}
+       <VersionUpdateModal
+         isOpen={hasUpdate}
+         latestInfo={latestInfo}
+         countdown={countdown}
+         onUpdate={triggerUpdate}
+       />
+
+
     </>
   );
 };

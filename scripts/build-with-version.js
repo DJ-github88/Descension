@@ -70,6 +70,23 @@ function main() {
     BROWSERSLIST_ENV: 'production'
   };
   
+  // Create version manifest object
+  const versionData = JSON.stringify({
+    version,
+    commitSha: gitInfo.commitSha,
+    branch: gitInfo.branch,
+    buildTime: gitInfo.buildTime
+  }, null, 2);
+
+  // Write version.json into public folder prior to building
+  try {
+    const publicVersionPath = path.join(vttReactDir, 'public', 'version.json');
+    fs.writeFileSync(publicVersionPath, versionData);
+    console.log(`📄 Generated public version manifest: ${publicVersionPath}`);
+  } catch (err) {
+    console.warn('⚠️  Failed to write public version manifest:', err.message);
+  }
+
   // Clean previous build
   console.log('🧹 Cleaning previous build...');
   try {
@@ -87,6 +104,14 @@ function main() {
       stdio: 'inherit',
       env
     });
+
+    // Write version.json into build folder post-build as well
+    const buildVersionPath = path.join(vttReactDir, 'build', 'version.json');
+    if (fs.existsSync('build')) {
+      fs.writeFileSync(buildVersionPath, versionData);
+      console.log(`📄 Generated build version manifest: ${buildVersionPath}`);
+    }
+
     console.log('✅ Build completed successfully!');
   } catch (error) {
     console.error('❌ Build failed:', error.message);
