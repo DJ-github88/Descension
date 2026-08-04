@@ -29,7 +29,7 @@ export const BUILTIN_SUBREGION_MAPS = {
       },
       {
         id: 'nordhalla-fjord-coast',
-        name: 'Skaldfjord Vale',
+        name: 'Skaldfjord Dal',
         color: 'rgba(70, 150, 220, 0.18)',
         glowColor: 'rgba(120, 200, 255, 0.75)',
         labelPosition: [3200, 1800],
@@ -57,14 +57,14 @@ export const BUILTIN_SUBREGION_MAPS = {
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
-    name: 'Skaldfjord Vale',
+    name: 'Skaldfjord Dal',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
     placeholder: true,
     image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
-    description: 'The settled river and fjord corridor of Nordhalla: Skaldfjord Vale, Frostholm capital, and the Frozen Archive.'
+    description: 'The settled river and fjord corridor of Nordhalla: Skaldfjord Dal, Frostholm capital, and the Frozen Archive.'
   },
   'nordhalla-frostfang-wastes': {
     id: 'nordhalla-frostfang-wastes',

@@ -1590,7 +1590,7 @@ DEEP_LOCATIONS['snowcall-city'] = {
     watchPresence: 'Skald Ice-Guard and Corvani cliff-scouts patrol the perimeter.'
   },
   economy: {
-    primary: 'Trade hub between Rime-Spire Peaks and Skaldfjord Vale',
+    primary: 'Trade hub between Rime-Spire Peaks and Skaldfjord Dal',
     secondary: ['High Neth legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
     status: 'prosperous'
   },

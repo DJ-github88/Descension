@@ -8364,7 +8364,7 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-fjord-coast",
     "name": "Ymir's Hold",
     "type": "fortress",
-    "description": "Coastal fortress guarding southern approaches to Skaldfjord Vale with runic stone walls.",
+    "description": "Coastal fortress guarding southern approaches to Skaldfjord Dal with runic stone walls.",
     "dangerLevel": "medium",
     "factions": [
       "skald-navy"

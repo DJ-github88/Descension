@@ -691,7 +691,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
      {activeSection === 'membership' && renderMembershipSection()}
     </main>
 
-    {/* Footer removed to prevent vertical scrollbar and layout issues */}
+    {/* Copyright stamp — fixed bar, does not affect page layout/scrollbar */}
+    <footer className="landing-copyright">
+      <span>&copy; 2026 Cinder &amp; Story. All rights reserved.</span>
+      <span className="copyright-divider">&#10022;</span>
+      <span>Mythrill, Mythrill TTRPG &amp; Mythrill VTT are trademarks of Cinder &amp; Story.</span>
+    </footer>
 
     {/* Scroll to Top Button */}
     {showScrollTop && (

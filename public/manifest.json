@@ -1,6 +1,11 @@
 {
   "short_name": "Mythrill",
-  "name": "Mythrill - Virtual Tabletop Game",
+  "name": "Mythrill VTT - Virtual Tabletop",
+  "description": "Mythrill VTT, the digital tabletop for the Mythrill TTRPG, crafted by Cinder & Story.",
+  "developer": {
+    "name": "Cinder & Story",
+    "url": "https://mythrill.netlify.app"
+  },
   "icons": [
     {
       "src": "favicon.ico",

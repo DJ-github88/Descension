@@ -1,7 +1,7 @@
 # NORDHALLA — THE COMPLETE LORE (FINAL CANON)
 
 > Ratified 2026-07-27. Source of truth for all Nordhalla content.
-> Three subregions: **Rime-spire Peaks** · **Skaldfjord Vale** · **Frostfang Wastes**
+> Three subregions: **Rime-spire Peaks** · **Skaldfjord Dal** · **Frostfang Wastes**
 
 ---
 
@@ -386,7 +386,7 @@ The volcanic vents, the Eldøyane, the geothermal warmth — it's not just geoth
 A massive fortification built by Jarn-Tand to regulate the **Øsling** (renamed from Fredløse — see below) clans and enforce trade monopoly. It funnels every nomad migration through taxed checkpoints. The Ordan clans who once crossed free now pay Skalvyr tolls for the land they were born on.
 
 The wall divides the continent in two:
-- **Inside the Wall (Skaldfjord Vale):** the **Vaegfolk** (the settled ones, formerly Fastboende — see below) under Skalvyr rule
+- **Inside the Wall (Skaldfjord Dal):** the **Vaegfolk** (the settled ones, formerly Fastboende — see below) under Skalvyr rule
 - **Beyond the Wall (Frostfang Wastes):** the Øsling clans, the glacier expanse
 
 **Járn-Tand's Cairn-Line** marks the taxed passage. Wardens check passage-rights at every checkpoint.
@@ -413,7 +413,7 @@ The wall divides the continent in two:
    ║                       ║
    ║   ┌─────────────────┐ ║
    ║   │  SKALDFJORD     │ ║
-   ║   │  VALE           │ ║
+   ║   │  DAL            │ ║
    ║   │                 │ ║
    ║   │  Frostholm      │ ║
    ║   │  Frostmead      │ ║
@@ -440,7 +440,7 @@ Rime-spire Peaks spans three geographic zones that flow into each other:
 The regional capital is **Snowcall City**, where the **High Neth** immigrant community has its home.
 
 **Borders:**
-- **East:** the **Sunder-Wall** separates Rime-spire Peaks from the Skaldfjord Vale and the Frostfang Wastes
+- **East:** the **Sunder-Wall** separates Rime-spire Peaks from the Skaldfjord Dal and the Frostfang Wastes
 - **South:** open sea toward Sundale
 - **North/West:** the continent's icy edge
 
@@ -496,12 +496,12 @@ The regional capital is **Snowcall City**, where the **High Neth** immigrant com
 
 ---
 
-### 🏞️ SUBREGION 2: SKALDFJORD VALE
+### 🏞️ SUBREGION 2: SKALDFJORD DAL
 
 **Theme:** The settled heart — fjord-keeps, the river corridor, the Skalvyr power center
 **Vibe:** A long, narrow corridor of civilization carved between peaks and wastes, fed by glacial melt and geothermal springs.
 
-The central river valley, anchored by the **Skaldfjord River** that flows north-to-south to the sea. A long, narrow corridor of civilization carved between the Snowcall mountains and the Frostfang Wastes. The **Sunder-Wall** runs along its eastern edge, separating the Vale from the Wastes.
+The central river valley, anchored by the **Skaldfjord River** that flows north-to-south to the sea. A long, narrow corridor of civilization carved between the Snowcall mountains and the Frostfang Wastes. The **Sunder-Wall** runs along its eastern edge, separating the Dal from the Wastes.
 
 **Key Locations:**
 
@@ -513,7 +513,7 @@ The central river valley, anchored by the **Skaldfjord River** that flows north-
 | **Icerill** | Settlement | Small tributary settlement. |
 | **Vargtor** | Watchtower | Granite tor 200 ft above glacier line. Wolves gather at base every winter. Deep chambers have runic carvings predating the Skald by centuries. |
 | **Fjord-Gate** | Harbor | Primary harbor. Stone doors block sea-storms. Opens to the Black Firth. |
-| **Ymir's Hold** | Coastal Fortress | Fortress guarding the southern approaches to the Skaldfjord Vale. Named for the primordial giant. Stone walls carved with runic wards. The Skald Navy patrols from here. |
+| **Ymir's Hold** | Coastal Fortress | Fortress guarding the southern approaches to the Skaldfjord Dal. Named for the primordial giant. Stone walls carved with runic wards. The Skald Navy patrols from here. |
 | **Frostflow** | Fishing Town | Pure-blooded Skald — no immigrants ever. Holds the Eldon-Stone, naming every chieftain since the Binding. Formerly called Eldonholm. |
 | **The Black Firth** | Naval Inlet | Obsidian-cliffed inlet, soot-streaked from ironclad funnels. Primary naval route to the Iceheart Sea. Navigated by starlight since no sunlight has penetrated in eight centuries. |
 | **Hearth-Glow Tavern-Cluster** | Settlement | Taverns built over steaming vents. Patrons grip frozen iron bars to prove lineage. |
@@ -524,10 +524,10 @@ The central river valley, anchored by the **Skaldfjord River** that flows north-
 | **Frost-Tithe Cradle-Camp** | Birth-Camp | Staffed by Berserkers. Half-birthing, half-funeral. Mothers who will likely die are honored. Berserkers wait to make the ultimate sacrifice. |
 | **Ravencall Eyrie** | Corvani Settlement | Rope-ladders and murmuring ravens. Messengers. |
 | **Járn-Tand's Cairn-Line** | Royal Markers | Cairns along the Sunder-Wall. Wardens check passage-rights. |
-| **Sunder-Wall Gates** | Fortification | Named toll-gates along the wall. **Skalvyr's Gate** is the main crossing — all Vale traffic passes through. Wardens check passage-rights at every gate. |
-| **Vaegfolk River-Steads** | Farmsteads | Farming and fishing stead-villages of the settled Vaegfolk along the Skaldfjord River. The Vale's food supply. |
+| **Sunder-Wall Gates** | Fortification | Named toll-gates along the wall. **Skalvyr's Gate** is the main crossing — all Dal traffic passes through. Wardens check passage-rights at every gate. |
+| **Vaegfolk River-Steads** | Farmsteads | Farming and fishing stead-villages of the settled Vaegfolk along the Skaldfjord River. The Dal's food supply. |
 | **The Ice-Locks** | Winter Station | Where the Skaldfjord freezes solid each winter; barges are hauled over the ice. Syndicate winter hauling station — ice-barges and runners. |
-| **Bridhe-Keep** | River Keep | Stone keep guarding the river-crossing on the Skaldfjord. Bridge-toll, garrisoned, the first stop for travellers entering the Vale. |
+| **Bridhe-Keep** | River Keep | Stone keep guarding the river-crossing on the Skaldfjord. Bridge-toll, garrisoned, the first stop for travellers entering the Dal. |
 
 **Inhabitants:** House Skalvyr, Vaegfolk, Skald Keepers, Bloodhammer Clan, Rime-Touched, Corvani, Sea-Guard, Icechamber Syndicate, **Astril scholars**, **Fexric slaves** (underground)
 
@@ -900,7 +900,7 @@ Mor-Vereth's Congregation of the Silence is receiving specific instructions from
 - [ ] **Úlvarð (+Askhöfn)** — southeastern watchtown + camp
 - [ ] **Kolvarð (+Kuldstig)** — northern watchtown + camp
 
-### Skaldfjord Vale
+### Skaldfjord Dal
 - [ ] **Frostholm** — capital (central, on the river)
 - [ ] **The Frozen Archive** — labeled landmark near Frostholm
 - [ ] **Vargtor** — watchtower tor
@@ -951,7 +951,7 @@ Mor-Vereth's Congregation of the Silence is receiving specific instructions from
 - [ ] **The Icetalon Peaks** as the western/northern mountain spine
 - [ ] **The Whispering Pine Forest** as the central forest belt
 - [ ] **The Frostfang Wastes** as the eastern glacier expanse
-- [ ] **The Skaldfjord Vale** as the central river corridor
+- [ ] **The Skaldfjord Dal** as the central river corridor
 
 ---
 

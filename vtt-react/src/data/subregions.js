@@ -74,7 +74,7 @@ export const SUBREGIONS = {
   },
   'nordhalla-fjord-coast': {
     id: 'nordhalla-fjord-coast',
-    name: 'Skaldfjord Vale',
+    name: 'Skaldfjord Dal',
     regionId: 'nordhalla',
     description: 'The settled river and fjord corridor of Nordhalla, anchored by the capital Frostholm and the Sunder-Wall. Home to the legendary Frozen Archive, the Bloodhammer Sump forges, and the primary naval harbors of the Icechamber Syndicate.',
     climate: 'Cold-temperate maritime, sea-moderated fjord valleys',
