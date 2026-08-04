@@ -50,8 +50,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Rime-Spire Peaks',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
-    placeholder: true, // shares nordhalla.jpeg (1024x768 low-res)
-    image: '/assets/images/backgrounds/nordhalla.jpeg',
+    image: '/assets/images/backgrounds/rime-spire-peaks.jpg',
     width: 4096,
     height: 3072,
     description: 'The warm, varied west-central subregion of Nordhalla: Rime-Spire Peaks, geothermal pine forests, coastal harbors, and ancient keeps.'
