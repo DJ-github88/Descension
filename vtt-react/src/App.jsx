@@ -1130,6 +1130,21 @@ const AppContent = ({
 
   const [worldMapState, setWorldMapState] = useState(null); // null | 'active' | 'exiting'
   const [worldMapTransform, setWorldMapTransform] = useState(null);
+  const [worldMapTargetMapId, setWorldMapTargetMapId] = useState(null);
+
+  // Deep-link: "View on World Map" from account map manager navigates to "/"
+  // with { openMap: true, targetMapId }. Consume it here and open the world
+  // map directly on that subregion map.
+  useEffect(() => {
+    const st = location.state || {};
+    if (st.openMap && st.targetMapId) {
+      setWorldMapTargetMapId(st.targetMapId);
+      setWorldMapTransform(null);
+      setWorldMapState('active');
+      // Clear the navigation state so it doesn't re-trigger on later navigations
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [location.state]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleEnterSinglePlayer = async () => {
     // Clear any existing room flags - this is world builder mode (sandbox/testing)
@@ -1294,11 +1309,15 @@ const AppContent = ({
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-       {/* Interactive World Map */}
+{/* Interactive World Map */}
       {worldMapState !== null && (
        <WorldMapImmerse 
         initialTransform={worldMapTransform}
-        onClose={() => setWorldMapState(null)} 
+        initialMapId={worldMapTargetMapId}
+        onClose={() => {
+          setWorldMapState(null);
+          setWorldMapTargetMapId(null);
+        }} 
         onClosing={() => setWorldMapState('exiting')}
        />
       )}

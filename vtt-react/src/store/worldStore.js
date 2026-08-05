@@ -4,18 +4,6 @@ import useFactionStore from './factionStore';
 import useTimelineStore from './timelineStore';
 import useClassLoreStore from './classLoreStore';
 
-const DEFAULT_LOCKED_REGIONS = ['nordhalla', 'sundale', 'iceheart-sea', 'cragjaw-peaks', 'sundrift-vale', 'bryngloom-forest'];
-
-let initialLocked = DEFAULT_LOCKED_REGIONS;
-try {
-  const saved = localStorage.getItem('mythrill_locked_regions');
-  if (saved) {
-    initialLocked = JSON.parse(saved);
-  }
-} catch (e) {
-  console.warn('Could not read locked regions from localStorage:', e);
-}
-
 const REGION_META = {
   'frostwood-reach': {
     id: 'frostwood-reach',
@@ -76,7 +64,7 @@ const REGION_META = {
   }
 };
 
-const useWorldStore = create((set, get) => ({
+const useWorldStore = create((_, get) => ({
   worldId: 'mythrill',
   worldName: 'Mythrill',
 
@@ -179,40 +167,7 @@ const useWorldStore = create((set, get) => ({
         locations: locations.slice(0, 3)
       };
     });
-  },
-
-  lockedRegions: initialLocked,
-
-  unlockRegion: (regionId) => set((state) => {
-    const next = state.lockedRegions.filter(id => id !== regionId);
-    try {
-      localStorage.setItem('mythrill_locked_regions', JSON.stringify(next));
-    } catch (e) {}
-    return { lockedRegions: next };
-  }),
-
-  lockRegion: (regionId) => set((state) => {
-    const next = state.lockedRegions.includes(regionId) ? state.lockedRegions : [...state.lockedRegions, regionId];
-    try {
-      localStorage.setItem('mythrill_locked_regions', JSON.stringify(next));
-    } catch (e) {}
-    return { lockedRegions: next };
-  }),
-
-  resetRegionLocks: () => set(() => {
-    try {
-      localStorage.setItem('mythrill_locked_regions', JSON.stringify(DEFAULT_LOCKED_REGIONS));
-    } catch (e) {}
-    return { lockedRegions: DEFAULT_LOCKED_REGIONS };
-  }),
-
-  toggleAllRegionLocks: () => set((state) => {
-    const next = state.lockedRegions.length > 0 ? [] : DEFAULT_LOCKED_REGIONS;
-    try {
-      localStorage.setItem('mythrill_locked_regions', JSON.stringify(next));
-    } catch (e) {}
-    return { lockedRegions: next };
-  })
+  }
 }));
 
 export default useWorldStore;

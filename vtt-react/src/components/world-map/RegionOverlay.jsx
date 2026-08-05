@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { REGION_POLYGONS } from '../../data/regionPolygons';
 import { SUBREGIONS } from '../../data/subregions';
 import { BUILTIN_SUBREGION_MAPS } from '../../data/subregionMaps';
-import useWorldStore from '../../store/worldStore';
 import './RegionOverlay.css';
 
 const pointInPolygon = (x, y, polygon) => {
@@ -32,8 +31,6 @@ const RegionOverlay = ({
   onResolveClick,
   onEnterSubregionMap
 }) => {
-  const { lockedRegions } = useWorldStore();
-
   const handleRegionClick = (regionId) => {
     setSelectedRegionId(regionId);
     if (setSelectedLocationId) {
@@ -113,18 +110,17 @@ const RegionOverlay = ({
       {regionsWithPolygons.map((region) => {
         const isSelected = selectedRegionId === region.id;
         const isHovered = hoveredRegionId === region.id;
-        const isLocked = lockedRegions?.includes(region.id);
         const center = (region.labelPosition && region.labelPosition.length === 2 && region.labelPosition[0] > 0)
           ? region.labelPosition
           : getCenter(region.points);
-        const displayName = isLocked ? `🔒 ${region.name}` : region.name;
+        const displayName = region.name;
         const isSubregion = region.isSubregion;
 
         return (
           <g key={region.id} style={{ pointerEvents: 'auto' }}>
             <polygon
               points={getPolygonPoints(region.points)}
-              className={isSubregion ? `subregion-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}` : `region-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${isLocked ? 'locked' : ''}`}
+              className={isSubregion ? `subregion-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}` : `region-polygon ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
               data-region-id={region.id}
               fill={isSubregion ? 'transparent' : (isSelected ? 'transparent' : (region.color || 'rgba(107, 26, 26, 0.15)'))}
               stroke={

@@ -7,13 +7,6 @@ import { SUBREGIONS, getSubregionsByRegion } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
 import './LoreSidebar.css';
 
-const DANGER_LABELS = {
-  low: { label: 'Low', color: '#8fa882' },
-  medium: { label: 'Moderate', color: '#ffb74d' },
-  high: { label: 'High', color: '#ff8a65' },
-  extreme: { label: 'Extreme', color: '#ff5252' }
-};
-
 const ZONE_TYPE_ICONS = {
   city: 'fa-city',
   settlement: 'fa-house',
@@ -75,7 +68,7 @@ const EXAMPLE_LOCATIONS = [
 ];
 
 const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open, onClose, currentCampaign, onEnterSubregionMap }) => {
-  const { getRegion, lockedRegions, unlockRegion } = useWorldStore();
+  const { getRegion } = useWorldStore();
   const [expandedLocation, setExpandedLocation] = useState(null);
   const [collapsedGroups, setCollapsedGroups] = useState(() => new Set());
   const [activeFilter, setActiveFilter] = useState('all');
@@ -131,7 +124,6 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
     return getRegion(regionId);
   }, [regionId, subregionObj, parentRegion, getRegion]);
 
-  const danger = DANGER_LABELS[region?.dangerLevel] || DANGER_LABELS.medium;
   const regionAccent = REGION_POLYGONS[regionId]?.glowColor || (subregionObj ? 'rgba(212, 175, 55, 0.8)' : 'rgba(196, 164, 74, 0.6)');
 
   // Resolve placed pins for this region or subregion into enriched location objects.
@@ -258,8 +250,6 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       return next;
     });
   };
-
-  const isLocked = lockedRegions?.includes(regionId);
 
   const renderLocationCard = (loc) => {
     const typeIcon = ZONE_TYPE_ICONS[loc.type] || 'fa-map-pin';
@@ -422,30 +412,7 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       <div className="lore-sidebar-accent" style={{ background: regionAccent }} />
 
       <div className="lore-sidebar-inner">
-        {region && isLocked ? (
-          <div className="lore-locked-container">
-            <div className="lore-sidebar-header">
-              <div className="lore-danger-badge" style={{ borderColor: danger.color }}>
-                <span style={{ color: danger.color }}>{danger.label}</span>
-              </div>
-              <h2 className="lore-region-name">{region.name}</h2>
-              <p className="lore-region-desc">{region.description}</p>
-            </div>
-            <div className="lore-locked-content animate-fade-in">
-              <div className="lore-lock-shield">
-                <i className="fas fa-lock" />
-              </div>
-              <h4 className="lore-locked-title" style={{ fontFamily: "'Cinzel', serif", color: '#ebd5a3', margin: '0 0 8px 0', fontSize: '15px' }}>Unexplored Territory</h4>
-              <p className="lore-lock-text">
-                This region is currently locked under the campaign's exploration guide.
-                Exploration is recommended for characters of higher levels.
-              </p>
-              <button className="lore-unlock-btn" onClick={() => unlockRegion(regionId)}>
-                <i className="fas fa-key" /> Unlock Region &amp; Reveal Lore
-              </button>
-            </div>
-          </div>
-        ) : region ? (
+        {region ? (
           <>
             <div className="lore-sidebar-header">
               <div className="lore-realm-badge">

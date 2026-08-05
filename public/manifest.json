@@ -1,9 +1,9 @@
 {
   "short_name": "Mythrill",
   "name": "Mythrill VTT - Virtual Tabletop",
-  "description": "Mythrill VTT, the digital tabletop for the Mythrill TTRPG, crafted by Cinder & Story.",
+  "description": "Mythrill VTT, the digital tabletop for the Mythrill TTRPG, crafted by Out of Mana Studios.",
   "developer": {
-    "name": "Cinder & Story",
+    "name": "Out of Mana Studios",
     "url": "https://mythrill.netlify.app"
   },
   "icons": [

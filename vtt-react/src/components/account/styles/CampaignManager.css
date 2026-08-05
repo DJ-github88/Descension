@@ -1031,6 +1031,13 @@
   transform: translateY(-2px);
 }
 
+/* NPC & Location cards: force parchment backdrop (prevent var(--my-parchment-light) bleed from game styles / transparent fallback) */
+.campaign-manager-dashboard .npc-card,
+.campaign-manager-dashboard .location-card {
+  background: linear-gradient(145deg, rgba(248, 245, 240, 0.98) 0%, rgba(240, 234, 214, 0.98) 100%);
+  border: 2px solid rgba(139, 69, 19, 0.15);
+}
+
 /* Card Header - Properly styled */
 .campaign-manager-dashboard .content-card .card-header {
   display: flex;

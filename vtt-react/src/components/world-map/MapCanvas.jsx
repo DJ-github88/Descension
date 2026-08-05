@@ -56,9 +56,6 @@ const MapCanvas = ({
   selectedDevPinId,
   onSelectForMove,
 
-  // Dual Map Mode props
-  mapVersion,
-  onToggleMapVersion,
   targetZoomPoint
 }) => {
   const transformRef = useRef(null);
@@ -395,9 +392,7 @@ const MapCanvas = ({
                   const subMapObj = activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
                   const rawSrc = subMapObj?.image
                     ? subMapObj.image
-                    : (mapVersion === 'legacy'
-                        ? `${process.env.PUBLIC_URL || ''}/assets/images/watercolor_map.png`
-                        : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+                    : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
                   
                   const publicUrl = process.env.PUBLIC_URL || '';
                   const activeImgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('data:') || (publicUrl && rawSrc.startsWith(publicUrl)))
@@ -615,8 +610,6 @@ const MapCanvas = ({
               onClose={onClose}
               devMode={devMode}
               onToggleDev={onToggleDev}
-              mapVersion={mapVersion}
-              onToggleMapVersion={onToggleMapVersion}
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>

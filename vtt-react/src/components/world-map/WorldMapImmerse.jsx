@@ -98,19 +98,13 @@ try {
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
-const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform }) => {
+const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform, initialMapId: propInitialMapId }) => {
  const [phase, setPhase] = useState('entering');
  const [showBorder, setShowBorder] = useState(false);
  const [sidebarOpen, setSidebarOpen] = useState(false);
  const [selectedRegionId, setSelectedRegionId] = useState(null);
  const [selectedLocationId, setSelectedLocationId] = useState(null);
  const [hoveredRegionId, setHoveredRegionId] = useState(null);
-
-  // Dual Map Mode: 'modern' (Map 2.0 Student Edition) vs 'legacy' (Map 1.0 Watercolor)
-  const [mapVersion, setMapVersion] = useState('modern');
-  const toggleMapVersion = useCallback(() => {
-    setMapVersion(prev => (prev === 'modern' ? 'legacy' : 'modern'));
-  }, []);
 
   // Subregion Map state & transitions
   const [activeMapId, setActiveMapId] = useState('mythril');
@@ -169,6 +163,23 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
       setSubregionTransition({ active: false, targetName: '' });
     }, 900);
   }, [mapStack]);
+
+  // Deep-link: open directly on a target subregion map when initialMapId is provided
+  // (e.g. "View on World Map" from the account map manager)
+  useEffect(() => {
+    if (!propInitialMapId || propInitialMapId === 'mythril') return;
+
+    const mapData = getSubregionMap(propInitialMapId);
+    const targetObj = REGION_POLYGONS[propInitialMapId] || SUBREGIONS[propInitialMapId];
+    const mapName = targetObj?.name || mapData?.name || propInitialMapId;
+
+    setActiveMapId(propInitialMapId);
+    setMapStack(prev => [{ id: 'mythril', name: 'World Map of Mythril' }, { id: propInitialMapId, name: mapName }]);
+    setSidebarOpen(false);
+    setSelectedRegionId(null);
+    setSelectedLocationId(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Camera zoom-in when selecting a continent region or subregion on the world map
   useEffect(() => {
@@ -1009,8 +1020,6 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     setSelectedLocationId={setSelectedLocationId}
     setSidebarOpen={setSidebarOpen}
     updateTrigger={updateTrigger}
-    mapVersion={mapVersion}
-    onToggleMapVersion={toggleMapVersion}
     setDevMode={setDevMode}
    />
 

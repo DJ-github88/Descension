@@ -67,8 +67,7 @@ export const preloadMapAssets = () => {
   const publicUrl = process.env.PUBLIC_URL || '';
   const mapUrls = [
     `${publicUrl}/assets/images/backgrounds/Mythril.jpeg`,
-    `${publicUrl}/assets/images/backgrounds/nordhalla.jpeg`,
-    `${publicUrl}/assets/images/watercolor_map.png`
+    `${publicUrl}/assets/images/backgrounds/nordhalla.jpeg`
   ];
 
   const doPreload = () => {

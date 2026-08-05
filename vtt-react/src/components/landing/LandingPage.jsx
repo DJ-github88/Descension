@@ -693,9 +693,9 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
     {/* Copyright stamp — fixed bar, does not affect page layout/scrollbar */}
     <footer className="landing-copyright">
-      <span>&copy; 2026 Cinder &amp; Story. All rights reserved.</span>
+      <span>&copy; 2026 Out of Mana Studios. All rights reserved.</span>
       <span className="copyright-divider">&#10022;</span>
-      <span>Mythrill, Mythrill TTRPG &amp; Mythrill VTT are trademarks of Cinder &amp; Story.</span>
+      <span>Mythrill, Mythrill TTRPG &amp; Mythrill VTT are trademarks of Out of Mana Studios.</span>
     </footer>
 
     {/* Scroll to Top Button */}

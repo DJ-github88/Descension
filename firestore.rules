@@ -284,6 +284,41 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
+    // Top-level user library documents (per-user downloaded items/creatures/packs)
+    // used by userLibraryService.js — doc id is the userId
+    match /user_libraries/{userId} {
+      allow read: if request.auth != null && (
+        resource == null ||
+        resource.data.userId == request.auth.uid
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // User library folders (folder structure for organizing user content)
+    // used by userSpellService.js — docs carry a userId field
+    match /user_folders/{folderId} {
+      allow read: if request.auth != null && (
+        resource == null || resource.data.userId == request.auth.uid
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // User audio library (uploaded tracks / YouTube tracks) — owner only
+    match /users/{userId}/audio/{trackId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // User audio playlists — owner only
+    match /users/{userId}/audioPlaylists/{playlistId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
     // User custom spells - allow users to manage their own spells
     match /user_spells/{spellId} {
       allow read, write: if request.auth != null &&

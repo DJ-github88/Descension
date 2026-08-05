@@ -1,5 +1,4 @@
 import React from 'react';
-import useWorldStore from '../../store/worldStore';
 
 const MapControls = ({
   zoomIn,
@@ -7,12 +6,8 @@ const MapControls = ({
   resetTransform,
   onClose,
   devMode,
-  onToggleDev,
-  mapVersion,
-  onToggleMapVersion
+  onToggleDev
 }) => {
-  const { lockedRegions, toggleAllRegionLocks } = useWorldStore();
-  const allUnlocked = lockedRegions.length === 0;
 
   return (
     <div className="map-controls-fixed">
@@ -47,22 +42,6 @@ const MapControls = ({
           <i className="fas fa-compress"></i>
         </button>
       </div>
-
-      <button
-        className={`map-ctrl-btn map-ctrl-lock ${allUnlocked ? 'active' : ''}`}
-        onClick={toggleAllRegionLocks}
-        title={allUnlocked ? "Lock all regions (except starting zone)" : "Bypass all region locks"}
-      >
-        <i className={`fas ${allUnlocked ? 'fa-unlock' : 'fa-lock'}`}></i>
-      </button>
-
-      <button
-        className={`map-ctrl-btn map-ctrl-version ${mapVersion === 'legacy' ? 'active' : ''}`}
-        onClick={onToggleMapVersion}
-        title={mapVersion === 'legacy' ? "Switch to Map 2.0 (Student Edition)" : "Switch to Map 1.0 (Legacy Watercolor)"}
-      >
-        <i className="fas fa-layer-group"></i>
-      </button>
 
       <button
         className={`map-ctrl-btn map-ctrl-dev ${devMode ? 'active' : ''}`}
