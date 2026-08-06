@@ -32,12 +32,17 @@ locations to playable battlemaps, and let GMs build and share whole worlds.
 
 > Commits: `2a5176fe` (polygons + pins), `f7d8e55f` (idConversion). See Mind memory `m1-canonical-cartography-complete`.
 
-### M2 — Full subregion coverage
-**Gap:** only 1 real subregion image; 2 nordhalla subregions + regional map are placeholders; subregion polygons only exist for nordhalla.
+### M2 — Full subregion coverage & Hand-Drawn Cartography ✅ DONE
+**Scope:** Hand-drawn subregion cartography workflow, 4096×3072 regional coordinate space contracts, and clean resolution for all 37 subregions without fallback placeholders.
 
-- Real map assets or 8K master crops for all 37 subregions
-- Subregion polygons + hasSubregionMap for every region
-- Remove `placeholder:true` fallback path entirely
+- [x] Hand-drawn subregion workflow: DevEditor draws boundaries directly on regional maps (`BUILTIN_SUBREGION_MAPS[activeMapId].subregions` in 4096×3072 space)
+- [x] Regional polygon persistence: browser cache (`mythrill_regional_polygons_*`) hydrates local edits across page reloads
+- [x] Regional target resolution: `resolveBoundaryTarget` routes DevEditor draws to regional map space (4096×3072) vs master map space (8192×6016)
+- [x] Clean subregion lookup: `getSubregionMap` resolves all 37 subregions through custom uploads → parent regional map → master map fallback
+- [x] Legacy removal: completely removed `placeholder:true` fallback path
+- [x] Real asset verification: verified `rime-spire-peaks.jpg` asset and 7 region entries in `subregionMaps.js`
+
+> See Mind memory `m2-regional-map-space-boundary-contract`.
 
 ### M3 — Cloud sync for custom maps
 **Gap:** custom maps are IndexedDB/localStorage only; 5 GB ULTIMATE storageLimit unused.

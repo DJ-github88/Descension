@@ -6,7 +6,7 @@ import PIN_ICONS from './mapPinIcons';
 import { SUBREGIONS } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
 import { DEEP_LOCATIONS } from '../../data/deepLocationData';
-import { saveCustomMap } from '../../data/subregionMaps';
+import { saveCustomMap, resolveBoundaryTarget, BUILTIN_SUBREGION_MAPS } from '../../data/subregionMaps';
 import './DevEditor.css';
 
 const MAP_WIDTH = 4096;
@@ -132,7 +132,8 @@ const DevEditor = ({
   setSidebarOpen,
   onDeletePin,
   updateTrigger,
-  setDevMode
+  setDevMode,
+  activeMapId
 }) => {
 
   const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -152,6 +153,13 @@ const DevEditor = ({
     REGION_POLYGONS[currentRegion]?.id || SUBREGIONS[currentRegion]?.regionId || 'nordhalla'
   );
   const [toastMessage, setToastMessage] = useState(null);
+
+  // Custom subregion creation
+  const [showAddSubregion, setShowAddSubregion] = useState(false);
+  const [newSubregionName, setNewSubregionName] = useState('');
+  const [newSubregionDescription, setNewSubregionDescription] = useState('');
+  const [newSubregionClimate, setNewSubregionClimate] = useState('');
+  const [newSubregionTerrain, setNewSubregionTerrain] = useState('');
 
   // Undo / Redo Action History Stack
   const [historyStack, setHistoryStack] = useState([]);
@@ -484,6 +492,21 @@ const DevEditor = ({
           SUBREGIONS[currentRegion].points = [];
         }
 
+        // Regional-space polygons (drawn while viewing a regional map) get cleared too
+        if (activeMapId && activeMapId !== 'mythril') {
+          const regEntry = BUILTIN_SUBREGION_MAPS[activeMapId];
+          if (regEntry && Array.isArray(regEntry.subregions)) {
+            const sub = regEntry.subregions.find(s => s.id === currentRegion);
+            if (sub) {
+              sub.points = [];
+              sub.labelPosition = [0, 0];
+            }
+            try {
+              localStorage.setItem(`mythrill_regional_polygons_${activeMapId}`, JSON.stringify(regEntry.subregions));
+            } catch (e) {}
+          }
+        }
+
         // Update localStorage
         try {
           localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
@@ -495,6 +518,55 @@ const DevEditor = ({
     );
   };
 
+  const handleAddSubregion = () => {
+    const name = newSubregionName.trim();
+    if (!name) {
+      showToast('Please enter a name for the new subregion.');
+      return;
+    }
+    const parentId = selectedParentRegion;
+    if (!REGION_POLYGONS[parentId]) {
+      showToast('Please select a valid continent first.');
+      return;
+    }
+    // Build a hyphenated id from the name, namespaced under the parent region
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const baseId = `${parentId}-${slug}`;
+    let id = baseId;
+    let n = 2;
+    while (SUBREGIONS[id]) {
+      id = `${baseId}-${n}`;
+      n += 1;
+    }
+
+    SUBREGIONS[id] = {
+      id,
+      name,
+      regionId: parentId,
+      description: newSubregionDescription.trim() || `Custom subregion of ${REGION_POLYGONS[parentId]?.name || parentId}.`,
+      climate: newSubregionClimate.trim() || '',
+      dominantTerrain: newSubregionTerrain.trim() || '',
+      primaryRaces: [],
+      primaryFactions: [],
+      zoneIds: [],
+      points: [],
+      labelPosition: []
+    };
+
+    try {
+      localStorage.setItem('mythrill_subregion_polygons', JSON.stringify(SUBREGIONS));
+    } catch (e) {}
+
+    setCurrentRegion(id);
+    setShowAddSubregion(false);
+    setNewSubregionName('');
+    setNewSubregionDescription('');
+    setNewSubregionClimate('');
+    setNewSubregionTerrain('');
+    if (onUpdate) onUpdate();
+    showToast(`Custom subregion "${name}" created. Now draw its boundary on the map.`);
+  };
+
   const handleCopy = (text, type) => {
     navigator.clipboard.writeText(text);
     setCopiedType(type);
@@ -503,19 +575,21 @@ const DevEditor = ({
 
   const handleCompleteBoundary = () => {
     if (drawingPoints.length >= 3 && currentRegion) {
-      const target = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
-      const targetName = target?.name || currentRegion;
+      const { target } = resolveBoundaryTarget(currentRegion, activeMapId);
+      const targetName = target?.name || (SUBREGIONS[currentRegion]?.name || REGION_POLYGONS[currentRegion]?.name) || currentRegion;
       showConfirm(
         `Are you sure you want to complete and save boundaries for "${targetName}"?`,
         () => {
           const cx = Math.round(drawingPoints.reduce((s, p) => s + p[0], 0) / drawingPoints.length);
           const cy = Math.round(drawingPoints.reduce((s, p) => s + p[1], 0) / drawingPoints.length);
-          if (REGION_POLYGONS[currentRegion]) {
-            REGION_POLYGONS[currentRegion].points = [...drawingPoints];
-            REGION_POLYGONS[currentRegion].labelPosition = [cx, cy];
-          } else if (SUBREGIONS[currentRegion]) {
-            SUBREGIONS[currentRegion].points = [...drawingPoints];
-            SUBREGIONS[currentRegion].labelPosition = [cx, cy];
+          if (target) {
+            target.points = [...drawingPoints];
+            target.labelPosition = [cx, cy];
+            if (activeMapId && activeMapId !== 'mythril') {
+              try {
+                localStorage.setItem(`mythrill_regional_polygons_${activeMapId}`, JSON.stringify(BUILTIN_SUBREGION_MAPS?.[activeMapId]?.subregions || []));
+              } catch (e) {}
+            }
           }
           setDrawingPoints([]);
           if (onUpdate) onUpdate();
@@ -685,13 +759,73 @@ const DevEditor = ({
                         <span style={{ fontSize: '0.72rem', color: '#8b2626', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           2. Target Subregion / Zone:
                         </span>
-                        <CustomSelect
-                          value={currentRegion}
-                          onChange={setCurrentRegion}
-                          options={SUBREGION_OPTIONS}
-                          placeholder="Select Subregion..."
-                          width="100%"
-                        />
+                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                          <CustomSelect
+                            value={currentRegion}
+                            onChange={setCurrentRegion}
+                            options={SUBREGION_OPTIONS}
+                            placeholder="Select Subregion..."
+                            width="100%"
+                          />
+                          <button
+                            type="button"
+                            className="dev-tool-btn secondary"
+                            style={{ flexShrink: 0, padding: '6px 10px' }}
+                            onClick={() => setShowAddSubregion(s => !s)}
+                            title="Create a new custom subregion"
+                          >
+                            <i className="fas fa-plus" />
+                          </button>
+                        </div>
+                        {showAddSubregion && (
+                          <div className="animate-fade-in" style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px', padding: '8px', background: 'rgba(0,0,0,0.18)', borderRadius: '6px' }}>
+                            <input
+                              className="dev-input"
+                              placeholder="Subregion name (e.g. Dragonspine Vale)"
+                              value={newSubregionName}
+                              onChange={(e) => setNewSubregionName(e.target.value)}
+                            />
+                            <input
+                              className="dev-input"
+                              placeholder="Description (optional)"
+                              value={newSubregionDescription}
+                              onChange={(e) => setNewSubregionDescription(e.target.value)}
+                            />
+                            <div style={{ display: 'flex', gap: '6px' }}>
+                              <input
+                                className="dev-input"
+                                placeholder="Climate (optional)"
+                                value={newSubregionClimate}
+                                onChange={(e) => setNewSubregionClimate(e.target.value)}
+                                style={{ flex: 1 }}
+                              />
+                              <input
+                                className="dev-input"
+                                placeholder="Terrain (optional)"
+                                value={newSubregionTerrain}
+                                onChange={(e) => setNewSubregionTerrain(e.target.value)}
+                                style={{ flex: 1 }}
+                              />
+                            </div>
+                            <div style={{ display: 'flex', gap: '6px' }}>
+                              <button
+                                type="button"
+                                className="dev-tool-btn primary"
+                                style={{ flex: 1 }}
+                                onClick={handleAddSubregion}
+                              >
+                                <i className="fas fa-check" /> Create
+                              </button>
+                              <button
+                                type="button"
+                                className="dev-tool-btn secondary"
+                                onClick={() => setShowAddSubregion(false)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

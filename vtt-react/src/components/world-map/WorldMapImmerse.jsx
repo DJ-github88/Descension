@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import MapCanvas from './MapCanvas';
 import LoreSidebar from './LoreSidebar';
 import DevEditor from './DevEditor';
+import CustomMapEditor from './CustomMapEditor';
 import BurnedParchmentBorder from './BurnedParchmentBorder';
 
 // Custom player annotations components
@@ -13,6 +14,7 @@ import MapNotificationContainer, { notify } from './MapNotify';
 
 // Stores & Services
 import useMapAnnotationStore from '../../store/mapAnnotationStore';
+import useCustomMapStore from '../../store/customMapStore';
 import useAuthStore from '../../store/authStore';
 import useSocialStore from '../../store/socialStore';
 import subscriptionService from '../../services/subscriptionService';
@@ -20,7 +22,7 @@ import subscriptionService from '../../services/subscriptionService';
 // Data references
 import { REGION_POLYGONS } from '../../data/regionPolygons';
 import { SUBREGIONS } from '../../data/subregions';
-import { getSubregionMap } from '../../data/subregionMaps';
+import { getSubregionMap, resolveBoundaryTarget, BUILTIN_SUBREGION_MAPS } from '../../data/subregionMaps';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { ZONE_DATA } from '../../data/zoneData';
 import { pointInPolygon } from './RegionOverlay';
@@ -93,6 +95,28 @@ try {
  }
 } catch (e) {
  console.warn('Could not restore cached location coordinates:', e);
+}
+
+// Restore hand-drawn subregion polygons drawn on regional maps (regional 4096x3072 space)
+try {
+ Object.keys(BUILTIN_SUBREGION_MAPS).forEach(mapId => {
+  const cached = localStorage.getItem(`mythrill_regional_polygons_${mapId}`);
+  if (!cached) return;
+  const parsed = JSON.parse(cached);
+  const regEntry = BUILTIN_SUBREGION_MAPS[mapId];
+  if (!regEntry || !Array.isArray(regEntry.subregions) || !Array.isArray(parsed)) return;
+  parsed.forEach(cachedSub => {
+   const liveSub = regEntry.subregions.find(s => s.id === cachedSub.id);
+   if (liveSub && cachedSub.points && cachedSub.points.length > 0) {
+    liveSub.points = cachedSub.points;
+    if (cachedSub.labelPosition && cachedSub.labelPosition.length === 2) {
+     liveSub.labelPosition = cachedSub.labelPosition;
+    }
+   }
+  });
+ });
+} catch (e) {
+ console.warn('Could not restore cached regional subregion polygons:', e);
 }
 
 const MAP_WIDTH = 4096;
@@ -213,7 +237,13 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  const [selectedPinType, setSelectedPinType] = useState('fortress');
  const [selectedZoneId, setSelectedZoneId] = useState('');
  const [cursorPos, setCursorPos] = useState(null);
- const [selectedDevPinId, setSelectedDevPinId] = useState(null);
+  const [selectedDevPinId, setSelectedDevPinId] = useState(null);
+
+  // Account-backed custom map workspace state
+  const [customMapMode, setCustomMapMode] = useState(false);
+  const [customDrawingActive, setCustomDrawingActive] = useState(false);
+  const [customDrawingPoints, setCustomDrawingPoints] = useState([]);
+  const [customZoneName, setCustomZoneName] = useState('');
 
  // Campaign & custom pin connection state
  const [currentCampaign, setCurrentCampaign] = useState(null);
@@ -280,7 +310,26 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   shareView,
   updateShareStatus,
   deleteShare
- } = useMapAnnotationStore();
+  } = useMapAnnotationStore();
+
+  const {
+   maps: customMaps,
+   currentMapId: currentCustomMapId,
+   draftZones: customDraftZones,
+   isLoading: customMapsLoading,
+   syncMaps: syncCustomMaps,
+   cleanup: cleanupCustomMaps,
+   createNewMap: createCustomMap,
+   selectMap: selectCustomMap,
+   setMapImage: setCustomMapImage,
+   addDraftZone: addCustomDraftZone,
+   removeDraftZone: removeCustomDraftZone,
+   renameMap: renameCustomMap,
+   saveCurrentMap: saveCurrentCustomMap,
+   deleteMap: deleteCustomMap,
+   compressImageFile
+  } = useCustomMapStore();
+  const currentCustomMap = customMaps.find((map) => map.id === currentCustomMapId) || null;
 
  const [tierInfo, setTierInfo] = useState(null);
  const [activeTool, setActiveTool] = useState('none'); // 'none' | 'placePin' | 'drawArea'
@@ -306,9 +355,9 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  }, []);
 
  // Sync annotations on user load
- useEffect(() => {
-  if (user?.uid) {
-   syncAnnotations(user.uid);
+  useEffect(() => {
+   if (user?.uid) {
+    syncAnnotations(user.uid);
    
    // Load subscription status
    const loadTier = async () => {
@@ -317,8 +366,13 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
    };
    loadTier();
   }
-  return () => cleanupSubscriptions();
- }, [user, syncAnnotations, cleanupSubscriptions]);
+   return () => cleanupSubscriptions();
+  }, [user, syncAnnotations, cleanupSubscriptions]);
+
+  useEffect(() => {
+   syncCustomMaps(user?.uid || null);
+   return () => cleanupCustomMaps();
+  }, [user?.uid, syncCustomMaps, cleanupCustomMaps]);
 
  // Calculate or use passed initial transform so the map enters at the exact scrolled location.
  const [initialTransform] = useState(() => {
@@ -372,7 +426,130 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   }
  };
 
- // ── Dev Toast: per-item quick-copy ──
+  const handleToggleCustomMap = useCallback(() => {
+   setCustomMapMode((isActive) => {
+    const next = !isActive;
+    setCustomDrawingActive(false);
+    setCustomDrawingPoints([]);
+    setCursorPos(null);
+    if (next) {
+     setDevMode(false);
+     setActiveTool('none');
+     setSidebarOpen(false);
+     setSelectedRegionId(null);
+     setSelectedLocationId(null);
+    }
+    return next;
+   });
+  }, []);
+
+  const handleCreateCustomMap = useCallback((name) => {
+   createCustomMap(name || 'Untitled Map');
+   setCustomDrawingActive(false);
+   setCustomDrawingPoints([]);
+   setCustomZoneName('');
+  }, [createCustomMap]);
+
+  const handleSelectCustomMap = useCallback((mapId) => {
+   selectCustomMap(mapId);
+   setCustomDrawingActive(false);
+   setCustomDrawingPoints([]);
+   setCursorPos(null);
+  }, [selectCustomMap]);
+
+  const handleCustomImageFile = useCallback(async (file) => {
+   if (!currentCustomMap) {
+    notify('Create a custom map before adding an image.', 'warning');
+    return;
+   }
+   try {
+    const compressed = await compressImageFile(file);
+    setCustomMapImage(compressed.dataUrl, compressed.width, compressed.height);
+    notify('Map image loaded. Save the workspace to sync it to your account.', 'success');
+   } catch (error) {
+    console.error('Failed to load custom map image:', error);
+    notify('That image could not be loaded. Try a PNG, JPG, or WEBP file.', 'error');
+   }
+  }, [currentCustomMap, compressImageFile, setCustomMapImage]);
+
+  const handleCompleteCustomZone = useCallback((points = customDrawingPoints) => {
+   if (!currentCustomMap) {
+    notify('Create a custom map before drawing zones.', 'warning');
+    return false;
+   }
+   if (!points || points.length < 3) {
+    notify('A zone needs at least three points.', 'warning');
+    return false;
+   }
+
+   const zoneNumber = customDraftZones.length + 1;
+   addCustomDraftZone({
+    id: `custom-zone-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+    name: customZoneName.trim() || `Zone ${zoneNumber}`,
+    points: [...points],
+    color: 'rgba(196, 164, 74, 0.24)',
+    stroke: '#f1d48a',
+    createdAt: new Date().toISOString()
+   });
+   setCustomDrawingPoints([]);
+   setCustomDrawingActive(false);
+   setCustomZoneName('');
+   setCursorPos(null);
+   notify('Custom zone added to the draft. Save the map to persist it.', 'success');
+   return true;
+  }, [currentCustomMap, customDrawingPoints, customDraftZones.length, customZoneName, addCustomDraftZone]);
+
+  const handleStartCustomDrawing = useCallback(() => {
+   if (!currentCustomMap) {
+    notify('Create a custom map before drawing zones.', 'warning');
+    return;
+   }
+   setDevMode(false);
+   setActiveTool('none');
+   setCustomDrawingPoints([]);
+   setCursorPos(null);
+   setCustomDrawingActive(true);
+  }, [currentCustomMap]);
+
+  const handleCancelCustomDrawing = useCallback(() => {
+   setCustomDrawingActive(false);
+   setCustomDrawingPoints([]);
+   setCursorPos(null);
+  }, []);
+
+  const handleSaveCustomMap = useCallback(async () => {
+   if (!currentCustomMap) {
+    notify('Create a custom map before saving.', 'warning');
+    return;
+   }
+   if (!user?.uid) {
+    notify('Sign in to save custom maps to your account.', 'warning');
+    return;
+   }
+   const result = await saveCurrentCustomMap(user.uid);
+   if (result.success) {
+    notify('Custom map saved to your account.', 'success');
+   } else {
+    notify(result.error || 'Custom map could not be saved.', 'error');
+   }
+  }, [currentCustomMap, user?.uid, saveCurrentCustomMap]);
+
+  const handleDeleteCustomMap = useCallback(async (mapId, mapName) => {
+   if (!user?.uid) {
+    notify('Sign in to manage saved custom maps.', 'warning');
+    return;
+   }
+   if (typeof window !== 'undefined' && !window.confirm(`Delete custom map "${mapName}"?`)) return;
+   const result = await deleteCustomMap(user.uid, mapId);
+   if (!result.success) notify(result.error || 'Custom map could not be deleted.', 'error');
+  }, [user?.uid, deleteCustomMap]);
+
+  const handleClearCustomMapImage = useCallback(() => {
+   if (!currentCustomMap) return;
+   setCustomMapImage(null, currentCustomMap.width || MAP_WIDTH, currentCustomMap.height || MAP_HEIGHT);
+  }, [currentCustomMap, setCustomMapImage]);
+
+  // ── Dev Toast: per-item quick-copy ──
  const showDevToast = useCallback((type, item) => {
   setDevToast({ type, item, id: Date.now(), copied: null });
  }, []);
@@ -414,10 +591,32 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
 
  // Click handler on the map canvas
  const handleMapClick = useCallback((e, transformRef) => {
-  const coords = getImageCoords(e, transformRef);
-  if (!coords) return;
+   const coords = getImageCoords(e, transformRef);
+   if (!coords) return;
 
-  // Dev drawing/pin logic
+   // Custom-map zone drawing is deliberately separate from canonical regions
+   // and player annotation areas.
+   if (customMapMode) {
+    if (!currentCustomMap) {
+     notify('Create a custom map in the workspace panel first.', 'warning');
+     return;
+    }
+    if (!customDrawingActive) return;
+    if (customDrawingPoints.length === 0) {
+     setCustomDrawingPoints([coords]);
+    } else {
+     const first = customDrawingPoints[0];
+     const dist = Math.hypot(coords[0] - first[0], coords[1] - first[1]);
+     if (dist < 30 && customDrawingPoints.length >= 3) {
+      handleCompleteCustomZone(customDrawingPoints);
+     } else {
+      setCustomDrawingPoints([...customDrawingPoints, coords]);
+     }
+    }
+    return;
+   }
+
+   // Dev drawing/pin logic
   if (devMode) {
    if (devTool === 'movePin') {
     // Clicking empty map space in Move mode deselects the current pin.
@@ -435,7 +634,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      const first = drawingPoints[0];
      const dist = Math.hypot(coords[0] - first[0], coords[1] - first[1]);
      if (dist < 30 && drawingPoints.length >= 3) {
-      const existing = REGION_POLYGONS[currentRegion] || SUBREGIONS[currentRegion];
+      const { target: existing } = resolveBoundaryTarget(currentRegion, activeMapId);
       if (!existing) {
        console.warn(`Target region or subregion "${currentRegion}" not found.`);
        return;
@@ -449,6 +648,12 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
         existing.labelPosition = [Math.round(cx), Math.round(cy)];
         setDrawingPoints([]);
         saveRegionsToCache();
+        if (activeMapId && activeMapId !== 'mythril') {
+         const regionalKey = `mythrill_regional_polygons_${activeMapId}`;
+         try {
+          localStorage.setItem(regionalKey, JSON.stringify(BUILTIN_SUBREGION_MAPS?.[activeMapId]?.subregions || []));
+         } catch (e) { console.warn('Failed to cache regional subregion polygons:', e); }
+        }
         setUpdateTrigger(prev => prev + 1);
         showDevToast('region', {
          id: existing.id || currentRegion,
@@ -572,18 +777,20 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   setSidebarOpen(false);
   setSelectedRegionId(null);
   setSelectedLocationId(null);
- }, [devMode, devTool, currentRegion, selectedRegionId, drawingPoints, selectedPinType, selectedZoneId, activeTool, playerDrawingPoints, playerPinIconType, user, pins.length, tierInfo, addPin, addArea, pinSourceType, selectedCampaignLocId, selectedCampaignLoreId, customPinName, customPinDesc, showConfirm]);
+  }, [customMapMode, currentCustomMap, customDrawingActive, customDrawingPoints, handleCompleteCustomZone, devMode, devTool, currentRegion, selectedRegionId, drawingPoints, selectedPinType, selectedZoneId, activeMapId, activeTool, playerDrawingPoints, playerPinIconType, user, pins.length, tierInfo, addPin, addArea, pinSourceType, selectedCampaignLocId, selectedCampaignLoreId, customPinName, customPinDesc, showConfirm, showDevToast]);
 
  const handleMapMouseMove = useCallback((e, transformRef) => {
   const coords = getImageCoords(e, transformRef);
   if (!coords) return;
 
-  if (devMode && devTool === 'drawRegion' && drawingPoints.length > 0) {
-   setCursorPos(coords);
-  } else if (activeTool === 'drawArea' && playerDrawingPoints.length > 0) {
-   setCursorPos(coords);
-  }
- }, [devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
+   if (customMapMode && customDrawingActive && customDrawingPoints.length > 0) {
+    setCursorPos(coords);
+   } else if (devMode && devTool === 'drawRegion' && drawingPoints.length > 0) {
+    setCursorPos(coords);
+   } else if (activeTool === 'drawArea' && playerDrawingPoints.length > 0) {
+    setCursorPos(coords);
+   }
+  }, [customMapMode, customDrawingActive, customDrawingPoints, devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
 
  const handleTransformChange = useCallback((state) => {
   setTransformState(state || { scale: 0.4, positionX: 0, positionY: 0 });
@@ -854,9 +1061,16 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     onTransformChange={handleTransformChange}
     cursorPos={cursorPos}
     setCursorPos={setCursorPos}
-    onClose={handleClose}
-    onToggleDev={() => setDevMode(!devMode)}
-    updateTrigger={updateTrigger}
+     onClose={handleClose}
+     onToggleDev={() => setDevMode(!devMode)}
+     customMapMode={customMapMode}
+     customMap={currentCustomMap}
+     customZones={customDraftZones}
+     customDrawingActive={customDrawingActive}
+     customDrawingPoints={customDrawingPoints}
+     onCustomImageFile={handleCustomImageFile}
+     onToggleCustomMap={handleToggleCustomMap}
+     updateTrigger={updateTrigger}
     onUpdate={() => {
      saveRegionsToCache();
      saveCoordsToCache();
@@ -883,10 +1097,36 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     activeShare={activeShare}
     selectedDevPinId={selectedDevPinId}
     onSelectForMove={setSelectedDevPinId}
-   />
+    />
 
-   {/* Floating Toolbar Gated by Subscription Tier */}
-   {tierInfo && tierInfo.tierKey !== 'GUEST' && (
+    {customMapMode && (
+     <CustomMapEditor
+      maps={customMaps}
+      currentMap={currentCustomMap}
+      draftZones={customDraftZones}
+      isLoading={customMapsLoading}
+      hasAccount={Boolean(user?.uid && !user?.isGuest)}
+      drawingActive={customDrawingActive}
+      drawingPoints={customDrawingPoints}
+      zoneName={customZoneName}
+      setZoneName={setCustomZoneName}
+      onClose={() => handleToggleCustomMap()}
+      onCreateMap={handleCreateCustomMap}
+      onSelectMap={handleSelectCustomMap}
+      onRenameMap={renameCustomMap}
+      onSaveMap={handleSaveCustomMap}
+      onDeleteMap={handleDeleteCustomMap}
+      onStartDrawing={handleStartCustomDrawing}
+      onFinishDrawing={() => handleCompleteCustomZone()}
+      onCancelDrawing={handleCancelCustomDrawing}
+      onDeleteZone={removeCustomDraftZone}
+      onImageSelected={handleCustomImageFile}
+      onClearImage={handleClearCustomMapImage}
+     />
+    )}
+
+    {/* Floating Toolbar Gated by Subscription Tier */}
+    {!customMapMode && tierInfo && tierInfo.tierKey !== 'GUEST' && (
     <AnnotationToolbar
      activeTool={activeTool}
      setActiveTool={setActiveTool}
@@ -989,6 +1229,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     devMode={devMode}
     devTool={devTool}
     setDevTool={setDevTool}
+    activeMapId={activeMapId}
     currentRegion={currentRegion}
     setCurrentRegion={setCurrentRegion}
     drawingPoints={drawingPoints}

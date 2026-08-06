@@ -16,7 +16,7 @@ export function useVersionCheck() {
     : null;
   const localVersion = process.env.REACT_APP_VERSION || null;
 
-  const triggerUpdate = useCallback(() => {
+  const triggerUpdate = useCallback(async () => {
     if (latestInfo?.commitSha) {
       sessionStorage.setItem('mythrill_active_commit', latestInfo.commitSha);
     }
@@ -25,7 +25,7 @@ export function useVersionCheck() {
     }
     sessionStorage.setItem('mythrill_last_reload_time', Date.now().toString());
 
-    // If service worker is waiting, send skip waiting command first
+    // If service worker is waiting, send skip waiting command
     if (window.__swRegistration && window.__swRegistration.waiting) {
       try {
         window.__swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
@@ -34,8 +34,34 @@ export function useVersionCheck() {
       }
     }
 
-    // Force reload from server
-    window.location.reload(true);
+    // Unregister existing Service Workers to clear stale caches on reload
+    if ('serviceWorker' in navigator) {
+      try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+          await registration.unregister();
+        }
+      } catch (swErr) {
+        console.warn('[VersionCheck] Error unregistering service workers:', swErr);
+      }
+    }
+
+    // Purge CacheStorage API entries
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        for (const cacheName of cacheNames) {
+          await caches.delete(cacheName);
+        }
+      } catch (cacheErr) {
+        console.warn('[VersionCheck] Error clearing cache storage:', cacheErr);
+      }
+    }
+
+    // Force hard reload using timestamp cache-busting parameter
+    const reloadUrl = new URL(window.location.href);
+    reloadUrl.searchParams.set('_v', Date.now().toString());
+    window.location.href = reloadUrl.toString();
   }, [latestInfo]);
 
   const checkRemoteVersion = useCallback(async () => {
@@ -85,11 +111,12 @@ export function useVersionCheck() {
         return;
       }
 
-      // Determine active commit and version for current browser session
-      let activeCommit = sessionStorage.getItem('mythrill_active_commit') || localCommit;
-      let activeVersion = sessionStorage.getItem('mythrill_active_version') || localVersion;
+      // Determine active commit and version for current browser session.
+      // Prefer baked environment variable (localCommit) if available, otherwise check sessionStorage.
+      let activeCommit = localCommit || sessionStorage.getItem('mythrill_active_commit');
+      let activeVersion = localVersion || sessionStorage.getItem('mythrill_active_version');
 
-      // If active baseline is not yet stored, initialize with initial remote response
+      // If no session baseline exists yet, initialize it with current remote response
       if (!activeCommit) {
         activeCommit = remoteInfo.commitSha;
         sessionStorage.setItem('mythrill_active_commit', activeCommit);
@@ -99,7 +126,7 @@ export function useVersionCheck() {
         sessionStorage.setItem('mythrill_active_version', activeVersion);
       }
 
-      // Compare remote version against active session baseline (commitSha and version only, excluding raw buildTime)
+      // Compare remote version against active session baseline
       const isCommitDifferent = remoteInfo.commitSha && activeCommit && remoteInfo.commitSha !== activeCommit;
       const isVersionDifferent = remoteInfo.version && activeVersion && remoteInfo.version !== activeVersion;
 

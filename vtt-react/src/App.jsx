@@ -21,7 +21,6 @@ import { initializeOfflineSupport } from "./services/offlineService";
 import { initializePerformanceMonitoring } from "./services/performanceService";
 import { initializeAnalytics } from "./services/analyticsService";
 import characterBackupService from "./services/firebase/characterBackupService";
-import PerformanceDashboard from "./components/common/PerformanceDashboard";
 import AccessibilityController from "./components/common/AccessibilityController";
 
 // Core components that are always needed
@@ -39,7 +38,6 @@ import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import { useVersionCheck } from "./hooks/useVersionCheck";
 import VersionUpdateModal from "./components/common/VersionUpdateModal";
 import { clearLocalRoom } from "./utils/localRoom";
-import WorldMapImmerse from "./components/world-map/WorldMapImmerse";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
@@ -47,6 +45,11 @@ import { preloadGameData } from './hooks/useGameData';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary } from './utils/clearSpellCache';
 import './services/roomService';
+
+// Lazy loaded auxiliary components
+const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
+const WorldMapImmerse = lazy(() => import("./components/world-map/WorldMapImmerse"));
+
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
 import './styles/wow-window.css';
@@ -130,6 +133,8 @@ const CharacterManagement = lazy(() => import("./components/account/CharacterMan
 const CharacterCreationPage = lazy(() => import("./components/account/CharacterCreationPage"));
 const CharacterViewPage = lazy(() => import("./components/account/CharacterViewPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const RulesPage = lazy(() => import("./pages/RulesPage"));
+const ClassesPage = lazy(() => import("./pages/ClassesPage"));
 
 // Test components
 
@@ -1305,21 +1310,60 @@ const AppContent = ({
           </Suspense>
         } />
 
+        {/* Rules & Classes compendium routes - lightweight standalone pages */}
+        <Route path="/rules" element={
+          <Suspense fallback={<LoadingFallback message="Loading rules..." />}>
+            <ErrorBoundary name="RulesPage">
+              <RulesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/rules/classes" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/rules/classes/:classId" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/classes" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/classes/:classId" element={
+          <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
+            <ErrorBoundary name="ClassesPage">
+              <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+
         {/* Redirect unknown routes to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
 {/* Interactive World Map */}
       {worldMapState !== null && (
-       <WorldMapImmerse 
-        initialTransform={worldMapTransform}
-        initialMapId={worldMapTargetMapId}
-        onClose={() => {
-          setWorldMapState(null);
-          setWorldMapTargetMapId(null);
-        }} 
-        onClosing={() => setWorldMapState('exiting')}
-       />
+        <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+          <WorldMapImmerse 
+            initialTransform={worldMapTransform}
+            initialMapId={worldMapTargetMapId}
+            onClose={() => {
+              setWorldMapState(null);
+              setWorldMapTargetMapId(null);
+            }} 
+            onClosing={() => setWorldMapState('exiting')}
+          />
+        </Suspense>
       )}
 
       {/* Global modals */}
@@ -1339,10 +1383,14 @@ const AppContent = ({
       <LevelUpChoiceModalWrapper />
 
       {/* Performance Dashboard */}
-      <PerformanceDashboard
-        isOpen={showPerformanceDashboard}
-        onClose={() => setShowPerformanceDashboard(false)}
-      />
+      {showPerformanceDashboard && (
+        <Suspense fallback={null}>
+          <PerformanceDashboard
+            isOpen={showPerformanceDashboard}
+            onClose={() => setShowPerformanceDashboard(false)}
+          />
+        </Suspense>
+      )}
 
       {/* Social Notifications (Invitations) */}
       <SocialNotificationLayer />

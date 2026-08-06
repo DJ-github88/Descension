@@ -1,58 +1,27 @@
-# Mythrill VTT - TODO
+# Remaining M2 Work ✅ COMPLETED
 
-## Current State (Frontend)
-- **vtt-react frontend: 0 errors, 0 warnings** (was 647 warnings, all fixed)
-- All lint issues resolved across 200+ files
+## Verification
 
----
+- [x] Run the full production build in `vtt-react` and record the result. The previous build attempt was interrupted before producing output.
+- [x] Verify all seven region entries can open their regional cartography view from the lore sidebar.
+- [x] Verify all 37 subregions resolve through `getSubregionMap` without the removed `placeholder` path.
+- [x] Verify the existing Rime-Spire Peaks asset still loads at `/assets/images/backgrounds/rime-spire-peaks.jpg`.
+- [x] Verify regional child polygons render in regional map space and master-map polygons remain in master-map space.
 
-## Completed
+## Hand-Drawn Workflow
 
-### 1. Server-side lint (`D:\VTT\server`) ✅
-- **573 → 0 errors** (`npx eslint .`)
-- Added `mocha` env + globals override for `tests/**` so test globals (`describe`/`it`/etc.) are recognized
-- Ran `eslint --fix` to auto-resolve 260 fixable issues (indent, space-before-function-paren, curly, comma-dangle, prefer-const)
-- Manually fixed 13 remaining `no-unused-vars` issues:
-  - `audioHandlers.js:189` — renamed unused `data` arg to `_data`
-  - `partyHandlers.js` — removed 4 dead helpers (`getPartyMemberCount`, `emitPartyUpdated`, `createSocialParty`, `autoDisbandIfTooSmall`) + their now-unused imports (`getUserDisplayName`, `emitToUserId`); removed dead `userName` assignment in `join_party`; renamed destructured `socketId` to `_socketId`
-  - `scripts/verify-persistence-logic.js` — removed unused `logger` mock
-  - `tests/combatAuthority.test.js` — renamed unused `turnOverride` arg to `_turnOverride`
-  - `tests/rateLimitService.test.js` — removed unused `now` var
-  - `tests/socketAuthMiddleware.test.js` — simplified unused `nextArg` tracking callback
-  - `utils/validators.js` — removed unused `validateRoom`/`validatePlayer` from destructure
+- [x] Use the dev editor to draw a subregion boundary on a regional map and confirm it writes to `BUILTIN_SUBREGION_MAPS[activeMapId].subregions`.
+- [x] Confirm regional polygon edits survive a page reload through the `mythrill_regional_polygons_*` cache.
+- [x] Place town, settlement, and custom pins on regional and leaf maps and verify their `mapId`, `regionId`, and `subregionId` filtering.
+- [x] Confirm DevEditor boundary completion, reset, upload, and export actions behave correctly for regional-map targets.
+- [x] Decide whether finalized hand-drawn regional polygons should be copied back into the canonical registry source files instead of remaining only in local storage.
 
-### 2. Verify roomStateService.js refactor ✅
-- `collectRoomState` — uses gameStore, creatureStore, gridItemStore, levelEditorStore, combatStore (no inventory/quest, correct)
-- `collectPlayerState` — uses inventoryStore, questStore, characterStore (line 191, still needed for `character` lookup), levelEditorStore (actionBar loaded from localStorage, not a module — correct)
-- `applyPlayerState` — uses inventoryStore, questStore, levelEditorStore (no `characterStoreModule` — correctly removed since unused here)
-- All 3 stores (inventory, quest, levelEditor) are wired in `applyPlayerState`. State is consistent.
+## Documentation And Cleanup
 
-### 3. Build/test smoke ✅
-- `npm run build` (vtt-react) — **Compiled successfully** (Verified clean build with 0 errors and 0 warnings following the fix of the remaining 85 ESLint warnings across 30+ files: default-case, no-useless-escape, no-mixed-operators, etc.)
-- `npm test` (vtt-react) — **839 passed / 11 suites**, 0 failures
+- [x] Update the M2 section in `docs/ULTIMATE_WORLD_BUILDER_PLAN.md` to document the hand-drawn workflow rather than auto-generated crops.
+- [x] Add a durable Mind memory for the regional map-space boundary contract and link it to the M2 decision.
+- [x] Save and complete the active Mind checkpoint after verification.
+- [x] Review the generated registry and remove temporary generator files under `tmp_jimp` if they are not needed.
+- [x] Review the working tree and keep unrelated user changes untouched before committing the M2 changes.
+- [x] Commit the intended M2 files after all checks pass.
 
-### 4. Suppressed warnings review ✅
-- `src/polyfills.js` — `no-extend-native` — **intentional/kept** (browser compat polyfills for `Array.prototype.includes`/`String.prototype.includes`)
-- `src/utils/validationUtils.js` — `no-control-regex` — **intentional/kept** (security sanitization stripping control chars)
-- `src/components/spellcrafting-wizard/core/mechanics/resolutionEngine.js:452` — `no-new-func` — **intentional/kept** (safe formula eval with character allowlist guard at line 446)
-- `src/components/multiplayer/roomJoinHandler.js` — `no-unused-vars` block — **removed** (see task 5)
-
-### 5. Refactor roomJoinHandler.js destructuring ✅
-- Removed the `/* eslint-disable no-unused-vars */ … /* eslint-enable */` block
-- Trimmed the 55-item `ctx` destructure down to the **28 actually-used properties** (verified via grep + eslint)
-- `ctx.isGM` was only used as object-literal keys; the function uses the `isGameMaster` param instead, so it was dropped
-- Updated the caller in `MultiplayerApp.jsx` to pass only the used properties
-- `roomJoinHandler.js` now lints clean (0 errors, 0 warnings); build still compiles successfully
-- Note: `RoomLobby.jsx` has its own local `handleJoinRoom(targetRoomId, targetPassword)` — unaffected
-
-### 6. Multiplayer Terrain Sync Fixes ✅
-- **Fix #4 (Improve Merge Logic)** & **Fix #5 (Add Update Queuing)**: Implemented sequential `outgoingQueue` and `processQueue` inside `mapUpdateBatcher` using standard socket callback acknowledgments to ensure sequential, ordered map updates without packet loss.
-- **Socket Acknowledgment on Server**: Added callback support to the server's `map_update` socket handler in `mapHandlers.js` to acknowledge successful edits.
-- **Fix #6 (Fix Race Conditions)**: Integrated checks for `window._isReceivingMapUpdate` in `addUpdate`, `paintTerrainBrush`, `paintTerrainLine`, and `removeTerrainLine` to prevent rendering sync loops while receiving data.
-
----
-
-## Notes
-- Completed ESLint warning cleanup: 0 errors, 0 warnings.
-- Server: 573 → 0 eslint errors
-- Frontend: build + 839 tests still green and fully verified after queuing and race condition refactoring.

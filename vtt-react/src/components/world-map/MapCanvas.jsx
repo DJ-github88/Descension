@@ -56,7 +56,16 @@ const MapCanvas = ({
   selectedDevPinId,
   onSelectForMove,
 
-  targetZoomPoint
+  targetZoomPoint,
+
+  // Immerse custom-map workspace props
+  customMapMode = false,
+  customMap = null,
+  customZones = [],
+  customDrawingActive = false,
+  customDrawingPoints = [],
+  onCustomImageFile,
+  onToggleCustomMap
 }) => {
   const transformRef = useRef(null);
   const [driftEnabled, setDriftEnabled] = useState(false);
@@ -70,6 +79,7 @@ const MapCanvas = ({
 
   // Dynamic minScale to allow viewing the entire map
   const [minScale, setMinScale] = useState(0.15);
+  const [isCustomDropActive, setIsCustomDropActive] = useState(false);
 
   // Handle smooth camera zoom to target subregion point
   useEffect(() => {
@@ -150,10 +160,14 @@ const MapCanvas = ({
 
   // Reset cursor pos when drawing points are cleared or mouse leaves
   useEffect(() => {
-    if (drawingPoints.length === 0 && (!playerDrawingPoints || playerDrawingPoints.length === 0)) {
+    if (
+      drawingPoints.length === 0 &&
+      (!playerDrawingPoints || playerDrawingPoints.length === 0) &&
+      (!customDrawingPoints || customDrawingPoints.length === 0)
+    ) {
       setCursorPos(null);
     }
-  }, [drawingPoints, playerDrawingPoints, setCursorPos]);
+  }, [drawingPoints, playerDrawingPoints, customDrawingPoints, setCursorPos]);
 
   // Sync auto-drift activity state (drift logic inlined to prevent initialization ReferenceErrors)
   useEffect(() => {
@@ -213,6 +227,28 @@ const MapCanvas = ({
       setDriftEnabled(true);
     }, 5000);
   }, []);
+
+  const handleCustomDragOver = useCallback((event) => {
+    if (!customMapMode) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
+    setIsCustomDropActive(true);
+  }, [customMapMode]);
+
+  const handleCustomDragLeave = useCallback((event) => {
+    if (!customMapMode) return;
+    if (event.currentTarget === event.target) setIsCustomDropActive(false);
+  }, [customMapMode]);
+
+  const handleCustomDrop = useCallback((event) => {
+    if (!customMapMode) return;
+    event.preventDefault();
+    setIsCustomDropActive(false);
+    const file = event.dataTransfer?.files?.[0];
+    if (file && file.type.startsWith('image/') && onCustomImageFile) {
+      onCustomImageFile(file);
+    }
+  }, [customMapMode, onCustomImageFile]);
 
   const handleTransformed = useCallback((ref) => {
     if (onTransformChange && ref && ref.instance) {
@@ -339,7 +375,9 @@ const MapCanvas = ({
     return pts.map(([x, y]) => `${x},${y}`).join(' ');
   };
 
-  const isDrawingOrPlacing = devMode || activeTool === 'placePin' || activeTool === 'drawArea';
+  const isDrawingOrPlacing = customMapMode
+    ? customDrawingActive
+    : devMode || activeTool === 'placePin' || activeTool === 'drawArea';
 
   // Custom SVG cursors for drawing/placing modes
   const PEN_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M4 22l3-3L20 6l-3-3L4 16v6z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.5' stroke-linejoin='round'/><path d='M17 6l3 3M5 21l1-1' stroke='%231a0f08' stroke-width='1.5' stroke-linecap='round'/></svg>") 3 22, crosshair`;
@@ -347,6 +385,7 @@ const MapCanvas = ({
   const FLAG_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M8 2v22' stroke='%23C4A44A' stroke-width='2.5' stroke-linecap='round'/><path d='M8 3h13l-3 3.5 3 3.5H8z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.2' stroke-linejoin='round'/></svg>") 8 2, crosshair`;
 
   const toolCursor = (() => {
+    if (customMapMode && customDrawingActive) return PEN_CURSOR;
     if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
     if (devMode && devTool === 'placePin') return FLAG_CURSOR;
     if (devMode && devTool === 'erasePin') return 'pointer';
@@ -359,8 +398,23 @@ const MapCanvas = ({
   const isNearStart = startPoint && cursorPos && drawingPoints.length >= 3 &&
     Math.hypot(cursorPos[0] - startPoint[0], cursorPos[1] - startPoint[1]) < 30;
 
+  const customStartPoint = customDrawingPoints && customDrawingPoints[0];
+  const isNearCustomStart = customStartPoint && cursorPos && customDrawingPoints.length >= 3 &&
+    Math.hypot(cursorPos[0] - customStartPoint[0], cursorPos[1] - customStartPoint[1]) < 30;
+  const getCustomDrawingPreview = () => {
+    if (!customDrawingPoints || customDrawingPoints.length === 0) return '';
+    const points = [...customDrawingPoints];
+    if (cursorPos) points.push(cursorPos);
+    return points.map(([x, y]) => `${x},${y}`).join(' ');
+  };
+
   return (
-    <div className="map-canvas-wrapper">
+    <div
+      className="map-canvas-wrapper"
+      onDragOver={handleCustomDragOver}
+      onDragLeave={handleCustomDragLeave}
+      onDrop={handleCustomDrop}
+    >
       <TransformWrapper
         ref={transformRef}
         initialScale={initialTransform ? initialTransform.scale : 0.4}
@@ -373,7 +427,7 @@ const MapCanvas = ({
         smooth={false}
         wheel={{ step: 0.15, zoomAnimation: { disabled: false, animationTime: 100 } }}
         doubleClick={{ disabled: false }}
-        panning={{ disabled: (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
+         panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
         onTransformed={handleTransformed}
         onPanning={handleUserInteraction}
         onWheel={handleUserInteraction}
@@ -385,14 +439,28 @@ const MapCanvas = ({
               contentStyle={{ width: MAP_WIDTH, height: MAP_HEIGHT }}
             >
                 <div
-                  className="map-content"
+                  className={`map-content ${customMapMode ? 'custom-map-content' : ''}`}
                   style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative', cursor: toolCursor || undefined }}
                 >
                 {(() => {
-                  const subMapObj = activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
-                  const rawSrc = subMapObj?.image
-                    ? subMapObj.image
-                    : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+                  const subMapObj = !customMapMode && activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
+                  const rawSrc = customMapMode
+                    ? customMap?.image
+                    : (subMapObj?.image
+                      ? subMapObj.image
+                      : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+
+                  if (!rawSrc) {
+                    return (
+                      <div className="custom-map-grid-empty" aria-label="Empty custom map grid">
+                        <div className="custom-map-grid-center">
+                          <i className="fas fa-map"></i>
+                          <span>Drop a map image here</span>
+                          <small>or use the custom map panel</small>
+                        </div>
+                      </div>
+                    );
+                  }
                   
                   const publicUrl = process.env.PUBLIC_URL || '';
                   const activeImgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('data:') || (publicUrl && rawSrc.startsWith(publicUrl)))
@@ -402,7 +470,7 @@ const MapCanvas = ({
                   return (
                     <img
                       src={activeImgSrc}
-                      alt={subMapObj?.name || "Mythrill World Map"}
+                       alt={customMapMode ? (customMap?.name || 'Custom map') : (subMapObj?.name || "Mythrill World Map")}
                       decoding="async"
                       loading="eager"
                       style={{
@@ -436,12 +504,14 @@ const MapCanvas = ({
                   onContextMenu={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    if (devMode && devTool === 'drawRegion') {
-                      if (drawingPoints && drawingPoints.length > 0) {
-                        setDrawingPoints([]);
-                        setCursorPos(null);
-                      }
-                    }
+                     if (devMode && devTool === 'drawRegion') {
+                       if (drawingPoints && drawingPoints.length > 0) {
+                         setDrawingPoints([]);
+                         setCursorPos(null);
+                       }
+                     } else if (customMapMode && customDrawingActive) {
+                       setCursorPos(null);
+                     }
                   }}
                 >
                   <defs>
@@ -449,53 +519,88 @@ const MapCanvas = ({
                       <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" floodColor="#000000" floodOpacity="0.75" />
                     </filter>
                   </defs>
-                  {/* Region Polygons & Boundaries Overlay (Always visible for hover highlight & exploration) */}
-                  <RegionOverlay
-                    key={`regions-${updateTrigger}-${activeMapId}`}
-                    activeMapId={activeMapId}
-                    selectedRegionId={selectedRegionId}
-                    hoveredRegionId={hoveredRegionId}
-                    setSelectedRegionId={setSelectedRegionId}
-                    setSidebarOpen={setSidebarOpen}
-                    setHoveredRegionId={setHoveredRegionId}
-                    setSelectedLocationId={setSelectedLocationId}
-                    devMode={devMode}
-                    devTool={devTool}
-                    getImageCoords={getImageCoords}
-                    onResolveClick={onResolveClick}
-                    onEnterSubregionMap={onEnterSubregionMap}
-                  />
+                  {!customMapMode && (
+                    <>
+                      {/* Region Polygons & Boundaries Overlay (Always visible for hover highlight & exploration) */}
+                      <RegionOverlay
+                        key={`regions-${updateTrigger}-${activeMapId}`}
+                        activeMapId={activeMapId}
+                        selectedRegionId={selectedRegionId}
+                        hoveredRegionId={hoveredRegionId}
+                        setSelectedRegionId={setSelectedRegionId}
+                        setSidebarOpen={setSidebarOpen}
+                        setHoveredRegionId={setHoveredRegionId}
+                        setSelectedLocationId={setSelectedLocationId}
+                        devMode={devMode}
+                        devTool={devTool}
+                        getImageCoords={getImageCoords}
+                        onResolveClick={onResolveClick}
+                        onEnterSubregionMap={onEnterSubregionMap}
+                      />
 
-                  {/* Canonical Location Pins Overlay */}
-                  <LocationPins
-                    key={`pins-${updateTrigger}-${activeMapId}`}
-                    activeMapId={activeMapId}
-                    selectedRegionId={selectedRegionId}
-                    setSelectedRegionId={setSelectedRegionId}
-                    setSelectedLocationId={setSelectedLocationId}
-                    setSidebarOpen={setSidebarOpen}
-                    devMode={devMode}
-                    devTool={devTool}
-                    onDeletePin={handleDeletePin}
-                    onDragStart={handleDragStart}
-                    onResolveClick={onResolveClick}
-                    currentCampaign={currentCampaign}
-                    selectedDevPinId={selectedDevPinId}
-                    onSelectForMove={onSelectForMove}
-                  />
+                      {/* Canonical Location Pins Overlay */}
+                      <LocationPins
+                        key={`pins-${updateTrigger}-${activeMapId}`}
+                        activeMapId={activeMapId}
+                        selectedRegionId={selectedRegionId}
+                        setSelectedRegionId={setSelectedRegionId}
+                        setSelectedLocationId={setSelectedLocationId}
+                        setSidebarOpen={setSidebarOpen}
+                        devMode={devMode}
+                        devTool={devTool}
+                        onDeletePin={handleDeletePin}
+                        onDragStart={handleDragStart}
+                        onResolveClick={onResolveClick}
+                        currentCampaign={currentCampaign}
+                        selectedDevPinId={selectedDevPinId}
+                        onSelectForMove={onSelectForMove}
+                      />
 
-                  {/* Player Annotations Layer */}
-                  <PlayerAnnotationsLayer
-                    onPinClick={onSelectPlayerPin}
-                    onAreaClick={onSelectPlayerArea}
-                    canDrag={canDragPlayerPins}
-                    onDragStart={handlePlayerPinDragStart}
-                    onDeletePin={onDeletePlayerPin}
-                    onResolveClick={onResolveClick}
-                  />
+                      {/* Player Annotations Layer */}
+                      <PlayerAnnotationsLayer
+                        onPinClick={onSelectPlayerPin}
+                        onAreaClick={onSelectPlayerArea}
+                        canDrag={canDragPlayerPins}
+                        onDragStart={handlePlayerPinDragStart}
+                        onDeletePin={onDeletePlayerPin}
+                        onResolveClick={onResolveClick}
+                      />
+                    </>
+                  )}
+
+                  {/* Custom map zones are draft-only until the map is saved. */}
+                  {customMapMode && customZones.length > 0 && (
+                    <g className="custom-map-zones-layer" style={{ pointerEvents: 'none' }}>
+                      {customZones.map((zone, index) => (
+                        <g key={zone.id || index}>
+                          <polygon
+                            points={(zone.points || []).map(([x, y]) => `${x},${y}`).join(' ')}
+                            fill={zone.color || 'rgba(196, 164, 74, 0.22)'}
+                            stroke={zone.stroke || '#f1d48a'}
+                            strokeWidth="5"
+                            strokeLinejoin="round"
+                          />
+                          {zone.name && zone.points?.length > 0 && (
+                            <text
+                              x={zone.points.reduce((sum, point) => sum + point[0], 0) / zone.points.length}
+                              y={zone.points.reduce((sum, point) => sum + point[1], 0) / zone.points.length}
+                              textAnchor="middle"
+                              fill="#fff0c0"
+                              fontFamily="'Cinzel', serif"
+                              fontSize="34"
+                              fontWeight="600"
+                              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.9)' }}
+                            >
+                              {zone.name}
+                            </text>
+                          )}
+                        </g>
+                      ))}
+                    </g>
+                  )}
 
                   {/* Dev Editor drawing layer rendered inline inside map coordinates */}
-                  {devMode && devTool === 'drawRegion' && (
+                   {devMode && devTool === 'drawRegion' && (
                     <g className="dev-drawing-layer" style={{ pointerEvents: 'none' }}>
                       <defs>
                         <filter id="devGlow">
@@ -553,10 +658,37 @@ const MapCanvas = ({
                           strokeDasharray={cursorPos && drawingPoints.length > 0 ? '8 4' : 'none'}
                         />
                       )}
-                    </g>
-                  )}
+                     </g>
+                   )}
 
-                  {/* Player drawing layer rendered inline inside map coordinates */}
+                   {customMapMode && customDrawingActive && (
+                     <g className="custom-map-drawing-layer" style={{ pointerEvents: 'none' }}>
+                       {customDrawingPoints.map(([x, y], index) => (
+                         <circle
+                           key={index}
+                           cx={x}
+                           cy={y}
+                           r={index === 0 && isNearCustomStart ? 12 : (index === 0 ? 7 : 5)}
+                           fill={index === 0 && isNearCustomStart ? '#80d8a8' : '#f1d48a'}
+                           stroke="#20150d"
+                           strokeWidth="2"
+                         />
+                       ))}
+                       {customDrawingPoints.length > 0 && (
+                         <polyline
+                           points={getCustomDrawingPreview()}
+                           fill="none"
+                           stroke={isNearCustomStart ? '#80d8a8' : '#f1d48a'}
+                           strokeWidth="5"
+                           strokeLinecap="round"
+                           strokeLinejoin="round"
+                           strokeDasharray={cursorPos ? '14 8' : 'none'}
+                         />
+                       )}
+                     </g>
+                   )}
+
+                   {/* Player drawing layer rendered inline inside map coordinates */}
                   {!devMode && activeTool === 'drawArea' && (
                     <g className="player-drawing-layer" style={{ pointerEvents: 'none' }}>
                       <defs>
@@ -603,6 +735,13 @@ const MapCanvas = ({
               </div>
             </TransformComponent>
 
+            {customMapMode && isCustomDropActive && (
+              <div className="custom-map-drop-overlay" aria-live="polite">
+                <i className="fas fa-cloud-arrow-down"></i>
+                <strong>Release to place this map image</strong>
+              </div>
+            )}
+
             <MapControls
               zoomIn={zoomIn}
               zoomOut={zoomOut}
@@ -610,6 +749,8 @@ const MapCanvas = ({
               onClose={onClose}
               devMode={devMode}
               onToggleDev={onToggleDev}
+              customMapMode={customMapMode}
+              onToggleCustomMap={onToggleCustomMap}
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>

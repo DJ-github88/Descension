@@ -430,26 +430,36 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
                   </button>
                 )
               ) : (
-                subregionsList.length > 0 && (
-                  <div className="lore-subregion-action-bar animate-fade-in">
-                    <span className="subregion-action-label">Explore Subrealms:</span>
-                    <div className="subregion-action-btns">
-                      {subregionsList.map((sub) => (
-                        <button
-                          key={sub.id}
-                          type="button"
-                          className="lore-subrealm-pill-btn"
-                          onClick={() => {
-                            if (setSelectedLocationId) setSelectedLocationId(null);
-                            if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
-                          }}
-                        >
-                          <i className="fas fa-compass" /> {sub.name}
-                        </button>
-                      ))}
+                <>
+                  {REGION_POLYGONS[regionId]?.hasSubregionMap && onEnterSubregionMap && (
+                    <button
+                      className="lore-enter-subregion-btn animate-fade-in"
+                      onClick={() => onEnterSubregionMap(regionId)}
+                    >
+                      <i className="fas fa-compass" /> Open Regional Cartography
+                    </button>
+                  )}
+                  {subregionsList.length > 0 && (
+                    <div className="lore-subregion-action-bar animate-fade-in">
+                      <span className="subregion-action-label">Explore Subrealms:</span>
+                      <div className="subregion-action-btns">
+                        {subregionsList.map((sub) => (
+                          <button
+                            key={sub.id}
+                            type="button"
+                            className="lore-subrealm-pill-btn"
+                            onClick={() => {
+                              if (setSelectedLocationId) setSelectedLocationId(null);
+                              if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
+                            }}
+                          >
+                            <i className="fas fa-compass" /> {sub.name}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )
+                  )}
+                </>
               )}
             </div>
 

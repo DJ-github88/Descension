@@ -6,7 +6,9 @@ const MapControls = ({
   resetTransform,
   onClose,
   devMode,
-  onToggleDev
+  onToggleDev,
+  customMapMode,
+  onToggleCustomMap
 }) => {
 
   return (
@@ -44,6 +46,15 @@ const MapControls = ({
       </div>
 
       <button
+        className={`map-ctrl-btn map-ctrl-custom-map ${customMapMode ? 'active' : ''}`}
+        onClick={onToggleCustomMap}
+        title="Toggle custom map workspace"
+        aria-label="Toggle custom map workspace"
+      >
+        <i className="fas fa-map"></i>
+      </button>
+
+      <button
         className={`map-ctrl-btn map-ctrl-dev ${devMode ? 'active' : ''}`}
         onClick={onToggleDev}
         title="Toggle dev editor"
@@ -55,4 +66,3 @@ const MapControls = ({
 };
 
 export default MapControls;
-

@@ -410,7 +410,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    padding: 12px;
     scrollbar-width: none;
     -ms-overflow-style: none;
     width: 100%;

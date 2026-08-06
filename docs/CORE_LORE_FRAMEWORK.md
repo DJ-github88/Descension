@@ -102,3 +102,28 @@ Magicless Mythrill, shaped by Native Deities (Groven, Myrathil, Mimir).
 | **Rime** | Stasis / Frost | Skald | Lunarch, Spellguard, Warden |
 | **Primal** | Instinct / Earth | Groven / Florae | Animist, Augur, Gambit |
 | **Wyrd** | Nightmares / Lies | Keth Amar / Cults | Void-touch, Corrupted Variants |
+
+---
+
+## 5. CREATURE COSMOLOGY & THE 3 COSMIC LAYERS
+
+> **Core Rule:** Mythrill does **NOT** use generic fantasy tropes (such as standard D&D dragons or brimstone demons). Instead, Mythrill's creature lore is built upon **3 Distinct Cosmic Layers** anchored by the **Great Binding's Dark Bargains**.
+
+### 5.1 The 3 Cosmic Layers of Mythrill
+
+| Cosmic Layer | WoW Analogue | Mythrill Entity | Metaphysical Function in Mythrill |
+| :--- | :--- | :--- | :--- |
+| **Layer 1: The Corruptor / Demonic** | Burning Legion | **Keth-Amar & The Wyrd** | Cosmic predator. Infiltrates mortal fables, breathing nightmare life into regional folklore through fear and corrupted memory. |
+| **Layer 2: The Eldritch / Whispers** | Old Gods / Void | **Native Deities & Dominator Deity** | Pre-magic gods & the 7th House Patron. Secretly plants parasitic **Watcher's Sparks** in heroes to orchestrate world domination via the 7th Monolith. |
+| **Layer 3: The Campaign Pillars / Relic Entities** | Titan Relics / Pillars of Creation | **The 7 Monoliths (Aex Essence)** | The **7 Core Pillars of Mythrill Campaigns**. Ancient artifacts containing Aex's shattered essence that take over and possess host entities/cults (starting with Nordhalla's Rime Cult). Drive each region's primary campaign arc. |
+
+---
+
+### 5.2 The Functional Role of Folklore Beings: Living Tolls of the Dark Bargain
+
+Folklore creatures in Mythrill are not passive regional flavor—they are the **living interest payments on the Dark Bargains** forged in Year 0:
+
+1. **Frostwood Reach (Memory Toll):** The bargain cost *Memory*. Folklore entities (*Fog-Walkers*, *Memory-Thieves*) literally consume human recollection, forcing mortals to keep written journals.
+2. **Bryngloom (Mortality Toll):** The bargain cost *Life-Debt*. Folklore entities (*Blight-Crypt Guardians*, *Bone-Collectors*) enforce the Postmortem Corvée and harvest life-tolls.
+3. **Nordhalla (Starvation Toll):** The bargain cost *Thermal Warmth*. Folklore entities (*Skald Blood-Fiends*, *Rime-Singers*) embody ancestral famine and freezing fury.
+4. **Sundale (Ash & Conviction Toll):** The bargain cost *Sacred Fire*. Folklore entities (*Ember-Devourers*, *Ash-Wraiths*) feed on conviction and burn what remains of Sol's flame.

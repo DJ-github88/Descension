@@ -38,6 +38,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    background: var(--my-parchment-light, #f8f4e6);
     scrollbar-width: thin;
     scrollbar-color: rgba(122, 59, 46, 0.5) rgba(160, 140, 112, 0.15);
 }
@@ -774,6 +775,8 @@ button.campaign-input:hover {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 16px;
+    background: var(--my-parchment-light, #f8f4e6);
+    border-radius: 8px;
 }
 
 /* Enhanced Player Card Styles */
