@@ -7,6 +7,8 @@ import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
 import * as CANNON from 'cannon-es';
 import useDiceStore, { DICE_PRESETS } from '../../store/diceStore';
+import useSettingsStore from '../../store/settingsStore';
+import { useAdaptivePerformance } from '../../hooks/useAdaptivePerformance';
 import './PhysicsDiceScene.css';
 
 const FONT = "'Cinzel', 'Times New Roman', serif";
@@ -1581,6 +1583,11 @@ const PhysicsDiceScene = ({
 }) => {
   const rollContext = useDiceStore(state => state.rollContext);
   const skillOutcome = useDiceStore(state => state.skillOutcome);
+  const { shadowQuality, antiAliasing, pixelRatioCap } = useSettingsStore();
+  
+  // Real-time performance auto-recovery monitoring
+  useAdaptivePerformance({ enabled: isVisible });
+
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
@@ -1604,11 +1611,6 @@ const PhysicsDiceScene = ({
   const envMapRef = useRef(null);
   const lineMaterialsRef = useRef([]);
   const dismissTimerRef = useRef(null);
-  // Remember the most recent rollContext so Reroll can re-apply the same
-  // mode (Advantage / Double Advantage / etc.) — without this, the
-  // finishAllRolls after a reroll has no context to read (finishRoll
-  // clears it from the store), so the reroll result is processed as a
-  // plain roll with no advantage math.
   const lastRollContextRef = useRef(null);
 
   const getPreset = useCallback(() => {
@@ -1622,12 +1624,20 @@ const PhysicsDiceScene = ({
     const w = container.clientWidth;
     const h = container.clientHeight;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const useAntialias = antiAliasing !== false;
+    const maxPixelRatio = pixelRatioCap || 1.5;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: useAntialias, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
     renderer.setSize(w, h);
     renderer.setClearColor(0x000000, 0); // fully transparent — the table shows through
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+
+    const enableShadows = shadowQuality !== 'off';
+    renderer.shadowMap.enabled = enableShadows;
+    if (enableShadows) {
+      renderer.shadowMap.type = shadowQuality === 'low' ? THREE.BasicShadowMap : THREE.PCFShadowMap;
+    }
+
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
     container.appendChild(renderer.domElement);
@@ -1644,9 +1654,6 @@ const PhysicsDiceScene = ({
     envMapRef.current = envTex;
     pmrem.dispose();
 
-    // Per-die surface textures are generated inside buildDiceObject so each
-    // die in a set has unique character (no shared surface pattern).
-
     const camera = new THREE.PerspectiveCamera(44, w / h, 0.1, 100);
     camera.position.set(0, 16, 0);
     camera.up.set(0, 0, -1);
@@ -1656,10 +1663,15 @@ const PhysicsDiceScene = ({
     scene.add(new THREE.AmbientLight(0x404050, 0.45));
 
     const keyLight = new THREE.DirectionalLight(0xfff5e8, 2.2);
-    keyLight.position.set(8, 16, 9); // angled — avoids straight-down mirror flash into the top-down camera
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
+    keyLight.position.set(8, 16, 9);
+    keyLight.castShadow = enableShadows;
+
+    let shadowMapSize = 1024;
+    if (shadowQuality === 'low') shadowMapSize = 512;
+    else if (shadowQuality === 'high') shadowMapSize = 2048;
+
+    keyLight.shadow.mapSize.width = shadowMapSize;
+    keyLight.shadow.mapSize.height = shadowMapSize;
     keyLight.shadow.camera.near = 0.5;
     keyLight.shadow.camera.far = 40;
     keyLight.shadow.bias = -0.0004;

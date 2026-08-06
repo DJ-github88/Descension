@@ -1,0 +1,239 @@
+.classes-page-container {
+  min-height: 100vh;
+  background: var(--my-gradient-parchment, linear-gradient(135deg, #0d0f14 0%, #151922 100%));
+  color: #e0e6ed;
+  padding: 2rem 4rem;
+  font-family: 'Cinzel', serif, sans-serif;
+}
+
+.classes-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 1.5rem;
+}
+
+.classes-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.back-link {
+  color: #d4af37;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-link:hover {
+  color: #fff;
+}
+
+.classes-breadcrumb {
+  color: #8a99ad;
+}
+
+.classes-breadcrumb a {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+.classes-title {
+  font-size: 2.4rem;
+  color: #d4af37;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.classes-subtitle {
+  color: #9aa8ba;
+  font-size: 1.1rem;
+}
+
+.classes-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.classes-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+  max-width: 450px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #d4af37;
+}
+
+.classes-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  background: rgba(20, 26, 36, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #fff;
+  font-family: inherit;
+}
+
+.classes-search-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.classes-role-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.role-filter-btn {
+  padding: 0.5rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  color: #a0aec0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.role-filter-btn:hover,
+.role-filter-btn.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #d4af37;
+  color: #ffd700;
+}
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.class-card {
+  background: rgba(18, 24, 34, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.class-card:hover {
+  transform: translateY(-4px);
+  border-color: #d4af37;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.class-card.selected {
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.class-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.class-icon-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f131a;
+  overflow: hidden;
+  font-size: 1.3rem;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
+.class-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.class-card-name {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.class-role-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.class-resource-tag {
+  font-size: 0.85rem;
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+}
+
+.class-playstyle {
+  font-size: 0.92rem;
+  color: #cbd5e0;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.class-damage-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.damage-types-label {
+  font-size: 0.8rem;
+  color: #718096;
+  margin-right: 0.3rem;
+}
+
+.damage-type-pill {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #a0aec0;
+  text-transform: capitalize;
+}
+
+.coming-soon-banner {
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  transform: rotate(45deg);
+  background: #e67e22;
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 0.2rem 2.5rem;
+  font-weight: bold;
+}

@@ -8,9 +8,17 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { DEFAULT_USER_SETTINGS, saveUserSettings, loadUserSettings } from '../services/firebase/userSettingsService';
+import { detectHardwareProfile } from '../utils/hardwareDetector';
 
-// Default settings (fallback for when Firebase is unavailable)
-const initialState = DEFAULT_USER_SETTINGS;
+// Run hardware auto-detection on initialization
+const detectedHardware = detectHardwareProfile();
+const initialState = {
+  ...DEFAULT_USER_SETTINGS,
+  ...detectedHardware.preset,
+  hardwareInfo: detectedHardware.specs,
+  performanceTier: detectedHardware.tier,
+  isManualOverride: {}
+};
 
 // Custom storage engine that syncs with Firebase for authenticated users
 // Note: We use a different approach since we can't access stores synchronously in storage engine
