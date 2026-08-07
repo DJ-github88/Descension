@@ -121,7 +121,7 @@ export function useVersionCheck() {
     }
   }, [localCommit, localVersion]);
 
-  // Periodic polling & event listeners
+  // Periodic polling & visibility event listeners
   useEffect(() => {
     checkRemoteVersion();
 
@@ -137,26 +137,13 @@ export function useVersionCheck() {
       checkRemoteVersion();
     };
 
-    const handleSwUpdate = (event) => {
-      const lastReload = parseInt(localStorage.getItem('mythrill_last_reload_time') || '0', 10);
-      if (Date.now() - lastReload < COOLDOWN_MS) {
-        return;
-      }
-      if (event.detail) {
-        window.__swRegistration = event.detail;
-      }
-      setHasUpdate(true);
-    };
-
     document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('focus', handleFocus);
-    window.addEventListener('swUpdateAvailable', handleSwUpdate);
 
     return () => {
       clearInterval(intervalId);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
-      window.removeEventListener('swUpdateAvailable', handleSwUpdate);
     };
   }, [checkRemoteVersion]);
 

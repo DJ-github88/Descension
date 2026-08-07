@@ -550,12 +550,17 @@ function GameScreen() {
           return;
         }
 
-        // Check if a specific character was passed via navigation state
-        const characterId = location.state?.characterId;
+        setIsGameHydrated(false);
+        const startTime = Date.now();
 
+        // If roomId is in location state, initialize that local room
+        if (location.state?.roomId) {
+          console.log(`Initializing local room from navigation state: ${location.state.roomId}`);
+          await initializeLocalRoom(location.state.roomId);
+        }
+
+        const characterId = location.state?.characterId;
         if (characterId) {
-          // Set this character as active
-          console.log(`🎮 Loading character from navigation: ${characterId}`);
           const character = await setActiveCharacter(characterId);
           if (character) {
             console.log(`✅ Character loaded: ${character.name}`);
@@ -636,13 +641,28 @@ function GameScreen() {
             }, true);
           }
         }
+
+        // Guarantee smooth minimum display duration (500ms) to prevent flicker
+        const elapsed = Date.now() - startTime;
+        if (elapsed < 500) {
+          await new Promise(r => setTimeout(r, 500 - elapsed));
+        }
+        if (!isCancelled) {
+          setIsGameHydrated(true);
+        }
       } catch (error) {
         console.error('Error initializing character:', error);
+        if (!isCancelled) {
+          setIsGameHydrated(true);
+        }
       }
     };
 
     initializeCharacter();
-  }, [location.state?.characterId, setActiveCharacter, loadActiveCharacter]);
+    return () => {
+      isCancelled = true;
+    };
+  }, [location.state?.characterId, location.state?.roomId, setActiveCharacter, loadActiveCharacter]);
 
   // Update current player's GM status when GM mode changes
   useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
@@ -655,7 +675,14 @@ function GameScreen() {
 
   return (
     <ErrorBoundary name="GameScreen">
-      <div className="game-screen">
+      {!isGameHydrated && (
+        <AssetLoadingOverlay 
+          message="Entering Battle Realm..." 
+          subtext="Hydrating party state, character stats & battle map..." 
+          isFullPage={true} 
+        />
+      )}
+      <div className="game-screen" style={{ opacity: isGameHydrated ? 1 : 0, transition: 'opacity 0.4s ease' }}>
         <ErrorBoundary name="CombatSystem">
           <FloatingCombatTextManager />
         </ErrorBoundary>

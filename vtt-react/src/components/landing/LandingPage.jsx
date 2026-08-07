@@ -99,12 +99,36 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   window.scrollTo({ top: 0, behavior: 'smooth' });
  };
 
- const [isActivatingImmerse, setIsActivatingImmerse] = useState(false);
+  const [isActivatingImmerse, setIsActivatingImmerse] = useState(false);
+  const [isBgLoaded, setIsBgLoaded] = useState(false);
 
- // Handle community button click
- const handleCommunityClick = () => {
-  setShowCommunity(prev => !prev);
- };
+  // Map background path
+  const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+
+  // Preload starter page background image so it stays static until fully loaded
+  useEffect(() => {
+    let isMounted = true;
+    const img = new Image();
+    img.src = mapImagePath;
+    if (img.complete) {
+      setIsBgLoaded(true);
+    } else {
+      img.onload = () => {
+        if (isMounted) setIsBgLoaded(true);
+      };
+      img.onerror = () => {
+        if (isMounted) setIsBgLoaded(true);
+      };
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [mapImagePath]);
+
+  // Handle community button click
+  const handleCommunityClick = () => {
+   setShowCommunity(prev => !prev);
+  };
 
  const handleImmerseClick = (e) => {
   setIsActivatingImmerse(true);
@@ -433,15 +457,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   return () => document.removeEventListener('keydown', handleKey);
  }, [overflowOpen]);
 
- // Map background path
- const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
-
  return (
   <>
    <div
-    className={`landing-page map-background ${isWorldMapActive ? 'immersing' : ''}`}
+    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isWorldMapActive ? 'immersing' : ''}`}
     style={{
-     '--map-background-url': `url("${mapImagePath}")`
+     '--map-background-url': `url("${`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}")`
     }}
    >
     <header className="landing-header">

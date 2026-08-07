@@ -234,15 +234,21 @@ body svg[data-icon] {
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
   background-size: auto 340%, 100% 100%, 100% 100%; /* Cinematic close-up camera zoom for panning scroll across 8K master map */
-  background-position: 0% 0%, center, center; /* Start at top-left corner */
+  background-position: 0% 0%, center, center; /* Start at top-left corner / static */
   background-repeat: no-repeat;
   background-attachment: scroll;
+  animation: none; /* Stay static until entirely loaded */
+  transition: opacity 0.6s ease;
+}
+
+.landing-page.map-background.map-loaded {
   animation: mapPan 48s ease-in-out infinite; /* 48 seconds for active, lively thematic journey across master map */
   will-change: background-position; /* Optimize animation performance */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing-page.map-background {
+  .landing-page.map-background,
+  .landing-page.map-background.map-loaded {
     animation: none;
   }
 }
