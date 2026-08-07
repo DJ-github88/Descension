@@ -36,6 +36,7 @@ import AfterimageOverlay from "./level-editor/AfterimageOverlay";
 import TokenVisibilityCalculator from "./level-editor/TokenVisibilityCalculator";
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
+import AssetLoadingOverlay from "./common/AssetLoadingOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
 import useLongPressContextMenu from "../hooks/useLongPressContextMenu";
 // Removed unused imports: throttle, rafThrottle
@@ -175,8 +176,48 @@ function GridComponent({
  // Grid rendering mode - use canvas for better performance, especially at low zoom
  const [useCanvasGrid] = useState(true);
 
- // Force canvas rendering at low zoom levels for better performance - memoized
- const shouldUseCanvas = useMemo(() => useCanvasGrid || effectiveZoom < 0.5, [useCanvasGrid, effectiveZoom]);
+  // Force canvas rendering at low zoom levels for better performance - memoized
+  const shouldUseCanvas = useMemo(() => useCanvasGrid || effectiveZoom < 0.5, [useCanvasGrid, effectiveZoom]);
+
+  const [isGridAssetLoading, setIsGridAssetLoading] = useState(false);
+
+  // Preload primary grid background image asset if specified
+  const primaryBgUrl = (backgrounds && backgrounds.length > 0 && backgrounds[0]?.url) 
+    || backgroundImage 
+    || backgroundImageUrl;
+
+  useEffect(() => {
+    if (!primaryBgUrl) {
+      setIsGridAssetLoading(false);
+      return;
+    }
+    setIsGridAssetLoading(true);
+    let isCancelled = false;
+    const img = new Image();
+    img.src = primaryBgUrl;
+    
+    const timeoutId = setTimeout(() => {
+      if (!isCancelled) setIsGridAssetLoading(false);
+    }, 1200);
+
+    if (img.complete) {
+      clearTimeout(timeoutId);
+      setIsGridAssetLoading(false);
+    } else {
+      img.onload = () => {
+        clearTimeout(timeoutId);
+        if (!isCancelled) setIsGridAssetLoading(false);
+      };
+      img.onerror = () => {
+        clearTimeout(timeoutId);
+        if (!isCancelled) setIsGridAssetLoading(false);
+      };
+    }
+    return () => {
+      isCancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [primaryBgUrl]);
 
  // Smooth zoom state (removed unused variables)
  const zoomAnimationRef = useRef(null);
@@ -3145,6 +3186,13 @@ function GridComponent({
 
  return (
   <>
+   {isGridAssetLoading && (
+     <AssetLoadingOverlay 
+       message="Hydrating Battle Grid..." 
+       subtext="Loading battle map assets & token textures..." 
+       isFullPage={true} 
+     />
+   )}
    <div
     id="grid-overlay"
     ref={gridRef}

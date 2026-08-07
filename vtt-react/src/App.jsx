@@ -37,6 +37,7 @@ import NotificationContainer from "./components/common/NotificationContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import { useVersionCheck } from "./hooks/useVersionCheck";
 import VersionUpdateModal from "./components/common/VersionUpdateModal";
+import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
 import { clearLocalRoom } from "./utils/localRoom";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
@@ -213,19 +214,8 @@ const scheduleAutomaticBackup = async (userId) => {
 };
 
 // Loading fallback component
-const LoadingFallback = ({ message = "Loading..." }) => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    background: 'var(--my-gradient-parchment)',
-    color: 'var(--my-text-primary)',
-    fontFamily: 'Cinzel, serif',
-    fontSize: '1.2rem'
-  }}>
-    {message}
-  </div>
+const LoadingFallback = ({ message = "Loading...", subtext = "Preparing assets & synchronizing state..." }) => (
+  <AssetLoadingOverlay message={message} subtext={subtext} isFullPage={true} />
 );
 
 function GameScreen() {

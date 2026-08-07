@@ -1,0 +1,195 @@
+/* Asset Loading Overlay Styles */
+.asset-loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  background: rgba(12, 10, 18, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.asset-loading-overlay.full-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.asset-loading-overlay.inline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.asset-loading-overlay.transparent-bg {
+  background: rgba(10, 8, 15, 0.65);
+}
+
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(26, 20, 35, 0.95), rgba(16, 12, 22, 0.98));
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.15);
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  animation: loadingCardFadeIn 0.35s ease-out;
+}
+
+@keyframes loadingCardFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Rune Spinner */
+.rune-spinner-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rune-ring {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.rune-ring.outer-ring {
+  inset: 0;
+  border: 2px dashed rgba(212, 175, 55, 0.4);
+  border-top-color: #f39c12;
+  border-right-color: rgba(212, 175, 55, 0.8);
+  animation: runeSpin 4s linear infinite;
+}
+
+.rune-ring.inner-ring {
+  inset: 10px;
+  border: 2px dotted rgba(234, 192, 108, 0.3);
+  border-bottom-color: #e67e22;
+  animation: runeSpinReverse 2.5s linear infinite;
+}
+
+.rune-core {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(16, 12, 22, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(243, 156, 18, 0.4);
+  animation: runePulse 2s ease-in-out infinite alternate;
+}
+
+.rune-icon {
+  font-size: 1.3rem;
+  color: #f39c12;
+  filter: drop-shadow(0 0 6px rgba(243, 156, 18, 0.8));
+}
+
+@keyframes runeSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes runeSpinReverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes runePulse {
+  0% {
+    transform: scale(0.92);
+    box-shadow: 0 0 12px rgba(243, 156, 18, 0.3);
+  }
+  100% {
+    transform: scale(1.08);
+    box-shadow: 0 0 24px rgba(243, 156, 18, 0.7);
+  }
+}
+
+/* Typography */
+.loading-title {
+  font-family: 'Cinzel', serif, system-ui;
+  color: #f8f5eb;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.loading-subtext {
+  font-family: 'Inter', sans-serif;
+  color: rgba(248, 245, 235, 0.65);
+  font-size: 0.85rem;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.4;
+}
+
+/* Progress Track & Bar */
+.loading-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.loading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #f39c12, #e67e22);
+  border-radius: 4px;
+  transition: width 0.3s ease-out;
+  position: relative;
+}
+
+.loading-progress-fill.indeterminate {
+  width: 45%;
+  animation: indeterminateProgress 1.6s ease-in-out infinite;
+}
+
+.progress-glow-head {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff, 0 0 5px #f39c12;
+  border-radius: 50%;
+  opacity: 0.75;
+}
+
+@keyframes indeterminateProgress {
+  0% {
+    left: -45%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -6,6 +6,7 @@ import PlayerAnnotationsLayer from './PlayerAnnotationsLayer';
 import MapControls from './MapControls';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { getSubregionMap } from '../../data/subregionMaps';
+import AssetLoadingOverlay from '../common/AssetLoadingOverlay';
 
 const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
 const MAP_WIDTH = 4096;
@@ -80,6 +81,51 @@ const MapCanvas = ({
   // Dynamic minScale to allow viewing the entire map
   const [minScale, setMinScale] = useState(0.15);
   const [isCustomDropActive, setIsCustomDropActive] = useState(false);
+  const [isMapImageLoading, setIsMapImageLoading] = useState(true);
+
+  // Compute active image source & map title
+  const subMapObj = !customMapMode && activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
+  const rawSrc = customMapMode
+    ? customMap?.image
+    : (subMapObj?.image
+      ? subMapObj.image
+      : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+
+  const publicUrl = process.env.PUBLIC_URL || '';
+  const activeImgSrc = rawSrc
+    ? ((rawSrc.startsWith('http') || rawSrc.startsWith('data:') || (publicUrl && rawSrc.startsWith(publicUrl)))
+      ? rawSrc
+      : `${publicUrl}${rawSrc.startsWith('/') ? '' : '/'}${rawSrc}`)
+    : null;
+
+  const mapName = customMapMode
+    ? (customMap?.name || 'Custom Map')
+    : (subMapObj?.name || 'Mythrill World Map');
+
+  // Preload map image asset before rendering canvas overlays
+  useEffect(() => {
+    if (!activeImgSrc) {
+      setIsMapImageLoading(false);
+      return;
+    }
+    setIsMapImageLoading(true);
+    let isCancelled = false;
+    const img = new Image();
+    img.src = activeImgSrc;
+    if (img.complete) {
+      setIsMapImageLoading(false);
+    } else {
+      img.onload = () => {
+        if (!isCancelled) setIsMapImageLoading(false);
+      };
+      img.onerror = () => {
+        if (!isCancelled) setIsMapImageLoading(false);
+      };
+    }
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeImgSrc]);
 
   // Handle smooth camera zoom to target subregion point
   useEffect(() => {
@@ -415,6 +461,13 @@ const MapCanvas = ({
       onDragLeave={handleCustomDragLeave}
       onDrop={handleCustomDrop}
     >
+      {isMapImageLoading && (
+        <AssetLoadingOverlay 
+          message={`Cartographing ${mapName}...`} 
+          subtext="Preloading high-resolution world map assets..." 
+          isFullPage={true} 
+        />
+      )}
       <TransformWrapper
         ref={transformRef}
         initialScale={initialTransform ? initialTransform.scale : 0.4}
@@ -427,7 +480,7 @@ const MapCanvas = ({
         smooth={false}
         wheel={{ step: 0.15, zoomAnimation: { disabled: false, animationTime: 100 } }}
         doubleClick={{ disabled: false }}
-         panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
+        panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
         onTransformed={handleTransformed}
         onPanning={handleUserInteraction}
         onWheel={handleUserInteraction}
@@ -443,14 +496,7 @@ const MapCanvas = ({
                   style={{ width: MAP_WIDTH, height: MAP_HEIGHT, position: 'relative', cursor: toolCursor || undefined }}
                 >
                 {(() => {
-                  const subMapObj = !customMapMode && activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
-                  const rawSrc = customMapMode
-                    ? customMap?.image
-                    : (subMapObj?.image
-                      ? subMapObj.image
-                      : `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
-
-                  if (!rawSrc) {
+                  if (!activeImgSrc) {
                     return (
                       <div className="custom-map-grid-empty" aria-label="Empty custom map grid">
                         <div className="custom-map-grid-center">
@@ -461,18 +507,15 @@ const MapCanvas = ({
                       </div>
                     );
                   }
-                  
-                  const publicUrl = process.env.PUBLIC_URL || '';
-                  const activeImgSrc = (rawSrc.startsWith('http') || rawSrc.startsWith('data:') || (publicUrl && rawSrc.startsWith(publicUrl)))
-                    ? rawSrc
-                    : `${publicUrl}${rawSrc.startsWith('/') ? '' : '/'}${rawSrc}`;
 
                   return (
                     <img
                       src={activeImgSrc}
-                       alt={customMapMode ? (customMap?.name || 'Custom map') : (subMapObj?.name || "Mythrill World Map")}
+                      alt={mapName}
                       decoding="async"
                       loading="eager"
+                      onLoad={() => setIsMapImageLoading(false)}
+                      onError={() => setIsMapImageLoading(false)}
                       style={{
                         width: MAP_WIDTH,
                         height: MAP_HEIGHT,
@@ -480,7 +523,9 @@ const MapCanvas = ({
                         position: 'absolute',
                         top: 0,
                         left: 0,
-                        imageRendering: '-webkit-optimize-contrast'
+                        imageRendering: '-webkit-optimize-contrast',
+                        opacity: isMapImageLoading ? 0 : 1,
+                        transition: 'opacity 0.35s ease'
                       }}
                       draggable={false}
                     />

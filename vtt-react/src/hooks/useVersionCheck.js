@@ -18,12 +18,12 @@ export function useVersionCheck() {
 
   const triggerUpdate = useCallback(async () => {
     if (latestInfo?.commitSha) {
-      sessionStorage.setItem('mythrill_active_commit', latestInfo.commitSha);
+      localStorage.setItem('mythrill_active_commit', latestInfo.commitSha);
     }
     if (latestInfo?.version) {
-      sessionStorage.setItem('mythrill_active_version', latestInfo.version);
+      localStorage.setItem('mythrill_active_version', latestInfo.version);
     }
-    sessionStorage.setItem('mythrill_last_reload_time', Date.now().toString());
+    localStorage.setItem('mythrill_last_reload_time', Date.now().toString());
 
     // If service worker is waiting, send skip waiting command
     if (window.__swRegistration && window.__swRegistration.waiting) {
@@ -34,31 +34,7 @@ export function useVersionCheck() {
       }
     }
 
-    // Unregister existing Service Workers to clear stale caches on reload
-    if ('serviceWorker' in navigator) {
-      try {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (const registration of registrations) {
-          await registration.unregister();
-        }
-      } catch (swErr) {
-        console.warn('[VersionCheck] Error unregistering service workers:', swErr);
-      }
-    }
-
-    // Purge CacheStorage API entries
-    if ('caches' in window) {
-      try {
-        const cacheNames = await caches.keys();
-        for (const cacheName of cacheNames) {
-          await caches.delete(cacheName);
-        }
-      } catch (cacheErr) {
-        console.warn('[VersionCheck] Error clearing cache storage:', cacheErr);
-      }
-    }
-
-    // Force hard reload using timestamp cache-busting parameter
+    // Force hard reload using timestamp cache-busting parameter without unregistering SW
     const reloadUrl = new URL(window.location.href);
     reloadUrl.searchParams.set('_v', Date.now().toString());
     window.location.href = reloadUrl.toString();
@@ -68,7 +44,7 @@ export function useVersionCheck() {
     if (isCheckingRef.current) return;
 
     // Loop protection: Cooldown check after reload
-    const lastReload = parseInt(sessionStorage.getItem('mythrill_last_reload_time') || '0', 10);
+    const lastReload = parseInt(localStorage.getItem('mythrill_last_reload_time') || '0', 10);
     if (Date.now() - lastReload < COOLDOWN_MS) {
       return;
     }
@@ -112,18 +88,18 @@ export function useVersionCheck() {
       }
 
       // Determine active commit and version for current browser session.
-      // Prefer baked environment variable (localCommit) if available, otherwise check sessionStorage.
-      let activeCommit = localCommit || sessionStorage.getItem('mythrill_active_commit');
-      let activeVersion = localVersion || sessionStorage.getItem('mythrill_active_version');
+      // Prefer baked environment variable (localCommit) if available, otherwise check localStorage.
+      let activeCommit = localCommit || localStorage.getItem('mythrill_active_commit');
+      let activeVersion = localVersion || localStorage.getItem('mythrill_active_version');
 
-      // If no session baseline exists yet, initialize it with current remote response
+      // If no stored baseline exists yet (e.g. initial visit to site), initialize it with current remote response
       if (!activeCommit) {
         activeCommit = remoteInfo.commitSha;
-        sessionStorage.setItem('mythrill_active_commit', activeCommit);
+        localStorage.setItem('mythrill_active_commit', activeCommit);
       }
       if (!activeVersion) {
         activeVersion = remoteInfo.version;
-        sessionStorage.setItem('mythrill_active_version', activeVersion);
+        localStorage.setItem('mythrill_active_version', activeVersion);
       }
 
       // Compare remote version against active session baseline
@@ -162,7 +138,7 @@ export function useVersionCheck() {
     };
 
     const handleSwUpdate = (event) => {
-      const lastReload = parseInt(sessionStorage.getItem('mythrill_last_reload_time') || '0', 10);
+      const lastReload = parseInt(localStorage.getItem('mythrill_last_reload_time') || '0', 10);
       if (Date.now() - lastReload < COOLDOWN_MS) {
         return;
       }
