@@ -525,8 +525,7 @@ function GameScreen() {
 
   // Handle character loading when entering the game
   useEffect(() => {
-    // Don't auto-enable editor mode - let user open it manually if needed
-    // Editor mode can be toggled via the Navigation component
+    let isCancelled = false;
 
     const initializeCharacter = async () => {
       try {
