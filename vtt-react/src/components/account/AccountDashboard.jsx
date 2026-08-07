@@ -462,7 +462,7 @@ const AccountDashboard = ({ user }) => {
                   className={`fan-tab ${activeTab === 'maps' ? 'active' : ''}`}
                   onClick={() => setActiveTab('maps')}
                 >
-                  <span>World & Subregions</span>
+                  <span>World</span>
                 </button>
               )}
               <button
@@ -606,6 +606,15 @@ const AccountDashboard = ({ user }) => {
               >
                 <i className="fas fa-heart"></i>
                 Social
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'maps' ? 'active' : ''}`}
+                onClick={() => { setActiveTab('maps'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-atlas"></i>
+                World
               </button>
             )}
             <button
