@@ -221,6 +221,7 @@ const LoadingFallback = ({ message = "Loading...", subtext = "Preparing assets &
 function GameScreen() {
   const location = useLocation();
   const { isGMMode, setGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+  const [isGameHydrated, setIsGameHydrated] = useState(false);
   
   // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes
   const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
