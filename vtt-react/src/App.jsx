@@ -525,7 +525,14 @@ function GameScreen() {
 
   // Handle character loading when entering the game
   useEffect(() => {
-    let isCancelled = false;
+    let isMounted = true;
+
+    // Safety timeout: GUARANTEE the loading screen ALWAYS dismisses within 800ms maximum
+    const safetyTimer = setTimeout(() => {
+      if (isMounted) {
+        setIsGameHydrated(true);
+      }
+    }, 800);
 
     const initializeCharacter = async () => {
       try {
@@ -637,25 +644,26 @@ function GameScreen() {
           }
         }
 
-        // Guarantee smooth display duration (400ms) to prevent flicker and allow canvas to mount
+        // Guarantee smooth display duration (300ms) to prevent flicker and allow canvas to mount
         const elapsed = Date.now() - startTime;
-        if (elapsed < 400) {
-          await new Promise(r => setTimeout(r, 400 - elapsed));
-        }
-        if (!isCancelled) {
-          setIsGameHydrated(true);
+        if (elapsed < 300) {
+          await new Promise(r => setTimeout(r, 300 - elapsed));
         }
       } catch (error) {
         console.error('Error initializing character:', error);
-        if (!isCancelled) {
+      } finally {
+        if (isMounted) {
+          clearTimeout(safetyTimer);
           setIsGameHydrated(true);
         }
       }
     };
 
     initializeCharacter();
+
     return () => {
-      isCancelled = true;
+      isMounted = false;
+      clearTimeout(safetyTimer);
     };
   }, [location.state?.characterId, location.state?.roomId, setActiveCharacter, loadActiveCharacter]);
 
