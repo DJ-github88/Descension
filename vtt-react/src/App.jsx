@@ -35,8 +35,6 @@ import { FloatingCombatTextManager } from "./components/combat/FloatingCombatTex
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
-import { useVersionCheck } from "./hooks/useVersionCheck";
-import VersionUpdateModal from "./components/common/VersionUpdateModal";
 import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
 import { clearLocalRoom } from "./utils/localRoom";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -532,6 +530,9 @@ function GameScreen() {
 
     const initializeCharacter = async () => {
       try {
+        setIsGameHydrated(false);
+        const startTime = Date.now();
+
         // Check for local room first
         const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
         const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
@@ -548,105 +549,99 @@ function GameScreen() {
           }
           setCurrentLocalRoomId(selectedLocalRoomId);
           await initializeLocalRoom(selectedLocalRoomId);
-          return;
-        }
-
-        setIsGameHydrated(false);
-        const startTime = Date.now();
-
-        // If roomId is in location state, initialize that local room
-        if (location.state?.roomId) {
+        } else if (location.state?.roomId) {
+          // If roomId is in location state, initialize that local room
           console.log(`Initializing local room from navigation state: ${location.state.roomId}`);
           await initializeLocalRoom(location.state.roomId);
-        }
-
-        const characterId = location.state?.characterId;
-        if (characterId) {
-          const character = await setActiveCharacter(characterId);
-          if (character) {
-            console.log(`✅ Character loaded: ${character.name}`);
-            // Clear any existing party and create a single-player party with this character
-            localStorage.removeItem('party-store');
-            usePartyStore.getState().resetStore?.();
-
-            // FIXED: Correct argument order - (partyName, isGM, leaderData)
-            await createParty('Single Player Party', true, {
-              id: 'current-player',
-              userId: 'current-player',
-              isGM: true,
-              name: character.name,
-              characterName: character.name,
-              characterClass: character.class || 'Unknown',
-              characterLevel: character.level || 1
-            });
-
-            // CRITICAL FIX: Update party member with full character data for HUD
-            await initializePartyForCharacter(character, isGMMode);
-          } else {
-            console.error(`❌ Failed to load character: ${characterId}`);
-            // Fall back to loading any active character
-            await loadActiveCharacter();
-          }
         } else {
-          // No specific character passed, load the active character
-          const activeCharacter = await loadActiveCharacter();
-          if (activeCharacter) {
-            console.log(`✅ Active character loaded: ${activeCharacter.name}`);
-            
-            // Always initialize party for active character on game screen entry to guarantee HUD hydration
-            console.log('🔄 Initializing single-player party for active character...');
-            localStorage.removeItem('party-store');
-            usePartyStore.getState().resetStore?.();
+          const characterId = location.state?.characterId;
+          if (characterId) {
+            const character = await setActiveCharacter(characterId);
+            if (character) {
+              console.log(`✅ Character loaded: ${character.name}`);
+              // Clear any existing party and create a single-player party with this character
+              localStorage.removeItem('party-store');
+              usePartyStore.getState().resetStore?.();
 
-            // FIXED: Correct argument order - (partyName, isGM, leaderData)
-            await createParty('Single Player Party', true, {
-              id: 'current-player',
-              userId: 'current-player',
-              isGM: true,
-              name: activeCharacter.name,
-              characterName: activeCharacter.name,
-              characterClass: activeCharacter.class || 'Unknown',
-              characterLevel: activeCharacter.level || 1
-            });
+              // FIXED: Correct argument order - (partyName, isGM, leaderData)
+              await createParty('Single Player Party', true, {
+                id: 'current-player',
+                userId: 'current-player',
+                isGM: true,
+                name: character.name,
+                characterName: character.name,
+                characterClass: character.class || 'Unknown',
+                characterLevel: character.level || 1
+              });
 
-            // CRITICAL FIX: Update party member with full character data for HUD
-            await initializePartyForCharacter(activeCharacter, isGMMode);
+              // CRITICAL FIX: Update party member with full character data for HUD
+              await initializePartyForCharacter(character, isGMMode);
+            } else {
+              console.error(`❌ Failed to load character: ${characterId}`);
+              // Fall back to loading any active character
+              await loadActiveCharacter();
+            }
           } else {
-            console.log('No active character found');
-            // Create a basic single-player party even without a character
-            localStorage.removeItem('party-store');
-            usePartyStore.getState().resetStore?.();
+            // No specific character passed, load the active character
+            const activeCharacter = await loadActiveCharacter();
+            if (activeCharacter) {
+              console.log(`✅ Active character loaded: ${activeCharacter.name}`);
+              
+              // Always initialize party for active character on game screen entry to guarantee HUD hydration
+              console.log('🔄 Initializing single-player party for active character...');
+              localStorage.removeItem('party-store');
+              usePartyStore.getState().resetStore?.();
 
-            // FIXED: Correct argument order - (partyName, isGM, leaderData)
-            await createParty('Single Player Party', true, {
-              isGM: true,
-              name: 'Player',
-              characterName: 'Player',
-              characterClass: 'Unknown',
-              characterLevel: 1
-            });
+              // FIXED: Correct argument order - (partyName, isGM, leaderData)
+              await createParty('Single Player Party', true, {
+                id: 'current-player',
+                userId: 'current-player',
+                isGM: true,
+                name: activeCharacter.name,
+                characterName: activeCharacter.name,
+                characterClass: activeCharacter.class || 'Unknown',
+                characterLevel: activeCharacter.level || 1
+              });
 
-            // Update with basic GM data
-            const { updatePartyMember } = usePartyStore.getState();
-            updatePartyMember('current-player', {
-              id: 'current-player',
-              name: 'Player',
-              isGM: isGMMode,
-              character: {
-                class: 'Unknown',
-                level: 1,
-                health: { current: 45, max: 50 },
-                mana: { current: 45, max: 50 },
-                actionPoints: { current: 1, max: 3 }
-              }
-            }, true);
+              // CRITICAL FIX: Update party member with full character data for HUD
+              await initializePartyForCharacter(activeCharacter, isGMMode);
+            } else {
+              console.log('No active character found');
+              // Create a basic single-player party even without a character
+              localStorage.removeItem('party-store');
+              usePartyStore.getState().resetStore?.();
+
+              // FIXED: Correct argument order - (partyName, isGM, leaderData)
+              await createParty('Single Player Party', true, {
+                isGM: true,
+                name: 'Player',
+                characterName: 'Player',
+                characterClass: 'Unknown',
+                characterLevel: 1
+              });
+
+              // Update with basic GM data
+              const { updatePartyMember } = usePartyStore.getState();
+              updatePartyMember('current-player', {
+                id: 'current-player',
+                name: 'Player',
+                isGM: isGMMode,
+                character: {
+                  class: 'Unknown',
+                  level: 1,
+                  health: { current: 45, max: 50 },
+                  mana: { current: 45, max: 50 },
+                  actionPoints: { current: 1, max: 3 }
+                }
+              }, true);
+            }
           }
         }
 
-        // Guarantee smooth minimum display duration (500ms) to prevent flicker
+        // Guarantee smooth display duration (400ms) to prevent flicker and allow canvas to mount
         const elapsed = Date.now() - startTime;
-        if (elapsed < 500) {
-          await new Promise(r => setTimeout(r, 500 - elapsed));
+        if (elapsed < 400) {
+          await new Promise(r => setTimeout(r, 400 - elapsed));
         }
         if (!isCancelled) {
           setIsGameHydrated(true);
@@ -1073,7 +1068,6 @@ const AppContent = ({
   const navigate = useNavigate();
   const location = useLocation();
   const isGameRoute = location.pathname.startsWith('/game') || location.pathname.startsWith('/multiplayer');
-  const { hasUpdate, latestInfo, countdown, triggerUpdate } = useVersionCheck();
 
 
 
@@ -1423,16 +1417,6 @@ const AppContent = ({
 
       {/* Cookie Consent Banner */}
       <CookieConsent />
-
-       {/* Version Update Modal */}
-       <VersionUpdateModal
-         isOpen={hasUpdate}
-         latestInfo={latestInfo}
-         countdown={countdown}
-         onUpdate={triggerUpdate}
-       />
-
-
     </>
   );
 };
