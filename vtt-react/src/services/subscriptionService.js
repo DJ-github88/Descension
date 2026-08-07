@@ -19,9 +19,10 @@ const TIER_FEATURE_FLAGS = {
  earlyAccess: { PRO: true, ULTIMATE: true },
  analytics: { ULTIMATE: true },
  customRoomThemes: { ULTIMATE: true },
- campaignPublishing: { ULTIMATE: true, DEV_PREVIEW: true },
- campaignDownloading: { ULTIMATE: true, DEV_PREVIEW: true },
- communitySharing: { FREE: true, PRO: true, ULTIMATE: true },
+  campaignPublishing: { ULTIMATE: true, DEV_PREVIEW: true },
+  campaignDownloading: { ULTIMATE: true, DEV_PREVIEW: true },
+  customMaps: { ULTIMATE: true, DEV_PREVIEW: true },
+  communitySharing: { FREE: true, PRO: true, ULTIMATE: true },
  friendsList: { FREE: true, PRO: true, ULTIMATE: true },
  autoBackups: { FREE: true, PRO: true, ULTIMATE: true },
  roomCreation: { FREE: true, PRO: true, ULTIMATE: true },
@@ -60,6 +61,10 @@ export function getRequiredTierForFeature(featureName) {
  return tiers[0] || null;
 }
 
+export function isCustomMapsTier(tierKey) {
+ return tierKey === 'ULTIMATE' || tierKey === 'DEV_PREVIEW';
+}
+
 export const SUBSCRIPTION_TIERS = {
  GUEST: {
   id: 'guest',
@@ -79,9 +84,10 @@ export const SUBSCRIPTION_TIERS = {
    dynamicFog: false, dynamicLighting: false, atmosphericEffects: false,
    portalSystem: false, travelSystem: false, gmNotes: false,
    memorySnapshots: true, campaignManagerFull: false, questSharing: false,
-   journalFull: false, customRollableTables: false, earlyAccess: false,
-   analytics: false, customRoomThemes: false,
-   communitySharing: false, friendsList: false, autoBackups: false,
+    journalFull: false, customRollableTables: false, earlyAccess: false,
+    analytics: false, customRoomThemes: false,
+    customMaps: false,
+    communitySharing: false, friendsList: false, autoBackups: false,
    rollableTablesPreset: false, journalBasic: false, campaignManagerBasic: false,
    roomCreation: false, gmTools: false,
    spellCrafting: false, creatureCreation: false, itemGeneration: false,
@@ -120,9 +126,10 @@ export const SUBSCRIPTION_TIERS = {
    dynamicFog: true, dynamicLighting: true, atmosphericEffects: false,
    portalSystem: false, travelSystem: false, gmNotes: false,
    memorySnapshots: true, campaignManagerFull: false, questSharing: false,
-   journalFull: false, customRollableTables: false, earlyAccess: false,
-   analytics: false, customRoomThemes: false,
-   communitySharing: true, friendsList: true, autoBackups: true,
+    journalFull: false, customRollableTables: false, earlyAccess: false,
+    analytics: false, customRoomThemes: false,
+    customMaps: false,
+    communitySharing: true, friendsList: true, autoBackups: true,
    rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
    roomCreation: true, gmTools: true,
    spellCrafting: true, creatureCreation: true, itemGeneration: true,
@@ -153,9 +160,10 @@ export const SUBSCRIPTION_TIERS = {
    dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
    portalSystem: true, travelSystem: true, gmNotes: true,
    memorySnapshots: true, campaignManagerFull: true, questSharing: true,
-   journalFull: true, customRollableTables: true, earlyAccess: true,
-   analytics: true, customRoomThemes: true,
-   communitySharing: true, friendsList: true, autoBackups: true,
+    journalFull: true, customRollableTables: true, earlyAccess: true,
+    analytics: true, customRoomThemes: true,
+    customMaps: true,
+    communitySharing: true, friendsList: true, autoBackups: true,
    rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
    roomCreation: true, gmTools: true,
    spellCrafting: true, creatureCreation: true, itemGeneration: true,
@@ -196,9 +204,10 @@ export const SUBSCRIPTION_TIERS = {
    dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
    portalSystem: true, travelSystem: true, gmNotes: true,
    memorySnapshots: true, campaignManagerFull: true, questSharing: true,
-   journalFull: true, customRollableTables: true, earlyAccess: true,
-   analytics: false, customRoomThemes: false,
-   communitySharing: true, friendsList: true, autoBackups: true,
+    journalFull: true, customRollableTables: true, earlyAccess: true,
+    analytics: false, customRoomThemes: false,
+    customMaps: false,
+    communitySharing: true, friendsList: true, autoBackups: true,
    rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
    roomCreation: true, gmTools: true,
    spellCrafting: true, creatureCreation: true, itemGeneration: true,
@@ -225,6 +234,7 @@ export const SUBSCRIPTION_TIERS = {
    '25 permanent rooms (up to 12 players each)',
    '5 GB cloud storage',
    'Everything in Dungeon Master +',
+   'Custom map workspace, uploads & subregion cartography',
    'Campaign analytics dashboard',
    'Custom room themes',
    'Priority support & early access'
@@ -233,9 +243,10 @@ export const SUBSCRIPTION_TIERS = {
    dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
    portalSystem: true, travelSystem: true, gmNotes: true,
    memorySnapshots: true, campaignManagerFull: true, questSharing: true,
-   journalFull: true, customRollableTables: true, earlyAccess: true,
-   analytics: true, customRoomThemes: true,
-   communitySharing: true, friendsList: true, autoBackups: true,
+    journalFull: true, customRollableTables: true, earlyAccess: true,
+    analytics: true, customRoomThemes: true,
+    customMaps: true,
+    communitySharing: true, friendsList: true, autoBackups: true,
    rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
    roomCreation: true, gmTools: true,
    spellCrafting: true, creatureCreation: true, itemGeneration: true,
@@ -268,7 +279,7 @@ class SubscriptionService {
  }
 
  async getUserTier(userId = null) {
-  const checkUserId = userId || auth.currentUser?.uid;
+   const checkUserId = userId || auth?.currentUser?.uid;
 
   if (checkUserId && checkUserId.startsWith('guest-')) {
    return SUBSCRIPTION_TIERS.GUEST;
@@ -303,7 +314,7 @@ class SubscriptionService {
   try {
    const { isDemoMode } = await import('../config/firebase');
    if (isDemoMode) {
-    if (auth.currentUser || (checkUserId && !checkUserId.startsWith('guest-'))) {
+     if (auth?.currentUser || (checkUserId && !checkUserId.startsWith('guest-'))) {
      return SUBSCRIPTION_TIERS.DEV_PREVIEW;
     }
    }
@@ -311,16 +322,16 @@ class SubscriptionService {
    console.warn('Could not check demo mode:', error);
   }
 
-  if (!auth.currentUser && !userId) {
+   if (!auth?.currentUser && !userId) {
    return SUBSCRIPTION_TIERS.GUEST;
   }
 
   if (!this.isConfigured) {
-   return auth.currentUser ? SUBSCRIPTION_TIERS.FREE : SUBSCRIPTION_TIERS.GUEST;
+    return auth?.currentUser ? SUBSCRIPTION_TIERS.FREE : SUBSCRIPTION_TIERS.GUEST;
   }
 
   try {
-   const uid = userId || auth.currentUser.uid;
+    const uid = userId || auth?.currentUser?.uid;
    const userRef = doc(db, 'users', uid);
    const userSnap = await getDoc(userRef);
 
@@ -410,9 +421,9 @@ class SubscriptionService {
   return Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierId) || null;
  }
 
- isAuthenticated() {
-  return !!auth.currentUser;
- }
+  isAuthenticated() {
+   return !!auth?.currentUser;
+  }
 
  async getSubscriptionStatus(userId = null) {
   const tier = await this.getUserTier(userId);

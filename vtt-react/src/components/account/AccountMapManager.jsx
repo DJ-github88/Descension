@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
-import subscriptionService from '../../services/subscriptionService';
+import subscriptionService, { isCustomMapsTier } from '../../services/subscriptionService';
 import {
   BUILTIN_SUBREGION_MAPS,
   getCustomMaps,
@@ -49,10 +49,13 @@ const AccountMapManager = () => {
   const isEligible = 
     isDevelopmentBypass || 
     isAdminBypass || 
-    subscriptionStatus?.tierKey === 'ULTIMATE' || 
-    subscriptionStatus?.tierKey === 'DEV_PREVIEW';
+    isCustomMapsTier(subscriptionStatus?.tierKey);
 
   const handleImageFileChange = (e) => {
+    if (!isEligible) {
+      showToast('Custom Maps require the Archmage (Ultimate) tier.');
+      return;
+    }
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -66,6 +69,10 @@ const AccountMapManager = () => {
 
   const handleSaveCustomMap = async (e) => {
     e.preventDefault();
+    if (!isEligible) {
+      showToast('Custom Maps require the Archmage (Ultimate) tier.');
+      return;
+    }
     if (!mapName.trim() || !imagePreview) {
       showToast('Please provide a map name and image file.');
       return;
@@ -100,6 +107,10 @@ const AccountMapManager = () => {
   };
 
   const handleDelete = async (mapId, mapTitle) => {
+    if (!isEligible) {
+      showToast('Custom Maps require the Archmage (Ultimate) tier.');
+      return;
+    }
     if (window.confirm(`Are you sure you want to delete custom map "${mapTitle}"?`)) {
       const deleted = await deleteCustomMap(mapId);
       if (deleted) {
@@ -109,7 +120,7 @@ const AccountMapManager = () => {
     }
   };
 
-  const allCustomMapList = Object.values(customMaps);
+  const allCustomMapList = isEligible ? Object.values(customMaps) : [];
   const builtinList = Object.values(BUILTIN_SUBREGION_MAPS);
 
   return (
@@ -253,7 +264,7 @@ const AccountMapManager = () => {
                 <div className="map-card-footer">
                   <button
                     className="btn-inspect-map"
-                    onClick={() => navigate('/', { state: { openMap: true, targetMapId: map.id } })}
+                    onClick={() => navigate(`/worldmap/${map.id}`)}
                   >
                     <i className="fas fa-eye"></i> View on World Map
                   </button>
@@ -276,7 +287,7 @@ const AccountMapManager = () => {
                 <div className="map-card-footer">
                   <button
                     className="btn-inspect-map"
-                    onClick={() => navigate('/', { state: { openMap: true, targetMapId: map.id } })}
+                    onClick={() => navigate(`/worldmap/${map.id}`)}
                   >
                     <i className="fas fa-drafting-compass"></i> Enter Map
                   </button>

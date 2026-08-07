@@ -70,13 +70,17 @@ class CustomMapService {
   }
 
   shouldUseLocalStorage(userId) {
-    return !this.isConfigured || !userId || userId.startsWith('guest-') || userId === 'dev-user-123';
+    return !this.isConfigured || !userId || userId.startsWith('guest-') || userId === 'dev-user-123' || userId === 'admin-dev-user';
   }
 
   /**
    * Subscribe to all custom maps owned by the user.
    */
-  subscribeToMaps(userId, onUpdate) {
+  subscribeToMaps(userId, onUpdate, canAccessCustomMaps = false) {
+    if (!canAccessCustomMaps) {
+      onUpdate([]);
+      return () => {};
+    }
     if (this.shouldUseLocalStorage(userId)) {
       onUpdate(this.getLocalMaps(userId));
       return () => {};
@@ -105,7 +109,10 @@ class CustomMapService {
     }
   }
 
-  async saveMap(userId, map) {
+  async saveMap(userId, map, canAccessCustomMaps = false) {
+    if (!canAccessCustomMaps) {
+      return { success: false, error: 'Custom Maps require the Archmage (Ultimate) tier.' };
+    }
     const mapId = map.id || `cmap-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     if (map.image && map.image.length > MAX_DATA_URL_LENGTH) {
       return { success: false, error: 'Map image is too large. Replace it with a smaller image.' };
@@ -130,7 +137,10 @@ class CustomMapService {
     }
   }
 
-  async deleteMap(userId, mapId) {
+  async deleteMap(userId, mapId, canAccessCustomMaps = false) {
+    if (!canAccessCustomMaps) {
+      return { success: false, error: 'Custom Maps require the Archmage (Ultimate) tier.' };
+    }
     if (this.shouldUseLocalStorage(userId)) {
       const maps = this.getLocalMaps(userId).filter((m) => m.id !== mapId);
       this.saveLocalMaps(userId, maps);

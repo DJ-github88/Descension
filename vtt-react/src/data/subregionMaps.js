@@ -89,16 +89,16 @@ export const BUILTIN_SUBREGION_MAPS = {
         name: 'Skaldfjord Dal',
         color: 'rgba(70, 150, 220, 0.18)',
         glowColor: 'rgba(120, 200, 255, 0.75)',
-        labelPosition: [3200, 1800],
-        points: [[2900, 600], [3900, 800], [3800, 2600], [2800, 2200]]
+        labelPosition: [0, 0],
+        points: []
       },
       {
         id: 'nordhalla-frostfang-wastes',
         name: 'Frostfang Wastes',
         color: 'rgba(70, 150, 220, 0.18)',
         glowColor: 'rgba(120, 200, 255, 0.75)',
-        labelPosition: [1600, 2400],
-        points: [[600, 2100], [2600, 2000], [2500, 2900], [400, 2800]]
+        labelPosition: [0, 0],
+        points: []
       },
     ]
   },

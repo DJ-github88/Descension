@@ -63,10 +63,18 @@ const MapCanvas = ({
   customMapMode = false,
   customMap = null,
   customZones = [],
+  customEntryType = 'continent',
   customDrawingActive = false,
   customDrawingPoints = [],
   onCustomImageFile,
-  onToggleCustomMap
+  onToggleCustomMap,
+  canAccessCustomMaps = false,
+  selectedCustomZoneId = null,
+  onSelectCustomZone = () => {},
+  onUndoCustomPoint = () => {},
+  onFinishCustomDrawing = () => {},
+  onCancelCustomDrawing = () => {},
+  customZoneName = ''
 }) => {
   const transformRef = useRef(null);
   const [driftEnabled, setDriftEnabled] = useState(false);
@@ -431,7 +439,7 @@ const MapCanvas = ({
   const FLAG_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M8 2v22' stroke='%23C4A44A' stroke-width='2.5' stroke-linecap='round'/><path d='M8 3h13l-3 3.5 3 3.5H8z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.2' stroke-linejoin='round'/></svg>") 8 2, crosshair`;
 
   const toolCursor = (() => {
-    if (customMapMode && customDrawingActive) return PEN_CURSOR;
+     if (customMapMode && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
     if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
     if (devMode && devTool === 'placePin') return FLAG_CURSOR;
     if (devMode && devTool === 'erasePin') return 'pointer';
@@ -613,34 +621,133 @@ const MapCanvas = ({
                     </>
                   )}
 
-                  {/* Custom map zones are draft-only until the map is saved. */}
+                  {/* Custom map zones with interactive click, hover, and selection */}
                   {customMapMode && customZones.length > 0 && (
-                    <g className="custom-map-zones-layer" style={{ pointerEvents: 'none' }}>
-                      {customZones.map((zone, index) => (
-                        <g key={zone.id || index}>
-                          <polygon
-                            points={(zone.points || []).map(([x, y]) => `${x},${y}`).join(' ')}
-                            fill={zone.color || 'rgba(196, 164, 74, 0.22)'}
-                            stroke={zone.stroke || '#f1d48a'}
-                            strokeWidth="5"
-                            strokeLinejoin="round"
-                          />
-                          {zone.name && zone.points?.length > 0 && (
-                            <text
-                              x={zone.points.reduce((sum, point) => sum + point[0], 0) / zone.points.length}
-                              y={zone.points.reduce((sum, point) => sum + point[1], 0) / zone.points.length}
-                              textAnchor="middle"
-                              fill="#fff0c0"
-                              fontFamily="'Cinzel', serif"
-                              fontSize="34"
-                              fontWeight="600"
-                              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.9)' }}
+                    <g className="custom-map-zones-layer" style={{ pointerEvents: customDrawingActive ? 'none' : 'auto' }}>
+                      {customZones.map((zone, index) => {
+                        const isSelected = selectedCustomZoneId === zone.id;
+                        const isHovered = hoveredRegionId === zone.id;
+
+                        if (zone.kind === 'location' || zone.geometry === 'point') {
+                          const [x, y] = zone.position || zone.points?.[0] || [];
+                          if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+                          return (
+                            <g
+                              key={zone.id || index}
+                              className={`custom-location-pin ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (!customDrawingActive && onSelectCustomZone) {
+                                  onSelectCustomZone(zone);
+                                }
+                              }}
+                              onMouseEnter={() => setHoveredRegionId && setHoveredRegionId(zone.id)}
+                              onMouseLeave={() => setHoveredRegionId && setHoveredRegionId(null)}
+                              style={{ cursor: customDrawingActive ? 'inherit' : 'pointer' }}
                             >
-                              {zone.name}
-                            </text>
-                          )}
-                        </g>
-                      ))}
+                              {/* Selection & Hover pulse ring */}
+                              {(isSelected || isHovered) && (
+                                <circle
+                                  cx={x}
+                                  cy={y}
+                                  r="28"
+                                  fill="none"
+                                  stroke={isSelected ? '#80d8a8' : '#f1d48a'}
+                                  strokeWidth="3.5"
+                                  strokeDasharray="6 4"
+                                  className="custom-pin-pulse-ring"
+                                />
+                              )}
+                              <circle
+                                cx={x}
+                                cy={y}
+                                r="18"
+                                fill={isSelected ? '#80d8a8' : (zone.color || '#f1d48a')}
+                                stroke={zone.stroke || '#20150d'}
+                                strokeWidth="4"
+                                filter="url(#pinShadow)"
+                              />
+                              <circle cx={x} cy={y} r="5.5" fill="#20150d" />
+                              {zone.name && (
+                                <g className="custom-pin-label-group">
+                                  <rect
+                                    x={x + 24}
+                                    y={y - 18}
+                                    width={Math.max(80, zone.name.length * 14 + 20)}
+                                    height="34"
+                                    rx="6"
+                                    fill="rgba(20, 16, 12, 0.88)"
+                                    stroke={isSelected ? '#80d8a8' : 'rgba(212, 175, 55, 0.45)'}
+                                    strokeWidth="1.5"
+                                  />
+                                  <text
+                                    x={x + 34}
+                                    y={y + 5}
+                                    fill={isSelected ? '#a5f3c5' : '#fff0c0'}
+                                    fontFamily="'Cinzel', serif"
+                                    fontSize="18"
+                                    fontWeight="600"
+                                  >
+                                    {zone.name}
+                                  </text>
+                                </g>
+                              )}
+                            </g>
+                          );
+                        }
+
+                        // Polygon Continent / Region / Subregion
+                        const pointsStr = (zone.points || []).map(([px, py]) => `${px},${py}`).join(' ');
+                        const center = zone.points && zone.points.length > 0
+                          ? [
+                              zone.points.reduce((sum, p) => sum + p[0], 0) / zone.points.length,
+                              zone.points.reduce((sum, p) => sum + p[1], 0) / zone.points.length
+                            ]
+                          : [0, 0];
+
+                        return (
+                          <g
+                            key={zone.id || index}
+                            className={`custom-zone-polygon-group ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!customDrawingActive && onSelectCustomZone) {
+                                onSelectCustomZone(zone);
+                              }
+                            }}
+                            onMouseEnter={() => setHoveredRegionId && setHoveredRegionId(zone.id)}
+                            onMouseLeave={() => setHoveredRegionId && setHoveredRegionId(null)}
+                            style={{ cursor: customDrawingActive ? 'inherit' : 'pointer' }}
+                          >
+                            <polygon
+                              points={pointsStr}
+                              fill={isSelected ? 'rgba(128, 216, 168, 0.28)' : (isHovered ? 'rgba(241, 212, 138, 0.32)' : (zone.color || 'rgba(196, 164, 74, 0.22)'))}
+                              stroke={isSelected ? '#80d8a8' : (isHovered ? '#fff0c0' : (zone.stroke || '#f1d48a'))}
+                              strokeWidth={isSelected ? '6' : (isHovered ? '5' : '3.5')}
+                              strokeLinejoin="round"
+                              strokeDasharray={isSelected ? '12 6' : 'none'}
+                              className="custom-polygon-shape"
+                            />
+                            {zone.name && zone.points?.length > 0 && (
+                              <text
+                                x={center[0]}
+                                y={center[1]}
+                                textAnchor="middle"
+                                fill={isSelected ? '#a5f3c5' : '#fff0c0'}
+                                fontFamily="'Cinzel', serif"
+                                fontSize="34"
+                                fontWeight="700"
+                                style={{
+                                  textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.85)',
+                                  pointerEvents: 'none'
+                                }}
+                              >
+                                {zone.name}
+                              </text>
+                            )}
+                          </g>
+                        );
+                      })}
                     </g>
                   )}
 
@@ -706,9 +813,15 @@ const MapCanvas = ({
                      </g>
                    )}
 
-                   {customMapMode && customDrawingActive && (
-                     <g className="custom-map-drawing-layer" style={{ pointerEvents: 'none' }}>
-                       {customDrawingPoints.map(([x, y], index) => (
+                    {customMapMode && customDrawingActive && (
+                      <g className="custom-map-drawing-layer" style={{ pointerEvents: 'none' }}>
+                        {customEntryType === 'location' && cursorPos && (
+                          <g>
+                            <circle cx={cursorPos[0]} cy={cursorPos[1]} r="22" fill="rgba(241, 212, 138, 0.28)" stroke="#f1d48a" strokeWidth="4" strokeDasharray="8 5" />
+                            <circle cx={cursorPos[0]} cy={cursorPos[1]} r="7" fill="#20150d" />
+                          </g>
+                        )}
+                        {customDrawingPoints.map(([x, y], index) => (
                          <circle
                            key={index}
                            cx={x}
@@ -787,6 +900,63 @@ const MapCanvas = ({
               </div>
             )}
 
+            {/* Floating in-canvas Drawing HUD when drafting custom entities */}
+            {customMapMode && customDrawingActive && (
+              <div className="canvas-drawing-hud animate-fade-in-down" role="toolbar" aria-label="Drawing controls">
+                <div className="hud-badge">
+                  <span className="hud-pulse"></span>
+                  <span className="hud-mode-title">
+                    {customEntryType === 'location'
+                      ? `Placing Location: ${customZoneName || 'New Pin'}`
+                      : `Drawing ${customEntryType}: ${customZoneName || 'New Boundary'}`}
+                  </span>
+                  {customEntryType !== 'location' && (
+                    <span className="hud-point-counter">{customDrawingPoints.length} pts</span>
+                  )}
+                </div>
+
+                <div className="hud-actions">
+                  {customEntryType !== 'location' && (
+                    <>
+                      {customDrawingPoints.length > 0 && onUndoCustomPoint && (
+                        <button
+                          type="button"
+                          className="hud-btn hud-undo-btn"
+                          onClick={onUndoCustomPoint}
+                          title="Undo last point (Ctrl+Z)"
+                        >
+                          <i className="fas fa-rotate-left"></i> Undo
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        className="hud-btn hud-finish-btn"
+                        onClick={onFinishCustomDrawing}
+                        disabled={customDrawingPoints.length < 3}
+                        title="Finish and close boundary (Enter)"
+                      >
+                        <i className="fas fa-check"></i> Finish ({customDrawingPoints.length})
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    className="hud-btn hud-cancel-btn"
+                    onClick={onCancelCustomDrawing}
+                    title="Cancel drawing (Esc)"
+                  >
+                    <i className="fas fa-times"></i> Cancel
+                  </button>
+                </div>
+
+                <div className="hud-instruction">
+                  {customEntryType === 'location'
+                    ? 'Click anywhere on the map to place this marker.'
+                    : 'Click map to place points · Click green start point or Finish to close loop.'}
+                </div>
+              </div>
+            )}
+
             <MapControls
               zoomIn={zoomIn}
               zoomOut={zoomOut}
@@ -796,6 +966,7 @@ const MapCanvas = ({
               onToggleDev={onToggleDev}
               customMapMode={customMapMode}
               onToggleCustomMap={onToggleCustomMap}
+              canAccessCustomMaps={canAccessCustomMaps}
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>

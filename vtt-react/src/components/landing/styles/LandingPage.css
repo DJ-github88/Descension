@@ -1579,26 +1579,25 @@ body svg[data-icon] {
 
 /* Footer styles removed to prevent vertical scrollbar issues */
 
-/* Copyright stamp — fixed bar so it never affects page height/scrollbar */
+/* Copyright stamp — flows naturally at the bottom of the scroll, never obstructing content */
 .landing-copyright {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: static;
+  margin: 48px auto 24px auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  width: fit-content;
+  max-width: 90%;
   padding: 6px 18px;
   font-family: 'Cinzel', serif;
   font-size: 0.7rem;
   letter-spacing: 0.06em;
-  color: rgba(212, 175, 55, 0.8);
-  background: rgba(20, 12, 6, 0.55);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: rgba(212, 175, 55, 0.75);
+  background: rgba(20, 12, 6, 0.45);
+  border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 4px;
-  z-index: 900;
-  pointer-events: none;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
   transition: opacity 0.6s ease;
 }
 
@@ -1606,15 +1605,11 @@ body svg[data-icon] {
   opacity: 0;
 }
 
-.copyright-divider {
-  opacity: 0.6;
-}
-
 @media (max-width: 768px) {
   .landing-copyright {
-    white-space: normal;
-    text-align: center;
-    max-width: 92vw;
+    margin: 32px auto 20px auto;
+    font-size: 0.65rem;
+    padding: 5px 12px;
   }
 }
 

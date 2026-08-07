@@ -55,7 +55,7 @@ const RegionOverlay = ({
     if (activeMapId !== 'mythril' && !(devMode && devTool === 'drawRegion')) {
       const regionalMapEntry = BUILTIN_SUBREGION_MAPS[activeMapId];
       if (regionalMapEntry?.subregions) {
-        return regionalMapEntry.subregions.map(sub => ({
+        return regionalMapEntry.subregions.filter(sub => sub.points && sub.points.length >= 3).map(sub => ({
           id: sub.id,
           name: sub.name,
           points: sub.points,

@@ -13,58 +13,76 @@ import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
 
- const [activeSection, setActiveSection] = useState(() => {
-  return localStorage.getItem('landingActiveSection') || 'home';
- });
- const [showScrollTop, setShowScrollTop] = useState(false);
- const [showCommunity, setShowCommunity] = useState(false);
- const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
- const isPhone = useIsPhone();
- const [showPhoneNotice, setShowPhoneNotice] = useState(null);
- const navigate = useNavigate();
- const location = useLocation();
- const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
-
- // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
- const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
-
- // Party state for indicator
- const isInParty = usePresenceStore((state) => state.isInParty);
- const currentParty = usePresenceStore((state) => state.currentParty);
- const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
- const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
-
- // Community notification badge state
- const whisperTabs = usePresenceStore((state) => state.whisperTabs);
- const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
-
- // Calculate total unread count for community badge
- const totalCommunityUnread = React.useMemo(() => {
-  let total = partyChatUnreadCount || 0;
-  whisperTabs?.forEach(tab => {
-   total += tab.unreadCount || 0;
+  const [activeSection, setActiveSection] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const sec = searchParams.get('section');
+      if (sec && (sec === 'rules' || sec === 'membership' || sec === 'home')) {
+        return sec;
+      }
+    }
+    return localStorage.getItem('landingActiveSection') || 'home';
   });
-  return total;
- }, [whisperTabs, partyChatUnreadCount]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showCommunity, setShowCommunity] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isPhone = useIsPhone();
+  const [showPhoneNotice, setShowPhoneNotice] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
 
- // Close mobile menu on resize to desktop
- useEffect(() => {
-  const handleResize = () => {
-   if (window.innerWidth > 768) setMobileMenuOpen(false);
-  };
-  window.addEventListener('resize', handleResize);
-  return () => window.removeEventListener('resize', handleResize);
- }, []);
+  // Lord Bertil's Map Making section is only available to admin (admin/admin dev-login)
+  const isAdmin = isAdminBypass || !!authStoreUser?.isAdmin;
 
- // Close mobile menu on navigation
- useEffect(() => {
-  setMobileMenuOpen(false);
- }, [location.pathname]);
+  // Sync activeSection with URL search params so browser Back & Forward buttons navigate cleanly
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const sec = searchParams.get('section');
+    if (sec && (sec === 'rules' || sec === 'membership' || sec === 'home')) {
+      setActiveSection(sec);
+    } else if (!sec && location.pathname === '/') {
+      setActiveSection('home');
+    }
+  }, [location.search, location.pathname]);
 
- // Save active section to localStorage when it changes
- useEffect(() => {
-  localStorage.setItem('landingActiveSection', activeSection);
- }, [activeSection]);
+  // Party state for indicator
+  const isInParty = usePresenceStore((state) => state.isInParty);
+  const currentParty = usePresenceStore((state) => state.currentParty);
+  const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
+  const isPartyLeader = currentParty?.leaderId === currentUserPresence?.userId;
+
+  // Community notification badge state
+  const whisperTabs = usePresenceStore((state) => state.whisperTabs);
+  const partyChatUnreadCount = usePresenceStore((state) => state.partyChatUnreadCount);
+
+  // Calculate total unread count for community badge
+  const totalCommunityUnread = React.useMemo(() => {
+   let total = partyChatUnreadCount || 0;
+   whisperTabs?.forEach(tab => {
+    total += tab.unreadCount || 0;
+   });
+   return total;
+  }, [whisperTabs, partyChatUnreadCount]);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+   const handleResize = () => {
+    if (window.innerWidth > 768) setMobileMenuOpen(false);
+   };
+   window.addEventListener('resize', handleResize);
+   return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile menu on navigation
+  useEffect(() => {
+   setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Save active section to localStorage when it changes
+  useEffect(() => {
+   localStorage.setItem('landingActiveSection', activeSection);
+  }, [activeSection]);
 
  // Logout handler
  const handleLogout = async () => {
@@ -428,10 +446,15 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   </div>
  );
 
- const handleNavClick = (sectionId) => {
-  setActiveSection(sectionId);
-  setMobileMenuOpen(false);
- };
+  const handleNavClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setMobileMenuOpen(false);
+    if (sectionId === 'home') {
+      navigate('/', { replace: false });
+    } else {
+      navigate(`/?section=${sectionId}`, { replace: false });
+    }
+  };
 
  const navigation = [
   { id: 'home', label: 'Home', icon: 'fas fa-home' },
@@ -712,11 +735,9 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
      {activeSection === 'membership' && renderMembershipSection()}
     </main>
 
-    {/* Copyright stamp — fixed bar, does not affect page layout/scrollbar */}
+    {/* Copyright stamp */}
     <footer className="landing-copyright">
       <span>&copy; 2026 Out of Mana Studios. All rights reserved.</span>
-      <span className="copyright-divider">&#10022;</span>
-      <span>Mythrill, Mythrill TTRPG &amp; Mythrill VTT are trademarks of Out of Mana Studios.</span>
     </footer>
 
     {/* Scroll to Top Button */}

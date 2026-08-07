@@ -28,7 +28,8 @@ const CATEGORIES = [
   { id: 'civic',      label: 'Cities, Towns & Settlements',       icon: 'fa-city',              match: ['city', 'town', 'settlement', 'village'] },
   { id: 'camps',      label: 'Camps & Marks',                     icon: 'fa-fire',              match: ['camp', 'custom'] }
 ];
-const categorize = (loc) => {
+
+const categorize = (loc) => {
   const type = (typeof loc === 'string' ? loc : loc?.type || '').toLowerCase();
   const id = (loc?.id || '').toLowerCase();
   const desc = (loc?.description || '').toLowerCase();
@@ -50,24 +51,16 @@ const CATEGORIES = [
 
 const FILTER_CHIPS = [{ id: 'all', label: 'All', icon: 'fa-layer-group' }, ...CATEGORIES];
 
-// ╔═════════════════════════════════════════════════════════════════════════╗
-// ║  ⚑ DEMO EXAMPLES: easy to show the new grouped/filter/overview UI.      ║
-// ║  Flip EXAMPLES_ENABLED to false (or delete this whole block) when        ║
-// ║  you're done looking. Example entries are tagged `__example: true`.      ║
-// ╚═════════════════════════════════════════════════════════════════════════╝
-const EXAMPLES_ENABLED = false;
-const EXAMPLE_LOCATIONS = [
-  { id: '__ex_blackiron',   name: 'Example: Blackiron City',     type: 'city',       description: 'A smog-laden smelting capital built around a dying volcanic vent. Bells ring shift-changes every six hours.' },
-  { id: '__ex_mossford',    name: 'Example: Mossford Village',    type: 'settlement', description: 'A moss-roofed farming village on a slow river. Famous for its honey-fermented ale.' },
-  { id: '__ex_howling',     name: 'Example: The Howling Tundra',  type: 'wilderness', description: 'A wind-scoured plain where the grass itself whispers at night. Few who sleep there wake rested.' },
-  { id: '__ex_grimspire',   name: 'Example: Grimspire Peaks',     type: 'mountain',   description: 'Jagged black peaks said to be the petrified teeth of a buried god. Climbers vanish above the cloud line.' },
-  { id: '__ex_dustfalls',   name: 'Example: Dustfalls Ruin',      type: 'ruin',       description: 'The cracked remains of a pre-Dimming observatory. Sand pours endlessly from its shattered dome.' },
-  { id: '__ex_whispertomb', name: 'Example: Whispering Tomb',     type: 'tomb',       description: 'A sealed barrow whose entrance breathes warm air in winter. The names on its door are crossed out.' },
-  { id: '__ex_trappers',    name: "Example: Trapper's Camp",      type: 'camp',       description: 'A seasonal fur-trader camp on a frozen lake. Smoke, sled-dogs, and a circle of ever-burning torches.' },
-  { id: '__ex_scoutnote',   name: 'Example (Scout’s Chalk Note',   type: 'custom',     description: 'A hand-scrawled marker on a boulder: "Wyrm tracks) three days fresh. Heading north.: V."' }
-];
-
-const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open, onClose, currentCampaign, onEnterSubregionMap }) => {
+const LoreSidebar = ({
+  regionId,
+  selectedLocationId,
+  setSelectedLocationId,
+  open,
+  onClose,
+  currentCampaign,
+  onEnterSubregionMap,
+  onAddLocation
+}) => {
   const { getRegion } = useWorldStore();
   const [expandedLocation, setExpandedLocation] = useState(null);
   const [collapsedGroups, setCollapsedGroups] = useState(() => new Set());
@@ -80,12 +73,9 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
   useEffect(() => {
     if (!selectedLocationId) return;
     setExpandedLocation(selectedLocationId);
-    // Ensure the owning group is expanded so the scroll target is visible.
     setCollapsedGroups((prev) => {
       if (!prev.size) return prev;
       const next = new Set(prev);
-      // We don't know the category here without the data, so just clear all
-      // collapses to guarantee reveal of the selected location.
       next.clear();
       return next;
     });
@@ -198,15 +188,6 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
       });
     }
 
-    // ⚑ DEMO EXAMPLES: inject example entries into whatever region is open,
-    // tagged onto the current regionId so they always render. Delete with the
-    // EXAMPLE block at the top of this file.
-    if (EXAMPLES_ENABLED && regionId && out.length === 0) {
-      EXAMPLE_LOCATIONS.forEach((ex) => {
-        out.push({ ...ex, regionId, isDeep: false, __example: true });
-      });
-    }
-
     return out;
   }, [regionId, subregionObj, currentCampaign]);
 
@@ -223,7 +204,11 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
   // Aggregate region overview stats.
   const stats = useMemo(() => {
     const byCat = { civic: 0, wilderness: 0, ruins: 0, camps: 0 };
-    enrichedLocations.forEach((l) => { byCat[categorize(l.type)] += 1; });
+    enrichedLocations.forEach((l) => {
+      const cat = categorize(l.type);
+      if (byCat[cat] !== undefined) byCat[cat] += 1;
+      else byCat.civic += 1;
+    });
     const major = enrichedLocations.find((l) => l.type === 'city') || enrichedLocations.find((l) => l.type === 'settlement');
     return {
       total: enrichedLocations.length,
@@ -239,7 +224,7 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
     return getSubregionsByRegion(regionId);
   }, [regionId, subregionObj]);
 
-  // Now that all hooks have run, bail out if there's nothing to render.
+  // If closed or no region, do not render.
   if (!open || !regionId) return null;
 
   const toggleGroup = (catId) => {
@@ -421,24 +406,48 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
               <h2 className="lore-region-name">{region.name}</h2>
               <p className="lore-region-desc">{region.description}</p>
               {region.isSubregion ? (
-                (REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
-                  <button
-                    className="lore-enter-subregion-btn animate-fade-in"
-                    onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
-                  >
-                    <i className="fas fa-compass"></i> Focus {region.name} Map
-                  </button>
-                )
-              ) : (
-                <>
-                  {REGION_POLYGONS[regionId]?.hasSubregionMap && onEnterSubregionMap && (
+                <div className="lore-header-btn-row">
+                  {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
                     <button
                       className="lore-enter-subregion-btn animate-fade-in"
-                      onClick={() => onEnterSubregionMap(regionId)}
+                      onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
                     >
-                      <i className="fas fa-compass" /> Open Regional Cartography
+                      <i className="fas fa-compass"></i> Focus {region.name} Map
                     </button>
                   )}
+                  {onAddLocation && (
+                    <button
+                      type="button"
+                      className="lore-add-loc-btn animate-fade-in"
+                      onClick={() => onAddLocation(regionId)}
+                      title={`Add custom location or landmark in ${region.name}`}
+                    >
+                      <i className="fas fa-location-dot"></i> + Add Location
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="lore-header-btn-row">
+                    {REGION_POLYGONS[regionId]?.hasSubregionMap && onEnterSubregionMap && (
+                      <button
+                        className="lore-enter-subregion-btn animate-fade-in"
+                        onClick={() => onEnterSubregionMap(regionId)}
+                      >
+                        <i className="fas fa-compass" /> Open Regional Cartography
+                      </button>
+                    )}
+                    {onAddLocation && (
+                      <button
+                        type="button"
+                        className="lore-add-loc-btn animate-fade-in"
+                        onClick={() => onAddLocation(regionId)}
+                        title={`Add custom location or landmark in ${region.name}`}
+                      >
+                        <i className="fas fa-location-dot"></i> + Add Location
+                      </button>
+                    )}
+                  </div>
                   {subregionsList.length > 0 && (
                     <div className="lore-subregion-action-bar animate-fade-in">
                       <span className="subregion-action-label">Explore Subrealms:</span>
@@ -548,206 +557,138 @@ const LoreSidebar = ({ regionId, selectedLocationId, setSelectedLocationId, open
                 </div>
 
                 {/* Grouped locations */}
-                <div className="lore-locations-grouped">
-                  {filteredLocations.length === 0 ? (
-                    <div className="lore-empty-state-card animate-fade-in">
-                      <div className="empty-card-icon"><i className="fas fa-drafting-compass" /></div>
-                      <h4>Uncharted Realm Territory</h4>
-                      <p>No location pins have been recorded here yet. As GM or Adventurer, you can explore the regional map or draw custom subregions!</p>
-                      {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
+                <div className="lore-locations-list">
+                  {CATEGORIES.map((cat) => {
+                    const groupLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
+                    if (groupLocs.length === 0) return null;
+                    const isCollapsed = collapsedGroups.has(cat.id);
+                    return (
+                      <div key={cat.id} className="lore-category-group">
                         <button
-                          className="btn-explore-sub-realm"
-                          onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
+                          className="lore-group-header"
+                          onClick={() => toggleGroup(cat.id)}
+                          type="button"
                         >
-                          <i className="fas fa-compass" /> Open Regional Cartography
+                          <span className="lore-group-title">
+                            <i className={`fas ${cat.icon}`} />
+                            <span>{cat.label}</span>
+                            <span className="lore-group-count">{groupLocs.length}</span>
+                          </span>
+                          <i className={`fas fa-chevron-down lore-group-chevron ${isCollapsed ? 'collapsed' : ''}`} />
                         </button>
-                      )}
+                        {!isCollapsed && (
+                          <div className="lore-group-items">
+                            {groupLocs.map(renderLocationCard)}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {filteredLocations.length === 0 && (
+                    <div className="lore-empty-search">
+                      <i className="fas fa-compass" />
+                      <p>No locations match &ldquo;{searchTerm}&rdquo;</p>
+                      <button onClick={() => { setSearchTerm(''); setActiveFilter('all'); }}>
+                        Reset filters
+                      </button>
                     </div>
-                  ) : (
-                    CATEGORIES.map((cat) => {
-                      const catLocs = filteredLocations.filter((l) => categorize(l.type) === cat.id);
-                      if (catLocs.length === 0) return null;
-                      const collapsed = collapsedGroups.has(cat.id);
-                      return (
-                        <div key={cat.id} className="lore-sidebar-group">
-                          <button
-                            className={`lore-sidebar-group-header ${collapsed ? 'collapsed' : ''} group-header-${cat.id}`}
-                            onClick={() => toggleGroup(cat.id)}
-                          >
-                            <i className={`fas fa-chevron-right lore-sidebar-group-caret`} />
-                            <i className={`fas ${cat.icon} lore-sidebar-group-icon`} />
-                            <span className="lore-sidebar-group-title">{cat.label}</span>
-                            <span className="lore-sidebar-group-count">{catLocs.length}</span>
-                          </button>
-                          {!collapsed && (
-                            <div className="lore-locations-list">
-                              {catLocs.map(renderLocationCard)}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })
                   )}
                 </div>
               </>
             ) : activeTab === 'subregions' ? (
-              <div className="lore-subregions-tab-content animate-fade-in">
-                <p className="subregion-section-intro">
-                  Geographical provinces and micro-climates within <strong>{region.name}</strong>:
-                </p>
-                <div className="subregion-cards-list">
+              <div className="lore-subregions-panel">
+                <div className="lore-subregions-grid">
                   {subregionsList.map((sub) => (
-                    <div key={sub.id} className="subregion-lore-card">
-                      <div className="subregion-card-header">
-                        <h4><i className="fas fa-mountain-sun" /> {sub.name}</h4>
+                    <div key={sub.id} className="lore-subregion-card">
+                      <div className="lore-subregion-card-header">
+                        <span className="lore-subregion-name">{sub.name}</span>
+                        <span className="lore-subregion-climate-pill">{sub.climate || 'Tundra'}</span>
                       </div>
-                      <p className="subregion-card-desc">{sub.description}</p>
-                      
-                      <div className="subregion-meta-grid">
-                        {sub.climate && (
-                          <div className="subregion-meta-item">
-                            <span className="meta-label">Climate:</span>
-                            <span className="meta-val">{sub.climate}</span>
+                      <p className="lore-subregion-desc">{sub.description}</p>
+                      {sub.zoneIds && sub.zoneIds.length > 0 && (
+                        <div className="lore-subregion-zones-preview">
+                          <span className="lore-detail-label">Points of Interest:</span>
+                          <div className="lore-subregion-zones-tags">
+                            {sub.zoneIds.map((zId) => {
+                              const z = ZONE_DATA.find((item) => item.id === zId);
+                              return (
+                                <button
+                                  key={zId}
+                                  className="lore-zone-tag-btn"
+                                  onClick={() => {
+                                    setActiveTab('locations');
+                                    setSearchTerm(z ? z.name : zId);
+                                  }}
+                                >
+                                  {z ? z.name : zId}
+                                </button>
+                              );
+                            })}
                           </div>
-                        )}
-                        {sub.dominantTerrain && (
-                          <div className="subregion-meta-item">
-                            <span className="meta-label">Terrain:</span>
-                            <span className="meta-val">{sub.dominantTerrain}</span>
-                          </div>
-                        )}
-                        {sub.primaryFactions && sub.primaryFactions.length > 0 && (
-                          <div className="subregion-meta-item">
-                            <span className="meta-label">Factions:</span>
-                            <span className="meta-val">{sub.primaryFactions.join(', ')}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="subregion-card-actions">
-                        <button
-                          className="btn-open-subregion"
-                          onClick={() => onEnterSubregionMap && onEnterSubregionMap(sub.id || regionId)}
-                        >
-                          <i className="fas fa-compass" /> Enter {sub.name} Map
-                        </button>
-                      </div>
+                        </div>
+                      )}
+                      <button
+                        className="lore-focus-subregion-btn"
+                        onClick={() => {
+                          if (setSelectedLocationId) setSelectedLocationId(null);
+                          if (onEnterSubregionMap) onEnterSubregionMap(sub.id);
+                        }}
+                      >
+                        <i className="fas fa-crosshairs" /> Focus on Map
+                      </button>
                     </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <div className="lore-overview-tab-content animate-fade-in">
-                <div className="lore-sidebar-section">
-                  <h3 className="lore-section-title">
-                    <i className="fas fa-scroll" /> Lore &amp; Overview
-                  </h3>
-                  <p className="lore-tab-description">{region?.loreOverview || region?.description}</p>
+              <div className="lore-overview-panel">
+                <div className="lore-profile-section">
+                  <span className="lore-detail-label">Geography &amp; Climate</span>
+                  <div className="lore-geo-tags">
+                    {region.climate && <span className="lore-geo-pill"><i className="fas fa-snowflake" /> {region.climate}</span>}
+                    {region.dominantTerrain && <span className="lore-geo-pill"><i className="fas fa-mountain" /> {region.dominantTerrain}</span>}
+                    {region.dangerLevel && (
+                      <span className={`lore-geo-pill danger-${region.dangerLevel}`}>
+                        <i className="fas fa-skull-crossbones" /> Danger: {region.dangerLevel}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                {region?.ruler && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-crown" /> Sovereign &amp; Governance
-                    </h3>
-                    <p className="lore-tab-description"><strong>Ruler:</strong> {region.ruler}</p>
-                  </div>
-                )}
-
-                {(region?.climate || region?.dominantTerrain) && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-snowflake" /> Environment &amp; Climate
-                    </h3>
-                    {region.climate && <p className="lore-tab-description"><strong>Climate:</strong> {region.climate}</p>}
-                    {region.dominantTerrain && <p className="lore-tab-description" style={{ marginTop: 4 }}><strong>Terrain:</strong> {region.dominantTerrain}</p>}
-                  </div>
-                )}
-
-                {region?.historyLore && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-book" /> History &amp; The Glacier Bargain
-                    </h3>
-                    <p className="lore-tab-description">{region.historyLore}</p>
-                  </div>
-                )}
-
-                {region?.primaryRaces && region.primaryRaces.length > 0 && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-users" /> Peoples &amp; Demographics
-                    </h3>
-                    <div className="lore-tags-container">
-                      {region.primaryRaces.map((r, i) => (
-                        <span key={i} className="lore-tag-chip">{r}</span>
+                {region.primaryRaces && region.primaryRaces.length > 0 && (
+                  <div className="lore-profile-section">
+                    <span className="lore-detail-label">Primary Peoples &amp; Subraces</span>
+                    <div className="lore-peoples-list">
+                      {region.primaryRaces.map((race, i) => (
+                        <span key={i} className="lore-people-chip">{race}</span>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {region?.primaryFactions && region.primaryFactions.length > 0 && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-shield-halved" /> Ruling Factions &amp; Powers
-                    </h3>
-                    <div className="lore-tags-container">
-                      {region.primaryFactions.map((f, i) => (
-                        <span key={i} className="lore-tag-chip faction">{f}</span>
+                {region.primaryFactions && region.primaryFactions.length > 0 && (
+                  <div className="lore-profile-section">
+                    <span className="lore-detail-label">Dominant Factions</span>
+                    <div className="lore-factions-list">
+                      {region.primaryFactions.map((fac, i) => (
+                        <div key={i} className="lore-faction-card">
+                          <i className="fas fa-flag lore-faction-icon" />
+                          <span>{fac}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
                 )}
-
-                {region?.threats && region.threats.length > 0 && (
-                  <div className="lore-sidebar-section">
-                    <h3 className="lore-section-title">
-                      <i className="fas fa-skull" /> Regional Perils &amp; Threats
-                    </h3>
-                    <ul className="lore-threats-list">
-                      {region.threats.map((t, i) => (
-                        <li key={i}><i className="fas fa-skull-crossbones" /> {t}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Region details grid */}
-                <div className="lore-sidebar-section">
-                  <h3 className="lore-section-title">
-                    <i className="fas fa-compass" /> Region Metrics
-                  </h3>
-                  <div className="lore-detail-grid">
-                    <div className="lore-detail-item">
-                      <span className="lore-detail-label">Subrealms</span>
-                      <span className="lore-detail-value">{subregionsList.length}</span>
-                    </div>
-                    <div className="lore-detail-item">
-                      <span className="lore-detail-label">Settlements</span>
-                      <span className="lore-detail-value">{stats.byCat.civic}</span>
-                    </div>
-                    <div className="lore-detail-item">
-                      <span className="lore-detail-label">Wilds</span>
-                      <span className="lore-detail-value">{stats.byCat.wilderness}</span>
-                    </div>
-                    <div className="lore-detail-item">
-                      <span className="lore-detail-label">Ruins &amp; Mysteries</span>
-                      <span className="lore-detail-value">{stats.byCat.ruins}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="lore-sidebar-section region-immerse-section">
-                  <button className="region-immerse-btn" disabled title="Coming in a future update">
-                    <i className="fas fa-compass" />
-                    Immerse: Explore {region?.name || 'Region'}
-                    <span className="region-immerse-badge">Soon</span>
-                  </button>
-                </div>
               </div>
             )}
           </>
-        ) : null}
+        ) : (
+          <div className="lore-sidebar-empty">
+            <i className="fas fa-map-marked-alt lore-empty-icon" />
+            <h3>No Region Selected</h3>
+            <p>Click any region or boundary on the world map to inspect its lore, inhabitants, and strongholds.</p>
+          </div>
+        )}
       </div>
     </div>
   );

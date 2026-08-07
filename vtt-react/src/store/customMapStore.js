@@ -8,6 +8,7 @@ const useCustomMapStore = create((set, get) => ({
   currentMapId: null,
   // Draft zones for the map being edited (not yet persisted)
   draftZones: [],
+  selectedZoneId: null,
   isLoading: false,
   error: null,
 
@@ -16,24 +17,29 @@ const useCustomMapStore = create((set, get) => ({
     return maps.find((m) => m.id === currentMapId) || null;
   },
 
-  syncMaps: (userId) => {
-    if (!userId) {
+  setSelectedZoneId: (zoneId) => {
+    set({ selectedZoneId: zoneId });
+  },
+
+  syncMaps: (userId, canAccessCustomMaps = false) => {
+    if (!userId || !canAccessCustomMaps) {
       if (unsubMaps) { unsubMaps(); unsubMaps = null; }
-      set({ maps: [], currentMapId: null, draftZones: [] });
+      set({ maps: [], currentMapId: null, draftZones: [], selectedZoneId: null });
       return;
     }
     if (unsubMaps) unsubMaps();
     set({ isLoading: true });
     unsubMaps = customMapService.subscribeToMaps(userId, (maps) => {
       set({ maps, isLoading: false });
-    });
+    }, canAccessCustomMaps);
   },
 
   cleanup: () => {
     if (unsubMaps) { unsubMaps(); unsubMaps = null; }
   },
 
-  createNewMap: (name) => {
+  createNewMap: (name, canAccessCustomMaps = false) => {
+    if (!canAccessCustomMaps) return null;
     const id = `cmap-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     const map = {
       id,
@@ -45,7 +51,7 @@ const useCustomMapStore = create((set, get) => ({
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-    set((s) => ({ maps: [map, ...s.maps], currentMapId: id, draftZones: [] }));
+    set((s) => ({ maps: [map, ...s.maps], currentMapId: id, draftZones: [], selectedZoneId: null }));
     return id;
   },
 
@@ -53,7 +59,8 @@ const useCustomMapStore = create((set, get) => ({
     const map = get().maps.find((m) => m.id === mapId);
     set({
       currentMapId: mapId,
-      draftZones: map ? [...(map.zones || [])] : []
+      draftZones: map ? [...(map.zones || [])] : [],
+      selectedZoneId: null
     });
   },
 
@@ -66,7 +73,10 @@ const useCustomMapStore = create((set, get) => ({
   },
 
   addDraftZone: (zone) => {
-    set((s) => ({ draftZones: [...s.draftZones, zone] }));
+    set((s) => ({
+      draftZones: [...s.draftZones, zone],
+      selectedZoneId: zone.id || null
+    }));
   },
 
   updateDraftZone: (zoneId, updates) => {
@@ -76,7 +86,10 @@ const useCustomMapStore = create((set, get) => ({
   },
 
   removeDraftZone: (zoneId) => {
-    set((s) => ({ draftZones: s.draftZones.filter((z) => z.id !== zoneId) }));
+    set((s) => ({
+      draftZones: s.draftZones.filter((z) => z.id !== zoneId),
+      selectedZoneId: s.selectedZoneId === zoneId ? null : s.selectedZoneId
+    }));
   },
 
   renameMap: (mapId, name) => {
@@ -85,14 +98,17 @@ const useCustomMapStore = create((set, get) => ({
     }));
   },
 
-  saveCurrentMap: async (userId) => {
+  saveCurrentMap: async (userId, canAccessCustomMaps = false) => {
+    if (!canAccessCustomMaps) {
+      return { success: false, error: 'Custom Maps require the Archmage (Ultimate) tier.' };
+    }
     const { currentMapId, maps, draftZones } = get();
     if (!currentMapId || !userId) return { success: false };
     const map = maps.find((m) => m.id === currentMapId);
     if (!map) return { success: false };
     const record = { ...map, zones: draftZones, updatedAt: new Date().toISOString() };
     set({ isLoading: true });
-    const result = await customMapService.saveMap(userId, record);
+    const result = await customMapService.saveMap(userId, record, canAccessCustomMaps);
     set({ isLoading: false });
     if (result.success) {
       set((s) => ({
@@ -102,15 +118,19 @@ const useCustomMapStore = create((set, get) => ({
     return result;
   },
 
-  deleteMap: async (userId, mapId) => {
+  deleteMap: async (userId, mapId, canAccessCustomMaps = false) => {
+    if (!canAccessCustomMaps) {
+      return { success: false, error: 'Custom Maps require the Archmage (Ultimate) tier.' };
+    }
     set({ isLoading: true });
-    const result = await customMapService.deleteMap(userId, mapId);
+    const result = await customMapService.deleteMap(userId, mapId, canAccessCustomMaps);
     set({ isLoading: false });
     if (result.success) {
       set((s) => ({
         maps: s.maps.filter((m) => m.id !== mapId),
         currentMapId: s.currentMapId === mapId ? null : s.currentMapId,
-        draftZones: s.currentMapId === mapId ? [] : s.draftZones
+        draftZones: s.currentMapId === mapId ? [] : s.draftZones,
+        selectedZoneId: null
       }));
     }
     return result;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, Suspense } from 'react';
 import lazy from './utils/lazyWithRetry';
 import { shouldReduceMotion } from './utils/accessibility';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
 import { RoomProvider } from "./contexts/RoomContext";
@@ -215,6 +215,29 @@ const scheduleAutomaticBackup = async (userId) => {
 const LoadingFallback = ({ message = "Loading...", subtext = "Preparing assets & synchronizing state..." }) => (
   <AssetLoadingOverlay message={message} subtext={subtext} isFullPage={true} />
 );
+
+// World Map Route Component for dedicated route-first URLs (/worldmap, /worldmap/:mapId)
+const WorldMapRouteInner = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+  const targetMapId = params.mapId || location.state?.targetMapId || null;
+  const initialTransform = location.state?.transform || null;
+
+  return (
+    <WorldMapImmerse
+      initialTransform={initialTransform}
+      initialMapId={targetMapId}
+      onClose={() => {
+        if (window.history.length > 1) {
+          navigate(-1);
+        } else {
+          navigate('/', { replace: true });
+        }
+      }}
+    />
+  );
+};
 
 function GameScreen() {
   const location = useLocation();
@@ -1362,6 +1385,31 @@ const AppContent = ({
           <Suspense fallback={<LoadingFallback message="Loading classes codex..." />}>
             <ErrorBoundary name="ClassesPage">
               <ClassesPage />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+
+        {/* Dedicated World Map & Immersion routes */}
+        <Route path="/worldmap" element={
+          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+            <ErrorBoundary name="WorldMapImmerse">
+              <WorldMapRouteInner />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/worldmap/:mapId" element={
+          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+            <ErrorBoundary name="WorldMapImmerse">
+              <WorldMapRouteInner />
+            </ErrorBoundary>
+          </Suspense>
+        } />
+        <Route path="/immersion" element={<Navigate to="/worldmap" replace />} />
+        <Route path="/custommap" element={<Navigate to="/worldmap" replace />} />
+        <Route path="/custommap/:mapId" element={
+          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+            <ErrorBoundary name="WorldMapImmerse">
+              <WorldMapRouteInner />
             </ErrorBoundary>
           </Suspense>
         } />

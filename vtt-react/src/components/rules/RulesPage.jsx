@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 
@@ -3564,18 +3565,50 @@ const GET_THEME_COLOR = (theme) => {
 
 
 const RulesPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      return sp.get('category') || 'core-rules';
+    }
+    return 'core-rules';
+  });
 
+  const [selectedSubcategory, setSelectedSubcategory] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      return sp.get('sub') || 'game-overview';
+    }
+    return 'game-overview';
+  });
 
-  const [selectedCategory, setSelectedCategory] = useState('core-rules');
+  const [selectedClassDetail, setSelectedClassDetail] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      return sp.get('class') || null;
+    }
+    return null;
+  });
 
+  // Sync state when location.search changes (e.g. browser Back / Forward buttons)
+  useEffect(() => {
+    const sp = new URLSearchParams(location.search);
+    const cat = sp.get('category');
+    const sub = sp.get('sub');
+    const cls = sp.get('class');
 
-
-  const [selectedSubcategory, setSelectedSubcategory] = useState('game-overview');
-
-
-
-  const [selectedClassDetail, setSelectedClassDetail] = useState(null); // For class detail pages
+    if (cat) {
+      setSelectedCategory(cat);
+    }
+    if (sub) {
+      setSelectedSubcategory(sub);
+    }
+    if (cls !== undefined) {
+      setSelectedClassDetail(cls || null);
+    }
+  }, [location.search]);
 
 
 
@@ -3789,24 +3822,14 @@ const RulesPage = () => {
     }
 
     setSelectedCategory(categoryId);
-
     setSelectedSubcategory(targetSubcategory);
-
-
-
-    setSelectedClassDetail(null); // Clear class detail when changing subcategory
-
-
-
-    setActiveTab(tabId); // Reset tab, or activate specific tab for search results
-
-
-
+    setSelectedClassDetail(null);
+    setActiveTab(tabId);
     setActiveSectionTab(sectionIndex !== null && sectionIndex >= 0 ? sectionIndex : 0);
-
-
-
     setShowSearch(false);
+
+    // Push URL search query so browser Back and Forward buttons navigate between topics
+    navigate(`/?section=rules&category=${categoryId}&sub=${targetSubcategory}`, { replace: false });
 
 
 
@@ -3931,45 +3954,19 @@ const RulesPage = () => {
 
 
   // Handle class detail selection
-
-
-
   const handleClassClick = (className) => {
-
-
-
     setSelectedCategory('character-creation');
-
-
-
     setSelectedSubcategory('classes');
-
-
-
     setSelectedClassDetail(className);
 
-
-
+    // Push class detail to browser history so Back button goes back to classes list
+    navigate(`/?section=rules&category=character-creation&sub=classes&class=${className}`, { replace: false });
   };
 
-
-
-
-
-
-
   // Handle back to classes list
-
-
-
   const handleBackToClasses = () => {
-
-
-
     setSelectedClassDetail(null);
-
-
-
+    navigate(`/?section=rules&category=character-creation&sub=classes`, { replace: false });
   };
 
 
