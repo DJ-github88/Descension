@@ -660,52 +660,59 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     return true;
    }, [canAccessCustomMaps, currentCustomMap, customDrawingPoints, customDraftZones.length, customZoneName, customEntryType, customParentId, customLore, addCustomDraftZone, denyCustomMapAccess]);
 
-   const handleCompleteCustomLocation = useCallback((position) => {
+  const [customLocationCategory, setCustomLocationCategory] = useState('settlement');
+
+  const handleCompleteCustomLocation = useCallback((position, category = null) => {
     if (!canAccessCustomMaps) return denyCustomMapAccess();
     if (!currentCustomMap) {
-     notify('Create a custom map before placing locations.', 'warning');
-     return false;
+      notify('Create a custom map before placing locations.', 'warning');
+      return false;
     }
+    const targetCategory = category || customLocationCategory || 'settlement';
     const locationNumber = customDraftZones.filter((entry) => entry.kind === 'location').length + 1;
     addCustomDraftZone({
-     id: `custom-location-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-     name: customZoneName.trim() || `Location ${locationNumber}`,
-     points: [],
-     position: [...position],
-     kind: 'location',
-     geometry: 'point',
-     parentId: customParentId || null,
-     lore: customLore.trim(),
-     color: '#f1d48a',
-     stroke: '#20150d',
-     createdAt: new Date().toISOString()
+      id: `custom-location-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      name: customZoneName.trim() || `Location ${locationNumber}`,
+      points: [],
+      position: [...position],
+      kind: 'location',
+      geometry: 'point',
+      category: targetCategory,
+      parentId: customParentId || null,
+      lore: customLore.trim(),
+      color: '#f1d48a',
+      stroke: '#20150d',
+      createdAt: new Date().toISOString()
     });
     setCustomDrawingActive(false);
     setCustomZoneName('');
     setCustomParentId('');
     setCustomLore('');
     setCursorPos(null);
-    notify('Location added with lore to the draft. Save the map to persist it.', 'success');
+    notify('Location placed with category icon to draft. Save map to persist.', 'success');
     return true;
-   }, [canAccessCustomMaps, currentCustomMap, customDraftZones, customZoneName, customParentId, customLore, addCustomDraftZone, denyCustomMapAccess]);
+  }, [canAccessCustomMaps, currentCustomMap, customLocationCategory, customDraftZones, customZoneName, customParentId, customLore, addCustomDraftZone, denyCustomMapAccess]);
 
-  const handleStartCustomDrawing = useCallback(() => {
+  const handleStartCustomDrawing = useCallback((category = null) => {
     if (!canAccessCustomMaps) return denyCustomMapAccess();
     if (!currentCustomMap) {
-     notify('Create a custom map before adding world entries.', 'warning');
-    return;
-   }
-   setDevMode(false);
-   setActiveTool('none');
-   setCustomDrawingPoints([]);
-   setCursorPos(null);
-   setCustomDrawingActive(true);
-   }, [canAccessCustomMaps, currentCustomMap, denyCustomMapAccess]);
+      notify('Create a custom map before adding world entries.', 'warning');
+      return;
+    }
+    if (category) {
+      setCustomLocationCategory(category);
+    }
+    setDevMode(false);
+    setActiveTool('none');
+    setCustomDrawingPoints([]);
+    setCursorPos(null);
+    setCustomDrawingActive(true);
+  }, [canAccessCustomMaps, currentCustomMap, denyCustomMapAccess]);
 
   const handleCancelCustomDrawing = useCallback(() => {
-   setCustomDrawingActive(false);
-   setCustomDrawingPoints([]);
-   setCursorPos(null);
+    setCustomDrawingActive(false);
+    setCustomDrawingPoints([]);
+    setCursorPos(null);
   }, []);
 
   const handleSaveCustomMap = useCallback(async () => {
@@ -1361,7 +1368,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     )}
 
     {/* Custom Zone Sidebar Popup Drawer */}
-    {customMapMode && selectedCustomZone && (
+    {customMapMode && canAccessCustomMaps && selectedCustomZone && (
      <CustomZoneSidebar
        zone={selectedCustomZone}
        allZones={customDraftZones}

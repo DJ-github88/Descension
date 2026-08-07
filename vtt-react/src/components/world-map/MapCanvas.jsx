@@ -12,6 +12,18 @@ const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/background
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
+const LOCATION_CATEGORY_ICONS = {
+  capital: 'fa-crown',
+  settlement: 'fa-city',
+  fortress: 'fa-shield-halved',
+  port: 'fa-anchor',
+  forge: 'fa-hammer',
+  sacred: 'fa-book-bookmark',
+  dungeon: 'fa-dungeon',
+  wilderness: 'fa-tree',
+  camp: 'fa-fire'
+};
+
 const MapCanvas = ({
   phase,
   initialTransform,
@@ -622,7 +634,7 @@ const MapCanvas = ({
                   )}
 
                   {/* Custom map zones with interactive click, hover, and selection */}
-                  {customMapMode && customZones.length > 0 && (
+                  {customMapMode && canAccessCustomMaps && customZones.length > 0 && (
                     <g className="custom-map-zones-layer" style={{ pointerEvents: customDrawingActive ? 'none' : 'auto' }}>
                       {customZones.map((zone, index) => {
                         const isSelected = selectedCustomZoneId === zone.id;
@@ -631,6 +643,8 @@ const MapCanvas = ({
                         if (zone.kind === 'location' || zone.geometry === 'point') {
                           const [x, y] = zone.position || zone.points?.[0] || [];
                           if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+                          const iconClass = LOCATION_CATEGORY_ICONS[zone.category] || LOCATION_CATEGORY_ICONS[zone.locationType] || 'fa-location-dot';
+
                           return (
                             <g
                               key={zone.id || index}
@@ -645,47 +659,70 @@ const MapCanvas = ({
                               onMouseLeave={() => setHoveredRegionId && setHoveredRegionId(null)}
                               style={{ cursor: customDrawingActive ? 'inherit' : 'pointer' }}
                             >
-                              {/* Selection & Hover pulse ring */}
+                              {/* Selection & Hover static golden aura */}
                               {(isSelected || isHovered) && (
                                 <circle
                                   cx={x}
                                   cy={y}
-                                  r="28"
+                                  r="24"
                                   fill="none"
                                   stroke={isSelected ? '#80d8a8' : '#f1d48a'}
-                                  strokeWidth="3.5"
-                                  strokeDasharray="6 4"
-                                  className="custom-pin-pulse-ring"
+                                  strokeWidth="2.5"
+                                  opacity="0.9"
                                 />
                               )}
+                              {/* Circular badge */}
                               <circle
                                 cx={x}
                                 cy={y}
-                                r="18"
-                                fill={isSelected ? '#80d8a8' : (zone.color || '#f1d48a')}
-                                stroke={zone.stroke || '#20150d'}
-                                strokeWidth="4"
+                                r="17"
+                                fill={isSelected ? '#80d8a8' : (zone.color || '#e4b655')}
+                                stroke="#140c06"
+                                strokeWidth="2.5"
                                 filter="url(#pinShadow)"
                               />
-                              <circle cx={x} cy={y} r="5.5" fill="#20150d" />
+                              {/* Centered category icon */}
+                              <foreignObject
+                                x={x - 11}
+                                y={y - 11}
+                                width="22"
+                                height="22"
+                                style={{ pointerEvents: 'none', overflow: 'visible' }}
+                              >
+                                <div
+                                  style={{
+                                    width: '22px',
+                                    height: '22px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#1a1008',
+                                    fontSize: '11px',
+                                    lineHeight: 1
+                                  }}
+                                >
+                                  <i className={`fas ${iconClass}`} />
+                                </div>
+                              </foreignObject>
+
                               {zone.name && (
                                 <g className="custom-pin-label-group">
                                   <rect
-                                    x={x + 24}
-                                    y={y - 18}
-                                    width={Math.max(80, zone.name.length * 14 + 20)}
-                                    height="34"
-                                    rx="6"
-                                    fill="rgba(20, 16, 12, 0.88)"
-                                    stroke={isSelected ? '#80d8a8' : 'rgba(212, 175, 55, 0.45)'}
+                                    x={x + 22}
+                                    y={y - 14}
+                                    width={Math.max(60, zone.name.length * 10 + 16)}
+                                    height="28"
+                                    rx="5"
+                                    fill="rgba(18, 14, 10, 0.92)"
+                                    stroke={isSelected ? '#80d8a8' : 'rgba(212, 175, 55, 0.5)'}
                                     strokeWidth="1.5"
                                   />
                                   <text
-                                    x={x + 34}
+                                    x={x + 30}
                                     y={y + 5}
                                     fill={isSelected ? '#a5f3c5' : '#fff0c0'}
                                     fontFamily="'Cinzel', serif"
-                                    fontSize="18"
+                                    fontSize="14"
                                     fontWeight="600"
                                   >
                                     {zone.name}

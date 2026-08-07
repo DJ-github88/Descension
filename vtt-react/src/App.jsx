@@ -222,14 +222,14 @@ const WorldMapRouteInner = () => {
   const location = useLocation();
   const params = useParams();
   const targetMapId = params.mapId || location.state?.targetMapId || null;
-  const initialTransform = location.state?.transform || null;
+  const initialTransform = location.state?.initialTransform || location.state?.transform || null;
 
   return (
     <WorldMapImmerse
       initialTransform={initialTransform}
       initialMapId={targetMapId}
       onClose={() => {
-        if (window.history.length > 1) {
+        if (location.state?.fromLanding || window.history.length > 1) {
           navigate(-1);
         } else {
           navigate('/', { replace: true });
@@ -1245,10 +1245,9 @@ const AppContent = ({
             onShowUserProfile={handleShowUserProfile}
             onLoginTransition={handleLoginTransition}
             onImmerse={(transform) => {
-              setWorldMapTransform(transform);
-              setWorldMapState('active');
+              navigate('/worldmap', { state: { initialTransform: transform, fromLanding: true } });
             }}
-            isWorldMapActive={worldMapState === 'active'}
+            isWorldMapActive={false}
             isAuthenticated={isAuthenticated}
             user={user}
           />

@@ -327,7 +327,7 @@ const CustomMapEditor = ({
                 <button
                   type="button"
                   className="custom-map-draw-btn primary-action"
-                  onClick={onStartDrawing}
+                  onClick={() => onStartDrawing(selectedCategory)}
                   disabled={!currentMap}
                 >
                   <i className={`fas ${entryType === 'location' ? 'fa-location-dot' : 'fa-draw-polygon'}`}></i>
