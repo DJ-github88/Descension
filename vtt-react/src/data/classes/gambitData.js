@@ -171,15 +171,15 @@ Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-
     subtitle: "The Probability Siphon",
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: A wagering architect who treats probability as both a bet to be won and a tapestry to be rewoven. They fuse the gambler's raw fortune-siphoning with the cartomancer's precise destiny-weaving into a single devastating art  â€”  stolen luck in one hand, severed fate-threads in the other.
+    title: "Class Overview",
+    content: `**Who they are**: The Gambit is a high-stakes probability architect and destiny card-weaver who treats the battlefield as a high-roller game they intend to rig. Wielding fortune-siphoning in one hand and cartomantic fate cards in the other, you manipulate dice rolls and alter reality's odds.
 
-**The hook**: Nudge any d20 roll after you see it by spending Fortune Points, or hard-override it entirely by burning a banked Fate Reserve card. No other class wields both real-time luck nudging and absolute destiny control simultaneously  â€”  you can squeeze a failure into success or replace a fatal enemy crit with a face card you banked three turns ago.
+**The hook**: You have **real-time dice manipulation**: after any d20 is rolled (for you, an ally, or an enemy), you can spend Fortune Points to nudge the result up or down, or discard a banked Fate Reserve card to hard-override a critical failure into a triumphant success.
 
-**The cost**: You owe two collectors, and both are always calling. Every Fortune Point spent burns your mind with irreducible wyrd damage. Every card override deepens Karmic Debt, amplifying all incoming damage against you. Two collapse conditions  â€”  Cosmic Bankruptcy and Wyrd Collapse  â€”  can end you from either direction, and the universe always balances its ledgers.
+**The resource bar & costs**: Your resource bar consists of **Fortune Points** (generated through lucky strikes and risky bets) and your hand of **Fate Reserve Cards** (drawn each round). Spending Fortune lets you alter rolls in real time, but excessive fate-bending incurs **Karmic Debt**, increasing the damage you take if the house catches up to you.
 
-**Bring one for**: The only class that can see a fatal failed save and change the outcome after the roll, turning certain defeat into victory through sheer probability violence.`,
-    },
+**Bring one for**: Card-based mechanics, manipulating RNG, and having the power to literally turn a party-wiping critical failure into an encounter-winning critical hit.`
+  },
 
     description: `A tragic ledger written in stolen luck and severed fate-threads. The Gambit does not play for gold or glory; they play for the next calculated breath. Having fused two ancient traditions of probability manipulation, they wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads. To twist fate is to push the self past its limits, a physical and mental sacrifice that leaves them hollowed-out, gaunt, and perpetually on the verge of dual collapse.`,
     roleplayIdentity: {

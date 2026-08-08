@@ -162,11 +162,12 @@ const useShareableStore = create(
       },
 
       // ============ PLAYER NOTES ============
-      addNote: (title, content = '') => {
+      addNote: (title, content = '', image = null) => {
         const newNote = {
           id: `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           title,
           content,
+          image,
           createdAt: Date.now(),
           lastModified: Date.now(),
           folderId: get().currentFolderId
@@ -367,9 +368,19 @@ const useShareableStore = create(
       // Get content (knowledge or note) by ID and source type
       getContentByOrb: (orb) => {
         if (orb.sourceType === 'note') {
-          return get().playerNotes.find(n => n.id === orb.knowledgeId);
+          const note = get().playerNotes.find(n => n.id === orb.knowledgeId);
+          if (!note) return null;
+          return {
+            ...note,
+            image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || note.image
+          };
         }
-        return get().playerKnowledge.find(k => k.id === orb.knowledgeId);
+        const knowledge = get().playerKnowledge.find(k => k.id === orb.knowledgeId);
+        if (!knowledge) return null;
+        return {
+          ...knowledge,
+          image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || knowledge.image || (knowledge.type === 'image' ? knowledge.content : null)
+        };
       },
 
       // Get all items for current folder (or all if no folder selected)

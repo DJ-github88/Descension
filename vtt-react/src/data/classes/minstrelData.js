@@ -175,15 +175,15 @@ The Iceheart Sea has fallen silent. The oldest continuous frequency in the known
  subtitle: "Conductor of Reality's Death Rattle",
 
  quickOverview: {
-  title: "Quick Overview",
-  content: `**Who they are**: A musician who tears notes screaming from the corpses of dying realities  —  each chord is a splinter stolen from a collapsing dimension, hoarded and combined into cadences that violate the laws of existence. The music should not exist. It exists because the Minstrel forces it to.
+    title: "Class Overview",
+    content: `**Who they are**: The Minstrel is a dimensional composer and sonic weaver who captures the resonance of unraveling realities to construct battlefield-reshaping music. You don't just buff allies—you collect acoustic notes to assemble complex, devastating musical cadences.
 
-**The hook**: Harvest musical notes from unraveling planes through builder spells, combine them into cadences, and unleash catastrophic effects that reshape the battlefield. Each accumulated note is a fresh wound torn in the fabric of reality, and each resolved cadence is an act of cosmic mutilation.
+**The hook**: You build **Musical Cadences**: your basic abilities generate distinct notes (Tonic, Dominant, Subdominant, Discord). When you string the correct sequence of notes together, you resolve a **Symphony Cadence** that unleashes massive buffs, enemy silences, or reality-shattering sonic detonations.
 
-**The cost**: Every note is paid for in the slow erosion of your own body. The instruments are crafted from bone and grief. Your spoken voice was stolen by the sea that first gave you the power  —  you can communicate only in melodic whispers that crumble when you try to scream.
+**The resource bar & costs**: Your resource bar is your active **Note Bank** (storing up to 5 notes). Combining notes in different recipes produces over a dozen unique cadence effects. Failing a cadence or holding discordant notes too long causes acoustic feedback that strains your focus.
 
-**Bring one for**: Combo-building devastation that turns accumulated sonic atrocities into battlefield-reshaping cadences  —  protecting everyone except yourself, and always paying the biological price for every cosmic violation.`,
- },
+**Bring one for**: Rhythm, combo-building, high-synergy support, and the satisfying feeling of executing a multi-note musical sequence that completely turns the tide of battle.`
+  },
 
  description: `There is nothing beautiful about what the Minstrel does. They play instruments crafted from bone and grief, each chord progression a fresh wound torn in the fabric of existence. Their magic is not art, it is a fundamental violation of physics that demands biological payment. Every note they collect is a splinter stolen from a dying reality, and every cadence they resolve is an act of cosmic mutilation that rewrites the battlefield in blood and resonance. The music should not exist. It exists because the Minstrel forces it to, and the world pays the price.`,
 

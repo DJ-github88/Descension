@@ -96,11 +96,13 @@ export const HARBINGER_DATA = {
  },
 
  worldFriction: [
-  { region: 'sundrift-vale', status: 'wanted', consequence: 'The permanent Chaos Pockets have made the Harbingers persona non grata across the Vale, House Ordavan blames the Doom-Choir for the reality-tears and has posted bounties. A Harbinger manifesting a Wild Surge on Ordan soil is hunted by steppe-riders within the hour.', workaround: 'Conceal the Mayhem-pressure; a Harbinger at low pressure reads as merely unsettling rather than actively criminal. The Ordan cannot prosecute "doom-arithmetic" they cannot see.' },
-  { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald preserve history; the Harbinger calculates its end. Senior Doom-Choir members are granted advisory tolerance at the Frozen Archive (their arithmetic is too valuable to exile), but they are watched, housed alone, and never seated near the genealogical records.' }
- ],
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren militias view Harbingers as living curses whose countdown prophecies invite immediate Wyrd incursions.', workaround: 'Keep prophecies silent until weapons are drawn.' },
+    { region: 'bryngloom-forest', status: 'monitored', consequence: 'Atropolis contract-scholars constantly audit Harbinger Mayhem meters to ensure no uncontained Wild Surges shatter civil wards.', workaround: 'Submit to weekly probability containment dampeners.' },
+    { region: 'sundale', status: 'banned', consequence: 'Forge-masters refuse entry to Harbingers, fearing entropic friction will shatter starlight cooling crucibles.', workaround: 'Travel cloaked in the outer slums.' },
+    { region: 'emberspire', status: 'tolerated', consequence: 'Waste-Solari cultists respect entropic catastrophe as a sibling to volcanic fire, employing Harbingers as perimeter doom-callers.', workaround: 'Participate in the ritual ember-chants.' }
+  ],
 
- overview: {
+  overview: {
    originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the fourth century of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
 
 He published his findings. The Frozen Archive suppressed them. The calculations were correct, but the political implications were unacceptable. If freeze was mathematically certain, the noble houses had not saved the world by binding Sol. They had merely delayed the execution. Malakor continued calculating. Other mathematicians found his work, came to the Archive, studied his papers, understood the conclusion, and left carrying the math in their heads, because the math once understood cannot be un-understood.
@@ -114,14 +116,14 @@ The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift V
   subtitle: "The End Was Always Coming. You Just Made It Come Faster.",
 
   quickOverview: {
-   title: "Quick Overview",
-    content: `**Who they are**: A prophet of catastrophe who weaponizes the mathematical certainty of doom. They have calculated exactly how the world ends  â€”  the freeze is absolute, the math does not care  â€”  and then tear open the hole to make it happen faster. They are a living tear in the fabric of spacetime, wielding the entropy of a dying world as a weapon.
+    title: "Class Overview",
+    content: `**Who they are**: The Harbinger is a terrifying doom-prophet and entropic mage who calculates the mathematical inevitability of catastrophe and tears open reality to speed it up. You don't just cast spells—you speak living prophecies into being that countdown to apocalyptic detonations.
 
-**The hook**: Plant living bomb prophecies in your enemies that tick, escalate, and detonate with apocalyptic force. Build Mayhem passively  â€”  the longer combat drags on, the more your spells amplify in damage, area, and targets. Spend Mayhem to widen your Prophecy Ranges for safer, more devastating outcomes.
+**The hook**: You plant **Prophecy Afflictions** on enemies that tick down over rounds, accumulating damage and multiplying in threat before detonating in massive area-of-effect explosions. You can manipulate prophecy timers, forcing them to detonate early or extending them for even greater devastation.
 
-**The cost**: At 100 Mayhem, a catastrophic Wild Surge triggers and resets the gauge. Your molecular coherence is permanently frayed  â€”  your skin phases out of existence, your memories blur with alternate timelines, and you can no longer feel warmth or trust your own past. Every prophecy you fulfill fills you with stolen entropy that strains your dimensional anchor.
+**The resource bar & costs**: Your resource bar is **Mayhem** (0–100), building passively every turn and whenever your prophecies progress. As Mayhem rises, all your spell damage, ranges, and target counts amplify significantly. You can spend Mayhem to stabilize prophecies. If your Mayhem gauge hits 100, you trigger an unavoidable **Master Wild Surge** that reshapes the battlefield in a chaotic storm of entropic power.
 
-**Bring one for**: The only class that plants prophecies like landmines and detonates them with escalating mayhem  â€”  a ticking time bomb whose mere presence accelerates the end.`
+**Bring one for**: Planting ticking time bombs, managing escalating chaos, and watching a carefully staged countdown wipe out an entire encounter in one catastrophic blast.`
   },
 
   description: `To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. Their eyes carry a cold, blue certainty. They do not cast spells. They speak endings into flesh and invite local molecular collapse. This power is a turbulent stream that strains the caster's dimensional anchor and fractures their emotional core. Every time they channel the entropic wind, their molecular coherence wavers, and their body resonates with the high-pitched shriek of folding dimensions. Every prophecy they fulfill fills them with stolen entropy. The mathematics of doom are absolute, and the chaos of reality is the tool they use to enforce them.`,

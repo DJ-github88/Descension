@@ -180,14 +180,14 @@ During the Toll Wars (Years 280-340), Neth trade delegations at Ironjaw Port req
    illustrationCaption: "A Velun Neth Arcanoneer weaving elemental spheres through a crystal prism focus.",
 
   quickOverview: {
-   title: "Quick Overview",
-    content: `**Who they are**: An elemental weaver who treats magic as either legal syntax or precision engineering  —  every spell is a negotiated contract between forces that would rather annihilate each other. They combine raw elemental spheres into devastating compound effects, holding two hostile elements together just long enough to release them.
+    title: "Class Overview",
+    content: `**Who they are**: The Arcanoneer is the master of elemental combinations in Mythrill. Instead of casting static pre-packaged spells, you combine raw elemental spheres to create devastating compound spellcraft on the fly. Master of none but proficient in all, you trade specialization for supreme adaptability—wielding fire, frost, nature, arcane, radiant, blight, and chaos to exploit any enemy vulnerability.
 
-**The hook**: Every turn you roll 4d8 to generate elemental spheres from ambient aether. Weave any two into a spell through one of five firing profiles  —  the 36-combination matrix means no two turns are ever the same, and you can produce any damage type to exploit any enemy weakness. Learned Recipes turn basic combos into battlefield-shaping ordnance.
+**The hook**: Every round, you roll 4d8 to generate random elemental spheres from ambient aether. You combine pairs of spheres into any of 36 distinct spell combinations, or unlock powerful learned Recipes (like *Superheated Steam Vent* or *Combustion Shell*) that turn basic pairings into battlefield-shaping ordnance.
 
-**The cost**: Every offensive weave pins your movement to zero  —  the elements demand you stand your ground. Incompatible pairings can backfire catastrophically, damaging you and scrambling your sphere bank. Your four-element hand each turn is random  —  a bad roll leaves you with the wrong tools, and the only fix costs precious mana and health.
+**The resource bar & costs**: Your resource bar is your active **Sphere Bank** (holding up to 4 baseline spheres, or more through banking). You can cast fast 2-sphere combos immediately for adaptive counter-damage, or bank spheres across turns to build massive multi-sphere elemental storms. Releasing offensive weaves triggers a Recoil Anchor that pins your movement speed to zero for the turn, and incompatible element pairings can backfire with damaging backlash.
 
-**Bring one for**: Unmatched adaptive damage and the thrill of concocting the cleverest combination from whatever the dice give you  —  half Magicka-inspired chaos, half cold-blooded tactical calculus.`,
+**Bring one for**: Unmatched adaptive damage, enemy weakness exploitation, and the thrill of rolling a random hand of elements and concocting the cleverest spell combination for the exact tactical situation at hand.`
   },
 
    description: `The Arcanoneer is an elemental weaver  —  a disciplined mind who combines raw elemental spheres into devastating compound effects. The craft is not about raw power; it is about precision, calculation, and the nerve to hold two forces that naturally repel each other and convince them to cooperate, briefly, before they remember they are enemies. Master of none but proficient in all, the Arcanoneer trades specialization for versatility, and every weave is a gamble that the elements will obey before they rebel.`,

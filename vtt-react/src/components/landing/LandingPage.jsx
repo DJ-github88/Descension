@@ -118,6 +118,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  };
 
   const [isActivatingImmerse, setIsActivatingImmerse] = useState(false);
+  const [isImmersingTransition, setIsImmersingTransition] = useState(false);
   const [isBgLoaded, setIsBgLoaded] = useState(false);
 
   // Map background path
@@ -143,78 +144,114 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     };
   }, [mapImagePath]);
 
+  // Preload World Map chunk and map textures during idle moments
+  const handlePreloadWorldMap = () => {
+    import('../world-map/WorldMapImmerse').catch(() => {});
+    import('../../utils/mapImagePreloader').then(({ preloadMapAssets }) => {
+      preloadMapAssets();
+    }).catch(() => {});
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(handlePreloadWorldMap, { timeout: 2500 });
+      } else {
+        setTimeout(handlePreloadWorldMap, 1000);
+      }
+    }
+  }, []);
+
   // Handle community button click
   const handleCommunityClick = () => {
-   setShowCommunity(prev => !prev);
+    setShowCommunity(prev => !prev);
   };
 
- const handleImmerseClick = (e) => {
-  setIsActivatingImmerse(true);
-  const el = document.querySelector('.landing-page.map-background');
-  const btn = e?.currentTarget || document.querySelector('.immersive-action-btn');
+  const handleImmerseClick = (e) => {
+    setIsActivatingImmerse(true);
+    setIsImmersingTransition(true);
 
-  if (btn) {
-   const rect = btn.getBoundingClientRect();
-   const btnCenterX = rect.left + rect.width / 2;
-   const btnCenterY = rect.top + rect.height / 2;
-   const screenCenterX = window.innerWidth / 2;
-   const screenCenterY = window.innerHeight / 2;
+    const el = document.querySelector('.landing-page.map-background');
+    const btn = e?.currentTarget || document.querySelector('.immersive-action-btn');
 
-   const deltaX = Math.round(screenCenterX - btnCenterX);
-   const deltaY = Math.round(screenCenterY - btnCenterY);
+    if (btn) {
+      const rect = btn.getBoundingClientRect();
+      const btnCenterX = rect.left + rect.width / 2;
+      const btnCenterY = rect.top + rect.height / 2;
+      const screenCenterX = window.innerWidth / 2;
+      const screenCenterY = window.innerHeight / 2;
 
-   document.documentElement.style.setProperty('--immerse-target-x', `${deltaX}px`);
-   document.documentElement.style.setProperty('--immerse-target-y', `${deltaY}px`);
-  }
+      const deltaX = Math.round(screenCenterX - btnCenterX);
+      const deltaY = Math.round(screenCenterY - btnCenterY);
 
-  const transform = getCurrentMapTransform(el);
-  setTimeout(() => {
-   if (onImmerse) {
-    onImmerse(transform);
-   }
-   setIsActivatingImmerse(false);
-  }, 350);
- };
+      document.documentElement.style.setProperty('--immerse-target-x', `${deltaX}px`);
+      document.documentElement.style.setProperty('--immerse-target-y', `${deltaY}px`);
+    }
 
- // ── Seamless Immerse Transition ──
- // When Immerse is activated: freeze the mapPan animation at its current frame.
- // WorldMapImmerse mounts immediately at this exact spot without zooming out,
- // while landing page UI text and dark vignette fade out smoothly.
- useEffect(() => {
-  if (!isWorldMapActive) return;
+    const transform = getCurrentMapTransform(el);
 
-  const el = document.querySelector('.landing-page.map-background');
-  if (!el) return;
+    if (shouldReduceMotion()) {
+      if (onImmerse) onImmerse(transform);
+      setIsActivatingImmerse(false);
+      setIsImmersingTransition(false);
+      return;
+    }
 
-  // 1. Read the current animated frame BEFORE killing the animation
-  const cs = window.getComputedStyle(el);
-  const frozenSize = cs.backgroundSize;
-  const frozenPos = cs.backgroundPosition;
+    handlePreloadWorldMap();
 
-  // 2. Kill the animation entirely so our inline styles can take over
-  el.style.setProperty('animation', 'none', 'important');
-
-  // 3. Lock the frozen frame as inline styles at the exact spot
-  el.style.backgroundSize = frozenSize;
-  el.style.backgroundPosition = frozenPos;
-
-  // Cleanup: restore the landing page when exiting Immerse mode
-  return () => {
-   const cleanupEl = document.querySelector('.landing-page.map-background');
-   if (cleanupEl) {
-    // Keep background frozen while landing UI slides/fades back in during exit
+    // Cinematic immersion transition: allow button glow, celestial astrolabe pulse, and header slide to play smoothly
     setTimeout(() => {
-     cleanupEl.style.transition = 'none';
-     cleanupEl.style.backgroundSize = '';
-     cleanupEl.style.backgroundPosition = '';
-     cleanupEl.style.removeProperty('animation');
-     // Force reflow so the browser registers the change before the
-     // animation resumes from its CSS declaration
-     void cleanupEl.offsetWidth;
-    }, 1500);
-   }
+      if (onImmerse) {
+        onImmerse(transform);
+      }
+      setTimeout(() => {
+        setIsActivatingImmerse(false);
+        setIsImmersingTransition(false);
+      }, 500);
+    }, 600);
   };
- }, [isWorldMapActive]);
+
+  // ── Seamless Immerse Transition ──
+  // When Immerse is activated: freeze the mapPan animation at its current frame.
+  // WorldMapImmerse mounts immediately at this exact spot without zooming out,
+  // while landing page UI text and dark vignette fade out smoothly.
+  const isImmersingActive = isWorldMapActive || isImmersingTransition;
+
+  useEffect(() => {
+    if (!isImmersingActive) return;
+
+    const el = document.querySelector('.landing-page.map-background');
+    if (!el) return;
+
+    // 1. Read the current animated frame BEFORE killing the animation
+    const cs = window.getComputedStyle(el);
+    const frozenSize = cs.backgroundSize;
+    const frozenPos = cs.backgroundPosition;
+
+    // 2. Kill the animation entirely so our inline styles can take over
+    el.style.setProperty('animation', 'none', 'important');
+
+    // 3. Lock the frozen frame as inline styles at the exact spot
+    el.style.backgroundSize = frozenSize;
+    el.style.backgroundPosition = frozenPos;
+
+    // Cleanup: restore the landing page when exiting Immerse mode
+    return () => {
+      const cleanupEl = document.querySelector('.landing-page.map-background');
+      if (cleanupEl) {
+        // Keep background frozen while landing UI slides/fades back in during exit
+        setTimeout(() => {
+          cleanupEl.style.transition = 'none';
+          cleanupEl.style.backgroundSize = '';
+          cleanupEl.style.backgroundPosition = '';
+          cleanupEl.style.removeProperty('animation');
+          // Force reflow so the browser registers the change before the
+          // animation resumes from its CSS declaration
+          void cleanupEl.offsetWidth;
+        }, 1200);
+      }
+    };
+  }, [isImmersingActive]);
 
  const renderHomeSection = () => (
   <div className="landing-section">
@@ -253,14 +290,23 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        </span>
       </button>
       <button
-       className={`immersive-action-btn ${isActivatingImmerse ? 'is-immerse-activating' : ''}`}
+       className={`immersive-action-btn ${isImmersingActive ? 'is-immerse-activating' : ''}`}
        onClick={handleImmerseClick}
+       onMouseEnter={handlePreloadWorldMap}
+       onTouchStart={handlePreloadWorldMap}
+       title="Explore the interactive World Map of Mythril"
       >
        <i className="fas fa-map"></i>
        <span className="btn-text">
         <span className="btn-title">Immerse</span>
         <span className="btn-subtitle">Explore the world map</span>
        </span>
+       {isImmersingActive && (
+         <div className="immerse-btn-astrolabe-aura">
+           <div className="astrolabe-aura-ring" />
+           <i className="fas fa-compass astrolabe-aura-compass" />
+         </div>
+       )}
       </button>
       <button
        className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
@@ -483,7 +529,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  return (
   <>
    <div
-    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isWorldMapActive ? 'immersing' : ''}`}
+    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isImmersingActive ? 'immersing' : ''} ${activeSection === 'rules' ? 'rules-mode' : ''}`}
     style={{
      '--map-background-url': `url("${`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}")`
     }}

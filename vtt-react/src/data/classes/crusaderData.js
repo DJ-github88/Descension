@@ -1,4 +1,5 @@
 import { UTILITY_SPELLS } from '../spells/utilitySpells';
+
 /**
  * Crusader Class Data
  *
@@ -6,6 +7,822 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * A heavy starlight-forged juggernaut who channels Aex's Willing Sacrifice
  * to re-enforce the binding frequency and execute Wyrd corruption.
  */
+
+export const CRUSADER_ABILITIES = [
+  // ━━━ LEVEL 1 ━━━
+  {
+    id: 'starlight_cleave',
+    name: 'Starlight Cleave',
+    description: 'Sweep a heavy 2H greatsword in a wide arc infused with Aex\'s song, cutting through enemy ranks and generating holy fervor.',
+    level: 1,
+    spellType: 'ACTION',
+    icon: 'Radiant/Radiant Divinity',
+    effectTypes: ['damage'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Radiant Divinity',
+      tags: ['sacred', 'smashing', 'melee', 'builder'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'cone',
+      rangeType: 'melee',
+      rangeDistance: 5,
+      areaSize: 10,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 0
+    },
+    damageConfig: {
+      formula: '1d10 + strength + 1d6',
+      damageTypes: ['smashing', 'sacred'],
+      resolution: 'DICE'
+    },
+    customMechanic: 'Generates +15 Radiant Fervor on hit.'
+  },
+  {
+    id: 'zealous_strike',
+    name: 'Zealous Strike',
+    description: 'A direct overhead greatsword smash that drives holy force into a single foe, staggering their posture.',
+    level: 1,
+    spellType: 'ACTION',
+    icon: 'Radiant/Divine Downward Sword',
+    effectTypes: ['damage', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Divine Downward Sword',
+      tags: ['sacred', 'melee', 'single_target', 'builder'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'single',
+      rangeType: 'melee',
+      rangeDistance: 5,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 0
+    },
+    damageConfig: {
+      formula: '1d8 + strength + 2',
+      damageTypes: ['sacred', 'smashing'],
+      resolution: 'DICE'
+    },
+    customMechanic: 'Generates +10 Radiant Fervor.'
+  },
+  {
+    id: 'bastion_stance',
+    name: 'Bastion Stance',
+    description: 'Brace your greatsword or tower shield, locking your boots into the earth to gain +2 Active Soak die bonuses.',
+    level: 1,
+    spellType: 'ACTION',
+    icon: 'Shield/Prismatic Shield',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Shield/Prismatic Shield',
+      tags: ['sacred', 'buff', 'defense'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 1
+    },
+    buffConfig: {
+      buffType: 'damageMitigation',
+      effects: [
+        { id: 'bastion_guard', name: 'Bastion Stance', description: '+2 to Active Soak Die rolls; cannot be forcibly moved or knocked prone for 1 round.', mechanicsText: '' }
+      ]
+    }
+  },
+
+  // ━━━ LEVEL 2 ━━━
+  {
+    id: 'radiant_guard',
+    name: 'Radiant Guard',
+    description: 'Channel Fervor into heavy plate armor, surrounding yourself or an ally with a pulsing barrier of starlight.',
+    level: 2,
+    spellType: 'ACTION',
+    icon: 'Utility/Barred Shield',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Shield/Prismatic Shield',
+      tags: ['sacred', 'buff', 'defense'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'single',
+      rangeType: 'ranged',
+      rangeDistance: 30,
+      targetRestrictions: ['ally', 'self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 20 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 1
+    },
+    buffConfig: {
+      buffType: 'damageMitigation',
+      effects: [
+        { id: 'radiant_soak', name: 'Radiant Guard', description: '+2 bonus to Active Soak Die rolls and 10 temporary HP for 2 rounds.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'consecrated_sweep',
+    name: 'Consecrated Sweep',
+    description: 'Drag your glowing blade across the ground, igniting a 10 ft semi-circle of sanctified ground that burns Wyrd-tainted foes.',
+    level: 2,
+    spellType: 'ACTION',
+    icon: 'Radiant/Radiant Divinity',
+    effectTypes: ['damage', 'ground_effect'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Radiant Divinity',
+      tags: ['sacred', 'aoe', 'ground'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'cone',
+      rangeType: 'melee',
+      rangeDistance: 10,
+      areaSize: 10,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 1
+    },
+    damageConfig: {
+      formula: '2d6 + strength',
+      damageTypes: ['sacred'],
+      resolution: 'DICE'
+    },
+    customMechanic: 'Ground burns for 2 rounds; enemies ending turn inside take 1d6 sacred damage.'
+  },
+
+  // ━━━ LEVEL 3 ━━━
+  {
+    id: 'zealots_inquisitive_eye',
+    name: 'Zealot\'s Inquisitive Eye',
+    description: 'Channel Aex\'s pure light through your eyes to detect Wyrd-taint in food, soil, or civilian bloodlines.',
+    level: 3,
+    spellType: 'CHANNELED',
+    icon: 'Utility/Barred Shield',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Psychic/Psychic Telepathy',
+      tags: ['utility', 'rp', 'detection'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 0
+    },
+    buffConfig: {
+      buffType: 'custom',
+      effects: [
+        { id: 'wyrd_sense', name: 'Starlight Vision', description: 'Gain Advantage on Perception and Investigation checks to detect Wyrd corruption for 10 minutes.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'fervent_charge',
+    name: 'Fervent Charge',
+    description: 'Rush up to 30 feet in a straight line with blade lowered, slamming into an enemy to knock them back and generate massive Fervor.',
+    level: 3,
+    spellType: 'ACTION',
+    icon: 'Utility/Bent Leg Motion',
+    effectTypes: ['damage', 'mobility', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Utility/Bent Leg Motion',
+      tags: ['sacred', 'mobility', 'smashing', 'gap_closer'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'single',
+      rangeType: 'ranged',
+      rangeDistance: 30,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 2
+    },
+    damageConfig: {
+      formula: '2d8 + strength',
+      damageTypes: ['smashing', 'sacred'],
+      resolution: 'DICE'
+    },
+    customMechanic: 'Generates +20 Radiant Fervor. Target pushed 10 ft back.'
+  },
+
+  // ━━━ LEVEL 4 ━━━
+  {
+    id: 'righteous_upheaval',
+    name: 'Righteous Upheaval',
+    description: 'Slam your greatsword into the volcanic earth, erupting a wave of starlight and stone in a 15 ft cone.',
+    level: 4,
+    spellType: 'ACTION',
+    icon: 'Radiant/Divine Beam',
+    effectTypes: ['damage', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Evocation/Ground Slam',
+      tags: ['sacred', 'smashing', 'aoe', 'control'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'cone',
+      rangeType: 'melee',
+      rangeDistance: 15,
+      areaSize: 15,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 2
+    },
+    damageConfig: {
+      formula: '2d8 + strength',
+      damageTypes: ['smashing', 'sacred'],
+      resolution: 'DICE',
+      savingThrow: {
+        ability: 'strength',
+        difficultyClass: 14,
+        saveOutcome: 'half_damage'
+      }
+    },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'prone', name: 'Prone', description: 'Knocked Prone on a failed STR Save.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'solvan_retribution',
+    name: 'Solvan Retribution',
+    description: 'Inscribe a starlight cross on your chestplate. When an enemy hits you with a melee strike, release an immediate 10 ft radiant shockwave.',
+    level: 4,
+    spellType: 'REACTION',
+    icon: 'Radiant/Divine Downward Sword',
+    effectTypes: ['damage', 'buff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Divine Downward Sword',
+      tags: ['sacred', 'reaction', 'retaliation'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 25 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 2
+    },
+    damageConfig: {
+      formula: '2d6 + spirit',
+      damageTypes: ['sacred'],
+      resolution: 'DICE'
+    }
+  },
+
+  // ━━━ LEVEL 5 ━━━
+  {
+    id: 'chakram_of_aex',
+    name: 'Chakram of Aex',
+    description: 'Hurl a spinning disc of crystallized starlight 30 ft down a line, slicing foes before returning to hand.',
+    level: 5,
+    spellType: 'ACTION',
+    icon: 'Utility/Bent Leg Motion',
+    effectTypes: ['damage'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Holy/Holy Disc',
+      tags: ['sacred', 'line', 'ranged'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'line',
+      rangeType: 'ranged',
+      rangeDistance: 30,
+      areaSize: 5,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 2
+    },
+    damageConfig: {
+      formula: '3d8 + strength',
+      damageTypes: ['sacred'],
+      resolution: 'DICE'
+    }
+  },
+  {
+    id: 'harmonic_smite',
+    name: 'Harmonic Smite',
+    description: 'Requires Harmonic Stance (50+ Fervor). Strike with intense acoustic resonance, sundering 50% of the target\'s Passive DR.',
+    level: 5,
+    spellType: 'ACTION',
+    icon: 'Radiant/Divine Beam',
+    effectTypes: ['damage', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Divine Beam',
+      tags: ['sacred', 'smite', 'harmonic', 'armor_shred'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'single',
+      rangeType: 'melee',
+      rangeDistance: 5,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 30 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 1
+    },
+    damageConfig: {
+      formula: '3d10 + strength + 1d8',
+      damageTypes: ['sacred', 'smashing'],
+      resolution: 'DICE'
+    },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'sundered', name: 'Sundered Armor', description: 'Target Passive DR reduced by 3 for 2 rounds.', mechanicsText: '' }
+      ]
+    }
+  },
+
+  // ━━━ LEVEL 6 ━━━
+  {
+    id: 'sanctified_hearth',
+    name: 'Sanctified Hearth',
+    description: 'Plant your greatsword into the snow or stone for 10 minutes, creating a 20 ft warm holy zone that melts ice barriers and shields allies.',
+    level: 6,
+    spellType: 'CHANNELED',
+    icon: 'Fire/Burning Forge',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'ember',
+      icon: 'Fire/Hearth Flame',
+      tags: ['utility', 'rp', 'hearth'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'area',
+      rangeType: 'self_centered',
+      areaSize: 20,
+      targetRestrictions: ['ally', 'self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'short_rest',
+      cooldownValue: 1
+    },
+    buffConfig: {
+      buffType: 'auraEffect',
+      effects: [
+        { id: 'hearth_warmth', name: 'Sanctified Hearth', description: 'Allies in 20 ft ignore sub-zero rime freezing hazards and gain Advantage on Constitution saves.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'beacon_of_sol',
+    name: 'Beacon of Sol',
+    description: 'Radiate blinding celestial starlight, forcing all enemies within 30 ft to target only you or suffer Disadvantage on attacks against allies.',
+    level: 6,
+    spellType: 'ACTION',
+    icon: 'Radiant/Radiant Divinity',
+    effectTypes: ['taunt', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Radiant Divinity',
+      tags: ['sacred', 'taunt', 'control'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'area',
+      rangeType: 'self_centered',
+      areaSize: 30,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 35 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 3
+    },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'compelled', name: 'Compelled Focus', description: 'Enemies have Disadvantage on attacks made against targets other than the Crusader for 1 round.', mechanicsText: '' }
+      ]
+    }
+  },
+
+  // ━━━ LEVEL 7 ━━━
+  {
+    id: 'reprimand_of_the_zealot',
+    name: 'Reprimand of the Zealot',
+    description: 'Interrupt an enemy casting a spell within 30 ft with a descending bolt of starlight lightning.',
+    level: 7,
+    spellType: 'REACTION',
+    icon: 'Fire/Burning Forge',
+    effectTypes: ['damage', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Lightning/Starlight Strike',
+      tags: ['sacred', 'storm', 'reaction', 'interrupt'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'single',
+      rangeType: 'ranged',
+      rangeDistance: 30,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 2
+    },
+    damageConfig: {
+      formula: '3d6 + spirit',
+      damageTypes: ['sacred', 'storm'],
+      resolution: 'DICE',
+      savingThrow: {
+        ability: 'constitution',
+        difficultyClass: 15,
+        saveOutcome: 'damage_on_fail'
+      }
+    },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'stunned', name: 'Stunned', description: 'Spell interrupted and target Stunned for 1 round on failed CON Save.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'starlight_bulwark',
+    name: 'Starlight Bulwark',
+    description: 'Project a massive prismatic barrier 15 ft wide that blocks all projectile spells and ranged arrows for 2 rounds.',
+    level: 7,
+    spellType: 'ACTION',
+    icon: 'Shield/Prismatic Shield',
+    effectTypes: ['buff', 'wall'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Shield/Prismatic Shield',
+      tags: ['sacred', 'barrier', 'wall'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'line',
+      rangeType: 'ranged',
+      rangeDistance: 15,
+      areaSize: 15,
+      targetRestrictions: ['all']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 40 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 3
+    },
+    buffConfig: {
+      buffType: 'damageMitigation',
+      effects: [
+        { id: 'bulwark', name: 'Starlight Bulwark', description: 'All allies behind the barrier gain Full Cover against ranged physical and spell attacks.', mechanicsText: '' }
+      ]
+    }
+  },
+
+  // ━━━ LEVEL 8 ━━━
+  {
+    id: 'solar_flameblade',
+    name: 'Solar Flameblade',
+    description: 'Infuse your weapon with holy volcanic flame for 1 minute, causing strikes to deal bonus ember/sacred damage and ignore physical DR.',
+    level: 8,
+    spellType: 'ACTION',
+    icon: 'Fire/Burning Spear',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'ember',
+      icon: 'Fire/Flame Sword',
+      tags: ['ember', 'sacred', 'buff', 'weapon'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 1,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 30 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 3
+    },
+    buffConfig: {
+      buffType: 'damageIncrease',
+      effects: [
+        { id: 'flameblade_buff', name: 'Solar Flameblade', description: 'Melee strikes deal +2d6 ember/sacred damage and completely ignore enemy Passive DR for 1 minute.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'pillars_of_the_vigil',
+    name: 'Pillars of the Vigil',
+    description: 'Call down 3 radiant starlight monoliths in target 30 ft radius, dealing sacred damage and pinning foes between them.',
+    level: 8,
+    spellType: 'ACTION',
+    icon: 'Radiant/Divine Beam',
+    effectTypes: ['damage', 'control'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Divine Beam',
+      tags: ['sacred', 'aoe', 'monolith', 'control'],
+      castTime: 2,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'area',
+      rangeType: 'ranged',
+      rangeDistance: 45,
+      areaSize: 30,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 50 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 4
+    },
+    damageConfig: {
+      formula: '4d8 + strength + spirit',
+      damageTypes: ['sacred'],
+      resolution: 'DICE'
+    }
+  },
+
+  // ━━━ LEVEL 9 ━━━
+  {
+    id: 'shield_of_light_and_steel',
+    name: 'Shield of Light & Steel',
+    description: 'Raise a massive radiant barrier granting +4 Passive DR and reflecting sacred retaliation at attackers.',
+    level: 9,
+    spellType: 'ACTION',
+    icon: 'Fire/Burning Spear',
+    effectTypes: ['buff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Shield/Radiant Aegis',
+      tags: ['sacred', 'buff', 'defense'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 2,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 40 }
+    },
+    cooldownConfig: {
+      cooldownType: 'turn_based',
+      cooldownValue: 3
+    },
+    buffConfig: {
+      buffType: 'damageMitigation',
+      effects: [
+        { id: 'light_shield', name: 'Light & Steel', description: '+4 Passive DR; melee attackers take 2d8 sacred retaliation damage for 2 rounds.', mechanicsText: '' }
+      ]
+    }
+  },
+  {
+    id: 'supernova_surge',
+    name: 'Supernova Surge',
+    description: 'Vent all stored starlight zeal in a 30 ft radius explosion, blinding all foes and converting 100% of damage taken this encounter into bonus sacred burst.',
+    level: 9,
+    spellType: 'ACTION',
+    icon: 'Radiant/Radiant Divinity',
+    effectTypes: ['damage', 'debuff'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Radiant Divinity',
+      tags: ['sacred', 'aoe', 'burst'],
+      castTime: 2,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'area',
+      rangeType: 'self_centered',
+      areaSize: 30,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 60 }
+    },
+    cooldownConfig: {
+      cooldownType: 'long_rest',
+      cooldownValue: 1
+    },
+    damageConfig: {
+      formula: '6d8 + strength + spirit',
+      damageTypes: ['sacred'],
+      resolution: 'DICE'
+    }
+  },
+
+  // ━━━ LEVEL 10 ━━━
+  {
+    id: 'solvan_judgment_titanfall',
+    name: 'Solvan Judgment / Titanfall',
+    description: 'Consume 100 Radiant Fervor to call down a titanic starlight hammer smash in a 20 ft radius, shattering armor and leaving permanent consecrated ground.',
+    level: 10,
+    spellType: 'ACTION',
+    icon: 'Slashing/Assassins Blade',
+    effectTypes: ['damage'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Evocation/Titanfall Hammer',
+      tags: ['sacred', 'storm', 'aoe', 'capstone'],
+      castTime: 2,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'area',
+      rangeType: 'ranged',
+      rangeDistance: 60,
+      areaShape: 'circle',
+      areaSize: 20,
+      targetRestrictions: ['enemies']
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 100 }
+    },
+    cooldownConfig: {
+      cooldownType: 'long_rest',
+      cooldownValue: 1
+    },
+    damageConfig: {
+      formula: '8d10 + strength * 2 + 30',
+      damageTypes: ['sacred', 'storm', 'smashing'],
+      resolution: 'DICE',
+      savingThrow: {
+        ability: 'agility',
+        difficultyClass: 16,
+        saveOutcome: 'half_damage'
+      }
+    }
+  },
+  {
+    id: 'avatar_of_the_willing_sacrifice',
+    name: 'Avatar of the Willing Sacrifice',
+    description: 'Transfigure your body into pure solid starlight for 3 rounds. Become immune to all damage, while all greatsword strikes trigger free Harmonic Smites.',
+    level: 10,
+    spellType: 'ACTION',
+    icon: 'Radiant/Divine Downward Sword',
+    effectTypes: ['buff', 'damage'],
+    typeConfig: {
+      school: 'sacred',
+      icon: 'Radiant/Divine Downward Sword',
+      tags: ['sacred', 'capstone', 'invulnerability'],
+      castTime: 1,
+      castTimeType: 'IMMEDIATE'
+    },
+    targetingConfig: {
+      targetingType: 'self',
+      rangeType: 'self',
+      targetRestrictions: ['self']
+    },
+    resourceCost: {
+      actionPoints: 3,
+      mana: 0,
+      classResource: { type: 'fervor', amount: 100 }
+    },
+    cooldownConfig: {
+      cooldownType: 'long_rest',
+      cooldownValue: 1
+    },
+    buffConfig: {
+      buffType: 'invulnerability',
+      effects: [
+        { id: 'avatar_starlight', name: 'Avatar of Aex', description: 'Immune to all damage types for 3 rounds. All melee attacks deal maximum damage and trigger free AoE starlight bursts.', mechanicsText: '' }
+      ]
+    }
+  }
+];
 
 export const CRUSADER_DATA = {
   id: "crusader",
@@ -48,8 +865,10 @@ export const CRUSADER_DATA = {
   },
 
   worldFriction: [
-    { region: 'sundale', location: 'harath_vault', status: 'reverend', consequence: 'Crusaders lead the frontline against Wyrd incursions from the caldera.', workaround: 'None needed; honored by forge-masters.' },
-    { region: 'bryngloom-forest', location: 'atropolis', status: 'distrusted', consequence: 'Atropolis archivists view Crusader zeal as fanatical extremism that threatens fragile contracts.', workaround: 'Sheathe starlight greatswords and register as heavy guards.' }
+    { region: 'sundale', location: 'harath_vault', status: 'revered', consequence: 'Crusaders lead the vanguard against Wyrd incursions from the Ashen Escarpment; forge-masters prioritize their armor maintenance above all others.', workaround: 'None needed; treated as holy liberators.' },
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'distrusted', consequence: 'Atropolis contract-archivists view Crusader zeal as dangerous fanaticism that threatens fragile legal covenants with bog entities.', workaround: 'Sheathe greatswords in leaded peace-wraps and register with city bailiffs.' },
+    { region: 'frostwood-reach', status: 'tolerated', consequence: 'Thalren settlers welcome Crusader heavy swords against wandering Wyrd-beasts, but fear their strict intolerance of pagan fog rites.', workaround: 'Confine purges to confirmed abominations and respect village elders.' },
+    { region: 'emberspire', status: 'allied', consequence: 'Waste-Solari forge-knights share the Crusader\'s martial philosophy, welcoming their holy starlight to supplement geothermal defenses.', workaround: 'Participate in the ritual caldera-kindling.' }
   ],
 
   overview: {
@@ -57,16 +876,23 @@ export const CRUSADER_DATA = {
     subtitle: "The Sol-Bound Zealot",
     illustration: "/assets/images/classes/crusader_illustration.png",
     illustrationCaption: "A Solari Crusader channeling Aex's starlight song through a shattered greatsword.",
-    originStory: `Born in Year 11 of the Dimming post-Great Breach, the Crusader path was forged when House Solvan knights recognized that faith alone could not hold back Keth-Amar's Wyrd-spawns. They embedded shattered starlight relics directly into their heavy plate and weapons, converting Aex's Willing Sacrifice into a martial frequency of destruction.`,
+    originStory: `A Crusader is not a peaceful monk praying at an altar. You are a walking starlight furnace encased in sixty pounds of hammered iron and consecrated glass, standing on the rim of the dark and daring the monsters of Keth-Amar to try you.
+
+When the Dimming fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
+
+To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Radiant Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy armor and leaves the earth permanently consecrated.
+
+The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth-Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.`,
+
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: Frontline starlight purgers who convert physical combat and sacred conviction into Radiant Fervor.
+      title: "Class Overview",
+      content: `**Who they are**: The Crusader is a frontline starlight juggernaut and sacred zealot who channels the primordial starlight of Aex through heavy greatswords and consecrated armor. You stand at the vanguard, converting martial combat and sacred conviction into unstoppable Radiant Fervor.
 
-**The hook**: Generate Radiant Fervor by swinging greatswords and absorbing hits. At 50+ Fervor, enter Harmonic Stance to deal bonus sacred damage on all strikes. At 100 Fervor, unleash Solvan Judgment to shatter enemy defenses.
+**The hook**: You build **Radiant Fervor** by swinging heavy greatswords and absorbing enemy strikes. At 50+ Fervor, you enter **Harmonic Stance**, imbuing all your strikes with bonus sacred damage. At 100 Fervor, you unleash **Solvan Judgment**, an apocalyptic holy smite that shatters enemy armor.
 
-**The cost**: Maintaining starlight zeal strains body and mind; failing to vent Fervor causes starlight burnout.
+**The resource bar & costs**: Your resource bar is **Radiant Fervor** (0–100). Generating Fervor powers your offensive stances and holy smites. However, maintaining maximum zeal strains your focus—failing to vent Fervor through smites can cause Starlight Burnout, requiring steady momentum.
 
-**Bring one for**: Unstoppable frontline defense, sacred AoE smites, and anti-Wyrd purging.`
+**Bring one for**: Unstoppable frontline defense, heavy greatsword swings, sacred AoE smites, and playing an unstoppable holy warrior who purges corruption.`
     },
     description: `The Crusader is a heavy starlight-forged juggernaut who channels Aex's Willing Sacrifice to re-enforce the binding frequency and execute Wyrd corruption.`,
     roleplayIdentity: {
@@ -193,6 +1019,11 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
         title: "Radiant Fervor (0-100)",
         stats: "Holy Frequency Scale",
         details: "Starlight zeal built through melee strikes and defensive soak. Used to fuel holy flurries and unleash Solvan Judgment."
+      },
+      {
+        title: "Harmonic Stance (50+ Fervor)",
+        stats: "Resonant Power",
+        details: "At 50+ Fervor, greatswords glow white-hot, adding +1d6 sacred damage to all attacks and sundering enemy armor."
       }
     ],
     generationTable: {
@@ -207,416 +1038,81 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     }
   },
 
-  spells: []
+  specializations: {
+    title: "Crusader Specializations",
+    description: "Choose your path of starlight zeal: the greatsword smiting Solar Justiciar, the unbreakable Dawn Bastion, or the spell-shattering Harmonic Inquisitor.",
+    specs: [
+      {
+        id: "solar_justiciar",
+        name: "Solar Justiciar",
+        icon: "Radiant/Divine Downward Sword",
+        color: "#f59e0b",
+        theme: "Heavy Greatsword Smites & Armor Destruction",
+        description: "The vanguard executioner of the Dawn Vigil. You wield massive two-handed greatswords, converting Radiant Fervor into armor-shattering holy smites that obliterate Wyrd abominations.",
+        playstyle: "Aggressive frontline burst DPS. Build Fervor with heavy swings and spend it on devastating single-target and cone smites.",
+        strengths: [
+          "Unmatched physical and sacred armor penetration",
+          "High burst damage through Harmonic Smite and Solvan Judgment",
+          "Permanent consecrated ground creation"
+        ],
+        weaknesses: [
+          "Vulnerable to kiting and ranged spellcasters",
+          "Demands continuous melee momentum to maintain Fervor",
+          "Low mobility outside of Fervent Charge"
+        ],
+        specPassive: {
+          name: "Righteous Cleave",
+          description: "All greatsword strikes deal +15% damage against Aberrations, Undead, and Wyrd-tainted creatures."
+        }
+      },
+      {
+        id: "dawn_bastion",
+        name: "Dawn Bastion",
+        icon: "Shield/Prismatic Shield",
+        color: "#3b82f6",
+        theme: "Starlight Armor & Consecrated Ground Tank",
+        description: "The immovable shield of Solvan doctrine. You bind Aex's starlight song into heavy battle-plates, generating Fervor when taking hits and shielding allies behind walls of solid light.",
+        playstyle: "Immortal frontline tank. Taunt enemies with Beacon of Sol and raise Starlight Bulwarks to protect fragile allies.",
+        strengths: [
+          "Supreme Passive DR and Active Soak scaling",
+          "AoE taunting and aggro management",
+          "Full party protection against ranged projectiles"
+        ],
+        weaknesses: [
+          "Lower single-target damage output",
+          "Requires allies to position behind protective barriers",
+          "Heavy armor reduces base movement speed"
+        ],
+        specPassive: {
+          name: "Aegis of the Star",
+          description: "Whenever an ally within 15 ft takes damage, gain +10 Radiant Fervor and redirect 25% of the damage into your own Active Soak die."
+        }
+      },
+      {
+        id: "harmonic_inquisitor",
+        name: "Harmonic Inquisitor",
+        icon: "Lightning/Starlight Strike",
+        color: "#8b5cf6",
+        theme: "Starlight Lightning & Magic Negation",
+        description: "The occult hunter of the Vigil. You channel Aex's song as a discordant tuning fork, using starlight lightning to interrupt enemy spellcasters and purge magical shields.",
+        playstyle: "Hybrid melee/mid-range anti-caster. Counter enemy spells with Reprimand and hurl Chakrams of Aex across lines.",
+        strengths: [
+          "Reaction-based spell interruptions and stuns",
+          "Mid-range line AoE damage through Chakram of Aex",
+          "High burst sacred/storm hybrid damage"
+        ],
+        weaknesses: [
+          "Slightly lower physical defense than Dawn Bastion",
+          "Relies on reaction economy and timing",
+          "High Fervor consumption for reaction counters"
+        ],
+        specPassive: {
+          name: "Discordant Reprimand",
+          description: "Successfully interrupting an enemy spell refunds 100% of the reaction's AP cost and grants +20 Radiant Fervor."
+        }
+      }
+    ]
+  },
+
+  spells: CRUSADER_ABILITIES
 };
-
-export const CRUSADER_ABILITIES = [
-  // ━━━ LEVEL 1 ━━━
-  {
-    id: 'starlight_cleave',
-    name: 'Starlight Cleave',
-    description: 'Sweep a heavy 2H weapon in a wide arc infused with Aex\'s song, cutting through enemy ranks.',
-    level: 1,
-    spellType: 'ACTION',
-    icon: 'Radiant/Radiant Divinity',
-    effectTypes: ['damage'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Radiant/Radiant Divinity',
-      tags: ['sacred', 'smashing', 'melee'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'cone',
-      rangeType: 'melee',
-      rangeDistance: 5,
-      areaSize: 10,
-      targetRestrictions: ['enemies']
-    },
-    resourceCost: {
-      actionPoints: 2,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 0
-    },
-    damageConfig: {
-      formula: '1d10 + strength + 1d6',
-      damageTypes: ['smashing', 'stabbing', 'slicing', 'sacred'],
-      resolution: 'DICE'
-    },
-    customMechanic: 'Generates +15 Radiant Fervor on hit.'
-  },
-
-  // ━━━ LEVEL 2 ━━━
-  {
-    id: 'radiant_guard',
-    name: 'Radiant Guard',
-    description: 'Channel Fervor into your heavy plate, surrounding yourself or an ally with a barrier of starlight.',
-    level: 2,
-    spellType: 'ACTION',
-    icon: 'Utility/Barred Shield',
-    effectTypes: ['buff'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Shield/Prismatic Shield',
-      tags: ['sacred', 'buff', 'defense'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      rangeType: 'ranged',
-      rangeDistance: 30,
-      targetRestrictions: ['ally', 'self']
-    },
-    resourceCost: {
-      actionPoints: 1,
-      mana: 0,
-      classResource: { type: 'fervor', amount: 20 }
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 1
-    },
-    buffConfig: {
-      buffType: 'damageMitigation',
-      effects: [
-        { id: 'radiant_soak', name: 'Radiant Guard', description: '+2 bonus to Active Soak Die rolls for 1 round.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 3 ━━━
-  {
-    id: 'zealots_eye',
-    name: 'Zealot\'s Inquisitive Eye',
-    description: 'Channel Aex\'s pure light through your eyes to detect Wyrd-taint in food, soil, or civilian bloodlines.',
-    level: 3,
-    spellType: 'CHANNELED',
-    icon: 'Utility/Barred Shield',
-    effectTypes: ['buff'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Psychic/Psychic Telepathy',
-      tags: ['utility', 'rp', 'detection'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'self',
-      rangeType: 'self',
-      targetRestrictions: ['self']
-    },
-    resourceCost: {
-      actionPoints: 1,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 0
-    },
-    buffConfig: {
-      buffType: 'custom',
-      effects: [
-        { id: 'wyrd_sense', name: 'Starlight Vision', description: 'Gain Advantage on Perception and Investigation checks to detect Wyrd corruption for 10 minutes.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 4 ━━━
-  {
-    id: 'righteous_upheaval',
-    name: 'Righteous Upheaval',
-    description: 'Slam your greatsword into the volcanic earth, erupting a wave of starlight and stone in a 15 ft cone.',
-    level: 4,
-    spellType: 'ACTION',
-    icon: 'Radiant/Divine Beam',
-    effectTypes: ['damage', 'debuff'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Evocation/Ground Slam',
-      tags: ['sacred', 'smashing', 'aoe', 'control'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'cone',
-      rangeType: 'melee',
-      rangeDistance: 15,
-      areaSize: 15,
-      targetRestrictions: ['enemies']
-    },
-    resourceCost: {
-      actionPoints: 2,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 2
-    },
-    damageConfig: {
-      formula: '2d8 + strength',
-      damageTypes: ['smashing', 'stabbing', 'slicing', 'sacred'],
-      resolution: 'DICE',
-      savingThrow: {
-        ability: 'strength',
-        difficultyClass: 14,
-        saveOutcome: 'half_damage'
-      }
-    },
-    debuffConfig: {
-      debuffType: 'statusEffect',
-      effects: [
-        { id: 'prone', name: 'Prone', description: 'Knocked Prone on a failed STR Save.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 5 ━━━
-  {
-    id: 'chakram_of_aex',
-    name: 'Chakram of Aex',
-    description: 'Hurl a spinning disc of crystallized starlight 30 ft down a line, slicing foes before returning to hand.',
-    level: 5,
-    spellType: 'ACTION',
-    icon: 'Utility/Bent Leg Motion',
-    effectTypes: ['damage'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Holy/Holy Disc',
-      tags: ['sacred', 'line', 'ranged'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'line',
-      rangeType: 'ranged',
-      rangeDistance: 30,
-      areaSize: 5,
-      targetRestrictions: ['enemies']
-    },
-    resourceCost: {
-      actionPoints: 2,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 2
-    },
-    damageConfig: {
-      formula: '2d8 + strength/2',
-      damageTypes: ['sacred'],
-      resolution: 'DICE'
-    }
-  },
-
-  // ━━━ LEVEL 6 ━━━
-  {
-    id: 'sanctified_hearth',
-    name: 'Sanctified Hearth',
-    description: 'Plant your greatsword into the snow for 10 minutes, creating a 20 ft warm holy zone that melts ice barriers.',
-    level: 6,
-    spellType: 'CHANNELED',
-    icon: 'Fire/Burning Forge',
-    effectTypes: ['buff'],
-    typeConfig: {
-      school: 'ember',
-      icon: 'Fire/Hearth Flame',
-      tags: ['utility', 'rp', 'hearth'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'area',
-      rangeType: 'self_centered',
-      areaSize: 20,
-      targetRestrictions: ['ally', 'self']
-    },
-    resourceCost: {
-      actionPoints: 1,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'short_rest',
-      cooldownValue: 1
-    },
-    buffConfig: {
-      buffType: 'auraEffect',
-      effects: [
-        { id: 'hearth_warmth', name: 'Sanctified Hearth', description: 'Allies in 20 ft ignore sub-zero rime freezing hazards and melt ice obstacles.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 7 ━━━
-  {
-    id: 'reprimand_of_the_zealot',
-    name: 'Reprimand of the Zealot',
-    description: 'Interrupt an enemy casting a spell within 30 ft with a bolt of starlight lightning.',
-    level: 7,
-    spellType: 'REACTION',
-    icon: 'Fire/Burning Forge',
-    effectTypes: ['damage', 'debuff'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Lightning/Starlight Strike',
-      tags: ['sacred', 'storm', 'reaction', 'interrupt'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      rangeType: 'ranged',
-      rangeDistance: 30,
-      targetRestrictions: ['enemies']
-    },
-    resourceCost: {
-      actionPoints: 1,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 2
-    },
-    damageConfig: {
-      formula: '2d6 + spirit',
-      damageTypes: ['sacred', 'storm'],
-      resolution: 'DICE',
-      savingThrow: {
-        ability: 'constitution',
-        difficultyClass: 15,
-        saveOutcome: 'damage_on_fail'
-      }
-    },
-    debuffConfig: {
-      debuffType: 'statusEffect',
-      effects: [
-        { id: 'stunned', name: 'Stunned', description: 'Spell interrupted and target Stunned for 1 round on failed CON Save.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 8 ━━━
-  {
-    id: 'solar_flameblade',
-    name: 'Solar Flameblade',
-    description: 'Infuse your weapon with holy volcanic flame for 1 minute, causing strikes to deal bonus ember/sacred damage.',
-    level: 8,
-    spellType: 'ACTION',
-    icon: 'Fire/Burning Spear',
-    effectTypes: ['buff'],
-    typeConfig: {
-      school: 'ember',
-      icon: 'Fire/Flame Sword',
-      tags: ['ember', 'sacred', 'buff', 'weapon'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'self',
-      rangeType: 'self',
-      targetRestrictions: ['self']
-    },
-    resourceCost: {
-      actionPoints: 1,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 3
-    },
-    buffConfig: {
-      buffType: 'damageIncrease',
-      effects: [
-        { id: 'flameblade_buff', name: 'Solar Flameblade', description: 'Melee strikes deal +1d6 ember/sacred damage and ignore physical DR for 1 minute.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 9 ━━━
-  {
-    id: 'shield_of_light_and_steel',
-    name: 'Shield of Light & Steel',
-    description: 'Raise a massive radiant barrier granting +3 Passive DR and reflecting sacred retaliation at attackers.',
-    level: 9,
-    spellType: 'ACTION',
-    icon: 'Fire/Burning Spear',
-    effectTypes: ['buff'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Shield/Radiant Aegis',
-      tags: ['sacred', 'buff', 'defense'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'self',
-      rangeType: 'self',
-      targetRestrictions: ['self']
-    },
-    resourceCost: {
-      actionPoints: 2,
-      mana: 0
-    },
-    cooldownConfig: {
-      cooldownType: 'turn_based',
-      cooldownValue: 3
-    },
-    buffConfig: {
-      buffType: 'damageMitigation',
-      effects: [
-        { id: 'light_shield', name: 'Light & Steel', description: '+3 Passive DR; melee attackers take 1d8 sacred retaliation damage for 2 rounds.', mechanicsText: '' }
-      ]
-    }
-  },
-
-  // ━━━ LEVEL 10 ━━━
-  {
-    id: 'solvan_judgment_titanfall',
-    name: 'Solvan Judgment / Titanfall',
-    description: 'Consume 100 Radiant Fervor to call down a titanic starlight hammer smash in a 20 ft radius.',
-    level: 10,
-    spellType: 'ACTION',
-    icon: 'Slashing/Assassins Blade',
-    effectTypes: ['damage'],
-    typeConfig: {
-      school: 'sacred',
-      icon: 'Evocation/Titanfall Hammer',
-      tags: ['sacred', 'storm', 'aoe', 'capstone'],
-      castTime: 1,
-      castTimeType: 'IMMEDIATE'
-    },
-    targetingConfig: {
-      targetingType: 'area',
-      rangeType: 'ranged',
-      rangeDistance: 60,
-      areaShape: 'circle',
-      areaSize: 20,
-      targetRestrictions: ['enemies']
-    },
-    resourceCost: {
-      actionPoints: 3,
-      mana: 0,
-      classResource: { type: 'fervor', amount: 100 }
-    },
-    cooldownConfig: {
-      cooldownType: 'long_rest',
-      cooldownValue: 1
-    },
-    damageConfig: {
-      formula: '5d10 + strength + spirit',
-      damageTypes: ['sacred', 'storm'],
-      resolution: 'DICE',
-      savingThrow: {
-        ability: 'agility',
-        difficultyClass: 16,
-        saveOutcome: 'half_damage'
-      }
-    }
-  }
-];
-
-CRUSADER_DATA.spells = CRUSADER_ABILITIES;

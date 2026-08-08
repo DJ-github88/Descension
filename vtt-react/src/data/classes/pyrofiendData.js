@@ -135,11 +135,13 @@ export const PYROFIEND_DATA = {
  },
 
  worldFriction: [
- { region: 'sundale', status: 'used-and-distrusted', consequence: 'The Dawn Vigil would purge Pyrofiends as horror-bound heretics, but Scathrach fire is tactically indispensable against the Wyrd, so the Vigil "secondments" known Pyrofiends into suicidal vanguard units, a sentence dressed as service. A Pyrofiend who refuses is burned as a heretic; one who accepts is burned by Scathrach.', workaround: 'The Solari Apostate\'s Path (accelerating one\'s own conversion) is, politically, the only way to be "useful" enough to delay execution. There is no safe status for a Pyrofiend in Sundale.' },
- { region: 'nordhalla', status: 'antithetical', consequence: 'The cold-worshipping Skald consider fire-pacts an abomination; a Pyrofiend in the glacier-keeps is killed on sight as a thermal pollutant, their very presence melts the archive-ice.' }
- ],
+    { region: 'frostwood-reach', status: 'banned', consequence: 'Thalren town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
+    { region: 'bryngloom-forest', status: 'hunted', consequence: 'Neth peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
+    { region: 'sundale', status: 'restricted', consequence: 'Great Forge smiths welcome Pyrofiend heat for extreme smelting, but require iron collars to prevent spontaneous combustion.', workaround: 'Submit to forge-guild supervision.' },
+    { region: 'emberspire', status: 'revered', consequence: 'Waste-Solari calderas treat Pyrofiends as living holy avatars of Scathrach\'s primordial ash.', workaround: 'None needed in the caldera heart.' }
+  ],
 
- overview: {
+  overview: {
  title: "The Pyrofiend",
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
@@ -157,15 +159,15 @@ The Morgh Groven discovered the fire independently, no pact, no Scathrach. They 
 Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.`,
 
  quickOverview: {
-  title: "Quick Overview",
-      content: `**Who they are**: A fire mage who surrendered their flesh to Scathrach, a parasitic Wyrd-intelligence born from Aex's hide. They did not study magic  -  they signed a debt paid in blood, and the Ashen Sovereign has written its name in their bones. Every spell burns the caster as much as the enemy.
+    title: "Class Overview",
+    content: `**Who they are**: The Pyrofiend is a reckless, explosive fire mage who has surrendered their flesh to Scathrach, the primordial Ashen Sovereign. You don't channel polite magic—you are a living volcanic combustion chamber whose fire burns hotter the more you push your own sanity to the brink.
 
-**The hook**: Climb a 10-level corruption gauge  -  each tier amplifies your firepower with escalating damage bonuses. Stay low and insult the horror that owns you. Climb high and it may seize control, rewriting your body into something less human with each ascension.
+**The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target fire damage that ignores ordinary fire resistances, melting armor and setting the very terrain ablaze.
 
-**The cost**: At corruption level 5+, you must make Spirit saves or be forced to attack the nearest living thing  -  friend or foe. Standard magical healing deals wyrd damage to you instead of restoring health. The sulfurous coal nesting in your chest slowly burns away your sanity, whispering forbidden secrets while demanding more fuel.
+**The resource bar & costs**: Your resource bar is the **Inferno Veil** (Tiers 1–10). Every fire spell you cast builds Corruption and raises your Veil, granting explosive flat damage bonuses to all attacks. However, at Tier 5+, the Ashen Sovereign threatens to seize control, requiring Spirit saves to prevent your fire from scorching friends alongside foes.
 
-**Bring one for**: The sheer spectacle of self-destructive firepower. No class delivers higher damage-per-round at the cost of being a potential liability to your own party  -  you are a walking apocalypse that your allies must learn to position around.`,
- },
+**Bring one for**: Unmatched raw damage-per-round, high-risk high-reward glass cannon playstyles, and the sheer spectacle of self-destructive fiery devastation.`
+  },
 
  description: `The Pyrofiend is a chaotic, fire-wielder who has invited a parasitic Wyrd-intelligence, **Scathrach, the Ashen Sovereign**, to nest directly within their marrow. They do not command fire through careful study or sacred grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the horror within constantly claw at their sanity, demanding more heat, more ash, and more fuel.`,
 

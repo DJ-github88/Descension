@@ -50,7 +50,10 @@ const findBestiaryIllustration = (creature) => {
           name: c.name,
           region: region.name,
           role: c.role,
-          dangerLevel: c.dangerLevel
+          dangerLevel: c.dangerLevel,
+          loreClassification: c.loreClassification,
+          loreCanon: c.loreCanon,
+          loreNote: c.loreNote
         };
       }
     }
@@ -68,6 +71,21 @@ const getCreatureThumb = (illustration) => {
   return illustration
     .replace('/creatures/', '/creatures/thumbs/')
     .replace(/\.png$/i, '.jpg');
+};
+
+const readLoreText = (value) => {
+  if (Array.isArray(value)) return value.filter(Boolean).map(String).join(', ');
+  if (value === null || value === undefined) return '';
+  return String(value).trim();
+};
+
+const isCosmicWyrdCreature = (classification = {}) => {
+  const originClass = readLoreText(classification.originClass).toLowerCase();
+  const status = readLoreText(classification.status).toLowerCase();
+  return originClass === 'ancient-cosmic-wyrdkin'
+    || originClass === 'keth-spawn'
+    || status.includes('cosmic-wyrd')
+    || status.includes('wyrdspawn');
 };
 
 // Helper to resolve ability icon URLs - converts WoW icons to local ability icons
@@ -2371,13 +2389,50 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     const region = bestiaryMatch?.region || null;
     const role = creature?.role || bestiaryMatch?.role || null;
     const dangerLevel = bestiaryMatch?.dangerLevel || null;
-    const hasMeta = region || role || dangerLevel;
+    const loreClassification = creature?.loreClassification || bestiaryMatch?.loreClassification || {};
+    const loreCanon = creature?.loreCanon || bestiaryMatch?.loreCanon || {};
+    const loreNote = readLoreText(creature?.loreNote || bestiaryMatch?.loreNote);
+    const cosmicWyrd = isCosmicWyrdCreature(loreClassification);
+    const layerSummary = [
+      readLoreText(loreClassification.status),
+      readLoreText(loreClassification.originClass),
+      readLoreText(loreClassification.wyrdRelationship)
+    ].filter(Boolean).join(' | ');
+    const hasMeta = region || role || dangerLevel || layerSummary;
+    const loreOrigin = readLoreText(loreCanon.trueOrigin) || readLoreText(creature?.origin);
+    const loreFolklore = readLoreText(loreCanon.folklore) || readLoreText(creature?.heritage);
+    const loreFunction = readLoreText(loreCanon.function) || readLoreText(creature?.nature);
+    const loreValues = readLoreText(loreCanon.values);
+    const loreBindingEffect = readLoreText(loreCanon.bindingEffect);
+    const loreWyrdRelationship = readLoreText(loreCanon.wyrdRelationship)
+      || readLoreText(loreClassification.wyrdRelationship)
+      || readLoreText(creature?.depth);
+    const cosmicDetails = cosmicWyrd ? [
+      ['Cosmic provenance', loreCanon.cosmicProvenance],
+      ['Wyrd function', loreCanon.wyrdFunction],
+      ['Mythrill anchor', loreCanon.anchor],
+      ['Keth-Amar relationship', loreCanon.kethRelationship],
+      ['Current independence', loreCanon.independence],
+      ['Countermeasure', loreCanon.countermeasure]
+    ]
+      .map(([label, value]) => `${label}: ${readLoreText(value)}`)
+      .filter((entry) => !entry.endsWith(': '))
+      .join('\n') : '';
 
     const loreEntries = [
-      creature?.origin && { icon: 'fa-feather-pointed', title: 'Folklore Origin', text: creature.origin },
-      creature?.nature && { icon: 'fa-dragon', title: 'Nature & Behavior', text: creature.nature },
+      layerSummary && { icon: 'fa-layer-group', title: 'Mythrill Layer', text: `${layerSummary}${loreNote ? `\n${loreNote}` : ''}` },
+      loreOrigin && { icon: 'fa-feather-pointed', title: 'Mythic Provenance', text: loreOrigin },
+      loreFolklore && { icon: 'fa-book-open', title: 'Folklore Record', text: loreFolklore },
+      loreFunction && { icon: 'fa-dragon', title: 'Nature & World Function', text: loreFunction },
       creature?.habitat && { icon: 'fa-map-location-dot', title: 'Habitat', text: creature.habitat },
-      creature?.depth && { icon: 'fa-mask-cat', title: 'The Truth Beneath', text: creature.depth, depth: true },
+      loreValues && { icon: 'fa-shield-heart', title: 'Values & Guardianship', text: loreValues },
+      loreBindingEffect && { icon: 'fa-temperature-half', title: 'Binding & Warmth History', text: loreBindingEffect },
+      (loreWyrdRelationship || cosmicDetails) && {
+        icon: cosmicWyrd ? 'fa-sparkles' : 'fa-mask-cat',
+        title: cosmicWyrd ? 'Wyrd Ecology' : 'The Truth Beneath',
+        text: [loreWyrdRelationship, cosmicDetails].filter(Boolean).join('\n'),
+        depth: true
+      },
     ].filter(Boolean);
 
     return (

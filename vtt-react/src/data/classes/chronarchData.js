@@ -177,15 +177,15 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
   illustrationCaption: "A Fexric Chronarch using starlight sand to stabilize a bleeding timeline.",
 
  quickOverview: {
-  title: "Quick Overview",
-   content: `**Who they are**: An accidental anchor  —  a dying mortal whose cells hum with high-velocity temporal friction, hooked into a time-dilation engine of volcanic glass and alchemical gears embedded in their chest. They did not choose chronomancy; it chose them.
+    title: "Class Overview",
+    content: `**Who they are**: The Chronarch is a battlefield-controlling time-manipulator equipped with an alchemical chronometer embedded in their chest. You govern the flow of rounds, speeding up allies, slowing enemies to a crawl, and rewriting tactical mistakes before they become permanent.
 
-**The hook**: Bank Time Shards through basic spells, then spend them on Flux abilities that violate causality  —  rewind an ally's fatal wound, freeze an enemy in perfect stasis, or open a dilation field that grants your party extra actions while halving enemy speed. Shards persist between fights, letting you open the next battle with devastating high-level Flux.
+**The hook**: You possess the unprecedented ability to **rewind actions and undo fatal mistakes**. You can reverse a lethal blow dealt to an ally, reset spent cooldowns, freeze enemy bosses in temporal stasis, or open time-dilation bubbles that grant extra action points to your team.
 
-**The cost**: Every Flux ability deepens Temporal Strain. At 10 Strain, the timeline snaps back, phasing you out of reality and forcing an unpredictable anomaly roll  —  hostile clones, localized gravity implosions, or accelerated aging. You take double damage from arcane and blight. One hard shove drops your dodge to zero and triggers instant backlash.
+**The resource bar & costs**: Your resource bar is **Time Shards** (banked through basic chronomancy spells) and **Temporal Strain** (0–10). Spending Time Shards powers your reality-bending Flux abilities. However, every temporal manipulation adds Temporal Strain—if Strain reaches 10, the timeline violently snaps back with temporal backlash, creating temporal anomalies or clones.
 
-**Bring one for**: The only class that can undo tactical mistakes  —  rewind a fatal blow, reset a spent cooldown, or trap a boss in a loop of its own movement. Errors are final without a Chronarch.`
- },
+**Bring one for**: Supreme battlefield authority, action economy manipulation, and the power to literally rewind time to save your friends from death.`
+  },
 
  description: `The Chronarch did not choose this path, chronomancy chose them. They are Prisoners of Relativity, flesh-bound anchors tethered to a timeline that never wanted them. Every wound they rewind from an ally etches kinetic recoil onto their own body instead. Every frozen moment demands intense cellular focus. They carry hourglasses not as tools of mastery, but as reminders of the extreme metabolic cost that ticks faster with each spell cast. The Chronarch is the only living soul capable of reversing the combat state, undoing tactical errors, resetting cooldowns, trapping enemies in temporal loops of their own creation, while managing the high physical strain of altered reality.`,
 

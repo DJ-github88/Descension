@@ -180,11 +180,13 @@ subraceVariants: {
  },
 
  worldFriction: [
- { region: 'frostwood-reach', status: 'celebrated', consequence: 'The Silent Hunt is the Frostwood\'s primary defense against the Wyrd; Mimir canopy-posts and Thalren settlements pay retainers to resident Apexes. A licensed Apex holds right-of-passage through the Ironwood Palisade without papers.', workaround: 'This standing is eroding with the mist-learning-to-hide crisis: an Apex who cannot find the Wyrd is an Apex who cannot justify their retainer, and the settlements are beginning to question the expense.' },
- { region: 'everywhere-else', status: 'solitary', consequence: 'Apexes are not persecuted anywhere, but they are universally considered unsettling, the absolute sensory focus reads as predation to ordinary people. An Apex in a market is given space, not welcome. They are tolerated, distrusted, and left alone, which is exactly how they prefer it.' }
- ],
+    { region: 'frostwood-reach', status: 'revered', consequence: 'Thalren rangers celebrate the Apex and their bonded beasts as the supreme vanguard against the Frostwood\'s deep horrors.', workaround: 'None needed in wilderness camps.' },
+    { region: 'bryngloom-forest', status: 'restricted', consequence: 'Atropolis city ordinances forbid predatory beasts inside market districts without muzzle-charms.', workaround: 'Equip companion beast with official peace-leashes.' },
+    { region: 'sundale', status: 'tolerated', consequence: 'The Solvan Vigil respects the Apex\'s hunting prowess, hiring them as forward scouts on the Ashen Escarpment.', workaround: 'Camp in the outer perimeter stables.' },
+    { region: 'emberspire', status: 'distrusted', consequence: 'Geothermal miners fear foreign beast companions will panic near bubbling magma calderas.', workaround: 'Keep companions secured during descent.' }
+  ],
 
- overview: {
+  overview: {
  originStory: `A master hunter who has made a trade with the Frostwood fog. The fog takes something, hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.
 
 The tradition was born from the Greythorn massacre. A Thalren timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Broken Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
@@ -201,15 +203,15 @@ The mist is learning to hide deliberately. Something large has moved through the
  subtitle: "Shadow Glaive Wielder & Beast Companion",
 
  quickOverview: {
-  title: "Quick Overview",
-  content: `**Who they are**: A predator who traded a human sense  â€”  hearing, scent, or touch  â€”  for the ability to track things that leave no trail. Armed with a shadow glaive and bonded to a loyal beast companion, they hunt the Wyrd through fog, ice, and open steppe.
+    title: "Class Overview",
+    content: `**Who they are**: The Apex is a silent hunter and primal predator who fights in flawless synchronization with a bonded Beast Companion. Armed with a shadow glaive, you hunt targets through fog and darkness, turning two combatants into a single lethal pack.
 
-**The hook**: Your power comes from pack coordination, not individual prowess. Strike alongside your beast to build Quarry Marks, then spend them to extend your glaive's chain through entire formations of enemies  â€”  one swing hitting four or five targets as shadow energy arcs between them.
+**The hook**: Your power lies in **Pack Coordination**: as you and your beast flank and strike targets together, you build Quarry Marks that allow your shadow glaive to arc across multiple foes in a single sweeping chain, decimating enemy formations.
 
-**The cost**: If your companion falls, you generate zero marks and become an ordinary glaive-fighter. If it drops below a quarter health while you hold three or more marks, it frenzies and attacks the nearest living thing  â€”  friend or foe. The bond runs both ways, and grief is a tactical liability your enemies can exploit.
+**The resource bar & costs**: Your resource bar is **Quarry Marks**, earned through coordinated attacks, flanking, and predator maneuvers. Spending Marks empowers your glaive strikes with multi-target shadow chains, armor shredding, and execution strikes. If your companion is incapacitated, you lose mark generation, making beast management essential.
 
-**Bring one for**: The most efficient multi-target melee damage in the game  â€”  clustered enemies become a single devastating chain, and no other class can match the hunter-and-beast synergy that turns two bodies into one killing unit.`,
- },
+**Bring one for**: The most efficient multi-target melee damage in the game, fluid companion coordination, and the fantasy of a shadow hunter carving through enemy lines.`
+  },
 
  description: `The Apex is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Apex excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she builds power through the bond with her companion, Quarry Marks represent pack coordination, not individual prowess. Glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir. This shifting class rewards tactical positioning, companion management, and the synergy between hunter and beast.`,
 

@@ -173,15 +173,15 @@ Twelve revenants have been found drained of blood but showing no wounds. The Cul
     illustrationCaption: "A Vreken Revenant standing at the edge of the Bryngloom peat-bogs, blood-frost crackling between their fingers.",
 
     quickOverview: {
-      title: "The Undying Economy",
-      content: `**Who they are**: A death mage who has returned from the grave carrying two necrotic economies  -  volatile blight energy and a soul-charged resurrection vessel. They are not alive, not dead, and have work to do.
+    title: "Class Overview",
+    content: `**Who they are**: The Revenant is a relentless death mage who has climbed out of the grave and turned mortality itself into a weapon. You wield necrotic blight and glacial rime, harvesting souls to fill your phylactery and turning even your own death into an explosive tactical counterattack.
 
-**The hook**: Sacrifice HP to build Death Toll and charge your Phylactery with every kill. Toggle Death Shroud to burn HP instead of mana for enhanced frost-and-necrotic devastation. Die strategically  -  your resurrection freezes everything around you in one of the strongest control effects in the game  -  then rise and do it again.
+**The hook**: Your signature mechanic is **Strategic Resurrection**: when you die, your Phylactery triggers an immediate glacial nova that freezes all nearby enemies, allowing you to rise again with renewed vigor to finish the fight.
 
-**The cost**: Death Toll at 6+ deals self-damage. At 11+, you cannot be healed. At 16+, dying detonates a nuclear necrotic blast. Your Phylactery depletes with each resurrection  -  run out of harvested souls and there is no safety net. Every spell costs life. Every kill feeds the grave.
+**The resource bar & costs**: Your resource bar is **Death Toll** (built by sacrificing your own HP and slaying enemies) and **Phylactery Souls**. You can activate **Death Shroud** to spend your own health instead of mana for amplified frost and necrotic damage. Maintaining high Death Toll unlocks apocalyptic execution spells, but push it too high and you suffer necrotic rot.
 
-**Bring one for**: The only class that converts its own death into a tactical weapon  -  the freeze that erupts from your resurrection turns a party wipe into a counterattack, and the Death Shroud burns your life for raw damage no mana-based caster can match.`,
-    },
+**Bring one for**: Necromantic power, dark blood magic, and playing an immortal powerhouse who turns their own demise into a devastating party-saving counterattack.`
+  },
 
     description: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.`,
 
@@ -1431,3 +1431,5 @@ The Revenant can switch between two casting modes:
 };
 
 export default REVENANT_DATA;
+
+REVENANT_DATA.spells = REVENANT_DATA.exampleSpells;

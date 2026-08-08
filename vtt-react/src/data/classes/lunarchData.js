@@ -11,8 +11,8 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const LUNARCH_DATA = {
   restrictions: {
       "allowedSubraces": [
-          "florae_unified",
-          "florae_unified",
+          "viridian_florae",
+          "shorn_florae",
           "veiled_mimir",
           "tethered_mimir",
           "thalren_human"
@@ -55,8 +55,8 @@ export const LUNARCH_DATA = {
    * replacement is.
    */
   subraceVariants: {
-    florae_unified: {
-      subraceName: 'Trueborn Florae',
+    viridian_florae: {
+      subraceName: 'Trueborn Florae (Viridian)',
       title: 'The Thorn-Bound',
       reframe: `The <LoreLink termId="briaran">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
       signatureAbility: {
@@ -71,8 +71,8 @@ export const LUNARCH_DATA = {
       }
     },
 
-    florae_unified: {
-      subraceName: 'Shorn Florae',
+    shorn_florae: {
+      subraceName: 'Shorn Florae (Hidden Moon)',
       title: 'The Hidden Moon',
       reframe: `The <LoreLink termId="briaran">Shorn</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Shorn Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
       signatureAbility: {
@@ -161,8 +161,10 @@ export const LUNARCH_DATA = {
   },
 
   worldFriction: [
-    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints. The fog that erases Thalren memory feeds the parasite, making the persecution worse.', workaround: 'The Shorn Florae variant survives by passing as human; the Tethered Mimir variant is already unrecorded and feels little difference. The openly lunar have no workaround, only flight into the deep groves.' },
-    { region: 'bryngloom-forest', status: 'banned', consequence: 'The Neth consider the lunar parasite an unbound entity outside the First Contract, a Lunarch in Atropolis is treated as a walking contract-breach and detained for "resolution of the unfiled attachment."' }
+    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints.', workaround: 'The Shorn Florae variant survives by passing as human; the Tethered Mimir variant is already unrecorded. The openly lunar have no workaround, only flight into the deep groves.' },
+    { region: 'bryngloom-forest', status: 'banned', consequence: 'The Neth consider the lunar parasite an unbound entity outside the First Contract. A Lunarch in Atropolis is treated as a walking contract-breach and detained for resolution of the unfiled attachment.', workaround: 'Obtain a temporary diplomatic containment bond from the Ledger-Keepers.' },
+    { region: 'sundale', status: 'distrusted', consequence: 'Sundale forge-masters consider lunar starlight an unstable, cold aberration that weakens sacred solar metallurgy.', workaround: 'Confine casting to non-forge districts and wear lead-lined wraps over phase-scars.' },
+    { region: 'emberspire', status: 'hunted', consequence: 'Waste-Solari zealots view the lunar parasite as a cosmic blight that threatens to extinguish the caldera flames.', workaround: 'Travel only through subterranean venting tunnels or under heavy escort.' }
   ],
 
   overview: {
@@ -179,15 +181,15 @@ The elder parasites are communicating across their hosts. They are planning some
     subtitle: "Vessel of the Lunar Parasite",
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: A host to an ancient celestial parasite that has threaded tendrils of starlight through their nervous system and refuses to leave. The moon is not a symbol of hope  —  it is a cold, alien predator that has been feeding on dying stars since before flesh existed, and it chose them without asking permission.
+    title: "Class Overview",
+    content: `**Who they are**: The Lunarch is a celestial host bound to an ancient lunar parasite that threads cold starlight and gravity magic through their veins. You command gravity fields, radiant bursts, and cosmic barriers that wax and wane with the lunar cycle.
 
-**The hook**: Every three rounds the parasite forcibly rewrites your physiology, cycling through four lunar phases  —  memory-eating New Moon, sensation-harvesting Waxing, sanity-eroding Full Moon, and vitality-draining Waning. Each phase grants devastating new abilities but extracts a different nutrient from your body. You must weaponize the horror.
+**The hook**: Your body forcibly cycles through **Four Shifting Lunar Phases** (New Moon, Waxing Moon, Full Moon, Waning Moon) every few rounds. Each phase completely transforms your combat profile—shifting from shadowy defense to blazing offensive radiant bursts and crushing gravity manipulation.
 
-**The cost**: Standard magical healing deals wyrd damage to you  —  the parasite devours foreign magic. Bludgeoning trauma ruptures your parasite-interlaced organs at +25%. Every phase shift deals damage and forces a roll on the Transition Shock Table. Your body is a crime scene the parasite refuses to leave.
+**The resource bar & costs**: Your resource bar is your active **Lunar Phase** and **Gravity Flux**. Each phase transition grants powerful burst buffs and alters your spell effects. Managing the timing of your phase shifts allows you to unleash apocalyptic Full Moon strikes exactly when the boss is vulnerable.
 
-**Bring one for**: The only class that can warp the passage of rounds on the battlefield, imposing a cosmic feeding cycle on enemies and turning your own parasitic affliction into a weapon that spreads phase-corresponding devastation across the entire fight.`,
-    },
+**Bring one for**: Dynamic shifting playstyles, cosmic gravity magic, and mastering a rhythmic phase cycle that delivers devastating bursts of celestial power.`
+  },
 
     description: `The Lunarch is not a priest. The Lunarch is a host — a walking crime scene where an ancient, unfeeling celestial parasite has burrowed into the nervous system and refused to leave. The moon is not a symbol of hope or guidance; it is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed. When it chose the Lunarch, it did not ask permission. It seeped into their spine through the soft tissue at the base of the skull, threaded tendrils of starlight through their nerve clusters, and began to feed.
 
@@ -1875,3 +1877,5 @@ WEAK:   +25% Bludgeoning vulnerability. Avoid hammers.
       }
   ],
 };
+
+LUNARCH_DATA.spells = LUNARCH_DATA.exampleSpells;

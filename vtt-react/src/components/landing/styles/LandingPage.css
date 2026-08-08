@@ -23,6 +23,7 @@ body.landing-mode *::after {
   border-color: #ffd700 !important;
   transform: scale(1.12) !important;
   animation: immerseButtonPulse 0.5s ease-in-out infinite alternate;
+  position: relative;
 }
 
 @keyframes immerseButtonPulse {
@@ -32,6 +33,53 @@ body.landing-mode *::after {
   100% {
     box-shadow: 0 0 70px rgba(255, 215, 0, 1), inset 0 0 45px rgba(255, 255, 230, 1);
   }
+}
+
+/* Astrolabe Aura on Immerse Button Activation */
+.immerse-btn-astrolabe-aura {
+  position: absolute;
+  inset: -12px;
+  border-radius: 40px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: immerseAuraFadeIn 0.3s ease-out forwards;
+}
+
+.astrolabe-aura-ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed rgba(255, 215, 0, 0.75);
+  border-radius: 40px;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(212, 175, 55, 0.4);
+  animation: astrolabeAuraSpin 8s linear infinite;
+}
+
+.astrolabe-aura-compass {
+  position: absolute;
+  right: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.15rem;
+  color: #ffd700;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.9));
+  animation: astrolabeAuraCompassPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes immerseAuraFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes astrolabeAuraSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes astrolabeAuraCompassPulse {
+  from { transform: translateY(-50%) scale(0.95); filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.6)); }
+  to { transform: translateY(-50%) scale(1.15); filter: drop-shadow(0 0 14px rgba(255, 225, 120, 1)); }
 }
 
 /* Header Slide UP & Put Away on Immerse - Slow, Elegant & Stately */
@@ -244,6 +292,66 @@ body svg[data-icon] {
 .landing-page.map-background.map-loaded {
   animation: mapPan 48s ease-in-out infinite; /* 48 seconds for active, lively thematic journey across master map */
   will-change: background-position; /* Optimize animation performance */
+}
+
+/* Rules is a dedicated reading workspace, not another section of the map page. */
+.landing-page.rules-mode {
+  height: auto;
+  min-height: 100dvh;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #120703;
+  background-image: none;
+  animation: none !important;
+}
+
+.landing-page.rules-mode::before {
+  display: none;
+}
+
+.landing-page.rules-mode .landing-main {
+  flex: 0 0 auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.landing-page.rules-mode .rules-section-wrapper {
+  flex: 0 0 auto;
+  min-height: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.landing-page.rules-mode .rules-section-wrapper .rules-page {
+  flex: 0 0 auto;
+  min-height: 0;
+  height: auto;
+  min-height: calc(100dvh - 80px);
+  overflow: visible;
+}
+
+.landing-page.rules-mode .rules-main {
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: visible;
+}
+
+.landing-page.rules-mode .rules-content-area {
+  flex: 0 0 auto;
+  height: auto;
+  min-height: calc(100dvh - 160px);
+  overflow: visible !important;
+}
+
+.landing-page.rules-mode .rules-content-area.class-detail-view {
+  overflow: visible !important;
+}
+
+.landing-page.rules-mode .landing-copyright {
+  flex: 0 0 auto;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1816,6 +1924,46 @@ body svg[data-icon] {
     height: 100vh;
     max-height: 100vh;
     overflow: hidden;
+  }
+
+  .landing-page.rules-mode {
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .landing-page.rules-mode .landing-main,
+  .landing-page.rules-mode .rules-section-wrapper,
+  .landing-page.rules-mode .rules-section-wrapper .rules-page,
+  .landing-page.rules-mode .rules-main {
+    overflow: hidden;
+  }
+
+  .landing-page.rules-mode .landing-main {
+    flex: 1 1 auto;
+  }
+
+  .landing-page.rules-mode .rules-section-wrapper {
+    flex: 1 1 auto !important;
+  }
+
+  .landing-page.rules-mode .rules-section-wrapper .rules-page {
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .landing-page.rules-mode .rules-content-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .landing-page.rules-mode .rules-content-area.class-detail-view {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
 
   .hero-section {

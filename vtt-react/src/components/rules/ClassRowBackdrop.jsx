@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /**
  * High-detail, thematic animated SVG backdrops for every class row.
@@ -773,10 +773,36 @@ const BACKDROPS = {
 
 const ClassRowBackdrop = ({ slug }) => {
     const Backdrop = BACKDROPS[slug];
-    if (!Backdrop) return <div className="class-row-bg-effects" />;
+    const backdropRef = useRef(null);
+    const [isNearViewport, setIsNearViewport] = useState(false);
+
+    useEffect(() => {
+        const node = backdropRef.current;
+        if (!node) return undefined;
+
+        if (typeof IntersectionObserver === 'undefined') {
+            setIsNearViewport(true);
+            return undefined;
+        }
+
+        const scrollRoot = node.closest('.rules-content-area');
+        const root = scrollRoot && getComputedStyle(scrollRoot).overflowY !== 'visible'
+            ? scrollRoot
+            : null;
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsNearViewport(entry.isIntersecting),
+            { root, rootMargin: '240px 0px' }
+        );
+
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, []);
+
+    if (!Backdrop) return <div ref={backdropRef} className="class-row-bg-effects" />;
+
     return (
-        <div className="class-row-bg-effects">
-            <Backdrop />
+        <div ref={backdropRef} className="class-row-bg-effects">
+            {isNearViewport && <Backdrop />}
         </div>
     );
 };

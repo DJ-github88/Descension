@@ -54,21 +54,35 @@ const getBackgroundImageUrl = (imagePath) => {
 };
 
 
-// Check if an icon is a custom path (creature/ability icon) or built-in
+// Check if an icon is a custom path (creature/ability icon, data URL, http, etc.)
 const isCustomIcon = (iconType) => {
-  return iconType && (iconType.includes('/') || iconType.includes('\\'));
+  return Boolean(
+    iconType && (
+      iconType.includes('/') ||
+      iconType.includes('\\') ||
+      iconType.startsWith('data:') ||
+      iconType.startsWith('http') ||
+      iconType.startsWith('blob:') ||
+      iconType.startsWith('/assets')
+    )
+  );
 };
 
 // Get icon URL for custom icons
 const getOrbIconUrl = (iconType) => {
   if (!iconType || !isCustomIcon(iconType)) return null;
+
+  // If already a full URL or data URI, return directly
+  if (iconType.startsWith('data:') || iconType.startsWith('http') || iconType.startsWith('blob:') || iconType.startsWith('/')) {
+    return iconType;
+  }
   
   // Determine icon category based on path
   if (iconType.toLowerCase().includes('icon') || 
       iconType.includes('Dark Elf') || iconType.includes('Demon') || 
-      iconType.includes('Dwarf') || iconType.includes('Elves') ||
-      iconType.includes('Human') || iconType.includes('Monsters') ||
-      iconType.includes('Undead') || iconType.includes('Pirates') ||
+      iconType.includes('Dwarf') || iconType.includes('Elves') || 
+      iconType.includes('Human') || iconType.includes('Monsters') || 
+      iconType.includes('Undead') || iconType.includes('Pirates') || 
       iconType.includes('Kobolds') || iconType.includes('Orc')) {
     return getCustomIconUrl(iconType, 'creatures');
   }
@@ -145,6 +159,48 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [editingNote, setEditingNote] = useState(null);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
+  const [noteImage, setNoteImage] = useState(null);
+  const [orbEditorLabel, setOrbEditorLabel] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+  const boardRef = useRef(null);
+
+  // Helper to read and optimize image files to Data URL
+  const handleImageUpload = useCallback((file, callback) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (PNG, JPG, WebP).');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 320;
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/png'));
+        } else {
+          callback(dataUrl);
+        }
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }, []);
   const [contextMenu, setContextMenu] = useState(null);
   const [showAddOrbPopup, setShowAddOrbPopup] = useState(false);
   const [addOrbStep, setAddOrbStep] = useState('select'); // 'select' or 'customize'
@@ -159,15 +215,11 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const addOrbFolderDropdownRef = useRef(null);
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
   const [backgroundInput, setBackgroundInput] = useState('');
-  const [] = useState([]);
-  const [] = useState(false);
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
-  const [orbEditorLabel, setOrbEditorLabel] = useState('');
   const [draggedOverFolder, setDraggedOverFolder] = useState(null);
   const [showReceivedFolderDropdown, setShowReceivedFolderDropdown] = useState(false);
   const folderDropdownRef = useRef(null);
   const receivedFolderDropdownRef = useRef(null);
-  const boardRef = useRef(null);
   
   const isGMMode = useGameStore(state => state.isGMMode);
   const { allowed: journalBasicAllowed, loading: journalBasicLoading } = useFeatureFlag('journalBasic');
@@ -1371,7 +1423,7 @@ Drag notes to the Knowledge Board to create visual connections!"
             className="orb-editor"
             onClick={(e) => e.stopPropagation()}
           >
-            <h4>Edit Knowledge Orb</h4>
+            <h4><i className="fas fa-magic"></i> Edit Knowledge Orb</h4>
             
             <div className="orb-editor-section">
               <label>Title</label>
@@ -1387,17 +1439,70 @@ Drag notes to the Knowledge Board to create visual connections!"
                 placeholder="Orb label (leave empty to use content title)"
               />
             </div>
+
+            {/* Custom Image / PNG Upload Section */}
+            <div className="orb-editor-section">
+              <label>Custom Image / Portrait (PNG, JPG)</label>
+              <div className="orb-image-upload-row">
+                <div
+                  className="orb-image-preview-badge"
+                  style={{ '--orb-color': showOrbEditor.color }}
+                >
+                  {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
+                    <img
+                      src={getOrbIconUrl(showOrbEditor.iconType)}
+                      alt=""
+                      className="orb-preview-img"
+                    />
+                  ) : (
+                    <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
+                  )}
+                </div>
+                <div className="orb-image-actions">
+                  <label className="orb-image-upload-btn">
+                    <i className="fas fa-upload"></i>
+                    <span>Upload PNG / Image</span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      style={{ display: 'none' }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file, (dataUrl) => {
+                            updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
+                            setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                  {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
+                    <button
+                      type="button"
+                      className="orb-image-reset-btn"
+                      onClick={() => {
+                        updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
+                        setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
+                      }}
+                    >
+                      <i className="fas fa-undo"></i> Reset to icon
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
             
             <div className="orb-editor-section">
-              <label>Icon</label>
+              <label>Or Choose Standard Icon</label>
               <div className="orb-icon-grid">
                 {ORB_ICONS.map(icon => (
                   <button
                     key={icon.id}
                     className={`orb-icon-option ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
                     onClick={() => {
-                      updateOrb(showOrbEditor.id, { iconType: icon.id });
-                      setShowOrbEditor({ ...showOrbEditor, iconType: icon.id });
+                      updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
+                      setShowOrbEditor({ ...showOrbEditor, iconType: icon.id, customImage: null });
                     }}
                     title={icon.label}
                   >

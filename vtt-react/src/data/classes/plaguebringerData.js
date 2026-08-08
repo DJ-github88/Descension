@@ -143,11 +143,13 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
  },
 
  worldFriction: [
- { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Root-Veil is rejecting the Marked cultivators and the network is carrying weaponized disease to organisms that never met a Plaguebringer. The Neth Regency has begun classifying Plaguebringer cultivation as "assault on the archive-substrate", a capital offense against Morvane.', workaround: 'None. A Plaguebringer in the deep Bryngloom is now hunted by the forest they depend on; the only refuge is the Over-Shanty, where the network does not reach.' },
- { region: 'everywhere-else', status: 'shunned', consequence: 'Plaguebringers are universally untouchable, their cultivated diseases are contagious enough (even if host-specific) that no settlement permits casual contact. A traveling Plaguebringer is housed outside the walls and trades through intermediaries. This is not persecution; it is quarantine.' }
- ],
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren towns burn sulfur and quarantine anyone suspected of harboring Plaguebringer spore-gardens.', workaround: 'Wear thick traveler shrouds and keep active cultures in lead-lined jars.' },
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Drun Neth and Marked Vreken treat Plaguebringers as sacred cultivators of the Root-Veil\'s fungal decomposition.', workaround: 'None needed in the deep sinks.' },
+    { region: 'sundale', status: 'banned', consequence: 'Solvan paladins execute Plaguebringers at the gates to prevent biological contagion inside the crowded refugee barracks.', workaround: 'Travel under false merchant identities.' },
+    { region: 'emberspire', status: 'tolerated', consequence: 'Extreme geothermal heat naturally purges airborne spores, allowing Plaguebringers to trade acids with magma distillers.', workaround: 'Conduct alchemy only in designated vent-houses.' }
+  ],
 
- overview: {
+  overview: {
   originStory: `A plaguebringer is a living laboratory. The body has been deliberately infected with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming the host. In combat, these afflictions are seeded into enemies, advanced through stages of decay, and harvested at peak virulence. The craft requires the Bryngloom's unique fungal-bog substrate, a biological chemistry found nowhere else on Mythril.
 
 The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered decaying moss from the Sunken Spire and injected its alchemical bile directly into her veins. It cured the hush. It also made her body a permanent host for active decay. Her skin became waxy and pale. Her body temperature dropped below normal. She began cultivating new diseases within her own tissue, carefully balancing strains that would destroy an enemy but leave the host intact.
@@ -161,15 +163,15 @@ Vespera is bedridden. She has tasked her cultivators with engineering a successo
  subtitle: "Dark Cultivator of Rot & Decay",
 
  quickOverview: {
-  title: "Quick Overview",
-  content: `**Who they are**: A dark cultivator who treats the battlefield as a garden of rot  -  sowing sickness in enemies and nurturing it through stages of infection until the harvest reaps.
+    title: "Class Overview",
+    content: `**Who they are**: The Plaguebringer is a dark biological cultivator and disease master who treats the battlefield as a garden of contagion. You plant seed infections in enemies, nurturing and evolving them through escalating stages until you reap the harvest in a catastrophic epidemic.
 
-**The hook**: Apply Seed afflictions to enemies, then cultivate them through five categories of corruption from Stage 1 to Stage 3. Build Virulence with every advancing infection  -  the higher it climbs, the more your damage, duration, and spread radius amplify. Unleash devastating Harvest executions at peak Virulence to reap everything you have sown.
+**The hook**: You apply **Seed Afflictions** (fever, rot, necrosis, spore) and cultivate them through Stages 1, 2, and 3. As infected enemies fight, their diseases mutate and spread to nearby foes whenever they move or take actions.
 
-**The cost**: Your body is a walking infection vector. Every spell drains your own vitality. Purging fire deals catastrophic damage to you. You carry active decay in your flesh  -  waxy skin, warty growths, cold to the touch. Society outlaws you on sight.
+**The resource bar & costs**: Your resource bar is **Virulence** (0–100), which builds with every active infection on the battlefield. High Virulence amplifies your damage, infection spread radius, and affliction duration. At peak Virulence, you unleash **Harvest Executions** that consume active diseases for massive burst damage.
 
-**Bring one for**: Unmatched attrition warfare  -  turn enemies into infectious vectors and watch the pandemic consume entire encounters. No other class fights by turning the enemy's own body against them with such creeping, inevitable finality.`,
- },
+**Bring one for**: Contagion warfare, spreading layered debuffs across whole groups of enemies, and watching entire encounters collapse under an inescapable pandemic.`
+  },
 
   description: `The Plaguebringer is a grim, tragic practitioner of corruption who treats the battlefield as a garden of rot. By sowing seeds of sickness in their enemies and nurturing them through stages of infection, they cultivate a creeping pandemic. However, this dark garden demands constant sacrifice; casting their spells drains the Plaguebringer's own vitality and leaves them vulnerable to purging fire.`,
 

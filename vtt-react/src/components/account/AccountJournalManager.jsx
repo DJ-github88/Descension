@@ -7,14 +7,28 @@ import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import './styles/AccountJournalManager.css';
 
-// Check if an icon is a custom path (creature/ability icon) or built-in
+// Check if an icon is a custom path (creature/ability icon, data URL, http, etc.)
 const isCustomIcon = (iconType) => {
-  return iconType && (iconType.includes('/') || iconType.includes('\\'));
+  return Boolean(
+    iconType && (
+      iconType.includes('/') ||
+      iconType.includes('\\') ||
+      iconType.startsWith('data:') ||
+      iconType.startsWith('http') ||
+      iconType.startsWith('blob:') ||
+      iconType.startsWith('/assets')
+    )
+  );
 };
 
 // Get icon URL for custom icons
 const getOrbIconUrl = (iconType) => {
   if (!iconType || !isCustomIcon(iconType)) return null;
+
+  // If already a full URL or data URI, return directly
+  if (iconType.startsWith('data:') || iconType.startsWith('http') || iconType.startsWith('blob:') || iconType.startsWith('/')) {
+    return iconType;
+  }
 
   // Determine icon category based on path
   if (iconType.toLowerCase().includes('icon') ||
@@ -157,6 +171,8 @@ const AccountJournalManager = ({ user }) => {
   const [newBoardName, setNewBoardName] = useState('');
   const [newBoardColor, setNewBoardColor] = useState(FOLDER_COLORS[0]);
   const [newBoardIcon, setNewBoardIcon] = useState('fa-project-diagram');
+  const [orbEditorLabel, setOrbEditorLabel] = useState('');
+  const [noteImage, setNoteImage] = useState(null);
   const boardRef = useRef(null);
 
   const {
@@ -194,6 +210,50 @@ const AccountJournalManager = ({ user }) => {
     setBoardBackground,
     clearBoardBackground
   } = useShareableStore();
+
+  // Helper to read and optimize image files to Data URL
+  const handleImageUpload = useCallback((file, callback) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (PNG, JPG, WebP).');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 320;
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/png'));
+        } else {
+          callback(dataUrl);
+        }
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const openOrbEditor = useCallback((orb) => {
+    const content = getContentByOrb(orb);
+    setOrbEditorLabel(orb.label || content?.title || '');
+    setShowOrbEditor(orb);
+  }, [getContentByOrb]);
 
   // Filter content based on current folder
   // When a folder is selected, show ONLY items in that folder
@@ -317,11 +377,15 @@ const AccountJournalManager = ({ user }) => {
     const y = e.clientY - boardRect.top - 30;
 
     if (noteId) {
-      addKnowledgeOrb(noteId, { x, y }, 'note', 'sticky-note', '#f39c12');
+      const note = playerNotes.find(n => n.id === noteId);
+      const iconToUse = note?.image || 'sticky-note';
+      addKnowledgeOrb(noteId, { x, y }, 'note', iconToUse, '#f39c12');
     } else if (knowledgeId) {
-      addKnowledgeOrb(knowledgeId, { x, y }, 'knowledge');
+      const knowledge = playerKnowledge.find(k => k.id === knowledgeId);
+      const iconToUse = knowledge?.image || (knowledge?.type === 'image' ? knowledge?.content : 'scroll');
+      addKnowledgeOrb(knowledgeId, { x, y }, 'knowledge', iconToUse);
     }
-  }, [addKnowledgeOrb]);
+  }, [addKnowledgeOrb, playerNotes, playerKnowledge]);
 
   // Handle adding item from popup to board
   const handleAddOrbConfirm = useCallback(() => {
@@ -431,14 +495,15 @@ const AccountJournalManager = ({ user }) => {
     if (!noteTitle.trim()) return;
 
     if (editingNote) {
-      updateNote(editingNote.id, { title: noteTitle, content: noteContent });
+      updateNote(editingNote.id, { title: noteTitle, content: noteContent, image: noteImage });
     } else {
-      addNote(noteTitle, noteContent);
+      addNote(noteTitle, noteContent, noteImage);
     }
 
     setEditingNote(null);
     setNoteTitle('');
     setNoteContent('');
+    setNoteImage(null);
   };
 
   // Get current folder name
@@ -695,9 +760,11 @@ const AccountJournalManager = ({ user }) => {
               {/* Orbs */}
               {filteredOrbs.map(orb => {
                 const content = getContentByOrb(orb);
-                const hasCustomIcon = isCustomIcon(orb.iconType);
-                const customIconUrl = hasCustomIcon ? getOrbIconUrl(orb.iconType) : null;
+                const orbIconSource = orb.customImage || orb.iconType;
+                const hasCustomIcon = isCustomIcon(orbIconSource);
+                const customIconUrl = hasCustomIcon ? getOrbIconUrl(orbIconSource) : null;
                 const iconData = !hasCustomIcon ? (ORB_ICONS.find(i => i.id === orb.iconType) || ORB_ICONS[0]) : null;
+                const displayTitle = orb.label || content?.title || '???';
 
                 return (
                   <div
@@ -711,11 +778,17 @@ const AccountJournalManager = ({ user }) => {
                     onMouseDown={(e) => handleOrbMouseDown(e, orb)}
                     onContextMenu={(e) => {
                       e.preventDefault();
-                      setShowOrbEditor(orb);
+                      openOrbEditor(orb);
                     }}
                     onDoubleClick={() => {
                       const c = getContentByOrb(orb);
-                      if (c) setShowKnowledgePopup({ ...c, sourceType: orb.sourceType });
+                      if (c) {
+                        setShowKnowledgePopup({
+                          ...c,
+                          sourceType: orb.sourceType,
+                          customImage: orb.customImage || (hasCustomIcon ? customIconUrl : null)
+                        });
+                      }
                     }}
                   >
                     {hasCustomIcon ? (
@@ -728,7 +801,7 @@ const AccountJournalManager = ({ user }) => {
                     ) : (
                       <i className={`fas ${iconData?.icon || 'fa-scroll'}`}></i>
                     )}
-                    <span className="orb-title">{content?.title || '???'}</span>
+                    <span className="orb-title">{displayTitle}</span>
                   </div>
                 );
               })}
@@ -766,8 +839,8 @@ const AccountJournalManager = ({ user }) => {
                     onClick={() => setShowKnowledgePopup({ ...knowledge, sourceType: 'knowledge' })}
                   >
                     <div className="card-preview">
-                      {knowledge.type === 'image' ? (
-                        <img src={knowledge.content} alt="" />
+                      {knowledge.type === 'image' || knowledge.image ? (
+                        <img src={knowledge.image || knowledge.content} alt="" />
                       ) : (
                         <div className="text-preview">
                           <i className="fas fa-file-alt"></i>
@@ -808,29 +881,68 @@ const AccountJournalManager = ({ user }) => {
                 className="note-title-input"
                 value={noteTitle}
                 onChange={(e) => setNoteTitle(e.target.value)}
-                placeholder="Note title..."
+                placeholder="Note title or person/location name..."
               />
+
+              {/* Note Image Attachment */}
+              <div className="note-image-attach-section">
+                {noteImage ? (
+                  <div className="note-image-preview-wrapper">
+                    <img src={noteImage} alt="Attachment" className="note-image-preview" />
+                    <button
+                      type="button"
+                      className="note-image-remove-btn"
+                      onClick={() => setNoteImage(null)}
+                      title="Remove image"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                ) : (
+                  <label className="note-image-upload-btn">
+                    <i className="fas fa-image"></i>
+                    <span>Attach Portrait / PNG</span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      style={{ display: 'none' }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file, (dataUrl) => {
+                            setNoteImage(dataUrl);
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                )}
+              </div>
+
               <textarea
                 className="note-content-input"
                 value={noteContent}
                 onChange={(e) => setNoteContent(e.target.value)}
-                placeholder="Write your note here..."
-                rows={10}
+                placeholder="Write your note, lore, relationship details, family history here..."
+                rows={8}
               />
               <div className="note-editor-actions">
                 {editingNote && (
                   <button
+                    type="button"
                     className="btn btn-secondary"
                     onClick={() => {
                       setEditingNote(null);
                       setNoteTitle('');
                       setNoteContent('');
+                      setNoteImage(null);
                     }}
                   >
                     Cancel
                   </button>
                 )}
                 <button
+                  type="button"
                   className="btn btn-primary"
                   onClick={handleSaveNote}
                   disabled={!noteTitle.trim()}
@@ -864,8 +976,12 @@ const AccountJournalManager = ({ user }) => {
                         setEditingNote(note);
                         setNoteTitle(note.title);
                         setNoteContent(note.content);
+                        setNoteImage(note.image || null);
                       }}
                     >
+                      {note.image && (
+                        <img src={note.image} alt={note.title} className="note-card-img-thumb" />
+                      )}
                       <div className="note-card-header">
                         <i className="fas fa-sticky-note"></i>
                         <span className="note-title">{note.title}</span>
@@ -876,6 +992,7 @@ const AccountJournalManager = ({ user }) => {
                       <div className="note-card-footer">
                         <span className="note-date">{new Date(note.lastModified).toLocaleDateString()}</span>
                         <button
+                          type="button"
                           className="note-delete-btn"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -894,7 +1011,7 @@ const AccountJournalManager = ({ user }) => {
         )}
       </div>
 
-      {/* Knowledge Popup Modal */}
+      {/* Knowledge / Note Popup Modal */}
       {showKnowledgePopup && createPortal(
         <div className="modal-overlay" onClick={() => setShowKnowledgePopup(null)}>
           <div className="knowledge-modal" onClick={(e) => e.stopPropagation()}>
@@ -902,10 +1019,25 @@ const AccountJournalManager = ({ user }) => {
               <i className="fas fa-times"></i>
             </button>
             <h3>{showKnowledgePopup.title}</h3>
-            {showKnowledgePopup.type === 'image' && (
-              <img src={showKnowledgePopup.content} alt={showKnowledgePopup.title} className="modal-image" />
+
+            {/* If item has an image, portrait, or customImage */}
+            {(showKnowledgePopup.image || showKnowledgePopup.imageUrl || showKnowledgePopup.customImage || showKnowledgePopup.type === 'image' || (showKnowledgePopup.iconType && isCustomIcon(showKnowledgePopup.iconType))) && (
+              <div className="knowledge-modal-image-wrapper">
+                <img
+                  src={
+                    showKnowledgePopup.image ||
+                    showKnowledgePopup.imageUrl ||
+                    showKnowledgePopup.customImage ||
+                    (showKnowledgePopup.type === 'image' ? showKnowledgePopup.content : null) ||
+                    getOrbIconUrl(showKnowledgePopup.iconType)
+                  }
+                  alt={showKnowledgePopup.title}
+                  className="modal-image"
+                />
+              </div>
             )}
-            {(showKnowledgePopup.type === 'text' || showKnowledgePopup.sourceType === 'note') && (
+
+            {(showKnowledgePopup.type === 'text' || showKnowledgePopup.sourceType === 'note' || !showKnowledgePopup.type) && (
               <div className="modal-text">{showKnowledgePopup.content}</div>
             )}
             {showKnowledgePopup.description && (
@@ -919,47 +1051,126 @@ const AccountJournalManager = ({ user }) => {
       {/* Orb Editor Modal */}
       {showOrbEditor && createPortal(
         <div className="modal-overlay" onClick={() => setShowOrbEditor(null)}>
-          <div className="orb-editor-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>Edit Orb</h4>
+          <div className="folder-modal orb-editor-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h4><i className="fas fa-magic"></i> Edit Knowledge Orb</h4>
+              <button className="modal-close-btn" onClick={() => setShowOrbEditor(null)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
 
-            <div className="editor-section">
-              <label>Icon</label>
-              <div className="icon-grid">
-                {ORB_ICONS.map(icon => (
-                  <button
-                    key={icon.id}
-                    className={`icon-option ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
-                    onClick={() => {
-                      updateOrb(showOrbEditor.id, { iconType: icon.id });
-                      setShowOrbEditor({ ...showOrbEditor, iconType: icon.id });
-                    }}
-                    title={icon.label}
+            <div className="modal-body">
+              {/* Orb Label / Name Input */}
+              <div className="form-field">
+                <label>Orb Title / Name</label>
+                <input
+                  type="text"
+                  value={orbEditorLabel}
+                  onChange={(e) => {
+                    setOrbEditorLabel(e.target.value);
+                    updateOrb(showOrbEditor.id, { label: e.target.value });
+                  }}
+                  placeholder="Enter orb title or character name..."
+                />
+              </div>
+
+              {/* Custom Image / PNG Upload Section */}
+              <div className="form-field">
+                <label>Custom Image / Portrait (PNG, JPG)</label>
+                <div className="orb-image-upload-row">
+                  <div
+                    className="orb-image-preview-badge"
+                    style={{ '--orb-color': showOrbEditor.color }}
                   >
-                    <i className={`fas ${icon.icon}`}></i>
-                  </button>
-                ))}
+                    {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
+                      <img
+                        src={getOrbIconUrl(showOrbEditor.iconType)}
+                        alt=""
+                        className="orb-preview-img"
+                      />
+                    ) : (
+                      <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
+                    )}
+                  </div>
+                  <div className="orb-image-actions">
+                    <label className="orb-image-upload-btn">
+                      <i className="fas fa-upload"></i>
+                      <span>Upload PNG / Image</span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif"
+                        style={{ display: 'none' }}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleImageUpload(file, (dataUrl) => {
+                              updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
+                              setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
+                            });
+                          }
+                        }}
+                      />
+                    </label>
+                    {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
+                      <button
+                        type="button"
+                        className="orb-image-reset-btn"
+                        onClick={() => {
+                          updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
+                          setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
+                        }}
+                      >
+                        <i className="fas fa-undo"></i> Reset to icon
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Standard Icons Grid */}
+              <div className="form-field">
+                <label>Or Choose Standard Icon</label>
+                <div className="orb-editor-icon-grid">
+                  {ORB_ICONS.map(icon => (
+                    <button
+                      key={icon.id}
+                      type="button"
+                      className={`orb-editor-icon-btn ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
+                      onClick={() => {
+                        updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
+                        setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
+                      }}
+                      title={icon.label}
+                    >
+                      <i className={`fas ${icon.icon}`}></i>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Color Swatches Grid */}
+              <div className="form-field">
+                <label>Orb Glow Color</label>
+                <div className="folder-color-grid">
+                  {ORB_COLORS.map(color => (
+                    <button
+                      key={color}
+                      type="button"
+                      className={`folder-color-btn ${showOrbEditor.color === color ? 'selected' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => {
+                        updateOrb(showOrbEditor.id, { color });
+                        setShowOrbEditor(prev => ({ ...prev, color }));
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div className="editor-section">
-              <label>Color</label>
-              <div className="color-grid">
-                {ORB_COLORS.map(color => (
-                  <button
-                    key={color}
-                    className={`color-option ${showOrbEditor.color === color ? 'selected' : ''}`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => {
-                      updateOrb(showOrbEditor.id, { color });
-                      setShowOrbEditor({ ...showOrbEditor, color });
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="editor-actions">
+            <div className="modal-actions">
               <button
+                type="button"
                 className="btn btn-danger"
                 onClick={() => {
                   removeOrb(showOrbEditor.id);
@@ -969,10 +1180,16 @@ const AccountJournalManager = ({ user }) => {
                 <i className="fas fa-trash"></i> Remove
               </button>
               <button
+                type="button"
                 className="btn btn-primary"
-                onClick={() => setShowOrbEditor(null)}
+                onClick={() => {
+                  if (orbEditorLabel) {
+                    updateOrb(showOrbEditor.id, { label: orbEditorLabel.trim() });
+                  }
+                  setShowOrbEditor(null);
+                }}
               >
-                Done
+                <i className="fas fa-check"></i> Done
               </button>
             </div>
           </div>

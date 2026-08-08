@@ -456,57 +456,84 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
    return false;
   }, [user?.uid, user?.isGuest]);
 
- // Calculate or use passed initial transform so the map enters at the exact scrolled location.
- const [initialTransform] = useState(() => {
-  if (propInitialTransform && isFinite(propInitialTransform.scale)) {
-   return propInitialTransform;
-  }
-  if (typeof window === 'undefined') return { scale: 0.4, posX: 0, posY: 0 };
-  const W = window.innerWidth;
-  const H = window.innerHeight;
-  const fitScale = Math.max(W / 4096, H / 3072);
-  const fitX = (W - 4096 * fitScale) / 2;
-  const fitY = (H - 3072 * fitScale) / 2;
-  return { scale: fitScale, posX: fitX, posY: fitY };
- });
+  // Calculate or use passed initial transform so the map enters at the exact scrolled location.
+  const [initialTransform] = useState(() => {
+    if (propInitialTransform && isFinite(propInitialTransform.scale)) {
+      return propInitialTransform;
+    }
+    if (typeof window === 'undefined') return { scale: 0.4, posX: 0, posY: 0 };
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const fitScale = Math.max(W / 4096, H / 3072);
+    const fitX = (W - 4096 * fitScale) / 2;
+    const fitY = (H - 3072 * fitScale) / 2;
+    return { scale: fitScale, posX: fitX, posY: fitY };
+  });
 
- // Seamless crossfade into interactive map mode
- useEffect(() => {
-  const t = setTimeout(() => {
-   setPhase('immersed');
-   setShowBorder(true);
-  }, 800);
-  return () => clearTimeout(t);
- }, []);
+  // Seamless entrance into interactive map mode:
+  // Visible immediately at initialTransform with smooth border & control reel-in
+  useEffect(() => {
+    const t1 = setTimeout(() => {
+      setShowBorder(true);
+    }, 120);
+    const t2 = setTimeout(() => {
+      setPhase('immersed');
+    }, 380);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
 
- const handleClose = useCallback(() => {
-  if (onClosing) onClosing();
-  setShowBorder(false);
-  setSidebarOpen(false);
-  setPhase('zoomingIn');
+  // Smoothly glide camera from landing dive position to centered world map overview over 1.4s
+  useEffect(() => {
+    if (propInitialTransform && propInitialTransform.scale) {
+      const timer = setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          const W = window.innerWidth;
+          const H = window.innerHeight;
+          const fitScale = Math.max(W / 4096, H / 3072);
+          setTargetZoomPoint({
+            x: 2048,
+            y: 1536,
+            scale: Math.max(fitScale, 0.45),
+            duration: 1400,
+            id: Date.now()
+          });
+        }
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [propInitialTransform]);
 
-  setTimeout(() => {
-   setPhase('complete');
-   setTimeout(() => onClose(), 200);
-  }, 1300);
- }, [onClose, onClosing]);
+  const handleClose = useCallback(() => {
+    if (onClosing) onClosing();
+    setShowBorder(false);
+    setSidebarOpen(false);
+    setPhase('zoomingIn');
 
- const getImageCoords = (e, transformRef) => {
-  try {
-   const el = e.currentTarget || document.querySelector('.map-overlay-svg');
-   if (!el) return null;
-   const rect = el.getBoundingClientRect();
-   if (rect.width === 0 || rect.height === 0) return null;
+    setTimeout(() => {
+      setPhase('complete');
+      onClose();
+    }, 550);
+  }, [onClose, onClosing]);
 
-   const x = (e.clientX - rect.left) * (MAP_WIDTH / rect.width);
-   const y = (e.clientY - rect.top) * (MAP_HEIGHT / rect.height);
+  const getImageCoords = (e, transformRef) => {
+    try {
+      const el = e.currentTarget || document.querySelector('.map-overlay-svg');
+      if (!el) return null;
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return null;
 
-   if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) return null;
-   return [Math.round(x), Math.round(y)];
-  } catch (err) {
-   return null;
-  }
- };
+      const x = (e.clientX - rect.left) * (MAP_WIDTH / rect.width);
+      const y = (e.clientY - rect.top) * (MAP_HEIGHT / rect.height);
+
+      if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) return null;
+      return [Math.round(x), Math.round(y)];
+    } catch (err) {
+      return null;
+    }
+  };
 
   const handleToggleCustomMap = useCallback(() => {
    if (!canAccessCustomMaps) {

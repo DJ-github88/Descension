@@ -11,8 +11,8 @@ export const TOXICOLOGIST_DATA = {
       "allowedSubraces": [
            "thalren_human",
            "tethered_mimir",
-           "florae_unified",
-           "florae_unified",
+           "viridian_florae",
+           "shorn_florae",
            "drun_neth"
        ],
       "hardBlocks": [
@@ -72,8 +72,8 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    florae_unified: {
-      subraceName: 'Trueborn Florae',
+    viridian_florae: {
+      subraceName: 'Trueborn Florae (Viridian)',
       title: 'The Thorn-Venom',
       reframe: `The <LoreLink termId="briaran">Trueborn Florae</LoreLink>, thorn-cloaked traditionalists of the deep groves, carry the most *personal* toxicology in the tradition: the thorn-blood itself. The fae-contract that scrawls shifting raven-markings across the deep ironwood also infuses the Florae's thorns, and an Trueborn Toxicologist distills *their own blood*, the fae-venom that grows from their forearms.`,
       signatureAbility: {
@@ -88,8 +88,8 @@ export const TOXICOLOGIST_DATA = {
       }
     },
 
-    florae_unified: {
-      subraceName: 'Shorn Florae',
+    shorn_florae: {
+      subraceName: 'Shorn Florae (Hidden-Cuil)',
       title: 'The Hidden-Cuil',
       reframe: `The <LoreLink termId="briaran">Shorn Florae</LoreLink> pass as human among the Thalren edge-settlements, and a Toxicologist among them brews in *absolute secret*, distilling thorn-venom in basements, hiding the reagents from neighbors who would report them. The Shorn are the tradition's *spies*: their craft is optimized for concealment, for toxins that kill without trace, for a poisoner who cannot afford to be caught. They learned the craft from the very humans they hide among  -  Shorn Florae have lived in Thalren edge-settlements since the Second Clearing, and when Thalren distillers began teaching their neighbors fog-venom extraction, the Shorn listened from the shadows. What the Thalren taught as area-denial warfare, the Shorn refined into assassination.`,
       signatureAbility: {
@@ -214,15 +214,15 @@ The fog is changing chemistry. Compounds that remained viable for years now degr
     illustrationCaption: "A Mimir Toxicologist, a mysterious alchemist wearing a carved storm-glass mask with beastlike curves and a tattered bark-hide cloak.",
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: A self-poisoned surgeon whose veins run thick with weaponized toxin  -  a walking crucible of reagents who brews death from their own saturated blood. They began as a healer who understood the boundary between medicine and venom. That person is dead.
+    title: "Class Overview",
+    content: `**Who they are**: The Toxicologist is a master alchemical prep-specialist and poison surgeon whose veins run thick with weaponized reagents. You are the only preparation-based alchemist in Mythrill—rigging choke points with chemical traps and brewing lethal compounds mid-fight from your own saturated blood.
 
-**The hook**: The only preparation-based alchemist in the game. Set traps before initiative, craft poisons mid-combat from Toxin Vials bled from your own flesh, and stack debilitating debuffs no other class can apply  -  weakened, slowed, bleeding, and armor-shredded before the real fight begins.
+**The hook**: You prepare for battle through **Chemical Traps & Dynamic Brewing**: before initiative is rolled, you can seed the battlefield with vapor mines and spike traps. In combat, you bleed Toxin Vials to craft custom poisons tailored to enemy weaknesses.
 
-**The cost**: Your body rejects medicine  -  all healing you receive is halved. Fire and ember damage causes your active poisons to detonate inside you. Your hands shake constantly from years of toxin exposure, a visible mark that brands you as what you are. Without preparation time, you are a basic combatant carrying a body full of toxins with nowhere to spend them.
+**The resource bar & costs**: Your resource bar is **Toxin Vials** (bled from your own vitality) and **Contraption Parts**. You spend Vials to apply debilitating debuffs—weakening enemy attacks, slowing movement, shredding armor, and causing internal hemorrhaging.
 
-**Bring one for**: Turning the battlefield into your laboratory before initiative is even rolled  -  no other class can pre-rig a choke point with spike traps and poison gas, then craft explosives mid-fight while layered afflictions slowly dismantle the enemy.`,
-    },
+**Bring one for**: Tactical pre-fight preparation, debuffing enemies into helplessness, and playing a cunning alchemical mastermind who dismantles bosses before they take an action.`
+  },
 
     description: `A toxicologist is a self-poisoned surgeon whose veins run thick with weaponized toxin. The body rejects restoration. Every poison costs blood. Every antidote is for someone else.`,
 

@@ -101,7 +101,7 @@ const MapCanvas = ({
   // Dynamic minScale to allow viewing the entire map
   const [minScale, setMinScale] = useState(0.15);
   const [isCustomDropActive, setIsCustomDropActive] = useState(false);
-  const [isMapImageLoading, setIsMapImageLoading] = useState(true);
+  const [isMapImageLoading, setIsMapImageLoading] = useState(() => !initialTransform);
 
   // Compute active image source & map title
   const subMapObj = !customMapMode && activeMapId !== 'mythril' ? getSubregionMap(activeMapId) : null;
@@ -128,6 +128,10 @@ const MapCanvas = ({
       setIsMapImageLoading(false);
       return;
     }
+    if (initialTransform) {
+      setIsMapImageLoading(false);
+      return;
+    }
     setIsMapImageLoading(true);
     let isCancelled = false;
     const img = new Image();
@@ -145,7 +149,7 @@ const MapCanvas = ({
     return () => {
       isCancelled = true;
     };
-  }, [activeImgSrc]);
+  }, [activeImgSrc, initialTransform]);
 
   // Handle smooth camera zoom to target subregion point
   useEffect(() => {
@@ -481,7 +485,7 @@ const MapCanvas = ({
       onDragLeave={handleCustomDragLeave}
       onDrop={handleCustomDrop}
     >
-      {isMapImageLoading && (
+      {isMapImageLoading && !initialTransform && (
         <AssetLoadingOverlay 
           message={`Cartographing ${mapName}...`} 
           subtext="Preloading high-resolution world map assets..." 
@@ -544,8 +548,8 @@ const MapCanvas = ({
                         top: 0,
                         left: 0,
                         imageRendering: '-webkit-optimize-contrast',
-                        opacity: isMapImageLoading ? 0 : 1,
-                        transition: 'opacity 0.35s ease'
+                        opacity: (isMapImageLoading && !initialTransform) ? 0 : 1,
+                        transition: initialTransform ? 'none' : 'opacity 0.35s ease'
                       }}
                       draggable={false}
                     />

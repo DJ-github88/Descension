@@ -1190,59 +1190,6 @@
 
 /* ===== TTRPG GUIDEBOOK DECORATIVE WATERCOLOR ASSETS ===== */
 
-/* Corner filigree decorations */
-.rules-page-corner {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  pointer-events: none;
-  z-index: 4;
-  mix-blend-mode: multiply;
-  opacity: 0.65;
-  user-select: none;
-}
-
-.rules-page-corner.top-left {
-  top: 8px;
-  left: 8px;
-}
-
-.rules-page-corner.top-right {
-  top: 8px;
-  right: 8px;
-  transform: scaleX(-1); /* flip horizontally */
-}
-
-.rules-page-corner.bottom-left {
-  bottom: 8px;
-  left: 8px;
-  transform: scaleY(-1); /* flip vertically */
-}
-
-.rules-page-corner.bottom-right {
-  bottom: 8px;
-  right: 8px;
-  transform: scale(-1); /* flip both axes */
-}
-
-/* Bottom page landscape border trim */
-.rules-bottom-trim {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  width: calc(100% - 28px);
-  height: 85px;
-  object-fit: cover;
-  object-position: bottom center;
-  pointer-events: none;
-  z-index: 3;
-  mix-blend-mode: multiply;
-  opacity: 0.8;
-  user-select: none;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
 /* Horizontal runic divider image */
 .rules-divider-img {
   height: 28px;
@@ -1257,10 +1204,4 @@
 }
 
 /* Responsive adjustment: hide decorations on smaller screens to prioritize reading area */
-@media (max-width: 1024px) {
-  .rules-page-corner,
-  .rules-bottom-trim {
-    display: none !important;
-  }
-}
 

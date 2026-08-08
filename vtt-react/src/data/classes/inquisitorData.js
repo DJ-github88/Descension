@@ -142,7 +142,7 @@ export const INQUISITOR_DATA = {
       note: `Two parallel traditions from the same wound. Orven forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken. Elias opened his veins to draw Wyrd face-stealers into living flesh. The traditions merged when the incursion rate tripled.`
     },
     currentLeader: {
-      name: '<LoreLink termId="vrael-forty-seventh">High-Severer <LoreLink termId="vrael-forty-seventh">Vrael the Forty-Seventh</LoreLink></LoreLink>',
+      name: '<LoreLink termId="vrael-forty-seventh">High-Severer Vrael the Forty-Seventh</LoreLink>',
       title: 'Last Commander of the Barbed Vow',
       characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor, and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
     },
@@ -151,8 +151,10 @@ export const INQUISITOR_DATA = {
   },
 
   worldFriction: [
-    { region: 'bryngloom-forest', status: 'persecuted-by-network', consequence: 'The mycelial rash now marks every active Inquisitor (and spreads to their families), the Root-Veil itself is identifying them. In the deep Bryngloom, a glowing Inquisitor cannot hide, and the very forest routes Wyrd-creatures toward them.', workaround: 'The Barbed Vow offers no concealment; the only workaround is to operate outside the network, but outside the network, an Inquisitor cannot track. They are caught between exposure and blindness.' },
-    { region: 'frostwood-reach', status: 'celebrated', consequence: 'In the Frostwood, the Thalren-rooted Inquisitors are celebrated as the line between civilization and the Wyrd. Greymark Keep grants them lodging, authority, and a standing bounty on severed corruptions. The incursion-rate triple has only increased their standing, and their casualty rate.' }
+    { region: 'bryngloom-forest', status: 'tolerated', consequence: 'Atropolis legal councils respect the Inquisitor\'s authority to sever rogue covenants, but require sworn affidavits for every bound aberration.', workaround: 'Present sealed inquisitorial mandates upon entering city gates.' },
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren folk fear the Inquisitor\'s barbed vows as much as the Wyrd horrors they hunt, viewing them as walking beacons of paranoia.', workaround: 'Travel cloaked and avoid civilian hearths.' },
+    { region: 'sundale', status: 'allied', consequence: 'The Solvan Vigil respects the Inquisitor\'s cold-iron discipline and frequently contracts them to purge Wyrd-tainted ore veins.', workaround: 'None needed; honored in the outer wards.' },
+    { region: 'emberspire', status: 'distrusted', consequence: 'Magma cultists view Inquisitorial authority as foreign imperial overreach.', workaround: 'Maintain diplomatic detachment and avoid religious calderas.' }
   ],
 
   overview: {
@@ -169,15 +171,15 @@ Only forty-seven inquisitors remain. The Wyrd is bleeding faster, and new entiti
 Each subrace hunts through their own culture's strengths. The Marked Vreken track corruption through the mycelial network itself, the forest's nervous system. The Clean Vreken identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Marked sever. The Thalren open their own veins as bait, each wound a permanent scar of intended betrayal. The Vreken hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Woven Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Righteous Authority building from patience rather than pursuit.`,
 
     quickOverview: {
-      title: "The Weight of Authority",
-      content: `**Who they are**: An occult arbiter who hunts spellcasters with cold iron and commands bound horrors with salt-scarred authority  -  two traditions fused into a single devastating doctrine. They are both Covenbane and Exorcist, and the distinction no longer matters.
+    title: "Class Overview",
+    content: `**Who they are**: The Inquisitor is a merciless occult arbiter and anti-magic sentinel who hunts spellcasters with cold iron and binds supernatural horrors into obedience. Combining the old Exorcist and Covenbane arts into a single iron-clad doctrine, you are the ultimate counter to magical corruption.
 
-**The hook**: Build Righteous Authority by absorbing and negating enemy magic while commanding bound supernatural entities. Spend it to shatter spells, purge corruption from allies at physical cost, and execute the supernatural with terminal finality. Every third strike against a possessed or enchanted target unleashes a white-hot spike of alchemical silver that bypasses all resistance.
+**The hook**: You shut down enemy spellcasting completely: countering spells as they are cast, purging magical buffs from enemies, severing supernatural conduits, and binding otherworldly entities into servitude to fight on your behalf.
 
-**The cost**: Against mundane threats, you generate nothing  -  and the silver in your marrow makes you catastrophically vulnerable to ordinary steel. The demons bound in your blood whisper constantly. Your skin crawls with contained horrors, and the communities you protect will never fully trust the thing you have become.
+**The resource bar & costs**: Your resource bar is **Righteous Authority**, generated whenever you counter magic, purge corruption, or execute tainted foes. You spend Authority to unleash devastating silver-coated strikes that pierce all magical defenses and execute summoned creatures in a single blow. Against mundane physical foes, Authority builds slower, requiring strategic tactical planning.
 
-**Bring one for**: Systematic oppression of spellcasters and the ability to turn an enemy's summoned horror into your own weapon  -  no other class combines anti-magic negation with horror binding in a single doctrine.`,
-    },
+**Bring one for**: Systematic oppression of spellcasters, horror binding, and the ability to turn an enemy's summoned abomination into your own weapon.`
+  },
 
     description: `For those who stand on the bleeding edge between absolute authority and absolute heresy, the Inquisitor is the ultimate arbiter of the occult. Born from the fusion of two parallel traditions, the cold-iron Covenbane and the horror-binding Exorcist, they wield both anti-magic negation and Wyrd-touched binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities, allowing them to shatter spells, bind demons, and purge corruption. Yet the price of this power is absolute: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds to maintain control, and total isolation from the very communities they protect.`,
 

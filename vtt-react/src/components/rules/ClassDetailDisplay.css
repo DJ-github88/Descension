@@ -4049,6 +4049,117 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   color: #d4af37 !important;
 }
 
+/* --- HERO QUICK OVERVIEW CARD & SECTIONS --- */
+.hero-overview-card {
+  background: rgba(253, 248, 238, 0.95) !important;
+  border: 1px solid rgba(212, 175, 55, 0.6) !important;
+  border-top: 3px solid #d4af37 !important;
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.08), inset 0 0 40px rgba(255, 255, 255, 0.8) !important;
+  margin-bottom: 25px !important;
+}
+
+.hero-overview-card .hero-header {
+  font-family: 'Cinzel', serif !important;
+  font-size: 1.12rem !important;
+  font-weight: 700 !important;
+  color: #5a1e12 !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  letter-spacing: 0.8px !important;
+  padding-bottom: 12px !important;
+}
+
+.hero-overview-card .hero-header i {
+  color: #d4af37 !important;
+  font-size: 1.15rem !important;
+}
+
+.hero-overview-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.qo-section-box {
+  border-radius: 6px !important;
+  padding: 14px 16px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+  position: relative !important;
+}
+
+.qo-section-box:hover {
+  transform: translateX(3px) !important;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.08) !important;
+}
+
+.identity-box {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
+  border-left: 4px solid #8b4513 !important;
+}
+
+.gimmick-box {
+  background: rgba(255, 252, 240, 0.95) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  border-left: 4px solid #d4af37 !important;
+}
+
+.resource-box {
+  background: rgba(245, 248, 255, 0.95) !important;
+  border: 1px solid rgba(52, 152, 219, 0.3) !important;
+  border-left: 4px solid #2980b9 !important;
+}
+
+.payoff-box {
+  background: rgba(245, 255, 248, 0.95) !important;
+  border: 1px solid rgba(46, 204, 113, 0.3) !important;
+  border-left: 4px solid #27ae60 !important;
+}
+
+.general-box {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(200, 185, 157, 0.4) !important;
+  border-left: 4px solid #8b6914 !important;
+}
+
+.qo-section-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 8px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.76rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+}
+
+.qo-badge-identity { color: #8b4513 !important; }
+.qo-badge-identity i { color: #8b4513 !important; }
+
+.qo-badge-gimmick { color: #b78700 !important; }
+.qo-badge-gimmick i { color: #d4af37 !important; }
+
+.qo-badge-resource { color: #20638f !important; }
+.qo-badge-resource i { color: #2980b9 !important; }
+
+.qo-badge-payoff { color: #1e824c !important; }
+.qo-badge-payoff i { color: #27ae60 !important; }
+
+.qo-badge-general { color: #8b6914 !important; }
+.qo-badge-general i { color: #8b6914 !important; }
+
+.qo-section-text {
+  font-family: 'Crimson Text', serif !important;
+  font-size: 1.06rem !important;
+  line-height: 1.55 !important;
+  color: #382c1e !important;
+  margin: 0 !important;
+}
+
 /* --- SPEC CARD SPECIFICS --- */
 .guide-illustration-wrapper-centered {
   display: flex !important;

@@ -918,6 +918,10 @@
   padding: 0;
   width: 100%;
   max-width: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 /* Journal manager fits naturally within the tab content (no full-bleed hack).
@@ -928,8 +932,11 @@
   max-width: 100% !important;
   min-width: 0 !important;
   margin: 0 !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
   height: auto !important;
-  min-height: calc(100vh - 220px) !important;
+  min-height: calc(100vh - 160px) !important;
   box-sizing: border-box !important;
 }
 

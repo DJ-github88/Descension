@@ -130,15 +130,15 @@ Today, a Berserker\u2019s muscles literally tear themselves from the bone to swi
 As a Berserker, you carry the Hunger Pact in your veins  -  or the substitute your people found to survive without it. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.`,
 
  quickOverview: {
-  title: "Quick Overview",
-   content: `**Who they are**: A tragic anomaly whose "rage" is not rage at all  -  it is the Hunger Pact, a physiological memory of ancestral starvation passed down through generations. When recalled, the body remembers a time when it should have died and refuses to let that happen again. The blood literally boils, the tendons snap, and the body becomes a self-destructive engine of war.
+    title: "Class Overview",
+    content: `**Who they are**: The Berserker is an unstoppable, near-death juggernaut fueled by ancestral starvation and physical suffering. You don't fight with calm discipline; you awaken the Hunger Pact in your veins, transforming your own body into a self-destructive war engine that hits harder the closer you are to dying.
 
-**The hook**: Build Blood-Heat by hitting and bleeding  -  the higher it climbs, the more your damage scales. When your own health drops below 30%, you enter Death's Door and your strikes completely bypass all enemy physical resistances. You turn near-death into unmitigated destruction.
+**The hook**: Your signature mechanic is **Death's Door**: when your health drops below 30%, your strikes completely bypass all enemy physical armor and damage resistances. You thrive in the danger zone, turning what would be a fatal wound into an apocalyptic counter-assault.
 
-**The cost**: While raging above 20 Heat, pain immunity kicks in  -  which means no ally can heal you. Zero self-healing exists. Push past 100 Heat and your heart seizes in Metabolic Burnout. Every fight shortens your lifespan. Veteran Berserkers die young, not in battle, but in their sleep when their hearts finally give out after years of thermal stress.
+**The resource bar & costs**: Your resource bar is **Blood-Heat** (0–100+), generated every time you land a strike or take damage. As your Heat climbs through escalating tiers, your melee damage, speed, and critical threat scale aggressively. Above 20 Heat, pain immunity kicks in—which also prevents allies from healing you. If you push past 100 Heat, you suffer Metabolic Burnout, taking self-inflicted thermal damage.
 
-**Bring one for**: Apocalyptic near-death damage output that turns certain defeat into mutual annihilation  -  no class hits harder at the edge of the grave.`,
- },
+**Bring one for**: Apocalyptic near-death damage output that turns certain defeat into mutual annihilation—no other class hits harder at the edge of the grave.`
+  },
 
   description: `The Berserker represents the raw survival of flesh and bone. They do not wield magic; they push their own anatomy past its limits through pure adrenaline and boiling fury. As their Blood-Heat rises, their muscles strain beyond human tolerance to swing harder. This physiological meltdown grants terrifying strength but rapidly burns their metabolic reserves, leading toward inevitable systemic collapse.`,
 

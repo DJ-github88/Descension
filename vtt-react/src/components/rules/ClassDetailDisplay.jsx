@@ -485,6 +485,65 @@ const getNotableFiguresForClass = (regionSection, className) => {
  return figures;
 };
 
+// Parse Quick Overview content into categorized section blocks
+const parseQuickOverview = (content) => {
+  if (!content) return [];
+  const blocks = [];
+  const paragraphs = content.split(/\n\s*\n/).filter(p => p.trim());
+
+  paragraphs.forEach(para => {
+    const trimmed = para.trim();
+    if (!trimmed) return;
+
+    const headerMatch = trimmed.match(/^\*\*([^*]+)\*\*:\s*([\s\S]*)$/);
+    if (headerMatch) {
+      const title = headerMatch[1].trim();
+      const body = headerMatch[2].trim();
+      let type = 'general';
+      let icon = 'fas fa-info-circle';
+      let badgeClass = 'qo-badge-general';
+
+      if (/who they are|what you need to know|identity|concept|overview|tl;dr/i.test(title)) {
+        type = 'identity';
+        icon = 'fas fa-user-shield';
+        badgeClass = 'qo-badge-identity';
+      } else if (/hook|how they play|what it's like|core gimmick|core mechanic|core loop|mechanic|playstyle/i.test(title)) {
+        type = 'gimmick';
+        icon = 'fas fa-dice-d20';
+        badgeClass = 'qo-badge-gimmick';
+      } else if (/cost|price|toll|friction|resource|resource bar|engine/i.test(title)) {
+        type = 'resource';
+        icon = 'fas fa-bolt';
+        badgeClass = 'qo-badge-resource';
+      } else if (/bring one for|why play|appeal|payoff|promise/i.test(title)) {
+        type = 'payoff';
+        icon = 'fas fa-trophy';
+        badgeClass = 'qo-badge-payoff';
+      }
+
+      blocks.push({
+        title,
+        displayTitle: title.toUpperCase(),
+        body,
+        type,
+        icon,
+        badgeClass
+      });
+    } else {
+      blocks.push({
+        title: 'Overview',
+        displayTitle: 'OVERVIEW',
+        body: trimmed,
+        type: 'general',
+        icon: 'fas fa-info-circle',
+        badgeClass: 'qo-badge-general'
+      });
+    }
+  });
+
+  return blocks;
+};
+
 // Parsers to extract structured fields from markdown strings for the dashboard dossier
 const parseCombatRole = (content) => {
  if (!content) return {};
@@ -1711,6 +1770,31 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      {/* Right Column: Deep strategy logs & loops */}
      <div className="overview-chronicles-column">
       
+      {overview.quickOverview?.content && (() => {
+       const qoBlocks = parseQuickOverview(overview.quickOverview.content);
+       return (
+        <div className="chronicle-card hero-overview-card">
+         <div className="chronicle-card-header gold-header hero-header">
+          <i className="fas fa-gamepad"></i>
+          <span>PLAYING THE {(overview.title || classData?.name || '').toUpperCase()}: CLASS OVERVIEW & CORE GIMMICK</span>
+         </div>
+         <div className="hero-overview-body">
+          {qoBlocks.map((block, idx) => (
+           <div key={idx} className={`qo-section-box ${block.type}-box`}>
+            <div className={`qo-section-header ${block.badgeClass}`}>
+             <i className={block.icon}></i>
+             <span className="qo-section-title">{block.displayTitle}</span>
+            </div>
+            <div className="qo-section-text">
+             {parseTextWithLoreLinks(block.body)}
+            </div>
+           </div>
+          ))}
+         </div>
+        </div>
+       );
+      })()}
+
       {combatRoleData.howYouFight && combatRoleData.howYouFight.length > 0 && (
        <div className="chronicle-card flow-card">
         <div className="chronicle-card-header gold-header">

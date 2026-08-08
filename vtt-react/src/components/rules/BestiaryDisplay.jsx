@@ -105,6 +105,21 @@ const formatCombatMechanicsText = (text) => {
   });
 };
 
+const readLoreText = (value) => {
+  if (Array.isArray(value)) return value.filter(Boolean).map(String).join(', ');
+  if (value === null || value === undefined) return '';
+  return String(value).trim();
+};
+
+const isCosmicWyrdCreature = (classification = {}) => {
+  const originClass = readLoreText(classification.originClass).toLowerCase();
+  const status = readLoreText(classification.status).toLowerCase();
+  return originClass === 'ancient-cosmic-wyrdkin'
+    || originClass === 'keth-spawn'
+    || status.includes('cosmic-wyrd')
+    || status.includes('wyrdspawn');
+};
+
 const BestiaryDisplay = () => {
   const [selectedRegion, setSelectedRegion] = useState(BESTIARY_DATA.regions[0].id);
   const [selectedCreature, setSelectedCreature] = useState(null);
@@ -114,6 +129,37 @@ const BestiaryDisplay = () => {
   const currentCreature = selectedCreature
     ? currentRegion?.creatures.find(c => c.id === selectedCreature)
     : null;
+  const loreClassification = currentCreature?.loreClassification || {};
+  const loreCanon = currentCreature?.loreCanon || {};
+  const loreClassificationRows = [
+    ['Status', loreClassification.status],
+    ['Origin class', loreClassification.originClass],
+    ['Wyrd relationship', loreClassification.wyrdRelationship]
+  ]
+    .map(([label, value]) => [label, readLoreText(value)])
+    .filter(([, value]) => value);
+  const loreNote = readLoreText(currentCreature?.loreNote);
+  const loreOrigin = readLoreText(loreCanon.trueOrigin) || readLoreText(currentCreature?.origin);
+  const loreFolklore = readLoreText(loreCanon.folklore) || readLoreText(currentCreature?.heritage);
+  const loreFunction = readLoreText(loreCanon.function) || readLoreText(currentCreature?.nature);
+  const loreValues = readLoreText(loreCanon.values);
+  const loreBindingEffect = readLoreText(loreCanon.bindingEffect);
+  const cosmicWyrd = isCosmicWyrdCreature(loreClassification);
+  const loreWyrdRelationship = readLoreText(loreCanon.wyrdRelationship)
+    || readLoreText(loreClassification.wyrdRelationship)
+    || readLoreText(currentCreature?.depth);
+  const cosmicLoreRows = cosmicWyrd ? [
+    ['Cosmic provenance', loreCanon.cosmicProvenance],
+    ['Wyrd function', loreCanon.wyrdFunction],
+    ['Mythrill anchor', loreCanon.anchor],
+    ['Keth-Amar relationship', loreCanon.kethRelationship],
+    ['Current independence', loreCanon.independence],
+    ['Countermeasure', loreCanon.countermeasure]
+  ]
+    .map(([label, value]) => [label, readLoreText(value)])
+    .filter(([, value]) => value) : [];
+  const hasLayerMetadata = loreClassificationRows.length > 0 || Boolean(loreNote);
+  const hasTruthBeneath = Boolean(loreWyrdRelationship) || cosmicLoreRows.length > 0;
 
   const handleBack = () => {
     setSelectedCreature(null);
@@ -145,14 +191,13 @@ const BestiaryDisplay = () => {
     <div className="bestiary-display">
       {!currentCreature && (
         <div className="bestiary-intro">
-          <h3 className="bestiary-intro-title">📜 The Lore of the Wyrd</h3>
+          <h3 className="bestiary-intro-title">📜 The Native Bestiary &amp; Cosmic Wyrd</h3>
           <p className="bestiary-intro-text">
-            The Wyrd is Keth-Amar's corruption breathed into mortal fears — a living blueprint that uses local folklore to shape its monsters
-            as a structural blueprint. It cannot create: it can only occupy. The creatures that stalk
-            the seven continents are not alien invaders. They are the shape of your own nightmares, given
-            flesh by an ancient corruption that has been sealed beneath the world since before the first stars.
-            Every region breeds its own monsters from its own fears. Understanding the folklore is understanding
-            the weakness.
+            Mythrill's bestiary begins with native beasts, spirits, mythic peoples, constructs, and land beings that inhabited these regions before the Great Binding.
+            The Wyrd is a distinct cosmic medium and ecology: Ancient Cosmic Wyrdkin come from beyond Mythrill, Keth-spawn/Wyrdspawn are narrower direct local
+            manifestations, and Wyrd-touched natives are individuals or branches changed by exposure. Folklore records, translates, or camouflages what is there;
+            it does not create the native bestiary or ancient Wyrdkin. Some Wyrd entities remain anchored in Mythrill after Keth-Amar retreats, so identify the
+            creature's layer and anchor before choosing its weakness.
           </p>
         </div>
       )}
@@ -306,32 +351,82 @@ const BestiaryDisplay = () => {
                   {/* Tab 1 Content: Lore & Legends */}
                   {activeTab === 'lore' && (
                     <div className="bestiary-tab-content fade-in">
-                      <div className="bestiary-lore-section scroll-bg">
-                        <h4><i className="fas fa-feather-pointed"></i> Folklore Origin</h4>
-                        <p>{currentCreature.origin}</p>
-                      </div>
-
-                      {currentCreature.heritage && (
-                        <div className="bestiary-lore-section bestiary-heritage-section">
-                          <h4><i className="fas fa-sparkles"></i> Wyrd Heritage &amp; Manifestation</h4>
-                          <p className="bestiary-heritage-text">{currentCreature.heritage}</p>
+                      {loreOrigin && (
+                        <div className="bestiary-lore-section scroll-bg">
+                          <h4><i className="fas fa-feather-pointed"></i> Mythic Provenance</h4>
+                          <p>{loreOrigin}</p>
                         </div>
                       )}
 
-                      <div className="bestiary-lore-section">
-                        <h4><i className="fas fa-dragon"></i> Nature &amp; Behavior</h4>
-                        <p>{currentCreature.nature}</p>
-                      </div>
+                      {hasLayerMetadata && (
+                        <div className="bestiary-lore-section bestiary-heritage-section">
+                          <h4><i className="fas fa-layer-group"></i> Mythrill Layer</h4>
+                          {loreClassificationRows.map(([label, value]) => (
+                            <p key={label} className="bestiary-heritage-text">
+                              <strong>{label}:</strong> {value}
+                            </p>
+                          ))}
+                          {loreNote && (
+                            <p className="bestiary-heritage-text">
+                              <strong>Canon note:</strong> {loreNote}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
-                      <div className="bestiary-lore-section">
-                        <h4><i className="fas fa-map-location-dot"></i> Habitat</h4>
-                        <p>{currentCreature.habitat}</p>
-                      </div>
+                      {loreFolklore && (
+                        <div className="bestiary-lore-section">
+                          <h4><i className="fas fa-book-open"></i> Folklore Record</h4>
+                          <p>{loreFolklore}</p>
+                        </div>
+                      )}
 
-                      <div className="bestiary-lore-section bestiary-depth">
-                        <h4><i className="fas fa-mask-cat"></i> The Truth Beneath</h4>
-                        <p>{currentCreature.depth}</p>
-                      </div>
+                      {loreFunction && (
+                        <div className="bestiary-lore-section">
+                          <h4><i className="fas fa-dragon"></i> Nature &amp; World Function</h4>
+                          <p>{loreFunction}</p>
+                        </div>
+                      )}
+
+                      {currentCreature.habitat && (
+                        <div className="bestiary-lore-section">
+                          <h4><i className="fas fa-map-location-dot"></i> Habitat</h4>
+                          <p>{currentCreature.habitat}</p>
+                        </div>
+                      )}
+
+                      {loreValues && (
+                        <div className="bestiary-lore-section">
+                          <h4><i className="fas fa-shield-heart"></i> Values &amp; Guardianship</h4>
+                          <p>{loreValues}</p>
+                        </div>
+                      )}
+
+                      {loreBindingEffect && (
+                        <div className="bestiary-lore-section">
+                          <h4><i className="fas fa-temperature-half"></i> Binding &amp; Warmth History</h4>
+                          <p>{loreBindingEffect}</p>
+                        </div>
+                      )}
+
+                      {hasTruthBeneath && (
+                        <div className="bestiary-lore-section bestiary-depth">
+                          <h4>
+                            <i className={`fas ${cosmicWyrd ? 'fa-sparkles' : 'fa-mask-cat'}`}></i>
+                            {cosmicWyrd ? ' Wyrd Ecology' : ' The Truth Beneath'}
+                          </h4>
+                          {loreWyrdRelationship && <p>{loreWyrdRelationship}</p>}
+                          {cosmicLoreRows.length > 0 && (
+                            <div className="bestiary-wyrd-ecology-details">
+                              {cosmicLoreRows.map(([label, value]) => (
+                                <p key={label}>
+                                  <strong>{label}:</strong> {value}
+                                </p>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 

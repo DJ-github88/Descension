@@ -3,7 +3,7 @@
     {
       "id": "gref_memory_trade",
       "name": "Memory Trade",
-      "description": "Frostwood's Wyrd-born scavengers sift through memory-silt. Gref plucks a trivial memory from the target, trading it for a brief veil of evasion.",
+      "description": "Frostwood's native memory merchants and Seelie spirits sift through memory-silt. Gref plucks a trivial memory from the target, trading it for a brief veil of evasion.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_shadow_mindsteal",
@@ -70,7 +70,7 @@
     {
       "id": "gref_release_faces",
       "name": "Release Faces",
-      "description": "Frostwood's Wyrd-born scavengers sift through memory-silt. Upends its barrow, unleashing trapped memories that dazzle and confuse nearby foes.",
+      "description": "Frostwood's native memory merchants and Seelie spirits sift through memory-silt. Upends its barrow, unleashing trapped memories that dazzle and confuse nearby foes.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_shadow_soulleech",
@@ -138,7 +138,7 @@
     {
       "id": "gref_mist_vanish",
       "name": "Mist Vanish",
-      "description": "Frostwood's Wyrd-born scavengers sift through memory-silt. Dissolves into the twilight mist, becoming untargetable.",
+      "description": "Frostwood's native memory merchants and Seelie spirits sift through memory-silt. Dissolves into the twilight mist, becoming untargetable.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_shadow_stealth",

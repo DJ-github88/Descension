@@ -18,9 +18,9 @@
 ---
 
 ### 1.2 The Great Binding & The Price of Magic
-* **Original State:** Mythrill originally had **NO MAGIC**. Magic is strictly the domain of celestial and native gods.
-* **The Sacrifice (Year 0):** To hide Sol from Keth Amar, Aex wrapped her celestial body around her son at Mythrill's core. To avoid total forfeiture of status, Aex and Aethil forged a pact with mortal Human Houses to anchor Sol's casing.
-* **The Great Binding Pact:** Mortal lineages bound their existential survival to Sol's shell. In exchange, the houses were granted Elemental Magics and Celestial Relics, mutating their lineages over generations into distinct subraces (Solari, Vreken, Florae, etc.).
+* **Original State:** Mythrill originally had **NO MORTAL MAGIC**. Dangerous native beasts, spirits, mythic peoples, constructs, and land beings already inhabited the world; celestial and native gods held powers mortals did not.
+* **The Sacrifice (Year 0):** To hide Sol from Keth Amar, Aex wrapped her celestial body around her son at Mythrill's core. To avoid total forfeiture of status, Aex and Aethil forged a blood oath with suitable mortal Human Houses to anchor Sol's casing.
+* **The Great Binding Pact:** The blood oath introduced celestial magic and Celestial Relics to those mortal lineages, binding their existential survival to Sol's shell and mutating them over generations into distinct subraces (Solari, Vreken, Florae, etc.). It did not create Mythrill's pre-existing native bestiary.
 
 ---
 
@@ -47,7 +47,7 @@
 ```
 
 ### Era I: The Primordial Dawn (Pre-Year 0)
-Magicless Mythrill, shaped by Native Deities (Groven, Myrathil, Mimir).
+Mythrill without mortal magic, inhabited and shaped by Native Deities (Groven, Myrathil, Mimir).
 
 ### Era II: The Star-Fall & Great Binding (Year 0 – 300)
 * **Year 0:** Astril crash-land in Sundrift Vale with star-tech and Sacred Magic. Aex/Aethil wrap Sol; 7 Houses bound.
@@ -59,8 +59,8 @@ Magicless Mythrill, shaped by Native Deities (Groven, Myrathil, Mimir).
 
 ### Era III: The Ingress of Wyrd (Years 300 – 325)
 * **Year 300:** Keth Amar arrives, trailing Astril starlight.
-* **Years 300–325:** Keth Amar spies for 25 years via Wyrd magic. Disguised as Aethil, he promises return of thermal warmth and stellar apotheosis to 3 remaining true houses (Solari, Storm, Rime).
-* **Year 325 (Blizzard's End Massacre):** Heirs devoured at Nordhalla peak. Aex shatters into **Aex Shards** raining across continents. Sol vents volcanoes. Keth Amar injured by Aex's core shield and retreats into sky, blanketing Mythrill in Wyrd nightmare magic.
+* **Years 300–325:** After the first Aex cracks and Sol-warmth changes to native habitats, Keth Amar brings and uses an ancient cosmic Wyrd ecology. Disguised as Aethil, he spies for 25 years through Wyrd magic and promises return of thermal warmth and stellar apotheosis to 3 remaining true houses (Solari, Storm, Rime).
+* **Year 325 (Blizzard's End Massacre):** Heirs devoured at Nordhalla peak. Aex shatters into **Aex Shards** raining across continents. Sol vents volcanoes. Keth Amar is injured by Aex's core shield and retreats into the sky, leaving Wyrd corruption, stranded Wyrdkin, and later Wyrdspawn in Mythrill. Native creatures remain native; only individuals, branches, or direct manifestations are changed.
 
 ### Era IV: The Freezing Era & Present Day (Years 325 – 475)
 * **Present Day (150 Years After the Fall):** Mythrill freezes as Sol leaks. Factions battle over Aex Shards. 7th House Acolytes search for monoliths. Regional campaigns begin!
@@ -105,25 +105,31 @@ Magicless Mythrill, shaped by Native Deities (Groven, Myrathil, Mimir).
 
 ---
 
-## 5. CREATURE COSMOLOGY & THE 3 COSMIC LAYERS
+## 5. CREATURE COSMOLOGY & THE NATIVE/WYRD ECOLOGY
 
-> **Core Rule:** Mythrill does **NOT** use generic fantasy tropes (such as standard D&D dragons or brimstone demons). Instead, Mythrill's creature lore is built upon **3 Distinct Cosmic Layers** anchored by the **Great Binding's Dark Bargains**.
+> **Core Rule:** Mythrill has no single creature origin. It was already inhabited before the Great Binding, and folklore records, translates, or camouflages what exists. It does not create native creatures or Ancient Cosmic Wyrdkin.
 
-### 5.1 The 3 Cosmic Layers of Mythrill
+### 5.1 The Four Creature Layers
 
-| Cosmic Layer | WoW Analogue | Mythrill Entity | Metaphysical Function in Mythrill |
-| :--- | :--- | :--- | :--- |
-| **Layer 1: The Corruptor / Demonic** | Burning Legion | **Keth-Amar & The Wyrd** | Cosmic predator. Infiltrates mortal fables, breathing nightmare life into regional folklore through fear and corrupted memory. |
-| **Layer 2: The Eldritch / Whispers** | Old Gods / Void | **Native Deities & Dominator Deity** | Pre-magic gods & the 7th House Patron. Secretly plants parasitic **Watcher's Sparks** in heroes to orchestrate world domination via the 7th Monolith. |
-| **Layer 3: The Campaign Pillars / Relic Entities** | Titan Relics / Pillars of Creation | **The 7 Monoliths (Aex Essence)** | The **7 Core Pillars of Mythrill Campaigns**. Ancient artifacts containing Aex's shattered essence that take over and possess host entities/cults (starting with Nordhalla's Rime Cult). Drive each region's primary campaign arc. |
+| Layer | Canonical source and role | Anchors and persistence |
+| :--- | :--- | :--- |
+| **Native Mythrill creatures** | Pre-Binding beasts, spirits, mythic peoples, constructs, and land beings with ecological, spiritual, territorial, or cultural roles. | Rooted in habitat, lineage, native powers, materials, or land memory. They persist independently of Keth Amar. Pre-Keth oath failures and lineage breaks fractured Aex and released Sol warmth, changing their habitats and behavior without creating them. |
+| **Ancient Cosmic Wyrdkin** | Pre-existing extra-Mythrill organisms and entities from an ancient cosmic Wyrd ecology. Keth Amar may bring, attract, direct, or exploit them as scouts, breach-keepers, drainers, parasites, mimics, siege organisms, collectors/judges, or independent predators. | They may enter through Keth's wake or Astril trail, Aex-shell cracks, Wyrd breaches, infected matter, or Aex Shard anchors. A self-sustaining nest or anchor can leave them stranded and active after Keth retreats. |
+| **Keth-spawn / Wyrdspawn** | The narrower class of direct local offspring, bodies, larvae, or manifestations generated by Keth Amar's Wyrd after arrival. | They depend on an active Wyrd breach, infected host or material, Shard, or other local anchor. Breaking the anchor or Wyrd supply can end them, though a surviving nest may persist. |
+| **Wyrd-touched natives** | Native individuals, broods, or branches altered by Wyrd exposure, pact, parasitism, or habitat wounds. The native identity remains meaningful; corruption is a condition, not a new species. | The condition may be anchored in a body, lineage, territory, object, oath, or symbiosis. It can recover, adapt, or remain after Keth retreats if the wound or anchor remains. |
 
----
+Folklore is evidence rather than genesis. A local tale may preserve a native survival practice, mistranslate an ancient Wyrdkin, or camouflage a Wyrdspawn's tell. Counterplay begins by identifying the layer and tracing its anchor: native threats usually require ecological, spiritual, social, or territorial solutions; Ancient Cosmic Wyrdkin require route, nest, or anchor disruption; Wyrdspawn require breach, host, Shard, or supply disruption; Wyrd-touched natives require a response to the individual condition.
 
-### 5.2 The Functional Role of Folklore Beings: Living Tolls of the Dark Bargain
+### 5.2 Keth Amar's Seven-Region Wyrd Strategy
 
-Folklore creatures in Mythrill are not passive regional flavor—they are the **living interest payments on the Dark Bargains** forged in Year 0:
+Keth Amar uses the Wyrd strategically rather than treating every creature as a servant. He places cosmic fauna, direct spawn, parasites, and local alterations against the binding's regional vulnerabilities:
 
-1. **Frostwood Reach (Memory Toll):** The bargain cost *Memory*. Folklore entities (*Fog-Walkers*, *Memory-Thieves*) literally consume human recollection, forcing mortals to keep written journals.
-2. **Bryngloom (Mortality Toll):** The bargain cost *Life-Debt*. Folklore entities (*Blight-Crypt Guardians*, *Bone-Collectors*) enforce the Postmortem Corvée and harvest life-tolls.
-3. **Nordhalla (Starvation Toll):** The bargain cost *Thermal Warmth*. Folklore entities (*Skald Blood-Fiends*, *Rime-Singers*) embody ancestral famine and freezing fury.
-4. **Sundale (Ash & Conviction Toll):** The bargain cost *Sacred Fire*. Folklore entities (*Ember-Devourers*, *Ash-Wraiths*) feed on conviction and burn what remains of Sol's flame.
+1. **Frostwood Reach:** Attack memory, identity, and records while exposing or locating Viridane concealment.
+2. **Nordhalla:** Drain warmth and pressure glaciers, hearths, and rune systems until Rime resilience fails.
+3. **Sundale:** Probe Sol, Aex, and Emberspire; widen the central feeding wound and turn heat against the binding.
+4. **Iceheart Sea:** Disrupt routes, create wrecks, and deepen isolation through sea, harbor, and contract forms.
+5. **Cragjaw Peaks:** Infiltrate pipes and mines, sabotage heat and communication, and corrupt rune and alchemical infrastructure.
+6. **Sundrift Vale:** Exploit starlessness, ancestor traditions, and debt to counterfeit guidance and control movement.
+7. **Bryngloom Forest:** Pressure the Root-Veil, death-cycle, and contracts to turn renewal into a permanent drain.
+
+Keth Amar's retreat does not reset the ecology. Ancient Wyrdkin may form independent colonies, direct Wyrdspawn may outlive their maker while an anchor remains, and Wyrd-touched natives may recover, adapt, or remain altered. Every creature record must state its own origin, role, anchor, current independence, and countermeasure.

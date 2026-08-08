@@ -180,8 +180,10 @@ export const WARDEN_DATA = {
   },
 
   worldFriction: [
-    { region: 'cragjaw-peaks', status: 'celebrated-and-divided', consequence: 'The Bound are honored across the Cragjaw as the line between the holds and the deep horrors, but the chardalyn schism has split their reception. The Groven settlements honor iron-chain Wardens; the Fexric guild-halls increasingly favor chardalyn. A Warden\'s welcome depends on which alloy they bear.', workaround: 'A Warden who carries neither alloy openly (or who conceals the chain) is judged on merit alone, increasingly rare as the schism forces public allegiance.' },
-    { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan nomads associate chain-grafts with captivity (the Groven vat-heritage) and treat Wardens as willing prisoners, pitied rather than welcomed. A Warden on the steppe is housed alone and never asked to bind an animal.' }
+    { region: 'bryngloom-forest', status: 'employed', consequence: 'Atropolis bailiffs contract Wardens to chain and drag dangerous fugitives and rogue entities into subterranean vaults.', workaround: 'Show bounty warrants to gate-sentinels.' },
+    { region: 'frostwood-reach', status: 'distrusted', consequence: 'Thalren hunters consider chain-tethering cruel and dangerous, fearing dragged monsters will destroy civilian livestock.', workaround: 'Avoid civilian pathways while escorting bound quarries.' },
+    { region: 'sundale', status: 'revered', consequence: 'Forge-masters supply Wardens with hardened starlight-steel links to anchor caldera breach-monsters.', workaround: 'None needed in garrison districts.' },
+    { region: 'emberspire', status: 'allied', consequence: 'Waste-Solari guards fight alongside Wardens, using iron chains to anchor giant magma-beasts in place.', workaround: 'Share captured quarry meat with local outposts.' }
   ],
 
   overview: {
@@ -189,15 +191,15 @@ export const WARDEN_DATA = {
     subtitle: "The Penitent Jailer & Nightmare Bound",
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: A penitent jailer who has driven rusted iron chains through their own forearms, spine, and flesh  -  an anchor of meat and metal who tethers abominations with their own body as the pin.
+    title: "Class Overview",
+    content: `**Who they are**: The Warden is a grim penitent jailer who has grafted heavy iron chains directly into their own bones and flesh. You lock down the most dangerous monstrosities on the battlefield, forcing them into inescapable 1-on-1 duels where they are physically chained to you and cannot touch your allies.
 
-**The hook**: Drive your grafted hooks into a target and they cannot touch your allies  -  every blow they land builds your Tether Tension, and every point of tension feeds bone-crushing counter-strikes and iron-hard braces that render you immovable.
+**The hook**: Your signature mechanic is **Forced Tethering**: you drive iron chain-hooks into priority enemies, locking them in place and forcing them to attack only you while your party safely focuses them down.
 
-**The cost**: You are physically chained to your prisoner. Half of all area damage it takes hits you too. A tethered giant drags you bodily across the battlefield. The iron graft never fully heals  -  every Warden carries a scar-map of every monster they have ever anchored, and old wounds ache worse when struck again.
+**The resource bar & costs**: Your resource bar is **Tether Tension** and **Vengeance Points**, generated every time a tethered enemy strikes you or tries to escape. You spend Tension on bone-cracking chain whips, ground slams, and iron braces that render you completely immovable.
 
-**Bring one for**: Absolute, inescapable lockdown. The thing you chain is removed from the fight until you release it or die  -  no other class can force a creature to duel them and only them.`,
-    },
+**Bring one for**: Absolute, inescapable crowd control and lockdown, ensuring the most dangerous boss on the field cannot touch your fragile allies.`
+  },
 
     description: `A warden is the Penitent Jailer. Iron chains are grafted directly into the forearms and spine, driven through living bone. The warden physically tethers to abominations, creating a forced duel where the tethered enemy cannot target anyone else. The chain is chosen, not inflicted.`,
 

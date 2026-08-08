@@ -155,15 +155,15 @@ The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Woven Mimir 
 Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Tethered are dying fastest, chasing convergence highs for hours of feeling complete.`,
 
     quickOverview: {
-      title: "Quick Overview",
-      content: `**Who they are**: A kinetic biologist who treats their body as a malleable weapon  -  reshaping posture, bone density, and musculature in real time as they flow between six combat forms that blend momentum dance with biological adaptation.
+    title: "Class Overview",
+    content: `**Who they are**: The Shaper is a fluid kinetic martial artist and biological weapon who reshapes their own bones, musculature, and posture in real time. Instead of carrying heavy weapons or armor, your own flesh is the weapon, adapting seamlessly across six distinct combat stances.
 
-**The hook**: Navigate six Shaping Forms  -  from the frenzied Ataxic Flow to the immovable Deadened Bastion to the predatory Silence Predator. Each form is a complete combat specialty. Build Kinetic Flux through form-specific actions, then shift forms mid-combat to match any situation.
+**The hook**: You fluidly switch between **Six Shaping Forms** (such as Ataxic Flow for multi-strike momentum, Deadened Bastion for damage soaking, or Silence Predator for stealth execution). Each form completely redefines your stats, attack profiles, and tactical role mid-combat.
 
-**The cost**: Zero base armor. Double wyrd damage taken. If rooted or grappled, your Flux drops to zero and your body hemorrhages blight damage each round. Every transformation leaves a scar  -  your joints grind from kinetic friction, your bones crack from forced mutations, and your identity erodes with every shift. The body is an instrument you play until the strings break.
+**The resource bar & costs**: Your resource bar is **Kinetic Flux**, generated through form-specific attacks and momentum. You spend Flux to execute devastating stance finishers and morph between forms without losing tempo. But rapid mutations take a **Body Toll**—over-shifting strains your anatomy, and being immobilized drops your Flux to zero while dealing internal damage.
 
-**Bring one for**: Tactical versatility unmatched by any other melee class  -  six stances, each a complete combat identity, switchable on demand as the battlefield demands.`
-    },
+**Bring one for**: Tactical versatility unmatched by any other melee class—six distinct stances, switchable on demand as the battlefield requires.`
+  },
 
     description: `A shaper treats their body as a malleable weapon, reshaping posture, bone density, and musculature in real time through six Shaping Forms. Every transformation leaves a scar.`,
 

@@ -144,11 +144,13 @@ subraceVariants: {
  },
 
  worldFriction: [
-  { region: 'everywhere-else', status: 'valued', consequence: 'Magical defense is in universal demand, a Spellguard can find paid work in any settlement within a day. The Wyrd-bleed and rising ambient magic have made them the most actively recruited class in the known world.', workaround: 'The same glow that makes them valued makes them unable to hide: a Spellguard cannot pass unnoticed, take a rear-guard position, or avoid being the first target. Their welcome is inseparable from their exposure.' },
-  { region: 'sundale', location: 'emberspire', status: 'conscripted', consequence: 'The Dawn Vigil claims authority over all Spellguards within Sundale as "shield-assets of the Reforging"; refusal of Vigil secondment is treated as obstruction of a sacred war.' }
- ],
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Atropolis magistrates hire Spellguards as the premier defense against rogue covenant-weavers and eldritch breaches.', workaround: 'Register with the High Citadel Defense Council.' },
+    { region: 'frostwood-reach', status: 'allied', consequence: 'Thalren sentinels station Spellguards on the Ironwood Palisade to catch and deflect aerial Wyrd projectiles.', workaround: 'Present sentinel military credentials.' },
+    { region: 'sundale', status: 'honored', consequence: 'Solvan smiths prioritize forging rune-tower shields for Spellguards in exchange for anti-magic warding around star-forges.', workaround: 'None needed in artisan quarters.' },
+    { region: 'emberspire', status: 'distrusted', consequence: 'Magma shamans fear that Spellguard refraction shields will siphon geothermal energy from thermal vents.', workaround: 'Keep shields grounded when traversing calderas.' }
+  ],
 
- overview: {
+  overview: {
    originStory: `A spellguard absorbs magic into their own flesh. Not as a trick or a technique, but as the foundational act of a tradition born at the moment the sun was buried.
 
 The first was Damon, a Solari blacksmith working the forge-keeps during the Binding. When Sol was forced into the vault beneath Sundale, the dying star convulsed, a solar flare erupting through the caldera that would have incinerated every worker in the forge-levels. Damon raised an alchemical tower shield and took the flare directly. He was not desecrating Sol's light. He was shielding his fellow workers from a dying star's death-throes. What Damon absorbed was not sacred radiance but Sol's scream.
@@ -162,14 +164,14 @@ Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with
   subtitle: "The Silence-Scarred Aegis",
 
   quickOverview: {
-   title: "Visceral Overview",
-    content: `**Who they are**: A silence-scarred aegis whose flesh is a blistered tomb for absorbed magic. They are not a shining knight  -  their specialized armor is permanently scarred by the radioactive fallout of every spell they have devoured. They stand between their party and the apocalypse, dragging raw leylines into their own lungs.
+    title: "Class Overview",
+    content: `**Who they are**: The Spellguard is an anti-magic juggernaut and living arcane lightning rod whose body is armored to devour enemy spells. You don't fear enemy mages—you step directly into their spell paths, absorb their magic into your own lungs, and detonate it back in their faces.
 
-**The hook**: Physically intercept lethal magical attacks meant for allies, absorb the spell-energy into your body as volatile Silence Resonance, then violently detonate the radiation back at the enemy. You are a magical sponge that reflects destruction.
+**The hook**: Your signature mechanic is **Spell Interception & Redirection**: you can catch incoming enemy spells, absorb their elemental damage into your armor, and store the energy to fire back as weaponized arcane shockwaves.
 
-**The cost**: Holding unspent Resonance burns you from the inside  -  melting your maximum HP and dealing internal blight damage each round you fail to purge it. Your hyper-specialized refraction armor leaves you catastrophically vulnerable to mundane physical strikes  -  a single swing of an executioner's axe can shatter your brittle shell.
+**The resource bar & costs**: Your resource bar is **Silence Resonance**, filled by absorbing enemy spells and channeling defensive wards. You vent Resonance through explosive counter-attacks and prismatic barrier bursts. Holding max Resonance too long causes internal radiation strain, forcing you to vent your power regularly.
 
-**Bring one for**: The ultimate magical shield  -  no other class can step in front of a spell meant for an ally, absorb its full force into their own body, and throw it back at the caster with interest.`,
+**Bring one for**: The ultimate anti-caster tank, protecting your party from catastrophic magic and turning the enemy's biggest spells into your own greatest weapons.`
   },
 
   description: `A spellguard absorbs magic into their own flesh. Not as a trick or a technique, but as the foundational act of a tradition born at the moment the sun was buried.`,

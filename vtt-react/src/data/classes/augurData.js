@@ -172,7 +172,7 @@ signatureAbility: {
   note: `The Skald star-watcher who read the Deepening in a sacrificed elk's entrails. The temporal-feedback burn took her past, her family, and eventually her identity, the price of seeing too clearly, paid in installments.`
  },
  currentLeader: {
-  name: '<LoreLink termId="skadi-glass-eye">Archive-Mistress <LoreLink termId="skadi-glass-eye">Skadi Glass-Eye</LoreLink></LoreLink>',
+  name: '<LoreLink termId="skadi-glass-eye">Archive-Mistress <LoreLink termId="skadi-glass-eye">Skadi Glass-Eye</LoreLink>',
   title: 'Keeper of the Elk-Rites',
    characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s descendant, separated from her ancestor by eight centuries and a title  —  'granddaughter'  —  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see.`
  },
@@ -185,11 +185,13 @@ signatureAbility: {
   },
 
  worldFriction: [
- { region: 'nordhalla', location: 'frozen_archive', status: 'celebrated', consequence: 'At the Frozen Archive, Augurs are the prophetic backbone, their readings inform Skald military deployment and House Skalvyr policy. Senior Augurs hold advisory seats and their elk-readings are recorded in the genealogical archives.', workaround: 'This standing is currently fragile: the 41% accuracy collapse has halved their credibility, and junior augurs are increasingly ignored by commanders who remember the 93% era.' },
- { region: 'sundrift-vale', status: 'distrusted', consequence: 'The Ordan leave their dead to the steppe and have no preservation tradition, Augury reads as necromancy to them. An Augur traveling the Vale is treated as a corpse-violator and refused hospitality at migration camps.' }
- ],
+    { region: 'frostwood-reach', status: 'feared', consequence: 'Thalren settlers believe that hearing an Augur\'s prophecy makes the catastrophe inevitable, shunning haruspexes from town boundaries.', workaround: 'Keep prophecies unspoken or record them in cyphers.' },
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Neth contract-scribes employ Augurs to calculate breach probabilities and legal risks before finalizing covenants.', workaround: 'Register with the High Chamber of Probability.' },
+    { region: 'sundale', status: 'restricted', consequence: 'Forge-clerics consider blood-reading a profane butchery compared to pristine starlight mathematics.', workaround: 'Conduct entrail-divination only in private quarters.' },
+    { region: 'emberspire', status: 'consulted', consequence: 'Caldera lords consult Augurs before descending into magma vents to predict thermal eruptions.', workaround: 'Offer a minor blood sacrifice to the hearth before reading.' }
+  ],
 
- overview: {
+  overview: {
  originStory: `A reader of the immediate future. Not prophecy. Not cosmic destiny. The trajectory of a blade. The moment a guard will drop. The exact second a killing blow will land. The augur reads these things in fresh violence, blood, entrails, splintered bone, and pays for every vision with sanity or stamina.
 
 The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first darkened and her astrolabes froze solid, she took a bronze scaling knife, opened the abdomen of a sacrificial glacier-elk, and traced the steaming convolutions of its intestines across the icy stone. By the purple mottling of the liver and the coil-pattern of the gut, she read the exact hour of the Deepening.
@@ -204,15 +206,15 @@ The star-arithmetic is failing. Accuracy has collapsed from ninety-three percent
  subtitle: "Visceral Haruspex of the Ripped Flesh",
 
  quickOverview: {
-  title: "Quick Overview",
-     content: `**Who they are**: A visceral haruspex who reads the immediate future in steaming entrails, spilt blood, and splintered marrow. They do not gaze at clean stars  —  they drag prophecy warm and wet from the belly of the dead.
+    title: "Class Overview",
+    content: `**Who they are**: The Augur is a visceral haruspex and omen-reader who deciphers the immediate future from steaming entrails, spilled blood, and splintered marrow. You don't predict distant prophecies—you read the next six seconds of combat and rewrite outcomes before blades ever connect.
 
-**The hook**: Every d20 roll within sixty feet feeds your dual resource  —  even results bring agonizing foresight to shield allies, odd results bring decaying curses to cripple enemies. You spend these twin visions to rewrite the next six seconds of combat before the blade ever lands.
+**The hook**: You split every d20 rolled in combat into a dual economy: **Even rolls fuel Benediction** (granting foresight shields and guaranteed hits to allies), while **Odd rolls fuel Malediction** (inflicting decaying curses and forced fumbles on enemies).
 
-**The cost**: Your sight demands fresh violence. With no bleeding target or corpse nearby, the future goes blind  —  you must carve runes into your own forearms and endure a self-inflicted Bleed to force the omens to speak. Unspent visions at rest scourge your mind until blood is spilled again.
+**The resource bar & costs**: Your resource bar is your dual **Benediction & Malediction Pool**, built whenever any combatant rolls a d20 within 60 feet. You spend these twin visions to preemptively prevent damage before it lands, guarantee critical counter-strikes, and curse enemy accuracy.
 
-**Bring one for**: Unmatched preemptive action economy. You do not heal damage after it lands  —  you prevent it from ever connecting, yanking allies out of harm's way and guaranteeing critical counter-strikes that turn a killing blow back on its sender.`,
- },
+**Bring one for**: Unmatched preemptive action economy, manipulating d20 outcomes, and playing a visceral seer whose prophecies guarantee your party's survival.`
+  },
 
  description: `The Augur is a tragic seer of the immediate gutter. While scholars squabble over ancient astronomical charts, the Augur reads the heat of fresh battlefields and the trajectory of violence yet to come. They do not predict broad cosmic destinies, they track the exact trajectory of a blade, the moment a guard will drop, and the instant a killing blow will land. Every vision demands a toll of sanity or stamina; magic is not a formula, but a visceral price that must be paid in focus and fortitude.`,
 

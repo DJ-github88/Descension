@@ -5,11 +5,13 @@
 > **Status:** Canonical as of August 2026 Ratified Master Lore Locks.
 > **Master Framework:** All 21 classes draw power from the 8 Magics (Ember, Blight, Sacred, Arcane, Storm, Rime, Primal, Wyrd), Aex Shard catalysts, ancestral contracts, or celestial/native deity bonds under the 475-Year Epoch Master Timeline.
 
+> **Cosmic Wyrd Canon:** Native Mythrill creatures, spirits, and ancestors predate the Great Binding and arise from Mythrill's own ecologies, histories, and old works. Ancient Cosmic Wyrdkin are pre-existing extra-Mythrill beings from the dark between stars; Keth-Amar may bring, direct, attract, or exploit them, but is not necessarily their creator. Keth-spawn/Wyrdspawn are direct local offspring or manifestations, while Wyrd-touched natives are individual, brood, or branch conditions. Folklore translates, camouflages, and teaches survival around encounters; it does not create creatures.
+
 ---
 
 # ANIMIST
 
-**Origin:** Founded in the early centuries of the Dimming by three figures whose ancestral-communion traditions developed independently: Kael (Ordan, totemic), Nyssa (Vreken, spore), and Theron (Skald, runic). Kael sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Nyssa inhaled bioluminescent spore-dust of the bog in the Bryngloom Forest and bargained with the ancient Wyrd. Theron carved mathematical formulas of ancient clockwork songs into his own skin in the Frozen Archive. The three traditions merged when Nyssa's caravan passed through the Sundrift Vale during a thaw, and Kael's totems resonated with Nyssa's Wyrd, and both recognized Theron's runic patterns as the same ancestral language written in different scripts.
+**Origin:** Founded in the early centuries of the Dimming by three figures whose ancestral-communion traditions developed independently: Kael (Ordan, totemic), Nyssa (Vreken, spore), and Theron (Skald, runic). Kael sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Nyssa inhaled bioluminescent spore-dust of the bog in the Bryngloom Forest and learned to commune with Vreken ancestors through the Root-Veil. Theron carved mathematical formulas of ancient clockwork songs into his own skin in the Frozen Archive. The three traditions merged when Nyssa's caravan passed through the Sundrift Vale during a thaw, and Kael's totems resonated with Nyssa's ancestral chorus, and both recognized Theron's runic patterns as the same ancestral language written in different scripts.
 
 **Identity:** A walking archive of three dead traditions, written in scars, bone spurs, and spiritual static. The Animist does not cast magic; they undergo intense physical transformation. Bone erupts from flesh as totems. Glowing sigils ignite across stone. The voices of ancestral spirits whisper through hallucinations that cannot be silenced. Every word of ancestral power risks Spirit Erosion — the more resonance you hoard, the more the ancestors consume you.
 
@@ -21,7 +23,7 @@ The class is practiced by the Ordan humans, Vashir Astril, Clean Vreken, Rune Ke
 Six subrace variants exist:
 - **Ordan ("The Steppe-Throat")**: Sings ancestors through overtones. The ancestor lives in the overtone, the second voice the throat produces, woven into the mane-hair of migration-horses.
 - **Vashir Astril ("The Heritage-Conduit")**: Commune with the Lumia heritage fragment of a dead world's biosphere in their own blood. The heritage is not external — it is the host.
-- **Clean Vreken ("The Spore-Inhaler")**: Inhale bioluminescent spores carrying the Wyrd, letting the ancestral dead ride fungal particles into the lungs. Their Animism is the oldest of the three root traditions, older than Kora, older than the Root-Veil contract.
+- **Clean Vreken ("The Spore-Inhaler")**: Inhale bioluminescent spores carrying ancestral memory, letting the native dead ride fungal particles into the lungs. Their Animism is the oldest of the three root traditions, older than Kora, older than the Root-Veil contract.
 - **Vreken ("The Debt-Bound")**: Summon the specific forebear whose unpaid contract still accrues interest against their family. The ancestor is not honored — it is *owed*.
 - **Skald ("The Rune-Keeper")**: Carve ancestors' names into their own skin; the rune IS the ancestor, and the scar-tissue is its house.
 - **Velun Neth ("The Ledger-Summoner")**: File a request rather than commune. The ancestor is a recorded entry in the great archive of Atropolis, summoned through proper citation, offer, and acknowledgment of outstanding obligation.
@@ -34,11 +36,11 @@ Six subrace variants exist:
 
 # APEX
 
-**Origin:** Founded in the early decades of the Dimming by Sylas, a wood-ranger who traded his hearing for vibration-sense to track Wyrd-creatures through the Frostwood fog. He stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in fog-memory. To achieve absolute sensory focus, he paid with his hearing, becoming completely deaf to the voices of his kin.
+**Origin:** Founded in the early decades of the Dimming by Sylas, a wood-ranger who traded his hearing for vibration-sense to track native beasts and Wyrd entities through the Frostwood fog. He stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in fog-memory. To achieve absolute sensory focus, he paid with his hearing, becoming completely deaf to the voices of his kin.
 
 **Identity:** The Apex is a master of close-range combat who wields the legendary Shadow Glaive, accompanied by a loyal beast companion. They excel at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, they build power through the bond with their companion — marks represent pack coordination, not individual prowess.
 
-**Role in World:** The Silent Hunt is the Frostwood's primary defense against the Wyrd. Mimir canopy-posts and Thalren settlements pay retainers to resident Apexes. They are essential guides and beast-slayers in every frontier keep, though they rarely speak or enter civilian sectors. Every Apex initiate chooses a sensory sacrifice — Sylas chose hearing. The order communicates through tactile sign-language.
+**Role in World:** The Silent Hunt is the Frostwood's primary defense against Wyrd incursions, while its hunters also track native creatures throughout the Reach. Mimir canopy-posts and Thalren settlements pay retainers to resident Apexes. They are essential guides and beast-slayers in every frontier keep, though they rarely speak or enter civilian sectors. Every Apex initiate chooses a sensory sacrifice — Sylas chose hearing. The order communicates through tactile sign-language.
 
 **Cultural Affiliation:**
 The class is heavily practiced by the Woven Mimir and the Skald hunters.
@@ -219,11 +221,11 @@ Four subrace variants exist:
 
 # INQUISITOR
 
-**Origin:** Founded in the mid-Dimming centuries when two Wyrd-hunting traditions merged into the Barbed Vow. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw the Wyrd's face-stealing horrors into living flesh. When the incursion rate tripled, the two orders merged into a single doctrine.
+**Origin:** Founded in the mid-Dimming centuries when two supernatural-hunting traditions merged into the Barbed Vow. In the deep bogs of the Bryngloom Forest, the Vreken hunter Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kinsmen. In the fog-shrouded groves of the Frostwood Reach, the healer Elias the Salt-Scarred opened his own veins to draw Wyrd mimics and face-stealing forms into living flesh. When the incursion rate tripled, the two orders merged into a single doctrine.
 
-**Identity:** For those on the bleeding edge between absolute authority and absolute heresy, the Inquisitor is the ultimate arbiter of the occult. They wield both anti-magic negation and Wyrd-touched binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities. The price: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds, and total isolation from the communities they protect.
+**Identity:** The Inquisitor specializes in Wyrd incursions, corrupted bonds, and severance. For those on the bleeding edge between absolute authority and absolute heresy, they are the ultimate arbiter of the occult. They wield both anti-magic negation and Wyrd-touched binding as a single devastating doctrine. Their signature resource, Righteous Authority, is fueled by the friction of magical confrontation and the command of bound entities. The price: silver-poisoned bones, whispered demons in the blood, self-inflicted wounds, and total isolation from the communities they protect.
 
-**Role in World:** Celebrated in the Frostwood Reach as the line between civilization and the Wyrd. Persecuted in the deep Bryngloom by the mycelial network itself, which now marks them and routes Wyrd-creatures toward them. They operate from the Sunken Spire and Greymark Keep.
+**Role in World:** Celebrated in the Frostwood Reach as the line between civilization and Wyrd incursions. Persecuted in the deep Bryngloom by the mycelial network itself, which now marks them and routes Wyrd entities toward them. They operate from the Sunken Spire and Greymark Keep.
 
 **Cultural Affiliation:**
 The class is primarily practiced by the Marked Vreken who carry the Ghost-Mycelium, and the Thalren humans and Unwoven Mimir of the Frostwood Reach.
@@ -231,7 +233,7 @@ The class is primarily practiced by the Marked Vreken who carry the Ghost-Myceli
 Four subrace variants exist:
 - **Marked Vreken ("The Mycelium-Hunter")**: Hunt through the mycelial network itself, tracking corruption through the forest's nervous system. Cut spiritual infection where it roots in the forest.
 - **Clean Vreken ("The Glow-Auditor")**: Read bioluminescent signatures of corrupted bonds the way a scribe reads ink. Diagnosticians who find what the Marked sever.
-- **Thalren ("The Salt-Scarred")**: Open their own veins to draw Wyrd face-stealers into living flesh, baiting them with deliberately breakable oaths. Elias's original tradition.
+- **Thalren ("The Salt-Scarred")**: Open their own veins to draw Wyrd mimics and face-stealing forms into living flesh, baiting them with deliberately breakable oaths. Elias's original tradition.
 - **Vreken ("The Contract-Severer")**: Hunt rogue contracts — corrupted familiars, broken oaths, Faustian bargains — severing them with the same legal precision the Neth used to write them. Draft the annulment.
 
 **Fatal Flaw / Crisis:** Only 47 active Inquisitors remain. The Wyrd is bleeding faster, and the incursion rate has tripled. New, unnamed entities in the deep groves have no contracts to sever and no faces to bait — they fall outside the Inquisitor's entire art. The mycelial rash now marks every active Inquisitor and spreads to their families. Recruits are refusing the oath. The current leader, Vrael the Forty-Seventh, has begun training recruits in forbidden techniques — not severing corruption, but *binding* it.
@@ -336,7 +338,7 @@ Four subrace variants exist:
 
 # PYROFIEND
 
-**Origin:** Founded just after the Breach by seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath the Emberspire caldera. They carved the seven sigils of Scathrach, the Ashen Sovereign (the Ninth Flame of the Burning Throne), and offered their life-force as kindling. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire, their bones seared black, their eyes reflecting lightless heat. Scathrach itself was born during the Binding — a fragment of Aex's flayed hide that fell into Emberspire's deepest vent, corrupted by the Wyrd, grew sentient in the fire, served Keth-Amar as a rooting tendril, then developed its own will.
+**Origin:** Founded just after the Breach by seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath the Emberspire caldera. They carved the seven sigils of Scathrach, the Ashen Sovereign (the Ninth Flame of the Burning Throne), and offered their life-force as kindling. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire, their bones seared black, their eyes reflecting lightless heat. Scathrach itself emerged during the Binding as a local Wyrd-touched fire entity: a fragment of Aex's flayed hide fell into Emberspire's deepest vent, was reached by the Wyrd, grew sentient in the fire, served Keth-Amar as a rooting tendril, then developed its own will.
 
 **Identity:** The Pyrofiend is a chaotic fire-wielder who has invited a parasitic Wyrd-intelligence to nest directly within their marrow. They do not command fire through careful study or sacred grace — they bleed it. Their power is governed by the Inferno Veil, an escalating state of corruption that grows hotter, brighter, and more chaotic. The relationship is contractual: Scathrach provides power, the Pyrofiend provides a body.
 

@@ -286,6 +286,30 @@
     border-radius: inherit;
 }
 
+/* Only the focused row needs live motion. Offscreen rows keep their static
+   artwork but do not schedule dozens of animation and filter repaints. */
+.class-row:not(:hover) .class-row-bg-effects,
+.class-row:not(:hover) .class-row-bg-effects::before,
+.class-row:not(:hover) .class-row-bg-effects::after,
+.class-row:not(:hover) .class-row-bg-effects *,
+.class-row:not(:hover) .class-row-cta,
+.class-row:not(:hover) .class-row-cta::before,
+.class-row:not(:hover) .class-row-cta i {
+    animation-play-state: paused !important;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+    .class-row-bg-effects,
+    .class-row-bg-effects::before,
+    .class-row-bg-effects::after,
+    .class-row-bg-effects *,
+    .class-row-cta,
+    .class-row-cta::before,
+    .class-row-cta i {
+        animation-play-state: paused !important;
+    }
+}
+
 /* All foreground content sits above the animated backdrop */
 .class-row-icon,
 .class-row-body,

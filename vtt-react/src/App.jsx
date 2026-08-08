@@ -49,6 +49,7 @@ import './services/roomService';
 const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
 const WorldMapImmerse = lazy(() => import("./components/world-map/WorldMapImmerse"));
 
+import './components/world-map/styles/ImmersionTransition.css';
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
 import './styles/wow-window.css';
@@ -216,6 +217,43 @@ const LoadingFallback = ({ message = "Loading...", subtext = "Preparing assets &
   <AssetLoadingOverlay message={message} subtext={subtext} isFullPage={true} />
 );
 
+// Dedicated Atlas Transition Gateway for World Map Loading & Route Handoff
+const AtlasTransitionGateway = () => (
+  <div className="atlas-transition-gateway">
+    <div className="atlas-gateway-backdrop" />
+    <div className="atlas-gateway-vignette" />
+    <div className="atlas-gateway-particles">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div key={i} className="atlas-gateway-particle" />
+      ))}
+    </div>
+    <div className="atlas-gateway-content">
+      <div className="atlas-gateway-astrolabe">
+        <div className="astrolabe-ring outer" />
+        <div className="astrolabe-ring middle" />
+        <div className="astrolabe-ring inner" />
+        <div className="astrolabe-compass-rose">
+          <span className="cardinal-point north">N</span>
+          <span className="cardinal-point east">E</span>
+          <span className="cardinal-point south">S</span>
+          <span className="cardinal-point west">W</span>
+          <i className="fas fa-dragon astrolabe-dragon-core" />
+        </div>
+      </div>
+      <h1 className="atlas-gateway-title">THE ATLAS OF MYTHRIL</h1>
+      <div className="atlas-gateway-divider">
+        <span className="atlas-divider-wing left" />
+        <i className="fas fa-gem atlas-divider-gem" />
+        <span className="atlas-divider-wing right" />
+      </div>
+      <p className="atlas-gateway-subtitle">Unfolding ancient cartography &amp; uncharted realms...</p>
+      <div className="atlas-gateway-rune-bar">
+        <span className="rune-label">Aperio Mundum</span>
+      </div>
+    </div>
+  </div>
+);
+
 // World Map Route Component for dedicated route-first URLs (/worldmap, /worldmap/:mapId)
 const WorldMapRouteInner = () => {
   const navigate = useNavigate();
@@ -223,16 +261,18 @@ const WorldMapRouteInner = () => {
   const params = useParams();
   const targetMapId = params.mapId || location.state?.targetMapId || null;
   const initialTransform = location.state?.initialTransform || location.state?.transform || null;
+  const fromLanding = !!location.state?.fromLanding;
 
   return (
     <WorldMapImmerse
       initialTransform={initialTransform}
       initialMapId={targetMapId}
+      fromLanding={fromLanding}
       onClose={() => {
-        if (location.state?.fromLanding || window.history.length > 1) {
-          navigate(-1);
+        if (fromLanding || window.history.length > 1) {
+          navigate('/', { replace: false, state: { fromWorldMap: true } });
         } else {
-          navigate('/', { replace: true });
+          navigate('/', { replace: true, state: { fromWorldMap: true } });
         }
       }}
     />
@@ -1390,14 +1430,14 @@ const AppContent = ({
 
         {/* Dedicated World Map & Immersion routes */}
         <Route path="/worldmap" element={
-          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+          <Suspense fallback={<AtlasTransitionGateway />}>
             <ErrorBoundary name="WorldMapImmerse">
               <WorldMapRouteInner />
             </ErrorBoundary>
           </Suspense>
         } />
         <Route path="/worldmap/:mapId" element={
-          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+          <Suspense fallback={<AtlasTransitionGateway />}>
             <ErrorBoundary name="WorldMapImmerse">
               <WorldMapRouteInner />
             </ErrorBoundary>
@@ -1406,7 +1446,7 @@ const AppContent = ({
         <Route path="/immersion" element={<Navigate to="/worldmap" replace />} />
         <Route path="/custommap" element={<Navigate to="/worldmap" replace />} />
         <Route path="/custommap/:mapId" element={
-          <Suspense fallback={<LoadingFallback message="Loading World Map..." />}>
+          <Suspense fallback={<AtlasTransitionGateway />}>
             <ErrorBoundary name="WorldMapImmerse">
               <WorldMapRouteInner />
             </ErrorBoundary>
