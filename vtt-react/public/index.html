@@ -19,6 +19,26 @@
     <link rel="dns-prefetch" href="https://wow.zamimg.com">
     <link rel="dns-prefetch" href="https://mythrill-ff7c6.firebaseapp.com">
 
+    <!-- Immediate cache purge and legacy service worker unregister to guarantee always-latest version -->
+    <script>
+      (function() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (var i = 0; i < registrations.length; i++) {
+              registrations[i].unregister();
+            }
+          }).catch(function() {});
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            for (var i = 0; i < keys.length; i++) {
+              caches.delete(keys[i]);
+            }
+          }).catch(function() {});
+        }
+      })();
+    </script>
+
     <!-- Enhanced Process and Global polyfills - must be first -->
     <script>
       (function() {

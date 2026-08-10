@@ -259,17 +259,11 @@ module.exports = {
         })
       );
 
-      // Configure Workbox (PWA service worker) to handle large bundles
+      // Disable Workbox service worker generation to prevent stale browser caching
       if (env === 'production') {
-        // Find and configure Workbox plugin for PWA
-        const workboxPlugin = webpackConfig.plugins.find(
-          plugin => plugin.constructor.name === 'GenerateSW' || plugin.constructor.name === 'InjectManifest'
+        webpackConfig.plugins = webpackConfig.plugins.filter(
+          plugin => plugin.constructor.name !== 'GenerateSW' && plugin.constructor.name !== 'InjectManifest'
         );
-
-        if (workboxPlugin) {
-          // Increase maximum file size to cache (default is ~2MB, we need ~6MB for our large bundle)
-          workboxPlugin.config.maximumFileSizeToCacheInBytes = 10 * 1024 * 1024; // 10MB
-        }
 
         // Configure TerserPlugin to remove console.logs
         // TerserPlugin is typically already in the minimizer array

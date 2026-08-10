@@ -47,22 +47,6 @@ root.render(
     </ErrorBoundary>
 );
 
-// Handle service worker registration
-if (isDevelopment()) {
-    // Explicitly unregister in development to ensure HMR works correctly
-    // and developers see changes immediately without a hard reset.
-    serviceWorkerRegistration.unregister();
-} else {
-    // Register service worker for caching and performance in production
-    // Auto-reload the page when a new service worker takes over
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
-    });
-
-    serviceWorkerRegistration.register({
-        onUpdate: (registration) => {
-            const event = new CustomEvent('swUpdateAvailable', { detail: registration });
-            window.dispatchEvent(event);
-        }
-    });
-}
+// Ensure service workers and caches are unregistered in all environments
+// to guarantee that users always receive the latest deployed build.
+serviceWorkerRegistration.unregister();
