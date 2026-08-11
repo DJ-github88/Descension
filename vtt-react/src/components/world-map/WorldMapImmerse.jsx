@@ -167,53 +167,45 @@ const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
 const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform, initialMapId: propInitialMapId }) => {
- const [phase, setPhase] = useState('entering');
- const [showBorder, setShowBorder] = useState(false);
- const [sidebarOpen, setSidebarOpen] = useState(false);
- const [selectedRegionId, setSelectedRegionId] = useState(null);
- const [selectedLocationId, setSelectedLocationId] = useState(null);
- const [hoveredRegionId, setHoveredRegionId] = useState(null);
+  const [phase, setPhase] = useState('entering');
+  const [showBorder, setShowBorder] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedRegionId, setSelectedRegionId] = useState(null);
+  const [selectedLocationId, setSelectedLocationId] = useState(null);
+  const [hoveredRegionId, setHoveredRegionId] = useState(null);
 
   // Subregion Map state & transitions
   const [activeMapId, setActiveMapId] = useState('mythril');
-   const [mapStack, setMapStack] = useState([{ id: 'mythril', name: 'World Map of Mythril' }]);
-   const [subregionTransition, setSubregionTransition] = useState({ active: false, targetName: '' });
-   const [targetZoomPoint, setTargetZoomPoint] = useState(null);
-   const [tierInfo, setTierInfo] = useState(null);
-   const canAccessCustomMaps = isCustomMapsTier(tierInfo?.tierKey);
+  const [mapStack, setMapStack] = useState([{ id: 'mythril', name: 'World Map of Mythril' }]);
+  const [subregionTransition, setSubregionTransition] = useState({ active: false, targetName: '' });
+  const [targetZoomPoint, setTargetZoomPoint] = useState(null);
+  const [tierInfo, setTierInfo] = useState(null);
+  const canAccessCustomMaps = isCustomMapsTier(tierInfo?.tierKey);
 
   const handleEnterSubregionMap = useCallback((regionId) => {
     const targetObj = REGION_POLYGONS[regionId] || SUBREGIONS[regionId];
     const mapData = getSubregionMap(regionId);
     const subregionName = targetObj?.name || mapData?.name || regionId;
 
-    let center = [2048, 1536];
-    if (targetObj?.labelPosition && targetObj.labelPosition.length === 2 && targetObj.labelPosition[0] > 0) {
-      center = targetObj.labelPosition;
-    } else if (targetObj?.points && targetObj.points.length >= 3) {
-      const sumX = targetObj.points.reduce((s, p) => s + p[0], 0);
-      const sumY = targetObj.points.reduce((s, p) => s + p[1], 0);
-      center = [Math.round(sumX / targetObj.points.length), Math.round(sumY / targetObj.points.length)];
-    }
-
-    // Smoothly accelerate & camera-zoom into subregion centroid over 800ms
-    setTargetZoomPoint({ x: center[0], y: center[1], scale: 1.85, duration: 800, id: Date.now() });
+    // Reset selection and clear any in-flight zoom point so we load cleanly at full-map view
+    setSelectedRegionId(null);
+    setSelectedLocationId(null);
+    setTargetZoomPoint(null);
 
     // Activate RPG Transition Overlay fog curtain
     setSubregionTransition({ active: true, targetName: subregionName });
     setSidebarOpen(false);
 
-    // Swap map asset at 650ms while transition curtain fully covers screen
+    // Swap map asset at 400ms while transition curtain fully covers screen
     setTimeout(() => {
       setActiveMapId(regionId);
       setMapStack(prev => [...prev, { id: regionId, name: subregionName }]);
-    }, 650);
+    }, 400);
 
-    // Clear transition curtain at 1400ms after reveal
+    // Clear transition curtain at 950ms after reveal
     setTimeout(() => {
       setSubregionTransition({ active: false, targetName: '' });
-      setTargetZoomPoint(null);
-    }, 1400);
+    }, 950);
   }, []);
 
   const handleReturnToParentMap = useCallback(() => {
@@ -223,6 +215,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     setSidebarOpen(false);
     setSelectedRegionId(null);
     setSelectedLocationId(null);
+    setTargetZoomPoint(null);
 
     setTimeout(() => {
       setActiveMapId(parentObj.id);

@@ -481,17 +481,74 @@ const LoreSidebar = ({
               <p className="lore-region-desc">{region.description}</p>
 
               {/* Regional Cartography Action Row */}
-              {(REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
-                <div className="lore-header-actions">
-                  <button
-                    type="button"
-                    className="lore-enter-subregion-btn animate-fade-in"
-                    onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
-                  >
-                    <i className="fas fa-compass" />
-                    <span>{region.isSubregion ? `Focus ${region.name} Map` : 'Open Regional Cartography'}</span>
-                  </button>
+              {region.isSubregion ? (
+                onEnterSubregionMap && (
+                  <div className="lore-header-actions">
+                    <button
+                      type="button"
+                      className="lore-enter-subregion-btn animate-fade-in"
+                      onClick={() => onEnterSubregionMap(regionId)}
+                    >
+                      <i className="fas fa-compass" />
+                      <span>{`Focus ${region.name} Map`}</span>
+                    </button>
+                  </div>
+                )
+              ) : subregionsList && subregionsList.length > 0 ? (
+                <div className="lore-subregions-actions-container animate-fade-in">
+                  <div className="lore-subregions-actions-title">
+                    <i className="fas fa-map-location-dot" />
+                    <span>Subregion Cartography</span>
+                  </div>
+                  <div className="lore-subregions-btn-grid">
+                    {subregionsList.map((sub) => {
+                      const icon = sub.id === 'nordhalla-glacier-heart'
+                        ? 'fa-mountain-sun'
+                        : sub.id === 'nordhalla-fjord-coast'
+                        ? 'fa-water'
+                        : sub.id === 'nordhalla-frostfang-wastes'
+                        ? 'fa-snowflake'
+                        : 'fa-compass';
+                      const locCount = sub.zoneIds?.length || 0;
+
+                      return (
+                        <button
+                          key={sub.id}
+                          type="button"
+                          className="lore-subregion-action-card"
+                          onClick={() => onEnterSubregionMap && onEnterSubregionMap(sub.id)}
+                          title={`Open ${sub.name} Regional Map`}
+                        >
+                          <div className="lore-subregion-card-icon">
+                            <i className={`fas ${icon}`} />
+                          </div>
+                          <div className="lore-subregion-card-info">
+                            <span className="lore-subregion-card-name">{sub.name}</span>
+                            <span className="lore-subregion-card-meta">
+                              {locCount > 0 ? `${locCount} Locations` : 'Explorable Realm'}
+                            </span>
+                          </div>
+                          <div className="lore-subregion-card-arrow">
+                            <i className="fas fa-chevron-right" />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
+              ) : (
+                (REGION_POLYGONS[regionId]?.hasSubregionMap || onEnterSubregionMap) && (
+                  <div className="lore-header-actions">
+                    <button
+                      type="button"
+                      className="lore-enter-subregion-btn animate-fade-in"
+                      onClick={() => onEnterSubregionMap && onEnterSubregionMap(regionId)}
+                    >
+                      <i className="fas fa-compass" />
+                      <span>Open Regional Cartography</span>
+                    </button>
+                  </div>
+                )
               )}
             </div>
 

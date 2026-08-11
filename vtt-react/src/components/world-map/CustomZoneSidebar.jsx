@@ -8,12 +8,12 @@ const ENTRY_TYPE_CONFIG = {
   location: { label: 'Location / POI', icon: 'fa-location-dot', color: 'rgba(235, 190, 85, 0.9)', badgeClass: 'badge-location' }
 };
 
-// Inline parser for bold, italic/cursive, underline, and strikethrough
+// Inline parser for bold, italic/cursive, underline, strikethrough, and highlight
 const parseInline = (text) => {
   if (!text) return '';
 
   const parts = [];
-  const regex = /(\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|~~.*?~~)/g;
+  const regex = /(\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|~~.*?~~|==.*?==)/g;
   let lastIndex = 0;
   let match;
 
@@ -24,6 +24,8 @@ const parseInline = (text) => {
     const token = match[0];
     if (token.startsWith('**') && token.endsWith('**')) {
       parts.push(<strong key={match.index} className="lore-bold">{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith('==') && token.endsWith('==')) {
+      parts.push(<mark key={match.index} className="lore-highlight">{token.slice(2, -2)}</mark>);
     } else if (token.startsWith('*') && token.endsWith('*')) {
       parts.push(<em key={match.index} className="lore-italic">{token.slice(1, -1)}</em>);
     } else if (token.startsWith('<u>') && token.endsWith('</u>')) {
@@ -43,61 +45,279 @@ const parseInline = (text) => {
   return parts.length > 0 ? parts : text;
 };
 
-// Simple safe markdown renderer for rich lore preview
+// Block type config for :::type fenced blocks
+const BLOCK_TYPES = {
+  readaloud: { className: 'lore-readaloud', icon: 'fa-book-open-reader', label: 'Read Aloud' },
+  statblock: { className: 'lore-statblock', icon: 'fa-shield-halved', label: 'Stat Block' },
+  dmnote:    { className: 'lore-dmnote',    icon: 'fa-eye-slash',      label: 'DM Note' },
+  quest:     { className: 'lore-quest',     icon: 'fa-scroll',         label: 'Quest Hook' },
+  npc:       { className: 'lore-npc',       icon: 'fa-masks-theater',  label: 'NPC' },
+  loot:      { className: 'lore-loot',      icon: 'fa-gem',            label: 'Treasure' },
+  scroll:    { className: 'lore-scroll',    icon: 'fa-wand-sparkles',  label: 'Scroll' },
+};
+
+// ── Specialized renderer: STAT BLOCK as a proper table (Mythrill system) ──
+const renderStatBlockBody = (lines, baseKey) => {
+  const statRows = [];
+  const abilityScores = {};
+  const textLines = [];
+  // Mythrill's six base abilities: STR, AGI (agility), CON, INT, SPI (spirit), CHA
+  const ABILITY_NAMES = ['STR', 'AGI', 'CON', 'INT', 'SPI', 'CHA'];
+  // Legacy aliases so older D&D-style stat blocks (DEX/WIS) still render in the grid
+  const ABILITY_ALIASES = { DEX: 'AGI', WIS: 'SPI' };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    const statMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
+    if (statMatch) {
+      const key = statMatch[1].trim().toUpperCase();
+      const canonical = ABILITY_ALIASES[key] || key;
+      if (ABILITY_NAMES.includes(canonical)) {
+        abilityScores[canonical] = statMatch[2].trim();
+      } else {
+        statRows.push({ key: statMatch[1].trim(), val: statMatch[2].trim() });
+      }
+    } else if (trimmed === '---' || trimmed === '***') {
+      statRows.push({ divider: true });
+    } else {
+      textLines.push(trimmed);
+    }
+  });
+
+  const hasAbilities = Object.keys(abilityScores).length > 0;
+
+  return (
+    <>
+      {/* Core stat table */}
+      {statRows.length > 0 && (
+        <table className="statblock-table">
+          <tbody>
+            {statRows.map((row, i) =>
+              row.divider ? (
+                <tr key={`${baseKey}-d-${i}`}><td colSpan={2}><hr className="statblock-divider" /></td></tr>
+              ) : (
+                <tr key={`${baseKey}-r-${i}`} className="statblock-row">
+                  <td className="statblock-key">{row.key}</td>
+                  <td className="statblock-val">{parseInline(row.val)}</td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      )}
+
+      {/* Ability score grid (D&D style 6-column) */}
+      {hasAbilities && (
+        <div className="statblock-abilities">
+          {ABILITY_NAMES.map((ab) => (
+            <div key={ab} className="ability-cell">
+              <span className="ability-label">{ab}</span>
+              <span className="ability-score">{abilityScores[ab] || '—'}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Any free text lines */}
+      {textLines.map((t, i) => (
+        <p key={`${baseKey}-t-${i}`} className="lore-paragraph">{parseInline(t)}</p>
+      ))}
+    </>
+  );
+};
+
+// ── Specialized renderer: LOOT as an item inventory ──
+const renderLootBody = (lines, baseKey) => {
+  const items = [];
+  const textLines = [];
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    // "- Item Name (details)" or "* Item"
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      items.push(trimmed.slice(2));
+    } else {
+      const kvMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
+      if (kvMatch) {
+        items.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
+      } else {
+        textLines.push(trimmed);
+      }
+    }
+  });
+
+  return (
+    <>
+      {textLines.map((t, i) => (
+        <p key={`${baseKey}-t-${i}`} className="lore-paragraph">{parseInline(t)}</p>
+      ))}
+      {items.length > 0 && (
+        <ul className="loot-item-list">
+          {items.map((item, i) =>
+            typeof item === 'string' ? (
+              <li key={`${baseKey}-i-${i}`} className="loot-item">
+                <i className="fas fa-coins loot-coin-icon"></i>
+                <span>{parseInline(item)}</span>
+              </li>
+            ) : (
+              <li key={`${baseKey}-i-${i}`} className="loot-item loot-kv">
+                <span className="loot-item-key">{item.key}</span>
+                <span className="loot-item-val">{parseInline(item.val)}</span>
+              </li>
+            )
+          )}
+        </ul>
+      )}
+    </>
+  );
+};
+
+// ── General inner renderer for other blocks ──
+const renderBlockInner = (lines, baseKey) => {
+  return lines.map((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) return <div key={`${baseKey}-${i}`} className="lore-spacer" />;
+
+    // Stat-line: "Key: Value"
+    const statMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
+    if (statMatch) {
+      return (
+        <div key={`${baseKey}-${i}`} className="lore-stat-line">
+          <span className="lore-stat-key">{statMatch[1]}</span>
+          <span className="lore-stat-val">{parseInline(statMatch[2])}</span>
+        </div>
+      );
+    }
+    // Bullet inside block
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      return (
+        <div key={`${baseKey}-${i}`} className="lore-list-item">
+          <span className="lore-bullet">✦</span>
+          <span>{parseInline(trimmed.slice(2))}</span>
+        </div>
+      );
+    }
+    return <p key={`${baseKey}-${i}`} className="lore-paragraph">{parseInline(line)}</p>;
+  });
+};
+
+// Simple safe markdown renderer for rich lore preview — with TTRPG blocks
 const renderLoreMarkdown = (text = '') => {
   if (!text) return null;
 
   const lines = text.split('\n');
   const elements = [];
+  let i = 0;
 
-  lines.forEach((line, idx) => {
+  while (i < lines.length) {
+    const line = lines[i];
     const trimmed = line.trim();
 
+    // ─── Fenced TTRPG Block (:::type … :::) ───
+    const blockOpenMatch = trimmed.match(/^:::(\w+)(?:\s+(.*))?$/);
+    if (blockOpenMatch) {
+      const blockType = blockOpenMatch[1].toLowerCase();
+      const blockTitle = blockOpenMatch[2] || '';
+      const config = BLOCK_TYPES[blockType];
+      if (config) {
+        const innerLines = [];
+        i++;
+        while (i < lines.length && lines[i].trim() !== ':::') {
+          innerLines.push(lines[i]);
+          i++;
+        }
+        i++; // skip closing :::
+
+        // Choose specialized renderer based on block type
+        let bodyContent;
+        if (blockType === 'statblock') {
+          bodyContent = renderStatBlockBody(innerLines, `blk-${i}`);
+        } else if (blockType === 'loot') {
+          bodyContent = renderLootBody(innerLines, `blk-${i}`);
+        } else {
+          bodyContent = renderBlockInner(innerLines, `blk-${i}`);
+        }
+
+        elements.push(
+          <div key={`block-${i}`} className={`lore-block ${config.className}`}>
+            <div className="lore-block-header">
+              <i className={`fas ${config.icon}`}></i>
+              <span>{blockTitle || config.label}</span>
+            </div>
+            <div className="lore-block-body">
+              {bodyContent}
+            </div>
+          </div>
+        );
+        continue;
+      }
+    }
+
+    // ─── Empty line ───
     if (!trimmed) {
-      elements.push(<div key={idx} className="lore-spacer" />);
-      return;
+      elements.push(<div key={i} className="lore-spacer" />);
+      i++;
+      continue;
     }
 
-    // Divider
+    // ─── Divider ───
     if (trimmed === '---' || trimmed === '***' || trimmed === '___') {
-      elements.push(<hr key={idx} className="lore-divider" />);
-      return;
+      elements.push(<hr key={i} className="lore-divider" />);
+      i++;
+      continue;
     }
 
-    // Headings
+    // ─── Headings ───
     if (trimmed.startsWith('# ')) {
-      elements.push(<h3 key={idx} className="lore-h1">{parseInline(trimmed.slice(2))}</h3>);
-      return;
+      elements.push(<h3 key={i} className="lore-h1">{parseInline(trimmed.slice(2))}</h3>);
+      i++; continue;
     }
     if (trimmed.startsWith('## ')) {
-      elements.push(<h4 key={idx} className="lore-h2">{parseInline(trimmed.slice(3))}</h4>);
-      return;
+      elements.push(<h4 key={i} className="lore-h2">{parseInline(trimmed.slice(3))}</h4>);
+      i++; continue;
     }
     if (trimmed.startsWith('### ')) {
-      elements.push(<h5 key={idx} className="lore-h3">{parseInline(trimmed.slice(4))}</h5>);
-      return;
+      elements.push(<h5 key={i} className="lore-h3">{parseInline(trimmed.slice(4))}</h5>);
+      i++; continue;
     }
 
-    // Blockquote
+    // ─── Blockquote ───
     if (trimmed.startsWith('> ')) {
-      elements.push(<blockquote key={idx} className="lore-blockquote">{parseInline(trimmed.slice(2))}</blockquote>);
-      return;
+      elements.push(<blockquote key={i} className="lore-blockquote">{parseInline(trimmed.slice(2))}</blockquote>);
+      i++; continue;
     }
 
-    // Bullet list
+    // ─── Numbered list ───
+    const numMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
+    if (numMatch) {
+      elements.push(
+        <div key={i} className="lore-list-item lore-numbered-item">
+          <span className="lore-num-badge">{numMatch[1]}</span>
+          <span>{parseInline(numMatch[2])}</span>
+        </div>
+      );
+      i++; continue;
+    }
+
+    // ─── Bullet list ───
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       elements.push(
-        <div key={idx} className="lore-list-item">
+        <div key={i} className="lore-list-item">
           <span className="lore-bullet">✦</span>
           <span>{parseInline(trimmed.slice(2))}</span>
         </div>
       );
-      return;
+      i++; continue;
     }
 
-    // Paragraph
-    elements.push(<p key={idx} className="lore-paragraph">{parseInline(line)}</p>);
-  });
+    // ─── Paragraph (fallback) ───
+    elements.push(<p key={i} className="lore-paragraph">{parseInline(line)}</p>);
+    i++;
+  }
 
   return <div className="lore-formatted-preview">{elements}</div>;
 };
@@ -116,8 +336,32 @@ const CustomZoneSidebar = ({
   const [loreMode, setLoreMode] = useState('write'); // 'write' | 'preview'
   const [showImageUrlInput, setShowImageUrlInput] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
+  const [sidebarWidth, setSidebarWidth] = useState(null); // custom drag-resized width (px)
+  const sidebarRef = useRef(null);
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
+  const dragResize = useRef(null);
+
+  // Drag the left-edge handle to resize the sidebar (320px - 700px)
+  const startSidebarResize = (e) => {
+    e.preventDefault();
+    const aside = sidebarRef.current;
+    if (!aside) return;
+    dragResize.current = { startX: e.clientX, startWidth: aside.offsetWidth };
+    const onMove = (ev) => {
+      if (!dragResize.current) return;
+      const dx = ev.clientX - dragResize.current.startX;
+      const w = Math.min(700, Math.max(320, dragResize.current.startWidth - dx));
+      setSidebarWidth(w);
+    };
+    const onUp = () => {
+      dragResize.current = null;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  };
 
   const typeConfig = ENTRY_TYPE_CONFIG[zone?.kind] || ENTRY_TYPE_CONFIG.region;
   const isPolygon = zone?.kind !== 'location' && zone?.geometry !== 'point';
@@ -161,6 +405,28 @@ const CustomZoneSidebar = ({
     }, 10);
   };
 
+  // Insert a full pre-built template block at cursor
+  const insertTemplate = (templateText) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const currentVal = zone.lore || '';
+    // Add newline before if cursor isn't at line start
+    const needsNewline = start > 0 && currentVal[start - 1] !== '\n';
+    const insert = (needsNewline ? '\n' : '') + templateText + '\n';
+    const nextVal = currentVal.substring(0, start) + insert + currentVal.substring(start);
+
+    if (onUpdateZone) {
+      onUpdateZone(zone.id, { lore: nextVal });
+    }
+
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + insert.length, start + insert.length);
+    }, 10);
+  };
+
   // Image Upload Handler
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
@@ -192,7 +458,22 @@ const CustomZoneSidebar = ({
   };
 
   return (
-    <aside className="custom-zone-sidebar open animate-fade-in" aria-label="Custom zone details">
+    <aside
+      ref={sidebarRef}
+      className="custom-zone-sidebar open animate-fade-in"
+      aria-label="Custom zone details"
+      style={sidebarWidth ? { width: sidebarWidth } : undefined}
+    >
+      <div
+        className="custom-zone-resize-handle"
+        onMouseDown={startSidebarResize}
+        title="Drag to resize (320 - 700 px)"
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize sidebar"
+      >
+        <i className="fas fa-grip-vertical"></i>
+      </div>
       <div className="custom-zone-sidebar-accent" style={{ background: zone.color || typeConfig.color }} />
 
       <div className="custom-zone-sidebar-header">
@@ -481,96 +762,247 @@ const CustomZoneSidebar = ({
           <>
             {/* Rich Markdown Formatting Toolbar */}
             <div className="lore-format-toolbar">
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('**', '**')}
-                title="Bold (**text**)"
-              >
-                <i className="fas fa-bold"></i>
-              </button>
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('*', '*')}
-                title="Cursive / Italic (*text*)"
-              >
-                <i className="fas fa-italic"></i>
-              </button>
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('<u>', '</u>')}
-                title="Underline (<u>text</u>)"
-              >
-                <i className="fas fa-underline"></i>
-              </button>
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('~~', '~~')}
-                title="Strikethrough (~~text~~)"
-              >
-                <i className="fas fa-strikethrough"></i>
-              </button>
-              <span className="format-divider" />
-              <button
-                type="button"
-                className="format-btn font-cinzel"
-                onClick={() => insertFormatting('# ')}
-                title="Header 1 (# Title)"
-              >
-                H1
-              </button>
-              <button
-                type="button"
-                className="format-btn font-cinzel"
-                onClick={() => insertFormatting('## ')}
-                title="Header 2 (## Subtitle)"
-              >
-                H2
-              </button>
-              <button
-                type="button"
-                className="format-btn font-cinzel"
-                onClick={() => insertFormatting('### ')}
-                title="Header 3 (### Section)"
-              >
-                H3
-              </button>
-              <span className="format-divider" />
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('- ')}
-                title="Bullet list (- Item)"
-              >
-                <i className="fas fa-list-ul"></i>
-              </button>
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('> ')}
-                title="Chronicle / Quote (> Quote)"
-              >
-                <i className="fas fa-quote-left"></i>
-              </button>
-              <button
-                type="button"
-                className="format-btn"
-                onClick={() => insertFormatting('\n---\n')}
-                title="Divider (---)"
-              >
-                <i className="fas fa-minus"></i>
-              </button>
+              {/* ── Row 1: Inline Formatting ── */}
+              <div className="format-toolbar-row">
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('**', '**')}
+                  title="Bold (**text**)"
+                >
+                  <i className="fas fa-bold"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('*', '*')}
+                  title="Cursive / Italic (*text*)"
+                >
+                  <i className="fas fa-italic"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('<u>', '</u>')}
+                  title="Underline (<u>text</u>)"
+                >
+                  <i className="fas fa-underline"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('~~', '~~')}
+                  title="Strikethrough (~~text~~)"
+                >
+                  <i className="fas fa-strikethrough"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('==', '==')}
+                  title="Highlight (==text==)"
+                >
+                  <i className="fas fa-highlighter"></i>
+                </button>
+                <span className="format-divider" />
+                <button
+                  type="button"
+                  className="format-btn font-cinzel"
+                  onClick={() => insertFormatting('# ')}
+                  title="Header 1 (# Title)"
+                >
+                  H1
+                </button>
+                <button
+                  type="button"
+                  className="format-btn font-cinzel"
+                  onClick={() => insertFormatting('## ')}
+                  title="Header 2 (## Subtitle)"
+                >
+                  H2
+                </button>
+                <button
+                  type="button"
+                  className="format-btn font-cinzel"
+                  onClick={() => insertFormatting('### ')}
+                  title="Header 3 (### Section)"
+                >
+                  H3
+                </button>
+                <span className="format-divider" />
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('- ')}
+                  title="Bullet list (- Item)"
+                >
+                  <i className="fas fa-list-ul"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('1. ')}
+                  title="Numbered list (1. Item)"
+                >
+                  <i className="fas fa-list-ol"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('> ')}
+                  title="Chronicle / Quote (> Quote)"
+                >
+                  <i className="fas fa-quote-left"></i>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn"
+                  onClick={() => insertFormatting('\n---\n')}
+                  title="Divider (---)"
+                >
+                  <i className="fas fa-minus"></i>
+                </button>
+              </div>
+
+              {/* ── Row 2: TTRPG Blocks ── */}
+              <div className="format-toolbar-row ttrpg-blocks-row">
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::readaloud
+The air grows heavy as you step through the ancient doorway. Torchlight flickers across walls covered in faded murals, and somewhere in the darkness ahead, you hear the slow drip of water echoing through stone corridors.
+:::`
+                  )}
+                  title="Read Aloud — Boxed text the GM reads to players"
+                >
+                  <i className="fas fa-book-open-reader"></i>
+                  <span className="ttrpg-btn-label">Read Aloud</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::statblock Creature Name
+Type: Medium humanoid, neutral evil
+HP: 27
+Mana: 15
+AP: 3
+Speed: 30 ft.
+---
+STR: 10
+AGI: 14
+CON: 12
+INT: 10
+SPI: 8
+CHA: 8
+---
+Skills: Stealth +6, Perception +2
+Senses: Darkvision 60 ft.
+Languages: Common, Goblin
+Resist: cold 50
+:::`
+                  )}
+                  title="Stat Block — Creature or NPC stat summary"
+                >
+                  <i className="fas fa-shield-halved"></i>
+                  <span className="ttrpg-btn-label">Stats</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::dmnote
+The merchant is secretly a cultist of the Void Serpent. If the players succeed on a DC 15 Insight check, they notice his ring bears the cult's sigil. He will attempt to flee if confronted.
+:::`
+                  )}
+                  title="DM Secret — Hidden note only the DM sees"
+                >
+                  <i className="fas fa-eye-slash"></i>
+                  <span className="ttrpg-btn-label">DM Note</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::quest The Missing Caravan
+Objective: Investigate the disappearance of merchant caravans along the northern trade road
+Difficulty: Medium (Party Level 3-5)
+Reward: 200 gp per party member, favor with the Merchant Guild
+Patron: Guildmaster Aldric Thorne
+- Speak with the last surviving driver at the Broken Wheel Inn
+- Track the bandits to their hideout in the Thornwood
+- Recover the stolen goods and rescue any survivors
+:::`
+                  )}
+                  title="Quest Hook — Adventure hook or objective"
+                >
+                  <i className="fas fa-scroll"></i>
+                  <span className="ttrpg-btn-label">Quest</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::npc Innkeeper Marta
+Race: Human
+Class: Commoner
+Alignment: Neutral Good
+Personality: Warm and talkative, always wiping down the bar
+Voice: Gravelly alto, laughs loudly
+Secret: Hides a fugitive mage in the cellar
+- "Welcome to the Gilded Flagon! Sit down, you look half-dead."
+- "Strange folk been comin' through lately. Armed to the teeth, they were."
+:::`
+                  )}
+                  title="NPC — Character dialogue or profile"
+                >
+                  <i className="fas fa-masks-theater"></i>
+                  <span className="ttrpg-btn-label">NPC</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::loot Dragon's Hoard
+- Flame Tongue Longsword (+1, deals extra 2d6 fire)
+- Potion of Greater Healing (4d4+4 HP)
+- 350 gold pieces
+- Scroll of Fireball (3rd level)
+- Amulet of Proof Against Detection
+Rarity: Rare
+Source: Ancient Red Dragon's Lair
+:::`
+                  )}
+                  title="Loot / Treasure — Items, rewards, treasure hoard"
+                >
+                  <i className="fas fa-gem"></i>
+                  <span className="ttrpg-btn-label">Loot</span>
+                </button>
+                <button
+                  type="button"
+                  className="format-btn ttrpg-block-btn"
+                  onClick={() => insertTemplate(
+`:::scroll Arcane Ward of Binding
+School: Abjuration
+Level: 5th
+This ancient ward seals the passage to the lower crypts. It can only be broken by speaking the true name of the lich who placed it, or by casting Dispel Magic at 7th level or higher.
+:::`
+                  )}
+                  title="Scroll Callout — Magical or arcane callout"
+                >
+                  <i className="fas fa-wand-sparkles"></i>
+                  <span className="ttrpg-btn-label">Scroll</span>
+                </button>
+              </div>
             </div>
 
             <textarea
               ref={textareaRef}
               className="custom-zone-lore-textarea"
               value={zone.lore || ''}
-              placeholder="Record ancient lore, noble houses, natural hazards, ancient ruins, tavern gossip, or factions governing this realm..."
-              rows={6}
+              placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nTTRPG Blocks:\n:::readaloud\nThe cavern opens before you...\n:::\n\n:::statblock Goblin Shaman\nHP: 27\nMana: 15\nAP: 3\nSpeed: 30 ft.\nSTR: 8\nAGI: 14\nCON: 12\nINT: 10\nSPI: 15\nCHA: 8\n:::"}
+              rows={10}
               onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
               aria-label="Zone lore notes"
             />
