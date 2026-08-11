@@ -2357,56 +2357,64 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                         className={`stat-row ${stat.isExperience ? 'experience-stat-row' : ''} ${stat.isLevel ? 'level-stat-row' : ''} enhanced-stat-row`}
                         onContextMenu={(e) => handleStatRightClick(e, stat)}
                         style={{
-                            cursor: isGMMode && stat.statName ? 'context-menu' : 'default',
-                            paddingLeft: '48px',
-                            paddingRight: '36px'
+                            cursor: isGMMode && stat.statName ? 'context-menu' : 'default'
                         }}
                     >
-                        {/* Apply same layout to all stats: icon/label on left, value on right, description footer */}
-                        <>
-                            <div className="level-experience-top-row">
-                                <div className="stat-label-container">
-                                    {(stat.icon || STAT_ICONS[stat.label.toLowerCase()]) && (
-                                        <img
-                                            src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
-                                            alt={stat.label}
-                                            className="stat-icon"
-                                            style={{
-                                                width: '120px !important',
-                                                height: '120px !important',
-                                                borderRadius: '10px',
-                                                borderColor: stat.color || undefined
-                                            }}
-                                        />
-                                    )}
-                                    <div className="stat-info">
-                                        <span className="stat-label" style={{
-                                            fontSize: '26px !important',
-                                            fontWeight: '700 !important',
-                                            textTransform: 'uppercase !important'
-                                        }}>{stat.label}:</span>
-                                    </div>
-                                </div>
-                                <div className="stat-value-container">
-                                    <span className="stat-value" style={{
-                                        fontSize: '26px !important',
-                                        fontWeight: '700 !important'
-                                    }}>
-                                        {formatStatValue(stat.label, stat.value)}
-                                    </span>
-                                    {stat.modifier !== undefined && (
-                                        <span className="stat-modifier">
-                                            ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
-                                        </span>
+                        <div className="level-experience-top-row">
+                            <div className="stat-label-container">
+                                {(stat.icon || STAT_ICONS[stat.label.toLowerCase()]) && (
+                                    <img
+                                        src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
+                                        alt={stat.label}
+                                        className="stat-icon"
+                                        style={{
+                                            borderColor: stat.color || undefined
+                                        }}
+                                    />
+                                )}
+                                <div className="stat-info">
+                                    <span className="stat-label">{stat.label}</span>
+                                    {stat.description && (
+                                        <span className="stat-description">{stat.description}</span>
                                     )}
                                 </div>
                             </div>
-                            {stat.description && (
-                                <div className="stat-description-footer">
-                                    <span className="stat-description">{stat.description}</span>
-                                </div>
-                            )}
-                        </>
+                            <div className="stat-value-container">
+                                <span className="stat-value">
+                                    {formatStatValue(stat.label, stat.value)}
+                                </span>
+                                {stat.modifier !== undefined && (
+                                    <span className="stat-modifier">
+                                        ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                        {/* Resource Progress Bar for XP, Health, Mana */}
+                        {stat.isExperience && xpProgress && !xpProgress.isMaxLevel && (
+                            <div className="stat-progress-bar-container xp-bar-container">
+                                <div 
+                                    className="stat-progress-bar-fill xp-bar-fill" 
+                                    style={{ width: `${Math.min(100, Math.max(0, xpProgress.percentage || 0))}%` }} 
+                                />
+                            </div>
+                        )}
+                        {stat.label === 'Health' && health && (
+                            <div className="stat-progress-bar-container hp-bar-container">
+                                <div 
+                                    className="stat-progress-bar-fill hp-bar-fill" 
+                                    style={{ width: `${Math.min(100, Math.max(0, ((health.current || 0) / (health.max || 1)) * 100))}%` }} 
+                                />
+                            </div>
+                        )}
+                        {stat.label === 'Mana' && mana && (
+                            <div className="stat-progress-bar-container mana-bar-container">
+                                <div 
+                                    className="stat-progress-bar-fill mana-bar-fill" 
+                                    style={{ width: `${Math.min(100, Math.max(0, ((mana.current || 0) / (mana.max || 1)) * 100))}%` }} 
+                                />
+                            </div>
+                        )}
                         {stat.tooltip && (
                             <div
                                 className="tooltip-trigger"

@@ -1,698 +1,234 @@
-/* ===== PYROFIEND RESOURCE BAR STYLES ===== */
+/* ===== PYROFIEND RESOURCE BAR (ILLUSTRATED GAME ASSETS) ===== */
 
 /* Wrapper */
 .pyrofiend-resource-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     width: 100%;
+    margin: 2px 0;
     z-index: 1;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.party-member-frame .pyrofiend-resource-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2px 0 !important;
 }
 
 .pyrofiend-resource-wrapper.small {
-    gap: 4px;
+    margin: 1px 0;
 }
 
 .pyrofiend-resource-wrapper.large {
-    gap: 8px;
+    margin: 4px 0;
 }
 
-/* Spec Selector Icon */
-.pyrofiend-resource-wrapper .spec-selector-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    background: linear-gradient(135deg, rgba(245, 222, 179, 0.8) 0%, rgba(222, 184, 135, 0.9) 100%);
-    border: 1px solid rgba(160, 82, 45, 0.6);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 1px 2px rgba(160, 82, 45, 0.2);
-}
-
-.pyrofiend-resource-wrapper .spec-selector-icon:hover {
-    background: linear-gradient(135deg, rgba(245, 222, 179, 0.9) 0%, rgba(222, 184, 135, 1) 100%);
-    border-color: rgba(160, 82, 45, 0.8);
-    transform: scale(1.05);
-    box-shadow: inset 0 1px 2px rgba(160, 82, 45, 0.3), 0 0 6px rgba(160, 82, 45, 0.4);
-}
-
-.pyrofiend-resource-wrapper .spec-selector-icon i {
-    font-size: 12px;
-    color: rgba(101, 67, 33, 0.9);
-    filter: drop-shadow(0 0 2px rgba(160, 82, 45, 0.5));
-}
-
-/* Spec Selector Dropdown */
-.pyrofiend-resource-wrapper .spec-selector-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    background: linear-gradient(180deg, rgba(245, 222, 179, 0.98) 0%, rgba(222, 184, 135, 0.98) 100%);
-    border: 2px solid rgba(160, 82, 45, 0.6);
-    border-radius: 6px;
-    padding: 6px;
-    z-index: 10000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(160, 82, 45, 0.2);
-    min-width: 180px;
-}
-
-.pyrofiend-resource-wrapper .spec-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    background: rgba(160, 82, 45, 0.1);
-    border: 1px solid rgba(160, 82, 45, 0.3);
-    margin-bottom: 4px;
-}
-
-.pyrofiend-resource-wrapper .spec-option:last-child {
-    margin-bottom: 0;
-}
-
-.pyrofiend-resource-wrapper .spec-option:hover {
-    background: rgba(160, 82, 45, 0.2);
-    border-color: rgba(160, 82, 45, 0.5);
-    box-shadow: inset 0 1px 2px rgba(160, 82, 45, 0.1);
-}
-
-.pyrofiend-resource-wrapper .spec-option.selected {
-    background: rgba(160, 82, 45, 0.3);
-    border-color: rgba(160, 82, 45, 0.7);
-    box-shadow: inset 0 1px 2px rgba(160, 82, 45, 0.2);
-}
-
-.pyrofiend-resource-wrapper .spec-option i {
-    font-size: 12px;
-    color: rgba(101, 67, 33, 0.9);
-    filter: drop-shadow(0 0 2px rgba(160, 82, 45, 0.5));
-}
-
-.pyrofiend-resource-wrapper .spec-option span {
-    color: rgba(101, 67, 33, 0.95);
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-/* Main Resource Bar */
+/* Main Illustrated Resource Bar */
 .pyrofiend-resource-bar {
     position: relative;
     display: flex;
     align-items: center;
-    flex: 1;
-    height: 30px;
-    padding: 3px;
-    background:
-        linear-gradient(180deg, rgba(40, 20, 10, 0.5) 0%, rgba(30, 15, 8, 0.8) 100%),
-        radial-gradient(circle at 20% 30%, rgba(255, 69, 0, 0.03) 0%, transparent 50%);
-    border: 2px solid rgba(139, 0, 0, 0.4);
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.5),
-        inset 0 0 8px rgba(255, 69, 0, 0.05);
-    overflow: hidden;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 860 / 140;
+    min-height: 24px;
+    height: auto;
+    border-radius: 4px;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    cursor: pointer;
+    overflow: visible;
+    box-sizing: border-box;
 }
 
 .pyrofiend-resource-bar.small {
-    height: 20px;
-    padding: 2px;
+    width: 100%;
+    max-width: 100%;
+    min-height: 22px;
 }
 
-/* Numeric level overlay — always-visible level readout for the game's most dangerous resource.
-   Anchored top-right so it never blocks the segment-flicker effect. */
-.inferno-level-overlay {
+.pyrofiend-resource-bar.large {
+    width: 100%;
+    max-width: 100%;
+    min-height: 42px;
+}
+
+.pyrofiend-resource-bar:hover {
+    transform: translateY(-1px) scale(1.012);
+}
+
+.pyrofiend-resource-bar:active {
+    transform: translateY(0) scale(0.99);
+}
+
+/* Base Stone Bar Background Image Asset */
+.pyrofiend-bar-base-asset {
     position: absolute;
-    top: 50%;
-    right: 4px;
-    transform: translateY(-50%);
-    z-index: 5;
-    font-size: 11px;
-    font-weight: 800;
-    font-variant-numeric: tabular-nums;
-    color: #ffd9b0;
-    text-shadow:
-        -0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
-        0.5px -0.5px 0 rgba(0, 0, 0, 0.9),
-        -0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
-        0.5px 0.5px 0 rgba(0, 0, 0, 0.9),
-        0 0 4px rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
     pointer-events: none;
-    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+    z-index: 1;
 }
-.inferno-level-overlay.danger {
-    color: #ffb088;
-    animation: infernoOverlayPulse 1.4s ease-in-out infinite;
-}
-.inferno-level-overlay.critical {
-    color: #ff6b6b;
-    animation: infernoOverlayPulse 0.7s ease-in-out infinite;
-}
-@keyframes infernoOverlayPulse {
-    0%, 100% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-50%) scale(1.18); }
-}
-.pyrofiend-resource-bar.small .inferno-level-overlay { font-size: 9px; right: 3px; }
 
+/* Runes Track Layer */
+.pyrofiend-runes-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4.5%;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+/* Individual Rune Slot */
+.pyrofiend-rune-slot {
+    position: relative;
+    flex: 1;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pyrofiend-rune-slot:hover {
+    transform: scale(1.18);
+    z-index: 6;
+}
+
+/* Rune Image Assets - Normalized 80x80 format */
+.pyrofiend-rune-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s ease, filter 0.35s ease;
+}
+
+/* Unlit / Empty Rune State — Dark, subtle recessed stone carving */
+.pyrofiend-rune-img.rune-empty {
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95)) brightness(0.95);
+    opacity: 0.85;
+}
+
+.pyrofiend-rune-img.rune-empty.visible {
+    opacity: 0.85;
+    transform: scale(1);
+}
+
+.pyrofiend-rune-img.rune-empty.faded {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+/* Lit / Filled Rune State — Sharp Crisp Fiery Glyphs */
+.pyrofiend-rune-img.rune-filled {
+    filter: drop-shadow(0 0 3px rgba(255, 170, 0, 0.95)) drop-shadow(0 0 6px rgba(255, 69, 0, 0.75));
+}
+
+.pyrofiend-rune-img.rune-filled.visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: runeFlameBreath 2.2s ease-in-out infinite alternate;
+}
+
+.pyrofiend-rune-img.rune-filled.faded {
+    opacity: 0;
+    transform: scale(0.65);
+}
+
+/* Staggered Flame Breathing on Lit Runes */
+.pyrofiend-rune-slot.slot-1 .rune-filled.visible { animation-delay: 0.0s; }
+.pyrofiend-rune-slot.slot-2 .rune-filled.visible { animation-delay: 0.2s; }
+.pyrofiend-rune-slot.slot-3 .rune-filled.visible { animation-delay: 0.4s; }
+.pyrofiend-rune-slot.slot-4 .rune-filled.visible { animation-delay: 0.6s; }
+.pyrofiend-rune-slot.slot-5 .rune-filled.visible { animation-delay: 0.8s; }
+.pyrofiend-rune-slot.slot-6 .rune-filled.visible { animation-delay: 1.0s; }
+.pyrofiend-rune-slot.slot-7 .rune-filled.visible { animation-delay: 1.2s; }
+.pyrofiend-rune-slot.slot-8 .rune-filled.visible { animation-delay: 1.4s; }
+.pyrofiend-rune-slot.slot-9 .rune-filled.visible { animation-delay: 1.6s; }
+
+@keyframes runeFlameBreath {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(255, 180, 0, 0.85)) drop-shadow(0 0 5px rgba(255, 69, 0, 0.6));
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 4px rgba(255, 220, 50, 1)) drop-shadow(0 0 8px rgba(255, 69, 0, 0.85)) brightness(1.08);
+        transform: scale(1.04);
+    }
+    100% {
+        filter: drop-shadow(0 0 3px rgba(255, 140, 0, 0.85)) drop-shadow(0 0 6px rgba(255, 30, 0, 0.65));
+        transform: scale(0.99);
+    }
+}
+
+/* Active Tip Pulsing */
+.pyrofiend-rune-slot.current-active .rune-filled.visible {
+    filter: drop-shadow(0 0 5px rgba(255, 230, 100, 1)) drop-shadow(0 0 10px rgba(255, 80, 0, 0.95)) brightness(1.12);
+    animation: activeRuneSurge 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes activeRuneSurge {
+    0% { transform: scale(1.02); }
+    100% { transform: scale(1.08); }
+}
+
+/* Catastrophic 9th Stage Flare */
+.pyrofiend-rune-slot.catastrophic .rune-filled.visible {
+    filter: drop-shadow(0 0 6px #ff3300) drop-shadow(0 0 12px #ff0000) brightness(1.2);
+    animation: catastrophicRuneShake 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes catastrophicRuneShake {
+    0% { transform: scale(1.04) rotate(-1deg); }
+    100% { transform: scale(1.10) rotate(1deg); }
+}
+
+/* Context Menu Integration */
 .pyrofiend-resource-bar.clickable {
     cursor: pointer;
 }
 
-.pyrofiend-resource-bar.clickable:hover {
-    border-color: rgba(255, 69, 0, 0.6);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.5),
-        inset 0 0 12px rgba(255, 69, 0, 0.1),
-        0 0 8px rgba(255, 69, 0, 0.3);
+/* Pathfinder Tooltip Typography & Coloration */
+.pyrofiend-tooltip {
+    background: linear-gradient(135deg, #f5ecd8 0%, #ebe0ca 100%) !important;
+    border: 2px solid #8b7355 !important;
+    color: #2C2416 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
 }
 
-/* Intensity-based bar styling */
-.pyrofiend-resource-bar.intensity-dormant {
-    border-color: rgba(100, 100, 100, 0.4);
+.pyrofiend-tooltip .tooltip-header {
+    color: #2C2416 !important;
+    font-weight: 700 !important;
+    border-bottom: 1px solid #8b7355 !important;
 }
 
-.pyrofiend-resource-bar.intensity-ember {
-    border-color: rgba(139, 69, 19, 0.5);
+.pyrofiend-tooltip .tooltip-label {
+    color: #2C2416 !important;
+    font-weight: 700 !important;
 }
 
-.pyrofiend-resource-bar.intensity-controlled {
-    border-color: rgba(205, 85, 0, 0.5);
+.pyrofiend-tooltip .tooltip-divider {
+    background: linear-gradient(90deg, transparent, #8B7355, transparent) !important;
 }
 
-.pyrofiend-resource-bar.intensity-intense {
-    border-color: rgba(255, 69, 0, 0.6);
-    animation: intensePulse 2s ease-in-out infinite;
-}
-
-.pyrofiend-resource-bar.intensity-blazing {
-    border-color: rgba(255, 99, 71, 0.7);
-    animation: blazingPulse 1.5s ease-in-out infinite;
-}
-
-.pyrofiend-resource-bar.intensity-catastrophic {
-    border-color: rgba(255, 140, 0, 0.9);
-    animation: catastrophicPulse 1s ease-in-out infinite;
-}
-
-@keyframes intensePulse {
-    0%, 100% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(255, 69, 0, 0.1), 0 0 8px rgba(255, 69, 0, 0.3); }
-    50% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 69, 0, 0.2), 0 0 12px rgba(255, 69, 0, 0.5); }
-}
-
-@keyframes blazingPulse {
-    0%, 100% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 69, 0, 0.2), 0 0 12px rgba(255, 69, 0, 0.5); }
-    50% { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 16px rgba(255, 69, 0, 0.3), 0 0 16px rgba(255, 69, 0, 0.7); }
-}
-
-@keyframes catastrophicPulse {
-    0%, 100% { 
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 16px rgba(255, 69, 0, 0.4), 0 0 16px rgba(255, 69, 0, 0.8);
-        transform: scale(1);
-    }
-    50% { 
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 24px rgba(255, 69, 0, 0.6), 0 0 24px rgba(255, 140, 0, 1);
-        transform: scale(1.01);
-    }
-}
-
-/* Inferno Segments Container */
-.inferno-segments {
-    position: relative;
-    display: flex;
-    gap: 2px;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* Individual Inferno Segment */
-.inferno-segment {
-    position: relative;
-    flex: 1;
-    height: 100%;
-    background:
-        linear-gradient(180deg, #1a0f08 0%, #0d0704 100%);
-    border: 1px solid rgba(139, 69, 19, 0.3);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    box-shadow:
-        inset 0 1px 2px rgba(0, 0, 0, 0.6),
-        inset 0 0 4px rgba(0, 0, 0, 0.4);
-}
-
-.inferno-segment .segment-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 0.3s ease;
-}
-
-/* Segment Flicker Effect */
-.inferno-segment .segment-flicker {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    opacity: 0.4;
-    animation: flicker 1.5s ease-in-out infinite;
-    pointer-events: none;
-}
-
-@keyframes flicker {
-    0%, 100% { opacity: 0.3; transform: scale(0.9); }
-    50% { opacity: 0.6; transform: scale(1.1); }
-}
-
-/* Filled segment effects */
-.inferno-segment.filled {
-    border-color: rgba(255, 69, 0, 0.5);
-}
-
-.inferno-segment.filled.intensity-ember .segment-fill {
-    animation: emberGlow 3s ease-in-out infinite;
-}
-
-.inferno-segment.filled.intensity-controlled .segment-fill {
-    animation: controlledFlame 2.5s ease-in-out infinite;
-}
-
-.inferno-segment.filled.intensity-intense .segment-fill {
-    animation: intenseFlame 2s ease-in-out infinite;
-}
-
-.inferno-segment.filled.intensity-blazing .segment-fill {
-    animation: blazingFlame 1.5s ease-in-out infinite;
-}
-
-.inferno-segment.filled.intensity-catastrophic .segment-fill,
-.inferno-segment.catastrophic .segment-fill {
-    animation: catastrophicFlame 1s ease-in-out infinite;
-}
-
-@keyframes emberGlow {
-    0%, 100% { filter: brightness(0.9); }
-    50% { filter: brightness(1.1); }
-}
-
-@keyframes controlledFlame {
-    0%, 100% { filter: brightness(1) saturate(1); }
-    50% { filter: brightness(1.15) saturate(1.1); }
-}
-
-@keyframes intenseFlame {
-    0%, 100% { filter: brightness(1.1) saturate(1.1); }
-    50% { filter: brightness(1.3) saturate(1.2); }
-}
-
-@keyframes blazingFlame {
-    0%, 100% { filter: brightness(1.2) saturate(1.2) contrast(1.1); }
-    50% { filter: brightness(1.4) saturate(1.3) contrast(1.2); }
-}
-
-@keyframes catastrophicFlame {
-    0%, 100% { 
-        filter: brightness(1.4) saturate(1.4) contrast(1.2) hue-rotate(0deg);
-        transform: scale(1);
-    }
-    50% { 
-        filter: brightness(1.6) saturate(1.5) contrast(1.3) hue-rotate(5deg);
-        transform: scale(1.02);
-    }
-}
-
-/* Catastrophic segment special effects */
-.inferno-segment.catastrophic {
-    border-color: rgba(255, 140, 0, 0.8);
-    animation: catastrophicSegment 1s ease-in-out infinite;
-}
-
-@keyframes catastrophicSegment {
-    0%, 100% { 
-        box-shadow: 
-            inset 0 1px 2px rgba(0, 0, 0, 0.6),
-            inset 0 0 8px rgba(255, 69, 0, 0.6),
-            0 0 12px rgba(255, 140, 0, 0.8);
-    }
-    50% { 
-        box-shadow: 
-            inset 0 1px 2px rgba(0, 0, 0, 0.6),
-            inset 0 0 12px rgba(255, 69, 0, 0.8),
-            0 0 16px rgba(255, 140, 0, 1);
-    }
-}
-
-/* Inferno Overlay */
-.inferno-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.inferno-level-display {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    text-shadow: 
-        0 0 4px rgba(0, 0, 0, 0.9),
-        0 0 8px rgba(0, 0, 0, 0.7),
-        0 1px 2px rgba(0, 0, 0, 1);
-}
-
-.level-label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    color: rgba(222, 184, 135, 0.9);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.level-number {
-    font-size: 0.95rem;
-    font-weight: 700;
-    filter: drop-shadow(0 0 4px currentColor);
-}
-
-/* Heat Distortion Effect */
-.heat-distortion {
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120%;
-    pointer-events: none;
-    z-index: 3;
-    animation: heatWave 2s ease-in-out infinite;
-    opacity: 0.3;
-}
-
-@keyframes heatWave {
-    0%, 100% {
-        transform: translateY(0) scaleY(1);
-        opacity: 0.2;
-    }
-    50% {
-        transform: translateY(-2px) scaleY(1.05);
-        opacity: 0.4;
-    }
-}
-
-/* ===== UNIFIED RESOURCE BAR TOOLTIP STYLES ===== */
-
-.unified-resourcebar-tooltip.pathfinder-tooltip {
-    position: fixed;
-    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
-    border: 2px solid #8B7355;
-    border-radius: 0;
-    padding: 10px 12px;
-    z-index: 100000;
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    max-width: 320px;
-    pointer-events: none;
-}
-
-.unified-resourcebar-tooltip .tooltip-header {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #2C2416;
-    margin-bottom: 8px;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #8B7355;
-    padding-bottom: 6px;
-}
-
-.unified-resourcebar-tooltip .tooltip-section {
-    margin-bottom: 8px;
-    color: #3a2a1a;
-    font-size: 0.85rem;
-    line-height: 1.4;
-}
-
-.unified-resourcebar-tooltip .tooltip-section strong {
-    color: #1a0a00;
-}
-
-.unified-resourcebar-tooltip .tooltip-section:last-child {
-    margin-bottom: 0;
-}
-
-.unified-resourcebar-tooltip .tooltip-label {
-    font-weight: 600;
-    color: #2C2416;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-}
-
-.unified-resourcebar-tooltip .tooltip-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #8B7355, transparent);
-    margin: 8px 0;
-}
-
-.unified-resourcebar-tooltip .drawback-text {
-    color: rgba(178, 34, 52, 1);
-    font-size: 0.85rem;
-    font-style: italic;
-}
-
-.unified-resourcebar-tooltip .level-management {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 4px 8px;
-    font-size: 0.85rem;
-}
-
-.unified-resourcebar-tooltip .level-management strong {
-    color: #1a0a00;
-}
-
-.unified-resourcebar-tooltip .level-management span {
-    color: #3a2a1a;
-}
-
-.unified-resourcebar-tooltip .passive-desc {
-    color: #3a2a1a;
-    font-size: 0.85rem;
-    line-height: 1.4;
-}
-
-/* ===== DEV CONTROLS ===== */
-
-.pyrofiend-dev-controls.pathfinder-panel {
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
-    border: 2px solid #5a1e12;
-    border-radius: 6px;
-    padding: 12px;
-    z-index: 100000;
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    min-width: 280px;
-    max-width: 320px;
-    font-family: var(--my-font-body, 'Georgia', serif);
-    font-size: var(--my-text-sm, 0.875rem);
-}
-
-.pyrofiend-dev-controls .controls-header {
-    background: linear-gradient(135deg, #e8dcc8 0%, #d4c5b0 100%);
-    border-bottom: 1px solid #5a1e12;
-    padding: 10px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: -12px -12px 12px -12px;
-    border-radius: 6px 6px 0 0;
-}
-
-.pyrofiend-dev-controls .controls-header span {
-    font-family: var(--my-font-display, 'Cinzel', 'Georgia', serif);
-    font-size: 1rem;
-    font-weight: 700;
-    color: #2d1810;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.pyrofiend-dev-controls .close-btn {
-    background: rgba(139, 0, 0, 0.2);
-    border: 1px solid #5a1e12;
-    color: #b22222;
-    width: 24px;
-    height: 24px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    line-height: 1;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.pyrofiend-dev-controls .close-btn:hover {
-    background: rgba(139, 0, 0, 0.4);
-    border-color: #5a1e12;
-    color: #b22222;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.pyrofiend-dev-controls .control-group {
-    margin-bottom: 12px;
-    padding-top: 8px;
-    border-top: 1px solid #8b7355;
-}
-
-.pyrofiend-dev-controls .control-group:first-child {
-    border-top: none;
-    padding-top: 0;
-}
-
-.pyrofiend-dev-controls .control-group:last-child {
-    margin-bottom: 0;
-}
-
-.pyrofiend-dev-controls .control-group label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #8b7355;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.pyrofiend-dev-controls .level-buttons,
-.pyrofiend-dev-controls .increment-buttons,
-.pyrofiend-dev-controls .spec-buttons {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.pyrofiend-dev-controls .level-buttons {
-    margin-bottom: 6px;
-}
-
-.pyrofiend-dev-controls button {
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
-    border: 1px solid #8b7355;
-    color: #2d1810;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
-}
-
-.pyrofiend-dev-controls button:hover {
-    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 100%);
-    border-color: #5a1e12;
-    color: #2d1810;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 4px rgba(139, 69, 19, 0.2);
-}
-
-.pyrofiend-dev-controls button.active {
-    background: linear-gradient(145deg, #d4c5b0 0%, #c4b499 100%);
-    border-width: 2px;
-    border-color: #5a1e12;
-    color: #2d1810;
-    box-shadow:
-        inset 0 1px 2px rgba(0, 0, 0, 0.2),
-        0 0 8px rgba(139, 69, 19, 0.4);
-}
-
-.pyrofiend-dev-controls .spec-buttons button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 32px;
-}
-
-.pyrofiend-dev-controls .spec-buttons button i {
-    font-size: 0.9rem;
-    filter: drop-shadow(0 0 2px rgba(139, 69, 19, 0.3));
-    color: #8b7355;
-}
-
-.pyrofiend-dev-controls .spec-buttons button:hover i,
-.pyrofiend-dev-controls .spec-buttons button.active i {
-    color: #5a1e12;
-}
-
-/* Force compact sizing in account context */
-.character-card .pyrofiend-resource-bar,
-.character-card-compact .pyrofiend-resource-bar {
-    height: 16px !important;
-    min-height: 16px !important;
-    padding: 2px !important;
-}
-
-.character-card .inferno-level-number,
-.character-card-compact .inferno-level-number {
-    font-size: 0.65rem !important;
-}
-
-/* Level 9 Death Clock - Emergency Visual Indicator */
-.pyrofiend-resource-bar.intensity-catastrophic .inferno-segments {
-    animation: deathClockPulse 1s ease-in-out infinite;
-}
-
-@keyframes deathClockPulse {
-    0%, 100% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.4) drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
-    }
-}
-
-.pyrofiend-resource-wrapper.catastrophic-warning::before {
-    content: '⚠ DEATH CLOCK';
-    position: absolute;
-    top: 50%;              /* centered INSIDE the bar so it can't overlap the AP bar above */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.55rem;
-    font-weight: 800;
-    color: #FFD0D0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    animation: deathClockWarning 0.8s ease-in-out infinite;
-    white-space: nowrap;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 0 6px rgba(255, 0, 0, 0.9);
-    background: rgba(80, 0, 0, 0.55);
-    padding: 1px 6px;
-    border-radius: 8px;
-    z-index: 6;
-    pointer-events: none;
-}
-
-@keyframes deathClockWarning {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+.pyrofiend-tooltip .drawback-text {
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
 }

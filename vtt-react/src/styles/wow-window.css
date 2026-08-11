@@ -878,13 +878,13 @@
     background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
     border: none !important;
     outline: none !important;
-    color: #1a1a1a !important;
+    color: #2b180d !important;
     font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
     font-size: 12px !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.8px !important;
-    text-shadow: none !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
     padding: 4px 18px !important;
     min-height: 38px !important;
     height: 38px !important;
@@ -898,7 +898,7 @@
     border-radius: 0 !important;
     position: relative !important;
     z-index: 10 !important;
-    opacity: 0.9 !important;
+    opacity: 0.95 !important;
 }
 
 .window-header-tab:hover:not(.active),
@@ -907,8 +907,8 @@
 .tabbed-modal-tab:hover:not(.active),
 .tk-tab:hover:not(.active) {
     background: url('../../public/assets/ui/wow-window/tab_hover.png') center / 100% 100% no-repeat !important;
-    color: #000000 !important;
-    text-shadow: none !important;
+    color: #ffd700 !important;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.6), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
     transform: translateY(-2px) !important;
     z-index: 30 !important;
     filter: brightness(1.1) !important;
@@ -921,9 +921,9 @@
 .tabbed-modal-tab.active,
 .tk-tab.active {
     background: url('../../public/assets/ui/wow-window/tab_active.png') center / 100% 100% no-repeat !important;
-    color: #1a1a1a !important;
+    color: #2b180d !important;
     font-weight: 800 !important;
-    text-shadow: none !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) !important;
     transform: translateY(2px) !important; /* Pulls active tab down to merge with window top border */
     z-index: 40 !important;
     filter: none !important;
