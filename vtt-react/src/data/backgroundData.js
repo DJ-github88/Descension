@@ -83,7 +83,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Sol\'s Breath\'s Ember',
-      description: 'You carry a sealed phial containing a trace of Sol\'s Breath\'s light. Once per long rest, its faint warmth can calm a frightened ally (advantage on next save against fear) or illuminate a 15-foot radius for 10 minutes. The light attracts Wyrd-creatures if used openly.'
+      description: 'You carry a sealed phial containing a trace of Sol\'s Breath\'s light. Once per long rest, its faint warmth can calm a frightened ally (advantage on next save against fear) or illuminate a 15-foot radius for 10 minutes. The light attracts Wyrd entities and native creatures if used openly.'
     },
     statModifiers: {
       spirit: 3,
@@ -918,7 +918,7 @@ export const BACKGROUND_DATA = {
       { classId: 'martyr', tension: 'A Herder lives to keep the migration moving; the Vow demands they stop and be broken. Stillness is the enemy of the steppe.' }
     ],
     name: 'Herder',
-    description: 'The Ordan are steppe nomads who follow the grass-line across the vast Sundrift Vale, and the grass-line runs from the advancing frost. You guarded the migration herds, driving a hundred head of shag-ox through a circuit that never ends: ahead of the frost that claims the pasture, and back before the thaw rots what remains. The steppe kills the careless. You are not careless. You learned to read hoof-tracks in a blizzard, predict Wyrd-predator (supernatural predator) movements by the shift of the wind, and keep the herd moving when every instinct screams to shelter and wait. The herds are the Ordan\'s only wealth. Lose one animal to frost-collapse or a Wyrd-predator, and a family line starves for a generation. The grass-line is shrinking. The frost comes earlier every circuit, and the thaw rots more than it grows. You know the old routes, the safe grazes, the wind-signs that mean run. One lost animal starves a family line for a generation. The frost does not negotiate with cattle, and the herd will not save itself.',
+    description: 'The Ordan are steppe nomads who follow the grass-line across the vast Sundrift Vale, and the grass-line runs from the advancing frost. You guarded the migration herds, driving a hundred head of shag-ox through a circuit that never ends: ahead of the frost that claims the pasture, and back before the thaw rots what remains. The steppe kills the careless. You are not careless. You learned to read hoof-tracks in a blizzard, predict supernatural predator movements by the shift of the wind, and keep the herd moving when every instinct screams to shelter and wait. The herds are the Ordan\'s only wealth. Lose one animal to frost-collapse or a supernatural predator, and a family line starves for a generation. The grass-line is shrinking. The frost comes earlier every circuit, and the thaw rots more than it grows. You know the old routes, the safe grazes, the wind-signs that mean run. One lost animal starves a family line for a generation. The frost does not negotiate with cattle, and the herd will not save itself.',
     skillProficiencies: ['Animal Handling', 'Survival'],
     toolProficiencies: ['Artisan\'s tools (leatherworker\'s)'],
     languages: 1,
@@ -1056,10 +1056,10 @@ export const BACKGROUND_DATA = {
         "florae_unified"
       ],
       "narrativeUnlock": true,
-      "justification": "Fog-reading requires intimate knowledge of the Frostwood's living fog, its memory-erasing properties, its Wyrd-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
+      "justification": "Fog-reading requires intimate knowledge of the Frostwood's living fog, its memory-erasing properties, its residue-trails, and its secret passages. Non-Frostwood natives have never survived long enough to learn."
     },
     classHooks: [
-      { classId: 'apex', bridge: 'Tracing Wyrd-trails through the fog by touch and scent is the Woven and Mimir foundation of the Silent Hunt.' },
+      { classId: 'apex', bridge: 'Tracing residue-trails through the fog by touch and scent is the Woven and Mimir foundation of the Silent Hunt.' },
       { classId: 'lunarch', bridge: 'Fog-dense Silence-light is the exact medium the lunar parasite feeds on; a Forest Guide is standing in the Lunarch recruiting-ground.' },
       { classId: 'inquisitor', bridge: 'Reading Wyrd-currents and memory-erasure patterns is the Thalren anti-Wyrd half of the Barbed Vow.' }
     ],
@@ -1067,7 +1067,7 @@ export const BACKGROUND_DATA = {
       { classId: 'arcanoneer', tension: 'A Forest Guide trusts instinct and shifting currents; an Arcanoneer trusts pre-filed precision. The fog makes the latter impossible and the former essential.' }
     ],
     name: 'Forest Guide',
-    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it literally eats memories. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the Wyrd-trails (supernatural residue) that things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The masked Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The thorned Florae feel the fog through their connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. The maps lie now; the fog ate the truth out of them years ago. Trust the mist, or lose your name to it like every traveler who reached for ink instead.',
+    description: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to the thoughts of those inside it, and it literally eats memories. You read that fog the way a sailor reads the sea: tracing density shifts, memory-erasure currents, and the residue-trails that things leave when they pass through it. You learned by touch, scent, and the kind of instinct that keeps you alive when the map dissolves. The masked Mimir navigate the canopy by spore-scent and fog-spider silk markers. The Thalren chart fog-currents on ironwood staves. The thorned Florae feel the fog through their connection to the forest floor, and where the mist pools deepest, their thorns ache with the memory of what it has swallowed. You learned to read all three, because the fog respects no single tradition. The fog is thickening. Every season it eats more, and the safe routes through the Reach shrink with it. You know the currents, the silk-trails, the places the mist pools when something is hunting. The maps lie now; the fog ate the truth out of them years ago. Trust the mist, or lose your name to it like every traveler who reached for ink instead.',
     skillProficiencies: ['Survival', 'Perception'],
     toolProficiencies: ['Navigator\'s tools'],
     languages: 1,
@@ -1085,7 +1085,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Fog-Sense',
-      description: 'You can navigate the Frostwood\'s memory-erasing fog without losing your bearings. You have advantage on Perception and Survival checks in fog, mist, or haze, and you are immune to the disorientation effect of the Reach\'s fog (though not its memory-erasing properties). Once per long rest, you can trace the trail of a Wyrd-creature through the fog for up to 1 mile. Frostwood settlements and Mimir canopy-posts will offer you shelter and fog-current updates.'
+      description: 'You can navigate the Frostwood\'s memory-erasing fog without losing your bearings. You have advantage on Perception and Survival checks in fog, mist, or haze, and you are immune to the disorientation effect of the Reach\'s fog (though not its memory-erasing properties). Once per long rest, you can trace the trail of any creature (native or Wyrd-touched) through the fog for up to 1 mile. Frostwood settlements and Mimir canopy-posts will offer you shelter and fog-current updates.'
     },
     statModifiers: {
       agility: 2,
@@ -1214,7 +1214,7 @@ export const BACKGROUND_FLAVOR_TEXT = {
   herdGuardian: 'The Ordan steppe stretches endlessly, and the herds are everything. You guard the ember-hooved cattle across frozen grass, reading the wind for threats. The nomads trust your eyes more than any wall.',
   starboundScholar: 'Every Astril carries Lumia\'s echo in their blood, and the Synod governs that relationship with a dead world\'s memory. You trained under its hierarchy, learning the crystal-lattice techniques that keep the echo from overwhelming the host.',
   deepCurrentGuide: 'Beneath the Iceheart Sea, the water is still warm. You navigated the pressure-zones where light dies and the only maps are temperature-gradients felt through the skin. The abyss is patient, and it is learning the routes you know.',
-  fogReader: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to thought. You read its density shifts and memory-erasure currents, tracing Wyrd-trails by touch and scent. The fog is thickening, and it never stops.',
+  fogReader: 'The fog in the Frostwood Reach is not weather. It is a living geography that responds to thought. You read its density shifts and memory-erasure currents, tracing residue-trails by touch and scent. The fog is thickening, and it never stops.',
   chasmDelver: 'Beneath the Cragjaw Peaks, the geothermal vents pulse in forgotten rhythms. You descended into the steam-tunnels where the only light is volcanic blood-red, maintaining pipes and reading pressure in the deep dark. The vents are pulsing faster now.',
   brineTrader: 'The Iceheart Sea does not forgive debts, and you learned that at the counter, not the mast. You know every tariff loophole and bribe price from Brinehorse Cove to Merrowport, keeping the coastal trade alive as the ice closes in.'
 };
@@ -1327,7 +1327,7 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   ],
   fogReader: [
     'The fog in the Frostwood is a living geography. What thought does the fog respond to in you, and what does it reveal?',
-    'Memory-erasure currents shift with the Wyrd-trails. Whose memory did you recover from the fog, and why did it matter?',
+    'Memory-erasure currents shift with the residue-trails. Whose memory did you recover from the fog, and why did it matter?',
     'The fog thickens every year. What map of density shifts do you carry that no ink could record?'
   ],
   chasmDelver: [

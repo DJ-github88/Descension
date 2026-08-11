@@ -1,7 +1,7 @@
 # Mythrill Creature Compendium
-## The Expanded Wyrd-Bestiary  -  140 Original Creatures Across the Seven Regions
+## The Expanded Bestiary  -  140 Original Creatures Across the Seven Regions
 
-> Each entry fuses two real-world folklore traditions, filtered through the Wyrd and adapted to the Age of the Dimming. Creatures are grouped by region and culture. Existing bestiary creatures (Gref, Mogwai, Yuki-Onna, etc.) are excluded  -  these are all-new.
+> Each entry fuses two real-world folklore traditions and adapts them to the Age of the Dimming. Most of these creatures are native to Mythrill and predate the Great Binding; a minority are Ancient Cosmic Wyrdkin, Keth-spawn (Wyrdspawn), or Wyrd-touched variants of native species. Local folklore records, translates, and camouflages these encounters  -  it does not create the creatures. Entries are grouped by region and culture. Existing bestiary creatures (Gref, Mogwai, Yuki-Onna, etc.) are excluded  -  these are all-new.
 
 ---
 
@@ -557,7 +557,7 @@
 - **The Face:** Craggy, ancient  -  brow-ridge like an overhang, nose like a broken spire. Eyes of ancient glacier-blue, slow-blinking, impossibly patient.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Region-Wall:** Each Landvættir-Peak protects its mountain from Wyrd-manifestations. A mountain with an active Landvættir has never seen a Wyrd-creature breach its slopes. Rune Keepers map these territories to identify safe zones.
+- **The Region-Wall:** Each Landvættir-Peak protects its mountain from Wyrd-manifestations. A mountain with an active Landvættir has never seen a Wyrdspawn or Wyrd-touched intruder breach its slopes. Rune Keepers map these territories to identify safe zones.
 - **The Dragon-Prohibition:** They despise representations of dragons  -  any dragon-prow, dragon-crest, or draconic rune triggers instant burial in snowslides. This ancient prohibition has shaped Nordhallan heraldry  -  no Skald house uses the dragon as its sigil.
 
 ---
@@ -719,7 +719,7 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Ash-Storm Lord:** Pazuzus generate localized ash-storms that strip paint from walls and scour exposed flesh. They are drawn to volcanic vents and ride the thermal updrafts above Emberspire's caldera in territorial circles, competing for the hottest thermals.
-- **The Plague-Warden:** Despite their terrifying appearance, their presence drives away disease-carrying Wyrd-creatures. Thrask Emberth deliberately build outposts near Pazuzu nesting-cliffs  -  the constant ash-storms are preferable to the Wyrd-corruption the creature repels.
+- **The Plague-Warden:** Despite their terrifying appearance, their presence drives away disease-carrying creatures and Wyrd-tainted vectors. Thrask Emberth deliberately build outposts near Pazuzu nesting-cliffs  -  the constant ash-storms are preferable to the Wyrd-corruption the creature repels.
 
 ---
 

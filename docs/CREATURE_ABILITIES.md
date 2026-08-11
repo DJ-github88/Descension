@@ -113,7 +113,7 @@
 **Stats:** STR 20, AGI 14, CON 18, INT 8, SPI 10, CHA 10 | HP 150, Mana 20, AP 5, Speed 35 | Resist: cold 100, physical 50
 
 ### 25. Perchtar  -  S | High
-**Combat:** 200 HP (collective). Procession-Sweep (AoE 100 ft, the entire procession passes through an area; all Wyrd-creatures are driven out for 1 month; all creatures in the area take 4d6 cold and must DC 16 SPI or flee in terror for 1 minute). Mask-Judgment (special: stops before each settlement; if the village has maintained hearth-fires and honored the dead, Schönperchten leave gifts; if not, Schiachperchten attack  -  no one sleeps until they leave, DC 15 CON each hour or take 1d6 exhaustion damage). Mask-Crack (reaction: if a Percht's mask is cracked, that Percht dissolves into snow, reducing the procession's HP by 10). Vulnerable to fire (masks take double fire damage).
+**Combat:** 200 HP (collective). Procession-Sweep (AoE 100 ft, the entire procession passes through an area; all hostile creatures (native and Wyrd-touched alike) are driven out for 1 month; all creatures in the area take 4d6 cold and must DC 16 SPI or flee in terror for 1 minute). Mask-Judgment (special: stops before each settlement; if the village has maintained hearth-fires and honored the dead, Schönperchten leave gifts; if not, Schiachperchten attack  -  no one sleeps until they leave, DC 15 CON each hour or take 1d6 exhaustion damage). Mask-Crack (reaction: if a Percht's mask is cracked, that Percht dissolves into snow, reducing the procession's HP by 10). Vulnerable to fire (masks take double fire damage).
 **Stats:** STR 16, AGI 14, CON 18, INT 10, SPI 20, CHA 12 | HP 200, Mana 80, AP 5, Speed 30 | Resist: cold 100, physical 50, psychic 50
 **Signature:** *The Month-Clear*  -  A Perchtar passing through a region clears ALL Wyrd-corruption for one full month. This is the only reliable Wyrd-suppression method in Nordhalla.
 
@@ -143,7 +143,7 @@
 **Stats:** STR 14, AGI 12, CON 16, INT 6, SPI 14, CHA 8 | HP 80, Mana 20, AP 3, Speed 20 | Resist: cold 100, poison 100
 
 ### 32. Landvaettir  -  A | High
-**Combat:** 160 HP. Mountain-Meld (passive: invisible against its home mountain; +12 to stealth in terrain). Wyrd-Ward (passive: 200-ft radius; no Wyrd-creature has ever breached a slope protected by a Landvættir). Boulder-Hurl (ranged 60 ft, +6 to hit, 3d6+5 bludgeoning). Dragon-Prohibition (special: any dragon-image, dragon-prow, or draconic rune within 100 ft triggers instant burial in a snowslide  -  DC 16 AGI or buried alive). Vulnerable to acid.
+**Combat:** 160 HP. Mountain-Meld (passive: invisible against its home mountain; +12 to stealth in terrain). Wyrd-Ward (passive: 200-ft radius; no Wyrdspawn or Wyrd-touched intruder has ever breached a slope protected by a Landvættir). Boulder-Hurl (ranged 60 ft, +6 to hit, 3d6+5 bludgeoning). Dragon-Prohibition (special: any dragon-image, dragon-prow, or draconic rune within 100 ft triggers instant burial in a snowslide  -  DC 16 AGI or buried alive). Vulnerable to acid.
 **Stats:** STR 20, AGI 10, CON 20, INT 10, SPI 14, CHA 8 | HP 160, Mana 40, AP 4, Speed 30 | Resist: physical 75, cold 100
 
 ### 33. Vettir  -  B | Medium
@@ -184,7 +184,7 @@
 ## REGION 3: SUNDALE & EMBERSPIRE (Mesopotamian + Egyptian)
 
 ### 41. Pazuzu  -  A | High
-**Combat:** 130 HP. Ash-Storm (AoE 40 ft, 3d6 slashing from ash + DC 15 CON or blinded 2 rounds). Lion-Claw (melee, +7 to hit, 2d8+5 slashing). Plague-Ward (passive: presence drives away disease-carrying Wyrd-creatures within 200 ft; Thrask deliberately build outposts near nesting-cliffs). Thermal-Rider (can fly indefinitely on volcanic updrafts). Scorpion-Sting (melee, reach 10 ft, DC 15 CON or poisoned: 2d6 poison/round for 3 rounds). Vulnerable to cold.
+**Combat:** 130 HP. Ash-Storm (AoE 40 ft, 3d6 slashing from ash + DC 15 CON or blinded 2 rounds). Lion-Claw (melee, +7 to hit, 2d8+5 slashing). Plague-Ward (passive: presence drives away disease-carrying creatures and Wyrd-tainted vectors within 200 ft; Thrask deliberately build outposts near nesting-cliffs). Thermal-Rider (can fly indefinitely on volcanic updrafts). Scorpion-Sting (melee, reach 10 ft, DC 15 CON or poisoned: 2d6 poison/round for 3 rounds). Vulnerable to cold.
 **Stats:** STR 18, AGI 16, CON 16, INT 10, SPI 14, CHA 12 | HP 130, Mana 30, AP 5, Speed 30 (fly 50) | Resist: fire 100, physical 25
 
 ### 42. Tiamat  -  S | High
@@ -209,7 +209,7 @@
 **Stats:** STR 16, AGI 14, CON 18, INT 10, SPI 16, CHA 12 | HP 140, Mana 40, AP 5, Speed 30 | Resist: fire 100, physical 25
 
 ### 47. Bes  -  A | Low
-**Combat:** 50 HP. Tambourine-Bang (AoE 20 ft, DC 13 SPI or Wyrd-creatures are frightened and must flee; laughing breaks enchantments  -  the sound itself is the weapon). Khopesh-Slash (melee, +5 to hit, 1d8+3 slashing). Sigil-Glow (passive: lapis-lazuli sigils glow when Wyrd-energy approaches within 50 ft, functioning as an alarm). Shatter-Sacrifice (special: when destroyed, explodes into protective clay-shards that embed Wyrd-warding sigils into nearby walls, creating a permanent 20-ft safe zone). Vulnerable to cold (clay becomes brittle).
+**Combat:** 50 HP. Tambourine-Bang (AoE 20 ft, DC 13 SPI or hostile creatures (native and Wyrd-touched) are frightened and must flee; laughing breaks enchantments  -  the sound itself is the weapon). Khopesh-Slash (melee, +5 to hit, 1d8+3 slashing). Sigil-Glow (passive: lapis-lazuli sigils glow when Wyrd-energy approaches within 50 ft, functioning as an alarm). Shatter-Sacrifice (special: when destroyed, explodes into protective clay-shards that embed Wyrd-warding sigils into nearby walls, creating a permanent 20-ft safe zone). Vulnerable to cold (clay becomes brittle).
 **Stats:** STR 12, AGI 14, CON 14, INT 6, SPI 14, CHA 10 | HP 50, Mana 20, AP 3, Speed 25 | Resist: fire 100, physical 50
 **Signature:** *The Sacrifice*  -  A Bes that shatters to protect children is considered the highest sacrifice in Emberth culture. The permanent warding it creates makes it strategically valuable.
 
@@ -250,7 +250,7 @@
 **Stats:** STR 20, AGI 8, CON 22, INT 6, SPI 8, CHA 6 | HP 140, Mana 0, AP 3, Speed 20 | Resist: fire 100, physical 75, piercing 50
 
 ### 57. Nisroch  -  B | Medium
-**Combat:** 80 HP. Wedjat-Beam (ranged 40 ft, the left eye fires a beam of concentrated light that burns Wyrd-essence  -  2d6 radiant + Wyrd-creatures take double damage and must DC 14 CON or flee). Sky-Patrol (passive: patrols the skies above Emberspire scanning for Wyrd-manifestations; acts as an early-warning system). Foil-Message-Delivery (special: carries messages inscribed on golden foil between Korr Sun-Speakers and Thrask rangers; messages are only readable via the Wedjat-eye). Bronze-Talon (melee from dive, +6 to hit, 2d6+3 slashing). Vulnerable to cold.
+**Combat:** 80 HP. Wedjat-Beam (ranged 40 ft, the left eye fires a beam of concentrated light that burns Wyrd-essence  -  2d6 radiant + Wyrdspawn and Wyrd-touched creatures take double damage and must DC 14 CON or flee). Sky-Patrol (passive: patrols the skies above Emberspire scanning for Wyrd-manifestations; acts as an early-warning system). Foil-Message-Delivery (special: carries messages inscribed on golden foil between Korr Sun-Speakers and Thrask rangers; messages are only readable via the Wedjat-eye). Bronze-Talon (melee from dive, +6 to hit, 2d6+3 slashing). Vulnerable to cold.
 **Stats:** STR 10, AGI 20, CON 12, INT 14, SPI 16, CHA 10 | HP 80, Mana 20, AP 4, Speed 10 (fly 60) | Resist: fire 50, radiant 100
 
 ### 58. Abzu  -  A | Medium

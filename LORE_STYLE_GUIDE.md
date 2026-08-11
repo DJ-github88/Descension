@@ -619,24 +619,36 @@ When tightening text to fit the new voice, you MUST preserve:
 
 Before you write a single sentence of lore, you need to know what's already true. These rules prevent contradictions.
 
-### 6.1 The Non-Negotiable Timeline
+### 6.1 The Master Timeline & Core World Premise
 
-These events are fixed. Every race, region, and background must fit within this framework.
+* **Pre-Star Mythrill (Primordial Anima):** Mythrill was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and non-human races possessed innate biological elemental abilities. Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
+* **The Celestial Star-Fall (Year 0):** Aex & Aethil fled across the cosmos to hide infant sun *Sol* in Mythrill's core from *Keth Amar*. Mortal Houses unaligned with Old Gods struck the House Bargain: High Houses mutated into magical lineages (*Solari*, *Vreken*, *Neth*), while common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
+* **The 475-Year Master Timeline:**
 
-| Event | When | What Happened |
+| Epoch | Year | What Happened |
 |---|---|---|
-| The Binding | ~Year 3 | Sol is entombed beneath Sundale by the seven noble houses |
-| The Breach | Year 11 | Keth-Amar consumes the six heirs, cracks Sol's vault |
-| The Dimming begins | Year 11 | The sun goes dark; the long night starts |
-| First Contract drafted | Year 25 | Valerius writes the First Contract with the Keeper |
-| House Viridane erased | ~Year 30 | The other six houses replace them with House Morrath |
-| Fog Compact | ~Year 50 | House Thalreth trades clarity for insulating fog |
-| The Purge (Mimir) | ~Year 220 | Inquisitors burn Mimir birthing chambers, kill the Mask-Mothers |
-| The Rupture (Mimir) | ~Year 240 | Inheritance laws restrict masks to first-borns |
-| Vreken Over-Lit epidemic | ~Year 400-450 | Ghost-Mycelium fungal exports cause spore-hush crisis |
-| Over-Shanty established | ~Year 412 | Drun outcasts build the hanging slum beneath Atropolis |
-| The Monoliths begin waking | ~Year 795 | All seven Sundered Monoliths activate simultaneously |
-| Present day | ~Year 800 | The current state of the world |
+| The Celestial Star-Fall | Year 0 | Aex wraps Sol in core; House Bargain struck; Astril land in Sundrift Vale |
+| The Incremental Cracks | Years 0–300 | Vreken massacre, Ordan purge, Frostwood meltdown crack Aex's shell |
+| Keth Amar Arrives | Year 300 | Trails Astril starlight; 25-yr Wyrd infiltration posing as Aethil |
+| Blizzard's End Massacre | Year 325 | Heirs devoured; Aex shatters into Aex Shards; Keth Amar wounded, retreats to sky as Wyrd |
+| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era; factions fight over Aex Shards; **North Halam launch campaign** |
+
+### 6.1B Scrapped & Corrected Lore (DO NOT WRITE)
+* ❌ **SCRAPPED:** The Augurs' 41% doom prediction accuracy being tied to Sol's shell/security breakdown (caused by temporal friction and chronological dissonance instead).
+* ❌ **SCRAPPED:** The strict "3-in-10 maternal death / Frost-Tithe" childbirth ratio (replaced with atmospheric lore, cold-strain, and metaphysical burden without rigid statistics).
+
+### 6.1C Class Heritage Taxonomy
+1. **Pre-Binding Classes (Traditional / Mortals):** Berserker, Apex, Minstrel, Warden, Toxicologist (steel, black powder, matchlocks, cold-iron traps, archery, physical mastery).
+2. **Celestial Bargain Classes (Infused Houses):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from Celestial pact).
+3. **Vreken Extortion (Blight Magic):** Blight-Weavers and Decay specialists (extorted divine desperation for ultimate power).
+4. **Cosmic Collision Classes (Post-Keth Amar):** Pyrofiend (Solari/Void demonic collision), Harbinger, Plaguebringer, Revenant.
+
+### 6.1D Ancestry Updates
+* **The Neth (Well of Life):** High Neth (half-filled pitcher, pristine, immortal-adjacent, Peter Pan helicopter parenting), Pale Neth (stolen urns, subterranean hoarders), Hallowed Neth (well-dippers, undead husks bound to Old God roots).
+* **The Fexrick (Engine-Theft):** Gnomish/Dwarvish engineers of Cragjaw Peaks who dug too deep, uncovered a Primordial God's engine/vault, and were cursed with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
+
+### 6.1E Primary Launch Region
+* **North Halam (Nordhalla):** The **sole, self-contained launch region** for the app map and initial gameplay release (Finnish, Greenlandic, Norse folklore textures: *Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). Other continents follow in future expansions.
 
 ### 6.2 House Relationships — Who Stands Where
 
@@ -767,7 +779,7 @@ Every file below needs rewriting to fit the Blizzard-style guide (18 rules). Fil
   - [x] Class entries (arcanoneer, augur, berserker, shaper, inquisitor, etc.) — ALL 20 class fullEntry fields FULLY REWRITTEN from "Founded in..." encyclopedia formula to Blizzard prose. Eliminated all em dashes, banned "comprehensive" (apex), "fungal-ecology" (plaguebringer), "loa" (animist, nyssa), broken "Founded across in" (apex, animist). Concept-type merged-tradition entries (bladedancer, deathcaller, dreadnaught, formbender, lichborne, titan) were already in good prose — left as-is.
   - [x] Language entries (common, infernal, primordial, etc.)
   - **NEW FLAG — nativeWeaving real-world references (RESOLVED):** All 15 `nativeWeaving` **Cultural.** sections contained real-world cultural references (Celtic, Norse, Slavic, Mongol, Inuit, Appalachian, Andean, Mesoamerican, Germanic, yokai, Hindu, loa). These are PLAYER-FACING (rendered in `LoreTooltip.jsx:147`). ALL replaced with Mythrill-specific equivalents (e.g., "Celtic fae-pacts"→"Briaran fae-pacts", "Mesoamerican solar-sacrifice"→"Sol's Breath solar-sacrifice", "Mongol throat-song"→"Ordan throat-song").
-  - **NEW FLAG — Cragjaw/House Tesshan real-world terms (RESOLVED):** The Cragjaw Peaks region entry (marked DONE) and House Tesshan noble house entry (marked DONE) both contained Inca references ("Jarl-Inca", "khipus"/"khipu-cords", "Mit'a") and Shinto references ("Kami-Speakers", "Kami", "Yokai"). All fixed: "Jarl-Inca"→"Jarl", "khipus"→"knotted cords", "Mit'a"→"corvée", "Kami-Speakers"→"Rock-Speakers", "Yokai"→"Wyrd-kin". Yuki-Onna and Tengu-Crows kept (cross-file rename flag — see LORE AUDIT #3).
+  - **NEW FLAG — Cragjaw/House Tesshan real-world terms (RESOLVED):** The Cragjaw Peaks region entry (marked DONE) and House Tesshan noble house entry (marked DONE) both contained Inca references ("Jarl-Inca", "khipus"/"khipu-cords", "Mit'a") and Shinto references ("Kami-Speakers", "Kami", "Yokai"). All fixed: "Jarl-Inca"→"Jarl", "khipus"→"knotted cords", "Mit'a"→"corvée", "Kami-Speakers"→"Rock-Speakers", "Yokai"→"native mountain spirits". The Cragjaw Yokai-derived creatures (Yuki-Onna, Tengu-Crows, Sump-Kappas, etc.) are native peak-spirits that predate the Binding, NOT Wyrd-kin; an earlier "Yokai→Wyrd-kin" rename was reverted as canon-incorrect. Yuki-Onna and Tengu-Crows kept as names (see GM_WORLD_GUIDE native-ecology note).
 
 ### Phase 4 — Deep Locations & World Map
 

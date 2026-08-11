@@ -1,6 +1,15 @@
 # Mythrill VTT — Comprehensive Class Layout Document
 
+> **Status:** Canonical Master Lore Update (475-Year Master Timeline).
 > Compiled from all 20 class data files in `vtt-react/src/data/classes/`
+
+---
+
+## CLASS HERITAGE TAXONOMY
+1. **Pre-Binding Classes (Traditional / Mortals):** Berserker, Apex, Minstrel, Warden, Toxicologist (steel, black powder, matchlocks, cold iron, physical mastery, survival tactics).
+2. **Celestial Bargain Classes (Infused Houses):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from Celestial pact).
+3. **Vreken Extortion (Blight Magic):** Blight-Weavers and Decay specialists (extorted divine desperation for ultimate power).
+4. **Cosmic Collision Classes (Post-Keth Amar):** Pyrofiend (Solari/Void demonic collision), Harbinger, Plaguebringer, Revenant.
 
 ---
 
@@ -28,7 +37,7 @@
 
 **Description:** A master of close-range combat wielding the legendary Shadow Glaive capable of chaining deadly strikes between multiple enemies, accompanied by a loyal beast companion. Through the Quarry Marks system, she builds power through pack coordination — glaive hits alone generate no marks; it is the synchronized rhythm of hunter and beast that fills the reservoir.
 
-**Cultural Affiliation:** Heavily practiced by the Woven Mimir (fog-sentinels), Masked Mimir (identity-stable trackers), Unwoven Mimir (fog-merged hunters), Skald humans (glacier-stalkers), Clean Vreken (bioluminescent spoor-trailers), Marked Vreken (mycelial web-sense trackers), and Ordan humans (steppe-scent trackers). The Silent Hunt tradition was founded by Sylas, who traded his hearing for absolute sensory focus to track Wyrd-creatures through the Frostwood fog.
+**Cultural Affiliation:** Heavily practiced by the Woven Mimir (fog-sentinels), Masked Mimir (identity-stable trackers), Unwoven Mimir (fog-merged hunters), Skald humans (glacier-stalkers), Clean Vreken (bioluminescent spoor-trailers), Marked Vreken (mycelial web-sense trackers), and Ordan humans (steppe-scent trackers). The Silent Hunt tradition was founded by Sylas, who traded his hearing for absolute sensory focus to track native creatures and Wyrd entities through the Frostwood fog.
 
 **Subraces allowed:** `veiled_mimir`, `tethered_mimir`, `skald_human`, `clean_vreken`, `marked_vreken`, `ordan_human`
 
@@ -182,7 +191,7 @@
 **Class Hooks:**
 - `marked_vreken` → The Mycelium-Hunter: severs corrupted bonds through the mycelial network itself; heals the forest but leaves a permanent dead-patch
 - `clean_vreken` → The Glow-Auditor: identifies corruption by aberrant bioluminescent signature, readable at distance; the tradition's diagnosticians
-- `thalren_human` → The Salt-Scarred: makes deliberately breakable oaths to lure Wyrd-creatures; each Bait-Vow leaves a permanent scar of intended betrayal
+- `thalren_human` → The Salt-Scarred: makes deliberately breakable oaths to lure native predators and Wyrd entities; each Bait-Vow leaves a permanent scar of intended betrayal
 - `morren_human` → The Contract-Severer: severs bonds through contract-law inversion — drafts annulment and the bond breaks under its own legal weight
 
 ---

@@ -6,130 +6,178 @@
 
 ---
 
-## 1. COSMOLOGY & THE CELESTIAL TIER
+## 1. CORE WORLD PREMISE & COSMOLOGY
 
-### 1.1 The Celestial Cycle & The Cosmic Predator
-* **Celestial Reproduction:** Celestial Deities (such as **AEX**, the Mother, and **AETHIL**, the Father) lay eggs that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
-* **Sol (The Unhatched Infant Sun):** Sol is the Sun of Mythrill. He is an unhatched celestial infant encased within a protective thermal shell deep inside Mythrill's volcanic core.
-* **The Sister Moon (The Slumbering Buffer):** Sol's sister frozen solid in orbit to act as a thermal buffer, preventing Sol's intense heat from incinerating Mythrill. She slumbers in catatonic dormancy, governing tides and anchoring **Rime Magic**.
+### 1.1 Pre-Star Mythrill (Primordial Anima)
+* **The Living World:** Mythrill was never a lifeless rock; it was an animistic, folklore-rich world steeped in ancient anima.
+* **Native Elemental Magic:** Primordial beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Vaettir*, *Fossegrim*), and non-human races possessed innate, biological elemental abilities (fire, frost, storm, stone).
+* **Mortal Underdogs:** Mortals had **zero magic**. They were fragile underdogs who survived strictly through forged steel, tactical engineering, black powder, archery, and strict adherence to folk-traditions and cultural taboos to appease the living world.
+
+---
+
+### 1.2 The Celestial Star-Fall (Year 0)
+* **Celestial Reproduction:** Celestial Deities (**AEX**, the Mother, and **AETHIL**, the Father) lay eggs that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
+* **Sol (The Unhatched Infant Sun):** Sol is the Sun of Mythrill—an unhatched celestial infant encased within a protective thermal shell deep inside Mythrill's volcanic core.
+* **The Sister Moon (The Slumbering Buffer):** Sol's sister is frozen solid in orbit to act as a thermal buffer, preventing Sol's intense heat from incinerating Mythrill. She slumbers in catatonic dormancy, governing tides and anchoring **Rime Magic**.
 * **Keth Amar (The Cosmic Predator):** An ancient cosmic predator that tracks the scent of unhatched celestial deities across space to devour them.
-* **Divine Non-Intervention Law:** Celestial Deities forfeit their divine Celestial Status if they directly descend to touch or alter a mortal realm.
+* **Divine Non-Intervention Law & Flight:** Celestial Deities forfeit their divine Celestial Status if they directly descend to touch or alter a mortal realm. Aex and Aethil fled across the cosmos to hide Sol inside Mythrill's core.
+* **The House Bargain:** Mortal Houses unaligned with the Old Native Gods struck a blood pact with the Celestials to level the playing field against native magical beasts and anchor Sol's protective casing.
+* **Infusion Types:**
+  * **High Houses:** Mutated directly into distinct magical lineages (*Solari*, *Vreken*, *Neth*).
+  * **Common Folk:** Received subtle physical adaptations while keeping traditional black-powder, cold-iron traps, matchlocks, and melee combat.
 
 ---
 
-### 1.2 The Great Binding & The Price of Magic
-* **Original State:** Mythrill originally had **NO MORTAL MAGIC**. Dangerous native beasts, spirits, mythic peoples, constructs, and land beings already inhabited the world; celestial and native gods held powers mortals did not.
-* **The Sacrifice (Year 0):** To hide Sol from Keth Amar, Aex wrapped her celestial body around her son at Mythrill's core. To avoid total forfeiture of status, Aex and Aethil forged a blood oath with suitable mortal Human Houses to anchor Sol's casing.
-* **The Great Binding Pact:** The blood oath introduced celestial magic and Celestial Relics to those mortal lineages, binding their existential survival to Sol's shell and mutating them over generations into distinct subraces (Solari, Vreken, Florae, etc.). It did not create Mythrill's pre-existing native bestiary.
+### 1.3 The Shattering & Freezing Era (Year 325 – Present / Year 475)
+* **Incremental Cracks (Years 0–300):** Tragic noble deaths and broken pacts (the Vreken noble massacre, Ordan purge, Frostwood meltdown) cracked Aex's shell over centuries, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
+* **The Ingress & Blizzard's End Massacre (Year 325):** Keth Amar arrived (Year 300) trailing Astril starlight, infiltrated noble houses for 25 years disguised as Aethil, and attacked at Blizzard's End. Aex shattered into **Aex Shards** raining across all continents; Sol vented volcanic energy; Keth Amar was wounded by Aex's core shield and retreated into the sky as the **Wyrd**.
+* **The Freezing Era (Present Day / Year 475):** Trapped in a 150-Year Ice Age, factions battle over glowing Aex Shards for thermal fuel and power as Sol slowly leaks.
 
 ---
 
-### 1.3 The Unknown Dominator Deity & The Masked Acolytes
-* **The Interjection:** Unbeknownst to the original Human Houses or Keth Amar, an unknown Native Deity secretly gathered common folk from minor settlements, forming the **7th House (Masked Acolytes)** under dark hoods.
-* **The Scheme:** This deity seeks **total world domination** of Mythrill.
-* **The 7th Monolith Shell Game:** The deity forged a **7th Monolith** to create a metaphysical blind spot, fooling Keth Amar so he cannot discern which house or key is counterfeit.
-* **The Hero Vector:** The Dominator Deity feeds monolith artifacts to ambitious heroes and warlords, causing regional turmoil to force mortals to collect fragments to "help Sol"—unwittingly serving the deity's grand plan.
-* **Playable Origin (The Entity's Watcher):** Acolytes operate in the world doing odd jobs and proselytizing, while their deity sees through their eyes. Players can carry this **Watcher's Spark** (BG3-style parasitic patron) inside them while maintaining free will.
+### 1.4 The Unknown Dominator Deity & The Masked Acolytes
+* **The Scheme:** An unknown Native Dominator Deity secretly gathered common folk from minor settlements, creating the **7th House (Masked Acolytes)** under dark hoods to seek total world domination.
+* **The 7th Monolith Shell Game:** Forged a **7th Counterfeit Monolith** to create a metaphysical blind spot, fooling Keth Amar so he cannot discern which key is counterfeit.
+* **Playable Origin (The Entity's Watcher):** Acolytes operate in the world doing odd jobs and proselytizing while their deity sees through their eyes. Players can carry this **Watcher's Spark** (BG3-style parasitic patron) inside them while maintaining free will. Capital at *Vespera's Crown*.
 
 ---
 
-## 2. RECONCILED 475-YEAR MASTER TIMELINE
+## 2. SCRAPPED & CORRECTED LORE (MUST OVERWRITE)
+
+* ❌ **SCRAPPED:** The Augurs' 41% doom prediction accuracy being tied to Sol's shell/security breakdown. (Prediction interference is caused by temporal friction and chronological dissonance, not Sol's shell integrity).
+* ❌ **SCRAPPED:** The strict "3-in-10 maternal death / Frost-Tithe" childbirth ratio. (Removed artificial mathematical death quotas; replaced with atmospheric lore, cold-strain, and metaphysical burden without rigid childbirth fatality statistics).
+
+---
+
+## 3. RECONCILED 475-YEAR MASTER TIMELINE
 
 ```
  [ YEAR 0 ]                      [ YEAR 300 ]                 [ YEAR 325 ]              [ YEAR 475 ]
- The Great Binding               Keth Amar Arrives            Blizzard's End Massacre   Present Day (Campaign Start)
+ The Celestial Star-Fall         Keth Amar Arrives            Blizzard's End Massacre   Present Day (Campaign Start)
  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────►
- • Aex/Aethil wrap Sol in core   • Trailed Astril starlight   • Keth Amar devours heirs • 150 Years of Freezing Era
- • Houses get Magic + Relics     • Begins 25-year Wyrd        • Aex Shatters into       • Aex Shards fuel wars
- • Astril bring Sacred Magic &    infiltration & fake-Aethil    Aex Shards; Sol vents    • 7th House Acolytes active
-   Star-Tech to Ordan Humans      negotiations across Houses  • Keth Amar repelled to   • Regional campaigns begin
-                                                                skies with Wyrd Veil
+ • Aex/Aethil hide Sol in core   • Trailed Astril starlight   • Keth Amar devours heirs • 150 Years of Freezing Era
+ • The House Bargain struck      • 25-year Wyrd infiltration  • Aex Shatters into       • Aex Shards fuel wars
+ • High Houses infused with        & fake-Aethil negotiations   Aex Shards; Sol vents    • 7th House Acolytes active
+   magic; Commoners get tech/      across noble houses        • Keth Amar wounded,      • North Halam launch campaign
+   subtle adaptations                                           retreats to sky as Wyrd
 ```
 
 ### Era I: The Primordial Dawn (Pre-Year 0)
-Mythrill without mortal magic, inhabited and shaped by Native Deities (Groven, Myrathil, Mimir).
+Mythrill of folklore and Primordial Anima. Native Deities, beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), and spirits (*Vaettir*, *Fossegrim*) hold elemental power. Mortals survive with steel, black powder, matchlocks, archery, and taboos.
 
 ### Era II: The Star-Fall & Great Binding (Year 0 – 300)
-* **Year 0:** Astril crash-land in Sundrift Vale with star-tech and Sacred Magic. Aex/Aethil wrap Sol; 7 Houses bound.
+* **Year 0:** Celestial Star-Fall. Aex wraps Sol; mortal houses strike the House Bargain. Astril arrive in Sundrift Vale with star-tech and Sacred Magic.
 * **Years 0–300 (Incremental Aex Cracks & Thermal Topography):**
   * **Bryngloom:** Vreken slaughter nobility early to cure Blight curse $\rightarrow$ Aex cracks $\rightarrow$ Boiling bogs & sulfur vents.
-  * **Sundrift Vale:** Brutish Astril force Ordan Assassin ("Itachi") to purge Ordan nobility $\rightarrow$ Aex cracks $\rightarrow$ Geothermal warm valleys. Ordan thought extinct, disguise as ordinary humans.
-  * **Frostwood Reach:** Frostwood mages attempt "Artificial Sun" meltdown $\rightarrow$ Aex cracks $\rightarrow$ Warm pine wetlands & steam geysers. House of Viridane flees Cragjaw Peaks to Frostwood Reach and unmasks Aex crack truth.
+  * **Sundrift Vale:** Brutish Astril force Ordan Assassin to purge Ordan nobility $\rightarrow$ Aex cracks $\rightarrow$ Geothermal warm valleys. Ordan disguise as ordinary humans.
+  * **Frostwood Reach:** Frostwood mages attempt "Artificial Sun" meltdown $\rightarrow$ Aex cracks $\rightarrow$ Warm pine wetlands & steam geysers. House of Viridane flees to Frostwood Reach, unmasking the truth that heir deaths crack Aex.
   * **Florae Sacred Grove:** Native Nature Deity discovers heir deaths crack Aex; saves 7th House heirs, erases memories, mutates them into treant Florae.
 
 ### Era III: The Ingress of Wyrd (Years 300 – 325)
 * **Year 300:** Keth Amar arrives, trailing Astril starlight.
-* **Years 300–325:** After the first Aex cracks and Sol-warmth changes to native habitats, Keth Amar brings and uses an ancient cosmic Wyrd ecology. Disguised as Aethil, he spies for 25 years through Wyrd magic and promises return of thermal warmth and stellar apotheosis to 3 remaining true houses (Solari, Storm, Rime).
-* **Year 325 (Blizzard's End Massacre):** Heirs devoured at Nordhalla peak. Aex shatters into **Aex Shards** raining across continents. Sol vents volcanoes. Keth Amar is injured by Aex's core shield and retreats into the sky, leaving Wyrd corruption, stranded Wyrdkin, and later Wyrdspawn in Mythrill. Native creatures remain native; only individuals, branches, or direct manifestations are changed.
+* **Years 300–325:** Keth Amar poses as Aethil, spying through Wyrd magic and promising warmth/stellar apotheosis to Solari, Storm, and Rime houses.
+* **Year 325 (Blizzard's End Massacre):** Heirs devoured at Nordhalla peak. Aex shatters into **Aex Shards**. Sol vents volcanoes. Keth Amar is injured by Aex's core shield and retreats into the sky, leaving the Wyrd veil across Mythrill.
 
 ### Era IV: The Freezing Era & Present Day (Years 325 – 475)
-* **Present Day (150 Years After the Fall):** Mythrill freezes as Sol leaks. Factions battle over Aex Shards. 7th House Acolytes search for monoliths. Regional campaigns begin!
+* **Present Day (150 Years After the Fall):** Mythrill is locked in a 150-Year Ice Age. Factions battle over glowing Aex Shards for fuel. 7th House Acolytes seek monoliths. Regional campaigns launch in **North Halam (Nordhalla)**!
 
 ---
 
-## 3. RACE & SUBRACES CODEX
+## 4. CLASS HERITAGE TAXONOMY
 
+All 20+ playable classes fall into four distinct metaphysical heritages:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          CLASS HERITAGE TAXONOMY                            │
+├─────────────────────────┬─────────────────────────┬─────────────────────────┤
+│ 1. PRE-BINDING CLASSES  │ 2. CELESTIAL BARGAIN    │ 3. COSMIC COLLISION     │
+│   (Traditional/Mortals) │    (Infused Houses)     │    (Post-Keth Amar)     │
+│ • Berserker             │ • Spellguard            │ • Pyrofiend             │
+│ • Apex                  │ • Arcanoneer            │ • Harbinger             │
+│ • Minstrel              │ • Chronarch             │ • Plaguebringer         │
+│ • Warden                │ • Shaper                │ • Revenant              │
+│ • Toxicologist          ├─────────────────────────┤                         │
+│                         │ 4. VREKEN EXTORTION     │                         │
+│ (Steel, black powder,   │    (Blight Magic)       │ (Void/Wyrd collision    │
+│  cold iron, traps,      │ • Blight-Weaving Orders │  with Celestial pacts)  │
+│  physical mastery)      │ (Extorted divine power) │                         │
+└─────────────────────────┴─────────────────────────┴─────────────────────────┘
+```
+
+1. **Pre-Binding Classes (Traditional / Mortals):** Masteries forged before magic touched mortals. Built on steel, black powder, cold-iron traps, matchlocks, physical mastery, and survival tactics (*Berserker*, *Apex*, *Minstrel*, *Warden*, *Toxicologist*).
+2. **Celestial Bargain Classes (Infused Houses):** Direct elemental control born from the Celestial pact with Aex and Aethil (*Spellguard*, *Arcanoneer*, *Chronarch*, *Shaper*).
+3. **Vreken Extortion (Blight Magic):** The Vreken extorted divine desperation for ultimate power, receiving **Blight Magic**, which corrupted their noble bloodlines and turned their lands into sulfurous bogs.
+4. **Cosmic Collision Classes (Post-Keth Amar):** Forged when Keth Amar's void energy violently collided with celestial pacts:
+   * **Pyrofiend:** A demonic/void collision with Solari amber-sun pacts.
+   * **Harbinger:** Void-dissonance and doom-arithmetic woven into raw kinetic force.
+   * **Plaguebringer:** Wyrd decay fused with Blight biology.
+   * **Revenant:** Souls suspended between celestial embers and void stasis.
+
+---
+
+## 5. ANCESTRY ORIGINS & SUBRACE CODEX
+
+### 5.1 The Neth (The Pitcher of Greed & Youth)
+* **Origin:** Predates the Celestial Gods. Facing extinction due to a fading birth rate, they were guided by a forest spirit in Bryngloom Forest to a sacred **Well of Life**. Their subraces reflect how they approached the waters:
+  * **High Neth (The Half-Filled Pitcher):** Followed instructions by filling the pitcher halfway. Became pristine, ethereal, but slightly frail, immortal-adjacent beings. They cherish children above all else, operating with intense, protective "helicopter parenting" rooted in the belief that youth holds infinite potential (Peter Pan philosophy).
+  * **Pale Neth (The Stolen Urns):** Hoarded massive jars out of panic, over-saturating themselves into non-breathing, wraith-like subterranean hoarders.
+  * **Hallowed / Rot-Bound Neth (The Well-Dippers):** Dove directly into the Well out of greed/panic. The raw power burned away their living vitality, turning them into true undead husks bound to the Old God's roots.
+
+### 5.2 The Fexrick (Tinkers Who Dug Too Deep)
+* **Origin:** Gnomish/Dwarvish master engineers of Cragjaw Peaks who relied on black powder, steam valves, and gear-work rather than magic.
+* **The Incident:** Dug too deep in the mountains and uncovered an ancient Primordial God's vault/engine. They stole from it and tapped into its core to power their technology, cursing their bloodline with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
+
+### 5.3 Other Ancestries & Subraces
 1. **SOLARI:** Former humans granted Ember magic. Subterranean, ash-skinned guardians keeping Sol's flame alive.
 2. **VREKEN:** Former humans altered by Blight magic. Amber-eyed crypt keepers in Bryngloom's sunken spires.
 3. **FLORAE:** Original 7th House humans saved by Nature Deity. Treant-like beings with erased memories.
 4. **GROVEN:** Primordial stone-bound humanoids altered into mountain subraces.
 5. **MYRATHIL:** Aquatic humanoids born of the Water Deity (Open Sea, Coastal, River variants).
 6. **MIMIR:** Mask-wearing humanoids created by an insecure Sculptor God.
-7. **NETH:** Former humans mutated via secondary Native Deity contract to cure realm-wide infertility.
-8. **FEXRIC:** Unscrupulous, highly intelligent gnomish/goblinoid alchemists.
-9. **ASTRIL:** Star-refugees split into two subraces:
-   * **Stargazer Astril:** Peaceful cosmic scholars studying star lore.
-   * **Brutish Astril:** Warlike conquerors wielding dark starlight weaponry; ordered the Ordan Purge.
-10. **HUMANS (5 Regional Subraces):**
-    * **Thalren:** Dwellers of Frostwood Reach pine wetlands.
-    * **Skald:** Northland warriors of Nordhalla tundra.
-    * **Tessen:** Mountaineers of Cragjaw Peaks.
-    * **Merryn:** Seafarers of Iceheart Sea.
-    * **Ordan:** Thought extinct; survivors disguise themselves as ordinary humans to hide from Brutish Astril.
-11. **7TH HOUSE ACOLYTES:** Common folk gathered under dark hoods by the Unknown Dominator Deity. Capital at *Vespera's Crown*. Playable origin carrying the **Watcher's Spark**.
+7. **ASTRIL:** Star-refugees split into Stargazer Astril (scholars) and Brutish Astril (warlike conquerors).
+8. **HUMANS (5 Regional Subraces):**
+   * **Thalren:** Dwellers of Frostwood Reach pine wetlands.
+   * **Skald:** Northland warriors of Nordhalla tundra.
+   * **Tessen:** Mountaineers of Cragjaw Peaks.
+   * **Merryn:** Seafarers of Iceheart Sea.
+   * **Ordan:** Thought extinct; survivors disguise themselves as ordinary humans to hide from Brutish Astril.
+9. **7TH HOUSE ACOLYTES:** Common folk gathered under dark hoods by the Unknown Dominator Deity. Capital at *Vespera's Crown*. Playable origin carrying the **Watcher's Spark**.
 
 ---
 
-## 4. THE 8 MAGICS & CLASS ALIGNMENTS
+## 6. LAUNCH REGION: NORTH HALAM (NORDHALLA)
 
-| Magic Type | Ideological Axis | Primary Race Affinity | Associated Classes |
-| :--- | :--- | :--- | :--- |
-| **Ember** | Heat / Conviction | Solari | Pyrofiend, Crusader, Berserker |
-| **Blight** | Decay / Extortion | Vreken | Plaguebringer, Toxicologist, Revenant |
-| **Sacred** | Starlight / Purity | Astril / Ordan | Inquisitor, Martyr, False Prophet |
-| **Arcane** | Structure / Reality | Mimir / Thalren | Arcanoneer, Chronarch, Shaper |
-| **Storm** | Tides / Tempest | Merryn / Tessen | Apex, Minstrel, Harbinger |
-| **Rime** | Stasis / Frost | Skald | Lunarch, Spellguard, Warden |
-| **Primal** | Instinct / Earth | Groven / Florae | Animist, Augur, Gambit |
-| **Wyrd** | Nightmares / Lies | Keth Amar / Cults | Void-touch, Corrupted Variants |
+* **App Launch Focus:** **North Halam (Nordhalla)** is the **sole, self-contained launch region** for the app map and initial gameplay release. Other continents will be added in future expansions.
+* **Folklore Textures:** Deeply rooted in Finnish, Greenlandic, and Norse mythology (*Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). These creatures are North Halam's original owners and act as its natural immune system.
+* **Culture & Combat:** Common Skalds and hunters rely on matchlock firearms, black powder, cold-iron traps, and folk taboos to survive native beasts, while Infused House leaders bring celestial elemental magic to the shield-wall.
+* **Key Factions & Strongholds:**
+  * **House Skalvyr & King-Jarl Halvar "Járn-Tand" Skalvyr:** The royal seat at Frosthold Citadel; builder of the Sunder-Wall.
+  * **The Frozen Archive:** Clockwork and runic library-citadel carved into a mile-high glacier.
+  * **Bloodhammer Sump:** Geothermal forge-crater powering the north's iron industry.
+  * **The Icechamber Syndicate:** Merchant cartel controlling coal, grain, and mammoth-hide trade.
+  * **Fredløse (Outlaw Clans):** Nomadic hunter-clans resisting royal subjugation.
 
 ---
 
-## 5. CREATURE COSMOLOGY & THE NATIVE/WYRD ECOLOGY
+## 7. CREATURE COSMOLOGY & THE NATIVE/WYRD ECOLOGY
 
 > **Core Rule:** Mythrill has no single creature origin. It was already inhabited before the Great Binding, and folklore records, translates, or camouflages what exists. It does not create native creatures or Ancient Cosmic Wyrdkin.
 
-### 5.1 The Four Creature Layers
+### 7.1 The Four Creature Layers
 
 | Layer | Canonical source and role | Anchors and persistence |
 | :--- | :--- | :--- |
-| **Native Mythrill creatures** | Pre-Binding beasts, spirits, mythic peoples, constructs, and land beings with ecological, spiritual, territorial, or cultural roles. | Rooted in habitat, lineage, native powers, materials, or land memory. They persist independently of Keth Amar. Pre-Keth oath failures and lineage breaks fractured Aex and released Sol warmth, changing their habitats and behavior without creating them. |
-| **Ancient Cosmic Wyrdkin** | Pre-existing extra-Mythrill organisms and entities from an ancient cosmic Wyrd ecology. Keth Amar may bring, attract, direct, or exploit them as scouts, breach-keepers, drainers, parasites, mimics, siege organisms, collectors/judges, or independent predators. | They may enter through Keth's wake or Astril trail, Aex-shell cracks, Wyrd breaches, infected matter, or Aex Shard anchors. A self-sustaining nest or anchor can leave them stranded and active after Keth retreats. |
-| **Keth-spawn / Wyrdspawn** | The narrower class of direct local offspring, bodies, larvae, or manifestations generated by Keth Amar's Wyrd after arrival. | They depend on an active Wyrd breach, infected host or material, Shard, or other local anchor. Breaking the anchor or Wyrd supply can end them, though a surviving nest may persist. |
-| **Wyrd-touched natives** | Native individuals, broods, or branches altered by Wyrd exposure, pact, parasitism, or habitat wounds. The native identity remains meaningful; corruption is a condition, not a new species. | The condition may be anchored in a body, lineage, territory, object, oath, or symbiosis. It can recover, adapt, or remain after Keth retreats if the wound or anchor remains. |
+| **Native Mythrill creatures** | Pre-Binding beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*, *Qalupalik*), mythic peoples, constructs, and land beings with innate elemental abilities. | Rooted in habitat, lineage, native powers, materials, or land memory. They persist independently of Keth Amar. Pre-Keth oath failures and lineage breaks fractured Aex and released Sol warmth, changing habitats without creating them. |
+| **Ancient Cosmic Wyrdkin** | Pre-existing extra-Mythrill organisms and entities from an ancient cosmic Wyrd ecology. Keth Amar may bring, attract, direct, or exploit them as scouts, breach-keepers, drainers, parasites, mimics, siege organisms, collectors/judges, or independent predators. | They enter through Keth's wake or Astril trail, Aex-shell cracks, Wyrd breaches, infected matter, or Aex Shard anchors. A self-sustaining nest or anchor leaves them stranded and active after Keth retreats. |
+| **Keth-spawn / Wyrdspawn** | Direct local offspring, bodies, larvae, or manifestations generated by Keth Amar's Wyrd after arrival. | They depend on an active Wyrd breach, infected host or material, Shard, or other local anchor. Breaking the anchor or Wyrd supply ends them, though surviving nests can persist. |
+| **Wyrd-touched natives** | Native individuals, broods, or branches altered by Wyrd exposure, pact, parasitism, or habitat wounds. Native identity remains meaningful; corruption is a condition, not a new species. | Anchored in a body, lineage, territory, object, oath, or symbiosis. Can recover, adapt, or remain after Keth retreats if the wound or anchor remains. |
 
-Folklore is evidence rather than genesis. A local tale may preserve a native survival practice, mistranslate an ancient Wyrdkin, or camouflage a Wyrdspawn's tell. Counterplay begins by identifying the layer and tracing its anchor: native threats usually require ecological, spiritual, social, or territorial solutions; Ancient Cosmic Wyrdkin require route, nest, or anchor disruption; Wyrdspawn require breach, host, Shard, or supply disruption; Wyrd-touched natives require a response to the individual condition.
-
-### 5.2 Keth Amar's Seven-Region Wyrd Strategy
-
-Keth Amar uses the Wyrd strategically rather than treating every creature as a servant. He places cosmic fauna, direct spawn, parasites, and local alterations against the binding's regional vulnerabilities:
-
-1. **Frostwood Reach:** Attack memory, identity, and records while exposing or locating Viridane concealment.
-2. **Nordhalla:** Drain warmth and pressure glaciers, hearths, and rune systems until Rime resilience fails.
-3. **Sundale:** Probe Sol, Aex, and Emberspire; widen the central feeding wound and turn heat against the binding.
-4. **Iceheart Sea:** Disrupt routes, create wrecks, and deepen isolation through sea, harbor, and contract forms.
-5. **Cragjaw Peaks:** Infiltrate pipes and mines, sabotage heat and communication, and corrupt rune and alchemical infrastructure.
-6. **Sundrift Vale:** Exploit starlessness, ancestor traditions, and debt to counterfeit guidance and control movement.
-7. **Bryngloom Forest:** Pressure the Root-Veil, death-cycle, and contracts to turn renewal into a permanent drain.
-
-Keth Amar's retreat does not reset the ecology. Ancient Wyrdkin may form independent colonies, direct Wyrdspawn may outlive their maker while an anchor remains, and Wyrd-touched natives may recover, adapt, or remain altered. Every creature record must state its own origin, role, anchor, current independence, and countermeasure.
+### 7.2 Keth Amar's Regional Wyrd Strategy
+1. **North Halam (Nordhalla):** Drain warmth and pressure glaciers, hearths, and rune systems until Rime resilience fails.
+2. **Frostwood Reach:** Attack memory, identity, and records while exposing Viridane concealment.
+3. **Sundale:** Probe Sol, Aex, and Emberspire; widen the central feeding wound.
+4. **Iceheart Sea:** Disrupt routes, create wrecks, and deepen isolation through storms and contract forms.
+5. **Cragjaw Peaks:** Infiltrate pipes and mines, sabotage heat, and corrupt alchemical infrastructure.
+6. **Sundrift Vale:** Exploit starlessness, ancestor traditions, and debt to counterfeit guidance.
+7. **Bryngloom Forest:** Pressure the Root-Veil and contracts to turn renewal into permanent drain.

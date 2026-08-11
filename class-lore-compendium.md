@@ -2,8 +2,23 @@
 
 ## Complete Lore Reference for All 21 Playable Classes
 
-> **Status:** Canonical as of August 2026 Ratified Master Lore Locks.
+> **Status:** Canonical Master Lore Update (475-Year Master Timeline).
 > **Master Framework:** All 21 classes draw power from the 8 Magics (Ember, Blight, Sacred, Arcane, Storm, Rime, Primal, Wyrd), Aex Shard catalysts, ancestral contracts, or celestial/native deity bonds under the 475-Year Epoch Master Timeline.
+
+---
+
+## CLASS HERITAGE TAXONOMY
+
+Every class discipline in Mythrill is rooted in one of four distinct historical and metaphysical origins:
+
+1. **Pre-Binding Classes (Traditional / Mortals):** Masteries forged before celestial magic touched mortals. Built on steel, black powder, matchlocks, cold-iron traps, archery, physical mastery, and survival tactics (*Berserker*, *Apex*, *Minstrel*, *Warden*, *Toxicologist*).
+2. **Celestial Bargain Classes (Infused Houses):** Direct elemental control granted through the Celestial blood pact with Aex & Aethil (*Spellguard*, *Arcanoneer*, *Chronarch*, *Shaper*).
+3. **Vreken Extortion (Blight Magic):** The Vreken extorted divine desperation for ultimate power, receiving **Blight Magic**, which corrupted their noble bloodlines and turned their lands into sulfurous bogs (*Blight-Weaving and Decay disciplines*).
+4. **Cosmic Collision Classes (Post-Keth Amar):** Forged when Keth Amar's void energy violently collided with celestial pacts:
+   * **Pyrofiend:** A demonic/void collision with Solari amber-sun pacts.
+   * **Harbinger:** Void-dissonance and doom-arithmetic woven into raw kinetic force.
+   * **Plaguebringer:** Wyrd decay fused with Blight biology.
+   * **Revenant:** Souls suspended between celestial embers and void stasis.
 
 > **Cosmic Wyrd Canon:** Native Mythrill creatures, spirits, and ancestors predate the Great Binding and arise from Mythrill's own ecologies, histories, and old works. Ancient Cosmic Wyrdkin are pre-existing extra-Mythrill beings from the dark between stars; Keth-Amar may bring, direct, attract, or exploit them, but is not necessarily their creator. Keth-spawn/Wyrdspawn are direct local offspring or manifestations, while Wyrd-touched natives are individual, brood, or branch conditions. Folklore translates, camouflages, and teaches survival around encounters; it does not create creatures.
 

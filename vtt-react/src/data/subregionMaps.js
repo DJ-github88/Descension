@@ -72,6 +72,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Nordhalla Regional Map',
     regionId: 'nordhalla',
     parentMapId: 'mythril',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
     description: 'The frozen northern realm of Nordhalla, featuring black fjords, glaciers, and ancient Skald strongholds.',
@@ -433,6 +434,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Skaldfjord Dal',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
     description: 'The settled river and fjord corridor of Nordhalla, anchored by the capital Frostholm and the Sunder-Wall. Home to the legendary Frozen Archive, the Bloodhammer Sump forges, and the primary naval harbors of the Icechamber Syndicate.'
@@ -442,6 +444,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     name: 'Frostfang Wastes',
     regionId: 'nordhalla',
     parentMapId: 'nordhalla',
+    image: '/assets/images/backgrounds/nordhalla.jpeg',
     width: 4096,
     height: 3072,
     description: 'The desolate, wind-scoured whiteout glaciers beyond the Sunder-Wall. The nomadic Øsling clans hunt mammoths here, where ancient ruins like Blizzard\'s End and the dark Heir-Mounds mark the true history of the Seal-Breaking.'

@@ -100,7 +100,7 @@ The fragments of the Warden-bound original seal. Each is a piece of Aex's flayed
 
 ## The Wyrd
 
-The Wyrd is the corruption-bleed that seeps through the cracks Keth-Amar opened. **Wyrd-creatures are manifestations of local human fear** — born from the same ambient anxiety that gave rise to the protective fog. The Wyrd makes heroes into monsters and ordinary fears into apex predators. It is getting thicker. The fog is changing chemistry; venoms spoil; augur accuracy is falling.
+The Wyrd is the cosmic corruption-bleed that seeps through the cracks Keth-Amar opened. **It is not the origin of Mythrill's creatures.** Native beasts, spirits, and peoples predate the Great Binding; the Wyrd arrived later, carrying Ancient Cosmic Wyrdkin, generating direct Keth-spawn (Wyrdspawn), and occasionally warping individual natives into Wyrd-touched variants. Local fear and folklore translate and camouflage these encounters  -  they shape how survivors describe a creature, not what the creature actually is or where it came from. The Wyrd makes heroes into monsters and ordinary fears into apex predators. It is getting thicker. The fog is changing chemistry; venoms spoil; augur accuracy is falling.
 
 ## The Current World (Year 800 of the Dimming)
 
@@ -194,8 +194,8 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 ### Creatures & Monsters
 
-- **Gref** — face-stealing Wyrd-manifestation. Stalks travelers in fog, stealing memories and physical features.
-- **Gambrel** — spindly, long-limbed Wyrd-horror drawn to broken agreements.
+- **Gref** — native Frostwood Seelie memory-merchant (a separate face-stealing Wyrd mimic sometimes wears its shape). Stalks travelers in fog, trading in memories and physical features.
+- **Gambrel** — Ancient Cosmic Wyrdkin oath-collector; spindly, long-limbed stalker drawn to broken agreements.
 - **Stel** — heavy crystalline colossus of compacted ice, projects glacier-memories (found in the Frostfang north).
 - **Oillipheist** — blind silt-leech serpent of the Siltmire Flats
 - **Mist-Shark** — predator of the Velling Pass
@@ -589,7 +589,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Thrumm** — primordial tunnel-dwellers
 - **Jutul-warbands** — at Skirmour's Crag
 - **Lost-Brood Remnant** — in the sealed Vats
-- **Yokai** — Yuki-Onna (snow-women), Tengu-Crows (raven goblins)
+- **Native mountain spirits** — Yuki-Onna (snow-women), Tengu-Crows (raven goblins)
 
 ### Factions
 
@@ -685,7 +685,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 ### Creatures & Monsters
 
-- **Hungry Child** — Wyrd-creature of the steppe, hunting shadows
+- **Hungry Child** — Ancient Cosmic Wyrdkin of the steppe; a star-story harvester that occupies the rejected dead
 - **Lien** — pale crystal-creature of the Lien-stalked grazes
 - **Qilin** — single-horned beast of the Starfall
 - **Almas** — living memory of the Vale, watches from ridges
@@ -1049,7 +1049,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 - **A "Distances" legend** showing travel time between regions in different seasons
 - **A "Climate Zones" key** showing temperature gradients
 - **A "Bargain Stones" indicator** — small rune-stones at the borders of each region showing what each house traded
-- **A "Wyrd Density" map** — an overlay showing where Wyrd-creatures are most concentrated
+- **A "Wyrd-Corruption Density" map** — an overlay showing where Wyrd corruption, breaches, and Wyrdspawn are most concentrated (distinct from native-creature ranges)
 - **"Hidden" markers** (dotted lines, faded icons) for passages, Briaran camps, pirate coves
 - **A small inset** showing the Wyrd-corruption growth over the last 800 years
 - **A "Where the Buried Star Sits" indicator** at Emberspire's heart

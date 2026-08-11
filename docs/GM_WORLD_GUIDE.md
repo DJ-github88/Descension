@@ -1,13 +1,14 @@
 # MYTHRILL
 ## Game Master's World Guide
 
-> **CANONICAL SOURCE NOTICE & LORE REVISIONS**
-> This document is a convenience summary for GMs, not a source of truth. The canonical sources are: `vtt-react/src/data/rulesData.js` for world/cosmology/regional lore; `vtt-react/src/data/loreDictionary.js` for dictionary terms; and `vtt-react/src/data/classes/*.js` for class lore. If this guide and the data files conflict, **the data files are authoritative**.
-> 
-> **Recent Lore Revisions:**
-> - **House Viridane**: Under the unified canon, House Viridane was the **original seventh binding family** (one of the original seven signatories of Sol's Binding Compact). When they refused Keth-Amar's demands, the remaining six houses elevated House Morrath as their replacement and spent three centuries erasing every trace of Viridane. The common label of House Viridane as the "eighth house" is the public's term (counting the seven official houses plus the erased one).
-> - **Timeline Consistency**: The world is approximately 800 years old since the Binding (Year 3) and the Breach (Year 11). Any legacy mentions in this guide of "thousands of years" or "2,000 years" have been corrected in the code database to align with the ~800-year timeline.
-> - **Real-World Renames**: Legacy Norse/Scottish place-names have been updated in the source code (e.g. `Ymir's Col` -> `Skadi's Col`, `Ymirhold` -> `Skalvyrhold`, `Valley of Ymir` -> `Valley of Rime`, `Kelpie's Cove` -> `Brinehorse Cove`).
+> **CANONICAL SOURCE NOTICE & MASTER LORE DIRECTIVE**
+> This document is a convenience summary for GMs aligned with the **August 2026 Ratified Master Lore Patch**:
+> - **Primary Launch Region:** **North Halam (Nordhalla)** is the sole, self-contained launch region for the initial game release.
+> - **Pre-Star Primordial Anima:** Mythrill had innate biological elemental magic (*Jutul*, *Glacier Wyrms*, *Thrumm*, *Landvaettir*, *Fossegrim*); mortals had zero magic and survived by steel, matchlocks, black powder, archery, and taboos.
+> - **475-Year Master Timeline:** Year 0 Star-Fall & House Bargain; Year 325 Blizzard's End Massacre & Aex Shattering; Year 475 Present Day / 150-Year Ice Age.
+> - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (Infused), Vreken Extortion (Blight), Cosmic Collision (Post-Keth Amar).
+> - **Ancestry Updates:** Neth (Well of Life: High Neth, Pale Neth, Hallowed Neth) and Fexrick (engine theft curse).
+> - **Scrapped Mechanics:** Augur 41% accuracy is NOT tied to Sol's shell/security breakdown; strict mathematical maternal death quotas (3-in-10 ratio) are scrapped in favor of atmospheric cold-strain lore.
 
 > **THE ELEVATOR PITCH**
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
@@ -92,7 +93,7 @@ Each of Mythrill's seven continents was shaped by a dark bargain struck between 
 
 The Frostwood Reach is a continent of dense, transitional fog where warm volcanic air from the south collides aggressively with the creeping northern frost. Ancient ironwood forests stretch beneath a perpetual grey canopy, their petrified trunks hardened by centuries of cold until the wood mimics iron. Settlements cluster along mist-choked trails, their inhabitants never quite certain what lies beyond the next bend  -  or whether they will remember it by the time they arrive.
 
-To govern this realm, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages void. To police the forest, he constructed the **Ironwood Palisade** - a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like Gref and face-traders, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
+To govern this realm, the newly crowned **Jarl-Archivist Kaelen Thalreth ("The Quill-Lord")** enforces the **Sovereign Ledger**. Because the mist erases memory, whoever controls records controls reality; Kaelen has declared all unrecorded property rights and lineages void. To police the forest, he constructed the **Ironwood Palisade** - a colossal wall of petrified logs and spikes. While officially built to repel Wyrd threats like face-stealing mimics and native predators such as the Gref, the palisade’s checkpoints are patrolled by **Mist-Sentinels** (heavy armor [Wardens](file:///d:/VTT/vtt-react/src/data/classes/wardenData.js)) who verify every traveler’s journal and tax receipts, denying entry to those who are undocumented.
 
 On the eastern border, where the fog pools into a permanent, drowning bog, lies **Wraithfen** - a fog-drowned fen where Fractured Mimir who have shed their masks entirely wander in aimless, looping circuits, their identities long since dissolved into the mist.
 
@@ -116,9 +117,9 @@ The **Briaran**, hidden descendants of House Viridane, are the shadow beneath bo
 
 **Localized Threats, Persecution & The Wyrd**
 
-The Wyrd draws from Germanic and Celtic traditions: the **Gref**, a face-trader that wears the stolen visages of its victims; the **Gambrel**, a creature born from broken oaths; and **the Revel**, a fae court whose celebration began before the sun died. 
+The Reach is home to native creatures with their own ecology, predating the Binding: the **Gref**, a Seelie face- and memory-spirit of the deep ironwood whose trade in stolen visages long precedes the Wyrd's arrival. Alongside these natives walks a narrower Wyrd subset - cosmic intrusions and mimics that camouflage themselves in Germanic and Celtic folklore: the **Gambrel**, a creature born from broken oaths; and **the Revel**, a fae court whose celebration began before the sun died. 
 
-This Wyrd is increasingly volatile due to **The Inquisition of the Ledger**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Jarl's forces systematically cut down and burn the Mimir's sacred **Heartwood groves** - where they harvest timber for their masks - declaring the animist rites to be heresy.
+The Wyrd incursion is increasingly volatile due to **The Inquisition of the Ledger**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Jarl's forces systematically cut down and burn the Mimir's sacred **Heartwood groves** - where they harvest timber for their masks - declaring the animist rites to be heresy.
 
 The Sundered Monolith of the region rests within the sealed, lightless central hall of Greymark’s tapestries, its hum vibrating through the parchment vaults.
 
@@ -168,7 +169,7 @@ Furthermore, an unspoken divide runs between the warm-blooded ruling clans who c
 
 **Localized Threats, Persecution & The Wyrd**
 
-Nordhalla's Wyrd draws from Norse and Alpine folklore: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords to drag the living into the icy tides; the **Rimor**, a hearth-parasite that infests the one warm place in a Nordhallan home and slowly consumes the family's ability to feel warmth; and the **Stel**, a glacier's memory given form - a creature of compacted ice and stolen moments that replays the last seconds of everyone who ever died inside it.
+Nordhalla hosts native creatures with their own ecology, predating the Binding: the **Rimor**, a hearth-parasite that infests the one warm place in a Nordhallan home and slowly consumes the family's ability to feel warmth. Alongside these natives stalks a narrower Wyrd subset - cosmic intrusions and mimics that camouflage themselves in Norse and Alpine folklore: the **Skreika**, blue-fleshed drowned warriors who crawl from the black fjords to drag the living into the icy tides; and the **Stel**, a glacier's memory given form - a creature of compacted ice and stolen moments that replays the last seconds of everyone who ever died inside it.
 
 The region's Sundered Monolith rests within the sealed, lightless central hall of the Frozen Archive, its erratic frequency rattling the brass cylinders in their sockets.
 
@@ -221,7 +222,7 @@ The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Va
 
 **Localized Threats, Persecution & The Wyrd**
 
-Sundale's Wyrd draws from Mesopotamian and Egyptian folklore, producing beings of fire and judgment: **the Cinder**, a lost child who walked into the caldera and emerged as a burning entity that consumes the flesh of liars; the **Ash-Woven Oracle**, a creature of compacted ash and prophecy; and the **Husque**, a mobile fissure in reality that leaks the predator's hunger into the mining outposts.
+Sundale is stalked by native creatures with their own ecology, born of the ashlands long before the Wyrd seeped in: the **Ash-Woven Oracle**, a creature of compacted ash and prophecy. Alongside them roams a narrower Wyrd subset - cosmic intrusions and mimics that draw on Mesopotamian and Egyptian folklore as camouflage, producing beings of fire and judgment: **the Cinder**, a lost child who walked into the caldera and emerged as a burning entity that consumes the flesh of liars; and the **Husque**, a mobile fissure in reality that leaks the predator's hunger into the mining outposts.
 
 The Sundered Monolith of the region is embedded deep within the primary throat of Emberspire itself, visible only during the annual vent-calm when the volcanic smoke clears for a single hour.
 
@@ -274,9 +275,9 @@ The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooin
 
 **Localized Threats, Persecution & The Wyrd**
 
-The Wyrd draws from Celtic and Greek maritime folklore: the **Spume of the Drowned**, a memory-colony formed from the final thoughts of drowning sailors; the **Brine**, a ghost-ferryman who offers passage for a price; and **the Writ of Passage**, a sentient contract that drifts on the currents.
+The Iceheart's native sea-life - its whales, leviathans, and deep-grazers - has its own ecology and predates the Wyrd entirely; even the **Brine**, a ghost-ferryman who offers passage for a price, is counted by most sailors among the sea's native tide-spirits rather than the Wyrd. A narrower Wyrd subset haunts the shipping lanes, cosmic intrusions camouflaged in Celtic and Greek maritime folklore: the **Spume of the Drowned**, a memory-colony formed from the final thoughts of drowning sailors; and **the Writ of Passage**, a sentient contract that drifts on the currents.
 
-This Wyrd is increasingly volatile due to **The Inquisition of the Luck-Ledger**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Board’s forces systematically outlaw the traditional **Tide-Speak** - praying to ocean spirits - and execute Tide-Speakers who ink unlicensed navigational charts, forcing captains to purchase temple luck-coins to protect their ships.
+The Wyrd incursion is increasingly volatile due to **The Inquisition of the Luck-Ledger**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Board’s forces systematically outlaw the traditional **Tide-Speak** - praying to ocean spirits - and execute Tide-Speakers who ink unlicensed navigational charts, forcing captains to purchase temple luck-coins to protect their ships.
 
 The Sundered Monolith of the region rests at the bottom of the Treakous Oceanic Rift, its vortex visible as the **Shard-Window**: a circular storm-vortex three miles wide that rotates above the rift.
 
@@ -329,9 +330,9 @@ The **Groven** themselves are divided by the **ideological split**, an unspoken 
 
 **Localized Threats, Persecution & The Wyrd**
 
-Cragjaw’s Wyrd draws from Japanese Yokai and Andean folklore: the **Yuki-Onna (Rime-Bride)**, a frozen ghost who lures travelers into the abyss; the **Tengu-Crows**, winged mountain spirits that steal voices; and **Sump-Kappas**, feral heat-stealing pests that drain steam from pipe junctions.
+The Peaks are home to native creatures with their own ecology, predating the Binding: the **Yuki-Onna (Rime-Bride)**, a frozen ghost-spirit who lures travelers into the abyss; the **Tengu-Crows**, winged mountain spirits that steal voices; and **Sump-Kappas**, feral heat-stealing pests that drain steam from pipe junctions. The narrower Wyrd subset here - cosmic intrusions that camouflage themselves in Japanese Yokai and Andean folklore - is smaller than the native mountain-fauna, and locals often misblame the native spirits for Wyrd corruption.
 
-This Wyrd is highly volatile due to the **Purging of the Kami-Speakers**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), Tesshan forces systematically outlaw traditional mountain animism - worshipping rock-spirits (**Kami**) and geothermal springs (**Onsens**) - forcing keeps to worship only the calcified ancestors of the Groven-bridges.
+The Wyrd incursion is highly volatile due to the **Purging of the Kami-Speakers**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), Tesshan forces systematically outlaw traditional mountain animism - worshipping rock-spirits (**Kami**) and geothermal springs (**Onsens**) - forcing keeps to worship only the calcified ancestors of the Groven-bridges.
 
 The region's Sundered Monolith is sealed within a lightless alchemical chamber deep beneath Frostmaw Crag, its frequency vibrating the steam-valves.
 
@@ -382,9 +383,9 @@ The **Astril** are split by how they live with the Lumia's echos nesting in thei
 
 **Localized Threats, Persecution & The Wyrd**
 
-Sundrift's Wyrd draws from Mongol/Turkic and Chinese folklore: the **Lien**, a debt-tracker that collects on forgotten promises; the **Hungry Child**, a Wyrd-occupied spirit who devours those with no star-stories to tell; and the **Sere-Khan**, a guilt-ridden judge who rides the steppe trying cases brought by the dead.
+Sundrift's native steppe-fauna - its woolly herds, steppe-predators, and burrowers - has its own ecology predating the Wyrd. A narrower Wyrd subset rides the steppe, cosmic intrusions that camouflage themselves in Mongol/Turkic and Chinese folklore: the **Lien**, a debt-tracker that collects on forgotten promises; the **Hungry Child**, a Wyrd-occupied spirit who devours those with no star-stories to tell; and the **Sere-Khan**, a guilt-ridden judge who rides the steppe trying cases brought by the dead.
 
-This Wyrd has grown highly active due to the **Purge of the Sky-Singers**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Khatun has outlawed the traditional "Sky-Song" throat-singing that communed with star-spirits, forcing all clans to practice only ancestor-singing. Those who throat-sing the old constellations are executed.
+The Wyrd incursion has grown highly active due to the **Purge of the Sky-Singers**. Backed by southern [Inquisitors](file:///d:/VTT/vtt-react/src/data/classes/inquisitorData.js), the Khatun has outlawed the traditional "Sky-Song" throat-singing that communed with star-spirits, forcing all clans to practice only ancestor-singing. Those who throat-sing the old constellations are executed.
 
 The regional Sundered Monolith is buried deep within the oldest Ancestor Mound, its location erased from memory, but its frequency vibrates the steppe-saddle leather.
 
@@ -433,9 +434,9 @@ The **Vreken** are split by their fungal bonds. The **Clean Vreken** are immune 
 
 **Localized Threats, Persecution & The Wyrd**
 
-The Bryngloom's Wyrd draws from Slavic and Hindu folklore: **the Grandmother of the Bog**, an ancient figure who offers extensions on life in exchange for memories; the **Debt-Revenant**, a deceased debtor who rises to complete the terms of a broken contract; and **the Cycle-Eater**, a creature that devours the reincarnation cycle itself. Few dare cross **Widow's Quagmire**, where the voices of drowned Morren widows hum the terms of expired contracts.
+The Bryngloom's native forest-fauna - its bog-grazers, canopy-things, and peat-dwellers - has its own ecology predating the Wyrd. A narrower Wyrd subset haunts the deep wood, cosmic intrusions that camouflage themselves in Slavic and Hindu folklore: **the Grandmother of the Bog**, an ancient figure who offers extensions on life in exchange for memories; the **Debt-Revenant**, a deceased debtor who rises to complete the terms of a broken contract; and **the Cycle-Eater**, a creature that devours the reincarnation cycle itself. Few dare cross **Widow's Quagmire**, where the voices of drowned Morren widows hum the terms of expired contracts.
 
-This Wyrd has grown highly active due to **The Purging of the Swamp-Singers**. Backed by southern Inquisitors, the Neth Regency has outlawed the "Swamp-Song" - traditional animistic communion with the Root-Veil - forcing all clans to practice only Registry-Rituals. Those who throat-sing to the fungal-molds are hunted down and turned into silent laborers.
+The Wyrd incursion has grown highly active due to **The Purging of the Swamp-Singers**. Backed by southern Inquisitors, the Neth Regency has outlawed the "Swamp-Song" - traditional animistic communion with the Root-Veil - forcing all clans to practice only Registry-Rituals. Those who throat-sing to the fungal-molds are hunted down and turned into silent laborers.
 
 The regional Sundered Monolith rests at the bottom of a bog-pool that has no bottom, leaking the memories of drowned divers into the peat.
 
@@ -709,15 +710,15 @@ The callings are presented roughly in the order a traveler meets them, moving fr
 The Apex is a silent hunter who wields the legendary Shadow Glaive and fights as half of a pack. Her power is not individual  -  it is the synchronized rhythm of hunter and beast, built through the Quarry Marks system that fills only when glaive and fang strike as one.
 
 ### History
-The ranger **Sylas** tracked the invisible spoor of Wyrd-creatures through the Frostwood Reach by tuning his senses to the sub-vocal vibrations of pine needles and damp earth. In a fog-shrouded valley he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in the fog-memory. To achieve this absolute sensory focus, he paid with his own hearing  -  becoming completely deaf to the voices of his kin.
+The ranger **Sylas** tracked the invisible spoor of native creatures and Wyrd entities through the Frostwood Reach by tuning his senses to the sub-vocal vibrations of pine needles and damp earth. In a fog-shrouded valley he stalked a conceptual entity for seven days, breathing only when the wind blew, training his eyes to trace faint disturbances in the fog-memory. To achieve this absolute sensory focus, he paid with his own hearing  -  becoming completely deaf to the voices of his kin.
 
 ### Cities & Civil Reception
-The Apex is a creature of the wild perimeter, not the plaza. She is tolerated at the frontier holds where the fog presses closest and respected wherever a Wyrd-creature must be found before it finds its quarry. In the civilized chambers of Atropolis she is a curiosity; at the edge of the ironwood, she is the difference between a safe night and a vanished patrol.
+The Apex is a creature of the wild perimeter, not the plaza. She is tolerated at the frontier holds where the fog presses closest and respected wherever a native beast or Wyrd entity must be found before it finds its quarry. In the civilized chambers of Atropolis she is a curiosity; at the edge of the ironwood, she is the difference between a safe night and a vanished patrol.
 
 ### Races & Cultural Affiliation
 Practiced most by the **Briaran** wood-wardens and the human **Thalren** rangers whose fog-chewed memories make them value the silent, scent-based craft. Mimir trackers sometimes take the path, their mask-merger heritage lending an unsettling patience to the hunt.
 
-> *"The Wyrd-creature does not leave tracks in the snow. It leaves tracks in the memory of the snow. I do not hunt with my eyes. I hunt with my patience."*
+> *"The native beast and the Wyrd entity alike do not leave tracks in the snow. They leave tracks in the memory of the snow. I do not hunt with my eyes. I hunt with my patience."*
 
 ---
 
@@ -1212,9 +1213,9 @@ A world sunless for eight centuries does not heal cleanly. The survival strategi
 
 ### The Frost-Tithe of Nordhalla
 
-The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but Keth-Amar set a price. Every frost-touched birth among the **Rime-Born** must "pay" a life to the cold  -  the bargain's interest collected on each new generation. This supernatural debt is known as the **Frost-Tithe**.
+The ancestral bargain of House Skalvyr saved **Nordhalla** from the glaciers, but Keth-Amar set a price. Every frost-touched birth among the **Rime-Born** must bear the burden of the cold — the bargain's metaphysical interest collected on each new generation. This supernatural debt is known as the **Frost-Tithe**.
 
-As a Rime-Born mother begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The tithe drains the mother's natural warmth, pulling her life-force into the child. The child survives by absorbing the mother's warmth  -  not as biology, but as the bargain's debt collection. In three out of ten births, the mother freezes to death during delivery.
+As a Rime-Born mother begins labor, the ambient temperature in the room plummets, frost crawling across the walls and freezing water in its basins. The tithe drains the mother's natural warmth, pulling her vitality into the child. The child survives by absorbing the surrounding heat — not as biology, but as the bargain's debt collection. This severe cold-strain extracts a heavy toll across northern generations.
 
 The surviving infants emerge permanently altered. Known as the **Frostbound**, their skin is pale blue, brittle as thin ice, and their blood flows gelid and slow. They cannot feel warmth, and physical heat causes them intense, blistering pain.
 
@@ -1241,14 +1242,14 @@ However, navigating the Shyr is a high-stakes gamble:
 
 ## 3. Metaphysical Laws of the Wyrd
 
-The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, operates on three absolute metaphysical laws, each discovered at immense cost by the early **Exorcists** and **Covenbanes**:
+The Wyrd, that formless spiritual rot unleashed by Emberspire's eruption, cannot create native life - the creatures of Mythrill predate it. It can only occupy, camouflage, or mimic what already exists, using local fear as a blueprint. It operates on three absolute metaphysical laws, each discovered at immense cost by the early **Exorcists** and **Covenbanes**:
 
-* **The Law of Somatic Echoes:** The Wyrd cannot affect physical matter unless it has a conceptual tether. A house cannot be haunted unless a tragedy occurred within its walls to draw the Wyrd's eye. If a family abandons a cabin because they fear a monster is inside, the Wyrd fills the empty house, transforming their fear into a physical beast. The creature will match their expectations down to the number of teeth and the color of its eyes. If the family believes the beast is vulnerable to silver, the Wyrd-creature will indeed burn when touched by silver  -  not because silver is inherently magical, but because the blueprint they drew in their minds demanded it.
-* **The Law of Names:** A Wyrd-creature has no name of its own. It inherits the names given to it by the local population. If a village names a shape in the forest "The Old Man of the Woods," the Wyrd-creature becomes bound to that identity. It will mimic an old man, walk with a limp, and respond to the name. If an **Oracle** can discover the first name whispered by the first child who saw the shape, the creature's conceptual integrity can be shattered instantly, reducing it to harmless, formless grey vapor.
+* **The Law of Somatic Echoes:** The Wyrd cannot originate native life  -  it can only occupy, camouflage, or mimic what already exists (an empty place, a corpse, a native creature, or its own stranded cosmic fauna), using local fear as the blueprint for the shape it takes. A house cannot be haunted unless a tragedy occurred within its walls to draw the Wyrd's eye. If a family abandons a cabin because they fear a monster is inside, the Wyrd fills the empty house and shapes itself  -  or a native beast it has touched  -  to match their fear. The manifestation will match their expectations down to the number of teeth and the color of its eyes. If the family believes the beast is vulnerable to silver, the Wyrd-shape will indeed burn when touched by silver  -  not because silver is inherently magical, but because the blueprint they drew in their minds demanded it.
+* **The Law of Names:** A Wyrd manifestation has no name of its own - it inherits the names the local population drapes over whatever native creature, corpse, or stranded Wyrdkin it has camouflaged itself within. If a village names a shape in the forest "The Old Man of the Woods," the Wyrd becomes bound to that identity, mimicking an old man, walking with a limp, and responding to the name. If an **Oracle** can discover the first name whispered by the first child who saw the shape, the manifestation's conceptual integrity can be shattered instantly, reducing it to harmless, formless grey vapor - though any native creature it had occupied remains behind.
 * **The Law of Resonating Guilt:** The Wyrd is attracted to hidden shame, broken promises, and unpaid debts. It acts as an aggressive spiritual mirror. In the **Frostwood Reach**, if a merchant cheats a widow out of her land, the Wyrd will occupy the widow's grief, manifesting as a **Gambrel** that will stalk the merchant's carriage. The merchant's own guilt serves as the beacon; the more he tries to forget his crime, the brighter the beacon burns, and the faster the Gambrel moves.
 
 ### Exorcism and Cleansing Protocols
-Because Wyrd-creatures are made of conceptual fear, standard blades and arrows are rarely enough to destroy them permanently. A fighter may sever a beast's head, but as long as the village continues to whisper stories of the beast, the Wyrd will simply reoccupy the legend, rising from the bog on the next sunless night. To permanently cleanse a Wyrd-infestation, an adventurer must:
+Because Wyrd manifestations are shaped from conceptual fear draped over an existing host or stranded cosmic fauna, standard blades and arrows are rarely enough to end them permanently. A fighter may sever a beast's head, but as long as the village continues to whisper stories of the beast, the Wyrd will simply reoccupy the legend, rising from the bog on the next sunless night. To permanently cleanse a Wyrd-infestation, an adventurer must:
 1. **Starve the Legend:** The villagers must be sworn to absolute silence. The name of the beast must never be spoken again, and its cautionary tales must be struck from the lineage journals.
 2. **Resolve the Debt:** If the creature was birthed from an unpaid moral debt or broken promise, the original transaction must be completed or legally absolved.
 3. **Deploy Cold Iron or Salt:** Rusted iron and bog-salt disrupt the Wyrd's ability to mirror the human mind. An **Exorcist** must bind the formless rot to physical iron spikes, pinning the concept to the earth until the local memory of the terror fades into dust.
@@ -1274,7 +1275,7 @@ The local village elder, **Marra of the Nine**, offers a simple bounty: recover 
 * **Orl the Scout:** A young Corvani messenger  -  a raven-marked glacier-dweller from Nordhalla\'s frozen spires  -  who saw the sledge\'s tracks veer off the trail into the **Whispering Silt-Bed** before the mist closed in. He is too terrified of the local Wyrd-whispers to go alone but will provide directions.
 
 ### The Encounter & Stakes
-The adventurers track the sledge into a freezing, mist-veiled gorge. They find the sledge abandoned, its draft-beasts frozen, and two casks of coal remaining. The rest of the cargo has been dragged into a shallow basalt cave by a pack of **Gref-Spawn**  -  minor, faceless Wyrd-creatures born from the local loggers' fear of losing their names to the fog.
+The adventurers track the sledge into a freezing, mist-veiled gorge. They find the sledge abandoned, its draft-beasts frozen, and two casks of coal remaining. The rest of the cargo has been dragged into a shallow basalt cave by a pack of **Gref-Spawn**  -  minor, faceless native scavengers, lesser kin of the Gref, that lair in the mist-beds and hoard whatever the fog-bound loggers drop.
 
 1. **The Choice:** The cave is structurally unstable. Retrieving the remaining casks requires either an Athletics challenge to clear the basalt debris silently, or fighting the Gref-Spawn under the threat of a rockfall.
 2. **The Twist:** A dying driver, **Toma**, is trapped under the sledge. If they save him, they must leave one cask behind due to weight limits on their makeshift litter. If they leave him, they retrieve all the coal but return to the village with the burden of his death.

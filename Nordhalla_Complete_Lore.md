@@ -1,255 +1,93 @@
-# NORDHALLA — THE COMPLETE LORE (FINAL CANON)
+# NORTH HALAM (NORDHALLA) — THE COMPLETE LORE (PRIMARY LAUNCH REGION)
 
-> Ratified 2026-07-27. Source of truth for all Nordhalla content.
+> **Status:** Canonical Master Lore Update. Source of truth for North Halam / Nordhalla launch content.
+> **App Launch Focus:** North Halam is the **sole, self-contained launch region** for the app map and initial gameplay release. Other continents will be added in future expansions.
 > Three subregions: **Rime-spire Peaks** · **Skaldfjord Dal** · **Frostfang Wastes**
 
 ---
 
-## PART I: THE CONTINENT
+## PART I: THE LAUNCH REGION (NORTH HALAM / NORDHALLA)
 
 ### Geography
 
-Nordhalla is a **brutalist cathedral of frozen black fjords and towering glaciers** in the far north — **directly inspired by Icewind Dale.** A **separate continent** — no land borders with any other region. East across open sea lies Frostwood Reach. South across open water lies Sundale. Minor outskirt islands dot its continental shelf.
+North Halam (Nordhalla) is a **brutalist cathedral of frozen black fjords, towering glaciers, and jagged basalt peaks** in the far north. It serves as the self-contained initial launch setting for the Mythrill VTT campaign.
 
 Three geographic forces shape the land:
 - **Glaciers** — pressed in from the north and west, halted in place by the Glacier Bargain
 - **Geothermal vents** — volcanic craters punching warmth through the permafrost
-- **Black fjords** — deep, basalt-walled inlets carved by the pre-Binding landscape
+- **Black fjords** — deep, basalt-walled inlets carved by the pre-Star primordial landscape
+
+### Folklore Textures & Native Immune System
+
+North Halam's folklore is deeply rooted in **Finnish, Greenlandic, and Norse mythology**. The region is inhabited by:
+- **Landvaettir** — ancient land spirits bound to stone, peak, and tundra moraine
+- **Qalupalik** — predatory, human-snatching sea-hags dwelling in the ice floes and black firths
+- **Jutul** — colossal frost-giants of the high glacial cirques
+- **Glacier Wyrms** — primordial elemental serpents coiled deep within the creeping ice
+- **Fossegrim** — waterfall and fjord spirits playing enchanting water-music in cascading meltwater
+
+These creatures and spirits are North Halam's **original owners** and act as the land's natural immune system, actively resisting mortal encroachment and unnatural intrusions.
+
+### Culture & Combat
+
+* **Common Skalds & Hunters (Pre-Binding Mortals):** Commoners, skalds, and outlaw hunters rely on **matchlock firearms, black powder, cold-iron traps, archery, and folk taboos/traditions** to appease and survive native beasts and land spirits.
+* **Infused House Leaders:** Noble clan leaders and Infused bloodlines bring **celestial Rime magic** and ancestral relics to the shield-wall, channeling the Glacier Bargain's power against the encroaching cold.
 
 ### Climate
 
-**Eternal winter.** The Glacier Bargain traded summer for halted glaciers. There is no spring. There is no summer. Only cold, with brief geothermal pockets of survival. Morð worsens each generation as the buried Solbrand's residual thermal resonance continues to fade.
+**Eternal winter.** The Glacier Bargain traded summer for halted glaciers. There is no spring and no summer—only a 150-Year Ice Age with brief geothermal pockets of survival.
 
 ### Government
 
-Ruled by **King-Jarl Halvar Skalvyr, called Jarn-Tand ("Iron-Tooth")** of **House Skalvyr**. He unified the clans by force, built the **Sunder-Wall**, and established the **Icechamber Syndicate** trade monopoly. The **Cleansing of the Hearth** — his religious persecution of tribal Animists — is ongoing.
+Ruled by **King-Jarl Halvar Skalvyr, called Jarn-Tand ("Iron-Tooth")** of **House Skalvyr**. He unified the settled clans by force, built the **Sunder-Wall**, and established the **Icechamber Syndicate** trade monopoly. The **Cleansing of the Hearth** — his state-enforced suppression of tribal Animists — is ongoing.
 
 ### The Three Pillars of Skalvyr Power
 
-1. **The Frozen Archive** — institutional control of history and prophecy
-2. **The Icechamber Syndicate** — economic control of all trade
-3. **The Sunder-Wall** — military control of migration and movement
+1. **The Frozen Archive** — institutional control of history, clockwork relics, and prophecy
+2. **The Icechamber Syndicate** — economic monopoly on coal, iron ore, and mammoth hides
+3. **The Sunder-Wall** — military fortification controlling migration and taxing trade
 
 ---
 
-## PART II: THE BINDING (The Founding Sin)
+## PART II: PRE-STAR MYTHRILL & THE CELESTIAL STAR-FALL
 
-### The Cosmology
+### Pre-Star Mythrill (Primordial Anima)
 
-Sol is a **sun deity** — a young god thriving in his cocoon, almost ready to be born. Deities are born inside stars. When a new deity is created, a sun is born (son). When a daughter is born, a moon is born. The dormant moon in the sky is a daughter deity — young, still developing.
+Mythrill was never a barren or lifeless rock; it was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*), and non-human races possessed innate biological elemental abilities (fire, frost, storm). 
 
-**AEX** is Sol's mother. A celestial deity. **AETHIL** is Sol's father. Aex's partner. Together they are the parents of the youngest deity in the cosmos — and the one most vulnerable to predation.
+Mortals had **zero magic**. They were underdogs who survived strictly through forged steel, tactical engineering, black powder, matchlocks, archery, and strict cultural taboos.
 
-### The Predator
+### The Celestial Star-Fall (Year 0)
 
-**Keth-Amar** is an ancient predator. Part of a race that hunts deities before they're born. He has killed dozens of stars. He consumes the nascent god inside before it can fully form. Sol — thriving, close to birth — is exactly what attracts him.
+Celestial Parents (**AEX**, the Mother, and **AETHIL**, the Father) fled across the cosmos to hide their unhatched infant sun (**SOL**) in Mythrill's volcanic core from the cosmic predator **KETH AMAR**. The Sister Moon was frozen in orbit as a thermal buffer to anchor **Rime Magic**.
 
-### The Sacrifice
+### The House Bargain & Infusion
 
-Aex senses Keth-Amar coming. She knows Sol will be consumed if she does nothing. She faces an impossible choice: break the unwritten rule, or lose her child.
+Mortal Houses unaligned with the Old Native Gods struck a blood pact with the Celestials to level the playing field against magical beasts:
+- **High Houses:** Mutated directly into magical lineages (*Solari*, *Vreken*, *Neth*).
+- **Common Folk:** Received subtle physical adaptations while keeping traditional black powder, matchlocks, and melee combat.
 
-**The unwritten rule:** Deities must not commune with mortals. To interact with mortals, a celestial being must permanently degrade themselves — strip their celestial status, become something less. Non-celestial. Mortal-grade. This is irreversible.
+### The Shattering & Freezing Era (Year 325 – Present / Year 475)
 
-Aex breaks the rule. She strips her celestial status. Aethil does the same. They become something less than gods — but they can now speak to the houses of Mythrill.
-
-### The Pleading
-
-Aethil and Aex plead with the houses: **bind your lineage to Aex. Cast ancient magic. Seal Sol safely inside the earth's core.** Otherwise he will be lost forever — consumed by Keth-Amar.
-
-The houses accept. Each is offered a gift based on what they wish for — magic to help them survive the frozen world that will result from Sol's hiding. The magic is celestial power shaped by mortal desire. It is volatile, powerful, and transformative.
-
-### The Binding
-
-**Aex sacrifices herself.** She binds herself to the core, wrapping around Sol, becoming the shell — the protective barrier between her son and the predator. Her body IS the binding. Her sacrifice is the wall.
-
-Sol is sealed inside the earth's core. The world goes dark. No sun. No warmth from the sky. Only heat radiating from the earth. Glaciers grow. The frozen age begins.
-
-### The Seven Gifts
-
-Each house receives magic based on their wish. But celestial power was never meant for mortals. The gifts are double-edged — the curse is the natural consequence of wielding divine energy in mortal flesh. Houses that pushed too hard (hubris) received twisted magic. Houses that were humble received purer gifts.
-
-| House | Continent | Gift | Wish | Curse |
-|-------|-----------|------|------|-------|
-| **Solvan** | Ember Isle | **Ember** | Guard Sol. Keep him warm. | Parches skin, eyes turn black, vulnerable to frost. Burning from proximity to the core. |
-| **Skalvyr** | Nordhalla | **Rime** | Control ice. Survive it. | Petrifies, slows time, numbs feeling. Overuse = ice statues. They became what they sought to control. |
-| **Mereval** | Iceheart Sea | **Storm** | Traverse the seas. Keep oceans from freezing. | Sea never sleeps. Perpetual churning. They tried to chain the ocean. It fights back. |
-| **Tesshan** | Cragjaw Peaks | **Arcane** | Build barriers. Protect in mountains. | Stone becomes sentient. Mountains trap you. Asked for unbreakable walls. Now can't escape. |
-| **Ordavan** | Sundrift Vale | **Sacred** | Maintain Aex's binding song. | Song burns. Sacred light attracts Keth-Amar. Sky goes dark. The song draws predators. |
-| **Thalreth** | Bryngloom | **Blight** | Endurance. Outlast everything. | Everything around them decays. They endure but nothing else does. Loneliness. |
-| **Viridane** | Frostwood Reach | **Primal** | Grow forests. Hold world together. | Refused Keth-Amar's later deal. Pact with Aex still holds. But fading, forgotten, forest dying. |
-
-### The Astril's Role
-
-The **Astril** — tall, alien, blue-gold skinned people — had their own sun devoured by Keth-Amar in their home world. They fled to this world, arriving in Sundrift Vale. They carried knowledge of the celestials and helped House Ordavan maintain Aex's binding song. The Astril brought Sacred magic with them — Aex's voice, carried across the stars.
-
-### The Deal Was Written
-
-The deal was written in ice at the Gjaldhringr. The runic script on the amphitheater's walls **is the deal itself**. The terms. The exchange. Aethil's gift and the houses' sacrifice, sealed in glacier ice forever.
-
-### The Deity System — How Magic Entered the World
-
-Aethil and Aex contacted each house separately. Not seven deities — two parents trying to save their child. They offered gifts based on what each house WISHED FOR. In exchange, the houses would seal Sol in the core. Each house answered differently. The magic manifested differently based on their culture, continent, race, and needs.
-
-**The magic is celestial power shaped by mortal desire.** It is volatile, powerful, and transformative. Celestial power was never meant for mortals. The gifts are double-edged — the curse is the natural consequence of wielding divine energy in mortal flesh. Houses that pushed too hard (hubris) received twisted magic. Houses that were humble received purer gifts.
-
-| House | Continent | Race | Gift | Wish | Curse |
-|-------|-----------|------|------|------|-------|
-| **Solvan** | Ember Isle | **Solari** | **Ember** | Guard Sol. Keep him warm. | Parches skin, eyes turn black, vulnerable to frost. Burning from proximity. |
-| **Skalvyr** | Nordhalla | **Skald** | **Rime** | Control ice. Survive it. | Petrifies, slows time, numbs feeling. Overuse = ice statues. Became what they sought to control. |
-| **Mereval** | Iceheart Sea | **Merryn** (+ Myrathil) | **Storm** | Traverse the seas. Keep oceans from freezing. | Sea never sleeps. Perpetual churning. Tried to chain the ocean. It fights back. |
-| **Tesshan** | Cragjaw Peaks | **Groven + Fexrick** (+ Tessen humans) | **Arcane** | Build barriers. Protect in mountains. | Stone becomes sentient. Mountains trap you. Asked for unbreakable walls. Now can't escape. |
-| **Ordavan** | Sundrift Vale | **Ordan + Astril** | **Sacred** | Maintain Aex's binding song. | Song burns. Sacred light attracts Keth-Amar. Sky goes dark. Song draws predators. |
-| **Thalreth** | Bryngloom | **Vreken + Neth** (+ Morren humans, now merged into Vreken) | **Blight** | Endurance. Outlast everything. | Everything around them decays. They endure but nothing else does. Loneliness. |
-| **Viridane** | Frostwood Reach | **Florae** (treant humanoids) | **Primal** | Grow forests. Hold world together. | Refused Keth-Amar's deal. Transformed by the fae into treant humanoids. History erased. Magic fading. Forgotten. |
-
-### The Seven Celestials
-
-| Deity | Relation to Sol | Role |
-|-------|----------------|------|
-| **Aethil** | Mother | Broke the unwritten rule. Stripped celestial status. Plead with the houses. |
-| **Aex** | Father | Sacrificed herself. Binds to core. Becomes the shell protecting Sol. |
-| **Sol** | Son | Young sun deity. Thriving in his cocoon. Almost ready to be born. |
-| **Vereth** | ??? | Fae deity. Connected to Viridane and the Florae. |
-| **Vindr** | ??? | Storm deity. Connected to Mereval. |
-| **Valerius** | ??? | Contract deity. Connected to Tesshan. |
-| **Morvane** | ??? | Decay deity. Connected to Thalreth. |
-
-### The Second Deal — Keth-Amar's Trick (The Double-Deception)
-
-**Phase 1 — The Predator Arrives:**
-
-Keth-Amar arrives. He can still smell Sol. He spreads his Wyrd onto Mythrill — saturating the world, learning everything. He discovers what each house wants. What problems they face. What they're struggling with. He learns their weaknesses.
-
-**Phase 2 — The Disguise:**
-
-Keth-Amar disguises himself as Aethil. He speaks in her voice. He tells the houses: "Sol is ready to be freed. The binding has served its purpose. Release him, and the world will be warm again. The glaciers will melt. Summer will return."
-
-All six houses believe the trick. They're desperate. The world is freezing. They want relief. They want their gift to mean something. They want to save the world.
-
-**Phase 3 — Viridane's Refusal:**
-
-House Viridane doesn't believe the voice. They didn't ask for anything. They didn't want change. They confer with the fae — the spirits of the Frostwood, the old ones who remember what came before.
-
-The fae sense something is amiss. They tell Viridane: this is not Aethil. This is the predator.
-
-Viridane realizes the truth: they've been living WITH nature, not against it. The gift of Primal wasn't a curse — it was a calling. The roots grow into you because you ARE the forest. They weren't meant to control nature. They were meant to BE nature.
-
-They refuse the deal. They walk away from the table.
-
-**Phase 4 — The Transformation:**
-
-But Keth-Amar's Wyrd is everywhere. If Viridane stays as they are — human, identifiable, traceable — he will find them. He will hunt them through knowledge, through memory, through the threads of who they are.
-
-The fae offer a solution: **change everything.** Not just their names. Not just their records. Their entire species. Their bodies. Their forms. Their very nature.
-
-The fae reshape House Viridane into **treant humanoids** — the Florae. Root-bound, bark-skinned, connected to the forest in ways humans never were. They become something Keth-Amar cannot recognize. Something his Wyrd cannot track. Because they are no longer human. They are no longer a house. They are the forest itself.
-
-Their entire history is erased. Every record. Every name. Every memory. The other houses help with this — but the fae ensure it is complete. Even the Florae forget who they were. They forget they were ever Viridane. They forget they ever made a deal.
-
-**Phase 5 — The Houses' Counter-Trick:**
-
-The other houses hear nothing from Viridane. They figure out Keth-Amar is lying. But they can't refuse without revealing they know.
-
-So they **substitute House Morrath.** They tell Keth-Amar: "Morrath agrees. The seventh signature is sealed."
-
-Keth-Amar thinks he's won. All seven houses agreed. The binding is his.
-
-**But Morrath is a substitute.** Their monolith is false. Their signature is a lie. The binding cracks — but doesn't shatter. Because Viridane's pact still holds, and Morrath's signature is hollow.
-
-**The Result:**
-
-- Keth-Amar believes all seven houses agreed
-- The binding cracks — Aex's shell fractures
-- Keth-Amar can now feed slowly through the cracks
-- But the binding doesn't shatter — because Viridane's pact still holds
-- The Florae are hidden, forgotten, their magic fading
-- House Morrath is elevated as the seventh house — a substitute, a hollow echo
-- Three centuries of erasure follow — every trace of Viridane is removed
-
-**The Silent Seventh:**
-
-The official record lists seven houses: Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Morrath. All seven sealed the Binding Compact.
-
-The truth: the original seventh was Viridane. They refused. They were transformed. They were erased. House Morrath was elevated as a substitute. The seventh monolith doesn't scream with a silenced refusal. It screams with a substituted name — a name that was never meant to be there.
-
-### The Seal-Breaking — Blizzard's End
-
-Keth-Amar's Wyrd saturated the world during the Second Deal, but the binding held. He tried again — this time through the heirs. Disguised once more, he manipulated the houses into leading their heirs to **Blizzard's End**, a settlement at the edge of the known map in the far east. The heirs were to open the seal to Sol.
-
-When the heirs opened the seal, Keth-Amar murdered them and believed he had broken the binding. **He was wrong.** One house deviated — a fake heir was sacrificed instead of the true heir. The seal cracked but did not shatter. Keth-Amar still does not know the sacrifice was false.
-
-The true heir of that deviated house lives, unnamed, somewhere in the world.
-
-### The Deal Was Written
-
-The deal was written in ice at the Gjaldhringr. The runic script on the amphitheater's walls **is the deal itself**. The terms. The exchange. Aethil's gift and the houses' sacrifice, sealed in glacier ice forever.
-
-### The Races — How the Elements Shaped the People
-
-Magic entered the world through the deals. It shaped the land and the people who lived there. Each element transformed its house differently — some remained human, some became something else entirely.
-
-**Human Subraces (5):**
-
-| Subrace | House | Continent | How the Element Shaped Them |
-|---------|-------|-----------|----------------------------|
-| **Skald** | Skalvyr | Nordhalla | **Rime** gave them blue skin, frost-touched hands (immune to burns), supernatural cold in blood. Breath freezes even in southern heat. They endure cold that would kill others. They became what they sought to control. |
-| **Thalren** | Thalreth | Frostwood Reach | **Storm** gave them fog-pale skin, chain-journals, obsessive memory-preservation. The Mist protects but devours memory — they write everything down because they know it will be taken. |
-| **Tessen** | Tesshan | Cragjaw Peaks | **Arcane** kept them underground for generations. Pale skin, Byzantine politics, total isolation. They haven't seen open sky in sixteen generations. The stone became their world. |
-| **Merryn** | Mereval | Iceheart Sea | **Storm** gave them salt-stained skin, contract-tattoos, storm-chasing culture. They sail the churning seas and tattoo oaths onto their skin because paper burns in the salt air. |
-| **Ordan** | Ordavan | Sundrift Vale | **Sacred** gave them throat-sung ancestor-maps, wind-leather cloaks, nomadic endurance. They solved a starless sky by memorizing the ground. |
-
-**Non-Human Races (9):**
-
-| Race | House | Continent | How the Element Shaped Them |
-|------|-------|-----------|----------------------------|
-| **Solari** | Solvan | Ember Isle | **Ember** transformed them. Parched skin, eyes turned black, vulnerable to frost. They live near the core because they MUST — the fire that sustains them also burns them. They are humanoid but NOT human. Formerly the Solvan humans. |
-| **Florae** | Viridane | Frostwood Reach | **Primal** reshaped them into treant humanoids. Root-bound, bark-skinned. The fae transformed them to hide from Keth-Amar. They forgot who they were. Their magic is fading. |
-| **Groven** | Tesshan | Cragjaw Peaks | **Arcane** made the stone sentient. The Groven became part of the mountain — bone-workers who build Ancestor-Spans from calcified remains. They are the mountain's memory. |
-| **Fexrick** | Tesshan | Cragjaw Peaks | **Arcane** gave them geothermal mastery. They live underground, engineering heat-pipes that keep the Tessen alive. The stone speaks to them in ways it doesn't speak to others. |
-| **Vreken** | Thalreth | Bryngloom | **Blight** gave them spore-inhalation, bioluminescence, decay-sight. They endure while everything around them rots. They are the bog's children — and the bog is dying. Absorbed the Morren humans. |
-| **Neth** | Thalreth | Bryngloom | **Blight** made them contract-keepers. Three subraces: High Neth (archivists), Pale Neth (smugglers), Kessen (root-weavers). They turned decay into law. |
-| **Mimir** | Thalreth | Frostwood Reach | **Storm** made them shape-shifters. They wear masks and shed identities. The Thalren tolerate them because the Mimir's Rite of Masks is a gesture of commitment to fixed identity. |
-| **Myrathil** | Mereval | Iceheart Sea | **Storm** made them deep-water people. They control what moves beneath the waves. The Merryn sail the surface; the Myrathil rule the depths. Neither acknowledges the other's sovereignty. |
-| **Astril** | Ordavan | Sundrift Vale | **Sacred** drew them here. Alien refugees from Lumia, a devoured world. They carry the memory of a sun that no longer exists. Their crystalline markings echo a lost biosphere. |
-
-**The Element Pattern:**
-
-| Element | What It Does to the Land | What It Does to the People |
-|---------|-------------------------|---------------------------|
-| **Rime** | Freezes. Preserves. Petrifies. | Blue skin, frost-touched hands, slow aging. Became what they sought to control. |
-| **Ember** | Burns. Heats. Parches. | Parched skin, black eyes, vulnerable to frost. Burning from proximity to the core. |
-| **Storm** | Churns. Never sleeps. | Salt-stained, contract-tattoos, storm-chasing. The sea fights back. Fog erodes memory. |
-| **Arcane** | Structures. Traps. | Stone becomes sentient. Mountains trap you. Isolation. Geothermal mastery. |
-| **Sacred** | Burns. Attracts predators. | Throat-sung maps, ancestor-memory, nomadic endurance. Sky goes dark. |
-| **Blight** | Decays. Endures. | Spore-inhalation, bioluminescence, decay-sight. Everything rots around them. |
-| **Primal** | Grows. Fades. | Root-bound, bark-skinned. The forest remembers. They are forgetting. |
+Over three centuries, tragic noble deaths cracked Aex's shell. In Year 325, during the Blizzard's End Massacre, Keth Amar devoured the heirs, Aex shattered into **Aex Shards**, Sol vented volcanic fires, and Keth Amar was repelled into the sky as the **Wyrd**. Mythrill is now trapped in a 150-Year Ice Age (Year 475), fighting over glowing Aex Shards for warmth and fuel.
 
 ---
 
-## PART III: THE FROST-TITHE (Absolute)
+## PART III: THE FROST-TITHE & THE RIME-TOUCHED
 
-Morð is the metaphysical cost on the Glacier Bargain, collected every frost-touched generation. Every Skald birth must "pay" — the infant survives by drawing the mother's warmth into itself, the bargain's metaphysical claim. The mother dies. The child survives, marked.
+The **Frost-Tithe** (Morð) is the metaphysical burden of the Glacier Bargain, collected on each new generation born into the frost-touched bloodlines. When the glaciers were halted, a price was set: the cold extracts a heavy toll of vitality and warmth from families dwelling in the north.
 
-**The base rate is absolute: 1 in 7 mothers die in childbirth.** Nothing changes this number. No ritual, no artifact, no intervention moves the rate. The Skald have tried for eight centuries. The Astril have studied it. The Doom-Choir has calculated it. The number is the number.
-
-### The Marked Children
-
-Children who survive Morð are **Rime-Touched** — not a separate race, but a status. Blue-skinned, supernatural cold in their blood, breath freezes even in southern heat. They are the children the bargain collects. They are what Keth-Amar wanted from the start.
+*(Note: Outdated strict mechanical childbirth quotas such as the 3-in-10 or 1-in-7 mathematical death ratios have been scrapped in favor of atmospheric lore, cold-strain, and metaphysical burden.)*
 
 ### The Rime-Touched
 
-A Rime-Touched Skald carries:
-- Blue skin
-- Frost-touched hands (immune to burns)
-- Supernatural cold in the blood
-- Slow aging
-- Vision issues in warmth
+Children born under the cold's metaphysical shadow carry the mark of the northern pact:
+- Blue-tinted skin
+- Frost-touched hands resistant to burning cold
+- Supernatural cold running in their veins
+- Slowed aging and endurance against sub-zero blizzards
 
-They work the forges of the Bloodhammer Sump. They serve as Berserkers. They are the visible price of Nordhalla's survival.
-
-### The Culture's Response
-
-The Skald have made peace with the rate. **Elaborate death-mourning rituals** are part of every birth — half the joy, half the funeral, every time. The Rime-Touched are simply accepted. The Cradle-Camp is half-hospice, half-ritual-ground. The Berserkers who staff it are not there to prevent death. They are there to make the death meaningful when it comes.
+They work the forges of the Bloodhammer Sump, staff the outland garrisons, and serve as Berserkers—the living testament to North Halam's unyielding survival.
 
 ---
 
@@ -257,7 +95,11 @@ The Skald have made peace with the rate. **Elaborate death-mourning rituals** ar
 
 ### The Class
 
-A **Berserker** is a Rime-Touched warrior who has learned to channel Morð's pull through **Blóð** (the fury that ignites them in battle). Blóð is the same channel Morð uses to claim mothers at birth. By learning to wield that channel, a Berserker can intervene at the moment of Morð.
+A **Berserker** is a northern warrior who has learned to channel the cold's metaphysical strain through **Blóð** (boiling adrenaline and fury). By weaponizing physiological meltdown, the Berserker pushes muscles and bone past mortal limits.
+
+### Grum's Founding
+
+**Grum Bloodhammer**, founder of the Berserker tradition, was a Skald smith who ignited the Blood-Heat in defense of his kin. The forge-fire and the northern frost collided in his veins, birthing the tradition of stubborn refusal to submit to the freezing dark.
 
 **There is no surviving the intervention.** A Berserker can save a mother. The Berserker will die.
 
@@ -299,7 +141,7 @@ The camp is part-birthing-ground, part-funeral-pyre, part-religious-ritual. The 
 
 ### The Artifact — Sválghjarta (The Swallow-Heart)
 
-When Keth-Amar tore pieces from Aex, he didn't just take tissue. He infused each piece with **Wyrd** — the demonic substance of the world. The corruption. Aex was pure. The pieces are not. Each artifact is a piece of a pure entity, wrapped in Wyrd corruption. The darkness isn't Aex's nature — it's Keth-Amar's fingerprint.
+When Keth-Amar tore pieces from Aex, he didn't just take tissue. He infused each piece with **Wyrd** — the demonic substance of the world. The corruption. Aex was pure. The pieces are not. Each artifact is a piece of a pure entity, wrapped in Wyrd corruption. The darkness isn't Aex's nature — it's Keth-Amar's fingerprint. Note that the Wyrd corrupts and cloaks, but does not create native life; the native creatures of Mythrill predate the Wyrd's arrival, and only individual creatures, broods, or direct Keth-spawn are shaped by it.
 
 **Sválghjarta** is Aex's heart, frozen in a ring of ice deep beneath the northern glacier. It doesn't beat — it hungers. A void that can never be filled. The heart doesn't need to eat. It is simply insatiable. It feeds on **potential** — the road not taken, the power never realized, the futures it devours. It is building a **carcass** around itself — a shell of ice and frozen material to protect it while it feasts. The more it consumes, the stronger the shell grows.
 
@@ -477,7 +319,7 @@ The regional capital is **Snowcall City**, where the **High Neth** immigrant com
 | **Kolhyrna** | Corvani Mountain Outpost | Outpost on a dark basalt peak. Watchtower function — monitors the approach to the human settlements below. |
 | **Rún** | Animist Temple | Isolated mountain pass sanctuary. Animists train, meditate, and commune with spirits here. Mothers journey to Rún before birth to seek answers and blessings. The Animists read the signs of Morð — they know which births will claim the mother. Isolated because Halvar's Cleansing tried to destroy them. |
 | **Kapp** | Spectator Town | Harbour town on the northern isle. The Berserker trial is a spectator sport — rich people travel here, pay high prices, wager on outcomes. Families prepare trainees for years. Gambling, sponsoring, spectacle. A whole economy built around watching people fight for their lives. |
-| **Blóðhöll** | Berserker Arena | Natural glacial amphitheater on a remote northern isle. Wyrd creatures are captured and caged here for the trials. Every Berserker must pass through Blóðhöll. Fights, creature encounters, tests of Blóð. Rite of passage. The arena was formed by nature — the Berserkers claim Blóð carved it. |
+| **Blóðhöll** | Berserker Arena | Natural glacial amphitheater on a remote northern isle. Native creatures and Wyrd entities are captured and caged here for the trials. Every Berserker must pass through Blóðhöll. Fights, creature encounters, tests of Blóð. Rite of passage. The arena was formed by nature — the Berserkers claim Blóð carved it. |
 | **Hvalhavn** | Northern Fishing Village | Small, remote settlement on the northern coast. The village where Úlfrekr and Sylvén came from. Now largely abandoned — the Hungríd moved through here. Úlfrekr is remembered as a hero. The truth is buried. |
 | **Havhavn** | Syndicate Harbor | Icechamber Syndicate harbor on the northern coast — whale-oil staging and harpoon-ammunition loading for the northern runs. Distinct from Hvalhavn; the Syndicate's northernmost dock. |
 | **Sválghjarta's Keep** | Hungríd Fortress | Deep in the northern glacier. Built around the Swallow-Heart. The carcass grows here. Sylvén's seat of power. Sacrifices are brought here. The ice pulses with the Heart's hunger. |
@@ -738,7 +580,7 @@ Tri-regional. Nordhalla = Theron's root (runic inscription). Archive keeps the r
 | **Torra Bloodhammer** | Migration Chieftain | Led Bloodhammer clans south through Cragjaw. Died 3 days after arriving. |
 | **Grum Bloodhammer** | First Berserker | Ignited the Blood-Heat at a difficult birth. Founder of the class. |
 | **Sera Three-Scars** | Voice of Convergence | Only keeper of all three Animist dialects. |
-| **Skadi Glass-Eye** | Augur Leader | Glass eye lost to temporal backlash. Accuracy 93%→41%. |
+| **Skadi Glass-Eye** | Augur Leader | Glass eye lost to temporal backlash. Presiding over accuracy collapse (93%→41%) caused by temporal friction and chronological dissonance (not Sol's shell integrity). |
 | **Mor-Vereth** | False Prophet Weaver | The Voice points to the Archive's lowest vault. |
 | **The First Liar** | Unlit Veil Leader | Identity unknown. |
 | **Halvar Skalvyr** | King-Jarl | Built the Sunder-Wall. |
@@ -749,13 +591,16 @@ Tri-regional. Nordhalla = Theron's root (runic inscription). Archive keeps the r
 
 ---
 
-## PART X: CREATURES
+## PART X: CREATURES & LAND SPIRITS
 
-| Creature | Where | Description |
-|----------|-------|-------------|
+| Creature / Spirit | Where | Description |
+|-------------------|-------|-------------|
+| **Landvaettir** | Peaks, Moraines, Tundra | Ancient land spirits of rock and ice; native immune system protecting North Halam. |
+| **Qalupalik** | Ice floes, Black firths | Predatory sea-hags of Greenlandic lore that drag unwary travelers beneath the pack ice. |
+| **Fossegrim** | Waterfalls, Fjord cascades | Water-spirits of Finnish/Norse folklore playing enchanting water-music in glacial meltwater. |
+| **Jutul / Jutul-King** | Bearsbeard's Beak, High Glaciers | Primordial frost giants; apex territorial behemoths. |
+| **Glacier Wyrm** | Hunger Glaciers | Colossal elemental ice serpent coiled deep in ancient ice sheets. |
 | **Stel** | Glaciers, Archive | Crystalline colossus. Glacier's memory. Replays final screams. |
-| **Glacier Wyrm** | Hunger Glaciers | Ice serpent. |
-| **Jutul-King** | Bearsbeard's Beak | Apex predator. |
 | **Kjarn** | Vargtor | Drawn to ancient runes. |
 | **Huld** | þögn | Drawn to Aethil's touch. |
 | **Skrei** | Skadi's Col, Reef | Drowns divers. |
@@ -825,8 +670,8 @@ Frigga brokered the fexric slave-trade. Fexric sweatshops beneath Frostholm and 
 ### The Cleansing of the Hearth (Ongoing)
 House Skalvyr's campaign against tribal Animists. Runic Academies suppress ancestral traditions.
 
-### Morð (Ongoing)
-1 in 7 mothers die. Always. Berserkers are stationed at the Cradle-Camp, ready to make the ultimate sacrifice.
+### Morð (The Frost-Tithe — Ongoing)
+The metaphysical burden of cold-strain exacts a heavy toll across northern generations. Berserkers are stationed at the Cradle-Camp, ready to make the ultimate sacrifice.
 
 ### The Doom-Count (Current)
 Malakor calculated the end. The Doom-Choir sings the count from the Frozen Archive.

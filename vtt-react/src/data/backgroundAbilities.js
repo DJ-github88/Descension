@@ -164,7 +164,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Spectral Sight',
       type: 'Active',
       usage: 'At Will',
-      description: "The Wyrd-trails left by the dead are still visible to those who survived the hush. See invisible creatures and into the Ethereal Plane for 1 minute.",
+      description: "The residue-trails left by the dead are still visible to those who survived the hush. See invisible creatures and into the Ethereal Plane for 1 minute.",
       details: "As an action, you can see invisible creatures and objects, as well as see into the Ethereal Plane, for 1 minute. Once used, you must finish a short rest before using this ability again."
     }
   ],
@@ -249,8 +249,8 @@ export const BACKGROUND_ABILITIES = {
       name: 'Ward of Grounding',
       type: 'Active',
       usage: '1/Long Rest',
-      description: "The cold iron stakes you carry can bind the Wyrd. Create a 15-foot-radius ward that suppresses Wyrd effects and damages Wyrd-creatures.",
-      details: "As an action, drive a cold iron stake into the ground to create a 15-foot-radius ward centered on it that lasts 1 minute. Wyrd-creatures in the ward take 1d6 force damage when they start their turn there, and all Wyrd-related magical effects within the ward have their save DC reduced by 2."
+      description: "The cold iron stakes you carry can bind the Wyrd. Create a 15-foot-radius ward that suppresses Wyrd effects and damages Wyrd entities (Wyrd-touched natives and Wyrdspawn).",
+      details: "As an action, drive a cold iron stake into the ground to create a 15-foot-radius ward centered on it that lasts 1 minute. Wyrd entities in the ward take 1d6 force damage when they start their turn there, and all Wyrd-related magical effects within the ward have their save DC reduced by 2."
     }
   ],
 
@@ -395,7 +395,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Fog-Sense',
       type: 'Passive',
       usage: 'Always Active',
-      description: "The Frostwood's living fog is not weather, it is a geography you learned to read. You are immune to the disorientation effect of magical or natural fog, and you can sense Wyrd-trails in mist.",
+      description: "The Frostwood's living fog is not weather, it is a geography you learned to read. You are immune to the disorientation effect of magical or natural fog, and you can sense residue-trails in mist.",
       details: "You are immune to being lost or disoriented by natural or magical fog, mist, or haze. You have advantage on Wisdom (Perception) and Wisdom (Survival) checks in foggy conditions."
     },
     {
