@@ -1623,4 +1623,171 @@
   margin-top: 24px;
 }
 
+/* Background Category Tabs & Custom Map Upload */
+.bg-category-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.bg-tab-btn {
+  flex: 1;
+  background: #ede4d0;
+  border: 1.5px solid #a67c2e;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #5a1e12;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.bg-tab-btn:hover {
+  background: #f7f2e6;
+  border-color: #8b2626;
+  color: #8b2626;
+}
+
+.bg-tab-btn.active {
+  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border-color: #c49a45;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(107, 26, 26, 0.25);
+}
+
+.custom-map-upload-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.custom-map-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 20px;
+  border: 2px dashed #a67c2e;
+  border-radius: 10px;
+  background: rgba(139, 69, 19, 0.04);
+  cursor: pointer;
+  text-align: center;
+  gap: 12px;
+  font-family: 'Cinzel', serif;
+  color: #6b1a1a;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.custom-map-dropzone:hover {
+  background: rgba(139, 69, 19, 0.08);
+  border-color: #8b2626;
+  transform: translateY(-1px);
+}
+
+.custom-map-dropzone i {
+  font-size: 2rem;
+  color: #8b2626;
+}
+
+.custom-bg-preview-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: #ede4d0;
+  border: 1.5px solid #a67c2e;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.preview-img-wrap {
+  width: 140px;
+  height: 90px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid #8b2626;
+  background: #1a100a;
+}
+
+.preview-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-filename {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #5a1e12;
+  font-size: 0.9rem;
+}
+
+/* Board Presets in Board Creation Modal */
+.board-presets-section {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1.5px dashed rgba(166, 124, 46, 0.4);
+}
+
+.field-label-sub {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #795548;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.board-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.preset-btn {
+  background: #ede4d0;
+  border: 1px solid #a67c2e;
+  border-radius: 8px;
+  padding: 8px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #5a1e12;
+  transition: all 0.15s ease;
+}
+
+.preset-btn i {
+  font-size: 1.1rem;
+  color: #8b2626;
+}
+
+.preset-btn:hover {
+  background: #fdfaf3;
+  border-color: #8b2626;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(107, 26, 26, 0.15);
+}
+
 /* End of file */

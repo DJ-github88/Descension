@@ -39,16 +39,14 @@ describe('CustomMapEditor world-building controls', () => {
 
     expect(screen.getByRole('heading', { name: /Asterra/ })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'World title' })).toHaveValue('Asterra');
-    expect(screen.getByRole('combobox', { name: 'Build layer' })).toHaveValue('continent');
+    expect(screen.getByRole('button', { name: /Continent/ })).toHaveClass('active');
     expect(screen.getByRole('textbox', { name: 'Lore and notes' })).toBeInTheDocument();
   });
 
   it('lets the user choose a location entry', () => {
     const { rerender } = render(<CustomMapEditor {...baseProps} />);
 
-    fireEvent.change(screen.getByRole('combobox', { name: 'Build layer' }), {
-      target: { value: 'location' }
-    });
+    fireEvent.click(screen.getByRole('button', { name: /Location/ }));
 
     expect(baseProps.setEntryType).toHaveBeenCalledWith('location');
     rerender(<CustomMapEditor {...baseProps} entryType="location" />);

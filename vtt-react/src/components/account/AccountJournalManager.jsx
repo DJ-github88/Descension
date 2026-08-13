@@ -1,11 +1,19 @@
-// Account Journal Manager - Full page journal view for Account Dashboard
-// Syncs player knowledge, notes, and knowledge board across sessions
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import useShareableStore from '../../store/shareableStore';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { getCustomIconUrl } from '../../utils/assetManager';
+import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
+import campaignService from '../../services/campaignService';
 import './styles/AccountJournalManager.css';
+
+const CANONICAL_MAP_PRESETS = [
+  { id: 'mythril', name: 'Mythrill - Planetary World Map', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'World Master Map' },
+  { id: 'nordhalla', name: 'Nordhalla Continental Map', image: '/assets/images/backgrounds/nordhalla.jpeg', type: 'Canonical Realm' },
+  { id: 'nordhalla-glacier-heart', name: 'Rime-Spire Peaks Subregion', image: '/assets/images/backgrounds/rime-spire-peaks.jpg', type: 'Subregion Map' },
+  { id: 'frostwood-reach', name: 'Frostwood Reach', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'Canonical Realm' },
+  { id: 'sundale', name: 'Sundale', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'Canonical Realm' }
+];
 
 // Check if an icon is a custom path (creature/ability icon, data URL, http, etc.)
 const isCustomIcon = (iconType) => {
@@ -152,7 +160,11 @@ const AccountJournalManager = ({ user }) => {
   const [newFolderName, setNewFolderName] = useState('');
   const [newFolderColor, setNewFolderColor] = useState(FOLDER_COLORS[0]);
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
+  const [bgCategoryTab, setBgCategoryTab] = useState('maps'); // 'maps' | 'upload' | 'scenery'
   const [backgroundInput, setBackgroundInput] = useState('');
+  const [customBgPreview, setCustomBgPreview] = useState(null);
+  const [customBgName, setCustomBgName] = useState('');
+  const [campaignData, setCampaignData] = useState(null);
   const [draggedOrb, setDraggedOrb] = useState(null);
   const [editingNote, setEditingNote] = useState(null);
   const [noteTitle, setNoteTitle] = useState('');
@@ -165,7 +177,7 @@ const AccountJournalManager = ({ user }) => {
   const [addOrbColor, setAddOrbColor] = useState('#d4af37');
   const [addOrbTitle, setAddOrbTitle] = useState('');
   const [addOrbSearchTerm, setAddOrbSearchTerm] = useState('');
-  const [addOrbActiveTab, setAddOrbActiveTab] = useState('received');
+  const [addOrbActiveTab, setAddOrbActiveTab] = useState('received'); // 'received' | 'notes' | 'campaign'
   const [showBoardModal, setShowBoardModal] = useState(false);
   const [editingBoard, setEditingBoard] = useState(null);
   const [newBoardName, setNewBoardName] = useState('');
@@ -174,6 +186,21 @@ const AccountJournalManager = ({ user }) => {
   const [orbEditorLabel, setOrbEditorLabel] = useState('');
   const [noteImage, setNoteImage] = useState(null);
   const boardRef = useRef(null);
+
+  useEffect(() => {
+    const loadCampaign = async () => {
+      try {
+        const campaigns = await campaignService.getCampaigns(user?.uid);
+        if (campaigns && campaigns.length > 0) {
+          const active = campaigns.find(c => c.isActive) || campaigns[0];
+          setCampaignData(active?.campaignData || active);
+        }
+      } catch (e) {
+        console.warn('Could not load campaign data for journal:', e);
+      }
+    };
+    loadCampaign();
+  }, [user]);
 
   const {
     playerKnowledge,
@@ -395,11 +422,34 @@ const AccountJournalManager = ({ user }) => {
     const x = (boardRect.width / 2) - 30 + (Math.random() - 0.5) * 100;
     const y = (boardRect.height / 2) - 30 + (Math.random() - 0.5) * 100;
 
+    let targetId = selectedItemForOrb.id;
+    let targetSourceType = selectedItemForOrb.sourceType;
+
+    if (selectedItemForOrb.sourceType === 'campaign') {
+      // Create a formatted note from the campaign entity
+      const item = selectedItemForOrb;
+      let noteBody = '';
+      if (item.campaignKind === 'npc') {
+        noteBody = `:::npc ${item.name}\nDescription: ${item.description || 'N/A'}\nLocation: ${item.location || 'N/A'}\nRelationship: ${item.relationship || 'neutral'}\nPlot Relevance: ${item.plotRelevance || 'moderate'}\nNotes: ${item.notes || 'N/A'}\n:::`;
+      } else if (item.campaignKind === 'location') {
+        noteBody = `:::readaloud\n${item.name}\n:::\n\n**Type:** ${item.type || 'Location'}\n**Region:** ${item.region || 'Unknown'}\n\n**Notable Features:**\n${item.notableFeatures || 'None'}\n\n**Notes:**\n${item.notes || 'None'}`;
+      } else if (item.campaignKind === 'plot') {
+        noteBody = `:::quest ${item.title}\nStatus: ${item.status || 'Active'}\nPriority: ${item.priority || 'Medium'}\nDescription: ${item.description || 'N/A'}\nNotes: ${item.notes || 'N/A'}\n:::`;
+      } else if (item.campaignKind === 'lore') {
+        noteBody = `## ${item.title}\n*Category: ${item.category || 'Chronicle'}*\n\n${item.content || item.description || ''}\n\n${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
+      }
+      const newNoteId = addNote(item.name || item.title, noteBody, item.image || null);
+      targetId = newNoteId;
+      targetSourceType = 'note';
+    }
+
+    const orbIconToUse = selectedItemForOrb.image || addOrbIcon;
+
     const orbId = addKnowledgeOrb(
-      selectedItemForOrb.id,
+      targetId,
       { x: Math.max(20, x), y: Math.max(20, y) },
-      selectedItemForOrb.sourceType,
-      addOrbIcon,
+      targetSourceType,
+      orbIconToUse,
       addOrbColor
     );
 
@@ -413,13 +463,27 @@ const AccountJournalManager = ({ user }) => {
     setAddOrbIcon('scroll');
     setAddOrbColor('#d4af37');
     setAddOrbTitle('');
-  }, [selectedItemForOrb, addOrbIcon, addOrbColor, addOrbTitle, addKnowledgeOrb, updateOrb]);
+  }, [selectedItemForOrb, addOrbIcon, addOrbColor, addOrbTitle, addKnowledgeOrb, updateOrb, addNote]);
 
-  const handleSelectItemForOrb = (item, type) => {
-    setSelectedItemForOrb({ ...item, sourceType: type });
-    setAddOrbTitle(item?.title || '');
+  const handleSelectItemForOrb = (item, type, campaignKind = null) => {
+    setSelectedItemForOrb({ ...item, sourceType: type, campaignKind });
+    setAddOrbTitle(item?.name || item?.title || '');
 
-    if (type === 'note') {
+    if (type === 'campaign') {
+      if (campaignKind === 'npc') {
+        setAddOrbIcon(item.image || 'user');
+        setAddOrbColor('#3498db');
+      } else if (campaignKind === 'location') {
+        setAddOrbIcon(item.image || 'map-marker-alt');
+        setAddOrbColor('#2ecc71');
+      } else if (campaignKind === 'plot') {
+        setAddOrbIcon(item.image || 'scroll');
+        setAddOrbColor('#9b59b6');
+      } else {
+        setAddOrbIcon(item.image || 'book');
+        setAddOrbColor('#d4af37');
+      }
+    } else if (type === 'note') {
       setAddOrbIcon('sticky-note');
       setAddOrbColor('#f39c12');
     } else if (item.type === 'image') {
@@ -432,6 +496,20 @@ const AccountJournalManager = ({ user }) => {
 
     setAddOrbStep('customize');
   };
+
+  const campaignNPCs = campaignData?.npcs || [];
+  const campaignLocations = campaignData?.locations || [];
+  const campaignPlots = campaignData?.plotThreads || [];
+  const campaignLore = campaignData?.homebrew?.lore || campaignData?.lore || [];
+
+  const searchedCampaignItems = useMemo(() => {
+    const s = addOrbSearchTerm.toLowerCase();
+    const npcs = campaignNPCs.filter(n => !s || n.name?.toLowerCase().includes(s) || n.description?.toLowerCase().includes(s)).map(n => ({ ...n, campaignKind: 'npc' }));
+    const locs = campaignLocations.filter(l => !s || l.name?.toLowerCase().includes(s) || l.description?.toLowerCase().includes(s)).map(l => ({ ...l, campaignKind: 'location' }));
+    const plots = campaignPlots.filter(p => !s || p.title?.toLowerCase().includes(s) || p.description?.toLowerCase().includes(s)).map(p => ({ ...p, campaignKind: 'plot' }));
+    const lore = campaignLore.filter(l => !s || l.title?.toLowerCase().includes(s) || l.description?.toLowerCase().includes(s)).map(l => ({ ...l, campaignKind: 'lore' }));
+    return [...npcs, ...locs, ...plots, ...lore];
+  }, [campaignNPCs, campaignLocations, campaignPlots, campaignLore, addOrbSearchTerm]);
 
   const searchedKnowledge = useMemo(() => {
     return filteredKnowledge.filter(k =>
@@ -1263,13 +1341,70 @@ const AccountJournalManager = ({ user }) => {
           <div className="folder-modal board-creation-modal" onClick={(e) => e.stopPropagation()}>
             <h4>{editingBoard ? 'Edit Knowledge Board' : 'Create New Knowledge Board'}</h4>
 
+            {/* Board Presets */}
+            {!editingBoard && (
+              <div className="board-presets-section">
+                <label className="field-label-sub">Quick Board Presets</label>
+                <div className="board-presets-grid">
+                  <button
+                    type="button"
+                    className="preset-btn"
+                    onClick={() => {
+                      setNewBoardName('Regional Atlas & Map Notes');
+                      setNewBoardIcon('fa-map');
+                      setNewBoardColor('#3498db');
+                    }}
+                  >
+                    <i className="fas fa-map"></i>
+                    <span>Regional Map</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="preset-btn"
+                    onClick={() => {
+                      setNewBoardName('Lineages & Bloodlines');
+                      setNewBoardIcon('fa-crown');
+                      setNewBoardColor('#d4af37');
+                    }}
+                  >
+                    <i className="fas fa-crown"></i>
+                    <span>Lineages</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="preset-btn"
+                    onClick={() => {
+                      setNewBoardName('Plot Threads & Clues');
+                      setNewBoardIcon('fa-scroll');
+                      setNewBoardColor('#9b59b6');
+                    }}
+                  >
+                    <i className="fas fa-scroll"></i>
+                    <span>Plot & Mystery</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="preset-btn"
+                    onClick={() => {
+                      setNewBoardName('Chronicles & Codex');
+                      setNewBoardIcon('fa-book');
+                      setNewBoardColor('#2ecc71');
+                    }}
+                  >
+                    <i className="fas fa-book"></i>
+                    <span>Codex</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="form-field">
               <label>Board Name</label>
               <input
                 type="text"
                 value={newBoardName}
                 onChange={(e) => setNewBoardName(e.target.value)}
-                placeholder="Enter board name..."
+                placeholder="e.g. Nordhalla Exploration or House Thalreth Lineage..."
                 autoFocus
               />
             </div>
@@ -1363,53 +1498,170 @@ const AccountJournalManager = ({ user }) => {
         document.body
       )}
 
-      {/* Background Selection Modal */}
+      {/* Enhanced Background Selection Modal (Custom Maps, Atlas Maps, Scenery) */}
       {showBackgroundModal && createPortal(
         <div className="modal-overlay background-modal-overlay" onClick={() => setShowBackgroundModal(false)}>
           <div className="folder-modal background-selection-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h4>Set Board Background</h4>
+              <h4><i className="fas fa-map"></i> Set Board Background & Canvas</h4>
               <button className="modal-close-btn" onClick={() => setShowBackgroundModal(false)}>
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             <div className="modal-body">
-              <p className="field-hint">Select a thematic background for your knowledge board.</p>
-              <div className="background-grid">
-                <div
-                  className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
-                  onClick={() => {
-                    clearBoardBackground();
-                    setShowBackgroundModal(false);
-                  }}
+              {/* Category tabs */}
+              <div className="bg-category-tabs">
+                <button
+                  type="button"
+                  className={`bg-tab-btn ${bgCategoryTab === 'maps' ? 'active' : ''}`}
+                  onClick={() => setBgCategoryTab('maps')}
                 >
-                  <div className="bg-preview-none">
-                    <i className="fas fa-ban"></i>
-                  </div>
-                  <span className="bg-name">None</span>
-                </div>
-                {BACKGROUND_FILES.map(bgFile => {
-                  const bgUrl = getBackgroundImageUrl(bgFile);
-                  const currentBackground = getBoardBackground();
-                  const isSelected = currentBackground?.url === bgFile;
-                  return (
-                    <div
-                      key={bgFile}
-                      className={`background-option ${isSelected ? 'selected' : ''}`}
-                      onClick={() => {
-                        setBoardBackground({ url: bgFile, name: bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim() });
-                        setShowBackgroundModal(false);
-                      }}
-                    >
-                      <div className="bg-preview">
-                        <img src={bgUrl} alt={bgFile} />
-                      </div>
-                      <span className="bg-name">{bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}</span>
-                    </div>
-                  );
-                })}
+                  <i className="fas fa-atlas"></i> World & Regional Maps
+                </button>
+                <button
+                  type="button"
+                  className={`bg-tab-btn ${bgCategoryTab === 'upload' ? 'active' : ''}`}
+                  onClick={() => setBgCategoryTab('upload')}
+                >
+                  <i className="fas fa-upload"></i> Upload Custom Map
+                </button>
+                <button
+                  type="button"
+                  className={`bg-tab-btn ${bgCategoryTab === 'scenery' ? 'active' : ''}`}
+                  onClick={() => setBgCategoryTab('scenery')}
+                >
+                  <i className="fas fa-mountain-sun"></i> Atmospheric Scenery
+                </button>
               </div>
+
+              {/* Tab 1: World & Regional Maps */}
+              {bgCategoryTab === 'maps' && (
+                <div className="background-grid">
+                  <div
+                    className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
+                    onClick={() => {
+                      clearBoardBackground();
+                      setShowBackgroundModal(false);
+                    }}
+                  >
+                    <div className="bg-preview-none">
+                      <i className="fas fa-ban"></i>
+                    </div>
+                    <span className="bg-name">None (Grid Canvas)</span>
+                  </div>
+
+                  {/* Canonical Map Presets */}
+                  {CANONICAL_MAP_PRESETS.map((m) => {
+                    const isSelected = getBoardBackground()?.url === m.image;
+                    return (
+                      <div
+                        key={m.id}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: m.image, name: m.name, isMap: true, mapId: m.id });
+                          setShowBackgroundModal(false);
+                        }}
+                      >
+                        <div className="bg-preview">
+                          <img src={m.image} alt={m.name} />
+                        </div>
+                        <span className="bg-name">{m.name}</span>
+                      </div>
+                    );
+                  })}
+
+                  {/* Custom Uploaded Maps from Archmage Map Manager */}
+                  {Object.values(getCustomMaps()).map((cm) => {
+                    const isSelected = getBoardBackground()?.url === cm.image;
+                    return (
+                      <div
+                        key={cm.id}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: cm.image, name: cm.name, isMap: true, mapId: cm.id });
+                          setShowBackgroundModal(false);
+                        }}
+                      >
+                        <div className="bg-preview">
+                          <img src={cm.image} alt={cm.name} />
+                        </div>
+                        <span className="bg-name">{cm.name} (Custom)</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Tab 2: Upload Custom Map / Image File */}
+              {bgCategoryTab === 'upload' && (
+                <div className="custom-map-upload-box">
+                  <label className="custom-map-dropzone">
+                    <i className="fas fa-cloud-arrow-up"></i>
+                    <span>Click or drag image to upload custom map or battlemap</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setCustomBgName(file.name);
+                          const reader = new FileReader();
+                          reader.onload = (ev) => setCustomBgPreview(ev.target.result);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+
+                  {customBgPreview && (
+                    <div className="custom-bg-preview-row">
+                      <div className="preview-img-wrap">
+                        <img src={customBgPreview} alt="Custom Map Preview" />
+                      </div>
+                      <div className="preview-actions">
+                        <p className="preview-filename">{customBgName || 'Custom Map Ready'}</p>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() => {
+                            setBoardBackground({ url: customBgPreview, name: customBgName || 'Custom Map', isCustom: true });
+                            setShowBackgroundModal(false);
+                          }}
+                        >
+                          <i className="fas fa-check"></i> Apply as Board Background
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Tab 3: Atmospheric Scenery */}
+              {bgCategoryTab === 'scenery' && (
+                <div className="background-grid">
+                  {BACKGROUND_FILES.map(bgFile => {
+                    const bgUrl = getBackgroundImageUrl(bgFile);
+                    const isSelected = getBoardBackground()?.url === bgFile;
+                    return (
+                      <div
+                        key={bgFile}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: bgFile, name: bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim() });
+                          setShowBackgroundModal(false);
+                        }}
+                      >
+                        <div className="bg-preview">
+                          <img src={bgUrl} alt={bgFile} />
+                        </div>
+                        <span className="bg-name">{bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div className="modal-footer">
@@ -1447,7 +1699,7 @@ const AccountJournalManager = ({ user }) => {
                       type="text"
                       className="orb-editor-input"
                       style={{ paddingLeft: '36px' }}
-                      placeholder="Search..."
+                      placeholder="Search items, notes, NPCs, lore..."
                       value={addOrbSearchTerm}
                       onChange={(e) => setAddOrbSearchTerm(e.target.value)}
                     />
@@ -1455,20 +1707,27 @@ const AccountJournalManager = ({ user }) => {
                 </div>
 
                 <div className="orb-editor-section">
-                  <div className="board-toolbar-actions" style={{ marginBottom: '12px' }}>
+                  <div className="board-toolbar-actions" style={{ marginBottom: '12px', display: 'flex', gap: '6px' }}>
                     <button
                       className={`btn ${addOrbActiveTab === 'received' ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '10px' }}
+                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
                       onClick={() => setAddOrbActiveTab('received')}
                     >
                       <i className="fas fa-inbox"></i> Received ({searchedKnowledge.length})
                     </button>
                     <button
                       className={`btn ${addOrbActiveTab === 'notes' ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '10px' }}
+                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
                       onClick={() => setAddOrbActiveTab('notes')}
                     >
                       <i className="fas fa-sticky-note"></i> Notes ({searchedNotes.length})
+                    </button>
+                    <button
+                      className={`btn ${addOrbActiveTab === 'campaign' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
+                      onClick={() => setAddOrbActiveTab('campaign')}
+                    >
+                      <i className="fas fa-scroll"></i> Campaign ({searchedCampaignItems.length})
                     </button>
                   </div>
                 </div>
@@ -1554,6 +1813,64 @@ const AccountJournalManager = ({ user }) => {
                             <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
                           </div>
                         ))
+                      )}
+                    </>
+                  )}
+
+                  {/* Campaign Tab */}
+                  {addOrbActiveTab === 'campaign' && (
+                    <>
+                      {searchedCampaignItems.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '40px', color: '#8b7355' }}>
+                          <i className="fas fa-scroll" style={{ fontSize: '32px', marginBottom: '12px', opacity: 0.5 }}></i>
+                          <p>No campaign entries found</p>
+                        </div>
+                      ) : (
+                        searchedCampaignItems.map(item => {
+                          const isNpc = item.campaignKind === 'npc';
+                          const isLoc = item.campaignKind === 'location';
+                          const isPlot = item.campaignKind === 'plot';
+                          const title = item.name || item.title;
+                          const subtitle = isNpc ? (item.location || 'NPC') : isLoc ? (item.type || 'Location') : isPlot ? (item.status || 'Quest') : 'Lore';
+                          const iconClass = isNpc ? 'fa-user' : isLoc ? 'fa-map-marker-alt' : isPlot ? 'fa-scroll' : 'fa-book';
+                          const badgeColor = isNpc ? '#3498db' : isLoc ? '#2ecc71' : isPlot ? '#9b59b6' : '#d4af37';
+
+                          return (
+                            <div
+                              key={`${item.campaignKind}-${item.id}`}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                padding: '12px',
+                                marginBottom: '8px',
+                                background: 'rgba(139, 69, 19, 0.05)',
+                                borderRadius: '6px',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                              }}
+                              onClick={() => handleSelectItemForOrb(item, 'campaign', item.campaignKind)}
+                              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
+                            >
+                              <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: badgeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                {item.image ? (
+                                  <img src={item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                  <i className={`fas ${iconClass}`} style={{ color: '#fff' }}></i>
+                                )}
+                              </div>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#5a1e12', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</div>
+                                <div style={{ fontSize: '11px', color: '#8b7355' }}>
+                                  <span style={{ padding: '1px 5px', borderRadius: '3px', background: 'rgba(212, 175, 55, 0.2)', marginRight: '6px', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>{subtitle}</span>
+                                  {(item.description || item.notes || '').substring(0, 35)}
+                                </div>
+                              </div>
+                              <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
+                            </div>
+                          );
+                        })
                       )}
                     </>
                   )}

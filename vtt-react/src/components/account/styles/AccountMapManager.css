@@ -642,3 +642,348 @@
   font-size: 0.9rem;
   color: #3d2317;
 }
+
+/* =========================================================================
+   HIERARCHICAL REALM & SUBREGION FOLDER STYLES
+   ========================================================================= */
+
+.realm-breadcrumbs-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ede4d0;
+  border: 1.5px solid #a67c2e;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+}
+
+.btn-back-breadcrumb {
+  background: transparent;
+  border: none;
+  color: #8b2626;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-back-breadcrumb:hover {
+  background: rgba(139, 38, 38, 0.1);
+  color: #6b1a1a;
+}
+
+.breadcrumb-separator {
+  color: #a67c2e;
+  font-weight: 700;
+}
+
+.breadcrumb-current {
+  color: #2d1810;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.realm-banner-card {
+  background: #f7f2e6;
+  border: 2px solid #8b2626;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(45, 24, 16, 0.12);
+}
+
+.realm-banner-media {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.realm-banner-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(20, 10, 5, 0.9) 0%, rgba(20, 10, 5, 0.35) 60%, transparent 100%);
+}
+
+.banner-title-block {
+  position: absolute;
+  bottom: 18px;
+  left: 24px;
+  right: 24px;
+  color: #fff;
+}
+
+.banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border: 1px solid #c49a45;
+  color: #fdfbf7;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.banner-title-block h3 {
+  margin: 0 0 6px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.banner-title-block p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #eadecb;
+  max-width: 800px;
+  line-height: 1.4;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.realm-banner-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #eae0cc;
+  border-top: 1.5px solid #a67c2e;
+}
+
+.btn-enter-realm-map {
+  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border: 1.5px solid #c49a45;
+  color: #fdfbf7;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-enter-realm-map:hover {
+  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 38, 38, 0.35);
+}
+
+.btn-add-realm-submap {
+  background: #ede4d0;
+  border: 1.5px solid #8b2626;
+  color: #8b2626;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-add-realm-submap:hover {
+  background: #f5efe0;
+  border-color: #6b1a1a;
+  color: #6b1a1a;
+}
+
+.subregions-folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.subregion-folder-card {
+  background: #f7f2e6;
+  border: 1.5px solid #a67c2e;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(45, 24, 16, 0.08);
+}
+
+.subregion-folder-card:hover {
+  border-color: #8b2626;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(45, 24, 16, 0.15);
+}
+
+.subregion-thumb-wrap {
+  position: relative;
+  height: 130px;
+  overflow: hidden;
+  background: #1c150e;
+}
+
+.subregion-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.subregion-folder-card:hover .subregion-thumb-wrap img {
+  transform: scale(1.05);
+}
+
+.subregion-status-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+}
+
+.status-drawn {
+  background: rgba(46, 125, 50, 0.9);
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #81c784;
+}
+
+.status-vector {
+  background: rgba(30, 70, 120, 0.9);
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #64b5f6;
+}
+
+.subregion-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.subregion-body h4 {
+  margin: 0 0 4px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: #6b1a1a;
+  font-weight: 800;
+}
+
+.subregion-meta {
+  margin: 0 0 14px 0;
+  font-size: 0.85rem;
+  color: #5d4e37;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.subregion-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-open-subregion {
+  flex: 1;
+  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border: 1px solid #c49a45;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-open-subregion:hover {
+  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
+  transform: translateY(-1px);
+}
+
+.map-card-footer.dual-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-open-folder {
+  flex: 1;
+  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
+  border: 1.5px solid #c49a45;
+  color: #fdfbf7;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-open-folder:hover {
+  background: linear-gradient(135deg, #a83232 0%, #8b2626 100%);
+  transform: translateY(-1px);
+}
+
+.btn-inspect-map.secondary {
+  flex: 0 0 44px;
+  padding: 0;
+}
+
+.empty-subregions-msg {
+  padding: 30px 20px;
+  text-align: center;
+  background: #ede4d0;
+  border: 1.5px dashed #a67c2e;
+  border-radius: 10px;
+  color: #5d4e37;
+}
+
+.empty-subregions-msg i {
+  font-size: 2rem;
+  color: #8b2626;
+  margin-bottom: 8px;
+}
+
+.empty-subregions-msg p {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+}

@@ -225,25 +225,10 @@ const CustomMapEditor = ({
           <div className="custom-map-zone-tools">
             <div className="custom-map-section-title">
               <span>Create World Entity</span>
-              <span className="custom-map-count">{getEntryTypeLabel(entryType)}</span>
             </div>
 
             {/* Visual Layer Selector Cards */}
-            <label htmlFor="custom-entry-type">Build layer</label>
-            <select
-              id="custom-entry-type"
-              className="custom-entry-type-select"
-              value={entryType}
-              onChange={(event) => setEntryType(event.target.value)}
-              disabled={!currentMap || drawingActive}
-            >
-              {ENTRY_TYPES.map((entry) => (
-                <option key={entry.value} value={entry.value}>
-                  {entry.label}
-                </option>
-              ))}
-            </select>
-
+            <label>Build layer</label>
             <div className="custom-layer-chips">
               {ENTRY_TYPES.map((type) => (
                 <button

@@ -4,8 +4,18 @@ import MythrillWindow from './MythrillWindow';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
+import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
+import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import './PlayerJournalWindow.css';
+
+const CANONICAL_MAP_PRESETS = [
+  { id: 'mythril', name: 'Mythrill - Planetary World Map', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'World Master Map' },
+  { id: 'nordhalla', name: 'Nordhalla Continental Map', image: '/assets/images/backgrounds/nordhalla.jpeg', type: 'Canonical Realm' },
+  { id: 'nordhalla-glacier-heart', name: 'Rime-Spire Peaks Subregion', image: '/assets/images/backgrounds/rime-spire-peaks.jpg', type: 'Subregion Map' },
+  { id: 'frostwood-reach', name: 'Frostwood Reach', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'Canonical Realm' },
+  { id: 'sundale', name: 'Sundale', image: '/assets/images/backgrounds/Mythril.jpeg', type: 'Canonical Realm' }
+];
 
 // List of available background images (from /assets/Backgrounds/)
 const BACKGROUND_FILES = [
@@ -214,6 +224,10 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showAddOrbFolderDropdown, setShowAddOrbFolderDropdown] = useState(false);
   const addOrbFolderDropdownRef = useRef(null);
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
+  const [bgCategoryTab, setBgCategoryTab] = useState('maps'); // 'maps' | 'upload' | 'scenery'
+  const [customBgPreview, setCustomBgPreview] = useState(null);
+  const [customBgName, setCustomBgName] = useState('');
+  const [campaignData, setCampaignData] = useState(null);
   const [backgroundInput, setBackgroundInput] = useState('');
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
   const [draggedOverFolder, setDraggedOverFolder] = useState(null);
@@ -224,6 +238,21 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const isGMMode = useGameStore(state => state.isGMMode);
   const { allowed: journalBasicAllowed, loading: journalBasicLoading } = useFeatureFlag('journalBasic');
   const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
+
+  useEffect(() => {
+    const loadCampaign = async () => {
+      try {
+        const campaigns = await campaignService.getCampaigns();
+        if (campaigns && campaigns.length > 0) {
+          const active = campaigns.find(c => c.isActive) || campaigns[0];
+          setCampaignData(active?.campaignData || active);
+        }
+      } catch (e) {
+        console.warn('Could not load campaign data for journal window:', e);
+      }
+    };
+    loadCampaign();
+  }, []);
   
   const {
     playerKnowledge,
@@ -481,11 +510,33 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     const x = (boardRect.width / 2) - 30 + (Math.random() - 0.5) * 100;
     const y = (boardRect.height / 2) - 30 + (Math.random() - 0.5) * 100;
 
+    let targetId = selectedItemForOrb.id;
+    let targetSourceType = selectedItemForOrb.sourceType;
+
+    if (selectedItemForOrb.sourceType === 'campaign') {
+      const item = selectedItemForOrb;
+      let noteBody = '';
+      if (item.campaignKind === 'npc') {
+        noteBody = `:::npc ${item.name}\nDescription: ${item.description || 'N/A'}\nLocation: ${item.location || 'N/A'}\nRelationship: ${item.relationship || 'neutral'}\nPlot Relevance: ${item.plotRelevance || 'moderate'}\nNotes: ${item.notes || 'N/A'}\n:::`;
+      } else if (item.campaignKind === 'location') {
+        noteBody = `:::readaloud\n${item.name}\n:::\n\n**Type:** ${item.type || 'Location'}\n**Region:** ${item.region || 'Unknown'}\n\n**Notable Features:**\n${item.notableFeatures || 'None'}\n\n**Notes:**\n${item.notes || 'None'}`;
+      } else if (item.campaignKind === 'plot') {
+        noteBody = `:::quest ${item.title}\nStatus: ${item.status || 'Active'}\nPriority: ${item.priority || 'Medium'}\nDescription: ${item.description || 'N/A'}\nNotes: ${item.notes || 'N/A'}\n:::`;
+      } else if (item.campaignKind === 'lore') {
+        noteBody = `## ${item.title}\n*Category: ${item.category || 'Chronicle'}*\n\n${item.content || item.description || ''}\n\n${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
+      }
+      const newNoteId = addNote(item.name || item.title, noteBody, item.image || null);
+      targetId = newNoteId;
+      targetSourceType = 'note';
+    }
+
+    const orbIconToUse = selectedItemForOrb.image || addOrbIcon;
+
     const orbId = addKnowledgeOrb(
-      selectedItemForOrb.id,
+      targetId,
       { x: Math.max(20, x), y: Math.max(20, y) },
-      selectedItemForOrb.sourceType,
-      addOrbIcon,
+      targetSourceType,
+      orbIconToUse,
       addOrbColor
     );
 
@@ -507,16 +558,29 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     setAddOrbColor('#d4af37');
     setAddOrbTitle('');
     setAddOrbFolderId(null);
-  }, [selectedItemForOrb, addOrbIcon, addOrbColor, addOrbTitle, addOrbFolderId, addKnowledgeOrb, updateOrb]);
+  }, [selectedItemForOrb, addOrbIcon, addOrbColor, addOrbTitle, addOrbFolderId, addKnowledgeOrb, updateOrb, addNote]);
 
   // Handle selecting item for new orb
-  const handleSelectItemForOrb = (item, type) => {
-    const content = type === 'note' ? item : item;
-    setSelectedItemForOrb({ ...item, sourceType: type });
-    setAddOrbTitle(content?.title || '');
+  const handleSelectItemForOrb = (item, type, campaignKind = null) => {
+    setSelectedItemForOrb({ ...item, sourceType: type, campaignKind });
+    setAddOrbTitle(item?.name || item?.title || '');
     
     // Auto-select icon and color based on type
-    if (type === 'note') {
+    if (type === 'campaign') {
+      if (campaignKind === 'npc') {
+        setAddOrbIcon(item.image || 'user');
+        setAddOrbColor('#3498db');
+      } else if (campaignKind === 'location') {
+        setAddOrbIcon(item.image || 'map-marker-alt');
+        setAddOrbColor('#2ecc71');
+      } else if (campaignKind === 'plot') {
+        setAddOrbIcon(item.image || 'scroll');
+        setAddOrbColor('#9b59b6');
+      } else {
+        setAddOrbIcon(item.image || 'book');
+        setAddOrbColor('#d4af37');
+      }
+    } else if (type === 'note') {
       setAddOrbIcon('sticky-note');
       setAddOrbColor('#f39c12');
     } else if (item.type === 'image') {
@@ -1779,6 +1843,13 @@ Drag notes to the Knowledge Board to create visual connections!"
                     >
                       <i className="fas fa-sticky-note"></i> Notes ({searchedNotes.length})
                     </button>
+                    <button
+                      className={`toolbar-btn ${addOrbActiveTab === 'campaign' ? 'active' : ''}`}
+                      style={{ flex: 1, fontSize: '11px', padding: '6px 12px' }}
+                      onClick={() => setAddOrbActiveTab('campaign')}
+                    >
+                      <i className="fas fa-scroll"></i> Campaign ({searchedCampaignItems.length})
+                    </button>
                   </div>
                 </div>
 
@@ -1864,6 +1935,64 @@ Drag notes to the Knowledge Board to create visual connections!"
                             <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
                           </div>
                         ))
+                      )}
+                    </>
+                  )}
+
+                  {/* Campaign Tab */}
+                  {addOrbActiveTab === 'campaign' && (
+                    <>
+                      {searchedCampaignItems.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '40px', color: '#8b7355' }}>
+                          <i className="fas fa-scroll" style={{ fontSize: '32px', marginBottom: '12px', opacity: 0.5 }}></i>
+                          <p>No campaign entries found</p>
+                        </div>
+                      ) : (
+                        searchedCampaignItems.map(item => {
+                          const isNpc = item.campaignKind === 'npc';
+                          const isLoc = item.campaignKind === 'location';
+                          const isPlot = item.campaignKind === 'plot';
+                          const title = item.name || item.title;
+                          const subtitle = isNpc ? (item.location || 'NPC') : isLoc ? (item.type || 'Location') : isPlot ? (item.status || 'Quest') : 'Lore';
+                          const iconClass = isNpc ? 'fa-user' : isLoc ? 'fa-map-marker-alt' : isPlot ? 'fa-scroll' : 'fa-book';
+                          const badgeColor = isNpc ? '#3498db' : isLoc ? '#2ecc71' : isPlot ? '#9b59b6' : '#d4af37';
+
+                          return (
+                            <div
+                              key={`${item.campaignKind}-${item.id}`}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px',
+                                padding: '12px',
+                                marginBottom: '8px',
+                                background: 'rgba(139, 69, 19, 0.05)',
+                                borderRadius: '6px',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                              }}
+                              onClick={() => handleSelectItemForOrb(item, 'campaign', item.campaignKind)}
+                              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.1)'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(139, 69, 19, 0.05)'}
+                            >
+                              <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', background: badgeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                {item.image ? (
+                                  <img src={item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                  <i className={`fas ${iconClass}`} style={{ color: '#fff' }}></i>
+                                )}
+                              </div>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{ fontFamily: 'Cinzel', fontWeight: 600, color: '#5a1e12', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</div>
+                                <div style={{ fontSize: '11px', color: '#8b7355' }}>
+                                  <span style={{ padding: '1px 5px', borderRadius: '3px', background: 'rgba(212, 175, 55, 0.2)', marginRight: '6px', textTransform: 'uppercase', fontSize: '9px', fontWeight: 700 }}>{subtitle}</span>
+                                  {(item.description || item.notes || '').substring(0, 35)}
+                                </div>
+                              </div>
+                              <i className="fas fa-chevron-right" style={{ color: '#8b7355' }}></i>
+                            </div>
+                          );
+                        })
                       )}
                     </>
                   )}
@@ -2018,10 +2147,11 @@ Drag notes to the Knowledge Board to create visual connections!"
         >
           <div 
             className="background-modal"
+            style={{ maxWidth: '650px' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="background-modal-header">
-              <h4>Set Board Background</h4>
+              <h4><i className="fas fa-map"></i> Set Board Background & Canvas</h4>
               <button 
                 className="background-modal-close"
                 onClick={() => setShowBackgroundModal(false)}
@@ -2031,50 +2161,183 @@ Drag notes to the Knowledge Board to create visual connections!"
             </div>
             
             <div className="background-modal-content">
-              <label>Select Background Image</label>
-              <div className="background-grid">
-                <div 
-                  className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
-                  onClick={() => {
-                    clearBoardBackground();
-                    setShowBackgroundModal(false);
-                  }}
-                  title="No background"
+              {/* Category tabs */}
+              <div className="bg-category-tabs" style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                <button
+                  type="button"
+                  className={`toolbar-btn ${bgCategoryTab === 'maps' ? 'active' : ''}`}
+                  style={{ flex: 1, padding: '8px', fontSize: '11px' }}
+                  onClick={() => setBgCategoryTab('maps')}
                 >
-                  <div className="background-preview no-background">
-                    <i className="fas fa-ban"></i>
-                  </div>
-                  <span>None</span>
-                </div>
-                {BACKGROUND_FILES.map(bgFile => {
-                  const bgUrl = `/assets/Backgrounds/${encodeURIComponent(bgFile)}`;
-                  const currentBackground = getBoardBackground();
-                  const isSelected = currentBackground?.url === bgFile;
-                  return (
-                    <div
-                      key={bgFile}
-                      className={`background-option ${isSelected ? 'selected' : ''}`}
-                      onClick={() => {
-                        setBoardBackground({ url: bgFile, name: bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim() });
-                        setShowBackgroundModal(false);
-                      }}
-                      title={bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}
-                    >
-                      <div className="background-preview">
-                        <img 
-                          src={bgUrl} 
-                          alt={bgFile}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.parentElement.innerHTML = '<i class="fas fa-image"></i>';
-                          }}
-                        />
-                      </div>
-                      <span>{bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}</span>
-                    </div>
-                  );
-                })}
+                  <i className="fas fa-atlas"></i> Maps & Atlas
+                </button>
+                <button
+                  type="button"
+                  className={`toolbar-btn ${bgCategoryTab === 'upload' ? 'active' : ''}`}
+                  style={{ flex: 1, padding: '8px', fontSize: '11px' }}
+                  onClick={() => setBgCategoryTab('upload')}
+                >
+                  <i className="fas fa-upload"></i> Upload Map File
+                </button>
+                <button
+                  type="button"
+                  className={`toolbar-btn ${bgCategoryTab === 'scenery' ? 'active' : ''}`}
+                  style={{ flex: 1, padding: '8px', fontSize: '11px' }}
+                  onClick={() => setBgCategoryTab('scenery')}
+                >
+                  <i className="fas fa-mountain-sun"></i> Scenery
+                </button>
               </div>
+
+              {/* Tab 1: Maps & Atlas */}
+              {bgCategoryTab === 'maps' && (
+                <div className="background-grid">
+                  <div 
+                    className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
+                    onClick={() => {
+                      clearBoardBackground();
+                      setShowBackgroundModal(false);
+                    }}
+                    title="No background (Default Grid)"
+                  >
+                    <div className="background-preview no-background">
+                      <i className="fas fa-ban"></i>
+                    </div>
+                    <span>None (Grid)</span>
+                  </div>
+                  {CANONICAL_MAP_PRESETS.map((m) => {
+                    const isSelected = getBoardBackground()?.url === m.image;
+                    return (
+                      <div
+                        key={m.id}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: m.image, name: m.name, isMap: true, mapId: m.id });
+                          setShowBackgroundModal(false);
+                        }}
+                        title={m.name}
+                      >
+                        <div className="background-preview">
+                          <img src={m.image} alt={m.name} />
+                        </div>
+                        <span>{m.name}</span>
+                      </div>
+                    );
+                  })}
+                  {Object.values(getCustomMaps()).map((cm) => {
+                    const isSelected = getBoardBackground()?.url === cm.image;
+                    return (
+                      <div
+                        key={cm.id}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: cm.image, name: cm.name, isMap: true, mapId: cm.id });
+                          setShowBackgroundModal(false);
+                        }}
+                        title={`${cm.name} (Custom)`}
+                      >
+                        <div className="background-preview">
+                          <img src={cm.image} alt={cm.name} />
+                        </div>
+                        <span>{cm.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Tab 2: Upload Custom Map / Image File */}
+              {bgCategoryTab === 'upload' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '10px 0' }}>
+                  <label style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '30px 20px',
+                    border: '2px dashed #a67c2e',
+                    borderRadius: '8px',
+                    background: 'rgba(139, 69, 19, 0.05)',
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    gap: '10px',
+                    fontFamily: 'Cinzel',
+                    color: '#6b1a1a',
+                    fontWeight: 700
+                  }}>
+                    <i className="fas fa-cloud-arrow-up" style={{ fontSize: '28px', color: '#8b2626' }}></i>
+                    <span>Click or drag image to upload custom map or battlemap</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setCustomBgName(file.name);
+                          const reader = new FileReader();
+                          reader.onload = (ev) => setCustomBgPreview(ev.target.result);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+
+                  {customBgPreview && (
+                    <div style={{ display: 'flex', gap: '14px', alignItems: 'center', background: 'rgba(139, 69, 19, 0.08)', padding: '12px', borderRadius: '8px' }}>
+                      <img src={customBgPreview} alt="Preview" style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #8b2626' }} />
+                      <div style={{ flex: 1 }}>
+                        <p style={{ margin: '0 0 8px 0', fontFamily: 'Cinzel', fontWeight: 700, fontSize: '13px', color: '#5a1e12' }}>{customBgName || 'Custom Map Ready'}</p>
+                        <button
+                          type="button"
+                          className="toolbar-btn active"
+                          style={{ padding: '8px 14px', fontSize: '11px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                          onClick={() => {
+                            setBoardBackground({ url: customBgPreview, name: customBgName || 'Custom Map', isCustom: true });
+                            setShowBackgroundModal(false);
+                          }}
+                        >
+                          <i className="fas fa-check"></i> Apply as Background
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Tab 3: Scenery Presets */}
+              {bgCategoryTab === 'scenery' && (
+                <div className="background-grid">
+                  {BACKGROUND_FILES.map(bgFile => {
+                    const bgUrl = `/assets/Backgrounds/${encodeURIComponent(bgFile)}`;
+                    const currentBackground = getBoardBackground();
+                    const isSelected = currentBackground?.url === bgFile;
+                    return (
+                      <div
+                        key={bgFile}
+                        className={`background-option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setBoardBackground({ url: bgFile, name: bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim() });
+                          setShowBackgroundModal(false);
+                        }}
+                        title={bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}
+                      >
+                        <div className="background-preview">
+                          <img 
+                            src={bgUrl} 
+                            alt={bgFile}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.parentElement.innerHTML = '<i class="fas fa-image"></i>';
+                            }}
+                          />
+                        </div>
+                        <span>{bgFile.replace('.png', '').replace(/([A-Z])/g, ' $1').trim()}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             
             <div className="background-modal-actions">

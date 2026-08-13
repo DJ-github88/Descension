@@ -1313,6 +1313,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
       canAccessCustomMaps={canAccessCustomMaps}
       selectedCustomZoneId={selectedCustomZoneId}
       onSelectCustomZone={handleSelectCustomZone}
+      onUpdateCustomZone={(zoneId, updates) => updateCustomDraftZone(zoneId, updates)}
       onUndoCustomPoint={handleUndoCustomPoint}
       onFinishCustomDrawing={() => handleCompleteCustomZone()}
       onCancelCustomDrawing={handleCancelCustomDrawing}
@@ -1341,9 +1342,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      setSelectedAnnotation(area);
      setShowAnnotationPopup(true);
     }}
-    activeShare={activeShare}
-    selectedDevPinId={selectedDevPinId}
-    onSelectForMove={setSelectedDevPinId}
+    canDeletePlayerAnnotations={tierInfo && tierInfo.tierKey !== 'GUEST'}
     />
 
     {customMapMode && canAccessCustomMaps && (
@@ -1399,6 +1398,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
        onFocusZone={handleFocusCustomZone}
        onAddLocationToRegion={handleAddLocationToRegion}
        onSelectZone={(zoneId) => setSelectedCustomZoneId(zoneId)}
+       currentCampaign={currentCampaign}
     />
     )}
 

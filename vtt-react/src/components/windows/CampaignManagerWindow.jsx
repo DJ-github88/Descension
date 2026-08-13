@@ -1314,81 +1314,143 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                 Add NPC
                             </button>
                         </div>
-                        <div className="npcs-grid">
+<div className="npcs-grid">
                             {(campaignData.npcs || []).length > 0 ? (
                                 (campaignData.npcs || []).map(npc => (
                                     <div key={npc.id} className="npc-card">
-                                        <div className="npc-header">
-                                            <input
-                                                type="text"
-                                                value={npc.name}
-                                                onChange={(e) => updateNPC(npc.id, { name: e.target.value })}
-                                                className="npc-name-input"
-                                            />
-                                            <button
-                                                className="npc-remove-btn"
-                                                onClick={() => removeNPC(npc.id)}
-                                                title="Remove NPC"
-                                            >
-                                                <i className="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                        <div className="npc-content">
-                                            <div className="npc-field">
-                                                <label>Description</label>
-                                                <textarea
-                                                    value={npc.description}
-                                                    onChange={(e) => updateNPC(npc.id, { description: e.target.value })}
-                                                    className="npc-textarea"
-                                                    placeholder="Physical description, personality..."
-                                                    rows={2}
-                                                />
+                                        <div className="card-hero-row">
+                                            <div className="card-media-hero portrait-hero">
+                                                {npc.image ? (
+                                                    <div className="media-hero-preview portrait">
+                                                        <img src={npc.image} alt={npc.name} />
+                                                        <div className="media-hover-overlay">
+                                                            <label className="media-change-btn" title="Change portrait">
+                                                                <i className="fas fa-camera"></i> Change
+                                                                <input
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    style={{ display: 'none' }}
+                                                                    onChange={(e) => {
+                                                                        const file = e.target.files?.[0];
+                                                                        if (file) {
+                                                                            const reader = new FileReader();
+                                                                            reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
+                                                                            reader.readAsDataURL(file);
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            </label>
+                                                            <button
+                                                                type="button"
+                                                                className="media-clear-btn-pill"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    updateNPC(npc.id, { image: null });
+                                                                }}
+                                                                title="Remove portrait"
+                                                            >
+                                                                <i className="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <label className="media-hero-placeholder portrait" title="Upload portrait image">
+                                                        <i className="fas fa-user-plus"></i>
+                                                        <span>Add Portrait</span>
+                                                        <input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            style={{ display: 'none' }}
+                                                            onChange={(e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (file) {
+                                                                    const reader = new FileReader();
+                                                                    reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
+                                                                    reader.readAsDataURL(file);
+                                                                }
+                                                            }}
+                                                        />
+                                                    </label>
+                                                )}
                                             </div>
-                                            <div className="npc-meta">
-                                                <div className="npc-field">
-                                                    <label>Location</label>
+
+                                            <div className="card-header-fields">
+                                                <div className="card-field-header-top">
+                                                    <div className="field-group flex-1">
+                                                        <label className="field-label"><i className="fas fa-user-tag"></i> Character Name</label>
+                                                        <input
+                                                            type="text"
+                                                            value={npc.name}
+                                                            onChange={(e) => updateNPC(npc.id, { name: e.target.value })}
+                                                            className="card-title-input full-width"
+                                                            placeholder="Name / Alias..."
+                                                        />
+                                                    </div>
+                                                    <button className="remove-card-btn" onClick={() => removeNPC(npc.id)} title="Delete NPC">
+                                                        <i className="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div className="field-group">
+                                                    <label className="field-label"><i className="fas fa-map-marker-alt"></i> Location</label>
                                                     <input
                                                         type="text"
                                                         value={npc.location}
                                                         onChange={(e) => updateNPC(npc.id, { location: e.target.value })}
-                                                        className="npc-input"
-                                                        placeholder="Where they're found..."
+                                                        placeholder="e.g. Ironforge Tavern..."
+                                                        className="card-field-input"
                                                     />
                                                 </div>
-                                                <div className="npc-field">
-                                                    <label>Relationship</label>
-                                                    <select
-                                                        value={npc.relationship}
-                                                        onChange={(e) => updateNPC(npc.id, { relationship: e.target.value })}
-                                                        className="npc-select"
-                                                    >
-                                                        <option value="ally">Ally</option>
-                                                        <option value="neutral">Neutral</option>
-                                                        <option value="enemy">Enemy</option>
-                                                        <option value="unknown">Unknown</option>
-                                                    </select>
-                                                </div>
-                                                <div className="npc-field">
-                                                    <label>Plot Relevance</label>
-                                                    <select
-                                                        value={npc.plotRelevance}
-                                                        onChange={(e) => updateNPC(npc.id, { plotRelevance: e.target.value })}
-                                                        className="npc-select"
-                                                    >
-                                                        <option value="major">Major</option>
-                                                        <option value="moderate">Moderate</option>
-                                                        <option value="minor">Minor</option>
-                                                        <option value="background">Background</option>
-                                                    </select>
+
+                                                <div className="card-meta-grid-2col">
+                                                    <div className="field-group">
+                                                        <label className="field-label"><i className="fas fa-shield-halved"></i> Attitude</label>
+                                                        <select
+                                                            value={npc.relationship || 'neutral'}
+                                                            onChange={(e) => updateNPC(npc.id, { relationship: e.target.value })}
+                                                            className="card-field-select"
+                                                        >
+                                                            <option value="ally">Ally</option>
+                                                            <option value="neutral">Neutral</option>
+                                                            <option value="enemy">Enemy</option>
+                                                            <option value="unknown">Unknown</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="field-group">
+                                                        <label className="field-label"><i className="fas fa-star"></i> Importance</label>
+                                                        <select
+                                                            value={npc.plotRelevance || 'moderate'}
+                                                            onChange={(e) => updateNPC(npc.id, { plotRelevance: e.target.value })}
+                                                            className="card-field-select"
+                                                        >
+                                                            <option value="major">Major</option>
+                                                            <option value="moderate">Moderate</option>
+                                                            <option value="minor">Minor</option>
+                                                            <option value="background">Background</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="npc-field">
-                                                <label>Notes</label>
+                                        </div>
+
+                                        <div className="card-body-fields">
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-feather-pointed"></i> Physical Description & Persona</label>
+                                                <textarea
+                                                    value={npc.description}
+                                                    onChange={(e) => updateNPC(npc.id, { description: e.target.value })}
+                                                    className="card-field-textarea"
+                                                    placeholder="Physical traits, quirks, demeanor, background..."
+                                                    rows={2}
+                                                />
+                                            </div>
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-key"></i> GM Secrets, Plot Hooks & Notes</label>
                                                 <textarea
                                                     value={npc.notes}
                                                     onChange={(e) => updateNPC(npc.id, { notes: e.target.value })}
-                                                    className="npc-textarea"
-                                                    placeholder="Plot hooks, secrets, relationships..."
+                                                    className="card-field-textarea"
+                                                    placeholder="Plot hooks, secrets, quest connections, inventory..."
                                                     rows={2}
                                                 />
                                             </div>
@@ -1418,153 +1480,128 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         <div className="locations-grid">
                             {(campaignData.locations || []).length > 0 ? (
                                 (campaignData.locations || []).map(location => (
-                                    <div key={location.id} className="location-card" style={{
-                                        backgroundColor: '#f9f6f0',
-                                        border: '2px solid #8b7355',
-                                        borderRadius: '8px',
-                                        padding: '15px',
-                                        marginBottom: '15px'
-                                    }}>
-                                        <div className="location-header" style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            marginBottom: '12px'
-                                        }}>
-                                            <input
-                                                type="text"
-                                                value={location.name}
-                                                onChange={(e) => updateLocation(location.id, { name: e.target.value })}
-                                                className="location-name-input"
-                                                style={{
-                                                    flex: 1,
-                                                    fontSize: '16px',
-                                                    fontWeight: 'bold',
-                                                    padding: '6px',
-                                                    border: '2px solid #8b7355',
-                                                    borderRadius: '4px',
-                                                    fontFamily: 'inherit',
-                                                    marginRight: '10px'
-                                                }}
-                                            />
-                                            <button
-                                                className="location-remove-btn"
-                                                onClick={() => removeLocation(location.id)}
-                                                title="Remove location"
-                                                style={{
-                                                    backgroundColor: '#8b0000',
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    borderRadius: '4px',
-                                                    padding: '6px 10px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '14px'
-                                                }}
-                                            >
-                                                <i className="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                        <div className="location-content">
-                                            <div className="location-field" style={{ marginBottom: '10px' }}>
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Description</label>
-                                                <textarea
-                                                    value={location.description}
-                                                    onChange={(e) => updateLocation(location.id, { description: e.target.value })}
-                                                    className="location-textarea"
-                                                    placeholder="Describe the location..."
-                                                    rows={2}
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="location-meta" style={{
-                                                display: 'grid',
-                                                gridTemplateColumns: '1fr 1fr',
-                                                gap: '10px',
-                                                marginBottom: '10px'
-                                            }}>
-                                                <div className="location-field">
-                                                    <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Type</label>
-                                                    <select
-                                                        value={location.type}
-                                                        onChange={(e) => updateLocation(location.id, { type: e.target.value })}
-                                                        className="location-select"
-                                                        style={{
-                                                            width: '100%',
-                                                            padding: '6px',
-                                                            border: '2px solid #8b7355',
-                                                            borderRadius: '4px',
-                                                            fontFamily: 'inherit'
+                                    <div key={location.id} className="location-card">
+                                        <div className="card-media-banner-container">
+                                            {location.image ? (
+                                                <div className="media-banner-preview">
+                                                    <img src={location.image} alt={location.name} />
+                                                    <div className="media-hover-overlay">
+                                                        <label className="media-change-btn" title="Change artwork">
+                                                            <i className="fas fa-camera"></i> Change Artwork
+                                                            <input
+                                                                type="file"
+                                                                accept="image/*"
+                                                                style={{ display: 'none' }}
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files?.[0];
+                                                                    if (file) {
+                                                                        const reader = new FileReader();
+                                                                        reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
+                                                                        reader.readAsDataURL(file);
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </label>
+                                                        <button
+                                                            type="button"
+                                                            className="media-clear-btn-pill"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                updateLocation(location.id, { image: null });
+                                                            }}
+                                                            title="Remove artwork"
+                                                        >
+                                                            <i className="fas fa-trash-alt"></i> Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <label className="media-banner-placeholder" title="Upload location artwork or map">
+                                                    <i className="fas fa-mountain-sun"></i>
+                                                    <span>Upload Location Artwork or Regional Map</span>
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                const reader = new FileReader();
+                                                                reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
+                                                                reader.readAsDataURL(file);
+                                                            }
                                                         }}
+                                                    />
+                                                </label>
+                                            )}
+                                        </div>
+
+                                        <div className="card-header-fields">
+                                            <div className="card-field-header-top">
+                                                <div className="field-group flex-1">
+                                                    <label className="field-label"><i className="fas fa-landmark"></i> Location Name</label>
+                                                    <input
+                                                        type="text"
+                                                        value={location.name}
+                                                        onChange={(e) => updateLocation(location.id, { name: e.target.value })}
+                                                        className="card-title-input full-width"
+                                                        placeholder="Location name..."
+                                                    />
+                                                </div>
+                                                <button className="remove-card-btn" onClick={() => removeLocation(location.id)} title="Delete Location">
+                                                    <i className="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+
+                                            <div className="card-meta-grid-2col">
+                                                <div className="field-group">
+                                                    <label className="field-label"><i className="fas fa-shapes"></i> Type</label>
+                                                    <select
+                                                        value={location.type || 'city'}
+                                                        onChange={(e) => updateLocation(location.id, { type: e.target.value })}
+                                                        className="card-field-select"
                                                     >
                                                         <option value="city">City</option>
                                                         <option value="town">Town</option>
                                                         <option value="village">Village</option>
                                                         <option value="dungeon">Dungeon</option>
+                                                        <option value="fortress">Fortress</option>
                                                         <option value="landmark">Landmark</option>
                                                         <option value="wilderness">Wilderness</option>
-                                                        <option value="other">Other</option>
                                                     </select>
                                                 </div>
-                                                <div className="location-field">
-                                                    <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Region</label>
+                                                <div className="field-group">
+                                                    <label className="field-label"><i className="fas fa-map-location-dot"></i> Region / Realm</label>
                                                     <input
                                                         type="text"
                                                         value={location.region}
                                                         onChange={(e) => updateLocation(location.id, { region: e.target.value })}
-                                                        className="location-input"
-                                                        placeholder="Region..."
-                                                        style={{
-                                                            width: '100%',
-                                                            padding: '6px',
-                                                            border: '2px solid #8b7355',
-                                                            borderRadius: '4px',
-                                                            fontFamily: 'inherit',
-                                                            boxSizing: 'border-box'
-                                                        }}
+                                                        placeholder="e.g. Nordhalla..."
+                                                        className="card-field-input"
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="location-field" style={{ marginBottom: '10px' }}>
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Notable Features</label>
+                                        </div>
+
+                                        <div className="card-body-fields">
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-align-left"></i> Description & Atmosphere</label>
+                                                <textarea
+                                                    value={location.description}
+                                                    onChange={(e) => updateLocation(location.id, { description: e.target.value })}
+                                                    className="card-field-textarea"
+                                                    placeholder="Describe the atmosphere, environment, smells, architecture..."
+                                                    rows={2}
+                                                />
+                                            </div>
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-compass"></i> Notable Landmarks & Features</label>
                                                 <textarea
                                                     value={location.notableFeatures}
                                                     onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
-                                                    className="location-textarea"
-                                                    placeholder="Key features, landmarks, points of interest..."
+                                                    className="card-field-textarea"
+                                                    placeholder="Taverns, guilds, districts, monuments, dungeon entrances..."
                                                     rows={2}
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="location-field">
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Notes</label>
-                                                <textarea
-                                                    value={location.notes}
-                                                    onChange={(e) => updateLocation(location.id, { notes: e.target.value })}
-                                                    className="location-textarea"
-                                                    placeholder="Plot hooks, secrets, connections to other locations..."
-                                                    rows={2}
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
                                                 />
                                             </div>
                                         </div>
@@ -1593,90 +1630,86 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         <div className="plots-list">
                             {(campaignData.plotThreads || []).length > 0 ? (
                                 (campaignData.plotThreads || []).map(plotThread => (
-                                    <div key={plotThread.id} className="plot-card" style={{
-                                        backgroundColor: '#f9f6f0',
-                                        border: '2px solid #8b7355',
-                                        borderRadius: '8px',
-                                        padding: '15px',
-                                        marginBottom: '15px'
-                                    }}>
-                                        <div className="plot-header" style={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            marginBottom: '12px'
-                                        }}>
-                                            <input
-                                                type="text"
-                                                value={plotThread.title}
-                                                onChange={(e) => updatePlotThread(plotThread.id, { title: e.target.value })}
-                                                className="plot-title-input"
-                                                style={{
-                                                    flex: 1,
-                                                    fontSize: '16px',
-                                                    fontWeight: 'bold',
-                                                    padding: '6px',
-                                                    border: '2px solid #8b7355',
-                                                    borderRadius: '4px',
-                                                    fontFamily: 'inherit',
-                                                    marginRight: '10px'
-                                                }}
-                                            />
-                                            <button
-                                                className="plot-remove-btn"
-                                                onClick={() => removePlotThread(plotThread.id)}
-                                                title="Remove plot thread"
-                                                style={{
-                                                    backgroundColor: '#8b0000',
-                                                    color: 'white',
-                                                    border: 'none',
-                                                    borderRadius: '4px',
-                                                    padding: '6px 10px',
-                                                    cursor: 'pointer',
-                                                    fontSize: '14px'
-                                                }}
-                                            >
-                                                <i className="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                        <div className="plot-content">
-                                            <div className="plot-field" style={{ marginBottom: '10px' }}>
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Description</label>
-                                                <textarea
-                                                    value={plotThread.description}
-                                                    onChange={(e) => updatePlotThread(plotThread.id, { description: e.target.value })}
-                                                    className="plot-textarea"
-                                                    placeholder="Describe the plot thread..."
-                                                    rows={3}
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="plot-meta" style={{
-                                                display: 'grid',
-                                                gridTemplateColumns: '1fr 1fr',
-                                                gap: '10px',
-                                                marginBottom: '10px'
-                                            }}>
-                                                <div className="plot-field">
-                                                    <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Status</label>
-                                                    <select
-                                                        value={plotThread.status}
-                                                        onChange={(e) => updatePlotThread(plotThread.id, { status: e.target.value })}
-                                                        className="plot-select"
-                                                        style={{
-                                                            width: '100%',
-                                                            padding: '6px',
-                                                            border: '2px solid #8b7355',
-                                                            borderRadius: '4px',
-                                                            fontFamily: 'inherit'
+                                    <div key={plotThread.id} className="plot-card">
+                                        <div className="card-media-banner-container">
+                                            {plotThread.image ? (
+                                                <div className="media-banner-preview">
+                                                    <img src={plotThread.image} alt={plotThread.title} />
+                                                    <div className="media-hover-overlay">
+                                                        <label className="media-change-btn" title="Change banner">
+                                                            <i className="fas fa-camera"></i> Change Banner
+                                                            <input
+                                                                type="file"
+                                                                accept="image/*"
+                                                                style={{ display: 'none' }}
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files?.[0];
+                                                                    if (file) {
+                                                                        const reader = new FileReader();
+                                                                        reader.onload = (ev) => updatePlotThread(plotThread.id, { image: ev.target.result });
+                                                                        reader.readAsDataURL(file);
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </label>
+                                                        <button
+                                                            type="button"
+                                                            className="media-clear-btn-pill"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                updatePlotThread(plotThread.id, { image: null });
+                                                            }}
+                                                            title="Remove banner"
+                                                        >
+                                                            <i className="fas fa-trash-alt"></i> Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <label className="media-banner-placeholder" title="Upload quest artwork">
+                                                    <i className="fas fa-scroll"></i>
+                                                    <span>Upload Plot Banner</span>
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        style={{ display: 'none' }}
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                const reader = new FileReader();
+                                                                reader.onload = (ev) => updatePlotThread(plotThread.id, { image: ev.target.result });
+                                                                reader.readAsDataURL(file);
+                                                            }
                                                         }}
+                                                    />
+                                                </label>
+                                            )}
+                                        </div>
+
+                                        <div className="card-header-fields">
+                                            <div className="card-field-header-top">
+                                                <div className="field-group flex-1">
+                                                    <label className="field-label"><i className="fas fa-feather"></i> Plot Title</label>
+                                                    <input
+                                                        type="text"
+                                                        value={plotThread.title}
+                                                        onChange={(e) => updatePlotThread(plotThread.id, { title: e.target.value })}
+                                                        className="card-title-input full-width"
+                                                        placeholder="Plot thread title..."
+                                                    />
+                                                </div>
+                                                <button className="remove-card-btn" onClick={() => removePlotThread(plotThread.id)} title="Delete Thread">
+                                                    <i className="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+
+                                            <div className="card-meta-grid-2col">
+                                                <div className="field-group">
+                                                    <label className="field-label"><i className="fas fa-bars-progress"></i> Status</label>
+                                                    <select
+                                                        value={plotThread.status || 'active'}
+                                                        onChange={(e) => updatePlotThread(plotThread.id, { status: e.target.value })}
+                                                        className="card-field-select"
                                                     >
                                                         <option value="active">Active</option>
                                                         <option value="on-hold">On Hold</option>
@@ -1684,19 +1717,12 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                         <option value="abandoned">Abandoned</option>
                                                     </select>
                                                 </div>
-                                                <div className="plot-field">
-                                                    <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Priority</label>
+                                                <div className="field-group">
+                                                    <label className="field-label"><i className="fas fa-circle-exclamation"></i> Priority</label>
                                                     <select
-                                                        value={plotThread.priority}
+                                                        value={plotThread.priority || 'medium'}
                                                         onChange={(e) => updatePlotThread(plotThread.id, { priority: e.target.value })}
-                                                        className="plot-select"
-                                                        style={{
-                                                            width: '100%',
-                                                            padding: '6px',
-                                                            border: '2px solid #8b7355',
-                                                            borderRadius: '4px',
-                                                            fontFamily: 'inherit'
-                                                        }}
+                                                        className={`card-field-select priority-${plotThread.priority}`}
                                                     >
                                                         <option value="low">Low</option>
                                                         <option value="medium">Medium</option>
@@ -1705,62 +1731,39 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="plot-field" style={{ marginBottom: '10px' }}>
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Related NPCs</label>
+                                        </div>
+
+                                        <div className="card-body-fields">
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-book-open"></i> Story Arc & Narrative</label>
+                                                <textarea
+                                                    value={plotThread.description}
+                                                    onChange={(e) => updatePlotThread(plotThread.id, { description: e.target.value })}
+                                                    className="card-field-textarea"
+                                                    placeholder="Describe the storyline, underlying conspiracy, stakes..."
+                                                    rows={2}
+                                                />
+                                            </div>
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-users"></i> Key Characters & Related NPCs</label>
                                                 <input
                                                     type="text"
                                                     value={Array.isArray(plotThread.relatedNPCs) ? plotThread.relatedNPCs.join(', ') : (plotThread.relatedNPCs || '')}
                                                     onChange={(e) => updatePlotThread(plotThread.id, {
                                                         relatedNPCs: e.target.value ? e.target.value.split(',').map(n => n.trim()).filter(n => n) : []
                                                     })}
-                                                    className="plot-input"
-                                                    placeholder="NPC names (comma-separated)..."
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
+                                                    className="card-field-input"
+                                                    placeholder="e.g. Lord Boros, Captain Valen..."
                                                 />
                                             </div>
-                                            <div className="plot-field" style={{ marginBottom: '10px' }}>
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Related Locations</label>
-                                                <input
-                                                    type="text"
-                                                    value={Array.isArray(plotThread.relatedLocations) ? plotThread.relatedLocations.join(', ') : (plotThread.relatedLocations || '')}
-                                                    onChange={(e) => updatePlotThread(plotThread.id, {
-                                                        relatedLocations: e.target.value ? e.target.value.split(',').map(l => l.trim()).filter(l => l) : []
-                                                    })}
-                                                    className="plot-input"
-                                                    placeholder="Location names (comma-separated)..."
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="plot-field">
-                                                <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold', color: '#3a2f1a' }}>Notes</label>
+                                            <div className="field-group">
+                                                <label className="field-label"><i className="fas fa-clock-rotate-left"></i> Timeline, Clues & Progression</label>
                                                 <textarea
                                                     value={plotThread.notes}
                                                     onChange={(e) => updatePlotThread(plotThread.id, { notes: e.target.value })}
-                                                    className="plot-textarea"
-                                                    placeholder="Progress, key events, connections to other plot threads..."
-                                                    rows={3}
-                                                    style={{
-                                                        width: '100%',
-                                                        padding: '6px',
-                                                        border: '2px solid #8b7355',
-                                                        borderRadius: '4px',
-                                                        fontFamily: 'inherit',
-                                                        boxSizing: 'border-box'
-                                                    }}
+                                                    className="card-field-textarea"
+                                                    placeholder="Key milestones, discovered clues, branching decisions..."
+                                                    rows={2}
                                                 />
                                             </div>
                                         </div>
@@ -2447,61 +2450,132 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                         <div className="lore-articles-list">
                                             {(campaignData.homebrew?.lore || []).length > 0 ? (
                                                 (campaignData.homebrew?.lore || []).map(article => (
-                                                    <div key={article.id} className="lore-article-card">
-                                                        <div className="lore-article-header">
-                                                            <input
-                                                                type="text"
-                                                                value={article.title}
-                                                                onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })}
-                                                                className="lore-title-input"
-                                                            />
-                                                            <div className="lore-meta">
-                                                                <select
-                                                                    value={article.category}
-                                                                    onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })}
-                                                                    className="lore-category-select"
-                                                                >
-                                                                    <option value="history">History</option>
-                                                                    <option value="religion">Religion</option>
-                                                                    <option value="faction">Faction</option>
-                                                                    <option value="legend">Legend/Myth</option>
-                                                                    <option value="culture">Culture</option>
-                                                                    <option value="geography">Geography</option>
-                                                                    <option value="magic">Magic System</option>
-                                                                    <option value="other">Other</option>
-                                                                </select>
-                                                                <label className="secret-toggle">
+                                                    <div key={article.id} className="content-card lore-card">
+                                                        {/* Top Hero Banner */}
+                                                        <div className="card-media-banner-container">
+                                                            {article.image ? (
+                                                                <div className="media-banner-preview">
+                                                                    <img src={article.image} alt={article.title} />
+                                                                    <div className="media-hover-overlay">
+                                                                        <label className="media-change-btn" title="Change artwork">
+                                                                            <i className="fas fa-camera"></i> Change Artwork
+                                                                            <input
+                                                                                type="file"
+                                                                                accept="image/*"
+                                                                                style={{ display: 'none' }}
+                                                                                onChange={(e) => {
+                                                                                    const file = e.target.files?.[0];
+                                                                                    if (file) {
+                                                                                        const reader = new FileReader();
+                                                                                        reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
+                                                                                        reader.readAsDataURL(file);
+                                                                                    }
+                                                                                }}
+                                                                            />
+                                                                        </label>
+                                                                        <button
+                                                                            type="button"
+                                                                            className="media-clear-btn-pill"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                updateLoreArticle(article.id, { image: null });
+                                                                            }}
+                                                                            title="Remove lore artwork"
+                                                                        >
+                                                                            <i className="fas fa-trash-alt"></i> Remove
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <label className="media-banner-placeholder" title="Upload lore artwork">
+                                                                    <i className="fas fa-book-bookmark"></i>
+                                                                    <span>Upload Lore Banner / Illustration</span>
                                                                     <input
-                                                                        type="checkbox"
-                                                                        checked={article.isSecret || false}
-                                                                        onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })}
+                                                                        type="file"
+                                                                        accept="image/*"
+                                                                        style={{ display: 'none' }}
+                                                                        onChange={(e) => {
+                                                                            const file = e.target.files?.[0];
+                                                                            if (file) {
+                                                                                const reader = new FileReader();
+                                                                                reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
+                                                                                reader.readAsDataURL(file);
+                                                                            }
+                                                                        }}
                                                                     />
-                                                                    <i className="fas fa-eye-slash"></i>
-                                                                    Secret
                                                                 </label>
-                                                            </div>
-                                                            <button className="lore-remove-btn" onClick={() => removeLoreArticle(article.id)}>
-                                                                <i className="fas fa-times"></i>
-                                                            </button>
+                                                            )}
                                                         </div>
-                                                        <div className="lore-article-body">
-                                                            <textarea
-                                                                value={article.content}
-                                                                onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
-                                                                placeholder="Write your lore article here... You can include details about history, legends, important events, cultural practices, etc."
-                                                                className="lore-content-textarea"
-                                                                rows={6}
-                                                            />
-                                                            <div className="lore-field">
-                                                                <label>Tags (comma-separated)</label>
+
+                                                        <div className="card-header-fields">
+                                                            <div className="card-field-header-top">
+                                                                <div className="field-group flex-1">
+                                                                    <label className="field-label"><i className="fas fa-book-open"></i> Article Title</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={article.title}
+                                                                        onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })}
+                                                                        className="card-title-input full-width"
+                                                                        placeholder="Lore title..."
+                                                                    />
+                                                                </div>
+                                                                <button className="remove-card-btn" onClick={() => removeLoreArticle(article.id)} title="Delete Article">
+                                                                    <i className="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                            <div className="card-meta-grid-2col">
+                                                                <div className="field-group flex-1">
+                                                                    <label className="field-label"><i className="fas fa-layer-group"></i> Category</label>
+                                                                    <select
+                                                                        value={article.category || 'history'}
+                                                                        onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })}
+                                                                        className="card-field-select"
+                                                                    >
+                                                                        <option value="history">History & Chronicles</option>
+                                                                        <option value="religion">Religion & Deities</option>
+                                                                        <option value="faction">Factions & Orders</option>
+                                                                        <option value="legend">Myths & Legends</option>
+                                                                        <option value="culture">Cultures & Peoples</option>
+                                                                        <option value="geography">Geography & Realms</option>
+                                                                        <option value="magic">Magic & Arcana</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="field-group" style={{ alignSelf: 'flex-end' }}>
+                                                                    <label className="secret-toggle-pill" title="Mark as GM Secret">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={article.isSecret || false}
+                                                                            onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })}
+                                                                        />
+                                                                        <i className={`fas ${article.isSecret ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                                                        <span>{article.isSecret ? 'GM Secret' : 'Public Lore'}</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="card-body-fields">
+                                                            <div className="field-group">
+                                                                <label className="field-label"><i className="fas fa-feather-pointed"></i> Chronicle & Codex Content</label>
+                                                                <textarea
+                                                                    value={article.content}
+                                                                    onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
+                                                                    placeholder="Write the history, mythology, scriptures, or background lore here..."
+                                                                    rows={5}
+                                                                    className="card-field-textarea"
+                                                                />
+                                                            </div>
+                                                            <div className="field-group">
+                                                                <label className="field-label"><i className="fas fa-tags"></i> Lore Tags & Keywords</label>
                                                                 <input
                                                                     type="text"
                                                                     value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
                                                                     onChange={(e) => updateLoreArticle(article.id, {
                                                                         tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
                                                                     })}
-                                                                    placeholder="e.g., kingdom, war, ancient, forbidden..."
-                                                                    className="lore-tags-input"
+                                                                    placeholder="e.g. kingdom, ancient, god wars..."
+                                                                    className="card-field-input"
                                                                 />
                                                             </div>
                                                         </div>

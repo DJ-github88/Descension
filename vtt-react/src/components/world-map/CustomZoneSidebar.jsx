@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef } from 'react';
 import './LoreSidebar.css';
+import './WorldMapImmerse.css';
 
 const ENTRY_TYPE_CONFIG = {
   continent: { label: 'Continent', icon: 'fa-earth-americas', color: 'rgba(135, 104, 196, 0.9)', badgeClass: 'badge-continent' },
@@ -45,105 +46,387 @@ const parseInline = (text) => {
   return parts.length > 0 ? parts : text;
 };
 
-// Block type config for :::type fenced blocks
+// Block type config for :::type fenced blocks in Mythrill VTT
 const BLOCK_TYPES = {
-  readaloud: { className: 'lore-readaloud', icon: 'fa-book-open-reader', label: 'Read Aloud' },
-  statblock: { className: 'lore-statblock', icon: 'fa-shield-halved', label: 'Stat Block' },
-  dmnote:    { className: 'lore-dmnote',    icon: 'fa-eye-slash',      label: 'DM Note' },
-  quest:     { className: 'lore-quest',     icon: 'fa-scroll',         label: 'Quest Hook' },
-  npc:       { className: 'lore-npc',       icon: 'fa-masks-theater',  label: 'NPC' },
-  loot:      { className: 'lore-loot',      icon: 'fa-gem',            label: 'Treasure' },
-  scroll:    { className: 'lore-scroll',    icon: 'fa-wand-sparkles',  label: 'Scroll' },
+  readaloud:  { className: 'lore-readaloud', icon: 'fa-book-open-reader', label: 'Read Aloud' },
+  statblock:  { className: 'lore-statblock', icon: 'fa-shield-halved',    label: 'Stat Block' },
+  gmnote:     { className: 'lore-dmnote',    icon: 'fa-eye-slash',         label: 'GM Note' },
+  dmnote:     { className: 'lore-dmnote',    icon: 'fa-eye-slash',         label: 'GM Note' },
+  quest:      { className: 'lore-quest',     icon: 'fa-scroll',            label: 'Quest' },
+  npc:        { className: 'lore-npc',       icon: 'fa-user',              label: 'NPC' },
+  loot:       { className: 'lore-loot',      icon: 'fa-gem',               label: 'Loot' },
+  relic:      { className: 'lore-loot',      icon: 'fa-gem',               label: 'Loot' },
+  scroll:     { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
+  spell:      { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
+  discipline: { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
+  hazard:     { className: 'lore-hazard',    icon: 'fa-triangle-exclamation', label: 'Hazard' }
 };
 
-// ── Specialized renderer: STAT BLOCK as a proper table (Mythrill system) ──
+// Calculate ability score modifier (+X / -X)
+const getAbilityMod = (score) => {
+  const num = parseInt(score, 10);
+  if (isNaN(num)) return null;
+  const mod = Math.floor((num - 10) / 2);
+  return mod >= 0 ? `+${mod}` : `${mod}`;
+};
+
+// ── Specialized renderer: STAT BLOCK (Mythrill 6-Ability & Action Point System) ──
 const renderStatBlockBody = (lines, baseKey) => {
-  const statRows = [];
+  const headerMeta = [];
+  const vitals = {};
+  const defenses = [];
   const abilityScores = {};
-  const textLines = [];
-  // Mythrill's six base abilities: STR, AGI (agility), CON, INT, SPI (spirit), CHA
+  const secondaryStats = [];
+  const actionsAndTraits = [];
+  const freeText = [];
+
+  // Mythrill's 6 base abilities: STR, AGI (agility), CON, INT, SPI (spirit), CHA
   const ABILITY_NAMES = ['STR', 'AGI', 'CON', 'INT', 'SPI', 'CHA'];
-  // Legacy aliases so older D&D-style stat blocks (DEX/WIS) still render in the grid
   const ABILITY_ALIASES = { DEX: 'AGI', WIS: 'SPI' };
+
+  // Core numerical combat vitals for top resource cards (HP, Mana, AP, Speed)
+  const VITAL_KEYS = ['HP', 'MANA', 'AP', 'SPEED'];
+  // Defenses (resistances, weaknesses, immunities)
+  const DEFENSE_KEYS = ['RESIST', 'RESISTANCES', 'WEAKNESS', 'WEAKNESSES', 'VULNERABILITY', 'VULNERABILITIES', 'IMMUNITY', 'IMMUNITIES', 'CONDITIONS'];
+  const META_KEYS = ['CLASSIFICATION', 'TYPE', 'THREAT', 'LEVEL', 'ORIGIN', 'ANCESTRY', 'DISPOSITION', 'ROLE'];
+  const SECONDARY_PREFIXES = ['SKILLS', 'SENSES', 'LANGUAGES', 'CHALLENGE', 'CR', 'PROFICIENCIES'];
 
   lines.forEach((line) => {
     const trimmed = line.trim();
     if (!trimmed) return;
 
-    const statMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
-    if (statMatch) {
-      const key = statMatch[1].trim().toUpperCase();
-      const canonical = ABILITY_ALIASES[key] || key;
-      if (ABILITY_NAMES.includes(canonical)) {
-        abilityScores[canonical] = statMatch[2].trim();
-      } else {
-        statRows.push({ key: statMatch[1].trim(), val: statMatch[2].trim() });
-      }
-    } else if (trimmed === '---' || trimmed === '***') {
-      statRows.push({ divider: true });
-    } else {
-      textLines.push(trimmed);
+    if (trimmed === '---' || trimmed === '***') {
+      return;
     }
+
+    // Check for Action/Trait pattern: "Action (2 AP) - Name: Description" or "Passive - Name: ..."
+    const actionMatch = trimmed.match(/^(Passive|Action|Reaction|Bonus Action|Instinct|Trait)(\s*\([^)]+\))?\s*[-–:]\s*(.+)$/i);
+    if (actionMatch) {
+      actionsAndTraits.push({
+        type: actionMatch[1].toUpperCase(),
+        cost: actionMatch[2] ? actionMatch[2].replace(/[()]/g, '').trim() : null,
+        content: actionMatch[3].trim()
+      });
+      return;
+    }
+
+    // Key: Value pattern
+    const kvMatch = trimmed.match(/^([A-Za-z0-9 /_-]+)[:\-]\s*(.+)$/);
+    if (kvMatch) {
+      const rawKey = kvMatch[1].trim();
+      const upperKey = rawKey.toUpperCase();
+      const val = kvMatch[2].trim();
+
+      const canonicalAbility = ABILITY_ALIASES[upperKey] || upperKey;
+      if (ABILITY_NAMES.includes(canonicalAbility)) {
+        abilityScores[canonicalAbility] = val;
+      } else if (META_KEYS.includes(upperKey)) {
+        headerMeta.push({ key: rawKey, val });
+      } else if (VITAL_KEYS.includes(upperKey)) {
+        vitals[upperKey] = { label: rawKey, val };
+      } else if (DEFENSE_KEYS.includes(upperKey)) {
+        defenses.push({ label: rawKey, val });
+      } else {
+        secondaryStats.push({ key: rawKey, val });
+      }
+      return;
+    }
+
+    // Check if line starts with recognized secondary keyword without colon (e.g. "Skills Athletics +5")
+    const keywordMatch = trimmed.match(/^([A-Za-z]+)\s+(.+)$/);
+    if (keywordMatch) {
+      const firstWordUpper = keywordMatch[1].toUpperCase();
+      if (SECONDARY_PREFIXES.includes(firstWordUpper)) {
+        secondaryStats.push({ key: keywordMatch[1], val: keywordMatch[2] });
+        return;
+      }
+    }
+
+    freeText.push(trimmed);
   });
 
   const hasAbilities = Object.keys(abilityScores).length > 0;
+  const hasVitals = Object.keys(vitals).length > 0;
 
   return (
     <>
-      {/* Core stat table */}
-      {statRows.length > 0 && (
-        <table className="statblock-table">
-          <tbody>
-            {statRows.map((row, i) =>
-              row.divider ? (
-                <tr key={`${baseKey}-d-${i}`}><td colSpan={2}><hr className="statblock-divider" /></td></tr>
-              ) : (
-                <tr key={`${baseKey}-r-${i}`} className="statblock-row">
-                  <td className="statblock-key">{row.key}</td>
-                  <td className="statblock-val">{parseInline(row.val)}</td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
+      {/* Classification & Threat Top Bar */}
+      {headerMeta.length > 0 && (
+        <div className="statblock-meta-row">
+          {headerMeta.map((meta, i) => (
+            <span key={`${baseKey}-meta-${i}`} className="statblock-meta-chip">
+              <strong>{meta.key}:</strong> {parseInline(meta.val)}
+            </span>
+          ))}
+        </div>
       )}
 
-      {/* Ability score grid (D&D style 6-column) */}
-      {hasAbilities && (
-        <div className="statblock-abilities">
-          {ABILITY_NAMES.map((ab) => (
-            <div key={ab} className="ability-cell">
-              <span className="ability-label">{ab}</span>
-              <span className="ability-score">{abilityScores[ab] || '—'}</span>
+      {/* Core Combat Resources: HP, Mana, AP, Speed */}
+      {hasVitals && (
+        <div className="statblock-resources-grid">
+          {['HP', 'MANA', 'AP', 'SPEED'].map((key) => {
+            const item = vitals[key];
+            if (!item) return null;
+            return (
+              <div key={`${baseKey}-res-${key}`} className={`stat-res-card res-${key.toLowerCase()}`}>
+                <span className="stat-res-label">{item.label}</span>
+                <span className="stat-res-val">{parseInline(item.val)}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Defenses & Resistances Strip (Clean, directly matching items) */}
+      {defenses.length > 0 && (
+        <div className="statblock-defenses-strip">
+          {defenses.map((d, i) => (
+            <div key={`${baseKey}-def-${i}`} className="statblock-defense-item">
+              <span className="statblock-defense-label">{d.label}:</span>
+              <span className="statblock-defense-val">{parseInline(d.val)}</span>
             </div>
           ))}
         </div>
       )}
 
-      {/* Any free text lines */}
-      {textLines.map((t, i) => (
-        <p key={`${baseKey}-t-${i}`} className="lore-paragraph">{parseInline(t)}</p>
+      {/* Mythrill 6-Attribute Medallion Grid (STR, AGI, CON, INT, SPI, CHA) */}
+      {hasAbilities && (
+        <div className="statblock-abilities mythrill-abilities">
+          {ABILITY_NAMES.map((ab) => {
+            const score = abilityScores[ab] || '10';
+            const mod = getAbilityMod(score);
+            return (
+              <div key={ab} className="ability-cell">
+                <span className="ability-label">{ab}</span>
+                <div className="ability-score-medallion">
+                  <span className="ability-score-num">{score}</span>
+                  {mod && <span className="ability-score-mod">{mod}</span>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Secondary Stats (Skills, Senses, Languages, etc.) */}
+      {secondaryStats.length > 0 && (
+        <div className="statblock-secondary-list">
+          {secondaryStats.map((st, i) => (
+            <div key={`${baseKey}-sec-${i}`} className="statblock-sec-row">
+              <span className="statblock-sec-key">{st.key}</span>
+              <span className="statblock-sec-val">{parseInline(st.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Actions, Reactions, Instincts & Passives */}
+      {actionsAndTraits.length > 0 && (
+        <div className="statblock-actions-section">
+          {actionsAndTraits.map((act, i) => (
+            <div key={`${baseKey}-act-${i}`} className={`statblock-action-card action-${act.type.toLowerCase().replace(/\s+/g, '-')}`}>
+              <div className="statblock-action-header">
+                <span className="statblock-action-tag">{act.type}</span>
+                {act.cost && <span className="statblock-action-cost">{act.cost}</span>}
+              </div>
+              <div className="statblock-action-desc">{parseInline(act.content)}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Narrative notes or additional context */}
+      {freeText.length > 0 && (
+        <div className="statblock-freetext">
+          {freeText.map((t, i) => (
+            <p key={`${baseKey}-txt-${i}`} className="lore-paragraph">{parseInline(t)}</p>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+// ── Specialized renderer: QUEST / CONTRACT HOOK ──
+const renderQuestBody = (lines, baseKey) => {
+  const meta = [];
+  const milestones = [];
+  const text = [];
+  let objective = null;
+  let reward = null;
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      milestones.push(trimmed.slice(2));
+      return;
+    }
+
+    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
+    if (kvMatch) {
+      const k = kvMatch[1].trim();
+      const upper = k.toUpperCase();
+      const v = kvMatch[2].trim();
+
+      if (upper === 'OBJECTIVE' || upper === 'GOAL') {
+        objective = v;
+      } else if (upper === 'REWARD' || upper === 'BOUNTY') {
+        reward = v;
+      } else {
+        meta.push({ key: k, val: v });
+      }
+    } else {
+      text.push(trimmed);
+    }
+  });
+
+  return (
+    <>
+      {objective && (
+        <div className="quest-objective-banner">
+          <i className="fas fa-compass quest-icon-banner"></i>
+          <div>
+            <span className="quest-label-sub">Contract Objective</span>
+            <div className="quest-objective-text">{parseInline(objective)}</div>
+          </div>
+        </div>
+      )}
+
+      {meta.length > 0 && (
+        <div className="quest-meta-chips">
+          {meta.map((m, i) => (
+            <div key={`${baseKey}-qm-${i}`} className="quest-chip">
+              <span className="quest-chip-key">{m.key}:</span>
+              <span className="quest-chip-val">{parseInline(m.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {milestones.length > 0 && (
+        <div className="quest-milestones">
+          <span className="quest-section-header">Contract Milestones:</span>
+          <ul className="quest-checklist">
+            {milestones.map((ms, i) => (
+              <li key={`${baseKey}-ms-${i}`} className="quest-step">
+                <i className="fas fa-diamond quest-bullet-icon"></i>
+                <span>{parseInline(ms)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {reward && (
+        <div className="quest-reward-bar">
+          <i className="fas fa-coins quest-reward-icon"></i>
+          <div>
+            <span className="quest-reward-lbl">Payment & Bounty</span>
+            <span className="quest-reward-val">{parseInline(reward)}</span>
+          </div>
+        </div>
+      )}
+
+      {text.map((t, i) => (
+        <p key={`${baseKey}-qt-${i}`} className="lore-paragraph">{parseInline(t)}</p>
       ))}
     </>
   );
 };
 
-// ── Specialized renderer: LOOT as an item inventory ──
+// ── Specialized renderer: NPC / LORE PERSONA ──
+const renderNpcBody = (lines, baseKey) => {
+  const profile = [];
+  const dialogue = [];
+  const secrets = [];
+  const bio = [];
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (trimmed.startsWith('- "') || trimmed.startsWith('* "') || (trimmed.startsWith('"') && trimmed.endsWith('"'))) {
+      dialogue.push(trimmed.replace(/^[-*]\s*/, ''));
+      return;
+    }
+
+    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
+    if (kvMatch) {
+      const k = kvMatch[1].trim();
+      const upper = k.toUpperCase();
+      const v = kvMatch[2].trim();
+
+      if (upper === 'SECRET' || upper === 'HIDDEN' || upper === 'GM SECRET') {
+        secrets.push(v);
+      } else {
+        profile.push({ key: k, val: v });
+      }
+    } else {
+      bio.push(trimmed);
+    }
+  });
+
+  return (
+    <>
+      {profile.length > 0 && (
+        <div className="npc-profile-grid">
+          {profile.map((p, i) => (
+            <div key={`${baseKey}-npc-${i}`} className="npc-profile-item">
+              <span className="npc-profile-key">{p.key}</span>
+              <span className="npc-profile-val">{parseInline(p.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {dialogue.length > 0 && (
+        <div className="npc-dialogue-stack">
+          {dialogue.map((d, i) => (
+            <blockquote key={`${baseKey}-dia-${i}`} className="npc-quote-bubble">
+              <i className="fas fa-quote-left npc-quote-icon"></i>
+              <span>{parseInline(d)}</span>
+            </blockquote>
+          ))}
+        </div>
+      )}
+
+      {bio.map((b, i) => (
+        <p key={`${baseKey}-bio-${i}`} className="lore-paragraph">{parseInline(b)}</p>
+      ))}
+
+      {secrets.length > 0 && (
+        <div className="npc-secret-card">
+          <div className="npc-secret-header">
+            <i className="fas fa-user-secret"></i>
+            <span>GM Secret & Motivations</span>
+          </div>
+          {secrets.map((s, i) => (
+            <p key={`${baseKey}-sec-${i}`} className="npc-secret-body">{parseInline(s)}</p>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+// ── Specialized renderer: LOOT & TREASURE ──
 const renderLootBody = (lines, baseKey) => {
   const items = [];
+  const meta = [];
   const textLines = [];
 
   lines.forEach((line) => {
     const trimmed = line.trim();
     if (!trimmed) return;
 
-    // "- Item Name (details)" or "* Item"
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       items.push(trimmed.slice(2));
     } else {
-      const kvMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
+      const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
       if (kvMatch) {
-        items.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
+        meta.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
       } else {
         textLines.push(trimmed);
       }
@@ -152,38 +435,121 @@ const renderLootBody = (lines, baseKey) => {
 
   return (
     <>
+      {meta.length > 0 && (
+        <div className="loot-meta-bar">
+          {meta.map((m, i) => (
+            <div key={`${baseKey}-lm-${i}`} className="loot-meta-item">
+              <span className="loot-meta-key">{m.key}:</span>
+              <span className="loot-meta-val">{parseInline(m.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {items.length > 0 && (
+        <ul className="loot-item-list">
+          {items.map((item, i) => (
+            <li key={`${baseKey}-i-${i}`} className="loot-item">
+              <i className="fas fa-gem loot-relic-icon"></i>
+              <span className="loot-item-content">{parseInline(item)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {textLines.map((t, i) => (
         <p key={`${baseKey}-t-${i}`} className="lore-paragraph">{parseInline(t)}</p>
       ))}
-      {items.length > 0 && (
-        <ul className="loot-item-list">
-          {items.map((item, i) =>
-            typeof item === 'string' ? (
-              <li key={`${baseKey}-i-${i}`} className="loot-item">
-                <i className="fas fa-coins loot-coin-icon"></i>
-                <span>{parseInline(item)}</span>
-              </li>
-            ) : (
-              <li key={`${baseKey}-i-${i}`} className="loot-item loot-kv">
-                <span className="loot-item-key">{item.key}</span>
-                <span className="loot-item-val">{parseInline(item.val)}</span>
-              </li>
-            )
-          )}
-        </ul>
+    </>
+  );
+};
+
+// ── Specialized renderer: SPELL / SCROLL ──
+const renderScrollBody = (lines, baseKey) => {
+  const stats = [];
+  const effectLines = [];
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
+    if (kvMatch && !trimmed.toLowerCase().startsWith('effect:')) {
+      stats.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
+    } else {
+      effectLines.push(trimmed.replace(/^effect:\s*/i, ''));
+    }
+  });
+
+  return (
+    <>
+      {stats.length > 0 && (
+        <div className="scroll-parameters-grid">
+          {stats.map((s, i) => (
+            <div key={`${baseKey}-sc-${i}`} className="scroll-param-badge">
+              <span className="scroll-param-key">{s.key}</span>
+              <span className="scroll-param-val">{parseInline(s.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {effectLines.length > 0 && (
+        <div className="scroll-effect-box">
+          <span className="scroll-effect-lbl">Spell Effect:</span>
+          {effectLines.map((ef, i) => (
+            <p key={`${baseKey}-ef-${i}`} className="scroll-effect-text">{parseInline(ef)}</p>
+          ))}
+        </div>
       )}
     </>
   );
 };
 
-// ── General inner renderer for other blocks ──
+// ── Specialized renderer: ENVIRONMENTAL HAZARD ──
+const renderHazardBody = (lines, baseKey) => {
+  const meta = [];
+  const description = [];
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
+    if (kvMatch) {
+      meta.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
+    } else {
+      description.push(trimmed);
+    }
+  });
+
+  return (
+    <>
+      {meta.length > 0 && (
+        <div className="hazard-meta-grid">
+          {meta.map((m, i) => (
+            <div key={`${baseKey}-hz-${i}`} className="hazard-meta-card">
+              <span className="hazard-meta-key">{m.key}</span>
+              <span className="hazard-meta-val">{parseInline(m.val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {description.map((d, i) => (
+        <p key={`${baseKey}-hd-${i}`} className="hazard-desc-text">{parseInline(d)}</p>
+      ))}
+    </>
+  );
+};
+
+// ── General inner renderer for other blocks (e.g. GM Note) ──
 const renderBlockInner = (lines, baseKey) => {
   return lines.map((line, i) => {
     const trimmed = line.trim();
     if (!trimmed) return <div key={`${baseKey}-${i}`} className="lore-spacer" />;
 
-    // Stat-line: "Key: Value"
-    const statMatch = trimmed.match(/^([A-Za-z ]+):\s+(.+)$/);
+    const statMatch = trimmed.match(/^([A-Za-z /_-]+):\s+(.+)$/);
     if (statMatch) {
       return (
         <div key={`${baseKey}-${i}`} className="lore-stat-line">
@@ -192,11 +558,11 @@ const renderBlockInner = (lines, baseKey) => {
         </div>
       );
     }
-    // Bullet inside block
+
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       return (
         <div key={`${baseKey}-${i}`} className="lore-list-item">
-          <span className="lore-bullet">✦</span>
+          <i className="fas fa-diamond lore-bullet-icon"></i>
           <span>{parseInline(trimmed.slice(2))}</span>
         </div>
       );
@@ -205,7 +571,7 @@ const renderBlockInner = (lines, baseKey) => {
   });
 };
 
-// Simple safe markdown renderer for rich lore preview — with TTRPG blocks
+// Safe markdown renderer for rich lore preview with Mythrill Codex Blocks
 const renderLoreMarkdown = (text = '') => {
   if (!text) return null;
 
@@ -217,44 +583,50 @@ const renderLoreMarkdown = (text = '') => {
     const line = lines[i];
     const trimmed = line.trim();
 
-    // ─── Fenced TTRPG Block (:::type … :::) ───
+    // ─── Fenced Mythrill Codex Block (:::type … :::) ───
     const blockOpenMatch = trimmed.match(/^:::(\w+)(?:\s+(.*))?$/);
     if (blockOpenMatch) {
       const blockType = blockOpenMatch[1].toLowerCase();
       const blockTitle = blockOpenMatch[2] || '';
-      const config = BLOCK_TYPES[blockType];
-      if (config) {
-        const innerLines = [];
+      const config = BLOCK_TYPES[blockType] || BLOCK_TYPES.readaloud;
+      
+      const innerLines = [];
+      i++;
+      while (i < lines.length && lines[i].trim() !== ':::') {
+        innerLines.push(lines[i]);
         i++;
-        while (i < lines.length && lines[i].trim() !== ':::') {
-          innerLines.push(lines[i]);
-          i++;
-        }
-        i++; // skip closing :::
-
-        // Choose specialized renderer based on block type
-        let bodyContent;
-        if (blockType === 'statblock') {
-          bodyContent = renderStatBlockBody(innerLines, `blk-${i}`);
-        } else if (blockType === 'loot') {
-          bodyContent = renderLootBody(innerLines, `blk-${i}`);
-        } else {
-          bodyContent = renderBlockInner(innerLines, `blk-${i}`);
-        }
-
-        elements.push(
-          <div key={`block-${i}`} className={`lore-block ${config.className}`}>
-            <div className="lore-block-header">
-              <i className={`fas ${config.icon}`}></i>
-              <span>{blockTitle || config.label}</span>
-            </div>
-            <div className="lore-block-body">
-              {bodyContent}
-            </div>
-          </div>
-        );
-        continue;
       }
+      i++; // skip closing :::
+
+      let bodyContent;
+      if (blockType === 'statblock') {
+        bodyContent = renderStatBlockBody(innerLines, `blk-${i}`);
+      } else if (blockType === 'quest') {
+        bodyContent = renderQuestBody(innerLines, `blk-${i}`);
+      } else if (blockType === 'npc') {
+        bodyContent = renderNpcBody(innerLines, `blk-${i}`);
+      } else if (blockType === 'loot' || blockType === 'relic') {
+        bodyContent = renderLootBody(innerLines, `blk-${i}`);
+      } else if (blockType === 'scroll' || blockType === 'spell' || blockType === 'discipline') {
+        bodyContent = renderScrollBody(innerLines, `blk-${i}`);
+      } else if (blockType === 'hazard') {
+        bodyContent = renderHazardBody(innerLines, `blk-${i}`);
+      } else {
+        bodyContent = renderBlockInner(innerLines, `blk-${i}`);
+      }
+
+      elements.push(
+        <div key={`block-${i}`} className={`lore-block ${config.className}`}>
+          <div className="lore-block-header">
+            <i className={`fas ${config.icon}`}></i>
+            <span>{blockTitle || config.label}</span>
+          </div>
+          <div className="lore-block-body">
+            {bodyContent}
+          </div>
+        </div>
+      );
+      continue;
     }
 
     // ─── Empty line ───
@@ -307,14 +679,14 @@ const renderLoreMarkdown = (text = '') => {
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       elements.push(
         <div key={i} className="lore-list-item">
-          <span className="lore-bullet">✦</span>
+          <i className="fas fa-diamond lore-bullet-icon"></i>
           <span>{parseInline(trimmed.slice(2))}</span>
         </div>
       );
       i++; continue;
     }
 
-    // ─── Paragraph (fallback) ───
+    // ─── Paragraph ───
     elements.push(<p key={i} className="lore-paragraph">{parseInline(line)}</p>);
     i++;
   }
@@ -331,12 +703,16 @@ const CustomZoneSidebar = ({
   onDeleteZone,
   onFocusZone,
   onAddLocationToRegion,
-  onSelectZone
+  onSelectZone,
+  currentCampaign = null
 }) => {
   const [loreMode, setLoreMode] = useState('write'); // 'write' | 'preview'
   const [showImageUrlInput, setShowImageUrlInput] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
   const [sidebarWidth, setSidebarWidth] = useState(null); // custom drag-resized width (px)
+  const [showCampaignPicker, setShowCampaignPicker] = useState(false);
+  const [campaignTab, setCampaignTab] = useState('npcs'); // 'npcs' | 'locations' | 'plots' | 'lore'
+  const [campaignSearch, setCampaignSearch] = useState('');
   const sidebarRef = useRef(null);
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -366,10 +742,8 @@ const CustomZoneSidebar = ({
   const typeConfig = ENTRY_TYPE_CONFIG[zone?.kind] || ENTRY_TYPE_CONFIG.region;
   const isPolygon = zone?.kind !== 'location' && zone?.geometry !== 'point';
 
-  // Find parent zone if applicable
   const parentZone = zone?.parentId ? allZones.find((z) => z.id === zone.parentId) : null;
 
-  // Find child locations that belong to this region or subregion
   const childLocations = useMemo(() => {
     if (!zone) return [];
     return (allZones || []).filter((z) => {
@@ -383,7 +757,6 @@ const CustomZoneSidebar = ({
   const pointCount = zone.points?.length || 0;
   const zoneImage = zone.image || zone.imageUrl || null;
 
-  // Insert markdown tag at textarea selection
   const insertFormatting = (prefix, suffix = '') => {
     const textarea = textareaRef.current;
     if (!textarea) return;
@@ -405,14 +778,12 @@ const CustomZoneSidebar = ({
     }, 10);
   };
 
-  // Insert a full pre-built template block at cursor
   const insertTemplate = (templateText) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
     const start = textarea.selectionStart;
     const currentVal = zone.lore || '';
-    // Add newline before if cursor isn't at line start
     const needsNewline = start > 0 && currentVal[start - 1] !== '\n';
     const insert = (needsNewline ? '\n' : '') + templateText + '\n';
     const nextVal = currentVal.substring(0, start) + insert + currentVal.substring(start);
@@ -427,7 +798,6 @@ const CustomZoneSidebar = ({
     }, 10);
   };
 
-  // Image Upload Handler
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -440,6 +810,82 @@ const CustomZoneSidebar = ({
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  const campaignData = currentCampaign?.campaignData || currentCampaign || {};
+  const campaignNPCs = campaignData.npcs || [];
+  const campaignLocations = campaignData.locations || [];
+  const campaignPlots = campaignData.plotThreads || [];
+  const campaignLore = campaignData.homebrew?.lore || campaignData.lore || [];
+
+  const handleImportCampaignItem = (type, item) => {
+    if (!item || !onUpdateZone) return;
+    let newLore = zone.lore || '';
+    let newName = zone.name || '';
+    let newImage = zone.image || null;
+    let newKind = zone.kind;
+
+    if (type === 'npc') {
+      newName = item.name || newName;
+      newImage = item.image || newImage;
+      const snippet = `:::npc ${item.name}
+Description: ${item.description || 'N/A'}
+Location: ${item.location || 'N/A'}
+Relationship: ${item.relationship || 'neutral'}
+Plot Relevance: ${item.plotRelevance || 'moderate'}
+Notes: ${item.notes || 'N/A'}
+:::`;
+      newLore = newLore.trim() ? `${newLore}\n\n${snippet}` : snippet;
+    } else if (type === 'location') {
+      newName = item.name || newName;
+      newImage = item.image || newImage;
+      newKind = item.type === 'dungeon' ? 'dungeon' : (item.type === 'city' || item.type === 'town' || item.type === 'village') ? 'settlement' : 'location';
+      const snippet = `:::readaloud
+${item.name}
+:::
+
+**Classification:** ${item.type || 'Location'}
+**Parent Region:** ${item.region || 'Unknown'}
+
+**Description:**
+${item.description || 'No description recorded.'}
+
+**Notable Features:**
+${item.notableFeatures || 'None documented.'}
+
+**Notes & Secrets:**
+${item.notes || 'None.'}`;
+      newLore = newLore.trim() ? `${newLore}\n\n${snippet}` : snippet;
+    } else if (type === 'plot') {
+      newName = item.title || newName;
+      newImage = item.image || newImage;
+      const snippet = `:::quest ${item.title}
+Status: ${item.status || 'Active'}
+Priority: ${item.priority || 'Medium'}
+Description: ${item.description || 'N/A'}
+Notes: ${item.notes || 'N/A'}
+:::`;
+      newLore = newLore.trim() ? `${newLore}\n\n${snippet}` : snippet;
+    } else if (type === 'lore') {
+      newName = item.title || newName;
+      newImage = item.image || newImage;
+      const snippet = `## ${item.title}
+*Category: ${item.category || 'Chronicle'}*
+
+${item.description || ''}
+
+${item.notes ? `**Notes:**\n${item.notes}` : ''}`;
+      newLore = newLore.trim() ? `${newLore}\n\n${snippet}` : snippet;
+    }
+
+    onUpdateZone(zone.id, {
+      name: newName,
+      lore: newLore,
+      image: newImage,
+      imageUrl: newImage,
+      kind: newKind
+    });
+    setShowCampaignPicker(false);
   };
 
   const handleApplyImageUrl = (e) => {
@@ -457,78 +903,132 @@ const CustomZoneSidebar = ({
     }
   };
 
+  const handleCoordinateChange = (axis, value) => {
+    const num = parseInt(value, 10);
+    if (isNaN(num)) return;
+    const currentPos = zone.position || zone.points?.[0] || [0, 0];
+    const newPos = axis === 'x' ? [num, currentPos[1]] : [currentPos[0], num];
+    if (onUpdateZone) {
+      onUpdateZone(zone.id, {
+        position: newPos,
+        points: [newPos]
+      });
+    }
+  };
+
   return (
     <aside
       ref={sidebarRef}
-      className="custom-zone-sidebar open animate-fade-in"
-      aria-label="Custom zone details"
+      className={`custom-zone-sidebar ${zoneImage ? 'has-custom-img' : ''} ${loreMode === 'split' ? 'sidebar-split-mode' : ''} animate-fade-in`}
       style={sidebarWidth ? { width: sidebarWidth } : undefined}
+      aria-label="Custom zone properties drawer"
     >
+      {/* Resizable drag handle on left border */}
       <div
         className="custom-zone-resize-handle"
         onMouseDown={startSidebarResize}
-        title="Drag to resize (320 - 700 px)"
+        title="Drag to resize sidebar width"
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize sidebar"
       >
-        <i className="fas fa-grip-vertical"></i>
+        <i className="fas fa-grip-lines-vertical"></i>
       </div>
+
       <div className="custom-zone-sidebar-accent" style={{ background: zone.color || typeConfig.color }} />
 
-      <div className="custom-zone-sidebar-header">
-        <div className="custom-zone-header-top">
-          <span className={`custom-zone-type-badge ${typeConfig.badgeClass}`}>
-            <i className={`fas ${typeConfig.icon}`}></i> {typeConfig.label}
-          </span>
+      {/* Header bar */}
+      <div className="custom-zone-header-top">
+        <div className="custom-zone-type-badge">
+          <i className={`fas ${typeConfig.icon}`}></i>
+          <span>{typeConfig.label}</span>
+        </div>
+        <button
+          type="button"
+          className="custom-zone-close-btn"
+          onClick={onClose}
+          aria-label="Close sidebar"
+        >
+          <i className="fas fa-times"></i>
+        </button>
+      </div>
+
+      {/* Parent Hierarchy Breadcrumb */}
+      {parentZone && (
+        <div className="custom-zone-breadcrumbs">
+          <i className="fas fa-arrow-turn-up"></i>
+          <span>Part of </span>
           <button
             type="button"
-            className="custom-zone-close-btn"
-            onClick={onClose}
-            title="Close sidebar popup"
-            aria-label="Close"
+            className="breadcrumb-link"
+            onClick={() => onFocusZone && onFocusZone(parentZone)}
           >
-            <i className="fas fa-times"></i>
+            {parentZone.name || 'Parent Region'}
           </button>
         </div>
+      )}
 
-        {parentZone && (
-          <div className="custom-zone-breadcrumbs">
+      {/* Title & Kind */}
+      <div className="custom-zone-title-block">
+        <input
+          type="text"
+          className="custom-zone-name-input"
+          value={zone.name || ''}
+          placeholder="Name this landmark or region..."
+          onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { name: e.target.value })}
+          aria-label="Zone name"
+        />
+
+        <div className="custom-zone-kind-pills">
+          {(['region', 'settlement', 'landmark', 'dungeon', 'poi', 'location']).map((k) => (
             <button
+              key={k}
               type="button"
-              className="breadcrumb-link"
-              onClick={() => onSelectZone && onSelectZone(parentZone.id)}
+              className={`kind-pill ${zone.kind === k ? 'active' : ''}`}
+              onClick={() => onUpdateZone && onUpdateZone(zone.id, { kind: k })}
             >
-              <i className="fas fa-chevron-left"></i> {parentZone.name || 'Parent Region'}
+              <i className={`fas ${ENTRY_TYPE_CONFIG[k]?.icon || 'fa-map-pin'}`}></i>
+              <span>{ENTRY_TYPE_CONFIG[k]?.label || k}</span>
             </button>
-          </div>
-        )}
-
-        <div className="custom-zone-title-wrap">
-          <input
-            type="text"
-            className="custom-zone-name-input"
-            value={zone.name || ''}
-            placeholder={`Name this ${typeConfig.label.toLowerCase()}...`}
-            onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { name: e.target.value })}
-            aria-label="Zone name"
-          />
+          ))}
         </div>
       </div>
 
-      {/* Quick Action Navigation Bar */}
+      {/* Action Toolbar */}
       <div className="custom-zone-action-bar">
         {onFocusZone && (
           <button
             type="button"
             className="zone-action-btn focus-btn"
             onClick={() => onFocusZone(zone)}
-            title="Smoothly zoom and center map on this realm"
+            title="Focus and zoom map view to this zone"
           >
-            <i className="fas fa-compass"></i>
-            <span>Go There / Focus</span>
+            <i className="fas fa-crosshairs"></i>
+            <span>Focus</span>
           </button>
         )}
+
+        {!isPolygon && (
+          <button
+            type="button"
+            className={`zone-action-btn lock-btn ${zone.isLocked ? 'is-locked' : 'is-unlocked'}`}
+            onClick={() => onUpdateZone && onUpdateZone(zone.id, { isLocked: !zone.isLocked })}
+            title={zone.isLocked ? "Unlock to drag position on canvas" : "Lock position to prevent accidental moves"}
+          >
+            <i className={`fas ${zone.isLocked ? 'fa-lock' : 'fa-lock-open'}`}></i>
+            <span>{zone.isLocked ? 'Locked' : 'Unlocked'}</span>
+          </button>
+        )}
+
+        <button
+          type="button"
+          className="zone-action-btn campaign-link-btn"
+          onClick={() => setShowCampaignPicker(true)}
+          title="Import information and art from your Campaign NPCs, Locations, Quests, or Lore"
+        >
+          <i className="fas fa-scroll"></i>
+          <span>Import Campaign</span>
+        </button>
 
         {isPolygon && onAddLocationToRegion && (
           <button
@@ -565,6 +1065,18 @@ const CustomZoneSidebar = ({
           <span className="meta-val">{isPolygon ? `${pointCount} pts` : 'Coordinate Pin'}</span>
           <span className="meta-lbl">Geometry</span>
         </div>
+        {!isPolygon && (
+          <>
+            <div className="zone-meta-divider" />
+            <div className="zone-meta-item coords-item">
+              <div className="coords-inputs">
+                <label>X: <input type="number" value={Math.round(zone.position?.[0] || zone.points?.[0]?.[0] || 0)} onChange={(e) => handleCoordinateChange('x', e.target.value)} /></label>
+                <label>Y: <input type="number" value={Math.round(zone.position?.[1] || zone.points?.[0]?.[1] || 0)} onChange={(e) => handleCoordinateChange('y', e.target.value)} /></label>
+              </div>
+              <span className="meta-lbl">Coordinates</span>
+            </div>
+          </>
+        )}
         {isPolygon && (
           <>
             <div className="zone-meta-divider" />
@@ -581,159 +1093,7 @@ const CustomZoneSidebar = ({
         </div>
       </div>
 
-      {/* Artwork & Heraldry Banner Section */}
-      <div className="custom-zone-section artwork-section">
-        <div className="custom-zone-section-header">
-          <div className="section-title-wrap">
-            <i className="fas fa-image"></i>
-            <h4>Realm Artwork & Heraldry</h4>
-          </div>
-          {zoneImage && (
-            <button
-              type="button"
-              className="zone-remove-img-btn"
-              onClick={handleRemoveImage}
-              title="Remove attached artwork"
-            >
-              <i className="fas fa-trash-can"></i>
-            </button>
-          )}
-        </div>
-
-        {zoneImage ? (
-          <div className="zone-artwork-banner animate-fade-in">
-            <img src={zoneImage} alt={zone.name || 'Realm artwork'} className="zone-artwork-img" />
-            <div className="zone-artwork-overlay">
-              <button
-                type="button"
-                className="zone-change-img-btn"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <i className="fas fa-camera"></i> Change Image
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="zone-artwork-empty">
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleImageUpload}
-            />
-            <button
-              type="button"
-              className="zone-upload-btn"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <i className="fas fa-upload"></i> Upload Image File
-            </button>
-            <button
-              type="button"
-              className="zone-url-toggle-btn"
-              onClick={() => setShowImageUrlInput(!showImageUrlInput)}
-            >
-              <i className="fas fa-link"></i> {showImageUrlInput ? 'Cancel URL' : 'Attach via Image URL'}
-            </button>
-
-            {showImageUrlInput && (
-              <form onSubmit={handleApplyImageUrl} className="zone-img-url-form animate-fade-in">
-                <input
-                  type="url"
-                  className="zone-img-url-input"
-                  placeholder="https://.../map-artwork.png"
-                  value={tempImageUrl}
-                  onChange={(e) => setTempImageUrl(e.target.value)}
-                />
-                <button type="submit" className="zone-img-url-submit">
-                  <i className="fas fa-check"></i>
-                </button>
-              </form>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Child Locations inside this Region */}
-      {isPolygon && (
-        <div className="custom-zone-section child-locations-section">
-          <div className="custom-zone-section-header">
-            <div className="section-title-wrap">
-              <i className="fas fa-landmark"></i>
-              <h4>Locations in this Realm</h4>
-            </div>
-            {onAddLocationToRegion && (
-              <button
-                type="button"
-                className="section-add-btn"
-                onClick={() => onAddLocationToRegion(zone.id)}
-                title="Place location on map inside this realm"
-              >
-                <i className="fas fa-plus"></i> Add
-              </button>
-            )}
-          </div>
-
-          {childLocations.length > 0 ? (
-            <div className="child-locations-list">
-              {childLocations.map((loc) => (
-                <div key={loc.id} className="child-location-card">
-                  <div
-                    className="child-location-info"
-                    onClick={() => {
-                      if (onFocusZone) onFocusZone(loc);
-                      if (onSelectZone) onSelectZone(loc.id);
-                    }}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <i className="fas fa-location-dot loc-marker-icon"></i>
-                    <div className="child-location-text">
-                      <strong>{loc.name || 'Unnamed Location'}</strong>
-                      {loc.lore && <p className="child-lore-preview">{loc.lore}</p>}
-                    </div>
-                  </div>
-                  <div className="child-location-actions">
-                    <button
-                      type="button"
-                      className="child-jump-btn"
-                      onClick={() => onFocusZone && onFocusZone(loc)}
-                      title="Jump camera to location"
-                    >
-                      <i className="fas fa-crosshairs"></i>
-                    </button>
-                    <button
-                      type="button"
-                      className="child-delete-btn"
-                      onClick={() => onDeleteZone && onDeleteZone(loc.id)}
-                      title="Delete location"
-                    >
-                      <i className="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="child-locations-empty">
-              <i className="fas fa-map-pin"></i>
-              <p>No locations added to this realm yet.</p>
-              {onAddLocationToRegion && (
-                <button
-                  type="button"
-                  className="empty-add-location-btn"
-                  onClick={() => onAddLocationToRegion(zone.id)}
-                >
-                  <i className="fas fa-plus"></i> Place First Location Here
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Lore and World Notes Editor with Rich Formatting */}
+      {/* Lore and World Notes Editor */}
       <div className="custom-zone-section lore-editor-section">
         <div className="custom-zone-section-header">
           <div className="section-title-wrap">
@@ -745,274 +1105,342 @@ const CustomZoneSidebar = ({
               type="button"
               className={`lore-tab-btn ${loreMode === 'write' ? 'active' : ''}`}
               onClick={() => setLoreMode('write')}
+              title="Editor View Only"
             >
               <i className="fas fa-pen-nib"></i> Write
             </button>
             <button
               type="button"
+              className={`lore-tab-btn ${loreMode === 'split' ? 'active' : ''}`}
+              onClick={() => setLoreMode('split')}
+              title="Side-by-side Editor and Live Codex View"
+            >
+              <i className="fas fa-table-columns"></i> Split
+            </button>
+            <button
+              type="button"
               className={`lore-tab-btn ${loreMode === 'preview' ? 'active' : ''}`}
               onClick={() => setLoreMode('preview')}
+              title="Codex View Only"
             >
               <i className="fas fa-scroll"></i> Codex View
             </button>
           </div>
         </div>
 
-        {loreMode === 'write' ? (
-          <>
-            {/* Rich Markdown Formatting Toolbar */}
-            <div className="lore-format-toolbar">
-              {/* ── Row 1: Inline Formatting ── */}
-              <div className="format-toolbar-row">
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('**', '**')}
-                  title="Bold (**text**)"
-                >
-                  <i className="fas fa-bold"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('*', '*')}
-                  title="Cursive / Italic (*text*)"
-                >
-                  <i className="fas fa-italic"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('<u>', '</u>')}
-                  title="Underline (<u>text</u>)"
-                >
-                  <i className="fas fa-underline"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('~~', '~~')}
-                  title="Strikethrough (~~text~~)"
-                >
-                  <i className="fas fa-strikethrough"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('==', '==')}
-                  title="Highlight (==text==)"
-                >
-                  <i className="fas fa-highlighter"></i>
-                </button>
-                <span className="format-divider" />
-                <button
-                  type="button"
-                  className="format-btn font-cinzel"
-                  onClick={() => insertFormatting('# ')}
-                  title="Header 1 (# Title)"
-                >
-                  H1
-                </button>
-                <button
-                  type="button"
-                  className="format-btn font-cinzel"
-                  onClick={() => insertFormatting('## ')}
-                  title="Header 2 (## Subtitle)"
-                >
-                  H2
-                </button>
-                <button
-                  type="button"
-                  className="format-btn font-cinzel"
-                  onClick={() => insertFormatting('### ')}
-                  title="Header 3 (### Section)"
-                >
-                  H3
-                </button>
-                <span className="format-divider" />
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('- ')}
-                  title="Bullet list (- Item)"
-                >
-                  <i className="fas fa-list-ul"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('1. ')}
-                  title="Numbered list (1. Item)"
-                >
-                  <i className="fas fa-list-ol"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('> ')}
-                  title="Chronicle / Quote (> Quote)"
-                >
-                  <i className="fas fa-quote-left"></i>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn"
-                  onClick={() => insertFormatting('\n---\n')}
-                  title="Divider (---)"
-                >
-                  <i className="fas fa-minus"></i>
-                </button>
-              </div>
-
-              {/* ── Row 2: TTRPG Blocks ── */}
-              <div className="format-toolbar-row ttrpg-blocks-row">
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::readaloud
-The air grows heavy as you step through the ancient doorway. Torchlight flickers across walls covered in faded murals, and somewhere in the darkness ahead, you hear the slow drip of water echoing through stone corridors.
-:::`
-                  )}
-                  title="Read Aloud — Boxed text the GM reads to players"
-                >
-                  <i className="fas fa-book-open-reader"></i>
-                  <span className="ttrpg-btn-label">Read Aloud</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::statblock Creature Name
-Type: Medium humanoid, neutral evil
-HP: 27
-Mana: 15
-AP: 3
-Speed: 30 ft.
----
-STR: 10
-AGI: 14
-CON: 12
-INT: 10
-SPI: 8
-CHA: 8
----
-Skills: Stealth +6, Perception +2
-Senses: Darkvision 60 ft.
-Languages: Common, Goblin
-Resist: cold 50
-:::`
-                  )}
-                  title="Stat Block — Creature or NPC stat summary"
-                >
-                  <i className="fas fa-shield-halved"></i>
-                  <span className="ttrpg-btn-label">Stats</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::dmnote
-The merchant is secretly a cultist of the Void Serpent. If the players succeed on a DC 15 Insight check, they notice his ring bears the cult's sigil. He will attempt to flee if confronted.
-:::`
-                  )}
-                  title="DM Secret — Hidden note only the DM sees"
-                >
-                  <i className="fas fa-eye-slash"></i>
-                  <span className="ttrpg-btn-label">DM Note</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::quest The Missing Caravan
-Objective: Investigate the disappearance of merchant caravans along the northern trade road
-Difficulty: Medium (Party Level 3-5)
-Reward: 200 gp per party member, favor with the Merchant Guild
-Patron: Guildmaster Aldric Thorne
-- Speak with the last surviving driver at the Broken Wheel Inn
-- Track the bandits to their hideout in the Thornwood
-- Recover the stolen goods and rescue any survivors
-:::`
-                  )}
-                  title="Quest Hook — Adventure hook or objective"
-                >
-                  <i className="fas fa-scroll"></i>
-                  <span className="ttrpg-btn-label">Quest</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::npc Innkeeper Marta
-Race: Human
-Class: Commoner
-Alignment: Neutral Good
-Personality: Warm and talkative, always wiping down the bar
-Voice: Gravelly alto, laughs loudly
-Secret: Hides a fugitive mage in the cellar
-- "Welcome to the Gilded Flagon! Sit down, you look half-dead."
-- "Strange folk been comin' through lately. Armed to the teeth, they were."
-:::`
-                  )}
-                  title="NPC — Character dialogue or profile"
-                >
-                  <i className="fas fa-masks-theater"></i>
-                  <span className="ttrpg-btn-label">NPC</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::loot Dragon's Hoard
-- Flame Tongue Longsword (+1, deals extra 2d6 fire)
-- Potion of Greater Healing (4d4+4 HP)
-- 350 gold pieces
-- Scroll of Fireball (3rd level)
-- Amulet of Proof Against Detection
-Rarity: Rare
-Source: Ancient Red Dragon's Lair
-:::`
-                  )}
-                  title="Loot / Treasure — Items, rewards, treasure hoard"
-                >
-                  <i className="fas fa-gem"></i>
-                  <span className="ttrpg-btn-label">Loot</span>
-                </button>
-                <button
-                  type="button"
-                  className="format-btn ttrpg-block-btn"
-                  onClick={() => insertTemplate(
-`:::scroll Arcane Ward of Binding
-School: Abjuration
-Level: 5th
-This ancient ward seals the passage to the lower crypts. It can only be broken by speaking the true name of the lich who placed it, or by casting Dispel Magic at 7th level or higher.
-:::`
-                  )}
-                  title="Scroll Callout — Magical or arcane callout"
-                >
-                  <i className="fas fa-wand-sparkles"></i>
-                  <span className="ttrpg-btn-label">Scroll</span>
-                </button>
-              </div>
+        {/* Markdown Toolbar (rendered in Write and Split modes) */}
+        {loreMode !== 'preview' && (
+          <div className="lore-format-toolbar">
+            {/* ── Row 1: Inline Formatting ── */}
+            <div className="format-toolbar-row">
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('**', '**')}
+                title="Bold (**text**)"
+              >
+                <i className="fas fa-bold"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('*', '*')}
+                title="Cursive / Italic (*text*)"
+              >
+                <i className="fas fa-italic"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('<u>', '</u>')}
+                title="Underline (<u>text</u>)"
+              >
+                <i className="fas fa-underline"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('~~', '~~')}
+                title="Strikethrough (~~text~~)"
+              >
+                <i className="fas fa-strikethrough"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('==', '==')}
+                title="Highlight (==text==)"
+              >
+                <i className="fas fa-highlighter"></i>
+              </button>
+              <span className="format-divider" />
+              <button
+                type="button"
+                className="format-btn font-cinzel"
+                onClick={() => insertFormatting('# ')}
+                title="Header 1 (# Title)"
+              >
+                H1
+              </button>
+              <button
+                type="button"
+                className="format-btn font-cinzel"
+                onClick={() => insertFormatting('## ')}
+                title="Header 2 (## Subtitle)"
+              >
+                H2
+              </button>
+              <button
+                type="button"
+                className="format-btn font-cinzel"
+                onClick={() => insertFormatting('### ')}
+                title="Header 3 (### Section)"
+              >
+                H3
+              </button>
+              <span className="format-divider" />
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('- ')}
+                title="Bullet list (- Item)"
+              >
+                <i className="fas fa-list-ul"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('1. ')}
+                title="Numbered list (1. Item)"
+              >
+                <i className="fas fa-list-ol"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('> ')}
+                title="Chronicle Quote (> Quote)"
+              >
+                <i className="fas fa-quote-left"></i>
+              </button>
+              <button
+                type="button"
+                className="format-btn"
+                onClick={() => insertFormatting('\n---\n')}
+                title="Divider (---)"
+              >
+                <i className="fas fa-minus"></i>
+              </button>
             </div>
 
-            <textarea
-              ref={textareaRef}
-              className="custom-zone-lore-textarea"
-              value={zone.lore || ''}
-              placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nTTRPG Blocks:\n:::readaloud\nThe cavern opens before you...\n:::\n\n:::statblock Goblin Shaman\nHP: 27\nMana: 15\nAP: 3\nSpeed: 30 ft.\nSTR: 8\nAGI: 14\nCON: 12\nINT: 10\nSPI: 15\nCHA: 8\n:::"}
-              rows={10}
-              onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
-              aria-label="Zone lore notes"
-            />
-          </>
-        ) : (
+            {/* ── Row 2: Mythrill Codex Blocks ── */}
+            <div className="format-toolbar-row ttrpg-blocks-row">
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::readaloud
+Frost clings to the ironwood beams as the heavy gates groan inward. Beyond the threshold, the warmth of an ancient thermal vent battles the biting mountain gale, mist swirling around stone monoliths etched with slumbering runes.
+:::`
+                )}
+                title="Read Aloud — Narrative text read to players"
+              >
+                <i className="fas fa-book-open-reader"></i>
+                <span className="ttrpg-btn-label">Read Aloud</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::statblock Jutul Ice-Stalker
+Classification: Primordial Beast (Tundra Predator)
+Threat: Elite (Tier 2)
+HP: 85
+Mana: 30
+AP: 4
+Speed: 40 ft.
+Armor: 14 (Glacial Hide)
+Resist: Rime 75%, Physical 20%
+Weakness: Ember
+---
+STR: 16
+AGI: 14
+CON: 15
+INT: 6
+SPI: 12
+CHA: 5
+---
+Skills: Athletics +6, Stealth +4 (Snow)
+Senses: Tremorsense 30 ft.
+---
+Passive - Frost-Camouflage: Advantage on Agility (Stealth) in blizzards and deep snow.
+Action (2 AP) - Rime-Claw Sweep: 2d8 + 3 Physical damage plus 1d6 Rime damage. Target must succeed on CON 13 or suffer Frost-Strain.
+Reaction (1 AP) - Glacial Roar: When struck in melee, unleash a chilling blast dealing 1d6 Rime damage and knocking adjacent foes back 10 ft.
+:::`
+                )}
+                title="Stat Block — Mythrill creature or NPC stats"
+              >
+                <i className="fas fa-shield-halved"></i>
+                <span className="ttrpg-btn-label">Stats</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::gmnote
+The caravan master is secretly an agent of the 7th House, bearing the Watcher's Spark beneath their hood. A Spirit (Perception) contest against their Charisma (Deception 14) reveals the counterfeit monolith key sewn into their cloak hem.
+:::`
+                )}
+                title="GM Note — Hidden notes only the GM sees"
+              >
+                <i className="fas fa-eye-slash"></i>
+                <span className="ttrpg-btn-label">GM Note</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::quest Recovery at Blizzard's End
+Patron: High Thane Thorvald of Nordhalla
+Objective: Retrieve three dormant Runed Crystals from the frost-shattered ridge before the storm converges.
+Difficulty: High (Party Level 4-6)
+Reward: 350 Gold, 2 Healing Tonics, Thane's Favor
+- Survey the shattered ice ravine for glowing thermal fissures
+- Slay or bypass the roosting Glacier Wyrms
+- Secure the Runed Crystals in cold-iron containment cases
+:::`
+                )}
+                title="Quest Hook — Objectives and rewards"
+              >
+                <i className="fas fa-scroll"></i>
+                <span className="ttrpg-btn-label">Quest</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::npc Vespera, Frostwood Wayfinder
+Ancestry: Thalren Human
+Affiliation: Frostwood Watchers
+Disposition: Cautious, fiercely protective of thermal bogs
+Voice: Low and measured, pauses to listen between sentences
+Secret: Knows the hidden cavern route bypassing the Imperial blockade.
+- "Keep your lanterns hooded. The fog remembers what you say, but the cold takes what you carry."
+- "If the ice begins to glow amber, don't run. That means the shell is venting below us."
+:::`
+                )}
+                title="NPC — Character profile, dialogue, and secrets"
+              >
+                <i className="fas fa-user"></i>
+                <span className="ttrpg-btn-label">NPC</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::loot Vault of the Sun-Seekers
+- Hearth-Forged Greatsword (+1d6 Ember damage, sheds thermal warmth in 10 ft. radius)
+- 3x Flawless Sun-Gems (Valued at 150 Gold each)
+- Draught of Vitality (Restores 25 Mana and clears Frost-Strain)
+- Inscribed Cold-Iron Shield (Rime Resistance 25%)
+Origin: Pre-Shattering Solari Cache
+Guarded By: Vaettir Earth-Guardian
+:::`
+                )}
+                title="Loot — Treasures, items, and artifacts"
+              >
+                <i className="fas fa-gem"></i>
+                <span className="ttrpg-btn-label">Loot</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::spell Cinderward of the Solari
+School: Ember
+Casting Cost: 2 AP, 15 Mana
+Range: 30 ft. (Single Ally or Self)
+Duration: 3 Rounds
+Effect: Wraps the target in a shimmering mantle of solar heat. The target gains 20 Temporary HP and deals 1d8 Ember damage to any attacker who strikes them in melee.
+:::`
+                )}
+                title="Spell — Mythrill spell or scroll"
+              >
+                <i className="fas fa-wand-sparkles"></i>
+                <span className="ttrpg-btn-label">Spell</span>
+              </button>
+
+              <button
+                type="button"
+                className="format-btn ttrpg-block-btn"
+                onClick={() => insertTemplate(
+`:::hazard Glacial Rime-Vents
+Severity: Deadly
+Trigger: Stepping within 15 ft. of the steaming fissure or triggering a rockslide
+Save: CON 14 vs Frost-Strain
+Damage: 3d6 Rime damage on failure, half on success
+Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed by 10 ft. until rested near a thermal source.
+:::`
+                )}
+                title="Hazard — Environmental hazards and terrain effects"
+              >
+                <i className="fas fa-triangle-exclamation"></i>
+                <span className="ttrpg-btn-label">Hazard</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── View Modes: Write, Split, Codex View ── */}
+        {loreMode === 'write' && (
+          <textarea
+            ref={textareaRef}
+            className="custom-zone-lore-textarea"
+            value={zone.lore || ''}
+            placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nMythrill Codex Blocks:\n:::readaloud\nThe heavy ironwood gate creaks open...\n:::\n\n:::statblock Jutul Ice-Stalker\nClassification: Primordial Beast\nHP: 85\nMana: 30\nAP: 4\nSpeed: 40 ft.\nArmor: 14\nResist: Rime (Grade III - 75%), Physical (Grade I - 25%)\nSTR: 16\nAGI: 14\nCON: 15\nINT: 6\nSPI: 12\nCHA: 5\n:::\n\n:::quest Recovery at Blizzard's End\nPatron: High Thane Thorvald\nObjective: Recover the dormant Aex Shards\nReward: 350 Gold, 2 Healing Tonics\n- Survey the ice ravine\n- Bypass Glacier Wyrms\n:::"}
+            rows={12}
+            onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
+            aria-label="Zone lore notes"
+          />
+        )}
+
+        {loreMode === 'split' && (
+          <div className="lore-split-container">
+            <div className="lore-split-pane lore-split-write">
+              <textarea
+                ref={textareaRef}
+                className="custom-zone-lore-textarea lore-split-textarea"
+                value={zone.lore || ''}
+                placeholder="Type your markdown and codex blocks here..."
+                rows={12}
+                onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
+                aria-label="Zone lore editor (split mode)"
+              />
+            </div>
+            <div className="lore-split-pane lore-split-preview">
+              <div className="lore-preview-container lore-split-preview-inner">
+                {zone.lore?.trim() ? (
+                  renderLoreMarkdown(zone.lore)
+                ) : (
+                  <p className="lore-preview-empty">Type in the editor to see real-time Codex formatting.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {loreMode === 'preview' && (
           <div className="lore-preview-container">
             {zone.lore?.trim() ? (
               renderLoreMarkdown(zone.lore)
             ) : (
-              <p className="lore-preview-empty">No lore documented yet. Switch to Write mode to craft chronicles.</p>
+              <p className="lore-preview-empty">No lore documented yet. Switch to Write or Split mode to craft chronicles.</p>
             )}
           </div>
         )}
@@ -1047,6 +1475,193 @@ This ancient ward seals the passage to the lower crypts. It can only be broken b
           ))}
         </div>
       </div>
+
+      {/* Campaign Asset Picker Modal */}
+      {showCampaignPicker && (
+        <div className="modal-overlay campaign-picker-modal-overlay" onClick={() => setShowCampaignPicker(false)}>
+          <div className="campaign-picker-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="campaign-picker-header">
+              <div className="header-title">
+                <i className="fas fa-scroll"></i>
+                <h3>Import from Campaign: {currentCampaign?.name || 'Active Campaign'}</h3>
+              </div>
+              <button type="button" className="picker-close-btn" onClick={() => setShowCampaignPicker(false)} aria-label="Close campaign import modal">
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            {/* Tab navigation */}
+            <div className="campaign-picker-tabs">
+              <button
+                type="button"
+                className={`picker-tab ${campaignTab === 'npcs' ? 'active' : ''}`}
+                onClick={() => setCampaignTab('npcs')}
+              >
+                <i className="fas fa-users"></i> NPCs ({campaignNPCs.length})
+              </button>
+              <button
+                type="button"
+                className={`picker-tab ${campaignTab === 'locations' ? 'active' : ''}`}
+                onClick={() => setCampaignTab('locations')}
+              >
+                <i className="fas fa-mountain-sun"></i> Locations ({campaignLocations.length})
+              </button>
+              <button
+                type="button"
+                className={`picker-tab ${campaignTab === 'plots' ? 'active' : ''}`}
+                onClick={() => setCampaignTab('plots')}
+              >
+                <i className="fas fa-scroll"></i> Quests & Plots ({campaignPlots.length})
+              </button>
+              <button
+                type="button"
+                className={`picker-tab ${campaignTab === 'lore' ? 'active' : ''}`}
+                onClick={() => setCampaignTab('lore')}
+              >
+                <i className="fas fa-book"></i> Lore ({campaignLore.length})
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="campaign-picker-search">
+              <i className="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder={`Search ${campaignTab}...`}
+                value={campaignSearch}
+                onChange={(e) => setCampaignSearch(e.target.value)}
+                autoFocus
+              />
+            </div>
+
+            {/* Items list */}
+            <div className="campaign-picker-list">
+              {/* NPC Tab */}
+              {campaignTab === 'npcs' && (
+                campaignNPCs.filter(n => !campaignSearch || n.name?.toLowerCase().includes(campaignSearch.toLowerCase()) || n.description?.toLowerCase().includes(campaignSearch.toLowerCase())).length > 0 ? (
+                  campaignNPCs
+                    .filter(n => !campaignSearch || n.name?.toLowerCase().includes(campaignSearch.toLowerCase()) || n.description?.toLowerCase().includes(campaignSearch.toLowerCase()))
+                    .map(npc => (
+                      <div key={npc.id} className="campaign-item-card" onClick={() => handleImportCampaignItem('npc', npc)}>
+                        <div className="item-thumb">
+                          {npc.image ? <img src={npc.image} alt={npc.name} /> : <i className="fas fa-user"></i>}
+                        </div>
+                        <div className="item-info">
+                          <h4>{npc.name}</h4>
+                          <div className="item-badges">
+                            <span className="item-badge">{npc.relationship || 'Neutral'}</span>
+                            <span className="item-badge">{npc.location || 'Roaming'}</span>
+                          </div>
+                          <p className="item-desc">{npc.description || npc.notes || 'No description recorded.'}</p>
+                        </div>
+                        <button type="button" className="btn-import-select">
+                          <i className="fas fa-plus"></i> Import
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <div className="picker-empty-state">
+                    <i className="fas fa-user-slash"></i>
+                    <p>No NPCs found in campaign.</p>
+                  </div>
+                )
+              )}
+
+              {/* Locations Tab */}
+              {campaignTab === 'locations' && (
+                campaignLocations.filter(l => !campaignSearch || l.name?.toLowerCase().includes(campaignSearch.toLowerCase()) || l.description?.toLowerCase().includes(campaignSearch.toLowerCase())).length > 0 ? (
+                  campaignLocations
+                    .filter(l => !campaignSearch || l.name?.toLowerCase().includes(campaignSearch.toLowerCase()) || l.description?.toLowerCase().includes(campaignSearch.toLowerCase()))
+                    .map(loc => (
+                      <div key={loc.id} className="campaign-item-card" onClick={() => handleImportCampaignItem('location', loc)}>
+                        <div className="item-thumb">
+                          {loc.image ? <img src={loc.image} alt={loc.name} /> : <i className="fas fa-map-marker-alt"></i>}
+                        </div>
+                        <div className="item-info">
+                          <h4>{loc.name}</h4>
+                          <div className="item-badges">
+                            <span className="item-badge">{loc.type || 'Location'}</span>
+                            <span className="item-badge">{loc.region || 'Unknown Realm'}</span>
+                          </div>
+                          <p className="item-desc">{loc.description || loc.notableFeatures || 'No description.'}</p>
+                        </div>
+                        <button type="button" className="btn-import-select">
+                          <i className="fas fa-plus"></i> Import
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <div className="picker-empty-state">
+                    <i className="fas fa-map-pin"></i>
+                    <p>No campaign locations found.</p>
+                  </div>
+                )
+              )}
+
+              {/* Plots / Quests Tab */}
+              {campaignTab === 'plots' && (
+                campaignPlots.filter(p => !campaignSearch || p.title?.toLowerCase().includes(campaignSearch.toLowerCase()) || p.description?.toLowerCase().includes(campaignSearch.toLowerCase())).length > 0 ? (
+                  campaignPlots
+                    .filter(p => !campaignSearch || p.title?.toLowerCase().includes(campaignSearch.toLowerCase()) || p.description?.toLowerCase().includes(campaignSearch.toLowerCase()))
+                    .map(plot => (
+                      <div key={plot.id} className="campaign-item-card" onClick={() => handleImportCampaignItem('plot', plot)}>
+                        <div className="item-thumb">
+                          {plot.image ? <img src={plot.image} alt={plot.title} /> : <i className="fas fa-scroll"></i>}
+                        </div>
+                        <div className="item-info">
+                          <h4>{plot.title}</h4>
+                          <div className="item-badges">
+                            <span className="item-badge">{plot.status || 'Active'}</span>
+                            <span className="item-badge">{plot.priority || 'Medium'}</span>
+                          </div>
+                          <p className="item-desc">{plot.description || plot.notes || 'No notes.'}</p>
+                        </div>
+                        <button type="button" className="btn-import-select">
+                          <i className="fas fa-plus"></i> Import
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <div className="picker-empty-state">
+                    <i className="fas fa-scroll"></i>
+                    <p>No quests or plot threads found.</p>
+                  </div>
+                )
+              )}
+
+              {/* Lore Tab */}
+              {campaignTab === 'lore' && (
+                campaignLore.filter(l => !campaignSearch || l.title?.toLowerCase().includes(campaignSearch.toLowerCase()) || l.description?.toLowerCase().includes(campaignSearch.toLowerCase())).length > 0 ? (
+                  campaignLore
+                    .filter(l => !campaignSearch || l.title?.toLowerCase().includes(campaignSearch.toLowerCase()) || l.description?.toLowerCase().includes(campaignSearch.toLowerCase()))
+                    .map(loreItem => (
+                      <div key={loreItem.id} className="campaign-item-card" onClick={() => handleImportCampaignItem('lore', loreItem)}>
+                        <div className="item-thumb">
+                          {loreItem.image ? <img src={loreItem.image} alt={loreItem.title} /> : <i className="fas fa-book"></i>}
+                        </div>
+                        <div className="item-info">
+                          <h4>{loreItem.title}</h4>
+                          <div className="item-badges">
+                            <span className="item-badge">{loreItem.category || 'Chronicle'}</span>
+                          </div>
+                          <p className="item-desc">{loreItem.description || loreItem.notes || 'No description.'}</p>
+                        </div>
+                        <button type="button" className="btn-import-select">
+                          <i className="fas fa-plus"></i> Import
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <div className="picker-empty-state">
+                    <i className="fas fa-book-open"></i>
+                    <p>No homebrew lore entries found.</p>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 };

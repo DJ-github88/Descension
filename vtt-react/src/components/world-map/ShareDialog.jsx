@@ -85,7 +85,7 @@ const ShareDialog = ({
               className="form-input"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="e.g. Check out this goblin camp in the Frostwood!"
+              placeholder="e.g. Check out this Jutul encampment in the Frostwood!"
               disabled={friends.length === 0}
             />
           </div>

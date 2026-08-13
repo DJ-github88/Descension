@@ -1219,64 +1219,149 @@ const CampaignManager = ({ user }) => {
               {(campaignData.npcs || []).length > 0 ? (
                 (campaignData.npcs || []).map(npc => (
                   <div key={npc.id} className="content-card npc-card">
-                    <div className="card-header">
-                      <input
-                        type="text"
-                        value={npc.name}
-                        onChange={(e) => updateNPC(npc.id, { name: e.target.value })}
-                        className="card-title-input"
-                      />
-                      <button className="remove-btn" onClick={() => removeNPC(npc.id)}>
-                        <i className="fas fa-times"></i>
-                      </button>
-                    </div>
-                    <div className="card-body">
-                      <textarea
-                        value={npc.description}
-                        onChange={(e) => updateNPC(npc.id, { description: e.target.value })}
-                        placeholder="Physical description, personality..."
-                        rows={2}
-                      />
-                      <div className="field-row">
-                        <input
-                          type="text"
-                          value={npc.location}
-                          onChange={(e) => updateNPC(npc.id, { location: e.target.value })}
-                          placeholder="Location..."
-                          className="small-input"
-                        />
-                        <select
-                          value={npc.relationship}
-                          onChange={(e) => updateNPC(npc.id, { relationship: e.target.value })}
-                          className="small-select"
-                        >
-                          <option value="ally">Ally</option>
-                          <option value="neutral">Neutral</option>
-                          <option value="enemy">Enemy</option>
-                        </select>
-                        <select
-                          value={npc.plotRelevance}
-                          onChange={(e) => updateNPC(npc.id, { plotRelevance: e.target.value })}
-                          className="small-select"
-                        >
-                          <option value="major">Major</option>
-                          <option value="moderate">Moderate</option>
-                          <option value="minor">Minor</option>
-                        </select>
+                    <div className="card-hero-row">
+                      <div className="card-media-hero portrait-hero">
+                        {npc.image ? (
+                          <div className="media-hero-preview portrait">
+                            <img src={npc.image} alt={npc.name} />
+                            <div className="media-hover-overlay">
+                              <label className="media-change-btn" title="Change portrait">
+                                <i className="fas fa-camera"></i> Change
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      const reader = new FileReader();
+                                      reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                              <button
+                                type="button"
+                                className="media-clear-btn-pill"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateNPC(npc.id, { image: null });
+                                }}
+                                title="Remove portrait"
+                              >
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <label className="media-hero-placeholder portrait" title="Upload portrait image">
+                            <i className="fas fa-user-plus"></i>
+                            <span>Add Portrait</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              style={{ display: 'none' }}
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </label>
+                        )}
                       </div>
-                      <textarea
-                        value={npc.notes}
-                        onChange={(e) => updateNPC(npc.id, { notes: e.target.value })}
-                        placeholder="Plot hooks, secrets..."
-                        rows={2}
-                      />
+
+                      <div className="card-header-fields">
+                        <div className="card-field-header-top">
+                          <div className="field-group flex-1">
+                            <label className="field-label"><i className="fas fa-user-tag"></i> Character Name</label>
+                            <input
+                              type="text"
+                              value={npc.name}
+                              onChange={(e) => updateNPC(npc.id, { name: e.target.value })}
+                              className="card-title-input full-width"
+                              placeholder="Name / Alias..."
+                            />
+                          </div>
+                          <button className="remove-card-btn" onClick={() => removeNPC(npc.id)} title="Delete NPC">
+                            <i className="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-map-marker-alt"></i> Location</label>
+                          <input
+                            type="text"
+                            value={npc.location}
+                            onChange={(e) => updateNPC(npc.id, { location: e.target.value })}
+                            placeholder="e.g. Ironforge Tavern..."
+                            className="card-field-input"
+                          />
+                        </div>
+
+                        <div className="card-meta-grid-2col">
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-shield-halved"></i> Attitude</label>
+                            <select
+                              value={npc.relationship || 'neutral'}
+                              onChange={(e) => updateNPC(npc.id, { relationship: e.target.value })}
+                              className="card-field-select"
+                            >
+                              <option value="ally">Ally</option>
+                              <option value="neutral">Neutral</option>
+                              <option value="enemy">Enemy</option>
+                              <option value="unknown">Unknown</option>
+                            </select>
+                          </div>
+                          <div className="field-group">
+                            <label className="field-label"><i className="fas fa-star"></i> Importance</label>
+                            <select
+                              value={npc.plotRelevance || 'moderate'}
+                              onChange={(e) => updateNPC(npc.id, { plotRelevance: e.target.value })}
+                              className="card-field-select"
+                            >
+                              <option value="major">Major</option>
+                              <option value="moderate">Moderate</option>
+                              <option value="minor">Minor</option>
+                              <option value="background">Background</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card-body-fields">
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-feather-pointed"></i> Physical Description & Persona</label>
+                        <textarea
+                          value={npc.description}
+                          onChange={(e) => updateNPC(npc.id, { description: e.target.value })}
+                          placeholder="Physical description, personality, tone of voice, quirks..."
+                          rows={2}
+                          className="card-field-textarea"
+                        />
+                      </div>
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-key"></i> GM Secrets, Plot Hooks & Notes</label>
+                        <textarea
+                          value={npc.notes}
+                          onChange={(e) => updateNPC(npc.id, { notes: e.target.value })}
+                          placeholder="Plot hooks, secrets, quest connections, inventory..."
+                          rows={2}
+                          className="card-field-textarea"
+                        />
+                      </div>
                     </div>
                   </div>
                 ))
               ) : (
                 <div className="empty-state">
                   <i className="fas fa-user-plus"></i>
-                  <p>No NPCs created yet. Add NPCs to track relationships!</p>
+                  <p>No NPCs created yet. Add NPCs to track relationships and portraits!</p>
                 </div>
               )}
             </div>
@@ -1296,51 +1381,130 @@ const CampaignManager = ({ user }) => {
               {(campaignData.locations || []).length > 0 ? (
                 (campaignData.locations || []).map(location => (
                   <div key={location.id} className="content-card location-card">
-                    <div className="card-header">
-                      <input
-                        type="text"
-                        value={location.name}
-                        onChange={(e) => updateLocation(location.id, { name: e.target.value })}
-                        className="card-title-input"
-                      />
-                      <button className="remove-btn" onClick={() => removeLocation(location.id)}>
-                        <i className="fas fa-times"></i>
-                      </button>
+                    {/* Top Hero Banner */}
+                    <div className="card-media-banner-container">
+                      {location.image ? (
+                        <div className="media-banner-preview">
+                          <img src={location.image} alt={location.name} />
+                          <div className="media-hover-overlay">
+                            <label className="media-change-btn" title="Change artwork">
+                              <i className="fas fa-camera"></i> Change Artwork
+                              <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                            </label>
+                            <button
+                              type="button"
+                              className="media-clear-btn-pill"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateLocation(location.id, { image: null });
+                              }}
+                              title="Remove artwork"
+                            >
+                              <i className="fas fa-trash-alt"></i> Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="media-banner-placeholder" title="Upload location artwork or map">
+                          <i className="fas fa-mountain-sun"></i>
+                          <span>Upload Location Artwork or Regional Map</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                      )}
                     </div>
-                    <div className="card-body">
-                      <textarea
-                        value={location.description}
-                        onChange={(e) => updateLocation(location.id, { description: e.target.value })}
-                        placeholder="Describe the location..."
-                        rows={2}
-                      />
-                      <div className="field-row">
-                        <select
-                          value={location.type}
-                          onChange={(e) => updateLocation(location.id, { type: e.target.value })}
-                          className="small-select"
-                        >
-                          <option value="city">City</option>
-                          <option value="town">Town</option>
-                          <option value="village">Village</option>
-                          <option value="dungeon">Dungeon</option>
-                          <option value="landmark">Landmark</option>
-                          <option value="wilderness">Wilderness</option>
-                        </select>
-                        <input
-                          type="text"
-                          value={location.region}
-                          onChange={(e) => updateLocation(location.id, { region: e.target.value })}
-                          placeholder="Region..."
-                          className="small-input"
+
+                    <div className="card-header-fields">
+                      <div className="card-field-header-top">
+                        <div className="field-group flex-1">
+                          <label className="field-label"><i className="fas fa-landmark"></i> Location Name</label>
+                          <input
+                            type="text"
+                            value={location.name}
+                            onChange={(e) => updateLocation(location.id, { name: e.target.value })}
+                            className="card-title-input full-width"
+                            placeholder="Location name..."
+                          />
+                        </div>
+                        <button className="remove-card-btn" onClick={() => removeLocation(location.id)} title="Delete Location">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+
+                      <div className="card-meta-grid-2col">
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-shapes"></i> Type</label>
+                          <select
+                            value={location.type || 'city'}
+                            onChange={(e) => updateLocation(location.id, { type: e.target.value })}
+                            className="card-field-select"
+                          >
+                            <option value="city">City</option>
+                            <option value="town">Town</option>
+                            <option value="village">Village</option>
+                            <option value="dungeon">Dungeon</option>
+                            <option value="fortress">Fortress</option>
+                            <option value="landmark">Landmark</option>
+                            <option value="wilderness">Wilderness</option>
+                          </select>
+                        </div>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-map-location-dot"></i> Region / Realm</label>
+                          <input
+                            type="text"
+                            value={location.region}
+                            onChange={(e) => updateLocation(location.id, { region: e.target.value })}
+                            placeholder="e.g. Nordhalla..."
+                            className="card-field-input"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card-body-fields">
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-align-left"></i> Description & Atmosphere</label>
+                        <textarea
+                          value={location.description}
+                          onChange={(e) => updateLocation(location.id, { description: e.target.value })}
+                          placeholder="Describe the atmosphere, environment, smells, architecture..."
+                          rows={2}
+                          className="card-field-textarea"
                         />
                       </div>
-                      <textarea
-                        value={location.notableFeatures}
-                        onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
-                        placeholder="Notable features..."
-                        rows={2}
-                      />
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-compass"></i> Notable Landmarks & Features</label>
+                        <textarea
+                          value={location.notableFeatures}
+                          onChange={(e) => updateLocation(location.id, { notableFeatures: e.target.value })}
+                          placeholder="Taverns, guilds, districts, monuments, dungeon entrances..."
+                          rows={2}
+                          className="card-field-textarea"
+                        />
+                      </div>
                     </div>
                   </div>
                 ))
@@ -1367,94 +1531,106 @@ const CampaignManager = ({ user }) => {
               {(campaignData.quests || []).length > 0 ? (
                 (campaignData.quests || []).map(quest => (
                   <div key={quest.id} className="content-card quest-card">
-                    <div className="card-header">
-                      <span className={`quest-type-badge ${quest.type}`}>{quest.type}</span>
-                      <input
-                        type="text"
-                        value={quest.title}
-                        onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
-                        className="card-title-input"
-                        style={{ maxWidth: '250px' }}
-                      />
-                      <select
-                        value={quest.status}
-                        onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
-                        className="status-select"
-                      >
-                        <option value="not-started">Not Started</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="failed">Failed</option>
-                      </select>
-                      <select
-                        value={quest.priority}
-                        onChange={(e) => updateQuest(quest.id, { priority: e.target.value })}
-                        className={`priority-select priority-${quest.priority}`}
-                      >
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                        <option value="critical">Critical</option>
-                      </select>
-                      <button className="remove-btn" onClick={() => removeQuest(quest.id)}>
-                        <i className="fas fa-trash"></i>
+                    <div className="card-field-header-top">
+                      <div className="field-group flex-1">
+                        <label className="field-label"><i className="fas fa-scroll"></i> Quest Title</label>
+                        <input
+                          type="text"
+                          value={quest.title}
+                          onChange={(e) => updateQuest(quest.id, { title: e.target.value })}
+                          className="card-title-input full-width"
+                          placeholder="Quest title..."
+                        />
+                      </div>
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-diagram-project"></i> Status</label>
+                        <select
+                          value={quest.status || 'not-started'}
+                          onChange={(e) => updateQuest(quest.id, { status: e.target.value })}
+                          className="card-field-select"
+                        >
+                          <option value="not-started">Not Started</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                          <option value="failed">Failed</option>
+                        </select>
+                      </div>
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-flag"></i> Priority</label>
+                        <select
+                          value={quest.priority || 'medium'}
+                          onChange={(e) => updateQuest(quest.id, { priority: e.target.value })}
+                          className={`card-field-select priority-${quest.priority}`}
+                        >
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                          <option value="critical">Critical</option>
+                        </select>
+                      </div>
+                      <button className="remove-card-btn" onClick={() => removeQuest(quest.id)} title="Delete Quest">
+                        <i className="fas fa-trash-alt"></i>
                       </button>
                     </div>
-                    <div className="card-body">
-                      <div className="field-row">
-                        <div className="field" style={{ flex: 1 }}>
-                          <label>Quest Type</label>
+
+                    <div className="card-body-fields">
+                      <div className="card-meta-grid" style={{ marginBottom: '12px' }}>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-list-check"></i> Quest Type</label>
                           <select
-                            value={quest.type}
+                            value={quest.type || 'main'}
                             onChange={(e) => updateQuest(quest.id, { type: e.target.value })}
-                            className="small-select"
+                            className="card-field-select"
                           >
                             <option value="main">Main Quest</option>
                             <option value="side">Side Quest</option>
                             <option value="bounty">Bounty</option>
                           </select>
                         </div>
-                        <div className="field" style={{ flex: 1 }}>
-                          <label>Quest Giver</label>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-user-pen"></i> Quest Giver</label>
                           <input
                             type="text"
                             value={quest.giver || ''}
                             onChange={(e) => updateQuest(quest.id, { giver: e.target.value })}
-                            placeholder="NPC name..."
-                            className="small-input"
+                            placeholder="NPC or faction..."
+                            className="card-field-input"
                           />
                         </div>
-                        <div className="field" style={{ flex: 1 }}>
-                          <label>Location</label>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-location-dot"></i> Location</label>
                           <input
                             type="text"
                             value={quest.location || ''}
                             onChange={(e) => updateQuest(quest.id, { location: e.target.value })}
                             placeholder="Quest location..."
-                            className="small-input"
+                            className="card-field-input"
                           />
                         </div>
                       </div>
-                      <div className="field">
-                        <label>Description</label>
+
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-book-open"></i> Description & Lore</label>
                         <textarea
                           value={quest.description}
                           onChange={(e) => updateQuest(quest.id, { description: e.target.value })}
                           placeholder="Describe the quest, its background, and what needs to be done..."
-                          rows={3}
+                          rows={2}
+                          className="card-field-textarea"
                         />
                       </div>
-                      <div className="field">
-                        <label>
-                          Objectives
+
+                      <div className="field-group">
+                        <div className="field-label-row">
+                          <label className="field-label"><i className="fas fa-tasks"></i> Objectives</label>
                           <button
+                            type="button"
                             className="mini-add-btn"
                             onClick={() => addQuestObjective(quest.id)}
-                            style={{ marginLeft: '10px', width: '24px', height: '24px', fontSize: '0.7rem' }}
                           >
-                            <i className="fas fa-plus"></i>
+                            <i className="fas fa-plus"></i> Add Objective
                           </button>
-                        </label>
+                        </div>
                         <div className="quest-objectives">
                           {(quest.objectives || []).length > 0 ? (
                             (quest.objectives || []).map(obj => (
@@ -1470,40 +1646,45 @@ const CampaignManager = ({ user }) => {
                                   value={obj.text}
                                   onChange={(e) => updateQuestObjective(quest.id, obj.id, { text: e.target.value })}
                                   placeholder="Objective description..."
-                                  className={`small-input ${obj.completed ? 'completed' : ''}`}
-                                  style={{ flex: 1, textDecoration: obj.completed ? 'line-through' : 'none', opacity: obj.completed ? 0.6 : 1 }}
+                                  className={`card-field-input flex-1 ${obj.completed ? 'completed' : ''}`}
+                                  style={{ textDecoration: obj.completed ? 'line-through' : 'none', opacity: obj.completed ? 0.6 : 1 }}
                                 />
                                 <button
-                                  className="remove-btn"
+                                  type="button"
+                                  className="remove-card-btn mini"
                                   onClick={() => removeQuestObjective(quest.id, obj.id)}
-                                  style={{ width: '24px', height: '24px' }}
                                 >
                                   <i className="fas fa-times"></i>
                                 </button>
                               </div>
                             ))
                           ) : (
-                            <p className="empty-text" style={{ padding: '10px' }}>No objectives yet. Add some!</p>
+                            <p className="empty-text">No objectives yet. Click Add Objective above!</p>
                           )}
                         </div>
                       </div>
-                      <div className="field">
-                        <label>Rewards</label>
-                        <textarea
-                          value={quest.rewards || ''}
-                          onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
-                          placeholder="Gold, items, experience, reputation..."
-                          rows={2}
-                        />
-                      </div>
-                      <div className="field">
-                        <label>DM Notes</label>
-                        <textarea
-                          value={quest.notes || ''}
-                          onChange={(e) => updateQuest(quest.id, { notes: e.target.value })}
-                          placeholder="Private notes, hints, consequences..."
-                          rows={2}
-                        />
+
+                      <div className="card-meta-grid">
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-coins"></i> Rewards</label>
+                          <textarea
+                            value={quest.rewards || ''}
+                            onChange={(e) => updateQuest(quest.id, { rewards: e.target.value })}
+                            placeholder="Gold, items, reputation..."
+                            rows={2}
+                            className="card-field-textarea"
+                          />
+                        </div>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-eye-slash"></i> DM Secrets & Consequences</label>
+                          <textarea
+                            value={quest.notes || ''}
+                            onChange={(e) => updateQuest(quest.id, { notes: e.target.value })}
+                            placeholder="Private notes, hints, consequences..."
+                            rows={2}
+                            className="card-field-textarea"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1527,66 +1708,144 @@ const CampaignManager = ({ user }) => {
                 <i className="fas fa-plus"></i> New Plot Thread
               </button>
             </div>
-            <div className="cards-list">
+            <div className="cards-grid">
               {(campaignData.plotThreads || []).length > 0 ? (
                 (campaignData.plotThreads || []).map(plot => (
                   <div key={plot.id} className="content-card plot-card">
-                    <div className="card-header">
-                      <input
-                        type="text"
-                        value={plot.title}
-                        onChange={(e) => updatePlotThread(plot.id, { title: e.target.value })}
-                        className="card-title-input"
-                      />
-                      <select
-                        value={plot.status}
-                        onChange={(e) => updatePlotThread(plot.id, { status: e.target.value })}
-                        className="status-select"
-                      >
-                        <option value="active">Active</option>
-                        <option value="on-hold">On Hold</option>
-                        <option value="resolved">Resolved</option>
-                        <option value="abandoned">Abandoned</option>
-                      </select>
-                      <select
-                        value={plot.priority}
-                        onChange={(e) => updatePlotThread(plot.id, { priority: e.target.value })}
-                        className={`priority-select priority-${plot.priority}`}
-                      >
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                        <option value="critical">Critical</option>
-                      </select>
-                      <button className="remove-btn" onClick={() => removePlotThread(plot.id)}>
-                        <i className="fas fa-trash"></i>
-                      </button>
+                    {/* Top Hero Banner */}
+                    <div className="card-media-banner-container">
+                      {plot.image ? (
+                        <div className="media-banner-preview">
+                          <img src={plot.image} alt={plot.title} />
+                          <div className="media-hover-overlay">
+                            <label className="media-change-btn" title="Change banner">
+                              <i className="fas fa-camera"></i> Change Banner
+                              <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = (ev) => updatePlotThread(plot.id, { image: ev.target.result });
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                            </label>
+                            <button
+                              type="button"
+                              className="media-clear-btn-pill"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updatePlotThread(plot.id, { image: null });
+                              }}
+                              title="Remove banner"
+                            >
+                              <i className="fas fa-trash-alt"></i> Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="media-banner-placeholder" title="Upload quest/plot artwork">
+                          <i className="fas fa-scroll"></i>
+                          <span>Upload Plot Banner</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (ev) => updatePlotThread(plot.id, { image: ev.target.result });
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                      )}
                     </div>
-                    <div className="card-body">
-                      <textarea
-                        value={plot.description}
-                        onChange={(e) => updatePlotThread(plot.id, { description: e.target.value })}
-                        placeholder="Describe the plot thread..."
-                        rows={3}
-                      />
-                      <div className="field">
-                        <label>Related NPCs</label>
+
+                    <div className="card-header-fields">
+                      <div className="card-field-header-top">
+                        <div className="field-group flex-1">
+                          <label className="field-label"><i className="fas fa-feather"></i> Plot Title</label>
+                          <input
+                            type="text"
+                            value={plot.title}
+                            onChange={(e) => updatePlotThread(plot.id, { title: e.target.value })}
+                            className="card-title-input full-width"
+                            placeholder="Plot thread title..."
+                          />
+                        </div>
+                        <button className="remove-card-btn" onClick={() => removePlotThread(plot.id)} title="Delete Thread">
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+
+                      <div className="card-meta-grid-2col">
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-bars-progress"></i> Status</label>
+                          <select
+                            value={plot.status || 'active'}
+                            onChange={(e) => updatePlotThread(plot.id, { status: e.target.value })}
+                            className="card-field-select"
+                          >
+                            <option value="active">Active</option>
+                            <option value="on-hold">On Hold</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="abandoned">Abandoned</option>
+                          </select>
+                        </div>
+                        <div className="field-group">
+                          <label className="field-label"><i className="fas fa-circle-exclamation"></i> Priority</label>
+                          <select
+                            value={plot.priority || 'medium'}
+                            onChange={(e) => updatePlotThread(plot.id, { priority: e.target.value })}
+                            className={`card-field-select priority-${plot.priority}`}
+                          >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card-body-fields">
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-book-open"></i> Story Arc & Narrative</label>
+                        <textarea
+                          value={plot.description}
+                          onChange={(e) => updatePlotThread(plot.id, { description: e.target.value })}
+                          placeholder="Describe the storyline, underlying conspiracy, stakes..."
+                          rows={2}
+                          className="card-field-textarea"
+                        />
+                      </div>
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-users"></i> Key Characters & Related NPCs</label>
                         <input
                           type="text"
                           value={Array.isArray(plot.relatedNPCs) ? plot.relatedNPCs.join(', ') : ''}
                           onChange={(e) => updatePlotThread(plot.id, {
                             relatedNPCs: e.target.value ? e.target.value.split(',').map(n => n.trim()).filter(n => n) : []
                           })}
-                          placeholder="NPC names (comma-separated)..."
+                          placeholder="e.g. Lord Boros, Captain Valen..."
+                          className="card-field-input"
                         />
                       </div>
-                      <div className="field">
-                        <label>Notes</label>
+                      <div className="field-group">
+                        <label className="field-label"><i className="fas fa-clock-rotate-left"></i> Timeline, Clues & Progression</label>
                         <textarea
                           value={plot.notes}
                           onChange={(e) => updatePlotThread(plot.id, { notes: e.target.value })}
-                          placeholder="Progress, key events..."
+                          placeholder="Key milestones, discovered clues, branching decisions..."
                           rows={2}
+                          className="card-field-textarea"
                         />
                       </div>
                     </div>
@@ -2109,32 +2368,131 @@ const CampaignManager = ({ user }) => {
                     {(campaignData.homebrew?.lore || []).length > 0 ? (
                       (campaignData.homebrew?.lore || []).map(article => (
                         <div key={article.id} className="content-card lore-card">
-                          <div className="card-body">
-                            <div className="integrated-header">
-                              <input type="text" value={article.title} onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })} className="card-title-input" />
-                              <select value={article.category} onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })} className="small-select">
-                                <option value="history">History</option>
-                                <option value="religion">Religion</option>
-                                <option value="faction">Faction</option>
-                                <option value="legend">Legend</option>
-                                <option value="culture">Culture</option>
-                                <option value="geography">Geography</option>
-                                <option value="magic">Magic</option>
-                              </select>
-                              <label className="secret-toggle">
-                                <input type="checkbox" checked={article.isSecret || false} onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })} />
-                                <i className="fas fa-eye-slash"></i>
+                          {/* Top Hero Banner */}
+                          <div className="card-media-banner-container">
+                            {article.image ? (
+                              <div className="media-banner-preview">
+                                <img src={article.image} alt={article.title} />
+                                <div className="media-hover-overlay">
+                                  <label className="media-change-btn" title="Change artwork">
+                                    <i className="fas fa-camera"></i> Change Artwork
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      style={{ display: 'none' }}
+                                      onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                          const reader = new FileReader();
+                                          reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
+                                          reader.readAsDataURL(file);
+                                        }
+                                      }}
+                                    />
+                                  </label>
+                                  <button
+                                    type="button"
+                                    className="media-clear-btn-pill"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      updateLoreArticle(article.id, { image: null });
+                                    }}
+                                    title="Remove lore artwork"
+                                  >
+                                    <i className="fas fa-trash-alt"></i> Remove
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <label className="media-banner-placeholder" title="Upload lore artwork">
+                                <i className="fas fa-book-bookmark"></i>
+                                <span>Upload Lore Banner / Illustration</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      const reader = new FileReader();
+                                      reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                />
                               </label>
-                              <button className="remove-btn" onClick={() => removeLoreArticle(article.id)}><i className="fas fa-times"></i></button>
+                            )}
+                          </div>
+
+                          <div className="card-header-fields">
+                            <div className="card-field-header-top">
+                              <div className="field-group flex-1">
+                                <label className="field-label"><i className="fas fa-book-open"></i> Article Title</label>
+                                <input
+                                  type="text"
+                                  value={article.title}
+                                  onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })}
+                                  className="card-title-input full-width"
+                                  placeholder="Lore title..."
+                                />
+                              </div>
+                              <button className="remove-card-btn" onClick={() => removeLoreArticle(article.id)} title="Delete Article">
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
                             </div>
-                            <textarea value={article.content} onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })} placeholder="Write your lore article here..." rows={6} />
-                            <div className="field">
-                              <label>Tags</label>
+
+                            <div className="card-meta-grid-2col">
+                              <div className="field-group flex-1">
+                                <label className="field-label"><i className="fas fa-layer-group"></i> Category</label>
+                                <select
+                                  value={article.category || 'history'}
+                                  onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })}
+                                  className="card-field-select"
+                                >
+                                  <option value="history">History & Chronicles</option>
+                                  <option value="religion">Religion & Deities</option>
+                                  <option value="faction">Factions & Orders</option>
+                                  <option value="legend">Myths & Legends</option>
+                                  <option value="culture">Cultures & Peoples</option>
+                                  <option value="geography">Geography & Realms</option>
+                                  <option value="magic">Magic & Arcana</option>
+                                </select>
+                              </div>
+                              <div className="field-group" style={{ alignSelf: 'flex-end' }}>
+                                <label className="secret-toggle-pill" title="Mark as GM Secret">
+                                  <input
+                                    type="checkbox"
+                                    checked={article.isSecret || false}
+                                    onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })}
+                                  />
+                                  <i className={`fas ${article.isSecret ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                  <span>{article.isSecret ? 'GM Secret' : 'Public Lore'}</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="card-body-fields">
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-feather-pointed"></i> Chronicle & Codex Content</label>
+                              <textarea
+                                value={article.content}
+                                onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
+                                placeholder="Write the history, mythology, scriptures, or background lore here..."
+                                rows={5}
+                                className="card-field-textarea"
+                              />
+                            </div>
+                            <div className="field-group">
+                              <label className="field-label"><i className="fas fa-tags"></i> Lore Tags & Keywords</label>
                               <input
                                 type="text"
                                 value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
-                                onChange={(e) => updateLoreArticle(article.id, { tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : [] })}
-                                placeholder="Tags (comma-separated)..."
+                                onChange={(e) => updateLoreArticle(article.id, {
+                                  tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
+                                })}
+                                placeholder="e.g. nordhalla, ancient, frost giants, god wars..."
+                                className="card-field-input"
                               />
                             </div>
                           </div>

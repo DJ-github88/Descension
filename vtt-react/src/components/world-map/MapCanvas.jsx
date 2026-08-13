@@ -83,6 +83,7 @@ const MapCanvas = ({
   canAccessCustomMaps = false,
   selectedCustomZoneId = null,
   onSelectCustomZone = () => {},
+  onUpdateCustomZone = () => {},
   onUndoCustomPoint = () => {},
   onFinishCustomDrawing = () => {},
   onCancelCustomDrawing = () => {},
@@ -97,6 +98,9 @@ const MapCanvas = ({
 
   // States for player dragging pins
   const [draggedPlayerPinId, setDraggedPlayerPinId] = useState(null);
+
+  // States for dragging custom location pins
+  const [draggedCustomZoneId, setDraggedCustomZoneId] = useState(null);
 
   // Dynamic minScale to allow viewing the entire map
   const [minScale, setMinScale] = useState(0.15);
@@ -381,8 +385,18 @@ const MapCanvas = ({
       if (coords) {
         onDragPlayerPin(draggedPlayerPinId, coords[0], coords[1]);
       }
+    } else if (draggedCustomZoneId && onUpdateCustomZone) {
+      const coords = getImageCoords(e);
+      if (coords) {
+        const roundedX = Math.round(coords[0]);
+        const roundedY = Math.round(coords[1]);
+        onUpdateCustomZone(draggedCustomZoneId, {
+          position: [roundedX, roundedY],
+          points: [[roundedX, roundedY]]
+        });
+      }
     }
-  }, [draggedPinId, draggedPlayerPinId, devMode, canDragPlayerPins, onMapMouseMove, getImageCoords, onUpdate, onDragPlayerPin]);
+  }, [draggedPinId, draggedPlayerPinId, draggedCustomZoneId, devMode, canDragPlayerPins, onMapMouseMove, getImageCoords, onUpdate, onDragPlayerPin, onUpdateCustomZone]);
 
   // Release dragged pin globally
   useEffect(() => {
@@ -405,6 +419,17 @@ const MapCanvas = ({
       return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
     }
   }, [draggedPlayerPinId]);
+
+  // Release dragged custom zone globally
+  useEffect(() => {
+    if (draggedCustomZoneId) {
+      const handleGlobalMouseUp = () => {
+        setDraggedCustomZoneId(null);
+      };
+      window.addEventListener('mouseup', handleGlobalMouseUp);
+      return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+    }
+  }, [draggedCustomZoneId]);
 
   // Dev Delete Pin callback
   const handleDeletePin = useCallback((zoneId, bypassConfirm = false) => {
@@ -447,15 +472,13 @@ const MapCanvas = ({
 
   const isDrawingOrPlacing = customMapMode
     ? customDrawingActive
-    : devMode || activeTool === 'placePin' || activeTool === 'drawArea';
-
-  // Custom SVG cursors for drawing/placing modes
-  const PEN_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M4 22l3-3L20 6l-3-3L4 16v6z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.5' stroke-linejoin='round'/><path d='M17 6l3 3M5 21l1-1' stroke='%231a0f08' stroke-width='1.5' stroke-linecap='round'/></svg>") 3 22, crosshair`;
-
-  const FLAG_CURSOR = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'><path d='M8 2v22' stroke='%23C4A44A' stroke-width='2.5' stroke-linecap='round'/><path d='M8 3h13l-3 3.5 3 3.5H8z' fill='%23C4A44A' stroke='%231a0f08' stroke-width='1.2' stroke-linejoin='round'/></svg>") 8 2, crosshair`;
+    : Boolean(
+        (devMode && (devTool === 'drawRegion' || devTool === 'placePin')) ||
+        (activeTool === 'drawArea' || activeTool === 'placePin' || (drawingPoints && drawingPoints.length > 0) || (playerDrawingPoints && playerDrawingPoints.length > 0))
+      );
 
   const toolCursor = (() => {
-     if (customMapMode && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
+    if (customMapMode && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
     if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
     if (devMode && devTool === 'placePin') return FLAG_CURSOR;
     if (devMode && devTool === 'erasePin') return 'pointer';
@@ -504,7 +527,7 @@ const MapCanvas = ({
         smooth={false}
         wheel={{ step: 0.15, zoomAnimation: { disabled: false, animationTime: 100 } }}
         doubleClick={{ disabled: false }}
-        panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId ? true : false }}
+        panning={{ disabled: (customMapMode && customDrawingActive) || (devMode && devTool === 'drawRegion') || (activeTool === 'drawArea') || draggedPinId || draggedPlayerPinId || draggedCustomZoneId ? true : false }}
         onTransformed={handleTransformed}
         onPanning={handleUserInteraction}
         onWheel={handleUserInteraction}
@@ -648,42 +671,62 @@ const MapCanvas = ({
                           const [x, y] = zone.position || zone.points?.[0] || [];
                           if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
                           const iconClass = LOCATION_CATEGORY_ICONS[zone.category] || LOCATION_CATEGORY_ICONS[zone.locationType] || 'fa-location-dot';
+                          const isBeingDragged = draggedCustomZoneId === zone.id;
 
                           return (
                             <g
                               key={zone.id || index}
-                              className={`custom-location-pin ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
+                              className={`custom-location-pin ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${zone.isLocked ? 'locked' : 'draggable'} ${isBeingDragged ? 'dragging' : ''}`}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 if (!customDrawingActive && onSelectCustomZone) {
                                   onSelectCustomZone(zone);
                                 }
                               }}
+                              onMouseDown={(e) => {
+                                if (e.button === 0 && !customDrawingActive && !zone.isLocked) {
+                                  e.stopPropagation();
+                                  setDraggedCustomZoneId(zone.id);
+                                  if (onSelectCustomZone) {
+                                    onSelectCustomZone(zone);
+                                  }
+                                }
+                              }}
                               onMouseEnter={() => setHoveredRegionId && setHoveredRegionId(zone.id)}
                               onMouseLeave={() => setHoveredRegionId && setHoveredRegionId(null)}
-                              style={{ cursor: customDrawingActive ? 'inherit' : 'pointer' }}
+                              style={{ cursor: customDrawingActive ? 'inherit' : (zone.isLocked ? 'pointer' : (isBeingDragged ? 'grabbing' : 'grab')) }}
                             >
-                              {/* Selection & Hover static golden aura */}
-                              {(isSelected || isHovered) && (
+                              {/* Selection & Hover pulse aura */}
+                              {(isSelected || isHovered || isBeingDragged) && (
                                 <circle
                                   cx={x}
                                   cy={y}
-                                  r="24"
+                                  r="26"
                                   fill="none"
-                                  stroke={isSelected ? '#80d8a8' : '#f1d48a'}
+                                  stroke={isSelected ? '#80d8a8' : (isBeingDragged ? '#ffc107' : '#f1d48a')}
                                   strokeWidth="2.5"
-                                  opacity="0.9"
+                                  strokeDasharray={zone.isLocked ? 'none' : '4 3'}
+                                  opacity="0.95"
                                 />
                               )}
-                              {/* Circular badge */}
+                              {/* Circular badge shield */}
                               <circle
                                 cx={x}
                                 cy={y}
-                                r="17"
+                                r="18"
                                 fill={isSelected ? '#80d8a8' : (zone.color || '#e4b655')}
                                 stroke="#140c06"
-                                strokeWidth="2.5"
+                                strokeWidth="2.8"
                                 filter="url(#pinShadow)"
+                              />
+                              {/* Inner metallic ring */}
+                              <circle
+                                cx={x}
+                                cy={y}
+                                r="14"
+                                fill="none"
+                                stroke="rgba(255, 255, 255, 0.4)"
+                                strokeWidth="1"
                               />
                               {/* Centered category icon */}
                               <foreignObject
@@ -709,25 +752,39 @@ const MapCanvas = ({
                                 </div>
                               </foreignObject>
 
+                              {/* Lock badge indicator if locked */}
+                              {zone.isLocked && (
+                                <g transform={`translate(${x + 10}, ${y - 14})`} style={{ pointerEvents: 'none' }}>
+                                  <circle cx="0" cy="0" r="7.5" fill="#1b120c" stroke="#f1d48a" strokeWidth="1.2" />
+                                  <foreignObject x="-5" y="-5" width="10" height="10">
+                                    <div style={{ width: '10px', height: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f1d48a', fontSize: '7px' }}>
+                                      <i className="fas fa-lock" />
+                                    </div>
+                                  </foreignObject>
+                                </g>
+                              )}
+
                               {zone.name && (
-                                <g className="custom-pin-label-group">
+                                <g className="custom-pin-label-group" style={{ pointerEvents: 'none' }}>
                                   <rect
                                     x={x + 22}
                                     y={y - 14}
-                                    width={Math.max(60, zone.name.length * 10 + 16)}
+                                    width={Math.max(65, zone.name.length * 9.5 + 20)}
                                     height="28"
-                                    rx="5"
-                                    fill="rgba(18, 14, 10, 0.92)"
-                                    stroke={isSelected ? '#80d8a8' : 'rgba(212, 175, 55, 0.5)'}
+                                    rx="6"
+                                    fill="rgba(18, 14, 10, 0.94)"
+                                    stroke={isSelected ? '#80d8a8' : (zone.isLocked ? 'rgba(212, 175, 55, 0.5)' : 'rgba(212, 175, 55, 0.85)')}
                                     strokeWidth="1.5"
+                                    filter="url(#pinShadow)"
                                   />
                                   <text
-                                    x={x + 30}
+                                    x={x + 32}
                                     y={y + 5}
                                     fill={isSelected ? '#a5f3c5' : '#fff0c0'}
-                                    fontFamily="'Cinzel', serif"
-                                    fontSize="14"
-                                    fontWeight="600"
+                                    fontFamily="'Cinzel', Georgia, serif"
+                                    fontSize="13"
+                                    fontWeight="700"
+                                    letterSpacing="0.3px"
                                   >
                                     {zone.name}
                                   </text>
