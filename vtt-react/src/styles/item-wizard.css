@@ -3349,7 +3349,8 @@ button:disabled {
     font-weight: 500;
 }
 
-.weapon-properties {
+.item-wizard-container .weapon-properties,
+.step2-content .weapon-properties {
     background: #222;
     padding: 16px;
     border-radius: 8px;

@@ -19,8 +19,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 
 import { RACE_DATA, applyRacialModifiers } from '../../../data/raceData';
-
 import { BACKGROUND_DATA } from '../../../data/backgroundData';
+import useCustomLineageStore from '../../../store/customLineageStore';
 
 
 import { getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
@@ -1155,37 +1155,47 @@ const Step1CoreDraft = () => {
     // Race Handlers
 
     const getRaceList = () => {
-
-        return Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
-
+        const canonical = Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
             id: raceId,
-
             name: raceData.name,
-
             description: raceData.description,
-
             essence: raceData.essence || raceData.name,
-
             cardFlavor: raceData.cardFlavor,
-
             icon: getRaceIcon(raceData.name),
-
-            subraces: Object.entries(raceData.subraces).map(([subraceKey, subraceData]) => ({
-
+            isCustom: false,
+            subraces: Object.entries(raceData.subraces || {}).map(([subraceKey, subraceData]) => ({
                 id: subraceData.id,
-
                 name: subraceData.name,
-
                 description: subraceData.description,
-
                 tooltipSummary: subraceData.tooltipSummary,
-
                 statModifiers: subraceData.statModifiers
-
             }))
-
         }));
 
+        let custom = [];
+        try {
+            const customLineages = useCustomLineageStore.getState().getAllLineages();
+            custom = (customLineages || []).map(lineage => ({
+                id: lineage.id,
+                name: lineage.name,
+                description: lineage.description,
+                essence: lineage.essence || 'The Unbound',
+                cardFlavor: lineage.cardFlavor || lineage.essence,
+                icon: lineage.icon || 'fas fa-dna',
+                isCustom: true,
+                subraces: (lineage.subraces || []).map(sr => ({
+                    id: sr.id || (sr.name ? sr.name.toLowerCase().replace(/\s+/g, '_') : 'default'),
+                    name: sr.name,
+                    description: sr.description,
+                    tooltipSummary: sr.description,
+                    statModifiers: lineage.abilityModifiers || {}
+                }))
+            }));
+        } catch (e) {
+            // fallback if store is initializing
+        }
+
+        return [...canonical, ...custom];
     };
 
 

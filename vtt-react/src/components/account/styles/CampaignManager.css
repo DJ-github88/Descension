@@ -3017,3 +3017,255 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
+/* ============ CAMPAIGN LINEAGE CARD STYLING ============ */
+.campaign-lineage-card {
+  background: linear-gradient(145deg, rgba(253, 251, 247, 0.98) 0%, rgba(244, 238, 222, 0.98) 100%);
+  border: 1.5px solid rgba(139, 69, 19, 0.22);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 10px rgba(139, 69, 19, 0.06);
+  transition: all 0.2s ease;
+}
+
+.campaign-lineage-card:hover {
+  border-color: #8b4513;
+  box-shadow: 0 6px 18px rgba(139, 69, 19, 0.12);
+}
+
+.campaign-lineage-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
+}
+
+.campaign-lineage-badge {
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.campaign-lineage-badge.custom {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  color: #fff;
+  border: 1px solid #5a1e12;
+}
+
+.campaign-lineage-badge.canon {
+  background: rgba(139, 69, 19, 0.1);
+  color: #5a1e12;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+}
+
+.campaign-lineage-title {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #3b1e08;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.campaign-lineage-essence {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #8b5a1a;
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.campaign-lineage-desc {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #3d2b1f;
+  margin: 0 0 12px 0;
+}
+
+.campaign-lineage-subraces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.campaign-subrace-pill {
+  background: rgba(139, 69, 19, 0.08);
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  color: #4a2810;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.campaign-lineage-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.campaign-lineage-edit-btn {
+  background: rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5a1e12;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.campaign-lineage-edit-btn:hover {
+  background: #8b4513;
+  color: #fff;
+}
+
+/* ============ HOMEBREW BEIGE PATHFINDER STYLING ============ */
+.campaign-parchment-card,
+.content-card.monster-card,
+.content-card.spell-card,
+.content-card.item-tooltip-card,
+.content-card.weapon-tooltip-card {
+  background: linear-gradient(145deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 238, 222, 0.98) 100%) !important;
+  border: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 12px rgba(139, 69, 19, 0.08) !important;
+  padding: 16px !important;
+  box-sizing: border-box;
+}
+
+.campaign-item-properties,
+.weapon-properties {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(139, 69, 19, 0.18) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campaign-item-properties label,
+.weapon-properties label {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #6b3a1a !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.weapon-properties-input,
+.item-properties-input,
+.item-effects-input,
+.item-description-input,
+.weapon-effects-input,
+.weapon-description-input {
+  background: #fff !important;
+  border: 1px solid rgba(139, 69, 19, 0.22) !important;
+  color: #2d1810 !important;
+  border-radius: 6px !important;
+  padding: 8px 10px !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 0.9rem !important;
+}
+
+.vitals-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+
+.vital-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vital-input-group label {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vital-input-group input {
+  width: 100%;
+  background: #fff !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
+  border-radius: 4px;
+  padding: 4px 6px !important;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #2d1810 !important;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.spell-level-badge {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%) !important;
+  color: #fff !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  border: 1px solid #5a1e12 !important;
+}
+
+.content-card .small-select {
+  background: #fff !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
+  color: #3b1e08 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  border-radius: 5px !important;
+  padding: 5px 8px !important;
+}
+
+.content-card .small-input {
+  background: #fff !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
+  color: #2d1810 !important;
+  font-family: 'Crimson Text', serif !important;
+  font-size: 13px !important;
+  border-radius: 5px !important;
+  padding: 5px 8px !important;
+}
+
+.content-card .card-field-textarea {
+  width: 100%;
+  background: #fff !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
+  color: #2d1810 !important;
+  font-family: 'Crimson Text', serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.5;
+  border-radius: 6px !important;
+  padding: 8px 10px !important;
+  box-sizing: border-box;
+  resize: vertical;
+}

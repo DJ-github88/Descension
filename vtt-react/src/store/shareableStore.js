@@ -1,5 +1,81 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+const memoryStore = new Map();
+
+// Safe localStorage adapter that proactively sanitizes payloads and provides in-memory fallback
+const safeStorageEngine = {
+  getItem: (name) => {
+    try {
+      const fromLocal = localStorage.getItem(name);
+      if (fromLocal !== null && fromLocal !== undefined) return fromLocal;
+    } catch (e) {
+      console.warn(`[SafeStorage] Could not read ${name} from localStorage:`, e);
+    }
+    return memoryStore.get(name) || null;
+  },
+  setItem: (name, value) => {
+    // 1. Keep in-memory copy so data is always accessible in current session
+    memoryStore.set(name, value);
+
+    // 2. Proactively sanitize value before attempting to store in localStorage
+    let sanitizedValue = value;
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed && parsed.state) {
+        const state = parsed.state;
+        // Trim large base64 image attachments from notes
+        if (Array.isArray(state.playerNotes)) {
+          state.playerNotes = state.playerNotes.map(n => ({
+            ...n,
+            image: n.image && n.image.length > 20000 ? null : n.image
+          }));
+        }
+        // Trim heavy base64 background URLs from boards
+        if (Array.isArray(state.knowledgeBoards)) {
+          state.knowledgeBoards = state.knowledgeBoards.map(b => ({
+            ...b,
+            background: b.background?.url && b.background.url.length > 20000 ? null : b.background
+          }));
+        }
+        // Trim heavy custom images from orbs
+        if (Array.isArray(state.knowledgeOrbs)) {
+          state.knowledgeOrbs = state.knowledgeOrbs.map(o => ({
+            ...o,
+            customImage: o.customImage && o.customImage.length > 20000 ? null : o.customImage
+          }));
+        }
+        sanitizedValue = JSON.stringify(parsed);
+      }
+    } catch (parseErr) {
+      // Use value directly
+    }
+
+    try {
+      localStorage.setItem(name, sanitizedValue);
+    } catch (e) {
+      console.warn(`[SafeStorage] Storage quota reached for ${name}. Retrying with key cleanup...`, e);
+      try {
+        const heavyKeys = ['mythrill_subregion_polygons', 'mythrill_map_history_backup', 'mythrill-debug-log'];
+        heavyKeys.forEach(k => {
+          try { localStorage.removeItem(k); } catch (_) {}
+        });
+        localStorage.setItem(name, sanitizedValue);
+      } catch (finalErr) {
+        // Safely swallow error so the application NEVER crashes
+        console.warn(`[SafeStorage] Saved to in-memory fallback successfully.`);
+      }
+    }
+  },
+  removeItem: (name) => {
+    memoryStore.delete(name);
+    try {
+      localStorage.removeItem(name);
+    } catch (e) {
+      console.warn(`[SafeStorage] Could not remove ${name}:`, e);
+    }
+  }
+};
 
 // Store for GM shareables and player knowledge/journal system
 const useShareableStore = create(
@@ -18,7 +94,7 @@ const useShareableStore = create(
       activeDisplay: null, // { type, content, title, description }
 
       // Player knowledge board orbs and connections
-      knowledgeOrbs: [], // { id, knowledgeId, sourceType: 'knowledge'|'note', position: {x, y}, iconType, color, boardId }
+      knowledgeOrbs: [], // { id, knowledgeId, sourceType: 'knowledge'|'note', position: {x, y}, iconType, color, boardId, linkedBoardId }
       knowledgeConnections: [], // { id, fromOrbId, toOrbId, label }
 
       // Folder system for organizing journal content by campaign/topic
@@ -26,7 +102,8 @@ const useShareableStore = create(
       currentFolderId: null, // Currently selected folder for filtering knowledge/notes
 
       // Knowledge boards - SEPARATE from folders, for organizing orbs on the board
-      knowledgeBoards: [], // { id, name, color, icon, createdAt, background: { url, name } }
+      knowledgeBoards: [], // { id, name, color, icon, createdAt, parentBoardId, background: { url, name } }
+      masterBoardBackground: null, // Background for the Master Overview Board (when currentBoardId is null)
       currentBoardId: null, // Currently selected board for the Knowledge Board view
 
       // GM Actions
@@ -161,6 +238,49 @@ const useShareableStore = create(
         set({ currentBoardId: boardId });
       },
 
+      // ============ FIREBASE CLOUD SYNC ============
+      syncToCloud: async (userId) => {
+        if (!userId || String(userId).startsWith('guest-')) return;
+        try {
+          const { default: journalService } = await import('../services/firebase/journalService');
+          const state = get();
+          await journalService.saveJournal(userId, {
+            playerKnowledge: state.playerKnowledge,
+            playerNotes: state.playerNotes,
+            journalFolders: state.journalFolders,
+            knowledgeBoards: state.knowledgeBoards,
+            masterBoardBackground: state.masterBoardBackground,
+            knowledgeOrbs: state.knowledgeOrbs,
+            knowledgeConnections: state.knowledgeConnections,
+            currentFolderId: state.currentFolderId,
+            currentBoardId: state.currentBoardId
+          });
+        } catch (err) {
+          console.warn('[shareableStore] Cloud sync error:', err);
+        }
+      },
+
+      hydrateFromCloud: async (userId) => {
+        if (!userId || String(userId).startsWith('guest-')) return;
+        try {
+          const { default: journalService } = await import('../services/firebase/journalService');
+          const cloudData = await journalService.loadJournal(userId);
+          if (cloudData && (cloudData.playerNotes?.length || cloudData.knowledgeBoards?.length || cloudData.playerKnowledge?.length || cloudData.masterBoardBackground)) {
+            set(state => ({
+              playerKnowledge: cloudData.playerKnowledge || state.playerKnowledge,
+              playerNotes: cloudData.playerNotes || state.playerNotes,
+              journalFolders: cloudData.journalFolders || state.journalFolders,
+              knowledgeBoards: cloudData.knowledgeBoards || state.knowledgeBoards,
+              masterBoardBackground: cloudData.masterBoardBackground !== undefined ? cloudData.masterBoardBackground : state.masterBoardBackground,
+              knowledgeOrbs: cloudData.knowledgeOrbs || state.knowledgeOrbs,
+              knowledgeConnections: cloudData.knowledgeConnections || state.knowledgeConnections
+            }));
+          }
+        } catch (err) {
+          console.warn('[shareableStore] Cloud hydration error:', err);
+        }
+      },
+
       // ============ PLAYER NOTES ============
       addNote: (title, content = '', image = null) => {
         const newNote = {
@@ -276,6 +396,33 @@ const useShareableStore = create(
         }));
       },
 
+      addTagToOrb: (orbId, tag) => {
+        const cleanTag = (tag || '').trim();
+        if (!cleanTag) return;
+        set(state => ({
+          knowledgeOrbs: (state.knowledgeOrbs || []).map(o => {
+            if (o.id === orbId) {
+              const existingTags = o.tags || [];
+              if (!existingTags.includes(cleanTag)) {
+                return { ...o, tags: [...existingTags, cleanTag] };
+              }
+            }
+            return o;
+          })
+        }));
+      },
+
+      removeTagFromOrb: (orbId, tag) => {
+        set(state => ({
+          knowledgeOrbs: (state.knowledgeOrbs || []).map(o => {
+            if (o.id === orbId) {
+              return { ...o, tags: (o.tags || []).filter(t => t !== tag) };
+            }
+            return o;
+          })
+        }));
+      },
+
       removeOrb: (orbId) => {
         set(state => ({
           knowledgeOrbs: (state.knowledgeOrbs || []).filter(orb => orb.id !== orbId),
@@ -372,6 +519,8 @@ const useShareableStore = create(
           if (!note) return null;
           return {
             ...note,
+            tags: orb.tags || note.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['NOTE']),
+            entityType: orb.entityType || 'note',
             image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || note.image
           };
         }
@@ -379,6 +528,8 @@ const useShareableStore = create(
         if (!knowledge) return null;
         return {
           ...knowledge,
+          tags: orb.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['KNOWLEDGE']),
+          entityType: orb.entityType || 'knowledge',
           image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || knowledge.image || (knowledge.type === 'image' ? knowledge.content : null)
         };
       },
@@ -403,10 +554,10 @@ const useShareableStore = create(
       },
 
       // ============ BOARD BACKGROUND ============
-      // Get background for current board (or null if no board selected)
+      // Get background for current board (or master board background if no board selected)
       getBoardBackground: () => {
-        const { currentBoardId, knowledgeBoards } = get();
-        if (!currentBoardId) return null;
+        const { currentBoardId, knowledgeBoards, masterBoardBackground } = get();
+        if (!currentBoardId) return masterBoardBackground || null;
         const board = knowledgeBoards.find(b => b.id === currentBoardId);
         return board?.background || null;
       },
@@ -414,8 +565,7 @@ const useShareableStore = create(
       setBoardBackground: (background) => {
         const { currentBoardId } = get();
         if (!currentBoardId) {
-          // If no board selected, can't set background
-          console.warn('Cannot set board background: no board selected');
+          set({ masterBoardBackground: background });
           return;
         }
         set(state => ({
@@ -425,18 +575,220 @@ const useShareableStore = create(
         }));
       },
 
+      // ============ SUB-BOARDS & NODE-BASED DIVE-IN NAVIGATION ============
+      linkOrbToBoard: (orbId, targetBoardId) => {
+        set(state => ({
+          knowledgeOrbs: (state.knowledgeOrbs || []).map(o =>
+            o.id === orbId ? { ...o, linkedBoardId: targetBoardId } : o
+          )
+        }));
+      },
+
+      unlinkOrbBoard: (orbId) => {
+        set(state => ({
+          knowledgeOrbs: (state.knowledgeOrbs || []).map(o =>
+            o.id === orbId ? { ...o, linkedBoardId: null } : o
+          )
+        }));
+      },
+
+      createSubBoardForOrb: (orbId, boardName = '', autoNavigate = true) => {
+        const { currentBoardId, knowledgeOrbs } = get();
+        const orb = knowledgeOrbs.find(o => o.id === orbId);
+        const name = boardName.trim() || (orb ? (orb.label || 'Sub-Board') : 'Sub-Board');
+        const newBoardId = `board-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+        const newBoard = {
+          id: newBoardId,
+          name,
+          color: orb?.color || '#d4af37',
+          icon: orb?.iconType || 'fa-project-diagram',
+          parentBoardId: currentBoardId || null,
+          createdAt: Date.now(),
+          background: null
+        };
+
+        // Create an anchor central orb inside the new sub-board for this entity
+        const anchorOrb = orb ? {
+          id: `orb-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          knowledgeId: orb.knowledgeId,
+          sourceType: orb.sourceType,
+          label: orb.label || name,
+          position: { x: 300, y: 160 },
+          iconType: orb.iconType || 'scroll',
+          customImage: orb.customImage || null,
+          color: orb.color || '#d4af37',
+          tags: orb.tags || [],
+          entityType: orb.entityType || 'note',
+          boardId: newBoardId,
+          isAnchor: true
+        } : null;
+
+        set(state => ({
+          knowledgeBoards: [...state.knowledgeBoards, newBoard],
+          knowledgeOrbs: [
+            ...(state.knowledgeOrbs || []).map(o =>
+              o.id === orbId ? { ...o, linkedBoardId: newBoardId } : o
+            ),
+            ...(anchorOrb ? [anchorOrb] : [])
+          ],
+          currentBoardId: autoNavigate ? newBoardId : state.currentBoardId
+        }));
+
+        return newBoardId;
+      },
+
+      // Add a campaign entity (NPC, Location, Quest, Item, Creature, Faction, Lore) as an Orb directly on the board!
+      addCampaignEntityAsOrb: (entity, entityType = 'general', position = null, targetBoardId = null) => {
+        const { currentBoardId, knowledgeOrbs } = get();
+        const activeBoardId = targetBoardId !== null ? targetBoardId : currentBoardId;
+        const count = (knowledgeOrbs || []).filter(o => o.boardId === activeBoardId).length;
+
+        // Position on an orderly grid if none specified
+        const posX = position?.x ?? (80 + ((count % 4) * 160));
+        const posY = position?.y ?? (80 + (Math.floor(count / 4) * 140));
+
+        let icon = 'scroll';
+        let color = '#d4af37';
+        const title = entity.name || entity.title || 'Unknown Entity';
+        const content = entity.description || entity.content || entity.notes || entity.properties || '';
+        const normType = entityType.toLowerCase();
+        const initialTags = [entityType.toUpperCase()];
+
+        switch (normType) {
+          case 'npc':
+            icon = 'user';
+            color = '#3498db';
+            break;
+          case 'location':
+            icon = 'location';
+            color = '#e67e22';
+            break;
+          case 'faction':
+            icon = 'shield';
+            color = '#9b59b6';
+            break;
+          case 'quest':
+            icon = 'star';
+            color = '#f1c40f';
+            break;
+          case 'item':
+          case 'weapon':
+            icon = 'gem';
+            color = '#2ecc71';
+            break;
+          case 'monster':
+          case 'creature':
+            icon = 'dragon';
+            color = '#e74c3c';
+            break;
+          case 'lore':
+            icon = 'book';
+            color = '#8b5a1a';
+            break;
+          default:
+            icon = 'scroll';
+            color = '#d4af37';
+        }
+
+        const noteId = `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const newNote = {
+          id: noteId,
+          title,
+          content: `${content ? content + '\n\n' : ''}*Imported from Campaign (${entityType.toUpperCase()})*`,
+          image: entity.image || entity.avatar || entity.banner || null,
+          tags: initialTags,
+          entityType: normType,
+          createdAt: Date.now(),
+          lastModified: Date.now(),
+          folderId: null
+        };
+
+        const newOrbId = `orb-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const newOrb = {
+          id: newOrbId,
+          knowledgeId: noteId,
+          sourceType: 'note',
+          position: { x: posX, y: posY },
+          iconType: icon,
+          color,
+          label: title,
+          tags: initialTags,
+          entityType: normType,
+          boardId: activeBoardId,
+          linkedBoardId: null
+        };
+
+        set(state => ({
+          playerNotes: [...state.playerNotes, newNote],
+          knowledgeOrbs: [...state.knowledgeOrbs, newOrb]
+        }));
+
+        return { orbId: newOrbId, noteId };
+      },
+
+      getBoardBreadcrumbs: () => {
+        const { currentBoardId, knowledgeBoards } = get();
+        if (!currentBoardId) return [];
+        const crumbs = [];
+        let curId = currentBoardId;
+        const visited = new Set();
+        while (curId && !visited.has(curId)) {
+          visited.add(curId);
+          const b = knowledgeBoards.find(x => x.id === curId);
+          if (b) {
+            crumbs.unshift(b);
+            curId = b.parentBoardId;
+          } else {
+            break;
+          }
+        }
+        return crumbs;
+      },
+
       clearBoardBackground: () => {
         const { currentBoardId } = get();
-        if (!currentBoardId) return;
+        if (!currentBoardId) {
+          set({ masterBoardBackground: null });
+          return;
+        }
         set(state => ({
           knowledgeBoards: (state.knowledgeBoards || []).map(b =>
             b.id === currentBoardId ? { ...b, background: null } : b
           )
         }));
+      },
+
+      toggleBoardBgMode: () => {
+        const { currentBoardId, masterBoardBackground } = get();
+        if (!currentBoardId) {
+          if (masterBoardBackground) {
+            const curMode = masterBoardBackground.bgMode || 'canvas';
+            const nextMode = curMode === 'canvas' ? 'static' : 'canvas';
+            set({
+              masterBoardBackground: { ...masterBoardBackground, bgMode: nextMode }
+            });
+          }
+          return;
+        }
+        set(state => ({
+          knowledgeBoards: (state.knowledgeBoards || []).map(b => {
+            if (b.id === currentBoardId && b.background) {
+              const curMode = b.background.bgMode || 'canvas';
+              const nextMode = curMode === 'canvas' ? 'static' : 'canvas';
+              return {
+                ...b,
+                background: { ...b.background, bgMode: nextMode }
+              };
+            }
+            return b;
+          })
+        }));
       }
     }),
     {
       name: 'mythrill-shareable-storage',
+      storage: createJSONStorage(() => safeStorageEngine),
       version: 5,
       migrate: (persistedState, version) => {
         let state = { ...persistedState };

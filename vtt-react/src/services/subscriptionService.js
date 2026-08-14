@@ -65,6 +65,14 @@ export function isCustomMapsTier(tierKey) {
  return tierKey === 'ULTIMATE' || tierKey === 'DEV_PREVIEW';
 }
 
+export function isCampaignManagerTier(tierKey) {
+  if (!tierKey) return false;
+  const upper = typeof tierKey === 'object' ? tierKey.id?.toUpperCase() : tierKey?.toUpperCase();
+  const legacyMap = { 'SUBSCRIBER': 'PRO', 'PREMIUM': 'ULTIMATE' };
+  const resolved = legacyMap[upper] || upper;
+  return resolved === 'PRO' || resolved === 'ULTIMATE' || resolved === 'DEV_PREVIEW';
+}
+
 export const SUBSCRIPTION_TIERS = {
  GUEST: {
   id: 'guest',

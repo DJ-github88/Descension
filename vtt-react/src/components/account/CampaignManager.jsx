@@ -13,6 +13,12 @@ import useCreatureStore from '../../store/creatureStore';
 import campaignService from '../../services/campaignService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
+import RichLoreText from '../common/RichLoreText';
+import CodexLoreEditor from '../common/CodexLoreEditor';
+import CustomLineageWizard from '../world/CustomLineageWizard';
+import useCustomLineageStore from '../../store/customLineageStore';
+import useWorldStore from '../../store/worldStore';
+import useFactionStore from '../../store/factionStore';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
@@ -20,14 +26,14 @@ export const CAMPAIGN_ACCESS_CONFIG = {
   featureName: 'Campaign Manager'
 };
 
-export const canAccessCampaignManager = (subscriptionTier) => {
+export function canAccessCampaignManager(subscriptionTier) {
   if (!subscriptionTier) return false;
   const tierName = typeof subscriptionTier === 'object' ? subscriptionTier.id?.toUpperCase() : subscriptionTier?.toUpperCase();
   if (tierName === 'DEV_PREVIEW') return true;
   const legacyMap = { 'SUBSCRIBER': 'PRO', 'PREMIUM': 'ULTIMATE' };
   const resolved = legacyMap[tierName] || tierName;
   return CAMPAIGN_ACCESS_CONFIG.allowedTiers.includes(resolved);
-};
+}
 
 // Simple Input Modal Component - Uses Portal to render at document root for proper z-index
 const InputModal = ({ isOpen, title, placeholder, onConfirm, onCancel }) => {
@@ -694,10 +700,14 @@ const CampaignManager = ({ user }) => {
         name: monsterName,
         type: 'beast',
         size: 'medium',
-        challengeRating: '1',
+        threat: 'Standard',
         description: '',
-        hp: '',
-        ac: '',
+        hp: 30,
+        mana: 10,
+        ap: 3,
+        speed: '30 ft.',
+        resistances: '',
+        weaknesses: '',
         notes: ''
       };
       updateCampaignData({
@@ -729,9 +739,12 @@ const CampaignManager = ({ user }) => {
         id: Date.now(),
         name: spellName,
         level: 1,
-        school: 'arcane',
-        castingTime: '1 action',
-        range: '60 feet',
+        school: 'ember',
+        apCost: 2,
+        manaCost: 15,
+        castingTime: '1 Action',
+        range: '30 ft.',
+        damage: '2d6 Ember',
         description: '',
         notes: ''
       };
@@ -1877,6 +1890,9 @@ const CampaignManager = ({ user }) => {
               <button className={`homebrew-subtab ${homebrewSubTab === 'lore' ? 'active' : ''}`} onClick={() => setHomebrewSubTab('lore')}>
                 <i className="fas fa-book-open"></i> Lore ({Array.isArray(campaignData.homebrew?.lore) ? campaignData.homebrew.lore.length : (campaignData.homebrew?.lore ? Object.keys(campaignData.homebrew.lore).length : 0)})
               </button>
+              <button className={`homebrew-subtab ${homebrewSubTab === 'lineages' ? 'active' : ''}`} onClick={() => setHomebrewSubTab('lineages')}>
+                <i className="fas fa-dna"></i> Lineages & Species ({useCustomLineageStore.getState().getAllLineages().length})
+              </button>
             </div>
 
             <div className="homebrew-content">
@@ -1998,7 +2014,7 @@ const CampaignManager = ({ user }) => {
                                   />
                                 </div>
                               </div>
-                              <div className="weapon-properties">
+                              <div className="campaign-item-properties">
                                 <label>Properties</label>
                                 <textarea
                                   value={item.properties || ''}
@@ -2168,7 +2184,7 @@ const CampaignManager = ({ user }) => {
                         <i className="fas fa-book"></i> Browse Library
                       </button>
                       <button className="add-btn" onClick={addHomebrewMonster}>
-                        <i className="fas fa-plus"></i> Create Custom
+                        <i className="fas fa-plus"></i> Create Custom Creature
                       </button>
                     </div>
                   </div>
@@ -2181,21 +2197,21 @@ const CampaignManager = ({ user }) => {
                         {(campaignData.selectedCreatures || []).map(creature => (
                           <div
                             key={creature.id}
-                            className="content-card monster-card library-card"
+                            className="content-card monster-card library-card campaign-parchment-card"
                             onMouseEnter={(e) => handleMouseEnter(e, null, creature, null)}
                             onMouseMove={handleMouseMove}
                             onMouseLeave={handleMouseLeave}
                           >
                             <div className="card-body">
                               <div className="integrated-header">
-                                <span className={`library-badge`}><i className="fas fa-link"></i></span>
-                                <span className="card-title-display">{creature.name}</span>
+                                <span className="library-badge"><i className="fas fa-link"></i></span>
+                                <span className="card-title-display" style={{ fontWeight: 700, color: '#3b1e08' }}>{creature.name}</span>
                                 <button className="remove-btn" onClick={() => removeLibraryCreature(creature.id)}><i className="fas fa-times"></i></button>
                               </div>
                               <div className="library-item-info">
                                 <span className="library-item-tag">{formatTag(creature.type)}</span>
                                 <span className="library-item-tag">{formatTag(creature.size)}</span>
-                                {creature.hp > 0 && <span className="library-item-tag">HP {creature.hp}</span>}
+                                {creature.hp > 0 && <span className="library-item-tag" style={{ color: '#8b4513' }}>HP {creature.hp}</span>}
                               </div>
                               <textarea
                                 value={creature.notes || ''}
@@ -2207,6 +2223,7 @@ const CampaignManager = ({ user }) => {
                                 }}
                                 placeholder="Campaign notes for this creature..."
                                 rows={2}
+                                className="card-field-textarea"
                               />
                             </div>
                           </div>
@@ -2217,39 +2234,103 @@ const CampaignManager = ({ user }) => {
 
                   {/* Custom Homebrew Creatures */}
                   {(campaignData.homebrew?.monsters || []).length > 0 && (
-                    <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew</h4>
+                    <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew Creatures</h4>
                   )}
                   <div className="cards-grid">
                     {(campaignData.homebrew?.monsters || []).length > 0 ? (
                       (campaignData.homebrew?.monsters || []).map(monster => (
-                        <div key={monster.id} className="content-card monster-card">
+                        <div key={monster.id} className="content-card monster-card campaign-parchment-card">
                           <div className="card-body">
                             <div className="integrated-header">
-                              <input type="text" value={monster.name} onChange={(e) => updateHomebrewMonster(monster.id, { name: e.target.value })} className="card-title-input" />
-                              <button className="remove-btn" onClick={() => removeHomebrewMonster(monster.id)}><i className="fas fa-times"></i></button>
+                              <span className="card-type-pill" style={{ background: '#8b4513', color: '#fff', padding: '3px 8px', borderRadius: '4px', fontSize: '10.5px', fontFamily: 'Cinzel, serif', fontWeight: 700 }}>
+                                Creature
+                              </span>
+                              <input
+                                type="text"
+                                value={monster.name}
+                                onChange={(e) => updateHomebrewMonster(monster.id, { name: e.target.value })}
+                                className="card-title-input"
+                                placeholder="Creature Name..."
+                              />
+                              <button className="remove-btn" onClick={() => removeHomebrewMonster(monster.id)} title="Delete Monster">
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
                             </div>
-                            <div className="field-row">
-                              <select value={monster.size} onChange={(e) => updateHomebrewMonster(monster.id, { size: e.target.value })} className="small-select">
+
+                            {/* Type, Size, Threat Level */}
+                            <div className="field-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
+                              <select value={monster.size || 'medium'} onChange={(e) => updateHomebrewMonster(monster.id, { size: e.target.value })} className="small-select">
                                 <option value="tiny">Tiny</option>
                                 <option value="small">Small</option>
                                 <option value="medium">Medium</option>
                                 <option value="large">Large</option>
                                 <option value="huge">Huge</option>
+                                <option value="gargantuan">Gargantuan</option>
                               </select>
-                              <select value={monster.type} onChange={(e) => updateHomebrewMonster(monster.id, { type: e.target.value })} className="small-select">
+                              <select value={monster.type || 'beast'} onChange={(e) => updateHomebrewMonster(monster.id, { type: e.target.value })} className="small-select">
                                 <option value="beast">Beast</option>
                                 <option value="humanoid">Humanoid</option>
                                 <option value="undead">Undead</option>
                                 <option value="fiend">Fiend</option>
                                 <option value="dragon">Dragon</option>
                                 <option value="aberration">Aberration</option>
+                                <option value="construct">Construct</option>
+                                <option value="elemental">Elemental</option>
+                                <option value="plant">Plant</option>
+                              </select>
+                              <select value={monster.threat || 'Standard'} onChange={(e) => updateHomebrewMonster(monster.id, { threat: e.target.value })} className="small-select">
+                                <option value="Minion">Minion</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Elite">Elite</option>
+                                <option value="Boss">Boss</option>
                               </select>
                             </div>
-                            <div className="field-row">
-                              <input type="text" value={monster.hp || ''} onChange={(e) => updateHomebrewMonster(monster.id, { hp: e.target.value })} placeholder="HP" className="small-input" />
-                              <input type="text" value={monster.ac || ''} onChange={(e) => updateHomebrewMonster(monster.id, { ac: e.target.value })} placeholder="Armor" className="tiny-input" />
+
+                            {/* Vitals Grid: HP, Mana, AP, Speed */}
+                            <div className="vitals-row">
+                              <div className="vital-input-group">
+                                <label style={{ color: '#8b4513' }}>HP</label>
+                                <input type="number" value={monster.hp || ''} onChange={(e) => updateHomebrewMonster(monster.id, { hp: parseInt(e.target.value, 10) || '' })} placeholder="30" />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#2980b9' }}>MANA</label>
+                                <input type="number" value={monster.mana || ''} onChange={(e) => updateHomebrewMonster(monster.id, { mana: parseInt(e.target.value, 10) || '' })} placeholder="10" />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#27ae60' }}>AP</label>
+                                <input type="number" value={monster.ap ?? 3} onChange={(e) => updateHomebrewMonster(monster.id, { ap: parseInt(e.target.value, 10) || 1 })} placeholder="3" />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#7f8c8d' }}>SPEED</label>
+                                <input type="text" value={monster.speed || '30 ft.'} onChange={(e) => updateHomebrewMonster(monster.id, { speed: e.target.value })} placeholder="30 ft." />
+                              </div>
                             </div>
-                            <textarea value={monster.description} onChange={(e) => updateHomebrewMonster(monster.id, { description: e.target.value })} placeholder="Description, abilities..." rows={3} />
+
+                            {/* Defenses & Resistances */}
+                            <div className="field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                              <input
+                                type="text"
+                                value={monster.resistances || ''}
+                                onChange={(e) => updateHomebrewMonster(monster.id, { resistances: e.target.value })}
+                                placeholder="Resistances (e.g. Rime 50%, Physical 20%)..."
+                                className="small-input"
+                              />
+                              <input
+                                type="text"
+                                value={monster.weaknesses || ''}
+                                onChange={(e) => updateHomebrewMonster(monster.id, { weaknesses: e.target.value })}
+                                placeholder="Weaknesses (e.g. Ember 150%)..."
+                                className="small-input"
+                              />
+                            </div>
+
+                            <textarea
+                              value={monster.description || ''}
+                              onChange={(e) => updateHomebrewMonster(monster.id, { description: e.target.value })}
+                              placeholder="Actions, reactions, traits & abilities (e.g. Action (2 AP) - Rime Cleave: 2d8 + 3 damage)..."
+                              rows={3}
+                              className="card-field-textarea"
+                            />
                           </div>
                         </div>
                       ))
@@ -2270,7 +2351,7 @@ const CampaignManager = ({ user }) => {
                         <i className="fas fa-book"></i> Browse Library
                       </button>
                       <button className="add-btn" onClick={addHomebrewSpell}>
-                        <i className="fas fa-plus"></i> Create Custom
+                        <i className="fas fa-plus"></i> Create Custom Spell
                       </button>
                     </div>
                   </div>
@@ -2283,15 +2364,15 @@ const CampaignManager = ({ user }) => {
                         {(campaignData.selectedSpells || []).map(spell => (
                           <div
                             key={spell.id}
-                            className="content-card spell-card library-card"
+                            className="content-card spell-card library-card campaign-parchment-card"
                             onMouseEnter={(e) => handleMouseEnter(e, null, null, spell)}
                             onMouseMove={handleMouseMove}
                             onMouseLeave={handleMouseLeave}
                           >
                             <div className="card-body">
                               <div className="integrated-header">
-                                <span className={`library-badge`}><i className="fas fa-link"></i></span>
-                                <span className="card-title-display">{spell.name}</span>
+                                <span className="library-badge"><i className="fas fa-link"></i></span>
+                                <span className="card-title-display" style={{ fontWeight: 700, color: '#3b1e08' }}>{spell.name}</span>
                                 <span className="spell-level-badge">
                                   {spell.level === 0 ? 'Cantrip' : `Lvl ${spell.level}`}
                                 </span>
@@ -2310,6 +2391,7 @@ const CampaignManager = ({ user }) => {
                                 }}
                                 placeholder="Campaign notes for this spell..."
                                 rows={2}
+                                className="card-field-textarea"
                               />
                             </div>
                           </div>
@@ -2320,31 +2402,66 @@ const CampaignManager = ({ user }) => {
 
                   {/* Custom Homebrew Spells */}
                   {(campaignData.homebrew?.spells || []).length > 0 && (
-                    <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew</h4>
+                    <h4 className="subsection-title"><i className="fas fa-hammer"></i> Custom Homebrew Spells</h4>
                   )}
                   <div className="cards-grid">
                     {(campaignData.homebrew?.spells || []).length > 0 ? (
                       (campaignData.homebrew?.spells || []).map(spell => (
-                        <div key={spell.id} className="content-card spell-card">
+                        <div key={spell.id} className="content-card spell-card campaign-parchment-card">
                           <div className="card-body">
                             <div className="integrated-header">
-                              <input type="text" value={spell.name} onChange={(e) => updateHomebrewSpell(spell.id, { name: e.target.value })} className="card-title-input" />
-                              <span className="spell-level-badge">Lvl {spell.level}</span>
-                              <button className="remove-btn" onClick={() => removeHomebrewSpell(spell.id)}><i className="fas fa-times"></i></button>
+                              <span className="spell-level-badge">
+                                {spell.level === 0 ? 'Cantrip' : `Level ${spell.level}`}
+                              </span>
+                              <input
+                                type="text"
+                                value={spell.name}
+                                onChange={(e) => updateHomebrewSpell(spell.id, { name: e.target.value })}
+                                className="card-title-input"
+                                placeholder="Spell Name..."
+                              />
+                              <button className="remove-btn" onClick={() => removeHomebrewSpell(spell.id)} title="Delete Spell">
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
                             </div>
-                            <div className="field-row">
-                              <select value={spell.level} onChange={(e) => updateHomebrewSpell(spell.id, { level: parseInt(e.target.value) })} className="small-select">
+
+                            {/* Level and School/Damage Type */}
+                            <div className="field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                              <select value={spell.level ?? 1} onChange={(e) => updateHomebrewSpell(spell.id, { level: parseInt(e.target.value) })} className="small-select">
                                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(l => <option key={l} value={l}>{l === 0 ? 'Cantrip' : `Level ${l}`}</option>)}
                               </select>
-                              <select value={spell.school} onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })} className="small-select">
+                              <select value={spell.school || 'ember'} onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })} className="small-select">
                                 {SPELL_DAMAGE_TYPES.map(t => <option key={t} value={t}>{getDamageType(t)?.name || t}</option>)}
                               </select>
                             </div>
-                            <div className="field-row">
-                              <input type="text" value={spell.castingTime} onChange={(e) => updateHomebrewSpell(spell.id, { castingTime: e.target.value })} placeholder="Casting Time" className="small-input" />
-                              <input type="text" value={spell.range} onChange={(e) => updateHomebrewSpell(spell.id, { range: e.target.value })} placeholder="Range" className="small-input" />
+
+                            {/* Action Points, Mana, Range, Casting Time */}
+                            <div className="vitals-row">
+                              <div className="vital-input-group">
+                                <label style={{ color: '#27ae60' }}>AP COST</label>
+                                <input type="number" value={spell.apCost ?? 2} onChange={(e) => updateHomebrewSpell(spell.id, { apCost: parseInt(e.target.value, 10) || 1 })} placeholder="2" />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#2980b9' }}>MANA</label>
+                                <input type="number" value={spell.manaCost ?? 15} onChange={(e) => updateHomebrewSpell(spell.id, { manaCost: parseInt(e.target.value, 10) || 0 })} placeholder="15" />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#8b4513' }}>RANGE</label>
+                                <input type="text" value={spell.range || '30 ft.'} onChange={(e) => updateHomebrewSpell(spell.id, { range: e.target.value })} placeholder="30 ft." />
+                              </div>
+                              <div className="vital-input-group">
+                                <label style={{ color: '#7f8c8d' }}>CAST TIME</label>
+                                <input type="text" value={spell.castingTime || '1 Action'} onChange={(e) => updateHomebrewSpell(spell.id, { castingTime: e.target.value })} placeholder="1 Action" />
+                              </div>
                             </div>
-                            <textarea value={spell.description} onChange={(e) => updateHomebrewSpell(spell.id, { description: e.target.value })} placeholder="Spell effect description..." rows={3} />
+
+                            <textarea
+                              value={spell.description || ''}
+                              onChange={(e) => updateHomebrewSpell(spell.id, { description: e.target.value })}
+                              placeholder="Spell effect description, damage formula (e.g. 2d6 Ember), saving throw, and conditions applied..."
+                              rows={3}
+                              className="card-field-textarea"
+                            />
                           </div>
                         </div>
                       ))
@@ -2359,148 +2476,75 @@ const CampaignManager = ({ user }) => {
               {homebrewSubTab === 'lore' && (
                 <div className="list-section">
                   <div className="section-header">
-                    <h3>World Lore</h3>
+                    <h3>World Lore & Chronicles</h3>
                     <button className="add-btn" onClick={addLoreArticle}>
                       <i className="fas fa-plus"></i> New Article
                     </button>
                   </div>
                   <div className="cards-list">
                     {(campaignData.homebrew?.lore || []).length > 0 ? (
-                      (campaignData.homebrew?.lore || []).map(article => (
-                        <div key={article.id} className="content-card lore-card">
-                          {/* Top Hero Banner */}
-                          <div className="card-media-banner-container">
-                            {article.image ? (
-                              <div className="media-banner-preview">
-                                <img src={article.image} alt={article.title} />
-                                <div className="media-hover-overlay">
-                                  <label className="media-change-btn" title="Change artwork">
-                                    <i className="fas fa-camera"></i> Change Artwork
-                                    <input
-                                      type="file"
-                                      accept="image/*"
-                                      style={{ display: 'none' }}
-                                      onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) {
-                                          const reader = new FileReader();
-                                          reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
-                                          reader.readAsDataURL(file);
-                                        }
-                                      }}
-                                    />
-                                  </label>
-                                  <button
-                                    type="button"
-                                    className="media-clear-btn-pill"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      updateLoreArticle(article.id, { image: null });
-                                    }}
-                                    title="Remove lore artwork"
-                                  >
-                                    <i className="fas fa-trash-alt"></i> Remove
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <label className="media-banner-placeholder" title="Upload lore artwork">
-                                <i className="fas fa-book-bookmark"></i>
-                                <span>Upload Lore Banner / Illustration</span>
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  style={{ display: 'none' }}
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
-                                      reader.readAsDataURL(file);
-                                    }
-                                  }}
-                                />
-                              </label>
-                            )}
-                          </div>
-
-                          <div className="card-header-fields">
-                            <div className="card-field-header-top">
-                              <div className="field-group flex-1">
-                                <label className="field-label"><i className="fas fa-book-open"></i> Article Title</label>
-                                <input
-                                  type="text"
-                                  value={article.title}
-                                  onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })}
-                                  className="card-title-input full-width"
-                                  placeholder="Lore title..."
-                                />
-                              </div>
-                              <button className="remove-card-btn" onClick={() => removeLoreArticle(article.id)} title="Delete Article">
-                                <i className="fas fa-trash-alt"></i>
-                              </button>
-                            </div>
-
-                            <div className="card-meta-grid-2col">
-                              <div className="field-group flex-1">
-                                <label className="field-label"><i className="fas fa-layer-group"></i> Category</label>
-                                <select
-                                  value={article.category || 'history'}
-                                  onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })}
-                                  className="card-field-select"
-                                >
-                                  <option value="history">History & Chronicles</option>
-                                  <option value="religion">Religion & Deities</option>
-                                  <option value="faction">Factions & Orders</option>
-                                  <option value="legend">Myths & Legends</option>
-                                  <option value="culture">Cultures & Peoples</option>
-                                  <option value="geography">Geography & Realms</option>
-                                  <option value="magic">Magic & Arcana</option>
-                                </select>
-                              </div>
-                              <div className="field-group" style={{ alignSelf: 'flex-end' }}>
-                                <label className="secret-toggle-pill" title="Mark as GM Secret">
-                                  <input
-                                    type="checkbox"
-                                    checked={article.isSecret || false}
-                                    onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })}
-                                  />
-                                  <i className={`fas ${article.isSecret ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                                  <span>{article.isSecret ? 'GM Secret' : 'Public Lore'}</span>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="card-body-fields">
-                            <div className="field-group">
-                              <label className="field-label"><i className="fas fa-feather-pointed"></i> Chronicle & Codex Content</label>
-                              <textarea
-                                value={article.content}
-                                onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
-                                placeholder="Write the history, mythology, scriptures, or background lore here..."
-                                rows={5}
-                                className="card-field-textarea"
-                              />
-                            </div>
-                            <div className="field-group">
-                              <label className="field-label"><i className="fas fa-tags"></i> Lore Tags & Keywords</label>
-                              <input
-                                type="text"
-                                value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
-                                onChange={(e) => updateLoreArticle(article.id, {
-                                  tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
-                                })}
-                                placeholder="e.g. nordhalla, ancient, frost giants, god wars..."
-                                className="card-field-input"
-                              />
-                            </div>
-                          </div>
-                        </div>
+                      (campaignData.homebrew?.lore || []).map((article) => (
+                        <CodexLoreEditor
+                          key={article.id}
+                          article={article}
+                          onUpdate={(updates) => updateLoreArticle(article.id, updates)}
+                          onDelete={() => removeLoreArticle(article.id)}
+                        />
                       ))
                     ) : (
-                      <div className="empty-state"><i className="fas fa-scroll"></i><p>No lore articles yet. Start building your world's history!</p></div>
+                      <div className="empty-state"><i className="fas fa-scroll"></i><p>No lore articles yet. Start building your world's history and codex!</p></div>
                     )}
+                  </div>
+                </div>
+              )}
+
+              {/* Lineages & Species */}
+              {homebrewSubTab === 'lineages' && (
+                <div className="list-section">
+                  <div className="section-header">
+                    <h3>Lineages & Cultural Species</h3>
+                    <button className="add-btn" onClick={() => useCustomLineageStore.getState().openWizard()}>
+                      <i className="fas fa-plus"></i> Forge Custom Lineage
+                    </button>
+                  </div>
+                  <div className="cards-list">
+                    {useCustomLineageStore.getState().getAllLineages().map((lineage) => (
+                      <div key={lineage.id} className="campaign-lineage-card">
+                        <div className="campaign-lineage-header">
+                          <span className={`campaign-lineage-badge ${lineage.isCustom ? 'custom' : 'canon'}`}>
+                            {lineage.isCustom ? 'Custom Species' : 'Canon Lineage'}
+                          </span>
+                          <h4 className="campaign-lineage-title">{lineage.name}</h4>
+                          <span className="campaign-lineage-essence">{lineage.essence || 'The Unbound'}</span>
+                          {lineage.isCustom && (
+                            <div className="campaign-lineage-actions">
+                              <button
+                                className="campaign-lineage-edit-btn"
+                                onClick={() => useCustomLineageStore.getState().openWizard(lineage)}
+                                title="Edit Lineage"
+                              >
+                                <i className="fas fa-edit"></i> Edit
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <div className="campaign-lineage-body">
+                          <p className="campaign-lineage-desc">
+                            {lineage.cardFlavor || lineage.description}
+                          </p>
+                          {lineage.subraces && (
+                            <div className="campaign-lineage-subraces">
+                              {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sr, idx) => (
+                                <span key={idx} className="campaign-subrace-pill">
+                                  <i className="fas fa-dna" style={{ marginRight: '4px', fontSize: '9px', opacity: 0.7 }}></i>
+                                  {sr.name}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -2508,6 +2552,8 @@ const CampaignManager = ({ user }) => {
           </div>
         )}
       </div>
+
+      <CustomLineageWizard />
 
       {/* Tooltips */}
       {hoveredItem && (

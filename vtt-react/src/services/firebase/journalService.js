@@ -47,6 +47,7 @@ class JournalService {
 
         // Knowledge boards
         knowledgeBoards: journalData.knowledgeBoards || [],
+        masterBoardBackground: journalData.masterBoardBackground || null,
 
         // Board elements
         knowledgeOrbs: journalData.knowledgeOrbs || [],
@@ -111,6 +112,7 @@ class JournalService {
 
         // Knowledge boards
         knowledgeBoards: data.knowledgeBoards || [],
+        masterBoardBackground: data.masterBoardBackground || null,
 
         // Board elements
         knowledgeOrbs: data.knowledgeOrbs || [],

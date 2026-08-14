@@ -240,15 +240,15 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      if (!isBuiltInMap && !canAccessCustomMaps) return;
 
      const mapData = getSubregionMap(propInitialMapId);
-    const targetObj = REGION_POLYGONS[propInitialMapId] || SUBREGIONS[propInitialMapId];
-    const mapName = targetObj?.name || mapData?.name || propInitialMapId;
+     const targetObj = REGION_POLYGONS[propInitialMapId] || SUBREGIONS[propInitialMapId];
+     const mapName = targetObj?.name || mapData?.name || propInitialMapId;
 
-    setActiveMapId(propInitialMapId);
-    setMapStack(prev => [{ id: 'mythril', name: 'World Map of Mythril' }, { id: propInitialMapId, name: mapName }]);
-    setSidebarOpen(false);
-    setSelectedRegionId(null);
-    setSelectedLocationId(null);
-   }, [propInitialMapId, tierInfo, canAccessCustomMaps]);
+     setActiveMapId(propInitialMapId);
+     setMapStack(prev => [{ id: 'mythril', name: 'World Map of Mythril' }, { id: propInitialMapId, name: mapName }]);
+     setSidebarOpen(false);
+     setSelectedRegionId(null);
+     setSelectedLocationId(null);
+    }, [propInitialMapId, tierInfo, canAccessCustomMaps]);
 
   // Camera zoom-in when selecting a continent region or subregion on the world map
   useEffect(() => {
@@ -272,6 +272,29 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     setTargetZoomPoint({ x: center[0], y: center[1], scale: targetScale, duration: 850, id: Date.now() });
   }, [selectedRegionId, activeMapId]);
 
+  // Global event listener for 1-click camera flight from [[WikiLinks]], Hovercards, and Journal
+  useEffect(() => {
+    const handleMapNav = (e) => {
+      const detail = e.detail;
+      if (!detail) return;
+
+      const regionKey = detail.regionId || detail.originRegionId;
+      const locationKey = detail.locationId;
+
+      if (regionKey) {
+        setSelectedRegionId(regionKey);
+        setSidebarOpen(true);
+      }
+      if (locationKey) {
+        setSelectedLocationId(locationKey);
+        setSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('mythrill_navigate_map', handleMapNav);
+    return () => window.removeEventListener('mythrill_navigate_map', handleMapNav);
+  }, []);
+
   const [updateTrigger, setUpdateTrigger] = useState(0);
 
  // Dev mode and editor state
@@ -282,7 +305,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  const [selectedPinType, setSelectedPinType] = useState('fortress');
  const [selectedZoneId, setSelectedZoneId] = useState('');
  const [cursorPos, setCursorPos] = useState(null);
-  const [selectedDevPinId, setSelectedDevPinId] = useState(null);
+ const [selectedDevPinId, setSelectedDevPinId] = useState(null);
 
   // Account-backed custom map workspace state
   const [customMapMode, setCustomMapMode] = useState(false);

@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
-import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER } from '../../services/subscriptionService';
+import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER, isCampaignManagerTier } from '../../services/subscriptionService';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
 import { getWowIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import RoomManager from './RoomManager';
-import CampaignManager, { canAccessCampaignManager } from './CampaignManager';
+import CampaignManager from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
 import ProfileEditModal from './ProfileEditModal';
 
@@ -16,6 +16,7 @@ import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
 import AccountSocialManager from './AccountSocialManager';
 import AccountMapManager from './AccountMapManager';
+import WorldDashboard from '../world/WorldDashboard';
 import StorageUsageWidget from './StorageUsageWidget';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -117,6 +118,7 @@ const AccountDashboard = ({ user }) => {
   }, [characters]);
   const isGuest = user?.isGuest || false;
   const [activeTab, setActiveTab] = useState('rooms');
+  const [worldSectionTab, setWorldSectionTab] = useState('lore');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
@@ -870,7 +872,7 @@ const AccountDashboard = ({ user }) => {
 
           {activeTab === 'campaigns' && (
             <div className="tab-content">
-              {subscriptionStatus && canAccessCampaignManager(subscriptionStatus.tier) ? (
+              {subscriptionStatus && isCampaignManagerTier(subscriptionStatus.tier?.id || subscriptionStatus.tierKey || subscriptionStatus.tier) ? (
                 <CampaignManager user={user} />
               ) : (
                 <div className="upgrade-prompt-section">
@@ -902,8 +904,38 @@ const AccountDashboard = ({ user }) => {
           )}
 
           {activeTab === 'maps' && (
-            <div className="tab-content">
-              <AccountMapManager />
+            <div className="tab-content account-world-tab-content">
+              <div className="account-world-subnav" style={{
+                display: 'flex',
+                gap: '12px',
+                marginBottom: '18px',
+                borderBottom: '1px solid #2a2a4a',
+                paddingBottom: '12px',
+                alignItems: 'center'
+              }}>
+                <button
+                  className={`btn ${worldSectionTab === 'lore' ? 'btn-primary' : 'btn-secondary'}`}
+                  onClick={() => setWorldSectionTab('lore')}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px', fontWeight: '600' }}
+                >
+                  <i className="fas fa-book-atlas"></i> Living World & Lore
+                </button>
+                <button
+                  className={`btn ${worldSectionTab === 'maps' ? 'btn-primary' : 'btn-secondary'}`}
+                  onClick={() => setWorldSectionTab('maps')}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px', fontWeight: '600' }}
+                >
+                  <i className="fas fa-map"></i> Atlas & Custom Maps
+                </button>
+              </div>
+
+              {worldSectionTab === 'lore' ? (
+                <div className="account-world-lore-wrapper" style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #2a2a4a' }}>
+                  <WorldDashboard />
+                </div>
+              ) : (
+                <AccountMapManager />
+              )}
             </div>
           )}
 

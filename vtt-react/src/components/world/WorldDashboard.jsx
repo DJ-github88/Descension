@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useClassLoreStore from '../../store/classLoreStore';
+import useCustomLineageStore from '../../store/customLineageStore';
 import FactionWebGraph from './FactionWebGraph';
 import FactionDetail from './FactionDetail';
 import LocationDetail from './LocationDetail';
 import ClassLoreDetail from './ClassLoreDetail';
+import CustomLineageWizard from './CustomLineageWizard';
 import { TimelineView, MiniCalendar } from './TimelineView';
+import './WorldDashboard.css';
 
 const VIEWS = {
   DASHBOARD: 'dashboard',
@@ -15,20 +18,24 @@ const VIEWS = {
   FACTION: 'faction',
   FACTION_GRAPH: 'faction_graph',
   CLASS: 'class',
+  LINEAGE: 'lineage',
   TIMELINE: 'timeline'
 };
 
 const WorldDashboard = () => {
-  const { regions, getWorldOverview } = useWorldStore();
+  const { regions, getWorldOverview, getAllLineages, getLineage } = useWorldStore();
   const { factions } = useFactionStore();
   const { getAllClasses, loadClasses, loaded } = useClassLoreStore();
+  const { openWizard: openLineageWizard, lineages: customLineages } = useCustomLineageStore();
 
   const [view, setView] = useState(VIEWS.DASHBOARD);
   const [selectedRegionId, setSelectedRegionId] = useState(null);
   const [selectedLocationId, setSelectedLocationId] = useState(null);
   const [selectedFactionId, setSelectedFactionId] = useState(null);
   const [selectedClassId, setSelectedClassId] = useState(null);
+  const [selectedLineageId, setSelectedLineageId] = useState(null);
   const [activeTab, setActiveTab] = useState('regions');
+  const [searchFilter, setSearchFilter] = useState('');
 
   useEffect(() => {
     if (!loaded) loadClasses();
@@ -36,6 +43,7 @@ const WorldDashboard = () => {
 
   const overview = getWorldOverview();
   const classes = getAllClasses();
+  const allLineages = getAllLineages();
 
   const navigateToLocation = (locId) => {
     setSelectedLocationId(locId);
@@ -52,6 +60,11 @@ const WorldDashboard = () => {
     setView(VIEWS.CLASS);
   };
 
+  const navigateToLineage = (lineageId) => {
+    setSelectedLineageId(lineageId);
+    setView(VIEWS.LINEAGE);
+  };
+
   const navigateToRegion = (regionId) => {
     setSelectedRegionId(regionId);
     setView(VIEWS.REGION);
@@ -65,6 +78,26 @@ const WorldDashboard = () => {
     setSelectedLocationId(null);
     setSelectedFactionId(null);
     setSelectedClassId(null);
+    setSelectedLineageId(null);
+  };
+
+  const handleFlyToMap = (e, entityData) => {
+    e.stopPropagation();
+    window.dispatchEvent(new CustomEvent('mythrill_navigate_map', { detail: entityData }));
+  };
+
+  const handleAddFaction = () => {
+    const name = prompt('Enter name of new Faction / House:');
+    if (!name || !name.trim()) return;
+    const facId = `fac_custom_${Date.now()}`;
+    useFactionStore.getState().factions.push({
+      id: facId,
+      name: name.trim(),
+      type: 'noble_house',
+      publicGoal: 'A powerful order navigating the dark bargains of Mythrill.',
+      colors: { primary: '#d4af37', secondary: '#444' }
+    });
+    navigateToFaction(facId);
   };
 
   // --- Detail Views ---
@@ -85,6 +118,64 @@ const WorldDashboard = () => {
 
   if (view === VIEWS.CLASS && selectedClassId) {
     return <ClassLoreDetail classId={selectedClassId} onClose={navigateToDashboard} />;
+  }
+
+  if (view === VIEWS.LINEAGE && selectedLineageId) {
+    const lineage = getLineage(selectedLineageId);
+    return (
+      <div className="world-panel">
+        <div className="world-panel-header">
+          <button className="world-back-btn" onClick={navigateToDashboard}>← Dashboard</button>
+          <div>
+            <h2>{lineage?.name} {lineage?.isCustom && <span className="world-badge world-badge-custom">Custom Lineage</span>}</h2>
+            <span className="world-subtitle">{lineage?.essence || 'Lineage Profile'}</span>
+          </div>
+          {lineage?.isCustom && (
+            <button 
+              className="world-action-btn"
+              style={{ marginLeft: 'auto' }}
+              onClick={() => openLineageWizard(lineage)}
+            >
+              <i className="fas fa-edit"></i> Edit Lineage
+            </button>
+          )}
+        </div>
+        <div className="world-tab-content">
+          <div className="world-section-stack">
+            <div className="world-section">
+              <h3>Essence & Overview</h3>
+              <p className="world-prose">{lineage?.description || lineage?.overview || lineage?.cardFlavor}</p>
+            </div>
+            {lineage?.culturalBackground && (
+              <div className="world-section">
+                <h3>Cultural Background & Traditions</h3>
+                <p className="world-prose">{lineage?.culturalBackground}</p>
+              </div>
+            )}
+            {lineage?.meaningfulTradeoffs && (
+              <div className="world-section world-section-highlight">
+                <h3>Meaningful Tradeoff / Mortal Flaw</h3>
+                <p className="world-prose">{lineage?.meaningfulTradeoffs}</p>
+              </div>
+            )}
+            {lineage?.subraces && (
+              <div className="world-section">
+                <h3>Regional Bloodlines & Subraces</h3>
+                <div className="world-card-grid">
+                  {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sub, i) => (
+                    <div key={i} className="world-info-card">
+                      <h4>{sub.name}</h4>
+                      <p className="world-card-meta">{sub.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <CustomLineageWizard />
+      </div>
+    );
   }
 
   if (view === VIEWS.TIMELINE) {
@@ -114,18 +205,28 @@ const WorldDashboard = () => {
     );
   }
 
+  // Filtered Lineages
+  const filteredLineages = allLineages.filter(l => 
+    !searchFilter || 
+    l.name.toLowerCase().includes(searchFilter.toLowerCase()) || 
+    (l.essence && l.essence.toLowerCase().includes(searchFilter.toLowerCase()))
+  );
+
   // --- Dashboard View ---
   return (
     <div className="world-panel world-dashboard">
       <div className="world-panel-header">
-        <h1>Mythrill</h1>
-        <span className="world-subtitle">World-Building Dashboard</span>
+        <div>
+          <h1>Mythrill</h1>
+          <span className="world-subtitle">Living World-Building & Lore Engine</span>
+        </div>
       </div>
 
       <div className="world-tabs">
         {[
           { key: 'regions', label: `Regions (${regions.length})` },
           { key: 'factions', label: `Factions (${factions.length})` },
+          { key: 'lineages', label: `Lineages & Peoples (${allLineages.length})` },
           { key: 'classes', label: `Classes (${classes.length})` },
           { key: 'quicklinks', label: 'Quick Links' }
         ].map((tab) => (
@@ -150,9 +251,18 @@ const WorldDashboard = () => {
               >
                 <div className="world-region-card-header">
                   <h3>{region.name}</h3>
-                  <span className={`world-badge world-badge-${region.dangerLevel}`}>
-                    {region.dangerLevel}
-                  </span>
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <button
+                      className="world-mini-map-btn"
+                      onClick={(e) => handleFlyToMap(e, { regionId: region.id, name: region.name })}
+                      title="Fly to on World Map"
+                    >
+                      <i className="fas fa-map-location-dot"></i>
+                    </button>
+                    <span className={`world-badge world-badge-${region.dangerLevel}`}>
+                      {region.dangerLevel}
+                    </span>
+                  </div>
                 </div>
                 <p className="world-region-desc">{region.description}</p>
                 <div className="world-region-stats">
@@ -183,9 +293,12 @@ const WorldDashboard = () => {
 
         {activeTab === 'factions' && (
           <div>
-            <div className="world-section-actions">
+            <div className="world-section-actions" style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
               <button className="world-action-btn" onClick={navigateToGraph}>
                 <i className="fas fa-project-diagram" /> View Relationship Web
+              </button>
+              <button className="world-action-btn primary" onClick={handleAddFaction}>
+                <i className="fas fa-plus" /> Forge New Faction
               </button>
             </div>
             <div className="world-card-grid">
@@ -202,6 +315,54 @@ const WorldDashboard = () => {
                   <h4>{faction.name}</h4>
                   <span className="world-badge">{faction.type?.replace(/_/g, ' ')}</span>
                   <p className="world-card-meta">{faction.publicGoal?.slice(0, 100)}...</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'lineages' && (
+          <div>
+            <div className="world-section-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <input
+                type="text"
+                className="world-search-input"
+                placeholder="Search lineages and peoples..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+                style={{
+                  background: '#141428',
+                  border: '1px solid #2a2a4a',
+                  borderRadius: '6px',
+                  padding: '8px 12px',
+                  color: '#fff',
+                  width: '260px'
+                }}
+              />
+              <button className="world-action-btn primary" onClick={() => openLineageWizard()}>
+                <i className="fas fa-dna" /> + Forge Custom Lineage
+              </button>
+            </div>
+
+            <div className="world-card-grid">
+              {filteredLineages.map((lineage) => (
+                <div
+                  key={lineage.id}
+                  className="world-info-card world-clickable lineage-card"
+                  onClick={() => navigateToLineage(lineage.id)}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <h4>{lineage.name}</h4>
+                    {lineage.isCustom ? (
+                      <span className="world-badge world-badge-custom">Custom</span>
+                    ) : (
+                      <span className="world-badge">Canon</span>
+                    )}
+                  </div>
+                  <span className="lineage-card-essence">{lineage.essence || 'The Unbound'}</span>
+                  <p className="world-card-meta">
+                    {lineage.cardFlavor || lineage.description?.slice(0, 110) + '...'}
+                  </p>
                 </div>
               ))}
             </div>
@@ -237,10 +398,17 @@ const WorldDashboard = () => {
               <span>World Timeline</span>
               <small>Chronological history from the Deepening to the present age</small>
             </button>
+            <button className="world-quick-link" onClick={() => openLineageWizard()}>
+              <i className="fas fa-dna" />
+              <span>Forge Custom Lineage</span>
+              <small>Create a new playable species integrated into Character Creation</small>
+            </button>
             <MiniCalendar />
           </div>
         )}
       </div>
+
+      <CustomLineageWizard />
     </div>
   );
 };

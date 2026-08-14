@@ -1,8 +1,10 @@
 import { create } from 'zustand';
 import { getEnrichedZone, getEnrichedZonesByRegion } from '../data/deepLocationData';
+import { RACE_DATA, getRaceData } from '../data/raceData';
 import useFactionStore from './factionStore';
 import useTimelineStore from './timelineStore';
 import useClassLoreStore from './classLoreStore';
+import useCustomLineageStore from './customLineageStore';
 
 const REGION_META = {
   'frostwood-reach': {
@@ -107,6 +109,19 @@ const useWorldStore = create((_, get) => ({
     return timelineStore.getEventsByClass(classId);
   },
 
+  // ── Unified Lineages (Canonical + Custom) ──
+  getAllLineages: () => {
+    const canonical = Object.values(RACE_DATA).map((r) => ({ ...r, isCustom: false }));
+    const custom = useCustomLineageStore.getState().getAllLineages();
+    return [...canonical, ...custom];
+  },
+
+  getLineage: (lineageId) => {
+    const canonical = getRaceData(lineageId);
+    if (canonical) return { ...canonical, isCustom: false };
+    return useCustomLineageStore.getState().getLineage(lineageId);
+  },
+
   getFullContextForLocation: (locationId) => {
     const location = get().getLocation(locationId);
     if (!location) return null;
@@ -167,6 +182,56 @@ const useWorldStore = create((_, get) => ({
         locations: locations.slice(0, 3)
       };
     });
+  },
+
+  // ── Universal Entity Fuzzy Search for [[Wiki]] Auto-complete & Explorer ──
+  searchEntities: (query) => {
+    if (!query || typeof query !== 'string' || query.trim().length === 0) return [];
+    const q = query.toLowerCase().trim();
+    const results = [];
+
+    // Search Regions
+    get().regions.forEach((r) => {
+      if (r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q)) {
+        results.push({ id: r.id, name: r.name, type: 'region', subtitle: 'Region / Realm', icon: 'fa-mountain-sun', regionId: r.id });
+      }
+    });
+
+    // Search Locations
+    get().regions.forEach((r) => {
+      const locs = get().getLocationsByRegion(r.id);
+      locs.forEach((loc) => {
+        if (loc.name.toLowerCase().includes(q) || loc.id.toLowerCase().includes(q)) {
+          results.push({ id: loc.id, name: loc.name, type: 'location', subtitle: `${r.name} • ${loc.type || 'POI'}`, icon: 'fa-location-dot', regionId: r.id, locationId: loc.id });
+        }
+      });
+    });
+
+    // Search Factions
+    const factionStore = useFactionStore.getState();
+    (factionStore.factions || []).forEach((f) => {
+      if (f.name.toLowerCase().includes(q) || f.id.toLowerCase().includes(q)) {
+        results.push({ id: f.id, name: f.name, type: 'faction', subtitle: `Faction (${f.type?.replace(/_/g, ' ') || 'Order'})`, icon: 'fa-shield-halved', factionId: f.id });
+      }
+    });
+
+    // Search Lineages & Races
+    get().getAllLineages().forEach((l) => {
+      if (l.name.toLowerCase().includes(q) || (l.essence && l.essence.toLowerCase().includes(q))) {
+        results.push({ id: l.id, name: l.name, type: 'lineage', subtitle: l.essence || (l.isCustom ? 'Custom Lineage' : 'Playable Race'), icon: 'fa-dna', lineageId: l.id });
+      }
+    });
+
+    // Search Classes
+    const classStore = useClassLoreStore.getState();
+    if (!classStore.loaded) classStore.loadClasses();
+    (classStore.getAllClasses() || []).forEach((c) => {
+      if (c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q)) {
+        results.push({ id: c.id, name: c.name, type: 'class', subtitle: 'Class / Discipline', icon: 'fa-hat-wizard', classId: c.id });
+      }
+    });
+
+    return results.slice(0, 12);
   }
 }));
 

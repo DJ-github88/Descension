@@ -1,0 +1,405 @@
+/* ==========================================================================
+   RichLoreText & EntityHovercard Styling — Mythrill Dark Fantasy
+   ========================================================================== */
+
+.rich-lore-container {
+  color: #e6ded2;
+  font-family: -apple-system, BlinkMacSystemFont, 'Cinzel', 'Segoe UI', Roboto, serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.rich-h1 {
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  font-size: 1.4rem;
+  margin: 16px 0 8px 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 4px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.rich-h2 {
+  font-family: 'Cinzel', serif;
+  color: #c9b084;
+  font-size: 1.2rem;
+  margin: 14px 0 6px 0;
+}
+
+.rich-h3 {
+  color: #a89f91;
+  font-size: 1.05rem;
+  margin: 10px 0 4px 0;
+}
+
+.rich-paragraph {
+  margin: 0 0 10px 0;
+}
+
+.rich-list-item {
+  margin-left: 20px;
+  margin-bottom: 4px;
+  list-style-type: square;
+  color: #d8cebf;
+}
+
+.rich-spacer {
+  height: 8px;
+}
+
+.rich-bold {
+  color: #fff;
+  font-weight: 600;
+}
+
+.rich-italic {
+  color: #c0b39f;
+  font-style: italic;
+}
+
+.rich-highlight {
+  background: rgba(212, 175, 55, 0.25);
+  color: #ffd700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.rich-underline {
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 175, 55, 0.5);
+}
+
+.rich-strike {
+  color: #888;
+  text-decoration: line-through;
+}
+
+/* ── [[WikiLinks]] ── */
+.rich-wikilink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(212, 175, 55, 0.12);
+  color: #f1d779;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  padding: 1px 6px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.rich-wikilink:hover {
+  background: rgba(212, 175, 55, 0.28);
+  color: #fff;
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+  transform: translateY(-1px);
+}
+
+.wikilink-icon {
+  font-size: 10px;
+  color: #d4af37;
+  opacity: 0.8;
+}
+
+/* ── @Mention Chips ── */
+.rich-mention-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(52, 152, 219, 0.15);
+  color: #70b7eb;
+  border: 1px solid rgba(52, 152, 219, 0.35);
+  padding: 1px 6px;
+  margin: 0 2px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rich-mention-chip i {
+  font-size: 10px;
+}
+
+/* ── Fenced Block Types (:::readaloud, :::gmnote, etc.) ── */
+.rich-block {
+  margin: 14px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(18, 20, 26, 0.85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.rich-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.rich-block-body {
+  padding: 10px 14px;
+  font-size: 13.5px;
+}
+
+.rich-block-body p {
+  margin: 0 0 6px 0;
+}
+.rich-block-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Read Aloud Block */
+.block-readaloud {
+  border-left: 4px solid #5d9cec;
+  background: linear-gradient(180deg, rgba(30, 42, 60, 0.7) 0%, rgba(18, 22, 32, 0.85) 100%);
+}
+.block-readaloud .rich-block-header {
+  background: rgba(93, 156, 236, 0.15);
+  color: #7db4f5;
+}
+.block-readaloud .rich-block-body {
+  font-style: italic;
+  color: #dbe7f7;
+}
+
+/* GM Note Block */
+.block-gmnote {
+  border-left: 4px solid #e74c3c;
+  background: linear-gradient(180deg, rgba(60, 24, 24, 0.7) 0%, rgba(28, 14, 14, 0.9) 100%);
+}
+.block-gmnote .rich-block-header {
+  background: rgba(231, 76, 60, 0.2);
+  color: #f17669;
+}
+.block-gmnote .rich-block-body {
+  color: #f8c9c4;
+}
+
+/* Quest Hook Block */
+.block-quest {
+  border-left: 4px solid #f39c12;
+  background: linear-gradient(180deg, rgba(50, 38, 20, 0.7) 0%, rgba(26, 20, 12, 0.85) 100%);
+}
+.block-quest .rich-block-header {
+  background: rgba(243, 156, 18, 0.2);
+  color: #f7b752;
+}
+
+/* Statblock Block */
+.block-statblock {
+  border-left: 4px solid #2ecc71;
+  background: linear-gradient(180deg, rgba(20, 45, 30, 0.7) 0%, rgba(12, 26, 18, 0.85) 100%);
+}
+.block-statblock .rich-block-header {
+  background: rgba(46, 204, 113, 0.2);
+  color: #58db90;
+}
+
+/* Loot Block */
+.block-loot {
+  border-left: 4px solid #9b59b6;
+  background: linear-gradient(180deg, rgba(42, 24, 56, 0.7) 0%, rgba(22, 14, 30, 0.85) 100%);
+}
+.block-loot .rich-block-header {
+  background: rgba(155, 89, 182, 0.2);
+  color: #bf82d6;
+}
+
+/* Hazard Block */
+.block-hazard {
+  border-left: 4px solid #e67e22;
+  background: linear-gradient(180deg, rgba(50, 30, 18, 0.7) 0%, rgba(28, 16, 10, 0.85) 100%);
+}
+.block-hazard .rich-block-header {
+  background: rgba(230, 126, 34, 0.2);
+  color: #f39c52;
+}
+
+/* ==========================================================================
+   EntityHovercard Floating Portal
+   ========================================================================== */
+.entity-hovercard-portal {
+  position: fixed;
+  z-index: 150000;
+  width: 320px;
+  background: #14171f;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+  padding: 12px;
+  animation: hovercardFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+@keyframes hovercardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.entity-hovercard-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.entity-hovercard-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f1d779;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.entity-hovercard-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.entity-hovercard-type-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #c9a758;
+  background: rgba(201, 167, 88, 0.12);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-bottom: 2px;
+}
+
+.entity-hovercard-name {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-hovercard-subtitle {
+  font-size: 11px;
+  color: #a89f91;
+  font-style: italic;
+}
+
+.entity-hovercard-body {
+  font-size: 12px;
+  color: #d1c7b8;
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.entity-hovercard-summary {
+  margin: 0 0 6px 0;
+}
+
+.entity-hovercard-sensory {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 2px solid #5d9cec;
+  padding: 4px 8px;
+  border-radius: 0 4px 4px 0;
+  font-size: 11px;
+  color: #bfd6f6;
+  margin-top: 6px;
+}
+
+.entity-hovercard-sensory i {
+  color: #5d9cec;
+  margin-right: 4px;
+}
+
+.entity-hovercard-tradeoff {
+  background: rgba(231, 76, 60, 0.12);
+  border-left: 2px solid #e74c3c;
+  padding: 4px 8px;
+  border-radius: 0 4px 4px 0;
+  font-size: 11px;
+  color: #f7b2aa;
+  margin-top: 6px;
+}
+
+.entity-hovercard-tradeoff i {
+  color: #e74c3c;
+  margin-right: 4px;
+}
+
+.entity-hovercard-actions {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 8px;
+}
+
+.entity-hovercard-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #1f2430;
+  color: #e6ded2;
+}
+
+.entity-hovercard-btn:hover {
+  transform: translateY(-1px);
+}
+
+.entity-hovercard-btn.map-btn {
+  background: linear-gradient(135deg, rgba(83, 151, 190, 0.25) 0%, rgba(40, 80, 110, 0.4) 100%);
+  border-color: rgba(83, 151, 190, 0.5);
+  color: #a4d4f5;
+}
+
+.entity-hovercard-btn.map-btn:hover {
+  background: rgba(83, 151, 190, 0.4);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(83, 151, 190, 0.3);
+}
+
+.entity-hovercard-btn.dossier-btn {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(120, 95, 30, 0.35) 100%);
+  border-color: rgba(212, 175, 55, 0.45);
+  color: #f1d779;
+}
+
+.entity-hovercard-btn.dossier-btn:hover {
+  background: rgba(212, 175, 55, 0.35);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}

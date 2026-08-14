@@ -7,6 +7,11 @@ import { getCustomIconUrl } from '../../utils/assetManager';
 import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import RichLoreText from '../common/RichLoreText';
+import CustomLineageWizard from '../world/CustomLineageWizard';
+import useCustomLineageStore from '../../store/customLineageStore';
+import useWorldStore from '../../store/worldStore';
+import useFactionStore from '../../store/factionStore';
 import './PlayerJournalWindow.css';
 
 const CANONICAL_MAP_PRESETS = [
@@ -238,6 +243,39 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const isGMMode = useGameStore(state => state.isGMMode);
   const { allowed: journalBasicAllowed, loading: journalBasicLoading } = useFeatureFlag('journalBasic');
   const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
+
+  const [noteEditMode, setNoteEditMode] = useState('edit');
+  const [showPromoteMenu, setShowPromoteMenu] = useState(false);
+  const { openWizard: openLineageWizard } = useCustomLineageStore();
+
+  const handlePromoteNote = (targetType, noteData = null) => {
+    const title = noteData?.title || noteTitle || 'Untitled';
+    const content = noteData?.content || noteContent || '';
+
+    if (targetType === 'lineage') {
+      openLineageWizard({
+        name: title,
+        cardFlavor: content.slice(0, 120),
+        description: content,
+        culturalBackground: content
+      });
+    } else if (targetType === 'faction') {
+      const factionId = `fac_custom_${Date.now()}`;
+      useFactionStore.getState().factions.push({
+        id: factionId,
+        name: title,
+        type: 'noble_house',
+        publicGoal: content || 'Custom faction created from Journal brainstorm.',
+        colors: { primary: '#d4af37', secondary: '#333' }
+      });
+      alert(`Created Faction "${title}"! It is now visible in the World Dashboard and Faction Web.`);
+    } else if (targetType === 'map_pin') {
+      window.dispatchEvent(new CustomEvent('mythrill_create_map_pin', { detail: { title, content } }));
+      alert(`Sent "${title}" to Immerse Map! Open the World Map to place or view this location.`);
+    }
+    setShowPromoteMenu(false);
+    if (contextMenu) setContextMenu(null);
+  };
 
   useEffect(() => {
     const loadCampaign = async () => {
@@ -1206,49 +1244,116 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
     <div className="journal-notes-container">
       {/* Note Editor */}
       <div className="note-editor">
-        <input
-          type="text"
-          className="note-title-input"
-          value={noteTitle}
-          onChange={(e) => setNoteTitle(e.target.value)}
-          placeholder="Note title..."
-        />
-        <textarea
-          className="note-content-input"
-          value={noteContent}
-          onChange={(e) => setNoteContent(e.target.value)}
-          placeholder="Write your note here...
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+          <input
+            type="text"
+            className="note-title-input"
+            style={{ flex: 1, margin: 0 }}
+            value={noteTitle}
+            onChange={(e) => setNoteTitle(e.target.value)}
+            placeholder="Note title..."
+          />
+          <div className="note-editor-mode-toggle" style={{ display: 'flex', gap: '4px' }}>
+            <button 
+              type="button"
+              className={`toolbar-btn ${noteEditMode === 'edit' ? 'active' : ''}`}
+              onClick={() => setNoteEditMode('edit')}
+              style={{ fontSize: '11px', padding: '4px 8px', borderRadius: '4px' }}
+              title="Edit markdown"
+            >
+              <i className="fas fa-pen"></i> Edit
+            </button>
+            <button 
+              type="button"
+              className={`toolbar-btn ${noteEditMode === 'preview' ? 'active' : ''}`}
+              onClick={() => setNoteEditMode('preview')}
+              style={{ fontSize: '11px', padding: '4px 8px', borderRadius: '4px' }}
+              title="Rich markdown preview with [[Wiki]] links and blocks"
+            >
+              <i className="fas fa-eye"></i> Preview
+            </button>
+          </div>
+        </div>
 
-You can use this space to:
-• Track your character's thoughts
-• Note important NPCs and locations
-• Plan your next moves
-• Keep track of quests and objectives
+        {noteEditMode === 'edit' ? (
+          <textarea
+            className="note-content-input"
+            value={noteContent}
+            onChange={(e) => setNoteContent(e.target.value)}
+            placeholder="Write your note here...
+• Use [[Entity Name]] for wiki-links (e.g. [[Nordhalla]], [[House Skalvyr]])
+• Use @Mentions for characters or tags
+• Use :::gmnote for secret GM blocks or :::readaloud for boxed text
 
 Drag notes to the Knowledge Board to create visual connections!"
-          rows={8}
-        />
-        <div className="note-editor-actions">
-          {editingNote && (
-            <button 
-              className="note-cancel-btn"
-              onClick={() => {
-                setEditingNote(null);
-                setNoteTitle('');
-                setNoteContent('');
+            rows={8}
+          />
+        ) : (
+          <div className="note-content-preview" style={{ background: '#11141c', padding: '14px', borderRadius: '6px', minHeight: '160px', maxHeight: '220px', overflowY: 'auto', border: '1px solid rgba(212,175,55,0.25)', marginBottom: '10px' }}>
+            <RichLoreText text={noteContent || '*No content to preview*'} />
+          </div>
+        )}
+
+        <div className="note-editor-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="note-promote-dropdown-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
+            <button
+              type="button"
+              className="note-promote-btn"
+              style={{
+                background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(160,120,30,0.35) 100%)',
+                border: '1px solid #d4af37',
+                color: '#f1d779',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
               }}
+              onClick={() => setShowPromoteMenu(!showPromoteMenu)}
+              title="Convert this note into a permanent worldbuilding entity"
             >
-              Cancel
+              <i className="fas fa-bolt"></i> Promote to World ▾
             </button>
-          )}
-          <button 
-            className="note-save-btn"
-            onClick={handleSaveNote}
-            disabled={!noteTitle.trim()}
-          >
-            <i className="fas fa-save"></i>
-            {editingNote ? 'Update Note' : 'Save Note'}
-          </button>
+            {showPromoteMenu && (
+              <div className="note-promote-menu" style={{ position: 'absolute', bottom: '110%', left: 0, background: '#151821', border: '1px solid #d4af37', borderRadius: '6px', padding: '4px', minWidth: '190px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.85)' }}>
+                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('lineage')}>
+                  <i className="fas fa-dna" style={{ color: '#d4af37' }}></i> <strong>Custom Lineage</strong>
+                </button>
+                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('faction')}>
+                  <i className="fas fa-shield-halved" style={{ color: '#3498db' }}></i> <strong>Custom Faction</strong>
+                </button>
+                <button style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#fff', padding: '6px 10px', fontSize: '12px', cursor: 'pointer', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={() => handlePromoteNote('map_pin')}>
+                  <i className="fas fa-map-location-dot" style={{ color: '#2ecc71' }}></i> <strong>Immerse Map Pin</strong>
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {editingNote && (
+              <button 
+                className="note-cancel-btn"
+                onClick={() => {
+                  setEditingNote(null);
+                  setNoteTitle('');
+                  setNoteContent('');
+                }}
+              >
+                Cancel
+              </button>
+            )}
+            <button 
+              className="note-save-btn"
+              onClick={handleSaveNote}
+              disabled={!noteTitle.trim()}
+            >
+              <i className="fas fa-save"></i>
+              {editingNote ? 'Update Note' : 'Save Note'}
+            </button>
+          </div>
         </div>
       </div>
       
@@ -1380,51 +1485,37 @@ Drag notes to the Knowledge Board to create visual connections!"
     );
   }
 
-  // Don't show to GM
-  if (isGMMode) {
-    return (
-      <MythrillWindow
-        isOpen={isOpen}
-        onClose={onClose}
-        title=""
-        className="journal-locked-window"
-        defaultSize={{ width: 800, height: 600 }}
-        defaultPosition={{ x: 100, y: 100 }}
-        centered
-      >
-        <div className="journal-gm-notice">
-          <i className="fas fa-user-secret"></i>
-          <p>This window is for players only</p>
-          <span>As the GM, use the Campaign Manager to share content with players</span>
-        </div>
-      </MythrillWindow>
-    );
-  }
-
   return (
     <>
       <MythrillWindow
         isOpen={isOpen}
         onClose={onClose}
-        title="Player Journal"
+        title={isGMMode ? "Creative Workbench & Journal" : "Player Journal"}
         defaultSize={{ width: 950, height: 700 }}
         defaultPosition={{ x: 100, y: 100 }}
         customHeader={
-          <div className="spellbook-tab-container">
-            {tabs.map(tab => {
-              const isLocked = tab.id === 'board' && !journalFullAllowed;
-              return (
-                <button
-                  key={tab.id}
-                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''} ${isLocked ? 'locked-tab' : ''}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  <span>
-                    {tab.label} {isLocked && <i className="fas fa-lock tab-lock-icon" style={{ marginLeft: '4px', fontSize: '11px', color: '#ff9800' }}></i>}
-                  </span>
-                </button>
-              );
-            })}
+          <div className="spellbook-tab-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex' }}>
+              {tabs.map(tab => {
+                const isLocked = tab.id === 'board' && !journalFullAllowed;
+                return (
+                  <button
+                    key={tab.id}
+                    className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''} ${isLocked ? 'locked-tab' : ''}`}
+                    onClick={() => setActiveTab(tab.id)}
+                  >
+                    <span>
+                      {tab.label} {isLocked && <i className="fas fa-lock tab-lock-icon" style={{ marginLeft: '4px', fontSize: '11px', color: '#ff9800' }}></i>}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {isGMMode && (
+              <span className="gm-workbench-badge" style={{ background: 'rgba(212,175,55,0.18)', border: '1px solid #d4af37', color: '#f1d779', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', marginRight: '10px' }}>
+                <i className="fas fa-crown"></i> GM Workbench
+              </span>
+            )}
           </div>
         }
       >
@@ -1462,7 +1553,7 @@ Drag notes to the Knowledge Board to create visual connections!"
             
             {(showKnowledgePopup.type === 'text' || showKnowledgePopup.sourceType === 'note') && (
               <div className="knowledge-popup-text">
-                {showKnowledgePopup.content}
+                <RichLoreText text={showKnowledgePopup.content} />
               </div>
             )}
             
@@ -1735,6 +1826,28 @@ Drag notes to the Knowledge Board to create visual connections!"
             <i className="fas fa-eye"></i>
             View
           </button>
+          
+          <div className="context-menu-submenu">
+            <button>
+              <i className="fas fa-bolt" style={{ color: '#d4af37' }}></i>
+              Promote to World
+              <i className="fas fa-chevron-right"></i>
+            </button>
+            <div className="context-submenu-items">
+              <button onClick={() => handlePromoteNote('lineage', contextMenu.item)}>
+                <i className="fas fa-dna" style={{ color: '#d4af37' }}></i>
+                Custom Lineage
+              </button>
+              <button onClick={() => handlePromoteNote('faction', contextMenu.item)}>
+                <i className="fas fa-shield-halved" style={{ color: '#3498db' }}></i>
+                Custom Faction
+              </button>
+              <button onClick={() => handlePromoteNote('map_pin', contextMenu.item)}>
+                <i className="fas fa-map-location-dot" style={{ color: '#2ecc71' }}></i>
+                Immerse Map Pin
+              </button>
+            </div>
+          </div>
           
           {journalFolders.length > 0 && (
             <div className="context-menu-submenu">
@@ -2352,6 +2465,9 @@ Drag notes to the Knowledge Board to create visual connections!"
         </div>,
         document.body
       )}
+
+      {/* Custom Lineage Wizard for fast worldbuilding */}
+      <CustomLineageWizard />
     </>
   );
 };

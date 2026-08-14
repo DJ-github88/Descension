@@ -1,15 +1,16 @@
 /**
  * Race Data Module
  *
- * Thin aggregator that imports all playable races from individual module files.
- * Each race lives in its own file under ./races/ for maintainability.
+ * Aggregates canonical playable races from individual module files
+ * and integrates custom user-created lineages from useCustomLineageStore.
  *
- * Exports the same API as before:
- *   - RACE_DATA object (all races keyed by id)
- *   - Utility functions: getRaceList, getSubraceList, getRaceData, etc.
+ * Exports:
+ *   - RACE_DATA object (all canonical races keyed by id)
+ *   - Utility functions: getRaceList, getSubraceList, getRaceData, getFullRaceData, applyRacialModifiers
  */
 
 import { ABILITY_SCORES } from '../utils/pointBuySystem';
+import useCustomLineageStore from '../store/customLineageStore';
 
 import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
@@ -36,17 +37,64 @@ export const RACE_DATA = {
 };
 
 export const getRaceList = () => {
-    return Object.values(RACE_DATA).map(race => ({
+    const canonical = Object.values(RACE_DATA).map(race => ({
         id: race.id,
         name: race.name,
         description: race.description,
-        cardFlavor: race.cardFlavor
+        cardFlavor: race.cardFlavor,
+        isCustom: false
     }));
+
+    try {
+        const customLineages = useCustomLineageStore.getState().getAllLineages();
+        const custom = (customLineages || []).map(lineage => ({
+            id: lineage.id,
+            name: lineage.name,
+            description: lineage.description,
+            cardFlavor: lineage.cardFlavor || lineage.essence,
+            isCustom: true
+        }));
+        return [...canonical, ...custom];
+    } catch (e) {
+        return canonical;
+    }
+};
+
+export const getRaceData = (raceId) => {
+    if (RACE_DATA[raceId]) {
+        return RACE_DATA[raceId];
+    }
+    try {
+        const custom = useCustomLineageStore.getState().getLineage(raceId);
+        if (custom) {
+            // Adapt custom lineage to standard race data shape
+            return {
+                ...custom,
+                subraces: Array.isArray(custom.subraces)
+                    ? custom.subraces.reduce((acc, sr) => {
+                          const sId = sr.id || sr.name.toLowerCase().replace(/\s+/g, '_');
+                          acc[sId] = {
+                              id: sId,
+                              name: sr.name,
+                              description: sr.description,
+                              statModifiers: custom.abilityModifiers || {},
+                              baseTraits: custom.baseTraits || {},
+                              traits: (sr.perks || []).map(p => ({ name: p, description: p }))
+                          };
+                          return acc;
+                      }, {})
+                    : (custom.subraces || {})
+            };
+        }
+    } catch (e) {
+        // Fallback
+    }
+    return null;
 };
 
 export const getSubraceList = (raceId) => {
-    const race = RACE_DATA[raceId];
-    if (!race) return [];
+    const race = getRaceData(raceId);
+    if (!race || !race.subraces) return [];
 
     return Object.values(race.subraces).map(subrace => ({
         id: subrace.id,
@@ -55,13 +103,9 @@ export const getSubraceList = (raceId) => {
     }));
 };
 
-export const getRaceData = (raceId) => {
-    return RACE_DATA[raceId] || null;
-};
-
 export const getSubraceData = (raceId, subraceId) => {
-    const race = RACE_DATA[raceId];
-    if (!race) return null;
+    const race = getRaceData(raceId);
+    if (!race || !race.subraces) return null;
 
     const subrace = Object.values(race.subraces).find(sr => sr.id === subraceId);
     return subrace || null;
@@ -69,20 +113,26 @@ export const getSubraceData = (raceId, subraceId) => {
 
 export const getFullRaceData = (raceId, subraceId) => {
     const race = getRaceData(raceId);
-    const subrace = getSubraceData(raceId, subraceId);
+    if (!race) return null;
 
-    if (!race || !subrace) return null;
+    const subrace = getSubraceData(raceId, subraceId) || (race.subraces ? Object.values(race.subraces)[0] : null) || {
+        id: 'default',
+        name: race.name,
+        description: race.description,
+        statModifiers: race.abilityModifiers || {},
+        baseTraits: race.baseTraits || {}
+    };
 
     return {
         race,
         subrace,
         combinedTraits: {
-            ...race.baseTraits,
+            ...(race.baseTraits || {}),
             ...(subrace.baseTraits || {}),
-            languages: subrace.languages || race.baseTraits.languages,
-            speed: subrace.speed || race.baseTraits.baseSpeed,
-            statModifiers: subrace.statModifiers,
-            traits: subrace.traits,
+            languages: subrace.languages || race.baseTraits?.languages || ['Common'],
+            speed: subrace.speed || race.baseTraits?.baseSpeed || 30,
+            statModifiers: subrace.statModifiers || race.abilityModifiers || {},
+            traits: subrace.traits || race.racialPassives || [],
             baseStats: subrace.baseStats || {},
             savingThrowModifiers: subrace.savingThrowModifiers || {}
         }
@@ -114,7 +164,7 @@ export const getRacialBaseStats = (raceId, subraceId) => {
     const baseStats = subrace.baseStats || {};
 
     return {
-        speed: subrace.speed || raceData.race.baseTraits.baseSpeed || 30,
+        speed: subrace.speed || raceData.race.baseTraits?.baseSpeed || 30,
         hp: baseStats.hp !== undefined ? baseStats.hp : 25,
         mana: baseStats.mana !== undefined ? baseStats.mana : 15,
         ap: baseStats.ap !== undefined ? baseStats.ap : 3,
@@ -142,7 +192,7 @@ export const applyRacialModifiers = (baseStats, raceId, subraceId) => {
     if (!raceData) return baseStats;
 
     const modifiedStats = { ...baseStats };
-    const modifiers = raceData.combinedTraits.statModifiers;
+    const modifiers = raceData.combinedTraits.statModifiers || {};
 
     ABILITY_SCORES.forEach(ability => {
         if (modifiedStats[ability.id] === undefined) {
@@ -152,7 +202,7 @@ export const applyRacialModifiers = (baseStats, raceId, subraceId) => {
 
     Object.keys(modifiers).forEach(stat => {
         if (modifiedStats[stat] !== undefined) {
-            modifiedStats[stat] += modifiers[stat];
+            modifiedStats[stat] += (modifiers[stat] || 0);
         }
     });
 
