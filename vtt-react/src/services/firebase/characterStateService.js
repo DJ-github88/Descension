@@ -20,7 +20,7 @@ import {
   serverTimestamp,
   deleteDoc
 } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { db, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 /**
@@ -32,8 +32,8 @@ class CharacterStateService {
    * Save character runtime state
    */
   async saveCharacterState(userId, characterId, stateData) {
-    if (!userId || !characterId) {
-      throw new Error('User ID and Character ID are required');
+    if (!userId || !characterId || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
+      return { success: true, localOnly: true, characterId };
     }
 
     try {
@@ -106,7 +106,7 @@ class CharacterStateService {
    * Load character runtime state
    */
   async loadCharacterState(userId, characterId) {
-    if (!userId || !characterId) {
+    if (!userId || !characterId || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
       return null;
     }
 

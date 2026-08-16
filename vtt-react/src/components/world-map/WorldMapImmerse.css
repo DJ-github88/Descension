@@ -4197,7 +4197,7 @@
   background: #8b2626;
 }
 
-.form-group {
+.popup-form-scrollable .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;

@@ -226,16 +226,16 @@
   }
 }
 
-.form-group {
+.account-map-manager-container .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-group.flex-1 { flex: 1; }
-.form-group.flex-2 { flex: 2; }
+.account-map-manager-container .form-group.flex-1 { flex: 1; }
+.account-map-manager-container .form-group.flex-2 { flex: 2; }
 
-.form-group label {
+.account-map-manager-container .form-group label {
   font-family: 'Cinzel', serif;
   font-weight: 700;
   font-size: 0.85rem;
@@ -243,9 +243,9 @@
   letter-spacing: 0.5px;
 }
 
-.form-group input[type="text"],
-.form-group select,
-.form-group textarea {
+.account-map-manager-container .form-group input[type="text"],
+.account-map-manager-container .form-group select,
+.account-map-manager-container .form-group textarea {
   background: #fdfbf7 !important;
   border: 1.5px solid #a67c2e !important;
   color: #2b1810 !important;
@@ -258,9 +258,9 @@
   transition: all 0.2s ease;
 }
 
-.form-group input[type="text"]:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.account-map-manager-container .form-group input[type="text"]:focus,
+.account-map-manager-container .form-group select:focus,
+.account-map-manager-container .form-group textarea:focus {
   border-color: #8b2626 !important;
   box-shadow: 0 0 10px rgba(139, 38, 38, 0.25);
 }

@@ -183,8 +183,8 @@
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-.form-group input,
-.form-group select {
+.user-profile-modal .form-group input,
+.user-profile-modal .form-group select {
   padding: 10px 12px;
   background: rgba(0, 0, 0, 0.3);
   border: 2px solid rgba(212, 175, 55, 0.3);
@@ -195,21 +195,21 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.user-profile-modal .form-group input:focus,
+.user-profile-modal .form-group select:focus {
   outline: none;
   border-color: #d4af37;
   background: rgba(0, 0, 0, 0.5);
 }
 
-.form-actions {
+.user-profile-modal .form-actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
 }
 
-.save-btn,
-.cancel-btn {
+.user-profile-modal .save-btn,
+.user-profile-modal .cancel-btn {
   padding: 8px 16px;
   border-radius: 6px;
   font-family: 'Cinzel', serif;

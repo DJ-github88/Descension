@@ -13,7 +13,7 @@ HP: 75
 Mana: 25
 AP: 4
 Speed: 30 ft.
-Armor: 15 (Rime-Forged Plate)
+DR: 3 (Rime-Forged Plate)
 Resist: Rime 50%, Cold 100%
 Weakness: Ember
 ---
@@ -26,7 +26,7 @@ CHA: 10 (+0)
 ---
 Passive - Rime-Bond: Cannot be knocked prone on ice.
 Action (2 AP) - Glacial Cleave: 2d8 + 3 Physical plus 1d6 Rime damage.
-Reaction (1 AP) - Shield of Frost: Gain +3 Armor against the triggering attack.
+Reaction (1 AP) - Shield of Frost: Gain +3 DR against the triggering attack.
 :::`,
   gmnote: `:::gmnote
 Secret Lore for GM Only:
@@ -45,6 +45,13 @@ Quote: "The ice remembers every blood oath we broke when Sol closed his eyes."
 - 1x Glacial Core Fragment (Crafting Material)
 - 45x Ancient Thalreth Silver Florins
 - 1x Potion of Warm-Blood (Immunity to Hypothermia for 4 hours)
+:::`,
+  spell: `:::spell Glacial Spike
+School: Cryomancy | Tier: 2
+Cast: 2 AP | Cost: 15 Mana | Range: 45 ft.
+Target: 1 Creature | Duration: Instantaneous
+Effect: Hurls a spiked glacial monolith dealing 3d8 + 4 Frost damage. The target must succeed on a CON save or be Slowed for 2 rounds.
+Empower (+1 AP): Increases Frost damage by +1d8 and knocks the target prone.
 :::`,
   hazard: `:::hazard Whiteout Gale
 Trigger: Entering the open ridge without guide lines.
@@ -260,6 +267,15 @@ const CodexLoreEditor = ({
                   placeholder="e.g. Sub-zero gale, searing steam vents, slick frost..."
                 />
               </div>
+              <div className="sensory-item">
+                <label><i className="fas fa-utensils"></i> Taste & Palate:</label>
+                <input
+                  type="text"
+                  value={article.sensory?.taste || ''}
+                  onChange={(e) => updateSensory('taste', e.target.value)}
+                  placeholder="e.g. Metallic tang of blood, bitter ash on tongue, chilled pine..."
+                />
+              </div>
             </div>
           </div>
         )}
@@ -345,6 +361,9 @@ const CodexLoreEditor = ({
             <button type="button" className="tool-block-btn statblock" onClick={() => insertTemplate(CODEX_TEMPLATES.statblock)}>
               <i className="fas fa-shield-halved"></i> Statblock
             </button>
+            <button type="button" className="tool-block-btn spell" onClick={() => insertTemplate(CODEX_TEMPLATES.spell)}>
+              <i className="fas fa-wand-magic-sparkles"></i> Spell
+            </button>
             <button type="button" className="tool-block-btn gmnote" onClick={() => insertTemplate(CODEX_TEMPLATES.gmnote)}>
               <i className="fas fa-eye-slash"></i> GM Note
             </button>
@@ -392,6 +411,7 @@ const CodexLoreEditor = ({
                 {article.sensory.sound && <div><strong><i className="fas fa-volume-high"></i> Sound:</strong> {article.sensory.sound}</div>}
                 {article.sensory.smell && <div><strong><i className="fas fa-wind"></i> Smell:</strong> {article.sensory.smell}</div>}
                 {article.sensory.feel && <div><strong><i className="fas fa-temperature-low"></i> Feel:</strong> {article.sensory.feel}</div>}
+                {article.sensory.taste && <div><strong><i className="fas fa-utensils"></i> Taste:</strong> {article.sensory.taste}</div>}
               </div>
             )}
             <div className="codex-preview-body">

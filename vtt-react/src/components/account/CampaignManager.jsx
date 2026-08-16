@@ -19,10 +19,14 @@ import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
+import FamilyTreeStudio from '../world/FamilyTreeStudio';
+import useFamilyTreeStore from '../../store/familyTreeStore';
+import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
-  allowedTiers: ['PRO', 'ULTIMATE'],
+  allowedTiers: ['PRO', 'ULTIMATE', 'MYTHIC'],
   featureName: 'Campaign Manager'
 };
 
@@ -30,7 +34,7 @@ export function canAccessCampaignManager(subscriptionTier) {
   if (!subscriptionTier) return false;
   const tierName = typeof subscriptionTier === 'object' ? subscriptionTier.id?.toUpperCase() : subscriptionTier?.toUpperCase();
   if (tierName === 'DEV_PREVIEW') return true;
-  const legacyMap = { 'SUBSCRIBER': 'PRO', 'PREMIUM': 'ULTIMATE' };
+  const legacyMap = { 'SUBSCRIBER': 'PRO', 'PREMIUM': 'ULTIMATE', 'DEMIURGE': 'MYTHIC', 'SOVEREIGN': 'MYTHIC' };
   const resolved = legacyMap[tierName] || tierName;
   return CAMPAIGN_ACCESS_CONFIG.allowedTiers.includes(resolved);
 }
@@ -98,6 +102,7 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 const CampaignManager = ({ user }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const [homebrewSubTab, setHomebrewSubTab] = useState('items');
+  const [lineageViewMode, setLineageViewMode] = useState('species'); // 'species' | 'family_trees'
 
   // Modal state
   const [inputModal, setInputModal] = useState({ isOpen: false, title: '', placeholder: '', callback: null });
@@ -1368,6 +1373,39 @@ const CampaignManager = ({ user }) => {
                           className="card-field-textarea"
                         />
                       </div>
+
+                      <div className="card-footer-actions" style={{ display: 'flex', gap: '8px', marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(139, 69, 19, 0.15)' }}>
+                        <button
+                          type="button"
+                          className="btn-card-footer-act"
+                          style={{ background: '#fdfbf7', border: '1px solid #c59b3f', color: '#8b5a1a', padding: '5px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                          onClick={() => {
+                            const trees = useFamilyTreeStore.getState().trees;
+                            const matchingTree = trees.find(t => t.nodes.some(n => n.name.toLowerCase() === (npc.name || '').toLowerCase() || n.npcId === npc.id)) || trees[0];
+                            const matchingNode = matchingTree?.nodes.find(n => n.name.toLowerCase() === (npc.name || '').toLowerCase() || n.npcId === npc.id);
+                            useFamilyTreeStore.getState().openStudio(matchingTree?.id, matchingNode?.id);
+                          }}
+                          title="Open this NPC's family tree and bloodlines"
+                        >
+                          <i className="fas fa-sitemap"></i> Family Tree
+                        </button>
+                        
+                        {npc.location && (
+                          <button
+                            type="button"
+                            className="btn-card-footer-act"
+                            style={{ background: '#fdfbf7', border: '1px solid #3498db', color: '#2980b9', padding: '5px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                            onClick={() => {
+                              const pins = useInteractiveMapStore.getState().pins;
+                              const matchingPin = pins.find(p => p.title.toLowerCase().includes(npc.location.toLowerCase()) || npc.location.toLowerCase().includes(p.title.toLowerCase()));
+                              useInteractiveMapStore.getState().openStudio(matchingPin?.mapId, matchingPin?.id);
+                            }}
+                            title="View this location on Interactive Map"
+                          >
+                            <i className="fas fa-map-location-dot"></i> View on Map
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))
@@ -1386,9 +1424,20 @@ const CampaignManager = ({ user }) => {
           <div className="list-section">
             <div className="section-header">
               <h3>Location Management</h3>
-              <button className="add-btn" onClick={addLocation}>
-                <i className="fas fa-plus"></i> Add Location
-              </button>
+              <div className="section-header-actions" style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  className="add-btn secondary"
+                  style={{ background: 'linear-gradient(135deg, #2980b9 0%, #1a5276 100%)', color: '#ffffff', borderColor: '#154360' }}
+                  onClick={() => useInteractiveMapStore.getState().openStudio()}
+                  title="Open Interactive Map Maker, Pins & Multi-Tier Atlas"
+                >
+                  <i className="fas fa-map-location-dot"></i> Interactive Map Studio
+                </button>
+                <button className="add-btn" onClick={addLocation}>
+                  <i className="fas fa-plus"></i> Add Location
+                </button>
+              </div>
             </div>
             <div className="cards-grid">
               {(campaignData.locations || []).length > 0 ? (
@@ -1517,6 +1566,35 @@ const CampaignManager = ({ user }) => {
                           rows={2}
                           className="card-field-textarea"
                         />
+                      </div>
+
+                      <div className="card-footer-actions" style={{ display: 'flex', gap: '8px', marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(139, 69, 19, 0.15)' }}>
+                        <button
+                          type="button"
+                          className="btn-card-footer-act"
+                          style={{ background: '#fdfbf7', border: '1px solid #3498db', color: '#2980b9', padding: '5px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                          onClick={() => {
+                            const { maps, pins, openStudio, addPin } = useInteractiveMapStore.getState();
+                            let matchingPin = pins.find(p => p.title.toLowerCase().includes((location.name || '').toLowerCase()) || (location.name || '').toLowerCase().includes(p.title.toLowerCase()));
+                            let matchingMap = maps.find(m => m.name.toLowerCase().includes((location.region || location.name || '').toLowerCase()));
+                            
+                            if (!matchingPin && location.name) {
+                              matchingPin = addPin({
+                                title: location.name,
+                                description: location.description || location.notableFeatures || '',
+                                type: location.type === 'dungeon' ? 'dungeon' : location.type === 'city' ? 'city' : 'poi',
+                                icon: location.type === 'dungeon' ? 'fa-dungeon' : location.type === 'city' ? 'fa-city' : 'fa-location-dot',
+                                mapId: matchingMap?.id || 'map-mythril-world',
+                                x: Math.floor(Math.random() * 40) + 30,
+                                y: Math.floor(Math.random() * 40) + 30
+                              });
+                            }
+                            openStudio(matchingPin?.mapId || matchingMap?.id, matchingPin?.id);
+                          }}
+                          title="Open this location in the Interactive Map Maker & Multi-Tier Atlas"
+                        >
+                          <i className="fas fa-map-location-dot"></i> View on Interactive Map
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -2498,54 +2576,119 @@ const CampaignManager = ({ user }) => {
                 </div>
               )}
 
-              {/* Lineages & Species */}
+              {/* Lineages, Species & Family Trees */}
               {homebrewSubTab === 'lineages' && (
                 <div className="list-section">
                   <div className="section-header">
-                    <h3>Lineages & Cultural Species</h3>
-                    <button className="add-btn" onClick={() => useCustomLineageStore.getState().openWizard()}>
-                      <i className="fas fa-plus"></i> Forge Custom Lineage
-                    </button>
+                    <div className="lineage-view-toggle-bar" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        className={`add-btn ${lineageViewMode === 'species' ? '' : 'secondary'}`}
+                        onClick={() => setLineageViewMode('species')}
+                        style={lineageViewMode === 'species' ? {} : { background: '#fdfbf7', color: '#5a2e12' }}
+                      >
+                        <i className="fas fa-dna"></i> Cultural Lineages & Species
+                      </button>
+                      <button
+                        type="button"
+                        className={`add-btn ${lineageViewMode === 'family_trees' ? '' : 'secondary'}`}
+                        onClick={() => setLineageViewMode('family_trees')}
+                        style={lineageViewMode === 'family_trees' ? { background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05', borderColor: '#8b6508' } : { background: '#fdfbf7', color: '#5a2e12' }}
+                      >
+                        <i className="fas fa-sitemap"></i> Dynasties & Family Trees
+                      </button>
+                    </div>
+
+                    <div className="section-header-actions">
+                      {lineageViewMode === 'species' ? (
+                        <button className="add-btn" onClick={() => useCustomLineageStore.getState().openWizard()}>
+                          <i className="fas fa-plus"></i> Forge Custom Lineage
+                        </button>
+                      ) : (
+                        <button
+                          className="add-btn"
+                          style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05', borderColor: '#8b6508' }}
+                          onClick={() => useFamilyTreeStore.getState().openStudio()}
+                        >
+                          <i className="fas fa-wand-magic-sparkles"></i> Open Family Tree Studio
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <div className="cards-list">
-                    {useCustomLineageStore.getState().getAllLineages().map((lineage) => (
-                      <div key={lineage.id} className="campaign-lineage-card">
-                        <div className="campaign-lineage-header">
-                          <span className={`campaign-lineage-badge ${lineage.isCustom ? 'custom' : 'canon'}`}>
-                            {lineage.isCustom ? 'Custom Species' : 'Canon Lineage'}
-                          </span>
-                          <h4 className="campaign-lineage-title">{lineage.name}</h4>
-                          <span className="campaign-lineage-essence">{lineage.essence || 'The Unbound'}</span>
-                          {lineage.isCustom && (
+
+                  {lineageViewMode === 'species' ? (
+                    <div className="cards-list">
+                      {useCustomLineageStore.getState().getAllLineages().map((lineage) => (
+                        <div key={lineage.id} className="campaign-lineage-card">
+                          <div className="campaign-lineage-header">
+                            <span className={`campaign-lineage-badge ${lineage.isCustom ? 'custom' : 'canon'}`}>
+                              {lineage.isCustom ? 'Custom Species' : 'Canon Lineage'}
+                            </span>
+                            <h4 className="campaign-lineage-title">{lineage.name}</h4>
+                            <span className="campaign-lineage-essence">{lineage.essence || 'The Unbound'}</span>
+                            {lineage.isCustom && (
+                              <div className="campaign-lineage-actions">
+                                <button
+                                  className="campaign-lineage-edit-btn"
+                                  onClick={() => useCustomLineageStore.getState().openWizard(lineage)}
+                                  title="Edit Lineage"
+                                >
+                                  <i className="fas fa-edit"></i> Edit
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                          <div className="campaign-lineage-body">
+                            <p className="campaign-lineage-desc">
+                              {lineage.cardFlavor || lineage.description}
+                            </p>
+                            {lineage.subraces && (
+                              <div className="campaign-lineage-subraces">
+                                {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sr, idx) => (
+                                  <span key={idx} className="campaign-subrace-pill">
+                                    <i className="fas fa-dna" style={{ marginRight: '4px', fontSize: '9px', opacity: 0.7 }}></i>
+                                    {sr.name}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="cards-list">
+                      {useFamilyTreeStore.getState().trees.map((tree) => (
+                        <div key={tree.id} className="campaign-lineage-card" style={{ borderLeft: '3px solid #d4af37' }}>
+                          <div className="campaign-lineage-header">
+                            <span className="campaign-lineage-badge canon" style={{ background: 'rgba(212, 175, 55, 0.15)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                              <i className="fas fa-crown"></i> Dynasty Tree
+                            </span>
+                            <h4 className="campaign-lineage-title">{tree.name}</h4>
+                            <span className="campaign-lineage-essence">{tree.nodes.length} Members • {tree.relationships.length} Lineage Links</span>
                             <div className="campaign-lineage-actions">
                               <button
                                 className="campaign-lineage-edit-btn"
-                                onClick={() => useCustomLineageStore.getState().openWizard(lineage)}
-                                title="Edit Lineage"
+                                style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' }}
+                                onClick={() => useFamilyTreeStore.getState().openStudio(tree.id)}
+                                title="Open Interactive Family Tree Canvas"
                               >
-                                <i className="fas fa-edit"></i> Edit
+                                <i className="fas fa-sitemap"></i> Explore Tree ↗
                               </button>
                             </div>
-                          )}
-                        </div>
-                        <div className="campaign-lineage-body">
-                          <p className="campaign-lineage-desc">
-                            {lineage.cardFlavor || lineage.description}
-                          </p>
-                          {lineage.subraces && (
-                            <div className="campaign-lineage-subraces">
-                              {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sr, idx) => (
-                                <span key={idx} className="campaign-subrace-pill">
-                                  <i className="fas fa-dna" style={{ marginRight: '4px', fontSize: '9px', opacity: 0.7 }}></i>
-                                  {sr.name}
-                                </span>
-                              ))}
+                          </div>
+                          <div className="campaign-lineage-body">
+                            <p className="campaign-lineage-desc">
+                              {tree.description || 'Ancient ruling dynasty and bloodlines.'}
+                            </p>
+                            <div className="campaign-subrace-pill" style={{ display: 'inline-flex', gap: '8px', background: '#fdfbf7', border: '1px solid rgba(139, 69, 19, 0.25)', color: '#4a2711' }}>
+                              <span><i className="fas fa-users" style={{ color: '#d4af37' }}></i> Key Figures: {tree.nodes.slice(0, 4).map(n => n.name).join(', ')}{tree.nodes.length > 4 ? '...' : ''}</span>
                             </div>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -2554,6 +2697,8 @@ const CampaignManager = ({ user }) => {
       </div>
 
       <CustomLineageWizard />
+      <FamilyTreeStudio />
+      <InteractiveMapStudio />
 
       {/* Tooltips */}
       {hoveredItem && (

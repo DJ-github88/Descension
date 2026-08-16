@@ -180,7 +180,8 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
 
   // Start/stop sync based on enabled state and dependencies
   useEffect(() => {
-    if (enabled && user && documentId) {
+    const isMock = !user?.uid || user.uid === 'admin-dev-user' || user.uid === 'dev-user-123' || user.uid.startsWith('guest-') || user.uid.startsWith('demo-');
+    if (enabled && user && documentId && !isMock && !user.isGuest) {
       startSync();
     } else {
       stopSync();

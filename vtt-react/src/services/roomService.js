@@ -261,10 +261,10 @@ export const addChatMessage = async (roomId, message) => {
  * @returns {Promise<Array>} - Array of room data
  */
 export const getUserRooms = async (userId) => {
- // Check for demo mode
+ // Check for demo/mock mode
  try {
-  const { isDemoMode } = await import('../config/firebase');
-  if (isDemoMode) {
+  const { isDemoMode, isMockOrDevUser, auth } = await import('../config/firebase');
+  if (isDemoMode || !userId || isMockOrDevUser(userId) || !auth?.currentUser) {
    return [];
   }
  } catch (error) {
@@ -272,7 +272,7 @@ export const getUserRooms = async (userId) => {
  }
 
  if (!db) {
-  throw new Error('Firebase not initialized');
+  return [];
  }
 
  try {

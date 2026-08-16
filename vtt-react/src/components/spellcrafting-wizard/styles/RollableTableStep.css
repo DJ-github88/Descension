@@ -97,11 +97,11 @@
   font-weight: var(--my-font-bold);
 }
 
-.form-group {
+.rollable-table-step .form-group {
   margin-bottom: var(--my-space-3);
 }
 
-.form-group label {
+.rollable-table-step .form-group label {
   display: block;
   margin-bottom: var(--my-space-2);
   color: var(--my-text-primary);
@@ -1278,13 +1278,13 @@ select.wow-settings-input option {
   font-style: italic;
 }
 
-.form-group {
+.rollable-table-step .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--my-space-2);
 }
 
-.form-group label {
+.rollable-table-step .form-group label {
   font-family: var(--my-font-ui);
   font-weight: var(--my-font-semibold);
   color: var(--my-text-primary);

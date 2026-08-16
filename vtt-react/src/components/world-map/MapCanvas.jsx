@@ -12,6 +12,9 @@ const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/background
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
+const PEN_CURSOR = 'crosshair';
+const FLAG_CURSOR = 'crosshair';
+
 const LOCATION_CATEGORY_ICONS = {
   capital: 'fa-crown',
   settlement: 'fa-city',
@@ -703,10 +706,11 @@ const MapCanvas = ({
                                   cy={y}
                                   r="26"
                                   fill="none"
-                                  stroke={isSelected ? '#80d8a8' : (isBeingDragged ? '#ffc107' : '#f1d48a')}
-                                  strokeWidth="2.5"
-                                  strokeDasharray={zone.isLocked ? 'none' : '4 3'}
+                                  stroke={isSelected ? '#ffffff' : (isBeingDragged ? '#ffc107' : (zone.stroke || '#f1d48a'))}
+                                  strokeWidth={isSelected ? '3.5' : '2.5'}
+                                  strokeDasharray={isSelected ? '4 3' : (zone.isLocked ? 'none' : '4 3')}
                                   opacity="0.95"
+                                  style={{ filter: isSelected ? 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.85))' : 'none' }}
                                 />
                               )}
                               {/* Circular badge shield */}
@@ -714,7 +718,7 @@ const MapCanvas = ({
                                 cx={x}
                                 cy={y}
                                 r="18"
-                                fill={isSelected ? '#80d8a8' : (zone.color || '#e4b655')}
+                                fill={zone.color || zone.stroke || '#e4b655'}
                                 stroke="#140c06"
                                 strokeWidth="2.8"
                                 filter="url(#pinShadow)"
@@ -773,14 +777,14 @@ const MapCanvas = ({
                                     height="28"
                                     rx="6"
                                     fill="rgba(18, 14, 10, 0.94)"
-                                    stroke={isSelected ? '#80d8a8' : (zone.isLocked ? 'rgba(212, 175, 55, 0.5)' : 'rgba(212, 175, 55, 0.85)')}
+                                    stroke={isSelected ? (zone.stroke || '#f1d48a') : (zone.isLocked ? 'rgba(212, 175, 55, 0.5)' : 'rgba(212, 175, 55, 0.85)')}
                                     strokeWidth="1.5"
                                     filter="url(#pinShadow)"
                                   />
                                   <text
                                     x={x + 32}
                                     y={y + 5}
-                                    fill={isSelected ? '#a5f3c5' : '#fff0c0'}
+                                    fill={isSelected ? '#ffffff' : '#fff0c0'}
                                     fontFamily="'Cinzel', Georgia, serif"
                                     fontSize="13"
                                     fontWeight="700"
@@ -819,12 +823,13 @@ const MapCanvas = ({
                           >
                             <polygon
                               points={pointsStr}
-                              fill={isSelected ? 'rgba(128, 216, 168, 0.28)' : (isHovered ? 'rgba(241, 212, 138, 0.32)' : (zone.color || 'rgba(196, 164, 74, 0.22)'))}
-                              stroke={isSelected ? '#80d8a8' : (isHovered ? '#fff0c0' : (zone.stroke || '#f1d48a'))}
-                              strokeWidth={isSelected ? '6' : (isHovered ? '5' : '3.5')}
+                              fill={zone.color || 'rgba(196, 164, 74, 0.22)'}
+                              stroke={isSelected ? '#ffffff' : (isHovered ? '#fff0c0' : (zone.stroke || '#f1d48a'))}
+                              strokeWidth={isSelected ? '5.5' : (isHovered ? '4.5' : '3.5')}
                               strokeLinejoin="round"
-                              strokeDasharray={isSelected ? '12 6' : 'none'}
+                              strokeDasharray={isSelected ? '10 5' : 'none'}
                               className="custom-polygon-shape"
+                              style={{ filter: isSelected ? 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.7))' : 'none' }}
                             />
                             {zone.name && zone.points?.length > 0 && (
                               <text

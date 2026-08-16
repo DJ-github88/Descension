@@ -229,50 +229,49 @@
     animation-play-state: paused;
 }
 
-/* Quality colors matching RARITY_COLORS constant - improved readability */
-.quality-poor {
+/* Quality colors matching RARITY_COLORS constant - scoped strictly to tooltips */
+.item-tooltip .quality-poor,
+.item-tooltip-content .quality-poor {
     color: #6b5d4f !important;
-    /* Darker brown-grey for better readability on beige */
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
-.quality-common {
+.item-tooltip .quality-common,
+.item-tooltip-content .quality-common {
     color: #f0e6d2 !important;
-    /* Light beige for better contrast */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-.quality-uncommon {
+.item-tooltip .quality-uncommon,
+.item-tooltip-content .quality-uncommon {
     color: #4a934a !important;
-    /* Softer, more pleasant green */
     text-shadow:
         0 0 8px rgba(74, 147, 74, 0.6),
         0 1px 2px rgba(0, 0, 0, 0.8),
         0 2px 4px rgba(0, 0, 0, 0.6) !important;
-    /* Better contrast on any background */
 }
 
-.quality-rare {
+.item-tooltip .quality-rare,
+.item-tooltip-content .quality-rare {
     color: #5b9bd5 !important;
-    /* Softer, lighter blue */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(91, 155, 213, 0.5) !important;
 }
 
-.quality-epic {
+.item-tooltip .quality-epic,
+.item-tooltip-content .quality-epic {
     color: #b886db !important;
-    /* Softer, lighter purple */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(184, 134, 219, 0.5) !important;
 }
 
-.quality-legendary {
+.item-tooltip .quality-legendary,
+.item-tooltip-content .quality-legendary {
     color: #ffaa44 !important;
-    /* Softer orange */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(255, 170, 68, 0.5) !important;
 }
 
-.quality-artifact {
+.item-tooltip .quality-artifact,
+.item-tooltip-content .quality-artifact {
     color: #f0d890 !important;
-    /* Softer, lighter gold */
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 6px rgba(240, 216, 144, 0.5) !important;
 }
 

@@ -1,23 +1,23 @@
 /* ==========================================================================
-   Codex Lore Editor CSS — Mythrill Dark Fantasy & Parchment Harmony
+   Codex Lore Editor CSS — Pathfinder Beige & Dark Leather/Parchment Theme
    ========================================================================== */
 
 .codex-lore-editor {
-  background: #11141c;
-  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  background: #fdfbf7;
+  border: 1.5px solid rgba(139, 69, 19, 0.35);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 18px rgba(90, 46, 18, 0.1);
   margin-bottom: 18px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
+  font-family: 'Spectral', Georgia, -apple-system, BlinkMacSystemFont, serif;
 }
 
 /* Hero Artwork Banner */
 .codex-banner-container {
   width: 100%;
   max-height: 180px;
-  background: #0d1017;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: #f2eade;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.25);
   overflow: hidden;
   position: relative;
 }
@@ -38,7 +38,7 @@
 .codex-banner-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(35, 18, 8, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,27 +52,30 @@
 }
 
 .codex-banner-btn {
-  background: rgba(212, 175, 55, 0.25);
-  border: 1px solid #d4af37;
-  color: #fff;
-  padding: 6px 14px;
+  background: linear-gradient(135deg, #d4af37 0%, #aa8014 100%);
+  border: 1px solid #5a3804;
+  color: #1a0f05;
+  padding: 7px 16px;
   border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .codex-banner-btn:hover {
-  background: #d4af37;
-  color: #000;
+  background: linear-gradient(135deg, #f3d468 0%, #c49618 100%);
 }
 
 .codex-banner-clear-btn {
-  background: rgba(231, 76, 60, 0.3);
-  border: 1px solid #e74c3c;
-  color: #fff;
-  padding: 6px 14px;
+  background: rgba(192, 57, 43, 0.85);
+  border: 1px solid #922b21;
+  color: #ffffff;
+  padding: 7px 14px;
   border-radius: 6px;
-  font-size: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -82,23 +85,26 @@
   justify-content: center;
   gap: 10px;
   padding: 24px;
-  color: #a89f91;
+  color: #6b4d32;
   font-family: 'Cinzel', serif;
-  font-size: 13px;
+  font-size: 12.5px;
+  font-weight: 700;
   cursor: pointer;
-  border: 1px dashed rgba(212, 175, 55, 0.25);
+  border: 1.5px dashed rgba(139, 69, 19, 0.35);
   transition: all 0.2s ease;
+  background: #f7f1e7;
 }
 .codex-banner-placeholder:hover {
-  color: #f1d779;
-  background: rgba(212, 175, 55, 0.05);
+  color: #2b1408;
+  background: #eee4d4;
+  border-color: #8b5a1a;
 }
 
 /* Metadata Header */
 .codex-meta-header {
   padding: 14px 18px;
-  background: linear-gradient(180deg, #181d28 0%, #12151d 100%);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(180deg, #f8f4ec 0%, #efe7dc 100%);
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.25);
 }
 
 .codex-title-row {
@@ -110,34 +116,34 @@
 
 .codex-title-input {
   flex: 1;
-  background: #0d1017 !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  background: #ffffff !important;
+  border: 1.5px solid rgba(139, 69, 19, 0.35) !important;
   border-radius: 6px;
-  padding: 10px 14px;
-  color: #f1d779 !important;
+  padding: 9px 14px;
+  color: #2b1408 !important;
   font-family: 'Cinzel', serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 .codex-title-input:focus {
   outline: none;
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+  border-color: #8b5a1a !important;
+  box-shadow: 0 0 10px rgba(139, 69, 19, 0.18);
 }
 
 .codex-delete-btn {
-  background: rgba(231, 76, 60, 0.15);
-  border: 1px solid rgba(231, 76, 60, 0.35);
-  color: #f17669;
+  background: rgba(192, 57, 43, 0.12);
+  border: 1px solid rgba(192, 57, 43, 0.35);
+  color: #c0392b;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 .codex-delete-btn:hover {
-  background: #e74c3c;
-  color: #fff;
+  background: #c0392b;
+  color: #ffffff;
 }
 
 .codex-meta-row {
@@ -152,16 +158,19 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #c9b084;
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
 }
 
 .codex-select,
 .codex-tags-input {
-  background: #0d1017 !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(139, 69, 19, 0.3) !important;
   border-radius: 5px;
   padding: 6px 10px;
-  color: #fff !important;
+  color: #2b1408 !important;
+  font-family: 'Spectral', Georgia, serif;
   font-size: 12.5px;
 }
 
@@ -170,60 +179,67 @@
   align-items: center;
   gap: 6px;
   font-size: 11.5px;
-  color: #e67e22;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: #a04000;
   cursor: pointer;
-  background: rgba(230, 126, 34, 0.12);
+  background: rgba(230, 126, 34, 0.15);
   padding: 5px 10px;
   border-radius: 5px;
-  border: 1px solid rgba(230, 126, 34, 0.3);
+  border: 1px solid rgba(230, 126, 34, 0.4);
 }
 
 .codex-sensory-toggle-btn {
-  background: rgba(83, 151, 190, 0.15);
-  border: 1px solid rgba(83, 151, 190, 0.35);
-  color: #a4d4f5;
-  padding: 5px 10px;
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  padding: 5px 12px;
   border-radius: 5px;
   font-size: 11.5px;
   cursor: pointer;
   margin-left: auto;
-  font-weight: 600;
+  font-weight: 700;
+  transition: all 0.15s ease;
 }
 .codex-sensory-toggle-btn.active {
-  background: rgba(83, 151, 190, 0.3);
-  border-color: #5397be;
+  background: #e8dfd2;
+  border-color: #8b5a1a;
+  color: #2b1408;
 }
 
 /* Sensory Drawer */
 .codex-sensory-drawer {
   margin-top: 12px;
   padding: 12px;
-  background: #0d1017;
-  border: 1px solid rgba(83, 151, 190, 0.25);
+  background: #f7f2ea;
+  border: 1.5px solid rgba(139, 69, 19, 0.25);
   border-radius: 6px;
 }
 
 .sensory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 10px;
 }
 
 .sensory-item label {
   display: block;
   font-size: 11px;
-  color: #a4d4f5;
+  color: #5a2e12;
   margin-bottom: 4px;
-  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
 }
 
 .sensory-item input {
   width: 100%;
-  background: #141822 !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(139, 69, 19, 0.25) !important;
   border-radius: 4px;
-  padding: 5px 8px;
-  color: #fff !important;
+  padding: 6px 9px;
+  color: #2b1408 !important;
+  font-family: 'Spectral', Georgia, serif;
   font-size: 12px;
   box-sizing: border-box;
 }
@@ -233,8 +249,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0f1218;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: #ede4d6;
+  border-bottom: 1.5px solid rgba(139, 69, 19, 0.25);
   padding: 0 14px;
 }
 
@@ -246,11 +262,12 @@
 .codex-tab-btn {
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  color: #8c8273;
+  border-bottom: 2.5px solid transparent;
+  color: #6b4d32;
   padding: 9px 14px;
-  font-size: 12px;
-  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -258,19 +275,19 @@
   transition: all 0.15s ease;
 }
 .codex-tab-btn:hover {
-  color: #c9b084;
+  color: #2b1408;
 }
 .codex-tab-btn.active {
-  color: #f1d779;
-  border-bottom-color: #d4af37;
-  background: rgba(212, 175, 55, 0.08);
+  color: #2b1408;
+  border-bottom-color: #8b5a1a;
+  background: #fdfbf7;
 }
 
 /* Toolbar */
 .codex-toolbar {
-  background: #141822;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 6px 12px;
+  background: #f8f4ed;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+  padding: 7px 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -284,74 +301,76 @@
 }
 
 .tool-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ccc;
-  padding: 4px 8px;
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  color: #4a2711;
+  padding: 4px 9px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 11.5px;
   transition: all 0.12s ease;
 }
 .tool-btn:hover {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: #d4af37;
-  color: #fff;
+  background: #ede4d6;
+  border-color: #8b5a1a;
+  color: #2b1408;
 }
 
 .tool-sep {
   width: 1px;
   height: 16px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(139, 69, 19, 0.2);
   margin: 0 4px;
 }
 
 .codex-blocks-row {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(139, 69, 19, 0.15);
   padding-top: 5px;
 }
 
 .blocks-row-label {
   font-size: 11px;
-  color: #d4af37;
+  color: #8b5a1a;
   font-weight: 700;
   margin-right: 4px;
   font-family: 'Cinzel', serif;
 }
 
 .tool-block-btn {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  color: #e6ded2;
-  padding: 3px 8px;
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  color: #5a2e12;
+  padding: 3px 9px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 11px;
-  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   transition: all 0.12s ease;
 }
 .tool-block-btn:hover {
-  border-color: #d4af37;
-  color: #fff;
+  border-color: #8b5a1a;
+  color: #2b1408;
+  background: #ede4d6;
   transform: translateY(-1px);
 }
-.tool-block-btn.readaloud:hover { background: rgba(83, 151, 190, 0.25); }
-.tool-block-btn.statblock:hover { background: rgba(196, 74, 74, 0.25); }
-.tool-block-btn.gmnote:hover { background: rgba(230, 126, 34, 0.25); }
-.tool-block-btn.quest:hover { background: rgba(212, 175, 55, 0.25); }
+.tool-block-btn.readaloud:hover { background: rgba(83, 151, 190, 0.18); border-color: #5397be; }
+.tool-block-btn.statblock:hover { background: rgba(196, 74, 74, 0.18); border-color: #c44a4a; }
+.tool-block-btn.gmnote:hover { background: rgba(230, 126, 34, 0.18); border-color: #e67e22; }
+.tool-block-btn.quest:hover { background: rgba(212, 175, 55, 0.25); border-color: #d4af37; }
 
 /* Panes Wrapper */
 .codex-panes-wrapper {
   display: flex;
-  min-height: 280px;
+  min-height: 320px;
 }
 
 .codex-panes-wrapper.mode-split .codex-write-pane {
   flex: 1;
-  border-right: 1px solid rgba(212, 175, 55, 0.2);
+  border-right: 1.5px solid rgba(139, 69, 19, 0.25);
 }
 .codex-panes-wrapper.mode-split .codex-preview-pane {
   flex: 1;
@@ -369,7 +388,7 @@
 /* Write Pane */
 .codex-write-pane {
   display: flex;
-  background: #0d1017;
+  background: #ffffff;
 }
 
 .codex-textarea {
@@ -377,7 +396,7 @@
   background: transparent !important;
   border: none !important;
   padding: 16px;
-  color: #e6ded2 !important;
+  color: #2b1408 !important;
   font-family: 'Consolas', 'Courier New', monospace;
   font-size: 13.5px;
   line-height: 1.6;
@@ -390,30 +409,50 @@
 
 /* Preview Pane */
 .codex-preview-pane {
-  background: #11141c;
-  padding: 16px;
+  background: #fdfbf7;
+  padding: 22px;
   overflow-y: auto;
-  max-height: 480px;
+  max-height: 540px;
 }
 
 .codex-preview-sensory-bar {
-  background: #0d1017;
-  border: 1px solid rgba(83, 151, 190, 0.3);
+  background: #f7f2ea;
+  border: 1.5px solid #c59b3f;
   border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 12px;
-  color: #a4d4f5;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #2b1408;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(90, 46, 18, 0.06);
+}
+
+.codex-preview-sensory-bar div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.codex-preview-sensory-bar strong {
+  color: #5a2e12;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  min-width: 80px;
+}
+
+.codex-preview-sensory-bar i {
+  color: #8b5a1a;
+  margin-right: 4px;
 }
 
 .codex-preview-body {
-  font-family: 'Crimson Text', Georgia, serif;
-  font-size: 15px;
-  line-height: 1.65;
-  color: #e6ded2;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #2b1408;
 }
 
 @media (max-width: 800px) {
@@ -422,6 +461,6 @@
   }
   .codex-panes-wrapper.mode-split .codex-preview-pane {
     max-width: 100%;
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    border-top: 1.5px solid rgba(139, 69, 19, 0.25);
   }
 }

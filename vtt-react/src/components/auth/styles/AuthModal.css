@@ -243,49 +243,69 @@
 }
 
 /* Form Styles */
-.auth-form {
+.auth-modal .auth-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.auth-modal .form-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  flex: initial !important;
 }
 
-/* Removed duplicate .form-group label - using consolidated styles */
+.auth-modal .form-group label {
+  color: var(--my-parchment-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
 
-.form-group input:not([type="checkbox"]) {
+.auth-modal .form-group label::before,
+.auth-modal .form-group > label::before,
+.auth-modal .form-group label:not(:has(input[type="checkbox"]))::before {
+  content: none !important;
+  display: none !important;
+}
+
+.auth-modal .form-group input:not([type="checkbox"]) {
   padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
-  color: #000000;
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
   font-family: 'Cinzel', serif;
   font-size: 1rem;
   transition: all 0.3s ease;
+  box-shadow: none !important;
 }
 
-.form-group input:not([type="checkbox"]):focus {
+.auth-modal .form-group input:not([type="checkbox"]):focus {
   outline: none;
-  border-color: #d4af37;
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+  border-color: #d4af37 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3) !important;
+  transform: none !important;
 }
 
-.form-group input::placeholder {
-  color: rgba(240, 230, 210, 0.5);
+.auth-modal .form-group input::placeholder {
+  color: rgba(240, 230, 210, 0.5) !important;
 }
 
-.error-text {
+.auth-modal .error-text {
   color: #ff6b6b;
   font-size: 0.85rem;
   margin-top: 4px;
 }
 
-.error-message {
+.auth-modal .error-message {
   background: rgba(255, 107, 107, 0.1);
   border: 1px solid #ff6b6b;
   border-radius: 6px;
@@ -370,88 +390,95 @@
   }
 }
 
-/* ===== Custom "Remember me" checkbox ===== */
-/* Replaces the default native checkbox with a themed checkmark box.
-   The native input is hidden visually but kept for accessibility and
-   state syncing: clicking the label toggles it normally. */
-.auth-modal .form-group.auth-checkbox-group {
-  flex-direction: row;
-  align-items: center;
-  margin-top: 4px;
+/* ===== Custom "Remember me" Option ===== */
+.auth-modal .auth-checkbox-group {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 4px 0 10px 0 !important;
+  width: 100% !important;
 }
 
-.auth-modal .checkbox-label {
+.auth-modal .auth-remember-label {
   display: inline-flex !important;
-  align-items: center;
-  position: relative;
-  padding-left: 32px;
-  margin-bottom: 0 !important;
-  cursor: pointer;
-  user-select: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--my-parchment-text);
-  text-transform: none;
-  letter-spacing: normal;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 8px 20px 8px 16px !important;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.35) !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.25s ease !important;
+  position: relative !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Hide native checkbox visually but keep it focusable */
-.auth-modal .checkbox-label input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
+.auth-modal .auth-remember-label:hover {
+  background: rgba(212, 175, 55, 0.12) !important;
+  border-color: rgba(212, 175, 55, 0.65) !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2) !important;
 }
 
-/* Custom checkmark box */
-.auth-modal .checkbox-label .checkmark {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(212, 175, 55, 0.5);
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  pointer-events: none;
+.auth-modal .auth-remember-label input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
 }
 
-.auth-modal .checkbox-label:hover .checkmark {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.12);
+.auth-modal .auth-custom-checkmark {
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
+  background: rgba(10, 8, 6, 0.8) !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.6) !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  transition: all 0.2s ease !important;
 }
 
-/* Focus outline for accessibility */
-.auth-modal .checkbox-label input[type="checkbox"]:focus-visible ~ .checkmark {
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
+.auth-modal .auth-remember-label:hover .auth-custom-checkmark {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.4) !important;
 }
 
-/* When checked, fill the box */
-.auth-modal .checkbox-label input[type="checkbox"]:checked ~ .checkmark {
-  background: linear-gradient(135deg, #d4af37, #b8941f);
-  border-color: #d4af37;
+.auth-modal .auth-remember-label input[type="checkbox"]:focus-visible ~ .auth-custom-checkmark {
+  outline: 2px solid #d4af37 !important;
+  outline-offset: 2px !important;
 }
 
-/* Draw the tick with borders (hidden until checked) */
-.auth-modal .checkbox-label .checkmark::after {
-  content: '';
-  position: absolute;
-  display: none;
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid #1a0f08;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.auth-modal .auth-remember-label input[type="checkbox"]:checked ~ .auth-custom-checkmark {
+  background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+  border-color: #f1d48a !important;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5) !important;
 }
 
-.auth-modal .checkbox-label input[type="checkbox"]:checked ~ .checkmark::after {
-  display: block;
+.auth-modal .auth-custom-checkmark::after {
+  content: '' !important;
+  display: none !important;
+  width: 5px !important;
+  height: 9px !important;
+  border: solid #1a0f08 !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) translate(-1px, -1px) !important;
+}
+
+.auth-modal .auth-remember-label input[type="checkbox"]:checked ~ .auth-custom-checkmark::after {
+  display: block !important;
+}
+
+.auth-modal .auth-remember-text {
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  color: var(--my-parchment-text) !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
 }

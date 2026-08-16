@@ -129,11 +129,12 @@
     transform: scaleX(-1);
 }
 
-/* Close button inside the content area, positioned for visibility */
+/* Close button inside the content area, positioned cleanly with margin */
 .wow-window-close-btn {
     position: absolute !important;
-    top: 3px !important;
-    right: 10px !important;
+    top: 6px !important;
+    right: 12px !important;
+    z-index: 10002 !important;
 }
 
 /* Modal backdrop: rendered by MythrillWindow when modal={true} and backdrop !== false.
@@ -550,8 +551,8 @@
 .spellbook-tab-container {
     position: absolute !important;
     top: -38px !important;
-    left: 44px !important;
-    right: 44px !important;
+    left: 20px !important;
+    right: 20px !important;
     height: 40px !important;
     display: flex !important;
     align-items: flex-end !important;
@@ -880,12 +881,12 @@
     outline: none !important;
     color: #2b180d !important;
     font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
-    font-size: 12px !important;
+    font-size: clamp(9.5px, 0.95vw, 11px) !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.8px !important;
+    letter-spacing: 0.3px !important;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    padding: 4px 18px !important;
+    padding: 4px clamp(4px, 1vw, 12px) !important;
     min-height: 38px !important;
     height: 38px !important;
     display: inline-flex !important;
@@ -894,11 +895,14 @@
     cursor: pointer !important;
     transition: transform 0.15s ease, filter 0.15s ease !important;
     box-shadow: none !important;
-    margin: 0 2px !important;
+    margin: 0 1px !important;
     border-radius: 0 !important;
     position: relative !important;
     z-index: 10 !important;
     opacity: 0.95 !important;
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
 }
 
 .window-header-tab:hover:not(.active),

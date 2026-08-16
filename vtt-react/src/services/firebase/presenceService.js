@@ -15,7 +15,7 @@ import {
   collection,
   serverTimestamp
 } from 'firebase/firestore';
-import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { db, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 
 class PresenceService {
   constructor() {
@@ -33,9 +33,8 @@ class PresenceService {
    * Set user as online with character and session data
    */
   async setOnline(userId, characterData, sessionData = {}) {
-    if (!this.isConfigured || !db) {
-      console.warn('Firebase Firestore not configured, using local presence only');
-      return false;
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return true;
     }
 
     try {
@@ -90,6 +89,10 @@ class PresenceService {
    * Start heartbeat to keep presence alive
    */
   startHeartbeat(userId) {
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return;
+    }
+
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
     }
@@ -101,7 +104,7 @@ class PresenceService {
           lastSeen: serverTimestamp()
         });
       } catch (error) {
-        console.error('❌ Heartbeat failed:', error);
+        console.debug('Heartbeat skipped/ended:', error?.message || error);
       }
     }, 30000); // 30 seconds
   }
@@ -110,6 +113,10 @@ class PresenceService {
    * Setup offline detection handlers
    */
   setupOfflineHandlers(userId) {
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return;
+    }
+
     const handleOffline = async () => {
       if (this.isCleanedUp) return;
       console.log('🔴 Setting user offline:', userId);
@@ -128,7 +135,6 @@ class PresenceService {
         // Start timer - only go offline after 5 minutes hidden
         this.visibilityTimer = setTimeout(() => {
           this.visibilityTimer = null;
-          console.log('⏰ User hidden for 5 minutes, marking offline');
           handleOffline();
         }, VISIBILITY_OFFLINE_DELAY);
       } else {
@@ -152,8 +158,8 @@ class PresenceService {
    * Update user session information (local/multiplayer)
    */
   async updateSession(userId, sessionData) {
-    if (!this.isConfigured || !db) {
-      return false;
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return true;
     }
 
     try {
@@ -170,10 +176,9 @@ class PresenceService {
       };
 
       await updateDoc(presenceRef, updates);
-      console.log('📡 Updated session for user:', userId, updates);
       return true;
     } catch (error) {
-      console.error('❌ Failed to update session:', error);
+      console.debug('Failed to update session:', error?.message || error);
       return false;
     }
   }
@@ -182,8 +187,8 @@ class PresenceService {
    * Update user status (online/away/busy) and optional status comment
    */
   async updateStatus(userId, status, statusComment = null) {
-    if (!this.isConfigured || !db || this.isCleanedUp) {
-      return false;
+    if (!this.isConfigured || !db || this.isCleanedUp || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return true;
     }
 
     try {
@@ -192,7 +197,6 @@ class PresenceService {
       // Get current data to preserve other fields
       const snapshot = await getDoc(presenceRef);
       if (!snapshot.exists()) {
-        console.warn('⚠️ No presence data found for user:', userId);
         return false;
       }
 
@@ -209,10 +213,9 @@ class PresenceService {
       }
 
       await setDoc(presenceRef, updates, { merge: true });
-      console.log('🔄 Updated status for user:', userId, status);
       return true;
     } catch (error) {
-      console.error('❌ Failed to update status:', error);
+      console.debug('Failed to update status:', error?.message || error);
       return false;
     }
   }
@@ -221,8 +224,8 @@ class PresenceService {
    * Update user character data (when switching characters)
    */
   async updateCharacterData(userId, characterData) {
-    if (!this.isConfigured || !db) {
-      return false;
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return true;
     }
 
     try {
@@ -231,7 +234,6 @@ class PresenceService {
       // First get current presence data to preserve session info
       const snapshot = await getDoc(presenceRef);
       if (!snapshot.exists()) {
-        console.warn('⚠️ No presence data found for user:', userId);
         return false;
       }
 
@@ -255,10 +257,9 @@ class PresenceService {
       };
 
       await setDoc(presenceRef, updates, { merge: true });
-      console.log('🎭 Updated character data for user:', userId, characterData.name);
       return true;
     } catch (error) {
-      console.error('❌ Failed to update character data:', error);
+      console.debug('Failed to update character data:', error?.message || error);
       return false;
     }
   }
@@ -267,8 +268,8 @@ class PresenceService {
    * Set user as offline
    */
   async setOffline(userId) {
-    if (!this.isConfigured || !db || this.isCleanedUp) {
-      return false;
+    if (!this.isConfigured || !db || this.isCleanedUp || isMockOrDevUser(userId) || !auth?.currentUser) {
+      return true;
     }
 
     try {
@@ -291,8 +292,8 @@ class PresenceService {
    * Subscribe to all online users
    */
   subscribeToOnlineUsers(callback) {
-    if (!this.isConfigured || !db) {
-      console.warn('⚠️ Firebase not configured, cannot subscribe to online users');
+    if (!this.isConfigured || !db || !auth?.currentUser) {
+      callback([]);
       return () => { };
     }
 
@@ -313,12 +314,12 @@ class PresenceService {
         }
         callback(users);
       }, (error) => {
-        console.error('❌ Failed to subscribe to online users:', error);
+        console.debug('Presence subscription ended/skipped:', error?.message || error);
       });
 
       return unsubscribe;
     } catch (error) {
-      console.error('❌ Failed to subscribe to online users:', error);
+      console.debug('Failed to subscribe to online users:', error?.message || error);
       return () => { };
     }
   }
@@ -327,7 +328,7 @@ class PresenceService {
    * Subscribe to a specific user's presence
    */
   subscribeToUser(userId, callback) {
-    if (!this.isConfigured || !db) {
+    if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
       return () => { };
     }
 

@@ -22,6 +22,69 @@ const VIEWS = {
   TIMELINE: 'timeline'
 };
 
+const CLASS_ARCHETYPES = [
+  {
+    id: 'all',
+    label: 'All Traditions (21)',
+    icon: 'fa-scroll',
+    classIds: []
+  },
+  {
+    id: 'martial',
+    label: 'Martial Orders & Vanguard',
+    icon: 'fa-shield-halved',
+    classIds: ['berserker', 'crusader', 'martyr', 'apex', 'spellguard']
+  },
+  {
+    id: 'arcane',
+    label: 'Arcane Academies & Weavers',
+    icon: 'fa-wand-magic-sparkles',
+    classIds: ['arcanoneer', 'chronarch', 'shaper', 'pyrofiend']
+  },
+  {
+    id: 'primal',
+    label: 'Primal Callings & Wardens',
+    icon: 'fa-tree',
+    classIds: ['animist', 'warden', 'toxicologist', 'plaguebringer']
+  },
+  {
+    id: 'shadow',
+    label: 'Inquisitions & Shadow Syndicates',
+    icon: 'fa-mask',
+    classIds: ['inquisitor', 'gambit', 'revenant', 'minstrel']
+  },
+  {
+    id: 'divine',
+    label: 'Faiths, Oracles & Eldritch Pacts',
+    icon: 'fa-sun',
+    classIds: ['augur', 'lunarch', 'false_prophet', 'harbinger']
+  }
+];
+
+const CLASS_ROLE_TAGS = {
+  berserker: { role: 'Striker / Juggernaut', icon: 'fa-axe' },
+  crusader: { role: 'Vanguard / Defender', icon: 'fa-shield' },
+  martyr: { role: 'Sacrificial Tank', icon: 'fa-heart-crack' },
+  apex: { role: 'Predator / Duelist', icon: 'fa-paw' },
+  spellguard: { role: 'Anti-Magic Defender', icon: 'fa-shield-halved' },
+  arcanoneer: { role: 'Elemental Combinator', icon: 'fa-atom' },
+  chronarch: { role: 'Time Controller', icon: 'fa-hourglass' },
+  shaper: { role: 'Matter Manipulator', icon: 'fa-cube' },
+  pyrofiend: { role: 'Chaos / Burn Blaster', icon: 'fa-fire' },
+  animist: { role: 'Spirit Summoner', icon: 'fa-feather' },
+  warden: { role: 'Territory Controller', icon: 'fa-tree' },
+  toxicologist: { role: 'DoT / Alchemist', icon: 'fa-flask' },
+  plaguebringer: { role: 'Miasma Striker', icon: 'fa-biohazard' },
+  inquisitor: { role: 'Witch Hunter / Disrupter', icon: 'fa-cross' },
+  gambit: { role: 'Critical Gambler', icon: 'fa-dice' },
+  revenant: { role: 'Deathbound Undead', icon: 'fa-skull' },
+  minstrel: { role: 'Bardic Commander', icon: 'fa-music' },
+  augur: { role: 'Cosmic Prophet', icon: 'fa-eye' },
+  lunarch: { role: 'Moon Ritualist', icon: 'fa-moon' },
+  false_prophet: { role: 'Deception Controller', icon: 'fa-masks-theater' },
+  harbinger: { role: 'Doom Bringer', icon: 'fa-crow' }
+};
+
 const WorldDashboard = () => {
   const { regions, getWorldOverview, getAllLineages, getLineage } = useWorldStore();
   const { factions } = useFactionStore();
@@ -36,6 +99,8 @@ const WorldDashboard = () => {
   const [selectedLineageId, setSelectedLineageId] = useState(null);
   const [activeTab, setActiveTab] = useState('regions');
   const [searchFilter, setSearchFilter] = useState('');
+  const [selectedClassArchetype, setSelectedClassArchetype] = useState('all');
+  const [classSearchFilter, setClassSearchFilter] = useState('');
 
   useEffect(() => {
     if (!loaded) loadClasses();
@@ -370,19 +435,99 @@ const WorldDashboard = () => {
         )}
 
         {activeTab === 'classes' && (
-          <div className="world-card-grid">
-            {classes.map((cls) => (
-              <div
-                key={cls.id}
-                className="world-info-card world-clickable"
-                onClick={() => navigateToClass(cls.id)}
-              >
-                <h4>{cls.name}</h4>
-                <p className="world-card-meta">
-                  {cls.originStory?.slice(0, 120)}...
-                </p>
+          <div className="world-classes-tab">
+            {/* Archetype & Search Toolbar */}
+            <div className="world-classes-toolbar">
+              <div className="world-archetype-pills">
+                {CLASS_ARCHETYPES.map((arch) => (
+                  <button
+                    key={arch.id}
+                    type="button"
+                    className={`world-archetype-pill ${selectedClassArchetype === arch.id ? 'active' : ''}`}
+                    onClick={() => setSelectedClassArchetype(arch.id)}
+                  >
+                    <i className={`fas ${arch.icon}`} />
+                    <span>{arch.label}</span>
+                  </button>
+                ))}
               </div>
-            ))}
+
+              <div className="classes-search-box">
+                <i className="fas fa-search" />
+                <input
+                  type="text"
+                  placeholder="Search 21 classes, origins, roles..."
+                  value={classSearchFilter}
+                  onChange={(e) => setClassSearchFilter(e.target.value)}
+                />
+                {classSearchFilter && (
+                  <button className="btn-clear-search" onClick={() => setClassSearchFilter('')}>
+                    <i className="fas fa-times" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Classes Grid */}
+            <div className="world-card-grid world-classes-grid">
+              {classes
+                .filter((cls) => {
+                  const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_');
+                  if (selectedClassArchetype !== 'all') {
+                    const arch = CLASS_ARCHETYPES.find((a) => a.id === selectedClassArchetype);
+                    if (arch && !arch.classIds.includes(normalizedId) && !arch.classIds.includes(cls.id?.toLowerCase())) {
+                      return false;
+                    }
+                  }
+                  if (classSearchFilter.trim()) {
+                    const term = classSearchFilter.toLowerCase();
+                    const matchName = cls.name?.toLowerCase().includes(term);
+                    const matchOrigin = cls.originStory?.toLowerCase().includes(term);
+                    const matchDesc = cls.description?.toLowerCase().includes(term);
+                    const roleData = CLASS_ROLE_TAGS[normalizedId] || {};
+                    const matchRole = roleData.role?.toLowerCase().includes(term);
+                    return matchName || matchOrigin || matchDesc || matchRole;
+                  }
+                  return true;
+                })
+                .map((cls) => {
+                  const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_');
+                  const roleData = CLASS_ROLE_TAGS[normalizedId] || { role: 'Heroic Calling', icon: 'fa-star' };
+                  const arch = CLASS_ARCHETYPES.find((a) => a.id !== 'all' && (a.classIds.includes(normalizedId) || a.classIds.includes(cls.id?.toLowerCase())));
+
+                  return (
+                    <div
+                      key={cls.id}
+                      className="world-info-card world-clickable world-class-card"
+                      onClick={() => navigateToClass(cls.id)}
+                    >
+                      <div className="class-card-header">
+                        <div className="class-title-block">
+                          <h4>{cls.name}</h4>
+                          <span className="class-archetype-tag">{arch?.label?.split('&')[0] || 'Calling'}</span>
+                        </div>
+                        <span className="class-role-pill">
+                          <i className={`fas ${roleData.icon}`} style={{ marginRight: '4px' }} />
+                          {roleData.role}
+                        </span>
+                      </div>
+
+                      <p className="world-card-meta class-origin-snippet">
+                        {cls.originStory || cls.description?.slice(0, 130) + '...'}
+                      </p>
+
+                      <div className="class-card-footer">
+                        <span className="class-sites-badge">
+                          <i className="fas fa-landmark" /> {cls.classSpecificLocations?.length || 1} Sacred Sites
+                        </span>
+                        <span className="class-view-link">
+                          Dossier & History ↗
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         )}
 

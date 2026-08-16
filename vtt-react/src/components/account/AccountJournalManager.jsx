@@ -9,6 +9,10 @@ import RichLoreText from '../common/RichLoreText';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useFactionStore from '../../store/factionStore';
+import FamilyTreeStudio from '../world/FamilyTreeStudio';
+import useFamilyTreeStore from '../../store/familyTreeStore';
+import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import './styles/AccountJournalManager.css';
 
 const CANONICAL_MAP_PRESETS = [
@@ -200,6 +204,9 @@ const AccountJournalManager = ({ user }) => {
   const [newBoardColor, setNewBoardColor] = useState(FOLDER_COLORS[0]);
   const [newBoardIcon, setNewBoardIcon] = useState('fa-project-diagram');
   const [orbEditorLabel, setOrbEditorLabel] = useState('');
+  const [orbEditorContent, setOrbEditorContent] = useState('');
+  const [orbEditorTab, setOrbEditorTab] = useState('lore'); // 'lore' | 'subboard' | 'appearance'
+  const [orbEditorViewMode, setOrbEditorViewMode] = useState('split'); // 'edit' | 'split' | 'preview'
   const [noteImage, setNoteImage] = useState(null);
   const [noteEditMode, setNoteEditMode] = useState('edit');
   const [showPromoteMenu, setShowPromoteMenu] = useState(false);
@@ -277,6 +284,7 @@ const AccountJournalManager = ({ user }) => {
     addConnection,
     removeConnection,
     removePlayerKnowledge,
+    updatePlayerKnowledge,
     addNote,
     updateNote,
     removeNote,
@@ -299,7 +307,10 @@ const AccountJournalManager = ({ user }) => {
     addCampaignEntityAsOrb,
     syncToCloud,
     hydrateFromCloud,
-    toggleBoardBgMode
+    toggleBoardBgMode,
+    getLinkedReferences,
+    getUnlinkedMentions,
+    convertUnlinkedMention
   } = useShareableStore();
 
   const [showBoardAtlasModal, setShowBoardAtlasModal] = useState(false);
@@ -318,6 +329,140 @@ const AccountJournalManager = ({ user }) => {
     setPanOffset({ x: 0, y: 0 });
     setZoomLevel(1);
   }, []);
+
+  // Filter content based on current folder
+  // When a folder is selected, show ONLY items in that folder
+  // When "All" is selected (currentFolderId is null), show ALL items
+  const filteredKnowledge = useMemo(() => {
+    if (!currentFolderId) return playerKnowledge;
+    return playerKnowledge.filter(k => k.folderId === currentFolderId);
+  }, [playerKnowledge, currentFolderId]);
+
+  const filteredNotes = useMemo(() => {
+    let list = playerNotes || [];
+    if (currentFolderId) {
+      list = list.filter(n => n.folderId === currentFolderId);
+    }
+    if (noteSearchTerm.trim()) {
+      const term = noteSearchTerm.toLowerCase();
+      list = list.filter(n => (n.title || '').toLowerCase().includes(term) || (n.content || '').toLowerCase().includes(term));
+    }
+    return list;
+  }, [playerNotes, currentFolderId, noteSearchTerm]);
+
+  const filteredOrbs = useMemo(() => {
+    if (!currentBoardId) return knowledgeOrbs;
+    return knowledgeOrbs.filter(o => o.boardId === currentBoardId);
+  }, [knowledgeOrbs, currentBoardId]);
+
+  // Obsidian-Style Force-Directed Graph Layout Simulation
+  const [isPhysicsRunning, setIsPhysicsRunning] = useState(false);
+
+  const triggerGraphAutoLayout = useCallback(() => {
+    const currentOrbs = filteredOrbs;
+    if (currentOrbs.length === 0 || isPhysicsRunning) return;
+
+    setIsPhysicsRunning(true);
+
+    // Build node graph
+    const orbMap = new Map();
+    let sumX = 0, sumY = 0;
+    currentOrbs.forEach(o => {
+      sumX += o.position?.x ?? 350;
+      sumY += o.position?.y ?? 250;
+      orbMap.set(o.id, {
+        id: o.id,
+        x: o.position?.x ?? (Math.random() * 400 + 200),
+        y: o.position?.y ?? (Math.random() * 300 + 150),
+        vx: 0,
+        vy: 0,
+        connections: []
+      });
+    });
+
+    const centerX = Math.max(300, Math.round(sumX / currentOrbs.length));
+    const centerY = Math.max(250, Math.round(sumY / currentOrbs.length));
+
+    const currentConns = knowledgeConnections.filter(c => orbMap.has(c.fromOrbId) && orbMap.has(c.toOrbId));
+    currentConns.forEach(c => {
+      orbMap.get(c.fromOrbId).connections.push(c.toOrbId);
+      orbMap.get(c.toOrbId).connections.push(c.fromOrbId);
+    });
+
+    const nodes = Array.from(orbMap.values());
+    const kRepel = 45000;
+    const kAttract = 0.045;
+    const idealDist = 240;
+
+    let step = 0;
+    const totalSteps = 35;
+
+    const animatePhysics = () => {
+      // Repulsion between all nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[j].x - nodes[i].x;
+          const dy = nodes[j].y - nodes[i].y;
+          const distSq = dx * dx + dy * dy + 150;
+          const dist = Math.sqrt(distSq);
+          const force = kRepel / distSq;
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+
+          nodes[i].vx -= fx;
+          nodes[i].vy -= fy;
+          nodes[j].vx += fx;
+          nodes[j].vy += fy;
+        }
+      }
+
+      // Attraction along connected edges
+      currentConns.forEach(c => {
+        const n1 = orbMap.get(c.fromOrbId);
+        const n2 = orbMap.get(c.toOrbId);
+        if (!n1 || !n2) return;
+        const dx = n2.x - n1.x;
+        const dy = n2.y - n1.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const displacement = dist - idealDist;
+        const force = kAttract * displacement;
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+
+        n1.vx += fx;
+        n1.vy += fy;
+        n2.vx -= fx;
+        n2.vy -= fy;
+      });
+
+      // Gravity towards center & velocity damping
+      nodes.forEach(n => {
+        const dx = centerX - n.x;
+        const dy = centerY - n.y;
+        n.vx += dx * 0.015;
+        n.vy += dy * 0.015;
+
+        // Apply velocity with damping
+        n.x += n.vx * 0.22;
+        n.y += n.vy * 0.22;
+        n.vx *= 0.76;
+        n.vy *= 0.76;
+
+        // Live update orb position in store on each frame
+        updateOrbPosition(n.id, { x: Math.round(n.x), y: Math.round(n.y) });
+      });
+
+      step++;
+      if (step < totalSteps) {
+        requestAnimationFrame(animatePhysics);
+      } else {
+        setIsPhysicsRunning(false);
+        syncToCloud(user?.uid);
+      }
+    };
+
+    requestAnimationFrame(animatePhysics);
+  }, [filteredOrbs, isPhysicsRunning, knowledgeConnections, updateOrbPosition, syncToCloud, user?.uid]);
 
   // Hydrate journal from Firebase on mount if user is logged in
   useEffect(() => {
@@ -339,6 +484,44 @@ const AccountJournalManager = ({ user }) => {
     const replacement = prefix + selected + suffix;
     const newText = noteContent.substring(0, start) + replacement + noteContent.substring(end);
     setNoteContent(newText);
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + prefix.length + (selected ? selected.length : 0);
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 10);
+  };
+
+  // Helper to insert markdown formatting syntax into orb editor textarea at current cursor position
+  const insertOrbSyntax = (prefix, suffix = '') => {
+    const textarea = document.getElementById('mythrill-orb-lore-textarea');
+    if (!textarea) {
+      const next = (orbEditorContent || '') + prefix + suffix;
+      setOrbEditorContent(next);
+      if (showOrbEditor) {
+        updateOrb(showOrbEditor.id, { content: next });
+        if (showOrbEditor.sourceType === 'note' && showOrbEditor.knowledgeId) {
+          updateNote(showOrbEditor.knowledgeId, { content: next });
+        } else if (showOrbEditor.sourceType === 'knowledge' && showOrbEditor.knowledgeId) {
+          updatePlayerKnowledge(showOrbEditor.knowledgeId, { content: next });
+        }
+      }
+      return;
+    }
+    const start = textarea.selectionStart || 0;
+    const end = textarea.selectionEnd || 0;
+    const current = orbEditorContent || '';
+    const selected = current.substring(start, end);
+    const replacement = prefix + selected + suffix;
+    const newText = current.substring(0, start) + replacement + current.substring(end);
+    setOrbEditorContent(newText);
+    if (showOrbEditor) {
+      updateOrb(showOrbEditor.id, { content: newText });
+      if (showOrbEditor.sourceType === 'note' && showOrbEditor.knowledgeId) {
+        updateNote(showOrbEditor.knowledgeId, { content: newText });
+      } else if (showOrbEditor.sourceType === 'knowledge' && showOrbEditor.knowledgeId) {
+        updatePlayerKnowledge(showOrbEditor.knowledgeId, { content: newText });
+      }
+    }
     setTimeout(() => {
       textarea.focus();
       const newCursorPos = start + prefix.length + (selected ? selected.length : 0);
@@ -369,6 +552,12 @@ const AccountJournalManager = ({ user }) => {
     });
     (useFactionStore.getState().factions || []).forEach(f => {
       list.push({ id: f.id, name: f.name, type: 'faction', description: f.publicGoal || f.type || '' });
+    });
+    (useFamilyTreeStore.getState().trees || []).forEach(t => {
+      list.push({ id: t.id, name: t.name, type: 'dynasty', description: `${t.nodes.length} Members • Dynastic Family Tree` });
+    });
+    (useInteractiveMapStore.getState().maps || []).forEach(m => {
+      list.push({ id: m.id, name: m.name, type: 'map', description: `${m.type?.toUpperCase()} • Multi-Tier Atlas Map`, image: m.imageUrl });
     });
     return list;
   }, [campaignData]);
@@ -411,34 +600,10 @@ const AccountJournalManager = ({ user }) => {
 
   const openOrbEditor = useCallback((orb) => {
     const content = getContentByOrb(orb);
-    setOrbEditorLabel(orb.label || content?.title || '');
+    setOrbEditorLabel(orb.label || content?.title || content?.name || '');
+    setOrbEditorContent(content?.content || content?.description || orb.content || '');
     setShowOrbEditor(orb);
   }, [getContentByOrb]);
-
-  // Filter content based on current folder
-  // When a folder is selected, show ONLY items in that folder
-  // When "All" is selected (currentFolderId is null), show ALL items
-  const filteredKnowledge = useMemo(() => {
-    if (!currentFolderId) return playerKnowledge;
-    return playerKnowledge.filter(k => k.folderId === currentFolderId);
-  }, [playerKnowledge, currentFolderId]);
-
-  const filteredNotes = useMemo(() => {
-    let list = playerNotes || [];
-    if (currentFolderId) {
-      list = list.filter(n => n.folderId === currentFolderId);
-    }
-    if (noteSearchTerm.trim()) {
-      const term = noteSearchTerm.toLowerCase();
-      list = list.filter(n => (n.title || '').toLowerCase().includes(term) || (n.content || '').toLowerCase().includes(term));
-    }
-    return list;
-  }, [playerNotes, currentFolderId, noteSearchTerm]);
-
-  const filteredOrbs = useMemo(() => {
-    if (!currentBoardId) return knowledgeOrbs;
-    return knowledgeOrbs.filter(o => o.boardId === currentBoardId);
-  }, [knowledgeOrbs, currentBoardId]);
 
   // Sections
   const sections = [
@@ -1030,7 +1195,7 @@ const AccountJournalManager = ({ user }) => {
                   title="Import NPCs, Locations, Quests, Items, and Factions from Campaign directly into Knowledge Board"
                 >
                   <i className="fas fa-network-wired"></i>
-                  <span>⚡ Weave Campaign</span>
+                  <span>Weave Campaign</span>
                 </button>
 
                 <button
@@ -1041,6 +1206,37 @@ const AccountJournalManager = ({ user }) => {
                 >
                   <i className="fas fa-link"></i>
                   <span>{connectingFrom ? 'Cancel Link' : 'Connect'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`btn-vtt-action btn-vtt-physics ${isPhysicsRunning ? 'is-simulating' : ''}`}
+                  onClick={triggerGraphAutoLayout}
+                  disabled={isPhysicsRunning}
+                  title="Auto-organize orbs into constellations using animated spring force physics"
+                >
+                  <i className={`fas ${isPhysicsRunning ? 'fa-spinner fa-spin' : 'fa-circle-nodes'}`}></i>
+                  <span>{isPhysicsRunning ? 'Simulating...' : 'Graph Physics'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-vtt-action btn-vtt-family"
+                  onClick={() => useFamilyTreeStore.getState().openStudio()}
+                  title="Open Family Tree & Dynasties Studio (Ancestry charts & Bloodlines)"
+                >
+                  <i className="fas fa-sitemap"></i>
+                  <span>Family Trees</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-vtt-action btn-vtt-atlas-studio"
+                  onClick={() => useInteractiveMapStore.getState().openStudio()}
+                  title="Open Interactive Map Maker, Pins & Multi-Tier Atlas"
+                >
+                  <i className="fas fa-map-location-dot"></i>
+                  <span>Interactive Maps</span>
                 </button>
 
                 <button
@@ -1070,11 +1266,11 @@ const AccountJournalManager = ({ user }) => {
                     title={
                       (getBoardBackground()?.bgMode || 'canvas') === 'canvas'
                         ? "Currently: Pinned to Canvas Map (Zooms & pans with pins). Click to switch to Static Window Backdrop."
-                        : "Currently: Static Backdrop (Stationary wallpaper). Click to switch to Pinned Canvas Map."
+                        : "Currently: Static Window Backdrop. Click to pin to Canvas Map."
                     }
                   >
-                    <i className={`fas ${(getBoardBackground()?.bgMode || 'canvas') === 'canvas' ? 'fa-map-location-dot' : 'fa-thumbtack'}`}></i>
-                    <span>{(getBoardBackground()?.bgMode || 'canvas') === 'canvas' ? 'Map Mode' : 'Static Mode'}</span>
+                    <i className="fas fa-map-marked-alt"></i>
+                    <span>{(getBoardBackground()?.bgMode || 'canvas') === 'canvas' ? 'Map Mode' : 'Window Mode'}</span>
                   </button>
                 )}
               </div>
@@ -1082,7 +1278,7 @@ const AccountJournalManager = ({ user }) => {
               <div className="board-toolbar-right">
                 <span className="toolbar-hint">
                   {connectingFrom
-                    ? '⚡ Select two orbs to weave a connection between them'
+                    ? 'Select two orbs to weave a connection between them'
                     : 'Click & drag canvas to pan • Mouse wheel to zoom • Drag orbs freely'}
                 </span>
               </div>
@@ -1108,26 +1304,24 @@ const AccountJournalManager = ({ user }) => {
               onDrop={handleBoardDrop}
               onDragOver={(e) => e.preventDefault()}
             >
-              {/* Hierarchical Sub-Board Floating Breadcrumb Bar */}
+              {/* Breadcrumb Navigation on top of canvas */}
               <div className="canvas-floating-breadcrumbs">
                 <button
                   type="button"
                   className={`breadcrumb-node ${!currentBoardId ? 'active' : ''}`}
                   onClick={() => setCurrentBoard(null)}
-                  title="Return to Master Overview Board"
                 >
                   <i className="fas fa-layer-group"></i> Master Board
                 </button>
-                {getBoardBreadcrumbs().map((b) => (
-                  <React.Fragment key={b.id}>
-                    <span className="breadcrumb-arrow"><i className="fas fa-chevron-right"></i></span>
+                {getBoardBreadcrumbs().map((crumb, idx) => (
+                  <React.Fragment key={crumb.id}>
+                    <span className="breadcrumb-sep">/</span>
                     <button
                       type="button"
-                      className={`breadcrumb-node ${b.id === currentBoardId ? 'active' : ''}`}
-                      onClick={() => setCurrentBoard(b.id)}
+                      className={`breadcrumb-node ${crumb.id === currentBoardId ? 'active' : ''}`}
+                      onClick={() => setCurrentBoard(crumb.id)}
                     >
-                      <i className={`fas ${b.icon || 'fa-project-diagram'}`}></i>
-                      <span>{b.name}</span>
+                      {crumb.name}
                     </button>
                   </React.Fragment>
                 ))}
@@ -1174,8 +1368,19 @@ const AccountJournalManager = ({ user }) => {
                   return null;
                 })()}
 
-                {/* Connection Lines */}
-                <svg className="connection-svg" style={{ width: '4000px', height: '4000px' }}>
+                {/* Connection Lines with unclipped overflow */}
+                <svg
+                  className="connection-svg"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'visible',
+                    pointerEvents: 'none'
+                  }}
+                >
                   {knowledgeConnections
                     .filter(conn => {
                       const fromOrb = knowledgeOrbs.find(o => o.id === conn.fromOrbId);
@@ -1264,15 +1469,103 @@ const AccountJournalManager = ({ user }) => {
                     </div>
                   );
                 })}
-
-                {filteredOrbs.length === 0 && (
-                  <div className="board-empty-floating">
-                    <i className="fas fa-project-diagram"></i>
-                    <p>Your knowledge board is empty</p>
-                    <span>Click "Add Orb" or drag notes to start weaving lore</span>
-                  </div>
-                )}
               </div>
+
+              {/* Discovery Hero Card when Board is Empty */}
+              {filteredOrbs.length === 0 && (
+                <div className="board-empty-hero-container">
+                  <div className="board-empty-hero-card">
+                    <div className="empty-hero-icon-cluster">
+                      <div className="empty-hero-icon-ring ring-outer"></div>
+                      <div className="empty-hero-icon-ring ring-inner"></div>
+                      <div className="empty-hero-icon-core">
+                        <i className="fas fa-sparkles"></i>
+                      </div>
+                    </div>
+
+                    <div className="empty-hero-badge">THE CHRONICLER'S CANVAS</div>
+                    <h3 className="empty-hero-title">Weave Your Knowledge Web</h3>
+                    <p className="empty-hero-description">
+                      Your board is ready. Map factions, secret NPC dossiers, battle sites, and quest threads into an interconnected mind web.
+                    </p>
+
+                    <div className="empty-hero-actions-grid">
+                      <button
+                        type="button"
+                        className="empty-hero-btn btn-primary-orb"
+                        onClick={() => {
+                          setShowAddOrbPopup(true);
+                          setAddOrbStep('select');
+                          setSelectedItemForOrb(null);
+                          setAddOrbSearchTerm('');
+                          setAddOrbActiveTab('received');
+                        }}
+                      >
+                        <i className="fas fa-plus-circle"></i>
+                        <span>Create First Orb</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="empty-hero-btn btn-weaver"
+                        onClick={() => setShowCampaignWeaverModal(true)}
+                        title="Import campaign NPCs, locations, or quests"
+                      >
+                        <i className="fas fa-network-wired"></i>
+                        <span>Weave Campaign</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="empty-hero-btn btn-backdrop"
+                        onClick={() => {
+                          const currentBackground = getBoardBackground();
+                          setBackgroundInput(currentBackground?.url || '');
+                          setBgModalMode(currentBackground?.bgMode || 'canvas');
+                          setShowBackgroundModal(true);
+                        }}
+                        title="Choose a battlemap or regional scenery backdrop"
+                      >
+                        <i className="fas fa-map"></i>
+                        <span>Set Map Canvas</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="empty-hero-btn btn-family-tree"
+                        style={{ background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(139, 69, 19, 0.35) 100%)', border: '1px solid #d4af37', color: '#f5d77f' }}
+                        onClick={() => useFamilyTreeStore.getState().openStudio()}
+                        title="Create or view noble family trees, bloodlines & dynasties"
+                      >
+                        <i className="fas fa-sitemap"></i>
+                        <span>Family Trees</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="empty-hero-btn btn-interactive-atlas"
+                        style={{ background: 'linear-gradient(135deg, rgba(41, 128, 185, 0.25) 0%, rgba(21, 67, 96, 0.45) 100%)', border: '1px solid #3498db', color: '#aed6f1' }}
+                        onClick={() => useInteractiveMapStore.getState().openStudio()}
+                        title="Open Interactive Map Studio, Pins & Journey Tracker"
+                      >
+                        <i className="fas fa-map-location-dot"></i>
+                        <span>Interactive Atlas</span>
+                      </button>
+                    </div>
+
+                    <div className="empty-hero-tips">
+                      <div className="hero-tip-item">
+                        <i className="fas fa-circle-nodes"></i>
+                        <span>Use <strong>Connect</strong> to link orbs with custom relationship labels</span>
+                      </div>
+                      <div className="hero-tip-item">
+                        <i className="fas fa-sitemap"></i>
+                        <span>Orbs can hold nested <strong>Sub-Boards</strong> for infinite regional drilldowns</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Floating Canvas Navigation & Zoom HUD */}
               <div className="canvas-floating-hud">
@@ -1559,14 +1852,26 @@ const AccountJournalManager = ({ user }) => {
                 <div className="ribbon-divider"></div>
 
                 <div className="ribbon-group">
-                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('**', '**')} title="Bold">
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('**', '**')} title="Bold (**text**)">
                     <i className="fas fa-bold"></i>
                   </button>
-                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('*', '*')} title="Italic">
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('*', '*')} title="Italic (*text*)">
                     <i className="fas fa-italic"></i>
                   </button>
-                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('==', '==')} title="Highlight">
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('<u>', '</u>')} title="Underline (<u>text</u> or __text__)">
+                    <i className="fas fa-underline"></i>
+                  </button>
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('==', '==')} title="Highlight / Mark (==text==)">
                     <i className="fas fa-highlighter"></i>
+                  </button>
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('~~', '~~')} title="Strikethrough (~~text~~)">
+                    <i className="fas fa-strikethrough"></i>
+                  </button>
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('- ')} title="Bullet List (- item)">
+                    <i className="fas fa-list-ul"></i>
+                  </button>
+                  <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('1. ')} title="Numbered List (1. item)">
+                    <i className="fas fa-list-ol"></i>
                   </button>
                   <button type="button" className="btn-ribbon" onClick={() => insertNoteSyntax('[[', ']]')} title="Wiki Link (e.g. [[Nordhalla]])">
                     <i className="fas fa-link"></i> Wiki Link
@@ -1906,7 +2211,9 @@ const AccountJournalManager = ({ user }) => {
                   onClick={() => {
                     const orb = knowledgeOrbs.find(o => o.id === showKnowledgePopup.orbId);
                     if (orb) {
+                      const content = getContentByOrb(orb);
                       setOrbEditorLabel(orb.label || showKnowledgePopup.title || '');
+                      setOrbEditorContent(showKnowledgePopup.content || showKnowledgePopup.description || content?.content || orb.content || '');
                       setShowOrbEditor(orb);
                     }
                     setShowKnowledgePopup(null);
@@ -1931,175 +2238,585 @@ const AccountJournalManager = ({ user }) => {
 
       {/* Orb Editor Modal */}
       {showOrbEditor && createPortal(
-        <div className="modal-overlay" onClick={() => setShowOrbEditor(null)}>
-          <div className="folder-modal orb-editor-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h4><i className="fas fa-magic"></i> Edit Knowledge Orb</h4>
-              <button className="modal-close-btn" onClick={() => setShowOrbEditor(null)}>
+        <div className="modal-overlay folder-modal-overlay" onClick={() => setShowOrbEditor(null)}>
+          <div className={`folder-modal orb-editor-modal ${orbEditorViewMode === 'split' && orbEditorTab === 'lore' ? 'is-split-modal' : ''}`} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header orb-editor-header">
+              <div className="orb-header-title">
+                <div className="orb-header-icon-box">
+                  <i className="fas fa-feather-pointed"></i>
+                </div>
+                <div>
+                  <h4>Edit Knowledge Orb</h4>
+                  <span className="orb-header-subtitle">{showOrbEditor.label || orbEditorLabel || 'Knowledge Node'}</span>
+                </div>
+              </div>
+              <button className="modal-close-btn orb-header-close-btn" onClick={() => setShowOrbEditor(null)} title="Close Editor">
                 <i className="fas fa-times"></i>
               </button>
             </div>
+            {(() => {
+              const currentOrbTitle = (orbEditorLabel || showOrbEditor?.label || '').trim();
+              const currentLinkedRefs = currentOrbTitle ? getLinkedReferences(currentOrbTitle) : [];
+              const currentUnlinkedMentions = currentOrbTitle ? getUnlinkedMentions(currentOrbTitle, showOrbEditor?.id) : [];
+              const currentConnections = showOrbEditor ? knowledgeConnections.filter(c => c.fromOrbId === showOrbEditor.id || c.toOrbId === showOrbEditor.id) : [];
+              const totalLinksCount = currentLinkedRefs.length + currentUnlinkedMentions.length;
 
-            <div className="modal-body">
-              {/* Orb Label / Name Input */}
-              <div className="form-field">
-                <label>Orb Title / Name</label>
-                <input
-                  type="text"
-                  value={orbEditorLabel}
-                  onChange={(e) => {
-                    setOrbEditorLabel(e.target.value);
-                    updateOrb(showOrbEditor.id, { label: e.target.value });
-                  }}
-                  placeholder="Enter orb title or character name..."
-                />
-              </div>
-
-              {/* Linked Sub-Board / Node Drilldown */}
-              <div className="form-field" style={{ background: 'rgba(255, 255, 255, 0.7)', border: '1.5px solid rgba(139, 69, 19, 0.3)', borderRadius: '8px', padding: '12px 14px' }}>
-                <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <span style={{ color: '#5a1e12', fontWeight: 700, fontFamily: 'Cinzel, serif', fontSize: '12px' }}><i className="fas fa-network-wired"></i> Linked Sub-Board / Drilldown</span>
-                  {showOrbEditor.linkedBoardId && (
+              return (
+                <>
+                  <div className="orb-editor-tab-bar">
                     <button
                       type="button"
-                      className="btn btn-sm"
-                      style={{ fontSize: '11px', padding: '3px 8px', background: '#d4af37', border: '1px solid #8b6508', color: '#1a1005', fontWeight: 700 }}
-                      onClick={() => {
-                        setCurrentBoard(showOrbEditor.linkedBoardId);
-                        setShowOrbEditor(null);
-                      }}
+                      className={`orb-tab-btn ${orbEditorTab === 'lore' ? 'active' : ''}`}
+                      onClick={() => setOrbEditorTab('lore')}
                     >
-                      <i className="fas fa-level-down-alt"></i> Dive In ↗
+                      <i className="fas fa-book-open"></i> Lore & Notes
                     </button>
-                  )}
-                </label>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <select
-                    value={showOrbEditor.linkedBoardId || ''}
-                    onChange={(e) => {
-                      const targetId = e.target.value || null;
-                      updateOrb(showOrbEditor.id, { linkedBoardId: targetId });
-                      setShowOrbEditor(prev => ({ ...prev, linkedBoardId: targetId }));
-                    }}
-                    style={{ background: '#ffffff', color: '#2d1810', border: '1.5px solid rgba(139, 69, 19, 0.35)', borderRadius: '5px', padding: '6px 10px', fontSize: '12.5px', flex: 1, fontWeight: 600 }}
-                  >
-                    <option value="">-- No Linked Sub-Board --</option>
-                    {knowledgeBoards
-                      .filter(b => b.id !== currentBoardId)
-                      .map(b => (
-                        <option key={b.id} value={b.id}>{b.name}</option>
-                      ))}
-                  </select>
-                  <button
-                    type="button"
-                    className="btn"
-                    style={{ whiteSpace: 'nowrap', fontSize: '11.5px', padding: '6px 10px', background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', border: '1px solid #8b6508', color: '#1a1005', fontWeight: 700, borderRadius: '5px', cursor: 'pointer' }}
-                    onClick={() => {
-                      createSubBoardForOrb(showOrbEditor.id, orbEditorLabel || showOrbEditor.label || 'Sub-Board', true);
-                      setShowOrbEditor(null);
-                    }}
-                    title="Create a new nested board for this entity and jump into it"
-                  >
-                    <i className="fas fa-plus"></i> Create Sub-Board
-                  </button>
-                </div>
-              </div>
+                    <button
+                      type="button"
+                      className={`orb-tab-btn ${orbEditorTab === 'graph' ? 'active' : ''}`}
+                      onClick={() => setOrbEditorTab('graph')}
+                      title="Obsidian-style bi-directional links, backlinks, and unlinked mention scanner"
+                    >
+                      <i className="fas fa-circle-nodes"></i> Graph & Links
+                      {totalLinksCount > 0 && <span className="orb-tab-indicator" title={`${totalLinksCount} Linked references & mentions`}>{totalLinksCount}</span>}
+                    </button>
+                    <button
+                      type="button"
+                      className={`orb-tab-btn ${orbEditorTab === 'subboard' ? 'active' : ''}`}
+                      onClick={() => setOrbEditorTab('subboard')}
+                    >
+                      <i className="fas fa-network-wired"></i> Sub-Board Drilldown
+                      {showOrbEditor.linkedBoardId && <span className="orb-tab-indicator" title="Sub-Board Linked">✓</span>}
+                    </button>
+                    <button
+                      type="button"
+                      className={`orb-tab-btn ${orbEditorTab === 'appearance' ? 'active' : ''}`}
+                      onClick={() => setOrbEditorTab('appearance')}
+                    >
+                      <i className="fas fa-palette"></i> Icon & Appearance
+                    </button>
+                  </div>
 
-              {/* Custom Image / PNG Upload Section */}
-              <div className="form-field">
-                <label>Custom Image / Portrait (PNG, JPG)</label>
-                <div className="orb-image-upload-row">
-                  <div
-                    className="orb-image-preview-badge"
-                    style={{ '--orb-color': showOrbEditor.color }}
-                  >
-                    {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
-                      <img
-                        src={getOrbIconUrl(showOrbEditor.iconType)}
-                        alt=""
-                        className="orb-preview-img"
-                      />
-                    ) : (
-                      <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
+                  <div className="modal-body orb-editor-body">
+                    {/* TAB 1: LORE & NOTES */}
+                    {orbEditorTab === 'lore' && (
+                      <div className="orb-tab-pane orb-tab-lore">
+                        {/* Orb Title */}
+                        <div className="form-field">
+                          <label><i className="fas fa-heading"></i> Orb Title / Name</label>
+                          <input
+                            type="text"
+                            value={orbEditorLabel}
+                            onChange={(e) => {
+                              setOrbEditorLabel(e.target.value);
+                              updateOrb(showOrbEditor.id, { label: e.target.value });
+                              if (showOrbEditor.sourceType === 'note' && showOrbEditor.knowledgeId) {
+                                updateNote(showOrbEditor.knowledgeId, { title: e.target.value });
+                              } else if (showOrbEditor.sourceType === 'knowledge' && showOrbEditor.knowledgeId) {
+                                updatePlayerKnowledge(showOrbEditor.knowledgeId, { title: e.target.value });
+                              }
+                            }}
+                            placeholder="Enter orb title or character name..."
+                          />
+                        </div>
+
+                        {/* Quick Studio Launchers if matching dynasty or map exists */}
+                        {(() => {
+                          const currentTitle = (orbEditorLabel || showOrbEditor?.label || '').trim().toLowerCase();
+                          if (!currentTitle) return null;
+                          const trees = useFamilyTreeStore.getState().trees;
+                          const matchTree = trees.find(t => t.name.toLowerCase().includes(currentTitle) || currentTitle.includes(t.name.toLowerCase()) || t.nodes.some(n => n.name.toLowerCase() === currentTitle));
+                          const matchNode = matchTree?.nodes.find(n => n.name.toLowerCase() === currentTitle);
+
+                          const { maps, pins } = useInteractiveMapStore.getState();
+                          const matchPin = pins.find(p => p.title.toLowerCase().includes(currentTitle) || currentTitle.includes(p.title.toLowerCase()));
+                          const matchMap = maps.find(m => m.name.toLowerCase().includes(currentTitle) || currentTitle.includes(m.name.toLowerCase()));
+
+                          if (!matchTree && !matchPin && !matchMap) return null;
+
+                          return (
+                            <div className="orb-quick-links-bar" style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                              {matchTree && (
+                                <button
+                                  type="button"
+                                  className="btn-mode-pill"
+                                  style={{ background: 'linear-gradient(135deg, #d4af37 0%, #aa8014 100%)', color: '#1a0f05', fontWeight: 'bold' }}
+                                  onClick={() => {
+                                    useFamilyTreeStore.getState().openStudio(matchTree.id, matchNode?.id);
+                                    setShowOrbEditor(null);
+                                  }}
+                                  title="Open matching family tree"
+                                >
+                                  <i className="fas fa-sitemap"></i> Explore Dynasty Tree ↗
+                                </button>
+                              )}
+                              {(matchPin || matchMap) && (
+                                <button
+                                  type="button"
+                                  className="btn-mode-pill"
+                                  style={{ background: 'linear-gradient(135deg, #2980b9 0%, #1a5276 100%)', color: '#ffffff', fontWeight: 'bold' }}
+                                  onClick={() => {
+                                    useInteractiveMapStore.getState().openStudio(matchPin?.mapId || matchMap?.id, matchPin?.id);
+                                    setShowOrbEditor(null);
+                                  }}
+                                  title="Open matching map on interactive atlas"
+                                >
+                                  <i className="fas fa-map-location-dot"></i> View on Interactive Map ↗
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })()}
+
+                        {/* Lore Section with Live Preview */}
+                        <div className="form-field orb-lore-field">
+                          <div className="orb-lore-header-row">
+                            <label htmlFor="mythrill-orb-lore-textarea">
+                              <i className="fas fa-book-open"></i> Orb Lore, Notes & Description
+                            </label>
+                            <div className="orb-view-mode-toggle">
+                              <button
+                                type="button"
+                                className={`btn-mode-pill ${orbEditorViewMode === 'edit' ? 'active' : ''}`}
+                                onClick={() => setOrbEditorViewMode('edit')}
+                                title="Write markdown text"
+                              >
+                                <i className="fas fa-pen"></i> Write
+                              </button>
+                              <button
+                                type="button"
+                                className={`btn-mode-pill ${orbEditorViewMode === 'split' ? 'active' : ''}`}
+                                onClick={() => setOrbEditorViewMode('split')}
+                                title="Split view: editor and live rendered parchment side-by-side"
+                              >
+                                <i className="fas fa-columns"></i> Split
+                              </button>
+                              <button
+                                type="button"
+                                className={`btn-mode-pill ${orbEditorViewMode === 'preview' ? 'active' : ''}`}
+                                onClick={() => setOrbEditorViewMode('preview')}
+                                title="Full live parchment render"
+                              >
+                                <i className="fas fa-eye"></i> Preview
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Editor & Live Preview Panes */}
+                          <div className={`orb-lore-panes-wrapper mode-${orbEditorViewMode}`}>
+                            {/* Left / Write Pane */}
+                            {(orbEditorViewMode === 'edit' || orbEditorViewMode === 'split') && (
+                              <div className="orb-editor-pane">
+                                {/* Formatting Ribbon */}
+                                <div className="orb-editor-formatting-ribbon">
+                                  <div className="ribbon-group">
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('# ', '\n')} title="Heading 1 (# Title)">
+                                      <strong>H1</strong>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('## ', '\n')} title="Heading 2 (## Section)">
+                                      <strong>H2</strong>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('### ', '\n')} title="Heading 3 (### Subsection)">
+                                      <strong>H3</strong>
+                                    </button>
+                                  </div>
+
+                                  <div className="ribbon-divider-sm"></div>
+
+                                  <div className="ribbon-group">
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('**', '**')} title="Bold (**text**)">
+                                      <i className="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('*', '*')} title="Italic (*text*)">
+                                      <i className="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('<u>', '</u>')} title="Underline (<u>text</u> or __text__)">
+                                      <i className="fas fa-underline"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('==', '==')} title="Highlight / Mark (==text==)">
+                                      <i className="fas fa-highlighter"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('~~', '~~')} title="Strikethrough (~~text~~)">
+                                      <i className="fas fa-strikethrough"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('`', '`')} title="Inline Code (`code`)">
+                                      <i className="fas fa-code"></i>
+                                    </button>
+                                  </div>
+
+                                  <div className="ribbon-divider-sm"></div>
+
+                                  <div className="ribbon-group">
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('- ')} title="Bullet List (- item)">
+                                      <i className="fas fa-list-ul"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('1. ')} title="Numbered List (1. item)">
+                                      <i className="fas fa-list-ol"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('> ')} title="Blockquote (> quote)">
+                                      <i className="fas fa-quote-left"></i>
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" onClick={() => insertOrbSyntax('[[', ']]')} title="Wiki Link (e.g. [[Bilbo]])">
+                                      <i className="fas fa-link"></i>
+                                    </button>
+                                  </div>
+
+                                  <div className="ribbon-divider-sm"></div>
+
+                                  <div className="ribbon-group">
+                                    <button type="button" className="btn-ribbon-sm callout-npc" onClick={() => insertOrbSyntax(':::npc\n**Name**: ' + (orbEditorLabel || 'Character') + '\n**Role**: Chronicler\n**Disposition**: Neutral\n:::\n')} title="Insert NPC Block">
+                                      <i className="fas fa-user"></i> NPC
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" style={{ color: '#16a085', borderColor: 'rgba(22, 160, 133, 0.4)' }} onClick={() => insertOrbSyntax(':::settlement\n**Government**: Council\n**Defense**: High Stone Walls\n**Key Districts**: Docks, Gilded Market\n:::\n')} title="Insert Settlement Dossier">
+                                      <i className="fas fa-city"></i> City
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm" style={{ color: '#9b59b6', borderColor: 'rgba(155, 89, 182, 0.4)' }} onClick={() => insertOrbSyntax(':::faction\n**Doctrine**: "Through Ash, Clarity."\n**Influence**: Tier 2\n**Relations**: Hostile with [[Rival Guild]]\n:::\n')} title="Insert Faction Dossier">
+                                      <i className="fas fa-flag"></i> Faction
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm callout-readaloud" onClick={() => insertOrbSyntax(':::readaloud\nNarrative read-aloud text for the party...\n:::\n')} title="Insert Read Aloud Box">
+                                      <i className="fas fa-quote-left"></i> Read
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm callout-gm" onClick={() => insertOrbSyntax(':::gmnote\n**Secret GM Note**: Hidden details...\n:::\n')} title="Insert Secret GM Note">
+                                      <i className="fas fa-eye-slash"></i> GM
+                                    </button>
+                                    <button type="button" className="btn-ribbon-sm callout-quest" onClick={() => insertOrbSyntax(':::quest\n**Objective**: Quest goal\n**Reward**: 100 GP\n:::\n')} title="Insert Quest Hook">
+                                      <i className="fas fa-star"></i> Quest
+                                    </button>
+                                  </div>
+                                </div>
+
+                                <textarea
+                                  id="mythrill-orb-lore-textarea"
+                                  className="orb-editor-textarea"
+                                  value={orbEditorContent}
+                                  onChange={(e) => {
+                                    setOrbEditorContent(e.target.value);
+                                    updateOrb(showOrbEditor.id, { content: e.target.value });
+                                    if (showOrbEditor.sourceType === 'note' && showOrbEditor.knowledgeId) {
+                                      updateNote(showOrbEditor.knowledgeId, { content: e.target.value });
+                                    } else if (showOrbEditor.sourceType === 'knowledge' && showOrbEditor.knowledgeId) {
+                                      updatePlayerKnowledge(showOrbEditor.knowledgeId, { content: e.target.value });
+                                    }
+                                  }}
+                                  placeholder="Write description, lore entries, secrets, DM notes, or quotes for this orb..."
+                                  rows={orbEditorViewMode === 'split' ? 10 : 8}
+                                />
+                              </div>
+                            )}
+
+                            {/* Right / Live Real-Time Preview Pane */}
+                            {(orbEditorViewMode === 'preview' || orbEditorViewMode === 'split') && (
+                              <div className="orb-preview-pane">
+                                <div className="orb-preview-pane-header">
+                                  <i className="fas fa-scroll"></i>
+                                  <span>Live Parchment Render</span>
+                                </div>
+                                <div className="orb-preview-pane-body">
+                                  <RichLoreText text={orbEditorContent || '*Start writing lore or TTRPG blocks on the left to see live render...*'} />
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 2: OBSIDIAN GRAPH & BI-DIRECTIONAL LINKS */}
+                    {orbEditorTab === 'graph' && (
+                      <div className="orb-tab-pane orb-tab-graph">
+                        <div className="orb-graph-hero-card">
+                          <div className="graph-hero-icon">
+                            <i className="fas fa-circle-nodes"></i>
+                          </div>
+                          <div className="graph-hero-text">
+                            <h5>Bi-Directional Graph & Campaign Mentions</h5>
+                            <p>Track which notes and lore cards link to <strong>{currentOrbTitle || 'this orb'}</strong> via <code>[[WikiLinks]]</code>, or scan unlinked mentions across your journal.</p>
+                          </div>
+                        </div>
+
+                        {/* Section 1: Linked References */}
+                        <div className="graph-links-section">
+                          <div className="graph-section-header">
+                            <h6><i className="fas fa-link"></i> Linked References ({currentLinkedRefs.length})</h6>
+                            <span className="graph-section-desc">Documents with explicit <code>[[{currentOrbTitle || 'Title'}]]</code> links</span>
+                          </div>
+
+                          {currentLinkedRefs.length > 0 ? (
+                            <div className="graph-items-grid">
+                              {currentLinkedRefs.map(item => (
+                                <div key={item.id} className="graph-item-card linked">
+                                  <div className="graph-item-icon">
+                                    <i className={`fas ${item.type === 'note' ? 'fa-file-lines' : item.type === 'orb' ? 'fa-circle-dot' : 'fa-scroll'}`}></i>
+                                  </div>
+                                  <div className="graph-item-info">
+                                    <span className="graph-item-title">{item.title}</span>
+                                    <span className="graph-item-type">{item.type?.toUpperCase()}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="graph-empty-state">
+                              <i className="fas fa-link-slash"></i>
+                              <span>No explicit <code>[[{currentOrbTitle || 'Orb'}]]</code> links found in other notes yet.</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Section 2: Unlinked Mentions (Obsidian 1-Click Linker) */}
+                        <div className="graph-links-section" style={{ marginTop: '14px' }}>
+                          <div className="graph-section-header">
+                            <h6><i className="fas fa-magnifying-glass"></i> Unlinked Mentions ({currentUnlinkedMentions.length})</h6>
+                            <span className="graph-section-desc">Documents mentioning "{currentOrbTitle}" in plain text</span>
+                          </div>
+
+                          {currentUnlinkedMentions.length > 0 ? (
+                            <div className="graph-items-grid">
+                              {currentUnlinkedMentions.map(mention => (
+                                <div key={mention.id} className="graph-item-card unlinked">
+                                  <div className="graph-item-body">
+                                    <div className="graph-item-top">
+                                      <span className="graph-item-title">{mention.title}</span>
+                                      <span className="graph-item-type">{mention.type?.toUpperCase()}</span>
+                                    </div>
+                                    <p className="graph-item-excerpt">"{mention.excerpt}"</p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="btn-graph-link-mention"
+                                    onClick={() => {
+                                      convertUnlinkedMention(mention.sourceType, mention.id, currentOrbTitle);
+                                      syncToCloud(user?.uid);
+                                    }}
+                                    title={`Convert "${currentOrbTitle}" into [[${currentOrbTitle}]] in ${mention.title}`}
+                                  >
+                                    <i className="fas fa-link"></i> Link
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="graph-empty-state">
+                              <i className="fas fa-check-circle"></i>
+                              <span>No unlinked mentions found. All references to "{currentOrbTitle || 'Orb'}" are clean!</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Section 3: Visual Connections on this Board */}
+                        <div className="graph-links-section" style={{ marginTop: '14px' }}>
+                          <div className="graph-section-header">
+                            <h6><i className="fas fa-bezier-curve"></i> Board Visual Connections ({currentConnections.length})</h6>
+                            <span className="graph-section-desc">Active visual connection lines attached to this orb</span>
+                          </div>
+
+                          {currentConnections.length > 0 ? (
+                            <div className="graph-connections-list">
+                              {currentConnections.map(conn => {
+                                const isOrigin = conn.fromOrbId === showOrbEditor.id;
+                                const otherOrbId = isOrigin ? conn.toOrbId : conn.fromOrbId;
+                                const otherOrb = knowledgeOrbs.find(o => o.id === otherOrbId);
+                                const otherTitle = otherOrb?.label || (otherOrb?.sourceType === 'note' ? (playerNotes.find(n => n.id === otherOrb?.knowledgeId)?.title) : 'Connected Orb');
+                                return (
+                                  <div key={conn.id} className="graph-connection-pill">
+                                    <i className={`fas ${isOrigin ? 'fa-arrow-right' : 'fa-arrow-left'}`}></i>
+                                    <span className="conn-target">{otherTitle}</span>
+                                    {conn.label && <span className="conn-label">"{conn.label}"</span>}
+                                    <button
+                                      type="button"
+                                      className="btn-remove-conn"
+                                      onClick={() => {
+                                        removeKnowledgeConnection(conn.id);
+                                        syncToCloud(user?.uid);
+                                      }}
+                                      title="Remove connection line"
+                                    >
+                                      <i className="fas fa-times"></i>
+                                    </button>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className="graph-empty-state">
+                              <span>No visual connection lines attached to this orb on the canvas.</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 3: SUB-BOARD & DRILLDOWN */}
+                    {orbEditorTab === 'subboard' && (
+                      <div className="orb-tab-pane orb-tab-subboard">
+                        <div className="orb-subboard-hero-card">
+                          <div className="subboard-hero-icon">
+                            <i className="fas fa-sitemap"></i>
+                          </div>
+                          <div className="subboard-hero-text">
+                            <h5>Interconnected Sub-Boards & Drilldown</h5>
+                            <p>Link this knowledge orb to a dedicated sub-board canvas. Clicking "Dive In" will smoothly open that child board.</p>
+                          </div>
+                        </div>
+
+                        <div className="form-field orb-subboard-panel" style={{ marginTop: '14px' }}>
+                          <label className="orb-subboard-label">
+                            <span className="orb-subboard-title">
+                              <i className="fas fa-network-wired"></i> Target Sub-Board
+                            </span>
+                            {showOrbEditor.linkedBoardId && (
+                              <button
+                                type="button"
+                                className="btn-dive-subboard"
+                                onClick={() => {
+                                  setCurrentBoard(showOrbEditor.linkedBoardId);
+                                  setShowOrbEditor(null);
+                                }}
+                                title="Jump straight into this orb's sub-board"
+                              >
+                                <i className="fas fa-level-down-alt"></i> Dive In ↗
+                              </button>
+                            )}
+                          </label>
+
+                          <div className="orb-subboard-controls">
+                            <select
+                              className="orb-subboard-select"
+                              value={showOrbEditor.linkedBoardId || ''}
+                              onChange={(e) => {
+                                const targetId = e.target.value || null;
+                                updateOrb(showOrbEditor.id, { linkedBoardId: targetId });
+                                setShowOrbEditor(prev => ({ ...prev, linkedBoardId: targetId }));
+                              }}
+                            >
+                              <option value="">-- No Linked Sub-Board --</option>
+                              {knowledgeBoards
+                                .filter(b => b.id !== currentBoardId)
+                                .map(b => (
+                                  <option key={b.id} value={b.id}>{b.name}</option>
+                                ))}
+                            </select>
+                            <button
+                              type="button"
+                              className="btn-orb-create-subboard"
+                              onClick={() => {
+                                createSubBoardForOrb(showOrbEditor.id, orbEditorLabel || showOrbEditor.label || 'Sub-Board', true);
+                                setShowOrbEditor(null);
+                              }}
+                            >
+                              <i className="fas fa-plus"></i> Create Sub-Board
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TAB 4: ICON & APPEARANCE */}
+                    {orbEditorTab === 'appearance' && (
+                      <div className="orb-tab-pane orb-tab-appearance">
+                        {/* Custom Image / Portrait Upload */}
+                        <div className="form-field">
+                          <label><i className="fas fa-image"></i> Custom Portrait / Icon Artwork</label>
+                          <div className="orb-image-uploader-row">
+                            <div
+                              className="orb-image-preview-badge"
+                              style={{
+                                borderColor: showOrbEditor.color || '#d4af37',
+                                boxShadow: `0 0 14px ${showOrbEditor.color || '#d4af37'}40`
+                              }}
+                            >
+                              {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) ? (
+                                <img
+                                  src={getOrbIconUrl(showOrbEditor.iconType)}
+                                  alt=""
+                                  className="orb-preview-img"
+                                />
+                              ) : (
+                                <i className={`fas ${ORB_ICONS.find(i => i.id === showOrbEditor.iconType)?.icon || 'fa-scroll'}`}></i>
+                              )}
+                            </div>
+                            <div className="orb-image-actions">
+                              <label className="orb-image-upload-btn">
+                                <i className="fas fa-upload"></i>
+                                <span>Upload PNG / Image</span>
+                                <input
+                                  type="file"
+                                  accept="image/png,image/jpeg,image/webp,image/gif"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload(file, (dataUrl) => {
+                                        updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
+                                        setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
+                                      });
+                                    }
+                                  }}
+                                />
+                              </label>
+                              {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
+                                <button
+                                  type="button"
+                                  className="orb-image-reset-btn"
+                                  onClick={() => {
+                                    updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
+                                    setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
+                                  }}
+                                >
+                                  <i className="fas fa-undo"></i> Reset to icon
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Standard Icons Grid */}
+                        <div className="form-field">
+                          <label><i className="fas fa-icons"></i> Or Choose Standard Icon</label>
+                          <div className="orb-editor-icon-grid">
+                            {ORB_ICONS.map(icon => (
+                              <button
+                                key={icon.id}
+                                type="button"
+                                className={`orb-editor-icon-btn ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
+                                onClick={() => {
+                                  updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
+                                  setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
+                                }}
+                                title={icon.label}
+                              >
+                                <i className={`fas ${icon.icon}`}></i>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Color Swatches Grid */}
+                        <div className="form-field">
+                          <label><i className="fas fa-palette"></i> Orb Glow Color</label>
+                          <div className="folder-color-grid">
+                            {ORB_COLORS.map(color => (
+                              <button
+                                key={color}
+                                type="button"
+                                className={`folder-color-btn ${showOrbEditor.color === color ? 'selected' : ''}`}
+                                style={{ backgroundColor: color }}
+                                onClick={() => {
+                                  updateOrb(showOrbEditor.id, { color });
+                                  setShowOrbEditor(prev => ({ ...prev, color }));
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     )}
                   </div>
-                  <div className="orb-image-actions">
-                    <label className="orb-image-upload-btn">
-                      <i className="fas fa-upload"></i>
-                      <span>Upload PNG / Image</span>
-                      <input
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp,image/gif"
-                        style={{ display: 'none' }}
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleImageUpload(file, (dataUrl) => {
-                              updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
-                              setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
-                            });
-                          }
-                        }}
-                      />
-                    </label>
-                    {showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType) && (
-                      <button
-                        type="button"
-                        className="orb-image-reset-btn"
-                        onClick={() => {
-                          updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
-                          setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
-                        }}
-                      >
-                        <i className="fas fa-undo"></i> Reset to icon
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
+                </>
+              );
+            })()}
 
-              {/* Standard Icons Grid */}
-              <div className="form-field">
-                <label>Or Choose Standard Icon</label>
-                <div className="orb-editor-icon-grid">
-                  {ORB_ICONS.map(icon => (
-                    <button
-                      key={icon.id}
-                      type="button"
-                      className={`orb-editor-icon-btn ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
-                      onClick={() => {
-                        updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
-                        setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
-                      }}
-                      title={icon.label}
-                    >
-                      <i className={`fas ${icon.icon}`}></i>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Color Swatches Grid */}
-              <div className="form-field">
-                <label>Orb Glow Color</label>
-                <div className="folder-color-grid">
-                  {ORB_COLORS.map(color => (
-                    <button
-                      key={color}
-                      type="button"
-                      className={`folder-color-btn ${showOrbEditor.color === color ? 'selected' : ''}`}
-                      style={{ backgroundColor: color }}
-                      onClick={() => {
-                        updateOrb(showOrbEditor.id, { color });
-                        setShowOrbEditor(prev => ({ ...prev, color }));
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-actions">
+            <div className="modal-actions orb-editor-actions">
               <button
                 type="button"
                 className="btn btn-danger"
@@ -2114,8 +2831,21 @@ const AccountJournalManager = ({ user }) => {
                 type="button"
                 className="btn btn-primary"
                 onClick={() => {
-                  if (orbEditorLabel) {
-                    updateOrb(showOrbEditor.id, { label: orbEditorLabel.trim() });
+                  const trimmedLabel = (orbEditorLabel || '').trim();
+                  updateOrb(showOrbEditor.id, {
+                    label: trimmedLabel || null,
+                    content: orbEditorContent
+                  });
+                  if (showOrbEditor.sourceType === 'note' && showOrbEditor.knowledgeId) {
+                    updateNote(showOrbEditor.knowledgeId, {
+                      title: trimmedLabel || null,
+                      content: orbEditorContent
+                    });
+                  } else if (showOrbEditor.sourceType === 'knowledge' && showOrbEditor.knowledgeId) {
+                    updatePlayerKnowledge(showOrbEditor.knowledgeId, {
+                      title: trimmedLabel || null,
+                      content: orbEditorContent
+                    });
                   }
                   setShowOrbEditor(null);
                 }}
@@ -2168,7 +2898,9 @@ const AccountJournalManager = ({ user }) => {
                 {[
                   { id: 'all', label: 'All Entities', icon: 'fa-layer-group' },
                   { id: 'npc', label: 'NPCs', icon: 'fa-user' },
+                  { id: 'dynasty', label: 'Dynasties', icon: 'fa-sitemap' },
                   { id: 'location', label: 'Locations', icon: 'fa-landmark' },
+                  { id: 'map', label: 'Maps', icon: 'fa-map-location-dot' },
                   { id: 'quest', label: 'Quests', icon: 'fa-star' },
                   { id: 'faction', label: 'Factions', icon: 'fa-shield-halved' },
                   { id: 'monster', label: 'Monsters', icon: 'fa-dragon' },
@@ -2203,7 +2935,9 @@ const AccountJournalManager = ({ user }) => {
                         <span className={`weaver-type-tag type-${ent.type}`}>
                           <i className={`fas ${
                             ent.type === 'npc' ? 'fa-user' :
+                            ent.type === 'dynasty' ? 'fa-sitemap' :
                             ent.type === 'location' ? 'fa-landmark' :
+                            ent.type === 'map' ? 'fa-map-location-dot' :
                             ent.type === 'quest' ? 'fa-star' :
                             ent.type === 'faction' ? 'fa-shield-halved' :
                             ent.type === 'monster' ? 'fa-dragon' :
@@ -2985,51 +3719,91 @@ const AccountJournalManager = ({ user }) => {
 
       {/* Board Atlas / Connected Hierarchy Tree Modal */}
       {showBoardAtlasModal && createPortal(
-        <div className="modal-overlay" onClick={() => setShowBoardAtlasModal(false)}>
+        <div className="modal-overlay folder-modal-overlay" onClick={() => setShowBoardAtlasModal(false)}>
           <div className="folder-modal board-atlas-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header atlas-header">
               <div className="atlas-header-title">
-                <i className="fas fa-sitemap" style={{ color: '#d4af37' }}></i>
-                <h4>Connected Boards & Atlas Overview</h4>
+                <div className="atlas-header-icon-box">
+                  <i className="fas fa-sitemap"></i>
+                </div>
+                <div>
+                  <h4>Connected Boards & Atlas Overview</h4>
+                  <span className="atlas-header-subtitle">Campaign World Hierarchy & Fast Travel</span>
+                </div>
               </div>
-              <button className="modal-close-btn" onClick={() => setShowBoardAtlasModal(false)}>
+              <button className="modal-close-btn" onClick={() => setShowBoardAtlasModal(false)} title="Close Overview">
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             <div className="modal-body atlas-body">
-              <p className="atlas-hint">
-                View your interconnected campaign and world boards. Click any board to jump directly into it.
-              </p>
+              {/* Overview & Quick Stats Banner */}
+              <div className="atlas-overview-banner">
+                <div className="atlas-banner-hint">
+                  <i className="fas fa-compass"></i>
+                  <span>Select any board to teleport directly into its canvas, or configure nested child boards.</span>
+                </div>
+                <div className="atlas-banner-stats">
+                  <span className="atlas-stat-pill">
+                    <i className="fas fa-layer-group"></i> {1 + (knowledgeBoards || []).length} Boards
+                  </span>
+                  <span className="atlas-stat-pill">
+                    <i className="fas fa-circle-nodes"></i> {(knowledgeOrbs || []).length} Total Orbs
+                  </span>
+                </div>
+              </div>
 
               <div className="atlas-tree-list">
                 {/* Master Overview Board */}
-                <div className={`atlas-tree-item root ${!currentBoardId ? 'current-active' : ''}`}>
-                  <div className="atlas-item-left">
-                    <span className="atlas-item-icon" style={{ background: '#3d2314', color: '#d4af37' }}>
-                      <i className="fas fa-layer-group"></i>
-                    </span>
-                    <div className="atlas-item-info">
-                      <span className="atlas-item-name">Master Overview Board</span>
-                      <span className="atlas-item-sub">Root Campaign Board</span>
+                {(() => {
+                  const isRootActive = !currentBoardId;
+                  const rootOrbCount = (knowledgeOrbs || []).filter(o => !o.boardId).length;
+                  return (
+                    <div className={`atlas-tree-item root ${isRootActive ? 'current-active' : ''}`}>
+                      <div className="atlas-item-left">
+                        <span className="atlas-item-icon root-icon">
+                          <i className="fas fa-layer-group"></i>
+                        </span>
+                        <div className="atlas-item-info">
+                          <div className="atlas-item-name-row">
+                            <span className="atlas-item-name">Master Overview Board</span>
+                            {isRootActive && (
+                              <span className="atlas-active-badge">
+                                <i className="fas fa-circle"></i> Active
+                              </span>
+                            )}
+                          </div>
+                          <span className="atlas-item-sub">Root Campaign Board</span>
+                        </div>
+                      </div>
+                      <div className="atlas-item-right">
+                        <span className="atlas-count-badge">
+                          <i className="fas fa-circle-dot"></i> {rootOrbCount} {rootOrbCount === 1 ? 'Orb' : 'Orbs'}
+                        </span>
+                        <button
+                          type="button"
+                          className={`btn-atlas-jump ${isRootActive ? 'is-active-btn' : ''}`}
+                          onClick={() => {
+                            if (!isRootActive) {
+                              setCurrentBoard(null);
+                            }
+                            setShowBoardAtlasModal(false);
+                          }}
+                        >
+                          {isRootActive ? (
+                            <>
+                              <i className="fas fa-check"></i> Current Board
+                            </>
+                          ) : (
+                            <>
+                              <i className="fas fa-arrow-right-to-bracket"></i> Jump to Board
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="atlas-item-right">
-                    <span className="atlas-count-badge">
-                      {(knowledgeOrbs || []).filter(o => !o.boardId).length} Orbs
-                    </span>
-                    <button
-                      type="button"
-                      className="btn-atlas-jump"
-                      onClick={() => {
-                        setCurrentBoard(null);
-                        setShowBoardAtlasModal(false);
-                      }}
-                    >
-                      Jump to Board ↗
-                    </button>
-                  </div>
-                </div>
+                  );
+                })()}
 
                 {/* All Custom & Sub-Boards */}
                 {(knowledgeBoards || []).map(board => {
@@ -3044,19 +3818,38 @@ const AccountJournalManager = ({ user }) => {
                       className={`atlas-tree-item ${isNested ? 'nested' : ''} ${isCurrent ? 'current-active' : ''}`}
                     >
                       <div className="atlas-item-left">
-                        {isNested && <span className="atlas-nest-indent"><i className="fas fa-turn-up fa-rotate-90"></i></span>}
-                        <span className="atlas-item-icon" style={{ background: board.color || '#d4af37', color: '#1a1005' }}>
+                        {isNested && (
+                          <span className="atlas-nest-indent" title="Nested Sub-Board">
+                            <i className="fas fa-turn-up fa-rotate-90"></i>
+                          </span>
+                        )}
+                        <span
+                          className="atlas-item-icon"
+                          style={{
+                            background: board.color || '#8b5a1a',
+                            color: '#ffffff'
+                          }}
+                        >
                           <i className={`fas ${board.icon || 'fa-project-diagram'}`}></i>
                         </span>
                         <div className="atlas-item-info">
-                          <span className="atlas-item-name">{board.name}</span>
+                          <div className="atlas-item-name-row">
+                            <span className="atlas-item-name">{board.name}</span>
+                            {isCurrent && (
+                              <span className="atlas-active-badge">
+                                <i className="fas fa-circle"></i> Active
+                              </span>
+                            )}
+                          </div>
                           <span className="atlas-item-sub">
-                            {parentBoard ? `Sub-board of ${parentBoard.name}` : 'Custom Board'}
+                            {parentBoard ? `Sub-board of ${parentBoard.name}` : 'Custom Campaign Board'}
                           </span>
                         </div>
                       </div>
                       <div className="atlas-item-right">
-                        <span className="atlas-count-badge">{orbCount} Orbs</span>
+                        <span className="atlas-count-badge">
+                          <i className="fas fa-circle-dot"></i> {orbCount} {orbCount === 1 ? 'Orb' : 'Orbs'}
+                        </span>
                         <button
                           type="button"
                           className="btn-atlas-edit"
@@ -3070,17 +3863,27 @@ const AccountJournalManager = ({ user }) => {
                             setShowBoardModal(true);
                           }}
                         >
-                          <i className="fas fa-edit"></i> Edit
+                          <i className="fas fa-pen"></i> Edit
                         </button>
                         <button
                           type="button"
-                          className="btn-atlas-jump"
+                          className={`btn-atlas-jump ${isCurrent ? 'is-active-btn' : ''}`}
                           onClick={() => {
-                            setCurrentBoard(board.id);
+                            if (!isCurrent) {
+                              setCurrentBoard(board.id);
+                            }
                             setShowBoardAtlasModal(false);
                           }}
                         >
-                          Jump to Board ↗
+                          {isCurrent ? (
+                            <>
+                              <i className="fas fa-check"></i> Current Board
+                            </>
+                          ) : (
+                            <>
+                              <i className="fas fa-arrow-right-to-bracket"></i> Jump to Board
+                            </>
+                          )}
                         </button>
                       </div>
                     </div>
@@ -3089,17 +3892,22 @@ const AccountJournalManager = ({ user }) => {
 
                 {knowledgeBoards.length === 0 && (
                   <div className="atlas-empty-note">
-                    <i className="fas fa-info-circle"></i>
-                    <span>No sub-boards created yet. Enter any orb or click "New Board" to start nesting locations and relationships.</span>
+                    <div className="atlas-empty-icon">
+                      <i className="fas fa-map-location-dot"></i>
+                    </div>
+                    <div className="atlas-empty-text">
+                      <h5>No Sub-Boards Created Yet</h5>
+                      <p>Create dedicated sub-boards to nest regions, dungeons, settlements, or faction networks under your campaign atlas.</p>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="modal-actions">
+            <div className="modal-actions atlas-modal-actions">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary btn-atlas-create"
                 onClick={() => {
                   setEditingBoard(null);
                   setNewBoardName('');
@@ -3126,6 +3934,8 @@ const AccountJournalManager = ({ user }) => {
 
       {/* Custom Lineage Wizard for Fast Worldbuilding in Journal */}
       <CustomLineageWizard />
+      <FamilyTreeStudio />
+      <InteractiveMapStudio />
     </div>
   );
 };

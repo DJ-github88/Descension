@@ -253,13 +253,13 @@
   text-align: center;
 }
 
-.form-row {
+.character-manager-modal .form-row {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.form-group {
+.character-manager-modal .form-group {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -268,8 +268,8 @@
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-.form-group input,
-.form-group select {
+.character-manager-modal .form-group input,
+.character-manager-modal .form-group select {
   padding: 10px 12px;
   background: rgba(0, 0, 0, 0.4);
   border: 2px solid rgba(212, 175, 55, 0.3);
@@ -280,8 +280,8 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.character-manager-modal .form-group input:focus,
+.character-manager-modal .form-group select:focus {
   outline: none;
   border-color: #d4af37;
   background: rgba(0, 0, 0, 0.6);

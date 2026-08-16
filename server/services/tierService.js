@@ -4,14 +4,17 @@ const logger = require('./logger');
 const TIER_LIMITS = {
   guest: { roomLimit: 0, characterLimit: 1, maxPlayersPerRoom: 0 },
   free: { roomLimit: 1, characterLimit: 3, maxPlayersPerRoom: 3 },
-  dev_preview: { roomLimit: 25, characterLimit: -1, maxPlayersPerRoom: 12 },
+  dev_preview: { roomLimit: 100, characterLimit: -1, maxPlayersPerRoom: 24 },
   pro: { roomLimit: 5, characterLimit: 15, maxPlayersPerRoom: 6 },
-  ultimate: { roomLimit: 25, characterLimit: -1, maxPlayersPerRoom: 12 }
+  ultimate: { roomLimit: 25, characterLimit: -1, maxPlayersPerRoom: 12 },
+  mythic: { roomLimit: 100, characterLimit: -1, maxPlayersPerRoom: 24 }
 };
 
 const LEGACY_MAP = {
   subscriber: 'pro',
-  premium: 'ultimate'
+  premium: 'ultimate',
+  sovereign: 'mythic',
+  demiurge: 'mythic'
 };
 
 const tierCache = new Map();

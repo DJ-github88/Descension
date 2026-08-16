@@ -9,9 +9,16 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
+import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
+import CustomLineageWizard from '../world/CustomLineageWizard';
+import useCustomLineageStore from '../../store/customLineageStore';
+import FamilyTreeStudio from '../world/FamilyTreeStudio';
+import useFamilyTreeStore from '../../store/familyTreeStore';
+import InteractiveMapStudio from '../world-map/InteractiveMapStudio';
+import useInteractiveMapStore from '../../store/interactiveMapStore';
 import '../../styles/campaign-manager.css';
 
 // Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
@@ -194,7 +201,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         { id: 'sessions', label: 'Sessions', icon: 'fas fa-calendar-alt' },
         { id: 'npcs', label: 'NPCs', icon: 'fas fa-users' },
         { id: 'locations', label: 'Locations', icon: 'fas fa-map-marker-alt' },
-        { id: 'plots', label: 'Plot Threads', icon: 'fas fa-project-diagram' },
+        { id: 'plots', label: 'Plots', icon: 'fas fa-project-diagram' },
         { id: 'shareables', label: 'Shareables', icon: 'fas fa-share-alt' },
         { id: 'homebrew', label: 'Homebrew', icon: 'fas fa-flask' }
     ];
@@ -509,6 +516,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
 
     // Homebrew Management Functions
     const [homebrewSubTab, setHomebrewSubTab] = useState('items');
+    const [lineageViewMode, setLineageViewMode] = useState('species'); // 'species' | 'family_trees'
 
     const addHomebrewItem = () => {
         setInputModalConfig({
@@ -857,9 +865,9 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                     <div className="campaign-tab-content">
                         <div className="campaign-overview">
                             <div className="campaign-header-section">
-                                <div className="campaign-field" style={{ marginBottom: '16px' }}>
-                                    <label style={{ marginBottom: '6px' }}>Campaign</label>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                <div className="campaign-field">
+                                    <label><i className="fas fa-book-bookmark"></i> Select Active Campaign</label>
+                                    <div className="campaign-select-action-row">
                                         <select
                                             value={currentCampaignId || ''}
                                             onChange={(e) => {
@@ -867,7 +875,6 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 campaignService.setCurrentCampaign(newCampaignId);
                                                 setCurrentCampaignId(newCampaignId);
                                                 const campaign = campaignService.getCampaign(newCampaignId);
-                                                // Load the campaign data or reset to defaults
                                                 const defaultData = {
                                                     name: campaign?.name || 'New Campaign',
                                                     description: campaign?.description || '',
@@ -885,20 +892,19 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 };
                                                 setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
                                             }}
-                                            className="campaign-input"
-                                            style={{ minWidth: '150px', flex: '1 1 0%' }}
+                                            className="campaign-select-main"
                                         >
                                             {campaigns.map(campaign => (
                                                 <option key={campaign.id} value={campaign.id}>{campaign.name}</option>
                                             ))}
                                         </select>
                                         <button
+                                            type="button"
                                             onClick={() => {
                                                 const newCampaign = campaignService.createCampaign({ name: 'New Campaign' });
                                                 setCampaigns(campaignService.getCampaigns());
                                                 campaignService.setCurrentCampaign(newCampaign.id);
                                                 setCurrentCampaignId(newCampaign.id);
-                                                // Reset to fresh campaign data
                                                 const freshData = {
                                                     name: 'New Campaign',
                                                     description: '',
@@ -916,44 +922,26 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 };
                                                 setCampaignData(newCampaign.campaignData || freshData);
                                             }}
-                                            className="campaign-input"
-                                            style={{
-                                                padding: '10px 12px',
-                                                cursor: 'pointer',
-                                                fontSize: '13px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                flexShrink: 0,
-                                                width: 'auto',
-                                                minWidth: '80px',
-                                                height: '42px',
-                                                boxSizing: 'border-box'
-                                            }}
+                                            className="btn-campaign-new"
+                                            title="Create a new campaign codex"
                                         >
-                                            + New
+                                            <i className="fas fa-plus"></i>
+                                            <span>New Campaign</span>
                                         </button>
                                         <button
+                                            type="button"
                                             onClick={() => {
                                                 if (currentCampaignId) {
-                                                    // Convert to string for comparison to handle type mismatches
                                                     const idStr = String(currentCampaignId);
                                                     const campaignToDelete = campaigns.find(c => String(c.id) === idStr);
                                                     showConfirmModal(
                                                         'Delete Campaign',
                                                         `Are you sure you want to delete the campaign "${campaignToDelete?.name || 'this campaign'}"? This action cannot be undone.`,
                                                         () => {
-                                                            // Delete the campaign
                                                             campaignService.deleteCampaign(currentCampaignId);
-
-                                                            // Get updated campaigns list
                                                             const updatedCampaigns = campaignService.getCampaigns();
-
-                                                            // If there are other campaigns, switch to the first one
-                                                            // Otherwise, create a default campaign
                                                             let newCurrentId;
                                                             let newCampaignData;
-
                                                             if (updatedCampaigns.length > 0) {
                                                                 newCurrentId = updatedCampaigns[0].id;
                                                                 const campaign = campaignService.getCampaign(newCurrentId);
@@ -975,7 +963,6 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 };
                                                                 newCampaignData = campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData;
                                                             } else {
-                                                                // No campaigns left, create a default one
                                                                 const defaultCampaign = campaignService.createCampaign({ name: 'New Campaign' });
                                                                 newCurrentId = defaultCampaign.id;
                                                                 campaignService.setCurrentCampaign(newCurrentId);
@@ -996,8 +983,6 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     selectedSpells: []
                                                                 };
                                                             }
-
-                                                            // Update state
                                                             setCampaigns(updatedCampaigns);
                                                             setCurrentCampaignId(newCurrentId);
                                                             setCampaignData(newCampaignData);
@@ -1005,45 +990,27 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     );
                                                 }
                                             }}
-                                            className="campaign-input"
-                                            style={{
-                                                padding: '10px 12px',
-                                                cursor: 'pointer',
-                                                fontSize: '13px',
-                                                backgroundColor: campaigns.length <= 1 ? '#666' : '#dc3545',
-                                                color: 'white',
-                                                border: '1px solid #dc3545',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                flexShrink: 0,
-                                                width: 'auto',
-                                                minWidth: '80px',
-                                                height: '42px',
-                                                boxSizing: 'border-box'
-                                            }}
+                                            className="btn-campaign-delete"
                                             disabled={campaigns.length <= 1}
                                             title={campaigns.length <= 1 ? "Cannot delete the only campaign" : "Delete this campaign"}
                                         >
-                                            <i className="fas fa-trash" style={{ fontSize: '12px', lineHeight: '1' }}></i>
+                                            <i className="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div className="campaign-field" style={{ marginBottom: '16px' }}>
-                                    <label style={{ marginBottom: '6px' }}>Campaign Name</label>
+                                <div className="campaign-field">
+                                    <label><i className="fas fa-feather-pointed"></i> Campaign Title</label>
                                     <input
                                         type="text"
                                         value={campaignData.name}
                                         onChange={(e) => {
                                             const newName = e.target.value;
                                             updateCampaignData({ name: newName });
-                                            // Update campaign name in the service and dropdown
                                             if (currentCampaignId) {
                                                 campaignService.updateCampaign(currentCampaignId, {
                                                     name: newName,
                                                     campaignData: { ...campaignData, name: newName }
                                                 });
-                                                // Update local campaigns state to refresh dropdown
                                                 const idStr = String(currentCampaignId);
                                                 setCampaigns(prev => prev.map(c =>
                                                     String(c.id) === idStr ? { ...c, name: newName } : c
@@ -1051,18 +1018,17 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                             }
                                         }}
                                         className="campaign-input"
-                                        placeholder="Enter campaign name..."
-                                        style={{ width: '100%', backgroundColor: 'white' }}
+                                        placeholder="Enter campaign title..."
                                     />
                                 </div>
                                 <div className="campaign-field">
-                                    <label>Description</label>
+                                    <label><i className="fas fa-scroll"></i> Setting Description & Narrative Arc</label>
                                     <textarea
                                         value={campaignData.description}
                                         onChange={(e) => updateCampaignData({ description: e.target.value })}
                                         className="campaign-textarea"
-                                        placeholder="Describe your campaign setting, themes, and goals..."
-                                        rows={4}
+                                        placeholder="Describe your campaign setting, themes, key conflicts, and party goals..."
+                                        rows={3}
                                     />
                                 </div>
                             </div>
@@ -1070,11 +1036,25 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                             <div className="campaign-stats-grid">
                                 <div className="campaign-stat-card">
                                     <div className="stat-icon">
-                                        <i className="fas fa-calendar-day"></i>
+                                        <i className="fas fa-calendar-days"></i>
                                     </div>
                                     <div className="stat-content">
-                                        <div className="stat-label">Current Session</div>
-                                        <div className="stat-value">{campaignData.currentSession}</div>
+                                        <span className="campaign-stat-label">Current Session</span>
+                                        <div className="campaign-stat-value-row">
+                                            <button
+                                                type="button"
+                                                className="btn-stat-stepper"
+                                                onClick={() => updateCampaignData({ currentSession: Math.max(1, (campaignData.currentSession || 1) - 1) })}
+                                                title="Previous session"
+                                            >-</button>
+                                            <span className="campaign-stat-number">{campaignData.currentSession || 1}</span>
+                                            <button
+                                                type="button"
+                                                className="btn-stat-stepper"
+                                                onClick={() => updateCampaignData({ currentSession: (campaignData.currentSession || 1) + 1 })}
+                                                title="Next session"
+                                            >+</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="campaign-stat-card">
@@ -1082,26 +1062,26 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                         <i className="fas fa-users"></i>
                                     </div>
                                     <div className="stat-content">
-                                        <div className="stat-label">Active Players</div>
-                                        <div className="stat-value">{campaignData.players.length}</div>
+                                        <span className="campaign-stat-label">Active Players</span>
+                                        <span className="campaign-stat-number">{(campaignData.players || []).length}</span>
                                     </div>
                                 </div>
                                 <div className="campaign-stat-card">
                                     <div className="stat-icon">
-                                        <i className="fas fa-map-marker-alt"></i>
+                                        <i className="fas fa-map-location-dot"></i>
                                     </div>
                                     <div className="stat-content">
-                                        <div className="stat-label">Locations</div>
-                                        <div className="stat-value">{campaignData.locations.length}</div>
+                                        <span className="campaign-stat-label">Locations</span>
+                                        <span className="campaign-stat-number">{(campaignData.locations || []).length}</span>
                                     </div>
                                 </div>
                                 <div className="campaign-stat-card">
                                     <div className="stat-icon">
-                                        <i className="fas fa-scroll"></i>
+                                        <i className="fas fa-diagram-project"></i>
                                     </div>
                                     <div className="stat-content">
-                                        <div className="stat-label">Plot Threads</div>
-                                        <div className="stat-value">{campaignData.plotThreads.length}</div>
+                                        <span className="campaign-stat-label">Plot Threads</span>
+                                        <span className="campaign-stat-number">{(campaignData.plotThreads || []).length}</span>
                                     </div>
                                 </div>
                             </div>
@@ -2430,7 +2410,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                 ))
                                             ) : (
                                                 <div className="homebrew-placeholder">
-                                                    <i className="fas fa-magic"></i>
+                                                    <i className="fas fa-hat-wizard"></i>
                                                     <p>No custom spells yet. Craft unique magical abilities!</p>
                                                 </div>
                                             )}
@@ -2441,16 +2421,19 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                 {homebrewSubTab === 'lore' && (
                                     <div className="homebrew-section">
                                         <div className="campaign-section-header">
-                                            <h3>World Lore & History</h3>
-                                            <button className="campaign-add-btn" onClick={addLoreArticle}>
-                                                <i className="fas fa-plus"></i>
-                                                New Article
-                                            </button>
+                                            <h3>World Lore & Chronicles</h3>
+                                            <div className="homebrew-actions">
+                                                <button className="campaign-add-btn homebrew-wizard-btn" onClick={addLoreArticle}>
+                                                    <i className="fas fa-plus"></i>
+                                                    New Lore Article
+                                                </button>
+                                            </div>
                                         </div>
+
                                         <div className="lore-articles-list">
                                             {(campaignData.homebrew?.lore || []).length > 0 ? (
                                                 (campaignData.homebrew?.lore || []).map(article => (
-                                                    <div key={article.id} className="content-card lore-card">
+                                                    <div key={article.id} className="content-card lore-card lore-article-card">
                                                         {/* Top Hero Banner */}
                                                         <div className="card-media-banner-container">
                                                             {article.image ? (
@@ -2519,6 +2502,21 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                         placeholder="Lore title..."
                                                                     />
                                                                 </div>
+                                                                <button
+                                                                    type="button"
+                                                                    className="share-chat-pill"
+                                                                    onClick={() => {
+                                                                        const { addNotification } = useChatStore.getState();
+                                                                        addNotification('social', {
+                                                                            type: 'system',
+                                                                            sender: 'GM Codex',
+                                                                            message: `📜 **World Lore: ${article.title || 'Untitled'}** (${(article.category || 'General').toUpperCase()})\n\n${article.content || '(No content)'}`
+                                                                        });
+                                                                    }}
+                                                                    title="Broadcast lore article to game chat"
+                                                                >
+                                                                    <i className="fas fa-bullhorn"></i> Share to Chat
+                                                                </button>
                                                                 <button className="remove-card-btn" onClick={() => removeLoreArticle(article.id)} title="Delete Article">
                                                                     <i className="fas fa-trash-alt"></i>
                                                                 </button>
@@ -2562,15 +2560,14 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     value={article.content}
                                                                     onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
                                                                     placeholder="Write the history, mythology, scriptures, or background lore here..."
-                                                                    rows={5}
-                                                                    className="card-field-textarea"
+                                                                    className="card-field-textarea large"
                                                                 />
                                                             </div>
                                                             <div className="field-group">
-                                                                <label className="field-label"><i className="fas fa-tags"></i> Lore Tags & Keywords</label>
+                                                                <label className="field-label"><i className="fas fa-tags"></i> Related Tags</label>
                                                                 <input
                                                                     type="text"
-                                                                    value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
+                                                                    value={article.tags?.join(', ') || ''}
                                                                     onChange={(e) => updateLoreArticle(article.id, {
                                                                         tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
                                                                     })}
@@ -2590,11 +2587,168 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                         </div>
                                     </div>
                                 )}
+
+                                {homebrewSubTab === 'lineages' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <div className="lineage-view-toggle-bar" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                <button
+                                                    type="button"
+                                                    className={`campaign-add-btn ${lineageViewMode === 'species' ? '' : 'btn-ghost'}`}
+                                                    onClick={() => setLineageViewMode('species')}
+                                                    style={lineageViewMode === 'species' ? {} : { background: '#fdfbf7', color: '#5a2e12', border: '1px solid rgba(139,69,19,0.3)' }}
+                                                >
+                                                    <i className="fas fa-dna"></i> Cultural Lineages & Species
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className={`campaign-add-btn ${lineageViewMode === 'family_trees' ? '' : 'btn-ghost'}`}
+                                                    onClick={() => setLineageViewMode('family_trees')}
+                                                    style={lineageViewMode === 'family_trees' ? { background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' } : { background: '#fdfbf7', color: '#5a2e12', border: '1px solid rgba(139,69,19,0.3)' }}
+                                                >
+                                                    <i className="fas fa-sitemap"></i> Dynasties & Family Trees
+                                                </button>
+                                            </div>
+                                            <div className="homebrew-actions">
+                                                {lineageViewMode === 'species' ? (
+                                                    <button className="campaign-add-btn homebrew-wizard-btn" onClick={() => useCustomLineageStore.getState().openWizard()}>
+                                                        <i className="fas fa-plus"></i> Forge Custom Lineage
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="campaign-add-btn"
+                                                        style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' }}
+                                                        onClick={() => useFamilyTreeStore.getState().openStudio()}
+                                                    >
+                                                        <i className="fas fa-wand-magic-sparkles"></i> Open Family Tree Studio
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {lineageViewMode === 'species' ? (
+                                            <div className="lineages-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
+                                                {useCustomLineageStore.getState().getAllLineages().map((lineage) => (
+                                                    <div key={lineage.id} className="campaign-lineage-card">
+                                                        <div className="campaign-lineage-header">
+                                                            <span className={`campaign-lineage-badge ${lineage.isCustom ? 'custom' : 'canon'}`}>
+                                                                {lineage.isCustom ? 'Custom Species' : 'Canon Lineage'}
+                                                            </span>
+                                                            <h4 className="campaign-lineage-title">{lineage.name}</h4>
+                                                            <span className="campaign-lineage-essence">{lineage.essence || 'The Unbound'}</span>
+                                                            {lineage.isCustom && (
+                                                                <div className="campaign-lineage-actions">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="campaign-lineage-edit-btn"
+                                                                        onClick={() => useCustomLineageStore.getState().openWizard(lineage)}
+                                                                        title="Edit Lineage"
+                                                                    >
+                                                                        <i className="fas fa-edit"></i> Edit
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className="campaign-lineage-body">
+                                                            <p className="campaign-lineage-desc">
+                                                                {lineage.cardFlavor || lineage.description}
+                                                            </p>
+                                                            {lineage.subraces && (
+                                                                <div className="campaign-lineage-subraces">
+                                                                    {(Array.isArray(lineage.subraces) ? lineage.subraces : Object.values(lineage.subraces)).map((sr, idx) => (
+                                                                        <span key={idx} className="campaign-subrace-pill">
+                                                                            <i className="fas fa-dna" style={{ marginRight: '4px', fontSize: '9px', opacity: 0.7 }}></i>
+                                                                            {sr.name}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="family-trees-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
+                                                {useFamilyTreeStore.getState().trees.map((tree) => (
+                                                    <div key={tree.id} className="campaign-lineage-card" style={{ borderLeft: '3px solid #d4af37' }}>
+                                                        <div className="campaign-lineage-header">
+                                                            <span className="campaign-lineage-badge canon" style={{ background: 'rgba(212, 175, 55, 0.15)', borderColor: '#d4af37', color: '#8b5a1a' }}>
+                                                                <i className="fas fa-crown"></i> Dynasty Tree
+                                                            </span>
+                                                            <h4 className="campaign-lineage-title">{tree.name}</h4>
+                                                            <span className="campaign-lineage-essence">{tree.nodes.length} Members • {tree.relationships.length} Links</span>
+                                                            <div className="campaign-lineage-actions">
+                                                                <button
+                                                                    type="button"
+                                                                    className="campaign-lineage-edit-btn"
+                                                                    style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' }}
+                                                                    onClick={() => useFamilyTreeStore.getState().openStudio(tree.id)}
+                                                                    title="Open Interactive Family Tree Canvas"
+                                                                >
+                                                                    <i className="fas fa-sitemap"></i> Explore Tree ↗
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="campaign-lineage-body">
+                                                            <p className="campaign-lineage-desc">
+                                                                {tree.description || 'Ancient ruling dynasty and bloodlines.'}
+                                                            </p>
+                                                            <div className="campaign-subrace-pill" style={{ display: 'inline-flex', gap: '8px', background: '#fdfbf7', border: '1px solid rgba(139, 69, 19, 0.25)', color: '#4a2711' }}>
+                                                                <span><i className="fas fa-users" style={{ color: '#d4af37' }}></i> Key Figures: {tree.nodes.slice(0, 4).map(n => n.name).join(', ')}{tree.nodes.length > 4 ? '...' : ''}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {homebrewSubTab === 'world_maps' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <h3>Interactive World Maps & Fog of War</h3>
+                                            <div className="homebrew-actions">
+                                                <button
+                                                    type="button"
+                                                    className="campaign-add-btn"
+                                                    style={{ background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)', color: '#1a0f05' }}
+                                                    onClick={() => useInteractiveMapStore.getState().openStudio()}
+                                                >
+                                                    <i className="fas fa-map-location-dot"></i> Launch World Map Studio
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="campaign-lineage-card" style={{ padding: '24px', background: 'linear-gradient(145deg, #fdfbf7 0%, #f4ede0 100%)' }}>
+                                            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                                                <div style={{ width: '80px', height: '80px', borderRadius: '12px', background: '#2c180d', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #d4af37', flexShrink: 0 }}>
+                                                    <i className="fas fa-compass" style={{ fontSize: '36px', color: '#d4af37' }}></i>
+                                                </div>
+                                                <div style={{ flex: 1 }}>
+                                                    <h4 style={{ fontFamily: 'Cinzel, serif', fontSize: '20px', color: '#3a1d0b', margin: '0 0 6px 0' }}>Nordhalla Continental & Regional Studio</h4>
+                                                    <p style={{ fontFamily: 'Spectral, serif', fontSize: '14.5px', color: '#5a3d28', margin: '0 0 12px 0', lineHeight: 1.5 }}>
+                                                        Interactive world canvas featuring real-time Fog of War painting, draggable party camp token with expedition notes & reminders, hierarchical sub-maps, and custom landmark pins.
+                                                    </p>
+                                                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                                        <button
+                                                            type="button"
+                                                            className="campaign-add-btn"
+                                                            style={{ background: 'linear-gradient(135deg, #8B4513 0%, #5a1e12 100%)' }}
+                                                            onClick={() => useInteractiveMapStore.getState().openStudio('nordhalla-realm')}
+                                                        >
+                                                            <i className="fas fa-mountain"></i> Enter High Realm of Nordhalla
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 );
-
             default:
                 return <div>Content coming soon...</div>;
         }
@@ -2647,20 +2801,24 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         );
     };
 
+    const defaultWinWidth = Math.min(1160, Math.max(900, typeof window !== 'undefined' ? window.innerWidth - 60 : 1080));
+    const defaultWinHeight = Math.min(780, Math.max(620, typeof window !== 'undefined' ? window.innerHeight - 60 : 720));
+    const defaultWinX = Math.max(20, Math.floor((typeof window !== 'undefined' ? window.innerWidth - defaultWinWidth : 100) / 2));
+    const defaultWinY = Math.max(20, Math.floor((typeof window !== 'undefined' ? window.innerHeight - defaultWinHeight : 100) / 2));
+
     if (!campaignManagerFullLoading && !campaignManagerFullAllowed) {
         return (
             <MythrillWindow
                 isOpen={isOpen}
                 onClose={onClose}
                 title="Campaign Manager"
-                defaultSize={{ width: 800, height: 600 }}
-                defaultPosition={{ x: 100, y: 100 }}
+                defaultSize={{ width: Math.min(840, defaultWinWidth), height: Math.min(600, defaultWinHeight) }}
+                defaultPosition={{ x: defaultWinX, y: defaultWinY }}
             >
                 {renderCampaignManagerLockedView()}
             </MythrillWindow>
         );
     }
-
 
     return (
         <>
@@ -2668,16 +2826,18 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 isOpen={isOpen}
                 onClose={onClose}
                 title="Campaign Manager"
-                defaultSize={{ width: 1000, height: 700 }}
-                defaultPosition={{ x: 100, y: 100 }}
+                defaultSize={{ width: defaultWinWidth, height: defaultWinHeight }}
+                defaultPosition={{ x: defaultWinX, y: defaultWinY }}
+                minConstraints={[720, 500]}
                 customHeader={
-                    <div className="spellbook-tab-container">
+                    <div className="spellbook-tab-container campaign-tabs-nav">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
                                 className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
                                 onClick={() => setActiveTab(tab.id)}
                             >
+                                <i className={`fas ${tab.icon}`} style={{ marginRight: '6px', fontSize: '11px' }}></i>
                                 <span>{tab.label}</span>
                             </button>
                         ))}
@@ -2949,6 +3109,11 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                     position={adjustedPosition}
                 />
             )}
+
+            {/* In-Game Integrated Account Studios */}
+            <CustomLineageWizard />
+            <FamilyTreeStudio />
+            <InteractiveMapStudio />
         </>
     );
 }

@@ -99,7 +99,7 @@
   gap: var(--my-space-3);
 }
 
-.form-group {
+.resolution-config-form .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--my-space-1);

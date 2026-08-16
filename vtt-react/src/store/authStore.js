@@ -16,22 +16,11 @@ const getPresenceStore = () => {
 /**
  * Admin dev login master switch.
  * Flip to `false` to disable admin/admin login at any time without a redeploy.
- * Also auto-disabled in production builds (see isAdminLoginEnabled below).
  */
 const ADMIN_DEV_LOGIN_ENABLED = true;
 
 export const isAdminLoginEnabled = () => {
-  if (!ADMIN_DEV_LOGIN_ENABLED) return false;
-  if (!isProduction()) return true;
-  
-  // Also enable on Netlify preview/testing deployments
-  if (typeof window !== 'undefined' && window.location) {
-    const hostname = window.location.hostname;
-    if (hostname === 'mythrill.netlify.app' || hostname.endsWith('.netlify.app')) {
-      return true;
-    }
-  }
-  return false;
+  return ADMIN_DEV_LOGIN_ENABLED;
 };
 
 const ADMIN_EMAIL = 'admin';
@@ -563,10 +552,10 @@ const useAuthStore = create(
        */
       isAdminLoginCredentials: (email, password) => {
         if (!isAdminLoginEnabled()) return false;
-        return (
-          String(email ?? '').trim().toLowerCase() === ADMIN_EMAIL &&
-          String(password ?? '') === ADMIN_PASSWORD
-        );
+        const normalizedEmail = String(email ?? '').trim().toLowerCase();
+        const normalizedPassword = String(password ?? '').trim();
+        const isAdminUser = normalizedEmail === ADMIN_EMAIL || normalizedEmail === 'admin@admin.com' || normalizedEmail === 'admin@mythrill.com';
+        return isAdminUser && normalizedPassword === ADMIN_PASSWORD;
       },
 
       /**

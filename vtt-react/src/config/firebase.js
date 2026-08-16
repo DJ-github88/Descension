@@ -132,5 +132,17 @@ if (app) {
 
 
 
+export const isMockOrDevUser = (userId) => {
+  if (!userId) return true;
+  if (typeof userId !== 'string') return false;
+  return (
+    userId === 'admin-dev-user' ||
+    userId === 'dev-user-123' ||
+    userId.startsWith('guest-') ||
+    userId.startsWith('demo-') ||
+    userId.startsWith('mock-')
+  );
+};
+
 export { isFirebaseConfigured, isDemoMode };
 export default app;

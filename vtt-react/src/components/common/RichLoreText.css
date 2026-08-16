@@ -80,30 +80,31 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(212, 175, 55, 0.12);
-  color: #f1d779;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 1px 6px;
+  background: rgba(212, 175, 55, 0.15);
+  color: #f5d77f;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 1px 7px;
   margin: 0 2px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: 'Spectral', Georgia, serif;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   text-decoration: none;
 }
 
 .rich-wikilink:hover {
-  background: rgba(212, 175, 55, 0.28);
-  color: #fff;
+  background: rgba(212, 175, 55, 0.3);
+  color: #ffffff;
   border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
   transform: translateY(-1px);
 }
 
 .wikilink-icon {
   font-size: 10px;
   color: #d4af37;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 /* ── @Mention Chips ── */
@@ -111,14 +112,14 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  background: rgba(52, 152, 219, 0.15);
-  color: #70b7eb;
-  border: 1px solid rgba(52, 152, 219, 0.35);
-  padding: 1px 6px;
+  background: rgba(52, 152, 219, 0.18);
+  color: #85c1e9;
+  border: 1px solid rgba(52, 152, 219, 0.45);
+  padding: 1px 7px;
   margin: 0 2px;
   border-radius: 12px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .rich-mention-chip i {
@@ -126,120 +127,930 @@
 }
 
 /* ── Fenced Block Types (:::readaloud, :::gmnote, etc.) ── */
+/* ── Fenced Block Types (:::readaloud, :::gmnote, etc.) ── */
 .rich-block {
-  margin: 14px 0;
-  border-radius: 6px;
+  margin: 16px 0;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(18, 20, 26, 0.85);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(139, 69, 19, 0.3);
+  background: #fdfbf7;
+  box-shadow: 0 4px 14px rgba(43, 20, 8, 0.08);
 }
 
 .rich-block-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  padding: 6px 12px;
-  font-size: 11px;
-  font-weight: 700;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.rich-block-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rich-block-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  font-family: 'Cinzel', serif;
   text-transform: uppercase;
   letter-spacing: 0.8px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.rich-block-title {
+  font-family: 'Cinzel', serif !important;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: none !important;
 }
 
 .rich-block-body {
-  padding: 10px 14px;
-  font-size: 13.5px;
+  padding: 12px 16px;
+  color: #2b1408;
 }
 
 .rich-block-body p {
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
 }
+
 .rich-block-body p:last-child {
   margin-bottom: 0;
 }
 
-/* Read Aloud Block */
+/* ── Decorative Divider ── */
+.rich-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.rich-divider-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c59b3f 50%, transparent);
+}
+
+.rich-divider-diamond {
+  color: #8b5a1a;
+  font-size: 14px;
+}
+
+.rich-spacer-sm {
+  height: 6px;
+}
+
+/* Specific Block Themes */
 .block-readaloud {
-  border-left: 4px solid #5d9cec;
-  background: linear-gradient(180deg, rgba(30, 42, 60, 0.7) 0%, rgba(18, 22, 32, 0.85) 100%);
+  border-left: 4px solid #7d3c98;
+  background: #fbf7fc;
 }
 .block-readaloud .rich-block-header {
-  background: rgba(93, 156, 236, 0.15);
-  color: #7db4f5;
-}
-.block-readaloud .rich-block-body {
-  font-style: italic;
-  color: #dbe7f7;
+  background: #ebdcf2;
+  color: #512e5f;
 }
 
-/* GM Note Block */
-.block-gmnote {
-  border-left: 4px solid #e74c3c;
-  background: linear-gradient(180deg, rgba(60, 24, 24, 0.7) 0%, rgba(28, 14, 14, 0.9) 100%);
+.block-gmnote,
+.block-secret {
+  border-left: 4px solid #b03a2e;
+  background: #fdf5f4;
 }
-.block-gmnote .rich-block-header {
-  background: rgba(231, 76, 60, 0.2);
-  color: #f17669;
-}
-.block-gmnote .rich-block-body {
-  color: #f8c9c4;
+.block-gmnote .rich-block-header,
+.block-secret .rich-block-header {
+  background: #f5d7d4;
+  color: #78281f;
 }
 
-/* Quest Hook Block */
-.block-quest {
-  border-left: 4px solid #f39c12;
-  background: linear-gradient(180deg, rgba(50, 38, 20, 0.7) 0%, rgba(26, 20, 12, 0.85) 100%);
-}
-.block-quest .rich-block-header {
-  background: rgba(243, 156, 18, 0.2);
-  color: #f7b752;
-}
-
-/* Statblock Block */
 .block-statblock {
-  border-left: 4px solid #2ecc71;
-  background: linear-gradient(180deg, rgba(20, 45, 30, 0.7) 0%, rgba(12, 26, 18, 0.85) 100%);
+  border: 1.5px solid #8b5a1a !important;
+  border-radius: 8px !important;
+  background: #fdfbf7 !important;
+  box-shadow: 0 4px 16px rgba(43, 20, 8, 0.12) !important;
 }
 .block-statblock .rich-block-header {
-  background: rgba(46, 204, 113, 0.2);
-  color: #58db90;
+  background: linear-gradient(90deg, #2b1408 0%, #4a2711 100%) !important;
+  color: #f5d77f !important;
+  border-bottom: 2px solid #c59b3f;
+  padding: 10px 14px;
+}
+.block-statblock .rich-block-badge {
+  background: #c59b3f !important;
+  color: #1a0802 !important;
+}
+.block-statblock .rich-block-title {
+  color: #ffd700 !important;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-/* Loot Block */
-.block-loot {
+.statblock-classification {
+  font-style: italic;
+  color: #6d3918;
+  font-size: 13.5px;
+  margin-bottom: 10px;
+}
+
+.statblock-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  position: relative;
+}
+.statblock-divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c59b3f 50%, transparent);
+}
+.statblock-divider-diamond {
+  background: #fdfbf7;
+  padding: 0 8px;
+  color: #8b5a1a;
+  font-size: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Core Vitals Bar (HP, Mana, AP, Speed, Armor) */
+.statblock-vitals-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 12px 0;
+}
+.statblock-vital {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.statblock-vital.vital-hp {
+  background: #fdedec;
+  color: #922b21;
+  border-color: #f5b7b1;
+}
+.statblock-vital.vital-mana {
+  background: #ebf5fb;
+  color: #1b4f72;
+  border-color: #aed6f1;
+}
+.statblock-vital.vital-ap {
+  background: #fef9e7;
+  color: #7d6608;
+  border-color: #f9e79f;
+}
+.statblock-vital.vital-dr,
+.statblock-vital.vital-defenses,
+.statblock-vital.vital-defense,
+.statblock-vital.vital-armor,
+.statblock-vital.vital-ac {
+  background: #eaf2f8;
+  color: #2471a3;
+  border-color: #a9cce3;
+}
+.statblock-vital.vital-ward {
+  background: #f4ecf7;
+  color: #6c3483;
+  border-color: #d2b4de;
+}
+.statblock-vital.vital-speed {
+  background: #eafaf1;
+  color: #196f3d;
+  border-color: #a9dfbf;
+}
+.statblock-vital strong {
+  font-family: 'Cinzel', serif;
+  font-size: 13.5px;
+}
+
+/* Attributes Grid (STR, AGI, CON, INT, SPI, CHA) */
+.statblock-attributes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+  padding: 8px;
+  background: #f7f2ea;
+  border: 1px solid #d4af37;
+  border-radius: 6px;
+}
+.statblock-attr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  background: #ffffff;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.statblock-attr-card .attr-name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #5a2e12;
+  letter-spacing: 0.5px;
+}
+.statblock-attr-card .attr-score {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a0802;
+}
+.statblock-attr-card .attr-mod {
+  font-size: 11px;
+  color: #8b5a1a;
+  font-weight: 600;
+}
+
+/* Key Value Rows */
+.statblock-kv-row {
+  margin: 5px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2b1408;
+}
+.statblock-kv-label {
+  color: #5a2e12;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+/* Abilities & Actions Cards inside Statblock */
+.statblock-ability-card {
+  margin: 10px 0;
+  padding: 9px 13px;
+  background: #fbf8f2;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-left: 3.5px solid #8b5a1a;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(43, 20, 8, 0.04);
+  transition: all 0.2s ease;
+}
+.statblock-ability-card:hover {
+  border-color: rgba(139, 69, 19, 0.35);
+  box-shadow: 0 3px 10px rgba(43, 20, 8, 0.08);
+}
+.statblock-ability-card.card-action {
+  border-left-color: #b03a2e;
+  background: #fdfaf9;
+}
+.statblock-ability-card.card-reaction {
+  border-left-color: #2980b9;
+  background: #f8fbfe;
+}
+.statblock-ability-card.card-passive,
+.statblock-ability-card.card-trait {
+  border-left-color: #16a085;
+  background: #f7faf9;
+}
+.statblock-ability-card.card-spell,
+.statblock-ability-card.card-magic {
+  border-left-color: #8e44ad;
+  background: #faf7fc;
+}
+.statblock-ability-card.card-bonus-action {
+  border-left-color: #d35400;
+  background: #fdfaf7;
+}
+.statblock-ability-card.card-legendary-action {
+  border-left-color: #7d3c98;
+  background: #f9f5fb;
+}
+
+.ability-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.ability-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4.5px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.ability-type-badge.badge-passive,
+.ability-type-badge.badge-trait {
+  background: #e8f8f5;
+  color: #117864;
+  border: 1px solid #a3e4d7;
+}
+.ability-type-badge.badge-action {
+  background: #fdedec;
+  color: #78281f;
+  border: 1px solid #f5b7b1;
+}
+.ability-type-badge.badge-reaction {
+  background: #ebf5fb;
+  color: #1b4f72;
+  border: 1px solid #aed6f1;
+}
+.ability-type-badge.badge-spell,
+.ability-type-badge.badge-magic {
+  background: #f4ecf7;
+  color: #512e5f;
+  border: 1px solid #d7bde2;
+}
+.ability-type-badge.badge-bonus-action {
+  background: #fef9e7;
+  color: #7d6608;
+  border: 1px solid #f9e79f;
+}
+.ability-type-badge.badge-legendary-action {
+  background: #f5eef8;
+  color: #512e5f;
+  border: 1px solid #d7bde2;
+}
+.ability-type-badge.badge-free-action {
+  background: #eafaf1;
+  color: #1e8449;
+  border: 1px solid #a9dfbf;
+}
+
+.ability-card-title {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #4a2108;
+  letter-spacing: 0.2px;
+}
+
+.ability-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2b1408;
+  padding-left: 2px;
+}
+
+/* ── Dedicated Spell Formula Block (:::spell / :::magic) ── */
+.block-spell {
+  border: 1.5px solid #8e44ad !important;
+  border-radius: 8px !important;
+  background: #fdfbf7 !important;
+  box-shadow: 0 4px 16px rgba(81, 46, 95, 0.12) !important;
+}
+.block-spell .rich-block-header {
+  background: linear-gradient(90deg, #2b1035 0%, #4d1d60 100%) !important;
+  color: #e8daef !important;
+  border-bottom: 2px solid #af7ac5;
+  padding: 10px 14px;
+}
+.block-spell .rich-block-badge {
+  background: #8e44ad !important;
+  color: #ffffff !important;
+}
+.block-spell .rich-block-title {
+  color: #f5eef8 !important;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.spell-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 8px 0 12px 0;
+}
+.spell-metric-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  background: #f4ecf7;
+  border: 1px solid #d2b4de;
+  border-radius: 5px;
+  font-size: 12.5px;
+  color: #512e5f;
+  font-weight: 600;
+}
+.spell-metric-chip.chip-cost,
+.spell-metric-chip.chip-mana {
+  background: #ebf5fb;
+  border-color: #aed6f1;
+  color: #1b4f72;
+}
+.spell-metric-chip.chip-cast,
+.spell-metric-chip.chip-action {
+  background: #fef9e7;
+  border-color: #f9e79f;
+  color: #7d6608;
+}
+.spell-metric-chip.chip-range {
+  background: #eafaf1;
+  border-color: #a9dfbf;
+  color: #196f3d;
+}
+.spell-metric-chip .metric-label {
+  font-size: 11.5px;
+  opacity: 0.85;
+}
+.spell-metric-chip .metric-val {
+  font-family: 'Cinzel', serif;
+  font-size: 12.5px;
+}
+
+.spell-effect-box {
+  margin: 10px 0;
+  padding: 9px 12px;
+  background: #ffffff;
+  border: 1px solid rgba(142, 68, 173, 0.25);
+  border-left: 3px solid #8e44ad;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2b1408;
+}
+.spell-effect-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #6c3483;
+  margin-right: 6px;
+}
+
+.spell-empower-box {
+  margin: 8px 0;
+  padding: 8px 12px;
+  background: #fdfaf2;
+  border: 1px solid #f5cba7;
+  border-left: 3px solid #e67e22;
+  border-radius: 5px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #2b1408;
+}
+.spell-empower-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #b9770e;
+  margin-right: 6px;
+}
+
+/* Unified TTRPG Block Elements */
+.block-entry-row {
+  margin: 6px 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #2b1408;
+}
+.entry-label {
+  color: #5a2e12;
+  font-weight: 700;
+  margin-right: 6px;
+}
+.entry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.entry-badge.badge-quest,
+.entry-badge.badge-objective {
+  background: #fef9e7;
+  color: #7d6608;
+  border: 1px solid #f9e79f;
+}
+.entry-badge.badge-reward {
+  background: #fef5e7;
+  color: #935116;
+  border: 1px solid #f8c471;
+}
+.quest-row.is-reward {
+  padding: 6px 10px;
+  background: #fdfaf2;
+  border: 1px solid #f5d77f;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+.entry-badge.badge-npc {
+  background: #ebf5fb;
+  color: #1b4f72;
+  border: 1px solid #aed6f1;
+}
+.entry-badge.badge-hazard {
+  background: #fdedec;
+  color: #78281f;
+  border: 1px solid #f5b7b1;
+}
+
+/* NPC Quote Block */
+.npc-quote-block {
+  margin: 10px 0;
+  padding: 8px 14px;
+  background: #f4f8fb;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+  font-style: italic;
+  color: #1a364a;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.npc-quote-icon {
+  color: #3498db;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Loot Item Row */
+.loot-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+  padding: 4px 8px;
+  background: #ffffff;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+  font-size: 13.5px;
+}
+.loot-gem-icon {
+  color: #d4af37;
+  font-size: 11px;
+}
+
+/* Read Aloud Narrative */
+.readaloud-paragraph {
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #3d234a;
+}
+
+.block-quest {
+  border-left: 4px solid #f39c12;
+  background: #fefcf5;
+}
+.block-quest .rich-block-header {
+  background: #fcf1d8;
+  color: #7d6608;
+}
+
+.block-npc {
+  border-left: 4px solid #3498db;
+  background: #f5f9fc;
+}
+.block-npc .rich-block-header {
+  background: #dbeef9;
+  color: #1b4f72;
+}
+
+.block-settlement {
+  border-left: 4px solid #16a085;
+  background: #f2f9f8;
+}
+.block-settlement .rich-block-header {
+  background: #d1efea;
+  color: #0e6251;
+}
+
+.block-faction {
   border-left: 4px solid #9b59b6;
-  background: linear-gradient(180deg, rgba(42, 24, 56, 0.7) 0%, rgba(22, 14, 30, 0.85) 100%);
+  background: #fbf7fc;
+}
+.block-faction .rich-block-header {
+  background: #eddcf4;
+  color: #512e5f;
+}
+
+.block-timeline {
+  border-left: 4px solid #e67e22;
+  background: #fefaf5;
+}
+.block-timeline .rich-block-header {
+  background: #fce8d5;
+  color: #7e3e08;
+}
+
+.block-loot {
+  border-left: 4px solid #d4af37;
+  background: #fdfcf7;
 }
 .block-loot .rich-block-header {
-  background: rgba(155, 89, 182, 0.2);
-  color: #bf82d6;
+  background: #f9f1de;
+  color: #644b11;
 }
 
-/* Hazard Block */
 .block-hazard {
-  border-left: 4px solid #e67e22;
-  background: linear-gradient(180deg, rgba(50, 30, 18, 0.7) 0%, rgba(28, 16, 10, 0.85) 100%);
+  border-left: 4px solid #e74c3c;
+  background: #fdf5f4;
 }
 .block-hazard .rich-block-header {
-  background: rgba(230, 126, 34, 0.2);
-  color: #f39c52;
+  background: #fadbd8;
+  color: #78281f;
+}
+
+.block-generic {
+  border-left: 4px solid #7f8c8d;
+  background: #f9f9f9;
+}
+.block-generic .rich-block-header {
+  background: #eaeaea;
+  color: #2c3e50;
 }
 
 /* ==========================================================================
-   EntityHovercard Floating Portal
+   Parchment & Codex High-Contrast Readability Overrides
+   ========================================================================== */
+.codex-preview-pane .rich-lore-container,
+.codex-preview-body .rich-lore-container,
+.rich-lore-container.parchment-theme,
+.rich-lore-parchment .rich-lore-container,
+.orb-tab-lore .rich-lore-container,
+.campaign-overview-container .rich-lore-container,
+.pin-action-popup .rich-lore-container,
+.pin-popup-body .rich-lore-container {
+  color: #2b1408 !important;
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.codex-preview-pane .rich-h1,
+.codex-preview-body .rich-h1,
+.rich-lore-container.parchment-theme .rich-h1,
+.rich-lore-parchment .rich-h1,
+.orb-tab-lore .rich-h1 {
+  color: #5a2e12 !important;
+  border-bottom: 2px solid #8b5a1a !important;
+  text-shadow: none !important;
+  font-weight: 800;
+}
+
+.codex-preview-pane .rich-h2,
+.codex-preview-body .rich-h2,
+.rich-lore-container.parchment-theme .rich-h2,
+.rich-lore-parchment .rich-h2,
+.orb-tab-lore .rich-h2 {
+  color: #6d3918 !important;
+  font-weight: 700;
+  text-shadow: none !important;
+}
+
+.codex-preview-pane .rich-h3,
+.codex-preview-body .rich-h3,
+.rich-lore-container.parchment-theme .rich-h3,
+.rich-lore-parchment .rich-h3,
+.orb-tab-lore .rich-h3 {
+  color: #8b5a1a !important;
+  font-weight: 700;
+  text-shadow: none !important;
+}
+
+.codex-preview-pane .rich-bold,
+.codex-preview-body .rich-bold,
+.rich-lore-container.parchment-theme .rich-bold,
+.rich-lore-parchment .rich-bold,
+.orb-tab-lore .rich-bold {
+  color: #1a0802 !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .rich-italic,
+.codex-preview-body .rich-italic,
+.rich-lore-container.parchment-theme .rich-italic,
+.rich-lore-parchment .rich-italic,
+.orb-tab-lore .rich-italic {
+  color: #4a2711 !important;
+  font-style: italic;
+}
+
+.codex-preview-pane .rich-list-item,
+.codex-preview-body .rich-list-item,
+.rich-lore-container.parchment-theme .rich-list-item,
+.rich-lore-parchment .rich-list-item,
+.orb-tab-lore .rich-list-item {
+  color: #2b1408 !important;
+}
+
+.codex-preview-pane .rich-wikilink,
+.codex-preview-body .rich-wikilink,
+.rich-lore-container.parchment-theme .rich-wikilink,
+.rich-lore-parchment .rich-wikilink,
+.orb-tab-lore .rich-wikilink {
+  background: #ede4d6 !important;
+  color: #5a2e12 !important;
+  border: 1px solid #c59b3f !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .rich-wikilink:hover,
+.codex-preview-body .rich-wikilink:hover,
+.rich-lore-container.parchment-theme .rich-wikilink:hover,
+.rich-lore-parchment .rich-wikilink:hover,
+.orb-tab-lore .rich-wikilink:hover {
+  background: #dfd2be !important;
+  color: #1a0802 !important;
+  border-color: #8b5a1a !important;
+  box-shadow: 0 2px 6px rgba(139, 90, 26, 0.25) !important;
+}
+
+.codex-preview-pane .rich-wikilink .wikilink-icon,
+.codex-preview-body .rich-wikilink .wikilink-icon,
+.rich-lore-container.parchment-theme .rich-wikilink .wikilink-icon,
+.rich-lore-parchment .rich-wikilink .wikilink-icon,
+.orb-tab-lore .rich-wikilink .wikilink-icon {
+  color: #8b5a1a !important;
+}
+
+.codex-preview-pane .rich-mention-chip,
+.codex-preview-body .rich-mention-chip,
+.rich-lore-container.parchment-theme .rich-mention-chip,
+.rich-lore-parchment .rich-mention-chip,
+.orb-tab-lore .rich-mention-chip {
+  background: #e1edf7 !important;
+  color: #1a5276 !important;
+  border: 1px solid #7fb3d5 !important;
+}
+
+.codex-preview-pane .rich-inline-code,
+.codex-preview-body .rich-inline-code,
+.rich-lore-container.parchment-theme .rich-inline-code,
+.rich-lore-parchment .rich-inline-code,
+.orb-tab-lore .rich-inline-code {
+  background: #ede4d6 !important;
+  color: #6e2c00 !important;
+  border: 1px solid rgba(139, 69, 19, 0.3) !important;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.codex-preview-pane .rich-highlight,
+.codex-preview-body .rich-highlight,
+.rich-lore-container.parchment-theme .rich-highlight,
+.rich-lore-parchment .rich-highlight,
+.orb-tab-lore .rich-highlight {
+  background: #fff3cd !important;
+  color: #856404 !important;
+  border: 1px solid #ffeeba !important;
+}
+
+.codex-preview-pane .rich-block,
+.codex-preview-body .rich-block,
+.rich-lore-container.parchment-theme .rich-block,
+.rich-lore-parchment .rich-block,
+.orb-tab-lore .rich-block {
+  background: #fdfbf7 !important;
+  border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(90, 46, 18, 0.08) !important;
+}
+
+.codex-preview-pane .rich-block-body,
+.codex-preview-body .rich-block-body,
+.rich-lore-container.parchment-theme .rich-block-body,
+.rich-lore-parchment .rich-block-body,
+.orb-tab-lore .rich-block-body {
+  color: #2b1408 !important;
+  font-family: 'Spectral', Georgia, serif;
+}
+
+.codex-preview-pane .block-readaloud,
+.codex-preview-body .block-readaloud,
+.rich-lore-container.parchment-theme .block-readaloud {
+  border-left: 4px solid #7d3c98 !important;
+  background: #f5eef8 !important;
+}
+.codex-preview-pane .block-readaloud .rich-block-header,
+.codex-preview-body .block-readaloud .rich-block-header,
+.rich-lore-container.parchment-theme .block-readaloud .rich-block-header {
+  background: #ebdef0 !important;
+  color: #512e5f !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .block-gmnote,
+.codex-preview-pane .block-secret,
+.codex-preview-body .block-gmnote,
+.codex-preview-body .block-secret,
+.rich-lore-container.parchment-theme .block-gmnote,
+.rich-lore-container.parchment-theme .block-secret {
+  border-left: 4px solid #b03a2e !important;
+  background: #f9ebea !important;
+}
+.codex-preview-pane .block-gmnote .rich-block-header,
+.codex-preview-pane .block-secret .rich-block-header,
+.codex-preview-body .block-gmnote .rich-block-header,
+.codex-preview-body .block-secret .rich-block-header,
+.rich-lore-container.parchment-theme .block-gmnote .rich-block-header,
+.rich-lore-container.parchment-theme .block-secret .rich-block-header {
+  background: #f2d7d5 !important;
+  color: #78281f !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .block-statblock,
+.codex-preview-body .block-statblock,
+.rich-lore-container.parchment-theme .block-statblock {
+  border-left: 4px solid #1e8449 !important;
+  background: #eafaf1 !important;
+}
+.codex-preview-pane .block-statblock .rich-block-header,
+.codex-preview-body .block-statblock .rich-block-header,
+.rich-lore-container.parchment-theme .block-statblock .rich-block-header {
+  background: #d5f5e3 !important;
+  color: #145a32 !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .block-quest,
+.codex-preview-body .block-quest,
+.rich-lore-container.parchment-theme .block-quest {
+  border-left: 4px solid #b7950b !important;
+  background: #fef9e7 !important;
+}
+.codex-preview-pane .block-quest .rich-block-header,
+.codex-preview-body .block-quest .rich-block-header,
+.rich-lore-container.parchment-theme .block-quest .rich-block-header {
+  background: #fcf3cf !important;
+  color: #7d6608 !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .block-npc,
+.codex-preview-body .block-npc,
+.rich-lore-container.parchment-theme .block-npc {
+  border-left: 4px solid #2874a6 !important;
+  background: #ebf5fb !important;
+}
+.codex-preview-pane .block-npc .rich-block-header,
+.codex-preview-body .block-npc .rich-block-header,
+.rich-lore-container.parchment-theme .block-npc .rich-block-header {
+  background: #d4e6f1 !important;
+  color: #1b4f72 !important;
+  font-weight: 700;
+}
+
+.codex-preview-pane .block-loot,
+.codex-preview-body .block-loot,
+.rich-lore-container.parchment-theme .block-loot {
+  border-left: 4px solid #c59b3f !important;
+  background: #fdfaf2 !important;
+}
+.codex-preview-pane .block-loot .rich-block-header,
+.codex-preview-body .block-loot .rich-block-header,
+.rich-lore-container.parchment-theme .block-loot .rich-block-header {
+  background: #f9f1de !important;
+  color: #644b11 !important;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   EntityHovercard Styling — Mythrill Luxury Mahogany Leather & Antique Gold
    ========================================================================== */
 .entity-hovercard-portal {
   position: fixed;
-  z-index: 150000;
+  z-index: 160000;
   width: 320px;
-  background: #14171f;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.2);
-  padding: 12px;
-  animation: hovercardFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  backdrop-filter: blur(8px);
+  background: linear-gradient(165deg, #2c160b 0%, #1c0e07 60%, #120803 100%) !important;
+  border: 1.5px solid #c59b3f !important;
+  border-radius: 10px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 235, 170, 0.2) !important;
+  padding: 14px !important;
+  animation: hovercardFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: auto;
+  opacity: 1 !important;
 }
 
 @keyframes hovercardFadeIn {
@@ -256,24 +1067,25 @@
 .entity-hovercard-header {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  border-bottom: 1.5px solid rgba(197, 155, 63, 0.35);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .entity-hovercard-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 6px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: radial-gradient(circle, #5a381a 0%, #2d180c 100%) !important;
+  border: 1.5px solid #d4af37 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f1d779;
-  font-size: 15px;
+  color: #f5d77f !important;
+  font-size: 16px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(212, 175, 55, 0.25);
 }
 
 .entity-hovercard-title-group {
@@ -283,80 +1095,89 @@
 
 .entity-hovercard-type-badge {
   display: inline-block;
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #c9a758;
-  background: rgba(201, 167, 88, 0.12);
-  padding: 1px 5px;
+  letter-spacing: 0.8px;
+  color: #f5d77f !important;
+  background: rgba(212, 175, 55, 0.18) !important;
+  border: 1px solid rgba(212, 175, 55, 0.45) !important;
+  padding: 1px 6px;
   border-radius: 3px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  font-family: 'Cinzel', serif !important;
 }
 
 .entity-hovercard-name {
   margin: 0;
-  font-family: 'Cinzel', serif;
-  font-size: 15px;
-  color: #fff;
-  line-height: 1.2;
+  font-family: 'Cinzel', serif !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  color: #fdfbf7 !important;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .entity-hovercard-subtitle {
-  font-size: 11px;
-  color: #a89f91;
+  font-size: 11.5px;
+  color: #d4af37 !important;
+  font-family: 'Spectral', Georgia, serif !important;
   font-style: italic;
+  display: block;
+  margin-top: 1px;
 }
 
 .entity-hovercard-body {
-  font-size: 12px;
-  color: #d1c7b8;
-  line-height: 1.45;
-  margin-bottom: 10px;
+  font-size: 13px;
+  color: #e5dacf !important;
+  font-family: 'Spectral', Georgia, serif !important;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 .entity-hovercard-summary {
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
 }
 
 .entity-hovercard-sensory {
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 2px solid #5d9cec;
-  padding: 4px 8px;
-  border-radius: 0 4px 4px 0;
-  font-size: 11px;
-  color: #bfd6f6;
-  margin-top: 6px;
+  background: rgba(41, 128, 185, 0.15) !important;
+  border-left: 3px solid #3498db !important;
+  padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+  font-size: 11.5px;
+  color: #aed6f1 !important;
+  margin-top: 8px;
 }
 
 .entity-hovercard-sensory i {
-  color: #5d9cec;
-  margin-right: 4px;
+  color: #5dade2 !important;
+  margin-right: 5px;
 }
 
 .entity-hovercard-tradeoff {
-  background: rgba(231, 76, 60, 0.12);
-  border-left: 2px solid #e74c3c;
-  padding: 4px 8px;
-  border-radius: 0 4px 4px 0;
-  font-size: 11px;
-  color: #f7b2aa;
-  margin-top: 6px;
+  background: rgba(192, 57, 43, 0.15) !important;
+  border-left: 3px solid #e74c3c !important;
+  padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+  font-size: 11.5px;
+  color: #f5b7b1 !important;
+  margin-top: 8px;
 }
 
 .entity-hovercard-tradeoff i {
-  color: #e74c3c;
-  margin-right: 4px;
+  color: #ec7063 !important;
+  margin-right: 5px;
 }
 
 .entity-hovercard-actions {
   display: flex;
   gap: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 8px;
+  border-top: 1.5px solid rgba(197, 155, 63, 0.3) !important;
+  padding-top: 10px;
 }
 
 .entity-hovercard-btn {
@@ -365,15 +1186,14 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 5px 8px;
-  font-size: 11.5px;
-  font-weight: 600;
-  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Cinzel', serif !important;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 0.15s ease;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: #1f2430;
-  color: #e6ded2;
+  text-shadow: none;
 }
 
 .entity-hovercard-btn:hover {
@@ -381,25 +1201,27 @@
 }
 
 .entity-hovercard-btn.map-btn {
-  background: linear-gradient(135deg, rgba(83, 151, 190, 0.25) 0%, rgba(40, 80, 110, 0.4) 100%);
-  border-color: rgba(83, 151, 190, 0.5);
-  color: #a4d4f5;
+  background: linear-gradient(135deg, #2980b9 0%, #1b4f72 100%) !important;
+  border: 1px solid #0e2e42 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
 .entity-hovercard-btn.map-btn:hover {
-  background: rgba(83, 151, 190, 0.4);
-  color: #fff;
-  box-shadow: 0 0 10px rgba(83, 151, 190, 0.3);
+  background: linear-gradient(135deg, #3498db 0%, #2471a3 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.5) !important;
 }
 
 .entity-hovercard-btn.dossier-btn {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(120, 95, 30, 0.35) 100%);
-  border-color: rgba(212, 175, 55, 0.45);
-  color: #f1d779;
+  background: linear-gradient(135deg, #d4af37 0%, #aa8014 100%) !important;
+  border: 1px solid #5a3804 !important;
+  color: #1a0f05 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
 .entity-hovercard-btn.dossier-btn:hover {
-  background: rgba(212, 175, 55, 0.35);
-  color: #fff;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, #f0c952 0%, #c49618 100%) !important;
+  color: #1a0f05 !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5) !important;
 }

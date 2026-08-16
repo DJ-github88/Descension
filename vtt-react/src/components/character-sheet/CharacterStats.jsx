@@ -1594,7 +1594,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                     const multiplier = resistanceData.multiplier || 1.0;
                     
                     if (multiplier < 0) {
-                        return `Heals ${Math.abs(multiplier)}� -  damage`;
+                        return `Heals (${Math.round(Math.abs(multiplier) * 100)}% of damage taken)`;
                     } else if (multiplier === 0 || level === 0) {
                         return 'Immune (0% damage)';
                     } else if (multiplier < 1.0) {
@@ -2291,7 +2291,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                                         <div className="stat-info">
                                             <span className="stat-label">
                                                 {ability.charAt(0).toUpperCase() + ability.slice(1)} Save:
-                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>� - �</span>}
+                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>ï¿½ - ï¿½</span>}
                                             </span>
                                         </div>
                                     </div>
@@ -2489,7 +2489,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                         onClick={() => setShowLabels(!showLabels)}
                         title={showLabels ? 'Hide Labels' : 'Show Labels'}
                     >
-                        <span className="stats-toggle-icon">{showLabels ? ' - ' : '▶'}</span>
+                        <span className="stats-toggle-icon">{showLabels ? ' - ' : 'â¶'}</span>
                     </button>
                     {Object.entries(statGroups).map(([key, group]) => (
                         <button

@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
+import RichLoreText from '../common/RichLoreText';
 import './LoreSidebar.css';
 import './WorldMapImmerse.css';
 
@@ -9,690 +10,6 @@ const ENTRY_TYPE_CONFIG = {
   location: { label: 'Location / POI', icon: 'fa-location-dot', color: 'rgba(235, 190, 85, 0.9)', badgeClass: 'badge-location' }
 };
 
-// Inline parser for bold, italic/cursive, underline, strikethrough, and highlight
-const parseInline = (text) => {
-  if (!text) return '';
-
-  const parts = [];
-  const regex = /(\*\*.*?\*\*|\*.*?\*|<u>.*?<\/u>|~~.*?~~|==.*?==)/g;
-  let lastIndex = 0;
-  let match;
-
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-    const token = match[0];
-    if (token.startsWith('**') && token.endsWith('**')) {
-      parts.push(<strong key={match.index} className="lore-bold">{token.slice(2, -2)}</strong>);
-    } else if (token.startsWith('==') && token.endsWith('==')) {
-      parts.push(<mark key={match.index} className="lore-highlight">{token.slice(2, -2)}</mark>);
-    } else if (token.startsWith('*') && token.endsWith('*')) {
-      parts.push(<em key={match.index} className="lore-italic">{token.slice(1, -1)}</em>);
-    } else if (token.startsWith('<u>') && token.endsWith('</u>')) {
-      parts.push(<u key={match.index} className="lore-underline">{token.slice(3, -4)}</u>);
-    } else if (token.startsWith('~~') && token.endsWith('~~')) {
-      parts.push(<s key={match.index} className="lore-strike">{token.slice(2, -2)}</s>);
-    } else {
-      parts.push(token);
-    }
-    lastIndex = match.index + token.length;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
-
-  return parts.length > 0 ? parts : text;
-};
-
-// Block type config for :::type fenced blocks in Mythrill VTT
-const BLOCK_TYPES = {
-  readaloud:  { className: 'lore-readaloud', icon: 'fa-book-open-reader', label: 'Read Aloud' },
-  statblock:  { className: 'lore-statblock', icon: 'fa-shield-halved',    label: 'Stat Block' },
-  gmnote:     { className: 'lore-dmnote',    icon: 'fa-eye-slash',         label: 'GM Note' },
-  dmnote:     { className: 'lore-dmnote',    icon: 'fa-eye-slash',         label: 'GM Note' },
-  quest:      { className: 'lore-quest',     icon: 'fa-scroll',            label: 'Quest' },
-  npc:        { className: 'lore-npc',       icon: 'fa-user',              label: 'NPC' },
-  loot:       { className: 'lore-loot',      icon: 'fa-gem',               label: 'Loot' },
-  relic:      { className: 'lore-loot',      icon: 'fa-gem',               label: 'Loot' },
-  scroll:     { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
-  spell:      { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
-  discipline: { className: 'lore-scroll',    icon: 'fa-wand-sparkles',     label: 'Spell' },
-  hazard:     { className: 'lore-hazard',    icon: 'fa-triangle-exclamation', label: 'Hazard' }
-};
-
-// Calculate ability score modifier (+X / -X)
-const getAbilityMod = (score) => {
-  const num = parseInt(score, 10);
-  if (isNaN(num)) return null;
-  const mod = Math.floor((num - 10) / 2);
-  return mod >= 0 ? `+${mod}` : `${mod}`;
-};
-
-// ── Specialized renderer: STAT BLOCK (Mythrill 6-Ability & Action Point System) ──
-const renderStatBlockBody = (lines, baseKey) => {
-  const headerMeta = [];
-  const vitals = {};
-  const defenses = [];
-  const abilityScores = {};
-  const secondaryStats = [];
-  const actionsAndTraits = [];
-  const freeText = [];
-
-  // Mythrill's 6 base abilities: STR, AGI (agility), CON, INT, SPI (spirit), CHA
-  const ABILITY_NAMES = ['STR', 'AGI', 'CON', 'INT', 'SPI', 'CHA'];
-  const ABILITY_ALIASES = { DEX: 'AGI', WIS: 'SPI' };
-
-  // Core numerical combat vitals for top resource cards (HP, Mana, AP, Speed)
-  const VITAL_KEYS = ['HP', 'MANA', 'AP', 'SPEED'];
-  // Defenses (resistances, weaknesses, immunities)
-  const DEFENSE_KEYS = ['RESIST', 'RESISTANCES', 'WEAKNESS', 'WEAKNESSES', 'VULNERABILITY', 'VULNERABILITIES', 'IMMUNITY', 'IMMUNITIES', 'CONDITIONS'];
-  const META_KEYS = ['CLASSIFICATION', 'TYPE', 'THREAT', 'LEVEL', 'ORIGIN', 'ANCESTRY', 'DISPOSITION', 'ROLE'];
-  const SECONDARY_PREFIXES = ['SKILLS', 'SENSES', 'LANGUAGES', 'CHALLENGE', 'CR', 'PROFICIENCIES'];
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    if (trimmed === '---' || trimmed === '***') {
-      return;
-    }
-
-    // Check for Action/Trait pattern: "Action (2 AP) - Name: Description" or "Passive - Name: ..."
-    const actionMatch = trimmed.match(/^(Passive|Action|Reaction|Bonus Action|Instinct|Trait)(\s*\([^)]+\))?\s*[-–:]\s*(.+)$/i);
-    if (actionMatch) {
-      actionsAndTraits.push({
-        type: actionMatch[1].toUpperCase(),
-        cost: actionMatch[2] ? actionMatch[2].replace(/[()]/g, '').trim() : null,
-        content: actionMatch[3].trim()
-      });
-      return;
-    }
-
-    // Key: Value pattern
-    const kvMatch = trimmed.match(/^([A-Za-z0-9 /_-]+)[:\-]\s*(.+)$/);
-    if (kvMatch) {
-      const rawKey = kvMatch[1].trim();
-      const upperKey = rawKey.toUpperCase();
-      const val = kvMatch[2].trim();
-
-      const canonicalAbility = ABILITY_ALIASES[upperKey] || upperKey;
-      if (ABILITY_NAMES.includes(canonicalAbility)) {
-        abilityScores[canonicalAbility] = val;
-      } else if (META_KEYS.includes(upperKey)) {
-        headerMeta.push({ key: rawKey, val });
-      } else if (VITAL_KEYS.includes(upperKey)) {
-        vitals[upperKey] = { label: rawKey, val };
-      } else if (DEFENSE_KEYS.includes(upperKey)) {
-        defenses.push({ label: rawKey, val });
-      } else {
-        secondaryStats.push({ key: rawKey, val });
-      }
-      return;
-    }
-
-    // Check if line starts with recognized secondary keyword without colon (e.g. "Skills Athletics +5")
-    const keywordMatch = trimmed.match(/^([A-Za-z]+)\s+(.+)$/);
-    if (keywordMatch) {
-      const firstWordUpper = keywordMatch[1].toUpperCase();
-      if (SECONDARY_PREFIXES.includes(firstWordUpper)) {
-        secondaryStats.push({ key: keywordMatch[1], val: keywordMatch[2] });
-        return;
-      }
-    }
-
-    freeText.push(trimmed);
-  });
-
-  const hasAbilities = Object.keys(abilityScores).length > 0;
-  const hasVitals = Object.keys(vitals).length > 0;
-
-  return (
-    <>
-      {/* Classification & Threat Top Bar */}
-      {headerMeta.length > 0 && (
-        <div className="statblock-meta-row">
-          {headerMeta.map((meta, i) => (
-            <span key={`${baseKey}-meta-${i}`} className="statblock-meta-chip">
-              <strong>{meta.key}:</strong> {parseInline(meta.val)}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* Core Combat Resources: HP, Mana, AP, Speed */}
-      {hasVitals && (
-        <div className="statblock-resources-grid">
-          {['HP', 'MANA', 'AP', 'SPEED'].map((key) => {
-            const item = vitals[key];
-            if (!item) return null;
-            return (
-              <div key={`${baseKey}-res-${key}`} className={`stat-res-card res-${key.toLowerCase()}`}>
-                <span className="stat-res-label">{item.label}</span>
-                <span className="stat-res-val">{parseInline(item.val)}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Defenses & Resistances Strip (Clean, directly matching items) */}
-      {defenses.length > 0 && (
-        <div className="statblock-defenses-strip">
-          {defenses.map((d, i) => (
-            <div key={`${baseKey}-def-${i}`} className="statblock-defense-item">
-              <span className="statblock-defense-label">{d.label}:</span>
-              <span className="statblock-defense-val">{parseInline(d.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Mythrill 6-Attribute Medallion Grid (STR, AGI, CON, INT, SPI, CHA) */}
-      {hasAbilities && (
-        <div className="statblock-abilities mythrill-abilities">
-          {ABILITY_NAMES.map((ab) => {
-            const score = abilityScores[ab] || '10';
-            const mod = getAbilityMod(score);
-            return (
-              <div key={ab} className="ability-cell">
-                <span className="ability-label">{ab}</span>
-                <div className="ability-score-medallion">
-                  <span className="ability-score-num">{score}</span>
-                  {mod && <span className="ability-score-mod">{mod}</span>}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Secondary Stats (Skills, Senses, Languages, etc.) */}
-      {secondaryStats.length > 0 && (
-        <div className="statblock-secondary-list">
-          {secondaryStats.map((st, i) => (
-            <div key={`${baseKey}-sec-${i}`} className="statblock-sec-row">
-              <span className="statblock-sec-key">{st.key}</span>
-              <span className="statblock-sec-val">{parseInline(st.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Actions, Reactions, Instincts & Passives */}
-      {actionsAndTraits.length > 0 && (
-        <div className="statblock-actions-section">
-          {actionsAndTraits.map((act, i) => (
-            <div key={`${baseKey}-act-${i}`} className={`statblock-action-card action-${act.type.toLowerCase().replace(/\s+/g, '-')}`}>
-              <div className="statblock-action-header">
-                <span className="statblock-action-tag">{act.type}</span>
-                {act.cost && <span className="statblock-action-cost">{act.cost}</span>}
-              </div>
-              <div className="statblock-action-desc">{parseInline(act.content)}</div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Narrative notes or additional context */}
-      {freeText.length > 0 && (
-        <div className="statblock-freetext">
-          {freeText.map((t, i) => (
-            <p key={`${baseKey}-txt-${i}`} className="lore-paragraph">{parseInline(t)}</p>
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
-
-// ── Specialized renderer: QUEST / CONTRACT HOOK ──
-const renderQuestBody = (lines, baseKey) => {
-  const meta = [];
-  const milestones = [];
-  const text = [];
-  let objective = null;
-  let reward = null;
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      milestones.push(trimmed.slice(2));
-      return;
-    }
-
-    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
-    if (kvMatch) {
-      const k = kvMatch[1].trim();
-      const upper = k.toUpperCase();
-      const v = kvMatch[2].trim();
-
-      if (upper === 'OBJECTIVE' || upper === 'GOAL') {
-        objective = v;
-      } else if (upper === 'REWARD' || upper === 'BOUNTY') {
-        reward = v;
-      } else {
-        meta.push({ key: k, val: v });
-      }
-    } else {
-      text.push(trimmed);
-    }
-  });
-
-  return (
-    <>
-      {objective && (
-        <div className="quest-objective-banner">
-          <i className="fas fa-compass quest-icon-banner"></i>
-          <div>
-            <span className="quest-label-sub">Contract Objective</span>
-            <div className="quest-objective-text">{parseInline(objective)}</div>
-          </div>
-        </div>
-      )}
-
-      {meta.length > 0 && (
-        <div className="quest-meta-chips">
-          {meta.map((m, i) => (
-            <div key={`${baseKey}-qm-${i}`} className="quest-chip">
-              <span className="quest-chip-key">{m.key}:</span>
-              <span className="quest-chip-val">{parseInline(m.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {milestones.length > 0 && (
-        <div className="quest-milestones">
-          <span className="quest-section-header">Contract Milestones:</span>
-          <ul className="quest-checklist">
-            {milestones.map((ms, i) => (
-              <li key={`${baseKey}-ms-${i}`} className="quest-step">
-                <i className="fas fa-diamond quest-bullet-icon"></i>
-                <span>{parseInline(ms)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {reward && (
-        <div className="quest-reward-bar">
-          <i className="fas fa-coins quest-reward-icon"></i>
-          <div>
-            <span className="quest-reward-lbl">Payment & Bounty</span>
-            <span className="quest-reward-val">{parseInline(reward)}</span>
-          </div>
-        </div>
-      )}
-
-      {text.map((t, i) => (
-        <p key={`${baseKey}-qt-${i}`} className="lore-paragraph">{parseInline(t)}</p>
-      ))}
-    </>
-  );
-};
-
-// ── Specialized renderer: NPC / LORE PERSONA ──
-const renderNpcBody = (lines, baseKey) => {
-  const profile = [];
-  const dialogue = [];
-  const secrets = [];
-  const bio = [];
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    if (trimmed.startsWith('- "') || trimmed.startsWith('* "') || (trimmed.startsWith('"') && trimmed.endsWith('"'))) {
-      dialogue.push(trimmed.replace(/^[-*]\s*/, ''));
-      return;
-    }
-
-    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
-    if (kvMatch) {
-      const k = kvMatch[1].trim();
-      const upper = k.toUpperCase();
-      const v = kvMatch[2].trim();
-
-      if (upper === 'SECRET' || upper === 'HIDDEN' || upper === 'GM SECRET') {
-        secrets.push(v);
-      } else {
-        profile.push({ key: k, val: v });
-      }
-    } else {
-      bio.push(trimmed);
-    }
-  });
-
-  return (
-    <>
-      {profile.length > 0 && (
-        <div className="npc-profile-grid">
-          {profile.map((p, i) => (
-            <div key={`${baseKey}-npc-${i}`} className="npc-profile-item">
-              <span className="npc-profile-key">{p.key}</span>
-              <span className="npc-profile-val">{parseInline(p.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {dialogue.length > 0 && (
-        <div className="npc-dialogue-stack">
-          {dialogue.map((d, i) => (
-            <blockquote key={`${baseKey}-dia-${i}`} className="npc-quote-bubble">
-              <i className="fas fa-quote-left npc-quote-icon"></i>
-              <span>{parseInline(d)}</span>
-            </blockquote>
-          ))}
-        </div>
-      )}
-
-      {bio.map((b, i) => (
-        <p key={`${baseKey}-bio-${i}`} className="lore-paragraph">{parseInline(b)}</p>
-      ))}
-
-      {secrets.length > 0 && (
-        <div className="npc-secret-card">
-          <div className="npc-secret-header">
-            <i className="fas fa-user-secret"></i>
-            <span>GM Secret & Motivations</span>
-          </div>
-          {secrets.map((s, i) => (
-            <p key={`${baseKey}-sec-${i}`} className="npc-secret-body">{parseInline(s)}</p>
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
-
-// ── Specialized renderer: LOOT & TREASURE ──
-const renderLootBody = (lines, baseKey) => {
-  const items = [];
-  const meta = [];
-  const textLines = [];
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      items.push(trimmed.slice(2));
-    } else {
-      const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
-      if (kvMatch) {
-        meta.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
-      } else {
-        textLines.push(trimmed);
-      }
-    }
-  });
-
-  return (
-    <>
-      {meta.length > 0 && (
-        <div className="loot-meta-bar">
-          {meta.map((m, i) => (
-            <div key={`${baseKey}-lm-${i}`} className="loot-meta-item">
-              <span className="loot-meta-key">{m.key}:</span>
-              <span className="loot-meta-val">{parseInline(m.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {items.length > 0 && (
-        <ul className="loot-item-list">
-          {items.map((item, i) => (
-            <li key={`${baseKey}-i-${i}`} className="loot-item">
-              <i className="fas fa-gem loot-relic-icon"></i>
-              <span className="loot-item-content">{parseInline(item)}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {textLines.map((t, i) => (
-        <p key={`${baseKey}-t-${i}`} className="lore-paragraph">{parseInline(t)}</p>
-      ))}
-    </>
-  );
-};
-
-// ── Specialized renderer: SPELL / SCROLL ──
-const renderScrollBody = (lines, baseKey) => {
-  const stats = [];
-  const effectLines = [];
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
-    if (kvMatch && !trimmed.toLowerCase().startsWith('effect:')) {
-      stats.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
-    } else {
-      effectLines.push(trimmed.replace(/^effect:\s*/i, ''));
-    }
-  });
-
-  return (
-    <>
-      {stats.length > 0 && (
-        <div className="scroll-parameters-grid">
-          {stats.map((s, i) => (
-            <div key={`${baseKey}-sc-${i}`} className="scroll-param-badge">
-              <span className="scroll-param-key">{s.key}</span>
-              <span className="scroll-param-val">{parseInline(s.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {effectLines.length > 0 && (
-        <div className="scroll-effect-box">
-          <span className="scroll-effect-lbl">Spell Effect:</span>
-          {effectLines.map((ef, i) => (
-            <p key={`${baseKey}-ef-${i}`} className="scroll-effect-text">{parseInline(ef)}</p>
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
-
-// ── Specialized renderer: ENVIRONMENTAL HAZARD ──
-const renderHazardBody = (lines, baseKey) => {
-  const meta = [];
-  const description = [];
-
-  lines.forEach((line) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
-
-    const kvMatch = trimmed.match(/^([A-Za-z /_-]+):\s*(.+)$/);
-    if (kvMatch) {
-      meta.push({ key: kvMatch[1].trim(), val: kvMatch[2].trim() });
-    } else {
-      description.push(trimmed);
-    }
-  });
-
-  return (
-    <>
-      {meta.length > 0 && (
-        <div className="hazard-meta-grid">
-          {meta.map((m, i) => (
-            <div key={`${baseKey}-hz-${i}`} className="hazard-meta-card">
-              <span className="hazard-meta-key">{m.key}</span>
-              <span className="hazard-meta-val">{parseInline(m.val)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {description.map((d, i) => (
-        <p key={`${baseKey}-hd-${i}`} className="hazard-desc-text">{parseInline(d)}</p>
-      ))}
-    </>
-  );
-};
-
-// ── General inner renderer for other blocks (e.g. GM Note) ──
-const renderBlockInner = (lines, baseKey) => {
-  return lines.map((line, i) => {
-    const trimmed = line.trim();
-    if (!trimmed) return <div key={`${baseKey}-${i}`} className="lore-spacer" />;
-
-    const statMatch = trimmed.match(/^([A-Za-z /_-]+):\s+(.+)$/);
-    if (statMatch) {
-      return (
-        <div key={`${baseKey}-${i}`} className="lore-stat-line">
-          <span className="lore-stat-key">{statMatch[1]}</span>
-          <span className="lore-stat-val">{parseInline(statMatch[2])}</span>
-        </div>
-      );
-    }
-
-    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      return (
-        <div key={`${baseKey}-${i}`} className="lore-list-item">
-          <i className="fas fa-diamond lore-bullet-icon"></i>
-          <span>{parseInline(trimmed.slice(2))}</span>
-        </div>
-      );
-    }
-    return <p key={`${baseKey}-${i}`} className="lore-paragraph">{parseInline(line)}</p>;
-  });
-};
-
-// Safe markdown renderer for rich lore preview with Mythrill Codex Blocks
-const renderLoreMarkdown = (text = '') => {
-  if (!text) return null;
-
-  const lines = text.split('\n');
-  const elements = [];
-  let i = 0;
-
-  while (i < lines.length) {
-    const line = lines[i];
-    const trimmed = line.trim();
-
-    // ─── Fenced Mythrill Codex Block (:::type … :::) ───
-    const blockOpenMatch = trimmed.match(/^:::(\w+)(?:\s+(.*))?$/);
-    if (blockOpenMatch) {
-      const blockType = blockOpenMatch[1].toLowerCase();
-      const blockTitle = blockOpenMatch[2] || '';
-      const config = BLOCK_TYPES[blockType] || BLOCK_TYPES.readaloud;
-      
-      const innerLines = [];
-      i++;
-      while (i < lines.length && lines[i].trim() !== ':::') {
-        innerLines.push(lines[i]);
-        i++;
-      }
-      i++; // skip closing :::
-
-      let bodyContent;
-      if (blockType === 'statblock') {
-        bodyContent = renderStatBlockBody(innerLines, `blk-${i}`);
-      } else if (blockType === 'quest') {
-        bodyContent = renderQuestBody(innerLines, `blk-${i}`);
-      } else if (blockType === 'npc') {
-        bodyContent = renderNpcBody(innerLines, `blk-${i}`);
-      } else if (blockType === 'loot' || blockType === 'relic') {
-        bodyContent = renderLootBody(innerLines, `blk-${i}`);
-      } else if (blockType === 'scroll' || blockType === 'spell' || blockType === 'discipline') {
-        bodyContent = renderScrollBody(innerLines, `blk-${i}`);
-      } else if (blockType === 'hazard') {
-        bodyContent = renderHazardBody(innerLines, `blk-${i}`);
-      } else {
-        bodyContent = renderBlockInner(innerLines, `blk-${i}`);
-      }
-
-      elements.push(
-        <div key={`block-${i}`} className={`lore-block ${config.className}`}>
-          <div className="lore-block-header">
-            <i className={`fas ${config.icon}`}></i>
-            <span>{blockTitle || config.label}</span>
-          </div>
-          <div className="lore-block-body">
-            {bodyContent}
-          </div>
-        </div>
-      );
-      continue;
-    }
-
-    // ─── Empty line ───
-    if (!trimmed) {
-      elements.push(<div key={i} className="lore-spacer" />);
-      i++;
-      continue;
-    }
-
-    // ─── Divider ───
-    if (trimmed === '---' || trimmed === '***' || trimmed === '___') {
-      elements.push(<hr key={i} className="lore-divider" />);
-      i++;
-      continue;
-    }
-
-    // ─── Headings ───
-    if (trimmed.startsWith('# ')) {
-      elements.push(<h3 key={i} className="lore-h1">{parseInline(trimmed.slice(2))}</h3>);
-      i++; continue;
-    }
-    if (trimmed.startsWith('## ')) {
-      elements.push(<h4 key={i} className="lore-h2">{parseInline(trimmed.slice(3))}</h4>);
-      i++; continue;
-    }
-    if (trimmed.startsWith('### ')) {
-      elements.push(<h5 key={i} className="lore-h3">{parseInline(trimmed.slice(4))}</h5>);
-      i++; continue;
-    }
-
-    // ─── Blockquote ───
-    if (trimmed.startsWith('> ')) {
-      elements.push(<blockquote key={i} className="lore-blockquote">{parseInline(trimmed.slice(2))}</blockquote>);
-      i++; continue;
-    }
-
-    // ─── Numbered list ───
-    const numMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
-    if (numMatch) {
-      elements.push(
-        <div key={i} className="lore-list-item lore-numbered-item">
-          <span className="lore-num-badge">{numMatch[1]}</span>
-          <span>{parseInline(numMatch[2])}</span>
-        </div>
-      );
-      i++; continue;
-    }
-
-    // ─── Bullet list ───
-    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      elements.push(
-        <div key={i} className="lore-list-item">
-          <i className="fas fa-diamond lore-bullet-icon"></i>
-          <span>{parseInline(trimmed.slice(2))}</span>
-        </div>
-      );
-      i++; continue;
-    }
-
-    // ─── Paragraph ───
-    elements.push(<p key={i} className="lore-paragraph">{parseInline(line)}</p>);
-    i++;
-  }
-
-  return <div className="lore-formatted-preview">{elements}</div>;
-};
 
 const CustomZoneSidebar = ({
   zone,
@@ -1260,16 +577,16 @@ HP: 85
 Mana: 30
 AP: 4
 Speed: 40 ft.
-Armor: 14 (Glacial Hide)
+DR: 3 (Glacial Hide)
 Resist: Rime 75%, Physical 20%
 Weakness: Ember
 ---
-STR: 16
-AGI: 14
-CON: 15
-INT: 6
-SPI: 12
-CHA: 5
+STR: 16 (+3)
+AGI: 14 (+2)
+CON: 15 (+2)
+INT: 6 (-2)
+SPI: 12 (+1)
+CHA: 5 (-3)
 ---
 Skills: Athletics +6, Stealth +4 (Snow)
 Senses: Tremorsense 30 ft.
@@ -1363,16 +680,16 @@ Guarded By: Vaettir Earth-Guardian
                 className="format-btn ttrpg-block-btn"
                 onClick={() => insertTemplate(
 `:::spell Cinderward of the Solari
-School: Ember
-Casting Cost: 2 AP, 15 Mana
-Range: 30 ft. (Single Ally or Self)
-Duration: 3 Rounds
+School: Ember | Tier: 2
+Cast: 2 AP | Cost: 15 Mana | Range: 30 ft.
+Target: Single Ally or Self | Duration: 3 Rounds
 Effect: Wraps the target in a shimmering mantle of solar heat. The target gains 20 Temporary HP and deals 1d8 Ember damage to any attacker who strikes them in melee.
+Empower (+1 AP): Target gains an additional 10 Temporary HP.
 :::`
                 )}
                 title="Spell — Mythrill spell or scroll"
               >
-                <i className="fas fa-wand-sparkles"></i>
+                <i className="fas fa-wand-magic-sparkles"></i>
                 <span className="ttrpg-btn-label">Spell</span>
               </button>
 
@@ -1403,7 +720,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
             ref={textareaRef}
             className="custom-zone-lore-textarea"
             value={zone.lore || ''}
-            placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nMythrill Codex Blocks:\n:::readaloud\nThe heavy ironwood gate creaks open...\n:::\n\n:::statblock Jutul Ice-Stalker\nClassification: Primordial Beast\nHP: 85\nMana: 30\nAP: 4\nSpeed: 40 ft.\nArmor: 14\nResist: Rime (Grade III - 75%), Physical (Grade I - 25%)\nSTR: 16\nAGI: 14\nCON: 15\nINT: 6\nSPI: 12\nCHA: 5\n:::\n\n:::quest Recovery at Blizzard's End\nPatron: High Thane Thorvald\nObjective: Recover the dormant Aex Shards\nReward: 350 Gold, 2 Healing Tonics\n- Survey the ice ravine\n- Bypass Glacier Wyrms\n:::"}
+            placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nMythrill Codex Blocks:\n:::readaloud\nThe heavy ironwood gate creaks open...\n:::\n\n:::statblock Jutul Ice-Stalker\nClassification: Primordial Beast\nHP: 85\nMana: 30\nAP: 4\nSpeed: 40 ft.\nDR: 3 (Glacial Hide)\nResist: Rime 75%, Physical 20%\nSTR: 16 (+3)\nAGI: 14 (+2)\nCON: 15 (+2)\nINT: 6 (-2)\nSPI: 12 (+1)\nCHA: 5 (-3)\n:::\n\n:::quest Recovery at Blizzard's End\nPatron: High Thane Thorvald\nObjective: Recover the dormant Aex Shards\nReward: 350 Gold, 2 Healing Tonics\n- Survey the ice ravine\n- Bypass Glacier Wyrms\n:::"}
             rows={12}
             onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
             aria-label="Zone lore notes"
@@ -1426,7 +743,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
             <div className="lore-split-pane lore-split-preview">
               <div className="lore-preview-container lore-split-preview-inner">
                 {zone.lore?.trim() ? (
-                  renderLoreMarkdown(zone.lore)
+                  <RichLoreText text={zone.lore} />
                 ) : (
                   <p className="lore-preview-empty">Type in the editor to see real-time Codex formatting.</p>
                 )}
@@ -1438,7 +755,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
         {loreMode === 'preview' && (
           <div className="lore-preview-container">
             {zone.lore?.trim() ? (
-              renderLoreMarkdown(zone.lore)
+              <RichLoreText text={zone.lore} />
             ) : (
               <p className="lore-preview-empty">No lore documented yet. Switch to Write or Split mode to craft chronicles.</p>
             )}
@@ -1451,28 +768,40 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
         <div className="custom-zone-section-header">
           <div className="section-title-wrap">
             <i className="fas fa-palette"></i>
-            <h4>Boundary Tone</h4>
+            <h4>Boundary & Pin Tone</h4>
           </div>
         </div>
         <div className="custom-zone-color-presets">
           {[
-            { color: 'rgba(196, 164, 74, 0.28)', stroke: '#f1d48a', label: 'Gold' },
-            { color: 'rgba(135, 104, 196, 0.28)', stroke: '#b39ddb', label: 'Purple' },
-            { color: 'rgba(83, 151, 190, 0.28)', stroke: '#81d4fa', label: 'Sky' },
-            { color: 'rgba(76, 175, 80, 0.28)', stroke: '#a5d6a7', label: 'Emerald' },
-            { color: 'rgba(244, 67, 54, 0.28)', stroke: '#ef9a9a', label: 'Crimson' },
-            { color: 'rgba(255, 152, 0, 0.28)', stroke: '#ffcc80', label: 'Amber' }
-          ].map((preset, i) => (
-            <button
-              key={i}
-              type="button"
-              className="color-preset-pill"
-              style={{ background: preset.stroke }}
-              onClick={() => onUpdateZone && onUpdateZone(zone.id, { color: preset.color, stroke: preset.stroke })}
-              title={preset.label}
-              aria-label={preset.label}
-            />
-          ))}
+            { color: 'rgba(196, 164, 74, 0.28)', stroke: '#f1d48a', pinFill: '#f1d48a', label: 'Gold' },
+            { color: 'rgba(135, 104, 196, 0.28)', stroke: '#b39ddb', pinFill: '#b39ddb', label: 'Purple' },
+            { color: 'rgba(83, 151, 190, 0.28)', stroke: '#81d4fa', pinFill: '#81d4fa', label: 'Sky' },
+            { color: 'rgba(76, 175, 80, 0.28)', stroke: '#a5d6a7', pinFill: '#a5d6a7', label: 'Emerald' },
+            { color: 'rgba(244, 67, 54, 0.28)', stroke: '#ef9a9a', pinFill: '#ef9a9a', label: 'Crimson' },
+            { color: 'rgba(255, 152, 0, 0.28)', stroke: '#ffcc80', pinFill: '#ffcc80', label: 'Amber' }
+          ].map((preset, i) => {
+            const isCurrent = zone.stroke === preset.stroke || zone.color === preset.color || zone.color === preset.stroke || zone.color === preset.pinFill;
+            const isPoint = zone.kind === 'location' || zone.geometry === 'point';
+            return (
+              <button
+                key={i}
+                type="button"
+                className={`color-preset-pill ${isCurrent ? 'active' : ''}`}
+                style={{
+                  background: preset.stroke,
+                  transform: isCurrent ? 'scale(1.2)' : 'scale(1)',
+                  boxShadow: isCurrent ? `0 0 0 2px #2b1408, 0 0 0 4.5px ${preset.stroke}` : 'none',
+                  transition: 'all 0.18s ease'
+                }}
+                onClick={() => onUpdateZone && onUpdateZone(zone.id, {
+                  color: isPoint ? preset.pinFill : preset.color,
+                  stroke: preset.stroke
+                })}
+                title={preset.label}
+                aria-label={preset.label}
+              />
+            );
+          })}
         </div>
       </div>
 

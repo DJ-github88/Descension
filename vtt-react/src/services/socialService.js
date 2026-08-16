@@ -217,7 +217,10 @@ class SocialService {
      * Listen to incoming friend requests
      */
     subscribeToRequests(userId, callback) {
-        if (!db) return () => { };
+        if (!db || !userId || !auth?.currentUser || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || userId.startsWith('demo-')) {
+            callback([]);
+            return () => { };
+        }
 
         const q = query(
             collection(db, REQUESTS_COLLECTION),
@@ -233,7 +236,7 @@ class SocialService {
             }));
             callback(requests);
         }, (error) => {
-            console.error('Error in friend requests subscription:', error);
+            console.debug('Friend requests subscription skipped:', error?.message || error);
         });
     }
 
@@ -241,7 +244,10 @@ class SocialService {
      * Listen to sent friend requests (to track their status)
      */
     subscribeToSentRequests(userId, callback) {
-        if (!db) return () => { };
+        if (!db || !userId || !auth?.currentUser || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || userId.startsWith('demo-')) {
+            callback([]);
+            return () => { };
+        }
 
         const q = query(
             collection(db, REQUESTS_COLLECTION),
@@ -256,6 +262,8 @@ class SocialService {
                 type: 'sent'
             }));
             callback(requests);
+        }, (error) => {
+            console.debug('Sent requests subscription skipped:', error?.message || error);
         });
     }
 
@@ -263,7 +271,10 @@ class SocialService {
      * Listen to friends list updates in the user document
      */
     subscribeToFriends(userId, callback) {
-        if (!db) return () => { };
+        if (!db || !userId || !auth?.currentUser || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || userId.startsWith('demo-')) {
+            callback([]);
+            return () => { };
+        }
 
         const userRef = doc(db, 'users', userId);
         return onSnapshot(userRef, (doc) => {
@@ -272,7 +283,7 @@ class SocialService {
                 callback(data.friends || []);
             }
         }, (error) => {
-            console.error('Error in friends subscription:', error);
+            console.debug('Friends subscription skipped:', error?.message || error);
         });
     }
 
@@ -280,7 +291,10 @@ class SocialService {
      * Listen to sent requests that were accepted
      */
     subscribeToAcceptedRequests(userId, callback) {
-        if (!db) return () => { };
+        if (!db || !userId || !auth?.currentUser || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || userId.startsWith('demo-')) {
+            callback([]);
+            return () => { };
+        }
 
         const q = query(
             collection(db, REQUESTS_COLLECTION),
@@ -295,6 +309,8 @@ class SocialService {
                 type: 'sent'
             }));
             callback(requests);
+        }, (error) => {
+            console.debug('Accepted requests subscription skipped:', error?.message || error);
         });
     }
 }

@@ -4822,6 +4822,20 @@
   color: #9b59b6;
 }
 
+.membership-plan-card.mythic {
+  border-color: #e056fd;
+  background: linear-gradient(135deg, rgba(224, 86, 253, 0.08) 0%, rgba(240, 234, 214, 0.96) 100%);
+  box-shadow: 0 4px 20px rgba(224, 86, 253, 0.15);
+}
+
+.membership-plan-card.mythic .plan-name {
+  color: #8e24aa;
+}
+
+.membership-plan-card.mythic .plan-price {
+  color: #4a148c;
+}
+
 .membership-plan-card.paid-tier .plan-name {
   color: #d4af37;
 }

@@ -88,22 +88,61 @@
 
 .library-search-bar {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.library-search-input-wrapper {
+  flex: 1 1 auto !important;
+  min-width: 220px;
+  position: relative;
+  display: flex;
   align-items: center;
 }
 
+.library-search-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  color: #8b7355;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.library-search-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #8b7355;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: color 0.15s ease;
+}
+
+.library-search-clear-btn:hover {
+  color: #5a1e12;
+}
+
 .library-search-input {
-  flex: 1;
-  padding: 11px 16px;
+  width: 100% !important;
+  padding: 10px 34px 10px 38px;
   border: 2px solid rgba(122, 59, 46, 0.25);
   border-radius: 8px;
   font-family: 'Crimson Text', serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 500;
   background: rgba(255, 255, 255, 0.96);
   color: #2d1810;
   transition: all 0.2s ease;
-  text-shadow: none;
+  text-shadow: none !important;
+  box-sizing: border-box;
 }
 
 .library-search-input:focus {
@@ -119,7 +158,10 @@
 }
 
 .library-filter-select {
-  padding: 11px 16px;
+  flex: 0 0 190px !important;
+  width: 190px !important;
+  max-width: 220px !important;
+  padding: 10px 14px;
   border: 2px solid rgba(122, 59, 46, 0.25);
   border-radius: 8px;
   font-family: 'Cinzel', serif;
@@ -130,8 +172,9 @@
   background: rgba(255, 255, 255, 0.96);
   color: #2d1810;
   cursor: pointer;
-  min-width: 150px;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .library-filter-select:focus {
@@ -288,21 +331,25 @@
 .library-item-name {
   font-family: 'Cinzel', serif;
   font-weight: 700;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   color: #2d1810;
   margin-bottom: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: 0.2px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  text-shadow: none !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.library-item-name.quality-common { color: #2d1810; }
-.library-item-name.quality-uncommon { color: #1b5e20; }
-.library-item-name.quality-rare { color: #0d47a1; }
-.library-item-name.quality-epic { color: #4a148c; }
-.library-item-name.quality-legendary { color: #bf360c; }
+.library-item-name.quality-poor { color: #5a4a3a !important; text-shadow: none !important; }
+.library-item-name.quality-common { color: #2d1810 !important; text-shadow: none !important; }
+.library-item-name.quality-uncommon { color: #1b5e20 !important; text-shadow: none !important; }
+.library-item-name.quality-rare { color: #0d47a1 !important; text-shadow: none !important; }
+.library-item-name.quality-epic { color: #4a148c !important; text-shadow: none !important; }
+.library-item-name.quality-legendary { color: #b73800 !important; text-shadow: none !important; }
+.library-item-name.quality-artifact { color: #8a6508 !important; text-shadow: none !important; }
 
 .library-item-meta {
   display: flex;
@@ -312,15 +359,17 @@
 
 .library-item-tag {
   padding: 2px 8px;
-  background: rgba(122, 59, 46, 0.1);
-  border: 1px solid rgba(122, 59, 46, 0.15);
+  background: rgba(122, 59, 46, 0.08);
+  border: 1px solid rgba(122, 59, 46, 0.18);
   border-radius: 4px;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: #5a1e12;
   text-transform: capitalize;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   letter-spacing: 0.3px;
+  text-shadow: none !important;
+  -webkit-font-smoothing: antialiased;
 }
 
 .library-item-check {

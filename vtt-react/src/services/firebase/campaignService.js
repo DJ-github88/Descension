@@ -24,7 +24,7 @@ import {
   serverTimestamp,
   deleteDoc
 } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { db, isMockOrDevUser, auth } from '../../config/firebase';
 
 /**
  * Campaign Persistence Service
@@ -35,8 +35,8 @@ class CampaignService {
    * Save campaign data
    */
   async saveCampaign(userId, campaignId, campaignData) {
-    if (!userId || !campaignId) {
-      throw new Error('User ID and Campaign ID are required');
+    if (!userId || !campaignId || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
+      return { success: true, localOnly: true, campaignId };
     }
 
     try {
@@ -107,7 +107,7 @@ class CampaignService {
    * Load campaign data
    */
   async loadCampaign(userId, campaignId) {
-    if (!userId || !campaignId) {
+    if (!userId || !campaignId || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
       return null;
     }
 

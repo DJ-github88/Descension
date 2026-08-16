@@ -21,7 +21,7 @@ import {
   arrayUnion,
   arrayRemove
 } from 'firebase/firestore';
-import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { db, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
@@ -34,9 +34,8 @@ const COLLECTIONS = {
 /**
  * Check if Firebase is available
  */
-function checkFirebaseAvailable() {
-  if (!isFirebaseConfigured || isDemoMode || !db) {
-    console.warn('Firebase not configured or in demo mode');
+function checkFirebaseAvailable(userId = null) {
+  if (!isFirebaseConfigured || isDemoMode || !db || !auth?.currentUser || (userId && isMockOrDevUser(userId))) {
     return false;
   }
   return true;

@@ -18,7 +18,7 @@ import {
   getDownloadURL,
   deleteObject
 } from 'firebase/storage';
-import { db, storage, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import { db, storage, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
@@ -30,9 +30,8 @@ const COLLECTIONS = {
 /**
  * Check if Firebase is available
  */
-function checkFirebaseAvailable() {
-  if (!isFirebaseConfigured || isDemoMode || !db) {
-    console.warn('Firebase not configured or in demo mode');
+function checkFirebaseAvailable(userId = null) {
+  if (!isFirebaseConfigured || isDemoMode || !db || (userId && isMockOrDevUser(userId)) || !auth?.currentUser) {
     return false;
   }
   return true;
@@ -149,8 +148,8 @@ export async function saveUserProfile(userId, profileData) {
  */
 export async function loadUserProfile(userId) {
   try {
-    if (!checkFirebaseAvailable()) {
-      return { ...DEFAULT_USER_PROFILE };
+    if (!checkFirebaseAvailable(userId)) {
+      return { ...DEFAULT_USER_PROFILE, displayName: userId === 'admin-dev-user' ? 'Admin' : 'Adventurer' };
     }
 
     if (!userId) {

@@ -658,31 +658,38 @@
 }
 
 /* Quality colors for item names */
-.quality-poor {
+.loot-table-step .quality-poor,
+.loot-item .quality-poor {
   color: #9d9d9d !important;
 }
 
-.quality-common {
-  color: #4a2b1f !important; /* Dark brown instead of white for readability */
+.loot-table-step .quality-common,
+.loot-item .quality-common {
+  color: #4a2b1f !important;
 }
 
-.quality-uncommon {
+.loot-table-step .quality-uncommon,
+.loot-item .quality-uncommon {
   color: #1eff00 !important;
 }
 
-.quality-rare {
+.loot-table-step .quality-rare,
+.loot-item .quality-rare {
   color: #0070dd !important;
 }
 
-.quality-epic {
+.loot-table-step .quality-epic,
+.loot-item .quality-epic {
   color: #a335ee !important;
 }
 
-.quality-legendary {
+.loot-table-step .quality-legendary,
+.loot-item .quality-legendary {
   color: #ff8000 !important;
 }
 
-.quality-artifact {
+.loot-table-step .quality-artifact,
+.loot-item .quality-artifact {
   color: #e6cc80 !important;
 }
 
@@ -848,7 +855,7 @@
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-.form-row {
+.wizard-step .form-row {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -856,15 +863,15 @@
   width: 100%;
 }
 
-.form-group {
+.wizard-step .form-group {
   flex: 1;
   min-width: 200px;
 }
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-.form-group input,
-.form-group select {
+.wizard-step .form-group input,
+.wizard-step .form-group select {
   width: 100%;
   background-color: #ffffff;
   border: 2px solid #a08c70;
@@ -877,24 +884,24 @@
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-.form-group input::placeholder {
+.wizard-step .form-group input::placeholder {
   color: #8a7566;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.wizard-step .form-group input:focus,
+.wizard-step .form-group select:focus {
   border-color: #7a3b2e;
   outline: none;
   box-shadow: 0 0 12px rgba(122, 59, 46, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
 }
 
-.form-group select option {
+.wizard-step .form-group select option {
   background-color: #ffffff;
   color: #3a3a3a;
 }
 
-.item-form .form-group label {
+.wizard-step .item-form .form-group label {
   display: block;
   font-size: 16px;
   font-weight: 600;

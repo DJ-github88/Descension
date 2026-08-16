@@ -1,149 +1,608 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import useFactionStore, { RELATIONSHIP_TYPES } from '../../store/factionStore';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import useFactionStore, { RELATIONSHIP_TYPES, FACTION_TYPES } from '../../store/factionStore';
+import './FactionWebGraph.css';
+
+const CANVAS_WIDTH = 1800;
+const CANVAS_HEIGHT = 1200;
 
 const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
   const { factions, getFullRelationshipGraph, getRelationshipTypes } = useFactionStore();
   const graph = useMemo(() => getFullRelationshipGraph(), [getFullRelationshipGraph]);
+
   const [showSecrets, setShowSecrets] = useState(false);
-  const [hoveredFaction, setHoveredFaction] = useState(null);
+  const [hoveredFactionId, setHoveredFactionId] = useState(null);
+  const [selectedNodeId, setSelectedNodeId] = useState(selectedFactionId || null);
+  const [activeRelFilter, setActiveRelFilter] = useState('all'); // 'all' | 'allied' | 'rival' | 'hostile' | 'secret'
+  const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredEdge, setHoveredEdge] = useState(null);
+
+  // Pan & Zoom
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(0.85);
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
-  const [dimensions, setDimensions] = useState({ width: 800, height: 500 });
 
-  useEffect(() => {
-    if (containerRef.current) {
-      const { width } = containerRef.current.getBoundingClientRect();
-      setDimensions({ width: Math.max(600, width), height: 500 });
-    }
-  }, []);
-
-  const visibleFactions = useMemo(() => {
-    if (showSecrets) return factions;
-    return factions.filter((f) => f.type !== 'secret_society' || f.publicGoal);
-  }, [factions, showSecrets]);
-
-  const visibleEdges = useMemo(() => {
-    if (showSecrets) return graph;
-    return graph.filter((e) => !['secret_ally', 'secret_rival'].includes(e.type));
-  }, [graph, showSecrets]);
-
-  const nodePositions = useMemo(() => {
-    const cols = Math.ceil(Math.sqrt(visibleFactions.length));
-    const gapX = (dimensions.width - 120) / (cols - 1 || 1);
-    const gapY = 130;
-    return visibleFactions.reduce((acc, f, i) => {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      acc[f.id] = {
-        x: 60 + col * gapX,
-        y: 50 + row * gapY
-      };
-      return acc;
-    }, {});
-  }, [visibleFactions, dimensions]);
+  // Node Dragging
+  const [draggedNodeId, setDraggedNodeId] = useState(null);
+  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
+  const [customPositions, setCustomPositions] = useState({});
 
   const relTypes = getRelationshipTypes();
 
+  // Filtered Factions
+  const visibleFactions = useMemo(() => {
+    let list = factions;
+    if (!showSecrets) {
+      list = list.filter((f) => f.type !== 'secret_society' || f.publicGoal);
+    }
+    return list;
+  }, [factions, showSecrets]);
+
+  // Initial Organic Multi-Ring Layout Generator
+  const defaultPositions = useMemo(() => {
+    const positions = {};
+    const centerHouses = visibleFactions.filter(f => f.type === 'noble_house');
+    const guildsAndOrders = visibleFactions.filter(f => ['guild', 'religious_order', 'military', 'merchant'].includes(f.type));
+    const outerFactions = visibleFactions.filter(f => !centerHouses.includes(f) && !guildsAndOrders.includes(f));
+
+    const cx = CANVAS_WIDTH / 2;
+    const cy = CANVAS_HEIGHT / 2;
+
+    // Ring 1: Noble Houses (Radius 280)
+    centerHouses.forEach((f, i) => {
+      const angle = (i / (centerHouses.length || 1)) * Math.PI * 2 - Math.PI / 2;
+      positions[f.id] = {
+        x: cx + Math.cos(angle) * 290,
+        y: cy + Math.sin(angle) * 230
+      };
+    });
+
+    // Ring 2: Guilds, Orders & Military (Radius 520)
+    guildsAndOrders.forEach((f, i) => {
+      const angle = (i / (guildsAndOrders.length || 1)) * Math.PI * 2 - Math.PI / 4;
+      positions[f.id] = {
+        x: cx + Math.cos(angle) * 550,
+        y: cy + Math.sin(angle) * 410
+      };
+    });
+
+    // Ring 3: Secret Societies, Cults & Outer Factions (Radius 760)
+    outerFactions.forEach((f, i) => {
+      const angle = (i / (outerFactions.length || 1)) * Math.PI * 2;
+      positions[f.id] = {
+        x: cx + Math.cos(angle) * 780,
+        y: cy + Math.sin(angle) * 530
+      };
+    });
+
+    // Fallback for any unplaced
+    visibleFactions.forEach((f, i) => {
+      if (!positions[f.id]) {
+        const angle = (i / visibleFactions.length) * Math.PI * 2;
+        positions[f.id] = {
+          x: cx + Math.cos(angle) * 600,
+          y: cy + Math.sin(angle) * 450
+        };
+      }
+    });
+
+    return positions;
+  }, [visibleFactions]);
+
+  // Combined node positions (custom overrides default)
+  const nodePositions = useMemo(() => {
+    return { ...defaultPositions, ...customPositions };
+  }, [defaultPositions, customPositions]);
+
+  // Filtered Edges
+  const visibleEdges = useMemo(() => {
+    let edges = graph;
+    if (!showSecrets) {
+      edges = edges.filter((e) => !['secret_ally', 'secret_rival'].includes(e.type));
+    }
+    if (activeRelFilter !== 'all') {
+      if (activeRelFilter === 'secret') {
+        edges = edges.filter((e) => ['secret_ally', 'secret_rival'].includes(e.type));
+      } else {
+        edges = edges.filter((e) => e.type === activeRelFilter);
+      }
+    }
+    return edges;
+  }, [graph, showSecrets, activeRelFilter]);
+
+  // Active Focus Faction (either hovered or selected)
+  const activeFocusFactionId = hoveredFactionId || selectedNodeId;
+
+  // Connected Neighbors & Connected Edges to the Active Focus
+  const { connectedFactionIds, directEdgeSet } = useMemo(() => {
+    if (!activeFocusFactionId) {
+      return { connectedFactionIds: new Set(), directEdgeSet: new Set() };
+    }
+    const neighborIds = new Set([activeFocusFactionId]);
+    const edgeSet = new Set();
+
+    visibleEdges.forEach((e) => {
+      if (e.source === activeFocusFactionId || e.target === activeFocusFactionId) {
+        neighborIds.add(e.source);
+        neighborIds.add(e.target);
+        edgeSet.add(`${e.source}--${e.target}`);
+        edgeSet.add(`${e.target}--${e.source}`);
+      }
+    });
+
+    return { connectedFactionIds: neighborIds, directEdgeSet: edgeSet };
+  }, [activeFocusFactionId, visibleEdges]);
+
+  // Active Focus Faction Object & Relationships List
+  const activeFocusFaction = useMemo(() => {
+    if (!activeFocusFactionId) return null;
+    return factions.find(f => f.id === activeFocusFactionId) || null;
+  }, [activeFocusFactionId, factions]);
+
+  const activeFocusRelationships = useMemo(() => {
+    if (!activeFocusFaction) return [];
+    return (activeFocusFaction.relationships || []).map(rel => {
+      const target = factions.find(f => f.id === rel.targetFactionId);
+      return {
+        ...rel,
+        targetName: target?.name || rel.targetFactionId,
+        targetColor: target?.colors?.primary || '#888',
+        targetType: target?.type || 'faction'
+      };
+    });
+  }, [activeFocusFaction, factions]);
+
+  // Reset Canvas View
+  const resetCanvasView = useCallback(() => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const scaleX = rect.width / CANVAS_WIDTH;
+      const scaleY = rect.height / CANVAS_HEIGHT;
+      const initialZoom = Math.min(1.1, Math.max(0.45, Math.min(scaleX, scaleY) * 0.95));
+      setZoomLevel(initialZoom);
+      setPanOffset({
+        x: Math.round((rect.width - CANVAS_WIDTH * initialZoom) / 2),
+        y: Math.round((rect.height - CANVAS_HEIGHT * initialZoom) / 2)
+      });
+    } else {
+      setPanOffset({ x: 0, y: 0 });
+      setZoomLevel(0.85);
+    }
+  }, []);
+
+  useEffect(() => {
+    resetCanvasView();
+  }, [resetCanvasView]);
+
+  // Reset custom layout
+  const handleResetLayout = () => {
+    setCustomPositions({});
+    resetCanvasView();
+  };
+
+  // Canvas Mouse Down (Panning)
+  const handleCanvasMouseDown = (e) => {
+    if (e.target.closest('.world-graph-node') || e.target.closest('.world-web-hud') || e.target.closest('.world-web-inspector')) {
+      return;
+    }
+    setIsPanning(true);
+    setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+    setSelectedNodeId(null);
+  };
+
+  // Node Mouse Down (Node Dragging)
+  const handleNodeMouseDown = (e, factionId) => {
+    e.stopPropagation();
+    setDraggedNodeId(factionId);
+    setDragStartPos({ x: e.clientX, y: e.clientY });
+    setSelectedNodeId(factionId);
+  };
+
+  // Global Mouse Move (Panning or Node Dragging)
+  const handleMouseMove = useCallback((e) => {
+    if (isPanning) {
+      setPanOffset({
+        x: e.clientX - panStart.x,
+        y: e.clientY - panStart.y
+      });
+    } else if (draggedNodeId) {
+      const dx = (e.clientX - dragStartPos.x) / zoomLevel;
+      const dy = (e.clientY - dragStartPos.y) / zoomLevel;
+      const currentPos = nodePositions[draggedNodeId] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+
+      setCustomPositions(prev => ({
+        ...prev,
+        [draggedNodeId]: {
+          x: Math.max(80, Math.min(CANVAS_WIDTH - 80, currentPos.x + dx)),
+          y: Math.max(50, Math.min(CANVAS_HEIGHT - 50, currentPos.y + dy))
+        }
+      }));
+      setDragStartPos({ x: e.clientX, y: e.clientY });
+    }
+  }, [isPanning, panStart, draggedNodeId, dragStartPos, zoomLevel, nodePositions]);
+
+  // Mouse Up
+  const handleMouseUp = useCallback(() => {
+    if (isPanning) setIsPanning(false);
+    if (draggedNodeId) setDraggedNodeId(null);
+  }, [isPanning, draggedNodeId]);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp]);
+
+  // Wheel Zoom
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+    setZoomLevel(prev => Math.min(2.5, Math.max(0.35, +(prev * zoomFactor).toFixed(2))));
+  };
+
   return (
-    <div className="world-faction-graph-container" ref={containerRef}>
-      <div className="world-faction-graph-controls">
-        <label className="world-toggle">
-          <input
-            type="checkbox"
-            checked={showSecrets}
-            onChange={(e) => setShowSecrets(e.target.checked)}
-          />
-          <span>Show secret relationships</span>
-        </label>
-        <div className="world-legend">
-          {Object.entries(relTypes).slice(0, 6).map(([key, val]) => (
-            <span key={key} className="world-legend-item">
-              <svg width="20" height="12"><line x1="0" y1="6" x2="20" y2="6" stroke={val.color} strokeWidth="2" strokeDasharray={val.lineStyle === 'dashed' ? '5,3' : val.lineStyle === 'dotted' ? '2,2' : 'none'} /></svg>
-              {val.label}
+    <div className="faction-web-workspace">
+      {/* Top Controls Toolbar */}
+      <div className="faction-web-toolbar">
+        <div className="toolbar-left">
+          {/* Search Input */}
+          <div className="web-search-box">
+            <i className="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Search factions..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button className="btn-clear-search" onClick={() => setSearchQuery('')}>
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
+
+          {/* Relationship Filter Pills */}
+          <div className="web-filter-pills">
+            {[
+              { id: 'all', label: 'All Relations' },
+              { id: 'allied', label: 'Allied', color: '#2d8552' },
+              { id: 'rival', label: 'Rival', color: '#c48b1e' },
+              { id: 'hostile', label: 'Hostile', color: '#a12323' },
+              { id: 'secret', label: 'Secret Pacts', color: '#6b2d8b' }
+            ].map(pill => (
+              <button
+                key={pill.id}
+                type="button"
+                className={`web-pill ${activeRelFilter === pill.id ? 'active' : ''}`}
+                style={pill.color && activeRelFilter === pill.id ? { borderColor: pill.color, color: pill.color } : {}}
+                onClick={() => setActiveRelFilter(pill.id)}
+              >
+                {pill.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="toolbar-right">
+          {/* Secrets Toggle */}
+          <label className="world-toggle secrets-toggle">
+            <input
+              type="checkbox"
+              checked={showSecrets}
+              onChange={(e) => setShowSecrets(e.target.checked)}
+            />
+            <span className="toggle-label">
+              <i className={`fas ${showSecrets ? 'fa-eye' : 'fa-eye-slash'}`}></i>
+              Show Secret Pacts & Societies
             </span>
-          ))}
+          </label>
         </div>
       </div>
 
-      <svg
-        width={dimensions.width}
-        height={dimensions.height}
-        className="world-faction-graph"
+      {/* Main Interactive Graph Viewport */}
+      <div
+        className={`faction-web-viewport ${isPanning ? 'is-panning' : ''} ${draggedNodeId ? 'is-dragging-node' : ''}`}
+        ref={containerRef}
+        onMouseDown={handleCanvasMouseDown}
+        onWheel={handleWheel}
       >
-        {visibleEdges.map((edge) => {
-          const from = nodePositions[edge.source];
-          const to = nodePositions[edge.target];
-          if (!from || !to) return null;
-
-          const isHighlighted =
-            hoveredFaction === edge.source || hoveredFaction === edge.target ||
-            selectedFactionId === edge.source || selectedFactionId === edge.target;
-
-          const rel = relTypes[edge.type] || relTypes.neutral;
-          return (
-            <line
-              key={`${edge.source}--${edge.target}`}
-              x1={from.x} y1={from.y}
-              x2={to.x} y2={to.y}
-              stroke={rel.color}
-              strokeWidth={isHighlighted ? 3 : 1.5}
-              strokeDasharray={rel.lineStyle === 'dashed' ? '5,3' : rel.lineStyle === 'dotted' ? '2,2' : 'none'}
-              opacity={isHighlighted ? 1 : 0.5}
-            />
-          );
-        })}
-
-        {visibleFactions.map((faction) => {
-          const pos = nodePositions[faction.id];
-          if (!pos) return null;
-
-          const isSelected = selectedFactionId === faction.id;
-          const isHovered = hoveredFaction === faction.id;
-          const isRelated =
-            hoveredFaction && visibleEdges.some(
-              (e) =>
-                (e.source === faction.id && e.target === hoveredFaction) ||
-                (e.target === faction.id && e.source === hoveredFaction)
-            );
-
-          return (
-            <g
-              key={faction.id}
-              transform={`translate(${pos.x}, ${pos.y})`}
-              onMouseEnter={() => setHoveredFaction(faction.id)}
-              onMouseLeave={() => setHoveredFaction(null)}
-              onClick={() => onFactionClick && onFactionClick(faction.id)}
-              style={{ cursor: 'pointer' }}
-              opacity={
-                hoveredFaction && !isRelated && !isHovered ? 0.3 : 1
-              }
-            >
-              <rect
-                x={-50} y={-22}
-                width={100} height={44}
-                rx={8}
-                fill={isSelected ? faction.colors?.primary || '#333' : '#1a1a2e'}
-                stroke={isSelected ? '#fff' : faction.colors?.primary || '#555'}
-                strokeWidth={isSelected ? 2 : 1}
-              />
-              <text
-                textAnchor="middle"
-                dy="0.35em"
-                fill="#e8e0d5"
-                fontSize="10"
-                fontWeight={isSelected ? 'bold' : 'normal'}
-              >
-                {faction.name.length > 14 ? faction.name.slice(0, 13) + '…' : faction.name}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-
-      {hoveredFaction && (
-        <div className="world-graph-tooltip">
-          {visibleFactions.find((f) => f.id === hoveredFaction)?.name}
+        {/* Floating Instructions & Zoom HUD */}
+        <div className="world-web-hud">
+          <button
+            type="button"
+            className="btn-web-hud"
+            onClick={() => setZoomLevel(prev => Math.min(2.5, +(prev * 1.2).toFixed(2)))}
+            title="Zoom In"
+          >
+            <i className="fas fa-plus"></i>
+          </button>
+          <button
+            type="button"
+            className="btn-web-hud btn-web-hud-pct"
+            onClick={resetCanvasView}
+            title="Reset Pan & Auto-Fit"
+          >
+            {Math.round(zoomLevel * 100)}%
+          </button>
+          <button
+            type="button"
+            className="btn-web-hud"
+            onClick={() => setZoomLevel(prev => Math.max(0.35, +(prev * 0.83).toFixed(2)))}
+            title="Zoom Out"
+          >
+            <i className="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            className="btn-web-hud btn-web-layout-reset"
+            onClick={handleResetLayout}
+            title="Restore Default Ring Layout"
+          >
+            <i className="fas fa-arrows-rotate"></i>
+          </button>
         </div>
-      )}
+
+        {/* Transformed SVG & HTML Node Canvas Plane */}
+        <div
+          className="faction-web-plane"
+          style={{
+            width: CANVAS_WIDTH,
+            height: CANVAS_HEIGHT,
+            transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
+            transformOrigin: '0 0'
+          }}
+        >
+          {/* SVG Relationship Edge Lines */}
+          <svg
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            className="faction-web-svg"
+            style={{ overflow: 'visible' }}
+          >
+            <defs>
+              <filter id="glow-line" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {visibleEdges.map((edge) => {
+              const from = nodePositions[edge.source];
+              const to = nodePositions[edge.target];
+              if (!from || !to) return null;
+
+              const edgeKey = `${edge.source}--${edge.target}`;
+              const isDirectConnected = activeFocusFactionId && directEdgeSet.has(edgeKey);
+              const rel = relTypes[edge.type] || relTypes.neutral || { color: '#888', lineStyle: 'solid' };
+
+              // Determine Edge Visibility / Opacity
+              let edgeOpacity = 0.16;
+              let edgeStrokeWidth = 1.6;
+
+              if (activeFocusFactionId) {
+                if (isDirectConnected) {
+                  edgeOpacity = 1.0;
+                  edgeStrokeWidth = 3.6;
+                } else {
+                  edgeOpacity = 0.02; // Hide unrelated edges completely when hovering a faction!
+                }
+              }
+
+              return (
+                <g key={edgeKey} className={`edge-group ${isDirectConnected ? 'is-highlighted' : ''}`}>
+                  <line
+                    x1={from.x}
+                    y1={from.y}
+                    x2={to.x}
+                    y2={to.y}
+                    stroke={rel.color}
+                    strokeWidth={edgeStrokeWidth}
+                    strokeDasharray={rel.lineStyle === 'dashed' ? '8,5' : rel.lineStyle === 'dotted' ? '3,3' : 'none'}
+                    opacity={edgeOpacity}
+                    filter={isDirectConnected ? 'url(#glow-line)' : undefined}
+                    onMouseEnter={() => setHoveredEdge(edge)}
+                    onMouseLeave={() => setHoveredEdge(null)}
+                    className="faction-edge-line"
+                  />
+                  {/* Midpoint Label on Highlighted Direct Connections */}
+                  {isDirectConnected && (
+                    <g transform={`translate(${(from.x + to.x) / 2}, ${(from.y + to.y) / 2})`}>
+                      <rect
+                        x="-45"
+                        y="-11"
+                        width="90"
+                        height="22"
+                        rx="4"
+                        fill="#1a1006"
+                        stroke={rel.color}
+                        strokeWidth="1.5"
+                        opacity="0.95"
+                      />
+                      <text
+                        textAnchor="middle"
+                        dy="0.32em"
+                        fill="#fdfbf7"
+                        fontSize="10"
+                        fontWeight="700"
+                        fontFamily="Cinzel, serif"
+                      >
+                        {rel.label || edge.type}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Faction Nodes */}
+          {visibleFactions.map((faction) => {
+            const pos = nodePositions[faction.id] || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+            const isSelected = selectedNodeId === faction.id;
+            const isHovered = hoveredFactionId === faction.id;
+            const isConnected = connectedFactionIds.has(faction.id);
+            const isMatchesSearch = searchQuery && faction.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+            // Node Opacity & Dimming
+            let nodeOpacity = 1.0;
+            if (activeFocusFactionId) {
+              if (!isConnected && !isHovered && !isSelected) {
+                nodeOpacity = 0.22; // Dim unrelated nodes
+              }
+            }
+            if (searchQuery && !isMatchesSearch) {
+              nodeOpacity = 0.2;
+            }
+
+            return (
+              <div
+                key={faction.id}
+                className={`world-graph-node ${isSelected ? 'is-selected' : ''} ${isHovered ? 'is-hovered' : ''} ${isConnected && activeFocusFactionId ? 'is-connected-target' : ''} ${isMatchesSearch ? 'is-search-match' : ''}`}
+                style={{
+                  left: `${pos.x}px`,
+                  top: `${pos.y}px`,
+                  opacity: nodeOpacity,
+                  '--fac-color-primary': faction.colors?.primary || '#8b5a1a',
+                  '--fac-color-secondary': faction.colors?.secondary || '#444'
+                }}
+                onMouseEnter={() => setHoveredFactionId(faction.id)}
+                onMouseLeave={() => setHoveredFactionId(null)}
+                onMouseDown={(e) => handleNodeMouseDown(e, faction.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedNodeId(faction.id);
+                }}
+                onDoubleClick={() => onFactionClick && onFactionClick(faction.id)}
+                title="Drag to reposition • Click to inspect • Double-click to open full dossier"
+              >
+                <div className="node-card-body">
+                  <div className="node-color-accent" style={{ background: faction.colors?.primary || '#8b5a1a' }} />
+                  <div className="node-info">
+                    <span className="node-name">{faction.name}</span>
+                    <span className="node-type-pill">{(FACTION_TYPES[faction.type]?.label || faction.type?.replace(/_/g, ' ')).toUpperCase()}</span>
+                  </div>
+                </div>
+
+                {faction.type === 'secret_society' && (
+                  <span className="node-secret-tag" title="Secret Society">
+                    <i className="fas fa-eye-slash"></i>
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Hover Edge Tooltip */}
+        {hoveredEdge && (
+          <div className="edge-floating-tooltip" style={{ pointerEvents: 'none' }}>
+            <div className="edge-tooltip-header">
+              <strong>{hoveredEdge.sourceName}</strong>
+              <span className={`badge-rel-type ${hoveredEdge.type}`}>
+                {relTypes[hoveredEdge.type]?.label || hoveredEdge.type}
+              </span>
+              <strong>{hoveredEdge.targetName}</strong>
+            </div>
+            {hoveredEdge.description && (
+              <p className="edge-tooltip-desc">{hoveredEdge.description}</p>
+            )}
+          </div>
+        )}
+
+        {/* Floating Faction Inspector Panel */}
+        {activeFocusFaction && (
+          <aside className="world-web-inspector" onClick={e => e.stopPropagation()}>
+            <div className="inspector-header">
+              <div className="inspector-title-row">
+                <div className="inspector-crest" style={{ background: activeFocusFaction.colors?.primary || '#8b5a1a' }}>
+                  <i className={`fas fa-${FACTION_TYPES[activeFocusFaction.type]?.icon || 'shield-halved'}`}></i>
+                </div>
+                <div>
+                  <h4>{activeFocusFaction.name}</h4>
+                  <span className="inspector-type">
+                    {FACTION_TYPES[activeFocusFaction.type]?.label || activeFocusFaction.type?.replace(/_/g, ' ')}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn-close-inspector"
+                onClick={() => {
+                  setSelectedNodeId(null);
+                  setHoveredFactionId(null);
+                }}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="inspector-body">
+              {activeFocusFaction.publicGoal && (
+                <div className="inspector-section">
+                  <span className="section-heading"><i className="fas fa-bullseye"></i> Public Mandate</span>
+                  <p className="inspector-text">{activeFocusFaction.publicGoal}</p>
+                </div>
+              )}
+
+              {showSecrets && activeFocusFaction.hiddenAgenda && (
+                <div className="inspector-section secret-section">
+                  <span className="section-heading"><i className="fas fa-mask"></i> Hidden Agenda</span>
+                  <p className="inspector-text">{activeFocusFaction.hiddenAgenda}</p>
+                </div>
+              )}
+
+              {/* Direct Relationships Breakdown */}
+              <div className="inspector-section">
+                <span className="section-heading">
+                  <i className="fas fa-diagram-project"></i> Direct Diplomatic Web ({activeFocusRelationships.length})
+                </span>
+                {activeFocusRelationships.length === 0 ? (
+                  <p className="inspector-muted">No direct diplomatic ties recorded for this faction.</p>
+                ) : (
+                  <div className="inspector-rel-list">
+                    {activeFocusRelationships.map((rel, idx) => {
+                      const relConfig = relTypes[rel.type] || relTypes.neutral || { color: '#888', label: rel.type };
+                      return (
+                        <div key={idx} className="inspector-rel-card">
+                          <div className="rel-card-top">
+                            <span className="rel-target-name">{rel.targetName}</span>
+                            <span
+                              className="rel-type-pill"
+                              style={{ backgroundColor: `${relConfig.color}25`, borderColor: relConfig.color, color: relConfig.color }}
+                            >
+                              {relConfig.label || rel.type}
+                            </span>
+                          </div>
+                          {rel.description && (
+                            <p className="rel-desc">{rel.description}</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="inspector-footer">
+              <button
+                type="button"
+                className="btn-open-dossier"
+                onClick={() => onFactionClick && onFactionClick(activeFocusFaction.id)}
+              >
+                <i className="fas fa-scroll"></i> Open Full Faction Dossier ↗
+              </button>
+            </div>
+          </aside>
+        )}
+      </div>
     </div>
   );
 };

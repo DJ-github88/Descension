@@ -465,6 +465,23 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
       </ul>
       <button className="pricing-btn">Coming Soon</button>
      </div>
+
+     <div className="pricing-card mythic">
+      <div className="pricing-card-icon"><i className="fas fa-wand-magic-sparkles"></i></div>
+      <h3>Demiurge</h3>
+      <div className="price">$22.00<span>/month</span></div>
+      <ul>
+       <li>✓ Unlimited character slots</li>
+       <li>✓ 100 rooms (up to 24 players each)</li>
+       <li>✓ 25 GB ultra cloud storage</li>
+       <li>✓ Everything in Archmage +</li>
+       <li>✓ Full Living Campaign & Timeline Engine</li>
+       <li>✓ Dynamic Fog of War & Map Route Planner</li>
+       <li>✓ Co-GM Multiplayer Collaboration</li>
+       <li>✓ Dedicated VIP priority servers</li>
+      </ul>
+      <button className="pricing-btn">Coming Soon</button>
+     </div>
     </div>
    </div>
   </div>

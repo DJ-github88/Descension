@@ -4,7 +4,7 @@ service cloud.firestore {
     function isUltimateTier(userId) {
       return request.auth != null &&
         request.auth.uid == userId &&
-        get(/databases/$(database)/documents/users/$(userId)).data.subscriptionTier == 'ultimate';
+        get(/databases/$(database)/documents/users/$(userId)).data.subscriptionTier in ['ultimate', 'mythic'];
     }
 
     // Users can read/write their own user document

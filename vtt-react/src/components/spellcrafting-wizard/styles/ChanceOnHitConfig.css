@@ -233,7 +233,9 @@
   }
 }
 
-.form-group {
+.chance-on-hit-config .form-group,
+.critical-hit-config .form-group,
+.saving-throw-config .form-group {
   margin-bottom: var(--my-space-4);
 }
 

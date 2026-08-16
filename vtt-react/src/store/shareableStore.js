@@ -514,23 +514,41 @@ const useShareableStore = create(
 
       // Get content (knowledge or note) by ID and source type
       getContentByOrb: (orb) => {
+        if (!orb) return null;
         if (orb.sourceType === 'note') {
           const note = get().playerNotes.find(n => n.id === orb.knowledgeId);
-          if (!note) return null;
-          return {
-            ...note,
-            tags: orb.tags || note.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['NOTE']),
-            entityType: orb.entityType || 'note',
-            image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || note.image
-          };
+          if (note) {
+            return {
+              ...note,
+              title: orb.label || note.title || 'Note',
+              content: orb.content !== undefined ? orb.content : note.content,
+              tags: orb.tags || note.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['NOTE']),
+              entityType: orb.entityType || 'note',
+              image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || note.image
+            };
+          }
         }
-        const knowledge = get().playerKnowledge.find(k => k.id === orb.knowledgeId);
-        if (!knowledge) return null;
+        if (orb.sourceType === 'knowledge') {
+          const knowledge = get().playerKnowledge.find(k => k.id === orb.knowledgeId);
+          if (knowledge) {
+            return {
+              ...knowledge,
+              title: orb.label || knowledge.title || 'Knowledge',
+              content: orb.content !== undefined ? orb.content : knowledge.content,
+              tags: orb.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['KNOWLEDGE']),
+              entityType: orb.entityType || 'knowledge',
+              image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || knowledge.image || (knowledge.type === 'image' ? knowledge.content : null)
+            };
+          }
+        }
+        // Fallback for standalone or custom orbs
         return {
-          ...knowledge,
-          tags: orb.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['KNOWLEDGE']),
-          entityType: orb.entityType || 'knowledge',
-          image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || knowledge.image || (knowledge.type === 'image' ? knowledge.content : null)
+          id: orb.id,
+          title: orb.label || 'Knowledge Record',
+          content: orb.content || orb.description || '',
+          tags: orb.tags || (orb.entityType ? [orb.entityType.toUpperCase()] : ['NOTE']),
+          entityType: orb.entityType || 'note',
+          image: orb.customImage || (orb.iconType && (orb.iconType.startsWith('data:') || orb.iconType.startsWith('http') || orb.iconType.startsWith('blob:')) ? orb.iconType : null) || null
         };
       },
 
@@ -686,6 +704,16 @@ const useShareableStore = create(
             icon = 'book';
             color = '#8b5a1a';
             break;
+          case 'dynasty':
+          case 'bloodline':
+            icon = 'scroll';
+            color = '#d4af37';
+            break;
+          case 'map':
+          case 'atlas':
+            icon = 'location';
+            color = '#2980b9';
+            break;
           default:
             icon = 'scroll';
             color = '#d4af37';
@@ -784,6 +812,193 @@ const useShareableStore = create(
             return b;
           })
         }));
+      },
+
+      // ============ OBSIDIAN-STYLE BI-DIRECTIONAL LINKING & MENTIONS ============
+      /**
+       * Returns all notes, knowledge items, and orbs that explicitly link to `targetTitle` via [[targetTitle]]
+       */
+      getLinkedReferences: (targetTitle) => {
+        if (!targetTitle || typeof targetTitle !== 'string') return [];
+        const cleanTarget = targetTitle.trim().toLowerCase();
+        const state = get();
+        const results = [];
+
+        // 1. Scan Player Notes
+        (state.playerNotes || []).forEach(note => {
+          if (!note.content) return;
+          const matches = note.content.match(/\[\[([^\]]+)\]\]/g);
+          if (matches) {
+            const hasLink = matches.some(m => m.slice(2, -2).trim().toLowerCase() === cleanTarget);
+            if (hasLink && note.title?.toLowerCase() !== cleanTarget) {
+              results.push({
+                id: note.id,
+                title: note.title || 'Untitled Note',
+                type: 'note',
+                sourceType: 'note',
+                updatedAt: note.lastModified || note.createdAt
+              });
+            }
+          }
+        });
+
+        // 2. Scan Player Knowledge / Lore
+        (state.playerKnowledge || []).forEach(k => {
+          const fullText = `${k.title || ''} ${k.description || ''} ${typeof k.content === 'string' ? k.content : ''}`;
+          const matches = fullText.match(/\[\[([^\]]+)\]\]/g);
+          if (matches) {
+            const hasLink = matches.some(m => m.slice(2, -2).trim().toLowerCase() === cleanTarget);
+            if (hasLink && k.title?.toLowerCase() !== cleanTarget) {
+              results.push({
+                id: k.id,
+                title: k.title || 'Lore Entry',
+                type: k.type || 'knowledge',
+                sourceType: 'knowledge',
+                updatedAt: k.receivedAt
+              });
+            }
+          }
+        });
+
+        // 3. Scan Knowledge Orbs
+        (state.knowledgeOrbs || []).forEach(orb => {
+          if (!orb.customDescription) return;
+          const matches = orb.customDescription.match(/\[\[([^\]]+)\]\]/g);
+          if (matches) {
+            const hasLink = matches.some(m => m.slice(2, -2).trim().toLowerCase() === cleanTarget);
+            if (hasLink && orb.customTitle?.toLowerCase() !== cleanTarget) {
+              results.push({
+                id: orb.id,
+                title: orb.customTitle || 'Knowledge Orb',
+                type: 'orb',
+                sourceType: 'orb',
+                boardId: orb.boardId
+              });
+            }
+          }
+        });
+
+        return results;
+      },
+
+      /**
+       * Scans all notes/lore for plain text occurrences of `targetTitle` that are NOT already wrapped in [[ ]]
+       */
+      getUnlinkedMentions: (targetTitle, currentSourceId = null) => {
+        if (!targetTitle || typeof targetTitle !== 'string' || targetTitle.trim().length < 3) return [];
+        const cleanTarget = targetTitle.trim();
+        const lowerTarget = cleanTarget.toLowerCase();
+        const state = get();
+        const mentions = [];
+
+        const escaped = cleanTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(?<!\\[\\[)\\b(${escaped})\\b(?!\\]\\])`, 'gi');
+
+        // Scan Notes
+        (state.playerNotes || []).forEach(note => {
+          if (note.id === currentSourceId || !note.content) return;
+          if (regex.test(note.content)) {
+            const idx = note.content.toLowerCase().indexOf(lowerTarget);
+            const start = Math.max(0, idx - 35);
+            const end = Math.min(note.content.length, idx + lowerTarget.length + 35);
+            const excerpt = (start > 0 ? '...' : '') + note.content.slice(start, end).trim() + (end < note.content.length ? '...' : '');
+
+            mentions.push({
+              id: note.id,
+              title: note.title || 'Untitled Note',
+              type: 'note',
+              sourceType: 'note',
+              excerpt
+            });
+          }
+        });
+
+        // Scan Knowledge Items
+        (state.playerKnowledge || []).forEach(k => {
+          if (k.id === currentSourceId) return;
+          const text = k.description || (typeof k.content === 'string' ? k.content : '');
+          if (text && regex.test(text)) {
+            const idx = text.toLowerCase().indexOf(lowerTarget);
+            const start = Math.max(0, idx - 35);
+            const end = Math.min(text.length, idx + lowerTarget.length + 35);
+            const excerpt = (start > 0 ? '...' : '') + text.slice(start, end).trim() + (end < text.length ? '...' : '');
+
+            mentions.push({
+              id: k.id,
+              title: k.title || 'Lore Entry',
+              type: k.type || 'knowledge',
+              sourceType: 'knowledge',
+              excerpt
+            });
+          }
+        });
+
+        // Scan Orbs
+        (state.knowledgeOrbs || []).forEach(orb => {
+          if (orb.id === currentSourceId || !orb.customDescription) return;
+          if (regex.test(orb.customDescription)) {
+            const text = orb.customDescription;
+            const idx = text.toLowerCase().indexOf(lowerTarget);
+            const start = Math.max(0, idx - 35);
+            const end = Math.min(text.length, idx + lowerTarget.length + 35);
+            const excerpt = (start > 0 ? '...' : '') + text.slice(start, end).trim() + (end < text.length ? '...' : '');
+
+            mentions.push({
+              id: orb.id,
+              title: orb.customTitle || 'Knowledge Orb',
+              type: 'orb',
+              sourceType: 'orb',
+              boardId: orb.boardId,
+              excerpt
+            });
+          }
+        });
+
+        return mentions;
+      },
+
+      /**
+       * 1-Click link converter: Replaces plain text targetTitle with [[targetTitle]] in the target item
+       */
+      convertUnlinkedMention: (sourceType, sourceId, targetTitle) => {
+        if (!targetTitle || !sourceId) return;
+        const cleanTarget = targetTitle.trim();
+        const escaped = cleanTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(?<!\\[\\[)\\b(${escaped})\\b(?!\\]\\])`, 'gi');
+
+        if (sourceType === 'note') {
+          set(state => ({
+            playerNotes: (state.playerNotes || []).map(n => {
+              if (n.id !== sourceId || !n.content) return n;
+              return {
+                ...n,
+                content: n.content.replace(regex, `[[${cleanTarget}]]`),
+                lastModified: Date.now()
+              };
+            })
+          }));
+        } else if (sourceType === 'knowledge') {
+          set(state => ({
+            playerKnowledge: (state.playerKnowledge || []).map(k => {
+              if (k.id !== sourceId) return k;
+              return {
+                ...k,
+                description: k.description ? k.description.replace(regex, `[[${cleanTarget}]]`) : k.description,
+                content: typeof k.content === 'string' ? k.content.replace(regex, `[[${cleanTarget}]]`) : k.content
+              };
+            })
+          }));
+        } else if (sourceType === 'orb') {
+          set(state => ({
+            knowledgeOrbs: (state.knowledgeOrbs || []).map(o => {
+              if (o.id !== sourceId || !o.customDescription) return o;
+              return {
+                ...o,
+                customDescription: o.customDescription.replace(regex, `[[${cleanTarget}]]`)
+              };
+            })
+          }));
+        }
       }
     }),
     {

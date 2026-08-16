@@ -837,7 +837,9 @@
 
 /* ===== FORM CONTROLS ===== */
 
-.form-group {
+[class*="-effects-container"] .form-group,
+.effect-config .form-group,
+.mechanics-grid-item .form-group {
   display: flex;
   flex-direction: column;
   gap: var(--my-space-2);
@@ -846,9 +848,15 @@
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+[class*="-effects-container"] .form-group input,
+[class*="-effects-container"] .form-group select,
+[class*="-effects-container"] .form-group textarea,
+.effect-config .form-group input,
+.effect-config .form-group select,
+.effect-config .form-group textarea,
+.mechanics-grid-item .form-group input,
+.mechanics-grid-item .form-group select,
+.mechanics-grid-item .form-group textarea {
   padding: var(--my-space-3);
   background: var(--my-gradient-parchment);
   border: var(--my-border-width) solid var(--my-brown-medium);
@@ -859,9 +867,15 @@
   transition: border-color var(--my-transition-normal);
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+[class*="-effects-container"] .form-group input:focus,
+[class*="-effects-container"] .form-group select:focus,
+[class*="-effects-container"] .form-group textarea:focus,
+.effect-config .form-group input:focus,
+.effect-config .form-group select:focus,
+.effect-config .form-group textarea:focus,
+.mechanics-grid-item .form-group input:focus,
+.mechanics-grid-item .form-group select:focus,
+.mechanics-grid-item .form-group textarea:focus {
   outline: none;
   border-color: var(--my-brown-dark);
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);

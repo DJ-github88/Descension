@@ -1357,6 +1357,21 @@ body svg[data-icon] {
   color: #f1c40f;
 }
 
+.pricing-card.mythic .pricing-card-icon {
+  color: #e056fd;
+}
+
+.pricing-card.mythic {
+  border-color: #e056fd;
+  background: rgba(40, 10, 45, 0.78);
+  box-shadow: 0 0 20px rgba(224, 86, 253, 0.2);
+}
+
+.pricing-card.mythic:hover {
+  box-shadow: 0 10px 35px rgba(224, 86, 253, 0.35);
+  border-color: #f368e0;
+}
+
 .pricing-card.premium {
   border-color: #d4af37;
 }

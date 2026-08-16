@@ -182,35 +182,33 @@
   gap: 30px;
 }
 
-.form-column {
+.creature-wizard-layout .form-column {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* .form-group consolidated to global styles */
+/* .form-group consolidated to creature-wizard styles */
 
-.form-group.half-width {
+.creature-wizard-layout .form-group.half-width {
   flex: 1;
 }
 
-/* Removed duplicate .form-group label - using consolidated styles */
-
-.required-asterisk {
+.creature-wizard-layout .required-asterisk {
   color: #cc0000;
   margin-left: 4px;
 }
 
-.optional-label {
+.creature-wizard-layout .optional-label {
   font-size: 12px;
   font-weight: 400;
   color: #8a7a6a;
   margin-left: 4px;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.creature-wizard-layout .form-group input,
+.creature-wizard-layout .form-group textarea,
+.creature-wizard-layout .form-group select {
   padding: 10px 12px;
   border: 2px solid #a08c70;
   border-radius: 6px;
@@ -221,15 +219,15 @@
   transition: border-color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.creature-wizard-layout .form-group input:focus,
+.creature-wizard-layout .form-group textarea:focus,
+.creature-wizard-layout .form-group select:focus {
   outline: none;
   border-color: #7a3b2e;
   box-shadow: 0 0 0 2px rgba(122, 59, 46, 0.2);
 }
 
-.input-helper {
+.creature-wizard-layout .input-helper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -237,7 +235,7 @@
   color: #8a7a6a;
 }
 
-.character-count {
+.creature-wizard-layout .character-count {
   font-weight: 500;
 }
 

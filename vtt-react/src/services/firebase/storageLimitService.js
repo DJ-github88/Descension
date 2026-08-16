@@ -11,11 +11,13 @@ import {
   setDoc,
   serverTimestamp
 } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { db, isMockOrDevUser, auth } from '../../config/firebase';
 
 const LEGACY_TIER_MAP = {
   'subscriber': 'pro',
-  'premium': 'ultimate'
+  'premium': 'ultimate',
+  'demiurge': 'mythic',
+  'sovereign': 'mythic'
 };
 
 export const STORAGE_LIMITS = {
@@ -35,10 +37,10 @@ export const STORAGE_LIMITS = {
     maxCreatures: 50
   },
   DEV_PREVIEW: {
-    total: 5 * 1024 * 1024 * 1024,
+    total: 25 * 1024 * 1024 * 1024,
     characters: -1,
-    campaigns: 25,
-    rooms: 25,
+    campaigns: 100,
+    rooms: 100,
     maxItems: -1,
     maxSpells: -1,
     maxCreatures: -1
@@ -57,6 +59,15 @@ export const STORAGE_LIMITS = {
     characters: -1,
     campaigns: 25,
     rooms: 25,
+    maxItems: -1,
+    maxSpells: -1,
+    maxCreatures: -1
+  },
+  MYTHIC: {
+    total: 25 * 1024 * 1024 * 1024,
+    characters: -1,
+    campaigns: 100,
+    rooms: 100,
     maxItems: -1,
     maxSpells: -1,
     maxCreatures: -1
@@ -98,6 +109,10 @@ class StorageLimitService {
       return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
     }
 
+    if (isMockOrDevUser(userId) || !auth?.currentUser || !db) {
+      return { tier: 'ULTIMATE', limits: STORAGE_LIMITS.ULTIMATE };
+    }
+
     try {
       const userRef = doc(db, 'users', userId);
       const userSnap = await getDoc(userRef);
@@ -114,7 +129,7 @@ class StorageLimitService {
         limits: STORAGE_LIMITS[tierKey] || STORAGE_LIMITS.FREE
       };
     } catch (error) {
-      console.error('Error getting user tier:', error);
+      console.debug('Error getting user tier:', error);
       return { tier: 'FREE', limits: STORAGE_LIMITS.FREE };
     }
   }
@@ -123,7 +138,7 @@ class StorageLimitService {
    * Get current storage usage for user
    */
   async getStorageUsage(userId) {
-    if (!userId || userId.startsWith('guest-')) {
+    if (!userId || userId.startsWith('guest-') || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
       return { total: 0, breakdown: {} };
     }
 
@@ -227,7 +242,7 @@ class StorageLimitService {
    * Uses setDoc with merge to handle new users without existing documents
    */
   async updateStorageUsage(userId, dataType, sizeChange) {
-    if (!userId || userId.startsWith('guest-')) return;
+    if (!userId || userId.startsWith('guest-') || isMockOrDevUser(userId) || !auth?.currentUser || !db) return { total: 0 };
 
     try {
       const userRef = doc(db, 'users', userId);

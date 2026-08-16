@@ -10,6 +10,7 @@ describe('custom map entitlement', () => {
     ['FREE', false],
     ['PRO', false],
     ['ULTIMATE', true],
+    ['MYTHIC', true],
     ['DEV_PREVIEW', true]
   ])('%s access is %s', (tierKey, expected) => {
     expect(canUseFeature('customMaps', tierKey)).toBe(expected);

@@ -354,16 +354,16 @@ const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }
             {error && <div className="error-message">{error}</div>}
 
             {mode === 'login' && (
-              <div className="form-group auth-checkbox-group">
-                <label className="checkbox-label">
+              <div className="auth-checkbox-group">
+                <label className="auth-remember-label">
                   <input
                     type="checkbox"
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleInputChange}
                   />
-                  <span className="checkmark"></span>
-                  Remember me
+                  <span className="auth-custom-checkmark"></span>
+                  <span className="auth-remember-text">Remember me</span>
                 </label>
               </div>
             )}

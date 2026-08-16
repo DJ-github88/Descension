@@ -263,14 +263,27 @@ const LibraryBrowserModal = ({
         <div className="library-browser-header">
           <h3>{modalTitle}</h3>
           <div className="library-search-bar">
-            <input
-              type="text"
-              className="library-search-input"
-              placeholder="Search by name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
-            />
+            <div className="library-search-input-wrapper">
+              <i className="fas fa-search library-search-icon"></i>
+              <input
+                type="text"
+                className="library-search-input"
+                placeholder="Search by name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="library-search-clear-btn"
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              )}
+            </div>
             <select
               className="library-filter-select"
               value={filterType}
@@ -280,7 +293,7 @@ const LibraryBrowserModal = ({
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
-            <button className="library-close-btn" onClick={onClose}>
+            <button className="library-close-btn" onClick={onClose} title="Close">
               <i className="fas fa-times"></i>
             </button>
           </div>
