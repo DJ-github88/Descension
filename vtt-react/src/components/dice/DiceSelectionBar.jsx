@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import useDiceStore, { DICE_TYPES, DICE_PRESETS } from '../../store/diceStore';
+import ChargeableRollButton from './ChargeableRollButton';
 import CardDrawSystem from './CardDrawSystem';
 import CoinFlipSystem from './CoinFlipSystem';
 import './DiceSelectionBar.css';
@@ -74,18 +75,18 @@ const DiceSelectionBar = () => {
     setDiceQuantity(diceType, quantity);
   };
 
-  // Handle roll
-  const handleRoll = () => {
+  // Handle roll with velocity
+  const handleRoll = (throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
     if (selectedDice.length === 0 || isRolling) return;
-    startRoll();
+    startRoll({ throwPower, throwDirection });
     setIsOpen(false); // Close dropdown after rolling
   };
 
-  // Quick roll (single die)
-  const handleQuickRoll = (diceType) => {
+  // Quick roll (single die) with velocity
+  const handleQuickRoll = (diceType, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
     clearSelectedDice();
     addDice(diceType, 1);
-    startRoll();
+    startRoll({ throwPower, throwDirection });
     setIsOpen(false);
   };
 
@@ -284,13 +285,14 @@ const DiceSelectionBar = () => {
                 <strong>{rollString}</strong>
                 <span className="roll-total-label">({totalDice} dice)</span>
               </div>
-              <button
+              <ChargeableRollButton
                 className="roll-button"
-                onClick={handleRoll}
+                onRoll={(power, dir) => handleRoll(power, dir)}
                 disabled={isRolling}
+                title="Click or Hold & Release to throw with velocity"
               >
                 {isRolling ? 'Rolling...' : 'Roll'}
-              </button>
+              </ChargeableRollButton>
             </div>
           )}
         </div>

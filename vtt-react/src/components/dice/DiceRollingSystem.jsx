@@ -11,7 +11,7 @@ import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { WEAPON_FACE_TEXT } from '../character-sheet/Skills';
 import './DiceRollingSystem.css';
 
-const DiceRollingSystem = () => {
+const DiceRollingSystem = ({ hideSelectionBar = false }) => {
   const {
     selectedDice,
     isRolling,
@@ -308,7 +308,7 @@ const DiceRollingSystem = () => {
 
   return (
     <div className="dice-rolling-system">
-      <DiceSelectionBar />
+      {!hideSelectionBar && <DiceSelectionBar />}
 
       <PhysicsDiceScene
         diceToRoll={diceToRoll}

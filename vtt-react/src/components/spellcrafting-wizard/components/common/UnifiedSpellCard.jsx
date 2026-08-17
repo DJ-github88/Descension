@@ -4226,7 +4226,7 @@ const UnifiedSpellCard = ({
          effects.push({
           name: utilityName,
           description: inlineDescription,
-          mechanicsText: 'Provides utility benefits',
+          mechanicsText: spell?.description || 'Provides utility benefits',
           targeting: utilityTargeting
          });
         }
@@ -4262,14 +4262,14 @@ const UnifiedSpellCard = ({
            }
           }
 
-          inlineDescription = durationText || 'Provides utility benefits';
+          inlineDescription = durationText || (spell?.description ? '' : 'Provides utility benefits');
          }
 
          const utilityTargeting = formatEffectTargeting('utility');
          effects.push({
-          name: 'Utility Effect',
+          name: spell?.name || 'Utility Effect',
           description: inlineDescription,
-          mechanicsText: 'Effect details not configured',
+          mechanicsText: spell?.description || 'Provides utility benefits',
           targeting: utilityTargeting
          });
         }

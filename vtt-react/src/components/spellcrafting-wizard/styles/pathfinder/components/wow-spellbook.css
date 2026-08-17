@@ -302,13 +302,17 @@
 .wow-spell-list-container {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 32px;
-  padding: 20px 36px 28px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 36px;
+  row-gap: 6px;
+  padding: 16px 24px 28px;
   overflow-y: auto;
+  overflow-x: hidden;
   background: transparent;
   position: relative;
   z-index: 2;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Overlay Navigation Buttons - Bottom Corners */
@@ -364,6 +368,9 @@
   gap: 10px;
   padding: 8px 10px;
   margin-bottom: 6px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 241, 230, 0.8) 100%);
   border: 1.5px solid rgba(139, 69, 19, 0.25);
   border-left: 3px solid rgba(139, 69, 19, 0.5);
@@ -374,7 +381,8 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), inset 0 0 8px rgba(139, 69, 19, 0.04);
   box-sizing: border-box;
   user-select: none;
-  min-height: 70px;
+  min-height: 64px;
+  overflow: hidden;
 }
 
 .wow-spell-row:hover {
@@ -501,14 +509,19 @@
 .wow-spell-info {
   flex: 1;
   min-width: 0;
+  padding-right: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .wow-spell-name {
   font-family: 'Crimson Text', 'Cinzel', Georgia, serif;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #3b1810;
-  margin: 0;
+  margin: 0 0 2px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -526,6 +539,13 @@
   color: #7c2d12;
   margin: 0;
   font-style: italic;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 /* Spell Type Badge — matches rules spellbook tag style */
@@ -535,15 +555,16 @@
   right: 8px;
   font-family: 'Crimson Text', serif;
   font-size: 0.68rem;
-  font-weight: 600;
-  padding: 1px 5px;
-  border-radius: 3px;
-  text-transform: capitalize;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
   line-height: 1.15;
-  background: rgba(139, 69, 19, 0.12);
-  color: #7c2d12;
-  border: 1px solid rgba(139, 69, 19, 0.25);
+  background: rgba(139, 69, 19, 0.15);
+  color: #5a200a;
+  border: 1px solid rgba(139, 69, 19, 0.35);
   letter-spacing: 0.5px;
+  pointer-events: none;
 }
 
 /* Pagination */
@@ -811,3 +832,68 @@
 .wow-spell-row.selected .wow-spell-name {
   color: #8B4513 !important;
 }
+
+/* Responsive adjustments for mobile and narrow screens */
+@media screen and (max-width: 900px) {
+  .wow-spellbook-view::before,
+  .wow-spellbook-view::after,
+  .wow-spellbook-header::after {
+    display: none !important;
+  }
+
+  .wow-spellbook-view {
+    border-width: 3px !important;
+    border-radius: 8px !important;
+  }
+
+  .wow-spell-list-container {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 10px 12px 48px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .wow-spell-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 56px;
+    padding: 6px 10px;
+    margin-bottom: 4px;
+  }
+
+  .wow-spell-row.empty {
+    display: none !important;
+  }
+
+  .wow-spell-name {
+    font-size: 0.88rem;
+  }
+
+  .wow-spell-rank {
+    font-size: 0.74rem;
+  }
+
+  .wow-spell-type {
+    top: 6px;
+    right: 6px;
+    font-size: 0.62rem;
+    padding: 1px 5px;
+  }
+
+  .wow-overlay-nav-button {
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .wow-overlay-nav-left {
+    left: 8px;
+  }
+
+  .wow-overlay-nav-right {
+    right: 8px;
+  }
+}
+

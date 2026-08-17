@@ -873,7 +873,6 @@
 
 .window-header-tab,
 .spellbook-tab-button,
-.character-view-tab,
 .tabbed-modal-tab,
 .tk-tab {
     background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
@@ -902,6 +901,38 @@
     opacity: 0.95 !important;
     flex: 1 1 0% !important;
     min-width: 0 !important;
+    white-space: nowrap !important;
+}
+
+/* Character View Tab on Full Page - Constrained width and natural spacing */
+.character-view-tab {
+    background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
+    border: none !important;
+    outline: none !important;
+    color: #2b180d !important;
+    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
+    font-size: clamp(11px, 0.95vw, 13px) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    padding: 6px 18px !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, filter 0.15s ease !important;
+    box-shadow: none !important;
+    margin: 0 4px !important;
+    border-radius: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 0.95 !important;
+    flex: 0 1 170px !important;
+    max-width: 180px !important;
+    min-width: 120px !important;
     white-space: nowrap !important;
 }
 

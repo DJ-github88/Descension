@@ -1,5 +1,4 @@
-// Account dashboard - main account management page
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
@@ -14,6 +13,7 @@ import ProfileEditModal from './ProfileEditModal';
 
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
+import { useIsPhone } from '../../hooks/useIsPhone';
 import AccountSocialManager from './AccountSocialManager';
 import AccountMapManager from './AccountMapManager';
 import WorldDashboard from '../world/WorldDashboard';
@@ -117,10 +117,47 @@ const AccountDashboard = ({ user }) => {
     }
   }, [characters]);
   const isGuest = user?.isGuest || false;
-  const [activeTab, setActiveTab] = useState('rooms');
+  const isPhone = useIsPhone();
+  // Phones default to Characters — Rooms leads into the desktop-only VTT grid.
+  const [activeTab, setActiveTab] = useState(() => (isPhone ? 'characters' : 'rooms'));
   const [worldSectionTab, setWorldSectionTab] = useState('lore');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
+
+  // Character Management Search, Filter & Sort State
+  const [characterSearchQuery, setCharacterSearchQuery] = useState('');
+  const [characterClassFilter, setCharacterClassFilter] = useState('all');
+  const [characterSortBy, setCharacterSortBy] = useState('name'); // 'name', 'level', 'recent'
+
+  const availableClasses = useMemo(() => {
+    return Array.from(new Set((characters || []).map(c => c.class).filter(Boolean)));
+  }, [characters]);
+
+  const filteredCharacters = useMemo(() => {
+    return (characters || [])
+      .filter(char => {
+        if (!char) return false;
+        const q = characterSearchQuery.trim().toLowerCase();
+        const matchesSearch = !q ||
+          char.name?.toLowerCase().includes(q) ||
+          char.class?.toLowerCase().includes(q) ||
+          (char.raceDisplayName || char.race || '')?.toLowerCase().includes(q);
+        const matchesClass = characterClassFilter === 'all' || char.class === characterClassFilter;
+        return matchesSearch && matchesClass;
+      })
+      .sort((a, b) => {
+        if (characterSortBy === 'name') {
+          return (a.name || '').localeCompare(b.name || '');
+        }
+        if (characterSortBy === 'level') {
+          return (b.level || 1) - (a.level || 1);
+        }
+        if (characterSortBy === 'recent') {
+          return new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0);
+        }
+        return 0;
+      });
+  }, [characters, characterSearchQuery, characterClassFilter, characterSortBy]);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -685,6 +722,15 @@ const AccountDashboard = ({ user }) => {
         <main className="account-main">
           {activeTab === 'rooms' && (
             <div className="tab-content">
+              {isPhone && (
+                <div className="account-phone-notice">
+                  <i className="fas fa-info-circle"></i>
+                  <span>
+                    Rooms can be managed here, but the tactical grid needs a tablet or desktop.
+                    Characters, rules, and the world map work great on your phone.
+                  </span>
+                </div>
+              )}
               <RoomManager />
             </div>
           )}
@@ -692,29 +738,100 @@ const AccountDashboard = ({ user }) => {
           {activeTab === 'characters' && (
             <div className="tab-content">
               <div className="characters-full-view">
-                {subscriptionStatus && (
-                  <span className="tier-badge">{subscriptionStatus.tier.name}</span>
-                )}
-                <div className="characters-header">
-                  <div className="characters-header-left">
-                    <h2>Character Management</h2>
+                {/* Management Header with Capacity & Action */}
+                <div className="char-mgmt-header">
+                  <div className="char-mgmt-title-group">
+                    <div className="char-mgmt-icon-wrap">
+                      <i className="fas fa-shield-halved"></i>
+                    </div>
+                    <div>
+                      <h2>Character Vault</h2>
+                      <p className="char-mgmt-subtitle">Manage, view, and select your active champions for play</p>
+                    </div>
+                  </div>
+
+                  <div className="char-mgmt-header-actions">
+                    {characterLimitInfo && (
+                      <div className="char-capacity-badge" title={characterLimitInfo.isUnlimited ? 'Unlimited character slots' : `${characterLimitInfo.currentCount} of ${characterLimitInfo.limit} slots used`}>
+                        <i className="fas fa-users"></i>
+                        <span className="capacity-text">
+                          <strong>{characterLimitInfo.currentCount}</strong> / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit} Slots
+                        </span>
+                        {subscriptionStatus?.tier?.name && (
+                          <span className="capacity-tier-pill">{subscriptionStatus.tier.name}</span>
+                        )}
+                      </div>
+                    )}
+
                     <button
-                      className={`characters-header-add-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
+                      className={`char-create-cta-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
                       onClick={handleCreateCharacter}
                       disabled={characterLimitInfo && !characterLimitInfo.canCreate}
                       title={characterLimitInfo && !characterLimitInfo.canCreate ?
-                        `Character limit reached(${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
-                        'Create a new character'
+                        `Character limit reached (${characterLimitInfo.limit}). Upgrade membership to forge more.` :
+                        'Forge a new character'
                       }
                     >
                       <i className="fas fa-plus"></i>
+                      <span>Create Character</span>
                     </button>
                   </div>
                 </div>
 
-                {characters && characters.length > 0 ? (
+                {/* Management Toolbar: Search, Class Filter, Sorting */}
+                <div className="char-mgmt-toolbar">
+                  <div className="char-search-box">
+                    <i className="fas fa-search search-icon"></i>
+                    <input
+                      type="text"
+                      className="char-search-input"
+                      placeholder="Search characters by name, lineage, class..."
+                      value={characterSearchQuery}
+                      onChange={(e) => setCharacterSearchQuery(e.target.value)}
+                    />
+                    {characterSearchQuery && (
+                      <button className="search-clear-btn" onClick={() => setCharacterSearchQuery('')} title="Clear search">
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="char-filter-group">
+                    <div className="filter-item">
+                      <label htmlFor="char-class-filter"><i className="fas fa-filter"></i> Class:</label>
+                      <select
+                        id="char-class-filter"
+                        className="char-filter-select"
+                        value={characterClassFilter}
+                        onChange={(e) => setCharacterClassFilter(e.target.value)}
+                      >
+                        <option value="all">All Classes ({characters.length})</option>
+                        {availableClasses.map(cls => (
+                          <option key={cls} value={cls}>{cls}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="filter-item">
+                      <label htmlFor="char-sort-filter"><i className="fas fa-arrow-down-a-z"></i> Sort:</label>
+                      <select
+                        id="char-sort-filter"
+                        className="char-filter-select"
+                        value={characterSortBy}
+                        onChange={(e) => setCharacterSortBy(e.target.value)}
+                      >
+                        <option value="name">Name (A–Z)</option>
+                        <option value="level">Level (High–Low)</option>
+                        <option value="recent">Recently Updated</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Characters Grid */}
+                {filteredCharacters.length > 0 ? (
                   <div className="characters-grid-full">
-                    {characters.map((character) => {
+                    {filteredCharacters.map((character) => {
                       const getModifier = (score) => Math.floor((score - 10) / 2);
                       const formatModifier = (modifier) => modifier >= 0 ? `+${modifier}` : `${modifier}`;
                       const getCharacterImage = (char) => {
@@ -739,75 +856,113 @@ const AccountDashboard = ({ user }) => {
                       const actionPoints = character.actionPoints || character.resources?.actionPoints || { current: 3, max: 3 };
 
                       const bgImage = character.lore?.iconBackgroundImage || character.iconBackgroundImage;
-                      const bgColor = character.lore?.iconBackgroundColor || character.iconBackgroundColor || '#f8f5eb';
                       const bgStyle = bgImage
                         ? {
-                            backgroundImage: `linear-gradient(rgba(248, 245, 240, 0.82), rgba(240, 234, 214, 0.88)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
+                            backgroundImage: `linear-gradient(rgba(248, 245, 240, 0.88), rgba(240, 234, 214, 0.94)), url(/assets/Backgrounds/${encodeURIComponent(bgImage)})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat'
                           }
-                        : { backgroundColor: bgColor };
+                        : {};
+
+                      const hpPercent = health.max > 0 ? Math.min(100, Math.max(0, (health.current / health.max) * 100)) : 0;
+                      const mpPercent = mana.max > 0 ? Math.min(100, Math.max(0, (mana.current / mana.max) * 100)) : 0;
+                      const apPercent = actionPoints.max > 0 ? Math.min(100, Math.max(0, (actionPoints.current / actionPoints.max) * 100)) : 0;
+                      const isActive = currentCharacterId === character.id;
 
                       return (
                         <div 
                           key={character.id} 
-                          className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}
+                          className={`hero-card-compact ${isActive ? 'active-hero' : ''}`}
                           style={bgStyle}
                         >
-                          <div className="character-header">
-                            <div className="character-header-top">
-                              <div className="character-name-tags-section">
-                                <h3 className="character-name">{character.name}</h3>
-                                <div className="character-class-race">
-                                  <span className="race-tag">{character.raceDisplayName || character.race || 'Unknown Race'}</span>
-                                  <span className="class-tag">{character.class || 'Adventurer'}</span>
-                                </div>
+                          {/* Active Hero Crown Ribbon */}
+                          {isActive && (
+                            <div className="hero-active-ribbon">
+                              <i className="fas fa-crown"></i>
+                              <span>ACTIVE HERO</span>
+                            </div>
+                          )}
+
+                          {/* Card Header: Identity & Avatar */}
+                          <div className="hero-card-header">
+                            <div className="hero-identity-row">
+                              <div className="hero-portrait-frame">
+                                {getCharacterImage(character) ? (
+                                  <img src={getCharacterImage(character)} alt={character.name} className="hero-portrait-img" />
+                                ) : (
+                                  <div className="hero-portrait-monogram">
+                                    <span className="monogram-letter">{character.name ? character.name.charAt(0).toUpperCase() : 'A'}</span>
+                                  </div>
+                                )}
+                                <span className="hero-level-chip" title={`Level ${character.level || 1}`}>
+                                  Lv.{character.level || 1}
+                                </span>
                               </div>
-                              <div className="character-portrait-section">
-                                <div className="character-portrait">
-                                  {getCharacterImage(character) ? (
-                                    <img src={getCharacterImage(character)} alt={character.name} width="65" height="65" />
-                                  ) : (
-                                    <div className="default-portrait-icon">{character.name.charAt(0).toUpperCase()}</div>
-                                  )}
+
+                              <div className="hero-info-section">
+                                <h3 className="hero-name" title={character.name}>{character.name}</h3>
+                                <div className="hero-badges-row">
+                                  <span className="hero-badge race-badge" title="Lineage">
+                                    <i className="fas fa-user-shield"></i>
+                                    {character.raceDisplayName || character.race || 'Adventurer'}
+                                  </span>
+                                  <span className="hero-badge class-badge" title="Class">
+                                    <i className="fas fa-hat-wizard"></i>
+                                    {character.class || 'Adventurer'}
+                                  </span>
                                 </div>
                               </div>
                             </div>
-                            <div className="character-resources-section">
-                              <div className="character-resources">
-                                <div className="resource-bar-item health-resource">
-                                  <div className="resource-header">
-                                    <span className="resource-label">HP</span>
-                                    <span className="resource-value">{health.current}/{health.max}</span>
-                                  </div>
-                                  <div className="resource-bar-container">
-                                    <div className="resource-bar-fill health-fill" style={{ width: `${(health.current / health.max) * 100}%` }}></div>
-                                  </div>
+
+                            {/* High-Contrast Luminous Resource Gauges */}
+                            <div className="hero-resources-block">
+                              {/* HP Gauge */}
+                              <div className="hero-resource-gauge hp-gauge">
+                                <div className="gauge-label-row">
+                                  <span className="gauge-name"><i className="fas fa-heart"></i> HP</span>
+                                  <span className="gauge-value">{health.current} / {health.max}</span>
                                 </div>
-                                <div className="resource-bar-item mana-resource">
-                                  <div className="resource-header">
-                                    <span className="resource-label">MP</span>
-                                    <span className="resource-value">{mana.current}/{mana.max}</span>
-                                  </div>
-                                  <div className="resource-bar-container">
-                                    <div className="resource-bar-fill mana-fill" style={{ width: `${(mana.current / mana.max) * 100}%` }}></div>
-                                  </div>
+                                <div className="gauge-track">
+                                  <div 
+                                    className="gauge-fill hp-fill" 
+                                    style={{ width: `${hpPercent}%` }}
+                                  ></div>
                                 </div>
-                                <div className="resource-bar-item action-resource">
-                                  <div className="resource-header">
-                                    <span className="resource-label">AP</span>
-                                    <span className="resource-value">{actionPoints.current}/{actionPoints.max}</span>
-                                  </div>
-                                  <div className="resource-bar-container">
-                                    <div className="resource-bar-fill ap-fill" style={{ width: `${(actionPoints.current / actionPoints.max) * 100}%` }}></div>
-                                  </div>
+                              </div>
+
+                              {/* MP Gauge */}
+                              <div className="hero-resource-gauge mp-gauge">
+                                <div className="gauge-label-row">
+                                  <span className="gauge-name"><i className="fas fa-droplet"></i> MP</span>
+                                  <span className="gauge-value">{mana.current} / {mana.max}</span>
+                                </div>
+                                <div className="gauge-track">
+                                  <div 
+                                    className="gauge-fill mp-fill" 
+                                    style={{ width: `${mpPercent}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+
+                              {/* AP Gauge */}
+                              <div className="hero-resource-gauge ap-gauge">
+                                <div className="gauge-label-row">
+                                  <span className="gauge-name"><i className="fas fa-bolt"></i> AP</span>
+                                  <span className="gauge-value">{actionPoints.current} / {actionPoints.max}</span>
+                                </div>
+                                <div className="gauge-track">
+                                  <div 
+                                    className="gauge-fill ap-fill" 
+                                    style={{ width: `${apPercent}%` }}
+                                  ></div>
                                 </div>
                               </div>
                             </div>
                           </div>
 
-                          <div className="character-stats-row">
+                          {/* 6 Modular Ability Score Tiles */}
+                          <div className="hero-stats-row">
                             {[
                               { key: 'strength', abbr: 'STR' },
                               { key: 'agility', abbr: 'AGI' },
@@ -815,39 +970,93 @@ const AccountDashboard = ({ user }) => {
                               { key: 'intelligence', abbr: 'INT' },
                               { key: 'spirit', abbr: 'SPI' },
                               { key: 'charisma', abbr: 'CHA' }
-                            ].map(stat => (
-                              <div key={stat.key} className="stat-pill">
-                                <span className="stat-abbr">{stat.abbr}</span>
-                                <span className="stat-score">{stats[stat.key]}</span>
-                                <span className="stat-modifier">{formatModifier(getModifier(stats[stat.key]))}</span>
-                              </div>
-                            ))}
+                            ].map(stat => {
+                              const val = stats[stat.key] || 10;
+                              const mod = getModifier(val);
+                              return (
+                                <div key={stat.key} className="hero-stat-card" title={`${stat.abbr}: ${val} (${formatModifier(mod)})`}>
+                                  <span className="stat-card-abbr">{stat.abbr}</span>
+                                  <span className="stat-card-value">{val}</span>
+                                  <span className={`stat-card-mod ${mod >= 0 ? 'pos' : 'neg'}`}>{formatModifier(mod)}</span>
+                                </div>
+                              );
+                            })}
                           </div>
 
-                          <div className="character-actions-bar">
+                          {/* Action Footer */}
+                          <div className="hero-actions-bar">
                             <button
-                              className={`action-icon-btn ${currentCharacterId === character.id ? 'active' : 'select'}`}
+                              className={`hero-action-btn select-btn ${isActive ? 'is-active' : ''}`}
                               onClick={() => handleSelectCharacter(character.id)}
+                              title={isActive ? 'Currently active hero for gameplay' : 'Set this hero as active'}
                             >
-                              <i className={`fas ${currentCharacterId === character.id ? 'fa-check-circle' : 'fa-circle'}`}></i>
-                              <span>{currentCharacterId === character.id ? 'Active' : 'Select'}</span>
+                              <i className={`fas ${isActive ? 'fa-circle-check' : 'fa-circle-dot'}`}></i>
+                              <span>{isActive ? 'Active Hero' : 'Select Hero'}</span>
                             </button>
-                            <div className="action-divider"></div>
-                            <button className="action-icon-btn edit" onClick={() => navigate(`/account/characters/edit/${character.id}`)}>
-                              <i className="fas fa-pen"></i>
-                            </button>
-                            <button className="action-icon-btn view" onClick={() => navigate(`/account/characters/view/${character.id}`)}>
-                              <i className="fas fa-eye"></i>
-                            </button>
-                            <button className="action-icon-btn delete" onClick={() => handleDeleteCharacter(character)}>
-                              <i className="fas fa-trash-alt"></i>
-                            </button>
+
+                            <div className="hero-actions-group">
+                              <button 
+                                className="hero-action-icon-btn edit-btn" 
+                                onClick={() => navigate(`/account/characters/edit/${character.id}`)}
+                                title="Edit Character & Lore"
+                              >
+                                <i className="fas fa-pen-to-square"></i>
+                              </button>
+                              <button 
+                                className="hero-action-icon-btn view-btn" 
+                                onClick={() => navigate(`/account/characters/view/${character.id}`)}
+                                title="View Full Character Sheet"
+                              >
+                                <i className="fas fa-eye"></i>
+                              </button>
+                              <button 
+                                className="hero-action-icon-btn delete-btn" 
+                                onClick={() => handleDeleteCharacter(character)}
+                                title="Delete Character"
+                              >
+                                <i className="fas fa-trash-can"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       );
                     })}
+
+                    {/* Invite Card: Forge New Hero Slot */}
+                    {(!characterLimitInfo || characterLimitInfo.canCreate) && (
+                      <div 
+                        className="hero-slot-add-card" 
+                        onClick={handleCreateCharacter} 
+                        role="button" 
+                        tabIndex={0}
+                        title="Forge a new character"
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCreateCharacter(); }}
+                      >
+                        <div className="add-slot-inner">
+                          <div className="add-slot-icon-ring">
+                            <i className="fas fa-plus"></i>
+                          </div>
+                          <h4 className="add-slot-title">Forge New Hero</h4>
+                          <p className="add-slot-subtitle">Select lineage, class, and custom abilities to begin your legend</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : characters.length > 0 ? (
+                  /* No filter matches state */
+                  <div className="char-no-results">
+                    <div className="no-results-icon"><i className="fas fa-magnifying-glass"></i></div>
+                    <h3>No Matching Champions Found</h3>
+                    <p>No characters match your search filter "{characterSearchQuery || characterClassFilter}".</p>
+                    <button 
+                      className="char-clear-filter-btn" 
+                      onClick={() => { setCharacterSearchQuery(''); setCharacterClassFilter('all'); }}
+                    >
+                      <i className="fas fa-rotate-left"></i> Reset Filters
+                    </button>
                   </div>
                 ) : (
+                  /* 0 Characters Empty State */
                   <div className="no-characters">
                     {characterLimitInfo && (
                       <div className="character-limit-info">
@@ -857,12 +1066,12 @@ const AccountDashboard = ({ user }) => {
                         </span>
                       </div>
                     )}
-                    <div className="no-characters-icon"><i className="fas fa-users"></i></div>
+                    <div className="no-characters-icon"><i className="fas fa-users-slash"></i></div>
                     <h3>No Characters Yet</h3>
-                    <p>Create your first character to begin your adventure!</p>
+                    <p>Create your first hero to explore dungeons, forge alliances, and embark on campaigns!</p>
                     <button className="create-first-character-btn" onClick={handleCreateCharacter}>
                       <i className="fas fa-plus"></i>
-                      Create Your First Character
+                      Forge Your First Hero
                     </button>
                   </div>
                 )}

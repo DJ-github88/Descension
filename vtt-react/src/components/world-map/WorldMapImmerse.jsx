@@ -1047,8 +1047,8 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     if (customMapMode && customDrawingActive && (customDrawingPoints.length > 0 || customEntryType === 'location')) {
      setCursorPos(coords);
    } else if (devMode && devTool === 'drawRegion' && drawingPoints.length > 0) {
-    setCursorPos(coords);
-   } else if (activeTool === 'drawArea' && playerDrawingPoints.length > 0) {
+setCursorPos(coords);
+} else if (activeTool === 'drawArea' && playerDrawingPoints.length > 0) {
     setCursorPos(coords);
    }
    }, [customMapMode, customDrawingActive, customDrawingPoints, customEntryType, devMode, devTool, drawingPoints, activeTool, playerDrawingPoints]);
@@ -1070,16 +1070,15 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   const handleKeyDown = (e) => {
    const key = e.key;
    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) return;
-   // Don't hijack arrows while editing a text/number input.
    const tag = ((document.activeElement && document.activeElement.tagName) || '').toLowerCase();
    if (tag === 'input' || tag === 'textarea') return;
 
    e.preventDefault();
-   const step = e.shiftKey ? 10 : 1;
+   const step = e.shiftKey ? 50 : 10;
    const coord = LOCATION_COORDINATES[selectedDevPinId];
    if (!coord) return;
 
-   if (key === 'ArrowUp')  coord.y = Math.max(0, coord.y - step);
+   if (key === 'ArrowUp') coord.y = Math.max(0, coord.y - step);
    if (key === 'ArrowDown') coord.y = Math.min(MAP_HEIGHT, coord.y + step);
    if (key === 'ArrowLeft') coord.x = Math.max(0, coord.x - step);
    if (key === 'ArrowRight') coord.x = Math.min(MAP_WIDTH, coord.x + step);
@@ -1366,6 +1365,8 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
      setShowAnnotationPopup(true);
     }}
     canDeletePlayerAnnotations={tierInfo && tierInfo.tierKey !== 'GUEST'}
+    selectedDevPinId={selectedDevPinId}
+    onSelectForMove={(id) => setSelectedDevPinId(id)}
     />
 
     {customMapMode && canAccessCustomMaps && (

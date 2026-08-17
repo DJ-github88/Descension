@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
 import './styles/AdvancedLightingPanel.css';
 
 /**
@@ -9,6 +10,7 @@ import './styles/AdvancedLightingPanel.css';
  */
 const AdvancedLightingPanel = () => {
     const [showWeatherControls, setShowWeatherControls] = useState(false);
+    const { allowed: atmosphericAllowed } = useFeatureFlag('atmosphericEffects');
     
     // Level editor store
     const {
@@ -84,19 +86,44 @@ const AdvancedLightingPanel = () => {
 
             {/* Atmospheric Effects */}
             <div className="settings-section">
-                <h4 className="section-title">Atmospheric Effects</h4>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <h4 className="section-title" style={{ margin: 0 }}>Atmospheric Effects</h4>
+                    {!atmosphericAllowed && (
+                        <span style={{
+                            fontSize: '10px',
+                            fontWeight: '700',
+                            padding: '2px 8px',
+                            borderRadius: '4px',
+                            background: 'rgba(155, 89, 182, 0.25)',
+                            border: '1px solid rgba(155, 89, 182, 0.6)',
+                            color: '#e0b0ff',
+                            letterSpacing: '0.5px'
+                        }}>
+                            <i className="fas fa-crown" style={{ marginRight: '4px' }}></i>PRO
+                        </span>
+                    )}
+                </div>
                 
                 <div className="setting-item">
-                    <label className="setting-label">
+                    <label className="setting-label" style={{ opacity: !atmosphericAllowed ? 0.7 : 1 }}>
                         <input
                             type="checkbox"
-                            checked={atmosphericEffects}
-                            onChange={(e) => setAtmosphericEffects(e.target.checked)}
+                            checked={atmosphericAllowed && atmosphericEffects}
+                            onChange={(e) => {
+                                if (!atmosphericAllowed) {
+                                    alert('Atmospheric and weather effects require a Dungeon Master (Pro) or higher subscription.');
+                                    return;
+                                }
+                                setAtmosphericEffects(e.target.checked);
+                            }}
+                            disabled={!atmosphericAllowed}
                         />
                         Enable Atmospheric Effects
                     </label>
                     <div className="setting-description">
-                        Adds atmospheric scattering and environmental effects
+                        {atmosphericAllowed
+                            ? 'Adds atmospheric scattering and environmental effects'
+                            : 'Atmospheric particles and weather overlays require Dungeon Master (Pro) or above'}
                     </div>
                 </div>
 
@@ -104,8 +131,10 @@ const AdvancedLightingPanel = () => {
                     <button
                         className={`toggle-btn ${showWeatherControls ? 'active' : ''}`}
                         onClick={() => setShowWeatherControls(!showWeatherControls)}
+                        disabled={!atmosphericAllowed}
+                        style={{ opacity: !atmosphericAllowed ? 0.6 : 1 }}
                     >
-                        Weather Effects {showWeatherControls ? '▼' : '▶'}
+                        Weather Effects {!atmosphericAllowed ? '🔒' : showWeatherControls ? '▼' : '▶'}
                     </button>
                 </div>
 

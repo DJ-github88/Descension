@@ -38,7 +38,8 @@ export const ITEM_RARITIES = {
 };
 
 // Version for complete items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 9;
+const COMPREHENSIVE_ITEMS_VERSION = 10;
+const STATIC_ITEM_ID_SET = new Set((COMPREHENSIVE_ITEMS || []).map(i => i.id));
 
 const CATEGORY_ICON_MIGRATION = {
  'inv_sword_04': 'Weapons/Swords/sword-basic-japanese-golden-guard-pommel',
@@ -1257,52 +1258,78 @@ const useItemStore = create(
     }),
     {
       name: 'item-store',
+      partialize: (state) => ({
+        // Only persist custom/user-created items, custom categories, and selection
+        customItems: (state.items || []).filter(i => i && (!STATIC_ITEM_ID_SET.has(i.id) || i.isCustom)),
+        customCategories: (state.categories || []).filter(c => c && !c.isBaseCategory && !COMPREHENSIVE_CATEGORIES.some(comp => comp.id === c.id)),
+        itemsVersion: COMPREHENSIVE_ITEMS_VERSION,
+        selectedCategory: state.selectedCategory || BASE_CATEGORY.id
+      }),
       storage: {
         getItem: (name) => {
-          const str = localStorage.getItem(name);
-          if (!str) return null;
+          try {
+            const str = localStorage.getItem(name);
+            if (!str) return null;
 
-          // Parse the stored data
-          const parsed = JSON.parse(str);
+            // Parse the stored data
+            const parsed = JSON.parse(str);
 
-          // Check version and reset if outdated
-          if (!parsed.state || !parsed.state.itemsVersion || parsed.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
-            // Item store version outdated, resetting to complete items
-            localStorage.removeItem(name);
-            return null; // This will trigger default initialization
-          }
+            // Check version and reset if outdated
+            if (!parsed.state || !parsed.state.itemsVersion || parsed.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
+              localStorage.removeItem(name);
+              return null; // This will trigger default initialization
+            }
 
-          // Convert arrays back to Sets for specific properties
-          if (parsed.state && parsed.state.openContainers) {
-            // Ensure openContainers is a Set
-            parsed.state.openContainers = new Set(parsed.state.openContainers);
-          }
+            // Extract custom items
+            const savedCustomItems = parsed.state.customItems ||
+              (Array.isArray(parsed.state.items) ? parsed.state.items.filter(i => i && (!STATIC_ITEM_ID_SET.has(i.id) || i.isCustom)) : []);
 
-          // Migrate category icons from old WoW IDs to local paths
-          if (parsed.state && parsed.state.categories) {
-            parsed.state.categories = parsed.state.categories.map(cat => {
+            const mergedItems = [...COMPREHENSIVE_ITEMS, ...savedCustomItems];
+
+            // Extract custom categories
+            const savedCustomCategories = parsed.state.customCategories ||
+              (Array.isArray(parsed.state.categories) ? parsed.state.categories.filter(c => c && !c.isBaseCategory && !COMPREHENSIVE_CATEGORIES.some(comp => comp.id === c.id)) : []);
+
+            const mergedCategories = [...COMPREHENSIVE_CATEGORIES, ...savedCustomCategories].map(cat => {
               if (cat.icon && CATEGORY_ICON_MIGRATION[cat.icon]) {
                 return { ...cat, icon: CATEGORY_ICON_MIGRATION[cat.icon] };
               }
               return cat;
             });
-          }
 
-          return parsed;
+            return {
+              state: {
+                items: mergedItems,
+                categories: mergedCategories,
+                itemCategories: categorizeItems(mergedItems),
+                selectedCategory: parsed.state.selectedCategory || BASE_CATEGORY.id,
+                itemsVersion: COMPREHENSIVE_ITEMS_VERSION,
+                openContainers: new Set(),
+                selectedTiles: [],
+                drawMode: false,
+                editMode: false,
+                previewItem: null
+              }
+            };
+          } catch (e) {
+            console.warn('Error reading item-store from storage:', e);
+            return null;
+          }
         },
         setItem: (name, value) => {
-          // Convert Sets to arrays for storage
-          const serialized = {
-            ...value,
-            state: {
-              ...value.state,
-              openContainers: Array.from(value.state.openContainers || []),
-              selectedTiles: Array.from(value.state.selectedTiles || [])
-            }
-          };
-          localStorage.setItem(name, JSON.stringify(serialized));
+          try {
+            localStorage.setItem(name, JSON.stringify(value));
+          } catch (e) {
+            console.warn('Quota exceeded or storage error in item-store setItem. Handled safely.', e);
+          }
         },
-        removeItem: (name) => localStorage.removeItem(name)
+        removeItem: (name) => {
+          try {
+            localStorage.removeItem(name);
+          } catch (e) {
+            console.warn('Error removing item-store from storage:', e);
+          }
+        }
       }
     }
   )

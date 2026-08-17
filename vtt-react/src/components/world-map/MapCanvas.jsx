@@ -27,6 +27,9 @@ const LOCATION_CATEGORY_ICONS = {
   camp: 'fa-fire'
 };
 
+const IS_TOUCH_DEVICE = typeof window !== 'undefined' &&
+  ('ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
+
 const MapCanvas = ({
   phase,
   initialTransform,
@@ -203,6 +206,8 @@ const MapCanvas = ({
 
       ref.setTransform(posX, posY, targetScale, 1500, 'easeOut');
     }
+
+
   }, [activeShare]);
 
   useEffect(() => {
@@ -217,10 +222,42 @@ const MapCanvas = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Handle smooth camera zoom to target subregion point
+  useEffect(() => {
+    if (targetZoomPoint && transformRef.current) {
+      const { x, y, scale = 1.85, duration = 600 } = targetZoomPoint;
+      const ref = transformRef.current;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const posX = W / 2 - x * scale;
+      const posY = H / 2 - y * scale;
+      ref.setTransform(posX, posY, scale, duration, 'easeOutCubic');
+    }
+  }, [targetZoomPoint]);
+
+  // Center and fit the entire new map into view whenever activeMapId changes (e.g. entering subregion map)
+  useEffect(() => {
+    if (transformRef.current && activeMapId) {
+      const timer = setTimeout(() => {
+        if (transformRef.current) {
+          const W = window.innerWidth;
+          const H = window.innerHeight;
+          const fitScale = Math.min(W / 4096, H / 3072) * 0.92;
+          const fitPosX = (W - 4096 * fitScale) / 2;
+          const fitPosY = (H - 3072 * fitScale) / 2;
+          transformRef.current.setTransform(fitPosX, fitPosY, fitScale, 0);
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [activeMapId]);
+
   // Translate screen coordinates into map-space pixel coordinates
   const getImageCoords = useCallback((e) => {
     try {
-      const el = e.currentTarget || document.querySelector('.map-overlay-svg');
+      const el = (e?.currentTarget && typeof e.currentTarget.getBoundingClientRect === 'function' && e.currentTarget !== window)
+        ? e.currentTarget
+        : (document.querySelector('.map-overlay-svg') || document.querySelector('.map-content'));
       if (!el) return null;
       const rect = el.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return null;
@@ -228,8 +265,9 @@ const MapCanvas = ({
       const x = (e.clientX - rect.left) * (MAP_WIDTH / rect.width);
       const y = (e.clientY - rect.top) * (MAP_HEIGHT / rect.height);
 
-      if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) return null;
-      return [Math.round(x), Math.round(y)];
+      const clampedX = Math.max(0, Math.min(MAP_WIDTH, Math.round(x)));
+      const clampedY = Math.max(0, Math.min(MAP_HEIGHT, Math.round(y)));
+      return [clampedX, clampedY];
     } catch (err) {
       return null;
     }
@@ -401,38 +439,85 @@ const MapCanvas = ({
     }
   }, [draggedPinId, draggedPlayerPinId, draggedCustomZoneId, devMode, canDragPlayerPins, onMapMouseMove, getImageCoords, onUpdate, onDragPlayerPin, onUpdateCustomZone]);
 
-  // Release dragged pin globally
+  // Global drag handler for dev pins
   useEffect(() => {
-    if (draggedPinId) {
-      const handleGlobalMouseUp = () => {
-        setDraggedPinId(null);
-      };
-      window.addEventListener('mouseup', handleGlobalMouseUp);
-      return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-    }
-  }, [draggedPinId]);
+    if (!draggedPinId || !devMode) return;
 
-  // Release dragged player pin globally
-  useEffect(() => {
-    if (draggedPlayerPinId) {
-      const handleGlobalMouseUp = () => {
-        setDraggedPlayerPinId(null);
-      };
-      window.addEventListener('mouseup', handleGlobalMouseUp);
-      return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-    }
-  }, [draggedPlayerPinId]);
+    const handleGlobalMouseMove = (e) => {
+      const coords = getImageCoords(e);
+      if (coords && LOCATION_COORDINATES[draggedPinId]) {
+        LOCATION_COORDINATES[draggedPinId] = {
+          ...LOCATION_COORDINATES[draggedPinId],
+          x: coords[0],
+          y: coords[1]
+        };
+        if (onUpdate) onUpdate();
+      }
+    };
 
-  // Release dragged custom zone globally
+    const handleGlobalMouseUp = () => {
+      setDraggedPinId(null);
+      if (onUpdate) onUpdate();
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [draggedPinId, devMode, getImageCoords, onUpdate]);
+
+  // Global drag handler for player pins
   useEffect(() => {
-    if (draggedCustomZoneId) {
-      const handleGlobalMouseUp = () => {
-        setDraggedCustomZoneId(null);
-      };
-      window.addEventListener('mouseup', handleGlobalMouseUp);
-      return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-    }
-  }, [draggedCustomZoneId]);
+    if (!draggedPlayerPinId || !canDragPlayerPins || !onDragPlayerPin) return;
+
+    const handleGlobalMouseMove = (e) => {
+      const coords = getImageCoords(e);
+      if (coords) {
+        onDragPlayerPin(draggedPlayerPinId, coords[0], coords[1]);
+      }
+    };
+
+    const handleGlobalMouseUp = () => {
+      setDraggedPlayerPinId(null);
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [draggedPlayerPinId, canDragPlayerPins, onDragPlayerPin, getImageCoords]);
+
+  // Global drag handler for custom zones
+  useEffect(() => {
+    if (!draggedCustomZoneId || !onUpdateCustomZone) return;
+
+    const handleGlobalMouseMove = (e) => {
+      const coords = getImageCoords(e);
+      if (coords) {
+        const roundedX = Math.round(coords[0]);
+        const roundedY = Math.round(coords[1]);
+        onUpdateCustomZone(draggedCustomZoneId, {
+          position: [roundedX, roundedY],
+          points: [[roundedX, roundedY]]
+        });
+      }
+    };
+
+    const handleGlobalMouseUp = () => {
+      setDraggedCustomZoneId(null);
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove, { passive: true });
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [draggedCustomZoneId, onUpdateCustomZone, getImageCoords]);
 
   // Dev Delete Pin callback
   const handleDeletePin = useCallback((zoneId, bypassConfirm = false) => {
@@ -476,14 +561,19 @@ const MapCanvas = ({
   const isDrawingOrPlacing = customMapMode
     ? customDrawingActive
     : Boolean(
-        (devMode && (devTool === 'drawRegion' || devTool === 'placePin')) ||
-        (activeTool === 'drawArea' || activeTool === 'placePin' || (drawingPoints && drawingPoints.length > 0) || (playerDrawingPoints && playerDrawingPoints.length > 0))
+        (devMode && (devTool === 'drawRegion' || devTool === 'placePin' || devTool === 'movePin' || devTool === 'erasePin')) ||
+        (activeTool === 'drawArea' || activeTool === 'placePin' || (drawingPoints && drawingPoints.length > 0) || (playerDrawingPoints && playerDrawingPoints.length > 0)) ||
+        draggedPinId ||
+        draggedPlayerPinId ||
+        draggedCustomZoneId
       );
 
   const toolCursor = (() => {
+    if (draggedPinId || draggedPlayerPinId || draggedCustomZoneId) return 'grabbing';
     if (customMapMode && customDrawingActive) return customEntryType === 'location' ? FLAG_CURSOR : PEN_CURSOR;
     if (devMode && devTool === 'drawRegion') return PEN_CURSOR;
     if (devMode && devTool === 'placePin') return FLAG_CURSOR;
+    if (devMode && devTool === 'movePin') return 'grab';
     if (devMode && devTool === 'erasePin') return 'pointer';
     if (activeTool === 'drawArea') return PEN_CURSOR;
     if (activeTool === 'placePin') return FLAG_CURSOR;
@@ -1073,7 +1163,7 @@ const MapCanvas = ({
             />
 
             <div className="map-zoom-hint" style={{ opacity: phase === 'immersed' ? 1 : 0 }}>
-              <span>Scroll to zoom</span>
+              <span>{IS_TOUCH_DEVICE ? 'Pinch to zoom' : 'Scroll to zoom'}</span>
               <span className="hint-divider">·</span>
               <span>Drag to pan</span>
             </div>

@@ -72,7 +72,7 @@ describe('UnifiedSpellCard Component', () => {
       />
     );
 
-    expect(screen.getByText(/A massive ball of fire explodes/)).toBeInTheDocument();
+    expect(screen.getAllByText(/A massive ball of fire explodes/)[0]).toBeInTheDocument();
   });
 
   it('renders school and elemental tag chips when showTags is true', () => {

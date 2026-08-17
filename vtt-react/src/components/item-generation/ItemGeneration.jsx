@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useItemStore from '../../store/itemStore';
+import useInventoryStore from '../../store/inventoryStore';
 import ItemWizard from './ItemWizard';
+import ContainerWizard from './ContainerWizard';
 import ManualCoinGenerationModal from './ManualCoinGenerationModal';
 import { createCustomShape } from '../../utils/itemShapeUtils';
 
@@ -11,7 +13,7 @@ const BASE_GRID_SIZE = {
     COLS: 6
 };
 
-export default function ItemGeneration({ onContainerCreate }) {
+export default function ItemGeneration({ onContainerCreate, onItemCreated }) {
     const {
         selectedTiles,
         addSelectedTile,
@@ -28,6 +30,7 @@ export default function ItemGeneration({ onContainerCreate }) {
     const [editMode, setEditMode] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
     const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
+    const [isContainerModalOpen, setIsContainerModalOpen] = useState(false);
     const [gridSize, setGridSize] = useState(null);
     const containerRef = useRef(null);
     const controlsRef = useRef(null);
@@ -52,27 +55,9 @@ export default function ItemGeneration({ onContainerCreate }) {
             const tileSize = parseInt(computedStyle.getPropertyValue('--tile-size')) || 65;
             const tileGap = parseInt(computedStyle.getPropertyValue('--tile-gap')) || 4;
 
-            // Use controls width as the target width for the grid
-            const gridPadding = 20; // preview-grid padding (10px * 2)
-            const gridBorder = 4; // border width (2px * 2)
-            const availableWidth = controlsRect.width - (gridPadding * 2) - gridBorder;
-
-            // Calculate how many complete tiles can fit in the controls width
-            const tileWithGap = tileSize + tileGap;
-            const maxCols = Math.floor((availableWidth + tileGap) / tileWithGap);
-
-            // Fixed to 5 rows as requested
-            const rows = 5;
-            // Add one more column to fill the empty space
-            const cols = Math.max(maxCols, 8); // At least 8 columns for a good default look
-
-            console.log('Grid calculation:', {
-                controlsWidth: controlsRect.width,
-                tileSize,
-                tileGap,
-                availableWidth,
-                calculatedGrid: { cols, rows }
-            });
+            // Keep a clean, compact canvas: 8 columns × 6 rows (ideal for all TTRPG item shapes)
+            const rows = 6;
+            const cols = Math.min(Math.max(maxCols, 6), 8);
 
             // Only update if grid size actually changed
             setGridSize(prev => {
@@ -204,6 +189,8 @@ export default function ItemGeneration({ onContainerCreate }) {
 
             setPreviewItem(item);
             generateItem(item);
+            useInventoryStore.getState().addItemFromLibrary(item, { quantity: 1 });
+            if (onItemCreated) onItemCreated(item);
         }
         setEditingItem(null);
         setEditMode(false);
@@ -254,7 +241,7 @@ export default function ItemGeneration({ onContainerCreate }) {
                 <div className="designer-title-group">
                     <h2 className="designer-title">Item Designer</h2>
                     <span className="grid-info-badge">
-                        Grid: {gridSize ? `${gridSize.COLS} \u00d7 ${gridSize.ROWS}` : '...'}
+                        Grid: {gridSize ? `${gridSize.COLS} × ${gridSize.ROWS}` : '...'}
                     </span>
                 </div>
 
@@ -288,7 +275,13 @@ export default function ItemGeneration({ onContainerCreate }) {
                     </button>
                     <button
                         className="tool-button"
-                        onClick={onContainerCreate}
+                        onClick={() => {
+                            if (onContainerCreate) {
+                                onContainerCreate();
+                            } else {
+                                setIsContainerModalOpen(true);
+                            }
+                        }}
                     >
                         Create Container
                     </button>
@@ -318,7 +311,21 @@ export default function ItemGeneration({ onContainerCreate }) {
                     onComplete={(coinItem) => {
                         setPreviewItem(coinItem);
                         generateItem(coinItem);
+                        useInventoryStore.getState().addItemFromLibrary(coinItem, { quantity: coinItem.quantity || 1 });
+                        if (onItemCreated) onItemCreated(coinItem);
                         setIsCoinModalOpen(false);
+                    }}
+                />
+            )}
+
+            {isContainerModalOpen && (
+                <ContainerWizard
+                    onCancel={() => setIsContainerModalOpen(false)}
+                    onComplete={(containerItem) => {
+                        generateItem(containerItem);
+                        useInventoryStore.getState().addItemFromLibrary(containerItem, { quantity: 1 });
+                        if (onItemCreated) onItemCreated(containerItem);
+                        setIsContainerModalOpen(false);
                     }}
                 />
             )}

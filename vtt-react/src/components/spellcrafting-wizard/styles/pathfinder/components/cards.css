@@ -2189,8 +2189,15 @@
 .spell-component-pills {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
   flex-shrink: 0;
+}
+
+.spell-component-pill-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spell-component-pill {
@@ -2202,24 +2209,127 @@
   border-radius: 50%;
   font-size: 10px;
   font-weight: 700;
-  font-family: var(--my-font-display);
+  font-family: var(--my-font-display, 'Cinzel', serif);
   letter-spacing: 0;
-  cursor: help;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   color: #f4f1e8;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-  transition: background 0.15s;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  user-select: none;
 }
 
-.spell-component-pill:hover {
-  background: rgba(255, 255, 255, 0.15);
+.spell-component-pill:hover,
+.spell-component-pill.active {
+  transform: scale(1.18);
+  box-shadow: 0 0 8px currentColor;
 }
 
-.spell-component-pill--verbal   { border-color: rgba(147, 210, 255, 0.6); color: #a8d8ff; }
-.spell-component-pill--somatic  { border-color: rgba(180, 255, 160, 0.6); color: #b8ffb0; }
-.spell-component-pill--material { border-color: rgba(255, 220, 120, 0.6); color: #ffdc78; }
+.spell-component-pill--verbal {
+  border-color: rgba(147, 210, 255, 0.85);
+  color: #a8d8ff;
+  background: radial-gradient(circle, rgba(30, 80, 140, 0.8) 0%, rgba(10, 30, 60, 0.95) 100%);
+}
+
+.spell-component-pill--somatic {
+  border-color: rgba(180, 255, 160, 0.85);
+  color: #b8ffb0;
+  background: radial-gradient(circle, rgba(35, 110, 45, 0.8) 0%, rgba(12, 45, 18, 0.95) 100%);
+}
+
+.spell-component-pill--material {
+  border-color: rgba(255, 220, 120, 0.85);
+  color: #ffdc78;
+  background: radial-gradient(circle, rgba(130, 95, 25, 0.8) 0%, rgba(50, 35, 10, 0.95) 100%);
+}
+
+/* Pathfinder Custom Component Popover */
+.pf-component-popover {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  min-width: 170px;
+  max-width: 250px;
+  width: max-content;
+  background: linear-gradient(145deg, #2b1810 0%, #1c0e08 100%);
+  border: 1.5px solid #d4af37;
+  border-radius: 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 10px rgba(212, 175, 55, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  pointer-events: none;
+  animation: pfPopoverFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pf-component-popover::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #d4af37;
+}
+
+.pf-component-popover-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--my-font-display, 'Cinzel', serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffd700;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 4px;
+}
+
+.pf-component-popover-header i {
+  font-size: 10px;
+}
+
+.pf-component-popover--verbal .pf-component-popover-header { color: #a8d8ff; border-color: rgba(147, 210, 255, 0.3); }
+.pf-component-popover--verbal::before { border-bottom-color: rgba(147, 210, 255, 0.8); }
+.pf-component-popover--verbal { border-color: rgba(147, 210, 255, 0.6); }
+
+.pf-component-popover--somatic .pf-component-popover-header { color: #b8ffb0; border-color: rgba(180, 255, 160, 0.3); }
+.pf-component-popover--somatic::before { border-bottom-color: rgba(180, 255, 160, 0.8); }
+.pf-component-popover--somatic { border-color: rgba(180, 255, 160, 0.6); }
+
+.pf-component-popover--material .pf-component-popover-header { color: #ffdc78; border-color: rgba(255, 220, 120, 0.3); }
+.pf-component-popover--material::before { border-bottom-color: rgba(255, 220, 120, 0.8); }
+.pf-component-popover--material { border-color: rgba(255, 220, 120, 0.6); }
+
+.pf-component-popover-body {
+  font-family: var(--my-font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 11.5px;
+  color: #f3edd9;
+  line-height: 1.35;
+  font-style: italic;
+  white-space: normal;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes pfPopoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
 
 .unified-spell-components-inline .pf-spell-components {
   display: inline-flex;

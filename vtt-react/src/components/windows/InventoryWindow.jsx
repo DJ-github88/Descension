@@ -1797,9 +1797,18 @@ const InventoryWindow = memo(() => {
                                 return shape.cells[r][c];
                             };
 
-                             const rarityCfg = RARITY_COLORS[qualityLower] || RARITY_COLORS.common;
-                             const strokeColor = '#333'; // Dark border like standard item-border
-                             const glowColor = qualityColor;
+                             const qualityBorderColors = {
+                                 poor: '#8a8a8a',
+                                 common: '#c5a059',
+                                 uncommon: '#2e7d32',
+                                 rare: '#1976d2',
+                                 epic: '#8e24aa',
+                                 legendary: '#e65100',
+                                 artifact: '#ffd700'
+                             };
+                             const baseBorderColor = qualityColor || qualityBorderColors[qualityLower] || '#c5a059';
+                             const borderColor = selectedItemId === renderitem.id ? '#00ffff' : baseBorderColor;
+                             const borderThickness = selectedItemId === renderitem.id ? '2.5px' : '2px';
                              const itemTop = 1;
                              const itemLeft = 1;
 
@@ -1812,12 +1821,12 @@ const InventoryWindow = memo(() => {
                                     left: `${itemLeft}px`,
                                     overflow: 'visible',
                                     pointerEvents: 'none',
-                                    filter: isComplexCustom ? 
-                                        `drop-shadow(1px 0 0 ${strokeColor}) drop-shadow(-1px 0 0 ${strokeColor}) drop-shadow(0 1px 0 ${strokeColor}) drop-shadow(0 -1px 0 ${strokeColor})${selectedItemId === renderitem.id ? ' drop-shadow(0 0 6px cyan) drop-shadow(0 0 10px cyan)' : ' drop-shadow(0 0 4px ' + glowColor + '70)'}` : 
-                                        'none',
+                                    filter: selectedItemId === renderitem.id 
+                                        ? 'drop-shadow(0 0 6px rgba(0, 255, 255, 0.8))' 
+                                        : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25))',
                                     zIndex: isMultiCell ? 20 : 10
                                 }}>
-                                    {/* Render custom shape cells with outline-only borders on exposed edges */}
+                                    {/* Render custom shape cells with clear outer-edge borders & tile fills */}
                                     {isComplexCustom ? (
                                         shape.cells.map((shapeRow, shapeRowIndex) =>
                                             shapeRow.map((isOccupied, shapeColIndex) => {
@@ -1834,23 +1843,26 @@ const InventoryWindow = memo(() => {
                                                         className={`item-shape-cell ${selectedItemId === renderitem.id ? 'selected' : ''}`}
                                                         data-quality={qualityLower}
                                                         style={{
+                                                            position: 'absolute',
                                                             left: `${(shapeColIndex / bounds.width) * 100}%`,
                                                             top: `${(shapeRowIndex / bounds.height) * 100}%`,
                                                             width: `${(1 / bounds.width) * 100}%`,
                                                             height: `${(1 / bounds.height) * 100}%`,
-                                                            borderTop: noTop ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
-                                                            borderBottom: noBottom ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
-                                                            borderLeft: noLeft ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
-                                                            borderRight: noRight ? 'none' : '1px solid rgba(0, 0, 0, 0.25)',
-                                                            outline: noTop || noBottom || noLeft || noRight ? `1px solid ${strokeColor}40` : 'none',
-                                                            background: rarityCfg.orbColor,
-                                                            backgroundSize: `${bounds.width * 100}% ${bounds.height * 100}%`,
-                                                            backgroundPosition: `${-shapeColIndex * 100}% ${-shapeRowIndex * 100}%`,
-                                                            backgroundImage: `linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, ${rarityCfg.glow.replace('0.3', '0.6')} 100%)`,
-                                                            boxShadow: 'inset 0 0 8px rgba(0, 0, 0, 0.2)',
-                                                            borderRadius: (noTop && noLeft) || (noTop && noRight) || (noBottom && noLeft) || (noBottom && noRight) ? '3px' : '0',
+                                                            borderTop: noTop ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
+                                                            borderBottom: noBottom ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
+                                                            borderLeft: noLeft ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
+                                                            borderRight: noRight ? `${borderThickness} solid ${borderColor}` : '1px dashed rgba(139, 115, 85, 0.3)',
+                                                            borderRadius: `${noTop && noLeft ? 5 : 0}px ${noTop && noRight ? 5 : 0}px ${noBottom && noRight ? 5 : 0}px ${noBottom && noLeft ? 5 : 0}px`,
+                                                            background: selectedItemId === renderitem.id 
+                                                                ? 'rgba(0, 255, 255, 0.18)' 
+                                                                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(245, 235, 215, 0.25) 100%)',
+                                                            boxShadow: selectedItemId === renderitem.id 
+                                                                ? 'inset 0 0 8px rgba(0, 255, 255, 0.4), 0 0 6px rgba(0, 255, 255, 0.6)' 
+                                                                : 'inset 0 0 6px rgba(139, 115, 85, 0.15)',
+                                                            boxSizing: 'border-box',
                                                             cursor: 'move',
-                                                            pointerEvents: 'auto'
+                                                            pointerEvents: 'auto',
+                                                            zIndex: 10
                                                         }}
                                                         draggable
                                                         onDragStart={(e) => handleDragStart(e, renderitem)}
@@ -1889,9 +1901,16 @@ const InventoryWindow = memo(() => {
                                         <div
                                             className={`item-border ${selectedItemId === renderitem.id ? 'selected' : ''}`}
                                             style={{
-                                                borderColor: qualityColor,
-                                                borderWidth: '1px',
-                                                boxShadow: `0 0 6px ${qualityColor}50`
+                                                borderColor: borderColor,
+                                                borderWidth: borderThickness,
+                                                borderStyle: 'solid',
+                                                borderRadius: '5px',
+                                                background: selectedItemId === renderitem.id 
+                                                    ? 'rgba(0, 255, 255, 0.18)' 
+                                                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(245, 235, 215, 0.25) 100%)',
+                                                boxShadow: selectedItemId === renderitem.id 
+                                                    ? 'inset 0 0 8px rgba(0, 255, 255, 0.4), 0 0 8px rgba(0, 255, 255, 0.6)' 
+                                                    : `0 0 6px ${borderColor}50, inset 0 0 6px rgba(139, 115, 85, 0.15)`
                                             }}
                                             onContextMenu={(e) => {
                                                 e.preventDefault();
@@ -1965,59 +1984,20 @@ const InventoryWindow = memo(() => {
                                         />
                                     )}
 
-                                    {isComplexCustom ? (
-                                        <div style={{
+                                    {/* Render item icon filling the multi-tile bounding area */}
+                                    <div
+                                        className={`inventory-item ${isMultiCell ? 'multi-cell' : ''}`}
+                                        style={{
                                             position: 'absolute',
-                                            top: `${((bestCellForIcon.row + 0.5) / bounds.height) * 100}%`,
-                                            left: `${((bestCellForIcon.col + 0.5) / bounds.width) * 100}%`,
-                                            width: `${(1 / bounds.width) * 100}%`,
-                                            height: `${(1 / bounds.height) * 100}%`,
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             pointerEvents: 'none',
-                                            zIndex: 25,
-                                            transform: 'translate(-50%, -50%)'
-                                        }}>
-                                            {renderitem.iconId || renderitem.type === 'currency' ? (
-                                                <img
-                                                    src={getIconUrl(
-                                                        renderitem.type === 'currency'
-                                                            ? 'Container/Coins/golden-coin-single-isometric'
-                                                            : renderitem.iconId,
-                                                        'items'
-                                                    )}
-                                                    alt={getDisplayName(renderitem)}
-                                                    className={`item-icon ${renderitem.type === 'currency' ? `coin-${renderitem.currencyType || 'gold'}` : ''}`}
-                                                    style={{
-                                                        boxShadow: 'none',
-                                                        border: 'none',
-                                                        background: 'transparent',
-                                                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
-                                                        margin: 0,
-                                                        width: '80%',
-                                                        height: '80%',
-                                                        objectFit: 'contain'
-                                                    }}
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                                                    }}
-                                                />
-                                            ) : (
-                                                <span className="item-name" style={{ color: qualityColor }}>{getDisplayName(renderitem)}</span>
-                                            )}
-                                            {renderitem.quantity > 1 && (
-                                                <span className="item-quantity">{renderitem.quantity}</span>
-                                            )}
-                                        </div>
-                                    ) : (
-                                    <div
-                                        className={`inventory-item ${isMultiCell ? 'multi-cell' : ''}`}
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            pointerEvents: 'none'
+                                            zIndex: 20
                                         }}
                                     >
                                         <div
@@ -2028,7 +2008,9 @@ const InventoryWindow = memo(() => {
                                                 height: '100%',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: 'center'
+                                                justifyContent: 'center',
+                                                padding: '4px',
+                                                boxSizing: 'border-box'
                                             }}
                                         >
                                             {renderitem.iconId || renderitem.type === 'currency' ? (
@@ -2041,6 +2023,13 @@ const InventoryWindow = memo(() => {
                                                     )}
                                                     alt={getDisplayName(renderitem)}
                                                     className={`item-icon ${renderitem.type === 'currency' ? `coin-${renderitem.currencyType || 'gold'}` : ''}`}
+                                                    style={{
+                                                        width: '90%',
+                                                        height: '90%',
+                                                        objectFit: 'contain',
+                                                        filter: 'drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5))',
+                                                        pointerEvents: 'none'
+                                                    }}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
@@ -2054,7 +2043,6 @@ const InventoryWindow = memo(() => {
                                             )}
                                         </div>
                                     </div>
-                                    )}
                                 </div>
                         );
                         })()}
@@ -2076,13 +2064,144 @@ const InventoryWindow = memo(() => {
         );
     };
 
+    const selectedItem = items.find(i => i.id === selectedItemId);
+
     return (
         <div className="window-content inventory-window-content">
             <div className="inventory-container">
+                <div className="inventory-layout-body">
+                    <div className="inventory-grid-scroll-area">
+                        <div className="inventory-grid">
+                            {renderGrid()}
+                        </div>
+                    </div>
 
+                    {/* Inventory Companion / Item Inspector Panel */}
+                    <div className="inventory-companion-panel">
+                        {selectedItem ? (
+                            <div className="companion-item-card">
+                                <div className="companion-card-header">
+                                    <div className="companion-icon-box" style={{ borderColor: getQualityColor(selectedItem.quality, selectedItem.rarity) }}>
+                                        <img 
+                                            src={selectedItem.icon || (selectedItem.iconKey ? getIconUrl(selectedItem.iconKey, 'items') : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')} 
+                                            alt={getDisplayName(selectedItem)}
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="companion-title-group">
+                                        <h4 className="companion-item-name" style={{ color: getQualityColor(selectedItem.quality, selectedItem.rarity) }}>
+                                            {getDisplayName(selectedItem)}
+                                        </h4>
+                                        <div className="companion-tags">
+                                            <span className="companion-tag quality-tag" style={{ color: getQualityColor(selectedItem.quality, selectedItem.rarity) }}>
+                                                {selectedItem.quality || selectedItem.rarity || 'Common'}
+                                            </span>
+                                            {selectedItem.type && (
+                                                <span className="companion-tag type-tag">{selectedItem.type}</span>
+                                            )}
+                                            {selectedItem.slot && (
+                                                <span className="companion-tag slot-tag">{selectedItem.slot}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div className="inventory-grid">
-                    {renderGrid()}
+                                <div className="companion-card-body">
+                                    {selectedItem.description && (
+                                        <p className="companion-desc">{selectedItem.description}</p>
+                                    )}
+
+                                    <div className="companion-stats-grid">
+                                        <div className="companion-stat-item">
+                                            <span className="c-stat-label"><i className="fas fa-weight-hanging"></i> Total Weight</span>
+                                            <span className="c-stat-val">{((selectedItem.weight ?? 1) * (selectedItem.quantity || 1)).toFixed(1)} lbs</span>
+                                        </div>
+                                        <div className="companion-stat-item">
+                                            <span className="c-stat-label"><i className="fas fa-boxes-stacked"></i> Quantity</span>
+                                            <span className="c-stat-val">{selectedItem.quantity || 1}</span>
+                                        </div>
+                                        <div className="companion-stat-item">
+                                            <span className="c-stat-label"><i className="fas fa-coins"></i> Value</span>
+                                            <span className="c-stat-val">{selectedItem.value !== undefined ? `${selectedItem.value} g` : '—'}</span>
+                                        </div>
+                                        <div className="companion-stat-item">
+                                            <span className="c-stat-label"><i className="fas fa-table-cells"></i> Grid Size</span>
+                                            <span className="c-stat-val">{selectedItem.shape?.width || selectedItem.shape?.cols || 1} × {selectedItem.shape?.height || selectedItem.shape?.rows || 1}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="companion-actions-bar">
+                                        {getCompatibleSlots(selectedItem).length > 0 && (
+                                            <button 
+                                                className="companion-btn equip"
+                                                onClick={() => {
+                                                    const slots = getCompatibleSlots(selectedItem);
+                                                    if (slots.length > 0) handleEquipItem(slots[0], selectedItem);
+                                                }}
+                                                title="Equip into character gear slot"
+                                            >
+                                                <i className="fas fa-shield-halved"></i> Equip
+                                            </button>
+                                        )}
+                                        <button 
+                                            className="companion-btn rotate"
+                                            onClick={() => rotateItem(selectedItem.id)}
+                                            title="Rotate shape (R key)"
+                                        >
+                                            <i className="fas fa-rotate-right"></i> Rotate
+                                        </button>
+                                        {selectedItem.quantity > 1 && (
+                                            <button 
+                                                className="companion-btn split"
+                                                onClick={() => {
+                                                    setItemToSplit(selectedItem);
+                                                    setShowSplitStackModal(true);
+                                                }}
+                                                title="Split stack"
+                                            >
+                                                <i className="fas fa-scissors"></i> Split
+                                            </button>
+                                        )}
+                                        <button 
+                                            className="companion-btn discard"
+                                            onClick={() => removeItem(selectedItem.id)}
+                                            title="Discard this item"
+                                        >
+                                            <i className="fas fa-trash-can"></i> Discard
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="companion-empty-prompt">
+                                <div className="companion-prompt-icon">
+                                    <i className="fas fa-bag-shopping"></i>
+                                </div>
+                                <h4>Inventory Inspector</h4>
+                                <p>Select any item in your bags to view detailed stats, rotate orientation, or equip gear.</p>
+                                
+                                <div className="companion-bag-summary">
+                                    <div className="summary-row">
+                                        <span><i className="fas fa-box-archive"></i> Items in Bag:</span>
+                                        <strong>{items.length}</strong>
+                                    </div>
+                                    <div className="summary-row">
+                                        <span><i className="fas fa-weight-scale"></i> Total Weight:</span>
+                                        <strong>{(totalWeight?.total || 0).toFixed(1)} / {derivedStats?.carryingCapacity || 100} lbs</strong>
+                                    </div>
+                                    <div className="summary-row">
+                                        <span><i className="fas fa-gauge-high"></i> Encumbrance:</span>
+                                        <span className={`encumbrance-pill ${encumbranceState}`}>
+                                            {encumbranceState.toUpperCase()}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="inventory-bottom-bar">

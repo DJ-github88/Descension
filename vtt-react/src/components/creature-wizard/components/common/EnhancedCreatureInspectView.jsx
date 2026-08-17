@@ -21,6 +21,7 @@ import useGridItemStore from '../../../../store/gridItemStore';
 import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
 import useDiceStore from '../../../../store/diceStore';
+import ChargeableRollButton from '../../../dice/ChargeableRollButton';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import { calculateEffectiveMovementSpeed } from '../../../../utils/conditionUtils';
@@ -59,11 +60,6 @@ const findBestiaryIllustration = (creature) => {
     }
   }
   return null;
-};
-
-// Helper function to format modifier with + or - sign
-const formatModifier = (mod) => {
-  return mod >= 0 ? `+${mod}` : `${mod}`;
 };
 
 const getCreatureThumb = (illustration) => {
@@ -1597,9 +1593,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     }
     return skill.rollableTable;
   };
-
   // Roll on a skill table
-  const rollSkillTable = (skill, skillId) => {
+  const rollSkillTable = (skill, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
     const tableId = getCurrentRollableTable(skill, skillId);
     if (!tableId) return;
 
@@ -1613,7 +1608,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       rollType: 'table',
       tableId,
       dieKey: selectedDie,
-      characterName: creature?.name || 'Creature'
+      characterName: creature?.name || 'Creature',
+      throwPower,
+      throwDirection
     });
   };
 
@@ -1678,12 +1675,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             </div>
           </div>
           {(skill.rollableTable || skill.rollableTables) && (
-            <button
+            <ChargeableRollButton
               className="roll-table-btn"
-              onClick={() => rollSkillTable(skill, selectedSkill)}
+              onRoll={(power, dir) => rollSkillTable(skill, selectedSkill, power, dir)}
+              title="Click or Hold & Release to throw dice with velocity"
             >
               <i className="fas fa-dice"></i> Roll
-            </button>
+            </ChargeableRollButton>
           )}
         </div>
 

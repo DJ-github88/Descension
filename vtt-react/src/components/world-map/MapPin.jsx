@@ -88,13 +88,13 @@ const MapPin = ({
           e.stopPropagation();
           e.preventDefault();
           if (onSelectForMove) onSelectForMove(zoneId);
-          onDragStart(zoneId);
+          if (onDragStart) onDragStart(zoneId);
           return;
         }
         if (devMode && e.shiftKey) {
           e.stopPropagation();
           e.preventDefault();
-          onDragStart(zoneId);
+          if (onDragStart) onDragStart(zoneId);
         }
       }}
       onContextMenu={(e) => {

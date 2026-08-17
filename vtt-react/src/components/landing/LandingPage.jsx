@@ -27,7 +27,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showCommunity, setShowCommunity] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isPhone = useIsPhone();
-  const [showPhoneNotice, setShowPhoneNotice] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass, isAdminBypass } = useAuthStore();
@@ -276,10 +275,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
      <div className="action-buttons">
       <button
        className={`primary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
-       onClick={() => {
-        if (isPhone) { setShowPhoneNotice('Play Online'); return; }
-        onEnterMultiplayer();
-       }}
+        onClick={() => {
+         if (isPhone) return;
+         onEnterMultiplayer();
+        }}
        disabled={isPhone}
        title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
       >
@@ -310,10 +309,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
       </button>
       <button
        className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
-       onClick={() => {
-        if (isPhone) { setShowPhoneNotice('Sandbox Mode'); return; }
-        onEnterSinglePlayer();
-       }}
+        onClick={() => {
+         if (isPhone) return;
+         onEnterSinglePlayer();
+        }}
        disabled={isPhone}
        title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
       >

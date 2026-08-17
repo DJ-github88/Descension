@@ -2487,9 +2487,9 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                     <button
                         className="stats-label-toggle-button"
                         onClick={() => setShowLabels(!showLabels)}
-                        title={showLabels ? 'Hide Labels' : 'Show Labels'}
+                        title={showLabels ? 'Collapse to Icons' : 'Expand with Labels'}
                     >
-                        <span className="stats-toggle-icon">{showLabels ? ' - ' : 'â¶'}</span>
+                        <i className={`fas ${showLabels ? 'fa-angles-left' : 'fa-angles-right'}`}></i>
                     </button>
                     {Object.entries(statGroups).map(([key, group]) => (
                         <button

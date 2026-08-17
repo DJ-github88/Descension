@@ -31,13 +31,58 @@ export default function RulesPage() {
     }
   }, []);
 
+  // Subcategory label: rules.json uses `name`; `title` kept for legacy string data.
+  const getSubTitle = (sub) => sub?.name || sub?.title || '';
+
+  // Build searchable text from either content shape (string or object).
+  const subSearchText = (sub) => {
+    const label = getSubTitle(sub);
+    const c = sub?.content;
+    if (!c) return label;
+    if (typeof c === 'string') return `${label} ${c}`;
+    const sections = (c.sections || [])
+      .map(s => `${s.title || ''} ${typeof s.content === 'string' ? s.content : ''}`)
+      .join(' ');
+    return `${label} ${c.title || ''} ${c.description || ''} ${sections}`;
+  };
+
   const allSubcategories = getAllSubcategories();
   const filteredSubcategories = searchQuery
     ? allSubcategories.filter(sub =>
-        sub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sub.content.toLowerCase().includes(searchQuery.toLowerCase())
+        subSearchText(sub).toLowerCase().includes(searchQuery.toLowerCase())
       )
     : null;
+
+  // Render article body from either content shape:
+  // - string: paragraph blocks split on blank lines
+  // - object: { title, description, sections: [{ title, content }], tables: [...] }
+  const renderSubcatContent = (sub) => {
+    const content = sub?.content;
+    if (!content) {
+      return <div className="rules-empty">No content available for this topic.</div>;
+    }
+    if (typeof content === 'string') {
+      return content.split('\n\n').map((paragraph, idx) => <p key={idx}>{paragraph}</p>);
+    }
+    const nodes = [];
+    if (content.description) {
+      nodes.push(<p key="lead" className="article-lead">{content.description}</p>);
+    }
+    (content.sections || []).forEach((sec, i) => {
+      if (sec.type === 'rotating-tips') return;
+      if (sec.title) nodes.push(<h3 key={`sec-title-${i}`}>{sec.title}</h3>);
+      if (typeof sec.content === 'string' && sec.content) {
+        sec.content.split('\n\n').forEach((paragraph, j) => (
+          nodes.push(<p key={`sec-p-${i}-${j}`}>{paragraph}</p>)
+        ));
+      }
+    });
+    (content.tables || []).forEach((table, i) => {
+      if (table.title) nodes.push(<h3 key={`table-title-${i}`}>{table.title}</h3>);
+      if (table.description) nodes.push(<p key={`table-desc-${i}`}>{table.description}</p>);
+    });
+    return nodes;
+  };
 
   return (
     <div className="rules-page-container">
@@ -82,7 +127,7 @@ export default function RulesPage() {
                     setSearchQuery('');
                   }}
                 >
-                  {sub.title}
+                  {getSubTitle(sub)}
                 </button>
               ))}
             </div>
@@ -97,7 +142,7 @@ export default function RulesPage() {
                       className={`subcat-btn ${selectedSubcat?.id === sub.id ? 'active' : ''}`}
                       onClick={() => setSelectedSubcat(sub)}
                     >
-                      {sub.title}
+                      {getSubTitle(sub)}
                     </button>
                   ))}
                 </div>
@@ -109,11 +154,9 @@ export default function RulesPage() {
         <main className="rules-content-view">
           {selectedSubcat ? (
             <article className="rules-article">
-              <h2 className="article-title">{selectedSubcat.title}</h2>
+              <h2 className="article-title">{getSubTitle(selectedSubcat)}</h2>
               <div className="article-body">
-                {selectedSubcat.content.split('\n\n').map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
-                ))}
+                {renderSubcatContent(selectedSubcat)}
               </div>
             </article>
           ) : (

@@ -745,7 +745,23 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    specialization: "universal",
    typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Utility/Utility" },
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 40, areaSize: 25 },
-   resourceCost: { actionPoints: 1, mana: 0 },
+   durationConfig: { durationType: "rounds", duration: 1 },
+   resourceCost: { actionPoints: 1, mana: 0, components: ["somatic"], somaticText: "Hurl the petrified ironwood seed casing with a sharp wrist-snap" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "distract",
+    selectedEffects: [
+     {
+      id: "mist_decoy_distract",
+      name: "Distraction Decoy",
+      description: "Emits the clicking sound of a wounded mist-beetle up to 40 ft away.",
+      mechanicsText: "Guards and enemies within 25 ft must make a Perception check or turn to face the sound for 1 round, breaking alert vision cones."
+     }
+    ],
+    duration: 1,
+    durationUnit: "rounds",
+    power: "minor"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility", "stealth", "decoy", "distract", "apex"]
   },
@@ -760,7 +776,23 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
    specialization: "universal",
    typeConfig: { castTime: 1, castTimeType: "IMMEDIATE", school: "smashing", icon: "Utility/Hide" },
    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
-   resourceCost: { actionPoints: 1, mana: 0 },
+   durationConfig: { durationType: "minutes", duration: 10 },
+   resourceCost: { actionPoints: 1, mana: 0, components: ["somatic"], somaticText: "Trace a dusting of frost or soil over your party's boots" },
+   resolution: "NONE",
+   utilityConfig: {
+    utilityType: "stealth",
+    selectedEffects: [
+     {
+      id: "silent_footsteps_buff",
+      name: "Silent Footsteps",
+      description: "Masks party footsteps, scent, and rustle in dense fog or snow.",
+      mechanicsText: "Grants party +5 to Stealth checks for 10 minutes."
+     }
+    ],
+    duration: 10,
+    durationUnit: "minutes",
+    power: "minor"
+   },
    cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
    tags: ["utility", "stealth", "party", "apex"]
   },

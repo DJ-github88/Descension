@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, Suspense } from 'react';
+import React, { useCallback, useEffect, useRef, useState, Suspense } from 'react';
 import lazy from './utils/lazyWithRetry';
 import { shouldReduceMotion } from './utils/accessibility';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ import useGameStore from "./store/gameStore";
 import useConditionStore from "./store/conditionStore";
 import useWindowManagerStore from "./store/windowManagerStore";
 import useTargetingStore from "./store/targetingStore";
+import useNotificationStore from "./store/notificationStore";
+import { useIsPhone } from "./hooks/useIsPhone";
 import useIdleDetection from "./hooks/useIdleDetection";
 import useSessionManagement from "./hooks/useSessionManagement";
 import { initializeOfflineSupport } from "./services/offlineService";
@@ -277,6 +279,32 @@ const WorldMapRouteInner = () => {
       }}
     />
   );
+};
+
+// Route-level guard: phones cannot enter the VTT grid or the multiplayer
+// lobby. The landing buttons are also disabled for phones, but this closes
+// every other entry point (direct URLs, RoomManager joins, social invites).
+const PhoneGate = ({ featureName, children }) => {
+  const isPhone = useIsPhone();
+  const showNotification = useNotificationStore(state => state.showNotification);
+  const hasNotified = useRef(false);
+
+  useEffect(() => {
+    if (isPhone && !hasNotified.current) {
+      hasNotified.current = true;
+      showNotification({
+        type: 'warning',
+        title: 'Larger screen required',
+        message: `${featureName} is designed for tablets and desktops. Character creation, rules, and the world map remain fully available on your phone.`,
+        duration: 8000
+      });
+    }
+  }, [isPhone, featureName, showNotification]);
+
+  if (isPhone) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
 };
 
 function GameScreen() {
@@ -794,9 +822,6 @@ function GameScreen() {
           <ErrorBoundary name="Dialogue">
             <DialogueSystem />
             {isGMMode && <DialogueControls />}
-          </ErrorBoundary>
-          <ErrorBoundary name="DiceRolling">
-            <DiceRollingSystem />
           </ErrorBoundary>
           <ErrorBoundary name="AudioPlayerWidget">
             <AudioPlayerWidget />
@@ -1354,32 +1379,36 @@ const AppContent = ({
 
         {/* Game routes */}
         <Route path="/game" element={
-          <div className="spell-wizard-container">
-            <GameScreen />
-            <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
-              <Navigation
-                onReturnToLanding={handleReturnToLandingWithNavigation}
-                onShowLogin={handleShowLogin}
-                onShowUserProfile={handleShowUserProfile}
-                isAuthenticated={isAuthenticated}
-                user={user}
-              />
-            </Suspense>
-          </div>
+          <PhoneGate featureName="The tactical grid">
+            <div className="spell-wizard-container">
+              <GameScreen />
+              <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
+                <Navigation
+                  onReturnToLanding={handleReturnToLandingWithNavigation}
+                  onShowLogin={handleShowLogin}
+                  onShowUserProfile={handleShowUserProfile}
+                  isAuthenticated={isAuthenticated}
+                  user={user}
+                />
+              </Suspense>
+            </div>
+          </PhoneGate>
         } />
 
         <Route path="/multiplayer/:roomCode?" element={
-          <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
-            <ErrorBoundary name="MultiplayerApp">
-              <MultiplayerApp
-                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                onShowLogin={handleShowLogin}
-                onShowUserProfile={handleShowUserProfile}
-                isAuthenticated={isAuthenticated}
-                user={user}
-              />
-            </ErrorBoundary>
-          </Suspense>
+          <PhoneGate featureName="Online play">
+            <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
+              <ErrorBoundary name="MultiplayerApp">
+                <MultiplayerApp
+                  onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                  onShowLogin={handleShowLogin}
+                  onShowUserProfile={handleShowUserProfile}
+                  isAuthenticated={isAuthenticated}
+                  user={user}
+                />
+              </ErrorBoundary>
+            </Suspense>
+          </PhoneGate>
         } />
 
         {/* Privacy Policy - public, no auth required */}
@@ -1484,6 +1513,13 @@ const AppContent = ({
         isOpen={showUserProfile}
         onClose={handleCloseUserProfile}
       />
+
+      {/* Global 3D Dice Rolling System */}
+      <Suspense fallback={null}>
+        <ErrorBoundary name="DiceRolling">
+          <DiceRollingSystem hideSelectionBar={!isGameRoute} />
+        </ErrorBoundary>
+      </Suspense>
 
       {/* Level-Up Choice Modal */}
       <LevelUpChoiceModalWrapper />

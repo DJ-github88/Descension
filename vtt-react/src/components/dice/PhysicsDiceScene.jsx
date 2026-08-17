@@ -1810,8 +1810,37 @@ const PhysicsDiceScene = ({
       world.addBody(body);
       scene.add(diceObj.group);
 
-      const startX = (Math.random() - 0.5) * boundX * 0.6;
-      const startZ = (Math.random() - 0.5) * boundZ * 0.6;
+      const rollCtx = useDiceStore.getState().rollContext;
+      const throwPower = typeof rollCtx?.throwPower === 'number' ? Math.max(0.5, Math.min(2.8, rollCtx.throwPower)) : 1.0;
+
+      let startX = (Math.random() - 0.5) * boundX * 0.6;
+      let startZ = (Math.random() - 0.5) * boundZ * 0.6;
+      let dirX = 0;
+      let dirZ = 0;
+
+      const hasAim = rollCtx?.throwDirection && (Math.abs(rollCtx.throwDirection.x) > 0.05 || Math.abs(rollCtx.throwDirection.z) > 0.05);
+
+      if (hasAim) {
+        const dLen = Math.hypot(rollCtx.throwDirection.x, rollCtx.throwDirection.z) || 1;
+        const normAimX = rollCtx.throwDirection.x / dLen;
+        const normAimZ = rollCtx.throwDirection.z / dLen;
+        // Start on the side opposite to aim direction
+        startX = -normAimX * (boundX * 0.32) + (Math.random() - 0.5) * 1.5;
+        startZ = -normAimZ * (boundZ * 0.32) + (Math.random() - 0.5) * 1.5;
+        // Direction follows aim with realistic minor spread
+        const spread = (Math.random() - 0.5) * 0.2;
+        dirX = normAimX + spread;
+        dirZ = normAimZ + spread;
+      } else {
+        const landX = (Math.random() - 0.5) * boundX * 1.2;
+        const landZ = (Math.random() - 0.5) * boundZ * 1.2;
+        const dx = landX - startX;
+        const dz = landZ - startZ;
+        const dist = Math.sqrt(dx * dx + dz * dz) || 1;
+        dirX = dx / dist;
+        dirZ = dz / dist;
+      }
+
       body.position.set(
         startX,
         6 + Math.random() * 2 + index * 0.8,
@@ -1819,22 +1848,18 @@ const PhysicsDiceScene = ({
       );
       body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
 
-      const landX = (Math.random() - 0.5) * boundX * 1.2;
-      const landZ = (Math.random() - 0.5) * boundZ * 1.2;
-      const dx = landX - startX;
-      const dz = landZ - startZ;
-      const dist = Math.sqrt(dx * dx + dz * dz) || 1;
-
-      const throwForce = 8 + Math.random() * 5;
+      const baseForce = 8 + Math.random() * 5;
+      const throwForce = baseForce * throwPower;
       body.velocity.set(
-        (dx / dist) * throwForce,
-        -2 - Math.random() * 2,
-        (dz / dist) * throwForce
+        dirX * throwForce,
+        (-2 - Math.random() * 2) * Math.sqrt(throwPower),
+        dirZ * throwForce
       );
+      const spinForce = 25 * throwPower;
       body.angularVelocity.set(
-        (Math.random() - 0.5) * 25,
-        (Math.random() - 0.5) * 25,
-        (Math.random() - 0.5) * 25
+        (Math.random() - 0.5) * spinForce,
+        (Math.random() - 0.5) * spinForce,
+        (Math.random() - 0.5) * spinForce
       );
 
       activeDiceRef.current.push({

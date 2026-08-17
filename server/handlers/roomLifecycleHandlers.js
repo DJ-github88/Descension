@@ -295,9 +295,10 @@ function registerRoomHandlers(ctx) {
         playerId = uuidv4();
       }
 
-      if (!isGMReclaim && !isPlayerReclaim && joiningUserId) {
+      if (!isGMReclaim && !isPlayerReclaim) {
         const currentPlayers = Object.values(room.players || {}).filter(p => !p.isGM).length;
-        const tierCheck = await canJoinRoom(joiningUserId, currentPlayers, room.maxPlayers);
+        const roomMaxCapacity = room.settings?.maxPlayers || room.maxPlayers || 6;
+        const tierCheck = await canJoinRoom(joiningUserId, currentPlayers, roomMaxCapacity);
         if (!tierCheck.allowed) {
           logger.info('[join_room] Tier check failed', { joiningUserId, reason: tierCheck.reason });
           socket.emit('room_error', { error: tierCheck.reason });

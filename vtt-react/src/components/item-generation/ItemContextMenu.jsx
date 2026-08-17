@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
+import useInventoryStore from '../../store/inventoryStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import DurabilityAdjustModal from './DurabilityAdjustModal';
@@ -148,6 +149,19 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
 
     // Build menu items array for UnifiedContextMenu
     const menuItems = [];
+
+    // Add to Inventory
+    menuItems.push({
+        icon: <i className="fas fa-box-open"></i>,
+        label: 'Add to Inventory',
+        onClick: () => {
+            const currentItem = item || items.find(i => i.id === itemId);
+            if (currentItem) {
+                useInventoryStore.getState().addItemFromLibrary(currentItem, { quantity: 1 });
+            }
+            onClose();
+        }
+    });
 
     // Edit Item
     menuItems.push({

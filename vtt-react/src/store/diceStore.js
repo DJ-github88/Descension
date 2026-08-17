@@ -5,21 +5,21 @@ import useAuthStore from './authStore';
 import { checkDiceRollRateLimit } from '../utils/validationUtils';
 
 export const DICE_TYPES = {
-  d4: { id: 'd4', name: 'D4', sides: 4, icon: '🔺', color: '#ff6b6b', geometry: 'tetrahedron' },
-  d6: { id: 'd6', name: 'D6', sides: 6, icon: '⚀', color: '#4ecdc4', geometry: 'box' },
-  d8: { id: 'd8', name: 'D8', sides: 8, icon: '🔸', color: '#45b7d1', geometry: 'octahedron' },
-  d10: { id: 'd10', name: 'D10', sides: 10, icon: '🔟', color: '#96ceb4', geometry: 'pentagonal_trapezohedron' },
-  d12: { id: 'd12', name: 'D12', sides: 12, icon: '🔷', color: '#feca57', geometry: 'dodecahedron' },
-  d20: { id: 'd20', name: 'D20', sides: 20, icon: '⚀', color: '#ff9ff3', geometry: 'icosahedron' },
-  dpercent: { id: 'dpercent', name: 'D%', sides: 10, icon: '0️⃣', color: '#a29bfe', geometry: 'percentile_trapezohedron' },
-  d100: { id: 'd100', name: 'D100', sides: 100, icon: '💯', color: '#54a0ff', geometry: 'percentile_pair' },
+  d4: { id: 'd4', name: 'D4', sides: 4, icon: 'fas fa-caret-up', color: '#ff6b6b', geometry: 'tetrahedron' },
+  d6: { id: 'd6', name: 'D6', sides: 6, icon: 'fas fa-dice-d6', color: '#4ecdc4', geometry: 'box' },
+  d8: { id: 'd8', name: 'D8', sides: 8, icon: 'fas fa-gem', color: '#45b7d1', geometry: 'octahedron' },
+  d10: { id: 'd10', name: 'D10', sides: 10, icon: 'fas fa-diamond', color: '#96ceb4', geometry: 'pentagonal_trapezohedron' },
+  d12: { id: 'd12', name: 'D12', sides: 12, icon: 'fas fa-cube', color: '#feca57', geometry: 'dodecahedron' },
+  d20: { id: 'd20', name: 'D20', sides: 20, icon: 'fas fa-dice-d20', color: '#ff9ff3', geometry: 'icosahedron' },
+  dpercent: { id: 'dpercent', name: 'D%', sides: 10, icon: 'fas fa-percent', color: '#a29bfe', geometry: 'percentile_trapezohedron' },
+  d100: { id: 'd100', name: 'D100', sides: 100, icon: 'fas fa-coins', color: '#54a0ff', geometry: 'percentile_pair' },
 };
 
 export const DICE_PRESETS = {
   classic: {
     id: 'classic',
-    name: 'Classic',
-    icon: '� - �',
+    name: 'Classic Obsidian',
+    icon: 'fas fa-dice-d20',
     bodyColor: '#1a0f30',
     edgeColor: '#dbb85c',
     numberColor: '#dbb85c',
@@ -37,8 +37,8 @@ export const DICE_PRESETS = {
   },
   frozen: {
     id: 'frozen',
-    name: 'Frozen',
-    icon: '❄',
+    name: 'Glacial Frost',
+    icon: 'fas fa-snowflake',
     bodyColor: '#0d2847',
     edgeColor: '#6ec6ff',
     numberColor: '#b0e0ff',
@@ -58,8 +58,8 @@ export const DICE_PRESETS = {
   },
   fiery: {
     id: 'fiery',
-    name: 'Fiery',
-    icon: '🔥',
+    name: 'Infernal Flame',
+    icon: 'fas fa-fire',
     bodyColor: '#3d1200',
     edgeColor: '#ff7733',
     numberColor: '#ffcc55',
@@ -79,8 +79,8 @@ export const DICE_PRESETS = {
   },
   dark: {
     id: 'dark',
-    name: 'Dark Silence',
-    icon: '🌑',
+    name: 'Abyssal Void',
+    icon: 'fas fa-moon',
     bodyColor: '#120024',
     edgeColor: '#aa55cc',
     numberColor: '#cc88ee',
@@ -100,8 +100,8 @@ export const DICE_PRESETS = {
   },
   nature: {
     id: 'nature',
-    name: 'Nature',
-    icon: '🌿',
+    name: 'Verdant Sylvan',
+    icon: 'fas fa-leaf',
     bodyColor: '#143a14',
     edgeColor: '#55cc44',
     numberColor: '#99ee66',
@@ -121,8 +121,8 @@ export const DICE_PRESETS = {
   },
   storm: {
     id: 'storm',
-    name: 'Storm',
-    icon: '⚡',
+    name: 'Tempest Storm',
+    icon: 'fas fa-bolt',
     bodyColor: '#14143a',
     edgeColor: '#7799ff',
     numberColor: '#aaccff',

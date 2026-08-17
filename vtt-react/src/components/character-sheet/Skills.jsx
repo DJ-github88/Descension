@@ -11,6 +11,8 @@ import { showAchievementNotification } from '../../utils/achievementNotification
 import usePresenceStore from '../../store/presenceStore';
 import useSettingsStore from '../../store/settingsStore';
 import useDiceStore from '../../store/diceStore';
+import ChargeableRollButton from '../dice/ChargeableRollButton';
+import DiceThemeSelector from '../dice/DiceThemeSelector';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 
 import '../../styles/skills.css';
@@ -510,8 +512,8 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         'double-disadvantage': 3,
     };
 
-    // Simple skill roll: trigger 3D physical dice rolling
-    const rollSimpleSkill = (skill, skillId) => {
+    // Simple skill roll: trigger 3D physical dice rolling with velocity
+    const rollSimpleSkill = (skill, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
         const rank = getSkillRank(skillId);
         const dieSize = DIE_SIZE_MAP[rank.key];
         const dieType = `d${dieSize}`;
@@ -527,12 +529,14 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
             skillName: skill.name,
             rollType: 'simple',
             dieSize,
-            mode
+            mode,
+            throwPower,
+            throwDirection
         });
     };
 
-    // Roll on a skill table: trigger 3D physical dice rolling
-    const rollSkillTable = (skill, skillId) => {
+    // Roll on a skill table: trigger 3D physical dice rolling with velocity
+    const rollSkillTable = (skill, skillId, throwPower = 1.0, throwDirection = { x: 0, z: 0 }) => {
         const rank = getSkillRank(skillId);
         const isWeaponMastery = (skillId || selectedSkill) === 'weaponMastery';
         const dieKey = isWeaponMastery ? 'd8' : selectedDie;
@@ -551,7 +555,9 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
             tableId,
             dieKey,
             weaponType: selectedWeaponType,
-            mode
+            mode,
+            throwPower,
+            throwDirection
         });
     };
 
@@ -685,12 +691,14 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                                     ))}
                                 </select>
                                 {renderRollModeToggle(selectedSkill)}
-                                <button
+                                <DiceThemeSelector compact={true} />
+                                <ChargeableRollButton
                                     className="roll-table-btn skill-simple-roll"
-                                    onClick={() => rollSimpleSkill(skill, selectedSkill)}
+                                    onRoll={(power, dir) => rollSimpleSkill(skill, selectedSkill, power, dir)}
+                                    title="Click or Hold & Release to throw dice with velocity"
                                 >
                                     <i className="fas fa-dice-d20"></i> ROLL
-                                </button>
+                                </ChargeableRollButton>
                             </div>
                         </div>
                     </div>
@@ -736,12 +744,14 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                         {(skill.rollableTable || skill.rollableTables) && (
                             <div className="skill-table-controls">
                                 {renderRollModeToggle(selectedSkill)}
-                                <button
+                                <DiceThemeSelector compact={true} />
+                                <ChargeableRollButton
                                     className="roll-table-btn"
-                                    onClick={() => rollSkillTable(skill, selectedSkill)}
+                                    onRoll={(power, dir) => rollSkillTable(skill, selectedSkill, power, dir)}
+                                    title="Click or Hold & Release to throw dice with velocity"
                                 >
                                     <i className="fas fa-dice"></i> Roll
-                                </button>
+                                </ChargeableRollButton>
                             </div>
                         )}
                     </div>
@@ -1016,7 +1026,9 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
                     onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                     title={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
                 >
-                    <span className="skills-toggle-icon">{sidebarCollapsed ? '▶' : '� - �'}</span>
+                    <span className="skills-toggle-icon">
+                        <i className={sidebarCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
+                    </span>
                 </button>
                 {!sidebarCollapsed && (
                     <div className="skills-search-container">

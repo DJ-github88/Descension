@@ -5,44 +5,44 @@ import { auth, db, isFirebaseConfigured } from '../config/firebase';
 // Players always SEE whatever the GM creates/broadcasts regardless of their own tier.
 // Tier restrictions only limit: data storage, tool access, and creation capabilities.
 const TIER_FEATURE_FLAGS = {
-	dynamicFog: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	dynamicLighting: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	atmosphericEffects: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	portalSystem: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	travelSystem: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	gmNotes: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	memorySnapshots: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	campaignManagerFull: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	questSharing: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	journalFull: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	customRollableTables: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	earlyAccess: { PRO: true, ULTIMATE: true, MYTHIC: true },
-	analytics: { ULTIMATE: true, MYTHIC: true },
-	customRoomThemes: { ULTIMATE: true, MYTHIC: true },
+	dynamicFog: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	dynamicLighting: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	atmosphericEffects: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	portalSystem: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	travelSystem: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	gmNotes: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	memorySnapshots: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	campaignManagerFull: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	questSharing: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	journalFull: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	customRollableTables: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	earlyAccess: { PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	analytics: { ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	customRoomThemes: { ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
 	campaignPublishing: { ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
 	campaignDownloading: { ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
 	customMaps: { ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
-	communitySharing: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	friendsList: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	autoBackups: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	roomCreation: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	gmTools: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	spellCrafting: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	creatureCreation: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	itemGeneration: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	combatSystem: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	diceRolling: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	basicMapEditor: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	staticFog: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	cloudSave: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	globalChat: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	localRooms: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	joinRooms: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	roomChat: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	rollableTablesPreset: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	journalBasic: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	campaignManagerBasic: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true },
-	jukebox: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true }
+	communitySharing: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	friendsList: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	autoBackups: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	roomCreation: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	gmTools: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	spellCrafting: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	creatureCreation: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	itemGeneration: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	combatSystem: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	diceRolling: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	basicMapEditor: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	staticFog: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	cloudSave: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	globalChat: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	localRooms: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	joinRooms: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	roomChat: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	rollableTablesPreset: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	journalBasic: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	campaignManagerBasic: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true },
+	jukebox: { FREE: true, PRO: true, ULTIMATE: true, MYTHIC: true, DEV_PREVIEW: true }
 };
 
 export function canUseFeature(featureName, tierKey) {
@@ -54,12 +54,12 @@ export function canUseFeature(featureName, tierKey) {
 export function getRequiredTierForFeature(featureName) {
 	const flags = TIER_FEATURE_FLAGS[featureName];
 	if (!flags) return null;
-	const tiers = Object.keys(flags);
-	if (tiers.includes('FREE')) return 'FREE';
-	if (tiers.includes('PRO')) return 'PRO';
-	if (tiers.includes('ULTIMATE')) return 'ULTIMATE';
-	if (tiers.includes('MYTHIC')) return 'MYTHIC';
-	return tiers[0] || null;
+	if (flags.GUEST && !flags.FREE) return 'GUEST';
+	if (flags.FREE) return 'FREE';
+	if (flags.PRO) return 'PRO';
+	if (flags.ULTIMATE) return 'ULTIMATE';
+	if (flags.MYTHIC) return 'MYTHIC';
+	return 'FREE';
 }
 
 export function isCustomMapsTier(tierKey) {

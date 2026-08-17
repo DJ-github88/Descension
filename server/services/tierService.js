@@ -79,11 +79,12 @@ async function canCreateRoom(userId, currentRoomCount) {
 }
 
 async function canJoinRoom(userId, currentPlayers, maxPlayers) {
-  const { limits } = await getUserTier(userId);
-  const effectiveMax = Math.min(maxPlayers || 6, limits.maxPlayersPerRoom);
+  // Room capacity is configured by the GM/host.
+  // Any player (guest, free, pro, ultimate, mythic) can join as long as the room has not reached capacity.
+  const effectiveMax = maxPlayers && maxPlayers > 0 ? maxPlayers : 6;
 
   if (currentPlayers >= effectiveMax) {
-    return { allowed: false, reason: `Room is full (max ${effectiveMax} players for your tier)` };
+    return { allowed: false, reason: `Room is full (max ${effectiveMax} players)` };
   }
 
   return { allowed: true, effectiveMax };

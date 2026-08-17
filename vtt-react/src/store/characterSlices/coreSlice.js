@@ -1,7 +1,8 @@
 import { getStore } from '../storeRegistry';
 import { initializeClassResource } from '../../data/classResources';
-import { getFullRaceData, getRaceData } from '../../data/raceData';
+import { getFullRaceData, getRaceData, RACE_DATA } from '../../data/raceData';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
+import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import characterPersistenceService from '../../services/firebase/characterPersistenceService';
 import characterSessionService from '../../services/firebase/characterSessionService';
 import characterMigrationService from '../../services/firebase/characterMigrationService';
@@ -11,23 +12,69 @@ import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
 
-const TEST_RACES = [
-    { race: 'human', subrace: 'thalren_human', raceDisplayName: 'Thalren (Human)' },
-    { race: 'human', subrace: 'skald_human', raceDisplayName: 'Skald (Human)' },
-    { race: 'mimir', subrace: 'mimir', raceDisplayName: 'Mimir' },
-    { race: 'groven', subrace: 'groven', raceDisplayName: 'Groven' },
-    { race: 'solari', subrace: 'solari', raceDisplayName: 'Solari' },
-    { race: 'florae', subrace: 'florae', raceDisplayName: 'Florae' },
-    { race: 'astril', subrace: 'astril', raceDisplayName: 'Astril' },
-    { race: 'neth', subrace: 'neth', raceDisplayName: 'Neth' },
-];
-
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
     'Revenant', 'Chronarch', 'False Prophet', 'Gambit', 'Apex',
     'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend',
     'Spellguard', 'Toxicologist', 'Warden', 'Augur', 'Animist'
 ];
+
+function getRandomRaceAndSubrace() {
+    try {
+        const raceKeys = Object.keys(RACE_DATA || {});
+        if (raceKeys.length > 0) {
+            const randomRaceKey = raceKeys[Math.floor(Math.random() * raceKeys.length)];
+            const raceObj = RACE_DATA[randomRaceKey];
+            if (raceObj && raceObj.subraces) {
+                const subracesList = Object.values(raceObj.subraces);
+                if (subracesList.length > 0) {
+                    const subraceObj = subracesList[Math.floor(Math.random() * subracesList.length)];
+                    return {
+                        race: raceObj.id,
+                        subrace: subraceObj.id,
+                        raceDisplayName: `${subraceObj.name} (${raceObj.name})`
+                    };
+                }
+            }
+        }
+    } catch (e) {
+        console.warn('Error picking random race/subrace:', e);
+    }
+    return { race: 'human', subrace: 'thalren_human', raceDisplayName: 'Thalren (Human)' };
+}
+
+function generateStartingClassSpells(characterClass, level = 1) {
+    try {
+        const targetCount = 3 + Math.max(0, level - 1);
+        const available = ALL_CLASS_SPELLS?.[characterClass] || [];
+        if (!available || available.length === 0) return [];
+
+        const eligible = available.filter(s => (s.level || 1) <= level);
+        const level1Spells = eligible.filter(s => (s.level || 1) === 1);
+        const higherSpells = eligible.filter(s => (s.level || 1) > 1);
+
+        const selected = [];
+        // Pick up to 3 level 1 spells
+        if (level1Spells.length > 0) {
+            const shuffledL1 = [...level1Spells].sort(() => Math.random() - 0.5);
+            selected.push(...shuffledL1.slice(0, Math.min(3, targetCount)));
+        }
+
+        // Pick remaining up to targetCount from higher and eligible spells
+        const remainingNeeded = targetCount - selected.length;
+        if (remainingNeeded > 0) {
+            const selectedSet = new Set(selected.map(s => s.id));
+            const remainingPool = [...higherSpells, ...level1Spells].filter(s => !selectedSet.has(s.id));
+            const sortedPool = remainingPool.sort((a, b) => (b.level || 1) - (a.level || 1));
+            selected.push(...sortedPool.slice(0, remainingNeeded));
+        }
+
+        return selected.map(s => s.id);
+    } catch (e) {
+        console.warn('Error generating starting class spells:', e);
+        return [];
+    }
+}
 
 const TEST_FIRST_NAMES = [
     'Kael', 'Theron', 'Lyra', 'Vex', 'Sylas', 'Aria', 'Dain', 'Nyx',
@@ -66,7 +113,7 @@ function generatePlaceholderCharacter(userId) {
     const firstName = TEST_FIRST_NAMES[Math.floor(Math.random() * TEST_FIRST_NAMES.length)];
     const lastName = TEST_LAST_NAMES[Math.floor(Math.random() * TEST_LAST_NAMES.length)];
     const name = `${firstName} ${lastName}`;
-    const raceData = TEST_RACES[Math.floor(Math.random() * TEST_RACES.length)];
+    const raceData = getRandomRaceAndSubrace();
     const characterClass = TEST_CLASSES[Math.floor(Math.random() * TEST_CLASSES.length)];
     const level = Math.floor(Math.random() * 5) + 1; // Level 1-5
 
@@ -115,6 +162,8 @@ function generatePlaceholderCharacter(userId) {
     // Inventory: put the extra consumables in the bag (equipped weapon/armor are separate)
     const inventoryItems = [...consumables];
 
+    const startingKnownSpells = generateStartingClassSpells(characterClass, level);
+
     return {
         id: `char_placeholder_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         userId,
@@ -146,7 +195,7 @@ function generatePlaceholderCharacter(userId) {
         abilities: [],
         skillRanks: {},
         talents: {},
-        class_spells: { known_spells: [] },
+        class_spells: { known_spells: startingKnownSpells },
         alignment: 'Neutral Good',
         lore: {
             background: '',
@@ -997,6 +1046,10 @@ export const createCoreSlice = (set, get) => ({
             // Force recalculation of HP/MP based on current stats
             get().recalculateResources();
 
+            // Ensure starter and progression spells are complete for character level
+            if (character.class && character.class !== 'Class') {
+                get().ensureClassStarterSpells(character.class);
+            }
 
             return character;
         }

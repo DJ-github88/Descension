@@ -10,7 +10,11 @@
 jest.mock('../../../config/firebase', () => ({
   db: {},
   isFirebaseConfigured: true,
-  isDemoMode: false
+  isDemoMode: false,
+  auth: {
+    currentUser: { uid: 'user-123', email: 'test@example.com' }
+  },
+  isMockOrDevUser: () => false
 }));
 
 jest.mock('../../../utils/firebaseUtils', () => ({

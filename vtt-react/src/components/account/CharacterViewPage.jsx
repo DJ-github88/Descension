@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
+import useInventoryStore from '../../store/inventoryStore';
 import { getSubraceData } from '../../data/raceData';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
 import CharacterPanel from '../character-sheet/CharacterPanel';
@@ -8,6 +9,13 @@ import CharacterStats from '../character-sheet/CharacterStats';
 import Skills from '../character-sheet/Skills';
 import Lore from '../character-sheet/Lore';
 import InventoryWindow from '../windows/InventoryWindow';
+import ItemLibrary from '../item-generation/ItemLibrary';
+import ItemGeneration from '../item-generation/ItemGeneration';
+import QuickItemGeneratorModal from '../item-generation/QuickItemGeneratorModal';
+import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
+import SpellActionBar from '../character-sheet/SpellActionBar';
+import DiceThemeSelector from '../dice/DiceThemeSelector';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
 
@@ -15,16 +23,18 @@ const CharacterViewPage = () => {
   const { characterId } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('character');
-  const [activeSubSection, setActiveSubSection] = useState('equipment');
+  const [activeLoreSection, setActiveLoreSection] = useState('identity');
+  const [activeInfoSection, setActiveInfoSection] = useState('equipment');
+  const [activeStatGroup, setActiveStatGroup] = useState('summary');
+  const [activeSkillCategory, setActiveSkillCategory] = useState('combat');
+  const [activeInventoryTab, setActiveInventoryTab] = useState('equipment'); // 'equipment' | 'library' | 'designer'
+  const [showItemWizardModal, setShowItemWizardModal] = useState(false);
+  const [selectedSkillId, setSelectedSkillId] = useState(null);
+  const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showSubSectionDropdown, setShowSubSectionDropdown] = useState(false);
-  const [showSkillDropdown, setShowSkillDropdown] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState(null);
-  const [openSkillCategories, setOpenSkillCategories] = useState({});
   const [openVialPopup, setOpenVialPopup] = useState(null); // 'health' | 'mana' | 'actionPoints' | 'exhaustion' | null
-  const subSectionRef = React.useRef(null);
-  const skillDropdownRef = React.useRef(null);
   const vialPopupRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -37,34 +47,6 @@ const CharacterViewPage = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openVialPopup]);
-
-  React.useEffect(() => {
-    if (!showSubSectionDropdown) return;
-    const handleClickOutside = (e) => {
-      if (subSectionRef.current && !subSectionRef.current.contains(e.target)) {
-        setShowSubSectionDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showSubSectionDropdown]);
-
-  React.useEffect(() => {
-    if (!showSkillDropdown) return;
-    const handleClickOutside = (e) => {
-      if (skillDropdownRef.current && !skillDropdownRef.current.contains(e.target)) {
-        setShowSkillDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showSkillDropdown]);
-
-  const subSections = {
-    equipment: { title: 'Equipment & Vitals', icon: 'fa-shield-alt' },
-    passives: { title: 'Passives', icon: 'fa-star' },
-    languages: { title: 'Languages', icon: 'fa-language' }
-  };
 
   const {
     characters,
@@ -125,42 +107,148 @@ const CharacterViewPage = () => {
   };
 
   const characterSections = {
+    lore: {
+      title: 'Lore',
+      icon: 'fas fa-book-open',
+      subSections: [
+        { id: 'identity', label: 'Identity & Origin', icon: 'fas fa-user' },
+        { id: 'personality', label: 'Demeanor & Conviction', icon: 'fas fa-smile' },
+        { id: 'appearance', label: 'Bearing & Aspect', icon: 'fas fa-user-circle' },
+        { id: 'relationships', label: 'Bonds & Adversaries', icon: 'fas fa-users' },
+        { id: 'goals', label: 'Purpose & Dread', icon: 'fas fa-bullseye' },
+        { id: 'heritage', label: 'Ancestry & Heritage', icon: 'fas fa-dna' },
+        { id: 'notes', label: 'Marginalia & Notes', icon: 'fas fa-sticky-note' }
+      ]
+    },
     character: {
-      title: 'Character',
-      icon: 'fa-user'
+      title: 'Info',
+      icon: 'fas fa-info-circle',
+      subSections: [
+        { id: 'equipment', label: 'Equipment & Vitals', icon: 'fas fa-shield-alt' },
+        { id: 'passives', label: 'Passives', icon: 'fas fa-star' },
+        { id: 'languages', label: 'Languages', icon: 'fas fa-globe' }
+      ]
     },
     stats: {
       title: 'Stats',
-      icon: 'fa-chart-bar'
+      icon: 'fas fa-chart-bar',
+      subSections: [
+        { id: 'summary', label: 'Character Summary', icon: 'fas fa-id-card' },
+        { id: 'base', label: 'Core Attributes', icon: 'fas fa-dumbbell' },
+        { id: 'combat', label: 'Combat Statistics', icon: 'fas fa-fist-raised' },
+        { id: 'spellpower', label: 'Spell Power', icon: 'fas fa-hat-wizard' },
+        { id: 'regeneration', label: 'Regeneration & Healing', icon: 'fas fa-heartbeat' },
+        { id: 'resistances', label: 'Damage Resistances', icon: 'fas fa-shield-alt' },
+        { id: 'immunities', label: 'Damage Immunities', icon: 'fas fa-shield-virus' },
+        { id: 'movement', label: 'Movement & Mobility', icon: 'fas fa-running' },
+        { id: 'utility', label: 'Utility & Senses', icon: 'fas fa-eye' },
+        { id: 'conditions', label: 'Condition Resistances', icon: 'fas fa-cross' },
+        { id: 'savingThrows', label: 'Saving Throws', icon: 'fas fa-dice-d20' }
+      ]
     },
     skills: {
       title: 'Skills',
-      icon: 'fa-book'
+      icon: 'fas fa-graduation-cap',
+      subSections: [
+        { id: 'combat', label: 'Combat Mastery', icon: 'fas fa-fist-raised' },
+        { id: 'exploration', label: 'Exploration & Survival', icon: 'fas fa-compass' },
+        { id: 'social', label: 'Social & Influence', icon: 'fas fa-users' },
+        { id: 'arcane', label: 'Arcane Studies', icon: 'fas fa-hat-wizard' }
+      ],
+      skillItems: {
+        combat: Object.entries(SKILL_DEFINITIONS)
+          .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.COMBAT.name)
+          .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-fist-raised' })),
+        exploration: Object.entries(SKILL_DEFINITIONS)
+          .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.EXPLORATION.name)
+          .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-compass' })),
+        social: Object.entries(SKILL_DEFINITIONS)
+          .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.SOCIAL.name)
+          .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-users' })),
+        arcane: Object.entries(SKILL_DEFINITIONS)
+          .filter(([_, skill]) => skill.category === SKILL_CATEGORIES.ARCANE.name)
+          .map(([id, skill]) => ({ id, label: skill.name, icon: 'fas fa-hat-wizard' }))
+      }
+    },
+    spells: {
+      title: 'Spells',
+      icon: 'fas fa-hat-wizard'
     },
     inventory: {
       title: 'Inventory',
-      icon: 'fa-box-open'
-    },
-    lore: {
-      title: 'Lore',
-      icon: 'fa-scroll'
+      icon: 'fas fa-box-open',
+      subSections: [
+        { id: 'equipment', label: 'Equipment & Bag', icon: 'fas fa-shield-halved' },
+        { id: 'library', label: 'Item Library', icon: 'fas fa-book' },
+        { id: 'designer', label: 'Item Designer & Creator', icon: 'fas fa-wand-magic-sparkles' }
+      ]
     }
   };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'character':
-        return <CharacterPanel activeSubSection={activeSubSection} setActiveSubSection={setActiveSubSection} />;
+        return <CharacterPanel activeSubSection={activeInfoSection} setActiveSubSection={setActiveInfoSection} />;
       case 'stats':
-        return <CharacterStats />;
+        return <CharacterStats selectedStatGroup={activeStatGroup} setSelectedStatGroup={setActiveStatGroup} />;
       case 'skills':
-        return <Skills selectedSkill={selectedSkill} setSelectedSkill={setSelectedSkill} />;
+        return <Skills selectedCategory={activeSkillCategory} selectedSkill={selectedSkillId} setSelectedSkill={setSelectedSkillId} />;
+      case 'spells':
+        return (
+          <div className="character-view-spells-tab">
+            <SpellLibraryProvider>
+              <SpellLibrary />
+            </SpellLibraryProvider>
+            <SpellActionBar characterId={characterId} />
+          </div>
+        );
       case 'inventory':
-        return <InventoryWindow />;
+        return (
+          <div className="character-view-inventory-wrapper">
+            <div className="inventory-subnav-bar">
+              <button
+                type="button"
+                className={`inventory-subnav-btn ${activeInventoryTab === 'equipment' ? 'active' : ''}`}
+                onClick={() => setActiveInventoryTab('equipment')}
+              >
+                <i className="fas fa-shield-halved"></i>
+                <span>Equipment & Bag</span>
+              </button>
+              <button
+                type="button"
+                className={`inventory-subnav-btn ${activeInventoryTab === 'library' ? 'active' : ''}`}
+                onClick={() => setActiveInventoryTab('library')}
+              >
+                <i className="fas fa-book"></i>
+                <span>Item Library</span>
+              </button>
+              <button
+                type="button"
+                className={`inventory-subnav-btn create-btn ${activeInventoryTab === 'designer' ? 'active' : ''}`}
+                onClick={() => setActiveInventoryTab('designer')}
+              >
+                <i className="fas fa-wand-magic-sparkles"></i>
+                <span>Item Designer & Creator</span>
+              </button>
+            </div>
+
+            {activeInventoryTab === 'equipment' && <InventoryWindow />}
+            {activeInventoryTab === 'library' && (
+              <div className="character-view-item-library-container">
+                <ItemLibrary contentOnly={true} />
+              </div>
+            )}
+            {activeInventoryTab === 'designer' && (
+              <div className="character-view-item-designer-container">
+                <ItemGeneration />
+              </div>
+            )}
+          </div>
+        );
       case 'lore':
-        return <Lore />;
+        return <Lore initialSection={activeLoreSection} key={activeLoreSection} />;
       default:
-        return <CharacterPanel activeSubSection={activeSubSection} setActiveSubSection={setActiveSubSection} />;
+        return <CharacterPanel activeSubSection={activeInfoSection} setActiveSubSection={setActiveInfoSection} />;
     }
   };
 
@@ -227,6 +315,11 @@ const CharacterViewPage = () => {
           </div>
 
           <div className="header-right-col">
+            <DiceThemeSelector compact={true} />
+            <div className="character-view-sync-chip" title="Changes auto-save to Firebase in real time">
+              <i className="fas fa-arrows-rotate"></i>
+              <span>Auto-saving</span>
+            </div>
             <button onClick={handleBack} className="back-button-compact" title="Back to Account">
               <i className="fas fa-arrow-left"></i>
             </button>
@@ -239,9 +332,9 @@ const CharacterViewPage = () => {
             <div className="resource-vial-bottle">
               <div className="resource-vial-fill" style={{ height: `${healthPct}%`, background: 'linear-gradient(180deg, rgba(255, 107, 107, 0.8) 0%, rgba(200, 50, 50, 0.9) 100%)' }}></div>
               <div className="resource-vial-bubbles hp-bubbles">
-                <span className="bubble">+</span>
-                <span className="bubble">+</span>
-                <span className="bubble">+</span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
               </div>
             </div>
             <span className="resource-vial-label">HP</span>
@@ -269,9 +362,9 @@ const CharacterViewPage = () => {
             <span className="resource-vial-value">{mana?.current || 0}/{mana?.max || 0}</span>
             <div className="resource-counter-desktop">
               <i className="fas fa-flask"></i>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.max(0, (mana?.current || 0) - 1), mana?.max || 1); }}>−</button>
+              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.max(0, (mana?.current || 0) - 1), health?.max || 1); }}>−</button>
               <span className="resource-counter-value">{mana?.current || 0} / {mana?.max || 0}</span>
-              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), mana?.max || 1); }}>+</button>
+              <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateResource('mana', Math.min(mana?.max || 100, (mana?.current || 0) + 1), health?.max || 1); }}>+</button>
             </div>
           </div>
 
@@ -280,9 +373,9 @@ const CharacterViewPage = () => {
             <div className="resource-vial-bottle">
               <div className="resource-vial-fill" style={{ height: `${apPct}%`, background: 'linear-gradient(180deg, rgba(255, 212, 59, 0.8) 0%, rgba(200, 150, 0, 0.9) 100%)' }}></div>
               <div className="resource-vial-bubbles ap-bubbles">
-                <span className="bubble">⚡</span>
-                <span className="bubble">⚡</span>
-                <span className="bubble">⚡</span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
               </div>
             </div>
             <span className="resource-vial-label">AP</span>
@@ -300,15 +393,15 @@ const CharacterViewPage = () => {
             <div className="resource-vial-bottle">
               <div className="resource-vial-fill" style={{ height: `${(exhaustionLevel / 6) * 100}%`, background: 'linear-gradient(180deg, rgba(160, 100, 200, 0.8) 0%, rgba(100, 50, 150, 0.9) 100%)' }} key={`exh-${exhaustionLevel}`}></div>
               <div className="resource-vial-bubbles exh-bubbles">
-                <span className="bubble">Z</span>
-                <span className="bubble">z</span>
-                <span className="bubble">Z</span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
+                <span className="bubble"></span>
               </div>
             </div>
             <span className="resource-vial-label">EXH</span>
             <span className="resource-vial-value">{exhaustionLevel}/6</span>
             <div className="resource-counter-desktop">
-              <i className="fas fa-tired"></i>
+              <i className="fas fa-face-tired"></i>
               <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateCharacterInfo('exhaustionLevel', Math.max(0, (exhaustionLevel || 0) - 1)); }}>−</button>
               <span className="resource-counter-value">Lvl {exhaustionLevel}</span>
               <button className="resource-adjust-btn" onClick={(e) => { e.stopPropagation(); updateCharacterInfo('exhaustionLevel', Math.min(6, (exhaustionLevel || 0) + 1)); }}>+</button>
@@ -318,17 +411,19 @@ const CharacterViewPage = () => {
 
         {/* Vial adjustment popup */}
         {openVialPopup && (
-          <div className="vial-popup-wrapper" ref={vialPopupRef}>
+          <div className={`vial-popup-wrapper popup-${openVialPopup}`} ref={vialPopupRef}>
             <div className="vial-popup">
               <div className="vial-popup-header">
                 <span className="vial-popup-title">
-                  {openVialPopup === 'health' && 'Health Points (HP)'}
-                  {openVialPopup === 'mana' && 'Mana Points (MP)'}
-                  {openVialPopup === 'actionPoints' && 'Action Points (AP)'}
-                  {openVialPopup === 'exhaustion' && 'Exhaustion (EXH)'}
-                  {openVialPopup === 'level' && 'Character Level'}
+                  {openVialPopup === 'health' && <><i className="fas fa-heart"></i> Health Points (HP)</>}
+                  {openVialPopup === 'mana' && <><i className="fas fa-flask"></i> Mana Points (MP)</>}
+                  {openVialPopup === 'actionPoints' && <><i className="fas fa-bolt"></i> Action Points (AP)</>}
+                  {openVialPopup === 'exhaustion' && <><i className="fas fa-face-tired"></i> Exhaustion (EXH)</>}
+                  {openVialPopup === 'level' && <><i className="fas fa-shield-halved"></i> Character Level</>}
                 </span>
-                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)}><i className="fas fa-times"></i></button>
+                <button className="vial-popup-close" onClick={() => setOpenVialPopup(null)} title="Close popup">
+                  <i className="fas fa-times"></i>
+                </button>
               </div>
 
               {/* Resource Descriptions & Exhaustion Breakdown */}
@@ -385,7 +480,7 @@ const CharacterViewPage = () => {
                 {openVialPopup === 'level' && (
                   <div className="vial-popup-info-body">
                     <p className="vial-popup-desc">Character Level determines proficiency bonus, stat scaling, and feature unlocks.</p>
-                    <div className="vial-popup-status-badge level-badge">Current Level {level || 1}</div>
+                    <div className="vial-popup-status-badge level-badge">Current Level: <strong>{level || 1}</strong></div>
                   </div>
                 )}
               </div>
@@ -422,14 +517,14 @@ const CharacterViewPage = () => {
                 {openVialPopup === 'exhaustion' && (
                   <>
                     <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.max(0, (exhaustionLevel || 0) - 1))}>-1</button>
-                    <button onClick={() => updateCharacterInfo('exhaustionLevel', 0)}>Reset (0)</button>
+                    <button onClick={() => updateCharacterInfo('exhaustionLevel', 0)} className="btn-reset">Reset (0)</button>
                     <button onClick={() => updateCharacterInfo('exhaustionLevel', Math.min(6, (exhaustionLevel || 0) + 1))}>+1</button>
                   </>
                 )}
                 {openVialPopup === 'level' && (
                   <>
                     <button onClick={() => updateCharacterInfo('level', Math.max(1, (level || 1) - 1))}>-1</button>
-                    <button onClick={() => updateCharacterInfo('level', 1)}>Reset (1)</button>
+                    <button onClick={() => updateCharacterInfo('level', 1)} className="btn-reset">Reset (1)</button>
                     <button onClick={() => updateCharacterInfo('level', Math.min(20, (level || 1) + 1))}>+1</button>
                   </>
                 )}
@@ -439,145 +534,123 @@ const CharacterViewPage = () => {
         )}
       </header>
 
-      {/* Tab Navigation: main tabs always visible as a row.
-          "Character" tab has a dropdown for sub-sections.
-          "Skills" tab has a dropdown for skill selection. */}
-      <nav className="character-view-tabs">
-        {Object.entries(characterSections).map(([key, section]) => {
-          if (key === 'character') {
+      {/* Tab Navigation Ribbon: responsive fantasy tabs with dropdowns */}
+      <nav className="character-view-tabs-ribbon">
+        <div className="character-view-tabs-track">
+          {Object.entries(characterSections).map(([key, section]) => {
+            const isActive = activeTab === key;
+            const isDropdownOpen = openDropdown === key;
+            const hasSubSections = Boolean(section.subSections);
+
             return (
-              <button
+              <div
                 key={key}
-                className={`character-view-tab ${activeTab === key ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveTab(key);
-                  setShowSubSectionDropdown(prev => !prev);
-                  setShowSkillDropdown(false);
-                }}
+                className={`char-tab-wrapper tab-${key}`}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                <i className={`fas ${section.icon}`}></i>
-                <span>{section.title}</span>
-                <i className={`fas fa-chevron-${showSubSectionDropdown ? 'up' : 'down'} tab-chevron`}></i>
-              </button>
-            );
-          }
-          if (key === 'skills') {
-            return (
-              <button
-                key={key}
-                className={`character-view-tab ${activeTab === key ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveTab(key);
-                  setShowSkillDropdown(prev => !prev);
-                  setShowSubSectionDropdown(false);
-                }}
-              >
-                <i className={`fas ${section.icon}`}></i>
-                <span>{section.title}</span>
-                <i className={`fas fa-chevron-${showSkillDropdown ? 'up' : 'down'} tab-chevron`}></i>
-              </button>
-            );
-          }
-          return (
-            <button
-              key={key}
-              className={`character-view-tab ${activeTab === key ? 'active' : ''}`}
-              onClick={() => {
-                setActiveTab(key);
-                setShowSubSectionDropdown(false);
-                setShowSkillDropdown(false);
-              }}
-            >
-              <i className={`fas ${section.icon}`}></i>
-              <span>{section.title}</span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* Sub-section dropdown: rendered outside the tabs nav to avoid overflow clipping */}
-      {showSubSectionDropdown && (
-        <div className="character-view-sub-dropdown-wrapper" ref={subSectionRef}>
-          <div className="character-view-sub-dropdown">
-            {Object.entries(subSections).map(([subKey, subSection]) => (
-              <button
-                key={subKey}
-                className={`character-view-sub-dropdown-item ${activeSubSection === subKey ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveSubSection(subKey);
-                  setActiveTab('character');
-                  setShowSubSectionDropdown(false);
-                }}
-              >
-                <i className={`fas ${subSection.icon}`}></i>
-                <span>{subSection.title}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Skill dropdown: grouped by categories */}
-      {showSkillDropdown && (
-        <div className="character-view-sub-dropdown-wrapper" ref={skillDropdownRef}>
-          <div className="character-view-sub-dropdown skill-header-dropdown">
-            <button
-              className="character-view-sub-dropdown-item view-all-skills-btn"
-              onClick={() => {
-                setSelectedSkill(null);
-                setActiveTab('skills');
-                setShowSkillDropdown(false);
-              }}
-            >
-              <i className="fas fa-th-list"></i>
-              <span>All Skills List</span>
-            </button>
-            {Object.entries(SKILL_CATEGORIES).map(([catKey, cat]) => {
-              const categorySkills = Object.entries(SKILL_DEFINITIONS)
-                .filter(([_, s]) => s.category === cat.name)
-                .map(([id, s]) => ({ id, ...s }));
-              const isExpanded = openSkillCategories[catKey] ?? true;
-
-              return (
-                <div key={catKey} className="skill-dropdown-category-group">
-                  <div
-                    className="skill-dropdown-category-header"
-                    onClick={() => {
-                      setOpenSkillCategories(prev => ({
-                        ...prev,
-                        [catKey]: !isExpanded
-                      }));
-                    }}
-                  >
-                    <i className="fas fa-layer-group"></i>
-                    <span>{cat.name}</span>
-                    <i className={`fas fa-chevron-${isExpanded ? 'up' : 'down'} dropdown-cat-chevron`}></i>
-                  </div>
-                  {isExpanded && (
-                    <div className="skill-dropdown-category-list">
-                      {categorySkills.map(skill => (
-                        <button
-                          key={skill.id}
-                          className={`character-view-sub-dropdown-item skill-sub-item ${selectedSkill === skill.id ? 'active' : ''}`}
-                          onClick={() => {
-                            setSelectedSkill(skill.id);
-                            setActiveTab('skills');
-                            setShowSkillDropdown(false);
-                          }}
-                        >
-                          <i className="fas fa-book-open"></i>
-                          <span>{skill.name}</span>
-                          <span className="skill-stat-tag">{skill.primaryStat?.substring(0, 3).toUpperCase()}</span>
-                        </button>
-                      ))}
-                    </div>
+                <button
+                  className={`char-tab-btn ${isActive ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveTab(key);
+                    if (hasSubSections) {
+                      setOpenDropdown(prev => prev === key ? null : key);
+                    } else {
+                      setOpenDropdown(null);
+                    }
+                  }}
+                  onMouseEnter={() => hasSubSections && setOpenDropdown(key)}
+                  aria-expanded={isDropdownOpen}
+                >
+                  <i className={`${section.icon} char-tab-icon`}></i>
+                  <span className="char-tab-label">{section.title}</span>
+                  {hasSubSections && (
+                    <i
+                      className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} char-tab-chevron`}
+                    />
                   )}
-                </div>
-              );
-            })}
-          </div>
+                </button>
+
+                {isDropdownOpen && section.subSections && (
+                  <div className="char-tab-dropdown-menu">
+                    {section.subSections.map(sub => {
+                      const hasNestedSkills = key === 'skills' && section.skillItems?.[sub.id];
+                      const isCategoryHovered = hoveredSkillCategory === sub.id;
+                      const isSubActive = activeTab === key && (
+                        (key === 'lore' && activeLoreSection === sub.id) ||
+                        (key === 'character' && activeInfoSection === sub.id) ||
+                        (key === 'stats' && activeStatGroup === sub.id) ||
+                        (key === 'skills' && activeSkillCategory === sub.id && (!selectedSkillId || !hasNestedSkills)) ||
+                        (key === 'inventory' && activeInventoryTab === sub.id)
+                      );
+
+                      return (
+                        <div
+                          key={sub.id}
+                          className="char-dropdown-item-wrapper"
+                          onMouseEnter={() => hasNestedSkills && setHoveredSkillCategory(sub.id)}
+                          onMouseLeave={() => hasNestedSkills && setHoveredSkillCategory(null)}
+                        >
+                          <button
+                            type="button"
+                            className={`char-dropdown-item ${isSubActive ? 'active' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveTab(key);
+                              if (key === 'lore') {
+                                setActiveLoreSection(sub.id);
+                              } else if (key === 'character') {
+                                setActiveInfoSection(sub.id);
+                              } else if (key === 'stats') {
+                                setActiveStatGroup(sub.id);
+                              } else if (key === 'skills') {
+                                setActiveSkillCategory(sub.id);
+                                setSelectedSkillId(null);
+                              } else if (key === 'inventory') {
+                                setActiveInventoryTab(sub.id);
+                              }
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            <i className={`${sub.icon} char-dropdown-icon`}></i>
+                            <span className="char-dropdown-text">{sub.label}</span>
+                            {hasNestedSkills && (
+                              <i className="fas fa-chevron-right char-submenu-chevron"></i>
+                            )}
+                          </button>
+                          {hasNestedSkills && isCategoryHovered && (
+                            <div className="char-tab-dropdown-submenu">
+                              {section.skillItems[sub.id].map(skill => (
+                                <button
+                                  key={skill.id}
+                                  type="button"
+                                  className={`char-dropdown-item char-skill-item ${
+                                    (activeTab === 'skills' && activeSkillCategory === sub.id && selectedSkillId === skill.id) ? 'active' : ''
+                                  }`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveTab('skills');
+                                    setActiveSkillCategory(sub.id);
+                                    setSelectedSkillId(skill.id);
+                                    setOpenDropdown(null);
+                                  }}
+                                >
+                                  <i className={`${skill.icon} char-dropdown-icon`}></i>
+                                  <span className="char-dropdown-text">{skill.label}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-      )}
+      </nav>
 
       {/* Content Area */}
       <main className="character-view-content">
@@ -585,12 +658,6 @@ const CharacterViewPage = () => {
           {renderContent()}
         </div>
       </main>
-
-      {/* Sync Indicator */}
-      <div className="character-view-sync-indicator">
-        <i className="fas fa-sync-alt"></i>
-        <span>Changes auto-save to Firebase</span>
-      </div>
     </div>
   );
 };

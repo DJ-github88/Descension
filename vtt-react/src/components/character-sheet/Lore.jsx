@@ -1035,7 +1035,9 @@ export default function Lore({ initialSection }) {
                     onClick={() => setShowLabels(!showLabels)}
                     title={showLabels ? 'Hide Labels' : 'Show Labels'}
                 >
-                    <span className="stats-toggle-icon">{showLabels ? ' - ' : '▶'}</span>
+                    <span className="stats-toggle-icon">
+                        <i className={showLabels ? 'fas fa-chevron-left' : 'fas fa-chevron-right'}></i>
+                    </span>
                 </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button

@@ -238,9 +238,9 @@ export const useClassSpellLibrary = () => {
   } else {
    resetLibrary();
   }
-  // Note: Using activeCharacter?.id instead of activeCharacter to prevent infinite loop
+  // Note: Using activeCharacter?.id and activeCharacter?.level instead of activeCharacter to prevent infinite loop
   // as activeCharacter object reference changes on every render from .find()
- }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter?.id, knownSpells.length]);
+ }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter?.id, activeCharacter?.level, knownSpells.length]);
 
  // Load custom spells from localStorage on mount
  useEffect(() => {

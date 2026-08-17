@@ -396,62 +396,67 @@
 .character-resources-row .resource-bar {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
-  background: rgba(248, 245, 240, 0.8);
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
   border-radius: 6px;
-  padding: 0.15rem 0.3rem;
-  font-size: 0.75rem;
-  min-width: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.78rem;
   flex: 1;
-  min-width: 70px;
+  min-width: 75px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .character-resources-row .resource-label {
   display: flex;
   align-items: center;
   gap: 0.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #8b4513;
   flex-shrink: 0;
+  font-size: 0.72rem;
 }
 
 .character-resources-row .resource-label i {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
 }
 
 .character-resources-row .resource-value {
-  font-weight: 700;
-  color: #2c2416;
+  font-weight: 800;
+  color: #1a0f07;
   font-family: 'Cinzel', serif;
   white-space: nowrap;
   margin-left: auto;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2px;
 }
 
 /* Specific resource bar colors */
 .character-resources-row .health-bar {
-  border-color: rgba(220, 53, 69, 0.4);
+  border-color: rgba(220, 53, 69, 0.5);
+  background: rgba(254, 242, 242, 0.9);
 }
 
 .character-resources-row .health-bar .resource-label {
-  color: #dc3545;
+  color: #b91c1c;
 }
 
 .character-resources-row .mana-bar {
-  border-color: rgba(13, 110, 253, 0.4);
+  border-color: rgba(13, 110, 253, 0.5);
+  background: rgba(239, 246, 255, 0.9);
 }
 
 .character-resources-row .mana-bar .resource-label {
-  color: #0d6efd;
+  color: #1d4ed8;
 }
 
 .character-resources-row .action-bar {
-  border-color: rgba(255, 193, 7, 0.4);
+  border-color: rgba(217, 119, 6, 0.5);
+  background: rgba(254, 243, 199, 0.9);
 }
 
 .character-resources-row .action-bar .resource-label {
-  color: #ffc107;
+  color: #b45309;
 }
 
 .character-management .character-card .character-name {

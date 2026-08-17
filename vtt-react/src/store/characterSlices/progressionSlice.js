@@ -91,164 +91,91 @@ export const createProgressionSlice = (set, get) => ({
         });
     },
 
-    // Ensure starter spells are assigned for the given class when none are known
+    // Ensure starter and progression spells are assigned for the given class and level
+    // Rule: 3 class spells at level 1, plus +1 spell for each level beyond level 1
     ensureClassStarterSpells: async (className) => {
         const state = get();
         try {
-            if (!className) return false;
+            if (!className || className === 'Class') return false;
+            const charLevel = Math.max(1, state.level || 1);
+            const targetSpellCount = 3 + Math.max(0, charLevel - 1);
             const known = state.class_spells?.known_spells || [];
-            // Only assign if no spells are known OR if we have fewer than 3 level 1 spells
-            // This allows us to fill in missing spells
-            if (known.length >= 3) {
-                // Check if we have at least 3 level 1 spells
-                try {
-                    const available = ALL_CLASS_SPELLS[className] || [];
-                    const level1SpellIds = new Set(available.filter(s => (s.level || 1) === 1).map(s => s.id));
-                    const knownLevel1Count = known.filter(id => level1SpellIds.has(id)).length;
-                    if (knownLevel1Count >= 3) {
-                        return false; // Already have 3+ level 1 spells
+
+            // If already have enough spells, no need to auto-assign
+            if (known.length >= targetSpellCount) {
+                return false;
+            }
+
+            const available = ALL_CLASS_SPELLS[className] || [];
+            let eligibleSpells = available.filter(s => (s.level || 1) <= charLevel);
+
+            // Fallback to ALL_CLASSES_DATA if ALL_CLASS_SPELLS is empty
+            if (eligibleSpells.length === 0) {
+                const classData = ALL_CLASSES_DATA[className];
+                const rawList = classData?.spells || classData?.exampleSpells || [];
+                eligibleSpells = rawList.filter(s => (s.level || 1) <= charLevel);
+            }
+
+            if (eligibleSpells.length === 0) {
+                console.warn(`No eligible class spells found for ${className} at level ${charLevel}`);
+                return false;
+            }
+
+            const knownSet = new Set(known);
+            const unlearnedEligible = eligibleSpells.filter(s => !knownSet.has(s.id));
+
+            if (unlearnedEligible.length === 0) {
+                return false;
+            }
+
+            const needed = targetSpellCount - known.length;
+            const level1Unlearned = unlearnedEligible.filter(s => (s.level || 1) === 1);
+            const higherLevelUnlearned = unlearnedEligible.filter(s => (s.level || 1) > 1);
+
+            const selected = [];
+
+            // 1. Ensure at least 3 Level 1 spells if possible
+            const knownLevel1Count = known.filter(id => {
+                const sp = eligibleSpells.find(s => s.id === id);
+                return sp && (sp.level || 1) === 1;
+            }).length;
+
+            const neededLevel1 = Math.max(0, 3 - knownLevel1Count);
+            if (neededLevel1 > 0 && level1Unlearned.length > 0) {
+                const shuffledL1 = [...level1Unlearned].sort(() => Math.random() - 0.5);
+                selected.push(...shuffledL1.slice(0, Math.min(neededLevel1, needed)));
+            }
+
+            // 2. Fill remaining needed spells with higher level spells up to character level
+            const remainingNeeded = needed - selected.length;
+            if (remainingNeeded > 0) {
+                const selectedSet = new Set(selected.map(s => s.id));
+                const remainingPool = [...higherLevelUnlearned, ...level1Unlearned].filter(s => !selectedSet.has(s.id));
+                // Sort by level descending so higher level characters get level-appropriate spells
+                const sortedPool = remainingPool.sort((a, b) => (b.level || 1) - (a.level || 1));
+                selected.push(...sortedPool.slice(0, remainingNeeded));
+            }
+
+            if (selected.length > 0) {
+                const newSpellIds = selected.map(s => s.id);
+                const updatedKnownSpells = [...known, ...newSpellIds];
+
+                set({
+                    class_spells: {
+                        ...(state.class_spells || {}),
+                        known_spells: updatedKnownSpells
                     }
-                } catch (e) {
-                    // If we can't check, proceed with assignment
-                }
-            }
-
-            // Ensure character is level 1 if not set
-            if (!state.level || state.level < 1) {
-                set({ level: 1 });
-            }
-
-            // Prefer selecting from the actually loaded/generated class spells
-            try {
-                const available = ALL_CLASS_SPELLS[className] || [];
-
-                // Filter to level 1 spells only (or spells without level, which default to 1)
-                const level1Spells = available.filter(s => {
-                    const spellLevel = s.level || 1;
-                    return spellLevel === 1;
                 });
 
-
-                if (level1Spells.length > 0) {
-                    // Get currently known level 1 spells
-                    const knownLevel1SpellIds = new Set(known.filter(id =>
-                        level1Spells.some(s => s.id === id)
-                    ));
-
-                    // If we already have 3+ level 1 spells, don't reassign
-                    if (knownLevel1SpellIds.size >= 3) {
-                        return false;
-                    }
-
-                    // Filter out already known spells
-                    const availableLevel1Spells = level1Spells.filter(s => !known.includes(s.id));
-
-                    let starter = [];
-                    if (className === 'Harbinger') {
-                        const withTables = availableLevel1Spells.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
-                        const ds = availableLevel1Spells.filter(s => s.specialization === 'deaths_seer');
-                        const wp = availableLevel1Spells.filter(s => s.specialization === 'wild_prophet');
-                        const fr = availableLevel1Spells.filter(s => s.specialization === 'fate_rift');
-                        starter = (withTables.slice(0, 3).length === 3
-                            ? withTables.slice(0, 3)
-                            : [...fr, ...ds, ...wp].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
-                    } else if (className === 'Gambit') {
-                        // Prefer card-based spells with rollable tables
-                        const withCards = availableLevel1Spells.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
-                        const withTables = withCards.filter(s => s.rollableTable?.enabled);
-                        starter = (withTables.slice(0, 3).length === 3 ? withTables.slice(0, 3) : withCards.slice(0, 3));
-                    } else {
-                        // For all other classes, randomly select from available level 1 spells
-                        const needed = Math.min(3 - knownLevel1SpellIds.size, availableLevel1Spells.length);
-                        if (needed > 0) {
-                            const shuffled = [...availableLevel1Spells].sort(() => Math.random() - 0.5);
-                            starter = shuffled.slice(0, needed);
-                        }
-                    }
-
-                    if (starter.length > 0) {
-                        const starterIds = starter.map(s => s.id).filter(id => id);
-                        // Merge with existing known spells (keep non-level-1 spells)
-                        const existingNonLevel1 = known.filter(id =>
-                            !level1Spells.some(s => s.id === id)
-                        );
-                        const updatedKnownSpells = [...existingNonLevel1, ...starterIds];
-
-                        set({
-                            class_spells: {
-                                ...state.class_spells,
-                                known_spells: updatedKnownSpells
-                            }
-                        });
-                        return true;
-                    } else if (knownLevel1SpellIds.size < 3) {
-                        console.warn(`Ã¢Å¡Â Ã¯Â¸Â Could not assign enough level 1 spells for ${className}. Have ${knownLevel1SpellIds.size}, need 3, but only ${availableLevel1Spells.length} available.`);
-                    }
-                } else {
-                    console.warn(`Ã¢Å¡Â Ã¯Â¸Â No level 1 spells found in ALL_CLASS_SPELLS for ${className}`);
-                }
-            } catch (e) {
-                console.warn('Could not load from ALL_CLASS_SPELLS, falling back to spellPools:', e);
-            }
-
-            // Fall back to classData spell pools if generator unavailable or no spells found
-            try {
-                // Helper function to get class data by name
-                const getClassData = (name) => (ALL_CLASSES_DATA[name] || null);
-
-                // Helper function to get level 1 spell IDs from class data
-                const getLevel1SpellIds = (classData) => {
-                    if (!classData) return [];
-
-                    // First try spellPools[1]
-                    if (classData.spellPools && classData.spellPools[1]) {
-                        return classData.spellPools[1];
-                    }
-
-                    // Fallback: filter spells/exampleSpells array for level 1 spells
-                    const spellsArray = classData.spells || classData.exampleSpells || [];
-                    if (Array.isArray(spellsArray) && spellsArray.length > 0) {
-                        return spellsArray
-                            .filter(spell => spell.level === 1 || !spell.level) // Include spells without level (default to 1)
-                            .map(spell => spell.id)
-                            .filter(id => id); // Remove any undefined/null IDs
-                    }
-
-                    return [];
-                };
-
-                const classData = getClassData(className);
-                const level1SpellIds = getLevel1SpellIds(classData);
-
-                if (level1SpellIds.length > 0) {
-                    // Try to match spell IDs with ALL_CLASS_SPELLS to ensure they exist
-                    let validSpellIds = level1SpellIds;
-                    try {
-                        const available = ALL_CLASS_SPELLS[className] || [];
-                        const availableIds = new Set(available.map(s => s.id));
-                        validSpellIds = level1SpellIds.filter(id => availableIds.has(id));
-
-                        // If no matches found, use original IDs (might be a new class or different format)
-                        if (validSpellIds.length === 0) {
-                            console.warn(`Ã¢Å¡Â Ã¯Â¸Â No matching spell IDs found in ALL_CLASS_SPELLS for ${className}, using classData IDs directly`);
-                            validSpellIds = level1SpellIds;
-                        }
-                    } catch (e) {
-                        console.warn('Could not cross-reference with ALL_CLASS_SPELLS in fallback:', e);
-                    }
-
-                    const shuffled = [...validSpellIds].sort(() => Math.random() - 0.5);
-                    const selectionFallback = shuffled.slice(0, Math.min(3, validSpellIds.length));
-                    set({
+                if (state.currentCharacterId) {
+                    get().updateCharacter(state.currentCharacterId, {
                         class_spells: {
-                            ...state.class_spells,
-                            known_spells: selectionFallback
+                            ...(state.class_spells || {}),
+                            known_spells: updatedKnownSpells
                         }
                     });
-                    return true;
                 }
-            } catch (e) {
-                console.warn('Fallback to spellPools also failed:', e);
+                return true;
             }
         } catch (e) {
             console.warn('ensureClassStarterSpells failed:', e);

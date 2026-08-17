@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 
 const SpellCardHeader = ({
@@ -17,6 +17,7 @@ const SpellCardHeader = ({
   formatSpellComponents,
   getDamageTypes,
 }) => {
+  const [activeComponentTooltip, setActiveComponentTooltip] = useState(null);
   return (
     <>
       {/* Card Gloss Effect */}
@@ -237,30 +238,55 @@ const SpellCardHeader = ({
                   </div>
                 )}
 
-                {/* Compact icon-only component pills — full text shown via tooltip */}
+                {/* Compact icon-only component pills — full text shown via Pathfinder popover */}
                 {(() => {
                   const components = spell?.resourceCost?.components;
                   if (!Array.isArray(components) || components.length === 0) return null;
 
                   const compMap = {
-                    verbal:   { icon: '💬', label: 'V', key: 'verbalText' },
-                    somatic:  { icon: '🤲', label: 'S', key: 'somaticText' },
-                    material: { icon: '⚗', label: 'M', key: 'materialComponents' },
+                    verbal:   { label: 'V', name: 'Verbal Component', key: 'verbalText', icon: 'fa-comment' },
+                    somatic:  { label: 'S', name: 'Somatic Component', key: 'somaticText', icon: 'fa-hand-sparkles' },
+                    material: { label: 'M', name: 'Material Component', key: 'materialComponents', icon: 'fa-flask' },
                   };
 
                   const pills = components
                     .filter(c => compMap[c] && spell.resourceCost[compMap[c].key])
                     .map((c, i) => {
-                      const { label, key } = compMap[c];
+                      const { label, name, key, icon } = compMap[c];
                       const fullText = spell.resourceCost[key];
+                      const isOpen = activeComponentTooltip === c;
+
                       return (
-                        <span
+                        <div
                           key={i}
-                          className={`spell-component-pill spell-component-pill--${c}`}
-                          title={fullText}
+                          className="spell-component-pill-wrapper"
+                          onMouseEnter={() => setActiveComponentTooltip(c)}
+                          onMouseLeave={() => setActiveComponentTooltip(null)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveComponentTooltip(isOpen ? null : c);
+                          }}
                         >
-                          {label}
-                        </span>
+                          <span
+                            className={`spell-component-pill spell-component-pill--${c} ${isOpen ? 'active' : ''}`}
+                            role="button"
+                            tabIndex={0}
+                          >
+                            {label}
+                          </span>
+
+                          {isOpen && fullText && (
+                            <div className={`pf-component-popover pf-component-popover--${c}`}>
+                              <div className="pf-component-popover-header">
+                                <i className={`fas ${icon}`}></i>
+                                <span>{name}</span>
+                              </div>
+                              <div className="pf-component-popover-body">
+                                "{fullText}"
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       );
                     });
 
