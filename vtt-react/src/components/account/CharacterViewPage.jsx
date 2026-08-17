@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
-import useInventoryStore from '../../store/inventoryStore';
 import { getSubraceData } from '../../data/raceData';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
 import { initializeClassResource } from '../../data/classResources';
@@ -12,7 +11,6 @@ import Lore from '../character-sheet/Lore';
 import InventoryWindow from '../windows/InventoryWindow';
 import ItemLibrary from '../item-generation/ItemLibrary';
 import ItemGeneration from '../item-generation/ItemGeneration';
-import QuickItemGeneratorModal from '../item-generation/QuickItemGeneratorModal';
 import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
 import SpellActionBar from '../character-sheet/SpellActionBar';
@@ -31,7 +29,6 @@ const CharacterViewPage = () => {
   const [activeStatGroup, setActiveStatGroup] = useState('summary');
   const [activeSkillCategory, setActiveSkillCategory] = useState('combat');
   const [activeInventoryTab, setActiveInventoryTab] = useState('equipment'); // 'equipment' | 'library' | 'designer'
-  const [showItemWizardModal, setShowItemWizardModal] = useState(false);
   const [selectedSkillId, setSelectedSkillId] = useState(null);
   const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -52,8 +49,6 @@ const CharacterViewPage = () => {
   }, [openVialPopup]);
 
   const {
-    characters,
-    currentCharacterId,
     loadCharacters,
     loadCharacter,
     name,
@@ -66,9 +61,6 @@ const CharacterViewPage = () => {
     actionPoints,
     classResource,
     stats,
-    lore,
-    background,
-    alignment,
     exhaustionLevel,
     updateResource,
     updateCharacterInfo,
@@ -319,6 +311,9 @@ const CharacterViewPage = () => {
             <h1 className="character-header-name">{name}</h1>
             <div className="character-header-badge-group">
               <span className="header-badge class">{characterClass}</span>
+              {(subraceDisplayName || race) && (
+                <span className="header-badge race">{subraceDisplayName || race}</span>
+              )}
             </div>
           </div>
 
