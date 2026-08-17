@@ -270,6 +270,38 @@
   transform: scale(0.9);
 }
 
+/* Class Resource Row in Header */
+.header-class-resource-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+  margin: 2px auto 0;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.header-class-resource-row .class-resource-wrapper {
+  margin-bottom: 0 !important;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.header-class-resource-row .class-resource-bar {
+  margin-bottom: 0 !important;
+  max-width: 100%;
+}
+
+.class-resource-loading-compact {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: #c4a482;
+  font-style: italic;
+  padding: 2px;
+}
+
 /* ==========================================================================
    VIAL & LEVEL ADJUSTMENT POPUP (FANTASY MODAL DROPDOWN)
    ========================================================================== */
@@ -3267,24 +3299,56 @@
 }
 
 /* ==========================================================================
-   SPELLS TAB IN CHARACTER VIEW
+   SPELLS TAB IN CHARACTER VIEW (FULL HEIGHT DESKTOP EXPANSION)
    ========================================================================== */
 .character-view-spells-tab {
   width: 100%;
-  min-height: 550px;
+  flex: 1;
+  min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   background: rgba(18, 9, 5, 0.4);
   border-radius: 8px;
-  overflow: hidden;
+  padding: 12px 16px;
+  gap: 12px;
+  box-sizing: border-box;
 }
 
 .character-view-spells-tab .spell-library-container {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 460px;
   height: auto !important;
-  min-height: 520px;
+}
+
+.character-view-spells-tab .library-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+.character-view-spells-tab .wow-spellbook-view {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 440px;
+}
+
+.character-view-spells-tab .wow-spell-list-container {
+  flex: 1 !important;
+  align-content: stretch;
+  grid-auto-rows: minmax(52px, 1fr);
+}
+
+.character-view-spells-tab .spell-action-bar-container {
+  margin-top: auto;
+  margin-bottom: 0;
 }
 
 /* ==========================================================================

@@ -3,6 +3,8 @@ import useCharacterStore from '../../store/characterStore';
 import useDiceStore from '../../store/diceStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import { mapSpellIcon } from '../spellcrafting-wizard/components/common/spellFormatterUtils';
+import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import './SpellActionBar.css';
 
 const DEFAULT_SLOT_COUNT = 10;
@@ -44,6 +46,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const [dragOverSlot, setDragOverSlot] = useState(null);
   const [hoveredSlot, setHoveredSlot] = useState(null);
   const [quickAssignSlotIndex, setQuickAssignSlotIndex] = useState(null);
+  const [inspectingSpell, setInspectingSpell] = useState(null);
   const [showClearConfirmModal, setShowClearConfirmModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const dragSourceSlotRef = useRef(null);
@@ -102,6 +105,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       setSlots(prev => {
         const next = [...prev];
         next[targetIndex] = {
+          ...spellData,
           id: spellData.id,
           name: spellData.name,
           icon: spellData.icon || spellData.typeConfig?.icon,
@@ -129,7 +133,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
 
   // Clear a single slot
   const handleClearSlot = (e, index) => {
-    e.stopPropagation();
+    e?.stopPropagation?.();
     setSlots(prev => {
       const next = [...prev];
       next[index] = null;
@@ -153,6 +157,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setSlots(prev => {
       const next = [...prev];
       next[quickAssignSlotIndex] = {
+        ...spell,
         id: spell.id,
         name: spell.name,
         icon: spell.icon || spell.typeConfig?.icon,
@@ -169,7 +174,32 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     setSearchQuery('');
   };
 
-  // Slot Click: either assign or trigger dice roll
+  // Filter available spells for quick assign
+  const availableSpells = (allSpells && allSpells.length > 0)
+    ? allSpells
+    : (character?.spells || []);
+
+  // Helper to retrieve full spell data for unified card inspection
+  const getFullSpellData = (slotSpell) => {
+    if (!slotSpell) return null;
+    if (slotSpell.effects || slotSpell.damageConfig || slotSpell.healingConfig || slotSpell.typeConfig) {
+      return slotSpell;
+    }
+    const foundInAvailable = availableSpells.find(s => s.id === slotSpell.id);
+    if (foundInAvailable) return { ...foundInAvailable, ...slotSpell };
+
+    if (ALL_CLASS_SPELLS && typeof ALL_CLASS_SPELLS === 'object') {
+      for (const classSpellsList of Object.values(ALL_CLASS_SPELLS)) {
+        if (Array.isArray(classSpellsList)) {
+          const match = classSpellsList.find(s => s.id === slotSpell.id || s.name === slotSpell.name);
+          if (match) return { ...match, ...slotSpell };
+        }
+      }
+    }
+    return slotSpell;
+  };
+
+  // Slot Click: either assign or show full spell card
   const handleSlotClick = (index) => {
     const spell = slots[index];
     if (!spell) {
@@ -177,20 +207,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       return;
     }
 
-    // If spell has a damage or healing formula, roll it!
-    const formula = spell.damageFormula || spell.healingFormula;
-    if (formula && typeof useDiceStore?.getState?.().rollDiceDirectly === 'function') {
-      useDiceStore.getState().rollDiceDirectly(formula, `${spell.name} (${spell.spellType})`);
-    } else {
-      // Trigger notification or event
-      console.log(`[SpellActionBar] Cast spell: ${spell.name}`);
-    }
+    // Inspect spell on click
+    setInspectingSpell({ ...spell, slotIndex: index });
   };
-
-  // Filter available spells for quick assign
-  const availableSpells = (allSpells && allSpells.length > 0)
-    ? allSpells
-    : (character?.spells || []);
 
   const filteredQuickSpells = availableSpells.filter(s => {
     if (!searchQuery) return true;
@@ -373,6 +392,88 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                 onClick={handleConfirmClear}
               >
                 Clear Spells
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Spell Inspection Modal (UnifiedSpellCard on click) */}
+      {inspectingSpell && (
+        <div className="spell-inspect-overlay" onClick={() => setInspectingSpell(null)}>
+          <div className="spell-inspect-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="spell-inspect-header">
+              <div className="spell-inspect-header-left">
+                <img
+                  src={getSpellSlotIconUrl(inspectingSpell)}
+                  alt={inspectingSpell.name}
+                  className="spell-inspect-header-icon"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                  }}
+                />
+                <div className="spell-inspect-header-text">
+                  <h3 className="spell-inspect-title">{inspectingSpell.name}</h3>
+                  <span className="spell-inspect-subtitle">
+                    Slot {HOTKEY_LABELS[inspectingSpell.slotIndex] || (inspectingSpell.slotIndex + 1)} • {inspectingSpell.spellType || 'Action'}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="spell-inspect-close"
+                onClick={() => setInspectingSpell(null)}
+                title="Close"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="spell-inspect-body">
+              <UnifiedSpellCard
+                spell={getFullSpellData(inspectingSpell)}
+                variant="wizard"
+                showActions={false}
+                showDescription={true}
+                showStats={true}
+                showTags={true}
+              />
+            </div>
+
+            <div className="spell-inspect-footer">
+              {(inspectingSpell.damageFormula || inspectingSpell.healingFormula || inspectingSpell.damageConfig?.formula || inspectingSpell.healingConfig?.formula) && (
+                <button
+                  type="button"
+                  className="spell-inspect-btn roll"
+                  onClick={() => {
+                    const formula = inspectingSpell.damageFormula || inspectingSpell.healingFormula || inspectingSpell.damageConfig?.formula || inspectingSpell.healingConfig?.formula;
+                    if (formula && typeof useDiceStore?.getState?.().rollDiceDirectly === 'function') {
+                      useDiceStore.getState().rollDiceDirectly(formula, `${inspectingSpell.name} (${inspectingSpell.spellType || 'Action'})`);
+                    }
+                  }}
+                >
+                  <i className="fas fa-dice-d20"></i>
+                  <span>Roll / Cast</span>
+                </button>
+              )}
+              <button
+                type="button"
+                className="spell-inspect-btn remove"
+                onClick={(e) => {
+                  handleClearSlot(e, inspectingSpell.slotIndex);
+                  setInspectingSpell(null);
+                }}
+              >
+                <i className="fas fa-trash-can"></i>
+                <span>Remove from Bar</span>
+              </button>
+              <button
+                type="button"
+                className="spell-inspect-btn close"
+                onClick={() => setInspectingSpell(null)}
+              >
+                Close
               </button>
             </div>
           </div>

@@ -4,6 +4,7 @@ import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
 import { getSubraceData } from '../../data/raceData';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
+import { initializeClassResource } from '../../data/classResources';
 import CharacterPanel from '../character-sheet/CharacterPanel';
 import CharacterStats from '../character-sheet/CharacterStats';
 import Skills from '../character-sheet/Skills';
@@ -18,6 +19,8 @@ import SpellActionBar from '../character-sheet/SpellActionBar';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
+
+const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 
 const CharacterViewPage = () => {
   const { characterId } = useParams();
@@ -61,12 +64,15 @@ const CharacterViewPage = () => {
     health,
     mana,
     actionPoints,
+    classResource,
+    stats,
     lore,
     background,
     alignment,
     exhaustionLevel,
     updateResource,
-    updateCharacterInfo
+    updateCharacterInfo,
+    updateClassResource
   } = useCharacterStore();
 
   // Load character data on mount
@@ -288,6 +294,8 @@ const CharacterViewPage = () => {
 
   const subraceDisplayName = getSubraceDisplayName();
 
+  const effectiveClassResource = classResource || (characterClass ? initializeClassResource(characterClass, { ...(stats || {}), level: level || 1 }) : null);
+
   const healthPct = health?.max ? Math.min(100, Math.max(0, (health.current / health.max) * 100)) : 0;
   const manaPct = mana?.max ? Math.min(100, Math.max(0, (mana.current / mana.max) * 100)) : 0;
   const apPct = actionPoints?.max ? Math.min(100, Math.max(0, (actionPoints.current / actionPoints.max) * 100)) : 0;
@@ -408,6 +416,23 @@ const CharacterViewPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Unique Class Resource Bar */}
+        {characterClass && effectiveClassResource && (
+          <div className="header-class-resource-row">
+            <React.Suspense fallback={<div className="class-resource-loading-compact">Loading resource...</div>}>
+              <ClassResourceBar
+                characterClass={characterClass}
+                classResource={effectiveClassResource}
+                character={{ health, mana, actionPoints }}
+                size="normal"
+                isOwner={true}
+                onClassResourceUpdate={updateClassResource}
+                context="account"
+              />
+            </React.Suspense>
+          </div>
+        )}
 
         {/* Vial adjustment popup */}
         {openVialPopup && (
