@@ -106,14 +106,27 @@ export const createProgressionSlice = (set, get) => ({
                 return false;
             }
 
-            const available = ALL_CLASS_SPELLS[className] || [];
+            const isUnwanted = (s) => {
+                const id = s.id?.toLowerCase() || '';
+                const name = s.name?.toLowerCase() || '';
+                return (
+                    id.startsWith('universal_') ||
+                    name === 'attack (melee or ranged)' ||
+                    id.includes('cast_minor') ||
+                    id.includes('cast_major') ||
+                    name.includes('cast minor') ||
+                    name.includes('cast major')
+                );
+            };
+
+            const available = (ALL_CLASS_SPELLS[className] || []).filter(s => !isUnwanted(s));
             let eligibleSpells = available.filter(s => (s.level || 1) <= charLevel);
 
             // Fallback to ALL_CLASSES_DATA if ALL_CLASS_SPELLS is empty
             if (eligibleSpells.length === 0) {
                 const classData = ALL_CLASSES_DATA[className];
                 const rawList = classData?.spells || classData?.exampleSpells || [];
-                eligibleSpells = rawList.filter(s => (s.level || 1) <= charLevel);
+                eligibleSpells = rawList.filter(s => !isUnwanted(s) && (s.level || 1) <= charLevel);
             }
 
             if (eligibleSpells.length === 0) {

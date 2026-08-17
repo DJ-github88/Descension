@@ -17,13 +17,13 @@ const DAMAGE_TYPES = {
       name: 'Stabbing',
       description: 'Piercing physical thrusts from spears, daggers, rapiers, stakes, and precision armor-puncturing strikes.',
       color: '#704214',
-      icon: 'Piercing/Spear Thrust'
+      icon: 'Piercing/Piercing Thrust 3'
     },
     slicing: {
       name: 'Slicing',
       description: 'Cutting physical edges from glaives, longswords, crescent blades, and razor-sharp kinetic sweeps.',
       color: '#5C3317',
-      icon: 'Slashing/Sword Slash'
+      icon: 'Slashing/Slashing Slash'
     },
     ember: {
       name: 'Ember',

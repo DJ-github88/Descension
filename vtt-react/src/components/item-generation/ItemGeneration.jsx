@@ -55,7 +55,9 @@ export default function ItemGeneration({ onContainerCreate, onItemCreated }) {
             const tileSize = parseInt(computedStyle.getPropertyValue('--tile-size')) || 65;
             const tileGap = parseInt(computedStyle.getPropertyValue('--tile-gap')) || 4;
 
-            // Keep a clean, compact canvas: 8 columns × 6 rows (ideal for all TTRPG item shapes)
+            // Keep a clean, compact canvas: up to 8 columns × 6 rows (ideal for all TTRPG item shapes)
+            const availableWidth = controlsRect.width > 0 ? controlsRect.width : 520;
+            const maxCols = Math.floor((availableWidth + tileGap) / (tileSize + tileGap)) || 8;
             const rows = 6;
             const cols = Math.min(Math.max(maxCols, 6), 8);
 

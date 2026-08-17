@@ -2,6 +2,7 @@ import { getStore } from '../storeRegistry';
 import { initializeClassResource } from '../../data/classResources';
 import { getFullRaceData, getRaceData, RACE_DATA } from '../../data/raceData';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
+import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import characterPersistenceService from '../../services/firebase/characterPersistenceService';
 import characterSessionService from '../../services/firebase/characterSessionService';
@@ -46,8 +47,26 @@ function getRandomRaceAndSubrace() {
 function generateStartingClassSpells(characterClass, level = 1) {
     try {
         const targetCount = 3 + Math.max(0, level - 1);
-        const available = ALL_CLASS_SPELLS?.[characterClass] || [];
-        if (!available || available.length === 0) return [];
+        const isUnwanted = (s) => {
+            const id = s.id?.toLowerCase() || '';
+            const name = s.name?.toLowerCase() || '';
+            return (
+                id.startsWith('universal_') ||
+                name === 'attack (melee or ranged)' ||
+                id.includes('cast_minor') ||
+                id.includes('cast_major') ||
+                name.includes('cast minor') ||
+                name.includes('cast major')
+            );
+        };
+
+        let available = (ALL_CLASS_SPELLS?.[characterClass] || []).filter(s => !isUnwanted(s));
+        if (available.length === 0) {
+            const classData = ALL_CLASSES_DATA?.[characterClass];
+            const rawList = classData?.spells || classData?.exampleSpells || [];
+            available = rawList.filter(s => !isUnwanted(s));
+        }
+        if (available.length === 0) return [];
 
         const eligible = available.filter(s => (s.level || 1) <= level);
         const level1Spells = eligible.filter(s => (s.level || 1) === 1);

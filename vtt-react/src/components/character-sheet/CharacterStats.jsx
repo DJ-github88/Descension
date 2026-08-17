@@ -66,12 +66,12 @@ const DAMAGE_TYPES = {
     },
     stabbing: {
         name: 'Stabbing',
-        icon: getCustomIconUrl('Piercing/Spear Thrust', 'abilities'),
+        icon: getCustomIconUrl('Piercing/Piercing Thrust 3', 'abilities'),
         color: '#704214'
     },
     slicing: {
         name: 'Slicing',
-        icon: getCustomIconUrl('Slashing/Sword Slash', 'abilities'),
+        icon: getCustomIconUrl('Slashing/Slashing Slash', 'abilities'),
         color: '#5C3317'
     },
     ember: {
