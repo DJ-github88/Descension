@@ -5,7 +5,7 @@
  * It handles loading, searching, and managing community creatures from Firebase.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   getCreatureCategories,
   getAllCommunityCreatures,
@@ -19,6 +19,19 @@ import {
   initializeCreatureCategories,
   cleanupDuplicateCreatures
 } from '../services/firebase/communityCreatureService';
+
+export function deduplicateCreatureList(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  return list.filter(item => {
+    if (!item) return false;
+    const name = item.name ? item.name.trim().toLowerCase() : '';
+    const key = item.id || name;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 let creaturesInitPromise = null;
 function ensureCreaturesInit(sortByValue) {
@@ -42,6 +55,7 @@ export function useCommunityCreatures() {
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
   const [lastDoc, setLastDoc] = useState(null);
+  const lastDocRef = useRef(null);
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
   const loadCategories = useCallback(async () => {
@@ -61,22 +75,12 @@ export function useCommunityCreatures() {
     try {
       setError(null);
       const featuredData = await getFeaturedCreatures(10);
-      setFeaturedCreatures(featuredData);
+      setFeaturedCreatures(deduplicateCreatureList(featuredData));
     } catch (err) {
       setError(err.message);
       console.error('Failed to load featured creatures:', err);
     }
   }, []);
-
-  // Load categories on mount
-  useEffect(() => {
-    (async () => {
-      // Run init (cleanup + seed) BEFORE loading featured/categories
-      await ensureCreaturesInit('rating');
-      loadCategories();
-      loadFeaturedCreatures();
-    })();
-  }, [loadCategories, loadFeaturedCreatures]);
 
   const loadAllCreatures = useCallback(async (sortByValue = sortBy, loadMore = false) => {
     try {
@@ -86,57 +90,67 @@ export function useCommunityCreatures() {
       // One-time cleanup + seed (deduped via shared promise)
       if (!loadMore) await ensureCreaturesInit(sortByValue);
 
+      const docCursor = loadMore ? lastDocRef.current : null;
       const result = await getAllCommunityCreatures(
         20,
-        loadMore ? lastDoc : null,
+        docCursor,
         sortByValue
       );
       
-      setCreatures(result.creatures);
-      setHasMore(result.hasMore);
+      lastDocRef.current = result.lastDoc;
       setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
+
+      if (loadMore) {
+        setCreatures(prev => deduplicateCreatureList([...prev, ...result.creatures]));
+      } else {
+        setCreatures(deduplicateCreatureList(result.creatures));
+      }
     } catch (err) {
       setError(err.message);
       console.error('Failed to load creatures:', err);
     } finally {
       setLoading(false);
     }
-  }, [sortBy, lastDoc]);
+  }, [sortBy]);
 
   const loadCreaturesByCategory = useCallback(async (categoryId, loadMore = false) => {
     try {
       setLoading(true);
       setError(null);
       
+      const docCursor = loadMore ? lastDocRef.current : null;
       const result = await getCreaturesByCategory(
         categoryId, 
         20, 
-        loadMore ? lastDoc : null
+        docCursor
       );
       
-      if (loadMore) {
-        setCreatures(prev => [...prev, ...result.creatures]);
-      } else {
-        setCreatures(result.creatures);
-      }
-      
-      setHasMore(result.hasMore);
+      lastDocRef.current = result.lastDoc;
       setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
+
+      if (loadMore) {
+        setCreatures(prev => deduplicateCreatureList([...prev, ...result.creatures]));
+      } else {
+        setCreatures(deduplicateCreatureList(result.creatures));
+      }
     } catch (err) {
       setError(err.message);
       console.error('Failed to load creatures:', err);
     } finally {
       setLoading(false);
     }
-  }, [lastDoc]);
+  }, []);
 
   const performSearch = useCallback(async (term) => {
     try {
       setLoading(true);
       setError(null);
       const searchResults = await searchCreatures(term);
-      setCreatures(searchResults);
+      setCreatures(deduplicateCreatureList(searchResults));
       setHasMore(false);
+      lastDocRef.current = null;
       setLastDoc(null);
     } catch (err) {
       setError(err.message);

@@ -18,7 +18,7 @@ import SpellCastConfirmation from './SpellCastConfirmation';
 import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import ExperienceBar from './ExperienceBar';
-import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -1145,78 +1145,26 @@ const ActionBar = () => {
 
     // Helper function to map WoW icon IDs to local ability icons for spells
     const mapSpellIcon = (wowIconId) => {
-        const iconMapping = {
-            // Combat/Attack icons
-            'ability_meleedamage': 'General/Combat Downward Strike',
-            'ability_warrior_savageblow': 'General/Combat Downward Strike',
-            'ability_warrior_charge': 'General/Combat Downward Strike',
-            'ability_warrior_revenge': 'General/Combat Downward Strike',
-            'ability_warrior_cleave': 'General/Combat Downward Strike',
-            'ability_warrior_riposte': 'Utility/Parry',
-            'ability_warrior_shieldbash': 'Utility/Shield',
-            'ability_rogue_evasion': 'Utility/Speed Dash',
-            'ability_rogue_feint': 'Utility/Parry',
-            'ability_rogue_sprint': 'Utility/Speed Dash',
-            'ability_rogue_tricksofthetrade': 'Utility/Speed Dash',
-            'ability_stealth': 'Utility/Hide',
-            'ability_hunter_snipershot': 'Utility/Target Crosshair',
-            'ability_hunter_markedshot': 'Utility/Target Crosshair',
-            'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
-            
-            // Defensive icons
-            'inv_shield_05': 'Utility/Shield',
-            'inv_shield_04': 'Utility/Shield',
-            'ability_warrior_defensivestance': 'Utility/Shield',
-            'spell_holy_powerwordshield': 'Utility/Shield',
-            'spell_holy_devotionaura': 'Radiant/Divine Blessing',
-            
-            // Healing/Support icons
-            'spell_holy_greaterheal': 'Healing/Golden Heart',
-            'spell_holy_heal02': 'Healing/Golden Heart',
-            'spell_holy_flashheal': 'Healing/Golden Heart',
-            'spell_holy_renew': 'Healing/Renewal',
-            
-            // Utility icons
-            'spell_arcane_portaldalaran': 'Utility/Utility',
-            'spell_arcane_teleportundercity': 'Utility/Utility',
-            'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-            'inv_misc_questionmark': 'Utility/Utility',
-            'inv_misc_book_07': 'Utility/Utility',
-            'inv_misc_bag_08': 'Utility/Utility',
-            
-            // Magic/Damage icons
-            'spell_fire_fireball02': 'Fire/Swirling Fireball',
-            'spell_fire_flamebolt': 'Fire/Flame Burst',
-            'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
-            'spell_arcane_blast': 'Arcane/Magical Sword',
-            'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
-            'spell_holy_holysmite': 'Radiant/Divine Blessing',
-            'spell_nature_lightning': 'Lightning/Lightning Bolt',
-            
-            // Control icons
-            'spell_frost_chainsofice': 'Frost/Frozen in Ice',
-            'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
-            
-            // Buff icons
-            'spell_holy_divineillumination': 'Radiant/Divine Blessing',
-            'spell_holy_blessingofprotection': 'Radiant/Divine Blessing',
-            
-            // Summoning icons
-            'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
-            'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-            
-            // Transformation icons
-            'ability_druid_catform': 'Utility/Utility',
-            
-            // Trap icons
-            'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
-            
-            // Wild magic icons
-            'spell_arcane_arcane04': 'Arcane/Magical Sword'
-        };
-        
-        return iconMapping[wowIconId] || null;
-    };
+  // Use getAbilityIconUrl from assetManager for proper icon resolution
+  // This handles WoW icon IDs including talent tree icons like ability_warrior_savageblow
+  if (!wowIconId) {
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+
+  // If it already has a path format (e.g., "Utility/Icon Name"), use directly
+  if (wowIconId.includes('/') && !wowIconId.startsWith('http')) {
+    return getAbilityIconUrl(wowIconId);
+  }
+
+  // For WoW icon IDs (inv_, spell_, ability_, achievement_), use getAbilityIconUrl
+  if (wowIconId.startsWith('inv_') || wowIconId.startsWith('spell_') || 
+      wowIconId.startsWith('ability_') || wowIconId.startsWith('achievement_')) {
+    return getAbilityIconUrl(wowIconId);
+  }
+
+  // Default fallback
+  return getCustomIconUrl('Utility/Utility', 'abilities');
+};
 
     // Helper function to get spell icon URL using local ability icons
     const getSpellIconUrl = (spell) => {
@@ -1233,28 +1181,9 @@ const ActionBar = () => {
             return iconId;
         }
 
-        // If it's already an ability icon path (e.g., "Fire/Flame Burst"), use it directly
-        if (iconId.includes('/') && !iconId.startsWith('http')) {
-            // Check if it's using the new folder structure (e.g., "Fire/Flame Burst")
-            if (iconId.match(/^[A-Z][a-zA-Z]+\/[A-Z]/)) {
-                return getCustomIconUrl(iconId, 'abilities');
-            }
-            // Otherwise try to use it as-is
-            return getCustomIconUrl(iconId, 'abilities');
-        }
-
-        // If it's a WoW icon ID, try to map it to a local ability icon
-        if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
-            const mappedIcon = mapSpellIcon(iconId);
-            if (mappedIcon) {
-                return getCustomIconUrl(mappedIcon, 'abilities');
-            }
-            // If no mapping found, use default
-            return getCustomIconUrl('Utility/Utility', 'abilities');
-        }
-
-        // Default fallback
-        return getCustomIconUrl('Utility/Utility', 'abilities');
+        // Resolve via mapSpellIcon (handles path-style icons AND WoW icon IDs,
+        // returns a fully resolved URL via getAbilityIconUrl)
+        return mapSpellIcon(iconId);
     };
 
     const getSlotIcon = (item) => {

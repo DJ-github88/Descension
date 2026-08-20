@@ -37,7 +37,7 @@ export const LOOT_ITEMS = [
     subtype: 'hammer',
     quality: 'uncommon',
     iconId: 'inv_hammer_16',
-    description: 'Pulled from the cooled obsidian of the Sundered Caldera, its haft still warm with the memory of a Sol\'s Breath ember. Etched with forge-runes from the first centuries of the Dimming, this hammer has crushed a thousand foes.',
+    description: 'Pulled from the cooled obsidian of the Sundered Caldera, its haft still warm with the memory of a Sol\'s Breath ember. Etched with forge-runes from the first centuries of the Freezing Era, this hammer has crushed a thousand foes.',
     value: { gold: 3, silver: 50 },
     weaponStats: {
       baseDamage: {

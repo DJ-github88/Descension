@@ -12,6 +12,7 @@ import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
+import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
@@ -110,10 +111,10 @@ const TEST_LAST_NAMES = [
 ];
 
 const TEST_WEAPONS = [
-    { id: 'ironweep', name: 'Ironweep', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
-    { id: 'wanderers-edge', name: "Wanderer's Edge", subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
-    { id: 'soulthirst', name: 'Soulthirst', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'stabbing', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
-    { id: 'griefwood-staff', name: 'Griefwood Staff', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staves/staff-basic-gnarled-dark-brown', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
+    { id: 'ironweep', name: 'Ironweep', type: 'weapon', subtype: 'SWORD', quality: 'poor', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-serrated-tan-brown-simple', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 0 } }, baseStats: { strength: { value: 1, isPercentage: false }, agility: { value: -1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 2 },
+    { id: 'wanderers-edge', name: "Wanderer's Edge", type: 'weapon', subtype: 'SWORD', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Swords/sword-basic-straight-tan-blade-brown-hilt', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'slicing', bonusDamage: 1 } }, baseStats: { agility: { value: 1, isPercentage: false } }, durability: 'd10', maxDurability: 'd10', width: 1, height: 2 },
+    { id: 'soulthirst', name: 'Soulthirst', type: 'weapon', subtype: 'DAGGER', quality: 'common', weaponSlot: 'ONE_HANDED', slots: ['mainHand', 'offHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Throwing Knife/throwing-knife-dagger-beige-blade-brown-handle-wrapped', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd4', damageType: 'stabbing', bonusDamage: 2 } }, baseStats: { agility: { value: 2, isPercentage: false }, strength: { value: -1, isPercentage: false } }, durability: 'd6', maxDurability: 'd6', width: 1, height: 1 },
+    { id: 'griefwood-staff', name: 'Griefwood Staff', type: 'weapon', subtype: 'STAFF', quality: 'common', weaponSlot: 'TWO_HANDED', slots: ['mainHand'], hand: 'MAIN_HAND', iconId: 'Weapons/Staves/staff-basic-gnarled-dark-brown', weaponStats: { baseDamage: { diceCount: 1, diceType: 'd6', damageType: 'arcane', bonusDamage: 1 } }, baseStats: { spirit: { value: 2, isPercentage: false }, intelligence: { value: 1, isPercentage: false } }, durability: 'd8', maxDurability: 'd8', width: 1, height: 3 },
 ];
 
 const TEST_ARMOR = [
@@ -170,12 +171,11 @@ function generatePlaceholderCharacter(userId) {
         consumables.push({ ...template, instanceId: `item_${Date.now()}_c${i}` });
     }
 
-    // Equipped items
+    // Equipped items (assigned to canonical equipment slots so they appear on the character sheet)
     const equipment = {
-        weapon: weapon,
-        armor: armor,
-        shield: null,
-        accessories: [],
+        ...createEmptyEquipment(),
+        mainHand: weapon ? createEquipmentItem(weapon) : null,
+        chest: armor ? createEquipmentItem(armor) : null
     };
 
     // Inventory: put the extra consumables in the bag (equipped weapon/armor are separate)
@@ -397,6 +397,8 @@ export const createCoreSlice = (set, get) => ({
                             }
                         }
 
+                        enriched.equipment = normalizeEquipment(char.equipment);
+
                         return enriched;
                     });
 
@@ -409,20 +411,19 @@ export const createCoreSlice = (set, get) => ({
                 }
             }
 
-            // Fallback to localStorage (for offline mode, guest users, or when Firebase fails)
+            // Fallback to localStorage / in-memory store (for offline mode, guest users, or when Firebase fails)
             let characters = [];
             try {
                 const storageKey = getCharactersStorageKey();
-                const savedCharacters = localStorage.getItem(storageKey);
+                const savedCharacters = localStorageManager.safeGetItem(storageKey);
                 characters = savedCharacters ? JSON.parse(savedCharacters) : [];
                 
                 // IMPROVED: If no characters found in expected key, check the other key as fallback
-                // This handles cases where account type detection might be wrong
                 if (!characters || characters.length === 0) {
                     const alternateKey = storageKey === 'mythrill-characters' 
                         ? 'mythrill-guest-characters' 
                         : 'mythrill-characters';
-                    const alternateCharacters = localStorage.getItem(alternateKey);
+                    const alternateCharacters = localStorageManager.safeGetItem(alternateKey);
                     if (alternateCharacters) {
                         const parsed = JSON.parse(alternateCharacters);
                         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -432,10 +433,18 @@ export const createCoreSlice = (set, get) => ({
                     }
                 }
                 
+                // If storage was empty or failed, but we already have in-memory characters in the store, preserve them!
+                const existingInMemory = get().characters;
+                if ((!characters || characters.length === 0) && Array.isArray(existingInMemory) && existingInMemory.length > 0) {
+                    console.log(`[CharacterStore] Preserving ${existingInMemory.length} existing in-memory characters`);
+                    characters = existingInMemory;
+                }
+                
                 console.log(`[CharacterStore] Loaded ${characters?.length || 0} characters from ${storageKey}`);
             } catch (localStorageError) {
-                console.error('Error loading from localStorage:', localStorageError);
-                characters = [];
+                console.error('Error loading from storage:', localStorageError);
+                const existingInMemory = get().characters;
+                characters = Array.isArray(existingInMemory) ? existingInMemory : [];
             }
 
             // Ensure characters array is valid
@@ -477,6 +486,8 @@ export const createCoreSlice = (set, get) => ({
                         }
                     }
                 }
+
+                enriched.equipment = normalizeEquipment(char.equipment);
 
                 return enriched;
             });
@@ -522,12 +533,7 @@ export const createCoreSlice = (set, get) => ({
                     currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
                     encumbranceState: 'normal'
                 },
-                equipment: characterData.equipment || {
-                    weapon: null,
-                    armor: null,
-                    shield: null,
-                    accessories: []
-                },
+                equipment: normalizeEquipment(characterData.equipment),
                 spells: characterData.spells || [],
                 experience: characterData.experience || 0
             };
@@ -794,7 +800,7 @@ export const createCoreSlice = (set, get) => ({
                     max: 50 // Temporary value, will be recalculated
                 },
                 actionPoints: character.actionPoints || character.resources?.actionPoints || { current: 1, max: 3 },
-                equipment: character.equipment || {},
+                equipment: normalizeEquipment(character.equipment),
                 resistances: character.resistances || get().resistances,
                 spellPower: character.spellPower || get().spellPower,
                 lore: character.lore || get().lore,

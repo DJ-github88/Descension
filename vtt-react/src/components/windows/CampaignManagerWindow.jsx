@@ -12,6 +12,7 @@ import useShareableStore from '../../store/shareableStore';
 import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
@@ -43,6 +44,23 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
 // Campaign Management Window with tabbed interface
 function CampaignManagerWindow({ isOpen, onClose }) {
     const { allowed: campaignManagerFullAllowed, loading: campaignManagerFullLoading } = useFeatureFlag('campaignManagerFull');
+    const { uploadImage, removeImage } = useMediaUpload();
+
+    const handleMediaUpload = async (file, category, apply) => {
+        if (!file) return;
+        try {
+            const url = await uploadImage(file, category);
+            if (url) apply(url);
+        } catch (err) {
+            console.error('Media upload failed:', err);
+            alert(err.message || 'Image upload failed. Please try a smaller file.');
+        }
+    };
+
+    const handleMediaRemove = (existingUrl, apply) => {
+        if (existingUrl) removeImage(existingUrl).catch((err) => console.warn('Failed to remove cloud media:', err));
+        apply();
+    };
     const [activeTab, setActiveTab] = useState('overview');
 
     // Modal state
@@ -415,6 +433,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         setConfirmModalConfig({
             message: 'Are you sure you want to remove this NPC?',
             onConfirm: () => {
+                const removedNPC = (campaignData.npcs || []).find(npc => npc.id === npcId);
+                if (removedNPC?.image) {
+                    removeImage(removedNPC.image).catch((err) => console.warn('Failed to remove NPC media:', err));
+                }
                 updateCampaignData({
                     npcs: (campaignData.npcs || []).filter(npc => npc.id !== npcId)
                 });
@@ -460,6 +482,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         setConfirmModalConfig({
             message: 'Are you sure you want to remove this location?',
             onConfirm: () => {
+                const removedLocation = (campaignData.locations || []).find(location => location.id === locationId);
+                if (removedLocation?.image) {
+                    removeImage(removedLocation.image).catch((err) => console.warn('Failed to remove location media:', err));
+                }
                 updateCampaignData({
                     locations: (campaignData.locations || []).filter(location => location.id !== locationId)
                 });
@@ -506,6 +532,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         setConfirmModalConfig({
             message: 'Are you sure you want to remove this plot thread?',
             onConfirm: () => {
+                const removedPlotThread = (campaignData.plotThreads || []).find(plotThread => plotThread.id === plotThreadId);
+                if (removedPlotThread?.image) {
+                    removeImage(removedPlotThread.image).catch((err) => console.warn('Failed to remove plot media:', err));
+                }
                 updateCampaignData({
                     plotThreads: (campaignData.plotThreads || []).filter(plotThread => plotThread.id !== plotThreadId)
                 });
@@ -1312,11 +1342,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     style={{ display: 'none' }}
                                                                     onChange={(e) => {
                                                                         const file = e.target.files?.[0];
-                                                                        if (file) {
-                                                                            const reader = new FileReader();
-                                                                            reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
-                                                                            reader.readAsDataURL(file);
-                                                                        }
+                                                                         if (file) handleMediaUpload(file, 'portraits', (url) => updateNPC(npc.id, { image: url }), npc.image);
                                                                     }}
                                                                 />
                                                             </label>
@@ -1325,7 +1351,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 className="media-clear-btn-pill"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    updateNPC(npc.id, { image: null });
+                                                                    handleMediaRemove(npc.image, () => updateNPC(npc.id, { image: null }));
                                                                 }}
                                                                 title="Remove portrait"
                                                             >
@@ -1343,11 +1369,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                             style={{ display: 'none' }}
                                                             onChange={(e) => {
                                                                 const file = e.target.files?.[0];
-                                                                if (file) {
-                                                                    const reader = new FileReader();
-                                                                    reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
-                                                                    reader.readAsDataURL(file);
-                                                                }
+                                                                 if (file) handleMediaUpload(file, 'portraits', (url) => updateNPC(npc.id, { image: url }), npc.image);
                                                             }}
                                                         />
                                                     </label>
@@ -1472,14 +1494,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 type="file"
                                                                 accept="image/*"
                                                                 style={{ display: 'none' }}
-                                                                onChange={(e) => {
-                                                                    const file = e.target.files?.[0];
-                                                                    if (file) {
-                                                                        const reader = new FileReader();
-                                                                        reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
-                                                                        reader.readAsDataURL(file);
-                                                                    }
-                                                                }}
+                                                                        onChange={(e) => {
+                                                                            const file = e.target.files?.[0];
+                                                                             if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
+                                                                        }}
                                                             />
                                                         </label>
                                                         <button
@@ -1487,7 +1505,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                             className="media-clear-btn-pill"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                updateLocation(location.id, { image: null });
+                                                                handleMediaRemove(location.image, () => updateLocation(location.id, { image: null }));
                                                             }}
                                                             title="Remove artwork"
                                                         >
@@ -1503,14 +1521,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                         type="file"
                                                         accept="image/*"
                                                         style={{ display: 'none' }}
-                                                        onChange={(e) => {
-                                                            const file = e.target.files?.[0];
-                                                            if (file) {
-                                                                const reader = new FileReader();
-                                                                reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
-                                                                reader.readAsDataURL(file);
-                                                            }
-                                                        }}
+                                                                    onChange={(e) => {
+                                                                        const file = e.target.files?.[0];
+                                                                         if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
+                                                                    }}
                                                     />
                                                 </label>
                                             )}
@@ -1622,14 +1636,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                 type="file"
                                                                 accept="image/*"
                                                                 style={{ display: 'none' }}
-                                                                onChange={(e) => {
-                                                                    const file = e.target.files?.[0];
-                                                                    if (file) {
-                                                                        const reader = new FileReader();
-                                                                        reader.onload = (ev) => updatePlotThread(plotThread.id, { image: ev.target.result });
-                                                                        reader.readAsDataURL(file);
-                                                                    }
-                                                                }}
+                                                                        onChange={(e) => {
+                                                                            const file = e.target.files?.[0];
+                                                                             if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plotThread.id, { image: url }), plotThread.image);
+                                                                        }}
                                                             />
                                                         </label>
                                                         <button
@@ -1637,7 +1647,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                             className="media-clear-btn-pill"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                updatePlotThread(plotThread.id, { image: null });
+                                                                handleMediaRemove(plotThread.image, () => updatePlotThread(plotThread.id, { image: null }));
                                                             }}
                                                             title="Remove banner"
                                                         >
@@ -1653,14 +1663,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                         type="file"
                                                         accept="image/*"
                                                         style={{ display: 'none' }}
-                                                        onChange={(e) => {
-                                                            const file = e.target.files?.[0];
-                                                            if (file) {
-                                                                const reader = new FileReader();
-                                                                reader.onload = (ev) => updatePlotThread(plotThread.id, { image: ev.target.result });
-                                                                reader.readAsDataURL(file);
-                                                            }
-                                                        }}
+                                                                    onChange={(e) => {
+                                                                        const file = e.target.files?.[0];
+                                                                         if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plotThread.id, { image: url }), plotThread.image);
+                                                                    }}
                                                     />
                                                 </label>
                                             )}
@@ -1833,13 +1839,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     accept="image/*"
                                                     onChange={(e) => {
                                                         const file = e.target.files?.[0];
-                                                        if (file) {
-                                                            const reader = new FileReader();
-                                                            reader.onload = (event) => {
-                                                                setNewShareableContent(event.target.result);
-                                                            };
-                                                            reader.readAsDataURL(file);
-                                                        }
+                                                         if (file) handleMediaUpload(file, 'misc', (url) => setNewShareableContent(url), newShareableContent);
                                                     }}
                                                     style={{ display: 'none' }}
                                                 />
@@ -2448,11 +2448,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                                 style={{ display: 'none' }}
                                                                                 onChange={(e) => {
                                                                                     const file = e.target.files?.[0];
-                                                                                    if (file) {
-                                                                                        const reader = new FileReader();
-                                                                                        reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
-                                                                                        reader.readAsDataURL(file);
-                                                                                    }
+                                                                                     if (file) handleMediaUpload(file, 'lore', (url) => updateLoreArticle(article.id, { image: url }), article.image);
                                                                                 }}
                                                                             />
                                                                         </label>
@@ -2461,7 +2457,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                             className="media-clear-btn-pill"
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation();
-                                                                                updateLoreArticle(article.id, { image: null });
+                                                                                handleMediaRemove(article.image, () => updateLoreArticle(article.id, { image: null }));
                                                                             }}
                                                                             title="Remove lore artwork"
                                                                         >
@@ -2479,11 +2475,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                         style={{ display: 'none' }}
                                                                         onChange={(e) => {
                                                                             const file = e.target.files?.[0];
-                                                                            if (file) {
-                                                                                const reader = new FileReader();
-                                                                                reader.onload = (ev) => updateLoreArticle(article.id, { image: ev.target.result });
-                                                                                reader.readAsDataURL(file);
-                                                                            }
+                                                                             if (file) handleMediaUpload(file, 'lore', (url) => updateLoreArticle(article.id, { image: url }), article.image);
                                                                         }}
                                                                     />
                                                                 </label>
@@ -2811,9 +2803,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             <MythrillWindow
                 isOpen={isOpen}
                 onClose={onClose}
-                title="Campaign Manager"
-                defaultSize={{ width: Math.min(840, defaultWinWidth), height: Math.min(600, defaultWinHeight) }}
-                defaultPosition={{ x: defaultWinX, y: defaultWinY }}
+                title=""
+                className="campaign-manager-locked-window"
+                defaultSize={{ width: 620, height: 480 }}
+                centered
             >
                 {renderCampaignManagerLockedView()}
             </MythrillWindow>

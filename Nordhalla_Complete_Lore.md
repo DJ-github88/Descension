@@ -51,11 +51,11 @@ Ruled by **King-Jarl Halvar Skalvyr, called Jarn-Tand ("Iron-Tooth")** of **Hous
 
 ## PART II: PRE-STAR MYTHRILL & THE CELESTIAL STAR-FALL
 
-### Pre-Star Mythrill (Primordial Anima)
+### Pre-Star Mythrill (Primordial Anima & Ancient Magic)
 
-Mythrill was never a barren or lifeless rock; it was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*), and non-human races possessed innate biological elemental abilities (fire, frost, storm). 
+Mythrill was never a barren or magic-less rock; it was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*), and ancient races (**Fexrick**, **Myrathil**, **Neth**, **Groven**) commanded raw primordial and elemental magic. 
 
-Mortals had **zero magic**. They were underdogs who survived strictly through forged steel, tactical engineering, black powder, matchlocks, archery, and strict cultural taboos.
+While ancient mortal disciplines (**Animists**, **Berserkers**, **Wardens**, **Shapers**, **Minstrels**) communed with the land's primal resonance, common folk survived strictly through forged steel, tactical engineering, black powder matchlocks, archery, and strict cultural taboos.
 
 ### The Celestial Star-Fall (Year 0)
 
@@ -63,9 +63,10 @@ Celestial Parents (**AEX**, the Mother, and **AETHIL**, the Father) fled across 
 
 ### The House Bargain & Infusion
 
-Mortal Houses unaligned with the Old Native Gods struck a blood pact with the Celestials to level the playing field against magical beasts:
-- **High Houses:** Mutated directly into magical lineages (*Solari*, *Vreken*, *Neth*).
-- **Common Folk:** Received subtle physical adaptations while keeping traditional black powder, matchlocks, and melee combat.
+Mortal Houses struck blood pacts with the Celestials to gain cosmic power against ancient terrors:
+- **Infused Bloodlines:** Mortal dynasties supercharged with celestial power (*Thalren*, *Skald*, *Solvarn*, *Solari*, *Astril*).
+- **The Forest Exiles:** House Viridane refused Keth-Amar's sacrifice, fled south, and made an ancient grove pact that transformed them into the **Florae** (**Viridian** and **Oken**).
+- **Common & Wild Folk:** Preserved traditional black powder, matchlocks, and melee combat, or drew upon the ancient primordial animism of the land (*Moraine Clans*).
 
 ### The Shattering & Freezing Era (Year 325 – Present / Year 475)
 
@@ -357,7 +358,7 @@ The central river valley, anchored by the **Skaldfjord River** that flows north-
 | **Fjord-Gate** | Harbor | Primary harbor. Stone doors block sea-storms. Opens to the Black Firth. |
 | **Ymir's Hold** | Coastal Fortress | Fortress guarding the southern approaches to the Skaldfjord Dal. Named for the primordial giant. Stone walls carved with runic wards. The Skald Navy patrols from here. |
 | **Frostflow** | Fishing Town | Pure-blooded Skald — no immigrants ever. Holds the Eldon-Stone, naming every chieftain since the Binding. Formerly called Eldonholm. |
-| **The Black Firth** | Naval Inlet | Obsidian-cliffed inlet, soot-streaked from ironclad funnels. Primary naval route to the Iceheart Sea. Navigated by starlight since no sunlight has penetrated in eight centuries. |
+| **The Black Firth** | Naval Inlet | Obsidian-cliffed inlet, soot-streaked from ironclad funnels. Primary naval route to the Iceheart Sea. Navigated by starlight since no sunlight has penetrated in nearly five centuries. |
 | **Hearth-Glow Tavern-Cluster** | Settlement | Taverns built over steaming vents. Patrons grip frozen iron bars to prove lineage. |
 | **Whale-Oil Row** | Warehouse District | Syndicate warehouse-row stacked with whale-oil casks. Ironclads load harpoon-ammunition. |
 | **Iron-Ore Quay** | Loading Dock | Syndicate loading dock for the Iceheart run. |
@@ -466,7 +467,7 @@ The hermit is **still out there**, somewhere in the highest crevices of the Icet
 
 The Corvani have developed a **ritual of appeasement**. They gather shiny objects — coins, glass, ice-crystals, mirrors, fragments of metal, anything that glints — and carry them to the highest peaks they can reach. They leave the offerings in cairns, in crevices, on ledges. **Sometimes the objects are gone the next day.** Sometimes they sit for years. The Corvani don't know which.
 
-They believe the sacrifices will one day **revert their transformation**. They believe that if they give enough, if they find the right offering, the hermit will lift the curse and they will be human again. They have believed this for eight centuries.
+They believe the sacrifices will one day **revert their transformation**. They believe that if they give enough, if they find the right offering, the hermit will lift the curse and they will be human again. They have believed this for centuries.
 
 #### The Truth They Cannot See
 

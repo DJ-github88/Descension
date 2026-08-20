@@ -1,19 +1,29 @@
 /**
  * Community Items Tab
  * 
- * This component provides access to community-created items stored in Firebase.
- * Users can browse items by category, search, and download items to their local library.
+ * Provides access to community-created items stored in Firebase.
+ * Fully aligned with the Pathfinder grimoire UI system.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useCommunityItems } from '../../hooks/useCommunityItems';
 import useItemStore from '../../store/itemStore';
 import useAuthStore from '../../store/authStore';
 import ItemCard from './ItemCard';
 import { getIconUrl } from '../../utils/assetManager';
-import '../../styles/community-tabs-shared.css';
+import { RARITY_COLORS } from '../../constants/itemConstants';
 import './CommunityItemsTab.css';
 
+const DEFAULT_ITEM_CATEGORIES = [
+  { id: 'all', name: 'All Categories' },
+  { id: 'weapons', name: 'Weapons' },
+  { id: 'armor', name: 'Armor' },
+  { id: 'consumables', name: 'Consumables' },
+  { id: 'accessories', name: 'Accessories' },
+  { id: 'materials', name: 'Materials' },
+  { id: 'tools', name: 'Tools' },
+  { id: 'misc', name: 'Misc' }
+];
 
 const CommunityItemsTab = () => {
   const {
@@ -25,27 +35,50 @@ const CommunityItemsTab = () => {
     error,
     selectedCategory,
     searchTerm,
+    sortBy,
     hasMore,
     selectCategory,
     search,
     clearSelection,
+    changeSortBy,
     loadMoreItems,
     downloadCommunityItem,
     voteCommunityItem,
     fetchUserVote,
     addCommunityComment,
     fetchComments,
-    refreshCategories,
-    refreshRecent
+    refreshAll
   } = useCommunityItems();
 
-  const { addItem } = useItemStore();
+  const { addItem, items: localItems } = useItemStore();
   const { user } = useAuthStore();
+
+  const [activeSection, setActiveSection] = useState('browse'); // 'browse', 'recent'
+  const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list'
   const [searchInput, setSearchInput] = useState('');
   const [downloadingItems, setDownloadingItems] = useState(new Set());
   const [expandedComments, setExpandedComments] = useState({});
   const [commentTexts, setCommentTexts] = useState({});
   const [userVotes, setUserVotes] = useState({});
+  const [inspectingItem, setInspectingItem] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  // Toast helper
+  const showToast = useCallback((message, type = 'success', duration = 3000) => {
+    setToast({ message, type });
+    const timer = setTimeout(() => setToast(null), duration);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Check if item is in local library
+  const isInLibrary = useCallback((item) => {
+    if (!localItems || !item) return false;
+    return localItems.some(i =>
+      i.originalId === item.id ||
+      i.id === item.id ||
+      (i.name && item.name && i.name.trim().toLowerCase() === item.name.trim().toLowerCase())
+    );
+  }, [localItems]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -54,43 +87,51 @@ const CommunityItemsTab = () => {
     }
   };
 
-  const handleDownloadItem = async (item) => {
+  const handleClearSearch = () => {
+    setSearchInput('');
+    search('');
+  };
+
+  const handleDownloadItem = async (item, e) => {
+    if (e) e.stopPropagation();
+    if (downloadingItems.has(item.id)) return;
+
     try {
       setDownloadingItems(prev => new Set([...prev, item.id]));
-      
-      // Download from Firebase (increments download count)
       const downloadedItem = await downloadCommunityItem(item.id);
-      
-      // Add to local library
+
       const localItem = {
-        ...downloadedItem.itemData,
-        id: `community-${downloadedItem.id}-${Date.now()}`, // Ensure unique local ID
+        ...(downloadedItem.itemData || downloadedItem),
+        id: `community-${downloadedItem.id}-${Date.now()}`,
         name: downloadedItem.name,
         description: downloadedItem.description,
         type: downloadedItem.type,
-        quality: downloadedItem.quality,
+        quality: downloadedItem.quality || downloadedItem.rarity || 'common',
         source: 'community',
         originalId: downloadedItem.id,
         dateAdded: new Date().toISOString()
       };
 
-      // Add to item store
-      addItem(localItem, [downloadedItem.categoryId]);
-      
-      console.log('Item downloaded and added to library:', localItem.name);
-    } catch (error) {
-      console.error('Failed to download item:', error);
+      addItem(localItem, [downloadedItem.categoryId || 'weapons']);
+      showToast(`Added "${item.name}" to your library!`, 'success');
+    } catch (err) {
+      console.error('Failed to download item:', err);
+      showToast('Failed to download item. Please try again.', 'error');
     } finally {
       setDownloadingItems(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(item.id);
-        return newSet;
+        const next = new Set(prev);
+        next.delete(item.id);
+        return next;
       });
     }
   };
 
-  const handleVote = async (item, direction) => {
-    if (!user?.uid) return;
+  const handleVote = async (item, direction, e) => {
+    if (e) e.stopPropagation();
+    if (!user?.uid) {
+      showToast('Please log in to vote on community items.', 'error');
+      return;
+    }
     try {
       await voteCommunityItem(item.id, user.uid, direction);
       setUserVotes(prev => {
@@ -103,7 +144,8 @@ const CommunityItemsTab = () => {
     }
   };
 
-  const toggleComments = async (itemId) => {
+  const toggleComments = async (itemId, e) => {
+    if (e) e.stopPropagation();
     if (expandedComments[itemId]) {
       setExpandedComments(prev => ({ ...prev, [itemId]: null }));
       return;
@@ -120,7 +162,7 @@ const CommunityItemsTab = () => {
 
   const handleAddComment = async (itemId) => {
     if (!user?.uid || !commentTexts[itemId]?.trim()) return;
-    const displayName = user.displayName || user.email || 'Anonymous';
+    const displayName = user.displayName || user.email || 'Adventurer';
     try {
       const comment = await addCommunityComment(itemId, user.uid, displayName, commentTexts[itemId].trim());
       setExpandedComments(prev => ({
@@ -128,8 +170,10 @@ const CommunityItemsTab = () => {
         [itemId]: [comment, ...(prev[itemId] || [])]
       }));
       setCommentTexts(prev => ({ ...prev, [itemId]: '' }));
+      showToast('Comment submitted!', 'success');
     } catch (err) {
       console.error('Comment failed:', err);
+      showToast('Failed to submit comment.', 'error');
     }
   };
 
@@ -139,307 +183,547 @@ const CommunityItemsTab = () => {
     setUserVotes(prev => ({ ...prev, [itemId]: vote }));
   };
 
-  const renderItemCard = (item) => {
-    // Ensure complete item data structure for proper tooltip display
-    const completeItem = {
-      // Start with itemData if it exists
+  const buildCompleteItem = useCallback((item) => {
+    return {
       ...(item.itemData || {}),
-      // Override with community-specific data
       id: item.id,
-      name: item.name,
-      description: item.description,
+      name: item.name || 'Unnamed Item',
+      description: item.description || '',
       quality: item.quality || item.rarity || 'common',
-      type: item.type,
-      // Ensure required properties exist for tooltip
+      type: item.type || 'equipment',
       iconId: item.itemData?.iconId || item.iconId,
       imageUrl: item.itemData?.imageUrl || item.imageUrl,
-      baseStats: item.itemData?.baseStats || {},
-      enchantments: item.itemData?.enchantments || [],
+      baseStats: item.itemData?.baseStats || item.baseStats || {},
+      enchantments: item.itemData?.enchantments || item.enchantments || [],
       requiredLevel: item.itemData?.requiredLevel || 0,
-      // Properly format value for tooltip display
       value: item.itemData?.goldValue !== undefined ? {
         platinum: item.itemData.platinumValue || 0,
         gold: item.itemData.goldValue || 0,
         silver: item.itemData.silverValue || 0,
         copper: item.itemData.copperValue || 0
       } : (item.itemData?.value || 0),
-      // Add community-specific metadata
       downloadCount: item.downloadCount || 0,
       rating: item.rating || 0,
       ratingCount: item.ratingCount || 0,
+      upvotes: item.upvotes || 0,
+      downvotes: item.downvotes || 0,
+      commentCount: item.commentCount || 0,
       source: 'community'
     };
+  }, []);
 
+  // Filter out featured items from general catalog to avoid duplicate cards
+  const filteredCatalogItems = useMemo(() => {
+    if (searchTerm || selectedCategory) {
+      return items;
+    }
+    const featuredIds = new Set(featuredItems.map(i => i.id));
+    return items.filter(i => !featuredIds.has(i.id));
+  }, [items, featuredItems, searchTerm, selectedCategory]);
+
+  const activeCategoryList = useMemo(() => {
+    if (categories && categories.length > 0) {
+      return [{ id: 'all', name: 'All Categories' }, ...categories];
+    }
+    return DEFAULT_ITEM_CATEGORIES;
+  }, [categories]);
+
+  const renderItemCard = (item) => {
+    const completeItem = buildCompleteItem(item);
+    const inLib = isInLibrary(item);
+    const isDownloading = downloadingItems.has(item.id);
     const userVote = userVotes[item.id] || item._userVote || null;
+    const voteScore = (item.upvotes || 0) - (item.downvotes || 0);
 
-    return (
-      <div key={item.id} className="community-card-wrapper">
-        <ItemCard
-          item={completeItem}
-          onClick={() => {}}
-          onContextMenu={() => {}}
-          isSelected={false}
-        />
-        <div className="community-card-actions">
-          <div className="community-card-stats">
-            <div className="vote-controls">
+    const quality = (completeItem.quality || 'common').toLowerCase();
+    const qualityColor = RARITY_COLORS[quality]?.text || '#4a2818';
+
+    const iconUrl = completeItem.imageUrl || (completeItem.iconId ? getIconUrl(completeItem.iconId, 'items') : getIconUrl('inv_sword_04', 'items'));
+
+    if (viewMode === 'grid') {
+      return (
+        <div
+          key={item.id}
+          className={`cit-card quality-${quality}`}
+          onClick={() => setInspectingItem(completeItem)}
+        >
+          <div className="cit-card-topbar">
+            <span className="cit-quality-badge" style={{ color: qualityColor, borderColor: `${qualityColor}40` }}>
+              {quality}
+            </span>
+            <div className="cit-card-topbar-badges">
+              {inLib && (
+                <span className="cit-in-lib-badge" title="In Library">
+                  <i className="fas fa-check"></i> Library
+                </span>
+              )}
+              <span className="cit-type-badge">{completeItem.type}</span>
+            </div>
+          </div>
+
+          <div className="cit-card-header">
+            <div className="cit-card-icon-frame" style={{ borderColor: qualityColor }}>
+              <img
+                src={iconUrl}
+                alt={item.name}
+                className="cit-card-icon"
+                onError={(e) => {
+                  e.target.src = getIconUrl('inv_sword_04', 'items');
+                }}
+              />
+            </div>
+            <div className="cit-card-header-info">
+              <h4 className="cit-card-title" title={item.name}>{item.name}</h4>
+              <div className="cit-card-meta">
+                <span>{completeItem.type}</span>
+                {completeItem.requiredLevel > 0 && <span>Lvl {completeItem.requiredLevel}</span>}
+              </div>
+            </div>
+          </div>
+
+          {completeItem.description && (
+            <p className="cit-card-description">{completeItem.description}</p>
+          )}
+
+          <div className="cit-card-footer">
+            <div className="cit-card-votes">
               <button
-                className={`vote-btn upvote ${userVote === 'up' ? 'active' : ''}`}
-                onClick={() => handleVote(item, 'up')}
+                className={`cit-vote-btn up ${userVote === 'up' ? 'active' : ''}`}
+                onClick={(e) => handleVote(item, 'up', e)}
                 onMouseEnter={() => loadUserVote(item.id)}
-                disabled={!user?.uid}
                 title={user?.uid ? 'Upvote' : 'Log in to vote'}
               >
                 <i className="fas fa-arrow-up"></i>
               </button>
-              <span className="vote-count"><span className="count-text">{(item.upvotes || 0) - (item.downvotes || 0)}</span></span>
+              <span className="cit-vote-score">{voteScore}</span>
               <button
-                className={`vote-btn downvote ${userVote === 'down' ? 'active' : ''}`}
-                onClick={() => handleVote(item, 'down')}
-                disabled={!user?.uid}
+                className={`cit-vote-btn down ${userVote === 'down' ? 'active' : ''}`}
+                onClick={(e) => handleVote(item, 'down', e)}
                 title={user?.uid ? 'Downvote' : 'Log in to vote'}
               >
                 <i className="fas fa-arrow-down"></i>
               </button>
             </div>
-            <span className="download-count">
-              <i className="fas fa-download" onClick={() => handleDownloadItem(item)} style={{cursor: 'pointer'}} title="Add to Library"></i>
-              <span className="count-text">{item.downloadCount || 0}</span>
-            </span>
-            <button
-              className="comment-toggle-btn"
-              onClick={() => toggleComments(item.id)}
-              title="Comments"
-            >
-              <i className="fas fa-comment"></i>
-              <span className="count-text">{item.commentCount || 0}</span>
-            </button>
+
+            <div className="cit-card-stats">
+              <span className="cit-stat-downloads" title="Downloads">
+                <i className="fas fa-download"></i> {item.downloadCount || 0}
+              </span>
+              <button
+                className="cit-comments-toggle"
+                onClick={(e) => toggleComments(item.id, e)}
+                title="View comments"
+              >
+                <i className="fas fa-comment"></i> {item.commentCount || 0}
+              </button>
+            </div>
+
+            <div className="cit-card-actions">
+              <button
+                className={`cit-download-btn ${inLib ? 'in-library' : ''}`}
+                onClick={(e) => handleDownloadItem(item, e)}
+                disabled={isDownloading}
+                title={inLib ? 'Already in your library' : 'Download item to library'}
+              >
+                {isDownloading ? (
+                  <><i className="fas fa-spinner fa-spin"></i> ...</>
+                ) : inLib ? (
+                  <><i className="fas fa-check"></i> In Library</>
+                ) : (
+                  <><i className="fas fa-download"></i> Download</>
+                )}
+              </button>
+            </div>
           </div>
-        </div>
-        {expandedComments[item.id] && (
-          <div className="comments-section">
-            <div className="comments-list">
-              {(expandedComments[item.id] || []).length === 0 ? (
-                <p className="no-comments">No comments yet</p>
+
+          {/* Comments Section Drawer */}
+          {expandedComments[item.id] && (
+            <div className="cit-comments-drawer" onClick={(e) => e.stopPropagation()}>
+              <div className="cit-comments-list">
+                {(expandedComments[item.id] || []).length === 0 ? (
+                  <p className="cit-no-comments">No notes etched on this relic yet.</p>
+                ) : (
+                  expandedComments[item.id].map(c => (
+                    <div key={c.id || Math.random()} className="cit-comment-item">
+                      <span className="cit-comment-author">{c.displayName || 'Adventurer'}</span>
+                      <span className="cit-comment-text">{c.text}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+              {user?.uid ? (
+                <div className="cit-comment-input-wrap">
+                  <input
+                    type="text"
+                    placeholder="Leave lore comment..."
+                    value={commentTexts[item.id] || ''}
+                    onChange={(e) => setCommentTexts(prev => ({ ...prev, [item.id]: e.target.value }))}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddComment(item.id)}
+                    className="cit-comment-input"
+                  />
+                  <button onClick={() => handleAddComment(item.id)} className="cit-comment-send">
+                    <i className="fas fa-paper-plane"></i>
+                  </button>
+                </div>
               ) : (
-                expandedComments[item.id].map(c => (
-                  <div key={c.id} className="comment-item">
-                    <span className="comment-author">{c.displayName}</span>
-                    <span className="comment-text">{c.text}</span>
-                  </div>
-                ))
+                <p className="cit-login-note">Log in to leave comments</p>
               )}
             </div>
-            {user?.uid ? (
-              <div className="comment-input-row">
-                <input
-                  type="text"
-                  placeholder="Add a comment..."
-                  value={commentTexts[item.id] || ''}
-                  onChange={(e) => setCommentTexts(prev => ({ ...prev, [item.id]: e.target.value }))}
-                  onKeyDown={(e) => e.key === 'Enter' && handleAddComment(item.id)}
-                  className="comment-input"
-                />
-                <button onClick={() => handleAddComment(item.id)} className="comment-submit-btn">
-                  <i className="fas fa-paper-plane"></i>
-                </button>
-              </div>
-            ) : (
-              <p className="login-prompt">Log in to comment</p>
+          )}
+        </div>
+      );
+    }
+
+    // List Row View
+    return (
+      <div
+        key={item.id}
+        className={`cit-row quality-${quality}`}
+        onClick={() => setInspectingItem(completeItem)}
+      >
+        <div className="cit-row-main">
+          <div className="cit-row-icon-frame" style={{ borderColor: qualityColor }}>
+            <img
+              src={iconUrl}
+              alt={item.name}
+              onError={(e) => {
+                e.target.src = getIconUrl('inv_sword_04', 'items');
+              }}
+            />
+          </div>
+          <div className="cit-row-details">
+            <div className="cit-row-title-line">
+              <span className="cit-row-title">{item.name}</span>
+              <span className="cit-quality-badge small" style={{ color: qualityColor }}>{quality}</span>
+              <span className="cit-type-badge small">{completeItem.type}</span>
+              {inLib && (
+                <span className="cit-in-lib-badge small" title="In Library">
+                  <i className="fas fa-check"></i>
+                </span>
+              )}
+            </div>
+            {completeItem.description && (
+              <p className="cit-row-desc">{completeItem.description}</p>
             )}
           </div>
-        )}
+        </div>
+
+        <div className="cit-row-controls">
+          <div className="cit-row-stats">
+            <span title="Score"><i className="fas fa-arrow-up" style={{ color: '#4caf50' }}></i> {voteScore}</span>
+            <span title="Downloads"><i className="fas fa-download"></i> {item.downloadCount || 0}</span>
+          </div>
+          <button
+            className={`cit-download-btn ${inLib ? 'in-library' : ''}`}
+            onClick={(e) => handleDownloadItem(item, e)}
+            disabled={isDownloading}
+          >
+            {isDownloading ? (
+              <><i className="fas fa-spinner fa-spin"></i> ...</>
+            ) : inLib ? (
+              <><i className="fas fa-check"></i> In Library</>
+            ) : (
+              <><i className="fas fa-download"></i> Download</>
+            )}
+          </button>
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="community-items-tab">
-      {/* Search Bar & Controls */}
-      <div className="premium-community-controls">
-        {selectedCategory && (
-          <button onClick={clearSelection} className="community-go-back-btn">
-            <i className="fas fa-arrow-left"></i> Back to Categories
+    <div className="community-items-tab cit-root">
+      {/* Toast Notification Banner */}
+      {toast && (
+        <div className={`cit-toast ${toast.type}`}>
+          <i className={toast.type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle'}></i>
+          <span>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Top Grimoire Toolbar */}
+      <div className="cit-toolbar">
+        {/* Left: View Tabs */}
+        <div className="cit-toolbar-nav">
+          <button
+            type="button"
+            className={`cit-nav-tab ${activeSection === 'browse' ? 'active' : ''}`}
+            onClick={() => setActiveSection('browse')}
+          >
+            <i className="fas fa-compass"></i>
+            <span>Browse</span>
+            <span className="cit-nav-badge">{items.length}</span>
           </button>
-        )}
-        
-        <form onSubmit={handleSearch} className="premium-search-form">
-          <div className="premium-search-input-group">
-            <input
-              type="text"
-              placeholder="Search community items..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              className="premium-search-input"
-            />
-            <button type="submit" className="premium-search-btn">
-              <i className="fas fa-search"></i>
+          <button
+            type="button"
+            className={`cit-nav-tab ${activeSection === 'recent' ? 'active' : ''}`}
+            onClick={() => setActiveSection('recent')}
+          >
+            <i className="fas fa-sparkles"></i>
+            <span>Recent</span>
+            <span className="cit-nav-badge">{recentItems.length}</span>
+          </button>
+        </div>
+
+        {/* Center: Search Bar */}
+        <form onSubmit={handleSearch} className="cit-search-bar">
+          <i className="fas fa-search cit-search-icon"></i>
+          <input
+            type="text"
+            placeholder="Search community items by name, type, quality..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="cit-search-input"
+          />
+          {searchInput && (
+            <button
+              type="button"
+              className="cit-search-clear"
+              onClick={handleClearSearch}
+              title="Clear search"
+            >
+              <i className="fas fa-times"></i>
             </button>
-          </div>
+          )}
         </form>
 
-        {searchTerm && (
-          <button onClick={() => { clearSelection(); setSearchInput(''); }} className="premium-clear-btn">
-            <i className="fas fa-times"></i> Clear Search
-          </button>
-        )}
+        {/* Right: Sort & View Toggle Controls */}
+        <div className="cit-toolbar-controls">
+          <div className="cit-sort-box">
+            <span className="cit-control-label">SORT:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => changeSortBy(e.target.value)}
+              className="cit-sort-select"
+              disabled={!!searchTerm}
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="downloads">Most Downloads</option>
+              <option value="newest">Newest First</option>
+            </select>
+          </div>
+
+          <div className="cit-view-toggle">
+            <button
+              type="button"
+              className={`cit-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <i className="fas fa-th-large"></i>
+            </button>
+            <button
+              type="button"
+              className={`cit-view-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <i className="fas fa-list"></i>
+            </button>
+          </div>
+
+          {(selectedCategory || searchTerm) && (
+            <button
+              type="button"
+              onClick={clearSelection}
+              className="cit-reset-btn"
+              title="Clear active filter/search"
+            >
+              <i className="fas fa-times-circle"></i> Clear Filter
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="community-content">
-        {/* Simplified Header */}
-        {!selectedCategory && !searchTerm && (
-          <div className="community-minimal-header">
-            <div className="minimal-header-content">
-              <h1>Community Library</h1>
-              <div className="header-stats">
-                <div className="header-stat">
-                  <i className="fas fa-box-open"></i>
-                  <span>{categories.reduce((acc, cat) => acc + (cat.itemCount || 0), 0)} Items</span>
-                </div>
-                <div className="header-stat">
-                  <i className="fas fa-layer-group"></i>
-                  <span>{categories.length} Categories</span>
-                </div>
-                <button 
-                  className="refresh-community-btn" 
-                  onClick={() => {
-                    refreshCategories();
-                    refreshRecent();
-                  }}
-                  title="Refresh Community Data"
-                >
-                  <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`}></i>
+      {/* Sleek Category Filter Strip */}
+      <div className="cit-filter-bar">
+        <div className="cit-filter-row">
+          <span className="cit-filter-heading">CATEGORY:</span>
+          <div className="cit-chips-wrap">
+            {activeCategoryList.map(cat => (
+              <button
+                key={cat.id}
+                type="button"
+                className={`cit-chip ${(selectedCategory === cat.id || (!selectedCategory && cat.id === 'all')) ? 'active' : ''}`}
+                onClick={() => {
+                  if (cat.id === 'all') {
+                    clearSelection();
+                  } else {
+                    selectCategory(cat.id);
+                  }
+                }}
+              >
+                <span>{cat.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Scrollable Content */}
+      <div className="cit-content-scroll">
+        {loading && items.length === 0 ? (
+          <div className="cit-state-box">
+            <div className="cit-arcane-spinner"></div>
+            <h3>Searching the Archives...</h3>
+            <p>Gathering relics and treasures from the community vault.</p>
+          </div>
+        ) : error ? (
+          <div className="cit-state-box error">
+            <i className="fas fa-exclamation-triangle"></i>
+            <h3>Vault Connection Severed</h3>
+            <p>{error}</p>
+            <button className="cit-action-btn" onClick={refreshAll}>
+              <i className="fas fa-redo"></i> Retry Connection
+            </button>
+          </div>
+        ) : (searchTerm || selectedCategory) ? (
+          /* Filter / Search Results Section */
+          <div className="cit-section">
+            <div className="cit-section-header">
+              <div className="cit-section-title-wrap">
+                <i className="fas fa-search"></i>
+                <h3 className="cit-section-title">
+                  {selectedCategory
+                    ? `${activeCategoryList.find(c => c.id === selectedCategory)?.name || 'Category'} Items`
+                    : `Search Results for "${searchTerm}"`}
+                </h3>
+                <span className="cit-section-badge">{items.length} items</span>
+              </div>
+            </div>
+
+            {items.length === 0 ? (
+              <div className="cit-state-box">
+                <i className="fas fa-shield-alt"></i>
+                <h4>No Items Found</h4>
+                <p>No community items match your current query.</p>
+                <button className="cit-action-btn" onClick={clearSelection}>
+                  Clear Query
                 </button>
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* Recent Discoveries (NOW AT THE TOP) */}
-        {!selectedCategory && !searchTerm && (
-          <div className="recent-items-section top-section">
-            <div className="section-header">
-              <i className="fas fa-sparkles"></i>
-              <h3>Recent Discoveries</h3>
-            </div>
-            {recentItems.length > 0 ? (
-              <div className="items-grid horizontal-snap">
-                {recentItems.map(renderItemCard)}
-              </div>
-            ) : !loading ? (
-              <div className="no-items-placeholder">
-                <i className="fas fa-ghost"></i>
-                <p>No items shared yet. Be the first to grace this library!</p>
-              </div>
             ) : (
-              <div className="loading-placeholder">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Gazing into the Silence...</p>
+              <div className={viewMode === 'grid' ? 'cit-grid' : 'cit-list'}>
+                {items.map(renderItemCard)}
               </div>
             )}
           </div>
-        )}
-
-        {/* Categories (SMALLER TILES) */}
-        {!selectedCategory && !searchTerm && (
-          <div className="community-categories browse-section">
-            <div className="section-header">
-              <i className="fas fa-th-large"></i>
-              <h3>Browse by Category</h3>
-            </div>
-            <div className="categories-grid compact-grid">
-              {categories.map(category => (
-                <div
-                  key={category.id}
-                  className="category-tile"
-                  onClick={() => selectCategory(category.id)}
-                >
-                  <div className="tile-icon">
-                    <img
-                      src={getIconUrl(category.icon, 'items')}
-                      alt={category.name}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
-                      }}
-                    />
-                  </div>
-                  <div className="tile-info">
-                    <h4>{category.name}</h4>
-                    <span className="tile-count">{category.itemCount || 0} items</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-      {/* Featured Items */}
-      {!selectedCategory && !searchTerm && featuredItems.length > 0 && (
-        <div className="featured-items-section">
-          <div className="section-header">
-            <i className="fas fa-star"></i>
-            <h3>Featured Items</h3>
-          </div>
-          <div className="items-grid">
-            {featuredItems.map(renderItemCard)}
-          </div>
-        </div>
-      )}
-
-      {/* Item Results */}
-      {(selectedCategory || searchTerm) && (
-        <div className="item-results">
-          <div className="results-header">
-            <h3>
-              {selectedCategory 
-                ? `${categories.find(c => c.id === selectedCategory)?.name || 'Category'} Items`
-                : `Search Results for "${searchTerm}"`
-              }
-            </h3>
-            <span className="results-count">{items.length} items found</span>
-          </div>
-
-          {loading && items.length === 0 ? (
-            <div className="loading-state">
-              <i className="fas fa-spinner fa-spin"></i>
-              <p>Loading items...</p>
-            </div>
-          ) : items.length === 0 ? (
-            <div className="empty-state">
-              <i className="fas fa-search"></i>
-              <p>No items found</p>
-            </div>
-          ) : (
-            <>
-              <div className="items-grid">
-                {items.map(renderItemCard)}
+        ) : activeSection === 'recent' ? (
+          /* Recent Discoveries Flow */
+          <div className="cit-section">
+            <div className="cit-section-header">
+              <div className="cit-section-title-wrap">
+                <i className="fas fa-sparkles gold-glow"></i>
+                <h3 className="cit-section-title">Recent Discoveries</h3>
+                <span className="cit-section-badge">{recentItems.length} items</span>
               </div>
-              
-              {hasMore && (
-                <div className="load-more">
-                  <button 
-                    onClick={loadMoreItems} 
-                    disabled={loading}
-                    className="load-more-btn"
-                  >
-                    {loading ? (
-                      <>
-                        <i className="fas fa-spinner fa-spin"></i> Loading...
-                      </>
-                    ) : (
-                      <>
-                        <i className="fas fa-chevron-down"></i> Load More
-                      </>
-                    )}
-                  </button>
+            </div>
+
+            {recentItems.length > 0 ? (
+              <div className={viewMode === 'grid' ? 'cit-grid' : 'cit-list'}>
+                {recentItems.map(renderItemCard)}
+              </div>
+            ) : (
+              <div className="cit-state-box">
+                <i className="fas fa-gem"></i>
+                <h4>No Recent Discoveries</h4>
+                <p>Be the first to forge and upload new relics to the community vault!</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Browse Default Flow */
+          <div className="cit-browse-flow">
+            {/* Featured Items Section */}
+            {featuredItems.length > 0 && (
+              <div className="cit-section">
+                <div className="cit-section-header">
+                  <div className="cit-section-title-wrap">
+                    <i className="fas fa-star gold-glow"></i>
+                    <h3 className="cit-section-title">Featured Relics</h3>
+                    <span className="cit-section-badge">{featuredItems.length} featured</span>
+                  </div>
+                  <span className="cit-section-note">Handcrafted legendary community creations</span>
+                </div>
+                <div className={viewMode === 'grid' ? 'cit-grid' : 'cit-list'}>
+                  {featuredItems.map(renderItemCard)}
+                </div>
+              </div>
+            )}
+
+            {/* General Item Archives (Deduplicated) */}
+            <div className="cit-section">
+              <div className="cit-section-header">
+                <div className="cit-section-title-wrap">
+                  <i className="fas fa-box-open"></i>
+                  <h3 className="cit-section-title">Item Archives</h3>
+                  <span className="cit-section-badge">{filteredCatalogItems.length} items</span>
+                </div>
+              </div>
+
+              {filteredCatalogItems.length > 0 ? (
+                <div className={viewMode === 'grid' ? 'cit-grid' : 'cit-list'}>
+                  {filteredCatalogItems.map(renderItemCard)}
+                </div>
+              ) : (
+                <div className="cit-state-box">
+                  <i className="fas fa-shield-alt"></i>
+                  <h4>Vault Catalog Empty</h4>
+                  <p>All featured relics are displayed above. Craft your own items in the Designer to expand the library!</p>
                 </div>
               )}
-            </>
-          )}
+            </div>
+          </div>
+        )}
+
+        {/* Load More Button */}
+        {hasMore && !loading && !searchTerm && (
+          <div className="cit-load-more-box">
+            <button className="cit-load-more-btn" onClick={loadMoreItems}>
+              <i className="fas fa-chevron-down"></i> Load More Items
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Inspect Item Detail Modal */}
+      {inspectingItem && (
+        <div className="cit-modal-backdrop" onClick={() => setInspectingItem(null)}>
+          <div className="cit-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="cit-modal-header">
+              <h3 className="cit-modal-title">{inspectingItem.name}</h3>
+              <button className="cit-modal-close" onClick={() => setInspectingItem(null)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="cit-modal-body">
+              <ItemCard
+                item={inspectingItem}
+                onClick={() => {}}
+                onContextMenu={() => {}}
+                isSelected={false}
+              />
+            </div>
+            <div className="cit-modal-footer">
+              <button className="cit-modal-cancel" onClick={() => setInspectingItem(null)}>
+                Close
+              </button>
+              <button
+                className={`cit-modal-download ${isInLibrary(inspectingItem) ? 'in-library' : ''}`}
+                onClick={(e) => {
+                  handleDownloadItem(inspectingItem, e);
+                  setInspectingItem(null);
+                }}
+              >
+                {isInLibrary(inspectingItem) ? (
+                  <><i className="fas fa-check"></i> In Library</>
+                ) : (
+                  <><i className="fas fa-download"></i> Add to Library</>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
-      </div>
     </div>
   );
 };

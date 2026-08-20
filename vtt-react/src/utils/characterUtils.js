@@ -74,7 +74,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
   };
 
   // Process each equipped item using functional approach
-  Object.values(equipment).filter(Boolean).forEach(item => {
+  Object.values(equipment).filter(item => item && typeof item === 'object' && !Array.isArray(item)).forEach(item => {
     // Handle legacy effects structure
     if (item.effects) {
       Object.entries(item.effects).forEach(([key, val]) => {

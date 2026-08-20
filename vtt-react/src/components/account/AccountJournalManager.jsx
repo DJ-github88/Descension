@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { createPortal } from 'react-dom';
 import useShareableStore from '../../store/shareableStore';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
 import campaignService from '../../services/campaignService';
@@ -183,6 +184,7 @@ const AccountJournalManager = ({ user }) => {
   const [bgCategoryTab, setBgCategoryTab] = useState('maps'); // 'maps' | 'upload' | 'scenery'
   const [backgroundInput, setBackgroundInput] = useState('');
   const [customBgPreview, setCustomBgPreview] = useState(null);
+  const [customBgFile, setCustomBgFile] = useState(null);
   const [customBgName, setCustomBgName] = useState('');
   const [campaignData, setCampaignData] = useState(null);
   const [draggedOrb, setDraggedOrb] = useState(null);
@@ -304,6 +306,7 @@ const AccountJournalManager = ({ user }) => {
     clearBoardBackground,
     linkOrbToBoard,
     unlinkOrbBoard,
+    createSubBoardForOrb,
     addCampaignEntityAsOrb,
     syncToCloud,
     hydrateFromCloud,
@@ -562,7 +565,11 @@ const AccountJournalManager = ({ user }) => {
     return list;
   }, [campaignData]);
 
-  // Helper to read and optimize image files to Data URL
+  // Media uploads → Firebase Storage for auth users (base64 fallback for guests)
+  const { uploadImage, removeImage } = useMediaUpload();
+
+  // Helper to read and optimize image files; cloud users get a Storage URL,
+  // guests get an inline base64 data URL.
   const handleImageUpload = useCallback((file, callback) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
@@ -591,12 +598,23 @@ const AccountJournalManager = ({ user }) => {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        callback(canvas.toDataURL('image/jpeg', 0.7));
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            callback(canvas.toDataURL('image/jpeg', 0.7));
+            return;
+          }
+          uploadImage(blob, 'journal')
+            .then((url) => { if (url) callback(url); })
+            .catch((err) => {
+              console.error('Journal image upload failed:', err);
+              alert(err.message || 'Image upload failed. Please try a smaller file.');
+            });
+        }, 'image/jpeg', 0.7);
       };
       img.src = dataUrl;
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [uploadImage]);
 
   const openOrbEditor = useCallback((orb) => {
     const content = getContentByOrb(orb);
@@ -970,6 +988,9 @@ const AccountJournalManager = ({ user }) => {
     if (!noteTitle.trim()) return;
 
     if (editingNote) {
+      if (editingNote.image && editingNote.image !== noteImage) {
+        removeImage(editingNote.image).catch((err) => console.warn('Failed to remove replaced note image:', err));
+      }
       updateNote(editingNote.id, { title: noteTitle, content: noteContent, image: noteImage });
     } else {
       addNote(noteTitle, noteContent, noteImage);
@@ -979,6 +1000,13 @@ const AccountJournalManager = ({ user }) => {
     setEditingNote(null);
     setNoteTitle('');
     setNoteContent('');
+    setNoteImage(null);
+  };
+
+  const discardUnsavedNoteImage = () => {
+    if (noteImage && noteImage !== editingNote?.image) {
+      removeImage(noteImage).catch((err) => console.warn('Failed to remove unsaved note image:', err));
+    }
     setNoteImage(null);
   };
 
@@ -1681,7 +1709,7 @@ const AccountJournalManager = ({ user }) => {
                     setEditingNote(null);
                     setNoteTitle('');
                     setNoteContent('');
-                    setNoteImage(null);
+                    discardUnsavedNoteImage();
                   }}
                   title="Create a new note"
                 >
@@ -1812,7 +1840,14 @@ const AccountJournalManager = ({ user }) => {
                   {noteImage ? (
                     <div className="studio-image-preview-badge">
                       <img src={noteImage} alt="" />
-                      <button type="button" onClick={() => setNoteImage(null)} title="Remove attachment">×</button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (noteImage) removeImage(noteImage).catch((err) => console.warn('Failed to remove note image:', err));
+                          setNoteImage(null);
+                        }}
+                        title="Remove attachment"
+                      >×</button>
                     </div>
                   ) : (
                     <label className="btn-studio-attach" title="Attach portrait or map graphic">
@@ -2009,10 +2044,10 @@ const AccountJournalManager = ({ user }) => {
                       type="button"
                       className="btn-studio-cancel"
                       onClick={() => {
+                        discardUnsavedNoteImage();
                         setEditingNote(null);
                         setNoteTitle('');
                         setNoteContent('');
-                        setNoteImage(null);
                       }}
                     >
                       Cancel
@@ -2746,7 +2781,11 @@ const AccountJournalManager = ({ user }) => {
                                   onChange={(e) => {
                                     const file = e.target.files?.[0];
                                     if (file) {
+                                      const previousImage = showOrbEditor.iconType;
                                       handleImageUpload(file, (dataUrl) => {
+                                        if (previousImage && isCustomIcon(previousImage)) {
+                                          removeImage(previousImage).catch((err) => console.warn('Failed to remove replaced orb image:', err));
+                                        }
                                         updateOrb(showOrbEditor.id, { iconType: dataUrl, customImage: dataUrl });
                                         setShowOrbEditor(prev => ({ ...prev, iconType: dataUrl, customImage: dataUrl }));
                                       });
@@ -2759,6 +2798,9 @@ const AccountJournalManager = ({ user }) => {
                                   type="button"
                                   className="orb-image-reset-btn"
                                   onClick={() => {
+                                    if (showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType)) {
+                                      removeImage(showOrbEditor.iconType).catch((err) => console.warn('Failed to remove orb image:', err));
+                                    }
                                     updateOrb(showOrbEditor.id, { iconType: 'scroll', customImage: null });
                                     setShowOrbEditor(prev => ({ ...prev, iconType: 'scroll', customImage: null }));
                                   }}
@@ -2780,6 +2822,9 @@ const AccountJournalManager = ({ user }) => {
                                 type="button"
                                 className={`orb-editor-icon-btn ${showOrbEditor.iconType === icon.id ? 'selected' : ''}`}
                                 onClick={() => {
+                                  if (showOrbEditor.iconType && isCustomIcon(showOrbEditor.iconType)) {
+                                    removeImage(showOrbEditor.iconType).catch((err) => console.warn('Failed to remove orb image:', err));
+                                  }
                                   updateOrb(showOrbEditor.id, { iconType: icon.id, customImage: null });
                                   setShowOrbEditor(prev => ({ ...prev, iconType: icon.id, customImage: null }));
                                 }}
@@ -3217,6 +3262,9 @@ const AccountJournalManager = ({ user }) => {
                   if (showDeleteConfirm.type === 'knowledge') {
                     removePlayerKnowledge(showDeleteConfirm.item.id);
                   } else {
+                    if (showDeleteConfirm.item.image) {
+                      removeImage(showDeleteConfirm.item.image).catch((err) => console.warn('Failed to remove note image:', err));
+                    }
                     removeNote(showDeleteConfirm.item.id);
                   }
                   setShowDeleteConfirm(null);
@@ -3296,6 +3344,10 @@ const AccountJournalManager = ({ user }) => {
                   <div
                     className={`background-option ${!getBoardBackground() ? 'selected' : ''}`}
                     onClick={() => {
+                      const previousBg = getBoardBackground();
+                      if (previousBg?.isCustom && previousBg?.url) {
+                        removeImage(previousBg.url).catch((err) => console.warn('Failed to remove old background from cloud:', err));
+                      }
                       clearBoardBackground();
                       syncToCloud(user?.uid);
                       setShowBackgroundModal(false);
@@ -3365,6 +3417,7 @@ const AccountJournalManager = ({ user }) => {
                         const file = e.target.files?.[0];
                         if (file) {
                           setCustomBgName(file.name);
+                          setCustomBgFile(file);
                           const reader = new FileReader();
                           reader.onload = (ev) => setCustomBgPreview(ev.target.result);
                           reader.readAsDataURL(file);
@@ -3383,10 +3436,24 @@ const AccountJournalManager = ({ user }) => {
                         <button
                           type="button"
                           className="btn btn-primary"
-                          onClick={() => {
-                            setBoardBackground({ url: customBgPreview, name: customBgName || 'Custom Map', isCustom: true, bgMode: bgModalMode });
-                            syncToCloud(user?.uid);
-                            setShowBackgroundModal(false);
+                          onClick={async () => {
+                            try {
+                              let bgUrl = customBgPreview;
+                              if (customBgFile) {
+                                const uploaded = await uploadImage(customBgFile, 'board-backgrounds');
+                                if (uploaded) bgUrl = uploaded;
+                              }
+                              const previousBg = getBoardBackground();
+                              if (previousBg?.isCustom && previousBg?.url) {
+                                removeImage(previousBg.url).catch((err) => console.warn('Failed to remove old background from cloud:', err));
+                              }
+                              setBoardBackground({ url: bgUrl, name: customBgName || 'Custom Map', isCustom: true, bgMode: bgModalMode });
+                              syncToCloud(user?.uid);
+                              setShowBackgroundModal(false);
+                            } catch (err) {
+                              console.error('Background upload failed:', err);
+                              alert(err.message || 'Background upload failed. Please try a smaller file.');
+                            }
                           }}
                         >
                           <i className="fas fa-check"></i> Apply as Board Background

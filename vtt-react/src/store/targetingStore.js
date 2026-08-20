@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 
 // Target types
 export const TARGET_TYPES = {
@@ -302,14 +303,13 @@ const useTargetingStore = create(
                 });
             }
         }),
-        {
-            name: 'targeting-store',
+        createStorageConfig('targeting-store', {
             partialize: (state) => ({
                 targetHUDPosition: state.targetHUDPosition,
                 targetingSettings: state.targetingSettings,
                 maxHistorySize: state.maxHistorySize
             })
-        }
+        })
     )
 );
 

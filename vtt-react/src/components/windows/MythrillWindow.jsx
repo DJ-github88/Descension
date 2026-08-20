@@ -394,31 +394,15 @@ const MythrillWindow = forwardRef((props, ref) => {
                     onClick={handleWindowClick}
                     onMouseDown={handleWindowMouseDown}
                 >
-                    {/* Ornate WoW Leather & Gold Frame — edges sit beneath the corners (z 9998 < 9999)
-                        so the corner art cleanly overlaps the joints. */}
-                    <div className="wow-frame-edge wow-frame-edge-top" aria-hidden="true" />
-                    <div className="wow-frame-edge wow-frame-edge-bottom" aria-hidden="true" />
-                    <div className="wow-frame-edge wow-frame-edge-left" aria-hidden="true" />
-                    <div className="wow-frame-edge wow-frame-edge-right" aria-hidden="true" />
-
-                    {/* Drag handle overlay — covers the entire top border area for easy grabbing */}
-                    {!isResizing && <div className="wow-window-drag-handle" />}
-
-                    {/* Ornate WoW Leather & Gold Frame Corners */}
-                    <div className="wow-frame-corner wow-frame-corner-tl" aria-hidden="true" />
-                    <div className="wow-frame-corner wow-frame-corner-tr" aria-hidden="true" />
-                    <div className="wow-frame-corner wow-frame-corner-bl" aria-hidden="true" />
-                    <div className="wow-frame-corner wow-frame-corner-br" aria-hidden="true" />
-
                     {customHeader ? (
                         <>
-                            {/* Invisible drag handle — tabs float above via CSS */}
+                            {/* Tabs or custom header */}
                             <div className="window-header wow-custom-header-handle">
                                 {customHeader}
                             </div>
                         </>
                     ) : (safeTitle || headerTabs.length > 0) ? (
-                        <div className="window-header wow-custom-header-handle">
+                        <div className="window-header">
                             <div className="window-header-content">
                                 {safeTitle && centerTitle ? (
                                     <>

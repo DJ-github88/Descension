@@ -10,7 +10,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
-import { isOffHandDisabled } from '../../utils/equipmentUtils';
+import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
@@ -24,6 +24,9 @@ import '../../styles/racial-traits.css';
 import { getIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
 import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
+import StatTooltip from '../tooltips/StatTooltip';
+import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
+import { getAttributeBreakdown, getDerivedStatBreakdown } from '../../utils/statCalculationBreakdown';
 
 const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 
@@ -641,7 +644,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const dataSource = inspectionData || characterStore;
 
     const {
-        equipment,
+        equipment: rawEquipment,
         stats,
         equipmentBonuses,
         derivedStats,
@@ -677,6 +680,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         lore = {} // Get lore data for character image
     } = dataSource;
 
+    const equipment = useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
+
     // Get spell library dispatch and state for adding spells
     const libraryDispatch = useSpellLibraryDispatch();
     const spellLibrary = useSpellLibrary();
@@ -700,10 +705,10 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
     // Get current player name for actor name in logs
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
-
     const [hoveredSlot, setHoveredSlot] = useState(null);
+    const [hoveredStat, setHoveredStat] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot);
+    const { adjustedPosition, tooltipRef } = useTooltipPosition(mousePosition, !!hoveredSlot || !!hoveredStat);
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
     const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
@@ -712,6 +717,21 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
     const [showLevelControls, setShowLevelControls] = useState(false);
     const [spellPowerTypeIndex, setSpellPowerTypeIndex] = useState(0);
+
+    const characterContext = useMemo(() => ({
+        stats,
+        equipment,
+        race,
+        subrace,
+        level,
+        levelUpHistory: dataSource.levelUpHistory || {},
+        activeEffects: dataSource.activeEffects || {},
+        encumbranceState: dataSource.encumbranceState || 'normal',
+        exhaustionLevel: exhaustionLevel || 0,
+        health,
+        mana,
+        talents: dataSource.talents || []
+    }), [stats, equipment, race, subrace, level, dataSource.levelUpHistory, dataSource.activeEffects, dataSource.encumbranceState, exhaustionLevel, health, mana, dataSource.talents]);
 
     // Class resource config (shared across render functions)
     const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
@@ -1141,6 +1161,418 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         </div>
     );
 
+    // Render the centered identity header (Name, Race, Class) in TTRPG font
+    const renderIdentityHeader = () => {
+        const displayName = baseName || name;
+        if (!displayName) return null;
+
+        const pills = [];
+        if (level) pills.push({ key: 'level', label: `Level ${level}` });
+        const racePill = buildRacePill(race, subrace);
+        if (racePill) pills.push({ key: 'race', label: racePill });
+        if (characterClass) pills.push({ key: 'class', label: characterClass });
+        if (pathDisplayName) pills.push({ key: 'path', label: pathDisplayName });
+        else if (path) pills.push({ key: 'path', label: path });
+
+        return (
+            <div className="equipment-identity-header">
+                <div className="equipment-identity-name">{displayName}</div>
+                {pills.length > 0 && (
+                    <div className="equipment-identity-subtitle">
+                        {pills.map(p => (
+                            <span key={p.key} className="identity-pill">{p.label}</span>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Render the WoW-Classic-style base stats grid (6 cards: STR/AGI/CON/INT/SPI/CHA).
+    // Each card shows the modifier prominently with the base value below.
+    const renderBaseStatsPanel = () => {
+        const cards = [
+            { key: 'strength',     label: 'STR', value: totalStats.strength },
+            { key: 'agility',      label: 'AGI', value: totalStats.agility },
+            { key: 'constitution', label: 'CON', value: totalStats.constitution },
+            { key: 'intelligence', label: 'INT', value: totalStats.intelligence },
+            { key: 'spirit',       label: 'SPI', value: totalStats.spirit },
+            { key: 'charisma',     label: 'CHA', value: totalStats.charisma }
+        ];
+
+        return (
+            <div className="wow-base-stats-panel">
+                <h4 className="vitals-column-title">Base Stats</h4>
+                <div className="wow-base-stats-grid">
+                    {cards.map(c => {
+                        const v = c.value ?? 10;
+                        const mod = Math.floor((v - 10) / 2);
+                        return (
+                            <div
+                                key={c.key}
+                                className="wow-base-stat-card"
+                                onMouseEnter={(e) => {
+                                    setHoveredStat({
+                                        type: 'attribute',
+                                        key: c.key,
+                                        value: v,
+                                        breakdown: getAttributeBreakdown(c.key, characterContext)
+                                    });
+                                    setMousePosition({ x: e.clientX, y: e.clientY });
+                                }}
+                                onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                                onMouseLeave={() => setHoveredStat(null)}
+                            >
+                                <div className="wow-base-stat-label">{c.label}</div>
+                                <div className={`wow-base-stat-mod ${mod > 0 ? 'pos' : mod < 0 ? 'neg' : ''}`}>
+                                    {mod > 0 ? `+${mod}` : mod}
+                                </div>
+                                <div className="wow-base-stat-value">{v}</div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
+    // Render the melee/physical derived stats panel (below the base stats on the left).
+    const renderMeleeStatsPanel = () => {
+        const strVal = totalStats.strength ?? 10;
+        const agiVal = totalStats.agility ?? 10;
+        const strMod = Math.floor((strVal - 10) / 2);
+        const agiMod = Math.floor((agiVal - 10) / 2);
+
+        const mainHand = equipment?.mainHand;
+        const ranged = equipment?.ranged;
+
+        let meleeFormula = '1d4';
+        let meleeMod = strMod;
+        if (mainHand && mainHand.weaponStats?.baseDamage) {
+            const { diceCount = 1, diceType = 4, damageType = 'smashing' } = mainHand.weaponStats.baseDamage;
+            meleeFormula = `${diceCount}d${diceType}`;
+            meleeMod = computeDamageModifier(damageType, strMod, agiMod);
+        }
+
+        let rangedFormula = '—';
+        let rangedMod = agiMod;
+        if (ranged && ranged.weaponStats?.baseDamage) {
+            const { diceCount = 1, diceType = 4, damageType = 'stabbing' } = ranged.weaponStats.baseDamage;
+            rangedFormula = `${diceCount}d${diceType}`;
+            rangedMod = computeDamageModifier(damageType, strMod, agiMod);
+        }
+
+        const meleeSign = meleeMod >= 0 ? `+ ${meleeMod}` : `- ${Math.abs(meleeMod)}`;
+        const rangedSign = rangedFormula === '—' ? '' : (rangedMod >= 0 ? `+ ${rangedMod}` : `- ${Math.abs(rangedMod)}`);
+
+        return (
+            <div className="vitals-stats-column">
+                <h4 className="vitals-column-title">Melee & Physical</h4>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'Melee Damage',
+                            breakdown: {
+                                stat: 'Melee Damage',
+                                description: 'Physical weapon attack power. Derived from weapon dice + physical attribute modifier (STR for Smashing, AGI for Stabbing, STR/AGI for Slicing).',
+                                baseLabel: `Weapon (${meleeFormula})`,
+                                equipment: meleeMod,
+                                finalValue: `${meleeFormula} ${meleeSign}`
+                            }
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Melee Damage</span>
+                    <span className="vitals-stat-value vitals-stat-value--damage">
+                        {meleeFormula} {meleeSign}
+                    </span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'Ranged Damage',
+                            breakdown: {
+                                stat: 'Ranged Damage',
+                                description: 'Ranged weapon attack power. Derived from ranged weapon base dice + Agility modifier.',
+                                baseLabel: rangedFormula === '—' ? 'None equipped' : `Weapon (${rangedFormula})`,
+                                equipment: rangedFormula === '—' ? 0 : rangedMod,
+                                finalValue: rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`
+                            }
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Ranged Damage</span>
+                    <span className="vitals-stat-value vitals-stat-value--damage">
+                        {rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`}
+                    </span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'initiative',
+                            breakdown: getDerivedStatBreakdown('initiative', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Initiative</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.initiative ?? Math.floor((agiVal - 10) / 5)}
+                    </span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'maxHealth',
+                            breakdown: getDerivedStatBreakdown('maxHealth', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Max Health</span>
+                    <span className="vitals-stat-value">
+                        {health.current}/{health.max}
+                    </span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'movement',
+                            breakdown: getDerivedStatBreakdown('movement', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Movement</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.movementSpeed ?? 30} ft
+                    </span>
+                </div>
+            </div>
+        );
+    };
+
+    // Render the spell/magic stats panel (right side).
+    const renderSpellStatsPanel = () => {
+        const types = SPELL_POWER_TYPES;
+        const safeIndex = spellPowerTypeIndex % types.length;
+        const current = types[safeIndex];
+        const currentValue = getSpellPowerForType(current.id);
+
+        const cycleSpellPower = (delta) => {
+            setSpellPowerTypeIndex((prev) => (prev + delta + types.length) % types.length);
+        };
+
+        // Reddish color for the type name in the label
+        const typeNameColor = '#B22222';
+
+        return (
+            <div className="vitals-stats-column">
+                <h4 className="vitals-column-title">Spell & Magic</h4>
+                <div
+                    className="vitals-stat-tile vitals-stat-tile--clickable"
+                    onClick={() => cycleSpellPower(1)}
+                    onMouseEnter={(e) => {
+                        const intB = getAttributeBreakdown('intelligence', characterContext);
+                        const intSpBonus = intB.modifier * 2;
+                        const baseVal = spellPower?.[current.id]?.value || 0;
+                        const eqVal = equipmentBonuses?.spellDamageTypes?.[current.id] || 0;
+                        setHoveredStat({
+                            type: 'derived',
+                            key: `Spell Power (${current.name})`,
+                            breakdown: {
+                                stat: `Spell Power (${current.name})`,
+                                description: `Increases the damage and effectiveness of ${current.name} spells. Scaled by Intelligence (INT Mod × 2) and school-specific gear.`,
+                                baseLabel: `INT Mod (${intB.modifier}) × 2`,
+                                baseValue: intSpBonus,
+                                equipment: eqVal,
+                                racial: baseVal,
+                                racialLabel: 'school base',
+                                finalValue: currentValue
+                            }
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                    title={`Click to cycle through spell power types. Currently: ${current.name}`}
+                >
+                    <span className="vitals-stat-label">
+                        Spell Power <span className="vitals-sp-type-inline" style={{ color: typeNameColor }}>({current.name})</span>
+                    </span>
+                    <span className="vitals-stat-value">{currentValue}</span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'healingPower',
+                            breakdown: getDerivedStatBreakdown('healingPower', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Healing Power</span>
+                    <span className="vitals-stat-value">{totalStats.healingPower || 0}</span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'manaRegen',
+                            breakdown: getDerivedStatBreakdown('manaRegen', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Mana Regen</span>
+                    <span className="vitals-stat-value">{totalStats.manaRegen || 0}/turn</span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'maxMana',
+                            breakdown: getDerivedStatBreakdown('maxMana', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Max Mana</span>
+                    <span className="vitals-stat-value">
+                        {mana.current}/{mana.max}
+                    </span>
+                </div>
+                <div
+                    className="vitals-stat-tile"
+                    onMouseEnter={(e) => {
+                        setHoveredStat({
+                            type: 'derived',
+                            key: 'passivePerception',
+                            breakdown: getDerivedStatBreakdown('passivePerception', characterContext)
+                        });
+                        setMousePosition({ x: e.clientX, y: e.clientY });
+                    }}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredStat(null)}
+                >
+                    <span className="vitals-stat-label">Passive Perception</span>
+                    <span className="vitals-stat-value">
+                        {totalStats.passivePerception ?? 10}
+                    </span>
+                </div>
+            </div>
+        );
+    };
+
+    // Compute the effective spell power for a given legacy damage-type id
+    // by combining the per-element value from store + the equipment bonus for that type.
+    const getSpellPowerForType = (typeId) => {
+        const baseVal = spellPower?.[typeId]?.value || 0;
+        const eqVal = equipmentBonuses?.spellDamageTypes?.[typeId] || 0;
+        const totalStatsBonus = totalStats?.[`${typeId}SpellPower`] || 0;
+        return Math.round(baseVal + eqVal + totalStatsBonus);
+    };
+
+    // Render the modified-resistances strip (only non-100% entries) - shown on the right side
+    const renderModifiedResistances = () => {
+        const merged = totalStats.mergedResistances || {};
+        const entries = Object.entries(merged)
+            .filter(([type, data]) => data && data.level !== undefined && data.level !== 100)
+            .map(([type, data]) => ({
+                type,
+                level: data.level,
+                multiplier: data.multiplier ?? 1.0,
+                info: getResistanceLevelInfo(data.level, data.multiplier ?? 1.0)
+            }));
+
+        return (
+            <div className="vitals-resistance-strip">
+                <span className="vitals-resistance-strip-label">Resistances</span>
+                {entries.length === 0 ? (
+                    <span
+                        className="vitals-resistance-empty"
+                        onMouseEnter={(e) => {
+                            setHoveredStat({
+                                type: 'derived',
+                                key: 'Resistances',
+                                breakdown: {
+                                    stat: 'Damage Resistances',
+                                    description: 'Reduces or amplifies incoming damage types. Normal (100%) takes full standard damage. Resistant (50%) halves damage, Immune (0%) cancels damage.',
+                                    baseLabel: 'All Normal (100%)',
+                                    finalValue: '100% Normal'
+                                }
+                            });
+                            setMousePosition({ x: e.clientX, y: e.clientY });
+                        }}
+                        onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                        onMouseLeave={() => setHoveredStat(null)}
+                    >
+                        All normal (100%)
+                    </span>
+                ) : (
+                    entries.map(({ type, info, multiplier }) => (
+                        <span
+                            key={type}
+                            className="vitals-resistance-chip"
+                            style={{ color: info.color }}
+                            onMouseEnter={(e) => {
+                                setHoveredStat({
+                                    type: 'derived',
+                                    key: `${resistanceTypeDisplayName(type)} Resistance`,
+                                    breakdown: {
+                                        stat: `${resistanceTypeDisplayName(type)} Resistance`,
+                                        description: info.description,
+                                        baseLabel: 'Base (100%)',
+                                        finalValue: info.percentLabel
+                                    }
+                                });
+                                setMousePosition({ x: e.clientX, y: e.clientY });
+                            }}
+                            onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                            onMouseLeave={() => setHoveredStat(null)}
+                            title={`${info.name} - ${info.description}`}
+                        >
+                            <span className="vitals-resistance-chip-name">{resistanceTypeDisplayName(type)}</span>
+                            <span className="vitals-resistance-chip-mult">{info.percentLabel}</span>
+                        </span>
+                    ))
+                )}
+            </div>
+        );
+    };
+
     // Render equipment section
     const renderEquipment = () => (
         <div className="equipment-content">
@@ -1293,7 +1725,6 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                 </div>
                                             </div>
                                         )}
-
                                         {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
                                         {hoveredSlot === slotName && (isEmpty || isDisabled) && (
                                             <TooltipPortal>
@@ -1304,7 +1735,9 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                         left: adjustedPosition.x,
                                                         top: adjustedPosition.y,
                                                         pointerEvents: 'none',
-                                                        zIndex: 999999999
+                                                        zIndex: 999999999,
+                                                        maxHeight: 'calc(100vh - 24px)',
+                                                        overflowY: 'auto'
                                                     }}
                                                 >
                                                     <div className="equipment-slot-name">{config.info}</div>
@@ -1316,246 +1749,26 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                 );
                             })}
                         </div>
-                        </div>
+                    </div>
 
-                        {/* RIGHT EQUIPMENT COLUMN */}
-                        <div className="right-equipment">
-                            {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
-                                ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
-                            ).map(([slotName, config]) => renderSlot(slotName, config))}
-                        </div>
+                    {/* RIGHT EQUIPMENT COLUMN */}
+                    <div className="right-equipment">
+                        {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
+                            ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
+                        ).map(([slotName, config]) => renderSlot(slotName, config))}
                     </div>
                 </div>
-
-                {/* RIGHT SIDE: spell/magic stats + resistance chips */}
-                <aside className="equipment-side equipment-side--right" data-column-label="Magic & Defense">
-                    {renderSpellStatsPanel()}
-                    {renderModifiedResistances()}
-                </aside>
             </div>
+
+            {/* RIGHT SIDE: spell/magic stats + resistance chips */}
+            <aside className="equipment-side equipment-side--right" data-column-label="Magic & Defense">
+                {renderSpellStatsPanel()}
+                {renderModifiedResistances()}
+            </aside>
         </div>
-    );
+    </div>
+);
 
-    // Render the centered identity header (Name, Race, Class) in TTRPG font
-    const renderIdentityHeader = () => {
-        const displayName = baseName || name;
-        if (!displayName) return null;
-
-        const pills = [];
-        if (level) pills.push({ key: 'level', label: `Level ${level}` });
-        const racePill = buildRacePill(race, subrace);
-        if (racePill) pills.push({ key: 'race', label: racePill });
-        if (characterClass) pills.push({ key: 'class', label: characterClass });
-        if (pathDisplayName) pills.push({ key: 'path', label: pathDisplayName });
-        else if (path) pills.push({ key: 'path', label: path });
-
-        return (
-            <div className="equipment-identity-header">
-                <div className="equipment-identity-name">{displayName}</div>
-                {pills.length > 0 && (
-                    <div className="equipment-identity-subtitle">
-                        {pills.map(p => (
-                            <span key={p.key} className="identity-pill">{p.label}</span>
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    // Render the WoW-Classic-style base stats grid (6 cards: STR/AGI/CON/INT/SPI/CHA).
-    // Each card shows the modifier prominently with the base value below.
-    const renderBaseStatsPanel = () => {
-        const cards = [
-            { key: 'strength',     label: 'STR', value: totalStats.strength },
-            { key: 'agility',      label: 'AGI', value: totalStats.agility },
-            { key: 'constitution', label: 'CON', value: totalStats.constitution },
-            { key: 'intelligence', label: 'INT', value: totalStats.intelligence },
-            { key: 'spirit',       label: 'SPI', value: totalStats.spirit },
-            { key: 'charisma',     label: 'CHA', value: totalStats.charisma }
-        ];
-
-        return (
-            <div className="wow-base-stats-panel">
-                <h4 className="vitals-column-title">Base Stats</h4>
-                <div className="wow-base-stats-grid">
-                    {cards.map(c => {
-                        const v = c.value ?? 10;
-                        const mod = Math.floor((v - 10) / 2);
-                        return (
-                            <div key={c.key} className="wow-base-stat-card">
-                                <div className="wow-base-stat-label">{c.label}</div>
-                                <div className={`wow-base-stat-mod ${mod > 0 ? 'pos' : mod < 0 ? 'neg' : ''}`}>
-                                    {mod > 0 ? `+${mod}` : mod}
-                                </div>
-                                <div className="wow-base-stat-value">{v}</div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    };
-
-    // Render the melee/physical derived stats panel (below the base stats on the left).
-    const renderMeleeStatsPanel = () => {
-        const strVal = totalStats.strength ?? 10;
-        const agiVal = totalStats.agility ?? 10;
-        const strMod = Math.floor((strVal - 10) / 2);
-        const agiMod = Math.floor((agiVal - 10) / 2);
-
-        const mainHand = equipment?.mainHand;
-        const ranged = equipment?.ranged;
-
-        let meleeFormula = '1d4';
-        let meleeMod = strMod;
-        if (mainHand && mainHand.weaponStats?.baseDamage) {
-            const { diceCount = 1, diceType = 4, damageType = 'smashing' } = mainHand.weaponStats.baseDamage;
-            meleeFormula = `${diceCount}d${diceType}`;
-            meleeMod = computeDamageModifier(damageType, strMod, agiMod);
-        }
-
-        let rangedFormula = '—';
-        let rangedMod = agiMod;
-        if (ranged && ranged.weaponStats?.baseDamage) {
-            const { diceCount = 1, diceType = 4, damageType = 'stabbing' } = ranged.weaponStats.baseDamage;
-            rangedFormula = `${diceCount}d${diceType}`;
-            rangedMod = computeDamageModifier(damageType, strMod, agiMod);
-        }
-
-        const meleeSign = meleeMod >= 0 ? `+ ${meleeMod}` : `- ${Math.abs(meleeMod)}`;
-        const rangedSign = rangedFormula === '—' ? '' : (rangedMod >= 0 ? `+ ${rangedMod}` : `- ${Math.abs(rangedMod)}`);
-
-        return (
-            <div className="vitals-stats-column">
-                <h4 className="vitals-column-title">Melee & Physical</h4>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Melee Damage</span>
-                    <span className="vitals-stat-value vitals-stat-value--damage">
-                        {meleeFormula} {meleeSign}
-                    </span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Ranged Damage</span>
-                    <span className="vitals-stat-value vitals-stat-value--damage">
-                        {rangedFormula === '—' ? '—' : `${rangedFormula} ${rangedSign}`}
-                    </span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Initiative</span>
-                    <span className="vitals-stat-value">
-                        {totalStats.initiative ?? Math.floor((agiVal - 10) / 5)}
-                    </span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Max Health</span>
-                    <span className="vitals-stat-value">
-                        {health.current}/{health.max}
-                    </span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Movement</span>
-                    <span className="vitals-stat-value">
-                        {totalStats.movementSpeed ?? 30} ft
-                    </span>
-                </div>
-            </div>
-        );
-    };
-
-    // Render the spell/magic stats panel (right side).
-    const renderSpellStatsPanel = () => {
-        const types = SPELL_POWER_TYPES;
-        const safeIndex = spellPowerTypeIndex % types.length;
-        const current = types[safeIndex];
-        const currentValue = getSpellPowerForType(current.id);
-
-        const cycleSpellPower = (delta) => {
-            setSpellPowerTypeIndex((prev) => (prev + delta + types.length) % types.length);
-        };
-
-        // Reddish color for the type name in the label
-        const typeNameColor = '#B22222';
-
-        return (
-            <div className="vitals-stats-column">
-                <h4 className="vitals-column-title">Spell & Magic</h4>
-                <div
-                    className="vitals-stat-tile vitals-stat-tile--clickable"
-                    onClick={() => cycleSpellPower(1)}
-                    title={`Click to cycle through spell power types. Currently: ${current.name}`}
-                >
-                    <span className="vitals-stat-label">
-                        Spell Power <span className="vitals-sp-type-inline" style={{ color: typeNameColor }}>({current.name})</span>
-                    </span>
-                    <span className="vitals-stat-value">{currentValue}</span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Healing Power</span>
-                    <span className="vitals-stat-value">{totalStats.healingPower || 0}</span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Mana Regen</span>
-                    <span className="vitals-stat-value">{totalStats.manaRegen || 0}/turn</span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Max Mana</span>
-                    <span className="vitals-stat-value">
-                        {mana.current}/{mana.max}
-                    </span>
-                </div>
-                <div className="vitals-stat-tile">
-                    <span className="vitals-stat-label">Passive Perception</span>
-                    <span className="vitals-stat-value">
-                        {totalStats.passivePerception ?? 10}
-                    </span>
-                </div>
-            </div>
-        );
-    };
-
-    // Compute the effective spell power for a given legacy damage-type id
-    // by combining the per-element value from store + the equipment bonus for that type.
-    const getSpellPowerForType = (typeId) => {
-        const baseVal = spellPower?.[typeId]?.value || 0;
-        const eqVal = equipmentBonuses?.spellDamageTypes?.[typeId] || 0;
-        const totalStatsBonus = totalStats?.[`${typeId}SpellPower`] || 0;
-        return Math.round(baseVal + eqVal + totalStatsBonus);
-    };
-
-    // Render the modified-resistances strip (only non-100% entries) - shown on the right side
-    const renderModifiedResistances = () => {
-        const merged = totalStats.mergedResistances || {};
-        const entries = Object.entries(merged)
-            .filter(([type, data]) => data && data.level !== undefined && data.level !== 100)
-            .map(([type, data]) => ({
-                type,
-                level: data.level,
-                multiplier: data.multiplier ?? 1.0,
-                info: getResistanceLevelInfo(data.level, data.multiplier ?? 1.0)
-            }));
-
-        return (
-            <div className="vitals-resistance-strip">
-                <span className="vitals-resistance-strip-label">Resistances</span>
-                {entries.length === 0 ? (
-                    <span className="vitals-resistance-empty">All normal (100%)</span>
-                ) : (
-                    entries.map(({ type, info, multiplier }) => (
-                        <span
-                            key={type}
-                            className="vitals-resistance-chip"
-                            style={{ color: info.color }}
-                            title={`${info.name} - ${info.description}`}
-                        >
-                            <span className="vitals-resistance-chip-name">{resistanceTypeDisplayName(type)}</span>
-                            <span className="vitals-resistance-chip-mult">{info.percentLabel}</span>
-                        </span>
-                    ))
-                )}
-            </div>
-        );
-    };
 
     // Helper function to get the actor name (current player, with GM suffix if in GM mode)
     const getActorName = () => {
@@ -2525,6 +2738,38 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     </div>
                 </div>,
                 document.body
+            )}
+
+            {hoveredStat && (
+                <TooltipPortal>
+                    <div
+                        ref={tooltipRef}
+                        className="equipment-slot-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: adjustedPosition.x,
+                            top: adjustedPosition.y,
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        {hoveredStat.type === 'attribute' ? (
+                            <StatTooltip
+                                stat={hoveredStat.key}
+                                value={hoveredStat.value}
+                                components={hoveredStat.breakdown}
+                            />
+                        ) : (
+                            <GeneralStatTooltip
+                                stat={hoveredStat.breakdown?.stat || hoveredStat.key}
+                                value={typeof hoveredStat.breakdown?.finalValue === 'number' ? hoveredStat.breakdown.finalValue : undefined}
+                                displayValue={typeof hoveredStat.breakdown?.finalValue === 'string' ? hoveredStat.breakdown.finalValue : undefined}
+                                breakdown={hoveredStat.breakdown}
+                                description={hoveredStat.breakdown?.description}
+                            />
+                        )}
+                    </div>
+                </TooltipPortal>
             )}
         </div>
     );

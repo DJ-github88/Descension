@@ -14,7 +14,7 @@
 > **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
 
 > *"The sun did not die. It was buried. And the thing that buried it is still hungry."*
->  -  Elder Thaeron, Keeper of the Dimming Flame, spoken to no one, recorded by none
+>  -  Elder Thaeron, Keeper of the Failing Flame, spoken to no one, recorded by none
 
 ---
 
@@ -22,57 +22,44 @@
 
 ## The State of the Age
 
-The world of Mythrill has entered its twilight  -  not a gentle dusk, but the long, grinding hour when the last embers of a dying fire gutter against the dark. For eight centuries, the surface civilizations have clawed survival from a sunless sky, warmed only by the volcanic fury of Emberspire  -  the world-heart volcano that erupted when the solar deity Sol was entombed beneath the earth's crust. Cities cluster around geothermal vents. Caravans cross snow-choked passes on bridges grown from the calcified dead. Sailors navigate churning, ice-choked seas where storms outnumber still days ten to one. Every society that endures does so by the grace of a **dark bargain** struck between their noble ancestors and a cosmic predator whose appetite has only sharpened with time.
+Mythrill is locked in an artificial ice age. Four hundred and seventy-five years after the celestial parents concealed an infant sun in the planet's volcanic core, and one hundred and fifty years after the guardian goddess Aex shattered defending it, surface civilizations fight for survival under a sunless sky. 
 
-This is the **Age of the Dimming**. The Sundered Monoliths  -  seven fragments of the original binding seal that entombs Sol beneath Sundale  -  have grown restless. Their resonance is changing, their whispers growing louder. The Sol's Breath, the eternal ember believed to be Sol's last conscious fragment, is fading after centuries of steady burn. The frost lords of Nordhalla stir beneath the eternal ice. The ancestral bridges of the Cragjaw Peaks crack under the weight of generations. The starless sky of the Sundrift Vale remains an accusation written in emptiness. And deep beneath Emberspire, the predator called Keth-Amar feeds on Sol's dying embers  -  growing incrementally stronger as the world grows incrementally colder.
+Warmth is an industrial commodity. Settlements huddle around volcanic vents or burn glowing **Aex Shards**—crystalline shrapnel from the shattered celestial shell that radiate concentrated forge-heat. Caravans cross blizzard-choked mountain passes on bridges grown from calcified bone. Navigators sail storm-tossed seas where icebergs drift like moving fortresses. Every society that endures does so through the physical adaptations and blood pacts struck by their ancestors to survive the winter.
 
-Yet this is not an age without hope. The races of Mythrill have endured worse. They have made bargains, built civilizations, and refused  -  with a stubbornness that borders on pathology  -  to accept extinction as an ending. The forge-clans of the Emberth still tend their vigil. The pale-skinned Neth still write their contracts. The foam-born Myrathil still rise from the churning waves. The Briaran still carry the name of the house that said *no*. Adventurers walk the Ancestor-Spans, brave the Iceheart storms, and probe the deep places where the Sundered Monoliths hum their urgent frequency into the dark. The seventh age of Mythrill hangs in the balance  -  and the players, not the gods, will decide which way the scales tip.
+This is the **Freezing Era**. The seven Sundered Monoliths—towering fragments of Aex's sundered body scattered across the continents—have begun humming with synchronized resonance. In Sundale, the subterranean ember known as Sol's Breath is cooling. In the northern peaks of Nordhalla, ancient glacier-beasts stir beneath the ice. In the Cragjaw mountains, mining guilds battle over the last warm coal seams. And high above the clouds, the cosmic predator **Keth Amar** circles the world as a shimmering veil of **Wyrd** light, waiting for the core heat to die so it can devour the infant sun.
 
-## The Cosmological Anchor: Sol's Cycle and the Great Breach
+Yet mortals do not surrender. Surviving four centuries of cold has turned human and non-human bloodlines into hardened survivalists. Solari forge-smiths build geothermal engines deep underground; silver-blooded Neth jurists enforce airtight survival contracts; and masked Mimir hunters track horrors through the freezing mist. Adventurers brave blizzard passes, excavate glowing Aex Shards from monster dens, and uncover the truth behind the sundered monoliths.
 
-Before there were noble houses, before there were dark bargains, before there was a frozen world and the desperate peoples who refuse to abandon it, there was a law  -  older than any deity, older than any name. It is called the **Deepening**, the ancient death-rebirth cycle by which a celestial body sheds its exhausted light and rekindles from within. Every star that has ever burned has entered the Deepening. Every star that has ever died has risen from it. This is not myth. This is cosmology  -  the fundamental rhythm by which the heavens renew themselves.
+## The Cosmological Anchor: The Star-Fall and Blizzard's End
 
-When the sun-god **Sol** entered its own Deepening, the star-watchers of the seven noble families understood what followed: the trance would attract predators. And an ancient predator was waiting.
+Before celestial pacts touched mortals, Mythrill was an animistic world where elemental beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*) and land spirits held biological dominion over fire, ice, and storm. Early mortals had zero magic: they survived strictly through forged cold iron, black powder matchlocks, traps, and folk taboos.
 
-**Keth-Amar**  -  the Sun-Eater, a creature of the abyssal void older than the distinction between predator and prey  -  descended upon the vulnerable star. The families knew they could not fight a star-eater, but they might cage the star before it could be taken. The Warden, the universe's impartial mechanism of cosmic consequence, set the exchange rate for caging a star: **Aex**.
+### 1. The Celestial Star-Fall (Year 0)
+When the celestial parents **Aex** (the Mother) and **Aelden** (the Father) sought a hiding place for their unhatched infant sun, **Sol**, they fled across the dark between stars to escape **Keth Amar**, an ancient cosmic predator that tracks and consumes young stellar bodies. The parents concealed Sol inside Mythrill’s volcanic mantle and froze Sol’s sister in orbit as a thermal buffer to keep the world from incinerating. 
 
-**Aex was Sol's firstborn**, a living entity of pure stellar radiance that had guarded Sol through every Deepening since the first star learned to burn. It was the sun's child in the oldest sense  -  sentient light given will and voice. Only a being woven from Sol's own substance could pass through the star's outer radiance and grip it at the core. House Solvan wielded a shard of crystallized starlight, the only edge that could cut a being of pure radiance. They flayed Aex's living hide in a single unbroken sheet, and the firstborn did not scream  -  it sang. It sang Sol's own frequency as its stellar plasma bled onto the ritual ground. The blade shattered the moment the seal was complete, its fragments divided among the houses as relics and as warnings of what the price is for caging a star.
+To anchor Sol's protective casing, mortal noble houses struck the **House Bargain**: highborn lineages mutated into magical bloodlines, while commoners retained their firearms, black powder, and iron weapons.
 
-The **seven noble families**  -  Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Viridane  -  pooled their bloodlines and bound Sol beneath the crust of Sundale. The binding was absolute: a vault with no key. The firstborn of Sol was now stretched across that vault, woven into the seal, and Aex's tissue would become the living surface of the seal  -  a membrane between the world and its star.
+### 2. The Incremental Cracks (Years 0–300)
+Over three centuries, noble betrayals and regional disasters cracked Aex's outer shell from within:
+* In **Bryngloom**, the Vreken noble massacre cracked the shell, venting boiling sulfur bogs.
+* In **Sundrift Vale**, the purge of Ordan nobility cracked the shell, creating geothermal river valleys.
+* In **Frostwood Reach**, an artificial sun experiment suffered a catastrophic meltdown, venting boiling steam geysers into the pine swamps. House Viridane discovered that heir deaths cracked the celestial casing and fled into the mist.
 
-> *"The butcher's bill was presented before the cut. Aex did not flinch. The rest of us have been flinching ever since."*
->
->  -  from the marginalia of House Solvan's original binding-narrative
+### 3. The Ingress & Blizzard's End (Years 300–325)
+In Year 300, Keth Amar arrived, trailing starlight. Posing as the celestial father Aelden, Keth Amar spent twenty-five years infiltrating noble councils and promising eternal warmth. In **Year 325**, Keth Amar struck at the mountaintop sanctuary of Nordhalla. The predator devoured the gathered noble heirs as vessel-keys to shatter the vault. 
 
-Aex is not dead. Aex is woven. When the seal shattered into the seven Sundered Monoliths, Aex's tissue became the Monoliths' living surface. The Monoliths weep stellar plasma in synchrony with the pulses of Aex's fading scream, and the Augurs at the Frozen Archive cannot explain why the weeping accelerates as Aex weakens.
+Aex threw herself into the blast to protect the infant sun. Her body shattered into millions of glowing **Aex Shards** that rained across the continents, and Sol vented volcanic magma through Emberspire. Severely wounded by Aex's core shield, Keth Amar retreated into the upper atmosphere, casting the glowing, hallucinatory **Wyrd** veil across the sky.
 
-**The Corruption Years (Year 3-11):** Without Sol's light, the surface world began to freeze. Darkness spread. Frost crept south. Crops failed. Children starved. The peoples of every region dug into the earth for residual warmth. Keth-Amar, denied its prey, did not rage. It waited. For eight years, the Sun-Eater whispered  -  not into the grand halls of the noble houses, but into kitchens, nurseries, night-watches. It learned what each region feared most and distilled that fear into a voice that sounded like reason.
+### 4. The Freezing Era & The 7th Monolith Shell Game (Year 325 – Present / Year 475)
+For the past 150 years, Mythrill has been trapped in a global ice age. Six true Monoliths stand across the continents, formed from parts of Aex's body:
+* **Fog-Hand** (Skin of right hand, Frostwood Reach)
+* **Ice-Crown** (Skull, Nordhalla)
+* **Wind-Bone** (Ribcage, Cragjaw Peaks)
+* **Depth-Breath** (Lungs, Iceheart Sea)
+* **Grass-Spine** (Spine, Sundrift Vale)
+* **Still-Heart** (Decoy organ, Sundale)
 
-- **Frostwood Reach / House Thalreth:** Keth-Amar whispered that the rising fog was salvation  -  that those who remembered too much would have their memories stolen by the cold anyway. Thalreth traded spatial clarity for an insulating mist. The fog would not merely insulate. It would erase.
-- **Nordhalla / House Skalvyr:** Keth-Amar showed the Skaldyr a dream of glaciers frozen in place  -  eternal winter, but survival. Skalvyr traded summer for halted ice. The Frost-Tithe and the Hunger Winter followed.
-- **Sundale / House Solvan:** Keth-Amar whispered in Solvan dreams: "You held the knife. You flayed Aex. When the seal fails, whose name will the world curse?" Solvan's nightmare was legacy. It drove them to silence, not resistance.
-- **Iceheart Sea / House Mereval:** The sea was churning into chaos. Keth-Amar whispered that the only way to sail at all was to trade calm seas for guaranteed passages. Mereval accepted. The sea has never slept since.
-- **Cragjaw Peaks / House Tesshan:** Keth-Amar warned that starving lowlanders would find their geothermal infrastructure. "Hide behind a snow-veil." Tesshan traded visibility for an eternal blizzard. Their landmarks vanish. Their keeps survive.
-- **Sundrift Vale / House Ordavan:** Without stars, migration routes would fall. Keth-Amar offered endless grass in exchange for the soil itself. Ordavan accepted. The sky went dark. The constellations fled into Astril blood.
-- **Bryngloom Forest:** The Bryngloom had no single noble family to break. Keth-Amar whispered to every clan in every dialect and found no single authority to corrupt. The Neth, a dying scribe-clan, walked into the deep bogs and made their own bargain with the Morvane. They rose silver-skinned, silenced, and beyond whisper.
-
-By Year 11, six houses had heard the same offer so many times it no longer sounded like a choice. They marched their firstborn heirs to the peaks. Keth-Amar consumed them  -  not as mere sacrifice, but as **vessel-keys**: the children's bloodlines were the original signatures on the binding seal, and by devouring them, Keth-Amar cracked the seal from without. The seal shattered into **seven Sundered Monoliths**, each screaming with the echo of a sacrificed heir. Emberspire erupted. The **Wyrd**  -  Keth-Amar's entropic blood  -  bled through the cracks into the surface air.
-
-**The Partial Seal  -  Why Keth-Amar Cannot Feed Fully:**
-
-Keth-Amar is not inside the vault  -  it is pressed violently against the partial seal, seeping out through the cracks. It feeds on Sol's slumbering embers by leeching energy through the fractures. But it does not feed freely. The seal was meant to fall completely. Six signatures on a binding that required seven should have failed utterly. The Sun-Eater should have gorged itself full and moved on.
-
-It did not. **House Viridane refused.**
-
-When the other six families marched their children north, Viridane turned south. Something had reached them before Keth-Amar's whispers could take hold  -  a presence in the mist, watching from the moonlit groves, older than the Sun-Eater's hunger and more patient. They struck a counter-bargain with the Watcher in the Mist and fled into the fog. The seal should have fallen completely. But the six houses could not admit failure. They could not tell the world that the Binding had been broken. So they erased House Viridane from every record, elevated a minor Bryngloom family  -  **House Morrath**  -  as a substitute signatory, and pretended the seal was whole.
-
-Morrath's blood could not replace Viridane's. The seal remained broken. But the power of eight centuries of institutional pretense held the seal in a state of permanent fracture  -  **the Partial Seal**: a binding neither whole nor wholly broken. Keth-Amar remains pressed against the seal, unable to enter the vault fully. It can feed on Sol's leaking embers, but not consume the star entirely. It could leech each pulse of Aex's pain, but it could not swallow Sol whole.
-
-The erasure of House Viridane was not merely political. Keth-Amar hunts through knowledge  -  through the threads of memory, record, and thought that connect a being to its existence. When the six houses burned every portrait, sealed every archive, and let the fog swallow the name, they cut the thread Keth-Amar would have used to find the house that ran. The Sun-Eater knows something is missing. The seal refuses to break. The vault will not open to its full appetite. But Keth-Amar cannot see the gap. It cannot name the house that refused.
-
-The Briaran carry Viridane's covenant in their thorns, hidden from Keth-Amar's awareness by the same fog that hides the Reach. The Partial Seal holds. Sol is being eaten slowly  -  not gulped. And an entire house lives somewhere the eyes of a star-devourer cannot reach.
-
-This is the world's oldest irony: the houses that broke the seal spent every generation pretending it was still whole. The house that saved the seal spent every generation erased from the record. And the Monoliths are waking. When they resume their original positions, the Partial Seal will either snap shut or fall open. Viridane may have kept Keth-Amar from eating Sol whole. They could not keep the world from cooling.
+A secret native deity created a **7th Counterfeit Monolith** to blind Keth Amar, creating a metaphysical puzzle so the predator cannot determine which key unlocks the core. Masked Acolytes of this secret 7th House operate in the shadows, pursuing total dominion while adventurers and mercenary companies wage trench wars over glowing Aex Shards for industrial fuel.
 
 ---
 
@@ -113,7 +100,7 @@ The population is split into two sharp castes. The **Ledgered** are humans who s
 
 The **Mimir** themselves are divided by the masks they wear. The **Arch Mimir** of the high branches are canopy aristocrats wearing pristine ancestral masks. They look down on the **Fractured Mimir** of the forest floor, who wear cracked, salvaged wood masks or go maskless with painted skin. Deep in the forest lies **Mirror Mere**, a perfectly still, black-water lake where Arch Mimir travel to test their reflections against the calcified faces of their masks, reading flaws in the glass-still surface as omens of identity erosion.
 
-The **Briaran**, hidden descendants of House Viridane, are the shadow beneath both. They live in the deepest moonlit groves where the protective fog thins and fae old laws still hold.
+The **Florae**, hidden descendants of House Viridane, are the shadow beneath both. They live in the deepest moonlit groves where the protective fog thins and fae old laws still hold.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -145,7 +132,7 @@ In Greymark Keep, a typical tavern (such as *The Ink-stained Finger*) is a low c
 
 **The Regional Landscape & Current Vibe**
 
-Nordhalla is a brutalist cathedral of ice and stone - a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in eight centuries. 
+Nordhalla is a brutalist cathedral of ice and stone - a blinding-white tundra sliced by towering black fjords where the temperature never rises above freezing. The glaciers were halted mid-advance by the dark bargain, frozen in place like a wave that will never break. The sky is a pale, washed-out grey that has not seen true sunlight in nearly five centuries. 
 
 To consolidate his rule, the newly crowned **King-Jarl Halvar Skalvyr (known as "Járn-Tand" or Iron-Tooth)** has constructed the **Sunder-Wall**, a titanic barrier of compacted glacier-ice and black granite spanning the tundra. While officially built to keep out Wyrd horrors like the [Skreika](file:///d:/VTT/vtt-react/src/data/rulesData.js#L315) and glacier-wyrms, the wall's garrisoned gates primarily control, tax, and restrict the movements of the nomadic outlands clans. 
 
@@ -208,7 +195,7 @@ South of the Shyr, the landscape is punctuated by **Cinderhoodoo**, a cluster of
 
 **The Seat of Power: The Harath-Vault & The Levies**
 
-Carved radially into the volcanic throat of a dormant secondary caldera sits **The Harath-Vault**, the massive subterranean capital of the Emberth forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways.
+Carved radially into the volcanic throat of a dormant secondary caldera sits **The Harath-Vault**, the massive subterranean capital of the Solari forge-clans. Carved out by the Sun-Speakers centuries before the sun's death, the Vault is a titanic, sprawling underground city. Grated catwalks are suspended above hot, molten metal rivers that rush through the center of the pathways.
 
 To fuel the city's production and feed the Dawn Vigil's armies, the state enforces the **Caldera Labor-Levies**. Young Solari and Thrask are forcibly conscripted into the **Martyr Brigades** - suicidal work details sent into active volcanic rifts to mine raw obsidian. Furthermore, the priests of the **Sulfur Cartel** hold an absolute monopoly on all geothermal coal, volcanic sulfur, and Sol's Breath steel, charging exorbitant rates to surface outposts in exchange for heat and safety.
 
@@ -218,7 +205,7 @@ At the Vault's absolute center is **The Great Forge**, where oversized obsidian 
 
 The population is split into two sharp castes. The **Deep-Born** are wealthy Solari nobles and Korr priests who live in climate-controlled luxury in the Vault’s inner rings, sheltered from the ash. The **Ash-Dwellers** are Thrask miners and impoverished Solari refugees who live in toxic surface shanties, suffering from "Ashen Throat" lung-rot.
 
-The **Emberth** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured**  -  heretical Emberth who have ritually defaced their forge-marks  -  scour the wastes for Sundered Monoliths, believing that sealing the breach will let Sol die in peace rather than be eaten.
+The **Solari** themselves are split by this divide. The **Korr** of the Deep-Vault are the priestly elite with charcoal skin and elongated lungs. The **Thrask** of the surface badlands are the bronze-skinned rangers and miners who live in the frontier calderas, highly skeptical of the Korr's wait-and-see policy. The **Scoured**  -  heretical Solari who have ritually defaced their forge-marks  -  scour the wastes for Sundered Monoliths, believing that sealing the wound will let Sol die in peace rather than be eaten.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -357,7 +344,7 @@ The economy is driven by exporting alchemical reagents under the **Steam-Line Ca
 
 **The Regional Landscape & Current Vibe**
 
-The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endlessly beneath a sky that contains nothing. No stars. No constellations. No navigable heavens. The ancestors who once mapped the firmament now navigate by memory alone, and memory is the first thing the steppe takes. Nomadic clans follow the endless herds across a landscape where the only constants are the wind and the ancestor-mounds, burial sites that still hum with the throat-sung histories of the dead. In the steppe's western reach lies **Starfall Vale**, a massive crater where Lumia's echos fell from the sky during the Breach, its glass-scarred floor still faintly luminescent.
+The Sundrift Vale is a wind-swept expanse of dead tundra grass stretching endlessly beneath a sky that contains nothing. No stars. No constellations. No navigable heavens. The ancestors who once mapped the firmament now navigate by memory alone, and memory is the first thing the steppe takes. Nomadic clans follow the endless herds across a landscape where the only constants are the wind and the ancestor-mounds, burial sites that still hum with the throat-sung histories of the dead. In the steppe's western reach lies **Starfall Vale**, a massive crater where Lumia's echos fell from the sky during the Shattering, its glass-scarred floor still faintly luminescent.
 
 To govern this flat expanse, **Khatun Bayarmaa Ordavan ("The Steel-Voiced")** enforces the **Iron-Yurt Law**. To prevent inter-tribal warfare and secure tribute, she has mandated that all seasonal migrations, pasture rights, and blood-debts be carved on **Steppe-Staves** (bone tally sticks) registered at her mobile chancellery. Any clan that grazes outside their route is branded a "Strap-Thief" and hunted down by her horse-archers. 
 
@@ -462,19 +449,21 @@ The five human bloodlines are: the **Thalren** of Frostwood Reach (journal-keepe
 
 **The Internal Fractures**
 
-Humanity is not united and never has been. The Thalren view the Skald as savages who lost their nerve along with their warmth; the Skald view the Thalren as soft fog-dwellers who traded memory for comfort. The Solari view the Merryn as frivolous gamblers who wager with lives the Solari consider sacred. The Tessen view everyone as threats  -  isolation does not breed trust. The Ordan view all settled peoples as fundamentally weak  -  a house is a cage, a city is a grave. The Vreken, who absorbed the Morren, barely interact with humans at all.
-
 Yet they trade. Human merchant networks span the continents, not because humans trust each other but because the Thalren need Nordhalla iron, the Solari need Iceheart timber, the Tessen need Sundrift herd-hides, and survival has always been more persuasive than pride.
 
-The folk speak of an "eighth house"  -  **House Viridane**  -  the family that refused Keth-Amar's bargain. The name struck from every record. The truth is more subtle: there were seven original signatories including Viridane, who were erased and replaced by House Morrath to maintain the fiction of seven signatures. The Briaran, descendants of Viridane's flight, call themselves the eighth house in defiance: the living proof that one family refused. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know fragments of the truth through Neth records.
+The folk speak of an "eighth house" — **House Viridane** — the family that refused Keth-Amar's bargain. The name was struck from every record. The truth is more subtle: there were seven original signatories including Viridane, who was erased and replaced by House Morrath to maintain the fiction of seven signatures. The Florae, descendants of Viridane's flight, call themselves the eighth house in defiance: the living proof that one family refused. Every human culture deals with this differently: the Thalren have forgotten them (the fog took that memory), the Skald despise them as cowards, the Solvarn envy their courage to say no, and the Morren know fragments of the truth through Neth records.
 
 **Proximal Relations**
 
-Humans are the connective tissue of Mythrill's economy  -  not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Rime-Born. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Vreken crypt-monasteries owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for sp## The Mimir  -  The Mask-Bound
+Humans are the connective tissue of Mythrill's economy — not because they are beloved, but because they are everywhere and they never stop moving. Thalren merchants trade with Mimir canopy-holds through intermediaries. Skald fjord-keeps maintain an uneasy cold-war detente with the Rime-Born. Tessen keep-dwellers purchase geothermal heat from the Fexric through pipes they have never seen. Merryn pirates trade at Ironjaw Port under Neth supervision. Vreken crypt-monasteries owe contracts to Neth archive-houses. Ordan nomads pass through Astril territory during the migration season, exchanging herd-meat for starfall glass.
+
+---
+
+## The Mimir — The Mask-Bound
 
 **The Current State**
 
-The Mimir are a secretive, rare people of the Frostwood Reach  -  tall, slender, with unnaturally fluid movement and masks carved from ancient heartwood or storm-glass that they never remove in public. Made by **Sereth**, an ancient world-bound deity of creation and perfection who remade them across cycles before dying of its own contradictions, the Mimir carry an inherited shame older than memory. The mask is not a disguise; it is honor, identity, and protection against the memory-devouring fog of the Reach.
+The Mimir are a secretive, rare people of the Frostwood Reach — tall, slender, with unnaturally fluid movement and masks carved from ancient heartwood or storm-glass that they never remove in public. Made by **Sereth**, an ancient world-bound deity of creation and perfection who remade them across cycles before dying of its own contradictions, the Mimir carry an inherited shame older than memory. The mask is not a disguise; it is honor, identity, and protection against the memory-devouring fog of the Reach.
 
 **Subrace Settlements & Internal Fractures**
 
@@ -488,29 +477,29 @@ Mimir society is divided into two distinct lineages, separated geographically an
 
 **Proximal Relations**
 
-The Thalren humans of the Reach fear the Mimir's faceshifting abilities  -  a paranoia the Wyrd has weaponized into creatures that steal faces. Mask-hunters from the eastern kingdoms probe the Vales with detection magic, and black-market Mimir masks fetch fortunes in distant ports. The Frostbound share a grudging respect with the Fractured Mimir, recognizing fellow survivors of cultural collapse. The Mimir view the Briaran with wary recognition  -  two hunted peoples hiding in the same mist.
+The Thalren humans of the Reach fear the Mimir's faceshifting abilities  -  a paranoia the Wyrd has weaponized into creatures that steal faces. Mask-hunters from the eastern kingdoms probe the Vales with detection magic, and black-market Mimir masks fetch fortunes in distant ports. The Frostbound share a grudging respect with the Fractured Mimir, recognizing fellow survivors of cultural collapse. The Mimir view the Florae with wary recognition  -  two hunted peoples hiding in the same mist.
 
 ---
 
-## The Emberth  -  The Forge-Clans of Sundale
+## The Solari  -  The Forge-Clans of Sundale
 
 **The Current State**
 
-The Emberth are a bulky, powerful people of Sundale  -  broad-shouldered and deliberate, with skin deep brown to near-black, cross-hatched with deliberate burn-scars that encode clan affiliation, trade specialization, and ancestor-lineage in a visual language read at a glance. Their eyes are too large for their faces  -  a legacy of the lightless thermal caverns where they sheltered during the centuries of underground exile. Sol's chosen people, forewarned by prophecy of the sun's death, they excavated vast tunnel networks and were already underground when the surface froze.
+The Solari are a bulky, powerful people of Sundale  -  broad-shouldered and deliberate, with skin deep brown to near-black, cross-hatched with deliberate burn-scars that encode clan affiliation, trade specialization, and ancestor-lineage in a visual language read at a glance. Their eyes are too large for their faces  -  a legacy of the lightless thermal caverns where they sheltered during the centuries of underground exile. Sol's chosen people, forewarned by prophecy of the sun's death, they excavated vast tunnel networks and were already underground when the surface froze.
 
 **Subrace Settlements & Internal Fractures**
 
-The Emberth are divided into three volcanic lineages:
-* **Korr Emberth (Vault-Keeper / Deep-Born):** Deep-vault forge-masters who spend generations in quiet devotion tending Sol's fading ember (*Sol's Breath*).
+The Solari are divided into three volcanic lineages:
+* **Korr Solari (Vault-Keeper / Deep-Born):** Deep-vault forge-masters who spend generations in quiet devotion tending Sol's fading ember (*Sol's Breath*).
   * **Capital**: **The Harath-Vault (Inner Ring)** – Carved radially into the dormant secondary caldera of Emberspire around the eternal **Sol's Breath**.
-* **Thrask Emberth (Ash-Rangers & Miners):** Surface scouts and ashland wanderers who map the volcanic wastes in heavy protective gear.
+* **Thrask Solari (Ash-Rangers & Miners):** Surface scouts and ashland wanderers who map the volcanic wastes in heavy protective gear.
   * **Primary Settlements & Outposts**: **The Ashen Escarpment Citadels** (fortified ash-cliff toll-gates), **Magma-Fracturing Sumps** (industrial mining camps), and **Ember Lagoon Port** (Sundale's warm-water shipping hub).
-* **Scoured Emberth (Defaced Heretics):** Heretics who have ritually defaced their forge-marks, believing that sealing the breach will let Sol die in peace rather than be eaten.
+* **Scoured Solari (Defaced Heretics):** Heretics who have ritually defaced their forge-marks, believing that sealing the wound will let Sol die in peace rather than be eaten.
   * **Camps**: Nomadic survival camps scattered across **The Monolith Wastes**.
 
 **Proximal Relations**
 
-The Emberth and the frost-touched clans of the **Rime-Born** share a deep, unspoken kinship  -  both were shaped by opposite extremes of the same catastrophe. The **Astril** are a theological crisis for the Emberth: the Astril carry Sol's celestial ministers in their blood. The **Solari** share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
+The Solari and the frost-touched clans of the **Rime-Born** share a deep, unspoken kinship  -  both were shaped by opposite extremes of the same catastrophe. The **Astril** are a theological crisis for the Solari: the Astril carry Sol's celestial ministers in their blood. The **Solari** share the ashlands in an uneasy dependency; the Fexrick trade gear-work for obsidian through deep-tunnel intermediaries.
 
 ---
 
@@ -653,19 +642,13 @@ The Vreken are a compact, lantern-eyed people of the Bryngloom who perceive "the
 
 ---
 
-## The Briaran  -  The Forgotten House
+## The Florae  -  The Exiled House
 
-**The Current State**
+Descendants of House Viridane who fled into the moonlit groves and made a counter-bargain with the fae. Their forearms, shoulders, and spines sprout living ironwood thorns that react to spoken lies.
 
-Descendants of **House Viridane** (the 8th house that refused Keth-Amar's bargain), transformed by fae pacts to grow briar thorns on their flesh.
+* **Viridian Florae:** Wear their living thorn-plates openly as proof of Viridane's survival and resistance against the northern houses.
 
-**Subrace Settlements & Internal Fractures**
-
-* **Trueborn Briaran (Unshorn):** Wear their thorns openly as proof of Viridane's survival.
-  * **Capital**: **The Moonlit Groves** – Hidden sanctums in deep Frostwood where fae old laws hold.
-* **Shorn Briaran (Smooth-Skinned):** Shave their thorns flat to pass as human.
-  * **Capital**: **The Greymark Shallows** – Subterranean vaults beneath Greymark Keep.
-  * **Lesser Outposts**: Covert urban enclaves in human trade cities.to finish what the erasure started.
+* **Oken Florae:** Timber-born woodcraft artisans and diplomatic envoys who carry their heritage in dense ironwood limbs and ghost-metal craft.
 
 ---
 
@@ -716,7 +699,7 @@ The ranger **Sylas** tracked the invisible spoor of native creatures and Wyrd en
 The Apex is a creature of the wild perimeter, not the plaza. She is tolerated at the frontier holds where the fog presses closest and respected wherever a native beast or Wyrd entity must be found before it finds its quarry. In the civilized chambers of Atropolis she is a curiosity; at the edge of the ironwood, she is the difference between a safe night and a vanished patrol.
 
 ### Races & Cultural Affiliation
-Practiced most by the **Briaran** wood-wardens and the human **Thalren** rangers whose fog-chewed memories make them value the silent, scent-based craft. Mimir trackers sometimes take the path, their mask-merger heritage lending an unsettling patience to the hunt.
+Practiced most by the **Florae** wood-wardens and the human **Thalren** rangers whose fog-chewed memories make them value the silent, scent-based craft. Mimir trackers sometimes take the path, their mask-merger heritage lending an unsettling patience to the hunt.
 
 > *"The native beast and the Wyrd entity alike do not leave tracks in the snow. They leave tracks in the memory of the snow. I do not hunt with my eyes. I hunt with my patience."*
 
@@ -735,7 +718,7 @@ The Lunarch is not a priest  -  they are a host. A cold, alien celestial parasit
 Lunarchs are feared in equal measure wherever they go  -  their pale glow marks them as something other. They find grudging tolerance only where no other light reaches, and they are shunned by the Synod's orthodox sun-priests as living heresy. Their immune rejection of standard healing means no infirmary welcomes them willingly.
 
 ### Races & Cultural Affiliation
-The Lunarch's origin in House Viridane ties it to the **Briaran** lineage, but the parasite does not discriminate  -  any who venture into the Frostwood's moonlit groves may be chosen. **Astril**, the Lumia's echos of Sol's slaughtered court, sometimes host the parasite as a grim echo of the celestial feeding they already endure.
+The Lunarch's origin in House Viridane ties it to the **Florae** lineage, but the parasite does not discriminate  -  any who venture into the Frostwood's moonlit groves may be chosen. **Astril**, the Lumia's echos of Sol's slaughtered court, sometimes host the parasite as a grim echo of the celestial feeding they already endure.
 
 > *"The parasite does not hate me. It loves me. That is the horror of it. It loves me so completely that it has rewritten every cell of my body to match its idea of perfection."*
 
@@ -754,7 +737,7 @@ The first shapers were not warriors or alchemists but desperate survivors who re
 Shapers are quietly sought wherever something must be held together that should not stand  -  collapsing mine-works, failing keeps, slaughtered caravans needing a body willing to break itself to buy an escape. In the polished halls of Atropolis their scarred, self-mutilated forms are viewed with polite revulsion; in the Cragjaw holds and Frostwood outposts they are paid well and asked no questions.
 
 ### Races & Cultural Affiliation
-The art's dual origin ties it to the **Briaran/Frostwood** wood-wardens, the **Fexrick/Cragjaw** troll-kin, and the **Mimir** chroniclers who carried the synthesis between them. **Groven** bridge-keepers, whose bodies are already grown from the willing dead, sometimes take up the Shaper's path as a natural extension of their mutable flesh.
+The art's dual origin ties it to the **Florae/Frostwood** wood-wardens, the **Fexrick/Cragjaw** troll-kin, and the **Mimir** chroniclers who carried the synthesis between them. **Groven** bridge-keepers, whose bodies are already grown from the willing dead, sometimes take up the Shaper's path as a natural extension of their mutable flesh.
 
 > *"The blade does not move me. The beast does not frighten me. I am the blade. I am the beast. And when I am done, there will be nothing left of either."*
 
@@ -792,7 +775,7 @@ In the freezing wastes of Nordhalla, when the glaciers halted at the price of su
 Berserkers are banned outright in the silver law-chambers of Atropolis, where their volatile fury is treated as a public-order threat. They are celebrated as sacred survivors in the geothermal arenas of the Harath-Vault and the frontier keeps of the Skald, where high-stamina endurance is revered.
 
 ### Races & Cultural Affiliation
-Heavily practiced by the massive **Skald** and the hot-headed **Emberth** (Thrask clans) who defaced their imperial marks to embrace the caldera's wild fury. The occasional **Groven** takes the path, their already-mutable flesh responding to Blood-Heat in unsettling ways.
+Heavily practiced by the massive **Skald** and the hot-headed **Solari** (Thrask clans) who defaced their imperial marks to embrace the caldera's wild fury. The occasional **Groven** takes the path, their already-mutable flesh responding to Blood-Heat in unsettling ways.
 
 > *"The world tried to freeze me. I chose to burn instead. Ask my enemies which temperature hurts more."*
 
@@ -805,7 +788,7 @@ Heavily practiced by the massive **Skald** and the hot-headed **Emberth** (Thras
 While scholars squabble over ancient astronomical charts, the Augur plunges their hands into fresh wounds and reads the heat of spilling intestines. They do not predict broad cosmic destinies  -  they divine the exact trajectory of a blade, the snapping point of a bone, the moment a throat will open. Every vision demands a toll of sanity or flesh; magic is not a formula here but a visceral mutilation.
 
 ### History
-It is said that **Cassia**, chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when Sol first darkened. With the astrolabes frozen solid, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, reading the exact hour of the Deepening in its steaming entrails. As the future flooded her mind, the temporal feedback loop burned away her past  -  the face of her husband, the warmth of the hearth, the names of her children  -  incinerated to clear space for the mathematically precise coordinate-chains of cosmic doom. To maintain the sight she must carve deep runes into her own forearms, using her own warm blood to re-establish the connection to the stars.
+It is said that **Cassia**, chief star-watcher of the Nordhalla Keeps, sat in the Frozen Archive when Sol first darkened. With the astrolabes frozen solid, she took a bronze scaling knife and opened the abdomen of a sacrificial glacier-elk, reading the exact hour of the First Failing in its steaming entrails. As the future flooded her mind, the temporal feedback loop burned away her past  -  the face of her husband, the warmth of the hearth, the names of her children  -  incinerated to clear space for the mathematically precise coordinate-chains of cosmic doom. To maintain the sight she must carve deep runes into her own forearms, using her own warm blood to re-establish the connection to the stars.
 
 ### Cities & Civil Reception
 Augurs are sought out in every forward operating camp and siege-line where the next hour's survival is unknown, and they are avoided absolutely everywhere else. The Frozen Archive tolerates them as colleagues of last resort; the Synod-Hold regards them as blasphemers dressed in scholarly robes.
@@ -830,7 +813,7 @@ In the lightless badlands of Sundale, when Sol was entombed, a cabal of **Solvar
 Hunted with silver chains by the Sun-Speakers of the Harath-Vault, who view them not merely as heretics but as walking portals to the infernal deep. They have no open presence in any mortal city; they operate from the hidden obsidian conventicles beneath the Emberspire caldera.
 
 ### Races & Cultural Affiliation
-Exclusively **Solvarn** at origin  -  the sun-martyrs of Sundale who refused to leave the ashlands. A few **Emberth** forge-pilgrims, already half-fire, have been accepted by Scathrach as kindling of a different grade.
+Exclusively **Solvarn** at origin  -  the sun-martyrs of Sundale who refused to leave the ashlands. A few **Solari** forge-pilgrims, already half-fire, have been accepted by Scathrach as kindling of a different grade.
 
 > *"Scathrach whispers to me in the language of burning things. It says the world was made from fire, and to fire it will return. It says I am the kindling. It says I should be grateful."*
 
@@ -1071,7 +1054,7 @@ The **Merryn** pirate-gamblers and the **Kessen Neth** fate-weavers are the twin
 To look upon a Harbinger is to watch reality struggle to maintain its grip while a prophet counts down to its end. Shadows around them rip free and tear in the wind. Their skin occasionally flickers out of phase, weeping the echoes of dead and deleted timelines. They do not cast spells  -  they speak endings into flesh and invite local molecular collapse.
 
 ### History
-The nomad **Xyris** did not see beauty in reality's woven threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Breach  -  the Chaos Weaver. During the first solar eclipse of Sol's Deepening, the **Skald** archivist **Malakor** locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic and calculated that the freeze was not temporary but mathematically absolute  -  the realization freezing his mind rather than breaking it  -  the Doomsayer. When Xyris and Malakor's paths converged, the Harbinger was born: both a living tear in spacetime and a prophet of mathematical catastrophe. They saw how the world ends (Malakor) and found a way to wear that ending (Xyris).
+The nomad **Xyris** did not see beauty in reality's woven threads; she saw a cage. Splicing a thread of raw temporal friction directly into her own veins, she sought to tear open the veil and draw power from the gravity anomalies left behind by the Shattering  -  the Chaos Weaver. During the first eclipse of the failing sun, the **Skald** archivist **Malakor** locked himself in the Scribe's Tower with thirty scrolls of star-arithmetic and calculated that the freeze was not temporary but mathematically absolute  -  the realization freezing his mind rather than breaking it  -  the Doomsayer. When Xyris and Malakor's paths converged, the Harbinger was born: both a living tear in spacetime and a prophet of mathematical catastrophe. They saw how the world ends (Malakor) and found a way to wear that ending (Xyris).
 
 ### Cities & Civil Reception
 Harbingers are outlawed in Atropolis and Greymark Keep, where their presence is treated as a standing emergency. They gather in the margin-camps between the regions  -  the places where maps stop and the Sundered Monoliths begin  -  where prophecy of the end is indistinguishable from weather forecasting.
@@ -1095,8 +1078,8 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 |---|---|---|---|
 | **Wraithfen** | Wilderness | Thalren | Germanic compound (Wraith + Fen). The fog here is thick enough to dissolve identity  -  a Thalren name for a Thalren fear. |
 | **Mistbarrow** | Ruin | Unknown (pre-Thalren) | English terrain (Barrow). Predates House Thalreth. The builders are unknown  -  the name was given by the first Thalren to find it. |
-| **Greythorn Copse** | Settlement | Thalren + Briaran joint | "Grey" connects to Greymark (Thalren), "Thorn" to Briaran botanical tradition. A name that records two cultures sharing ground. |
-| **Bramble Heath** | Wilderness | Briaran | Pure Briaran botanical naming  -  plants and terrain. The Briaran name for the edge of their world. |
+| **Greythorn Copse** | Settlement | Thalren + Florae joint | "Grey" connects to Greymark (Thalren), "Thorn" to Florae botanical tradition. A name that records two cultures sharing ground. |
+| **Bramble Heath** | Wilderness | Florae | Pure Florae botanical naming  -  plants and terrain. The Florae name for the edge of their world. |
 | **Skald's Landing** | Settlement | Skald diaspora | Norse possessive naming, incongruous in the Reach. The Skald traders named it in their own tongue. |
 | **The Shifting Fen** | Wilderness | Mimir | Abstract, descriptive. Mimir naming favors perception and change over permanence. |
 | **Mirror Mere** | Settlement | Mimir (Mask-Borne) | Abstract concept + water feature. The Mimir's most sacred naming convention  -  identity verification. |
@@ -1119,11 +1102,11 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 |---|---|---|---|
 | **Sol's Anvil Mesa** | Wilderness | Solvarn | Latin/solar (Sol) + structure (Anvil) + terrain (Mesa). Imperial solar theology. |
 | **The Ashen Escarpment** | Wilderness | Solvarn | Volcanic descriptor + terrain (Escarpment). Solvarn military-geographic naming. |
-| **Vulcar's Karst** | Wilderness | Emberth (shared) | Forge name (Vulkar) + terrain (Karst). Industrial + geological. |
-| **Cinderhoodoo** | Wilderness | Emberth | Fire residue (Cinder) + terrain (Hoodoo). Emberth compound naming. |
-| **Slag Gulch** | Settlement | Emberth + Groven | Industrial waste (Slag) + terrain (Gulch). Forge-people naming for a forge-place. |
+| **Vulcar's Karst** | Wilderness | Solari (shared) | Forge name (Vulkar) + terrain (Karst). Industrial + geological. |
+| **Cinderhoodoo** | Wilderness | Solari | Fire residue (Cinder) + terrain (Hoodoo). Solari compound naming. |
+| **Slag Gulch** | Settlement | Solari + Groven | Industrial waste (Slag) + terrain (Gulch). Forge-people naming for a forge-place. |
 | **The Cinder Strait** | Wilderness | Merryn diaspora | Fire residue + maritime terrain (Strait). A nautical name in a volcanic land. |
-| **Ember Lagoon** | Settlement | Emberth + Merryn | Fire (Ember) + maritime terrain (Lagoon). Two cultures naming one harbor. |
+| **Ember Lagoon** | Settlement | Solari + Merryn | Fire (Ember) + maritime terrain (Lagoon). Two cultures naming one harbor. |
 
 ## Iceheart Sea  -  Expanded Locations
 
@@ -1209,7 +1192,7 @@ Beneath the damp canopy of the **Bryngloom Forest**, the lantern-eyed **Vreken**
 
 ## 2. Historical Scars & Epidemics
 
-A world sunless for eight centuries does not heal cleanly. The survival strategies of the past have left deep, systemic scars across the continents  -  plagues of the mind, spiritual winters in the blood, and dangerous trade corridors where the price of passage is written in ash.
+A world sunless for nearly five centuries does not heal cleanly. The survival strategies of the past have left deep, systemic scars across the continents  -  plagues of the mind, spiritual winters in the blood, and dangerous trade corridors where the price of passage is written in ash.
 
 ### The Frost-Tithe of Nordhalla
 
@@ -1232,7 +1215,7 @@ The **Neth Velun** pact-mages maintain a strict monopoly on the legal trade of "
 
 ### The Shyr: Obsidian Caldera Trade Routes
 Connecting the volcanic calderas of **Sundale** to the frozen keeps of the north is **The Shyr**  -  a ninety-mile fracture of cooling basalt that serves as the primary trade artery of the dying world.
-The Shyr is a geological anomaly: a massive, slow-moving river of lava that cools and contracts at its edges into predictable, interlocking basalt pillars. The **Emberth** have built their primary trade route directly upon this moving highway. Because the stone is warmed from below, it is the only road in the western hemisphere that never accumulates ice.
+The Shyr is a geological anomaly: a massive, slow-moving river of lava that cools and contracts at its edges into predictable, interlocking basalt pillars. The **Solari** have built their primary trade route directly upon this moving highway. Because the stone is warmed from below, it is the only road in the western hemisphere that never accumulates ice.
 However, navigating the Shyr is a high-stakes gamble:
 * **The Basalt Shifts:** The basalt pillars are not static. The road moves, buckling and contracting. A caravan that stops for too long risks being swallowed by a sudden magma-vent or trapped on an isolated basalt island as the surrounding road melts back into the river.
 * **The Husque-Rifts:** The Shyr runs parallel to the Emberspire caldera. The Wyrd-leakage is intense here, and **Husque-Rifts**  -  tears in reality that leak Keth-Amar's hunger  -  frequently manifest along the road, vaporizing beasts of burden and consuming the memories of the merchants.

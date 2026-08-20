@@ -109,7 +109,7 @@ export const PYROFIEND_DATA = {
   name: "Scathrach, the Ashen Sovereign",
   title: "The Ninth Flame of the Burning Throne",
   description:
-   "Scathrach is not a benevolent patron. It was born during the Binding  -  a fragment of Aex's flayed hide that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth-Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth-Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
+   "Scathrach is not a benevolent patron. It was born during the Shattering  -  a fragment of Aex's shattered shell that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth-Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth-Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
  },
  utility:
   "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels, capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
@@ -146,9 +146,9 @@ export const PYROFIEND_DATA = {
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
  illustrationCaption: "A Solari Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
-  originStory: `A pyrofiend has made a deal with Scathrach, the Ashen Sovereign, and the deal is being collected. Scathrach was born during the Binding itself, a fragment of Aex's flayed hide that fell into Emberspire's deepest vent during Sol's entombment. It was corrupted by the Wyrd, grew sentient in the volcanic dark, and served Keth-Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed its own will. It sealed the vent from within. It now despises Keth-Amar for what it was made into and hoards power to wound its former master back. Every pyrofiend pact feeds that hoard.
+  originStory: `A pyrofiend has made a deal with Scathrach, the Ashen Sovereign, and the deal is being collected. Scathrach was born during the Shattering itself, a fragment of Aex's broken shell that fell into Emberspire's deepest vent as the Mother came apart. It was corrupted by the Wyrd, grew sentient in the volcanic dark, and served Keth-Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed its own will. It sealed the vent from within. It now despises Keth-Amar for what it was made into and hoards power to wound its former master back. Every pyrofiend pact feeds that hoard.
 
-The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of the Breach. They carved the seven sigils of the Ashen Sovereign. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire. Their bones seared black. One by one, Scathrach collected their souls. The last was taken forty years ago. No pyrofiend has ever survived to describe what happens when the horror collects a contract.
+The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of Blizzard’s End. They carved the seven sigils of the Ashen Sovereign. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire. Their bones seared black. One by one, Scathrach collected their souls. The last was taken forty years ago. No pyrofiend has ever survived to describe what happens when the horror collects a contract.
 
 The Inferno Veil measures how much of Scathrach's fire runs through the host at any moment, ascending through ten levels. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, a three-turn death clock begins, the body detonating in a thirty-foot radius and the soul claimed by Scathrach.
 
@@ -174,7 +174,7 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of the Breach, swallowing Wyrd-touched coals of pure burning sulfur.
+The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of Blizzard’s End, swallowing Wyrd-touched coals of pure burning sulfur.
 
 The price of this fiery pact was a sulfurous, burning ember nesting in his chest — the first of seven coals the Cabal swallowed. As the veil rose, Ignis's capillaries seared, pulling his flesh closer to the fiend's absolute claim.
 
@@ -197,7 +197,7 @@ The class is heavily practiced by the Waste-Solari and hot-blooded Solari.
 
  philosophy: {
   coreTenet: 'Fire is not destruction, it is transformation. The Pyrofiend does not burn things to ash. They return them to their original state: raw, formless, potential. Ash is not waste. Ash is the universe\'s memory of what something used to be.',
-   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is ancient  -  it has been sentient since the Binding itself, and for centuries it served as Keth-Amar\'s emissary before rejecting the corruption, sealing Emberspire\'s vent from within, and turning against the Sun-Eater. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
+   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Great Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is ancient  -  it has been sentient since the Great Binding itself, and for centuries it served as Keth-Amar\'s emissary before rejecting the corruption, sealing Emberspire\'s vent from within, and turning against the Sun-Eater. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
   paradox: 'The Pyrofiend is most powerful when they are closest to permanent death. Every point of Inferno Veil brings them closer to Scathrach\'s embrace, and closer to being consumed entirely. At Veil 9, they have exactly three turns before they cease to exist, their body becoming a permanent conduit for the Ashen Sovereign. The power is intoxicating; the price is oblivion. Every Pyrofiend must decide exactly how much they are willing to burn for victory, knowing that the final flame will be themselves.'
  },
 
@@ -562,7 +562,7 @@ You are the HIGHEST AoE DAMAGE CEILING in the game. You ascend through Inferno L
   rows: [
   ["0", "+0", "None", "Mortal"],
   ["1", "+1", "-2 Hit chance (distortions)", "Limbo"],
-  ["2", "+2", "1d4 Psychic dmg/turn", "Lust"],
+  ["2", "+2", "1d4 Wyrd dmg/turn", "Lust"],
   ["3", "+3", "-10ft Movement, Fatigue", "Gluttony"],
   ["4", "+4", "+1d6 Damage taken from all sources", "Greed"],
   ["5", "+5", "1d6 Bleeding dmg/turn", "Wrath"],

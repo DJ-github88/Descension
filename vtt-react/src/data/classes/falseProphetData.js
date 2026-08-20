@@ -177,7 +177,7 @@ The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-
  signatureQuote: {
   text: '"They call it madness. I call it freedom. The Silence does not lie to me, it simply shows me things that would drive you mad, and I have the courage to look."',
   speaker: 'Li Wei the Blind Prophet',
-  context: 'His first public sermon in the Over-Shanty, in the later centuries of the Dimming'
+  context: 'His first public sermon in the Over-Shanty, in the later centuries of the Freezing Era'
  },
 
  philosophy: {
@@ -188,7 +188,7 @@ The class is practiced by the <LoreLink termId="astril">Astril</LoreLink>, debt-
 
  currentCrisis: `The Voice of the Silence is getting louder. For centuries, the entity that speaks through False Prophets was a distant whisper, a suggestion, not a command. In the past year, the Voice has grown unmistakable, and it is giving specific instructions: "Go to the Frozen Archive. Descend to the lowest vault. Open the way."
 
-The False Prophets of the Over-Shanty are divided. Some believe the Voice is guiding them to a new revelation, a deeper truth that will expand their understanding of the Silence. Others hear something else beneath the Voice: a scraping sound, like claws on stone. They believe the Voice is not inviting them to discover something. It is using them as tools to free something that has been trapped since the Deepening. The two factions have begun to war with each other, and the streets of the Over-Shanty run with blood.`,
+The False Prophets of the Over-Shanty are divided. Some believe the Voice is guiding them to a new revelation, a deeper truth that will expand their understanding of the Silence. Others hear something else beneath the Voice: a scraping sound, like claws on stone. They believe the Voice is not inviting them to discover something. It is using them as tools to free something that has been trapped since the Shattering. The two factions have begun to war with each other, and the streets of the Over-Shanty run with blood.`,
 
  meaningfulTradeoffs: `To be a False Prophet is to never be alone, and never at peace. The Voice is always there, commenting on everything, suggesting alternatives, pointing out the horrifying truth behind every mundane moment. A False Prophet cannot enjoy a sunset without being reminded that the light is dying. Cannot hold a child without calculating the exact statistical probability of that child's death. Cannot love without feeling the Silence's amused contempt for something so fragile. The Prophet trades peace for clarity, and they are never sure they made the right choice.`,
 

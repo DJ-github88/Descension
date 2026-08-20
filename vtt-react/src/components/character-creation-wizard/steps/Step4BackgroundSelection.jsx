@@ -72,6 +72,7 @@ const Step4BackgroundSelection = () => {
     const [showJustificationModal, setShowJustificationModal] = useState(false);
     const [justificationTarget, setJustificationTarget] = useState(null);
     const [customJustification, setCustomJustification] = useState('');
+    const [showRestrictedBackgrounds, setShowRestrictedBackgrounds] = useState(false);
 
     const backgrounds = Object.values(BACKGROUND_DATA) || [];
 
@@ -209,12 +210,27 @@ const Step4BackgroundSelection = () => {
                                         </div>
 
                                         {restrictedBackgrounds.length > 0 && (
-                                            <>
-                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
-                                                <div className="background-grid-fullwidth restricted-grid">
-                                                    {restrictedBackgrounds.map(renderBackgroundCard)}
-                                                </div>
-                                            </>
+                                            <div className="restricted-toggle-container">
+                                                <button
+                                                    type="button"
+                                                    className={`restricted-toggle-button ${showRestrictedBackgrounds ? 'open' : ''}`}
+                                                    onClick={() => setShowRestrictedBackgrounds(prev => !prev)}
+                                                    aria-expanded={showRestrictedBackgrounds}
+                                                >
+                                                    <div className="restricted-toggle-left">
+                                                        <i className={`fas fa-chevron-${showRestrictedBackgrounds ? 'down' : 'right'} toggle-chevron`}></i>
+                                                        <span className="restricted-toggle-label">
+                                                            Non-Native Origins (Requires GM Approval)
+                                                        </span>
+                                                        <span className="restricted-count-badge">{restrictedBackgrounds.length}</span>
+                                                    </div>
+                                                </button>
+                                                {showRestrictedBackgrounds && (
+                                                    <div className="background-grid-fullwidth restricted-grid toggleable-restricted-content">
+                                                        {restrictedBackgrounds.map(renderBackgroundCard)}
+                                                    </div>
+                                                )}
+                                            </div>
                                         )}
                                     </>
                                 );

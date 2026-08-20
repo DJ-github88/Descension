@@ -113,7 +113,7 @@ export const LANGUAGES = [
     name: 'Sylvan',
     icon: 'fa-seedling',
     category: 'exotic',
-    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Florae thorns resonate with its cadence; the Trueborn speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
+    description: 'The whimsical, binding tongue of the fae entities who accepted House Viridane\'s counter-bargain in moonlit groves. Florae thorns resonate with its cadence; the Viridian Florae speak it to their groves. The Revel\'s celebration-song is Sylvan, endlessly repeating.',
     sound: 'Musical and enchanting, like wind through thorn-briars with trilling notes and promises that echo.',
     example: 'Loun-syl vaen\'drael virathel',
     translation: 'The eighth house endures beneath the leaves'
@@ -122,7 +122,7 @@ export const LANGUAGES = [
     name: 'Shanty-Patois',
     icon: 'fa-dungeon',
     category: 'exotic',
-    description: 'The trade-pidgin of the Over-Shanty hanging slums beneath Atropolis. Blends Gloom-Tongue, Drun silence-codes, and merchant shorthand. Evolving too fast for any Neth contract-house to codify.',
+    description: 'The trade-pidgin of the Over-Shanty hanging slums beneath Atropolis. Blends Gloom-Tongue, Grave Neth silence-codes, and merchant shorthand. Evolving too fast for any Neth contract-house to codify.',
     sound: 'Hushed and rapid, with sibilant whispers adapted for rope-bridge eavesdropping and peat-bog secrecy.',
     example: 'Ss\'drunn ss\'gloom-tak now-now',
     translation: 'The Drun whisper, the Gloom takes, move quickly'
@@ -293,7 +293,7 @@ export const LANGUAGES = [
     name: 'Thieves\' Cant',
     icon: 'fa-mask',
     category: 'secret',
-    description: 'A secret code jargon used by rogues, smugglers, and the Over-Shanty\'s underworld to communicate covertly in public. The Drun have their own dialect, adapted to their legally non-existent status.',
+    description: 'A secret code jargon used by rogues, smugglers, and the Over-Shanty\'s underworld to communicate covertly in public. The Grave Neth have their own dialect, adapted to their legally non-existent status.',
     sound: 'Coded and subtle, with double meanings and signals disguised as casual speech.',
     example: 'The red door is warm, but the window sings',
     translation: 'The front is guarded, use the side entrance silently'

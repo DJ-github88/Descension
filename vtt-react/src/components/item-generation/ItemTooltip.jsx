@@ -563,7 +563,7 @@ const getStatDescription = (stat, value, isPercentage = false) => {
     if (['constitution', 'strength', 'agility', 'intelligence', 'spirit', 'charisma'].includes(stat)) {
         return isPercentage
             ? `Increases your ${stat} by ${value}%.`
-            : `${value > 0 ? '+' : ''}${value} ${stat.charAt(0).toUpperCase() + stat.slice(1)}`;
+            : `${value > 0 ? '+' : ''}${value} ${safeCapitalize(stat)}`;
     }
 
     return descriptions[stat] || `${value > 0 ? '+' : ''}${value} ${stat.replace(/([A-Z])/g, ' $1').trim()}`;
@@ -925,7 +925,7 @@ function ItemTooltip({ item }) {
                         display: 'inline-block',
                         fontFamily: 'Bookman Old Style, Garamond, serif'
                     }}>
-                        Requires {item.requiredProfession.charAt(0).toUpperCase() + item.requiredProfession.slice(1)}
+                        Requires {safeCapitalize(item.requiredProfession)}
                         {skillLevel && ` (${skillLevel.name})`}
                     </div>
                 )}
@@ -1084,7 +1084,7 @@ function ItemTooltip({ item }) {
                                         const value = typeof statData === 'object' ? statData.value : statData;
                                         const duration = typeof statData === 'object' && statData.duration ?
                                             <span style={{ color: '#8b4513', fontSize: '10px' }}> ({Math.floor(statData.duration / 60)}m)</span> : '';
-                                        return <span key={stat}><span style={{ fontWeight: '700', color: '#2d5016', textShadow: 'none' }}>+{value}</span> {stat.charAt(0).toUpperCase() + stat.slice(1)}{duration}</span>;
+                                        return <span key={stat}><span style={{ fontWeight: '700', color: '#2d5016', textShadow: 'none' }}>+{value}</span> {safeCapitalize(stat)}{duration}</span>;
                                     }).reduce((prev, curr, idx) => idx === 0 ? [curr] : [...prev, ', ', curr], [])}
                                 </div>
                             )}
@@ -1508,7 +1508,7 @@ function ItemTooltip({ item }) {
     const baseStats = Object.entries(item.baseStats || item.stats || {})
         .filter(([_, data]) => getStatValue(data) !== 0)
         .map(([stat, data]) => ({
-            name: stat.charAt(0).toUpperCase() + stat.slice(1),
+            name: safeCapitalize(stat),
             value: getStatValue(data),
             isPercentage: isPercentage(data)
         }));
@@ -1535,12 +1535,14 @@ function ItemTooltip({ item }) {
     const resistances = [];
     if (item.immunities) {
         item.immunities.forEach(type => {
+            if (!type) return;
+            const tStr = String(type);
             resistances.push({
-                type: type.toLowerCase(),
-                text: `Immune to ${type}`,
+                type: tStr.toLowerCase(),
+                text: `Immune to ${safeCapitalize(tStr)}`,
                 value: 0,
                 resistanceType: 'immune',
-                formatted: `Immune to ${type.toLowerCase()} damage and effects.`,
+                formatted: `Immune to ${tStr.toLowerCase()} damage and effects.`,
                 color: '#4caf50'
             });
         });
@@ -1549,6 +1551,7 @@ function ItemTooltip({ item }) {
         Object.entries(item.combatStats.resistances)
             .filter(([_, data]) => data && (data.level !== undefined || data.resistant || data.immune || data.value > 0))
             .forEach(([type, data]) => {
+                const tStr = String(type);
                 // Handle new resistance level system
                 if (data.level !== undefined && data.level !== 100) {
                     const level = data.level;
@@ -1559,7 +1562,7 @@ function ItemTooltip({ item }) {
                     if (multiplier < 0) {
                         // Healing from damage
                         const healMultiplier = Math.abs(multiplier);
-                        formatted = `${type.charAt(0).toUpperCase() + type.slice(1)} damage heals you for ${healMultiplier}� -  the damage taken, instead of damaging you.`;
+                        formatted = `${safeCapitalize(tStr)} damage heals you for ${healMultiplier}x the damage taken, instead of damaging you.`;
                         resistanceType = 'vampiric';
                     } else if (multiplier === 0.0 || level === 0) {
                         // Immune
@@ -1914,7 +1917,7 @@ function ItemTooltip({ item }) {
                         })()}
                     </span>
                 </div>
-            ) : item.type === 'weapon' ? (
+            ) : (item.type === 'weapon' || !!item.weaponStats || !!item.weaponSlot || (item.subtype && ['DAGGER', 'SWORD', 'BOW', 'STAFF', 'AXE', 'MACE', 'CROSSBOW', 'WAND', 'GUN', 'POLEARM', 'GREATSWORD', 'WARHAMMER'].includes(String(item.subtype).toUpperCase()))) ? (
                 <div className="item-type" style={{
                     marginBottom: '4px',
                     display: 'flex',
@@ -1934,8 +1937,8 @@ function ItemTooltip({ item }) {
                     <span>
                         {item.subtype ? (() => {
                             // Format subtype: split by underscore, capitalize each word
-                            return item.subtype.split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            return String(item.subtype).split('_').map(word =>
+                                safeCapitalize(word?.toLowerCase())
                             ).join(' ');
                         })() : ''}
                     </span>
@@ -1949,9 +1952,9 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>
                         {item.slots?.[0] === 'off_hand' ? 'Off Hand' :
-                            item.slots?.[0] ? item.slots[0].split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                            ).join(' ') : 'Armor'}
+                            item.slots?.[0] ? (typeof item.slots[0] === 'string' ? item.slots[0].split('_').map(word =>
+                                safeCapitalize(word?.toLowerCase())
+                            ).join(' ') : 'Armor') : 'Armor'}
                     </span>
                     <span>
                         {item.slots?.[0] === 'off_hand' ?
@@ -1965,11 +1968,11 @@ function ItemTooltip({ item }) {
                                     IDOL: 'Idol'
                                 };
                                 return offHandMap[item.offHandType] ||
-                                    (item.offHandType.charAt(0).toUpperCase() + item.offHandType.slice(1).toLowerCase());
+                                    safeCapitalize(String(item.offHandType).toLowerCase());
                             })() :
                             (item.subtype ?
-                                (item.subtype.split('_').map(word =>
-                                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                (String(item.subtype).split('_').map(word =>
+                                    safeCapitalize(word?.toLowerCase())
                                 ).join(' ')) :
                                 'Armor'
                             )}
@@ -1997,15 +2000,15 @@ function ItemTooltip({ item }) {
                                 'back': 'Back'
                             };
 
-                            return slotMap[slot] || slot.split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                            ).join(' ');
+                            return slotMap[slot] || (typeof slot === 'string' ? slot.split('_').map(word =>
+                                safeCapitalize(word?.toLowerCase())
+                            ).join(' ') : 'Accessory');
                         })()}
                     </span>
                     <span>
                         {item.subtype ?
-                            item.subtype.split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            String(item.subtype).split('_').map(word =>
+                                safeCapitalize(word?.toLowerCase())
                             ).join(' ') : 'Accessory'
                         }
                     </span>
@@ -2019,8 +2022,8 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>Consumable</span>
                     <span>
-                        {item.subtype ? item.subtype.split('_').map(word =>
-                            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                        {item.subtype ? String(item.subtype).split('_').map(word =>
+                            safeCapitalize(word?.toLowerCase())
                         ).join(' ') : 'Potion'}
                     </span>
                 </div>
@@ -2032,14 +2035,14 @@ function ItemTooltip({ item }) {
                     alignItems: 'center'
                 }}>
                     <span>
-                        {item.slots?.[0] ? item.slots[0].split('_').map(word =>
-                            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                        ).join(' ') : 'Clothing'}
+                        {item.slots?.[0] ? (typeof item.slots[0] === 'string' ? item.slots[0].split('_').map(word =>
+                            safeCapitalize(word?.toLowerCase())
+                        ).join(' ') : 'Clothing') : 'Clothing'}
                     </span>
                     <span>
                         {item.subtype ?
-                            item.subtype.split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            String(item.subtype).split('_').map(word =>
+                                safeCapitalize(word?.toLowerCase())
                             ).join(' ') : 'Clothing'
                         }
                     </span>
@@ -2053,7 +2056,7 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>Currency</span>
                     <span>
-                        {item.currencyType?.charAt(0).toUpperCase() + item.currencyType?.slice(1).toLowerCase() || 'Coins'}
+                        {safeCapitalize(item.currencyType?.toLowerCase()) || 'Coins'}
                     </span>
                 </div>
             ) : item.type === 'container' ? (
@@ -2065,16 +2068,16 @@ function ItemTooltip({ item }) {
                 }}>
                     <span>Container</span>
                     <span>
-                        {item.subtype ? item.subtype.split('_').map(word =>
-                            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                        {item.subtype ? String(item.subtype).split('_').map(word =>
+                            safeCapitalize(word?.toLowerCase())
                         ).join(' ') : 'Chest'}
                     </span>
                 </div>
             ) : (
                 <div style={{ color: '#888', marginBottom: '4px' }}>
-                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                    {item.subtype && ` - ${item.subtype.split('_').map(word =>
-                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    {safeCapitalize(item.type) || 'Item'}
+                    {item.subtype && ` - ${String(item.subtype).split('_').map(word =>
+                        safeCapitalize(word?.toLowerCase())
                     ).join(' ')}`}
                 </div>
             )}
@@ -2082,7 +2085,7 @@ function ItemTooltip({ item }) {
 
 
             {/* Weapon Damage */}
-            {item.type === 'weapon' && item.weaponStats && (
+            {(item.type === 'weapon' || !!item.weaponStats || (item.subtype && ['DAGGER', 'SWORD', 'BOW', 'STAFF', 'AXE', 'MACE', 'CROSSBOW', 'WAND', 'GUN', 'POLEARM', 'GREATSWORD', 'WARHAMMER'].includes(String(item.subtype).toUpperCase()))) && item.weaponStats && (
                 <div style={{ marginBottom: '8px' }}>
                     {item.weaponStats.baseDamage && (
                         <div className="base-stat" style={{ display: 'inline' }}>
@@ -2090,20 +2093,20 @@ function ItemTooltip({ item }) {
                             {' '}
                             {item.weaponStats.baseDamage.damageType && (
                                 <span style={{
-                                    color: damageTypeColors[item.weaponStats.baseDamage.damageType.toLowerCase()] || '#dc2626',
+                                    color: damageTypeColors[String(item.weaponStats.baseDamage.damageType).toLowerCase()] || '#dc2626',
                                     fontSize: 'inherit', // Match the font size of the dice roll
                                     fontWeight: '600'
-                                }}>{item.weaponStats.baseDamage.damageType.charAt(0).toUpperCase() + item.weaponStats.baseDamage.damageType.slice(1).toLowerCase()} Damage</span>
+                                }}>{safeCapitalize(String(item.weaponStats.baseDamage.damageType).toLowerCase())} Damage</span>
                             )}
                             {item.weaponStats.baseDamage.bonusDamage > 0 && (
                                 <>
                                     {' '}+{item.weaponStats.baseDamage.bonusDamage}
                                     {item.weaponStats.baseDamage.bonusDamageType && (
                                         <span style={{
-                                            color: damageTypeColors[item.weaponStats.baseDamage.bonusDamageType?.toLowerCase()] || '#dc2626',
+                                            color: damageTypeColors[String(item.weaponStats.baseDamage.bonusDamageType).toLowerCase()] || '#dc2626',
                                             fontSize: 'inherit', // Match the font size of the dice roll
                                             fontWeight: '600'
-                                        }}> {item.weaponStats.baseDamage.bonusDamageType.charAt(0).toUpperCase() + item.weaponStats.baseDamage.bonusDamageType.slice(1).toLowerCase()} Damage</span>
+                                        }}> {safeCapitalize(String(item.weaponStats.baseDamage.bonusDamageType).toLowerCase())} Damage</span>
                                     )}
                                 </>
                             )}
@@ -2198,10 +2201,10 @@ function ItemTooltip({ item }) {
                     {spellDamageStats.map(({ name, value, isPercentage }) => (
                         <div key={name} className="base-stat" style={{ marginLeft: '0', paddingLeft: '0' }}>
                             Increases <span style={{
-                                color: damageTypeColors[name.toLowerCase()] || '#5a1e12',
+                                color: damageTypeColors[String(name).toLowerCase()] || '#5a1e12',
                                 fontWeight: '600'
                             }}>
-                                {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
+                                {safeCapitalize(String(name).toLowerCase())}
                             </span> damage dealt by spells and abilities by <span style={{ fontWeight: 'normal' }}>{isPercentage ? `${value}%` : `up to ${value}`}</span>
                         </div>
                     ))}
@@ -2220,9 +2223,9 @@ function ItemTooltip({ item }) {
                                 color: damageTypeColors[resistance.type] || '#5a1e12',
                                 fontWeight: '600'
                             }}>
-                                {resistance.formatted || (resistance.text.includes('Resistant')
-                                    ? `Increases your resistance against ${resistance.type.charAt(0).toUpperCase() + resistance.type.slice(1)} damage by ${resistance.value || 4}.`
-                                    : `Immune to ${resistance.type.charAt(0).toUpperCase() + resistance.type.slice(1)} damage and effects.`)}
+                                {resistance.formatted || (resistance.text?.includes('Resistant')
+                                    ? `Increases your resistance against ${safeCapitalize(resistance.type)} damage by ${resistance.value || 4}.`
+                                    : `Immune to ${safeCapitalize(resistance.type)} damage and effects.`)}
                             </span>
                         </div>
                     ))}
@@ -2363,10 +2366,10 @@ function ItemTooltip({ item }) {
                     {spellDamageStats.map(({ name, value, isPercentage }) => (
                         <div key={name} className="base-stat" style={{}}>
                             Increases <span style={{
-                                color: damageTypeColors[name.toLowerCase()] || '#5a1e12',
+                                color: damageTypeColors[String(name).toLowerCase()] || '#5a1e12',
                                 fontWeight: '600'
                             }}>
-                                {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
+                                {safeCapitalize(String(name).toLowerCase())}
                             </span> damage dealt by spells and abilities by
                             {isPercentage ? ` ${value}%` : ` up to ${value}`}.
                         </div>
@@ -2420,8 +2423,8 @@ function ItemTooltip({ item }) {
                                             {onHitEffectsConfig.effect.effectConfig.description || (() => {
                                                 // Helper to format names
                                                 const formatName = (name) => {
-                                                    if (!name) return '';
-                                                    return name.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                    if (!name || typeof name !== 'string') return '';
+                                                    return name.split('_').map(w => safeCapitalize(w.toLowerCase())).join(' ');
                                                 };
                                                 // Generate description from effect config
                                                 const eff = onHitEffectsConfig.effect;

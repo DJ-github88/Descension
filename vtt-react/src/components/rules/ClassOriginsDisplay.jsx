@@ -63,7 +63,7 @@ const REGIONS = [
   borderColor: '#6c3483',
   glowColor: 'rgba(108, 52, 131, 0.12)',
   description: 'A vertical labyrinth of razor-sharp ridges, deep steam-shafts, and ancient holdfasts buried under blizzards. The only passage across the chasms are the Ancestor-Spans: living bridges grown from the calcified bones of the Groven.',
-  darkBargain: 'House Tesshan traded visibility for a perpetual snow-veil: a blizzard that has buried every landmark for eight centuries. The only visible routes are the Ancestor-Spans, built from the calcified bodies of willing Groven dead.',
+  darkBargain: 'House Tesshan traded visibility for a perpetual snow-veil: a blizzard that has buried every landmark for four centuries. The only visible routes are the Ancestor-Spans, built from the calcified bodies of willing Groven dead.',
   classIds: ['chronarch', 'warden', 'shaper', 'gambit', 'martyr']
  },
  {

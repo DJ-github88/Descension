@@ -1,31 +1,47 @@
-.devotion-gauge {
+.devotion-gauge,
+.class-resource-bar.devotion-gauge {
     background: transparent;
     border: none;
     box-shadow: none;
+    width: 100%;
+    height: auto;
+    min-height: 20px;
 }
 
 .devotion-bar-wrapper {
     position: relative;
     width: 100%;
-    height: 18px;
+    height: 20px;
 }
 
 .devotion-bar-container {
     position: relative;
     width: 100%;
-    height: 18px;
+    height: 20px;
     background: linear-gradient(180deg, rgba(42, 24, 16, 0.8) 0%, rgba(26, 15, 8, 0.9) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.5);
+    border: 1px solid rgba(139, 69, 19, 0.6);
     border-radius: 4px;
     overflow: hidden; /* Contain the segments and damage display */
     cursor: pointer;
     transition: all 0.2s ease;
     padding: 2px;
+    box-sizing: border-box;
 }
 
 .devotion-bar-container:hover {
-    border-color: rgba(212, 175, 55, 0.6);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+/* Small / Large size variations */
+.class-resource-bar.devotion-gauge.small .devotion-bar-wrapper,
+.class-resource-bar.devotion-gauge.small .devotion-bar-container {
+    height: 14px;
+}
+
+.class-resource-bar.devotion-gauge.large .devotion-bar-wrapper,
+.class-resource-bar.devotion-gauge.large .devotion-bar-container {
+    height: 26px;
 }
 
 /* Segmented devotion display */
@@ -36,7 +52,8 @@
     width: calc(100% - 4px);
     height: calc(100% - 4px);
     display: flex;
-    gap: 1px;
+    gap: 2px;
+    box-sizing: border-box;
 }
 
 .devotion-segment {

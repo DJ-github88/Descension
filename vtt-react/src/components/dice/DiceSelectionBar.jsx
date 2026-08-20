@@ -161,9 +161,10 @@ const DiceSelectionBar = () => {
               <button
                 className="clear-all-button"
                 onClick={clearSelectedDice}
-                title="Clear all"
+                title="Clear all dice"
               >
-                � - 
+                <i className="fas fa-trash-can" aria-hidden="true"></i>
+                Clear
               </button>
             )}
           </div>

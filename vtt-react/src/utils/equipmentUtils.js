@@ -407,3 +407,83 @@ export function isOffHandDisabled(currentEquipment) {
     const mainHandItem = currentEquipment?.mainHand;
     return mainHandItem && isTwoHandedWeapon(mainHandItem);
 }
+
+/**
+ * Standard canonical equipment slot keys used across character sheet and stores
+ */
+export const EQUIPMENT_SLOT_KEYS = [
+    'head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists',
+    'gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2',
+    'mainHand', 'offHand', 'ranged'
+];
+
+/**
+ * Creates a fresh empty equipment object with all slots initialized to null
+ * @returns {Object} Empty equipment object
+ */
+export function createEmptyEquipment() {
+    return {
+        head: null,
+        neck: null,
+        shoulders: null,
+        back: null,
+        chest: null,
+        shirt: null,
+        tabard: null,
+        wrists: null,
+        gloves: null,
+        waist: null,
+        legs: null,
+        feet: null,
+        ring1: null,
+        ring2: null,
+        trinket1: null,
+        trinket2: null,
+        mainHand: null,
+        offHand: null,
+        ranged: null
+    };
+}
+
+/**
+ * Normalizes an equipment object to ensure all standard slots exist and migrates legacy slot keys
+ * (e.g. weapon -> mainHand, armor -> chest, shield -> offHand).
+ * Strips legacy non-standard keys so phantom bonuses aren't calculated for unrendered slots.
+ * @param {Object|Array} equipment - Raw equipment from store/persistence
+ * @returns {Object} Normalized equipment object
+ */
+export function normalizeEquipment(equipment) {
+    const normalized = createEmptyEquipment();
+
+    if (!equipment || typeof equipment !== 'object' || Array.isArray(equipment)) {
+        return normalized;
+    }
+
+    // 1. Migrate legacy slot keys if present
+    if (equipment.weapon && !equipment.mainHand) {
+        normalized.mainHand = createEquipmentItem(equipment.weapon);
+    }
+    if (equipment.armor && !equipment.chest) {
+        normalized.chest = createEquipmentItem(equipment.armor);
+    }
+    if (equipment.shield && !equipment.offHand) {
+        normalized.offHand = createEquipmentItem(equipment.shield);
+    }
+    if (equipment.main_hand && !equipment.mainHand) {
+        normalized.mainHand = createEquipmentItem(equipment.main_hand);
+    }
+    if (equipment.off_hand && !equipment.offHand) {
+        normalized.offHand = createEquipmentItem(equipment.off_hand);
+    }
+
+    // 2. Copy standard slots (ensure valid item format)
+    EQUIPMENT_SLOT_KEYS.forEach(slot => {
+        const item = equipment[slot];
+        if (item && typeof item === 'object' && !Array.isArray(item) && (item.id || item.name)) {
+            normalized[slot] = createEquipmentItem(item);
+        }
+    });
+
+    return normalized;
+}
+

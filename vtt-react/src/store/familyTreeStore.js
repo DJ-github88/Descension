@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
@@ -529,14 +530,12 @@ const useFamilyTreeStore = create(
         }
       }
     }),
-    {
-      name: 'mythrill_family_trees_storage',
-      storage: createJSONStorage(() => localStorage),
+    createStorageConfig('mythrill_family_trees_storage', {
       partialize: (state) => ({
         trees: state.trees,
         activeTreeId: state.activeTreeId
       })
-    }
+    })
   )
 );
 

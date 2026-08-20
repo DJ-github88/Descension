@@ -25,7 +25,7 @@ const REGION_META = {
     primaryRaces: ['Skald (Humans)', 'Rime-Touched', 'Corvani (Raven-folk)', 'Øsling outcasts', 'High Neth', 'Pale Neth'],
     primaryFactions: ['House Skalvyr', 'The Icechamber Syndicate', 'The Frozen Archive', 'The Hungríd Cult', 'The Doom-Choir'],
     ruler: 'King-Jarl Halvar Skalvyr ("Iron-Tooth")',
-    loreOverview: 'Nordhalla is an isolated northern continent bound by the ancient Glacier Bargain. Following the Dimming, House Skalvyr traded summer for halted glaciers. In exchange, Morð claims 1 in 7 birthing mothers, producing blue-skinned Rime-Touched children with cold in their blood. King-Jarl Halvar rules through three pillars: The Frozen Archive, the Icechamber Syndicate, and the massive Sunder-Wall separating civilization from the Frostfang Wastes.',
+    loreOverview: 'Nordhalla is an isolated northern continent bound by the ancient Glacier Bargain. Following the Freezing Era, House Skalvyr traded summer for halted glaciers. In exchange, Morð claims 1 in 7 birthing mothers, producing blue-skinned Rime-Touched children with cold in their blood. King-Jarl Halvar rules through three pillars: The Frozen Archive, the Icechamber Syndicate, and the massive Sunder-Wall separating civilization from the Frostfang Wastes.',
     historyLore: 'Centuries ago, Sol was sealed into the core to hide from the celestial predator Keth-Amar. House Skalvyr received the gift of Rime—the power to control ice at the cost of petrification and emotional numbing. Recent decades have seen Jarn-Tand’s Cleansing of the Hearth, driving tribal Animists into hiding and building the Sunder-Wall.',
     threats: ['Morð (The Frost-Tithe)', 'Sválghjarta & The Hungríd Cult', 'Glacier Wyrms', 'Skrei & Stel (Glacier Revenants)']
   },

@@ -66,7 +66,7 @@ subraceVariants: {
   thalren_human: {
    subraceName: 'Thalren',
    title: 'The Wyrd-Defuser',
-   reframe: `The <LoreLink termId="skald">Thalren</LoreLink> have spent eight centuries paranoid about the Wyrd-horrors born from human fear, and a Spellguard among them defuses incoming magic the way a sapper defuses a trap, slowly, suspiciously, expecting a second trigger. The Thalren are the tradition's most *cautious* variant: they assume every spell has a backup, and they are usually right.`,
+   reframe: `The <LoreLink termId="skald">Thalren</LoreLink> have spent nearly two centuries paranoid about the Wyrd’s intrusions, and a Spellguard among them defuses incoming magic the way a sapper defuses a trap, slowly, suspiciously, expecting a second trigger. The Thalren are the tradition's most *cautious* variant: they assume every spell has a backup, and they are usually right.`,
    signatureAbility: {
     name: 'Trap-Defusal',
     description: `Incoming spells are disarmed through methodical structural analysis, the Spellguard identifies the spell's trigger, payload, and failsafe, then neutralizes each in sequence. Slower than absorption or annulment, but the only method that reliably catches layered/contingent spells that would detonate on a hasty counter.`
@@ -131,7 +131,7 @@ subraceVariants: {
   orderName: 'The Aegis',
   founder: {
    name: '<LoreLink termId="damon">Damon</LoreLink>',
-       status: `Dead, eight centuries. The <LoreLink termId="solari">Solari</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
+       status: `Dead, four and a half centuries. The <LoreLink termId="solari">Solari</LoreLink> blacksmith who blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands froze in rigid shielding posture; the shield is preserved in the <LoreLink termId="emberspire">Emberspire</LoreLink> forge-keeps, still faintly humming.`,
    note: `<LoreLink termId="damon">Damon</LoreLink> treated magical defense as engineering, not artistry. The Aegis still trains in his method: identify the spell's structure, dismantle it before it arrives, redirect the residue. His one unbreakable rule, *a Spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line*, is now being violated daily.`
   },
   currentLeader: {
@@ -153,7 +153,7 @@ subraceVariants: {
   overview: {
    originStory: `A spellguard absorbs magic into their own flesh. Not as a trick or a technique, but as the foundational act of a tradition born at the moment the sun was buried.
 
-The first was Damon, a Solari blacksmith working the forge-keeps during the Binding. When Sol was forced into the vault beneath Sundale, the dying star convulsed, a solar flare erupting through the caldera that would have incinerated every worker in the forge-levels. Damon raised an alchemical tower shield and took the flare directly. He was not desecrating Sol's light. He was shielding his fellow workers from a dying star's death-throes. What Damon absorbed was not sacred radiance but Sol's scream.
+The first was Damon, a Solari blacksmith working the forge-keeps during the Great Binding. When Sol was forced into the vault beneath Sundale, the dying star convulsed, a solar flare erupting through the caldera that would have incinerated every worker in the forge-levels. Damon raised an alchemical tower shield and took the flare directly. He was not desecrating Sol's light. He was shielding his fellow workers from a dying star's death-throes. What Damon absorbed was not sacred radiance but Sol's scream.
 
 The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
 

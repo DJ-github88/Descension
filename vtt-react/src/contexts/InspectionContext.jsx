@@ -4,6 +4,7 @@ import usePartyStore from '../store/partyStore';
 import useGameStore from '../store/gameStore';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../utils/characterUtils';
 import { applyRacialModifiers } from '../data/raceData';
+import { normalizeEquipment } from '../utils/equipmentUtils';
 
 // Create the inspection context
 const InspectionContext = createContext(null);
@@ -163,7 +164,7 @@ export const InspectionProvider = ({ character, children }) => {
         },
 
         // Equipment
-        equipment: characterData?.equipment || {},
+        equipment: normalizeEquipment(characterData?.equipment),
 
         // Lore
         lore: characterData?.lore || {

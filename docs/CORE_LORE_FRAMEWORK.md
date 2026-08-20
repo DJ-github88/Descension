@@ -16,21 +16,21 @@
 ---
 
 ### 1.2 The Celestial Star-Fall (Year 0)
-* **Celestial Reproduction:** Celestial Deities (**AEX**, the Mother, and **AETHIL**, the Father) lay eggs that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
+* **Celestial Reproduction:** Celestial Deities (**AEX**, the Mother, and **AELDEN**, the Father) lay eggs that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
 * **Sol (The Unhatched Infant Sun):** Sol is the Sun of Mythrill—an unhatched celestial infant encased within a protective thermal shell deep inside Mythrill's volcanic core.
-* **The Sister Moon (The Slumbering Buffer):** Sol's sister is frozen solid in orbit to act as a thermal buffer, preventing Sol's intense heat from incinerating Mythrill. She slumbers in catatonic dormancy, governing tides and anchoring **Rime Magic**.
+* **The Sister Moon (The Slumbering Buffer):** Sol's sister is frozen solid in orbit to act as a thermal buffer, preventing Sol's intense heat from incinerating Mythrill. She slumbers in catatonic dormancy, governing tides and anchoring **Rime Magic**. The Astril named her **Selunis** — a moon-daughter egg that never quickened. Her slow dreams leak into the world as both Rime Magic and the void-adapted lunar parasites that Lunarchs bond; Keth Amar nested in her unquickened shell during its long approach.
 * **Keth Amar (The Cosmic Predator):** An ancient cosmic predator that tracks the scent of unhatched celestial deities across space to devour them.
-* **Divine Non-Intervention Law & Flight:** Celestial Deities forfeit their divine Celestial Status if they directly descend to touch or alter a mortal realm. Aex and Aethil fled across the cosmos to hide Sol inside Mythrill's core.
+* **Divine Non-Intervention Law & Flight:** Celestial Deities forfeit their divine Celestial Status if they directly descend to touch or alter a mortal realm. Aex and Aelden fled across the cosmos to hide Sol inside Mythrill's core.
 * **The House Bargain:** Mortal Houses unaligned with the Old Native Gods struck a blood pact with the Celestials to level the playing field against native magical beasts and anchor Sol's protective casing.
 * **Infusion Types:**
-  * **High Houses:** Mutated directly into distinct magical lineages (*Solari*, *Vreken*, *Neth*).
+  * **High Houses:** Mutated directly into distinct magical lineages (*Solari*, *Vreken*, and — through the Nature Deity's rescue of the refusing Viridane heirs — the *Florae*). The Neth are not a warped house but an old scribe-people of the Bryngloom (see §5.1).
   * **Common Folk:** Received subtle physical adaptations while keeping traditional black-powder, cold-iron traps, matchlocks, and melee combat.
 
 ---
 
 ### 1.3 The Shattering & Freezing Era (Year 325 – Present / Year 475)
 * **Incremental Cracks (Years 0–300):** Tragic noble deaths and broken pacts (the Vreken noble massacre, Ordan purge, Frostwood meltdown) cracked Aex's shell over centuries, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
-* **The Ingress & Blizzard's End Massacre (Year 325):** Keth Amar arrived (Year 300) trailing Astril starlight, infiltrated noble houses for 25 years disguised as Aethil, and attacked at Blizzard's End. Aex shattered into **Aex Shards** raining across all continents; Sol vented volcanic energy; Keth Amar was wounded by Aex's core shield and retreated into the sky as the **Wyrd**.
+* **The Ingress & Blizzard's End Massacre (Year 325):** Keth Amar arrived (Year 300) trailing Astril starlight, infiltrated noble houses for 25 years disguised as Aelden, and attacked at Blizzard's End. Aex shattered into **Aex Shards** raining across all continents; Sol vented volcanic energy; Keth Amar was wounded by Aex's core shield and retreated into the sky as the **Wyrd**.
 * **The Freezing Era (Present Day / Year 475):** Trapped in a 150-Year Ice Age, factions battle over glowing Aex Shards for thermal fuel and power as Sol slowly leaks.
 
 ---
@@ -38,7 +38,7 @@
 ### 1.4 The Unknown Dominator Deity & The Masked Acolytes
 * **The Scheme:** An unknown Native Dominator Deity secretly gathered common folk from minor settlements, creating the **7th House (Masked Acolytes)** under dark hoods to seek total world domination.
 * **The 7th Monolith Shell Game:** Forged a **7th Counterfeit Monolith** to create a metaphysical blind spot, fooling Keth Amar so he cannot discern which key is counterfeit.
-* **Playable Origin (The Entity's Watcher):** Acolytes operate in the world doing odd jobs and proselytizing while their deity sees through their eyes. Players can carry this **Watcher's Spark** (BG3-style parasitic patron) inside them while maintaining free will. Capital at *Vespera's Crown*.
+* **Playable Origin (the Hollow Sight):** Acolytes operate in the world doing odd jobs and proselytizing while their deity sees through their eyes. Players can carry this **Hollow Sight** — a parasitic patron-graft; in-world, a stolen counterfeit of Morvane the Watcher's true sight — while maintaining free will. Capital at *Vespera's Crown*.
 
 ---
 
@@ -55,9 +55,9 @@
  [ YEAR 0 ]                      [ YEAR 300 ]                 [ YEAR 325 ]              [ YEAR 475 ]
  The Celestial Star-Fall         Keth Amar Arrives            Blizzard's End Massacre   Present Day (Campaign Start)
  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────►
- • Aex/Aethil hide Sol in core   • Trailed Astril starlight   • Keth Amar devours heirs • 150 Years of Freezing Era
+ • Aex/Aelden hide Sol in core   • Trailed Astril starlight   • Keth Amar devours heirs • 150 Years of Freezing Era
  • The House Bargain struck      • 25-year Wyrd infiltration  • Aex Shatters into       • Aex Shards fuel wars
- • High Houses infused with        & fake-Aethil negotiations   Aex Shards; Sol vents    • 7th House Acolytes active
+ • High Houses infused with        & fake-Aelden negotiations   Aex Shards; Sol vents    • 7th House Acolytes active
    magic; Commoners get tech/      across noble houses        • Keth Amar wounded,      • North Halam launch campaign
    subtle adaptations                                           retreats to sky as Wyrd
 ```
@@ -106,7 +106,7 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 ```
 
 1. **Pre-Binding Classes (Traditional / Mortals):** Masteries forged before magic touched mortals. Built on steel, black powder, cold-iron traps, matchlocks, physical mastery, and survival tactics (*Berserker*, *Apex*, *Minstrel*, *Warden*, *Toxicologist*).
-2. **Celestial Bargain Classes (Infused Houses):** Direct elemental control born from the Celestial pact with Aex and Aethil (*Spellguard*, *Arcanoneer*, *Chronarch*, *Shaper*).
+2. **Celestial Bargain Classes (Infused Houses):** Direct elemental control born from the Celestial pact with Aex and Aelden (*Spellguard*, *Arcanoneer*, *Chronarch*, *Shaper*).
 3. **Vreken Extortion (Blight Magic):** The Vreken extorted divine desperation for ultimate power, receiving **Blight Magic**, which corrupted their noble bloodlines and turned their lands into sulfurous bogs.
 4. **Cosmic Collision Classes (Post-Keth Amar):** Forged when Keth Amar's void energy violently collided with celestial pacts:
    * **Pyrofiend:** A demonic/void collision with Solari amber-sun pacts.
@@ -120,9 +120,10 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 
 ### 5.1 The Neth (The Pitcher of Greed & Youth)
 * **Origin:** Predates the Celestial Gods. Facing extinction due to a fading birth rate, they were guided by a forest spirit in Bryngloom Forest to a sacred **Well of Life**. Their subraces reflect how they approached the waters:
-  * **High Neth (The Half-Filled Pitcher):** Followed instructions by filling the pitcher halfway. Became pristine, ethereal, but slightly frail, immortal-adjacent beings. They cherish children above all else, operating with intense, protective "helicopter parenting" rooted in the belief that youth holds infinite potential (Peter Pan philosophy).
+  * **High Neth (The Half-Filled Pitcher):** Followed instructions by filling the pitcher halfway. Became pristine, ethereal, but slightly frail, immortal-adjacent beings. They cherish children above all else, operating with intense, protective parenting rooted in the belief that youth holds unspent possibility.
   * **Pale Neth (The Stolen Urns):** Hoarded massive jars out of panic, over-saturating themselves into non-breathing, wraith-like subterranean hoarders.
   * **Hallowed / Rot-Bound Neth (The Well-Dippers):** Dove directly into the Well out of greed/panic. The raw power burned away their living vitality, turning them into true undead husks bound to the Old God's roots.
+* **Rival Truths (canon framing):** The Well of Life parable is the Neth's own liturgy. Outside scholars — and the Neth's own contract-elders — tell the same event as the **First Contract with Morvane, the Keeper of the Last Threshold**: the same waters, the same prices, recorded as law rather than told as scripture. Both accounts stand; neither is complete.
 
 ### 5.2 The Fexrick (Tinkers Who Dug Too Deep)
 * **Origin:** Gnomish/Dwarvish master engineers of Cragjaw Peaks who relied on black powder, steam valves, and gear-work rather than magic.
@@ -136,13 +137,15 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 5. **MYRATHIL:** Aquatic humanoids born of the Water Deity (Open Sea, Coastal, River variants).
 6. **MIMIR:** Mask-wearing humanoids created by an insecure Sculptor God.
 7. **ASTRIL:** Star-refugees split into Stargazer Astril (scholars) and Brutish Astril (warlike conquerors).
-8. **HUMANS (5 Regional Subraces):**
+8. **HUMANS (7 Regional Subraces):**
    * **Thalren:** Dwellers of Frostwood Reach pine wetlands.
    * **Skald:** Northland warriors of Nordhalla tundra.
    * **Tessen:** Mountaineers of Cragjaw Peaks.
+   * **Solvarn:** Sund-people of volcanic Sundale; the bloodline that wielded the knife and carries its guilt.
    * **Merryn:** Seafarers of Iceheart Sea.
    * **Ordan:** Thought extinct; survivors disguise themselves as ordinary humans to hide from Brutish Astril.
-9. **7TH HOUSE ACOLYTES:** Common folk gathered under dark hoods by the Unknown Dominator Deity. Capital at *Vespera's Crown*. Playable origin carrying the **Watcher's Spark**.
+   * **Morren:** Bogdwellers of the Bryngloom Forest, neighbors to the Neth and the deep bogs.
+9. **7TH HOUSE ACOLYTES:** Common folk gathered under dark hoods by the Unknown Dominator Deity. Capital at *Vespera's Crown*. Playable origin carrying the **Hollow Sight**.
 
 ---
 
@@ -181,3 +184,14 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 5. **Cragjaw Peaks:** Infiltrate pipes and mines, sabotage heat, and corrupt alchemical infrastructure.
 6. **Sundrift Vale:** Exploit starlessness, ancestor traditions, and debt to counterfeit guidance.
 7. **Bryngloom Forest:** Pressure the Root-Veil and contracts to turn renewal into permanent drain.
+---
+
+## 8. THE FREEZING-ERA ECONOMY (THE WARMTH LEDGER)
+
+The Freeze is not weather. It is the market's founding condition: everything scarce is warm, and everything warm is owned.
+
+* **What People Eat:** Open-field agriculture is dead. The world is fed from the **vent-terraces** — geothermal step-farms clinging to the warm zones: Cragjaw's cooling terrace-tiers, the Sundrift warm valleys, the Bryngloom bog-paddies, the Frostwood steam-gardens. Grain is grown in the warm belt, pressed into travel-biscuit, and shipped cold. The Iceheart storm-lanes never freeze, so the sea still gives: fish, whale-oil, and the mammoth herds of the far north give hide, tallow, and meat. Whoever holds a vent holds a breadbasket; the Cragjaw terraces are cooling, and that is a countdown, not a trend.
+* **What Everything Runs On — Aex Shards:** The glowing fragments of the Mother's shattered shell are the only portable heat that cannot be besieged. A fist-sized shard warms a hall; a keystone-shard warms a city district. Shards do not burn out — they **fade**: roughly a finger-width of glow a year under heavy use, faster when worked hard. A fully dark shard is called **sunk**, and sunk shards are how the great hoards quietly die. This is the engine of the era's wars: nobody ever has enough glow to last.
+* **The Unit of Account — the Hearth-Winter (hw):** Heat is money. One hearth-winter is the warmth a family of five needs for one winter: food-rent, fuel-rent, and lamp-oil reckoned together. Shard prices, grain convoys, mercenary contracts, and the Frost-Tithe are all quoted in hw. The Neth contract-halls of Atropolis clear the tallies between regions (for a fee, and a memory of everyone who has ever owed), which is why every trade outpost houses a First Contract copy and a Neth notary.
+* **Who Holds What:** House-controlled shard hoards (the old bloodline keystones above all); the **Icechamber Syndicate**'s coal-grain-mammoth vertical in Nordhalla, which also farms the Sunder-Wall's gate-tariffs; the Brine-Bond Syndicate's storm-lane shipping tolls; the Steam-Line Cartel's pipe-heat monopoly in Cragjaw; the Dawn Vigil's shard-indulgence traffic (they pay in absolution and salt); and the Neth, who hold no warmth at all but hold the ledger everyone else must settle on.
+* **The Ripple Rule for GMs:** Every warm thing in the world is already claimed, priced, and taxed. Adventurers do not find heat; they take it from someone who was counting on it.

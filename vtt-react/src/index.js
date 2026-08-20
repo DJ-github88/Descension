@@ -31,8 +31,10 @@ if (!isDevelopment()) {
   };
 }
 
-// Note: Browser polyfills (process shim, global, DnD/Touch events) are handled in ./polyfills
-
+// Disable default browser context menu across the entire app so only custom in-app menus appear
+window.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+}, false);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

@@ -8,7 +8,8 @@
     flex: 1; /* Added flex: 1 to ensure it takes available space */
     user-select: none;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-    padding: 20px 0 0 14px;
+    padding: 0;
+    margin: 0;
     overflow: hidden; 
 }
 

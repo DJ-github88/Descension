@@ -216,7 +216,7 @@ const NAVIGATION_BUTTONS = [
     },
     {
         id: 'talents',
-        title: 'Talent Tree (Coming Soon)',
+        title: 'Talent Tree',
         shortcut: 'T',
         svg: <>
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -354,6 +354,8 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [selectedSkillId, setSelectedSkillId] = useState(null);
     const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [dropdownPos, setDropdownPos] = useState(null);
+    const closeTimerRef = useRef(null);
     const { getWindowPosition, getWindowSize, setWindowPosition, setWindowSize } = useWindowManagerStore();
 
     const WINDOW_ID = 'character-sheet';
@@ -367,6 +369,46 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
     const handleResize = useCallback((size) => {
         setWindowSize(WINDOW_ID, size);
     }, [setWindowSize]);
+
+    // The tab dropdown menus are portaled to <body> so they are not clipped by
+    // the header's scroll container (.window-header .spellbook-tab-container uses
+    // overflow-x:auto to let tabs scroll, which would otherwise hide the menus).
+    const openTabDropdown = useCallback((key, el) => {
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
+        setOpenDropdown(key);
+        if (el) {
+            const r = el.getBoundingClientRect();
+            setDropdownPos({ left: r.left, top: r.bottom, width: r.width });
+        }
+    }, []);
+
+    const scheduleCloseTabDropdown = useCallback(() => {
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+        }
+        closeTimerRef.current = setTimeout(() => {
+            setOpenDropdown(null);
+        }, 150);
+    }, []);
+
+    const cancelCloseTabDropdown = useCallback(() => {
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
+    }, []);
+
+    // Cleanup the close timer on unmount
+    useEffect(() => {
+        return () => {
+            if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+            }
+        };
+    }, []);
 
     // Ensure title is always defined with fallback
     const safeTitle = title || 'Character Sheet';
@@ -470,16 +512,20 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                 key={key} 
                                 className="tab-dropdown-wrapper" 
                                 style={{ position: 'relative' }}
-                                onMouseLeave={() => setOpenDropdown(null)}
+                                onMouseLeave={scheduleCloseTabDropdown}
                             >
                                 <button
                                     className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setActiveTab(key);
-                                        setOpenDropdown(prev => prev === key ? null : key);
+                                        if (openDropdown === key) {
+                                            setOpenDropdown(null);
+                                        } else {
+                                            openTabDropdown(key, e.currentTarget);
+                                        }
                                     }}
-                                    onMouseEnter={() => setOpenDropdown(key)}
+                                    onMouseEnter={(e) => openTabDropdown(key, e.currentTarget)}
                                 >
                                     <span>{section.title}</span>
                                     {section.subSections && (
@@ -490,8 +536,13 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                     )}
                                 </button>
 
-                                {isDropdownOpen && section.subSections && (
-                                    <div className="tab-dropdown-menu">
+                                {isDropdownOpen && section.subSections && dropdownPos && ReactDOM.createPortal(
+                                    <div
+                                        className="tab-dropdown-menu"
+                                        style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(210, dropdownPos.width), marginTop: 4 }}
+                                        onMouseEnter={cancelCloseTabDropdown}
+                                        onMouseLeave={scheduleCloseTabDropdown}
+                                    >
                                         {section.subSections.map(sub => {
                                             const hasNestedSkills = key === 'skills' && section.skillItems?.[sub.id];
                                             const isCategoryHovered = hoveredSkillCategory === sub.id;
@@ -560,7 +611,8 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
                                                 </div>
                                             );
                                         })}
-                                    </div>
+                                    </div>,
+                                    document.body
                                 )}
                             </div>
                         );

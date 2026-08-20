@@ -1,13 +1,14 @@
 /**
  * Community Items Hook
  * 
- * This hook provides state management for community items, similar to useCommunitySpells.
+ * This hook provides state management for community items, aligned with the grimoire UI system.
  * It handles loading, searching, and managing community items from Firebase.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   getItemCategories,
+  getAllCommunityItems,
   getItemsByCategory,
   searchItems,
   getFeaturedItems,
@@ -21,6 +22,19 @@ import {
   getComments
 } from '../services/firebase/communityItemService';
 
+export function deduplicateItemList(list) {
+  if (!Array.isArray(list)) return [];
+  const seen = new Set();
+  return list.filter(item => {
+    if (!item) return false;
+    const name = item.name ? item.name.trim().toLowerCase() : '';
+    const key = item.id || name;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export function useCommunityItems() {
   // State management
   const [categories, setCategories] = useState([]);
@@ -33,91 +47,108 @@ export function useCommunityItems() {
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
   const [lastDoc, setLastDoc] = useState(null);
-
-  // Load categories on mount
-  useEffect(() => {
-    loadCategories();
-    loadFeaturedItems();
-    loadRecentItems();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const lastDocRef = useRef(null);
+  const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
   const loadCategories = useCallback(async () => {
     try {
-      setLoading(true);
       setError(null);
       const categoriesData = await getItemCategories();
       setCategories(categoriesData);
     } catch (err) {
       setError(err.message);
       console.error('Failed to load item categories:', err);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   const loadFeaturedItems = useCallback(async () => {
     try {
-      setLoading(true);
       setError(null);
       const featuredData = await getFeaturedItems(10);
-      setFeaturedItems(featuredData);
+      setFeaturedItems(deduplicateItemList(featuredData));
     } catch (err) {
       setError(err.message);
       console.error('Failed to load featured items:', err);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   const loadRecentItems = useCallback(async () => {
     try {
-      setLoading(true);
       setError(null);
       const recentData = await getRecentItems(10);
-      setRecentItems(recentData);
+      setRecentItems(deduplicateItemList(recentData));
     } catch (err) {
       setError(err.message);
       console.error('Failed to load recent items:', err);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
-  const loadItemsByCategory = useCallback(async (categoryId, loadMore = false) => {
+  const loadAllItems = useCallback(async (sortByValue = sortBy, loadMore = false) => {
     try {
       setLoading(true);
       setError(null);
-      
-      const result = await getItemsByCategory(
-        categoryId, 
-        20, 
-        loadMore ? lastDoc : null
+
+      const docCursor = loadMore ? lastDocRef.current : null;
+      const result = await getAllCommunityItems(
+        20,
+        docCursor,
+        sortByValue
       );
-      
-      if (loadMore) {
-        setItems(prev => [...prev, ...result.items]);
-      } else {
-        setItems(result.items);
-      }
-      
-      setHasMore(result.hasMore);
+
+      lastDocRef.current = result.lastDoc;
       setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
+
+      if (loadMore) {
+        setItems(prev => deduplicateItemList([...prev, ...result.items]));
+      } else {
+        setItems(deduplicateItemList(result.items));
+      }
     } catch (err) {
       setError(err.message);
       console.error('Failed to load items:', err);
     } finally {
       setLoading(false);
     }
-  }, [lastDoc]);
+  }, [sortBy]);
+
+  const loadItemsByCategory = useCallback(async (categoryId, loadMore = false) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const docCursor = loadMore ? lastDocRef.current : null;
+      const result = await getItemsByCategory(
+        categoryId, 
+        20, 
+        docCursor
+      );
+      
+      lastDocRef.current = result.lastDoc;
+      setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
+
+      if (loadMore) {
+        setItems(prev => deduplicateItemList([...prev, ...result.items]));
+      } else {
+        setItems(deduplicateItemList(result.items));
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to load items:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const performSearch = useCallback(async (term) => {
     try {
       setLoading(true);
       setError(null);
       const searchResults = await searchItems(term);
-      setItems(searchResults);
+      setItems(deduplicateItemList(searchResults));
       setHasMore(false);
+      lastDocRef.current = null;
       setLastDoc(null);
     } catch (err) {
       setError(err.message);
@@ -127,31 +158,19 @@ export function useCommunityItems() {
     }
   }, []);
 
-  const loadMoreItems = useCallback(() => {
-    if (selectedCategory && hasMore && !loading) {
-      loadItemsByCategory(selectedCategory, true);
+  // Initial load
+  useEffect(() => {
+    loadCategories();
+    loadFeaturedItems();
+    loadRecentItems();
+  }, [loadCategories, loadFeaturedItems, loadRecentItems]);
+
+  // Load items on sort change or initial mount
+  useEffect(() => {
+    if (!searchTerm && !selectedCategory) {
+      loadAllItems(sortBy);
     }
-  }, [selectedCategory, hasMore, loading, loadItemsByCategory]);
-
-  const selectCategory = useCallback((categoryId) => {
-    setSelectedCategory(categoryId);
-    setSearchTerm('');
-    setLastDoc(null);
-  }, []);
-
-  const search = useCallback((term) => {
-    setSearchTerm(term);
-    setSelectedCategory(null);
-    setLastDoc(null);
-  }, []);
-
-  const clearSelection = useCallback(() => {
-    setSelectedCategory(null);
-    setSearchTerm('');
-    setItems([]);
-    setLastDoc(null);
-    setHasMore(false);
-  }, []);
+  }, [sortBy, searchTerm, selectedCategory, loadAllItems]);
 
   // Load items when category or search term changes
   useEffect(() => {
@@ -159,17 +178,68 @@ export function useCommunityItems() {
       loadItemsByCategory(selectedCategory);
     } else if (searchTerm) {
       performSearch(searchTerm);
+    } else {
+      loadAllItems(sortBy);
     }
-  }, [selectedCategory, searchTerm, loadItemsByCategory, performSearch]);
+  }, [selectedCategory, searchTerm, loadItemsByCategory, performSearch, loadAllItems, sortBy]);
+
+  const loadMoreItems = useCallback(() => {
+    if (hasMore && !loading && !searchTerm) {
+      if (selectedCategory) {
+        loadItemsByCategory(selectedCategory, true);
+      } else {
+        loadAllItems(sortBy, true);
+      }
+    }
+  }, [selectedCategory, hasMore, loading, searchTerm, sortBy, loadItemsByCategory, loadAllItems]);
+
+  const selectCategory = useCallback((categoryId) => {
+    setSelectedCategory(categoryId);
+    setSearchTerm('');
+    lastDocRef.current = null;
+    setLastDoc(null);
+  }, []);
+
+  const search = useCallback((term) => {
+    setSearchTerm(term);
+    setSelectedCategory(null);
+    lastDocRef.current = null;
+    setLastDoc(null);
+  }, []);
+
+  const clearSelection = useCallback(() => {
+    setSelectedCategory(null);
+    setSearchTerm('');
+    lastDocRef.current = null;
+    setLastDoc(null);
+    setHasMore(false);
+    loadAllItems(sortBy);
+  }, [loadAllItems, sortBy]);
+
+  const changeSortBy = useCallback((newSortBy) => {
+    setSortBy(newSortBy);
+    lastDocRef.current = null;
+    setLastDoc(null);
+    setHasMore(false);
+  }, []);
 
   const downloadCommunityItem = useCallback(async (itemId) => {
     try {
       const item = await downloadItem(itemId);
       
-      // Update the item in our local state to reflect the new download count
       setItems(prev => prev.map(i => 
         i.id === itemId 
-          ? { ...i, downloadCount: item.downloadCount }
+          ? { ...i, downloadCount: (i.downloadCount || 0) + 1 }
+          : i
+      ));
+      setFeaturedItems(prev => prev.map(i =>
+        i.id === itemId
+          ? { ...i, downloadCount: (i.downloadCount || 0) + 1 }
+          : i
+      ));
+      setRecentItems(prev => prev.map(i =>
+        i.id === itemId
+          ? { ...i, downloadCount: (i.downloadCount || 0) + 1 }
           : i
       ));
       
@@ -184,33 +254,32 @@ export function useCommunityItems() {
   const rateCommunityItem = useCallback(async (itemId, userId, rating) => {
     try {
       await rateItem(itemId, userId, rating);
-      
-      // Refresh the item data to get updated rating
       if (selectedCategory) {
         loadItemsByCategory(selectedCategory);
+      } else {
+        loadAllItems(sortBy);
       }
     } catch (err) {
       setError(err.message);
       console.error('Failed to rate item:', err);
       throw err;
     }
-  }, [selectedCategory, loadItemsByCategory]);
+  }, [selectedCategory, loadItemsByCategory, loadAllItems, sortBy]);
 
   const uploadCommunityItem = useCallback(async (itemData, userId) => {
     try {
       const uploadedItem = await uploadItem(itemData, userId);
-      
-      // Refresh categories and featured items
       loadCategories();
       loadFeaturedItems();
-      
+      loadRecentItems();
+      loadAllItems(sortBy);
       return uploadedItem;
     } catch (err) {
       setError(err.message);
       console.error('Failed to upload item:', err);
       throw err;
     }
-  }, [loadCategories, loadFeaturedItems]);
+  }, [loadCategories, loadFeaturedItems, loadRecentItems, loadAllItems, sortBy]);
 
   const voteCommunityItem = useCallback(async (itemId, userId, direction) => {
     try {
@@ -274,6 +343,13 @@ export function useCommunityItems() {
     }
   }, []);
 
+  const refreshAll = useCallback(() => {
+    loadCategories();
+    loadFeaturedItems();
+    loadRecentItems();
+    loadAllItems(sortBy);
+  }, [loadCategories, loadFeaturedItems, loadRecentItems, loadAllItems, sortBy]);
+
   return {
     // Data
     categories,
@@ -286,12 +362,14 @@ export function useCommunityItems() {
     error,
     selectedCategory,
     searchTerm,
+    sortBy,
     hasMore,
     
     // Actions
     selectCategory,
     search,
     clearSelection,
+    changeSortBy,
     loadMoreItems,
     uploadCommunityItem,
     downloadCommunityItem,
@@ -302,6 +380,7 @@ export function useCommunityItems() {
     fetchComments,
     
     // Refresh functions
+    refreshAll,
     refreshCategories: loadCategories,
     refreshFeatured: loadFeaturedItems,
     refreshRecent: loadRecentItems

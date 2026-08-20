@@ -1,0 +1,135 @@
+- generic [ref=e2]:
+  - generic:
+    - generic:
+      - generic [ref=e58] [cursor=pointer]
+      - generic [ref=e60] [cursor=pointer]:
+        - generic [ref=e61]: T
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - text: Tormund Nightfall (Level 1)
+              - generic [ref=e66]:
+                - generic [ref=e67]: 
+                - combobox [ref=e68]:
+                  - option "Level 0 (Normal)" [selected]
+                  - option "Level 1 (Disadvantage on Checks)"
+                  - option "Level 2 (Speed Halved)"
+                  - option "Level 3 (Disadvantage on Attacks/Saves)"
+                  - option "Level 4 (HP Max Halved)"
+                  - option "Level 5 (Speed 0)"
+                  - option "Level 6 (Death)"
+            - generic [ref=e69]:
+              - generic [ref=e70]: Unknown Race
+              - generic [ref=e71]: Gambit
+              - generic [ref=e72]: Neutral
+          - generic [ref=e74]:
+            - generic [ref=e76]:
+              - generic [ref=e77]: 45/50
+              - generic:
+                - generic:
+                  - generic:
+                    - img "Health Status"
+            - generic [ref=e80]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: 45/50
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Mana Status"
+              - generic [ref=e87]:
+                - generic [ref=e88]: 1/3 AP
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Action Points Status"
+      - generic [ref=e94]:
+        - generic [ref=e95] [cursor=pointer]: "1"
+        - generic [ref=e96] [cursor=pointer]: "2"
+        - generic [ref=e97] [cursor=pointer]: "3"
+        - generic [ref=e98] [cursor=pointer]: "4"
+        - generic [ref=e99] [cursor=pointer]: "5"
+        - generic [ref=e100] [cursor=pointer]: "6"
+        - generic [ref=e101] [cursor=pointer]: "7"
+        - generic [ref=e102] [cursor=pointer]: "8"
+        - generic [ref=e103] [cursor=pointer]: "9"
+        - generic [ref=e104] [cursor=pointer]: "0"
+      - generic [ref=e106]:
+        - generic:
+          - generic: "0"
+          - generic: /
+          - generic: "300"
+          - generic: XP
+      - button " Dialogue" [ref=e108] [cursor=pointer]:
+        - generic [ref=e109]: 
+        - generic [ref=e110]: Dialogue
+    - generic [ref=e112]:
+      - button "Character" [ref=e114] [cursor=pointer]:
+        - img "Character"
+      - button "Adventure" [ref=e116] [cursor=pointer]:
+        - img "Adventure"
+      - generic [ref=e117]:
+        - button "Tools" [ref=e118] [cursor=pointer]:
+          - img "Tools"
+        - generic [ref=e143]:
+          - generic [ref=e144]: Tools
+          - button "Crafting R" [ref=e145] [cursor=pointer]:
+            - generic [ref=e148]: Crafting
+            - emphasis [ref=e149]: R
+          - button "Library L" [ref=e150] [cursor=pointer]:
+            - generic [ref=e157]: Library
+            - emphasis [ref=e158]: L
+          - button "Community H" [ref=e159] [cursor=pointer]:
+            - generic [ref=e162]: Community
+            - emphasis [ref=e163]: H
+          - button "Level Editor E" [ref=e164] [cursor=pointer]:
+            - generic [ref=e168]: Level Editor
+            - emphasis [ref=e169]: E
+          - button "Toolkit K" [ref=e170] [cursor=pointer]:
+            - generic [ref=e178]: Toolkit
+            - emphasis [ref=e179]: K
+      - button "Settings" [ref=e119] [cursor=pointer]:
+        - img "Settings"
+      - button "ESC" [ref=e120] [cursor=pointer]:
+        - img "ESC"
+      - button "Minimize Navigation (~)" [ref=e121] [cursor=pointer]
+    - generic "Click to center on origin (0, 0)" [ref=e122] [cursor=pointer]:
+      - generic [ref=e123]: 
+      - generic [ref=e124]: "X: 0.0"
+      - generic [ref=e125]: "|"
+      - generic [ref=e126]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=e127]: 
+  - generic [ref=e128]:
+    - button "" [ref=e129] [cursor=pointer]
+    - generic [ref=e187]:
+      - generic [ref=e188]: Dice Roller
+      - generic [ref=e190]:
+        - generic [ref=e191]: "Quick Roll:"
+        - generic [ref=e192]:
+          - button "D4" [ref=e193] [cursor=pointer]
+          - button "D6" [ref=e195] [cursor=pointer]
+          - button "D8" [ref=e197] [cursor=pointer]
+          - button "D10" [ref=e199] [cursor=pointer]
+          - button "D12" [ref=e201] [cursor=pointer]
+          - button "D20" [ref=e203] [cursor=pointer]
+          - button "D%" [ref=e205] [cursor=pointer]
+          - button "D100" [ref=e206] [cursor=pointer]
+      - generic [ref=e207]:
+        - generic [ref=e208]: "Select Dice:"
+        - generic [ref=e209]:
+          - button "D4" [ref=e211] [cursor=pointer]
+          - button "D6" [ref=e215] [cursor=pointer]
+          - button "D8" [ref=e219] [cursor=pointer]
+          - button "D10" [ref=e223] [cursor=pointer]
+          - button "D12" [ref=e227] [cursor=pointer]
+          - button "D20" [ref=e231] [cursor=pointer]
+          - button "D%" [ref=e235] [cursor=pointer]
+          - button "D100" [ref=e239] [cursor=pointer]
+      - generic [ref=e242]:
+        - generic [ref=e243]: "Theme:"
+        - generic [ref=e244]:
+          - button "Classic Obsidian" [ref=e245] [cursor=pointer]
+          - button "Glacial Frost" [ref=e248] [cursor=pointer]
+          - button "Infernal Flame" [ref=e251] [cursor=pointer]
+          - button "Abyssal Void" [ref=e254] [cursor=pointer]
+          - button "Verdant Sylvan" [ref=e257] [cursor=pointer]
+          - button "Tempest Storm" [ref=e260] [cursor=pointer]

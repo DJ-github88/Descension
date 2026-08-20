@@ -1,16 +1,26 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import useClassLoreStore from '../../store/classLoreStore';
 import useWorldStore from '../../store/worldStore';
+import { getClassFlavorProfile } from '../../data/classes/classFlavorProfiles';
 import LoreLink from '../common/LoreLink';
 import RichLoreText from '../common/RichLoreText';
+
+// Helper to sanitize em-dashes and AI punctuation artifacts
+const cleanEmdashes = (text) => {
+  if (!text || typeof text !== 'string') return text;
+  return text
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/\s*--\s*/g, ', ')
+    .replace(/\s*–\s*/g, ', ');
+};
 
 // Helper to parse roleplayIdentity content whether string or object
 const parseClassRoleplaySections = (content) => {
   if (!content) return [];
   if (typeof content === 'object') {
     return Object.entries(content).map(([title, body]) => ({
-      title: title.replace(/\*\*/g, '').trim(),
-      content: body
+      title: cleanEmdashes(title.replace(/\*\*/g, '').trim()),
+      content: cleanEmdashes(body)
     }));
   }
 
@@ -19,7 +29,7 @@ const parseClassRoleplaySections = (content) => {
   let currentSection = null;
 
   paragraphs.forEach(para => {
-    const trimmed = para.trim();
+    const trimmed = cleanEmdashes(para.trim());
     if (!trimmed) return;
 
     const headerMatch = trimmed.match(/^\*\*(.*?)\*\*\s*\n*([\s\S]*)/);
@@ -51,7 +61,7 @@ const parseClassRoleplaySections = (content) => {
 const DEFAULT_CLASS_ORGANIZATIONS = {
   arcanoneer: [
     {
-      name: 'The Canopy-Ledger Scriptorium',
+      name: 'The Canopy Ledger Scriptorium',
       leader: 'Jarl-Archivist Vel-Otharen',
       headquarters: 'Atropolis (Bryngloom Forest)',
       status: 'Active (Contested)',
@@ -60,7 +70,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       rivalOrganizations: ['Caustic Scrap-Weavers Syndicate']
     },
     {
-      name: 'Cragjaw Gear-Weaver Guild',
+      name: 'Cragjaw Gear Weaver Guild',
       leader: 'Guildmaster Fex-Krohn',
       headquarters: 'Cragjaw Peaks',
       status: 'Active',
@@ -69,17 +79,17 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
   ],
   berserker: [
     {
-      name: 'The Bloodhammer War-Council',
+      name: 'The Bloodhammer War Council',
       leader: 'Warlord Grum Bloodhammer',
       headquarters: 'Skalvyrhold (Nordhalla)',
       status: 'Active',
-      description: 'The ancestral warrior lodge carrying the Hunger Pact. Blood-Heat discipline and mammoth-hide armor crafting.',
+      description: 'The ancestral warrior lodge carrying the Hunger Pact, training warriors in Blood Heat discipline and mammoth hide armor crafting.',
       notableMembers: ['Torvald Frost-Biter', 'Sigrid Red-Axe']
     },
     {
-      name: 'The Fredløse Outlaw Host',
+      name: 'The Fredlose Outlaw Host',
       leader: 'Jarl Ulfgar the Exiled',
-      headquarters: 'The Sunder-Wall Glaciers',
+      headquarters: 'The Sunder Wall Glaciers',
       status: 'Hostile',
       description: 'Disavowed Berserkers who refuse clan oaths, raiding southern supply lines and living beyond the wall.'
     }
@@ -90,7 +100,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       leader: 'High Prelate Theresa Solvan',
       headquarters: 'Sundale Cathedral',
       status: 'Active',
-      description: 'Knights bound by blood-oaths who absorb lethal damage intended for allies, channeling divine sacrifice into solar shockwaves.',
+      description: 'Knights bound by blood oaths who absorb lethal damage intended for allies, channeling divine sacrifice into solar shockwaves.',
       notableMembers: ['Brother Kenneth the Shield-Bearer', 'Sister Vanya']
     }
   ],
@@ -98,9 +108,9 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
     {
       name: 'The Silver Brand Inquisitorial Synod',
       leader: 'Grand Inquisitor Morren Scribe',
-      headquarters: 'Synod-Hold (Sundrift Vale)',
+      headquarters: 'Synod Hold (Sundrift Vale)',
       status: 'Active',
-      description: 'Dogmatic witch-hunters hunting heretical cults of Keth-Amar and prosecuting violations of the Sovereign Ledger.',
+      description: 'Dogmatic witch hunters hunting heretical cults of Keth-Amar and prosecuting violations of the Sovereign Ledger.',
       notableMembers: ['Inquisitor Daniel the Stern']
     }
   ],
@@ -125,7 +135,7 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
   ],
   lunarch: [
     {
-      name: 'The Moon-Covenant Circle',
+      name: 'The Moon Covenant Circle',
       leader: 'Elder Lyra Viridane',
       headquarters: 'The Moonlit Groves (Frostwood Reach)',
       status: 'Hidden',
@@ -218,62 +228,111 @@ const ClassLoreDetail = ({ classId, onClose }) => {
   );
 };
 
-const OverviewTab = ({ cls, context }) => (
-  <div className="world-section-stack">
-    {cls.signatureQuote && (
-      <blockquote className="world-quote">
-        <p>"{cls.signatureQuote.text}"</p>
-        <cite>- {cls.signatureQuote.speaker}{cls.signatureQuote.context ? `, ${cls.signatureQuote.context}` : ''}</cite>
-      </blockquote>
-    )}
+const OverviewTab = ({ cls, context }) => {
+  const profile = getClassFlavorProfile(cls.id);
 
-    {cls.description && (
-      <section className="world-section">
-        <h3>Essence & Core Identity</h3>
-        <p className="world-prose">{cls.description}</p>
-      </section>
-    )}
+  return (
+    <div className="world-section-stack">
+      {profile && (
+        <div className="world-section world-section-highlight class-dossier-hero">
+          <div className="class-dossier-hero-header">
+            <div>
+              <span className="class-archetype-tag">{profile.tradition}</span>
+              <h3 style={{ margin: '4px 0 8px 0', borderBottom: 'none' }}>{profile.role}</h3>
+            </div>
+            <span className="class-pill class-resource-pill" style={{ fontSize: '12px', padding: '4px 10px' }}>
+              <i className={`fas ${profile.resourceIcon}`} /> {profile.resourceName}
+            </span>
+          </div>
 
-    {cls.originStory && (
-      <section className="world-section">
-        <h3>Origin Story</h3>
-        <p className="world-prose">{cls.originStory}</p>
-      </section>
-    )}
+          <div className="class-tagline-box" style={{ margin: '8px 0 12px 0' }}>
+            <p className="class-tagline-text" style={{ fontSize: '13.5px' }}>"{profile.tagline}"</p>
+          </div>
 
-    {cls.philosophy && (
-      <section className="world-section">
-        <h3>Philosophy & Paradox</h3>
-        <div className="world-philosophy-grid">
-          <div className="world-philosophy-card">
-            <h4>Core Tenet</h4>
-            <p>{cls.philosophy.coreTenet}</p>
+          <div className="class-mechanics-pills" style={{ marginBottom: '10px' }}>
+            {profile.keyFeatures.map((feat, idx) => (
+              <span key={idx} className="class-pill class-feature-pill" style={{ fontSize: '11px', padding: '3px 9px' }}>
+                <i className="fas fa-sparkles" /> {feat}
+              </span>
+            ))}
           </div>
-          <div className="world-philosophy-card">
-            <h4>Relationship to Power</h4>
-            <p>{cls.philosophy.relationship}</p>
-          </div>
-          <div className="world-philosophy-card">
-            <h4>The Paradox</h4>
-            <p>{cls.philosophy.paradox}</p>
-          </div>
+
+          <p className="world-prose" style={{ margin: 0, fontSize: '13.5px' }}>
+            <strong>Tactical Playstyle:</strong> {profile.playstyle}
+          </p>
         </div>
-      </section>
-    )}
+      )}
 
-    {cls.meaningfulTradeoffs && (
-      <section className="world-section world-section-highlight">
-        <h3>What You Sacrifice</h3>
-        <p className="world-prose">{cls.meaningfulTradeoffs}</p>
-      </section>
-    )}
+      {cls.signatureQuote && (
+        <blockquote className="world-quote">
+          <p>"{cleanEmdashes(cls.signatureQuote.text)}"</p>
+          <cite>- {cls.signatureQuote.speaker}{cls.signatureQuote.context ? `, ${cleanEmdashes(cls.signatureQuote.context)}` : ''}</cite>
+        </blockquote>
+      )}
 
-    {cls.currentCrisis && (
-      <section className="world-section world-section-dark">
-        <h3>Current Era Crisis</h3>
-        <p className="world-prose">{cls.currentCrisis}</p>
-      </section>
-    )}
+      {cls.description && (
+        <section className="world-section">
+          <h3>Essence & Core Identity</h3>
+          <div className="world-prose">
+            {cleanEmdashes(cls.description).split(/\n{2,}/).map((p, idx) => (
+              <p key={idx} style={{ margin: '0 0 10px 0' }}>{p}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {cls.originStory && (
+        <section className="world-section">
+          <h3>Origin Story & World Roots</h3>
+          <div className="world-prose">
+            {cleanEmdashes(cls.originStory).split(/\n{2,}/).map((p, idx) => (
+              <p key={idx} style={{ margin: '0 0 10px 0' }}>{p}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {cls.philosophy && (
+        <section className="world-section">
+          <h3>Philosophy & Paradox</h3>
+          <div className="world-philosophy-grid">
+            <div className="world-philosophy-card">
+              <h4>Core Tenet</h4>
+              <p>{cleanEmdashes(cls.philosophy.coreTenet)}</p>
+            </div>
+            <div className="world-philosophy-card">
+              <h4>Relationship to Power</h4>
+              <p>{cleanEmdashes(cls.philosophy.relationship)}</p>
+            </div>
+            <div className="world-philosophy-card">
+              <h4>The Paradox</h4>
+              <p>{cleanEmdashes(cls.philosophy.paradox)}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {cls.meaningfulTradeoffs && (
+        <section className="world-section world-section-highlight">
+          <h3>What You Sacrifice</h3>
+          <div className="world-prose">
+            {cleanEmdashes(cls.meaningfulTradeoffs).split(/\n{2,}/).map((p, idx) => (
+              <p key={idx} style={{ margin: '0 0 8px 0' }}>{p}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {cls.currentCrisis && (
+        <section className="world-section world-section-dark">
+          <h3>Current Era Crisis</h3>
+          <div className="world-prose">
+            {cleanEmdashes(cls.currentCrisis).split(/\n{2,}/).map((p, idx) => (
+              <p key={idx} style={{ margin: '0 0 8px 0' }}>{p}</p>
+            ))}
+          </div>
+        </section>
+      )}
 
     {cls.classSpecificLocations && cls.classSpecificLocations.length > 0 && (
       <section className="world-section">
@@ -306,7 +365,8 @@ const OverviewTab = ({ cls, context }) => (
       </section>
     )}
   </div>
-);
+  );
+};
 
 const HistoryTab = ({ cls, context }) => {
   const rawContent = cls.roleplayIdentity?.content || cls.roleplayIdentity || '';

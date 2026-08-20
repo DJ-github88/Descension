@@ -135,7 +135,7 @@ const ITEM_LORE = {
   },
   'glowing-orb': {
     origin: 'sundale',
-    loreText: 'Pyrofiend acolytes cradle these heat-bleeding orbs, drawing fragments of Sol\'s dying ember. The glow is a debt — the more you draw, the closer the Deepening comes.',
+    loreText: 'Pyrofiend acolytes cradle these heat-bleeding orbs, drawing fragments of Sol\'s dying ember. The glow is a debt — the more you draw, the closer the failing of the warmth comes.',
     relatedLore: ['sundale', 'sols_breath', 'the_deepening']
   },
   'weathered-totem': {
@@ -442,7 +442,7 @@ const ITEM_LORE = {
   // =======================================================================
   flamebrand: {
     origin: 'sundale',
-    loreText: 'Pyrofiend Last-Ember Sol-Vareths forged the first flamebrand from a shard of the Solbrand. It burns with the last heat of a dying star; every cut feeds the Deepening.',
+    loreText: 'Pyrofiend Last-Ember Sol-Vareths forged the first flamebrand from a shard of the Solbrand. It burns with the last heat of a dying star; every cut feeds the failing of the warmth.',
     relatedLore: ['sundale', 'sol-vareths', 'solbrand', 'the_deepening']
   },
   frostbite: {
@@ -969,7 +969,7 @@ const ITEM_LORE = {
   // =======================================================================
   'crimson-tears': {
     origin: 'sundale',
-    loreText: 'Brewed from moss growing where Sol\'s blood fell during the Breach. Each sip staves off death — a tear shed by a dying star.',
+    loreText: 'Brewed from moss growing where Sol\'s blood fell during Blizzard’s End. Each sip staves off death — a tear shed by a dying star.',
     relatedLore: ['sundale', 'the_breach', 'the_risen', 'sol']
   },
   'blood-remembrance': {
@@ -1613,7 +1613,7 @@ const ITEM_LORE = {
   },
   'emberspire-greatsword': {
     origin: 'sundale',
-    loreText: 'The First Cabal of Pyrofiends consecrated this blade in Sol\'s dying fire during the Deepening. Its edge is not forged — it is a wound in reality that Sol refuses to heal.',
+    loreText: 'The First Cabal of Pyrofiends consecrated this blade in Sol\'s dying fire during the failing of the warmth. Its edge is not forged — it is a wound in reality that Sol refuses to heal.',
     relatedLore: ['sundale', 'first-cabal', 'sol', 'the_deepening']
   },
   'vigil-purges-mace': {

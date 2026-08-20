@@ -3,6 +3,10 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  * Lunarch Class Data
  *
  * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
+/**
+ * Lunarch Class Data
+ *
+ * The Vessel of the Lunar Parasite. An ancient, unfeeling celestial entity has
  * burrowed into the Lunarch's nervous system. The moon is not their ally — it
  * is a cold, parasitic predator that feeds on memory, sensation, sanity, and
  * vitality in exchange for devastating cosmic power.
@@ -12,6 +16,7 @@ export const LUNARCH_DATA = {
   restrictions: {
       "allowedSubraces": [
           "viridian_florae",
+          "florae_unified",
           "shorn_florae",
           "veiled_mimir",
           "tethered_mimir",
@@ -58,7 +63,7 @@ export const LUNARCH_DATA = {
     viridian_florae: {
       subraceName: 'Trueborn Florae (Viridian)',
       title: 'The Thorn-Bound',
-      reframe: `The <LoreLink termId="briaran">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
+      reframe: `The <LoreLink termId="florae">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
       signatureAbility: {
         name: 'Thorn-Debt',
         description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Trueborn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
@@ -72,25 +77,6 @@ export const LUNARCH_DATA = {
     },
 
     shorn_florae: {
-      subraceName: 'Shorn Florae (Hidden Moon)',
-      title: 'The Hidden Moon',
-      reframe: `The <LoreLink termId="briaran">Shorn</LoreLink> pass as human, living among the Thalren in the Frostwood's edge-settlements, and a Lunarch among them carries the parasite *in secret*, hidden beneath sleeves that cover the thorn-scars. A Shorn Lunarch's tragedy is doubled: they hide their race from their neighbors and their phase-changes from themselves, sneaking into moonlit clearings to feed a parasite no one knows they carry.`,
-      signatureAbility: {
-        name: 'Veiled-Phase',
-        description: `The parasite's phases are suppressed during the day and in company, then erupt violently in isolation or moonlight, the Shorn cannot control *when* the phase shifts, only where they are when it happens. Power is potent but catastrophically unpredictable.`
-      },
-      currentCrisisAngle: `The elder parasites communicating across hosts is, for the Shorn, an *exposure crisis*: the cross-host communication manifests as visible moonlight bleeding through the skin during the day, when the Shorn are meant to be passing as human. The hidden moon is becoming impossible to hide, and the Thalren neighbors are beginning to notice that certain people *glow* at night.`,
-      signatureQuote: {
-        text: '"I hid my thorns to live among you. I hid my moon to live with myself. Now the moon will not stay hidden, and you are looking at me the way I always feared you would."',
-        speaker: 'Vael the Smooth',
-        context: 'A Shorn Lunarch, the morning after glowing through her sleeves'
-      }
-    },
-
-    veiled_mimir: {
-      subraceName: 'Arch Mimir',
-      title: 'The Moon-Masked',
-      reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> canopy aristocrats anchor their identity to a single carved mask, and a Lunarch among them finds the lunar parasite *replacing* the heartwood mask as the anchor of the self. The Arch Mimir are the most stable Mimir Lunarchs: the parasite bonds cleanly to a host already accustomed to external identity-anchoring. They trade a wooden face for a living one.`,
       signatureAbility: {
         name: 'Lunar-Anchor',
         description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A host can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
@@ -148,7 +134,7 @@ export const LUNARCH_DATA = {
     orderName: 'The Lunar Communion',
     founder: {
       name: '<LoreLink termId="selene">Selene of House Viridane</LoreLink>',
-      status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="briaran">Florae</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
+      status: `Alive, but silent. Selene bargained with the wildwood fae in the moonlit groves and bound a lunar parasite to her bones. Three weeks ago she stopped speaking <LoreLink termId="florae">Florae</LoreLink> and began whispering in a language the elders cannot identify, older than the fae-contract, older than the dead moon.`,
       note: `The first Lunarch. Her parasite was believed singular; the discovery that the dead moon is a fallen star  —  and the "egg" a folk misunderstanding  —  has rendered her silence terrifying rather than merely concerning.`
     },
     currentLeader: {
@@ -170,13 +156,13 @@ export const LUNARCH_DATA = {
   overview: {
     originStory: `A lunarch is not a priest. They are a host. An ancient celestial parasite has burrowed into their nervous system and refused to leave. The moon is not a symbol of hope. It is a cold, alien predator that has been feeding on the light of dying stars since before flesh existed.
 
-The first host was Selene of House Viridane, who struck the bargain during her family's flight from the northern keeps at the time of the Binding. The six noble houses had marched their firstborn to the peaks to seal the dark bargains with Keth-Amar. House Viridane refused. Selene led her family south through the Frostwood Reach into the moonlit fae groves, and there she bargained with wildwood fae for protection. The fae granted a lunar parasite, a creature of starlight and cold that wrapped around her bones and fed on her warmth. It guided them through the fog. It hid them from Keth-Amar's searching. It also took something Selene has never gotten back.
+The first host was Selene of House Viridane, who struck the bargain during her family's flight from the northern keeps at the time of the Great Binding. The six noble houses had marched their firstborn to the peaks to seal the dark bargains with Keth-Amar. House Viridane refused. Selene led her family south through the Frostwood Reach into the moonlit fae groves, and there she bargained with wildwood fae for protection. The fae granted a lunar parasite, a creature of starlight and cold that wrapped around her bones and fed on her warmth. It guided them through the fog. It hid them from Keth-Amar's searching. It also took something Selene has never gotten back.
 
 The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing smashing damage as the parasite rearranges their nervous system for the next feeding.
 
-For eight centuries, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Fractured Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
+For a century and a half, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Fractured Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
 
-The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Florae elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves during the Deepening. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
+The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Florae elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves ages before the Star-Fall. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
     title: "The Lunarch",
     subtitle: "Vessel of the Lunar Parasite",
 
@@ -206,7 +192,7 @@ The lunarch's crescent aura was born in the moonlit groves of the <LoreLink term
 Lunarchs are celebrated as spiritual leaders among the Florae, but they are hunted as heretics by the noble houses of the north.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="briaran">Florae</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
+The class is primarily practiced by the <LoreLink termId="florae">Florae</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
 
 **NOTABLE FIGURES**
 * **Selene of House Viridane**: The founding scion of the Lunarch order who led her house's escape from the north.

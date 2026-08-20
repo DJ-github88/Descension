@@ -11804,6 +11804,117 @@ button.gender-option.selected {
     border-bottom: 1px dashed rgba(176, 122, 0, 0.4) !important;
 }
 
+/* Restricted / Non-Native Toggle List */
+.restricted-toggle-container {
+    margin-top: 0.6rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.restricted-toggle-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 0.45rem 0.65rem !important;
+    background: rgba(176, 122, 0, 0.08) !important;
+    border: 1px dashed rgba(176, 122, 0, 0.5) !important;
+    border-radius: 4px !important;
+    color: #8a5a00 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: left !important;
+    user-select: none !important;
+    box-sizing: border-box !important;
+}
+
+.restricted-toggle-button:hover {
+    background: rgba(176, 122, 0, 0.15) !important;
+    border-color: #8a5a00 !important;
+    color: #5a3a00 !important;
+}
+
+.restricted-toggle-button.open {
+    background: rgba(176, 122, 0, 0.12) !important;
+    border-bottom: 1px dashed rgba(176, 122, 0, 0.6) !important;
+}
+
+.restricted-toggle-button.has-selected {
+    border-color: #b08a4a !important;
+    background: rgba(176, 138, 74, 0.15) !important;
+}
+
+.restricted-toggle-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.toggle-chevron {
+    font-size: 0.7rem !important;
+    color: #b07a00 !important;
+    transition: transform 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.restricted-toggle-label {
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.restricted-count-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1px 6px !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    background: rgba(176, 122, 0, 0.18) !important;
+    color: #7a4e00 !important;
+    flex-shrink: 0 !important;
+}
+
+.restricted-selected-indicator {
+    font-size: 0.72rem !important;
+    color: #5a3d1d !important;
+    font-family: 'Crimson Text', serif !important;
+    font-style: italic !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+    margin-left: 0.5rem !important;
+}
+
+.restricted-selected-indicator i {
+    color: #2e7d32 !important;
+}
+
+.toggleable-restricted-content {
+    animation: restrictedFadeIn 0.2s ease-out !important;
+}
+
+@keyframes restrictedFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Accordion Race List */
 .accordion-race-list {
     display: flex;

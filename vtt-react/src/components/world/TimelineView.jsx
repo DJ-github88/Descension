@@ -268,6 +268,12 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
 
 const MiniCalendar = () => {
   const { calendar } = useTimelineStore();
+  const seasonLabels = {
+    'false-spring': 'false spring',
+    embers: 'embers',
+    'deepening-winter': 'hard winter',
+    'false-dawn': 'false dawn'
+  };
 
   return (
     <div className="world-mini-calendar">
@@ -277,7 +283,7 @@ const MiniCalendar = () => {
           <div key={m.id} className="world-month-card" title={m.description}>
             <span className="world-month-num">Month {m.id}</span>
             <span className="world-month-name">{m.name}</span>
-            <span className="world-month-season">{m.season?.replace(/-/g, ' ')}</span>
+            <span className="world-month-season">{seasonLabels[m.season] || m.season?.replace(/-/g, ' ')}</span>
           </div>
         ))}
       </div>

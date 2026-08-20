@@ -9,17 +9,17 @@
 
 ## COSMOLOGY QUICK-REFERENCE (Single Source of Truth)
 
-- **Pre-Star Mythrill (Primordial Anima)** — Mythrill was an animistic, folklore-rich world where native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and non-human races possessed innate biological elemental abilities. Mortals had **zero magic** and survived strictly through steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
-- **Sol** — Infant unhatched sun entombed in a thermal shell deep within Mythrill's core.
+- **Pre-Star Mythrill (Primordial Anima & Ancient Magic)** — Long before the Star-Fall, Mythrill was an animistic, folklore-rich world steeped in ancient primal magic. Native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and ancient non-human races (**Fexrick**, **Myrathil**, **Neth**, **Groven**) wielded elemental currents, geothermal power, and tidal magic. Mortal commoners survived through cold steel, tactical engineering, black powder matchlocks, archery, and strict taboos, while ancient disciplines (**Animist**, **Berserker**, **Warden**, **Shaper**, **Minstrel**) channeled the earth's natural resonance.
+- **Sol** — Infant unhatched sun entombed in a thermal shell deep within Mythrill's volcanic core.
 - **Aex & Aethil** — Celestial Mother & Father Deities. Forfeited Celestial status upon divine descent. Aex wrapped her form around Sol; her shattered body fell as **Aex Shards** across continents during the Blizzard's End massacre.
 - **The Sister Moon** — Slumbering moon frozen solid in orbit to act as a thermal buffer, anchoring **Rime Magic**.
-- **Keth-Amar** — Cosmic star-predator who devoured 3 House heirs at Blizzard's End, was injured by Aex's core shield, and now drapes Mythrill in **Wyrd Magic** from the sky.
-- **The 7th House (Masked Acolytes)** — Secretly created by an **Unknown Dominator Deity** seeking world domination. Forged a **7th Counterfeit Monolith** to fool Keth Amar. Capital at *Vespera's Crown*. Playable origin carrying the **Watcher's Spark** (BG3-style Entity Watcher).
-- **Aex Cracks & Geothermal Topography** — Lineage deaths (Vreken Bryngloom massacre, Ordan assassin purge, Frostwood Artificial Sun meltdown) cracked Aex's shell, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
-- **Astril Subrace Schism** — Stargazer Astril (peaceful scholars) vs Brutish Astril (warlike conquerors who demanded the Ordan purge). Ordan humans survive disguised as ordinary humans.
-- **The Neth (Well of Life)** — Predates Celestials; facing infertility, guided to Well of Life. High Neth (half-filled pitcher, pristine, immortal-adjacent, Peter Pan helicopter parenting), Pale Neth (stolen urns, subterranean hoarders), Hallowed Neth (well-dippers, undead husks).
-- **The Fexrick (Engine-Theft)** — Gnomish/Dwarvish engineers of Cragjaw Peaks who dug too deep, uncovered a Primordial God's engine/vault, and were cursed with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
-- **House of Viridane** — Fled Cragjaw Peaks to Frostwood Reach, witnessing the meltdown and unmasking the truth that heir deaths crack Aex rather than healing Sol.
+- **Keth-Amar** — Cosmic star-predator who devoured House heirs at Blizzard's End, was injured by Aex's core shield, and now drapes Mythrill in **Wyrd Magic** (madness, cognitive decay) from the sky.
+- **The Veiled House (The Shadow Crown / House of the Mask)** — Secret cult at *Vespera's Crown* created under an **Unknown Dominator Deity**. Forged a **Counterfeit Monolith** to fool Keth-Amar. Playable origin carrying the **Watcher's Spark** (cosmic entity conduit).
+- **Aex Cracks & Geothermal Topography** — Lineage deaths cracked Aex's shell, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
+- **Astril Subrace Schism** — Stargazer Astril (scholars) vs Iron-Vigil Astril (martial zealots who enforced the Ordan purge). Ordan humans survive disguised as ordinary nomads.
+- **The Neth (The Primordial Well of Life)** — Predates Celestials; ancient guardians of the Well of Life. High Neth (pristine well-keepers), Grave Neth (severed shadow-brokers and outlaws), Hallowed Neth (transfigured spirit-conduits).
+- **The Fexrick (Titan-Engine Delvers)** — Ancient subterranean burrowers of Cragjaw Peaks who uncovered a Primordial Engine in the deep bedrock.
+- **House Viridane & The Florae** — Fled the northern blood-sacrifice into Frostwood Reach, making an ancient fae-grove pact that transformed their flesh into living wood: the **Florae** (**Viridian** thorn-resisters and **Oken** hardwood travelers). Their empty seventh seat was given to **House Morrath**.
 
 ---
 
@@ -43,16 +43,16 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 # 1 · FROSTWOOD REACH — *"The Mist-Archivists' Forest"*
 **Vibe:** somber, hushed, paranoid, archival, fog-drenched. The only continent with a built-in **north/south climate split** — the visible scar of the Viridane secret.
 **House Thalreth** (Jarl-Archivist **Kaelen "The Quill-Lord"**) · **Bargain:** traded spatial clarity for insulating fog → **the fog eats memory**.
-**Monolith:** the **Fog-Hand** (Aex's closed right hand) — hidden in a mist-choked valley near Ironwood Heart. Also hides the **Viridane fragment** (the true cleansing seventh) in moonlit groves with the Briaran.
+**Monolith:** the **Fog-Hand** (Aex's closed right hand) — hidden in a mist-choked valley near Ironwood Heart. Also hides the **Viridane fragment** (the true cleansing seventh) in moonlit groves with the Florae.
 **Folklore tradition:** Germanic/Celtic (face-stealers, fae, broken-oath horrors)  -  the local vocabulary that translates, not creates, the region's creatures.
 
 ### 1A · The Ironheart Vales *(warm south-central, political heart)*
 - **Geography:** cool-temperate, fog year-round; petrified ironwood forest, peat-bog hollows, silt-roads.
-- **Races & subraces here:** **Thalren humans** (archivists, the Ledgered ruling caste); **Arch Mimir** (canopy aristocrats, ancestral masks); **Smooth-Skinned Briaran** (passing as human, run the ink-trade); small **Skald** trader enclave at Skald's Landing.
+- **Races & subraces here:** **Thalren humans** (archivists, the Ledgered ruling caste); **Arch Mimir** (canopy aristocrats, ancestral masks); **Oken Florae** (passing as woodcraft artisans, run the ink-trade); small **Skald** trader enclave at Skald's Landing.
 - **Factions:** House Thalreth, Scribe-Cartel (ink/parchment monopoly), Mist-Sentinels, Ironwood Palisade Wardens, Scribe-Sentinels.
 - **Settlements:**
   - **City:** Greymark Keep (~1,200; capital; Sovereign Ledger; the High Hearth's 800-yr flame).
-  - **Settlements:** Scribes' Tower (hollowed ironwood), Mirror Mere (Arch Mimir lake-village), Greythorn Copse (joint Thalren–Briaran fort), Skald's Landing (river trade post), Meadowglen Crossing (waystation to Sundale).
+  - **Settlements:** Scribes' Tower (hollowed ironwood), Mirror Mere (Arch Mimir lake-village), Greythorn Copse (joint Thalren–Florae fort), Skald's Landing (river trade post), Meadowglen Crossing (waystation to Sundale).
   - **✦ Minor:** Pebble-Scribe Hamlet, Tallow-Candle Wayhouse, Quillgate Toll-Village, Moss-Wax Chandlers' Cluster, Heartwood Sap-Camp, Chained-Journal Coaching-Inn, Hollow-Stump Camp, Bog-Cranberry Stands.
 - **Landmarks:** the Ironwood Heart (glowing white tree + mist-lake), Bramble Heath (year-round crimson thorn-flowers), the Velling Pass (gateway to Sundale).
 - **Ruins:** Ledger Halls (half-sunk archive), The Shallows (black-market vaults under Greymark).
@@ -61,7 +61,7 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 
 ### 1B · The Frostfang Wastes *(sub-arctic north — granite tundra, frozen lakes)*
 - **Geography:** sub-arctic, 8-week summer; granite tundra, glacial moraine, sparse twisted ironwood.
-- **Races & subraces here:** **Stone-Tribal humans** (frontier folk); **Skald expatriates** (Greymark Northwatch garrison + the Stone-Speakers tending monoliths); **Jutul raiders** (giant troll-kin of the deep wastes — rumored, rarely confirmed).
+- **Races & subraces here:** **Moraine Clan humans** (frontier animists); **Skald expatriates** (Greymark Northwatch garrison + the Stone-Speakers tending monoliths); **Jutul raiders** (giant troll-kin of the deep wastes — rumored, rarely confirmed).
 - **Factions:** Greymark Northwatch, the Stone-Speakers.
 - **Settlements:**
   - **Settlement:** Grevtholm (fortified stone keep, northernmost outpost vs Jutul).
@@ -73,7 +73,7 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 
 ### 1C · The Drowned Fens *(eastern lawless marsh)*
 - **Geography:** damp, hazy, mild; peat-bog, drowned ironwood.
-- **Races & subraces here:** **Fractured Mimir** (maskless, carrying glowing Motes); **the Forgotten** (undocumented outcasts stripped by the Sovereign Ledger); **Unshorn Briaran** refugees (thorn-cloaked).
+- **Races & subraces here:** **Fractured Mimir** (maskless, carrying glowing Motes); **the Forgotten** (undocumented outcasts stripped by the Sovereign Ledger); **Viridian Florae** outcasts (thorn-barbed forest resisters).
 - **Factions:** the Forgotten camps, Fractured Mimir clans.
 - **Settlements:** (none chartered — lawless).
   - **✦ Minor:** Floating-Stilt Hamlet, Wisp-Willow Camp, Thorn-Refuge Copse.
@@ -82,7 +82,7 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 - **Creatures & Wyrd:** Gambrel, Drudehaunt, Oillipheist.
 - **Intricacies:** no Scribe-Sentinel enters; the Fen's geography rejects maps. Root-Veil mycelium spills in from Bryngloom's border.
 
-**Region-wide:** **Briaran** (House Viridane's descendants) live hidden in moonlit groves where the fog thins; the erasure hides them from Keth-Amar.
+**Region-wide:** **Florae** (House Viridane's descendants) live hidden in moonlit groves where the fog thins; the erasure hides them from Keth-Amar.
 
 ---
 ---
@@ -438,14 +438,14 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 | Race | Subraces/castes | Home | Subregions |
 |---|---|---|---|
 | **Mimir** (mask-bound) | **Arch Mimir** (ancestral masks) · **Fractured Mimir** (patchwork masks + Motes) | Frostwood Reach | Arch → Ironheart Vales (Ironwood Heart, Mirror Mere); Fractured → Drowned Fens (Wraithfen, Shifting Fen) |
-| **Briaran** (thorn-blooded; House Viridane's descendants) | **Unshorn** (thorn-cloaked) · **Smooth-Skinned** (pass as human) | Frostwood Reach (hidden) | Unshorn → moonlit groves/Drowned Fens; Smooth-Skinned → Ironheart Vales edge |
-| **Emberth** (forge-clans; cold-bodied) | **Korr** (deep-vault priests) · **Thrask** (surface rangers) | Sundale | Korr → Ashen Fringe (Harath-Vault inner); Thrask → Ashen Fringe surface |
-| **Myrathil** (sea-foam born; biolum, webbed) | **Breakers-Born/Shore** · **Deep-Born** · **River-Fed/Brook** | Iceheart Sea | Breakers → Merrow Archipelago; Deep → Deepwell Trench; River-Fed → estuaries |
-| **Neth** (pact-bound non-breathers) | **High/Loyalists** · **Pale/Conspirators (cold undead)** · **Hallowed/Profane** | Bryngloom Forest | High → Canopy-Heart (Atropolis); Pale → Peat-Wastes/Sunken Basin; Hallowed → Root-Veil shrines |
-| **Vreken** (lantern-eyed) | **Clean** (amber-eyed) · **Marked** (silver-eyed, Ghost-Mycelium) | Bryngloom Forest | Clean → Sunken Basin (inner crypts); Marked → Sunken Basin rim (Over-Shanties) |
-| **Astril** (Star-Carried; constellation-skin) | **Sylen/Vashir** (open-spirit) · **Muren/Silath** (suppressed) · **Unlit** (no spirit; can lie) | Sundrift Vale | Sylen/Muren → Starfall Basin/Ancestor Wolds; Unlit → Unlit Knoll (spies) |
-| **Groven** (alchemically-forged from Thrumm) | **Morgh** (heavy) · **Ithran** (fine) · **Murmur-Blooded** (outcast) | Cragjaw Peaks | Morgh → Iron Sumps/deep; Ithran → Gorge-Web bridges; Murmur → bridge-tender outposts |
-| **Fexrick** (goblinoid engineers) | **Kethrin** (guild) · **Drall** (clan-free) | Cragjaw Peaks | Kethrin → Iron Sumps (Gearworks Gulch high); Drall → Scrap-Sump |
+| **Florae** (tree-born; House Viridane's descendants) | **Viridian** (thorn-barbed resisters) · **Oken** (hardwood woodcraft travelers) | Frostwood Reach (hidden) | Viridian → moonlit groves/Drowned Fens; Oken → Ironheart Vales edge |
+| **Solari** (solar-flame ascendants) | **Sun-Sworn** · **Ash-Purged** | Sundale | Sun-Sworn → Ashen Fringe (Harath-Vault inner); Ash-Purged → Ashen Fringe surface |
+| **Myrathil** (primordial sea-dwellers; biolum, webbed) | **Breakers-Born/Shore** · **Deep-Born** · **River-Fed/Brook** | Iceheart Sea | Breakers → Merrow Archipelago; Deep → Deepwell Trench; River-Fed → estuaries |
+| **Neth** (pact-bound non-breathers) | **High Neth (Loyalists)** · **Grave Neth (Severed Shadow-Brokers)** · **Hallowed Neth (Spirit Conduits)** | Bryngloom Forest | High → Canopy-Heart (Atropolis); Grave → Peat-Wastes/Sunken Basin; Hallowed → Root-Veil shrines |
+| **Vreken** (lantern-eyed) | **Highborn Vreken** · **Ashborn Vreken** (Ghost-Mycelium) | Bryngloom Forest | Highborn → Sunken Basin (inner crypts); Ashborn → Sunken Basin rim (Over-Shanties) |
+| **Astril** (Star-Carried; constellation-skin) | **Stargazer** (scholars) · **Iron-Vigil** (martial zealots) · **Unlit** (spies) | Sundrift Vale | Stargazer/Iron-Vigil → Starfall Basin/Ancestor Wolds; Unlit → Unlit Knoll (spies) |
+| **Groven** (living stone & ironwood titans) | **Morgh** (heavy) · **Ithran** (fine) · **Murmur-Blooded** (outcast) | Cragjaw Peaks | Morgh → Iron Sumps/deep; Ithran → Gorge-Web bridges; Murmur → bridge-tender outposts |
+| **Fexrick** (ancient clockwork & galvanic engineers) | **Kethrin** (guild-bound) · **Foundrykin** (clan-free) | Cragjaw Peaks | Kethrin → Iron Sumps (Gearworks Gulch high); Foundrykin → Scrap-Sump |
 | **Rime-Born** (Hunger Pact survivors) | (incl. **Frostbound** — blue-skinned infants) | Nordhalla | Glacier-Heart; Frostbound → Gelid-Caverns |
 | **Corvani** (raven-marked subfolk) | — | Nordhalla | Glacier-Heart (Rook's Promontory eyries) |
 | **Thrumm** (primordial ancestor-trolls) | — | Cragjaw Peaks | Frostmaw Massif deep tunnels |
@@ -470,5 +470,5 @@ Primary Launch Region (Locked for Initial Release): **North Halam (Nordhalla)**.
 - **All four ratified locks applied** to code: false-Morrath-Monolith, Dead Moon (dormant star + deity = "egg"), Morvane (entity name), Martyr Year ~12.
 - **157 ✦ micro-POIs** added across all continents (zone + pin data) — see `vtt-react/src/data/zoneData.js` & `locationCoordinates.js`.
 - **9 subregions renamed** in `subregions.js` (Ironheart Vales, Frostfang Wastes, Drowned Fens, Iron-Fjord Coast, Ember-Tide Coast, Frozen-Flows, Saryreach Isles, Endless Steppe, Great Mere).
-- **Outstanding (separate refactor):** the race **code-IDs** still use `florae`/`solari` internally (display "Briaran"/"Emberth" in this doc) — a ~20-file rename, not yet done.
+- **Canonical Lineage Ratification:** Race code-IDs and lore names are fully standardized as **Florae** (Viridian / Oken) and **Solari** (Sun-Sworn / Ash-Purged), with Grave Neth and Moraine Clan ratified across all stores.
 - **Outstanding:** 33 non-Frostwood zones still lack their own pins (their micro-POIs temporarily cluster at region centroids); each continent needs the same cartography-patch treatment Frostwood received.

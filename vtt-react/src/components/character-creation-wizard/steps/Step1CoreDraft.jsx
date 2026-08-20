@@ -19,8 +19,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 
 import { RACE_DATA, applyRacialModifiers } from '../../../data/raceData';
-import { BACKGROUND_DATA } from '../../../data/backgroundData';
-import useCustomLineageStore from '../../../store/customLineageStore';
+import { BACKGROUND_DATA, BACKGROUND_FLAVOR_TEXT } from '../../../data/backgroundData';
 
 
 import { getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
@@ -599,7 +598,27 @@ const isBackgroundCompatible = (bg, raceId, subraceId) => {
     return { selectable: false, narrativeUnlock: false };
 };
 
+const getClassSummary = (classInfo) => {
+    if (!classInfo) return '';
+    const raw = classInfo.summary || classInfo.overview?.summary || classInfo.overview?.description || classInfo.description || '';
+    const clean = raw.replace(/<[^>]+>/g, '').trim();
+    const firstSentence = clean.split(/(?<=[.!?])\s+/)[0] || clean;
+    return firstSentence.length > 150 ? firstSentence.slice(0, 147) + '...' : firstSentence;
+};
 
+const getBackgroundSummary = (bg) => {
+    if (!bg) return '';
+    if (BACKGROUND_FLAVOR_TEXT && BACKGROUND_FLAVOR_TEXT[bg.id]) {
+        return BACKGROUND_FLAVOR_TEXT[bg.id];
+    }
+    if (bg.shortDescription) return bg.shortDescription;
+    if (bg.description) {
+        const clean = bg.description.replace(/<[^>]+>/g, '').trim();
+        const firstSentence = clean.split(/(?<=[.!?])\s+/)[0] || clean;
+        return firstSentence.length > 140 ? firstSentence.slice(0, 137) + '...' : firstSentence;
+    }
+    return '';
+};
 
 const getBackgroundRestrictionMessage = (bg) => {
 
@@ -965,6 +984,9 @@ const Step1CoreDraft = () => {
 
     } = useUnifiedTooltip();
 
+    const [showRestrictedClasses, setShowRestrictedClasses] = useState(false);
+    const [showRestrictedBackgrounds, setShowRestrictedBackgrounds] = useState(false);
+
     const [showSpellsDrawer, setShowSpellsDrawer] = useState(false);
 
     const [focusedSection, setFocusedSection] = useState('race'); // 'race', 'class', 'background'
@@ -1155,7 +1177,7 @@ const Step1CoreDraft = () => {
     // Race Handlers
 
     const getRaceList = () => {
-        const canonical = Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
+        return Object.entries(RACE_DATA).map(([raceId, raceData]) => ({
             id: raceId,
             name: raceData.name,
             description: raceData.description,
@@ -1171,31 +1193,6 @@ const Step1CoreDraft = () => {
                 statModifiers: subraceData.statModifiers
             }))
         }));
-
-        let custom = [];
-        try {
-            const customLineages = useCustomLineageStore.getState().getAllLineages();
-            custom = (customLineages || []).map(lineage => ({
-                id: lineage.id,
-                name: lineage.name,
-                description: lineage.description,
-                essence: lineage.essence || 'The Unbound',
-                cardFlavor: lineage.cardFlavor || lineage.essence,
-                icon: lineage.icon || 'fas fa-dna',
-                isCustom: true,
-                subraces: (lineage.subraces || []).map(sr => ({
-                    id: sr.id || (sr.name ? sr.name.toLowerCase().replace(/\s+/g, '_') : 'default'),
-                    name: sr.name,
-                    description: sr.description,
-                    tooltipSummary: sr.description,
-                    statModifiers: lineage.abilityModifiers || {}
-                }))
-            }));
-        } catch (e) {
-            // fallback if store is initializing
-        }
-
-        return [...canonical, ...custom];
     };
 
 
@@ -1736,6 +1733,7 @@ const Step1CoreDraft = () => {
                                 const allClassNames = Array.from(new Set(Object.values(CLASS_GROUPS).flat()));
                                 const compatibleClasses = allClassNames.filter((clsName) => isClassCompatible(clsName, race, subrace));
                                 const restrictedClasses = allClassNames.filter((clsName) => !isClassCompatible(clsName, race, subrace));
+                                const isCurrentClassRestricted = restrictedClasses.includes(characterData.class);
 
                                 const renderClassToken = (clsName) => {
                                     const classInfo = CLASS_DATA_MAP[clsName];
@@ -1743,20 +1741,26 @@ const Step1CoreDraft = () => {
                                     const isCompatible = isClassCompatible(clsName, race, subrace);
 
                                     const tooltipContent = (
-                                        <div className="class-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem' }}>
+                                        <div className="class-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
                                             {classInfo?.overview?.theme && (
-                                                <div className="class-tooltip-theme" style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                                <div className="class-tooltip-theme" style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '3px' }}>
                                                     Theme: {classInfo.overview.theme}
                                                 </div>
                                             )}
                                             {classInfo?.role && (
-                                                <div className="class-tooltip-role" style={{ color: '#5a3d1d', fontStyle: 'italic', fontSize: '0.8rem', marginBottom: '8px' }}>
+                                                <div className="class-tooltip-role" style={{ color: '#5a3d1d', fontStyle: 'italic', fontSize: '0.8rem', marginBottom: '6px' }}>
                                                     Role: {classInfo.role}
                                                 </div>
                                             )}
                                             <p className="class-tooltip-description" style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
-                                                {formatDescriptionText(classInfo?.overview?.description || classInfo?.description || '')}
+                                                {getClassSummary(classInfo)}
                                             </p>
+                                            {!isCompatible && (
+                                                <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                    <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
+                                                    Narrative Unlock: Requires GM approval
+                                                </div>
+                                            )}
                                         </div>
                                     );
 
@@ -1789,12 +1793,32 @@ const Step1CoreDraft = () => {
                                         </div>
 
                                         {restrictedClasses.length > 0 && (
-                                            <>
-                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
-                                                <div className="class-icons-grid restricted-grid">
-                                                    {restrictedClasses.map(renderClassToken)}
-                                                </div>
-                                            </>
+                                            <div className="restricted-toggle-container">
+                                                <button
+                                                    type="button"
+                                                    className={`restricted-toggle-button ${showRestrictedClasses ? 'open' : ''} ${isCurrentClassRestricted ? 'has-selected' : ''}`}
+                                                    onClick={() => setShowRestrictedClasses(prev => !prev)}
+                                                    aria-expanded={showRestrictedClasses}
+                                                >
+                                                    <div className="restricted-toggle-left">
+                                                        <i className={`fas fa-chevron-${showRestrictedClasses ? 'down' : 'right'} toggle-chevron`}></i>
+                                                        <span className="restricted-toggle-label">
+                                                            Non-Native Callings (Requires GM Approval)
+                                                        </span>
+                                                        <span className="restricted-count-badge">{restrictedClasses.length}</span>
+                                                    </div>
+                                                    {isCurrentClassRestricted && (
+                                                        <span className="restricted-selected-indicator">
+                                                            <i className="fas fa-check-circle"></i> Selected: {characterData.class}
+                                                        </span>
+                                                    )}
+                                                </button>
+                                                {showRestrictedClasses && (
+                                                    <div className="class-icons-grid restricted-grid toggleable-restricted-content">
+                                                        {restrictedClasses.map(renderClassToken)}
+                                                    </div>
+                                                )}
+                                            </div>
                                         )}
                                     </>
                                 );
@@ -1877,6 +1901,7 @@ const Step1CoreDraft = () => {
                                     const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
                                     return !(selectable && !narrativeUnlock);
                                 });
+                                const isCurrentBackgroundRestricted = restrictedBackgrounds.some(bg => bg.id === background);
 
                                 const renderBackgroundToken = (bg) => {
                                     const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
@@ -1891,12 +1916,12 @@ const Step1CoreDraft = () => {
                                                 </div>
                                             )}
                                             <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
-                                                {bg.description}
+                                                {getBackgroundSummary(bg)}
                                             </p>
-                                            {requiresUnlock && bg.restrictions?.justification && (
+                                            {requiresUnlock && (
                                                 <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-                                                    Narrative Unlock: requires DM approval. {bg.restrictions.justification}
+                                                    Narrative Unlock: Requires GM approval
                                                 </div>
                                             )}
                                         </div>
@@ -1925,12 +1950,32 @@ const Step1CoreDraft = () => {
                                         </div>
 
                                         {restrictedBackgrounds.length > 0 && (
-                                            <>
-                                                <h4 className="categorized-section-title restricted-title">Requires GM Approval / Narrative Reason</h4>
-                                                <div className="background-buttons-grid restricted-grid">
-                                                    {restrictedBackgrounds.map(renderBackgroundToken)}
-                                                </div>
-                                            </>
+                                            <div className="restricted-toggle-container">
+                                                <button
+                                                    type="button"
+                                                    className={`restricted-toggle-button ${showRestrictedBackgrounds ? 'open' : ''} ${isCurrentBackgroundRestricted ? 'has-selected' : ''}`}
+                                                    onClick={() => setShowRestrictedBackgrounds(prev => !prev)}
+                                                    aria-expanded={showRestrictedBackgrounds}
+                                                >
+                                                    <div className="restricted-toggle-left">
+                                                        <i className={`fas fa-chevron-${showRestrictedBackgrounds ? 'down' : 'right'} toggle-chevron`}></i>
+                                                        <span className="restricted-toggle-label">
+                                                            Non-Native Origins (Requires GM Approval)
+                                                        </span>
+                                                        <span className="restricted-count-badge">{restrictedBackgrounds.length}</span>
+                                                    </div>
+                                                    {isCurrentBackgroundRestricted && (
+                                                        <span className="restricted-selected-indicator">
+                                                            <i className="fas fa-check-circle"></i> Selected: {BACKGROUND_DATA[background]?.name || background}
+                                                        </span>
+                                                    )}
+                                                </button>
+                                                {showRestrictedBackgrounds && (
+                                                    <div className="background-buttons-grid restricted-grid toggleable-restricted-content">
+                                                        {restrictedBackgrounds.map(renderBackgroundToken)}
+                                                    </div>
+                                                )}
+                                            </div>
                                         )}
                                     </>
                                 );

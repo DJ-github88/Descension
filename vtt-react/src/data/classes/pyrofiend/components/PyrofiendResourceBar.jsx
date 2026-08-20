@@ -23,7 +23,7 @@ const STAGE_NAMES = {
 const DRAWBACK_TEXTS = {
     0: 'None',
     1: '-2 Hit chance (distortions)',
-    2: '1d4 Psychic dmg/turn',
+    2: '1d4 Wyrd dmg/turn',
     3: '-10ft Movement, Fatigue',
     4: '+1d6 Damage taken from all sources',
     5: '1d6 Bleeding dmg/turn',

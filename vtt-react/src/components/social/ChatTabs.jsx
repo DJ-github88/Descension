@@ -131,6 +131,18 @@ const ChatTabs = ({ isUsersPaneHidden, onToggleUsersPane }) => {
     else if (activeTab === 'combat') clearNotifications('combat');
   };
 
+  if (whisperTabs.size === 0 && !canClearActive) {
+    return (
+      <button
+        className="floating-toggle-users-btn"
+        onClick={onToggleUsersPane}
+        title={isUsersPaneHidden ? 'Show Users List' : 'Hide Users List'}
+      >
+        <i className={isUsersPaneHidden ? 'fas fa-chevron-right' : 'fas fa-chevron-left'}></i>
+      </button>
+    );
+  }
+
   return (
     <div className="chat-tabs">
       {/* Toggle Users Pane Button */}

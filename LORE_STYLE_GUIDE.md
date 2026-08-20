@@ -226,7 +226,7 @@ The writing must shift to match the subject.
 - **Neth** — precise, legalistic, clinical ("The judgment was delivered. The terms were binding.")
 - **Skald** — brutal, cold, elegiac ("The glaciers do not negotiate.")
 - **Mimir** — mysterious, fluid, melancholy ("The mask is not a disguise. It is a cage for a thing that wants out.")
-- **Briaran** — thorny, defiant, feral ("House Viridane refused. The other six houses erased them from history. The Briaran call themselves the ones who refused.")
+- **Florae** — thorny, defiant, feral ("House Viridane refused. The other six houses erased them from history. The Florae call themselves the ones who refused.")
 - **Astril** — luminous, tragic, cosmic ("She carries a dying star inside her chest.")
 
 ### Rule 13: One well-placed em dash per entry, max.
@@ -490,7 +490,7 @@ The writing voice MUST shift to match the subject. Same world, different throats
 **Mimir (Frostwood)** — mysterious, melancholic, quiet:
 > "The mask is not a disguise. It is a cage for a thing that wants out."
 
-**Briaran** — thorny, defiant, feral:
+**Florae** — thorny, defiant, feral:
 > "There were eight houses, not seven. The histories will tell you otherwise. The histories are wrong."
 
 **Emberth (Sundale)** — heavy, patient, devout:
@@ -661,7 +661,7 @@ Before you write a single sentence of lore, you need to know what's already true
 | Tesshan | Cragjaw Peaks | Jarl-Inca Oda Tesshan | Knotted Decree | Grotto-secessionists | Veiled the peaks in perpetual blizzard |
 | Ordavan | Sundrift Vale | Khatun Bayarmaa Ordavan | Unlit Veil (unwillingly) | Traditionalist nomads | Unlit Veil manipulates the house |
 | Morrath | Bryngloom Forest | Regent Morrath Neth | Neth Kessen weavers, Keeper | Vreken (tension), debtors | Enforces the Great Registry |
-| Viridane | Frostwood Reach (erased) | None (extinct) | Briaran (descendants) | All other houses | Erased after refusing Keth-Amar; Briaran carry their blood |
+| Viridane | Frostwood Reach (erased) | None (extinct) | Florae (descendants) | All other houses | Erased after refusing Keth-Amar; Florae carry their blood |
 
 ### 6.3 Name Rules
 

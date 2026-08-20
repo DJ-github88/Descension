@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import RichLoreText from './RichLoreText';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import './CodexLoreEditor.css';
 
 const CODEX_TEMPLATES = {
@@ -68,6 +69,7 @@ const CodexLoreEditor = ({
   const [editorMode, setEditorMode] = useState('split'); // 'write' | 'split' | 'preview'
   const [showSensoryProfile, setShowSensoryProfile] = useState(false);
   const textareaRef = useRef(null);
+  const { uploadImage, removeImage } = useMediaUpload();
 
   const insertFormatting = (prefix, suffix = '') => {
     const textarea = textareaRef.current;
@@ -113,12 +115,23 @@ const CodexLoreEditor = ({
     }
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => onUpdate({ image: ev.target.result });
-    reader.readAsDataURL(file);
+    try {
+      const url = await uploadImage(file, 'lore');
+      if (url) onUpdate({ image: url });
+    } catch (err) {
+      console.error('Lore artwork upload failed:', err);
+      alert(err.message || 'Image upload failed. Please try a smaller file.');
+    }
+  };
+
+  const handleImageRemove = () => {
+    if (article.image) {
+      removeImage(article.image).catch((err) => console.warn('Failed to remove cloud media:', err));
+    }
+    onUpdate({ image: null });
   };
 
   const updateSensory = (sense, val) => {
@@ -141,7 +154,7 @@ const CodexLoreEditor = ({
               <button
                 type="button"
                 className="codex-banner-clear-btn"
-                onClick={() => onUpdate({ image: null })}
+                onClick={handleImageRemove}
                 title="Remove artwork"
               >
                 <i className="fas fa-trash-alt"></i> Remove

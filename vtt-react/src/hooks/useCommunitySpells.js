@@ -5,7 +5,7 @@
  * Provides state management and caching for community spell interactions.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   getAllCommunitySpells,
   searchSpells,
@@ -18,7 +18,8 @@ import {
   isSpellFavorited,
   getUserFavorites,
   seedTestSpell,
-  cleanupDuplicateSpells
+  cleanupDuplicateSpells,
+  deduplicateSpellList
 } from '../services/firebase/communitySpellService';
 
 let spellsInitPromise = null;
@@ -43,6 +44,7 @@ export function useCommunitySpells() {
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
   const [hasMore, setHasMore] = useState(false);
   const [lastDoc, setLastDoc] = useState(null);
+  const lastDocRef = useRef(null);
   const [userVotes, setUserVotes] = useState({}); // Map of spellId -> vote
   const [userFavorites, setUserFavorites] = useState(new Set()); // Set of favorited spell IDs
 
@@ -55,46 +57,45 @@ export function useCommunitySpells() {
       // One-time cleanup + seed (deduped via shared promise)
       if (!loadMore) await ensureSpellsInit(sortByValue);
 
+      const docCursor = loadMore ? lastDocRef.current : null;
       const result = await getAllCommunitySpells(
         20,
-        loadMore ? lastDoc : null,
+        docCursor,
         sortByValue
       );
       
-      if (loadMore) {
-        setSpells(prev => [...prev, ...result.spells]);
-      } else {
-        setSpells(result.spells);
-      }
-      
-      setHasMore(result.hasMore);
+      lastDocRef.current = result.lastDoc;
       setLastDoc(result.lastDoc);
+      setHasMore(result.hasMore);
+
+      if (loadMore) {
+        setSpells(prev => deduplicateSpellList([...prev, ...result.spells]));
+      } else {
+        setSpells(deduplicateSpellList(result.spells));
+      }
     } catch (err) {
       setError(err.message);
       console.error('Failed to load spells:', err);
     } finally {
       setLoading(false);
     }
-  }, [sortBy, lastDoc]);
-
+  }, [sortBy]);
 
   const loadFeaturedSpells = useCallback(async () => {
     try {
       const featured = await getFeaturedSpells(6);
-      setFeaturedSpells(featured);
+      setFeaturedSpells(deduplicateSpellList(featured));
     } catch (err) {
       console.error('Failed to load featured spells:', err);
     }
   }, []);
-
-
 
   const performSearch = useCallback(async (term) => {
     try {
       setLoading(true);
       setError(null);
       const searchResults = await searchSpells(term);
-      setSpells(searchResults);
+      setSpells(deduplicateSpellList(searchResults));
       setHasMore(false);
       setLastDoc(null);
     } catch (err) {
@@ -277,26 +278,24 @@ export function useCommunitySpells() {
     }
   }, []);
 
-  // Load spells on mount and when sort changes
+  // Load spells on mount and when sort or search changes
   useEffect(() => {
-    (async () => {
-      // Run init (cleanup + seed) BEFORE loading featured/spells
-      await ensureSpellsInit('rating');
+    if (searchTerm) {
+      performSearch(searchTerm);
+    } else {
       loadFeaturedSpells();
-      if (!searchTerm) {
-        loadSpells();
-      }
-    })();
-  }, [sortBy, loadFeaturedSpells, loadSpells, searchTerm]);
+      loadSpells(sortBy);
+    }
+  }, [sortBy, searchTerm, performSearch, loadFeaturedSpells, loadSpells]);
 
-  // Load spells when search term changes
-  useEffect(() => {
+  const refreshAll = useCallback(async () => {
+    loadFeaturedSpells();
     if (searchTerm) {
       performSearch(searchTerm);
     } else {
       loadSpells();
     }
-  }, [searchTerm, loadSpells, performSearch]);
+  }, [loadFeaturedSpells, searchTerm, performSearch, loadSpells]);
 
   return {
     // Data
@@ -329,6 +328,7 @@ export function useCommunitySpells() {
     
     // Refresh functions
     refreshSpells: loadSpells,
-    refreshFeatured: loadFeaturedSpells
+    refreshFeatured: loadFeaturedSpells,
+    refreshAll
   };
 }

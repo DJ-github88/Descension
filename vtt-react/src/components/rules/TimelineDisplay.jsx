@@ -38,7 +38,7 @@ const TimelineDisplay = () => {
         <div className="timeline-subtitle">
           <span className="timeline-diamonds">{runicDiamond}{runicDiamond}{runicDiamond}</span>
           <span className="timeline-subtitle-text">
-            From the First Stars to the Age of the Dimming
+            From the First Stars to the Freezing Era
           </span>
           <span className="timeline-diamonds">{runicDiamond}{runicDiamond}{runicDiamond}</span>
         </div>

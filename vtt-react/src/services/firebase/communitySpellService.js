@@ -313,6 +313,27 @@ const MOCK_FEATURED_SPELLS = [
   }
 ];
 
+/**
+ * Helper to deduplicate a list of spells by unique ID and trimmed lowercase name
+ */
+export function deduplicateSpellList(spellList = []) {
+  if (!Array.isArray(spellList)) return [];
+  const seenIds = new Set();
+  const seenNames = new Set();
+  return spellList.filter(spell => {
+    if (!spell) return false;
+    const id = spell.id || spell._id;
+    const name = (spell.name || '').trim().toLowerCase();
+
+    if (id && seenIds.has(id)) return false;
+    if (name && seenNames.has(name)) return false;
+
+    if (id) seenIds.add(id);
+    if (name) seenNames.add(name);
+    return true;
+  });
+}
+
 // Helper function to check if Firebase is available
 const checkFirebaseAvailable = () => {
   if (!db) {
@@ -338,7 +359,7 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
         sortedMock.sort((a, b) => b.level - a.level);
       }
       return {
-        spells: sortedMock.slice(0, pageSize),
+        spells: deduplicateSpellList(sortedMock.slice(0, pageSize)),
         lastDoc: null,
         hasMore: false
       };
@@ -365,12 +386,13 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
       }
 
       const snapshot = await getDocs(q);
+      const rawSpells = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
       return {
-        spells: snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })),
+        spells: deduplicateSpellList(rawSpells),
         lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
         hasMore: snapshot.docs.length === pageSize
       };
@@ -388,12 +410,13 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
       }
 
       const snapshot = await getDocs(q);
+      const rawSpells = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
       return {
-        spells: snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })),
+        spells: deduplicateSpellList(rawSpells),
         lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
         hasMore: snapshot.docs.length === pageSize
       };
@@ -419,9 +442,9 @@ export async function searchSpells(searchTerm, pageSize = 20) {
       const results = MOCK_FEATURED_SPELLS.filter(spell =>
         spell.name.toLowerCase().includes(searchLower) ||
         spell.description.toLowerCase().includes(searchLower) ||
-        spell.tags.some(tag => tag.toLowerCase().includes(searchLower))
+        (spell.tags && spell.tags.some(tag => tag.toLowerCase().includes(searchLower)))
       );
-      return results;
+      return deduplicateSpellList(results);
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
@@ -438,20 +461,21 @@ export async function searchSpells(searchTerm, pageSize = 20) {
     );
 
     const snapshot = await getDocs(q);
-
-    return snapshot.docs.map(doc => ({
+    const rawSpells = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+
+    return deduplicateSpellList(rawSpells);
   } catch (error) {
     console.error('Error searching spells:', error);
     const searchLower = searchTerm.toLowerCase();
     const results = MOCK_FEATURED_SPELLS.filter(spell =>
       spell.name.toLowerCase().includes(searchLower) ||
       spell.description.toLowerCase().includes(searchLower) ||
-      spell.tags.some(tag => tag.toLowerCase().includes(searchLower))
+      (spell.tags && spell.tags.some(tag => tag.toLowerCase().includes(searchLower)))
     );
-    return results;
+    return deduplicateSpellList(results);
   }
 }
 
@@ -461,7 +485,7 @@ export async function searchSpells(searchTerm, pageSize = 20) {
 export async function getFeaturedSpells(pageSize = 10) {
   try {
     if (!checkFirebaseAvailable()) {
-      return MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize);
+      return deduplicateSpellList(MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize));
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
@@ -474,14 +498,15 @@ export async function getFeaturedSpells(pageSize = 10) {
     );
 
     const snapshot = await getDocs(q);
-
-    return snapshot.docs.map(doc => ({
+    const rawSpells = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+
+    return deduplicateSpellList(rawSpells);
   } catch (error) {
     console.error('Error fetching featured spells:', error);
-    return MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize);
+    return deduplicateSpellList(MOCK_FEATURED_SPELLS.filter(s => s.isFeatured).slice(0, pageSize));
   }
 }
 
@@ -698,7 +723,7 @@ export async function getUserFavorites(userId, pageSize = 20) {
       }
     }
 
-    return spells;
+    return deduplicateSpellList(spells);
   } catch (error) {
     console.error('Error fetching user favorites:', error);
     return [];
@@ -712,7 +737,7 @@ export async function getUserSpells(userId, pageSize = 20) {
   try {
     if (!checkFirebaseAvailable()) {
       // Return a subset of mock spells to represent the user's shared spells
-      return MOCK_FEATURED_SPELLS.slice(4, 6);
+      return deduplicateSpellList(MOCK_FEATURED_SPELLS.slice(4, 6));
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
@@ -726,10 +751,11 @@ export async function getUserSpells(userId, pageSize = 20) {
 
     const snapshot = await getDocs(q);
 
-    return snapshot.docs.map(doc => ({
+    const rawSpells = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+    return deduplicateSpellList(rawSpells);
   } catch (error) {
     console.error('Error fetching user spells:', error);
     return [];
@@ -866,7 +892,7 @@ async function recalculateSpellVotes(spellId) {
 }
 
 /**
- * Seed a test spell into the community collection
+ * Seed starter community spells if the collection is empty
  */
 export async function seedTestSpell() {
   try {
@@ -876,55 +902,122 @@ export async function seedTestSpell() {
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
-    const q = query(spellsRef, where('name', '==', 'Ember Sentinel'), limit(1));
-    const snapshot = await getDocs(q);
-
-    if (!snapshot.empty) {
-      console.log('Ember Sentinel already exists, skipping seed');
-      return null;
+    // Check if any spells already exist
+    const checkSnapshot = await getDocs(query(spellsRef, limit(1)));
+    if (!checkSnapshot.empty) {
+      return null; // Collection already has data
     }
 
-    const testSpell = {
-      name: 'Ember Sentinel',
-      description: 'Conjure a sentient being of living flame that guards a 30-foot area. The sentinel retaliates against hostile creatures with searing blasts of ember energy.',
-      school: 'ember',
-      level: 2,
-      castingTime: '1 bonus action',
-      range: '60 feet',
-      components: ['V', 'S'],
-      duration: 'Concentration, up to 10 minutes',
-      damage: '3d6 fire',
-      authorId: 'seed-system',
-      author: 'System Seed',
-      isPublic: true,
-      isFeatured: true,
-      rating: 4.5,
-      ratingCount: 12,
-      downloadCount: 67,
-      upvotes: 11,
-      downvotes: 1,
-      categoryId: 'damage',
-      tags: ['damage', 'fire', 'summon', 'guardian'],
-      icon: 'Fire/Swirling Fireball',
-      rarity: 'uncommon',
-      damageConfig: {
-        damageType: 'direct',
-        elementType: 'ember',
-        formula: '3d6',
-        criticalConfig: { enabled: true, critMultiplier: 2 }
+    // Seed starter catalog spells
+    const starterSpells = [
+      {
+        name: 'Ember Sentinel',
+        description: 'Conjure a sentient being of living flame that guards a 30-foot area. The sentinel retaliates against hostile creatures with searing blasts of ember energy.',
+        school: 'ember',
+        level: 2,
+        castingTime: '1 bonus action',
+        range: '60 feet',
+        components: ['V', 'S'],
+        duration: 'Concentration, up to 10 minutes',
+        damage: '3d6 fire',
+        authorId: 'seed-system',
+        author: 'System Seed',
+        isPublic: true,
+        isFeatured: true,
+        rating: 4.8,
+        ratingCount: 24,
+        downloadCount: 142,
+        upvotes: 23,
+        downvotes: 1,
+        categoryId: 'damage',
+        tags: ['damage', 'fire', 'summon', 'guardian'],
+        icon: 'Fire/Swirling Fireball',
+        rarity: 'uncommon',
+        damageConfig: {
+          damageType: 'direct',
+          elementType: 'ember',
+          formula: '3d6',
+          criticalConfig: { enabled: true, critMultiplier: 2 }
+        },
+        healingConfig: null,
+        resourceCost: { mana: 25, actionPoints: 1 },
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
-      healingConfig: null,
-      resourceCost: { mana: 25, actionPoints: 1 },
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+      {
+        name: 'Glacial Spear',
+        description: 'Conjure a piercing spear of solid ice and hurl it at a target. Deals cold damage and freezes the target\'s joints, reducing their movement speed by 15 feet.',
+        school: 'rime',
+        level: 1,
+        castingTime: '1 action',
+        range: '60 feet',
+        components: ['V', 'S'],
+        duration: 'Instantaneous',
+        damage: '1d10 cold',
+        authorId: 'seed-system',
+        author: 'Frostweaver Jaina',
+        isPublic: true,
+        isFeatured: true,
+        rating: 4.7,
+        ratingCount: 18,
+        downloadCount: 98,
+        upvotes: 17,
+        downvotes: 1,
+        categoryId: 'damage',
+        tags: ['damage', 'cold', 'slow', 'single-target'],
+        icon: 'Frost/Frozen in Ice',
+        rarity: 'common',
+        damageConfig: {
+          damageType: 'direct',
+          elementType: 'rime',
+          formula: '1d10',
+          criticalConfig: { enabled: true, critMultiplier: 2 }
+        },
+        resourceCost: { mana: 15, actionPoints: 1 },
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Celestial Mend',
+        description: 'Call down a beam of pure radiant starlight upon a wounded ally. Instantly restores health and provides a minor ward that increases saving throws.',
+        school: 'sacred',
+        level: 2,
+        castingTime: '1 action',
+        range: '60 feet',
+        components: ['V', 'S'],
+        duration: 'Instantaneous',
+        healing: '2d8+4',
+        authorId: 'seed-system',
+        author: 'High Priest Alistair',
+        isPublic: true,
+        isFeatured: true,
+        rating: 4.9,
+        ratingCount: 31,
+        downloadCount: 185,
+        upvotes: 30,
+        downvotes: 1,
+        categoryId: 'healing',
+        tags: ['healing', 'radiant', 'buff', 'single-target'],
+        icon: 'Radiant/Divine Blessing',
+        rarity: 'uncommon',
+        healingConfig: {
+          healingType: 'direct',
+          formula: '2d8+4'
+        },
+        resourceCost: { mana: 20, actionPoints: 1 },
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ];
 
-    const sanitized = sanitizeForFirestore(testSpell);
-    const docRef = await addDoc(spellsRef, sanitized);
-    console.log('Seeded test spell:', docRef.id);
-    return { id: docRef.id, ...sanitized };
+    for (const spell of starterSpells) {
+      const sanitized = sanitizeForFirestore(spell);
+      await addDoc(spellsRef, sanitized);
+    }
+    console.log('Seeded starter community spells');
+    return true;
   } catch (error) {
-    console.error('Error seeding test spell:', error);
+    console.error('Error seeding starter spells:', error);
     return null;
   }
 }
@@ -944,7 +1037,8 @@ export async function cleanupDuplicateSpells() {
 
     for (const docSnap of snapshot.docs) {
       const data = docSnap.data();
-      const name = data.name;
+      const name = (data.name || '').trim().toLowerCase();
+      if (!name) continue;
       if (seen.has(name)) {
         duplicates.push(docSnap.id);
       } else {
@@ -952,14 +1046,21 @@ export async function cleanupDuplicateSpells() {
       }
     }
 
+    let deletedCount = 0;
     for (const id of duplicates) {
-      await deleteDoc(doc(db, COLLECTIONS.SPELLS, id));
+      try {
+        await deleteDoc(doc(db, COLLECTIONS.SPELLS, id));
+        deletedCount++;
+      } catch (delErr) {
+        // May fail if security rules prohibit unauthenticated delete
+        console.warn(`Could not delete duplicate spell ${id}:`, delErr.message);
+      }
     }
 
-    if (duplicates.length > 0) {
-      console.log(`Cleaned up ${duplicates.length} duplicate spells`);
+    if (deletedCount > 0) {
+      console.log(`Cleaned up ${deletedCount} duplicate spells from database`);
     }
-    return duplicates.length;
+    return deletedCount;
   } catch (error) {
     console.error('Error cleaning up duplicate spells:', error);
     return 0;

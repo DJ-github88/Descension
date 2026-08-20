@@ -1,3 +1,5 @@
+import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
+
 const getInfernoStageName = (level) => {
   const stageNames = {
     0: 'Mortal',
@@ -215,66 +217,25 @@ const cleanFormula = (formula) => {
 };
 
 const mapSpellIcon = (wowIconId) => {
-  const iconMapping = {
-    'ability_meleedamage': 'General/Combat Downward Strike',
-    'ability_warrior_savageblow': 'General/Combat Downward Strike',
-    'ability_warrior_charge': 'General/Combat Downward Strike',
-    'ability_warrior_revenge': 'General/Combat Downward Strike',
-    'ability_warrior_cleave': 'General/Combat Downward Strike',
-    'ability_warrior_riposte': 'Utility/Parry',
-    'ability_warrior_shieldbash': 'Utility/Shield',
-    'ability_rogue_evasion': 'Utility/Speed Dash',
-    'ability_rogue_feint': 'Utility/Parry',
-    'ability_rogue_sprint': 'Utility/Speed Dash',
-    'ability_rogue_tricksofthetrade': 'Utility/Speed Dash',
-    'ability_stealth': 'Utility/Hide',
-    'ability_hunter_snipershot': 'Utility/Target Crosshair',
-    'ability_hunter_markedshot': 'Utility/Target Crosshair',
-    'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
+  // Use getAbilityIconUrl from assetManager for proper icon resolution
+  // This handles WoW icon IDs including talent tree icons like ability_warrior_savageblow
+  if (!wowIconId) {
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
 
-    'inv_shield_05': 'Utility/Shield',
-    'inv_shield_04': 'Utility/Shield',
-    'ability_warrior_defensivestance': 'Utility/Shield',
-    'spell_holy_powerwordshield': 'Utility/Shield',
-    'spell_holy_devotionaura': 'Radiant/Divine Blessing',
+  // If it already has a path format (e.g., "Utility/Icon Name"), use directly
+  if (wowIconId.includes('/') && !wowIconId.startsWith('http')) {
+    return getAbilityIconUrl(wowIconId);
+  }
 
-    'spell_holy_greaterheal': 'Healing/Golden Heart',
-    'spell_holy_heal02': 'Healing/Golden Heart',
-    'spell_holy_flashheal': 'Healing/Golden Heart',
-    'spell_holy_renew': 'Healing/Renewal',
+  // For WoW icon IDs (inv_, spell_, ability_, achievement_), use getAbilityIconUrl
+  if (wowIconId.startsWith('inv_') || wowIconId.startsWith('spell_') || 
+      wowIconId.startsWith('ability_') || wowIconId.startsWith('achievement_')) {
+    return getAbilityIconUrl(wowIconId);
+  }
 
-    'spell_arcane_portaldalaran': 'Utility/Utility',
-    'spell_arcane_teleportundercity': 'Utility/Utility',
-    'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-    'inv_misc_questionmark': 'Utility/Utility',
-    'inv_misc_book_07': 'Utility/Utility',
-    'inv_misc_bag_08': 'Utility/Utility',
-
-    'spell_fire_fireball02': 'Fire/Swirling Fireball',
-    'spell_fire_flamebolt': 'Fire/Flame Burst',
-    'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
-    'spell_arcane_blast': 'Arcane/Magical Sword',
-    'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
-    'spell_holy_holysmite': 'Radiant/Divine Blessing',
-    'spell_nature_lightning': 'Lightning/Lightning Bolt',
-
-    'spell_frost_chainsofice': 'Frost/Frozen in Ice',
-    'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
-
-    'spell_holy_divineillumination': 'Radiant/Divine Blessing',
-    'spell_holy_blessingofprotection': 'Radiant/Divine Blessing',
-
-    'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
-    'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-
-    'ability_druid_catform': 'Utility/Utility',
-
-    'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
-
-    'spell_arcane_arcane04': 'Arcane/Magical Sword'
-  };
-
-  return iconMapping[wowIconId] || null;
+  // Default fallback
+  return getCustomIconUrl('Utility/Utility', 'abilities');
 };
 
 const extractDamageTypeFromResistanceName = (resistanceName) => {

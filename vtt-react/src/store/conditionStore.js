@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 import useGameStore from './gameStore';
 
 const POLARITY_CONFIG = {
@@ -549,8 +550,7 @@ const useConditionStore = create(
                 return targetId;
             }
         }),
-        {
-            name: 'condition-store',
+        createStorageConfig('condition-store', {
             partialize: (state) => ({
                 activeBuffs: state.activeBuffs.map(buff => ({
                     ...buff,
@@ -561,7 +561,7 @@ const useConditionStore = create(
                     duration: Math.max(0, Math.ceil((debuff.endTime - Date.now()) / 1000))
                 })).filter(debuff => debuff.duration > 0)
             })
-        }
+        })
     )
 );
 

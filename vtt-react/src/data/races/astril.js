@@ -22,7 +22,7 @@ They reached Mythrill. And in reaching it, in crossing the void with a predator 
 
 The Astril do not speak of this easily. They reached out to the deities of this new world, desperate, grieving, carrying a warning they wished they did not have to give. They were directed to Selunis, the dormant lunar deity who sleeps beneath the tides of Mythrill's moon, and Selunis gave them a dual quest: ensure that Sol is not devoured as Lumia was, and wake the sleeper through a ritual measured in centuries, performed every night beneath the moon that remembers what the moon of Lumia looked like.
 
-The Astril warned the world's leaders. They advocated for the Binding. They have spent their centuries on Mythrill tending a ritual that may never finish, carrying a secret that may never be safe, and bearing a guilt that the rest of the world does not even know it should blame them for. They brought the predator here. They are trying, with every night of their long lives, to make it right.`,
+The Astril warned the world's leaders. They advocated for the Great Binding. They have spent their centuries on Mythrill tending a ritual that may never finish, carrying a secret that may never be safe, and bearing a guilt that the rest of the world does not even know it should blame them for. They brought the predator here. They are trying, with every night of their long lives, to make it right.`,
     icon: 'fas fa-star',
     overview: `The Astril are not of Mythrill. They came from a world that orbited a star called Lumia, a world of farmers and hunters and singers of the soil, until Keth-Amar found them. The predator ate Lumia the way it eats every star it finds: slowly, completely, without mercy. The world froze. The sky went dark. Everything that depended on warmth should have died.
 
@@ -32,7 +32,7 @@ So the survivors fled. They crossed the void between worlds in vessels built fro
 
 They found Mythrill. And in finding it, they brought the predator with them. Keth-Amar tracks the light it cannot consume, and the Astril glow, faintly, with the light of a star it killed. Their flight across the void was a trail. Their arrival was a beacon. They led the hunger that devoured their sun straight to Sol.
 
-The Astril reached out to Mythrill's deities in desperation. They were answered, after a fashion, by Selunis, the lunar deity who sleeps dormant beneath the moon, whose dreams move the tides and whose silence has lasted since before human memory. Selunis gave the refugees a dual quest. The first: ensure that Sol is not devoured as Lumia was. The Astril took this quest to the world's leaders, warned them of the predator beneath Emberspire, and advocated, with the desperate authority of survivors, for the Binding that would chain Keth-Amar. The second: wake Selunis. The sleeper must be roused through a ritual performed every night, beneath the moon, for as long as it takes. Centuries, perhaps. The Astril have been performing it since they arrived, and they are not finished.
+The Astril reached out to Mythrill's deities in desperation. They were answered, after a fashion, by Selunis, the lunar deity who sleeps dormant beneath the moon, whose dreams move the tides and whose silence has lasted since before human memory. Selunis gave the refugees a dual quest. The first: ensure that Sol is not devoured as Lumia was. The Astril took this quest to the world's leaders, warned them of the predator beneath Emberspire, and advocated, with the desperate authority of survivors, for the House Bargain that would hide the child-star. The second: wake Selunis. The sleeper must be roused through a ritual performed every night, beneath the moon, for as long as it takes. Centuries, perhaps. The Astril have been performing it since they arrived, and they are not finished.
 
 They kept their heritage secret. Keth-Amar is all-knowing, or near enough that the distinction does not matter. If the predator learned that the refugees carried Lumia's fire, it would hunt them to extinction. If it learned of the ritual to wake Selunis, it would end it. So the Astril hid. They settled in small, isolated farming communities where strangers do not come and questions are not asked. They told no one what they were. They told no one what they had done.
 
@@ -189,7 +189,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
         {
             id: 'selunis_quest_astril',
             name: 'Selunis\'s Quest',
-            description: 'You are bound to the dormant lunar deity your people have served since they arrived on Mythrill. At night, beneath the moon, Selunis\'s dreaming presence steadies your spirit. You have advantage on Spirit saving throws made at night. Additionally, you may perform a brief ritual attunement (1 minute) under moonlight once per long rest to gain temporary insight: your next ability check, attack roll, or saving throw within 1 hour gains advantage. The sleeper whispers to those who tend the rite.',
+            description: 'You are bound to the dormant lunar deity your people have served since they arrived on Mythrill. At night, beneath the moon, Selunis\'s dreaming presence steadies your spirit. You have advantage on Spirit saving throws made at night. Once per long rest, you may perform a brief ritual attunement (1 minute) under moonlight to gain temporary insight: your next ability check, attack roll, or saving throw within 1 hour gains advantage. The sleeper whispers to those who tend the rite.',
             level: 1,
             icon: 'fas fa-moon',
             spellType: 'PASSIVE',
@@ -245,7 +245,7 @@ They arrived. They found a world that was alive, with a sun, Sol, that still bur
 
 They were directed to Selunis. The lunar deity sleeps. It has slept since before the peoples of Mythrill kept records, dreaming beneath the tides of the moon, its presence felt in the pull of the sea and the pale light of the night sky. The Astril, carrying the echo of a dead star, could hear Selunis where others could not. And Selunis, in the language of dream and moonlight, gave them their purpose.
 
-The first quest: save Sol. The Astril went to the leaders of Mythrill and told them what they knew. They spoke of Keth-Amar. They spoke of a predator that eats stars. They advocated, with the authority of the only survivors of its hunger, for the Binding that would chain the thing beneath Emberspire. They were heard. They were believed, eventually, because the alternative was too terrible to disbelieve.
+The first quest: save Sol. The Astril went to the leaders of Mythrill and told them what they knew. They spoke of Keth-Amar. They spoke of a predator that eats stars. They advocated, with the authority of the only survivors of its hunger, for the House Bargain that would anchor the shell about the thing beneath Emberspire. They were heard. They were believed, eventually, because the alternative was too terrible to disbelieve.
 
 The second quest: wake Selunis. The ritual must be performed every night, beneath the moon, for as long as it takes. Centuries. The Astril accepted it. They scattered across Mythrill in small, isolated communities, farmers and hunters by day, ritual-tenders by night, and they began a work they knew they would not live to see finished.
 
@@ -253,7 +253,7 @@ They kept their heritage secret. Keth-Amar is all-knowing, or near enough. If it
 
 Until it didn't.
 
-Keth-Amar found them. How, no Astril will say, but the predator began to stir, to reach, to remember the light it had failed to consume. When the Astril understood they had been found, they did what survivors do: they carried the warning. They went again to the leaders of the world. They said the Binding would not hold forever. They said the work must continue.
+Keth-Amar found them. How, no Astril will say, but the predator began to stir, to reach, to remember the light it had failed to consume. When the Astril understood they had been found, they did what survivors do: they carried the warning. They went again to the leaders of the world. They said the Bargain would not hold forever. They said the work must continue.
 
 Now the ritual continues. The Selunis-rite is performed every night in scattered moon-courtyards across Mythrill, and the Astril tend it with the devotion of a people paying a debt they can never repay. They brought the predator to this world. They will spend every night they have left making sure it does not finish what they started.
     `,

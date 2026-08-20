@@ -281,7 +281,7 @@ const NPC_DATA = {
     personality:
       'Loras is well-meaning, charming, and completely unaware that he is a puppet. He believes the Unlit Veil are reliable trade partners. He believes his trade ministers are loyal. He believes the ancestral mounds are falling silent for natural reasons. He is wrong about most of these things.',
     backstory:
-      'The Ordavan bloodline has ruled the Sundrift Vale for eight centuries, but Loras is the first Steppe-Lord who grew up with the Unlit Veil already embedded in every level of governance. To him, their presence is normal. He has never known a time when his decisions were entirely his own.',
+      'The Ordavan bloodline has ruled the Sundrift Vale for four centuries, but Loras is the first Steppe-Lord who grew up with the Unlit Veil already embedded in every level of governance. To him, their presence is normal. He has never known a time when his decisions were entirely his own.',
     hooks: [
       'If someone could prove to Loras that he is being manipulated, he would be genuinely grateful: and genuinely dangerous to the Unlit Veil',
       'His wife, Lady Mira Ordavan, suspects the truth and has begun her own quiet investigation'
@@ -923,7 +923,7 @@ const NPC_DATA = {
     age: 'Unknown',
     status: 'Active',
     appearance: 'A Solari noble who carved his own sun-sword from a fragment of Emberspire\'s caldera glass. He bears the weathered, ash-stained look of someone who has spent decades on the Ashen Escarpment.',
-    personality: 'Disciplined, silent, and utterly focused on the Order\'s mission. He has held the Grandmaster post for seventeen years — longer than any predecessor since the Dimming began.',
+    personality: 'Disciplined, silent, and utterly focused on the Order\'s mission. He has held the Grandmaster post for seventeen years — longer than any predecessor since the Freezing Era began.',
     backstory: 'Elected by the Chapter of Ten for a seven-year term (or until death), the current Grandmaster has been renewed twice. He knows the Dawn Vigil\'s true purpose and has quietly prepared the Order to stand against Keth-Amar itself.',
     hooks: [
       'The Grandmaster knows the location of three hidden Monolith fragments the Order has collected for study',

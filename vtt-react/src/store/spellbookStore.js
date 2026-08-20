@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { generateSpellId } from '../data/spellUtils';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { safeLocalStorageGet, safeLocalStorageItem, safeLocalStorageRemove } from '../utils/storageUtils';
 
 const DEFAULT_COLLECTIONS = [
   { id: 'favorites', name: 'Favorites', icon: 'star', spells: [] },
@@ -58,7 +59,7 @@ async function saveSpellbookToFirebase(userId, state) {
     data.updatedAt = new Date().toISOString();
     await setDoc(docRef, data, { merge: true });
   } catch (error) {
-    console.error('Error saving spellbook to Firebase:', error);
+    console.error('Error saving spellbook from Firebase:', error);
     window.dispatchEvent(new CustomEvent('spellbook_persistence_degraded', {
       detail: { operation: 'write', error: error.message }
     }));
@@ -67,7 +68,7 @@ async function saveSpellbookToFirebase(userId, state) {
 
 function getAuthUser() {
   try {
-    const authData = localStorage.getItem('auth-storage');
+    const authData = safeLocalStorageGet('auth-storage');
     if (authData) {
       const parsed = JSON.parse(authData);
       return parsed.state?.user || null;
@@ -94,11 +95,12 @@ const createFirebaseStorage = () => ({
           };
         }
       }
-      const item = localStorage.getItem(name);
-      return item ? JSON.parse(item) : null;
+      const item = safeLocalStorageGet(name);
+      return item ? (typeof item === 'string' ? JSON.parse(item) : item) : null;
     } catch (error) {
       console.error('Error loading spellbook from Firebase:', error);
-      return localStorage.getItem(name);
+      const item = safeLocalStorageGet(name);
+      return item ? (typeof item === 'string' ? JSON.parse(item) : item) : null;
     }
   },
 
@@ -108,15 +110,15 @@ const createFirebaseStorage = () => ({
       if (user && !user.isGuest) {
         await saveSpellbookToFirebase(user.uid, data.state);
       }
-      localStorage.setItem(name, JSON.stringify(data));
+      safeLocalStorageItem(name, JSON.stringify(data));
     } catch (error) {
-      console.error('Error saving spellbook to Firebase:', error);
-      localStorage.setItem(name, JSON.stringify(data));
+      console.error('Error saving spellbook from Firebase:', error);
+      safeLocalStorageItem(name, JSON.stringify(data));
     }
   },
 
   removeItem: async (name) => {
-    localStorage.removeItem(name);
+    safeLocalStorageRemove(name);
   }
 });
 

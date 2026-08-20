@@ -256,6 +256,67 @@ export async function getItemsByCategory(categoryId, pageSize = 20, lastDoc = nu
 }
 
 /**
+ * Get all community items with sorting and pagination
+ */
+export async function getAllCommunityItems(pageSize = 20, lastDoc = null, sortBy = 'rating') {
+ try {
+  if (!checkFirebaseAvailable()) {
+   return {
+    items: MOCK_FEATURED_ITEMS,
+    lastDoc: null,
+    hasMore: false
+   };
+  }
+
+  const itemsRef = collection(db, COLLECTIONS.ITEMS);
+  let orderField = 'rating';
+  if (sortBy === 'downloads') orderField = 'downloadCount';
+  if (sortBy === 'newest') orderField = 'createdAt';
+
+  let q;
+  try {
+   q = query(
+    itemsRef,
+    where('isPublic', '==', true),
+    orderBy(orderField, 'desc'),
+    limit(pageSize)
+   );
+   if (lastDoc) {
+    q = query(q, startAfter(lastDoc));
+   }
+   const snapshot = await getDocs(q);
+   if (!snapshot.empty) {
+    const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return {
+     items,
+     lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+     hasMore: snapshot.docs.length === pageSize
+    };
+   }
+  } catch (err) {
+   console.warn('getAllCommunityItems ordered query failed, trying unconstrained query:', err);
+  }
+
+  // Fallback query without complex order
+  const fallbackQ = query(itemsRef, limit(pageSize));
+  const snapshot = await getDocs(fallbackQ);
+  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return {
+   items: items.length > 0 ? items : MOCK_FEATURED_ITEMS,
+   lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+   hasMore: false
+  };
+ } catch (error) {
+  console.error('Error fetching all community items:', error);
+  return {
+   items: MOCK_FEATURED_ITEMS,
+   lastDoc: null,
+   hasMore: false
+  };
+ }
+}
+
+/**
  * Search items by name/tags
  */
 export async function searchItems(searchTerm, pageSize = 20) {

@@ -37,27 +37,13 @@ export const RACE_DATA = {
 };
 
 export const getRaceList = () => {
-    const canonical = Object.values(RACE_DATA).map(race => ({
+    return Object.values(RACE_DATA).map(race => ({
         id: race.id,
         name: race.name,
         description: race.description,
         cardFlavor: race.cardFlavor,
         isCustom: false
     }));
-
-    try {
-        const customLineages = useCustomLineageStore.getState().getAllLineages();
-        const custom = (customLineages || []).map(lineage => ({
-            id: lineage.id,
-            name: lineage.name,
-            description: lineage.description,
-            cardFlavor: lineage.cardFlavor || lineage.essence,
-            isCustom: true
-        }));
-        return [...canonical, ...custom];
-    } catch (e) {
-        return canonical;
-    }
 };
 
 export const getRaceData = (raceId) => {

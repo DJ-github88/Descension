@@ -1,0 +1,125 @@
+- generic [ref=f6e2]:
+  - generic:
+    - generic:
+      - generic [ref=f6e3] [cursor=pointer]
+      - generic [ref=f6e5] [cursor=pointer]:
+        - generic [ref=f6e6]: A
+        - generic [ref=f6e8]:
+          - generic [ref=f6e9]:
+            - generic [ref=f6e10]:
+              - text: Aria Thornwall (Level 5)
+              - generic [ref=f6e11]:
+                - generic [ref=f6e12]: 
+                - combobox [ref=f6e13]:
+                  - option "Level 0 (Normal)" [selected]
+                  - option "Level 1 (Disadvantage on Checks)"
+                  - option "Level 2 (Speed Halved)"
+                  - option "Level 3 (Disadvantage on Attacks/Saves)"
+                  - option "Level 4 (HP Max Halved)"
+                  - option "Level 5 (Speed 0)"
+                  - option "Level 6 (Death)"
+            - generic [ref=f6e14]:
+              - generic [ref=f6e15]: Arch Mimir (Mimir)
+              - generic [ref=f6e16]: Toxicologist
+              - generic [ref=f6e17]: Neutral Good
+          - generic [ref=f6e19]:
+            - generic [ref=f6e21]:
+              - generic [ref=f6e22]: 63/75
+              - generic:
+                - generic:
+                  - generic:
+                    - img "Health Status"
+            - generic [ref=f6e25]:
+              - generic [ref=f6e27]:
+                - generic [ref=f6e28]: 32/85
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Mana Status"
+              - generic [ref=f6e32]:
+                - generic [ref=f6e33]: 3/3 AP
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Action Points Status"
+            - generic [ref=f6e38]:
+              - generic [ref=f6e39]:  6/4
+              - generic [ref=f6e45]:
+                - generic:  3/5
+                - generic [ref=f6e46]:
+                  - generic [ref=f6e47]: 
+                  - generic [ref=f6e48]: 
+                  - generic [ref=f6e49]: 
+      - generic [ref=f6e53]:
+        - generic [ref=f6e54] [cursor=pointer]: "1"
+        - generic [ref=f6e55] [cursor=pointer]: "2"
+        - generic [ref=f6e56] [cursor=pointer]: "3"
+        - generic [ref=f6e57] [cursor=pointer]: "4"
+        - generic [ref=f6e58] [cursor=pointer]: "5"
+        - generic [ref=f6e59] [cursor=pointer]: "6"
+        - generic [ref=f6e60] [cursor=pointer]: "7"
+        - generic [ref=f6e61] [cursor=pointer]: "8"
+        - generic [ref=f6e62] [cursor=pointer]: "9"
+        - generic [ref=f6e63] [cursor=pointer]: "0"
+      - generic [ref=f6e65]:
+        - generic:
+          - generic: "123"
+          - generic: /
+          - generic: "600"
+          - generic: XP
+      - button " Dialogue" [ref=f6e68] [cursor=pointer]:
+        - generic [ref=f6e69]: 
+        - generic [ref=f6e70]: Dialogue
+    - generic [ref=f6e72]:
+      - button "Character" [ref=f6e74] [cursor=pointer]:
+        - img "Character"
+      - button "Adventure" [ref=f6e76] [cursor=pointer]:
+        - img "Adventure"
+      - button "Tools" [ref=f6e78] [cursor=pointer]:
+        - img "Tools"
+      - button "Settings" [ref=f6e79] [cursor=pointer]:
+        - img "Settings"
+      - button "ESC" [ref=f6e80] [cursor=pointer]:
+        - img "ESC"
+      - button "Minimize Navigation (~)" [ref=f6e81] [cursor=pointer]
+    - generic "Click to center on origin (0, 0)" [ref=f6e82] [cursor=pointer]:
+      - generic [ref=f6e83]: 
+      - generic [ref=f6e84]: "X: 0.0"
+      - generic [ref=f6e85]: "|"
+      - generic [ref=f6e86]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=f6e87]: 
+  - generic [ref=f6e88]:
+    - button "" [ref=f6e89] [cursor=pointer]
+    - generic [ref=f6e98]:
+      - generic [ref=f6e99]: Dice Roller
+      - generic [ref=f6e101]:
+        - generic [ref=f6e102]: "Quick Roll:"
+        - generic [ref=f6e103]:
+          - button "D4" [ref=f6e104] [cursor=pointer]
+          - button "D6" [ref=f6e105] [cursor=pointer]
+          - button "D8" [ref=f6e106] [cursor=pointer]
+          - button "D10" [ref=f6e107] [cursor=pointer]
+          - button "D12" [ref=f6e108] [cursor=pointer]
+          - button "D20" [ref=f6e109] [cursor=pointer]
+          - button "D%" [ref=f6e110] [cursor=pointer]
+          - button "D100" [ref=f6e111] [cursor=pointer]
+      - generic [ref=f6e112]:
+        - generic [ref=f6e113]: "Select Dice:"
+        - generic [ref=f6e114]:
+          - button "D4" [ref=f6e116] [cursor=pointer]
+          - button "D6" [ref=f6e120] [cursor=pointer]
+          - button "D8" [ref=f6e124] [cursor=pointer]
+          - button "D10" [ref=f6e128] [cursor=pointer]
+          - button "D12" [ref=f6e132] [cursor=pointer]
+          - button "D20" [ref=f6e136] [cursor=pointer]
+          - button "D%" [ref=f6e140] [cursor=pointer]
+          - button "D100" [ref=f6e144] [cursor=pointer]
+      - generic [ref=f6e147]:
+        - generic [ref=f6e148]: "Theme:"
+        - generic [ref=f6e149]:
+          - button "Classic Obsidian" [ref=f6e150] [cursor=pointer]
+          - button "Glacial Frost" [ref=f6e153] [cursor=pointer]
+          - button "Infernal Flame" [ref=f6e156] [cursor=pointer]
+          - button "Abyssal Void" [ref=f6e159] [cursor=pointer]
+          - button "Verdant Sylvan" [ref=f6e162] [cursor=pointer]
+          - button "Tempest Storm" [ref=f6e165] [cursor=pointer]

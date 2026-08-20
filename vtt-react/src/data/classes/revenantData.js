@@ -161,7 +161,7 @@ export const REVENANT_DATA = {
     subtitle: "Death Is Fuel. The Grave Is a Door. You Walk Both Ways.",
     originStory: `A revenant is not alive and not dead. They walk between two necrotic traditions, and they still have work to finish.
 
-The art emerged from the Bryngloom Forest during the later centuries of the Dimming, when the bog-graves began waking on their own. Two separate responses to death became one. The Vreken Veil-Speaker Kora walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread to keep the ancestral lights of six generations burning. Every spell she cast drained her own life and filled her body with volatile Blood Tokens. The Velun Neth scribe Vesper, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. He still answers correspondence. His heart beats once per hour.
+The art emerged from the Bryngloom Forest during the later centuries of the Freezing Era, when the bog-graves began waking on their own. Two separate responses to death became one. The Vreken Veil-Speaker Kora walked into the marsh-depths and bargained with the Root-Veil, offering her own blood as blight thread to keep the ancestral lights of six generations burning. Every spell she cast drained her own life and filled her body with volatile Blood Tokens. The Velun Neth scribe Vesper, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and inviting the bog's freezing decay to halt his mortal heart. He still answers correspondence. His heart beats once per hour.
 
 When the bog-graves began waking without permission and the dead started marching toward the Sundered Monoliths, the two traditions recognized they were fighting the same war. Kora provided the blood-fueled sacrifice. Vesper provided the frost-stasis phylactery. Together they created a practitioner who charges their phylactery through enemy kills and resurrects from stored life force when slain, triggering a battlefield-wide freeze. The revenant's voice comes out as a whisper, and their hands are always cold.
 
@@ -206,7 +206,7 @@ The class is heavily practiced by the <LoreLink termId="vreken">Clean Vreken</Lo
     signatureQuote: {
       text: '"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now, I go first, and it follows close behind."',
       speaker: 'The Revenant (attributed to both Kora and Vesper traditions)',
-      context: 'Carved into the threshold of the Hall of Returned Dead, in the mid-Diming centuries',
+      context: 'Carved into the threshold of the Hall of Returned Dead, in the mid-Freeze decades',
     },
 
     philosophy: {

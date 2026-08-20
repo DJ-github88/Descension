@@ -1,5 +1,10 @@
 # MYTHRILL VTT — CANON REFERENCE (Single Source of Truth)
 
+> ⚠️ **SUPERSEDED 2026-08-17** — This July-canon reference describes a world overtaken by
+> the August 2026 "Master Lore Locks" rewrite of `docs/CORE_LORE_FRAMEWORK.md`. It is kept
+> as historical context for D1–D15 provenance ONLY. Audit and conversion work against
+> **`CANON_REFERENCE_v5.md`** (the Two-Stream Synthesis) instead.
+
 This file distills `docs/CORE_LORE_FRAMEWORK.md` (declared the canonical source of truth) plus timeline canonicity from `docs/LORE_CONSISTENCY_AUDIT_v3_FINDINGS.md`. **Every other lore file must be checked against this.** When a data file conflicts with this reference, that is an inconsistency to report.
 
 > **RATIFICATION STATUS:** Sections 1, 3, 5, 12 updated 25 Jul 2026 to reflect v4 Monolith myth (8 stones: 6 true corrupted + 1 false shard [Morrath] + 1 true seventh fragment [Viridane, cleansing key]). See §5 for the ratified v4 structure. lore.json is the canonical source; this doc is the distilled reference.

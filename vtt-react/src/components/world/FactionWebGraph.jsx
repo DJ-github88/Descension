@@ -237,12 +237,50 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
     };
   }, [handleMouseMove, handleMouseUp]);
 
-  // Wheel Zoom
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
-    setZoomLevel(prev => Math.min(2.5, Math.max(0.35, +(prev * zoomFactor).toFixed(2))));
-  };
+  // Zoom toward specific client coordinate or center
+  const zoomAtPoint = useCallback((clientX, clientY, factor) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const cursorX = clientX !== undefined ? clientX - rect.left : rect.width / 2;
+    const cursorY = clientY !== undefined ? clientY - rect.top : rect.height / 2;
+
+    setZoomLevel((prevZoom) => {
+      const newZoom = Math.min(2.5, Math.max(0.35, +(prevZoom * factor).toFixed(3)));
+      if (newZoom === prevZoom) return prevZoom;
+
+      setPanOffset((prevPan) => {
+        const worldX = (cursorX - prevPan.x) / prevZoom;
+        const worldY = (cursorY - prevPan.y) / prevZoom;
+
+        return {
+          x: Math.round(cursorX - worldX * newZoom),
+          y: Math.round(cursorY - worldY * newZoom)
+        };
+      });
+
+      return newZoom;
+    });
+  }, []);
+
+  // Native non-passive Wheel Zoom to prevent weird jump and page scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleNativeWheel = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+      zoomAtPoint(e.clientX, e.clientY, zoomFactor);
+    };
+
+    container.addEventListener('wheel', handleNativeWheel, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', handleNativeWheel);
+    };
+  }, [zoomAtPoint]);
 
   return (
     <div className="faction-web-workspace">
@@ -308,14 +346,13 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
         className={`faction-web-viewport ${isPanning ? 'is-panning' : ''} ${draggedNodeId ? 'is-dragging-node' : ''}`}
         ref={containerRef}
         onMouseDown={handleCanvasMouseDown}
-        onWheel={handleWheel}
       >
         {/* Floating Instructions & Zoom HUD */}
         <div className="world-web-hud">
           <button
             type="button"
             className="btn-web-hud"
-            onClick={() => setZoomLevel(prev => Math.min(2.5, +(prev * 1.2).toFixed(2)))}
+            onClick={() => zoomAtPoint(undefined, undefined, 1.18)}
             title="Zoom In"
           >
             <i className="fas fa-plus"></i>
@@ -331,7 +368,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId }) => {
           <button
             type="button"
             className="btn-web-hud"
-            onClick={() => setZoomLevel(prev => Math.max(0.35, +(prev * 0.83).toFixed(2)))}
+            onClick={() => zoomAtPoint(undefined, undefined, 0.85)}
             title="Zoom Out"
           >
             <i className="fas fa-minus"></i>

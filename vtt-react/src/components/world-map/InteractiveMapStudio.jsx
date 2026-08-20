@@ -41,6 +41,41 @@ const BRUSH_SIZES = [
 const MAP_WIDTH = 2400;
 const MAP_HEIGHT = 1600;
 
+// Waypoint display helpers for stays, day ranges, stops, and custom labels
+const getWaypointBadgeText = (w, idx) => {
+  if (w.customLabel) return w.customLabel;
+  if (w.dayType === 'stop' || (w.stopNumber && !w.day)) {
+    return `S${w.stopNumber || idx + 1}`;
+  }
+  if (w.endDay && Number(w.endDay) > Number(w.day)) {
+    return `${w.day}–${w.endDay}`;
+  }
+  return `${w.day || idx + 1}`;
+};
+
+const getWaypointPillText = (w, idx) => {
+  if (w.customLabel) return w.customLabel;
+  if (w.dayType === 'stop' || (w.stopNumber && !w.day)) {
+    return `Stop ${w.stopNumber || idx + 1}`;
+  }
+  if (w.endDay && Number(w.endDay) > Number(w.day)) {
+    return `Days ${w.day}–${w.endDay}`;
+  }
+  return `Day ${w.day || idx + 1}`;
+};
+
+const getWaypointPopupTag = (w, idx) => {
+  if (w.customLabel) return w.customLabel;
+  if (w.dayType === 'stop' || (w.stopNumber && !w.day)) {
+    return `Stop ${w.stopNumber || idx + 1}`;
+  }
+  if (w.endDay && Number(w.endDay) > Number(w.day)) {
+    const stayDays = Number(w.endDay) - Number(w.day) + 1;
+    return `Days ${w.day}–${w.endDay} (${stayDays}-Day Stay)`;
+  }
+  return `Day ${w.day || idx + 1}`;
+};
+
 const InteractiveMapStudio = () => {
   const { user } = useAuthStore();
   const {
@@ -55,6 +90,8 @@ const InteractiveMapStudio = () => {
     zoomLevel,
     panOffset,
     isDrawingRoute,
+    routeMode,
+    setRouteMode,
     isFogToolActive,
     fogBrushMode,
     fogBrushSize,
@@ -664,7 +701,29 @@ const InteractiveMapStudio = () => {
     e.preventDefault();
     if (!editingWaypoint) return;
 
-    updateJourneyWaypoint(editingWaypoint.id, editingWaypoint);
+    let payload = { ...editingWaypoint };
+    const dType = payload.dayType || 'day';
+
+    if (dType === 'day') {
+      payload.day = Number(payload.day) || 1;
+      payload.endDay = null;
+      payload.stayDuration = 1;
+      payload.stopNumber = null;
+    } else if (dType === 'range') {
+      payload.day = Number(payload.day) || 1;
+      const end = Number(payload.endDay) || (payload.day + 1);
+      payload.endDay = end > payload.day ? end : payload.day + 1;
+      payload.stayDuration = payload.endDay - payload.day + 1;
+      payload.stopNumber = null;
+    } else if (dType === 'stop') {
+      payload.stopNumber = Number(payload.stopNumber) || 1;
+      payload.endDay = null;
+      payload.stayDuration = null;
+    } else if (dType === 'custom') {
+      payload.customLabel = payload.customLabel?.trim() || 'Stop';
+    }
+
+    updateJourneyWaypoint(payload.id, payload);
     setEditingWaypoint(null);
     setSelectedWaypoint(null);
     syncToCloud(user?.uid);
@@ -1008,11 +1067,32 @@ const InteractiveMapStudio = () => {
               <i className="fas fa-route"></i>
               <span>Expedition Route Planner</span>
             </div>
+
+            {/* Sequence Mode Toggle: Days vs Stops */}
+            <div className="route-mode-switcher-row" style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+              <button
+                type="button"
+                className={`btn-route-mode ${routeMode !== 'stops' ? 'active' : ''}`}
+                onClick={() => setRouteMode('days')}
+                title="Plot by Day sequences and Multi-Day Stays (Day 1, Day 2, Day 3-5...)"
+              >
+                <i className="fas fa-calendar-day"></i> By Days
+              </button>
+              <button
+                type="button"
+                className={`btn-route-mode ${routeMode === 'stops' ? 'active' : ''}`}
+                onClick={() => setRouteMode('stops')}
+                title="Plot by Numbered Stops / Checkpoints (Stop 1, Stop 2...)"
+              >
+                <i className="fas fa-location-dot"></i> By Stops
+              </button>
+            </div>
+
             <p className="tool-hud-hint">
-              <i className="fas fa-location-dot"></i> Click anywhere on the map to plot expedition waypoints (Day 1, 2, 3...).
+              <i className="fas fa-compass"></i> {routeMode === 'stops' ? 'Click map to place consecutive stops (Stop 1, Stop 2...)' : 'Click map to place journey days (Day 1, 2, 3...). Multi-day stays advance automatically!'}
             </p>
             <div className="tool-hud-stats">
-              <span><strong>Waypoints:</strong> {currentMapWaypoints.length} stops plotted</span>
+              <span><strong>Waypoints:</strong> {currentMapWaypoints.length} {routeMode === 'stops' ? 'stops' : 'encampments'} plotted</span>
             </div>
             <div className="tool-hud-actions" style={{ marginTop: '8px' }}>
               <button
@@ -1050,6 +1130,7 @@ const InteractiveMapStudio = () => {
           className="map-world-plane"
           style={{
             transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
+            '--map-zoom': zoomLevel,
             transformOrigin: '0 0'
           }}
         >
@@ -1086,16 +1167,21 @@ const InteractiveMapStudio = () => {
           {/* Interactive Journey Waypoints */}
           {layers.find(l => l.id === 'journey')?.isVisible !== false && currentMapWaypoints.map((w, idx) => {
             const isWpSelected = Boolean(selectedWaypointId) && Boolean(w.id) && selectedWaypointId === w.id;
+            const badgeText = getWaypointBadgeText(w, idx);
+            const pillText = getWaypointPillText(w, idx);
+            const popupTag = getWaypointPopupTag(w, idx);
+            const isLongBadge = String(badgeText).length > 2;
 
             return (
               <div
                 key={w.id || `wp-node-${idx}`}
-                className={`waypoint-node-interactive ${isWpSelected ? 'is-selected' : ''} ${w.isSecretGM ? 'is-secret' : ''} ${isMapLocked || w.isLocked ? 'is-locked-pos' : ''}`}
+                className={`waypoint-node-interactive ${isWpSelected ? 'is-selected' : ''} ${w.isSecretGM ? 'is-secret' : ''} ${isMapLocked || w.isLocked ? 'is-locked-pos' : ''} ${isLongBadge ? 'has-wide-badge' : ''}`}
                 style={{
                   left: `${(w.x / 100) * MAP_WIDTH}px`,
                   top: `${(w.y / 100) * MAP_HEIGHT}px`
                 }}
                 onMouseDown={(e) => {
+                  if (e.target.closest('.waypoint-action-popup')) return;
                   e.stopPropagation();
                   if (!isMapLocked && !w.isLocked) {
                     setDraggedWaypointId(w.id);
@@ -1105,13 +1191,14 @@ const InteractiveMapStudio = () => {
                   }
                 }}
                 onClick={(e) => {
+                  if (e.target.closest('.waypoint-action-popup')) return;
                   e.stopPropagation();
                   setSelectedWaypoint(selectedWaypointId === w.id ? null : w.id);
                 }}
-                title={`Day ${w.day || idx + 1}: ${w.title} ${isMapLocked || w.isLocked ? '(Position Locked)' : '(Drag to move)'}`}
+                title={`${pillText}: ${w.title} ${isMapLocked || w.isLocked ? '(Position Locked)' : '(Drag to move)'}`}
               >
-                <div className="waypoint-badge">
-                  <span className="waypoint-day-num">{w.day || idx + 1}</span>
+                <div className={`waypoint-badge ${isLongBadge ? 'is-wide' : ''}`}>
+                  <span className="waypoint-day-num">{badgeText}</span>
                   {w.isSecretGM && isGMMode && <span className="wp-secret-dot" title="Secret GM Waypoint"><i className="fas fa-eye-slash"></i></span>}
                   {isGMMode && (isMapLocked || w.isLocked) && <span className="wp-lock-dot" title="Position Locked"><i className="fas fa-lock"></i></span>}
                 </div>
@@ -1121,17 +1208,124 @@ const InteractiveMapStudio = () => {
 
                 {/* Waypoint Action Popup */}
                 {isWpSelected && !isDrawingRoute && (
-                  <div className="waypoint-action-popup" onClick={e => e.stopPropagation()}>
+                  <div
+                    className="waypoint-action-popup"
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    onDoubleClick={(e) => e.stopPropagation()}
+                  >
                     <div className="wp-popup-header">
                       <div className="wp-title-row">
-                        <span className="wp-day-pill">Day {w.day || idx + 1}</span>
+                        <span className="wp-day-pill">{popupTag}</span>
                         <h5>{w.title}</h5>
                       </div>
-                      <button className="btn-close-popup" onClick={() => setSelectedWaypoint(null)} title="Close waypoint popup">
+                      <button
+                        type="button"
+                        className="btn-close-popup"
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setSelectedWaypoint(null);
+                        }}
+                        title="Close waypoint popup"
+                      >
                         <i className="fas fa-times"></i>
                       </button>
                     </div>
                     {w.notes && <p className="wp-popup-notes">{w.notes}</p>}
+
+                    {/* Quick Stay Stepper / Duration Controls */}
+                    <div className="wp-quick-stay-bar">
+                      <span className="stay-bar-label">
+                        <i className="fas fa-clock"></i> {w.dayType === 'stop' ? 'Stop Sequence' : 'Stay Duration'}:
+                      </span>
+                      {w.dayType === 'stop' ? (
+                        <div className="stay-stepper">
+                          <button
+                            type="button"
+                            className="btn-stay-step"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentStop = w.stopNumber || idx + 1;
+                              if (currentStop > 1) {
+                                updateJourneyWaypoint(w.id, { stopNumber: currentStop - 1 });
+                                syncToCloud(user?.uid);
+                              }
+                            }}
+                            disabled={(w.stopNumber || idx + 1) <= 1}
+                            title="Decrease stop number"
+                          >
+                            <i className="fas fa-minus"></i>
+                          </button>
+                          <span className="stay-count-badge">Stop {w.stopNumber || idx + 1}</span>
+                          <button
+                            type="button"
+                            className="btn-stay-step"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentStop = w.stopNumber || idx + 1;
+                              updateJourneyWaypoint(w.id, { stopNumber: currentStop + 1 });
+                              syncToCloud(user?.uid);
+                            }}
+                            title="Increase stop number"
+                          >
+                            <i className="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="stay-stepper">
+                          <button
+                            type="button"
+                            className="btn-stay-step"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentEnd = Number(w.endDay) || Number(w.day) || 1;
+                              const currentStart = Number(w.day) || 1;
+                              if (currentEnd > currentStart) {
+                                const newEnd = currentEnd - 1;
+                                updateJourneyWaypoint(w.id, {
+                                  endDay: newEnd > currentStart ? newEnd : null,
+                                  stayDuration: newEnd > currentStart ? (newEnd - currentStart + 1) : 1,
+                                  dayType: newEnd > currentStart ? 'range' : 'day'
+                                });
+                                syncToCloud(user?.uid);
+                              }
+                            }}
+                            disabled={!(w.endDay && Number(w.endDay) > Number(w.day))}
+                            title="Decrease stay duration (-1 day)"
+                          >
+                            <i className="fas fa-minus"></i>
+                          </button>
+                          <span className="stay-count-badge">
+                            {w.endDay && Number(w.endDay) > Number(w.day) ? `${Number(w.endDay) - Number(w.day) + 1} Days` : '1 Day'}
+                          </span>
+                          <button
+                            type="button"
+                            className="btn-stay-step"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentStart = Number(w.day) || 1;
+                              const currentEnd = Number(w.endDay) || currentStart;
+                              const newEnd = currentEnd + 1;
+                              updateJourneyWaypoint(w.id, {
+                                endDay: newEnd,
+                                stayDuration: newEnd - currentStart + 1,
+                                dayType: 'range'
+                              });
+                              syncToCloud(user?.uid);
+                            }}
+                            title="Increase stay duration (+1 day stay)"
+                          >
+                            <i className="fas fa-plus"></i>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
                     <div className="wp-popup-actions">
                       <button
                         type="button"
@@ -1148,9 +1342,22 @@ const InteractiveMapStudio = () => {
                       <button
                         type="button"
                         className="btn-wp-act"
-                        onClick={() => setEditingWaypoint({ ...w })}
+                        onClick={() => {
+                          const startDay = Number(w.day) || 1;
+                          const endDay = w.endDay ? Number(w.endDay) : (w.dayType === 'range' ? startDay + 2 : null);
+                          const dType = w.dayType || (w.stopNumber ? 'stop' : (w.endDay ? 'range' : 'day'));
+                          setEditingWaypoint({
+                            ...w,
+                            day: startDay,
+                            endDay: endDay,
+                            dayType: dType,
+                            stopNumber: w.stopNumber || idx + 1,
+                            customLabel: w.customLabel || '',
+                            stayDuration: endDay ? (endDay - startDay + 1) : 1
+                          });
+                        }}
                       >
-                        <i className="fas fa-edit"></i> Edit
+                        <i className="fas fa-edit"></i> Edit Details
                       </button>
                       <button
                         type="button"
@@ -1175,12 +1382,14 @@ const InteractiveMapStudio = () => {
                 top: `${(partyMarker.y / 100) * MAP_HEIGHT}px`
               }}
               onMouseDown={(e) => {
+                if (e.target.closest('.party-notes-popup')) return;
                 e.stopPropagation();
                 if (!isMapLocked) {
                   setIsDraggingParty(true);
                 }
               }}
               onClick={(e) => {
+                if (e.target.closest('.party-notes-popup')) return;
                 e.stopPropagation();
                 setShowPartyNotes(prev => !prev);
               }}
@@ -1194,7 +1403,12 @@ const InteractiveMapStudio = () => {
 
               {/* Party Camp Notes & Reminders Detail Card Popup */}
               {showPartyNotes && (
-                <div className="party-notes-popup" onClick={e => e.stopPropagation()}>
+                <div
+                  className="party-notes-popup"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
+                  onDoubleClick={(e) => e.stopPropagation()}
+                >
                   <div className="party-popup-header">
                     <div className="party-popup-title">
                       <i className="fas fa-campground"></i>
@@ -1203,7 +1417,15 @@ const InteractiveMapStudio = () => {
                     <button
                       type="button"
                       className="btn-close-popup"
-                      onClick={() => setShowPartyNotes(false)}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setShowPartyNotes(false);
+                      }}
                       title="Close"
                     >
                       <i className="fas fa-times"></i>
@@ -1309,6 +1531,7 @@ const InteractiveMapStudio = () => {
                   '--pin-color': pin.color || '#d4af37'
                 }}
                 onMouseDown={(e) => {
+                  if (e.target.closest('.pin-action-popup')) return;
                   e.stopPropagation();
                   if (!isMapLocked && !pin.isLocked) {
                     setDraggedPinId(pin.id);
@@ -1316,10 +1539,12 @@ const InteractiveMapStudio = () => {
                   setSelectedPin(pin.id);
                 }}
                 onClick={(e) => {
+                  if (e.target.closest('.pin-action-popup')) return;
                   e.stopPropagation();
-                  setSelectedPin(pin.id);
+                  setSelectedPin(selectedPinId === pin.id ? null : pin.id);
                 }}
                 onDoubleClick={(e) => {
+                  if (e.target.closest('.pin-action-popup')) return;
                   e.stopPropagation();
                   if (pin.targetMapId) {
                     setActiveMap(pin.targetMapId);
@@ -1361,13 +1586,31 @@ const InteractiveMapStudio = () => {
 
                 {/* Compact, Non-Obstructing Pin Action / Detail Card Popup */}
                 {isPinSelected && !isDrawingRoute && !isFogToolActive && (
-                  <div className="pin-action-popup" onClick={e => e.stopPropagation()}>
+                  <div
+                    className="pin-action-popup"
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    onDoubleClick={(e) => e.stopPropagation()}
+                  >
                     <div className="pin-popup-header">
                       <div className="pin-popup-title-row">
                         <span className="pin-popup-type-tag">{(pin.type || 'poi').toUpperCase()}</span>
                         <h4 className="pin-popup-heading">{pin.title}</h4>
                       </div>
-                      <button className="btn-close-popup" onClick={() => setSelectedPin(null)} title="Close popup">
+                      <button
+                        type="button"
+                        className="btn-close-popup"
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setSelectedPin(null);
+                        }}
+                        title="Close popup"
+                      >
                         <i className="fas fa-times"></i>
                       </button>
                     </div>
@@ -1529,7 +1772,12 @@ const InteractiveMapStudio = () => {
             </div>
 
             <div className="form-group">
-              <label>Icon Symbol</label>
+              <div className="icon-picker-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label style={{ margin: 0 }}>Icon Symbol</label>
+                <span className="selected-icon-badge-text" style={{ fontSize: '11.5px', color: '#8b5a1a', fontWeight: '800', fontFamily: 'Cinzel, serif' }}>
+                  {PIN_ICONS.find(ic => ic.icon === editingPin.icon)?.label || 'Landmark'}
+                </span>
+              </div>
               <div className="icon-picker-grid">
                 {PIN_ICONS.map(ic => (
                   <button
@@ -1538,6 +1786,7 @@ const InteractiveMapStudio = () => {
                     className={`icon-choice-btn ${editingPin.icon === ic.icon ? 'active' : ''}`}
                     onClick={() => setEditingPin({ ...editingPin, icon: ic.icon })}
                     title={ic.label}
+                    aria-label={ic.label}
                   >
                     <i className={`fas ${ic.icon}`}></i>
                   </button>
@@ -1773,7 +2022,7 @@ const InteractiveMapStudio = () => {
       {/* Edit Waypoint Modal */}
       {editingWaypoint && (
         <div className="studio-modal-backdrop" onClick={() => setEditingWaypoint(null)}>
-          <div className="studio-modal-box" onClick={e => e.stopPropagation()}>
+          <div className="studio-modal-box waypoint-editor-modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Edit Expedition Waypoint</h3>
               <button className="btn-close-modal" onClick={() => setEditingWaypoint(null)}>
@@ -1781,25 +2030,187 @@ const InteractiveMapStudio = () => {
               </button>
             </div>
             <form onSubmit={handleSaveWaypoint} className="modal-form">
-              <div className="form-row">
-                <div className="form-group flex-1">
-                  <label>Day / Sequence</label>
+              {/* Waypoint Type Switcher */}
+              <div className="form-group">
+                <label>Waypoint Type & Tracking Mode</label>
+                <div className="waypoint-type-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
+                  <button
+                    type="button"
+                    className={`btn-wp-type-choice ${(editingWaypoint.dayType || 'day') === 'day' ? 'active' : ''}`}
+                    onClick={() => {
+                      const start = Number(editingWaypoint.day) || 1;
+                      setEditingWaypoint({
+                        ...editingWaypoint,
+                        dayType: 'day',
+                        day: start,
+                        endDay: null,
+                        stayDuration: 1
+                      });
+                    }}
+                  >
+                    <i className="fas fa-calendar-day"></i>
+                    <span>Single Day</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn-wp-type-choice ${editingWaypoint.dayType === 'range' ? 'active' : ''}`}
+                    onClick={() => {
+                      const start = Number(editingWaypoint.day) || 1;
+                      const end = editingWaypoint.endDay ? Number(editingWaypoint.endDay) : start + 2;
+                      setEditingWaypoint({
+                        ...editingWaypoint,
+                        dayType: 'range',
+                        day: start,
+                        endDay: end > start ? end : start + 2,
+                        stayDuration: (end > start ? end : start + 2) - start + 1
+                      });
+                    }}
+                  >
+                    <i className="fas fa-campground"></i>
+                    <span>Stay (Range)</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn-wp-type-choice ${editingWaypoint.dayType === 'stop' ? 'active' : ''}`}
+                    onClick={() => {
+                      setEditingWaypoint({
+                        ...editingWaypoint,
+                        dayType: 'stop',
+                        stopNumber: editingWaypoint.stopNumber || 1
+                      });
+                    }}
+                  >
+                    <i className="fas fa-location-dot"></i>
+                    <span>Stop #</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn-wp-type-choice ${editingWaypoint.dayType === 'custom' ? 'active' : ''}`}
+                    onClick={() => {
+                      setEditingWaypoint({
+                        ...editingWaypoint,
+                        dayType: 'custom',
+                        customLabel: editingWaypoint.customLabel || 'Base'
+                      });
+                    }}
+                  >
+                    <i className="fas fa-tag"></i>
+                    <span>Custom</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Dynamic Inputs based on type */}
+              {(editingWaypoint.dayType || 'day') === 'day' && (
+                <div className="form-group">
+                  <label>Day Number</label>
                   <input
                     type="number"
                     min="1"
-                    value={editingWaypoint.day}
+                    value={editingWaypoint.day || 1}
                     onChange={(e) => setEditingWaypoint({ ...editingWaypoint, day: parseInt(e.target.value) || 1 })}
                   />
+                  <small style={{ color: '#6b4d32', fontStyle: 'italic' }}>Displays as <strong>Day {editingWaypoint.day || 1}</strong> on the trail.</small>
                 </div>
-                <div className="form-group flex-2">
-                  <label>Encampment Name</label>
+              )}
+
+              {editingWaypoint.dayType === 'range' && (
+                <div className="stay-range-fields-container" style={{ background: '#f5eee3', padding: '10px', borderRadius: '6px', border: '1px solid rgba(139, 69, 19, 0.25)' }}>
+                  <div className="form-row">
+                    <div className="form-group flex-1">
+                      <label>Start Day</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={editingWaypoint.day || 1}
+                        onChange={(e) => {
+                          const start = parseInt(e.target.value) || 1;
+                          const dur = editingWaypoint.stayDuration || 3;
+                          setEditingWaypoint({
+                            ...editingWaypoint,
+                            day: start,
+                            endDay: start + dur - 1,
+                            stayDuration: dur
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="form-group flex-1">
+                      <label>End Day</label>
+                      <input
+                        type="number"
+                        min={(Number(editingWaypoint.day) || 1) + 1}
+                        value={editingWaypoint.endDay || ((Number(editingWaypoint.day) || 1) + 2)}
+                        onChange={(e) => {
+                          const start = Number(editingWaypoint.day) || 1;
+                          const end = parseInt(e.target.value) || (start + 1);
+                          const safeEnd = end > start ? end : start + 1;
+                          setEditingWaypoint({
+                            ...editingWaypoint,
+                            endDay: safeEnd,
+                            stayDuration: safeEnd - start + 1
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="form-group flex-1">
+                      <label>Stay Duration</label>
+                      <input
+                        type="number"
+                        min="2"
+                        value={editingWaypoint.stayDuration || (editingWaypoint.endDay ? (editingWaypoint.endDay - editingWaypoint.day + 1) : 3)}
+                        onChange={(e) => {
+                          const dur = Math.max(2, parseInt(e.target.value) || 2);
+                          const start = Number(editingWaypoint.day) || 1;
+                          setEditingWaypoint({
+                            ...editingWaypoint,
+                            stayDuration: dur,
+                            endDay: start + dur - 1
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ marginTop: '4px', fontSize: '11.5px', color: '#8b5a1a', fontWeight: 'bold' }}>
+                    <i className="fas fa-bed"></i> Stay Duration: {editingWaypoint.endDay ? (editingWaypoint.endDay - editingWaypoint.day + 1) : 3} days (Day {editingWaypoint.day || 1} through Day {editingWaypoint.endDay || ((editingWaypoint.day || 1) + 2)})
+                  </div>
+                </div>
+              )}
+
+              {editingWaypoint.dayType === 'stop' && (
+                <div className="form-group">
+                  <label>Stop Number (Sequence)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={editingWaypoint.stopNumber || 1}
+                    onChange={(e) => setEditingWaypoint({ ...editingWaypoint, stopNumber: parseInt(e.target.value) || 1 })}
+                  />
+                  <small style={{ color: '#6b4d32', fontStyle: 'italic' }}>Displays as <strong>Stop {editingWaypoint.stopNumber || 1}</strong>.</small>
+                </div>
+              )}
+
+              {editingWaypoint.dayType === 'custom' && (
+                <div className="form-group">
+                  <label>Custom Badge / Milestone Label</label>
                   <input
                     type="text"
-                    required
-                    value={editingWaypoint.title}
-                    onChange={(e) => setEditingWaypoint({ ...editingWaypoint, title: e.target.value })}
+                    value={editingWaypoint.customLabel || ''}
+                    onChange={(e) => setEditingWaypoint({ ...editingWaypoint, customLabel: e.target.value })}
+                    placeholder="e.g. Camp Alpha, Base 1, S1"
                   />
                 </div>
+              )}
+
+              <div className="form-group">
+                <label>Encampment / Waypoint Title</label>
+                <input
+                  type="text"
+                  required
+                  value={editingWaypoint.title}
+                  onChange={(e) => setEditingWaypoint({ ...editingWaypoint, title: e.target.value })}
+                  placeholder="e.g. Midhöfn Outpost Encampment"
+                />
               </div>
 
               <div className="form-group">
@@ -1808,7 +2219,7 @@ const InteractiveMapStudio = () => {
                   rows={3}
                   value={editingWaypoint.notes}
                   onChange={(e) => setEditingWaypoint({ ...editingWaypoint, notes: e.target.value })}
-                  placeholder="Ration depletion, frostbite checks, or random encounters..."
+                  placeholder="Ration depletion, weather hazards, frostbite checks, or random encounters..."
                 />
               </div>
 
@@ -1816,7 +2227,7 @@ const InteractiveMapStudio = () => {
                 <label>
                   <input
                     type="checkbox"
-                    checked={editingWaypoint.isSecretGM}
+                    checked={editingWaypoint.isSecretGM || false}
                     onChange={(e) => setEditingWaypoint({ ...editingWaypoint, isSecretGM: e.target.checked })}
                   />
                   <span>Hidden Waypoint (Secret GM Plan)</span>

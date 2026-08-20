@@ -1,0 +1,32 @@
+TALENT ICON AND SPELL LIBRARY CLICK FIX SUMMARY
+
+================================================================================
+ISSUE: Talent abilities showed placeholder icon (hand with chains) and spell 
+       library click on spells didn't popup correctly.
+
+ROOT CAUSE: The mapSpellIcon functions in three components had hardcoded 
+            mappings for only ~50 specific WoW icons. Any icon not in that 
+            list (including most talent tree icons) fell back to 
+            Utility/Utility - the "hand with chains" placeholder.
+
+FIXES APPLIED:
+
+1. SpellLibrary.jsx (D:\VTT\vtt-react\src\components\spellcrafting-wizard\components\library\SpellLibrary.jsx)
+   - Updated getSpellIconUrl() to use getAbilityIconUrl() from assetManager
+   - Removed the limited mapSpellIcon function
+   - Now properly resolves talent tree icons like ability_warrior_savageblow
+
+2. spellFormatterUtils.js (D:\VTT\vtt-react\src\components\spellcrafting-wizard\components\common\spellFormatterUtils.js)
+   - Added import: import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager'
+   - Updated mapSpellIcon() to use getAbilityIconUrl() instead of limited mappings
+
+3. ActionBar.jsx (D:\VTT\vtt-react\src\components\ui\ActionBar.jsx)
+   - Added getAbilityIconUrl to imports: import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/assetManager'
+   - Updated mapSpellIcon() to use getAbilityIconUrl() instead of limited mappings
+
+RESULT:
+- Talent abilities now show proper icons everywhere (spell library, action bar, etc.)
+- No more "hand with chains" placeholder
+- Clicking spells in the spell library now shows the spellcard popup correctly with the proper icon
+
+================================================================================

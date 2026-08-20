@@ -642,7 +642,9 @@
     z-index: 1; /* Ensure icon is above the magical background */
     box-sizing: border-box;
     display: block;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     margin: auto; /* Center the icon within its container */
 }
 
@@ -668,6 +670,20 @@
     height: 100%;
     object-fit: contain; /* Maintain aspect ratio and center for multi-cell items */
     object-position: center; /* Ensure the icon is centered */
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* Ensure complex custom shape items never show a rectangular bounding box overlay */
+.item-wrapper.complex-shape,
+.item-wrapper.complex-shape .inventory-item,
+.item-wrapper.complex-shape .item-content,
+.item-wrapper.complex-shape .item-icon {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
 }
 
 .item-name {
@@ -706,6 +722,34 @@
     border-radius: 6px;
     border: 1px solid rgba(139, 115, 85, 0.3);
     margin-top: 0px; /* Removed to match left/right padding spacing */
+    gap: 12px;
+}
+
+/* Inline inventory stats beside currency */
+.inventory-stats-inline {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(139, 69, 19, 0.15);
+    border-radius: 6px;
+}
+
+.inventory-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: #4a3424;
+}
+
+.inventory-stat-item i {
+    color: #d4af37;
+}
+
+.inventory-stat-item strong {
+    font-weight: 700;
 }
 
 

@@ -366,7 +366,7 @@ export const SUBREGIONS = {
     id: 'sundrift-starfall-basin',
     name: 'The Starfall Basin',
     regionId: 'sundrift-vale',
-    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during the Breach. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
+    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during Blizzard’s End. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
     climate: 'Cold, the basin is sheltered by ridges',
     dominantTerrain: 'Meteor crater, crystal-fields, crystal-lattice spires',
     primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Earthen Astril pilgrims'],

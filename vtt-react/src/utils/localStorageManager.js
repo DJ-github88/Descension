@@ -1,365 +1,355 @@
 /**
  * LocalStorage Manager
  * 
- * Handles localStorage quota management and cleanup to prevent storage exceeded errors.
+ * Handles localStorage quota management, emergency cleanups,
+ * and seamless in-memory fallback to prevent storage quota exceeded errors.
  */
 
 class LocalStorageManager {
- constructor() {
-  this.maxStorageSize = 5 * 1024 * 1024; // 5MB limit (conservative estimate)
-  this.cleanupThreshold = 0.8; // Clean up when 80% full
- }
-
- /**
-  * Get current localStorage usage in bytes
-  */
- getCurrentUsage() {
-  let total = 0;
-  for (let key in localStorage) {
-   if (localStorage.hasOwnProperty(key)) {
-    total += localStorage[key].length + key.length;
-   }
-  }
-  return total;
- }
-
- /**
-  * Check if localStorage is approaching quota limit
-  */
- isApproachingQuota() {
-  const usage = this.getCurrentUsage();
-  return usage > (this.maxStorageSize * this.cleanupThreshold);
- }
-
- /**
-  * Get storage usage percentage
-  */
- getUsagePercentage() {
-  return (this.getCurrentUsage() / this.maxStorageSize) * 100;
- }
-
- /**
-  * Clean up old backup data to free space
-  */
- cleanupOldBackups() {
-  const backupKeys = [];
-  
-  // Find all backup keys
-  for (let key in localStorage) {
-   if (key.startsWith('mythrill-backup-')) {
-    const timestamp = this.extractTimestampFromBackupKey(key);
-    if (timestamp) {
-     backupKeys.push({ key, timestamp });
-    }
-   }
+  constructor() {
+    this.maxStorageSize = 5 * 1024 * 1024; // 5MB limit (conservative browser estimate)
+    this.cleanupThreshold = 0.75; // Clean up when 75% full
+    this.fallbackStore = new Map();
   }
 
-  // Sort by timestamp (oldest first)
-  backupKeys.sort((a, b) => a.timestamp - b.timestamp);
-
-  // Remove oldest backups (keep only last 5 per character)
-  const characterBackups = {};
-  backupKeys.forEach(backup => {
-   const characterId = this.extractCharacterIdFromBackupKey(backup.key);
-   if (!characterBackups[characterId]) {
-    characterBackups[characterId] = [];
-   }
-   characterBackups[characterId].push(backup);
-  });
-
-  let removedCount = 0;
-  Object.values(characterBackups).forEach(backups => {
-   // Keep only the 5 most recent backups per character
-   const toRemove = backups.slice(0, Math.max(0, backups.length - 5));
-   toRemove.forEach(backup => {
-    localStorage.removeItem(backup.key);
-    removedCount++;
-   });
-  });
-
-  return removedCount;
- }
-
- /**
-  * Clean up old temporary data
-  */
- cleanupTempData() {
-  const tempKeys = [];
-  const oneHourAgo = Date.now() - (60 * 60 * 1000);
-
-  for (let key in localStorage) {
-   if (key.startsWith('mythrill-temp-') || key.startsWith('mythrill-cache-')) {
+  /**
+   * Get current localStorage usage in bytes
+   */
+  getCurrentUsage() {
+    let total = 0;
+    if (typeof localStorage === 'undefined') return total;
     try {
-     const data = JSON.parse(localStorage[key]);
-     if (data.timestamp && data.timestamp < oneHourAgo) {
-      tempKeys.push(key);
-     }
-    } catch (error) {
-     // If we can't parse it, it's probably corrupted, remove it
-     tempKeys.push(key);
-    }
-   }
-  }
-
-  tempKeys.forEach(key => localStorage.removeItem(key));
-
-  return tempKeys.length;
- }
-
- /**
-  * Perform complete cleanup
-  */
- performCleanup() {
-  const backupsRemoved = this.cleanupOldBackups();
-  const tempDataRemoved = this.cleanupTempData();
-
-  return { backupsRemoved, tempDataRemoved };
- }
-
- /**
-  * Safe localStorage setItem with quota management
-  */
- safeSetItem(key, value) {
-  try {
-   // Check if we need cleanup before storing
-   if (this.isApproachingQuota()) {
-    console.warn('⚠️ localStorage approaching quota, performing cleanup...');
-    this.performCleanup();
-   }
-
-   localStorage.setItem(key, value);
-   return { success: true };
-  } catch (error) {
-   if (error.name === 'QuotaExceededError') {
-    console.error('❌ localStorage quota exceeded, attempting emergency cleanup...');
-
-    // Emergency cleanup - more aggressive
-    this.performEmergencyCleanup();
-
-    try {
-     localStorage.setItem(key, value);
-     return { success: true };
-    } catch (retryError) {
-     console.error('❌ Failed to store data even after cleanup:', retryError);
-     return {
-      success: false,
-      error: 'Storage quota exceeded. Please clear some browser data.'
-     };
-    }
-   } else {
-    console.error('❌ localStorage error:', error);
-    return { success: false, error: error.message };
-   }
-  }
- }
-
- /**
-  * Remove image data from character to save space
-  */
- removeCharacterImages(character) {
-  const cleaned = { ...character };
-  if (cleaned.lore) {
-   cleaned.lore = {
-    ...cleaned.lore,
-    characterImage: null, // Remove base64 image data
-    imageTransformations: null // Remove image transformations
-   };
-  }
-  if (cleaned.tokenSettings) {
-   cleaned.tokenSettings = {
-    ...cleaned.tokenSettings,
-    customIcon: null // Remove custom icon
-   };
-  }
-  return cleaned;
- }
-
- /**
-  * Emergency cleanup - more aggressive than regular cleanup
-  */
- performEmergencyCleanup() {
-  let totalRemoved = 0;
-  const keysToRemove = [];
-  
-  // 1. Remove all backup, temp, and cache data
-  for (let key in localStorage) {
-   if (key.startsWith('mythrill-backup-') ||
-     key.startsWith('mythrill-temp-') ||
-     key.startsWith('mythrill-cache-') ||
-     key.includes('spell') ||
-     key.includes('item') ||
-     key.includes('creature')) {
-    keysToRemove.push(key);
-   }
-  }
-
-  // Remove backup/temp keys immediately
-  keysToRemove.forEach(key => {
-   try {
-    localStorage.removeItem(key);
-    totalRemoved++;
-   } catch (e) {
-    console.warn(`Failed to remove ${key}:`, e);
-   }
-  });
-  keysToRemove.length = 0; // Clear array
-
-  // 2. Compress character data by removing images and keeping only recent characters
-  for (let key in localStorage) {
-   if (key === 'mythrill-characters' || key === 'mythrill-guest-characters') {
-    try {
-     const data = JSON.parse(localStorage[key]);
-     if (Array.isArray(data)) {
-      // Remove images from all characters to save space
-      const cleanedData = data.map(char => this.removeCharacterImages(char));
-      
-      // If still too many characters, keep only most recent 5
-      let finalData = cleanedData;
-      if (cleanedData.length > 5) {
-       const sorted = [...cleanedData].sort((a, b) => {
-        const aTime = new Date(a.updatedAt || a.createdAt || 0).getTime();
-        const bTime = new Date(b.updatedAt || b.createdAt || 0).getTime();
-        return bTime - aTime;
-       });
-       finalData = sorted.slice(0, 5);
+      for (let key in localStorage) {
+        if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
+          const val = localStorage[key];
+          total += (val ? val.length : 0) + (key ? key.length : 0);
+        }
       }
-      
-      // Try to save compressed data
+    } catch (_) {}
+    return total;
+  }
+
+  /**
+   * Check if localStorage is approaching quota limit
+   */
+  isApproachingQuota() {
+    const usage = this.getCurrentUsage();
+    return usage > (this.maxStorageSize * this.cleanupThreshold);
+  }
+
+  /**
+   * Get storage usage percentage
+   */
+  getUsagePercentage() {
+    return (this.getCurrentUsage() / this.maxStorageSize) * 100;
+  }
+
+  /**
+   * Clean up old backup data to free space
+   */
+  cleanupOldBackups() {
+    if (typeof localStorage === 'undefined') return 0;
+    const backupKeys = [];
+    
+    try {
+      for (let key in localStorage) {
+        if (key.startsWith('mythrill-backup-')) {
+          const timestamp = this.extractTimestampFromBackupKey(key);
+          if (timestamp) {
+            backupKeys.push({ key, timestamp });
+          } else {
+            backupKeys.push({ key, timestamp: 0 });
+          }
+        }
+      }
+
+      backupKeys.sort((a, b) => a.timestamp - b.timestamp);
+
+      let removedCount = 0;
+      backupKeys.forEach(backup => {
+        try {
+          localStorage.removeItem(backup.key);
+          removedCount++;
+        } catch (_) {}
+      });
+
+      return removedCount;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /**
+   * Clean up temporary and non-essential caches
+   */
+  cleanupTempData() {
+    if (typeof localStorage === 'undefined') return 0;
+    let count = 0;
+    const disposablePrefixes = [
+      'mythrill-temp-',
+      'mythrill-cache-',
+      'mythrill-debug-',
+      'mythrill_subregion_',
+      'mythrill_regional_',
+      'mythrill_map_',
+      'mythrill_location_',
+      'mythrill-deleted-spells',
+      'spellcrafting_history',
+      'item_creator_recent',
+      'mapMaking',
+      'character_draft_',
+      'room-data-',
+      'mythrill-guest-joined-rooms'
+    ];
+
+    try {
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key) continue;
+        if (disposablePrefixes.some(prefix => key.startsWith(prefix))) {
+          keysToRemove.push(key);
+        }
+      }
+
+      keysToRemove.forEach(key => {
+        try {
+          localStorage.removeItem(key);
+          count++;
+        } catch (_) {}
+      });
+    } catch (_) {}
+
+    return count;
+  }
+
+  /**
+   * Perform standard cleanup
+   */
+  performCleanup() {
+    const backupsRemoved = this.cleanupOldBackups();
+    const tempDataRemoved = this.cleanupTempData();
+    return { backupsRemoved, tempDataRemoved };
+  }
+
+  /**
+   * Remove large base64 image data from character to keep payload lightweight
+   */
+  removeCharacterImages(character) {
+    if (!character || typeof character !== 'object') return character;
+    const cleaned = { ...character };
+
+    if (cleaned.lore && typeof cleaned.lore === 'object') {
+      const charImg = cleaned.lore.characterImage;
+      if (typeof charImg === 'string' && charImg.startsWith('data:image')) {
+        cleaned.lore = {
+          ...cleaned.lore,
+          characterImage: null,
+          imageTransformations: null
+        };
+      }
+    }
+
+    if (cleaned.tokenSettings && typeof cleaned.tokenSettings === 'object') {
+      const icon = cleaned.tokenSettings.customIcon;
+      if (typeof icon === 'string' && icon.startsWith('data:image')) {
+        cleaned.tokenSettings = {
+          ...cleaned.tokenSettings,
+          customIcon: null
+        };
+      }
+    }
+
+    return cleaned;
+  }
+
+  /**
+   * Aggressive Emergency Cleanup: frees up maximum space when QuotaExceededError is hit
+   */
+  performEmergencyCleanup() {
+    if (typeof localStorage === 'undefined') return 0;
+    let totalRemoved = 0;
+
+    // 1. Remove all disposable, temporary, map, and backup keys
+    this.cleanupTempData();
+    this.cleanupOldBackups();
+
+    // 2. Protect critical identity keys
+    const criticalKeys = new Set([
+      'mythrill-characters',
+      'mythrill-guest-characters',
+      'mythrill-active-character',
+      'mythrill_user',
+      'auth_token',
+      'userId',
+      'currentUserId'
+    ]);
+
+    // 3. Compress existing character lists by stripping base64 images
+    ['mythrill-characters', 'mythrill-guest-characters'].forEach(key => {
       try {
-       const compressedJson = JSON.stringify(finalData);
-       localStorage.setItem(key, compressedJson);
-      } catch (saveError) {
-       // If still too large, remove oldest characters
-       if (saveError.name === 'QuotaExceededError') {
-        const minimalData = finalData.slice(0, 3).map(char => {
-         const minimal = { ...char };
-         // Remove even more data
-         delete minimal.inventory;
-         delete minimal.equipment;
-         delete minimal.spells;
-         return minimal;
-        });
-        localStorage.setItem(key, JSON.stringify(minimalData));
-       }
-      }
-     }
-    } catch (error) {
-     // If we can't parse it, it might be corrupted - remove it
-     console.warn(`⚠️ Corrupted character data in ${key}, removing...`);
-     try {
-      localStorage.removeItem(key);
-      totalRemoved++;
-     } catch (e) {
-      console.error(`Failed to remove corrupted ${key}:`, e);
-     }
-    }
-   }
-  }
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            const stripped = parsed.map(c => this.removeCharacterImages(c));
+            try {
+              localStorage.setItem(key, JSON.stringify(stripped));
+            } catch (_) {}
+          }
+        }
+      } catch (_) {}
+    });
 
-  // 3. Remove other large stores that might be taking up space
-  const largeStoreKeys = ['mythrill-map', 'mythrill-game', 'mythrill-chat'];
-  for (let key in localStorage) {
-   if (largeStoreKeys.some(storeKey => key.includes(storeKey))) {
-    // Try to compress these stores by removing old data
+    // 4. If still under pressure, sort all non-critical keys by byte size and purge largest
     try {
-     const data = JSON.parse(localStorage[key]);
-     if (data && typeof data === 'object') {
-      // Remove old chat messages, old map history, etc.
-      if (data.messages && Array.isArray(data.messages) && data.messages.length > 50) {
-       data.messages = data.messages.slice(-50); // Keep only last 50 messages
-       localStorage.setItem(key, JSON.stringify(data));
+      const entries = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key || criticalKeys.has(key)) continue;
+        const val = localStorage.getItem(key);
+        entries.push({ key, size: (val ? val.length : 0) });
       }
-      // Remove large map data
-      if (data.maps && Array.isArray(data.maps)) {
-       data.maps = data.maps.slice(-3); // Keep only last 3 maps
-       localStorage.setItem(key, JSON.stringify(data));
+
+      entries.sort((a, b) => b.size - a.size);
+
+      // Remove largest non-critical keys
+      for (const entry of entries) {
+        try {
+          localStorage.removeItem(entry.key);
+          totalRemoved++;
+          if (!this.isApproachingQuota()) break;
+        } catch (_) {}
       }
-     }
+    } catch (_) {}
+
+    return totalRemoved;
+  }
+
+  /**
+   * Safe setItem with automatic cleanup and robust in-memory fallback
+   */
+  safeSetItem(key, value) {
+    // Keep in memory fallback store in sync
+    this.fallbackStore.set(key, value);
+
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return { success: true, isFallback: true };
+    }
+
+    try {
+      if (this.isApproachingQuota()) {
+        this.performCleanup();
+      }
+
+      localStorage.setItem(key, value);
+      return { success: true };
     } catch (error) {
-     // If we can't parse it, remove it
-     try {
+      if (
+        error.name === 'QuotaExceededError' ||
+        error.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+        error.code === 22 ||
+        error.code === 1014 ||
+        (typeof error.message === 'string' && error.message.toLowerCase().includes('quota'))
+      ) {
+        console.warn('⚠️ LocalStorage quota exceeded, running emergency cleanup...');
+        this.performEmergencyCleanup();
+
+        try {
+          localStorage.setItem(key, value);
+          return { success: true };
+        } catch (retryError) {
+          console.warn('⚠️ Storage quota still exceeded after cleanup. Saved safely to in-memory fallback:', retryError.message);
+          return {
+            success: true,
+            isFallback: true,
+            error: 'Storage quota exceeded (preserved in session memory)'
+          };
+        }
+      }
+
+      console.warn(`LocalStorage write error on key "${key}":`, error.message);
+      return { success: true, isFallback: true, error: error.message };
+    }
+  }
+
+  /**
+   * Safe getItem with seamless in-memory fallback
+   */
+  safeGetItem(key) {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return this.fallbackStore.get(key) || null;
+    }
+
+    try {
+      const val = localStorage.getItem(key);
+      if (val !== null && val !== undefined) {
+        return val;
+      }
+    } catch (e) {
+      console.warn(`LocalStorage read error for key "${key}":`, e.message);
+    }
+
+    return this.fallbackStore.get(key) || null;
+  }
+
+  /**
+   * Safe removeItem with memory fallback cleanup
+   */
+  safeRemoveItem(key) {
+    this.fallbackStore.delete(key);
+    if (typeof localStorage === 'undefined') return true;
+    try {
       localStorage.removeItem(key);
-      totalRemoved++;
-     } catch (e) {
-      console.error(`Failed to remove ${key}:`, e);
-     }
+      return true;
+    } catch (_) {
+      return false;
     }
-   }
   }
 
-  return totalRemoved;
- }
-
- /**
-  * Extract timestamp from backup key
-  */
- extractTimestampFromBackupKey(key) {
-  const match = key.match(/mythrill-backup-.*-(\d+)$/);
-  return match ? parseInt(match[1]) : null;
- }
-
- /**
-  * Extract character ID from backup key
-  */
- extractCharacterIdFromBackupKey(key) {
-  const match = key.match(/mythrill-backup-(.+)-\d+$/);
-  return match ? match[1] : 'unknown';
- }
-
- /**
-  * Get storage statistics
-  */
- getStorageStats() {
-  const usage = this.getCurrentUsage();
-  const percentage = this.getUsagePercentage();
-
-  let characterCount = 0;
-  let backupCount = 0;
-  let tempCount = 0;
-
-  for (let key in localStorage) {
-   if (key === 'mythrill-characters') characterCount++;
-   else if (key.startsWith('mythrill-backup-')) backupCount++;
-   else if (key.startsWith('mythrill-temp-') || key.startsWith('mythrill-cache-')) tempCount++;
+  /**
+   * Extract timestamp from backup key
+   */
+  extractTimestampFromBackupKey(key) {
+    const match = key.match(/mythrill-backup-.*-(\d+)$/);
+    return match ? parseInt(match[1], 10) : null;
   }
 
-  return {
-   totalUsage: usage,
-   usagePercentage: percentage,
-   characterData: characterCount,
-   backups: backupCount,
-   tempData: tempCount,
-   isApproachingQuota: this.isApproachingQuota()
-  };
- }
+  /**
+   * Extract character ID from backup key
+   */
+  extractCharacterIdFromBackupKey(key) {
+    const match = key.match(/mythrill-backup-(.+)-\d+$/);
+    return match ? match[1] : 'unknown';
+  }
 
- /**
-  * Clear all localStorage data (for development/testing)
-  */
- clearAllData() {
-  if (process.env.NODE_ENV === 'development') {
-   const keysToRemove = [];
-   for (let key in localStorage) {
-    if (key.startsWith('mythrill-')) {
-     keysToRemove.push(key);
+  /**
+   * Clear all development data
+   */
+  clearAllData() {
+    this.fallbackStore.clear();
+    if (typeof localStorage === 'undefined') return 0;
+    try {
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('mythrill-')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+      return keysToRemove.length;
+    } catch (_) {
+      return 0;
     }
-   }
-
-   keysToRemove.forEach(key => localStorage.removeItem(key));
-   return keysToRemove.length;
-  } else {
-   console.warn('clearAllData only available in development mode');
-   return 0;
   }
- }
 }
 
-// Create singleton instance
+// Singleton instance
 const localStorageManager = new LocalStorageManager();
 
-// Expose to window for development debugging
-if (process.env.NODE_ENV === 'development') {
- window.localStorageManager = localStorageManager;
+if (typeof window !== 'undefined') {
+  window.localStorageManager = localStorageManager;
 }
 
 export default localStorageManager;

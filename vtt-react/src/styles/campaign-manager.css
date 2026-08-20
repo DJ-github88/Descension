@@ -2248,6 +2248,11 @@
 }
 
 /* Premium Gated & Restricted Styles for Campaign Manager */
+.campaign-manager-locked-window .wow-window-close-btn {
+  top: 10px !important;
+  right: 14px !important;
+}
+
 .journal-locked-container {
   display: flex;
   justify-content: center;

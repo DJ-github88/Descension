@@ -795,24 +795,26 @@
 }
 
 .world-classes-grid {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
 }
 
 .world-class-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.88) !important;
-  border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
-  border-radius: 8px;
-  padding: 14px 16px;
-  transition: all 0.18s ease;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1.5px solid rgba(139, 69, 19, 0.28) !important;
+  border-radius: 9px;
+  padding: 16px 18px;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 10px rgba(139, 69, 19, 0.05);
 }
 .world-class-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: #8b5a1a !important;
-  box-shadow: 0 6px 18px rgba(139, 69, 19, 0.15);
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.16);
   background: #ffffff !important;
 }
 
@@ -821,40 +823,91 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 8px;
-  margin-bottom: 8px;
 }
 .class-title-block h4 {
   margin: 0;
   font-family: 'Cinzel', serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   color: #2b1408 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.class-header-icon {
+  font-size: 14px;
+  color: #8b5a1a;
+  opacity: 0.85;
 }
 .class-archetype-tag {
   font-size: 10px;
   font-weight: 700;
   color: #8b5a1a;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-top: 2px;
 }
 
 .class-role-pill {
-  background: rgba(139, 90, 26, 0.1);
-  border: 1px solid rgba(139, 90, 26, 0.3);
+  background: rgba(139, 90, 26, 0.08);
+  border: 1px solid rgba(139, 90, 26, 0.25);
   color: #5a2e12;
   font-family: 'Cinzel', serif;
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: 4px;
   white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.class-tagline-box {
+  background: linear-gradient(135deg, rgba(246, 238, 222, 0.75) 0%, rgba(239, 227, 207, 0.55) 100%);
+  border-left: 3px solid #a67c2e;
+  padding: 7px 10px;
+  border-radius: 0 5px 5px 0;
+}
+.class-tagline-text {
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.45;
+  color: #4a2711 !important;
+  margin: 0;
+  font-weight: 600;
+}
+
+.class-mechanics-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.class-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  padding: 2.5px 7px;
+  border-radius: 4px;
+}
+.class-resource-pill {
+  background: rgba(45, 133, 82, 0.1);
+  border: 1px solid rgba(45, 133, 82, 0.3);
+  color: #1e6b3e;
+}
+.class-feature-pill {
+  background: rgba(139, 69, 19, 0.07);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  color: #633614;
 }
 
 .class-origin-snippet {
   font-size: 12.5px;
-  color: #4a2810 !important;
-  line-height: 1.45;
-  margin: 0 0 12px 0;
+  color: #5d381c !important;
+  line-height: 1.5;
+  margin: 0;
   flex: 1;
 }
 
@@ -863,17 +916,39 @@
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(139, 69, 19, 0.15);
-  padding-top: 8px;
-  font-size: 11px;
+  padding-top: 10px;
+  margin-top: 4px;
+  font-size: 11.5px;
 }
 .class-sites-badge {
   color: #6b4d32;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 .class-view-link {
   color: #8b5a1a;
   font-family: 'Cinzel', serif;
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.world-class-card:hover .class-view-link {
+  color: #b87c1c;
+  transform: translateX(2px);
+}
+
+.class-dossier-hero {
+  border-left: 4px solid #8b5a1a !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(251, 245, 235, 0.9) 100%) !important;
+}
+.class-dossier-hero-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 /* ==========================================================================

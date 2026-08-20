@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import MythrillWindow from './MythrillWindow';
 import useCharacterStore from '../../store/characterStore';
+import useSpellbookStore from '../../store/spellbookStore';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../../data/talentTreeData';
+import { resolveTalentSpell, convertTalentSpellToLibrarySpell } from '../../data/talentTrees/talentSystem.mjs';
+import { loadLibraryFromStorage, saveLibraryToStorage } from '../spellcrafting-wizard/core/utils/libraryManager';
 import { TalentArrowRenderer } from './TalentArrow';
 import UnifiedTooltip from '../common/UnifiedTooltip';
 import useUnifiedTooltip from '../common/useUnifiedTooltip';
@@ -26,184 +29,88 @@ const getTalentTreesForClass = (className) => {
     }));
 };
 
-// Progressive tooltip descriptions for talents
-const PROGRESSIVE_TOOLTIPS = {
-    // Lunarch - Moonlight Sentinel
-    'moonlight_sentinel_t0_lunar_precision': {
-        1: 'Your ranged attacks gain +1 to attack rolls.',
-        2: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +10ft range.',
-        3: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +10ft range. Full Moon phase grants +1d4 bonus radiant damage on ranged attacks.',
-        4: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +20ft range. Full Moon phase grants +1d4 bonus radiant damage on ranged attacks.',
-        5: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +20ft range. Full Moon phase grants +2d4 bonus radiant damage on ranged attacks.'
-    },
-    'moonlight_sentinel_t1_true_shot': {
-        1: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage.',
-        2: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +1d6 radiant damage.',
-        3: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +1d6 radiant damage and ignores half cover.',
-        4: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +2d6 radiant damage and ignores half and three-quarters cover.'
-    },
-    'moonlight_sentinel_t2_lunar_guidance': {
-        1: 'Your ranged attacks ignore half cover.',
-        2: 'Your ranged attacks ignore half cover. Full Moon phase allows you to attack twice using 1 action point when you crit.',
-        3: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack twice using 1 action point when you crit.',
-        4: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack three times using 1 action point when you crit.'
-    },
-    'moonlight_sentinel_t3_marksman_focus': {
-        1: 'You can spend 1 action point to gain advantage on your next ranged attack.',
-        2: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 1.',
-        3: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 1. You can use this ability twice per short rest.',
-        4: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 2. You can use this ability twice per short rest.'
-    },
-    'moonlight_sentinel_t1_moonlight_arrow': {
-        1: 'Your Lunar Arrow deals +1d6 radiant damage.',
-        2: 'Your Lunar Arrow deals +1d6 radiant damage and reduces the target\'s radiant resistance by 5.',
-        3: 'Your Lunar Arrow deals +2d6 radiant damage and reduces the target\'s radiant resistance by 5.',
-        4: 'Your Lunar Arrow deals +2d6 radiant damage and reduces the target\'s radiant resistance by 10.'
-    },
-    'moonlight_sentinel_t2_radiant_burst': {
-        1: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 1d8 radiant damage.',
-        2: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 2d8 radiant damage.',
-        3: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 2d8 radiant damage. Enemies hit take -1d4 on their next attack.',
-        4: 'When you crit with a ranged attack during Full Moon, all enemies within 15ft of the target take 3d8 radiant damage. Enemies hit take -1d4 on their next attack.'
-    },
-    'moonlight_sentinel_t3_lunar_empowerment': {
-        1: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 5, to a minimum of 0.',
-        2: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 10, to a minimum of 0.',
-        3: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 10, to a minimum of 0. You gain +1 to attack rolls during Full Moon.',
-        4: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 15, to a minimum of 0. You gain +1 to attack rolls during Full Moon.'
-    },
-    'moonlight_sentinel_t4_deadly_precision': {
-        1: 'Enemies that die from your AoE spells explode, dealing 3d6 force damage to all enemies within 10ft.',
-        2: 'Enemies that die from your AoE spells explode, dealing 6d6 force damage to all enemies within 10ft.',
-        3: 'Enemies that die from your AoE spells explode, dealing 9d6 force damage to all enemies within 10ft.',
-        4: 'Enemies that die from your AoE spells explode, dealing 12d6 force damage to all enemies within 10ft.',
-        5: 'Enemies that die from your AoE spells explode, dealing 15d6 force damage to all enemies within 10ft.'
-    },
-    'moonlight_sentinel_t5_lunar_sentinel': {
-        1: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
-        2: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
-        3: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
-        4: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
-        5: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.'
-    },
-    // Starfall Invoker
-    'starfall_invoker_t0_cosmic_attunement': {
-        1: 'Your spells can be cast as ranged spell attacks.',
-        2: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +5ft radius.',
-        3: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +5ft radius. Waning Moon phase allows you to affect one extra target with single-target spells.',
-        4: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +10ft radius. Waning Moon phase allows you to affect one extra target with single-target spells.',
-        5: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +10ft radius. Waning Moon phase allows you to affect two extra targets with single-target spells.'
+// ===== v2 spell-aware tooltip helpers =====
+// v2 talents carry a full spell (talent.spell) plus hand-tuned rankUpgrades.
+// resolveTalentSpell(talent, rank) returns the concrete spell at that rank.
+
+// Format spell metadata line (cost / range / cooldown) like the spell tooltips
+const formatSpellMeta = (spell) => {
+    if (!spell) return '';
+    const parts = [];
+    parts.push(spell.spellType === 'PASSIVE' ? 'Passive' : 'Active');
+
+    const costs = Object.entries(spell.resourceCosts || {})
+        .filter(([key, val]) => val && val.baseAmount > 0)
+        .map(([key, val]) => `${val.baseAmount} ${key === 'mana' ? 'mana' : key}`);
+    if (costs.length) parts.push(costs.join(' + '));
+
+    if (spell.range && spell.range > 0) {
+        parts.push(spell.rangeType === 'melee' ? 'Melee' : `${spell.range} ft`);
+    } else if (spell.targetingMode !== 'self') {
+        parts.push('Self');
     }
+
+    if (spell.spellType !== 'PASSIVE' && spell.cooldownValue) {
+        parts.push(`${spell.cooldownValue}${spell.cooldownUnit === 'seconds' ? 's' : ' ' + (spell.cooldownUnit || '')} CD`);
+    }
+
+    return parts.join('  ·  ');
 };
 
-// Helper function to generate progressive tooltips for multi-rank talents
-
-// Helper function to get description for a specific rank
-const getDescriptionForRank = (talent, rank) => {
-    // Check if this talent has progressive tooltips defined
-    if (PROGRESSIVE_TOOLTIPS[talent.id] && PROGRESSIVE_TOOLTIPS[talent.id][rank]) {
-        return PROGRESSIVE_TOOLTIPS[talent.id][rank];
-    }
-
-    // Check if description uses rank-specific format (e.g., "Rank 1: effect. Rank 2: effect.")
-    const rankSpecificPattern = /Rank\s+(\d+)(?:-(\d+))?:\s*([^]+?)(?=\s*Rank\s+\d+:|\s*$)/gi;
-    const rankMatches = [];
-    let match;
-
-    // Extract all rank-specific descriptions
-    while ((match = rankSpecificPattern.exec(talent.description)) !== null) {
-        const startRank = parseInt(match[1]);
-        const endRank = match[2] ? parseInt(match[2]) : startRank;
-        const description = match[3].trim();
-
-        rankMatches.push({
-            startRank,
-            endRank,
-            description
-        });
-    }
-
-    // If rank-specific descriptions found, find the one for this rank
-    if (rankMatches.length > 0) {
-        for (const rankMatch of rankMatches) {
-            if (rank >= rankMatch.startRank && rank <= rankMatch.endRank) {
-                return rankMatch.description;
-            }
-        }
-        // Fallback to last rank if specific rank not found
-        return rankMatches[rankMatches.length - 1].description;
-    }
-
-    // For "per rank" talents, calculate individual rank effect
-    let description = talent.description;
-
-    // Pattern: "X per rank" or "+X per rank" where X can be a number or dice notation
-    const perRankPattern = /(\+?)(\d+(?:d\d+)?)\s+([a-zA-Z\s]+?)\s*per\s+rank\.?/gi;
-    description = description.replace(perRankPattern, (match, plus, value, type) => {
-        // Check if it's dice notation (e.g., "1d4")
-        if (value.includes('d')) {
-            return `${plus}${value} ${type.trim()}`;
-        } else {
-            // It's a flat number
-            return `${plus}${value} ${type.trim()}`;
-        }
-    });
-
-    // Pattern: "X% per rank" for percentage calculations
-    const percentPerRankPattern = /(\d+)%\s+([a-zA-Z\s]+)\s+per rank/gi;
-    description = description.replace(percentPerRankPattern, (match, percent, type) => {
-        return `${percent}% ${type}`;
-    });
-
-    // Pattern: "on X+ per rank" for DC/difficulty scaling
-    const dcPerRankPattern = /on\s+(\d+)\+\s+per rank/gi;
-    description = description.replace(dcPerRankPattern, (match, baseDC) => {
-        return `on ${baseDC}+`;
-    });
-
-    return description;
-};
-
-// Helper function to calculate dynamic tooltip description based on current rank (WoW Classic style)
+// WoW Classic style dynamic description: current rank + next rank preview
 const getDynamicDescription = (talent, currentRank) => {
-    if (!talent.description) return '';
+    if (!talent) return null;
+    const hasSpellData = Boolean(talent.spell);
 
-    const tooltipParts = [];
+    // Legacy tree fallback (no spell payload): use plain description
+    if (!hasSpellData) {
+        return <div>{talent.description || ''}</div>;
+    }
 
-    // Show current rank effect (if any ranks invested)
+    const maxRank = talent.maxRanks || 1;
+    const parts = [];
+
     if (currentRank > 0) {
-        const currentEffect = getDescriptionForRank(talent, currentRank);
-        tooltipParts.push(
+        const currentSpell = resolveTalentSpell(talent, currentRank);
+        parts.push(
             <div key="current" style={{ marginBottom: '8px' }}>
-                <div style={{ color: '#8B4513', fontWeight: 'bold', marginBottom: '4px', fontSize: '0.9rem' }}>
-                    Rank {currentRank}:
+                <div style={{ color: '#ffd100', fontWeight: 'bold', marginBottom: '4px' }}>
+                    {currentSpell?.spellType === 'PASSIVE' ? 'Passive' : 'Spell'} — Rank {currentRank}
                 </div>
-                <div style={{ color: '#2d1810' }}>{currentEffect}</div>
+                <div style={{ color: '#1e1e1e' }}>{currentSpell?.description}</div>
             </div>
         );
     }
 
-    // Show next rank effect (if not maxed out)
-    if (currentRank < talent.maxRanks) {
-        const nextRank = currentRank + 1;
-        const nextEffect = getDescriptionForRank(talent, nextRank);
-        tooltipParts.push(
-            <div key="next" style={{ marginTop: currentRank > 0 ? '8px' : '0', paddingTop: currentRank > 0 ? '8px' : '0', borderTop: currentRank > 0 ? '1px solid rgba(139, 69, 19, 0.3)' : 'none' }}>
-                <div style={{ color: '#b8860b', fontWeight: 'bold', marginBottom: '4px', fontSize: '0.9rem' }}>
-                    Next Rank {nextRank}:
+    if (currentRank < maxRank) {
+        const nextSpell = resolveTalentSpell(talent, currentRank + 1);
+        parts.push(
+            <div key="next" style={{
+                marginTop: currentRank > 0 ? '8px' : '0',
+                paddingTop: currentRank > 0 ? '8px' : '0',
+                borderTop: currentRank > 0 ? '1px solid rgba(139, 69, 19, 0.3)' : 'none'
+            }}>
+                <div style={{ color: '#1a7a1a', fontWeight: 'bold', marginBottom: '4px' }}>
+                    {currentRank === 0 ? '' : 'Next Rank: '}
                 </div>
-                <div style={{ color: '#5a1e12' }}>{nextEffect}</div>
+                <div style={{ color: '#2d4a12' }}>{nextSpell?.description}</div>
             </div>
         );
     }
 
-    // For rank 0 talents, just show the next rank effect without "Next Rank" label
-    if (currentRank === 0) {
-        const nextEffect = getDescriptionForRank(talent, 1);
-        return nextEffect;
-    }
+    return <div>{parts}</div>;
+};
 
-    return <div>{tooltipParts}</div>;
+// Spell meta block for tooltips and summary
+const getSpellMetaBlock = (talent, currentRank) => {
+    if (!talent?.spell) return null;
+    const spell = currentRank > 0
+        ? resolveTalentSpell(talent, currentRank)
+        : resolveTalentSpell(talent, 1);
+    if (!spell) return null;
+    const meta = formatSpellMeta(spell);
+    if (!meta) return null;
+    return <div style={{ fontSize: '0.8rem', color: '#5a4632', fontStyle: 'italic' }}>{meta}</div>;
 };
 
 // Constants for grid layout - Compact fit for better usability
@@ -266,6 +173,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         const fullContent = (
             <div>
                 {subtitle && <div style={{ fontSize: '0.9rem', color: '#D4AF37', marginBottom: '8px' }}>{subtitle}</div>}
+                <div style={{ marginBottom: '8px' }}>{getSpellMetaBlock(talent, currentRanks)}</div>
                 <div style={{ marginBottom: '12px' }}>{content}</div>
                 {requirements.map((req, index) => (
                     <div key={index} style={{ fontSize: '0.85rem', color: '#DC143C', fontStyle: 'italic', marginBottom: '4px' }}>
@@ -299,9 +207,49 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }, 0);
     }, 0);
 
-    // Calculate available talent points based on level (3 points per level, max 30 at level 10)
-    const availablePoints = Math.min((level || 1) * 3, 30);
+    // Talent system v2: 5 points per level, level cap 10 => 50 total points
+    const availablePoints = Math.min((level || 1) * 5, 50);
     const pointsRemaining = availablePoints - pointsSpent;
+
+    // ===== Spell library sync =====
+    // Learning a talent grants its resolved rank-N spell to the spellbook and Spell Library.
+    // Rank-ups UPDATE the same entry (stable id); unlearning to 0 removes it.
+    const syncTalentSpell = (talent, newRank) => {
+        if (!talent?.spell) return;
+        const spellbook = useSpellbookStore.getState();
+        const stableId = `talent-spell-${talent.id}`;
+        const existing = (spellbook.spells || []).find(s => s.id === stableId);
+
+        // Also sync with Spell Library storage so it immediately appears in Spell Library views
+        const currentLib = loadLibraryFromStorage() || { spells: [] };
+        const libIndex = (currentLib.spells || []).findIndex(s => s.id === stableId);
+
+        if (newRank <= 0) {
+            if (existing) spellbook.deleteSpell(stableId);
+            if (libIndex !== -1) {
+                currentLib.spells.splice(libIndex, 1);
+                saveLibraryToStorage(currentLib);
+            }
+            return;
+        }
+
+        const librarySpell = convertTalentSpellToLibrarySpell(talent, newRank);
+        if (!librarySpell) return;
+
+        if (existing) {
+            spellbook.updateSpell(stableId, librarySpell);
+        } else {
+            spellbook.addSpell(librarySpell);
+        }
+
+        if (libIndex !== -1) {
+            currentLib.spells[libIndex] = librarySpell;
+        } else {
+            currentLib.spells = currentLib.spells || [];
+            currentLib.spells.push(librarySpell);
+        }
+        saveLibraryToStorage(currentLib);
+    };
 
     const handleTalentClick = (talentId, talent) => {
         if (!canLearnTalent(talent)) return;
@@ -311,6 +259,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         const newTalents = { ...talents, [talentId]: currentRanks + 1 };
         setTalents(newTalents);
         useCharacterStore.getState().setTalents(newTalents);
+        syncTalentSpell(talent, currentRanks + 1);
     };
 
     const canUnlearnTalent = (talentId, currentTalents) => {
@@ -397,6 +346,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }
         setTalents(newTalents);
         useCharacterStore.getState().setTalents(newTalents);
+        syncTalentSpell(talent, currentRanks - 1);
     };
 
     const canLearnTalent = (talent) => {
@@ -474,6 +424,18 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     };
 
     const resetTalents = () => {
+        // Remove all talent-granted spells from the spellbook and library storage
+        const spellbook = useSpellbookStore.getState();
+        (spellbook.spells || [])
+            .filter(s => s.id?.startsWith('talent-spell-'))
+            .forEach(s => spellbook.deleteSpell(s.id));
+
+        const currentLib = loadLibraryFromStorage();
+        if (currentLib?.spells) {
+            currentLib.spells = currentLib.spells.filter(s => !s.id?.startsWith('talent-spell-'));
+            saveLibraryToStorage(currentLib);
+        }
+
         setTalents({});
         useCharacterStore.getState().setTalents({});
     };
@@ -541,22 +503,6 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
             }
         >
             <div className="talent-tree-container" style={{ position: 'relative' }}>
-                <div className="talent-coming-soon-overlay">
-                    <div className="talent-coming-soon-content">
-                        <div className="talent-coming-soon-icon">
-                            <i className="fas fa-seedling"></i>
-                        </div>
-                        <h2 className="talent-coming-soon-title">Forging Your Path</h2>
-                        <p className="talent-coming-soon-flavor">
-                            Deep within the hidden roots of the world tree, ancient powers stir: waiting to be claimed by those worthy of their gift. The branches of destiny have not yet fully grown, but soon, the talents of old will awaken.
-                        </p>
-                        <div className="talent-coming-soon-divider"></div>
-                        <p className="talent-coming-soon-status">
-                            This feature is currently being forged. Check back in a future update to unlock your character's unique talent tree.
-                        </p>
-                    </div>
-                </div>
-
                 {/* Summary Tab - Show all learned talents */}
                 {selectedTree === trees.length ? (
                     <div className="talent-summary-container">
@@ -604,6 +550,9 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                                                     </div>
                                                     <div className="talent-summary-details">
                                                         <div className="talent-summary-name">{talent.name}</div>
+                                                        <div className="talent-summary-meta">
+                                                            {getSpellMetaBlock(talent, currentRanks)}
+                                                        </div>
                                                         <div className="talent-summary-description">
                                                             {getDynamicDescription(talent, currentRanks)}
                                                         </div>

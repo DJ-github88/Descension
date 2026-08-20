@@ -9,7 +9,7 @@
 >
 > **Known Canon Adjustments:**
 > - **House Viridane**: Under the unified canon, House Viridane was the **original seventh binding family** (one of the original seven signatories of Sol's Binding Compact). When they refused Keth-Amar's demands, the remaining six houses elevated House Morrath as their replacement and spent three centuries erasing every trace of Viridane. The common label of House Viridane as the "eighth house" is the public's term (counting the seven official houses plus the erased one).
-> - **Timeline Consistency**: The world is approximately 800 years old since the Binding (Year 3) and the Breach (Year 11). Any legacy mentions in this brief of "thousands of years" or "2,000 years" have been corrected in the code database to align with the ~800-year timeline.
+> - **Timeline Consistency**: The setting operates strictly on the **475-Year Epoch Master Timeline** (Year 0 Star-Fall & Celestial Binding, Years 0–300 Incremental Aex Cracks, Year 325 Blizzard's End Massacre, Years 325–475 Freezing Era / Present Day).
 > - **Real-World Renames**: Legacy Norse/Scottish place-names have been updated in the source code (e.g. `Ymir's Col` -> `Skadi's Col`, `Ymirhold` -> `Skalvyrhold`, `Valley of Ymir` -> `Valley of Rime`, `Kelpie's Cove` -> `Brinehorse Cove`).
 >
 > **A comprehensive documentation of the world, its regions, races, creatures, factions, and lore — for the map artist who will draw our world.**
@@ -49,7 +49,7 @@ The **Deepening** is the natural, ancient rhythm by which a star sheds its exhau
 
 ## Keth-Amar, the Sun-Eater
 
-A cosmic predator — a thing of no fixed form, with **no name in any language older than eight centuries** (every civilization that named it in writing was destroyed). Keth-Amar hunts stars during their Deepening, consuming them before they can rekindle. When Sol dimmed, Keth-Amar followed, circling the planet for **forty years** as the world grew colder, as famine spread, as the noble houses fractured under political pressure.
+A cosmic predator — a thing of no fixed form, with **no name in any language older than five centuries** (every civilization that named it in writing was destroyed). Keth-Amar hunts stars during their Deepening, consuming them before they can rekindle. When Sol was concealed in the volcanic core, Keth-Amar followed, hunting the celestial scent as the world grew colder, as famine spread, as the noble houses fractured under political pressure.
 
 Keth-Amar does not destroy by force — **it whispers bargains**. It is the universe's deal-maker from the dark side of the stars.
 
@@ -61,13 +61,13 @@ A living entity of pure stellar radiance, not a god but a guardian that had prot
 
 The **Warden** is not a god. It is the universe's mechanism of consequence — older than Sol, enforcing every bargain struck in Mythrill without exception, mercy, or negotiation. It is the original binder.
 
-## The Original Binding (Year 3)
+## The Original Binding (Year 0)
 
 The seven noble families (Thalreth, Skalvyr, Tesshan, Solvan, Mereval, Ordavan, and Viridane) sealed Sol beneath the volcanic crust of what would become Sundale. **The volcano shook for eleven days** after the sealing. The binding held. The sun was entombed — but still alive, its fading warmth bleeding upward through eight hundred feet of basalt.
 
-## The Dark Bargains (The Capitulation)
+## The Dark Bargains & Blizzard's End (Year 325)
 
-Forty years after the binding, Keth-Amar approached the six remaining houses (Viridane had already fled — see below). It whispered promises of warmth to a starving, fracturing world. **Six of the seven remaining houses capitulated.** They marched their firstborn heirs to the northern peaks. Keth-Amar consumed them as vessels — each heir carried a **bloodline-key** encoded in their veins, and Keth-Amar used those keys from inside to **crack the vault's seal from within**. Emberspire erupted. The Wyrd flooded through the fracture. The binding shattered into **seven Sundered Monoliths**.
+After three centuries of incremental cracks, Keth-Amar approached the houses in Year 300 posing as the celestial father. It whispered promises of warmth to a starving, fracturing world. In Year 325 at Blizzard's End, **six houses capitulated.** They marched their firstborn heirs to the northern peaks. Keth-Amar consumed them as vessels — each heir carried a **bloodline-key** encoded in their veins, and Keth-Amar used those keys from inside to **crack the vault's seal from within**. Emberspire erupted. The Wyrd flooded through the fracture. The binding shattered into **seven Sundered Monoliths**.
 
 ## The Seven Regional Compacts (Each House's Bargain)
 
@@ -83,7 +83,7 @@ After the Breach, each noble house (or, in Bryngloom's case, the Neth ancestors)
 
 ## The Silent Seventh — House Viridane
 
-**House Viridane was the original seventh binding house** — the one that did not march north when Keth-Amar called. Before the breach, while the other families prepared their children, Viridane began hearing a different voice — not Keth's whispers, but something older watching from the **moonlit groves**. They turned south instead of north, carrying nothing, and **the fog rose behind them as if the world itself was helping them disappear**. They fulfilled a counter-pact with the fae. Their name was struck from every record. **House Morrath was elevated to fill the gap in the binding ritual** as a substitute signatory. Viridane's descendants are the **Briaran** — thorn-blooded, fae-touched, carrying the Unwritten Word (a truth-sense that detects spoken lies).
+**House Viridane was the original seventh binding house** — the one that did not march north when Keth-Amar called. Before the breach, while the other families prepared their children, Viridane began hearing a different voice — not Keth's whispers, but something older watching from the **moonlit groves**. They turned south instead of north, carrying nothing, and **the fog rose behind them as if the world itself was helping them disappear**. They fulfilled a counter-pact with the fae. Their name was struck from every record. **House Morrath was elevated to fill the gap in the binding ritual** as a substitute signatory. Viridane's descendants are the **Florae** — thorn-blooded, fae-touched, carrying the Unwritten Word (a truth-sense that detects spoken lies).
 
 **Why was Viridane erased?** **Keth-Amar hunts through knowledge.** To carry the memory of Viridane was to hold a thread the Sun-Eater could follow. The erasure was protection as much as punishment. The fog that swallowed their name keeps them safe. Six houses suspect the truth. None will confirm it. Scribe-Sentinels who research the matter have a habit of disappearing into the fog.
 
@@ -91,7 +91,7 @@ After the Breach, each noble house (or, in Bryngloom's case, the Neth ancestors)
 
 ## The Seven Sundered Monoliths
 
-The fragments of the Warden-bound original seal. Each is a piece of Aex's flayed hide, crystallized. Each **resonates**, and its resonance is shifting. The monoliths are waking up after centuries of silence, and their song is getting louder. **Known locations:**
+The fragments of the Warden-bound original seal. Each is a piece of Aex's sundered body, crystallized. Each **resonates**, and its resonance is shifting. The monoliths are waking up after centuries of silence, and their song is getting louder. **Known locations:**
 - The Treakous Oceanic Rift (Iceheart Sea)
 - The Shard-Window storm-vortex (Storm-Belt)
 - The Berg of the Frozen Flame (Northern Ice-Flows)
@@ -102,9 +102,9 @@ The fragments of the Warden-bound original seal. Each is a piece of Aex's flayed
 
 The Wyrd is the cosmic corruption-bleed that seeps through the cracks Keth-Amar opened. **It is not the origin of Mythrill's creatures.** Native beasts, spirits, and peoples predate the Great Binding; the Wyrd arrived later, carrying Ancient Cosmic Wyrdkin, generating direct Keth-spawn (Wyrdspawn), and occasionally warping individual natives into Wyrd-touched variants. Local fear and folklore translate and camouflage these encounters  -  they shape how survivors describe a creature, not what the creature actually is or where it came from. The Wyrd makes heroes into monsters and ordinary fears into apex predators. It is getting thicker. The fog is changing chemistry; venoms spoil; augur accuracy is falling.
 
-## The Current World (Year 800 of the Dimming)
+## The Current World (Year 475 / 150 Years of Freezing Era)
 
-Eight centuries after the Binding. Six human cultures have hardened around the consequences of their bargains. The Warden enforces every contract. Keth-Amar's debt remains collectible. The Sun-Eater is **not satisfied** — only delayed. **Keth-Amar is INSIDE the binding**, drinking Sol's light slowly, having only consumed the firstborn heirs (six of the seven monolith fragments carry Aex's stolen life; the seventh is a hollow echo where Viridane's signature was never placed — Morrath's name is a fabrication stitched over the gap). He does not fully know why he cannot breach Sol's prison. He senses that one monolith "sings wrong" and keeps digging, clawing, frustrated.
+Four hundred and seventy-five years after the Star-Fall, and one hundred and fifty years after Blizzard's End. Six human cultures have hardened around the consequences of their bargains. The Warden enforces every contract. Keth-Amar's debt remains collectible. The Sun-Eater is **not satisfied** — only delayed. **Keth-Amar is pressed against the partial seal**, drinking Sol's light slowly, having only consumed the firstborn heirs (six of the seven monolith fragments carry Aex's stolen life; the seventh is a hollow echo where Viridane's signature was never placed — Morrath's name is a fabrication stitched over the gap). He does not fully know why he cannot breach Sol's prison. He senses that one monolith "sings wrong" and keeps digging, clawing, frustrated.
 
 ---
 
@@ -133,7 +133,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 **VIBE:** Somber, hushed, paranoid, archival, fog-drenched. A people obsessed with preservation because the very air devours memory.
 
-**COLOR PALETTE:** Deep peat-browns, fog-white, amber hearth-glow, ironwood black, muted green moss, bioluminescent pale blue-green at night.
+**COLOR PALETTE:** Deep peat-brown, fog-white, amber hearth-glow, ironwood black, muted green moss, bioluminescent pale blue-green at night.
 
 **CLIMATE & WEATHER:**
 - Southern half: cool-temperate, damp, fog-bound year-round
@@ -187,9 +187,9 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Mimir** — the Mask-Bound; tall, slender (1.78-2.13m), unnaturally fluid movement. **Masks of heartwood or storm-glass** with glowing eye-beads — their faces are NEVER shown. Wear bark-hide cloaks. Fractured Mimir carry a small glowing energy-companion (Mote) orbiting their shoulder. Two subraces:
   - **Arch Mimir (Veiled)** — canopy aristocrats in Ironwood Heart & Mirror Mere
   - **Fractured Mimir (Tethered)** — sentinels & floor-dwellers in Ironwood Palisade, Wraithfen & Shifting Fen
-- **Briaran (the "eighth house")** — thorn-blooded, fae-touched descendants of House Viridane. **Thorns grow where other races grow hair** — along forearms, shoulders, spine. The thorns lie flat when calm, prickle at broken oaths, and migrate over a lifetime toward the site of the oldest unfulfilled promise. Two kinds: **Unshorn** (thorn-cloaked traditionalists in deep groves) and **Smooth-Skinned** (shaved, passing as human in the wider world). Wear ghost-metal (cold alloy from the deep groves).
+- **Florae (the "eighth house")** — thorn-blooded, fae-touched descendants of House Viridane. **Thorns grow where other races grow hair** — along forearms, shoulders, spine. The thorns lie flat when calm, prickle at broken oaths, and migrate over a lifetime toward the site of the oldest unfulfilled promise. Two kinds: **Viridian Florae** (thorn-cloaked traditionalists in deep groves) and **Oken Florae** (timber-born artisans passing in the wider world). Wear ghost-metal (cold alloy from the deep groves).
 - **Skald expatriates** — on the northern fringe, manning Skald's Landing and Grevtholm
-- **Stone-Tribal humans** — frontier dwellers in the Frostfang
+- **Moraine Clan humans** — frontier dwellers in the Frostfang
 - **The Forgotten** — undocumented people stripped of their rights by the Sovereign Ledger
 
 ### Creatures & Monsters
@@ -210,12 +210,12 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Mist-Sentinels** — Ironwood Palisade patrol
 - **Greymark Northwatch** — Frostfang garrison
 - **The Stone-Speakers** — Skald expatriates who tend pre-Binding runic monoliths
-- **Unshorn Briaran** — thorn-cloaked traditionalists
-- **Smooth-Skinned Briaran** — pass-as-human diaspora
+- **Viridian Florae** — thorn-cloaked traditionalists
+- **Oken Florae** — timber-born diaspora
 
 ### Map Art Suggestions
 
-- **Symbols:** petrified ironwood trees (carved with genealogical records), quill-and-flame crests, Mimir masks (heartwood, storm-glass), Briaran thorn-clusters, Mist-Sentinel watchtowers, Moss-Wax candles, runic monoliths of the Stone-Speakers, Scribe-Sentinel lantern-posts
+- **Symbols:** petrified ironwood trees (carved with genealogical records), quill-and-flame crests, Mimir masks (heartwood, storm-glass), Florae thorn-clusters, Mist-Sentinel watchtowers, Moss-Wax candles, runic monoliths of the Stone-Speakers, Scribe-Sentinel lantern-posts
 - **Buildings:** peat-stone with petrified-ironwood timbers; Scribes' Tower as a vertical hollowed trunk; Greymark Keep with a great ironwood-root throne and eternal amber-flame High Hearth
 - **Landmarks:** glowing white tree at the Ironwood Heart, pre-Thalreth runic stone circles, the perpetually-fog-bound Mistbarrow with rain falling inside its own weather bubble
 - **The entire map should be heavily fogged** — use a misty overlay, with only zone-edges showing sharp detail
@@ -566,7 +566,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Frostmaw Holdfast** — the calcified heart of Groven civilization
 - **The Ancestor-Spans** — bone bridges grown from willing Groven dead
 - **The Subterranean Vault** — beneath Frostmaw, where a Sundered Monolith rests in a chamber where snow has never fallen
-- **The Lost Brood Vats** — Deep Alchemists' original labs, sealed for 800 years
+- **The Lost Brood Vats** — Deep Alchemists' original labs, sealed for centuries
 - **The Great Gorge** — seven bone-spans, the Cragjaw's primary thoroughfare
 - **Skirmour's Crag** — Jutul-king Skirmour's sacred peak
 
@@ -858,7 +858,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 | **Tesshan** | Cragjaw Peaks | Gear-tooth, khipu-knot | Visibility → protective snow-veil | Jarl-Inca Oda Tesshan |
 | **Ordavan** | Sundrift Vale | Seven standing stones | Fertile soil → endless grass | Khatun Bayarmaa Ordavan (puppet: Steppe-Lord Loras) |
 | **Morrath** | Bryngloom Forest | Tolch-keth contract seal | Borrowed survival from the Neth at interest | Regent Morrath Neth (substitute, not a real Morrath) |
-| **Viridane** (Silenced) | Frostwood Reach (erased) | Negative space (cloaks with the seal's shape cut out) | Refused Keth-Amar, made a counter-pact with the fae. **Paid with their name.** | Descendants are the Briaran |
+| **Viridane** (Silenced) | Frostwood Reach (erased) | Negative space (cloaks with the seal's shape cut out) | Refused Keth-Amar, made a counter-pact with the fae. **Paid with their name.** | Descendants are the Florae |
 
 ---
 
@@ -1051,7 +1051,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 - **A "Bargain Stones" indicator** — small rune-stones at the borders of each region showing what each house traded
 - **A "Wyrd-Corruption Density" map** — an overlay showing where Wyrd corruption, breaches, and Wyrdspawn are most concentrated (distinct from native-creature ranges)
 - **"Hidden" markers** (dotted lines, faded icons) for passages, Briaran camps, pirate coves
-- **A small inset** showing the Wyrd-corruption growth over the last 800 years
+- **A small inset** showing the Wyrd-corruption growth over the last 150 years
 - **A "Where the Buried Star Sits" indicator** at Emberspire's heart
 - **Trade route arrows** showing the Iceheart Sea lanes
 
@@ -1071,7 +1071,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 
 ## The world's central tension
 
-Keth-Amar is **inside the binding**, drinking Sol's light slowly. He knows six bloodlines answered, but he does not know that the seventh monolith is a hollow echo — Viridane's signature was never placed, and Morrath's name is a fabrication stitched over the gap. He is digging, clawing, sensing that one monolith "sings wrong" but never understanding why. The world is dying at the rate Sol is being drained. Eight centuries of slow consumption. The world ends when Sol does.
+Keth-Amar is **pressed against the partial seal**, drinking Sol's light slowly. He knows six bloodlines answered, but he does not know that the seventh monolith is a hollow echo — Viridane's signature was never placed, and Morrath's name is a fabrication stitched over the gap. He is digging, clawing, sensing that one monolith "sings wrong" but never understanding why. The world is dying at the rate Sol is being drained. One hundred and fifty years of freezing winter. The world ends when Sol does.
 
 The hidden truth: **Keth-Amar hunts through knowledge.** He can sense what people know. To hide from him, a family must be *forgotten*. House Viridane escaped by being erased from every record — the fog that ate their name was the protection that let them flee. The Briaran are their descendants.
 

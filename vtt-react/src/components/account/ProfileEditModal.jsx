@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useAuthStore from '../../store/authStore';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import CharacterIconSelector from '../character-creation-wizard/components/CharacterIconSelector';
 import './ProfileEditModal.css';
@@ -9,14 +10,17 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
     const { userData, user, updateUserData } = useAuthStore();
     const [displayName, setDisplayName] = useState('');
     const [photoURL, setPhotoURL] = useState('');
+    const [photoFile, setPhotoFile] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState(null);
     const [showIconSelector, setShowIconSelector] = useState(false);
+    const { uploadImage } = useMediaUpload();
 
     useEffect(() => {
         if (userData) {
             setDisplayName(userData.displayName || user?.displayName || '');
             setPhotoURL(userData.photoURL || user?.photoURL || '');
+            setPhotoFile(null);
         }
     }, [userData, user, isOpen]);
 
@@ -28,9 +32,14 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
         setError(null);
 
         try {
+            let savedPhotoURL = photoURL;
+            if (photoFile) {
+                savedPhotoURL = await uploadImage(photoFile, 'portraits');
+            }
+
             const result = await updateUserData({
                 displayName: displayName.trim(),
-                photoURL: photoURL
+                photoURL: savedPhotoURL
             });
 
             if (result.success) {
@@ -47,11 +56,12 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
 
     const handleIconSelect = (icon) => {
         const iconUrl = getCustomIconUrl(icon, 'creatures');
+        setPhotoFile(null);
         setPhotoURL(iconUrl);
         setShowIconSelector(false);
     };
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 2 * 1024 * 1024) {
@@ -59,10 +69,14 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
                 return;
             }
 
+            if (!file.type.startsWith('image/')) {
+                setError('Please select an image file.');
+                return;
+            }
+
+            setPhotoFile(file);
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setPhotoURL(reader.result);
-            };
+            reader.onloadend = () => setPhotoURL(reader.result);
             reader.readAsDataURL(file);
         }
     };

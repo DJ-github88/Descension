@@ -531,11 +531,57 @@ const getStatDescription = (stat) => {
   return descriptions[stat];
 };
 
-const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBonus, encumbranceEffect, encumbranceDescription, buffEffect, debuffEffect, conditionEffect, description, sources = [] }) => {
+const GeneralStatTooltip = ({
+  stat,
+  value,
+  displayValue,
+  baseValue,
+  baseLabel,
+  racialBonus,
+  racialLabel,
+  levelUpBonus,
+  equipmentBonus,
+  encumbranceEffect,
+  encumbranceDescription,
+  buffEffect,
+  debuffEffect,
+  conditionEffect,
+  exhaustionEffect,
+  description,
+  sources = [],
+  breakdown = null
+}) => {
   const info = getStatDescription(stat);
 
   // Build calculation breakdown for derived stats
   const buildCalculationBreakdown = () => {
+    // If an explicit precomputed breakdown object is provided, use it
+    if (breakdown) {
+      const parts = [];
+      if (breakdown.baseLabel || breakdown.baseValue !== undefined) {
+        parts.push(`${breakdown.baseLabel || Math.round(breakdown.baseValue)} (base)`);
+      }
+      if (breakdown.racial) {
+        parts.push(`+${Math.round(breakdown.racial)} (${breakdown.racialLabel || 'racial'})`);
+      }
+      if (breakdown.levelUp) {
+        parts.push(`+${Math.round(breakdown.levelUp)} (level up)`);
+      }
+      if (breakdown.equipment) {
+        parts.push(`${breakdown.equipment > 0 ? '+' : ''}${Math.round(breakdown.equipment)} (equipment)`);
+      }
+      if (breakdown.buffs) {
+        parts.push(`+${Math.round(breakdown.buffs)} (buffs)`);
+      }
+      if (breakdown.encumbrance) {
+        parts.push(`${breakdown.encumbrance > 0 ? '+' : ''}${Math.round(breakdown.encumbrance)} (${breakdown.encumbranceDescription || 'encumbrance'})`);
+      }
+      if (breakdown.exhaustionEffect) {
+        parts.push(`[${breakdown.exhaustionEffect}]`);
+      }
+      return `${parts.join(' ')} = ${breakdown.finalValue !== undefined ? breakdown.finalValue : value}`;
+    }
+
     if (baseValue === undefined || value === undefined || typeof value !== 'number') return null;
 
     const parts = [];
@@ -554,30 +600,38 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
       }
     } else {
       // If no explicit equipment bonus is provided, calculate it by subtracting all other effects
-      // from the final value: final_value - base_value - encumbrance_effect - buff_effect - debuff_effect
-      const totalOtherEffects = (encumbranceEffect || 0) + (buffEffect || 0) + (debuffEffect || 0);
+      const totalOtherEffects = (encumbranceEffect || 0) + (buffEffect || 0) + (debuffEffect || 0) + (racialBonus || 0) + (levelUpBonus || 0);
       equipmentValue = (value || 0) - (baseValue || 0) - totalOtherEffects;
     }
 
-      // For other stats, show base value
-      parts.push(`${Math.round(baseValue)} (base)`);
+    // Show base value
+    parts.push(`${baseLabel ? baseLabel : Math.round(baseValue)} (base)`);
 
-      // Add equipment breakdown if available
-      if (equipmentBreakdown) {
-        if (equipmentBreakdown.directArmor !== undefined && equipmentBreakdown.directArmor !== 0) {
-          parts.push(`+${Math.round(equipmentBreakdown.directArmor)} (equipment armor)`);
-        }
-        if (equipmentBreakdown.fromAgility !== undefined && equipmentBreakdown.fromAgility > 0) {
-          parts.push(`+${Math.round(equipmentBreakdown.fromAgility)} (from Agility equipment)`);
-        }
-      } else if (equipmentValue !== 0) {
-        // Simple equipment bonus display
-        parts.push(`${equipmentValue > 0 ? '+' : ''}${Math.round(equipmentValue)} (equipment)`);
+    // Add racial bonus if available
+    if (racialBonus !== undefined && racialBonus !== 0) {
+      parts.push(`${racialBonus > 0 ? '+' : ''}${Math.round(racialBonus)} (${racialLabel || 'racial'})`);
+    }
+
+    // Add level up bonus if available
+    if (levelUpBonus !== undefined && levelUpBonus !== 0) {
+      parts.push(`${levelUpBonus > 0 ? '+' : ''}${Math.round(levelUpBonus)} (level up)`);
+    }
+
+    // Add equipment breakdown if available
+    if (equipmentBreakdown) {
+      if (equipmentBreakdown.directArmor !== undefined && equipmentBreakdown.directArmor !== 0) {
+        parts.push(`+${Math.round(equipmentBreakdown.directArmor)} (equipment armor)`);
       }
+      if (equipmentBreakdown.fromAgility !== undefined && equipmentBreakdown.fromAgility > 0) {
+        parts.push(`+${Math.round(equipmentBreakdown.fromAgility)} (from Agility equipment)`);
+      }
+    } else if (equipmentValue !== 0) {
+      parts.push(`${equipmentValue > 0 ? '+' : ''}${Math.round(equipmentValue)} (equipment)`);
+    }
 
     // Add encumbrance if provided and non-zero
     if (encumbranceEffect !== undefined && encumbranceEffect !== 0) {
-      parts.push(`${encumbranceEffect > 0 ? '+' : ''}${Math.round(encumbranceEffect)} (encumbrance)`);
+      parts.push(`${encumbranceEffect > 0 ? '+' : ''}${Math.round(encumbranceEffect)} (${encumbranceDescription || 'encumbrance'})`);
     }
 
     // Add buffs if provided and non-zero
@@ -595,27 +649,24 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
       parts.push(`${conditionEffect > 0 ? '+' : ''}${Math.round(conditionEffect)} (condition)`);
     }
 
-    // Calculate the total from the components
-    // For armor with detailed breakdown, use baseValue (which includes racial + base agility modifier)
-    let calculatedBase = baseValue;
-    let calculatedEquipment = equipmentValue;
-    
-    // Track passive source contributions (these are already included in the final value)
+    // Add exhaustion note if provided
+    if (exhaustionEffect) {
+      parts.push(`[${exhaustionEffect}]`);
+    }
+
+    // Track passive source contributions
     let passiveContribution = 0;
     if (sources && sources.length > 0) {
       sources.forEach(source => {
-        // Extract numeric value from source.value (could be "+10%" or "+10" or just a number)
         const valueStr = String(source.value);
         let numericValue = 0;
         if (valueStr.includes('%')) {
-          // Percentage-based: calculate percentage of base value
           const percentMatch = valueStr.match(/([+-]?\d+)/);
           if (percentMatch) {
             const percent = parseFloat(percentMatch[1]);
             numericValue = Math.round(baseValue * (percent / 100));
           }
         } else {
-          // Flat value
           const numMatch = valueStr.match(/([+-]?\d+)/);
           if (numMatch) {
             numericValue = parseFloat(numMatch[1]);
@@ -625,25 +676,23 @@ const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBon
         parts.push(`${numericValue > 0 ? '+' : ''}${Math.round(numericValue)} (${source.name}${source.condition || ''})`);
       });
     }
-    
-    const calculatedTotal = Math.round(calculatedBase) +
-           Math.round(calculatedEquipment) +
-           Math.round(encumbranceEffect || 0) +
-           Math.round(buffEffect || 0) +
-           Math.round(debuffEffect || 0) +
-           Math.round(conditionEffect || 0) +
-           Math.round(passiveContribution);
-    
+
+    const calculatedTotal = Math.round(baseValue) +
+      Math.round(racialBonus || 0) +
+      Math.round(levelUpBonus || 0) +
+      Math.round(equipmentValue) +
+      Math.round(encumbranceEffect || 0) +
+      Math.round(buffEffect || 0) +
+      Math.round(debuffEffect || 0) +
+      Math.round(conditionEffect || 0) +
+      Math.round(passiveContribution);
+
     const actualValue = Math.round(value);
-    
-    // Only show the calculation total if it matches the actual value
-    // Otherwise, just show the breakdown parts without the "= X" to avoid showing incorrect math
+
     if (Math.abs(calculatedTotal - actualValue) < 0.01) {
       return `${parts.join(' ')} = ${actualValue}`;
     } else {
-      // If there's a mismatch, just show the parts without the total
-      // The actual value is shown separately in "Current Value" above
-      return parts.join(' ');
+      return `${parts.join(' ')} = ${actualValue}`;
     }
   };
 

@@ -34,28 +34,28 @@
   );
 
   /* Medieval Border */
-  border: 2px solid #8B4513;
-  border-radius: 6px;
+  border: 1.5px solid #8B4513;
+  border-radius: 5px;
 
   /* Shadow & Depth */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
   /* Layout */
-  padding: 16px 20px;
-  max-width: 400px;
-  min-width: 180px;
+  padding: 8px 12px;
+  max-width: 280px;
+  min-width: 160px;
   width: max-content;
 
   /* Typography */
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.45;
   color: #2c1810;
 
   /* Flex layout for icon + text */
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
 }
 
 /* ===== TOOLTIP ICON ===== */
@@ -91,9 +91,9 @@
 
 .unified-tooltip .tooltip-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   color: #5a1e12;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: normal;

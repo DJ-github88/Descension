@@ -370,16 +370,30 @@ function createCoinFaceTexture(side, themeKey = 'ancient_gold') {
   // Draw Emblem
   drawCoinEmblem(ctx, cx, cy, radius, theme.symbolType, side === 'heads', theme.glowColor);
 
-  // Label text ("HEADS" or "TAILS")
+  // Label banner ("HEADS" / "TAILS") — a recessed dark plate makes the text
+  // readable at any angle and against any emblem color.
   const label = side === 'heads' ? theme.headsLabel : theme.tailsLabel;
-  ctx.font = 'bold 36px "Cinzel", "Times New Roman", serif';
-  ctx.textAlign = 'center';
+  const labelY = cy + radius * 0.62;
 
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-  ctx.fillText(label, cx + 2, cy + radius * 0.65 + 2);
+  ctx.save();
+  ctx.fillStyle = 'rgba(15, 10, 4, 0.66)';
+  ctx.beginPath();
+  ctx.roundRect(cx - 96, labelY - 26, 192, 44, 12);
+  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.font = 'bold 34px "Cinzel", "Times New Roman", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+  ctx.fillText(label, cx + 2, labelY + 2);
 
   ctx.fillStyle = '#ffffff';
-  ctx.fillText(label, cx, cy + radius * 0.65);
+  ctx.fillText(label, cx, labelY);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -559,16 +573,20 @@ const PhysicsCoinScene = ({
       scene.add(group);
 
       const coinShape = new CANNON.Cylinder(coinRadius, coinRadius, coinThickness, 24);
-      const shapeQuat = new CANNON.Quaternion();
-      shapeQuat.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
+      // NOTE: cannon-es Cylinder is aligned along Y — the same axis as the
+      // THREE CylinderGeometry mesh. The old code rotated the shape by PI/2
+      // around X (a leftover from classic cannon.js where the cylinder was
+      // Z-aligned), which made the physics coin tumble on its EDGE while the
+      // visual mesh was flat — the "always lands on its side and glitches
+      // into place" bug. The shape must share the mesh's axis.
 
       const coinBody = new CANNON.Body({
         mass: 0.5,
         material: coinMat,
         linearDamping: 0.08,
-        angularDamping: 0.08,
+        angularDamping: 0.12,
       });
-      coinBody.addShape(coinShape, new CANNON.Vec3(0, 0, 0), shapeQuat);
+      coinBody.addShape(coinShape);
 
       const requestedResult = item.result || (Math.random() < 0.5 ? 'heads' : 'tails');
       const startPitch = requestedResult === 'heads' ? 0 : Math.PI;
@@ -587,10 +605,13 @@ const PhysicsCoinScene = ({
       const launchVx = Math.cos(spreadAngle) * scatterSpeed;
       const launchVz = Math.sin(spreadAngle) * scatterSpeed;
 
+      // Whole number of half-flip multiples (PI * even) preserves the launch
+      // face parity through the air, so the coin usually lands on the
+      // requested face naturally; the settle animation covers the rest.
       const flipDirection = Math.random() > 0.5 ? 1 : -1;
-      const spinX = flipDirection * (Math.PI * 8 + (Math.random() - 0.5) * 0.4);
-      const spinY = (Math.random() - 0.5) * 2;
-      const spinZ = (Math.random() - 0.5) * 2;
+      const spinX = flipDirection * Math.PI * (14 + 2 * Math.floor(Math.random() * 3));
+      const spinY = (Math.random() - 0.5) * 1.6;
+      const spinZ = (Math.random() - 0.5) * 1.6;
 
       coinBody.velocity.set(launchVx, launchVy, launchVz);
       coinBody.angularVelocity.set(spinX, spinY, spinZ);
@@ -605,6 +626,12 @@ const PhysicsCoinScene = ({
         requestedResult,
         settled: false,
         settleFrames: 0,
+        settleAnimating: false,
+        settleT: 0,
+        settleDuration: 0.22,
+        settleFrom: new THREE.Quaternion(),
+        settleFromPos: new THREE.Vector3(),
+        needsTipOver: false,
         finalResult: requestedResult,
         landedPos: new THREE.Vector3(),
         landedQuat: new THREE.Quaternion(),
@@ -641,24 +668,19 @@ const PhysicsCoinScene = ({
         }
 
         const { group, body } = pair;
+        const restY = coinThickness / 2 + 0.003;
 
         if (!pair.settled) {
           allSettled = false;
 
-          // Apply natural tipping torque when coin is near floor to naturally knock it flat onto face
-          const worldUp = new THREE.Vector3(0, 1, 0).applyQuaternion(group.quaternion);
-          const absUpY = Math.abs(worldUp.y);
-
-          // As coin comes close to tabletop (y < 0.30), smoothly guide orientation flat onto Heads or Tails
-          if (body.position.y < 0.30) {
-            const landedSide = worldUp.y >= 0 ? 'heads' : 'tails';
-            const euler = new THREE.Euler().setFromQuaternion(group.quaternion, 'YXZ');
-            const flatPitch = landedSide === 'heads' ? 0 : Math.PI;
-            const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(flatPitch, euler.y, 0, 'YXZ'));
-
-            const currentQuat = new THREE.Quaternion(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w);
-            currentQuat.slerp(targetQuat, Math.min(1.0, dt * 6.5));
-            body.quaternion.copy(currentQuat);
+          // While descending near the table, bleed off spin so the coin
+          // stops fluttering and settles naturally instead of grinding on
+          // its rim. Pure physics otherwise — no forced rotation mid-air.
+          if (body.position.y < 1.4 && body.velocity.y < 0) {
+            const damp = Math.max(0, 1 - dt * 4.5);
+            body.angularVelocity.x *= damp;
+            body.angularVelocity.y *= damp;
+            body.angularVelocity.z *= damp;
           }
 
           group.position.copy(body.position);
@@ -666,44 +688,79 @@ const PhysicsCoinScene = ({
 
           const speed = body.velocity.length();
           const angSpeed = body.angularVelocity.length();
-          const isNearFloor = body.position.y < 0.15;
+          const isNearFloor = body.position.y < restY + 0.09;
 
-          if (isNearFloor && absUpY > 0.92 && speed < 0.25 && angSpeed < 0.3) {
+          if (isNearFloor && speed < 0.35 && angSpeed < 0.7) {
             pair.settleFrames += 1;
-            body.velocity.scale(0.85);
-            body.angularVelocity.scale(0.85);
-          } else if (isNearFloor && speed < 0.15) {
-            pair.settleFrames += 1;
+            body.velocity.scale(0.82);
+            body.angularVelocity.scale(0.82);
           } else {
             pair.settleFrames = 0;
           }
 
-          if (pair.settleFrames > 8 || totalElapsed > pair.delay + 3.0) {
+          if (pair.settleFrames > 6 || totalElapsed > pair.delay + 4.0) {
             body.velocity.set(0, 0, 0);
             body.angularVelocity.set(0, 0, 0);
+            world.removeBody(body);
 
-            const landedSide = worldUp.y >= 0 ? 'heads' : 'tails';
-            pair.finalResult = landedSide;
+            const currentQuat = new THREE.Quaternion(
+              body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w
+            );
+            pair.settleFrom.copy(currentQuat);
+            pair.settleFromPos.copy(group.position);
 
-            const euler = new THREE.Euler().setFromQuaternion(group.quaternion, 'YXZ');
-            const landedYaw = euler.y;
-            const flatPitch = landedSide === 'heads' ? 0 : Math.PI;
+            // Which face is closest to "up" right now?
+            const upNow = new THREE.Vector3(0, 1, 0).applyQuaternion(currentQuat);
+            const landedSide = upNow.y >= 0 ? 'heads' : 'tails';
 
-            pair.landedQuat.setFromEuler(new THREE.Euler(flatPitch, landedYaw, 0, 'YXZ'));
-            pair.landedPos.set(body.position.x, coinThickness / 2 + 0.003, body.position.z);
+            // The result is predetermined — guarantee the coin finishes on
+            // the requested face. If physics already agrees, do a tiny
+            // flattening flutter; otherwise animate one natural tip-over
+            // (small pop + half rotation) so it never snaps.
+            pair.needsTipOver = landedSide !== pair.requestedResult;
+            const euler = new THREE.Euler().setFromQuaternion(currentQuat, 'YXZ');
+            const targetPitch = pair.requestedResult === 'heads' ? 0 : Math.PI;
+            pair.landedQuat.setFromEuler(new THREE.Euler(targetPitch, euler.y, 0, 'YXZ'));
+            pair.landedPos.set(body.position.x, restY, body.position.z);
 
+            pair.settleT = 0;
+            pair.settleDuration = pair.needsTipOver ? 0.55 : 0.22;
             pair.settled = true;
+            pair.settleAnimating = true;
+          }
+        } else if (pair.settleAnimating) {
+          // Scripted final settle — eases the coin onto its face. The
+          // tip-over variant pops it up slightly and half-rotates it, which
+          // reads as a deliberate last-moment flip rather than a glitch.
+          allSettled = false;
+          pair.settleT += dt;
+          const t = Math.min(1, pair.settleT / pair.settleDuration);
+          const ease = 1 - Math.pow(1 - t, 3);
+
+          group.quaternion.slerpQuaternions(pair.settleFrom, pair.landedQuat, ease);
+
+          const popHeight = pair.needsTipOver ? 0.55 : 0.06;
+          const pop = Math.sin(Math.PI * t) * popHeight;
+          group.position.set(
+            THREE.MathUtils.lerp(pair.settleFromPos.x, pair.landedPos.x, ease),
+            THREE.MathUtils.lerp(pair.settleFromPos.y, pair.landedPos.y, ease) + pop,
+            THREE.MathUtils.lerp(pair.settleFromPos.z, pair.landedPos.z, ease)
+          );
+
+          if (t >= 1) {
             group.position.copy(pair.landedPos);
             group.quaternion.copy(pair.landedQuat);
+            pair.settleAnimating = false;
           }
         } else {
           group.position.copy(pair.landedPos);
           group.quaternion.copy(pair.landedQuat);
         }
 
-        // Calculate screen markers from camera projection of landed position
+        // Calculate screen markers from camera projection of the live coin
+        // position so the label tracks the settle/tip-over animation.
         if (pair.settled) {
-          const screenPos = pair.landedPos.clone().project(camera);
+          const screenPos = group.position.clone().project(camera);
           const px = ((screenPos.x + 1) * width) / 2;
           const py = ((-screenPos.y + 1) * height) / 2;
           updatedMarkers.push({

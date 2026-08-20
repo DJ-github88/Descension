@@ -154,7 +154,7 @@ export const MIMIR_BASE_ITEMS = [
 ];
 
 // Florae base items
-export const BRIARAN_BASE_ITEMS = [
+export const FLORAE_BASE_ITEMS = [
     {
         id: 'florae-nature-bracers',
         name: 'Bramble Bracers',
@@ -201,6 +201,7 @@ export const BRIARAN_BASE_ITEMS = [
         }
     }
 ];
+export const BRIARAN_BASE_ITEMS = FLORAE_BASE_ITEMS;
 
 // Groven base items
 export const GROVEN_BASE_ITEMS = [
@@ -654,14 +655,14 @@ export const MIMIR_SUBRACE_ITEMS = [
 ];
 
 // Florae subrace items
-export const BRIARAN_SUBRACE_ITEMS = [
+export const FLORAE_SUBRACE_ITEMS = [
     {
         id: 'courtly-mirror',
         name: 'Courtly Mirror',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A mirror of ghost-metal polish that shows the face beneath a Shorn Floraes borrowed name. The Hollow-Court trades in what it reveals.',
+        description: 'A mirror of ghost-metal polish that shows the face beneath an Oken Floraes borrowed name. The Hollow-Court trades in what it reveals.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 1,
@@ -682,7 +683,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Living thorn-plate grown from a Trueborn Floraes own skin. The Thorn-Fall records every wound it absorbs.',
+        description: 'Living thorn-plate grown from a Viridian Floraes own skin. The Thorn-Fall records every wound it absorbs.',
         iconId: 'inv_chest_leather_04',
         value: { platinum: 0, gold: 9, silver: 60, copper: 40 },
         weight: 10,
@@ -1288,7 +1289,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...HUMAN_BASE_ITEMS,
     ...MYRATHIL_BASE_ITEMS,
     ...MIMIR_BASE_ITEMS,
-    ...BRIARAN_BASE_ITEMS,
+    ...FLORAE_BASE_ITEMS,
     ...GROVEN_BASE_ITEMS,
     ...SOLARI_BASE_ITEMS,
     ...VREKEN_BASE_ITEMS,
@@ -1297,7 +1298,7 @@ export const ALL_RACE_EQUIPMENT = [
     ...FERRICK_BASE_ITEMS,
     ...MYRATHIL_SUBRACE_ITEMS,
     ...MIMIR_SUBRACE_ITEMS,
-    ...BRIARAN_SUBRACE_ITEMS,
+    ...FLORAE_SUBRACE_ITEMS,
     ...GROVEN_SUBRACE_ITEMS,
     ...SOLARI_SUBRACE_ITEMS,
     ...VREKEN_SUBRACE_ITEMS,

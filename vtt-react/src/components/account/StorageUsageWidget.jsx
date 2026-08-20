@@ -94,7 +94,7 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
                   onClick={() => setShowDetails(false)}
                   aria-label="Close storage details"
                 >
-                  Ã - 
+                  <i className="fas fa-times"></i>
                 </button>
               </div>
               <div className="storage-message guest">
@@ -230,7 +230,7 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
                 onClick={() => setShowDetails(false)}
                 aria-label="Close storage details"
               >
-                Ã - 
+                <i className="fas fa-times"></i>
               </button>
             </div>
 
@@ -271,6 +271,12 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
                 <div className="breakdown-item">
                   <span><i className="fas fa-music"></i> Audio</span>
                   <span>{storageLimitService.formatBytes(breakdown.audioFiles)}</span>
+                </div>
+              )}
+              {(breakdown.mediaFiles || 0) > 0 && (
+                <div className="breakdown-item">
+                  <span><i className="fas fa-image"></i> Images & Maps</span>
+                  <span>{storageLimitService.formatBytes(breakdown.mediaFiles)}</span>
                 </div>
               )}
             </div>
@@ -350,6 +356,18 @@ const StorageUsageWidget = ({ compact = false, cloud = false }) => {
             <span>Campaigns</span>
             <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
           </div>
+          {(breakdown.audioFiles || 0) > 0 && (
+            <div className="breakdown-item">
+              <span>Audio</span>
+              <span>{storageLimitService.formatBytes(breakdown.audioFiles)}</span>
+            </div>
+          )}
+          {(breakdown.mediaFiles || 0) > 0 && (
+            <div className="breakdown-item">
+              <span>Images & Maps</span>
+              <span>{storageLimitService.formatBytes(breakdown.mediaFiles)}</span>
+            </div>
+          )}
         </div>
 
         {message && (

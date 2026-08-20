@@ -200,15 +200,15 @@
 
 **Description:** A host — a walking crime scene where an ancient, unfeeling celestial parasite has fused with the nervous system. The Lunar Cycle is not a tool; it is the parasite's feeding schedule. Every three rounds it FORCEFULLY REWRITES the host's physiology. New Moon feeds on memory (+3 DR, immune charm/fear). Waxing feeds on sensation (+1d6 damage). Full Moon feeds on sanity (+2d8 radiant, crit 19-20, Delirium rolls). Waning feeds on vitality (25% vampiric, -3 mana costs).
 
-**Cultural Affiliation:** Originally exclusive to Briaran descendants — Trueborn Briaran (Thorn-Bound, the parasite as fae-contract made flesh) and Shorn Briaran (Hidden Moon, carrying the parasite in secret while passing as human). The parasite also bonds to Mimir castes: Masked (Moon-Masked, parasite replaces heartwood as identity-anchor), Woven (Sentinel-Moon, parasite bonds to vigil-duty), Unwoven (Moon-Saved, parasite as salvation from dissolution). Recently, Thalren humans (Fog-Heresy) have been chosen — trading fixed identity for a parasitic one.
+**Cultural Affiliation:** Originally exclusive to Florae descendants of House Viridane — Viridian Florae (Thorn-Bound, the parasite as fae-contract made flesh) and Oken Florae (Timber-Born, carrying the parasite in secret). The parasite also bonds to Mimir castes: Masked (Moon-Masked, parasite replaces heartwood as identity-anchor), Woven (Sentinel-Moon, parasite bonds to vigil-duty), Unwoven (Moon-Saved, parasite as salvation from dissolution). Recently, Thalren humans (Fog-Heresy) have been chosen — trading fixed identity for a parasitic one.
 
-**Subraces allowed:** `trueborn_briaran`, `shorn_briaran`, `veiled_mimir`, `tethered_mimir`, `thalren_human`
+**Subraces allowed:** `viridian_florae`, `florae_unified`, `veiled_mimir`, `tethered_mimir`, `thalren_human`
 
 **Flaw / World Weaving:** +25% bludgeoning vulnerability (starlight-infused organs rupture under blunt trauma). Standard magical healing deals wyrd damage instead of healing — the parasite devours foreign magic. Every phase shift deals 2d6 blight damage and forces a Transition Shock roll. The dead moon is calling its children home — the elder parasites are communicating across hosts. Selene has been silent for three weeks, whispering in a language no one recognizes. Whatever is waking may be the fallen star itself.
 
 **Class Hooks:**
-- `trueborn_briaran` → The Thorn-Bound: parasite phases synced to fae-contract debt; Waning phase is literally interest collection
-- `shorn_briaran` → The Hidden Moon: phases suppressed during day, erupt violently in isolation; moon becoming impossible to hide
+- `viridian_florae` → The Thorn-Bound: parasite phases synced to fae-contract debt; Waning phase is literally interest collection
+- `florae_unified` → The Oken Timber-Born: phases suppressed during day, erupt violently in isolation; moon becoming impossible to hide
 - `masked_mimir` → The Moon-Masked: parasite bonds cleanly as replacement identity-anchor; can survive briefly unmasked in the fog
 - `woven_mimir` → The Sentinel-Moon: power scales with adherence to sentinel-duty; moon becomes the thing they watch *for*
 - `unwoven_mimir` → The Moon-Saved: bonds ferociously to the parasite as salvation from dissolution; generates more power per phase than any stable host
@@ -348,18 +348,18 @@
 
 **Description:** The self-poisoned surgeon — the ONLY preparation-based alchemist whose veins run thick with weaponized toxin. They set traps before initiative, craft poisons mid-combat, and stack debilitating debuffs no other class can apply. Bleed Toxin Vials from saturated flesh, deploy Contraption Parts as battlefield traps, and watch enemies crumble under layered afflictions. All healing received is halved — their body rejects restoration.
 
-**Cultural Affiliation:** Heavily practiced by Thalren humans (Fog-Distillers — extract raw venom from fog-predators of the Frostwood, optimized for slow-acting area-denial), Unwoven Mimir (Floor-Brewers — cultivate toxins from undergrowth decay; longest-lasting persistent agents in the tradition), Morren humans (Bog-Chemists — derive toxins from the Bryngloom's peat-acids, alchemical moss, and the preservative ichor that sustains the First Contract), Trueborn Briaran (Thorn-Venom — distill their own fae-touched thorn-blood; every Toxicologist's poisons unique to their bloodline), and Shorn Briaran (Veiled-Cuil — brew in absolute secret, optimized for untraceable delayed-onset toxins that mimic natural illness).
+**Cultural Affiliation:** Heavily practiced by Thalren humans (Fog-Distillers — extract raw venom from fog-predators of the Frostwood, optimized for slow-acting area-denial), Unwoven Mimir (Floor-Brewers — cultivate toxins from undergrowth decay; longest-lasting persistent agents in the tradition), Morren humans / Grave Neth (Bog-Chemists — derive toxins from the Bryngloom's peat-acids, alchemical moss, and the preservative ichor that sustains the First Contract), Viridian Florae (Thorn-Venom — distill their own fae-touched thorn-blood; every Toxicologist's poisons unique to their bloodline), and Oken Florae (Veiled-Cuil — brew in absolute secret, optimized for untraceable delayed-onset toxins that mimic natural illness).
 
-**Subraces allowed:** `thalren_human`, `unwoven_mimir`, `morren_human`, `trueborn_briaran`, `shorn_briaran`
+**Subraces allowed:** `thalren_human`, `unwoven_mimir`, `morren_human`, `viridian_florae`, `florae_unified`, `drun_neth`
 
-**Flaw / World Weaving:** 50% healing reduction — blood rejects medicine. Fire/ember damage causes active poisons to detonate internally. Chronic tremors from years of toxin exposure. The fog is changing the chemistry of the Frostwood Reach — compounds viable for years are degrading in weeks; Varis's life work is spoiling in real time. Something is leaching into the mist that reacts unpredictably with stored compounds.
+**Flaw / World Weaving:** +50% alchemical vulnerability (corrosive residue builds up in bloodstream). Immunity to standard poisons (tissues are pre-saturated). Each brew requires fresh ingredients — peat-acid spoils, venom degrades, thorn-blood clots within hours. The Fog-Lung is not a disease; it is the Frostwood slowly turning human tissue into ironwood bark. The Toxicologists are not looking for a cure; they are measuring the transformation.
 
 **Class Hooks:**
-- `thalren_human` → The Fog-Distiller: toxins from fog-predator biology, optimized for area-denial — a poison laid today that blooms in a week
-- `unwoven_mimir` → The Floor-Brewer: toxins from decomposing undergrowth, optimized for persistence — weeks of denied terrain
-- `morren_human` → The Bog-Chemist: most versatile — draws from the richest pharmacological treasury, including contract-preserving ichor
-- `trueborn_briaran` → The Thorn-Venom: poisons distilled from own fae-touched blood; each bloodline's poison unique and uncounterable without specific study
-- `shorn_briaran` → The Hidden-Cuil: toxins engineered for untraceability — delayed onset, mimics natural illness; weakest direct-combat toxins
+- `thalren_human` → The Fog-Distiller: extracts venom from fog-predators; poisons deal ice damage and erase memory of the attack
+- `tethered_mimir` → The Floor-Brewer: cultivates toxins from undergrowth decay; longest-lasting persistent area-denial
+- `viridian_florae` → The Thorn-Venom: poisons distilled from own fae-touched blood; each bloodline's poison unique and uncounterable without specific study
+- `florae_unified` → The Oken Timber-Craft: toxins engineered for untraceability — delayed onset, mimics natural illness
+- `drun_neth` → The Grave-Ichor: uses bog-acid and unpreserved ichor to rot magical wards from within
 
 ---
 

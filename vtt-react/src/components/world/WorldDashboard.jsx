@@ -3,6 +3,7 @@ import useWorldStore from '../../store/worldStore';
 import useFactionStore from '../../store/factionStore';
 import useClassLoreStore from '../../store/classLoreStore';
 import useCustomLineageStore from '../../store/customLineageStore';
+import { getClassFlavorProfile } from '../../data/classes/classFlavorProfiles';
 import FactionWebGraph from './FactionWebGraph';
 import FactionDetail from './FactionDetail';
 import LocationDetail from './LocationDetail';
@@ -473,6 +474,7 @@ const WorldDashboard = () => {
               {classes
                 .filter((cls) => {
                   const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_');
+                  const profile = getClassFlavorProfile(cls.id);
                   if (selectedClassArchetype !== 'all') {
                     const arch = CLASS_ARCHETYPES.find((a) => a.id === selectedClassArchetype);
                     if (arch && !arch.classIds.includes(normalizedId) && !arch.classIds.includes(cls.id?.toLowerCase())) {
@@ -486,13 +488,18 @@ const WorldDashboard = () => {
                     const matchDesc = cls.description?.toLowerCase().includes(term);
                     const roleData = CLASS_ROLE_TAGS[normalizedId] || {};
                     const matchRole = roleData.role?.toLowerCase().includes(term);
-                    return matchName || matchOrigin || matchDesc || matchRole;
+                    const matchTagline = profile?.tagline?.toLowerCase().includes(term);
+                    const matchResource = profile?.resourceName?.toLowerCase().includes(term);
+                    const matchTradition = profile?.tradition?.toLowerCase().includes(term);
+                    const matchFeature = profile?.keyFeatures?.some((f) => f.toLowerCase().includes(term));
+                    return matchName || matchOrigin || matchDesc || matchRole || matchTagline || matchResource || matchTradition || matchFeature;
                   }
                   return true;
                 })
                 .map((cls) => {
                   const normalizedId = cls.id?.toLowerCase()?.replace(/\s+/g, '_');
-                  const roleData = CLASS_ROLE_TAGS[normalizedId] || { role: 'Heroic Calling', icon: 'fa-star' };
+                  const profile = getClassFlavorProfile(cls.id);
+                  const roleData = CLASS_ROLE_TAGS[normalizedId] || { role: profile?.role || 'Heroic Calling', icon: profile?.roleIcon || 'fa-star' };
                   const arch = CLASS_ARCHETYPES.find((a) => a.id !== 'all' && (a.classIds.includes(normalizedId) || a.classIds.includes(cls.id?.toLowerCase())));
 
                   return (
@@ -503,17 +510,36 @@ const WorldDashboard = () => {
                     >
                       <div className="class-card-header">
                         <div className="class-title-block">
-                          <h4>{cls.name}</h4>
-                          <span className="class-archetype-tag">{arch?.label?.split('&')[0] || 'Calling'}</span>
+                          <h4>
+                            <i className={`fas ${profile?.roleIcon || roleData.icon || 'fa-scroll'} class-header-icon`} />
+                            {cls.name}
+                          </h4>
+                          <span className="class-archetype-tag">{profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
                         </div>
                         <span className="class-role-pill">
-                          <i className={`fas ${roleData.icon}`} style={{ marginRight: '4px' }} />
-                          {roleData.role}
+                          {profile?.role || roleData.role}
                         </span>
                       </div>
 
-                      <p className="world-card-meta class-origin-snippet">
-                        {cls.originStory || cls.description?.slice(0, 130) + '...'}
+                      {profile?.tagline && (
+                        <div className="class-tagline-box">
+                          <p className="class-tagline-text">"{profile.tagline}"</p>
+                        </div>
+                      )}
+
+                      <div className="class-mechanics-pills">
+                        <span className="class-pill class-resource-pill" title="Unique Resource">
+                          <i className={`fas ${profile?.resourceIcon || 'fa-bolt'}`} /> {profile?.resourceName || 'Unique Resource'}
+                        </span>
+                        {(profile?.keyFeatures || []).slice(0, 2).map((feat, idx) => (
+                          <span key={idx} className="class-pill class-feature-pill">
+                            <i className="fas fa-sparkles" /> {feat}
+                          </span>
+                        ))}
+                      </div>
+
+                      <p className="class-origin-snippet">
+                        {profile?.loreSnippet || cls.description?.slice(0, 140) + '...'}
                       </p>
 
                       <div className="class-card-footer">
@@ -521,7 +547,7 @@ const WorldDashboard = () => {
                           <i className="fas fa-landmark" /> {cls.classSpecificLocations?.length || 1} Sacred Sites
                         </span>
                         <span className="class-view-link">
-                          Dossier & History ↗
+                          Dossier & History →
                         </span>
                       </div>
                     </div>
@@ -541,7 +567,7 @@ const WorldDashboard = () => {
             <button className="world-quick-link" onClick={navigateToTimeline}>
               <i className="fas fa-history" />
               <span>World Timeline</span>
-              <small>Chronological history from the Deepening to the present age</small>
+              <small>Chronological history from the Star-Fall to the present age</small>
             </button>
             <button className="world-quick-link" onClick={() => openLineageWizard()}>
               <i className="fas fa-dna" />

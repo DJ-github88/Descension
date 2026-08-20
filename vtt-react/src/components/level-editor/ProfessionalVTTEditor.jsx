@@ -229,8 +229,22 @@ const ProfessionalVTTEditor = () => {
         if (tabId !== 'terrain') {
             setTimeout(() => {
                 const newSettings = { ...toolSettings };
-                    delete newSettings.selectedTerrainType;
-                    setToolSettings(newSettings);
+                delete newSettings.selectedTerrainType;
+                setToolSettings(newSettings);
+            }, 0);
+        }
+
+        // Reset wall type to valid solid wall if switching to walls tab with a door/window type
+        if (tabId === 'walls') {
+            setTimeout(() => {
+                const cur = toolSettings.selectedWallType;
+                const curData = WALL_TYPES[cur];
+                if (!cur || curData?.interactive || curData?.category === 'window') {
+                    setToolSettings(prev => ({
+                        ...prev,
+                        selectedWallType: 'stone_wall'
+                    }));
+                }
             }, 0);
         }
     };
@@ -1635,8 +1649,15 @@ const ProfessionalVTTEditor = () => {
                 break;
             case 'wall_draw':
                 // Handle different wall drawing modes
-                if (toolSettings.selectedWallType) {
-                    const wallMode = toolSettings.wallMode || 'continuous';
+                {
+                    const activeWallType = toolSettings.selectedWallType || 'stone_wall';
+                    const wallTypeData = WALL_TYPES[activeWallType];
+                    const validWallType = (!wallTypeData || wallTypeData.interactive || wallTypeData.category === 'window')
+                        ? 'stone_wall'
+                        : activeWallType;
+                    if (validWallType !== toolSettings.selectedWallType) {
+                        setToolSettings(prev => ({ ...prev, selectedWallType: validWallType }));
+                    }
                     // Start drawing for both continuous and rectangle modes
                     setCurrentPath([coords]);
                     setCurrentDrawingPath([coords]);
@@ -2415,7 +2436,12 @@ const ProfessionalVTTEditor = () => {
         if (selectedTool === 'wall_draw' && currentPath.length === 2) {
             const startPoint = currentPath[0];
             const endPoint = currentPath[1];
-            const wallType = toolSettings.selectedWallType || 'stone_wall';
+            let wallType = toolSettings.selectedWallType || 'stone_wall';
+            const wallTypeData = WALL_TYPES[wallType];
+            // Ensure wall drawing never creates door/window objects
+            if (!wallTypeData || wallTypeData.interactive || wallTypeData.category === 'window') {
+                wallType = 'stone_wall';
+            }
             const wallMode = toolSettings.wallMode || 'continuous';
 
             if (wallMode === 'continuous') {
@@ -2710,8 +2736,9 @@ const ProfessionalVTTEditor = () => {
                     setIsOpen(false);
                     setEditorMode(false);
                 }}
-                defaultSize={{ width: 940, height: 750 }}
+                defaultSize={{ width: 500, height: 680 }}
                 defaultPosition={{ x: 50, y: 50 }}
+                minConstraints={[400, 450]}
                 customHeader={
                     <div className="spellbook-tab-container">
                         {Object.entries(vttTools).map(([key, category]) => (
@@ -2721,7 +2748,7 @@ const ProfessionalVTTEditor = () => {
                                 onClick={() => handleTabChange(key)}
                                 title={`${category.name} - Professional tools for map creation`}
                             >
-                                <span>{category.name}</span>
+                                <span className="tab-text">{category.name}</span>
                             </button>
                         ))}
                     </div>

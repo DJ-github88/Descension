@@ -654,7 +654,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundrift-vale',
     width: 4096,
     height: 3072,
-    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during the Breach. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.'
+    description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during Blizzard’s End. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.'
   },
   'sundrift-bogpost-march': {
     id: 'sundrift-bogpost-march',

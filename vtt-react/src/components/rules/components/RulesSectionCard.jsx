@@ -12,14 +12,14 @@ const SECTION_ICONS = {
   social: 'fas fa-users'
 };
 
-const RulesSectionCard = ({ title, icon, theme, short, children }) => {
+const RulesSectionCard = ({ id, 'data-section-index': sectionIndex, title, icon, theme, short, children }) => {
   const themeClass = theme ? `theme-${theme}` : 'theme-mechanic';
   const displayIcon = icon || SECTION_ICONS[theme] || 'fas fa-scroll';
   // Suppress 2-column CSS when the content is short
   const contentClass = short ? 'rules-section-card-content no-columns' : 'rules-section-card-content';
 
   return (
-    <div className={`rules-section-card ${themeClass}`}>
+    <div id={id} data-section-index={sectionIndex} className={`rules-section-card ${themeClass}`}>
       {title && (
         <div className="rules-section-card-title">
           <i className={displayIcon} />

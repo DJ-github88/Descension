@@ -1,19 +1,21 @@
 .wow-window {
-    background: #3a2a1d;
-    border: 3px solid #3d2a1d;
-    border-radius: 6px;
+    background: #23160e;
+    border: 3.5px solid #3c2617;
+    border-radius: 8px;
     box-shadow: 
-        0 14px 40px rgba(0, 0, 0, 0.8),
-        inset 0 0 0 1px rgba(212, 175, 55, 0.45);
+        0 20px 50px rgba(0, 0, 0, 0.85),
+        0 4px 14px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(212, 175, 55, 0.55),
+        inset 0 0 0 2px rgba(45, 28, 17, 0.9),
+        inset 0 0 0 3px rgba(212, 175, 55, 0.18);
     display: flex;
     flex-direction: column;
     overflow: visible !important; /* Allow top tabs to sit above the window */
     position: relative;
-    margin-top: 42px; /* Tabs sit right at top of frame border */
+    margin-top: 38px; /* Tabs sit right above top border */
     min-width: 200px;
     max-width: none;
     min-height: 100px;
-    /* 4px padding removed — corner frames now sit outside via negative offsets */
     padding: 0;
     box-sizing: border-box;
     color: #2c1b0e;
@@ -23,117 +25,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ornate Leather & Gold Corner Accents */
-/* Corner frames — placed OUTSIDE the window borders so they overlay everything */
-.wow-frame-corner {
-    position: absolute;
-    pointer-events: none;
-    z-index: 9999;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    /* 76px x 96px — large corners that overlap frame border edges cleanly */
-    width: 76px;
-    height: 96px;
-}
-
-.wow-frame-corner-tl {
-    top: -8px;
-    left: -8px;
-    background-image: url('../../public/assets/ui/wow-window/frame_corner_tl.png');
-    background-position: top left;
-}
-
-.wow-frame-corner-tr {
-    top: -8px;
-    right: -8px;
-    background-image: url('../../public/assets/ui/wow-window/frame_corner_tr.png');
-    background-position: top right;
-}
-
-.wow-frame-corner-bl {
-    bottom: -8px;
-    left: -8px;
-    background-image: url('../../public/assets/ui/wow-window/frame_corner_bl.png');
-    background-position: bottom left;
-}
-
-.wow-frame-corner-br {
-    bottom: -8px;
-    right: -8px;
-    background-image: url('../../public/assets/ui/wow-window/frame_corner_br.png');
-    background-position: bottom right;
-}
-
-/* Drag handle overlay — covers the entire top frame border for easy window dragging */
-.wow-window-drag-handle {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    height: 36px;
-    z-index: 10000;
-    cursor: move;
-}
-
-/* Frame edges — connect the corners. Edges sit at exact 36px thickness, matching the corner arms pixel-for-pixel */
-.wow-frame-edge {
-    position: absolute;
-    pointer-events: none;
-    z-index: 9998; /* below corners (9999) so corners cover the joints */
-    background-repeat: repeat;
-}
-
-.wow-frame-edge-top {
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    height: 28px;
-    background-image: url('../../public/assets/ui/wow-window/frame_top.png');
-    background-size: auto 28px;
-    background-repeat: repeat-x;
-    background-position: center top;
-}
-
-.wow-frame-edge-bottom {
-    bottom: -8px;
-    left: -8px;
-    right: -8px;
-    height: 28px;
-    background-image: url('../../public/assets/ui/wow-window/frame_top.png');
-    background-size: auto 28px;
-    background-repeat: repeat-x;
-    background-position: center bottom;
-    transform: scaleY(-1);
-}
-
-.wow-frame-edge-left {
-    left: -8px;
-    top: -8px;
-    bottom: -8px;
-    width: 28px;
-    background-image: url('../../public/assets/ui/wow-window/frame_top_vertical.png');
-    background-size: 28px auto;
-    background-repeat: repeat-y;
-    background-position: left center;
-}
-
-.wow-frame-edge-right {
-    right: -8px;
-    top: -8px;
-    bottom: -8px;
-    width: 28px;
-    background-image: url('../../public/assets/ui/wow-window/frame_top_vertical.png');
-    background-size: 28px auto;
-    background-repeat: repeat-y;
-    background-position: right center;
-    transform: scaleX(-1);
-}
-
 /* Close button inside the content area, positioned cleanly with margin */
 .wow-window-close-btn {
     position: absolute !important;
     top: 6px !important;
-    right: 12px !important;
+    right: 10px !important;
     z-index: 10002 !important;
 }
 
@@ -162,10 +58,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 36px;
-    padding: 6px 14px 6px 18px;
-    background: linear-gradient(180deg, rgba(122, 59, 46, 0.08) 0%, rgba(122, 59, 46, 0.04) 100%);
-    border-bottom: 1px solid rgba(122, 59, 46, 0.18);
+    height: 38px;
+    min-height: 38px;
+    padding: 6px 14px 6px 16px;
+    background: linear-gradient(180deg, #3d281a 0%, #291a10 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.25);
     -webkit-user-select: none;
     user-select: none;
     cursor: move;
@@ -177,11 +77,11 @@
 
 .window-header .window-title {
     font-family: 'Cinzel', serif;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #2d1810;
-    letter-spacing: 0.4px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    color: #ede3d2;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -194,13 +94,13 @@
 }
 
 /* When the header contains only the custom spellbook tabs:
-   Transparent drag strip along the top frame border — tall enough to grab. */
+   Transparent drag strip along the top border */
 .wow-custom-header-handle {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    height: 24px !important;
-    min-height: 24px !important;
+    height: 0 !important;
+    min-height: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
     overflow: visible !important;
@@ -245,28 +145,37 @@
 .window-header .spellbook-tab-container {
     position: absolute !important;
     top: -38px !important;
-    left: 32px !important;
-    right: 32px !important;
+    left: 16px !important;
+    right: 48px !important;
+    max-width: calc(100% - 64px) !important;
     height: 40px !important;
     display: flex !important;
     align-items: flex-end !important;
     justify-content: flex-start !important;
-    gap: 2px !important;
+    gap: 4px !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: visible !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
     z-index: 10000 !important;
-    width: auto !important;
+    flex-wrap: nowrap !important;
     pointer-events: auto !important;
+}
+
+.window-header .spellbook-tab-container::-webkit-scrollbar {
+    display: none !important;
 }
 
 .window-header .spellbook-tab-container .tab-dropdown-wrapper {
     pointer-events: auto !important;
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
+    flex: 0 1 auto !important;
+    min-width: 90px !important;
+    max-width: 170px !important;
     display: flex !important;
 }
 
@@ -280,15 +189,15 @@
 }
 
 .window-title {
-    color: #2d1810 !important;
-    font-size: 1.05rem !important;
+    color: #ede3d2 !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     padding: 0 8px !important;
     white-space: nowrap !important;
     font-family: 'Cinzel', serif !important;
     line-height: 1.2 !important;
-    letter-spacing: 0.4px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85) !important;
 }
 
 .window-title.centered {
@@ -453,27 +362,61 @@
 
 
 
-/* Make resize handle invisible but keep functionality - exclude combat timeline */
+/* ===== ELEGANT NON-DISRUPTIVE WINDOW RESIZE HANDLE ===== */
 .wow-window .react-resizable-handle {
-    opacity: 0 !important;
+    position: absolute !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.wow-window .react-resizable-handle-se {
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: nwse-resize !important;
     background: transparent !important;
+    border: none !important;
+    border-radius: 0 0 6px 0 !important;
+    opacity: 0.35 !important;
+    transition: opacity 0.2s ease, filter 0.2s ease !important;
+    
+    /* Subtle 3-stripe gold diagonal corner grip ridges */
+    background-image: linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(212, 175, 55, 0.45) 40%,
+        rgba(212, 175, 55, 0.45) 48%,
+        transparent 48%,
+        transparent 60%,
+        rgba(212, 175, 55, 0.65) 60%,
+        rgba(212, 175, 55, 0.65) 68%,
+        transparent 68%,
+        transparent 80%,
+        rgba(212, 175, 55, 0.85) 80%,
+        rgba(212, 175, 55, 0.85) 88%,
+        transparent 88%,
+        transparent 100%
+    ) !important;
 }
 
 .wow-window:hover .react-resizable-handle-se {
-    opacity: 1 !important;
-    background: rgba(139, 69, 19, 0.8) !important;
-    border: 2px solid #8B4513 !important;
-    width: 20px !important;
-    height: 20px !important;
-    bottom: -10px !important;
-    right: -10px !important;
-    border-radius: 2px !important;
-    cursor: nw-resize !important;
-    z-index: 1000 !important;
-    position: absolute !important;
-    pointer-events: auto !important;
+    opacity: 0.75 !important;
 }
 
+.wow-window .react-resizable-handle-se:hover {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.8)) !important;
+}
+
+.draggable-window.resizing .wow-window .react-resizable-handle-se,
+.wow-window.resizing .react-resizable-handle-se {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 1)) !important;
+}
 
 /* Disable transitions during dragging for better performance */
 .draggable-window.dragging .window-header-tab,
@@ -521,12 +464,6 @@
     pointer-events: auto !important;
 }
 
-.wow-window .react-resizable-handle-se {
-    opacity: 0 !important;
-    background: transparent !important;
-    /* Keep functionality but hide until hover */
-}
-
 /* Legacy tab styles removed - all windows now use unified spellbook-tab-container system */
 
 /* ===== SPELLBOOK LAYOUT STYLES ===== */
@@ -552,12 +489,12 @@
     position: absolute !important;
     top: -38px !important;
     left: 20px !important;
-    right: 20px !important;
+    right: 50px !important;
     height: 40px !important;
     display: flex !important;
     align-items: flex-end !important;
     justify-content: flex-start !important;
-    gap: 2px !important;
+    gap: 6px !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -880,12 +817,12 @@
     outline: none !important;
     color: #2b180d !important;
     font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
-    font-size: clamp(9.5px, 0.95vw, 11px) !important;
+    font-size: clamp(9.5px, 0.95vw, 11.5px) !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.3px !important;
+    letter-spacing: 0.4px !important;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    padding: 4px clamp(4px, 1vw, 12px) !important;
+    padding: 4px clamp(12px, 1.4vw, 22px) !important;
     min-height: 38px !important;
     height: 38px !important;
     display: inline-flex !important;
@@ -894,13 +831,14 @@
     cursor: pointer !important;
     transition: transform 0.15s ease, filter 0.15s ease !important;
     box-shadow: none !important;
-    margin: 0 1px !important;
+    margin: 0 !important;
     border-radius: 0 !important;
     position: relative !important;
     z-index: 10 !important;
     opacity: 0.95 !important;
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
+    flex: 0 1 auto !important;
+    min-width: 90px !important;
+    max-width: 170px !important;
     white-space: nowrap !important;
 }
 
@@ -971,16 +909,17 @@
    ========================================================================== */
 
 .tab-dropdown-wrapper {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    flex: 1 1 0%;
-    min-width: 0;
+    position: relative !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    flex: 0 1 auto !important;
+    min-width: 90px !important;
+    max-width: 170px !important;
 }
 
 .tab-dropdown-wrapper .spellbook-tab-button {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 .tab-dropdown-menu {

@@ -2,6 +2,7 @@ import { getStore } from './storeRegistry';
 // Authentication store using Zustand
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 import authService from '../services/authService';
 import { isProduction } from '../config/env';
 
@@ -781,8 +782,7 @@ const useAuthStore = create(
         }
       }
     }),
-    {
-      name: 'mythrill-auth',
+    createStorageConfig('mythrill-auth', {
       partialize: (state) => ({
         // Only persist authentication state if there's an actual user
         // This prevents stale authentication state when Firebase session expires
@@ -793,7 +793,7 @@ const useAuthStore = create(
           isAuthInitialized: state.isAuthInitialized
         })
       })
-    }
+    })
   )
 );
 

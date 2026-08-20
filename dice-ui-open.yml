@@ -1,0 +1,117 @@
+- generic [ref=f2e2]:
+  - generic:
+    - generic:
+      - generic [ref=f2e3] [cursor=pointer]
+      - generic [ref=f2e5] [cursor=pointer]:
+        - generic [ref=f2e6]: L
+        - generic [ref=f2e8]:
+          - generic [ref=f2e9]:
+            - generic [ref=f2e10]:
+              - text: Lyra Windwalker (Level 4)
+              - generic [ref=f2e11]:
+                - generic [ref=f2e12]: 
+                - combobox [ref=f2e13]:
+                  - option "Level 0 (Normal)" [selected]
+                  - option "Level 1 (Disadvantage on Checks)"
+                  - option "Level 2 (Speed Halved)"
+                  - option "Level 3 (Disadvantage on Attacks/Saves)"
+                  - option "Level 4 (HP Max Halved)"
+                  - option "Level 5 (Speed 0)"
+                  - option "Level 6 (Death)"
+            - generic [ref=f2e14]:
+              - generic [ref=f2e15]: Stargazer Astril (Astril)
+              - generic [ref=f2e16]: Berserker
+              - generic [ref=f2e17]: Neutral Good
+          - generic [ref=f2e19]:
+            - generic [ref=f2e21]:
+              - generic [ref=f2e22]: 62/80
+              - generic:
+                - generic:
+                  - generic:
+                    - img "Health Status"
+            - generic [ref=f2e25]:
+              - generic [ref=f2e27]:
+                - generic [ref=f2e28]: 29/75
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Mana Status"
+              - generic [ref=f2e32]:
+                - generic [ref=f2e33]: 3/3 AP
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Action Points Status"
+      - generic [ref=f2e45]:
+        - generic [ref=f2e46] [cursor=pointer]: "1"
+        - generic [ref=f2e47] [cursor=pointer]: "2"
+        - generic [ref=f2e48] [cursor=pointer]: "3"
+        - generic [ref=f2e49] [cursor=pointer]: "4"
+        - generic [ref=f2e50] [cursor=pointer]: "5"
+        - generic [ref=f2e51] [cursor=pointer]: "6"
+        - generic [ref=f2e52] [cursor=pointer]: "7"
+        - generic [ref=f2e53] [cursor=pointer]: "8"
+        - generic [ref=f2e54] [cursor=pointer]: "9"
+        - generic [ref=f2e55] [cursor=pointer]: "0"
+      - generic [ref=f2e57]:
+        - generic:
+          - generic: "5"
+          - generic: /
+          - generic: "600"
+          - generic: XP
+      - button " Dialogue" [ref=f2e60] [cursor=pointer]:
+        - generic [ref=f2e61]: 
+        - generic [ref=f2e62]: Dialogue
+    - generic [ref=f2e64]:
+      - button "Character" [ref=f2e66] [cursor=pointer]:
+        - img "Character"
+      - button "Adventure" [ref=f2e71] [cursor=pointer]:
+        - img "Adventure"
+      - button "Tools" [ref=f2e76] [cursor=pointer]:
+        - img "Tools"
+      - button "Settings" [ref=f2e97] [cursor=pointer]:
+        - img "Settings"
+      - button "ESC" [ref=f2e98] [cursor=pointer]:
+        - img "ESC"
+      - button "Minimize Navigation (~)" [ref=f2e87] [cursor=pointer]
+    - generic "Click to center on origin (0, 0)" [ref=f2e88] [cursor=pointer]:
+      - generic [ref=f2e89]: 
+      - generic [ref=f2e90]: "X: 0.0"
+      - generic [ref=f2e91]: "|"
+      - generic [ref=f2e92]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=f2e93]: 
+  - generic [ref=f2e94]:
+    - button "" [ref=f2e95] [cursor=pointer]
+    - generic [ref=f2e106]:
+      - generic [ref=f2e107]: Dice Roller
+      - generic [ref=f2e109]:
+        - generic [ref=f2e110]: "Quick Roll:"
+        - generic [ref=f2e111]:
+          - button "D4" [ref=f2e112] [cursor=pointer]
+          - button "D6" [ref=f2e114] [cursor=pointer]
+          - button "D8" [ref=f2e116] [cursor=pointer]
+          - button "D10" [ref=f2e118] [cursor=pointer]
+          - button "D12" [ref=f2e120] [cursor=pointer]
+          - button "D20" [ref=f2e122] [cursor=pointer]
+          - button "D%" [ref=f2e124] [cursor=pointer]
+          - button "D100" [ref=f2e125] [cursor=pointer]
+      - generic [ref=f2e126]:
+        - generic [ref=f2e127]: "Select Dice:"
+        - generic [ref=f2e128]:
+          - button "D4" [ref=f2e130] [cursor=pointer]
+          - button "D6" [ref=f2e134] [cursor=pointer]
+          - button "D8" [ref=f2e138] [cursor=pointer]
+          - button "D10" [ref=f2e142] [cursor=pointer]
+          - button "D12" [ref=f2e146] [cursor=pointer]
+          - button "D20" [ref=f2e150] [cursor=pointer]
+          - button "D%" [ref=f2e154] [cursor=pointer]
+          - button "D100" [ref=f2e158] [cursor=pointer]
+      - generic [ref=f2e161]:
+        - generic [ref=f2e162]: "Theme:"
+        - generic [ref=f2e163]:
+          - button "Classic Obsidian" [ref=f2e164] [cursor=pointer]
+          - button "Glacial Frost" [ref=f2e167] [cursor=pointer]
+          - button "Infernal Flame" [ref=f2e170] [cursor=pointer]
+          - button "Abyssal Void" [ref=f2e173] [cursor=pointer]
+          - button "Verdant Sylvan" [ref=f2e176] [cursor=pointer]
+          - button "Tempest Storm" [ref=f2e179] [cursor=pointer]

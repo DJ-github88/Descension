@@ -7,6 +7,7 @@ import { getCustomIconUrl } from '../../utils/assetManager';
 import { BUILTIN_SUBREGION_MAPS, getCustomMaps } from '../../data/subregionMaps';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import RichLoreText from '../common/RichLoreText';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
@@ -179,13 +180,25 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const boardRef = useRef(null);
 
-  // Helper to read and optimize image files to Data URL
+  // Media uploads → Firebase Storage for auth users (base64 fallback for guests)
+  const { uploadImage, removeImage } = useMediaUpload();
+
+  // Helper to read and optimize image files; cloud users get a Storage URL,
+  // guests get an inline base64 data URL.
   const handleImageUpload = useCallback((file, callback) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       alert('Please select an image file (PNG, JPG, WebP).');
       return;
     }
+    const finishUpload = (blob) => {
+      uploadImage(blob, 'journal')
+        .then((url) => { if (url) callback(url); })
+        .catch((err) => {
+          console.error('Journal image upload failed:', err);
+          alert(err.message || 'Image upload failed. Please try a smaller file.');
+        });
+    };
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
@@ -207,15 +220,18 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
           canvas.height = height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
-          callback(canvas.toDataURL('image/png'));
+          canvas.toBlob((blob) => {
+            if (blob) finishUpload(blob);
+            else callback(canvas.toDataURL('image/png'));
+          }, 'image/png');
         } else {
-          callback(dataUrl);
+          finishUpload(file);
         }
       };
       img.src = dataUrl;
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [uploadImage]);
   const [contextMenu, setContextMenu] = useState(null);
   const [showAddOrbPopup, setShowAddOrbPopup] = useState(false);
   const [addOrbStep, setAddOrbStep] = useState('select'); // 'select' or 'customize'
@@ -231,6 +247,7 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
   const [showBackgroundModal, setShowBackgroundModal] = useState(false);
   const [bgCategoryTab, setBgCategoryTab] = useState('maps'); // 'maps' | 'upload' | 'scenery'
   const [customBgPreview, setCustomBgPreview] = useState(null);
+  const [customBgFile, setCustomBgFile] = useState(null);
   const [customBgName, setCustomBgName] = useState('');
   const [campaignData, setCampaignData] = useState(null);
   const [backgroundInput, setBackgroundInput] = useState('');
@@ -2388,6 +2405,7 @@ Drag notes to the Knowledge Board to create visual connections!"
                         const file = e.target.files?.[0];
                         if (file) {
                           setCustomBgName(file.name);
+                          setCustomBgFile(file);
                           const reader = new FileReader();
                           reader.onload = (ev) => setCustomBgPreview(ev.target.result);
                           reader.readAsDataURL(file);
@@ -2405,9 +2423,23 @@ Drag notes to the Knowledge Board to create visual connections!"
                           type="button"
                           className="toolbar-btn active"
                           style={{ padding: '8px 14px', fontSize: '11px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                          onClick={() => {
-                            setBoardBackground({ url: customBgPreview, name: customBgName || 'Custom Map', isCustom: true });
-                            setShowBackgroundModal(false);
+                          onClick={async () => {
+                            try {
+                              let bgUrl = customBgPreview;
+                              if (customBgFile) {
+                                const uploaded = await uploadImage(customBgFile, 'board-backgrounds');
+                                if (uploaded) bgUrl = uploaded;
+                              }
+                              const previousBg = getBoardBackground();
+                              if (previousBg?.isCustom && previousBg?.url) {
+                                removeImage(previousBg.url).catch((err) => console.warn('Failed to remove old background from cloud:', err));
+                              }
+                              setBoardBackground({ url: bgUrl, name: customBgName || 'Custom Map', isCustom: true });
+                              setShowBackgroundModal(false);
+                            } catch (err) {
+                              console.error('Background upload failed:', err);
+                              alert(err.message || 'Background upload failed. Please try a smaller file.');
+                            }
                           }}
                         >
                           <i className="fas fa-check"></i> Apply as Background

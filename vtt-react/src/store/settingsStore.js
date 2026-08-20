@@ -9,6 +9,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { DEFAULT_USER_SETTINGS, saveUserSettings, loadUserSettings } from '../services/firebase/userSettingsService';
 import { detectHardwareProfile } from '../utils/hardwareDetector';
+import { safeLocalStorageGet, safeLocalStorageItem, safeLocalStorageRemove } from '../utils/storageUtils';
 
 // Run hardware auto-detection on initialization
 const detectedHardware = detectHardwareProfile();
@@ -26,7 +27,7 @@ const createFirebaseStorage = () => ({
   getItem: async (name) => {
     try {
       // Try to get current user from localStorage first (set by auth system)
-      const authData = localStorage.getItem('auth-storage');
+      const authData = safeLocalStorageGet('auth-storage');
       let user = null;
 
       if (authData) {
@@ -46,7 +47,7 @@ const createFirebaseStorage = () => ({
         };
       } else {
         // For guests, use localStorage
-        const item = localStorage.getItem(name);
+        const item = safeLocalStorageGet(name);
         return item ? JSON.parse(item) : null;
       }
     } catch (error) {
@@ -54,14 +55,15 @@ const createFirebaseStorage = () => ({
       window.dispatchEvent(new CustomEvent('settings_persistence_degraded', {
         detail: { operation: 'read', key: name, error: error.message }
       }));
-      return localStorage.getItem(name);
+      const item = safeLocalStorageGet(name);
+      return item ? (typeof item === 'string' ? JSON.parse(item) : item) : null;
     }
   },
 
   setItem: async (name, data) => {
     try {
       // Try to get current user from localStorage first (set by auth system)
-      const authData = localStorage.getItem('auth-storage');
+      const authData = safeLocalStorageGet('auth-storage');
       let user = null;
 
       if (authData) {
@@ -79,14 +81,14 @@ const createFirebaseStorage = () => ({
       } else {
         // Save to localStorage for guests
         // data is already an object when using createJSONStorage, but we need to stringify it for localStorage
-        localStorage.setItem(name, JSON.stringify(data));
+        safeLocalStorageItem(name, JSON.stringify(data));
       }
     } catch (error) {
       console.error('Error saving settings to Firebase:', error);
       window.dispatchEvent(new CustomEvent('settings_persistence_degraded', {
         detail: { operation: 'write', key: name, error: error.message }
       }));
-      localStorage.setItem(name, JSON.stringify(data));
+      safeLocalStorageItem(name, JSON.stringify(data));
     }
   },
 
@@ -94,10 +96,10 @@ const createFirebaseStorage = () => ({
     try {
       // For Firebase, we don't actually delete settings, just leave them as defaults
       console.log('Settings removed from local cache, Firebase retains defaults');
-      localStorage.removeItem(name);
+      safeLocalStorageRemove(name);
     } catch (error) {
       console.error('Error removing settings:', error);
-      localStorage.removeItem(name);
+      safeLocalStorageRemove(name);
     }
   }
 });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import subscriptionService, { isCustomMapsTier } from '../../services/subscriptionService';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import {
   BUILTIN_SUBREGION_MAPS,
   getCustomMaps,
@@ -35,6 +36,7 @@ const AccountMapManager = () => {
   const [mapType, setMapType] = useState('subregion');
   const [mapDescription, setMapDescription] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [fileName, setFileName] = useState('');
 
   const [selectedRealmId, setSelectedRealmId] = useState(null);
@@ -64,6 +66,9 @@ const AccountMapManager = () => {
     isAdminBypass || 
     isCustomMapsTier(subscriptionStatus?.tierKey);
 
+  // Map image uploads → Firebase Storage for auth users (base64 fallback for guests)
+  const { uploadImage, removeImage } = useMediaUpload();
+
   const handleImageFileChange = (e) => {
     if (!isEligible) {
       showToast('Custom Maps require the Archmage (Ultimate) tier.');
@@ -73,6 +78,7 @@ const AccountMapManager = () => {
     if (!file) return;
 
     setFileName(file.name);
+    setImageFile(file);
     const reader = new FileReader();
     reader.onload = (event) => {
       setImagePreview(event.target.result);
@@ -93,31 +99,49 @@ const AccountMapManager = () => {
 
     setIsUploading(true);
 
-    const mapData = {
-      id: `custom-${Date.now()}`,
-      name: mapName.trim(),
-      regionId: parentRegion,
-      mapType,
-      image: imagePreview,
-      description: mapDescription.trim() || `${mapName} custom ${mapType} map`,
-      width: 4096,
-      height: 3072,
-      subregions: []
-    };
+    try {
+      // Authenticated users: store the image in Firebase Storage and keep
+      // only the download URL in the map record. Guests keep a base64 URL.
+      let mapImage = imagePreview;
+      if (imageFile) {
+        try {
+          const uploaded = await uploadImage(imageFile, 'maps');
+          if (uploaded) mapImage = uploaded;
+        } catch (err) {
+          console.error('Map image upload failed:', err);
+          showToast(err.message || 'Map image upload failed. Please try a smaller file.');
+          return;
+        }
+      }
 
-    const saved = await saveCustomMap(mapData);
-    if (saved) {
-      showToast(`Successfully saved map "${saved.name}" to your account!`);
-      setMapName('');
-      setImagePreview(null);
-      setFileName('');
-      setMapDescription('');
-      setCustomMaps(getCustomMaps());
-      setWorldScope('custom');
-    } else {
-      showToast('Failed to save custom map.');
+      const mapData = {
+        id: `custom-${Date.now()}`,
+        name: mapName.trim(),
+        regionId: parentRegion,
+        mapType,
+        image: mapImage,
+        description: mapDescription.trim() || `${mapName} custom ${mapType} map`,
+        width: 4096,
+        height: 3072,
+        subregions: []
+      };
+
+      const saved = await saveCustomMap(mapData);
+      if (saved) {
+        showToast(`Successfully saved map "${saved.name}" to your account!`);
+        setMapName('');
+        setImagePreview(null);
+        setImageFile(null);
+        setFileName('');
+        setMapDescription('');
+        setCustomMaps(getCustomMaps());
+        setWorldScope('custom');
+      } else {
+        showToast('Failed to save custom map.');
+      }
+    } finally {
+      setIsUploading(false);
     }
-    setIsUploading(false);
   };
 
   const handleDelete = async (mapId, mapTitle) => {
@@ -128,6 +152,11 @@ const AccountMapManager = () => {
     if (window.confirm(`Are you sure you want to delete custom map "${mapTitle}"?`)) {
       const deleted = await deleteCustomMap(mapId);
       if (deleted) {
+        // Clean up the cloud-stored image, if any
+        const removedImage = customMaps[mapId]?.image;
+        if (removedImage) {
+          removeImage(removedImage).catch((err) => console.warn('Failed to remove cloud map image:', err));
+        }
         showToast(`Deleted "${mapTitle}"`);
         setCustomMaps(getCustomMaps());
       }

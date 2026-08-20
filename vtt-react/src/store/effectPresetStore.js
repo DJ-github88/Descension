@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 
 /**
  * Effect Preset Store
@@ -117,10 +118,9 @@ const useEffectPresetStore = create(
                 }
             }
         }),
-        {
-            name: 'effect-preset-store',
+        createStorageConfig('effect-preset-store', {
             version: 1
-        }
+        })
     )
 );
 

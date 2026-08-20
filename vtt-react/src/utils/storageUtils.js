@@ -3,51 +3,129 @@
  * preventing quota errors and handling server-side rendering
  */
 
-// Simple robust wrapper for localStorage.setItem with quota handling
+// In-memory fallback cache for when localStorage quota is exceeded or storage is unavailable
+const memoryFallbackStore = new Map();
+
+/**
+ * Check if an error is a browser storage quota exceeded error
+ * @param {Error} error
+ * @returns {boolean}
+ */
+const isQuotaExceededError = (error) => {
+    if (!error) return false;
+    return (
+        error.name === 'QuotaExceededError' ||
+        error.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+        error.code === 22 ||
+        error.code === 1014 ||
+        error.number === -2147024882 ||
+        (typeof error.message === 'string' && error.message.toLowerCase().includes('quota'))
+    );
+};
+
+/**
+ * Perform an emergency cleanup of non-essential temporary and backup keys to free space
+ */
+const attemptQuotaCleanup = () => {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
+
+    try {
+        if (window.localStorageManager && typeof window.localStorageManager.performEmergencyCleanup === 'function') {
+            window.localStorageManager.performEmergencyCleanup();
+            return;
+        }
+    } catch (_) {}
+
+    try {
+        const disposablePrefixes = ['mythrill-backup-', 'mythrill-temp-', 'mythrill-cache-', 'mythrill-debug-'];
+        const disposableExact = ['mythrill_subregion_polygons', 'mythrill_map_history_backup'];
+        const keysToRemove = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (!k) continue;
+            if (disposablePrefixes.some(p => k.startsWith(p)) || disposableExact.includes(k)) {
+                keysToRemove.push(k);
+            }
+        }
+
+        keysToRemove.forEach(k => {
+            try { localStorage.removeItem(k); } catch (_) {}
+        });
+    } catch (_) {}
+};
+
+/**
+ * Robust wrapper for localStorage.setItem with quota handling and memory fallback
+ * @param {string} key - The key to store
+ * @param {string} value - The serialized value to store
+ * @returns {{ success: boolean, value?: string, isFallback?: boolean, error?: string }}
+ */
 const safeLocalStorageItem = (key, value) => {
-    if (typeof window === 'undefined') {
-        return { success: false, error: 'Window not defined' };
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        memoryFallbackStore.set(key, value);
+        return { success: true, value, isFallback: true };
     }
 
     try {
         localStorage.setItem(key, value);
+        // Clear any stale memory fallback for this key
+        memoryFallbackStore.delete(key);
         return { success: true, value };
     } catch (error) {
-        if (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
-            console.error(`LocalStorage quota exceeded for key: ${key}`);
-            return { success: false, error: 'Quota exceeded' };
+        if (isQuotaExceededError(error)) {
+            console.warn(`[storageUtils] LocalStorage quota exceeded for key "${key}". Attempting cleanup...`);
+            attemptQuotaCleanup();
+
+            try {
+                localStorage.setItem(key, value);
+                memoryFallbackStore.delete(key);
+                return { success: true, value };
+            } catch (retryError) {
+                console.warn(`[storageUtils] Retry failed for key "${key}". Preserving in memory fallback.`);
+                memoryFallbackStore.set(key, value);
+                return { success: true, value, isFallback: true, error: 'Quota exceeded (stored in memory fallback)' };
+            }
         }
+
         console.error(`Error setting localStorage key ${key}:`, error);
-        return { success: false, error: error.message };
+        memoryFallbackStore.set(key, value);
+        return { success: true, value, isFallback: true, error: error.message };
     }
 };
 
 /**
- * Get localStorage item with proper error handling
+ * Get localStorage item with proper error handling and memory fallback
  * @param {string} key - The localStorage key to retrieve
- * @returns {any} - The stored value or null
+ * @returns {string|null} - The stored value or null
  */
 const safeLocalStorageGet = (key) => {
-    if (typeof window === 'undefined') {
-        return null;
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return memoryFallbackStore.get(key) || null;
     }
 
     try {
-        return localStorage.getItem(key);
+        const val = localStorage.getItem(key);
+        if (val !== null && val !== undefined) {
+            return val;
+        }
     } catch (error) {
-        console.error(`Error reading ${key}:`, error.message);
-        return null;
+        console.error(`Error reading ${key} from localStorage:`, error.message);
     }
+
+    return memoryFallbackStore.get(key) || null;
 };
 
 /**
- * Remove localStorage item with proper error handling
+ * Remove localStorage item with proper error handling and memory fallback cleanup
  * @param {string} key - The localStorage key to remove
  * @returns {boolean} - Success status
  */
 const safeLocalStorageRemove = (key) => {
-    if (typeof window === 'undefined') {
-        return false;
+    memoryFallbackStore.delete(key);
+
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return true;
     }
 
     try {
@@ -64,8 +142,8 @@ const safeLocalStorageRemove = (key) => {
  * @param {string} pattern - The pattern to match keys
  */
 const clearLocalStoragePattern = (pattern) => {
-    if (typeof window === 'undefined') {
-        return;
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return false;
     }
 
     try {
@@ -79,6 +157,7 @@ const clearLocalStoragePattern = (pattern) => {
 
         // Remove matching keys
         keysToRemove.forEach(key => {
+            memoryFallbackStore.delete(key);
             localStorage.removeItem(key);
         });
 
@@ -105,7 +184,7 @@ const markStorageCleared = (accountType, userId) => {
  * Get the last account type and user ID (for detecting account switches)
  */
 const getLastAccountInfo = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
         return {
             accountType: localStorage.getItem('mythrill-last-account-type') || 'guest',
             userId: localStorage.getItem('mythrill-last-user-id') || null
@@ -116,6 +195,7 @@ const getLastAccountInfo = () => {
 
 /**
  * Create standard storage configuration for Zustand persist middleware
+ * Guarantees zero unhandled QuotaExceededError exceptions
  * @param {string} name - Storage key name
  * @param {object} options - Additional options
  */
@@ -134,12 +214,13 @@ const createStorageConfig = (name, options = {}) => ({
         },
         setItem: (key, value) => {
             try {
-                const result = safeLocalStorageItem(key, JSON.stringify(value));
-                if (!result.success) {
-                    console.error(`Failed to save ${key}:`, result.error);
-                }
+                const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+                safeLocalStorageItem(key, serialized);
             } catch (error) {
                 console.error(`Error stringifying data for ${key}:`, error);
+                try {
+                    memoryFallbackStore.set(key, JSON.stringify(value));
+                } catch (_) {}
             }
         },
         removeItem: (key) => {
@@ -156,5 +237,7 @@ export {
     clearLocalStoragePattern,
     markStorageCleared,
     getLastAccountInfo,
-    createStorageConfig
+    createStorageConfig,
+    memoryFallbackStore,
+    isQuotaExceededError
 };

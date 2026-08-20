@@ -71,10 +71,8 @@ const MinstrelResourceBar = ({
     const [hoveredNoteIndex, setHoveredNoteIndex] = useState(null);
     const [editMenuNoteIndex, setEditMenuNoteIndex] = useState(null);
     const [showPanel, setShowPanel] = useState(false);
-    // In showcase mode (rules page), cadences are collapsed behind a toggle so
-    // the demo reads as a staff first. Default open in showcase so the rules
-    // reference immediately shows all 10 cadences and their hover-spellcards.
-    const [showCadences, setShowCadences] = useState(showcase);
+    // Cadences are collapsed by default behind an extend toggle so the bar remains compact in the header.
+    const [showCadences, setShowCadences] = useState(false);
     // Cadence spellcard hover, shows a full-screen foggy spellcard (same UX
     // as hovering spells in the action bar / Arcanoneer formulations) via
     // SpellTooltip's fullscreenMode.
@@ -377,7 +375,12 @@ const MinstrelResourceBar = ({
             <span className="minstrel-title-label"><i className="fas fa-music" /> Notes</span>
             <div className="minstrel-totals">
                 <span className="minstrel-total-count" title="Total notes banked">{totalBanked}/{maxPerNote * 7}</span>
-                <span className={`minstrel-ready-badge ${readyCount > 0 ? 'has-ready' : ''}`} title={`${readyCount} cadence${readyCount === 1 ? '' : 's'} ready`}>
+                <span
+                    className={`minstrel-ready-badge ${readyCount > 0 ? 'has-ready' : ''}`}
+                    title={readyCount > 0 ? `${readyCount} cadence${readyCount === 1 ? '' : 's'} ready (click to toggle)` : 'Click to toggle cadences'}
+                    onClick={(e) => { e.stopPropagation(); setShowCadences(!showCadences); }}
+                    style={{ cursor: 'pointer' }}
+                >
                     <i className="fas fa-music" /> {readyCount}
                 </span>
             </div>
@@ -642,27 +645,20 @@ const MinstrelResourceBar = ({
     // ========================================================================
     // FULL MODE: header + note grid + (collapsible) cadence chips
     // ========================================================================
-    const renderCadenceSection = () => {
-        // In showcase mode (rules page), collapse the cadence chips behind a
-        // toggle so the demo reads as a staff first. Detail available on demand.
-        if (showcase) {
-            return (
-                <div className="minstrel-cadence-collapsible">
-                    <button
-                        className="minstrel-cadence-toggle"
-                        onClick={(e) => { e.stopPropagation(); setShowCadences(!showCadences); }}
-                        title={showCadences ? 'Hide cadences' : 'Show all 10 cadences'}
-                    >
-                        <i className={`fas ${showCadences ? 'fa-chevron-up' : 'fa-music'}`} />
-                        <span>{showCadences ? 'Hide' : 'Show'} Available Cadences</span>
-                        {readyCount > 0 && <span className="minstrel-cadence-toggle-count">{readyCount} ready</span>}
-                    </button>
-                    {showCadences && renderCadenceChips()}
-                </div>
-            );
-        }
-        return renderCadenceChips();
-    };
+    const renderCadenceSection = () => (
+        <div className="minstrel-cadence-collapsible">
+            <button
+                className="minstrel-cadence-toggle"
+                onClick={(e) => { e.stopPropagation(); setShowCadences(!showCadences); }}
+                title={showCadences ? 'Hide cadences' : 'Show all 10 cadences'}
+            >
+                <i className={`fas ${showCadences ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
+                <span>{showCadences ? 'Hide Cadences' : 'Show Available Cadences (10)'}</span>
+                {readyCount > 0 && <span className="minstrel-cadence-toggle-count">{readyCount} ready</span>}
+            </button>
+            {showCadences && renderCadenceChips()}
+        </div>
+    );
 
     const renderFull = () => (
         <div className={`class-resource-bar musical-notes-combo ${size} ${showcase ? 'showcase-mode' : ''}`}>

@@ -16,7 +16,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Greymark Keep",
     "type": "town",
-    "description": "The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog. Founded just after the Binding with the Fog Compact. The Scribe-Sentinels codified the Sovereign Ledger here in the first centuries of the Dimming.",
+    "description": "The ancient, towering stronghold of House Thalreth, constructed from wet grey peat-stone and massive petrified ironwood logs. It stands as the primary sanctuary in the Reach, its massive fireplaces fueled by resinous heartwood to ward off both the biting cold and the encroaching memory-eating fog. Founded early in the Slow Cracks with the Fog Compact. The Scribe-Sentinels codified the Sovereign Ledger here in the first decades of the Freezing Era.",
     "dangerLevel": "low",
     "factions": [
       "house-thalreth",
@@ -199,7 +199,7 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "The Frozen Archive",
     "type": "tomb",
-    "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Dimming, a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain, just after the Binding. The Augurs have recorded every pulse from this site for nearly eight centuries.",
+    "description": "A subterranean cathedral of blue ice and basalt, carved deep beneath the Nordhalla glaciers. It serves as the ultimate resting place for the Skald clans, who chisel their ancestors' histories into glacier walls so they will be preserved forever in stasis. The Archive predates the Freezing Era, a dead civilization's flash-frozen capital discovered and repurposed after the Glacier Bargain, just after the Great Binding. The Augurs have recorded every pulse from this site since the Shattering.",
     "dangerLevel": "medium",
     "factions": [
       "house-skalvyr",
@@ -305,7 +305,7 @@ export const ZONE_DATA = [
     "connections": [
       "hunger-glaciers",
       "vargtor",
-      "frosthold-citadel"
+      "frostholm"
     ],
     "wyrdCreatures": [
       "Stel",
@@ -347,7 +347,7 @@ export const ZONE_DATA = [
     ],
     "connections": [
       "rooks-promontory",
-      "frosthold-citadel"
+      "frostholm"
     ],
     "wyrdCreatures": [
       "Huld",
@@ -396,7 +396,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Frostmaw Holdfast",
     "type": "city",
-    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts. The oldest Fexric holdfast in the Cragjaw, operating for millennia before the Dimming. The Vat-Breakers' Revolt, in the early generations of the Dimming, birthed the Groven civilization here. The War of Thousand Screams, centuries into the Dimming, was fought across its vertical tunnels.",
+    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts. The oldest Fexric holdfast in the Cragjaw, operating for millennia before the Freezing Era. The Vat-Breakers' Revolt, in the early generations of the Freezing Era, birthed the Groven civilization here. The War of Thousand Screams, decades into the Freezing Era, was fought across its vertical tunnels.",
     "dangerLevel": "low",
     "factions": [
       "house-tesshan",
@@ -586,7 +586,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "The Harath-Vault",
     "type": "city",
-    "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Hollow-Solari tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Hollow-Solari tending-clan has protected Sol's Breath here since before the Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Dimming.",
+    "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Hollow-Solari tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Hollow-Solari tending-clan has protected Sol's Breath here since before the Great Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Freezing Era.",
     "dangerLevel": "extreme",
     "factions": [
       "Solari Martyrs",
@@ -626,7 +626,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Emberspire Caldera",
     "type": "wilderness",
-    "description": "The active, soot-choked volcanic mouth of Emberspire, where the world's heart volcano continuously vents ash and molten glass into the sky. The heat is oppressive, and the volcanic vents are home to ancient, fire-weaving elemental entities. Emberspire erupted just after the Breach when Keth-Amar cracked the binding seal. It has burned without interruption for eight centuries, fed by Sol's fading radiance.",
+    "description": "The active, soot-choked volcanic mouth of Emberspire, where the world's heart volcano continuously vents ash and molten glass into the sky. The heat is oppressive, and the volcanic vents are home to ancient, fire-weaving elemental entities. Emberspire erupted just after Blizzard’s End when the Devouring cracked the shell. It has burned without interruption since, fed by the child-star's dreaming warmth.",
     "dangerLevel": "extreme",
     "factions": [
       "Pyrofiend Cults"
@@ -781,7 +781,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Merrowport",
     "type": "city",
-    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors. Established as a permanent port in the first centuries of the Dimming, Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here centuries into the Dimming.",
+    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Neth brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
     "dangerLevel": "low",
     "factions": [
       "house-mereval",
@@ -802,7 +802,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Ironjaw Port",
     "type": "settlement",
-    "description": "A rough, cliffside harbor carved from black basalt walls on the southern shore. Walled in cold-iron blocks to withstand the crushing force of drifting icebergs, it is a haven for whalers, deep-sea miners, and smugglers. Established during the First Thermal War, in the first centuries of the Dimming, as the Groven toll-negotiation seat. The Ironjaw Port Toll-Treaties, the first formal recognition of Groven bridge-rights, were signed here during the Toll Wars, centuries into the Dimming.",
+    "description": "A rough, cliffside harbor carved from black basalt walls on the southern shore. Walled in cold-iron blocks to withstand the crushing force of drifting icebergs, it is a haven for whalers, deep-sea miners, and smugglers. Established during the First Thermal War, in the first centuries of the Freezing Era, as the Groven toll-negotiation seat. The Ironjaw Port Toll-Treaties, the first formal recognition of Groven bridge-rights, were signed here during the Toll Wars, decades into the Freezing Era.",
     "dangerLevel": "medium",
     "factions": [
       "Merryn Whalers",
@@ -839,7 +839,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "First Shore",
     "type": "ruin",
-    "description": "The ancient coastal ruins where the human ancestors of House Mereval first landed eight centuries ago. The stone watchtowers are now encrusted with heavy ice and barnacles, their skeletal archers still standing guard over a frozen, silent harbor.",
+    "description": "The ancient coastal ruins where the human ancestors of House Mereval first landed in the age before the Star-Fall. The stone watchtowers are now encrusted with heavy ice and barnacles, their skeletal archers still standing guard over a frozen, silent harbor.",
     "dangerLevel": "high",
     "factions": [
       "Drowned Revenants"
@@ -971,7 +971,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "The Synod Hold",
     "type": "city",
-    "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Dimming, built over the stone circles where the first Lumian echo-vessels arrived before the Binding.",
+    "description": "The vertical fortress of House Ordavan, built atop a series of sheer cliffs. The city serves as the administrative heart of the steppe, where the nomadic clans gather every summer to balance trade accounts and resolve border disputes. The Astril cathedral was formally established in the early centuries of the Freezing Era, built over the stone circles where the first Lumian echo-vessels arrived before the Great Binding.",
     "dangerLevel": "low",
     "factions": [
       "house-ordavan",
@@ -1141,7 +1141,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Morren's Bogpost",
     "type": "settlement",
-    "description": "A Vreken trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Vreken traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Dimming as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
+    "description": "A Vreken trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Vreken traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Freezing Era as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
     "dangerLevel": "medium",
     "factions": [
       "Vreken Traders",
@@ -1173,7 +1173,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Atropolis",
     "type": "city",
-    "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Dimming, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward for nearly eight centuries.",
+    "description": "The magnificent, suspended canopy city of the Neth, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Freezing Era, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward since the Freeze began.",
     "dangerLevel": "low",
     "factions": [
       "Velun Pact-Lords",
@@ -1195,7 +1195,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Sunken Spire",
     "type": "city",
-    "description": "The inverted subterranean capital of the Vreken, a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor veneration and silent, glowing graves. The oldest Vreken crypt-cathedral in the Bryngloom, predating the Dimming. Aedris, the first recorded Over-Lit, served as Veil-Speaker here for forty years before her condition was documented, in the mid-Dimming centuries.",
+    "description": "The inverted subterranean capital of the Vreken, a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor veneration and silent, glowing graves. The oldest Vreken crypt-cathedral in the Bryngloom, predating the Freezing Era. Aedris, the first recorded Over-Lit, served as Veil-Speaker here for forty years before her condition was documented, in the middle decades of the Freeze.",
     "dangerLevel": "low",
     "factions": [
       "Clean Vreken",
@@ -1234,7 +1234,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Over-Shanty",
     "type": "settlement",
-    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in the mid-Dimming centuries at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
+    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Drun outcasts who chose to burn their names from the First Contract. Established in the middle decades of the Freeze at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
     "dangerLevel": "high",
     "factions": [
       "Drun Outcasts",
@@ -1476,27 +1476,7 @@ export const ZONE_DATA = [
       "Mist-Shark"
     ]
   },
-  {
-    "id": "frosthold-citadel",
-    "regionId": "nordhalla",
-    "name": "Frosthold Citadel",
-    "type": "city",
-    "description": "The royal seat of House Skalvyr, carved into the side of Bearsbeard's Beak itself. The citadel's great hall is a single ice-cavern, the throne a slab of stone older than the Skald clans. King-Jarl Halvar Jarn-Tand rules from here, surrounded by the Icechamber Syndicate, the Skald Keepers, and the blood-guard of the Bloodhammer Clan.",
-    "dangerLevel": "low",
-    "factions": [
-      "House Skalvyr",
-      "Icechamber Syndicate",
-      "Skald Keepers",
-      "Bloodhammer Clan"
-    ],
-    "connections": [
-      "bearsbeards-beak",
-      "skadis-col",
-      "the-still-crag"
-    ],
-    "wyrdCreatures": [],
-    "subregionId": "nordhalla-fjord-coast"
-  },
+  
   {
     "id": "bearsbeards-beak",
     "regionId": "nordhalla",
@@ -1506,7 +1486,7 @@ export const ZONE_DATA = [
     "dangerLevel": "extreme",
     "factions": [],
     "connections": [
-      "frosthold-citadel",
+      "frostholm",
       "skadis-col"
     ],
     "wyrdCreatures": [
@@ -1523,7 +1503,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "xardins-trading-co",
-      "icechamber-syndicate",
+      "house-skalvyr",
       "sorte-market"
     ],
     "connections": [
@@ -1539,7 +1519,7 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Frostflow (Eldonholm)",
     "type": "settlement",
-    "description": "Pure-blooded Skald fishing town holding the Eldon-Stone, which records every chieftain since the Binding.",
+    "description": "Pure-blooded Skald fishing town holding the Eldon-Stone, which records every chieftain since the Great Binding.",
     "dangerLevel": "low",
     "factions": [
       "skald-traditionalists"
@@ -2253,7 +2233,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Lost Brood Vats",
     "type": "ruin",
-    "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Dimming. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexric refuse to speak of what.",
+    "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Freezing Era. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexric refuse to speak of what.",
     "dangerLevel": "extreme",
     "factions": [],
     "connections": [
@@ -2366,7 +2346,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Heartwood Sap-Camp",
     "type": "wilderness",
-    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Briaran watchers both patrol the approaches.",
+    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Florae watchers both patrol the approaches.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2418,7 +2398,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Smooth-Skinned Briaran enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2457,7 +2437,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Unshorn Briaran refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2963,7 +2943,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Frozen-Rune Ruins",
     "type": "ruin",
-    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Binding.",
+    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Great Binding.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -3769,7 +3749,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Heartwood Sap-Camp",
     "type": "wilderness",
-    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Briaran watchers both patrol the approaches.",
+    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Florae watchers both patrol the approaches.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3834,7 +3814,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Smooth-Skinned Briaran enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3977,7 +3957,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Unshorn Briaran refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4104,7 +4084,7 @@ export const ZONE_DATA = [
     "dangerLevel": "low",
     "factions": [],
     "connections": [
-      "frosthold-citadel"
+      "frostholm"
     ],
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast"
@@ -4525,9 +4505,9 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "smooth-skinned-enclave",
+    "id": "solvan-noble-enclave",
     "regionId": "sundale",
-    "name": "The Smooth-Skinned Enclave",
+    "name": "The Solvan Noble Enclave",
     "type": "settlement",
     "description": "A village of old Solari noble exiles living in longhouses grown into living trees.",
     "dangerLevel": "low",
@@ -4802,7 +4782,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Frozen-Rune Ruins",
     "type": "ruin",
-    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Binding.",
+    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Great Binding.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -5829,7 +5809,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Heartwood Sap-Camp",
     "type": "wilderness",
-    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Briaran watchers both patrol the approaches.",
+    "description": "A black-market camp where smugglers tap the warm sap of the glowing white tree. Cartel enforcers and Florae watchers both patrol the approaches.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5894,7 +5874,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Smooth-Skinned Briaran enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6037,7 +6017,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Unshorn Briaran refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6164,7 +6144,7 @@ export const ZONE_DATA = [
     "dangerLevel": "low",
     "factions": [],
     "connections": [
-      "frosthold-citadel"
+      "frostholm"
     ],
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast"
@@ -6585,9 +6565,9 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "smooth-skinned-enclave",
+    "id": "solvan-noble-enclave",
     "regionId": "sundale",
-    "name": "The Smooth-Skinned Enclave",
+    "name": "The Solvan Noble Enclave",
     "type": "settlement",
     "description": "A village of old Solari noble exiles living in longhouses grown into living trees.",
     "dangerLevel": "low",
@@ -6862,7 +6842,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Frozen-Rune Ruins",
     "type": "ruin",
-    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Binding.",
+    "description": "Pre-Mereval ruins protruding from First Shore's ice; the runes predate the Great Binding.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -8314,17 +8294,23 @@ export const ZONE_DATA = [
     "id": "frostholm",
     "regionId": "nordhalla",
     "subregionId": "nordhalla-fjord-coast",
-    "name": "Frostholm",
+    "name": "Frosthold Citadel",
     "type": "city",
-    "description": "Royal capital of Nordhalla carved into Bearsbeard's Beak. Jarn-Tand rules from the ice-throne. Houses the Astril scholar quarter and subterranean Fexric sweatshops.",
+    "description": "The royal capital of Nordhalla, carved into the flank of Bearsbeard's Beak itself \u2014 the older Skald still call it Frostholm. The great hall is a single ice-cavern; the throne is a slab of stone older than the clans. King-Jarl Halvar J\u00e1rn-Tand rules from here, ringed by the Icechamber Syndicate's factors, the Skald Keepers, and the Bloodhammer blood-guard. The Astril scholar quarter and the subterranean Fexric sweatshops honeycomb the rock beneath.",
     "dangerLevel": "low",
     "factions": [
       "house-skalvyr",
+      "icechamber-syndicate",
+      "skald-keepers",
+      "bloodhammer-line",
       "astril-scholars"
     ],
     "connections": [
       "frozen-archive",
-      "fjord-gate"
+      "fjord-gate",
+      "bearsbeards-beak",
+      "skadis-col",
+      "the-still-crag"
     ]
   },
   {

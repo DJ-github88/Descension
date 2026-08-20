@@ -103,7 +103,7 @@ export const HARBINGER_DATA = {
   ],
 
   overview: {
-   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the fourth century of the Dimming. He applied Cassia's star-arithmetic, the same calculations she had used to predict the Deepening, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
+   originStory: `A harbinger is someone who has seen the math and cannot unsee it. Malakor was a Skald mathematician at the Frozen Archive during the fourth century of the Freezing Era. He applied Cassia's star-arithmetic, the same calculations she had used to predict the First Failing, to a different problem: given the current rate of heat-loss from Sol's entombment, how long until the surface of Mythril can no longer sustain life. The answer was that the freeze would accelerate rather than slow. The answer was that the math was absolute, and the math did not permit hope.
 
 He published his findings. The Frozen Archive suppressed them. The calculations were correct, but the political implications were unacceptable. If freeze was mathematically certain, the noble houses had not saved the world by binding Sol. They had merely delayed the execution. Malakor continued calculating. Other mathematicians found his work, came to the Archive, studied his papers, understood the conclusion, and left carrying the math in their heads, because the math once understood cannot be un-understood.
 
@@ -131,7 +131,7 @@ The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift V
   roleplayIdentity: {
    title: "Roleplay Identity",
    content: `**HISTORY: THE GENESIS**
-The Harbinger's origin is not prophecy. It is arithmetic. In the fourth century of the Dimming, the Skald mathematician <LoreLink termId="malakor">Malakor</LoreLink> locked himself in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>'s Scribe's Tower with thirty scrolls of star-arithmetic and calculated the lifespan of the world. The answer was absolute: the freeze would accelerate until every heat source was drained into Keth-Amar's feeding. The math did not permit hope. The Frozen Archive suppressed his papers  â€”  the math was correct, but the political implications were unacceptable.
+The Harbinger's origin is not prophecy. It is arithmetic. In the fourth century of the Freezing Era, the Skald mathematician <LoreLink termId="malakor">Malakor</LoreLink> locked himself in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>'s Scribe's Tower with thirty scrolls of star-arithmetic and calculated the lifespan of the world. The answer was absolute: the freeze would accelerate until every heat source was drained into Keth-Amar's feeding. The math did not permit hope. The Frozen Archive suppressed his papers  â€”  the math was correct, but the political implications were unacceptable.
 
 The math could not be suppressed forever. Other mathematicians found Malakor's work. They studied. They understood. And they left, carrying the math in their heads. <LoreLink termId="xyris">Xyris</LoreLink> was the first to apply the math practically: she tore the first Chaos Pocket in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, weaponizing directed entropy. The hole killed her, but it proved the principle. The Harbinger tradition was born: Malakor's truth, Xyris's application, one discovery of doom with one terrible use.
 
@@ -162,7 +162,7 @@ This is not a tradition that spreads through trade. It spreads through despair a
 
   currentCrisis: `The Wild Surges are becoming permanent, and the prophecy equations are contradicting themselves. Three Chaos Weavers have experienced Surges that did not collapse. Their Mayhem reached maximum, the Surge triggered, but instead of resetting, the chaos stabilized into permanent "Chaos Pockets" in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Grass grows sideways. Rain falls upward. Time passes at different rates depending on where you stand.
 
-Simultaneously, three ancestral mounds fell silent in a single season. Doomsayers attempting to calculate the cause found their equations returning multiple contradictory answers. The same calculation performed three times yields three different extinction dates. Some have received results that predate the Deepening, suggesting the world already ended and what remains is a mathematical afterimage.
+Simultaneously, three ancestral mounds fell silent in a single season. Doomsayers attempting to calculate the cause found their equations returning multiple contradictory answers. The same calculation performed three times yields three different extinction dates. Some have received results that predate the First Failing, suggesting the world already ended and what remains is a mathematical afterimage.
 
 The convergence of these two crises has created a new phenomenon: **Prophetic Paradox Zones** where Chaos Pockets and contradictory equations overlap. Inside these zones, prophecies resolve as both Prophesied AND Outside simultaneously, creating impossible effects that neither the timeline mathematics nor the spatial physics can explain. Senior Heralds have cordoned off the areas and are trying to understand whether the paradox zones are a symptom of a larger collapse or the first sign of the world's actual end.`,
 
@@ -181,7 +181,7 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
    {
     name: "The Apocrypha Vaults",
     locationId: "frozen-archive",
-    description: "The deepest, coldest chambers of the Frozen Archive, where Doomsayers store their completed calculations. Each vault contains a single scroll, a mathematical proof of a specific extinction event. The oldest scrolls date to the first years of the Dimming. The newest are added weekly. The vaults are over capacity, and some scrolls have begun to rewrite themselves in frost.",
+    description: "The deepest, coldest chambers of the Frozen Archive, where Doomsayers store their completed calculations. Each vault contains a single scroll, a mathematical proof of a specific extinction event. The oldest scrolls date to the first years of the Freezing Era. The newest are added weekly. The vaults are over capacity, and some scrolls have begun to rewrite themselves in frost.",
     purpose: "Archival: the Heralds believe that if the world ends, the calculations should survive to warn whatever comes next",
     status: "Active: over capacity, scrolls self-rewriting"
    }

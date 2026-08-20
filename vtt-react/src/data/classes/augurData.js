@@ -54,7 +54,7 @@ subraceVariants: {
   },
   currentCrisisAngle: `The accuracy collapse (93% to 41%) began at the Frozen Archive itself, the Skald's seat. The elder Haruspexes insist the elk are still true and that something is interfering with the ice, not the entrails. The younger Skald suspect the elders cannot accept that their founding method is obsolete.`,
   signatureQuote: {
-  text: '"The elk has not lied to me in eight hundred years. I will not call her a liar now because the answer frightens me."',
+  text: '"The elk has not lied to me in eighty years. I will not call her a liar now because the answer frightens me."',
   speaker: 'Cassia',
   context: 'The founder, defending her method against the first contradictory readings'
   }
@@ -68,7 +68,7 @@ subraceVariants: {
   name: 'Lattice-Fracture',
   description: `Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack, but the crack is real, and the skin does not always heal.`
   },
-   currentCrisisAngle: `The Earthen Astril's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Earthen Astril Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the Deepening's truth.`,
+   currentCrisisAngle: `The Earthen Astril's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Earthen Astril Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the long failing’s truth.`,
   signatureQuote: {
   text: '"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe."',
   speaker: 'Aenith Glass-Skinned',
@@ -111,12 +111,12 @@ subraceVariants: {
  clean_vreken: {
   subraceName: 'Clean Vreken',
   title: 'The Bog-Gore Diviner',
-   reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> read the future in the preserved dead the bog itself coughs up, peat-mummified corpses whose final, frozen expressions encode their last vision. Where the Skald read fresh sacrifice, the Vreken read the ancient dead the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> has been kind enough to return. The Clean Vreken did not learn from the Skald  —  they developed augury independently when the Bryngloom bog, disturbed by the Breach, began coughing up peat-mummified corpses that were centuries old. The Vreken already read their dead through spore-inhalation; reading the *future* through the dead's preserved flesh was a natural extension, discovered by a Clean Vreken crypt-keeper named Mother Ysen.`,
+   reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> read the future in the preserved dead the bog itself coughs up, peat-mummified corpses whose final, frozen expressions encode their last vision. Where the Skald read fresh sacrifice, the Vreken read the ancient dead the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> has been kind enough to return. The Clean Vreken did not learn from the Skald  —  they developed augury independently when the Bryngloom bog, disturbed by Blizzard’s End, began coughing up peat-mummified corpses that were centuries old. The Vreken already read their dead through spore-inhalation; reading the *future* through the dead's preserved flesh was a natural extension, discovered by a Clean Vreken crypt-keeper named Mother Ysen.`,
   signatureAbility: {
   name: 'Peat-Reading',
   description: `Visions are parsed from recovered bog-mummies, their posture, expression, and the orientation of their last grasp. The older the corpse, the further forward it sees, but the more degraded the image. A fresh corpse sees hours; a centuries-old mummy sees decades, in fragments.`
   },
-  currentCrisisAngle: `The bog has stopped returning its dead. For eight centuries the peat gave up a body every few months; in the past year, nothing. The Clean Vreken read this as the single clearest prophecy of all: the bog itself has seen something so terrible it refuses to let its witnesses surface.`,
+  currentCrisisAngle: `The bog has stopped returning its dead. For as long as the Archive has kept count, the peat gave up a body every few months; in the past year, nothing. The Clean Vreken read this as the single clearest prophecy of all: the bog itself has seen something so terrible it refuses to let its witnesses surface.`,
   signatureQuote: {
   text: '"The dead come up when they have something to say. The dead have stopped coming up. You tell me what that means."',
   speaker: 'Grave-Keeper Yssen',
@@ -143,12 +143,12 @@ subraceVariants: {
 korr_solari: {
    subraceName: 'Hollow-Solari - Thyrm',
   title: 'The Sol\'s Breath-Reader',
-   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Hollow-Solari maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Hollow-Solari learned augury not from Skald or Vreken but from watching Sol's Breath for eight centuries. A Hollow-Solari forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, the Breach itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for eight centuries. The Hollow-Solari Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
+   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> do not cut flesh or spill entrails. They read the future in the flicker-patterns of the <LoreLink termId="sols_breath">Sol's Breath</LoreLink> itself \u2014 the dying star's pulse as omen. The Hollow-Solari maintain Sol's Breath in sacred, wordless vigil beneath <LoreLink termId="emberspire">Emberspire</LoreLink>. When the flame dims, danger approaches. When it pulses erratically, betrayal is near. When it gutters, death. The Hollow-Solari learned augury not from Skald or Vreken but from watching Sol's Breath for four centuries and more. A Hollow-Solari forge-priest named Ignis the Watcher noticed that Sol's Breath's flicker-patterns changed before every major calamity  —  Emberspire eruptions, Wyrd incursions, Blizzard’s End itself. He spent forty years cataloging these patterns. Sol's Breath has been dimming for four centuries and more. The Hollow-Solari Augurs have been watching it the entire time, and they have seen patterns in the dimming that no one else has ever been told about.`,
 signatureAbility: {
   name: 'Flame-Reading',
   description: `Visions are read in the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s flicker-patterns, the dying star's pulse serves as the Augur's entrails. The Hollow-Solari read dimming-rate, flare-frequency, and color-shift the way other Augurs read liver-mottling and intestine-convolution. The reading is continuous and passive, a vigil maintained across generations, meaning a Hollow-Solari Augur carries the accumulated observations of every watcher who preceded them.`
 },
-  currentCrisisAngle: `The accuracy collapse has not affected the Hollow-Solari the way it has affected the elk-readers: Sol's Breath has never been accurate in the short term, it reads in centuries, not minutes. But the long-term pattern has shifted. The dimming-rate the Hollow-Solari have tracked for eight centuries has, in the past decade, begun to accelerate. The elders who have maintained the vigil for eighty years say the flame is dimming now at a rate that predicts total darkness within two generations. They have not told the Dawn Vigil. They have not told the Solari. They have not told anyone.`,
+  currentCrisisAngle: `The accuracy collapse has not affected the Hollow-Solari the way it has affected the elk-readers: Sol's Breath has never been accurate in the short term, it reads in centuries, not minutes. But the long-term pattern has shifted. The dimming-rate the Hollow-Solari have tracked for four centuries has, in the past decade, begun to accelerate. The elders who have maintained the vigil for eighty years say the flame is dimming now at a rate that predicts total darkness within two generations. They have not told the Dawn Vigil. They have not told the Solari. They have not told anyone.`,
   signatureQuote: {
   text: '"You read entrails and see the next battle. I read the flame and see the next century. The flame tells me there is not going to be one. You tell me which of us should be more afraid."',
   speaker: 'Vigil-Keeper Orm Ember-Eye',
@@ -168,13 +168,13 @@ signatureAbility: {
  orderName: 'The Frozen Order of the Elk',
  founder: {
   name: '<LoreLink termId="cassia">Cassia</LoreLink>',
-       status: `Alive, technically. Her body sits in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, preserved upright in the glacier-ice, eyes open. She forgot her own name forty years ago but still reads entrails through the glass. She does not move. She cannot move. The glacier-ice IS the entrail now  —  she reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them. The glacier-ice does not preserve her through cold alone  —  it preserves her through the same mathematical resonance she used to read the Deepening. She is trapped in the moment of her greatest vision, the temporal feedback loop that burned her memories also freezing her flesh at the exact instant of perfect clarity. She cannot die because the moment she occupies has not yet finished happening.`,
-  note: `The Skald star-watcher who read the Deepening in a sacrificed elk's entrails. The temporal-feedback burn took her past, her family, and eventually her identity, the price of seeing too clearly, paid in installments.`
+       status: `Alive, technically. Her body sits in the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink>, preserved upright in the glacier-ice, eyes open. She forgot her own name forty years ago but still reads entrails through the glass. She does not move. She cannot move. The glacier-ice IS the entrail now  —  she reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them. The glacier-ice does not preserve her through cold alone  —  it preserves her through the same mathematical resonance she used to read the First Failing. She is trapped in the moment of her greatest vision, the temporal feedback loop that burned her memories also freezing her flesh at the exact instant of perfect clarity. She cannot die because the moment she occupies has not yet finished happening.`,
+  note: `The Skald star-watcher who read the First Failing in a sacrificed elk's entrails. The temporal-feedback burn took her past, her family, and eventually her identity, the price of seeing too clearly, paid in installments.`
  },
  currentLeader: {
   name: '<LoreLink termId="skadi-glass-eye">Archive-Mistress <LoreLink termId="skadi-glass-eye">Skadi Glass-Eye</LoreLink>',
   title: 'Keeper of the Elk-Rites',
-   characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s descendant, separated from her ancestor by eight centuries and a title  —  'granddaughter'  —  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see.`
+   characterization: `<LoreLink termId="cassia">Cassia</LoreLink>'s descendant, separated from her ancestor by nearly three centuries and a title  —  'granddaughter'  —  that the Order uses regardless of actual generational distance, because anyone who learns augury from Cassia's ice-preserved body becomes her heir. Skadi maintains the elk-herds and the ritual calendar, and has presided over the accuracy collapse from 93% to 41% without flinching, at least not where the junior augurs can see.`
  },
  headquarters: { name: 'The Frozen Archive', locationId: 'frozen_archive' },
   crisisConnection: `Skadi defends her founder's method against contradictory readings she cannot explain. Privately, she has begun a secret cross-reference, comparing the elk-readings against <LoreLink termId="cassia">Cassia</LoreLink>'s pre-collapse predictions. The pattern suggests the interference is *temporal*: something is editing the future the elk can see. She has not told the Archive council, because the implication is that the Chronarchs' temporal stitching is responsible.`,
@@ -194,7 +194,7 @@ signatureAbility: {
   overview: {
  originStory: `A reader of the immediate future. Not prophecy. Not cosmic destiny. The trajectory of a blade. The moment a guard will drop. The exact second a killing blow will land. The augur reads these things in fresh violence, blood, entrails, splintered bone, and pays for every vision with sanity or stamina.
 
-The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first darkened and her astrolabes froze solid, she took a bronze scaling knife, opened the abdomen of a sacrificial glacier-elk, and traced the steaming convolutions of its intestines across the icy stone. By the purple mottling of the liver and the coil-pattern of the gut, she read the exact hour of the Deepening.
+The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first darkened and her astrolabes froze solid, she took a bronze scaling knife, opened the abdomen of a sacrificial glacier-elk, and traced the steaming convolutions of its intestines across the icy stone. By the purple mottling of the liver and the coil-pattern of the gut, she read the exact hour of the First Failing.
 
 The temporal feedback burn took her past. The memories of her husband's face were incinerated to clear space for precise coordinate chains of cosmic doom. The names of her children went next. The warmth of the hearth. Her own name. She does not move. She cannot move. Her body sits preserved in the glacier-ice at the Frozen Archive, trapped in the moment of her greatest vision. The glacier-ice is the entrail now, and Cassia reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them.
 
@@ -221,7 +221,7 @@ The star-arithmetic is failing. Accuracy has collapsed from ninety-three percent
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The augur's foresight was born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink>. A Skald star-watcher named **Cassia** read the terrifying portents of Sol's Deepening, her runes burning with intense, blistering heat.
+The augur's foresight was born in the Frozen Archive of <LoreLink termId="nordhalla">Nordhalla</LoreLink>. A Skald star-watcher named **Cassia** read the terrifying portents of the failing sun, her runes burning with intense, blistering heat.
 
 The price of this feedback loop was memory-loss. Cassia had to trade away her own personal memories to glimpse the future, leaving her runes scarred and her mind disoriented.
 
@@ -239,7 +239,7 @@ The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald
  signatureQuote: {
   text: '"I opened the elk and saw our chieftain dead, our granary empty, and the sun still dark. The entrails do not lie. They also do not offer comfort."',
   speaker: 'Cassia the Star-Eyed',
-  context: 'First recorded augury, Nordhalla Frozen Archive, at the Binding'
+  context: 'First recorded augury, Nordhalla Frozen Archive, at the Great Binding'
  },
 
  philosophy: {
@@ -248,7 +248,7 @@ The class is heavily practiced by the <LoreLink termId="skald">Rune Keeper Skald
   paradox: 'The Augur sees what is coming but cannot change it. The visions are snapshots of probability, not commands. An Augur who sees a party member dying in the next room has two choices: warn them (and be right when they die anyway), or say nothing. The future does not change because it was seen. It changes despite being seen.'
  },
 
- currentCrisis: `The star-arithmetic is failing. For eight centuries, the Augurs of the Frozen Archive have used Cassia's original elk-entrail method to predict major events with 93% accuracy. In the past three months, accuracy has dropped to 41%. The entrails are not lying, they are returning results that contradict each other. One elk shows the Archive intact in ten years. Another shows it collapsed last week.
+ currentCrisis: `The star-arithmetic is failing. For two centuries and more, the Augurs of the Frozen Archive have used Cassia's original elk-entrail method to predict major events with 93% accuracy. In the past three months, accuracy has dropped to 41%. The entrails are not lying, they are returning results that contradict each other. One elk shows the Archive intact in ten years. Another shows it collapsed last week.
 
 The Augurs have identified the cause: something is interfering with the flow of time itself, creating echoes of futures that cannot exist simultaneously. The phenomenon began on the same day the first Doomsayer returned contradictory extinction equations. The Augurs and Doomsayers do not speak to each other, but their numbers are converging on the same conclusion: the timeline is fracturing, and the Augurs are the first to feel the cracks.`,
 

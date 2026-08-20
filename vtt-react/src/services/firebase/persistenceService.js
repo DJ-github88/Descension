@@ -114,6 +114,7 @@ class PersistenceService {
         journals: 0,
         campaigns: 0,
         audioFiles: 0,
+        mediaFiles: 0,
         lastUpdated: Date.now()
       };
 
@@ -453,6 +454,7 @@ class PersistenceService {
           journals: 0,
           campaigns: 0,
           audioFiles: 0,
+          mediaFiles: 0,
           lastUpdated: Date.now()
         },
         lastModified: serverTimestamp()

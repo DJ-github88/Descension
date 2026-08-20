@@ -6,19 +6,36 @@ service firebase.storage {
     // Avatar uploads: owner-write, authenticated-read (size + image-type limited)
     match /avatars/{userId}/{fileName=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null
-                   && request.auth.uid == userId
-                   && request.resource.size < 5 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*');
+      allow create, update: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null
+                    && request.auth.uid == userId;
     }
 
     // Audio uploads: owner-write, authenticated-read (size + audio-type limited)
     match /audio/{userId}/{fileName=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null
-                   && request.auth.uid == userId
-                   && request.resource.size < 25 * 1024 * 1024
-                   && request.resource.contentType.matches('audio/.*');
+      allow create, update: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.size < 25 * 1024 * 1024
+                    && request.resource.contentType.matches('audio/.*');
+      allow delete: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+
+    // Media uploads (plot banners, campaign journal imagery, location/custom
+    // maps, lore artwork, portraits, board backgrounds):
+    // owner-write, authenticated-read (size + image-type limited)
+    match /media/{userId}/{fileName=**} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.size < 5 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      allow delete: if request.auth != null
+                    && request.auth.uid == userId;
     }
 
     // Default-deny everything else

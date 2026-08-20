@@ -93,21 +93,67 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     const wallCategories = getCategoriesForTool(selectedTool);
 
+    // Sync selectedWallType when selectedTool changes
+    useEffect(() => {
+        if (selectedTool === 'door_place') {
+            if (!['wooden_door', 'stone_door'].includes(selectedWallType)) {
+                setSelectedWallType('wooden_door');
+                onSettingsChange({
+                    selectedWallType: 'wooden_door',
+                    wallMode,
+                    doorOrientation
+                });
+            }
+        } else if (selectedTool === 'window_place') {
+            if (!['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType)) {
+                setSelectedWallType('glass_window');
+                onSettingsChange({
+                    selectedWallType: 'glass_window',
+                    wallMode,
+                    doorOrientation
+                });
+            }
+        } else if (selectedTool === 'wall_draw') {
+            const categories = getCategoriesForTool('wall_draw');
+            const validWalls = Object.values(categories).flatMap(cat => cat.walls);
+            if (!validWalls.includes(selectedWallType)) {
+                setSelectedWallType('stone_wall');
+                onSettingsChange({
+                    selectedWallType: 'stone_wall',
+                    wallMode,
+                    doorOrientation
+                });
+            }
+        }
+    }, [selectedTool]);
+
     const handleToolSelect = (toolId) => {
         onToolSelect(toolId);
         
         // Auto-select appropriate wall type based on tool
-        if (toolId === 'door_place' && !['wooden_door', 'stone_door'].includes(selectedWallType)) {
-            setSelectedWallType('wooden_door');
+        if (toolId === 'door_place') {
+            const nextType = ['wooden_door', 'stone_door'].includes(selectedWallType) ? selectedWallType : 'wooden_door';
+            setSelectedWallType(nextType);
             onSettingsChange({
-                selectedWallType: 'wooden_door',
+                selectedWallType: nextType,
                 wallMode,
                 doorOrientation
             });
-        } else if (toolId === 'window_place' && !['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType)) {
-            setSelectedWallType('glass_window');
+        } else if (toolId === 'window_place') {
+            const nextType = ['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType) ? selectedWallType : 'glass_window';
+            setSelectedWallType(nextType);
             onSettingsChange({
-                selectedWallType: 'glass_window',
+                selectedWallType: nextType,
+                wallMode,
+                doorOrientation
+            });
+        } else if (toolId === 'wall_draw') {
+            const categories = getCategoriesForTool('wall_draw');
+            const validWalls = Object.values(categories).flatMap(cat => cat.walls);
+            const nextType = validWalls.includes(selectedWallType) ? selectedWallType : 'stone_wall';
+            setSelectedWallType(nextType);
+            onSettingsChange({
+                selectedWallType: nextType,
                 wallMode,
                 doorOrientation
             });
@@ -155,8 +201,15 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     // Set initial settings when component mounts
     useEffect(() => {
+        const initialType = selectedTool === 'door_place' 
+            ? (['wooden_door', 'stone_door'].includes(selectedWallType) ? selectedWallType : 'wooden_door')
+            : selectedTool === 'window_place'
+            ? (['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType) ? selectedWallType : 'glass_window')
+            : (['stone_wall', 'wooden_wall', 'brick_wall', 'metal_wall', 'magical_barrier', 'force_wall'].includes(selectedWallType) ? selectedWallType : 'stone_wall');
+        
+        setSelectedWallType(initialType);
         onSettingsChange({
-            selectedWallType,
+            selectedWallType: initialType,
             wallMode,
             doorOrientation
         });

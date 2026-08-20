@@ -116,11 +116,11 @@
 .spellbook-layout .dice-calculator-input,
 .spellbook-layout .formula-input,
 .spellbook-layout .threshold-input,
-.spellbook-layout input[type="text"],
-.spellbook-layout input[type="number"],
-.spellbook-layout input[type="email"],
-.spellbook-layout input[type="password"],
-.spellbook-layout textarea {
+.spellbook-layout input[type="text"]:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout input[type="number"]:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout input[type="email"]:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout input[type="password"]:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -138,11 +138,11 @@
 .spellbook-layout .dice-calculator-input:focus,
 .spellbook-layout .formula-input:focus,
 .spellbook-layout .threshold-input:focus,
-.spellbook-layout input[type="text"]:focus,
-.spellbook-layout input[type="number"]:focus,
-.spellbook-layout input[type="email"]:focus,
-.spellbook-layout input[type="password"]:focus,
-.spellbook-layout textarea:focus {
+.spellbook-layout input[type="text"]:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout input[type="number"]:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout input[type="email"]:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout input[type="password"]:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *):focus {
   outline: none !important;
   border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
@@ -152,7 +152,7 @@
 .spellbook-layout .pf-select,
 .spellbook-layout .wow-select,
 .spellbook-layout .dice-function-selector,
-.spellbook-layout select {
+.spellbook-layout select:not(.csp-root *):not(.community-spells-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -169,7 +169,7 @@
 .spellbook-layout .pf-select:focus,
 .spellbook-layout .wow-select:focus,
 .spellbook-layout .dice-function-selector:focus,
-.spellbook-layout select:focus {
+.spellbook-layout select:not(.csp-root *):not(.community-spells-tab *):focus {
   outline: none !important;
   border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
@@ -434,9 +434,9 @@
 }
 
 /* Apply Pathfinder theme to all buttons and interactive elements */
-.spellbook-layout button,
-.spellbook-layout .stat-type-toggle button,
-.spellbook-layout .stat-category-tabs button,
+.spellbook-layout button:not(.community-spells-tab *):not(.csp-root *),
+.spellbook-layout .stat-type-toggle button:not(.community-spells-tab *):not(.csp-root *),
+.spellbook-layout .stat-category-tabs button:not(.community-spells-tab *):not(.csp-root *),
 .spellbook-layout .remove-stat,
 .spellbook-layout .custom-button {
   background: var(--my-gradient-button) !important;
@@ -449,7 +449,7 @@
   transition: all var(--my-transition-normal) !important;
 }
 
-.spellbook-layout button:hover,
+.spellbook-layout button:not(.community-spells-tab *):not(.csp-root *):hover,
 .spellbook-layout .stat-type-toggle button:hover,
 .spellbook-layout .stat-category-tabs button:hover,
 .spellbook-layout .remove-stat:hover,
@@ -460,7 +460,7 @@
   box-shadow: var(--my-shadow-sm) !important;
 }
 
-.spellbook-layout button.active,
+.spellbook-layout button:not(.community-spells-tab *):not(.csp-root *).active,
 .spellbook-layout .stat-type-toggle button.active,
 .spellbook-layout .stat-category-tabs button.active {
   background: var(--my-gradient-button-active) !important;
@@ -536,20 +536,20 @@
 /* ===== TEXT READABILITY FIXES ===== */
 
 /* Ensure all text is readable with proper contrast - SCOPED TO SPECIFIC ELEMENTS */
-.spellbook-layout h1,
-.spellbook-layout h2,
-.spellbook-layout h3,
-.spellbook-layout h4,
-.spellbook-layout h5,
-.spellbook-layout h6,
-.spellbook-layout p,
-.spellbook-layout span,
-.spellbook-layout div,
-.spellbook-layout label,
-.spellbook-layout button,
-.spellbook-layout input,
-.spellbook-layout textarea,
-.spellbook-layout select {
+.spellbook-layout h1:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout h2:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout h3:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout h4:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout h5:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout h6:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout p:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout span:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout div:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout label:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout button:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout input:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout select:not(.csp-root *):not(.community-spells-tab *) {
   color: var(--my-text-primary) !important;
   text-shadow: none !important;
 }
@@ -561,19 +561,19 @@
 }
 
 /* Ensure form elements are readable */
-.spellbook-layout input,
-.spellbook-layout select,
-.spellbook-layout textarea,
-.spellbook-layout .form-control {
+.spellbook-layout input:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout select:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *),
+.spellbook-layout .form-control:not(.csp-root *):not(.community-spells-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   color: var(--my-text-primary) !important;
   font-family: var(--my-font-ui) !important;
 }
 
-.spellbook-layout input:focus,
-.spellbook-layout select:focus,
-.spellbook-layout textarea:focus {
+.spellbook-layout input:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout select:not(.csp-root *):not(.community-spells-tab *):focus,
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *):focus {
   border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
   outline: none !important;

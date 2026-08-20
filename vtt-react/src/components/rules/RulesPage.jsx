@@ -148,6 +148,33 @@ const DramatisPersonaeDisplay = React.lazy(() => import('./DramatisPersonaeDispl
 
 const ClassOriginsDisplay = React.lazy(() => import('./ClassOriginsDisplay'));
 
+const SEARCH_FILTERS = [
+  { id: 'all', label: 'All', icon: 'fas fa-globe' },
+  { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
+  { id: 'lore', label: 'Lore', icon: 'fas fa-landmark' },
+  { id: 'combat', label: 'Combat', icon: 'fas fa-shield-alt' },
+  { id: 'classes', label: 'Classes', icon: 'fas fa-hat-wizard' },
+  { id: 'magic', label: 'Magic', icon: 'fas fa-magic' },
+  { id: 'bestiary', label: 'Bestiary', icon: 'fas fa-dragon' },
+  { id: 'lexicon', label: 'Lexicon', icon: 'fas fa-spell-check' },
+  { id: 'equipment', label: 'Equipment', icon: 'fas fa-hammer' },
+  { id: 'travel', label: 'Travel', icon: 'fas fa-compass' }
+];
+
+const highlightSearchMatch = (text, query) => {
+  if (!text || !query || query.trim().length < 2) return text;
+  const terms = query.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+  if (terms.length === 0) return text;
+
+  const escaped = terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const regex = new RegExp(`(${escaped})`, 'gi');
+  const parts = String(text).split(regex);
+
+  return parts.map((part, i) => {
+    const isMatch = terms.some(t => part.toLowerCase() === t.toLowerCase());
+    return isMatch ? <mark key={i} className="rules-search-match">{part}</mark> : part;
+  });
+};
 
 
 
@@ -2750,7 +2777,7 @@ const RulesSectionItem = React.memo(({ section, idx, theme, selectedSubcategory,
 
 
 
-    <RulesSectionCard title={section.title} theme={theme} short={false}>
+    <RulesSectionCard id={`section-${idx}`} data-section-index={idx} title={section.title} theme={theme} short={false}>
 
 
 
@@ -3643,26 +3670,166 @@ const RulesPage = () => {
   const [activeSectionTab, setActiveSectionTab] = useState(0);
 
 
-
   const [showSearch, setShowSearch] = useState(false);
-
   const { data: rulesCategories, isLoading: rulesLoading } = useGameData('rules');
-
-
-
+  const { data: loreData } = useGameData('lore');
   const [searchQuery, setSearchQuery] = useState('');
-
-
-
+  const [searchFilter, setSearchFilter] = useState('all');
   const [searchResults, setSearchResults] = useState([]);
-
-
-
+  const [selectedResultIndex, setSelectedResultIndex] = useState(0);
   const searchInputRef = useRef(null);
-
-
-
   const searchModalRef = useRef(null);
+
+  // Search functionality
+  const openSearch = useCallback((initialQuery = '') => {
+    setShowSearch(true);
+    setSearchQuery(initialQuery);
+    setSelectedResultIndex(0);
+    if (initialQuery.trim().length >= 2) {
+      setSearchResults(searchRulesIndex(initialQuery, searchFilter));
+    } else {
+      setSearchResults([]);
+    }
+    requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+      if (initialQuery) {
+        searchInputRef.current?.select();
+      }
+    });
+  }, [searchFilter]);
+
+  const closeSearch = useCallback(() => {
+    setShowSearch(false);
+    setSearchQuery('');
+    setSearchResults([]);
+    setSelectedResultIndex(0);
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    setSelectedResultIndex(0);
+    if (val.trim().length >= 2) {
+      setSearchResults(searchRulesIndex(val, searchFilter));
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchFilter]);
+
+  const handleFilterChange = useCallback((filter) => {
+    setSearchFilter(filter);
+    setSelectedResultIndex(0);
+    if (searchQuery.trim().length >= 2) {
+      setSearchResults(searchRulesIndex(searchQuery, filter));
+    }
+  }, [searchQuery]);
+
+  const handleSearchResultClick = useCallback((result) => {
+    if (!result) return;
+    closeSearch();
+
+    let targetSubcategory = result.subcategoryId;
+    if (result.categoryId === 'world-lore' && result.subcategoryId === 'regions') {
+      targetSubcategory = 'regional-overview';
+    }
+
+    setSelectedCategory(result.categoryId);
+    setSelectedSubcategory(targetSubcategory);
+    setSelectedClassDetail(result.classId || null);
+    setActiveTab(result.tabId || null);
+    setActiveSectionTab(result.sectionIndex !== null && result.sectionIndex >= 0 ? result.sectionIndex : 0);
+
+    navigate(`/?section=rules&category=${result.categoryId}&sub=${targetSubcategory}`, { replace: false });
+
+    // Smooth scroll and pulse highlight the target
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        let targetEl = null;
+
+        if (result.sectionIndex !== null && result.sectionIndex >= 0) {
+          targetEl = document.getElementById(`section-${result.sectionIndex}`) ||
+                     document.querySelector(`[data-section-index="${result.sectionIndex}"]`);
+        }
+
+        if (!targetEl && result.displayTitle) {
+          const titleEls = Array.from(document.querySelectorAll('.rules-section-card-title, .rules-section-title, h2, h3, h4, .lexicon-term-title, .bestiary-card-name'));
+          const cleanTitle = result.displayTitle.toLowerCase().trim();
+          targetEl = titleEls.find(el => el.textContent.toLowerCase().includes(cleanTitle))?.closest('.rules-section-card, .rules-section, .lexicon-card, .bestiary-card, .rules-summary-box, article');
+        }
+
+        if (!targetEl && result.termId) {
+          targetEl = document.getElementById(`term-${result.termId}`) || document.querySelector(`[data-term-id="${result.termId}"]`);
+        }
+
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetEl.classList.remove('rules-search-target-highlight');
+          void targetEl.offsetWidth; // trigger reflow
+          targetEl.classList.add('rules-search-target-highlight');
+          setTimeout(() => {
+            if (targetEl) targetEl.classList.remove('rules-search-target-highlight');
+          }, 3000);
+        } else {
+          const mainEl = document.querySelector('.rules-main') || document.querySelector('.rules-content-area');
+          if (mainEl) mainEl.scrollTop = 0;
+        }
+      }, 240);
+    });
+  }, [closeSearch, navigate]);
+
+  const handleSearchKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      closeSearch();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedResultIndex(prev => Math.min(prev + 1, Math.max(0, searchResults.length - 1)));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedResultIndex(prev => Math.max(prev - 1, 0));
+    } else if (e.key === 'Enter' && searchResults.length > 0) {
+      e.preventDefault();
+      const target = searchResults[selectedResultIndex] || searchResults[0];
+      handleSearchResultClick(target);
+    }
+  }, [searchResults, selectedResultIndex, closeSearch, handleSearchResultClick]);
+
+  // Global shortcut Ctrl+K and / to open search
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        openSearch();
+      } else if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        openSearch();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [openSearch]);
+
+  // Close search modal on outside click or Escape
+  useEffect(() => {
+    if (!showSearch) return;
+
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeSearch();
+    };
+
+    const handleClickOutside = (e) => {
+      if (searchModalRef.current && !searchModalRef.current.contains(e.target)) {
+        closeSearch();
+      }
+    };
+
+    document.addEventListener('keydown', handleKey);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSearch, closeSearch]);
 
 
 
@@ -3968,248 +4135,6 @@ const RulesPage = () => {
     setSelectedClassDetail(null);
     navigate(`/?section=rules&category=character-creation&sub=classes`, { replace: false });
   };
-
-
-
-
-
-
-
-  // Search functionality
-
-
-
-  const openSearch = useCallback(() => {
-
-
-
-    setShowSearch(true);
-
-
-
-    setSearchQuery('');
-
-
-
-    setSearchResults([]);
-
-
-
-    // Focus input after modal opens
-
-
-
-    requestAnimationFrame(() => {
-
-
-
-      searchInputRef.current?.focus();
-
-
-
-    });
-
-
-
-  }, []);
-
-
-
-
-
-
-
-  const closeSearch = useCallback(() => {
-
-
-
-    setShowSearch(false);
-
-
-
-    setSearchQuery('');
-
-
-
-    setSearchResults([]);
-
-
-
-  }, []);
-
-
-
-
-
-
-
-  const handleSearchChange = useCallback((e) => {
-
-
-
-    const val = e.target.value;
-
-
-
-    setSearchQuery(val);
-
-
-
-    if (val.trim().length >= 2) {
-
-
-
-      setSearchResults(searchRulesIndex(val));
-
-
-
-    } else {
-
-
-
-      setSearchResults([]);
-
-
-
-    }
-
-
-
-  }, []);
-
-
-
-
-
-
-
-  const handleSearchKeyDown = useCallback((e) => {
-
-
-
-    if (e.key === 'Escape') {
-
-
-
-      closeSearch();
-
-
-
-    } else if (e.key === 'Enter' && searchResults.length > 0) {
-
-
-
-      const first = searchResults[0];
-
-
-
-      handleSubcategoryClick(first.categoryId, first.subcategoryId, first.sectionIndex, first.tabId);
-
-
-
-    }
-
-
-
-  }, [searchResults, closeSearch]);
-
-
-
-
-
-
-
-  const handleSearchResultClick = useCallback((result) => {
-
-
-
-    handleSubcategoryClick(result.categoryId, result.subcategoryId, result.sectionIndex, result.tabId);
-
-
-
-  }, []);
-
-
-
-
-
-
-
-  // Close search modal on outside click or Escape
-
-
-
-  useEffect(() => {
-
-
-
-    if (!showSearch) return;
-
-
-
-    const handleKey = (e) => {
-
-
-
-      if (e.key === 'Escape') closeSearch();
-
-
-
-    };
-
-
-
-    const handleClickOutside = (e) => {
-
-
-
-      if (searchModalRef.current && !searchModalRef.current.contains(e.target)) {
-
-
-
-        closeSearch();
-
-
-
-      }
-
-
-
-    };
-
-
-
-    document.addEventListener('keydown', handleKey);
-
-
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-
-
-    return () => {
-
-
-
-      document.removeEventListener('keydown', handleKey);
-
-
-
-      document.removeEventListener('mousedown', handleClickOutside);
-
-
-
-    };
-
-
-
-  }, [showSearch, closeSearch]);
-
-
-
-
-
-
 
   // Handle internal rules link clicks for interactive navigation
 
@@ -6406,576 +6331,205 @@ const RulesPage = () => {
 
       <main className="rules-main" onClick={handleContentClick}>
 
-
-
-        {/* Breadcrumbs */}
-
-
-
-        <div className="rules-breadcrumbs">
-
-
-
-          <button
-
-
-
-            className="rules-breadcrumb rules-breadcrumb-link"
-
-
-
-            onClick={() => handleBreadcrumbClick('rules')}
-
-
-
-            aria-label="Navigate to Rules overview"
-
-
-
-          >
-
-
-
-            Rules
-
-
-
-          </button>
-
-
-
-          <i className="fas fa-chevron-right"></i>
-
-
-
-          {breadcrumbs.category === 'Character Creation' ? (
-
-
-
+        {/* Top Navigation & Quick Search Bar */}
+        <div className="rules-top-bar">
+          <div className="rules-breadcrumbs">
             <button
-
-
-
               className="rules-breadcrumb rules-breadcrumb-link"
-
-
-
-              onClick={() => handleBreadcrumbClick('character-creation')}
-
-
-
-              aria-label="Navigate to Character Creation overview"
-
-
-
+              onClick={() => handleBreadcrumbClick('rules')}
+              aria-label="Navigate to Rules overview"
             >
-
-
-
-              {breadcrumbs.category}
-
-
-
+              Rules
             </button>
-
-
-
-          ) : (
-
-
-
-            <span className="rules-breadcrumb">{breadcrumbs.category}</span>
-
-
-
-          )}
-
-
-
-          <i className="fas fa-chevron-right"></i>
-
-
-
-          {selectedClassDetail && selectedSubcategory === 'classes' ? (
-
-
-
-            <button
-
-
-
-              className="rules-breadcrumb rules-breadcrumb-link"
-
-
-
-              onClick={handleBackToClasses}
-
-
-
-              aria-label="Navigate to Classes list"
-
-
-
-            >
-
-
-
-              {breadcrumbs.subcategory}
-
-
-
-            </button>
-
-
-
-          ) : (
-
-
-
-            <span className="rules-breadcrumb active">{breadcrumbs.subcategory}</span>
-
-
-
-          )}
-
-
-
-          {selectedClassDetail && selectedSubcategory === 'classes' && (
-
-
-
-            <>
-
-
-
-              <i className="fas fa-chevron-right"></i>
-
-
-
-              <span className="rules-breadcrumb active">{selectedClassDetail}</span>
-
-
-
-            </>
-
-
-
-          )}
-
-
-
-        </div>
-
-
-
-
-
-
-
-        {/* Content */}
-
-
-
-        {renderContent()}
-
-
-
-      </main>
-
-
-
-
-
-
-
-      {/* Search Modal Overlay */}
-
-
-
-      {showSearch && (
-
-
-
-        <div className="rules-search-overlay">
-
-
-
-          <div className="rules-search-modal" ref={searchModalRef}>
-
-
-
-            <div className="rules-search-header">
-
-
-
-              <h3 className="rules-search-title">
-
-
-
-                <i className="fas fa-book-open"></i>
-
-
-
-                Search the Codex
-
-
-
-              </h3>
-
-
-
-              <button className="rules-search-close" onClick={closeSearch} aria-label="Close search">
-
-
-
-                <i className="fas fa-times"></i>
-
-
-
+            <i className="fas fa-chevron-right"></i>
+            {breadcrumbs.category === 'Character Creation' ? (
+              <button
+                className="rules-breadcrumb rules-breadcrumb-link"
+                onClick={() => handleBreadcrumbClick('character-creation')}
+                aria-label="Navigate to Character Creation overview"
+              >
+                {breadcrumbs.category}
               </button>
-
-
-
-            </div>
-
-
-
-            <div className="rules-search-body">
-
-
-
-              <div className="rules-search-input-wrapper">
-
-
-
-                <span className="rules-search-input-icon">
-
-
-
-                  <i className="fas fa-search"></i>
-
-
-
-                </span>
-
-
-
-                <input
-
-
-
-                  ref={searchInputRef}
-
-
-
-                  type="text"
-
-
-
-                  className="rules-search-input"
-
-
-
-                  placeholder="Search rules, sections, topics..."
-
-
-
-                  value={searchQuery}
-
-
-
-                  onChange={handleSearchChange}
-
-
-
-                  onKeyDown={handleSearchKeyDown}
-
-
-
-                />
-
-
-
-                {searchQuery && (
-
-
-
-                  <button className="rules-search-input-clear" onClick={() => { setSearchQuery(''); setSearchResults([]); searchInputRef.current?.focus(); }} aria-label="Clear search">
-
-
-
-                    <i className="fas fa-times"></i>
-
-
-
-                  </button>
-
-
-
-                )}
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div className="rules-search-results">
-
-
-
-                {searchQuery.trim().length < 2 ? (
-
-
-
-                  <div className="rules-search-hint">
-
-
-
-                    <i className="fas fa-search"></i>
-
-
-
-                    <p>Type at least 2 characters to search the Codex</p>
-
-
-
-                  </div>
-
-
-
-                ) : searchResults.length === 0 ? (
-
-
-
-                  <div className="rules-search-empty">
-
-
-
-                    <i className="fas fa-scroll"></i>
-
-
-
-                    <p>No results found for "{searchQuery}"</p>
-
-
-
-                  </div>
-
-
-
-                ) : (
-
-
-
-                  <div className="rules-search-results-list">
-
-
-
-                    {searchResults.map((result) => (
-
-
-
-                      <button
-
-
-
-                        key={result.id}
-
-
-
-                        className="rules-search-result-item"
-
-
-
-                        onClick={() => handleSearchResultClick(result)}
-
-
-
-                      >
-
-
-
-                        <div className="rules-search-result-breadcrumb">
-
-
-
-                          {result.categoryName}
-
-
-
-                          {result.subcategoryName && (
-
-
-
-                            <>
-
-
-
-                              <i className="fas fa-chevron-right"></i>
-
-
-
-                              {result.subcategoryName}
-
-
-
-                            </>
-
-
-
-                          )}
-
-
-
-                          {result.tabName && (
-
-
-
-                            <>
-
-
-
-                              <i className="fas fa-chevron-right"></i>
-
-
-
-                              <span className="rules-search-result-section">{result.tabName}</span>
-
-
-
-                            </>
-
-
-
-                          )}
-
-
-
-                          {result.sectionTitle && result.sectionIndex >= 0 && !result.tabName && (
-
-
-
-                            <>
-
-
-
-                              <i className="fas fa-chevron-right"></i>
-
-
-
-                              <span className="rules-search-result-section">{result.sectionTitle}</span>
-
-
-
-                            </>
-
-
-
-                          )}
-
-
-
-                        </div>
-
-
-
-                        <div className="rules-search-result-title">
-
-
-
-                          {result.displayTitle}
-
-
-
-                        </div>
-
-
-
-                        {result.preview && (
-
-
-
-                          <div className="rules-search-result-preview">
-
-
-
-                            {result.preview}
-
-
-
-                          </div>
-
-
-
-                        )}
-
-
-
-                      </button>
-
-
-
-                    ))}
-
-
-
-                  </div>
-
-
-
-                )}
-
-
-
-              </div>
-
-
-
-            </div>
-
-
-
-            {searchResults.length > 0 && (
-
-
-
-              <div className="rules-search-footer">
-
-
-
-                <span>{searchResults.length} result{searchResults.length !== 1 ? 's' : ''}</span>
-
-
-
-                <span className="rules-search-footer-hint">Press <kbd>Enter</kbd> to open top result</span>
-
-
-
-              </div>
-
-
-
+            ) : (
+              <span className="rules-breadcrumb">{breadcrumbs.category}</span>
             )}
-
-
-
+            <i className="fas fa-chevron-right"></i>
+            {selectedClassDetail && selectedSubcategory === 'classes' ? (
+              <button
+                className="rules-breadcrumb rules-breadcrumb-link"
+                onClick={handleBackToClasses}
+                aria-label="Navigate to Classes list"
+              >
+                {breadcrumbs.subcategory}
+              </button>
+            ) : (
+              <span className="rules-breadcrumb active">{breadcrumbs.subcategory}</span>
+            )}
+            {selectedClassDetail && selectedSubcategory === 'classes' && (
+              <>
+                <i className="fas fa-chevron-right"></i>
+                <span className="rules-breadcrumb active">{selectedClassDetail}</span>
+              </>
+            )}
           </div>
 
-
-
+          <div
+            className="rules-header-quick-search"
+            onClick={() => openSearch()}
+            role="button"
+            tabIndex={0}
+            title="Search Codex (Ctrl + K)"
+            aria-label="Search Codex"
+          >
+            <i className="fas fa-search"></i>
+            <span className="rules-quick-search-placeholder">Search lore, rules, spells, classes...</span>
+            <kbd className="rules-quick-search-shortcut">Ctrl K</kbd>
+          </div>
         </div>
 
+        {/* Content */}
+        {renderContent()}
+      </main>
 
+      {/* Search Modal Overlay */}
+      {showSearch && (
+        <div className="rules-search-overlay">
+          <div className="rules-search-modal" ref={searchModalRef}>
+            <div className="rules-search-header">
+              <h3 className="rules-search-title">
+                <i className="fas fa-scroll"></i>
+                Search the Mythrill Codex
+              </h3>
+              <button className="rules-search-close" onClick={closeSearch} aria-label="Close search">
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
 
+            <div className="rules-search-body">
+              <div className="rules-search-input-wrapper">
+                <span className="rules-search-input-icon">
+                  <i className="fas fa-search"></i>
+                </span>
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  className="rules-search-input"
+                  placeholder="Search rules, lore, creatures, combat, classes, terms..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleSearchKeyDown}
+                />
+                {searchQuery && (
+                  <button className="rules-search-input-clear" onClick={() => { setSearchQuery(''); setSearchResults([]); searchInputRef.current?.focus(); }} aria-label="Clear search">
+                    <i className="fas fa-times"></i>
+                  </button>
+                )}
+              </div>
+
+              {/* Filter Chips Bar */}
+              <div className="rules-search-filter-chips">
+                {SEARCH_FILTERS.map(f => (
+                  <button
+                    key={f.id}
+                    className={`rules-search-chip ${searchFilter === f.id ? 'active' : ''}`}
+                    onClick={() => handleFilterChange(f.id)}
+                  >
+                    <i className={f.icon}></i>
+                    <span>{f.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="rules-search-results">
+                {searchQuery.trim().length < 2 ? (
+                  <div className="rules-search-hint">
+                    <i className="fas fa-search"></i>
+                    <p>Type at least 2 characters to search across all lore, mechanics, and rules</p>
+                    <div className="rules-search-examples">
+                      <span>Try searching:</span>
+                      <button type="button" className="rules-search-example-pill" onClick={() => openSearch('keth')}>keth</button>
+                      <button type="button" className="rules-search-example-pill" onClick={() => openSearch('range measurement')}>range measurement</button>
+                      <button type="button" className="rules-search-example-pill" onClick={() => openSearch('difficulty die')}>difficulty die</button>
+                      <button type="button" className="rules-search-example-pill" onClick={() => openSearch('first contract')}>first contract</button>
+                    </div>
+                  </div>
+                ) : searchResults.length === 0 ? (
+                  <div className="rules-search-empty">
+                    <i className="fas fa-book-dead"></i>
+                    <p>No records found matching "{searchQuery}" in {searchFilter === 'all' ? 'the codex' : searchFilter}</p>
+                  </div>
+                ) : (
+                  <div className="rules-search-results-list">
+                    {searchResults.map((result, idx) => (
+                      <button
+                        key={result.id}
+                        className={`rules-search-result-item ${selectedResultIndex === idx ? 'selected' : ''}`}
+                        onClick={() => handleSearchResultClick(result)}
+                        onMouseEnter={() => setSelectedResultIndex(idx)}
+                      >
+                        <div className="rules-search-result-header">
+                          <div className="rules-search-result-breadcrumb">
+                            <span>{result.categoryName}</span>
+                            {result.subcategoryName && (
+                              <>
+                                <i className="fas fa-chevron-right"></i>
+                                <span>{result.subcategoryName}</span>
+                              </>
+                            )}
+                            {result.tabName && (
+                              <>
+                                <i className="fas fa-chevron-right"></i>
+                                <span className="rules-search-result-section">{result.tabName}</span>
+                              </>
+                            )}
+                            {result.sectionTitle && result.sectionIndex >= 0 && !result.tabName && (
+                              <>
+                                <i className="fas fa-chevron-right"></i>
+                                <span className="rules-search-result-section">{result.sectionTitle}</span>
+                              </>
+                            )}
+                          </div>
+                          {result.badge && (
+                            <span
+                              className="rules-search-badge"
+                              style={{
+                                backgroundColor: `${result.badgeColor || '#d4af37'}22`,
+                                color: result.badgeColor || '#d4af37',
+                                borderColor: `${result.badgeColor || '#d4af37'}55`
+                              }}
+                            >
+                              {result.badge}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="rules-search-result-title">
+                          {highlightSearchMatch(result.displayTitle, searchQuery)}
+                        </div>
+
+                        {result.snippet && (
+                          <div className="rules-search-result-preview">
+                            {highlightSearchMatch(result.snippet, searchQuery)}
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {searchResults.length > 0 && (
+              <div className="rules-search-footer">
+                <span>{searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found</span>
+                <span className="rules-search-footer-hint">
+                  <kbd>↑</kbd> <kbd>↓</kbd> navigate <span className="footer-dot">•</span> <kbd>Enter</kbd> select <span className="footer-dot">•</span> <kbd>Esc</kbd> close
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
       )}
-
-
-
     </div>
 
 

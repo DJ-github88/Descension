@@ -84,7 +84,7 @@ subraceVariants: {
   },
   currentCrisisAngle: `The glaciers are *warming*, slowly, marginally, but measurably, and the Skald Apexes read it as a catastrophe in slow motion: their entire tracking substrate is *melting*. The Hunger Glaciers preserve the record the Skald hunt by, and as they recede, the Skald are losing tracks that have stood for centuries. Several elders read the melt as the world itself forgetting how to be hunted.`,
   signatureQuote: {
-  text: '"The glacier has kept every footprint for eight hundred years and I have read them all. Now the glacier weeps, and the footprints blur. I am watching my library melt, one drop at a time."',
+  text: '"The glacier has kept every footprint for four hundred years and I have read them all. Now the glacier weeps, and the footprints blur. I am watching my library melt, one drop at a time."',
   speaker: 'Glacier-Stalker Skald-Ragna',
   context: 'A Skald Apex, reading a track that was crisp last season and is now slush'
   }
@@ -141,7 +141,7 @@ subraceVariants: {
  vashir_astril: {
   subraceName: 'Earthen Astril - Astril',
   title: 'The Steppe-Stalker',
-  reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is typically a steppe predator \u2014 a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Earthen Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice \u2014 a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
+  reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is a fierce steppe predator — a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Earthen Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice — a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
   signatureAbility: {
   name: 'Heat-Sight',
   description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Earthen Astril's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`

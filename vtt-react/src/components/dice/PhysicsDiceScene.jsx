@@ -142,6 +142,264 @@ function varyDieColor(base) {
   return c;
 }
 
+// ============================================================================
+// Procedural themed body paints.
+// Each theme gets a hand-painted 512px albedo + emissive pair baked once per
+// theme (cached, shared by every die in the roll). These make the die BODY
+// itself read as the material — ice with crystalline veins, cracked basalt
+// with magma glowing through, a nebula with stars, lichtenberg-scarred
+// stormstone, mossy heartwood — instead of a flat colored stone.
+// ============================================================================
+
+const themeBodyTextureCache = new Map();
+
+function getThemeBodyTextures(themeId) {
+  let t = themeBodyTextureCache.get(themeId);
+  if (!t) {
+    t = createThemeBodyTextures(themeId);
+    themeBodyTextureCache.set(themeId, t);
+  }
+  return t;
+}
+
+function disposeThemeBodyTextureCache() {
+  themeBodyTextureCache.forEach((t) => {
+    t.map?.dispose();
+    t.emissiveMap?.dispose();
+  });
+  themeBodyTextureCache.clear();
+}
+
+// Random-walk crack/vein painter with recursive branches. Returns the list of
+// polylines so the albedo and emissive passes can stroke the SAME geometry.
+function generateCrackPaths(size, count, opts = {}) {
+  const {
+    straightness = 0.55,   // 0 = pure jitter, 1 = straight shards
+    steps = 24,
+    branchChance = 0.16,
+    maxDepth = 2,
+  } = opts;
+  const paths = [];
+  const rand = Math.random;
+
+  const walk = (x, y, angle, depth) => {
+    const pts = [{ x, y }];
+    const n = steps + Math.floor(rand() * steps * 0.6);
+    for (let i = 0; i < n; i++) {
+      const jitter = (rand() - 0.5) * (1 - straightness) * 2.4;
+      angle += jitter;
+      const len = size * (0.012 + rand() * 0.02);
+      x += Math.cos(angle) * len;
+      y += Math.sin(angle) * len;
+      // wrap around the seam so edges continue on the opposite side
+      if (x < 0) x += size; if (x > size) x -= size;
+      if (y < 0) y += size; if (y > size) y -= size;
+      pts.push({ x, y });
+      if (depth < maxDepth && rand() < branchChance / (depth + 1)) {
+        walk(x, y, angle + (rand() > 0.5 ? 1 : -1) * (0.5 + rand() * 0.9), depth + 1);
+      }
+    }
+    paths.push(pts);
+  };
+
+  for (let c = 0; c < count; c++) {
+    walk(rand() * size, rand() * size, rand() * Math.PI * 2, 0);
+  }
+  return paths;
+}
+
+function strokePaths(ctx, paths, width, strokeFn, size) {
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  paths.forEach((pts) => {
+    ctx.lineWidth = width * (0.7 + Math.random() * 0.6);
+    ctx.beginPath();
+    // Split polylines at wrap seams so we never draw across the canvas.
+    let prev = null;
+    let started = false;
+    for (const p of pts) {
+      if (prev && (Math.abs(p.x - prev.x) > size * 0.5 || Math.abs(p.y - prev.y) > size * 0.5)) {
+        strokeFn(ctx);
+        ctx.beginPath();
+        started = false;
+      }
+      if (!started) {
+        ctx.moveTo(p.x, p.y);
+        started = true;
+      } else {
+        ctx.lineTo(p.x, p.y);
+      }
+      prev = p;
+    }
+    if (started) strokeFn(ctx);
+  });
+}
+
+function createThemeBodyTextures(themeId) {
+  const size = 512;
+    const albedo = document.createElement('canvas');
+  albedo.width = albedo.height = size;
+  const aCtx = albedo.getContext('2d');
+  const emissive = document.createElement('canvas');
+  emissive.width = emissive.height = size;
+  const eCtx = emissive.getContext('2d');
+
+  eCtx.fillStyle = '#000000';
+  eCtx.fillRect(0, 0, size, size);
+
+  const paintNebulaBlob = (ctx, cx, cy, r, color, alpha) => {
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, color.replace('ALPHA', alpha));
+    g.addColorStop(1, color.replace('ALPHA', '0'));
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+  };
+
+  if (themeId === 'frozen') {
+    // Base: pale glacial ice with depth falloff.
+    const base = aCtx.createLinearGradient(0, 0, size, size);
+    base.addColorStop(0, '#bfe0f7');
+    base.addColorStop(0.5, '#8fc2e8');
+    base.addColorStop(1, '#6ea8d6');
+    aCtx.fillStyle = base;
+    aCtx.fillRect(0, 0, size, size);
+    // Deep ice interior patches.
+    for (let i = 0; i < 6; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 90 + Math.random() * 120, 'rgba(58,118,178,ALPHA)', 0.25);
+    }
+    // Crystalline veins: straight-ish shard fractures.
+    const paths = generateCrackPaths(size, 9, { straightness: 0.85, steps: 16, branchChance: 0.35, maxDepth: 2 });
+    strokePaths(aCtx, paths, 2.2, (c) => { c.strokeStyle = 'rgba(240,250,255,0.9)'; c.stroke(); }, size);
+    strokePaths(eCtx, paths, 1.6, (c) => { c.strokeStyle = 'rgba(130,190,255,0.55)'; c.stroke(); }, size);
+    // Faint sparkle flecks.
+    for (let i = 0; i < 90; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      aCtx.fillStyle = 'rgba(255,255,255,0.5)';
+      aCtx.fillRect(x, y, 1.5, 1.5);
+      if (Math.random() < 0.3) {
+        eCtx.fillStyle = 'rgba(180,220,255,0.5)';
+        eCtx.fillRect(x, y, 1.5, 1.5);
+      }
+    }
+  } else if (themeId === 'fiery') {
+    // Base: charred basalt.
+    const base = aCtx.createLinearGradient(0, 0, size, size);
+    base.addColorStop(0, '#241109');
+    base.addColorStop(0.5, '#180a05');
+    base.addColorStop(1, '#0e0503');
+    aCtx.fillStyle = base;
+    aCtx.fillRect(0, 0, size, size);
+    // Magma crack network — glowing on the emissive pass.
+    const paths = generateCrackPaths(size, 11, { straightness: 0.45, steps: 26, branchChance: 0.3, maxDepth: 3 });
+    strokePaths(aCtx, paths, 3.2, (c) => { c.strokeStyle = 'rgba(255,120,30,0.85)'; c.stroke(); }, size);
+    strokePaths(aCtx, paths, 1.2, (c) => { c.strokeStyle = 'rgba(255,220,120,0.9)'; c.stroke(); }, size);
+    eCtx.shadowColor = 'rgba(255,120,20,0.9)';
+    eCtx.shadowBlur = 6;
+    strokePaths(eCtx, paths, 2.0, (c) => { c.strokeStyle = 'rgba(255,150,50,0.95)'; c.stroke(); }, size);
+    strokePaths(eCtx, paths, 0.8, (c) => { c.strokeStyle = 'rgba(255,235,160,0.9)'; c.stroke(); }, size);
+    eCtx.shadowBlur = 0;
+    // Ember pores.
+    for (let i = 0; i < 60; i++) {
+      const x = Math.random() * size, y = Math.random() * size, r = 0.8 + Math.random() * 1.8;
+      eCtx.fillStyle = 'rgba(255,140,50,0.75)';
+      eCtx.beginPath(); eCtx.arc(x, y, r, 0, Math.PI * 2); eCtx.fill();
+    }
+  } else if (themeId === 'storm') {
+    // Base: dark storm slate.
+    const base = aCtx.createLinearGradient(0, 0, size, size);
+    base.addColorStop(0, '#232a4e');
+    base.addColorStop(0.5, '#161c38');
+    base.addColorStop(1, '#0d1126');
+    aCtx.fillStyle = base;
+    aCtx.fillRect(0, 0, size, size);
+    // Lichtenberg filaments — thin, heavily branched.
+    const paths = generateCrackPaths(size, 13, { straightness: 0.6, steps: 20, branchChance: 0.45, maxDepth: 3 });
+    strokePaths(aCtx, paths, 1.4, (c) => { c.strokeStyle = 'rgba(190,215,255,0.75)'; c.stroke(); }, size);
+    eCtx.shadowColor = 'rgba(150,190,255,0.9)';
+    eCtx.shadowBlur = 5;
+    strokePaths(eCtx, paths, 1.1, (c) => { c.strokeStyle = 'rgba(210,230,255,0.95)'; c.stroke(); }, size);
+    eCtx.shadowBlur = 0;
+    // Discharge glints.
+    for (let i = 0; i < 26; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      eCtx.fillStyle = 'rgba(230,240,255,0.85)';
+      eCtx.fillRect(x, y, 1.6, 1.6);
+    }
+  } else if (themeId === 'dark') {
+    // Base: deep void purple-black.
+    const base = aCtx.createLinearGradient(0, 0, size, size);
+    base.addColorStop(0, '#1c0f33');
+    base.addColorStop(0.5, '#120826');
+    base.addColorStop(1, '#0a0418');
+    aCtx.fillStyle = base;
+    aCtx.fillRect(0, 0, size, size);
+    // Nebula clouds.
+    for (let i = 0; i < 7; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 80 + Math.random() * 140, 'rgba(96,44,160,ALPHA)', 0.3);
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 40 + Math.random() * 80, 'rgba(150,80,220,ALPHA)', 0.16);
+    }
+    // Pinprick stars — the only emissive feature.
+    for (let i = 0; i < 120; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      const r = Math.random() < 0.12 ? 1.8 : 0.9;
+      eCtx.fillStyle = Math.random() < 0.2 ? 'rgba(200,160,255,0.95)' : 'rgba(235,225,255,0.8)';
+      eCtx.beginPath(); eCtx.arc(x, y, r, 0, Math.PI * 2); eCtx.fill();
+      aCtx.fillStyle = 'rgba(220,210,255,0.35)';
+      aCtx.beginPath(); eCtx.arc(x, y, r * 0.8, 0, Math.PI * 2); aCtx.fill();
+    }
+    // One faint sigil ring for identity.
+    aCtx.strokeStyle = 'rgba(150,90,220,0.35)';
+    aCtx.lineWidth = 2;
+    aCtx.beginPath(); aCtx.arc(size / 2, size / 2, 150, 0, Math.PI * 2); aCtx.stroke();
+  } else if (themeId === 'nature') {
+    // Base: dark heartwood.
+    const base = aCtx.createLinearGradient(0, 0, size, size);
+    base.addColorStop(0, '#2e2413');
+    base.addColorStop(0.5, '#201a0e');
+    base.addColorStop(1, '#141008');
+    aCtx.fillStyle = base;
+    aCtx.fillRect(0, 0, size, size);
+    // Wavy wood grain arcs.
+    aCtx.lineWidth = 1.6;
+    for (let g = 0; g < 26; g++) {
+      const y0 = (g / 26) * size + (Math.random() - 0.5) * 12;
+      aCtx.strokeStyle = `rgba(${120 + Math.random() * 40 | 0},${95 + Math.random() * 30 | 0},55,${0.22 + Math.random() * 0.18})`;
+      aCtx.beginPath();
+      for (let x = 0; x <= size; x += 16) {
+        const y = y0 + Math.sin((x / size) * Math.PI * (2 + g % 3) + g) * 9;
+        if (x === 0) aCtx.moveTo(x, y); else aCtx.lineTo(x, y);
+      }
+      aCtx.stroke();
+    }
+    // Moss patches.
+    for (let i = 0; i < 8; i++) {
+      paintNebulaBlob(aCtx, Math.random() * size, Math.random() * size, 30 + Math.random() * 70, 'rgba(74,128,52,ALPHA)', 0.3);
+    }
+    // Glowing spores.
+    for (let i = 0; i < 45; i++) {
+      const x = Math.random() * size, y = Math.random() * size;
+      eCtx.fillStyle = 'rgba(150,240,130,0.7)';
+      eCtx.beginPath(); eCtx.arc(x, y, 0.9 + Math.random() * 1.2, 0, Math.PI * 2); eCtx.fill();
+    }
+    // A vein of raw green sap.
+    const sapPath = generateCrackPaths(size, 3, { straightness: 0.7, steps: 18, branchChance: 0.2, maxDepth: 1 });
+    strokePaths(aCtx, sapPath, 1.8, (c) => { c.strokeStyle = 'rgba(120,200,90,0.55)'; c.stroke(); }, size);
+    strokePaths(eCtx, sapPath, 1.1, (c) => { c.strokeStyle = 'rgba(140,255,110,0.5)'; c.stroke(); }, size);
+  } else {
+    return { map: null, emissiveMap: null };
+  }
+
+  const map = new THREE.CanvasTexture(albedo);
+  map.colorSpace = THREE.SRGBColorSpace;
+  map.anisotropy = 4;
+  const emissiveMap = new THREE.CanvasTexture(emissive);
+  emissiveMap.colorSpace = THREE.SRGBColorSpace;
+  emissiveMap.anisotropy = 4;
+  return { map, emissiveMap };
+}
+
 // Per-preset cache so every die in a set shares the same particle texture
 // (saves ~2-3ms per die and 2MB per die of GPU memory).
 const particleTextureCache = new Map();
@@ -339,7 +597,38 @@ function drawPremiumNumber(ctx, text, x, y, fontPx, numberColor, rotation = 0) {
   ctx.restore();
 }
 
+// Face-number texture cache. Dice of the same type share identical face
+// canvases — without this, a 6d6 pool bakes 36 identical 512px textures on
+// the main thread at throw time (a visible multi-100ms stall, i.e. "laggy").
+const numberTextureCache = new Map();
+// Surface-noise texture pool. Baking a 512px FBM pair per die stalls the
+// main thread ~50ms+ EACH at throw time. A small pool baked lazily (plus a
+// random rotation per die) keeps variety without per-die cost.
+const surfaceTexturePool = [];
+function getSurfaceTextureFromPool() {
+  if (surfaceTexturePool.length < 4) {
+    surfaceTexturePool.push(createBodySurfaceTextures(Math.floor(Math.random() * 0x7fffffff)));
+  }
+  const t = surfaceTexturePool[Math.floor(Math.random() * surfaceTexturePool.length)];
+  return {
+    normalMap: t.normalMap,
+    roughnessMap: t.roughnessMap,
+    owned: false, // pooled — do not dispose per die
+  };
+}
+
+function disposeSurfaceTexturePool() {
+  surfaceTexturePool.forEach((t) => {
+    t.normalMap?.dispose();
+    t.roughnessMap?.dispose();
+  });
+  surfaceTexturePool.length = 0;
+}
+
 function createNumberTextureWithColor(num, type, numberColor) {
+  const key = `${type}|${num}|${numberColor || 'default'}`;
+  const cached = numberTextureCache.get(key);
+  if (cached) return cached;
   const size = 512;
   const canvas = document.createElement('canvas');
   canvas.width = size;
@@ -385,10 +674,20 @@ function createNumberTextureWithColor(num, type, numberColor) {
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
+  numberTextureCache.set(key, tex);
   return tex;
 }
 
+function disposeNumberTextureCache() {
+  numberTextureCache.forEach((t) => t.dispose());
+  numberTextureCache.clear();
+}
+
 function createD4FaceTexture(nTop, nRight, nLeft, numberColor) {
+  const d4Key = `d4|${nTop}-${nRight}-${nLeft}|${numberColor || 'default'}`;
+  const d4Cached = numberTextureCache.get(d4Key);
+  if (d4Cached) return d4Cached;
+
   const size = 512;
   const canvas = document.createElement('canvas');
   canvas.width = size;
@@ -406,6 +705,7 @@ function createD4FaceTexture(nTop, nRight, nLeft, numberColor) {
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
+  numberTextureCache.set(d4Key, tex);
   return tex;
 }
 
@@ -660,8 +960,8 @@ function createOuterParticles(preset, spriteTexture) {
   // parchment table. Particles drift just outside the die so they're not
   // occluded by the body.
   const sizeByEffect = {
-    frost: 0.28,
-    fire: 0.26,
+    frost: 0.32,
+    fire: 0.30,
     lightning: 0.22,
     void: 0.26,
     nature: 0.26,
@@ -795,6 +1095,338 @@ function updateGlowAura(glow, dt, time) {
   glow.scale.setScalar(scaleBase);
 }
 
+// Per-preset body material overrides. The generic stone-PBR body is the
+// default; themed presets get clearcoat/transparency/emissive boosts so a
+// "Glacial Frost" die genuinely reads as carved ice and "Infernal Flame" as
+// molten rock, instead of a dark stone with particles sprinkled on top.
+const THEME_MATERIAL_OVERRIDES = {
+  frozen: {
+    clearcoat: 1.0, clearcoatRoughness: 0.1,
+    transparent: true, opacity: 0.95,
+    envMapIntensity: 1.0,
+    emissiveIntensityMul: 1.2,
+    plateEmissiveIntensity: 0.6,
+    bodyFlicker: 'frost',
+  },
+  fiery: {
+    clearcoat: 0.7, clearcoatRoughness: 0.25,
+    envMapIntensity: 0.55,
+    emissiveIntensityMul: 1.5,
+    plateEmissiveIntensity: 0.65,
+    bodyFlicker: 'fire',
+  },
+  storm: {
+    clearcoat: 0.9, clearcoatRoughness: 0.15,
+    envMapIntensity: 0.8,
+    emissiveIntensityMul: 1.25,
+    plateEmissiveIntensity: 0.55,
+    bodyFlicker: 'storm',
+  },
+  dark: {
+    clearcoat: 0.8, clearcoatRoughness: 0.2,
+    envMapIntensity: 0.7,
+    emissiveIntensityMul: 1.15,
+    plateEmissiveIntensity: 0.5,
+  },
+  nature: {
+    clearcoat: 0.5, clearcoatRoughness: 0.4,
+    envMapIntensity: 0.6,
+    emissiveIntensityMul: 1.1,
+    plateEmissiveIntensity: 0.5,
+  },
+};
+
+// Per-die themed point light — makes frost dice cast icy light on the table
+// and fire dice glow like embers. Only attached for themed presets (classic
+// stays clean) and capped by dice count in throwAllDice.
+function createThemeLight(preset) {
+  if (!preset || !preset.innerEffect) return null;
+  const conf = {
+    frost: { color: 0x6fc3ff, intensity: 1.5, distance: 5.5 },
+    fire: { color: 0xff6622, intensity: 2.4, distance: 6 },
+    void: { color: 0x9944dd, intensity: 1.6, distance: 5 },
+    lightning: { color: 0x88aaff, intensity: 1.8, distance: 5.5 },
+    nature: { color: 0x66cc55, intensity: 1.1, distance: 4.5 },
+  }[preset.innerEffect];
+  if (!conf) return null;
+  const light = new THREE.PointLight(conf.color, conf.intensity, conf.distance);
+  light.position.set(0, 0.9, 0);
+  light.userData = { effect: preset.innerEffect, baseIntensity: conf.intensity, phase: Math.random() * Math.PI * 2 };
+  return light;
+}
+
+function updateThemeLight(light, time) {
+  const { effect, baseIntensity, phase } = light.userData;
+  if (effect === 'fire') {
+    light.intensity = baseIntensity * (0.8 + 0.25 * Math.sin(time * 8.3 + phase) + 0.12 * Math.sin(time * 13.7 + phase * 2));
+  } else if (effect === 'lightning') {
+    const burst = Math.sin(time * 11.0 + phase) * Math.sin(time * 2.3 + 1.0);
+    light.intensity = baseIntensity * (0.5 + 1.1 * Math.max(0, burst));
+  } else if (effect === 'frost') {
+    light.intensity = baseIntensity * (0.85 + 0.15 * Math.sin(time * 1.8 + phase));
+  } else if (effect === 'void') {
+    light.intensity = baseIntensity * (0.8 + 0.3 * Math.sin(time * 2.2 + phase));
+  } else if (effect === 'nature') {
+    light.intensity = baseIntensity * (0.85 + 0.15 * Math.sin(time * 2.6 + phase));
+  }
+}
+
+// Animated emissive on the die body — a molten flicker for fire, a slow icy
+// shimmer for frost, crackling surges for storm.
+function updateBodyFlicker(mesh, time) {
+  const base = mesh.userData.baseEmissiveIntensity;
+  const mode = mesh.userData.bodyFlicker;
+  if (mode === 'fire') {
+    mesh.material.emissiveIntensity = base * (0.8 + 0.24 * Math.sin(time * 8.3 + 1.7) + 0.12 * Math.sin(time * 13.7));
+  } else if (mode === 'frost') {
+    mesh.material.emissiveIntensity = base * (0.9 + 0.1 * Math.sin(time * 1.8));
+  } else if (mode === 'storm') {
+    const burst = Math.sin(time * 11.0) * Math.sin(time * 2.3 + 1.0);
+    mesh.material.emissiveIntensity = base * (0.85 + 0.4 * Math.max(0, burst));
+  }
+}
+
+// Themed ground ring — a soft decal under each die that anchors the element
+// on the table: frost gets an ice rime ring, fire an ember scorch, void a
+// dark sigil, storm an electric halo, nature a mossy ring.
+const groundRingTextureCache = new Map();
+function getGroundRingTexture(effect) {
+  let tex = groundRingTextureCache.get(effect);
+  if (!tex) {
+    tex = createGroundRingTexture(effect);
+    groundRingTextureCache.set(effect, tex);
+  }
+  return tex;
+}
+
+function createGroundRingTexture(effect) {
+  const size = 256;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const cx = size / 2;
+  const cy = size / 2;
+  const R = size * 0.42;
+
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  if (effect === 'frost') {
+    // Ice rime: crystalline ring with radial spikes and a cold inner sheen.
+    const inner = ctx.createRadialGradient(cx, cy, R * 0.1, cx, cy, R);
+    inner.addColorStop(0, 'rgba(140,200,255,0.30)');
+    inner.addColorStop(0.8, 'rgba(150,210,255,0.10)');
+    inner.addColorStop(1, 'rgba(150,210,255,0)');
+    ctx.fillStyle = inner;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+
+    ctx.strokeStyle = 'rgba(190,230,255,0.85)';
+    ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.92, 0, Math.PI * 2); ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(210,240,255,0.7)';
+    ctx.lineWidth = 4;
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2;
+      const r1 = R * 0.95;
+      const r2 = R * 1.12;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1);
+      ctx.lineTo(cx + Math.cos(a) * r2, cy + Math.sin(a) * r2);
+      ctx.stroke();
+      // small barbs
+      for (const s of [-1, 1]) {
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * ((r1 + r2) / 2), cy + Math.sin(a) * ((r1 + r2) / 2));
+        ctx.lineTo(cx + Math.cos(a + s * 0.5) * r2, cy + Math.sin(a + s * 0.5) * r2);
+        ctx.stroke();
+      }
+    }
+  } else if (effect === 'fire') {
+    // Ember scorch: warm glow ring with rising sparks.
+    const glow = ctx.createRadialGradient(cx, cy, R * 0.1, cx, cy, R);
+    glow.addColorStop(0, 'rgba(255,120,30,0.35)');
+    glow.addColorStop(0.75, 'rgba(255,80,10,0.12)');
+    glow.addColorStop(1, 'rgba(255,60,0,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+
+    ctx.strokeStyle = 'rgba(255,150,60,0.9)';
+    ctx.lineWidth = 9;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.88, 0, Math.PI * 2); ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255,200,90,0.9)';
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2 + 0.2;
+      const r = R * (0.55 + Math.random() * 0.35);
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 2 + Math.random() * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  } else if (effect === 'lightning') {
+    // Electric halo: double thin rings with radial discharge ticks.
+    ctx.strokeStyle = 'rgba(150,190,255,0.9)';
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.9, 0, Math.PI * 2); ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(200,225,255,0.75)';
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.7, 0, Math.PI * 2); ctx.stroke();
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 14; i++) {
+      const a = (i / 14) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * R * 0.72, cy + Math.sin(a) * R * 0.72);
+      ctx.lineTo(cx + Math.cos(a + 0.12) * R * 1.0, cy + Math.sin(a + 0.12) * R * 1.0);
+      ctx.stroke();
+    }
+  } else if (effect === 'void') {
+    // Dark sigil: heavy dark ring with a purple rim (NormalBlending paints
+    // over the light parchment table).
+    ctx.strokeStyle = 'rgba(25,10,45,0.85)';
+    ctx.lineWidth = 12;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.86, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = 'rgba(150,80,220,0.8)';
+    ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.86, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = 'rgba(120,60,190,0.55)';
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * R * 0.3, cy + Math.sin(a) * R * 0.3);
+      ctx.lineTo(cx + Math.cos(a) * R * 0.8, cy + Math.sin(a) * R * 0.8);
+      ctx.stroke();
+    }
+  } else if (effect === 'nature') {
+    // Sylvan ring: dashed vine ring with leaf dots.
+    ctx.strokeStyle = 'rgba(110,220,120,0.8)';
+    ctx.lineWidth = 6;
+    for (let i = 0; i < 12; i++) {
+      const a0 = (i / 12) * Math.PI * 2;
+      const a1 = a0 + (Math.PI * 2 / 12) * 0.6;
+      ctx.beginPath();
+      ctx.arc(cx, cy, R * 0.86, a0, a1);
+      ctx.stroke();
+    }
+    ctx.fillStyle = 'rgba(160,240,140,0.85)';
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + 0.26;
+      const r = R * 0.86;
+      ctx.save();
+      ctx.translate(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+      ctx.rotate(a);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 8, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  return tex;
+}
+
+function createGroundRing(preset) {
+  if (!preset || !preset.innerEffect) return null;
+  const effect = preset.innerEffect;
+  const useNormal = effect === 'void';
+  const ring = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.2, 3.2),
+    new THREE.MeshBasicMaterial({
+      map: getGroundRingTexture(effect),
+      transparent: true,
+      opacity: 0,
+      blending: useNormal ? THREE.NormalBlending : THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.02;
+  ring.renderOrder = -1;
+  ring.userData = { effect, spin: (Math.random() - 0.5) * 0.7, maxOpacity: useNormal ? 0.8 : 0.75 };
+  return ring;
+}
+
+function updateGroundRing(ring, dieGroup, dt) {
+  ring.position.x = dieGroup.position.x;
+  ring.position.z = dieGroup.position.z;
+  ring.rotation.z += dt * ring.userData.spin;
+
+  // Fade in as the die nears the table; fade out while it is airborne.
+  const heightFade = THREE.MathUtils.clamp((2.6 - dieGroup.position.y) / 1.6, 0, 1);
+  const target = heightFade * ring.userData.maxOpacity;
+  ring.material.opacity += (target - ring.material.opacity) * Math.min(1, dt * 4);
+}
+
+function disposeGroundRingTextureCache() {
+  groundRingTextureCache.forEach((t) => t.dispose());
+  groundRingTextureCache.clear();
+}
+
+// --- Impact dust puff -----------------------------------------------------
+// A quick expanding, fading soft blob where a die slams the table. Reads as
+// the die physically hitting the paper/mat.
+let dustPuffTexture = null;
+function getDustPuffTexture() {
+  if (dustPuffTexture) return dustPuffTexture;
+  const size = 128;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createRadialGradient(size / 2, size / 2, 4, size / 2, size / 2, size / 2 - 4);
+  g.addColorStop(0, 'rgba(196,184,156,0.85)');
+  g.addColorStop(0.5, 'rgba(196,184,156,0.4)');
+  g.addColorStop(1, 'rgba(196,184,156,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
+  dustPuffTexture = new THREE.CanvasTexture(canvas);
+  dustPuffTexture.colorSpace = THREE.SRGBColorSpace;
+  return dustPuffTexture;
+}
+
+function spawnDustPuff(scene, pos) {
+  if (impactFxRefCurrent.length > 14) return;
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    new THREE.MeshBasicMaterial({
+      map: getDustPuffTexture(),
+      transparent: true,
+      opacity: 0.45,
+      depthWrite: false,
+    })
+  );
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.rotation.z = Math.random() * Math.PI * 2;
+  mesh.position.set(pos.x, 0.025, pos.z);
+  mesh.renderOrder = -1;
+  mesh.userData.t = 0;
+  scene.add(mesh);
+  impactFxRefCurrent.push(mesh);
+}
+
+function updateImpactFx(scene, dt) {
+  for (let i = impactFxRefCurrent.length - 1; i >= 0; i--) {
+    const mesh = impactFxRefCurrent[i];
+    mesh.userData.t += dt;
+    const t = mesh.userData.t;
+    const s = 0.7 + t * 4.4;
+    mesh.scale.set(s, s, s);
+    mesh.material.opacity = Math.max(0, 0.45 * (1 - t / 0.32));
+    if (t > 0.32) {
+      scene.remove(mesh);
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+      impactFxRefCurrent.splice(i, 1);
+    }
+  }
+}
+
+// Module-level list so spawnDustPuff can be called from cannon collide
+// callbacks without threading refs through closures.
+const impactFxRefCurrent = [];
+
 function createThemeGeometry(preset) {
   if (!preset || !preset.outerEffect) return null;
   const effect = preset.outerEffect;
@@ -831,7 +1463,7 @@ function updateThemeGeometry(obj, time) {
 
 function createLightningArcs(preset) {
   const arcGroup = new THREE.Group();
-  const arcCount = 4;
+  const arcCount = 6;
   const arcs = [];
 
   for (let a = 0; a < arcCount; a++) {
@@ -896,7 +1528,7 @@ function updateLightningArcs(arcGroup, time) {
 
 function createFlameTendrils(preset) {
   const group = new THREE.Group();
-  const tendrilCount = 6;
+  const tendrilCount = 9;
   const tendrils = [];
   const color1 = new THREE.Color(preset.outerColor || '#ff6622');
   const color2 = new THREE.Color('#ffcc00');
@@ -909,8 +1541,8 @@ function createFlameTendrils(preset) {
 
     for (let s = 0; s <= segments; s++) {
       const frac = s / segments;
-      const r = baseR + frac * 1.2;
-      const y = frac * 2.5;
+      const r = baseR + frac * 1.3;
+      const y = frac * 3.0;
       const wobble = Math.sin(frac * 4 + t) * 0.3;
       points.push(new THREE.Vector3(
         Math.cos(baseAngle + wobble) * r + (Math.random() - 0.5) * 0.15,
@@ -924,7 +1556,7 @@ function createFlameTendrils(preset) {
     const material = new THREE.LineBasicMaterial({
       color: c,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
     });
     const line = new THREE.Line(geometry, material);
@@ -967,27 +1599,27 @@ function updateFlameTendrils(group, time) {
 
 function createIceCrystals(preset) {
   const group = new THREE.Group();
-  const crystalCount = 8;
+  const crystalCount = 10;
   const crystals = [];
   const color = new THREE.Color(preset.outerColor || '#88ccff');
 
   for (let c = 0; c < crystalCount; c++) {
     const spikeGroup = new THREE.Group();
     const baseAngle = (c / crystalCount) * Math.PI * 2;
-    const baseTilt = -0.3 + Math.random() * 0.6;
-    const spikeLen = 0.6 + Math.random() * 0.8;
+    const baseTilt = -0.35 + Math.random() * 0.7;
+    const spikeLen = 0.75 + Math.random() * 0.95;
 
-    const spikeGeo = new THREE.ConeGeometry(0.06, spikeLen, 4);
+    const spikeGeo = new THREE.ConeGeometry(0.075, spikeLen, 4);
     const spikeMat = new THREE.MeshBasicMaterial({
-      color: color.clone().offsetHSL(Math.random() * 0.05 - 0.025, 0, Math.random() * 0.2),
+      color: color.clone().offsetHSL(Math.random() * 0.05 - 0.025, 0, Math.random() * 0.25),
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
     });
     const spike = new THREE.Mesh(spikeGeo, spikeMat);
 
     const dir = new THREE.Vector3(Math.cos(baseAngle), baseTilt, Math.sin(baseAngle)).normalize();
-    const pos = dir.clone().multiplyScalar(1.0 + Math.random() * 0.3);
+    const pos = dir.clone().multiplyScalar(1.05 + Math.random() * 0.35);
     spike.position.copy(pos);
     spike.lookAt(pos.clone().add(dir));
     spike.rotateX(Math.PI / 2);
@@ -1028,7 +1660,7 @@ function updateIceCrystals(group, time) {
 
 function createVoidTendrils(preset) {
   const group = new THREE.Group();
-  const tendrilCount = 5;
+  const tendrilCount = 7;
   const tendrils = [];
   const color = new THREE.Color(preset.outerColor || '#9944dd');
 
@@ -1096,7 +1728,7 @@ function updateVoidTendrils(group, time) {
 
 function createNatureWisps(preset) {
   const group = new THREE.Group();
-  const wispCount = 5;
+  const wispCount = 7;
   const wisps = [];
   const color = new THREE.Color(preset.outerColor || '#55cc33');
 
@@ -1209,9 +1841,43 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   const presetMetalness = preset ? (preset.metalness !== undefined ? preset.metalness : 0.4) : 0.4;
   const metalness = Math.min(0.35, presetMetalness);
 
+  // Themed body overrides (clearcoat ice, molten emissive, etc.)
+  const ov = THEME_MATERIAL_OVERRIDES[preset?.id] || {};
+  const plateEmissiveIntensity = ov.plateEmissiveIntensity !== undefined ? ov.plateEmissiveIntensity : 0.4;
+
+  // Painted body albedo/emissive for themed presets (cached per theme).
+  // Painted maps carry their own colors, so the material color/emissive go
+  // white and let the texture hues through untouched.
+  const themeMaps = preset?.id ? getThemeBodyTextures(preset.id) : null;
+  const usePaintedBody = !!(themeMaps && themeMaps.map);
+
+  const makeBodyMaterial = () => new THREE.MeshPhysicalMaterial({
+    color: usePaintedBody ? 0xffffff : bodyColor,
+    map: usePaintedBody ? themeMaps.map : null,
+    roughness: roughness,
+    metalness: metalness,
+    envMapIntensity: ov.envMapIntensity !== undefined ? ov.envMapIntensity : 0.3,
+    specularIntensity: 0.2,
+    emissive: usePaintedBody ? '#ffffff' : emissive,
+    emissiveMap: usePaintedBody ? themeMaps.emissiveMap : null,
+    emissiveIntensity: emissiveIntensity * (ov.emissiveIntensityMul || 1),
+    transparent: ov.transparent !== undefined ? ov.transparent : transparent,
+    opacity: ov.opacity !== undefined ? ov.opacity : opacity,
+    clearcoat: ov.clearcoat || 0.0,
+    clearcoatRoughness: ov.clearcoatRoughness || 0.5,
+    sheen: 0.1,
+    sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
+    sheenRoughness: 0.4,
+    normalMap: normalMap,
+    normalScale: new THREE.Vector2(0.55, 0.55),
+    roughnessMap: roughnessMap
+  });
+
   // Per-die surface textures so no two dice look stamped from the same mold.
   // Cheap (a few ms) — a 512x512 canvas of smooth FBM noise.
-  const surfaceTextures = createBodySurfaceTextures(Math.floor(Math.random() * 0x7fffffff));
+  // Shared pool of surface-noise textures (cheap, keeps per-die variety via
+  // random assignment without baking one per die).
+  const surfaceTextures = getSurfaceTextureFromPool();
   const normalMap = surfaceTextures.normalMap;
   const roughnessMap = surfaceTextures.roughnessMap;
 
@@ -1314,7 +1980,7 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
         map: faceTex,
         emissive: new THREE.Color(numberColor || '#dbb85c'),
         emissiveMap: faceTex,
-        emissiveIntensity: 0.35,
+        emissiveIntensity: plateEmissiveIntensity,
         roughness: 0.35,
         metalness: 0.55,
         transparent: true,
@@ -1333,26 +1999,11 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
       side.plate = plate;
     });
 
-    const solidMat = new THREE.MeshPhysicalMaterial({
-      color: bodyColor,
-      roughness: roughness,
-      metalness: metalness,
-      envMapIntensity: 0.3,
-      specularIntensity: 0.2,
-      emissive: emissive,
-      emissiveIntensity: emissiveIntensity,
-      transparent: transparent,
-      opacity: opacity,
-      clearcoat: 0.0,
-      sheen: 0.1,
-      sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
-      sheenRoughness: 0.4,
-      normalMap: normalMap,
-      normalScale: new THREE.Vector2(0.55, 0.55),
-      roughnessMap: roughnessMap
-    });
+    const solidMat = makeBodyMaterial();
     const mesh = new THREE.Mesh(geom, solidMat);
     mesh.castShadow = true; mesh.receiveShadow = true;
+    mesh.userData.baseEmissiveIntensity = solidMat.emissiveIntensity;
+    mesh.userData.bodyFlicker = ov.bodyFlicker || null;
     group.add(mesh);
 
     // Thicker, screen-space edge lines via LineSegments2 (addons).
@@ -1386,7 +2037,10 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
     const themeGeometry = createThemeGeometry(preset);
     if (themeGeometry) group.add(themeGeometry);
 
-    return { group, sides, maxNumber: 4, d4Verts: uniqueVerts, innerParticles, outerParticles, glowAura, themeGeometry, surfaceTextures };
+    const themeLight = createThemeLight(preset);
+    if (themeLight) group.add(themeLight);
+
+    return { group, sides, maxNumber: 4, d4Verts: uniqueVerts, innerParticles, outerParticles, glowAura, themeGeometry, themeLight, bodyMesh: mesh, surfaceTextures };
   }
 
   let numbers = [];
@@ -1454,7 +2108,7 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
       map: numTex,
       emissive: new THREE.Color(numberColor || '#dbb85c'),
       emissiveMap: numTex,
-      emissiveIntensity: 0.4,
+      emissiveIntensity: plateEmissiveIntensity,
       roughness: 0.35,
       metalness: 0.55,
       transparent: true,
@@ -1496,26 +2150,11 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
     side.plate = plate;
   });
 
-  const solidMat = new THREE.MeshPhysicalMaterial({
-    color: bodyColor,
-    roughness: roughness,
-    metalness: metalness,
-    envMapIntensity: 0.3,
-    specularIntensity: 0.2,
-    emissive: emissive,
-    emissiveIntensity: emissiveIntensity,
-    transparent: transparent,
-    opacity: opacity,
-    clearcoat: 0.0,
-    sheen: 0.1,
-    sheenColor: new THREE.Color(preset?.glowColor || '#ffffff'),
-    sheenRoughness: 0.4,
-    normalMap: normalMap,
-    normalScale: new THREE.Vector2(0.55, 0.55),
-    roughnessMap: roughnessMap
-  });
+  const solidMat = makeBodyMaterial();
   const mesh = new THREE.Mesh(geom, solidMat);
   mesh.castShadow = true; mesh.receiveShadow = true;
+  mesh.userData.baseEmissiveIntensity = solidMat.emissiveIntensity;
+  mesh.userData.bodyFlicker = ov.bodyFlicker || null;
   group.add(mesh);
 
   // Real 3D-feeling edge bevels via LineSegments2 (addons) — supports
@@ -1550,7 +2189,10 @@ function buildDiceObject(type, colorHex, preset, renderer, scene) {
   const themeGeometry = createThemeGeometry(preset);
   if (themeGeometry) group.add(themeGeometry);
 
-  return { group, sides, maxNumber: N, innerParticles, outerParticles, glowAura, themeGeometry, surfaceTextures };
+  const themeLight = createThemeLight(preset);
+  if (themeLight) group.add(themeLight);
+
+  return { group, sides, maxNumber: N, innerParticles, outerParticles, glowAura, themeGeometry, themeLight, bodyMesh: mesh, surfaceTextures };
 }
 
 function createPhysicsBody(geom) {
@@ -1612,6 +2254,13 @@ const PhysicsDiceScene = ({
   const lineMaterialsRef = useRef([]);
   const dismissTimerRef = useRef(null);
   const lastRollContextRef = useRef(null);
+  // Smoothed look-at target — drifts gently toward the dice centroid so the
+  // "tray" follows the throw (DDB-style) without ever disorienting the view.
+  const camTargetRef = useRef(new THREE.Vector3(0, 0, 0));
+  // Decaying impact-shake amplitude applied to the camera position.
+  const impactShakeRef = useRef(0);
+  // Frame counter for throttling per-frame visual rebuilds.
+  const frameCounterRef = useRef(0);
 
   const getPreset = useCallback(() => {
     return DICE_PRESETS[activePreset] || DICE_PRESETS.classic;
@@ -1704,14 +2353,16 @@ const PhysicsDiceScene = ({
     groundMeshRef.current = ground;
 
     const world = new CANNON.World();
-    world.gravity.set(0, -40, 0);
+    // Gravity scaled to the dice: bodies are ~1.5 units, so a stronger field
+    // makes falls/bounces read at real-dice speed instead of moon speed.
+    world.gravity.set(0, -55, 0);
     world.broadphase = new CANNON.NaiveBroadphase();
     world.solver.iterations = 25;
 
     const physicsMaterial = new CANNON.Material('standard');
     physicsMaterialRef.current = physicsMaterial;
     const contactMaterial = new CANNON.ContactMaterial(
-      physicsMaterial, physicsMaterial, { friction: 0.5, restitution: 0.4 }
+      physicsMaterial, physicsMaterial, { friction: 0.62, restitution: 0.32 }
     );
     world.addContactMaterial(contactMaterial);
 
@@ -1765,10 +2416,21 @@ const PhysicsDiceScene = ({
     activeDiceRef.current.forEach(d => {
       scene.remove(d.diceObj.group);
       world.removeBody(d.body);
-      // Dispose per-die surface textures (allocated per-die since the prior roll).
-      d.diceObj.surfaceTextures?.normalMap?.dispose();
-      d.diceObj.surfaceTextures?.roughnessMap?.dispose();
+      if (d.groundRing) {
+        scene.remove(d.groundRing);
+        d.groundRing.geometry.dispose();
+        d.groundRing.material.dispose();
+      }
+      // Surface textures are pooled/shared — nothing per-die to dispose.
     });
+    // Reset impact FX + shake from the previous roll.
+    impactFxRefCurrent.forEach((m) => {
+      scene.remove(m);
+      m.geometry.dispose();
+      m.material.dispose();
+    });
+    impactFxRefCurrent.length = 0;
+    impactShakeRef.current = 0;
     activeDiceRef.current = [];
     resultsRef.current = [];
     settlingFramesRef.current = [];
@@ -1782,12 +2444,22 @@ const PhysicsDiceScene = ({
     const { x: boundX, z: boundZ } = boundsRef.current;
     const preset = getPreset();
 
-    const count = diceToRoll.length;
-    const angleStep = (Math.PI * 2) / count;
+    // Themed ground rings are per-scene decals; one shared texture cache.
+    // Cap the per-die point lights on huge pools for performance.
+    const lightBudget = 6;
+    let lightsUsed = 0;
 
     diceToRoll.forEach((die, index) => {
       const diceType = die.type;
       const diceObj = buildDiceObject(diceType, diceColor, preset, renderer, scene);
+      // Themed presets get one light per die, capped — the scene reads fine
+      // with a shared glow once the budget is spent.
+      if (diceObj.themeLight && lightsUsed >= lightBudget) {
+        diceObj.group.remove(diceObj.themeLight);
+        diceObj.themeLight.dispose?.();
+        diceObj.themeLight = null;
+      }
+      if (diceObj.themeLight) lightsUsed += 1;
       // Rounded d6 uses a simple box physics proxy — a ConvexPolyhedron built
       // from beveled geometry has near-degenerate faces that destabilize the
       // solver (dice never settle / fall through). A box is robust and feels right.
@@ -1803,68 +2475,93 @@ const PhysicsDiceScene = ({
       const body = new CANNON.Body({
         mass: 10,
         material: physicsMaterialRef.current,
-        linearDamping: 0.1,
-        angularDamping: 0.1,
+        // Real dice don't drag in air — damping near zero so spin and speed
+        // survive until impact, then friction does the stopping.
+        linearDamping: 0.01,
+        angularDamping: 0.01,
       });
       body.addShape(shape);
       world.addBody(body);
       scene.add(diceObj.group);
 
+      // Impact feedback: camera shake + a dust puff when the die slams the
+      // table. Sells the "hit the paper" moment.
+      body.addEventListener('collide', (e) => {
+        const v = Math.abs(e.contact?.getImpactVelocityAlongNormal?.() || 0);
+        if (v > 3.2) {
+          impactShakeRef.current = Math.min(0.5, impactShakeRef.current + v * 0.009);
+          if (v > 4.5) spawnDustPuff(scene, body.position);
+        }
+      });
+
       const rollCtx = useDiceStore.getState().rollContext;
       const throwPower = typeof rollCtx?.throwPower === 'number' ? Math.max(0.5, Math.min(2.8, rollCtx.throwPower)) : 1.0;
 
-      let startX = (Math.random() - 0.5) * boundX * 0.6;
-      let startZ = (Math.random() - 0.5) * boundZ * 0.6;
-      let dirX = 0;
-      let dirZ = 0;
-
       const hasAim = rollCtx?.throwDirection && (Math.abs(rollCtx.throwDirection.x) > 0.05 || Math.abs(rollCtx.throwDirection.z) > 0.05);
+
+      // D&D Beyond-style throw geometry: dice are hurled in from a screen
+      // edge and arc toward a central "tray". Landing targets stay within
+      // ~40% of the visible table so results always settle near the center
+      // of the screen instead of scattering to the distorted edges.
+      const trayX = boundX * 0.40;
+      const trayZ = boundZ * 0.40;
+
+      let targetX, targetZ, startX, startZ;
 
       if (hasAim) {
         const dLen = Math.hypot(rollCtx.throwDirection.x, rollCtx.throwDirection.z) || 1;
         const normAimX = rollCtx.throwDirection.x / dLen;
         const normAimZ = rollCtx.throwDirection.z / dLen;
-        // Start on the side opposite to aim direction
-        startX = -normAimX * (boundX * 0.32) + (Math.random() - 0.5) * 1.5;
-        startZ = -normAimZ * (boundZ * 0.32) + (Math.random() - 0.5) * 1.5;
-        // Direction follows aim with realistic minor spread
-        const spread = (Math.random() - 0.5) * 0.2;
-        dirX = normAimX + spread;
-        dirZ = normAimZ + spread;
+        // Aimed throws land along the aim direction, launched from the
+        // opposite edge — the throw literally crosses the screen.
+        targetX = normAimX * boundX * 0.28 + (Math.random() - 0.5) * trayX * 0.8;
+        targetZ = normAimZ * boundZ * 0.28 + (Math.random() - 0.5) * trayZ * 0.8;
+        startX = -normAimX * boundX * 0.88 + (Math.random() - 0.5) * 1.4;
+        startZ = -normAimZ * boundZ * 0.88 + (Math.random() - 0.5) * 1.4;
       } else {
-        const landX = (Math.random() - 0.5) * boundX * 1.2;
-        const landZ = (Math.random() - 0.5) * boundZ * 1.2;
-        const dx = landX - startX;
-        const dz = landZ - startZ;
-        const dist = Math.sqrt(dx * dx + dz * dz) || 1;
-        dirX = dx / dist;
-        dirZ = dz / dist;
+        // Default: hurled from the bottom edge of the screen toward the tray.
+        targetX = (Math.random() - 0.5) * 2 * trayX;
+        targetZ = (Math.random() - 0.5) * 2 * trayZ;
+        startX = targetX * 0.35 + (Math.random() - 0.5) * boundX * 0.45;
+        startZ = boundZ * 0.92;
       }
 
-      body.position.set(
-        startX,
-        6 + Math.random() * 2 + index * 0.8,
-        startZ
-      );
-      body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+      targetX = THREE.MathUtils.clamp(targetX, -trayX, trayX);
+      targetZ = THREE.MathUtils.clamp(targetZ, -trayZ, trayZ);
+      startX = THREE.MathUtils.clamp(startX, -boundX * 0.95, boundX * 0.95);
+      startZ = THREE.MathUtils.clamp(startZ, -boundZ * 0.95, boundZ * 0.95);
 
-      const baseForce = 8 + Math.random() * 5;
-      const throwForce = baseForce * throwPower;
-      body.velocity.set(
-        dirX * throwForce,
-        (-2 - Math.random() * 2) * Math.sqrt(throwPower),
-        dirZ * throwForce
-      );
-      const spinForce = 25 * throwPower;
+      // Flat, hard throw — real hand throws skid low across the table, they
+      // don't lob. Short flight time + low start height = fast whip with a
+      // couple of sharp bounces instead of a floaty hang.
+      const startY = 1.5 + Math.random() * 0.35 + index * 0.25;
+
+      // Ballistic solve: pick a flight time, then derive the initial
+      // velocity that lands the die on the table at its target.
+      // y(t) = y0 + vy*t - (g/2)*t²  with g = 55 (world gravity).
+      const flightT = (0.34 + Math.random() * 0.10) / Math.sqrt(throwPower);
+      const restY = 0.9;
+      const vx = (targetX - startX) / flightT;
+      const vz = (targetZ - startZ) / flightT;
+      const vy = (restY - startY + 27.5 * flightT * flightT) / flightT;
+
+      body.position.set(startX, startY, startZ);
+      body.quaternion.setFromEuler(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+      body.velocity.set(vx, vy, vz);
+      const spinForce = (26 + Math.random() * 14) * throwPower;
       body.angularVelocity.set(
-        (Math.random() - 0.5) * spinForce,
-        (Math.random() - 0.5) * spinForce,
-        (Math.random() - 0.5) * spinForce
+        (Math.random() - 0.5) * 2 * spinForce,
+        (Math.random() - 0.5) * 2 * spinForce,
+        (Math.random() - 0.5) * 2 * spinForce
       );
+
+      const groundRing = createGroundRing(preset);
+      if (groundRing) scene.add(groundRing);
 
       activeDiceRef.current.push({
         diceObj,
         body,
+        groundRing,
         type: diceType,
         originalType: die.originalType || die.type,
         isPercentilePair: die.isPercentilePair || false,
@@ -1872,6 +2569,8 @@ const PhysicsDiceScene = ({
         settled: false,
         startQuat: new THREE.Quaternion(),
         finalQuat: new THREE.Quaternion(),
+        startPos: new THREE.Vector3(),
+        finalPos: new THREE.Vector3(),
         yawT: 0,
         yawActive: false,
         rolledNumber: 0,
@@ -1986,6 +2685,55 @@ const PhysicsDiceScene = ({
     return currentQuat.clone();
   }, []);
 
+  // Full "presentation" orientation for the settle: the rolled face ends up
+  // EXACTLY up (number flat toward the camera) and the face's text-up points
+  // at the top of the screen — every die reads directly. Also returns the
+  // exact resting height (center-to-face distance) so the die sits flush on
+  // the table. d4 keeps the yaw-only correction (vertex-up read).
+  const computePresentation = useCallback((die) => {
+    const displayedQuat = die.diceObj.group.quaternion;
+
+    if (die.type === 'd4') {
+      return { quat: computeYawCorrection(die, displayedQuat.clone()), restY: null };
+    }
+
+    // Same top-face choice as readDiceResult (body's last physics pose).
+    const bodyQuat = new THREE.Quaternion(
+      die.body.quaternion.x, die.body.quaternion.y, die.body.quaternion.z, die.body.quaternion.w
+    );
+    const up = new THREE.Vector3(0, 1, 0);
+    let bestDot = -Infinity;
+    let topSide = null;
+    die.diceObj.sides.forEach(side => {
+      const worldNormal = side.normal.clone().applyQuaternion(bodyQuat);
+      const dot = worldNormal.dot(up);
+      if (dot > bestDot) { bestDot = dot; topSide = side; }
+    });
+    if (!topSide) {
+      return { quat: computeYawCorrection(die, displayedQuat.clone()), restY: null };
+    }
+
+    const n = topSide.normal.clone().normalize();
+    const u = new THREE.Vector3(0, 1, 0).applyQuaternion(topSide.plate.quaternion);
+    u.addScaledVector(n, -u.dot(n));
+    if (u.lengthSq() < 1e-6) {
+      return { quat: computeYawCorrection(die, displayedQuat.clone()), restY: null };
+    }
+    u.normalize();
+    const w = new THREE.Vector3().crossVectors(n, u);
+
+    const mLocal = new THREE.Matrix4().makeBasis(n, u, w);
+    const yUp = new THREE.Vector3(0, 1, 0);
+    const camUp = new THREE.Vector3(0, 0, -1);
+    const zAxisW = new THREE.Vector3().crossVectors(yUp, camUp);
+    const mWorld = new THREE.Matrix4().makeBasis(yUp, camUp, zAxisW);
+    const quat = new THREE.Quaternion().setFromRotationMatrix(
+      mWorld.clone().multiply(mLocal.clone().invert())
+    );
+
+    return { quat, restY: topSide.centroid.length() + 0.01 };
+  }, [computeYawCorrection]);
+
   const animate = useCallback(() => {
     animFrameRef.current = requestAnimationFrame(animate);
 
@@ -2006,39 +2754,38 @@ const PhysicsDiceScene = ({
         if (die.settled) return;
         allSettled = false;
 
-        die.diceObj.group.position.copy(die.body.position);
-        die.diceObj.group.quaternion.copy(die.body.quaternion);
+        die.diceObj.group.position.copy(die.body.interpolatedPosition);
+        die.diceObj.group.quaternion.copy(die.body.interpolatedQuaternion);
 
-        if (die.diceObj.innerParticles) {
-          updateInnerParticles(die.diceObj.innerParticles, dt);
-        }
-        if (die.diceObj.outerParticles) {
-          updateOuterParticles(die.diceObj.outerParticles, dt);
-        }
-        if (die.diceObj.glowAura) {
-          updateGlowAura(die.diceObj.glowAura, dt, timerRef.current.getElapsed());
-        }
-        if (die.diceObj.themeGeometry) {
-          updateThemeGeometry(die.diceObj.themeGeometry, timerRef.current.getElapsed());
-        }
-
-        if (die.body.velocity.length() < 0.2 && die.body.angularVelocity.length() < 0.2 && die.body.position.y < 2.5) {
+        if (die.body.velocity.length() < 0.5 && die.body.angularVelocity.length() < 0.5 && die.body.position.y < 1.6) {
           settlingFramesRef.current[idx] = (settlingFramesRef.current[idx] || 0) + 1;
 
-          die.body.velocity.x *= 0.9;
-          die.body.velocity.y *= 0.9;
-          die.body.velocity.z *= 0.9;
-          die.body.angularVelocity.x *= 0.9;
-          die.body.angularVelocity.y *= 0.9;
-          die.body.angularVelocity.z *= 0.9;
+          // Clamp hard so a nearly-stopped die never crawls across the grid.
+          die.body.velocity.scale(0.55, die.body.velocity);
+          die.body.angularVelocity.scale(0.55, die.body.angularVelocity);
 
-          if (settlingFramesRef.current[idx] > 15) {
-            const currentQuat = new THREE.Quaternion(
-              die.body.quaternion.x, die.body.quaternion.y, die.body.quaternion.z, die.body.quaternion.w
-            );
-            die.startQuat.copy(currentQuat);
-            die.finalQuat.copy(computeYawCorrection(die, currentQuat));
+          if (settlingFramesRef.current[idx] > 5) {
+            // Fully arrest the body and drop it from the simulation — no
+            // background gravity/collision jitter while the visual settles.
+            die.body.velocity.setZero();
+            die.body.angularVelocity.setZero();
+            world.removeBody(die.body);
+
             die.rolledNumber = readDiceResult(die);
+
+            // Capture the DISPLAYED (interpolated) pose — capturing the raw
+            // body pose here made the mesh visibly snap one physics step.
+            die.startQuat.copy(die.diceObj.group.quaternion);
+            die.startPos.copy(die.diceObj.group.position);
+
+            const pres = computePresentation(die);
+            die.finalQuat.copy(pres.quat);
+            die.finalPos.set(
+              die.diceObj.group.position.x,
+              pres.restY !== null ? pres.restY : die.diceObj.group.position.y,
+              die.diceObj.group.position.z
+            );
+
             die.yawActive = true;
             die.yawT = 0;
             die.settled = true;
@@ -2053,6 +2800,10 @@ const PhysicsDiceScene = ({
       }
     }
 
+    // Theme geometry (arcs/tendrils) rebuilds BufferGeometries — throttle to
+    // every other frame to halve the GC churn without a visible difference.
+    frameCounterRef.current++;
+
     activeDiceRef.current.forEach((die) => {
       if (die.diceObj.innerParticles) {
         updateInnerParticles(die.diceObj.innerParticles, dt);
@@ -2063,18 +2814,31 @@ const PhysicsDiceScene = ({
       if (die.diceObj.glowAura) {
         updateGlowAura(die.diceObj.glowAura, dt, timerRef.current.getElapsed());
       }
-      if (die.diceObj.themeGeometry) {
+      if (die.diceObj.themeGeometry && frameCounterRef.current % 2 === 0) {
         updateThemeGeometry(die.diceObj.themeGeometry, timerRef.current.getElapsed());
+      }
+      if (die.groundRing) {
+        updateGroundRing(die.groundRing, die.diceObj.group, dt);
+      }
+      if (die.diceObj.themeLight) {
+        updateThemeLight(die.diceObj.themeLight, timerRef.current.getElapsed());
+      }
+      if (die.diceObj.bodyMesh?.userData.bodyFlicker) {
+        updateBodyFlicker(die.diceObj.bodyMesh, timerRef.current.getElapsed());
       }
     });
 
     let allYawDone = true;
     activeDiceRef.current.forEach((die) => {
       if (die.settled && die.yawActive) {
-        die.yawT += dt * 3.0;
-        let t = Math.min(die.yawT, 1.0);
-        const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        // ~0.18s ease-out into the presentation pose: face flat, number
+        // upright, resting flush. Eases from the displayed pose so there is
+        // never a visible snap or crawl.
+        die.yawT += dt * 5.5;
+        const t = Math.min(die.yawT, 1.0);
+        const ease = 1 - Math.pow(1 - t, 3);
         die.diceObj.group.quaternion.slerpQuaternions(die.startQuat, die.finalQuat, ease);
+        die.diceObj.group.position.lerpVectors(die.startPos, die.finalPos, ease);
 
         if (t < 1.0) allYawDone = false;
       }
@@ -2170,10 +2934,41 @@ const PhysicsDiceScene = ({
       avgPos.divideScalar(activeDiceRef.current.length);
       dieGlowRef.current.position.copy(avgPos);
       dieGlowRef.current.position.y += 1.5;
+
+      // Gentle camera drift toward the dice cluster. Stronger while the dice
+      // fly (the tray follows the throw), relaxing once they have settled.
+      const follow = physicsActiveRef.current ? 0.45 : 0.3;
+      const desiredX = THREE.MathUtils.clamp(avgPos.x * follow, -1.4, 1.4);
+      const desiredZ = THREE.MathUtils.clamp(avgPos.z * follow, -1.4, 1.4);
+      const smooth = 1 - Math.pow(0.0015, dt);
+      camTargetRef.current.x += (desiredX - camTargetRef.current.x) * smooth;
+      camTargetRef.current.z += (desiredZ - camTargetRef.current.z) * smooth;
+      camTargetRef.current.y = 0;
+      camera.lookAt(camTargetRef.current);
+    } else {
+      // Ease back to center when idle.
+      const smooth = 1 - Math.pow(0.02, dt);
+      camTargetRef.current.x += (0 - camTargetRef.current.x) * smooth;
+      camTargetRef.current.z += (0 - camTargetRef.current.z) * smooth;
+      camera.lookAt(camTargetRef.current);
+    }
+
+    // Impact FX: dust puffs expand/fade; camera shake decays fast.
+    updateImpactFx(scene, dt);
+    if (impactShakeRef.current > 0.002) {
+      const s = impactShakeRef.current;
+      camera.position.set(
+        (Math.random() - 0.5) * s,
+        16 + (Math.random() - 0.5) * s,
+        (Math.random() - 0.5) * s * 0.6
+      );
+      impactShakeRef.current = s * Math.pow(0.001, dt);
+    } else if (camera.position.x !== 0 || camera.position.z !== 0) {
+      camera.position.set(0, 16, 0);
     }
 
     renderer.render(scene, camera);
-  }, [diceToRoll, onRollComplete, computeYawCorrection, readDiceResult]);
+  }, [diceToRoll, onRollComplete, computeYawCorrection, computePresentation, readDiceResult]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -2267,6 +3062,26 @@ const PhysicsDiceScene = ({
       lineMaterialsRef.current.forEach((m) => m.dispose && m.dispose());
       lineMaterialsRef.current = [];
       disposeParticleTextureCache();
+      disposeGroundRingTextureCache();
+      disposeThemeBodyTextureCache();
+      disposeNumberTextureCache();
+      disposeSurfaceTexturePool();
+      impactFxRefCurrent.forEach((m) => {
+        sceneRef.current?.remove(m);
+        m.geometry.dispose();
+        m.material.dispose();
+      });
+      impactFxRefCurrent.length = 0;
+      if (dustPuffTexture) {
+        dustPuffTexture.dispose();
+        dustPuffTexture = null;
+      }
+      activeDiceRef.current.forEach((d) => {
+        if (d.groundRing) {
+          d.groundRing.geometry.dispose();
+          d.groundRing.material.dispose();
+        }
+      });
       if (rendererRef.current) {
         rendererRef.current.dispose();
         if (rendererRef.current.domElement.parentElement) {

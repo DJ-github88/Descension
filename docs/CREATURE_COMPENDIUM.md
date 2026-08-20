@@ -92,7 +92,7 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Fog-Hunter:** Erlking's Hounds run in packs through the thickest fog, guided by the scent of dying memories. They are drawn to individuals on the verge of total memory-loss, herding them deeper into the mist rather than attacking outright.
-- **The Triple-Bark Omen:** A hound that barks three times at a specific traveler is marking them for the Erlking's hunt. Briaran rangers can break the omen by feeding the hound a memory sealed in a glass vial  -  a bribe that satisfies the hunt without a kill.
+- **The Triple-Bark Omen:** A hound that barks three times at a specific traveler is marking them for the Erlking's hunt. Florae rangers can break the omen by feeding the hound a memory sealed in a glass vial  -  a bribe that satisfies the hunt without a kill.
 
 ---
 
@@ -262,7 +262,7 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Three-Bark Hunt:** Cusith hunt in the fog at dusk. The first bark causes a traveler to freeze with instinctive terror; the second causes them to forget where they are; the third  -  which the victim never consciously hears  -  causes them to walk willingly into the fog's deepest heart.
-- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Briaran rangers track Cusith packs by finding eerily fearless, lost travelers.
+- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Florae rangers track Cusith packs by finding eerily fearless, lost travelers.
 
 ---
 

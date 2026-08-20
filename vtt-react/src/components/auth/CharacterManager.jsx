@@ -15,9 +15,7 @@ import useCharacterStore from '../../store/characterStore';
 
 
 import { RACE_DATA } from '../../data/raceData';
-
-
-
+import { createEmptyEquipment } from '../../utils/equipmentUtils';
 import './styles/CharacterManager.css';
 
 
@@ -306,7 +304,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-      equipment: [],
+      equipment: createEmptyEquipment(),
 
 
 

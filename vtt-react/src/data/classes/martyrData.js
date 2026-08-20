@@ -159,7 +159,7 @@ export const MARTYR_DATA = {
  overview: {
   originStory: `A martyr has learned to convert suffering into power. Not metaphorically. Physically. The body absorbs damage meant for others, converts it through a glowing scar, and releases it as healing, shielding, or raw protective force. The more pain the martyr bears, the stronger the effect. At high Devotion, the form turns translucent and the bones blaze with volatile golden energy.
 
-The first was Sera Solvan, a Solvarn mother whose child was sacrificed to Keth-Amar during the Binding. The six noble houses marched their firstborn to the northern peaks as bloodline-offerings, and Sera went with them, not to participate, but to witness. She carried a piece of volcanic obsidian from Emberspire. She carved her child's name into her own forearm, and she swore to bear the pain of the entire world if it meant the memory would never be erased.
+The first was Sera Solvan, a Solvarn mother whose child was sacrificed to Keth-Amar during the Great Binding. The six noble houses marched their firstborn to the northern peaks as bloodline-offerings, and Sera went with them, not to participate, but to witness. She carried a piece of volcanic obsidian from Emberspire. She carved her child's name into her own forearm, and she swore to bear the pain of the entire world if it meant the memory would never be erased.
 
 The wound did not heal correctly. It became a glowing solar scar that pulsed with heat, not her heat, but the heat of whatever her child had become inside Keth-Amar. Sera discovered that when she placed herself between someone else and their suffering, the scar absorbed it. She could take a blade meant for an ally. She could draw poison from a wound into her own bloodstream. She could feel the death coming for someone else and intercept it with her own body.
 
@@ -203,7 +203,7 @@ The class is heavily practiced by the Solari and the <LoreLink termId="solari">H
   signatureQuote: {
    text: '"My child\'s name was carved from history. I carved it back into my arm. Every beat of my heart pushes their name through my veins. They are not forgotten. They are my pulse."',
    speaker: 'Sera the Devoted',
-   context: 'The founding oath of the Martyr\'s Vow, just after the Breach'
+   context: 'The founding oath of the Martyr\'s Vow, just after Blizzard’s End'
   },
 
   philosophy: {
@@ -469,9 +469,9 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
  resourceSystem: {
   title: "Devotion Gauge",
-   subtitle: "Power Through Sacrifice, The Currency of Devotion",
+  subtitle: "Power Through Sacrifice, The Currency of Devotion",
 
-   description: `The Devotion Gauge is not a resource. It is a living testament that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge, unlocking passive auras and radiant strikes that grow more powerful with each threshold crossed. At lower tiers, the Martyr is merely a bruised faithful with good intentions. At higher tiers, their form turns translucent, their bones ignite with volatile golden light, and they become something that transcends mortal limits: a radiant vessel whose sacrifice fuels mercy. Each wound is not a prayer, it is a payment. Each scar is not a blessing, it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
+  description: `The Devotion Gauge is not a resource. It is a living metric that measures how much of the Martyr's body has been offered to something old and hungry that lives between flesh and faith. By absorbing damage meant for allies, the Martyr builds this gauge, unlocking passive auras and radiant strikes that grow more powerful with each threshold crossed. At lower tiers, the Martyr is merely a bruised faithful with good intentions. At higher tiers, their form turns translucent, their bones ignite with volatile golden light, and they become something that transcends mortal limits: a radiant vessel whose sacrifice fuels mercy. Each wound is not a prayer, it is a payment. Each scar is not a blessing, it is a receipt. And if the payments stop, the connection dies. Devotion Collapse is not a risk. It is a certainty. The only question is when.`,
 
   cards: [
    {

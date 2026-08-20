@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
@@ -172,9 +173,9 @@ const DEFAULT_LAYERS = [
 ];
 
 const DEFAULT_WAYPOINTS = [
-  { id: 'wp-1', mapId: 'map-nordhalla', x: 21, y: 64, title: 'Saltgrinn Departure', day: 1, notes: 'Purchased provisions and iron crampons for the frozen pass.', isSecretGM: false, isDiscovered: true },
-  { id: 'wp-2', mapId: 'map-nordhalla', x: 36, y: 52, title: 'Midhöfn Ferry Crossing', day: 3, notes: 'Crossed the fjord on a dwarven longship; parleyed with local harbor master.', isSecretGM: false, isDiscovered: true },
-  { id: 'wp-3', mapId: 'map-nordhalla', x: 58, y: 48, title: "Skald's Peaks Ascent", day: 6, notes: 'Reached the high pass. Camped beneath the obsidian overhang.', isSecretGM: false, isDiscovered: true }
+  { id: 'wp-1', mapId: 'map-nordhalla', x: 21, y: 64, title: 'Saltgrinn Departure', dayType: 'day', day: 1, notes: 'Purchased provisions and iron crampons for the frozen pass.', isSecretGM: false, isDiscovered: true },
+  { id: 'wp-2', mapId: 'map-nordhalla', x: 36, y: 52, title: 'Midhöfn Ferry Encampment', dayType: 'range', day: 3, endDay: 5, stayDuration: 3, notes: 'Crossed the fjord on a dwarven longship; parleyed with harbor master and camped for 3 days to resupply.', isSecretGM: false, isDiscovered: true },
+  { id: 'wp-3', mapId: 'map-nordhalla', x: 58, y: 48, title: "Skald's Peaks Ascent", dayType: 'day', day: 6, notes: 'Reached the high pass. Camped beneath the obsidian overhang.', isSecretGM: false, isDiscovered: true }
 ];
 
 const useInteractiveMapStore = create(
@@ -191,6 +192,7 @@ const useInteractiveMapStore = create(
       zoomLevel: 1,
       panOffset: { x: 0, y: 0 },
       isDrawingRoute: false,
+      routeMode: 'days', // 'days' | 'stops'
       isFogToolActive: false,
       fogBrushMode: 'shroud', // 'shroud' | 'reveal'
       fogBrushSize: 90, // px radius
@@ -263,6 +265,10 @@ const useInteractiveMapStore = create(
       },
 
       // Tools Toggle
+      setRouteMode: (mode) => {
+        set({ routeMode: mode });
+      },
+
       setIsDrawingRoute: (active) => {
         const next = typeof active === 'boolean' ? active : !get().isDrawingRoute;
         set({
@@ -450,15 +456,44 @@ const useInteractiveMapStore = create(
       addJourneyWaypoint: (waypointData) => {
         const targetMapId = waypointData.mapId || get().activeMapId || 'map-mythril-world';
         const currentMapWaypoints = get().journeyWaypoints.filter(w => (w.mapId || 'map-mythril-world') === targetMapId);
-        const nextDay = (currentMapWaypoints[currentMapWaypoints.length - 1]?.day || 0) + 1;
+        const lastWp = currentMapWaypoints[currentMapWaypoints.length - 1];
+        const activeRouteMode = waypointData.routeMode || get().routeMode || 'days';
+
+        let nextDay = 1;
+        let nextStop = currentMapWaypoints.length + 1;
+        const dayType = waypointData.dayType || (activeRouteMode === 'stops' ? 'stop' : 'day');
+
+        if (lastWp) {
+          const lastEndDay = Number(lastWp.endDay) || Number(lastWp.day) || 1;
+          nextDay = lastEndDay + 1;
+          if (lastWp.stopNumber) {
+            nextStop = Number(lastWp.stopNumber) + 1;
+          }
+        }
+
+        const calculatedDay = waypointData.day !== undefined ? Number(waypointData.day) : nextDay;
+        const calculatedEndDay = waypointData.endDay ? Number(waypointData.endDay) : null;
+        const calculatedStop = waypointData.stopNumber !== undefined ? (waypointData.stopNumber ? Number(waypointData.stopNumber) : null) : (dayType === 'stop' ? nextStop : null);
+
+        let defaultTitle = `Day ${calculatedDay} Encampment`;
+        if (dayType === 'stop') {
+          defaultTitle = `Stop ${calculatedStop || nextStop}`;
+        } else if (calculatedEndDay && calculatedEndDay > calculatedDay) {
+          defaultTitle = `Days ${calculatedDay}–${calculatedEndDay} Encampment`;
+        }
 
         const newWaypoint = {
           id: `wp-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
           mapId: targetMapId,
           x: waypointData.x,
           y: waypointData.y,
-          title: waypointData.title || `Day ${nextDay} Encampment`,
-          day: waypointData.day || nextDay,
+          title: waypointData.title || defaultTitle,
+          dayType: dayType,
+          day: calculatedDay,
+          endDay: calculatedEndDay,
+          stayDuration: waypointData.stayDuration || (calculatedEndDay ? (calculatedEndDay - calculatedDay + 1) : 1),
+          stopNumber: calculatedStop,
+          customLabel: waypointData.customLabel || null,
           notes: waypointData.notes || '',
           isSecretGM: Boolean(waypointData.isSecretGM),
           isDiscovered: waypointData.isDiscovered !== false,
@@ -575,9 +610,7 @@ const useInteractiveMapStore = create(
         }
       }
     }),
-    {
-      name: 'mythrill_interactive_maps_storage',
-      storage: createJSONStorage(() => localStorage),
+    createStorageConfig('mythrill_interactive_maps_storage', {
       partialize: (state) => ({
         maps: state.maps,
         pins: state.pins,
@@ -586,7 +619,7 @@ const useInteractiveMapStore = create(
         partyMarker: state.partyMarker,
         mapFogData: state.mapFogData
       })
-    }
+    })
   )
 );
 

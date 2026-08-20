@@ -64,8 +64,8 @@ Every subrace from the race files appears in at least one class's `allowedSubrac
 |---|---|
 | sylen_astril | Harbinger, False Prophet, Animist, Augur |
 | muren_astril | Harbinger, False Prophet, Augur |
-| unshorn_briaran | Lunarch, Toxicologist |
-| smoothskinned_briaran | Lunarch, Toxicologist |
+| viridian_florae | Lunarch, Toxicologist, Apex, Animist, Shaper, Warden |
+| florae_unified (oken_florae) | Lunarch, Toxicologist, Apex, Animist, Shaper, Warden |
 | korr_emberth | Martyr, Spellguard |
 | thrask_emberth | Berserker, Spellguard, Pyrofiend |
 | drall_fexric | Warden |

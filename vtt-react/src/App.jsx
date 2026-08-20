@@ -1517,7 +1517,7 @@ const AppContent = ({
       {/* Global 3D Dice Rolling System */}
       <Suspense fallback={null}>
         <ErrorBoundary name="DiceRolling">
-          <DiceRollingSystem hideSelectionBar={!isGameRoute} />
+          <DiceRollingSystem hideSelectionBar={!isGameRoute && !location.pathname.startsWith('/account/characters/') && !location.pathname.startsWith('/character')} />
         </ErrorBoundary>
       </Suspense>
 

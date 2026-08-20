@@ -286,6 +286,8 @@ const formatAbilityType = (type) => {
 const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen, onClose }) => {
   const [activeSection, setActiveSection] = useState(initialCreature?._summonMeta?.sourceType === 'summon' ? 'summon' : 'statistics');
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [dropdownPos, setDropdownPos] = useState(null);
+  const closeTimerRef = useRef(null);
   const [selectedSkillCategory, setSelectedSkillCategory] = useState('combat');
   const [mounted, setMounted] = useState(false);
   const windowRef = useRef(null);
@@ -433,6 +435,45 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       setMounted(true);
     }
   }, [isOpen, creature]);
+
+  // The tab dropdown menus are portaled to <body> so they are not clipped by
+  // the header's scroll container (.window-header .spellbook-tab-container uses
+  // overflow-x:auto to let tabs scroll, which would otherwise hide the menus).
+  const openTabDropdown = useCallback((key, el) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setOpenDropdown(key);
+    if (el) {
+      const r = el.getBoundingClientRect();
+      setDropdownPos({ left: r.left, top: r.bottom, width: r.width });
+    }
+  }, []);
+
+  const scheduleCloseTabDropdown = useCallback(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+    closeTimerRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 150);
+  }, []);
+
+  const cancelCloseTabDropdown = useCallback(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
 
   // Early return if no creature, no stats, or not open
   if (!creature || !creature.stats || !isOpen) return null;
@@ -2553,7 +2594,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                 key={key} 
                 className="tab-dropdown-wrapper" 
                 style={{ position: 'relative' }}
-                onMouseLeave={() => setOpenDropdown(null)}
+                onMouseLeave={scheduleCloseTabDropdown}
               >
                 <button
                   type="button"
@@ -2561,9 +2602,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveSection(key);
-                    setOpenDropdown(prev => prev === key ? null : key);
+                    if (openDropdown === key) {
+                      setOpenDropdown(null);
+                    } else {
+                      openTabDropdown(key, e.currentTarget);
+                    }
                   }}
-                  onMouseEnter={() => setOpenDropdown(key)}
+                  onMouseEnter={(e) => openTabDropdown(key, e.currentTarget)}
                 >
                   <span>{section.title}</span>
                   {section.subSections && (
@@ -2574,8 +2619,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   )}
                 </button>
 
-                {isDropdownOpen && section.subSections && (
-                  <div className="tab-dropdown-menu">
+                {isDropdownOpen && section.subSections && dropdownPos && createPortal(
+                  <div
+                    className="tab-dropdown-menu"
+                    style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(210, dropdownPos.width), marginTop: 4 }}
+                    onMouseEnter={cancelCloseTabDropdown}
+                    onMouseLeave={scheduleCloseTabDropdown}
+                  >
                     {section.subSections.map(sub => {
                       const isSubActive = isActive && (
                         (key === 'statistics' && selectedStatGroup === sub.id) ||
@@ -2607,7 +2657,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                         </div>
                       );
                     })}
-                  </div>
+                  </div>,
+                  document.body
                 )}
               </div>
             );

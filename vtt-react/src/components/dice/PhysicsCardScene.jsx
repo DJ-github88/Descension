@@ -157,6 +157,13 @@ function createCardBackTexture(themeKey = 'royal_velvet') {
     ctx.stroke();
   }
 
+  // Vignette darkening toward the edges for depth
+  const vignette = ctx.createRadialGradient(width / 2, height / 2, height * 0.2, width / 2, height / 2, height * 0.72);
+  vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.38)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, 0, width, height);
+
   // Outer gold filigree frame
   ctx.lineWidth = 16;
   ctx.strokeStyle = theme.borderColor;
@@ -166,45 +173,105 @@ function createCardBackTexture(themeKey = 'royal_velvet') {
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
   ctx.strokeRect(32, 32, width - 64, height - 64);
 
-  // Corner embellishments
-  const cornerSize = 40;
+  // Corner gemstones — rotated diamond studs
   [
     [20, 20],
     [width - 20, 20],
     [20, height - 20],
     [width - 20, height - 20],
   ].forEach(([x, y]) => {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(Math.PI / 4);
     ctx.fillStyle = theme.borderColor;
-    ctx.beginPath();
-    ctx.arc(x, y, 14, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillRect(-11, -11, 22, 22);
+    ctx.fillStyle = theme.edgeColor;
+    ctx.fillRect(-6, -6, 12, 12);
+    ctx.restore();
   });
 
   const cx = width / 2;
   const cy = height / 2;
 
-  // Center emblem background
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  // Center medallion — dark field, double ring, radial glow
+  const glow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 130);
+  glow.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
+  glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 130, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
   ctx.beginPath();
   ctx.arc(cx, cy, 110, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.lineWidth = 6;
   ctx.strokeStyle = theme.borderColor;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 110, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.font = '90px serif';
+  // Beaded inner ring
+  ctx.fillStyle = theme.edgeColor;
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx + Math.cos(a) * 96, cy + Math.sin(a) * 96, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.font = '92px serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = theme.edgeColor;
   ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
   ctx.shadowBlur = 10;
-  ctx.fillText(theme.backSymbol, cx, cy);
+  ctx.fillText(theme.backSymbol, cx, cy + 4);
+  // Soft re-stamp above for a gilded double-strike look
+  ctx.globalAlpha = 0.35;
+  ctx.shadowBlur = 0;
+  ctx.fillText(theme.backSymbol, cx, cy - 4);
+  ctx.globalAlpha = 1;
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 8;
   return texture;
+}
+
+// Standard playing-card pip layouts. Coordinates are in "pip space":
+// x ∈ {-1, 0, 1} columns, y ∈ [-1, 1] rows. Bottom-half pips (y > 0) are
+// rotated 180° like a real deck.
+const PIP_LAYOUTS = {
+  '2': [[0, -1], [0, 1]],
+  '3': [[0, -1], [0, 0], [0, 1]],
+  '4': [[-1, -1], [1, -1], [-1, 1], [1, 1]],
+  '5': [[-1, -1], [1, -1], [0, 0], [-1, 1], [1, 1]],
+  '6': [[-1, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [1, 1]],
+  '7': [[-1, -1], [1, -1], [0, -0.5], [-1, 0], [1, 0], [-1, 1], [1, 1]],
+  '8': [[-1, -1], [1, -1], [0, -0.5], [-1, 0], [1, 0], [0, 0.5], [-1, 1], [1, 1]],
+  '9': [[-1, -1], [1, -1], [-1, -1 / 3], [1, -1 / 3], [0, 0], [-1, 1 / 3], [1, 1 / 3], [-1, 1], [1, 1]],
+  '10': [[-1, -1], [1, -1], [0, -2 / 3], [-1, -1 / 3], [1, -1 / 3], [-1, 1 / 3], [1, 1 / 3], [0, 2 / 3], [-1, 1], [1, 1]],
+};
+
+// Face card glyphs — chess royalty reads instantly and stays thematic.
+const FACE_GLYPHS = { J: '♞', Q: '♛', K: '♚' };
+
+function drawSuitGlyph(ctx, glyph, x, y, size, color, rotated) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (rotated) ctx.rotate(Math.PI);
+  ctx.font = `bold ${size}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetY = 2;
+  ctx.fillStyle = color;
+  ctx.fillText(glyph, 0, 0);
+  ctx.restore();
 }
 
 // Procedural Card Front Texture
@@ -216,7 +283,7 @@ function createCardFrontTexture(card) {
   canvas.height = height;
   const ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = '#f6f0df';
+  ctx.fillStyle = '#f8f3e6';
   ctx.fillRect(0, 0, width, height);
 
   // Linen texture grain
@@ -227,9 +294,9 @@ function createCardFrontTexture(card) {
     ctx.fillRect(rx, ry, 2, 2);
   }
 
-  // Double gold borders
+  // Double borders — outer leather tone, inner gold
   ctx.lineWidth = 8;
-  ctx.strokeStyle = '#8b5a2b';
+  ctx.strokeStyle = '#7c4a21';
   ctx.strokeRect(18, 18, width - 36, height - 36);
 
   ctx.lineWidth = 3;
@@ -237,54 +304,117 @@ function createCardFrontTexture(card) {
   ctx.strokeRect(26, 26, width - 52, height - 52);
 
   const isRed = card.suit === '♥' || card.suit === '♦' || card.suit === 'Hearts' || card.suit === 'Diamonds';
-  const color = isRed ? '#b91c1c' : '#0f172a';
+  const color = isRed ? '#b3121f' : '#151b2e';
 
   const suitSymbol = card.suitSymbol || (card.suit === 'Hearts' ? '♥' : card.suit === 'Diamonds' ? '♦' : card.suit === 'Clubs' ? '♣' : '♠');
-  const rank = card.value || card.rank || 'A';
-
-  // Top-left rank & suit
-  ctx.font = 'bold 54px "Cinzel", serif';
-  ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  ctx.fillText(rank, 60, 75);
-
-  ctx.font = '46px serif';
-  ctx.fillText(suitSymbol, 60, 125);
-
-  // Bottom-right rank & suit (rotated 180 deg)
-  ctx.save();
-  ctx.translate(width - 60, height - 75);
-  ctx.rotate(Math.PI);
-  ctx.font = 'bold 54px "Cinzel", serif';
-  ctx.fillText(rank, 0, 0);
-  ctx.font = '46px serif';
-  ctx.fillText(suitSymbol, 0, -50);
-  ctx.restore();
+  const rank = String(card.value || card.rank || 'A').toUpperCase();
 
   const cx = width / 2;
   const cy = height / 2;
 
-  // Center watermark circle
-  ctx.strokeStyle = isRed ? 'rgba(185, 28, 28, 0.18)' : 'rgba(15, 23, 42, 0.18)';
-  ctx.lineWidth = 4;
+  // Corner indices — large with a white outline so they stay readable from
+  // across the table.
+  const drawCornerIndex = (x, y, flipped) => {
+    ctx.save();
+    ctx.translate(x, y);
+    if (flipped) ctx.rotate(Math.PI);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+
+    ctx.font = 'bold 64px "Cinzel", "Times New Roman", serif';
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.strokeText(rank, 0, 0);
+    ctx.fillStyle = color;
+    ctx.fillText(rank, 0, 0);
+
+    ctx.font = 'bold 50px serif';
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.strokeText(suitSymbol, 0, 54);
+    ctx.fillStyle = color;
+    ctx.fillText(suitSymbol, 0, 54);
+    ctx.restore();
+  };
+  drawCornerIndex(66, 88, false);
+  drawCornerIndex(width - 66, height - 100, true);
+
+  const faceGlyph = FACE_GLYPHS[rank];
+
+  if (faceGlyph) {
+    // Face cards (J/Q/K): ornate framed portrait panel with the royal glyph,
+    // suit-colored backing and gold accents.
+    const panelW = 250;
+    const panelH = 380;
+    const px = cx - panelW / 2;
+    const py = cy - panelH / 2 - 14;
+
+    const panelGrad = ctx.createLinearGradient(px, py, px + panelW, py + panelH);
+    panelGrad.addColorStop(0, isRed ? 'rgba(179, 18, 31, 0.10)' : 'rgba(21, 27, 46, 0.10)');
+    panelGrad.addColorStop(1, isRed ? 'rgba(179, 18, 31, 0.02)' : 'rgba(21, 27, 46, 0.02)');
+    ctx.fillStyle = panelGrad;
+    ctx.beginPath();
+    ctx.roundRect(px, py, panelW, panelH, 18);
+    ctx.fill();
+
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = '#d4af37';
+    ctx.beginPath();
+    ctx.roundRect(px, py, panelW, panelH, 18);
+    ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
+    ctx.beginPath();
+    ctx.roundRect(px + 12, py + 12, panelW - 24, panelH - 24, 12);
+    ctx.stroke();
+
+    drawSuitGlyph(ctx, faceGlyph, cx, cy - 40, 210, color, false);
+
+    // Small suit pips in the panel corners
+    const pipOff = 34;
+    [[px + pipOff, py + pipOff], [px + panelW - pipOff, py + pipOff],
+     [px + pipOff, py + panelH - pipOff], [px + panelW - pipOff, py + panelH - pipOff]]
+      .forEach(([qx, qy], i) => drawSuitGlyph(ctx, suitSymbol, qx, qy, 34, color, i > 1));
+  } else if (rank === 'A') {
+    // Ace: one grand center emblem
+    drawSuitGlyph(ctx, suitSymbol, cx, cy - 20, 240, color, false);
+
+    ctx.strokeStyle = isRed ? 'rgba(179, 18, 31, 0.25)' : 'rgba(21, 27, 46, 0.25)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 20, 150, 0, Math.PI * 2);
+    ctx.stroke();
+  } else {
+    const layout = PIP_LAYOUTS[rank];
+    if (layout) {
+      // Number cards: classic pip grid
+      const pipX = 96;
+      const pipY = 178;
+      layout.forEach(([lx, ly]) => {
+        drawSuitGlyph(ctx, suitSymbol, cx + lx * pipX, cy - 20 + ly * pipY, 78, color, ly > 0);
+      });
+    } else {
+      // Unknown rank fallback: big center suit
+      drawSuitGlyph(ctx, suitSymbol, cx, cy - 20, 180, color, false);
+    }
+  }
+
+  // Card Name Footer — recessed parchment ribbon keeps it legible without
+  // fighting the pips.
+  const footerY = height - 52;
+  ctx.fillStyle = 'rgba(60, 44, 22, 0.85)';
   ctx.beginPath();
-  ctx.arc(cx, cy - 20, 120, 0, Math.PI * 2);
+  ctx.roundRect(cx - 150, footerY - 24, 300, 38, 10);
+  ctx.fill();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
   ctx.stroke();
 
-  // Center large suit emblem
-  ctx.font = 'bold 150px serif';
+  ctx.font = 'bold 24px "Cinzel", "Times New Roman", serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillStyle = color;
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-  ctx.shadowBlur = 6;
-  ctx.fillText(suitSymbol, cx, cy - 20);
-
-  // Card Name Footer Label
-  ctx.font = 'bold 26px "Cinzel", serif';
-  ctx.fillStyle = '#334155';
-  ctx.shadowBlur = 0;
-  ctx.fillText(card.name || `${rank} of ${card.suit}`, cx, height - 64);
+  ctx.fillStyle = '#f2e6c9';
+  ctx.fillText(card.name || `${rank} of ${card.suit}`, cx, footerY - 4);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -338,10 +468,10 @@ const PhysicsCardScene = ({
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-    const ambientLight = new THREE.AmbientLight(0xfffaed, 0.55);
+    const ambientLight = new THREE.AmbientLight(0xfffaed, 0.6);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfff5e6, 0.45);
+    const dirLight = new THREE.DirectionalLight(0xfff5e6, 0.75);
     dirLight.position.set(6, 10, 8);
     dirLight.castShadow = true;
     scene.add(dirLight);
@@ -373,7 +503,7 @@ const PhysicsCardScene = ({
       const frontMat = new THREE.MeshStandardMaterial({
         map: frontTex,
         metalness: 0.0,
-        roughness: 0.9,
+        roughness: 0.72,
       });
       const materials = [edgeMat, edgeMat, edgeMat, edgeMat, frontMat, backMat];
       const mesh = new THREE.Mesh(cardGeometry, materials);

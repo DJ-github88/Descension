@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createStorageConfig } from '../utils/storageUtils';
 import useGameStore from './gameStore';
 import useAuthStore from './authStore';
 import { checkDiceRollRateLimit } from '../utils/validationUtils';
@@ -39,17 +40,17 @@ export const DICE_PRESETS = {
     id: 'frozen',
     name: 'Glacial Frost',
     icon: 'fas fa-snowflake',
-    bodyColor: '#0d2847',
-    edgeColor: '#6ec6ff',
-    numberColor: '#b0e0ff',
-    emissive: '#1a4a8a',
+    bodyColor: '#16406e',
+    edgeColor: '#a8dcff',
+    numberColor: '#e8f7ff',
+    emissive: '#2a6ab8',
     emissiveIntensity: 0.7,
     transparent: false,
     opacity: 1.0,
     innerEffect: 'frost',
     innerColor: '#4499ff',
     outerEffect: 'frost',
-    outerColor: '#88ccff',
+    outerColor: '#a8dcff',
     glowColor: '#44aaff',
     glowIntensity: 0.8,
     groundColor: '#0a1525',
@@ -60,17 +61,17 @@ export const DICE_PRESETS = {
     id: 'fiery',
     name: 'Infernal Flame',
     icon: 'fas fa-fire',
-    bodyColor: '#3d1200',
-    edgeColor: '#ff7733',
-    numberColor: '#ffcc55',
-    emissive: '#882200',
+    bodyColor: '#4a1600',
+    edgeColor: '#ff9555',
+    numberColor: '#ffe08a',
+    emissive: '#bb3300',
     emissiveIntensity: 0.8,
     transparent: false,
     opacity: 1.0,
     innerEffect: 'fire',
-    innerColor: '#ff5500',
+    innerColor: '#ff7722',
     outerEffect: 'fire',
-    outerColor: '#ff6622',
+    outerColor: '#ff7722',
     glowColor: '#ff4400',
     glowIntensity: 1.0,
     groundColor: '#1a0e08',
@@ -306,8 +307,7 @@ const useDiceStore = create(
         }
       }
     }),
-    {
-      name: 'dice-store',
+    createStorageConfig('dice-store', {
       partialize: (state) => ({
         selectedTheme: state.selectedTheme,
         isDiceBarVisible: state.isDiceBarVisible,
@@ -317,7 +317,7 @@ const useDiceStore = create(
         diceColor: state.diceColor,
         activePreset: state.activePreset,
       })
-    }
+    })
   )
 );
 

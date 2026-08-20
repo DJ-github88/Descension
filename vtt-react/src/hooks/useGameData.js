@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { getCachedData, setCachedData } from '../services/dataCache';
 import { DATA_VERSIONS, DATA_FILES } from '../data/versions';
-import { initRulesData } from '../data/rulesData';
+import { initRulesData, initLoreData } from '../data/rulesData';
 
 const inMemoryCache = {};
 
@@ -13,7 +13,9 @@ export default function useGameData(dataKey) {
   const [data, setData] = useState(() => {
     const cached = inMemoryCache[dataKey] || null;
     if (cached && dataKey === 'rules') {
-      initRulesData(cached);
+      initRulesData(cached, inMemoryCache['lore'] || null);
+    } else if (cached && dataKey === 'lore') {
+      initLoreData(cached);
     }
     return cached;
   });
@@ -29,7 +31,9 @@ export default function useGameData(dataKey) {
   useEffect(() => {
     if (inMemoryCache[dataKey]) {
       if (dataKey === 'rules') {
-        initRulesData(inMemoryCache[dataKey]);
+        initRulesData(inMemoryCache[dataKey], inMemoryCache['lore'] || null);
+      } else if (dataKey === 'lore') {
+        initLoreData(inMemoryCache[dataKey]);
       }
       return;
     }
@@ -55,7 +59,9 @@ export default function useGameData(dataKey) {
           inMemoryCache[dataKey] = cached.data;
 
           if (dataKey === 'rules') {
-            initRulesData(cached.data);
+            initRulesData(cached.data, inMemoryCache['lore'] || null);
+          } else if (dataKey === 'lore') {
+            initLoreData(cached.data);
           }
 
           setData(cached.data);
@@ -73,7 +79,9 @@ export default function useGameData(dataKey) {
         inMemoryCache[dataKey] = json;
 
         if (dataKey === 'rules') {
-          initRulesData(json);
+          initRulesData(json, inMemoryCache['lore'] || null);
+        } else if (dataKey === 'lore') {
+          initLoreData(json);
         }
 
         if (!cancelled && mountedRef.current) {

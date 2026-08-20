@@ -324,7 +324,7 @@ const DraggableWindow = forwardRef(({
                     left: 0,
                     zIndex: zIndex,
                     transformOrigin: 'top left',
-                    pointerEvents: 'auto',
+                    pointerEvents: 'none',
                     ...(isMobile && {
                         width: '100vw',
                         height: '100vh',
@@ -338,7 +338,7 @@ const DraggableWindow = forwardRef(({
                         transformOrigin: 'top left',
                         transform: isMobile ? 'none' : `scale(${windowScale})`,
                         willChange: isMobile ? 'auto' : 'transform',
-                        pointerEvents: 'auto',
+                        pointerEvents: 'none',
                         ...(isMobile ? {
                             width: '100vw',
                             height: '100vh',
@@ -349,7 +349,7 @@ const DraggableWindow = forwardRef(({
                         })
                     }}
                 >
-                    <div ref={windowRef}>
+                    <div ref={windowRef} style={{ pointerEvents: 'auto', width: 'fit-content', height: 'fit-content' }}>
                         {children}
                     </div>
                 </div>

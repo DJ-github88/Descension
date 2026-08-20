@@ -1823,7 +1823,7 @@ const InventoryWindow = memo(() => {
                                     pointerEvents: 'none',
                                     filter: selectedItemId === renderitem.id 
                                         ? 'drop-shadow(0 0 6px rgba(0, 255, 255, 0.8))' 
-                                        : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25))',
+                                        : isComplexCustom ? 'none' : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25))',
                                     zIndex: isMultiCell ? 20 : 10
                                 }}>
                                     {/* Render custom shape cells with clear outer-edge borders & tile fills */}
@@ -1997,6 +1997,9 @@ const InventoryWindow = memo(() => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             pointerEvents: 'none',
+                                            background: 'transparent',
+                                            boxShadow: 'none',
+                                            border: 'none',
                                             zIndex: 20
                                         }}
                                     >
@@ -2010,7 +2013,10 @@ const InventoryWindow = memo(() => {
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 padding: '4px',
-                                                boxSizing: 'border-box'
+                                                boxSizing: 'border-box',
+                                                background: 'transparent',
+                                                boxShadow: 'none',
+                                                border: 'none'
                                             }}
                                         >
                                             {renderitem.iconId || renderitem.type === 'currency' ? (
@@ -2028,7 +2034,10 @@ const InventoryWindow = memo(() => {
                                                         height: '90%',
                                                         objectFit: 'contain',
                                                         filter: 'drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5))',
-                                                        pointerEvents: 'none'
+                                                        pointerEvents: 'none',
+                                                        background: 'transparent',
+                                                        boxShadow: 'none',
+                                                        border: 'none'
                                                     }}
                                                     onError={(e) => {
                                                         e.target.onerror = null;
@@ -2182,23 +2191,6 @@ const InventoryWindow = memo(() => {
                                 </div>
                                 <h4>Inventory Inspector</h4>
                                 <p>Select any item in your bags to view detailed stats, rotate orientation, or equip gear.</p>
-                                
-                                <div className="companion-bag-summary">
-                                    <div className="summary-row">
-                                        <span><i className="fas fa-box-archive"></i> Items in Bag:</span>
-                                        <strong>{items.length}</strong>
-                                    </div>
-                                    <div className="summary-row">
-                                        <span><i className="fas fa-weight-scale"></i> Total Weight:</span>
-                                        <strong>{(totalWeight?.total || 0).toFixed(1)} / {derivedStats?.carryingCapacity || 100} lbs</strong>
-                                    </div>
-                                    <div className="summary-row">
-                                        <span><i className="fas fa-gauge-high"></i> Encumbrance:</span>
-                                        <span className={`encumbrance-pill ${encumbranceState}`}>
-                                            {encumbranceState.toUpperCase()}
-                                        </span>
-                                    </div>
-                                </div>
                             </div>
                         )}
                     </div>
@@ -2269,6 +2261,26 @@ const InventoryWindow = memo(() => {
                                 }}
                             />
                             <span className="currency-number">{currency.copper}</span>
+                        </div>
+                    </div>
+
+                    <div className="inventory-stats-inline">
+                        <div className="inventory-stat-item">
+                            <i className="fas fa-box-archive"></i>
+                            <span>Bag:</span>
+                            <strong>{items.length}</strong>
+                        </div>
+                        <div className="inventory-stat-item">
+                            <i className="fas fa-weight-scale"></i>
+                            <span>Weight:</span>
+                            <strong>{(totalWeight?.total || 0).toFixed(1)} / {derivedStats?.carryingCapacity || 100} lbs</strong>
+                        </div>
+                        <div className="inventory-stat-item">
+                            <i className="fas fa-gauge-high"></i>
+                            <span>Encumbrance:</span>
+                            <span className={`encumbrance-pill ${encumbranceState}`}>
+                                {encumbranceState.toUpperCase()}
+                            </span>
                         </div>
                     </div>
 

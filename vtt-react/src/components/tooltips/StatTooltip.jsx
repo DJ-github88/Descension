@@ -111,34 +111,84 @@ const StatTooltip = ({ stat, value, components }) => {
         if (!components) return null;
 
         const parts = [];
-        const { base, equipment, encumbrance, buffs, debuffs } = components;
+        const {
+            base = 10,
+            racial = 0,
+            racialName = 'racial',
+            levelUp = 0,
+            equipment = 0,
+            talents = 0,
+            buffs = 0,
+            debuffs = 0,
+            conditions = 0,
+            exhaustion = 0,
+            encumbrance = 0,
+            encumbranceDescription = ''
+        } = components;
 
-        // Always show base
+        // Base score
         parts.push(`${Math.round(base)} (base)`);
 
-        // Add equipment if non-zero
+        // Racial bonus
+        if (racial !== 0) {
+            parts.push(`${racial > 0 ? '+' : ''}${Math.round(racial)} (${racialName || 'racial'})`);
+        }
+
+        // Level up bonus
+        if (levelUp !== 0) {
+            parts.push(`${levelUp > 0 ? '+' : ''}${Math.round(levelUp)} (level up)`);
+        }
+
+        // Equipment bonus
         if (equipment !== 0) {
             parts.push(`${equipment > 0 ? '+' : ''}${Math.round(equipment)} (equipment)`);
         }
 
-        // Add encumbrance if non-zero
-        if (encumbrance !== 0) {
-            parts.push(`${encumbrance > 0 ? '+' : ''}${Math.round(encumbrance)} (encumbrance)`);
+        // Talents
+        if (talents !== 0) {
+            parts.push(`${talents > 0 ? '+' : ''}${Math.round(talents)} (talents)`);
         }
 
-        // Add buffs if non-zero
+        // Buffs
         if (buffs !== 0) {
             parts.push(`${buffs > 0 ? '+' : ''}${Math.round(buffs)} (buffs)`);
         }
 
-        // Add debuffs if non-zero
+        // Debuffs
         if (debuffs !== 0) {
             parts.push(`${debuffs > 0 ? '+' : ''}${Math.round(debuffs)} (debuffs)`);
         }
 
-        const total = base + equipment + encumbrance + buffs + debuffs;
-        return `${parts.join(' ')} = ${Math.round(total)}`;
+        // Conditions
+        if (conditions !== 0) {
+            parts.push(`${conditions > 0 ? '+' : ''}${Math.round(conditions)} (conditions)`);
+        }
+
+        // Encumbrance
+        if (encumbrance !== 0) {
+            parts.push(`${encumbrance > 0 ? '+' : ''}${Math.round(encumbrance)} (${encumbranceDescription || 'encumbrance'})`);
+        }
+
+        // Exhaustion
+        if (exhaustion !== 0) {
+            parts.push(`${exhaustion > 0 ? '+' : ''}${Math.round(exhaustion)} (exhaustion)`);
+        }
+
+        const total = Math.round(value ?? (base + racial + levelUp + equipment + talents + buffs + debuffs + conditions + encumbrance + exhaustion));
+        return `${parts.join(' ')} = ${total}`;
     };
+
+    const hasModifiers = components && (
+        components.racial !== 0 ||
+        components.levelUp !== 0 ||
+        components.equipment !== 0 ||
+        components.talents !== 0 ||
+        components.buffs !== 0 ||
+        components.debuffs !== 0 ||
+        components.conditions !== 0 ||
+        components.encumbrance !== 0 ||
+        components.exhaustion !== 0
+    );
 
     return (
         <>
@@ -153,8 +203,8 @@ const StatTooltip = ({ stat, value, components }) => {
             <div className="equipment-slot-description">
                 Current Value: {Math.round(value)} • Modifier: {calculateStatModifier(value)}
             </div>
-            {components && (components.equipment !== 0 || components.encumbrance !== 0 || components.buffs !== 0 || components.debuffs !== 0) && (
-                <div className="equipment-slot-description">
+            {components && (
+                <div className="equipment-slot-description" style={{ color: '#7a3b2e', fontWeight: 600 }}>
                     <strong>Calculation:</strong> {buildCalculationBreakdown()}
                 </div>
             )}

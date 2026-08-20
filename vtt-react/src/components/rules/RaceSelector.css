@@ -1931,7 +1931,7 @@
 }
 
 
-/* 3. BRIARAN - The Forgotten House (Creeping foliage and thorns) */
+/* 3. FLORAE - The Exiled House (Creeping foliage and thorns) */
 .race-card-florae {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 150 185 L 152 195 M 220 187 L 222 196' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3Ccircle cx='25' cy='45' r='2' fill='%2381c784' opacity='0.8'/%3E%3Ccircle cx='85' cy='175' r='2.5' fill='%2381c784' opacity='0.7'/%3E%3Ccircle cx='190' cy='170' r='2' fill='%2381c784' opacity='0.9'/%3E%3C/svg%3E") !important;
 }
@@ -2859,7 +2859,7 @@
 }
 
 
-/* 3. BRIARAN - Shadowy thorns & vines creep from the corners,
+/* 3. FLORAE - Shadowy thorns & vines creep from the corners,
       spilling OVER and OUTSIDE the button (multiply = overgrowth). */
 .race-card-florae .race-card-fx,
 .variant-card-florae .variant-card-fx {

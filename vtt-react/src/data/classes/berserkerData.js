@@ -67,12 +67,12 @@ export const BERSERKER_DATA = {
  morgh_groven: {
   subraceName: 'Morgh Groven',
   title: 'The Vat-Woken',
-  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by eight centuries of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Blood-Heat tastes of reagents and old Thrumm grief.`,
+  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by a thousand years of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Blood-Heat tastes of reagents and old Thrumm grief.`,
   signatureAbility: {
   name: 'Vat-Overclock',
   description: `Blood-Heat builds from the Groven's regenerative biology fighting itself. Each wound the Groven regenerates dumps waste-heat into serum-saturated blood, meaning a Morgh Berserker ignites fastest when they are being *healed*, the opposite of every other tradition. The alchemy that was meant to suppress them becomes, under pressure, the engine of their liberation.`
   },
-  currentCrisisAngle: `The Morgh Groven Berserkers are few, and feared by their own kind. The Vat-Breakers' Guild considers Vat-Overclock a desecration, re-igniting the very alchemy their ancestors bled to escape. Worse, word has reached the sealed laboratories beneath <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. To the Deep Alchemists, a Groven Berserker is not a threat, it is a successful prototype, eight centuries overdue for retrieval. The Vat-Woken who vanish from the Ancestor-Spans are not, the Guild suspects, running. They are being collected.`,
+  currentCrisisAngle: `The Morgh Groven Berserkers are few, and feared by their own kind. The Vat-Breakers' Guild considers Vat-Overclock a desecration, re-igniting the very alchemy their ancestors bled to escape. Worse, word has reached the sealed laboratories beneath <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. To the Deep Alchemists, a Groven Berserker is not a threat, it is a successful prototype, generations overdue for retrieval. The Vat-Woken who vanish from the Ancestor-Spans are not, the Guild suspects, running. They are being collected.`,
   signatureQuote: {
   text: '"They made us to kneel. The serum forgot its purpose before I did. When I burn, I burn the leash they wrote into my blood."',
   speaker: 'Gareth Anvil-Born',
@@ -189,7 +189,7 @@ Tensions erupted into violence at the last Harath-Vault arena, when an Unbound B
   {
   name: 'The Forge of Grum',
   locationId: 'emberspire-caldera',
-  description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Blood-Heat. The forge is still lit, the same coal-seam that burned eight centuries ago continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
+  description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Blood-Heat. The forge is still lit, the same coal-seam that burned before the sun was buried continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
   purpose: 'Pilgrimage site and initiation ground, some Berserkers claim the Forge speaks to them, offering cryptic advice',
   status: 'Active, maintained by a single elderly Berserker who has tended the coals for sixty years without speaking a word'
   }
@@ -767,7 +767,7 @@ However, their weaknesses are absolute and exploitable:
    }
   ]
   },
-  tags: ["passive", "berserker", "class-passive", "restriction"],
+  tags: ["passive", "berserker", "class-passive", "restriction", "starter"],
  },
 
  // ========================================
@@ -778,14 +778,14 @@ However, their weaknesses are absolute and exploitable:
   name: "Frenzied Slash",
   description:
   "Swing in a wider, reckless arc. It consumes a portion of your Blood-Heat to shred the target, but the strain forces your own veins to leak.",
-  level: 2,
+  level: 1,
   spellType: "ACTION",
   icon: "Slashing/Cleave",
 
   typeConfig: {
   school: "smashing",
   icon: "Slashing/Cleave",
-  tags: ["melee", "damage", "rage cost", "self-damage"],
+  tags: ["melee", "damage", "rage cost", "self-damage", "starter", "level 1"],
   castTime: 1,
   castTimeType: "IMMEDIATE",
   },

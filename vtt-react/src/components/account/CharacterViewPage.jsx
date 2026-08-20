@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
+import useConditionStore from '../../store/conditionStore';
+import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getSubraceData } from '../../data/raceData';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES } from '../../constants/skillDefinitions';
 import { initializeClassResource } from '../../data/classResources';
@@ -15,10 +17,9 @@ import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibra
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
 import SpellActionBar from '../character-sheet/SpellActionBar';
 import DiceThemeSelector from '../dice/DiceThemeSelector';
+import ClassResourceBar from '../hud/ClassResourceBar';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
-
-const ClassResourceBar = React.lazy(() => import('../hud/ClassResourceBar'));
 
 const CharacterViewPage = () => {
   const { characterId } = useParams();
@@ -28,14 +29,33 @@ const CharacterViewPage = () => {
   const [activeInfoSection, setActiveInfoSection] = useState('equipment');
   const [activeStatGroup, setActiveStatGroup] = useState('summary');
   const [activeSkillCategory, setActiveSkillCategory] = useState('combat');
-  const [activeInventoryTab, setActiveInventoryTab] = useState('equipment'); // 'equipment' | 'library' | 'designer'
+
   const [selectedSkillId, setSelectedSkillId] = useState(null);
   const [hoveredSkillCategory, setHoveredSkillCategory] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openVialPopup, setOpenVialPopup] = useState(null); // 'health' | 'mana' | 'actionPoints' | 'exhaustion' | null
+  const [headerToast, setHeaderToast] = useState(null);
   const vialPopupRef = React.useRef(null);
+
+  // Auto-dismiss header toast
+  useEffect(() => {
+    if (!headerToast) return;
+    const timer = setTimeout(() => setHeaderToast(null), 7000);
+    return () => clearTimeout(timer);
+  }, [headerToast]);
+
+  // Live real-time ticker for active buffs & debuffs countdown
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeBuffs = useConditionStore(state => state.activeBuffs);
+  const activeDebuffs = useConditionStore(state => state.activeDebuffs);
+  const removeCondition = useConditionStore(state => state.removeCondition);
 
   React.useEffect(() => {
     if (!openVialPopup) return;
@@ -203,44 +223,20 @@ const CharacterViewPage = () => {
       case 'inventory':
         return (
           <div className="character-view-inventory-wrapper">
-            <div className="inventory-subnav-bar">
-              <button
-                type="button"
-                className={`inventory-subnav-btn ${activeInventoryTab === 'equipment' ? 'active' : ''}`}
-                onClick={() => setActiveInventoryTab('equipment')}
-              >
-                <i className="fas fa-shield-halved"></i>
-                <span>Equipment & Bag</span>
-              </button>
-              <button
-                type="button"
-                className={`inventory-subnav-btn ${activeInventoryTab === 'library' ? 'active' : ''}`}
-                onClick={() => setActiveInventoryTab('library')}
-              >
-                <i className="fas fa-book"></i>
-                <span>Item Library</span>
-              </button>
-              <button
-                type="button"
-                className={`inventory-subnav-btn create-btn ${activeInventoryTab === 'designer' ? 'active' : ''}`}
-                onClick={() => setActiveInventoryTab('designer')}
-              >
-                <i className="fas fa-wand-magic-sparkles"></i>
-                <span>Item Designer & Creator</span>
-              </button>
-            </div>
-
-            {activeInventoryTab === 'equipment' && <InventoryWindow />}
-            {activeInventoryTab === 'library' && (
-              <div className="character-view-item-library-container">
-                <ItemLibrary contentOnly={true} />
-              </div>
-            )}
-            {activeInventoryTab === 'designer' && (
-              <div className="character-view-item-designer-container">
-                <ItemGeneration />
-              </div>
-            )}
+            <InventoryWindow />
+            <SpellActionBar characterId={characterId} />
+          </div>
+        );
+      case 'library':
+        return (
+          <div className="character-view-item-library-container">
+            <ItemLibrary contentOnly={true} />
+          </div>
+        );
+      case 'designer':
+        return (
+          <div className="character-view-item-designer-container">
+            <ItemGeneration />
           </div>
         );
       case 'lore':
@@ -291,6 +287,36 @@ const CharacterViewPage = () => {
   const healthPct = health?.max ? Math.min(100, Math.max(0, (health.current / health.max) * 100)) : 0;
   const manaPct = mana?.max ? Math.min(100, Math.max(0, (mana.current / mana.max) * 100)) : 0;
   const apPct = actionPoints?.max ? Math.min(100, Math.max(0, (actionPoints.current / actionPoints.max) * 100)) : 0;
+
+
+  const isPlayerCondition = (c) => c.targetId === 'player' || c.targetId === 'current-player' || !c.targetId || c.targetId === characterId;
+  const playerBuffs = (activeBuffs || []).filter(isPlayerCondition);
+  const playerDebuffs = (activeDebuffs || []).filter(isPlayerCondition);
+
+  const formatBuffRemaining = (c) => {
+    const remainingSecs = Math.max(0, Math.ceil(((c.endTime || (c.startTime + (c.duration || 60) * 1000)) - now) / 1000));
+    if (c.durationType === 'rounds') {
+      const rounds = Math.ceil(remainingSecs / 6);
+      return `${rounds}r`;
+    }
+    if (remainingSecs <= 0) return '0s';
+    if (remainingSecs < 60) return `${remainingSecs}s`;
+    const mins = Math.floor(remainingSecs / 60);
+    const rem = remainingSecs % 60;
+    return `${mins}:${rem.toString().padStart(2, '0')}`;
+  };
+
+  const resolveBuffIcon = (c, defaultType = 'buff') => {
+    if (!c.icon) {
+      return getCustomIconUrl('Utility/Utility', 'abilities');
+    }
+    if (typeof c.icon === 'string') {
+      if (c.icon.startsWith('http') || c.icon.startsWith('/assets/')) return c.icon;
+      if (c.icon.includes('/')) return getCustomIconUrl(c.icon, 'abilities');
+      if (c.icon.startsWith('inv_') || c.icon.startsWith('spell_') || c.icon.startsWith('ability_')) return getIconUrl(c.icon, 'items');
+    }
+    return getIconUrl('inv_potion_51', 'items');
+  };
 
   return (
     <div className="character-view-page">
@@ -415,17 +441,114 @@ const CharacterViewPage = () => {
         {/* Unique Class Resource Bar */}
         {characterClass && effectiveClassResource && (
           <div className="header-class-resource-row">
-            <React.Suspense fallback={<div className="class-resource-loading-compact">Loading resource...</div>}>
-              <ClassResourceBar
-                characterClass={characterClass}
-                classResource={effectiveClassResource}
-                character={{ health, mana, actionPoints }}
-                size="normal"
-                isOwner={true}
-                onClassResourceUpdate={updateClassResource}
-                context="account"
-              />
-            </React.Suspense>
+            <ClassResourceBar
+              characterClass={characterClass}
+              classResource={effectiveClassResource}
+              character={{ health, mana, actionPoints }}
+              size="normal"
+              isOwner={true}
+              onClassResourceUpdate={updateClassResource}
+              context="account"
+            />
+          </div>
+        )}
+
+        {/* Active Buffs & Debuffs Row */}
+        {(playerBuffs.length > 0 || playerDebuffs.length > 0) && (
+          <div className="header-buffs-debuffs-row">
+            <div className="header-buffs-container">
+              {playerBuffs.map((buff) => {
+                const timeStr = formatBuffRemaining(buff);
+                const iconSrc = resolveBuffIcon(buff, 'buff');
+
+                return (
+                  <div
+                    key={buff.id}
+                    className="header-effect-pill buff"
+                    onClick={() => removeCondition('buff', buff.id)}
+                    title={`${buff.name} (${timeStr} remaining) • Click to dismiss`}
+                  >
+                    <div className="effect-icon-wrapper">
+                      <img
+                        src={iconSrc}
+                        alt={buff.name}
+                        className="effect-icon-img"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getIconUrl('inv_potion_51', 'items');
+                        }}
+                      />
+                      <span className="effect-timer-badge">{timeStr}</span>
+                    </div>
+                    <div className="effect-info-wrapper">
+                      <span className="effect-name">{buff.name}</span>
+                      {Object.keys(buff.effects || {}).length > 0 && (
+                        <span className="effect-stat-summary">
+                          {Object.entries(buff.effects).map(([st, val]) => `+${val} ${st}`).join(', ')}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className="effect-dismiss-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeCondition('buff', buff.id);
+                      }}
+                      title="Dismiss Buff"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                );
+              })}
+
+              {playerDebuffs.map((debuff) => {
+                const timeStr = formatBuffRemaining(debuff);
+                const iconSrc = resolveBuffIcon(debuff, 'debuff');
+
+                return (
+                  <div
+                    key={debuff.id}
+                    className="header-effect-pill debuff"
+                    onClick={() => removeCondition('debuff', debuff.id)}
+                    title={`${debuff.name} (${timeStr} remaining) • Click to dismiss`}
+                  >
+                    <div className="effect-icon-wrapper">
+                      <img
+                        src={iconSrc}
+                        alt={debuff.name}
+                        className="effect-icon-img"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                        }}
+                      />
+                      <span className="effect-timer-badge debuff">{timeStr}</span>
+                    </div>
+                    <div className="effect-info-wrapper">
+                      <span className="effect-name">{debuff.name}</span>
+                      {Object.keys(debuff.effects || {}).length > 0 && (
+                        <span className="effect-stat-summary">
+                          {Object.entries(debuff.effects).map(([st, val]) => `-${val} ${st}`).join(', ')}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className="effect-dismiss-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeCondition('debuff', debuff.id);
+                      }}
+                      title="Dismiss Debuff"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
@@ -601,7 +724,10 @@ const CharacterViewPage = () => {
                         (key === 'character' && activeInfoSection === sub.id) ||
                         (key === 'stats' && activeStatGroup === sub.id) ||
                         (key === 'skills' && activeSkillCategory === sub.id && (!selectedSkillId || !hasNestedSkills)) ||
-                        (key === 'inventory' && activeInventoryTab === sub.id)
+                        (key === 'inventory' && (
+                          (sub.id === 'equipment' && activeTab === 'inventory') ||
+                          (sub.id !== 'equipment' && activeTab === sub.id)
+                        ))
                       );
 
                       return (
@@ -616,18 +742,25 @@ const CharacterViewPage = () => {
                             className={`char-dropdown-item ${isSubActive ? 'active' : ''}`}
                             onClick={(e) => {
                               e.stopPropagation();
-                              setActiveTab(key);
                               if (key === 'lore') {
+                                setActiveTab(key);
                                 setActiveLoreSection(sub.id);
                               } else if (key === 'character') {
+                                setActiveTab(key);
                                 setActiveInfoSection(sub.id);
                               } else if (key === 'stats') {
+                                setActiveTab(key);
                                 setActiveStatGroup(sub.id);
                               } else if (key === 'skills') {
+                                setActiveTab(key);
                                 setActiveSkillCategory(sub.id);
                                 setSelectedSkillId(null);
                               } else if (key === 'inventory') {
-                                setActiveInventoryTab(sub.id);
+                                if (sub.id === 'equipment') {
+                                  setActiveTab('inventory');
+                                } else {
+                                  setActiveTab(sub.id);
+                                }
                               }
                               setOpenDropdown(null);
                             }}

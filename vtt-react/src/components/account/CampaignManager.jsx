@@ -12,6 +12,7 @@ import { useTooltipPosition } from '../../components/common/useTooltipPosition';
 import useCreatureStore from '../../store/creatureStore';
 import campaignService from '../../services/campaignService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
+import { useMediaUpload } from '../../hooks/useMediaUpload';
 import { SPELL_DAMAGE_TYPES, getDamageType } from '../../data/damageTypes';
 import RichLoreText from '../common/RichLoreText';
 import CodexLoreEditor from '../common/CodexLoreEditor';
@@ -242,6 +243,25 @@ const CampaignManager = ({ user }) => {
 
   // Campaign persistence hook for Firebase sync
   const { isAuthenticated, forceSave, deleteCampaign } = useCampaignPersistence(currentCampaignId);
+
+  // Media uploads (banners, portraits, maps) → Firebase Storage for auth users
+  const { uploadImage, removeImage } = useMediaUpload();
+
+  const handleMediaUpload = async (file, category, apply) => {
+    if (!file) return;
+    try {
+      const url = await uploadImage(file, category);
+      if (url) apply(url);
+    } catch (err) {
+      console.error('Media upload failed:', err);
+      alert(err.message || 'Image upload failed. Please try a smaller file.');
+    }
+  };
+
+  const handleMediaRemove = (existingUrl, apply) => {
+    if (existingUrl) removeImage(existingUrl).catch((err) => console.warn('Failed to remove cloud media:', err));
+    apply();
+  };
 
   // Load campaigns and current campaign
   useEffect(() => {
@@ -538,6 +558,10 @@ const CampaignManager = ({ user }) => {
 
   const removeNPC = (npcId) => {
     showConfirmModal('Remove NPC', 'Are you sure you want to remove this NPC?', () => {
+      const removedNPC = campaignData.npcs.find(npc => npc.id === npcId);
+      if (removedNPC?.image) {
+        removeImage(removedNPC.image).catch((err) => console.warn('Failed to remove NPC media:', err));
+      }
       updateCampaignData({ npcs: campaignData.npcs.filter(npc => npc.id !== npcId) });
     });
   };
@@ -566,6 +590,10 @@ const CampaignManager = ({ user }) => {
 
   const removeLocation = (locationId) => {
     showConfirmModal('Remove Location', 'Are you sure you want to remove this location?', () => {
+      const removedLocation = campaignData.locations.find(location => location.id === locationId);
+      if (removedLocation?.image) {
+        removeImage(removedLocation.image).catch((err) => console.warn('Failed to remove location media:', err));
+      }
       updateCampaignData({ locations: campaignData.locations.filter(loc => loc.id !== locationId) });
     });
   };
@@ -595,6 +623,10 @@ const CampaignManager = ({ user }) => {
 
   const removePlotThread = (plotId) => {
     showConfirmModal('Remove Plot Thread', 'Are you sure you want to remove this plot thread?', () => {
+      const removedPlot = campaignData.plotThreads.find(plot => plot.id === plotId);
+      if (removedPlot?.image) {
+        removeImage(removedPlot.image).catch((err) => console.warn('Failed to remove plot media:', err));
+      }
       updateCampaignData({ plotThreads: campaignData.plotThreads.filter(p => p.id !== plotId) });
     });
   };
@@ -1251,11 +1283,7 @@ const CampaignManager = ({ user }) => {
                                   style={{ display: 'none' }}
                                   onChange={(e) => {
                                     const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
-                                      reader.readAsDataURL(file);
-                                    }
+                                    if (file) handleMediaUpload(file, 'portraits', (url) => updateNPC(npc.id, { image: url }), npc.image);
                                   }}
                                 />
                               </label>
@@ -1264,7 +1292,7 @@ const CampaignManager = ({ user }) => {
                                 className="media-clear-btn-pill"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  updateNPC(npc.id, { image: null });
+                                  handleMediaRemove(npc.image, () => updateNPC(npc.id, { image: null }));
                                 }}
                                 title="Remove portrait"
                               >
@@ -1280,14 +1308,10 @@ const CampaignManager = ({ user }) => {
                               type="file"
                               accept="image/*"
                               style={{ display: 'none' }}
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  const reader = new FileReader();
-                                  reader.onload = (ev) => updateNPC(npc.id, { image: ev.target.result });
-                                  reader.readAsDataURL(file);
-                                }
-                              }}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) handleMediaUpload(file, 'portraits', (url) => updateNPC(npc.id, { image: url }), npc.image);
+                                }}
                             />
                           </label>
                         )}
@@ -1457,21 +1481,17 @@ const CampaignManager = ({ user }) => {
                                 style={{ display: 'none' }}
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
-                                  if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
-                                    reader.readAsDataURL(file);
-                                  }
+                                  if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
                                 }}
                               />
                             </label>
                             <button
                               type="button"
                               className="media-clear-btn-pill"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                updateLocation(location.id, { image: null });
-                              }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleMediaRemove(location.image, () => updateLocation(location.id, { image: null }));
+                                }}
                               title="Remove artwork"
                             >
                               <i className="fas fa-trash-alt"></i> Remove
@@ -1488,11 +1508,7 @@ const CampaignManager = ({ user }) => {
                             style={{ display: 'none' }}
                             onChange={(e) => {
                               const file = e.target.files?.[0];
-                              if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (ev) => updateLocation(location.id, { image: ev.target.result });
-                                reader.readAsDataURL(file);
-                              }
+                              if (file) handleMediaUpload(file, 'maps', (url) => updateLocation(location.id, { image: url }), location.image);
                             }}
                           />
                         </label>
@@ -1817,11 +1833,7 @@ const CampaignManager = ({ user }) => {
                                 style={{ display: 'none' }}
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
-                                  if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = (ev) => updatePlotThread(plot.id, { image: ev.target.result });
-                                    reader.readAsDataURL(file);
-                                  }
+                                  if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
                                 }}
                               />
                             </label>
@@ -1830,7 +1842,7 @@ const CampaignManager = ({ user }) => {
                               className="media-clear-btn-pill"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                updatePlotThread(plot.id, { image: null });
+                                handleMediaRemove(plot.image, () => updatePlotThread(plot.id, { image: null }));
                               }}
                               title="Remove banner"
                             >
@@ -1848,11 +1860,7 @@ const CampaignManager = ({ user }) => {
                             style={{ display: 'none' }}
                             onChange={(e) => {
                               const file = e.target.files?.[0];
-                              if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (ev) => updatePlotThread(plot.id, { image: ev.target.result });
-                                reader.readAsDataURL(file);
-                              }
+                              if (file) handleMediaUpload(file, 'banners', (url) => updatePlotThread(plot.id, { image: url }), plot.image);
                             }}
                           />
                         </label>

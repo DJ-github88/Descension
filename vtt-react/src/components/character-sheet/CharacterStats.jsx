@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
@@ -6,6 +6,7 @@ import useConditionStore from '../../store/conditionStore';
 import useGameStore from '../../store/gameStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
+import { normalizeEquipment } from '../../utils/equipmentUtils';
 import { calculateEffectiveMovementSpeed } from '../../utils/conditionUtils';
 import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
@@ -14,6 +15,7 @@ import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
 import ConditionTooltip from '../tooltips/ConditionTooltip';
+import { getAttributeBreakdown, getDerivedStatBreakdown } from '../../utils/statCalculationBreakdown';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getCustomIconUrl } from '../../utils/assetManager';
@@ -256,7 +258,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
 
     const {
         stats = { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 },
-        equipment = {},
+        equipment: rawEquipment = {},
         health = { current: 50, max: 50 },
         mana = { current: 50, max: 50 },
         actionPoints = { current: 3, max: 3 },
@@ -270,6 +272,8 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
         subrace,
         updateStat
     } = dataSource || {};
+
+    const equipment = useMemo(() => normalizeEquipment(rawEquipment), [rawEquipment]);
 
     // Subscribe to activeBuffs to trigger re-renders when buffs change
     const activeBuffs = useConditionStore(state => state.activeBuffs);
@@ -470,76 +474,21 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
 
     // Calculate individual stat components for tooltips
     const getStatComponents = (statName) => {
-        const equipmentBonuses = calculateEquipmentBonuses(equipment);
-        const buffEffects = getActiveEffects('buff');
-        const debuffEffects = getActiveEffects('debuff');
-        const currentEncumbranceState = encumbranceState || 'normal';
-
-        const statMapping = {
-            str: 'strength',
-            con: 'constitution',
-            agi: 'agility',
-            int: 'intelligence',
-            spir: 'spirit',
-            cha: 'charisma'
+        const charContext = {
+            stats,
+            equipment,
+            race,
+            subrace,
+            level,
+            levelUpHistory: dataSource?.levelUpHistory || {},
+            activeEffects: dataSource?.activeEffects || {},
+            encumbranceState: encumbranceState || 'normal',
+            exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
+            health,
+            mana,
+            talents: dataSource?.talents || []
         };
-
-        // Find the short name for equipment bonuses
-        const shortName = Object.keys(statMapping).find(key => statMapping[key] === statName);
-
-        // Calculate encumbrance effects
-        let encumbranceMultiplier = 1.0;
-        let encumbranceDescription = '';
-
-        if (currentEncumbranceState === 'encumbered') {
-            if (statName === 'strength' || statName === 'constitution') {
-                encumbranceMultiplier = 1.05; // +5% for Strength and Constitution
-                encumbranceDescription = 'Encumbered (+5%)';
-            } else {
-                encumbranceMultiplier = 0.95; // -5% for other stats
-                encumbranceDescription = 'Encumbered (-5%)';
-            }
-        } else if (currentEncumbranceState === 'overencumbered') {
-            if (statName === 'strength' || statName === 'constitution') {
-                encumbranceMultiplier = 1.15; // +15% for Strength and Constitution
-                encumbranceDescription = 'Overencumbered (+15%)';
-            } else {
-                encumbranceMultiplier = 0.85; // -15% for other stats
-                encumbranceDescription = 'Overencumbered (-15%)';
-            }
-        }
-
-        const baseStat = stats[statName] || 0;
-        const equipmentBonus = (equipmentBonuses && shortName) ? (equipmentBonuses[shortName] || 0) : 0;
-
-        // Calculate encumbrance effect on the final stat (base + equipment)
-        const preEncumbranceStat = baseStat + equipmentBonus;
-        const encumbranceEffect = Math.floor(preEncumbranceStat * encumbranceMultiplier) - preEncumbranceStat;
-
-        const components = {
-            base: baseStat,
-            equipment: equipmentBonus,
-            encumbrance: encumbranceEffect,
-            encumbranceDescription: encumbranceDescription,
-            buffs: 0,
-            debuffs: 0
-        };
-
-        // Calculate buff effects for this stat
-        if (buffEffects[statName]) {
-            buffEffects[statName].forEach(effect => {
-                components.buffs += effect.value;
-            });
-        }
-
-        // Calculate debuff effects for this stat
-        if (debuffEffects[statName]) {
-            debuffEffects[statName].forEach(effect => {
-                components.debuffs += effect.value;
-            });
-        }
-
-        return components;
+        return getAttributeBreakdown(statName, charContext);
     };
 
     // Get encumbrance effects for derived stats
@@ -2445,6 +2394,21 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                                         />
                                     ) : (
                                         (() => {
+                                            const charContext = {
+                                                stats,
+                                                equipment,
+                                                race,
+                                                subrace,
+                                                level,
+                                                levelUpHistory: dataSource?.levelUpHistory || {},
+                                                activeEffects: dataSource?.activeEffects || {},
+                                                encumbranceState: encumbranceState || 'normal',
+                                                exhaustionLevel: exhaustionLevel ?? storeExhaustionLevel ?? 0,
+                                                health,
+                                                mana,
+                                                talents: dataSource?.talents || []
+                                            };
+                                            const derivedBreakdown = getDerivedStatBreakdown(stat.label, charContext);
                                             const numericValue = stat.tooltipValue ?? (typeof stat.value === 'number' ? stat.value : undefined);
                                             const displayValue = typeof stat.value === 'string' ? stat.value : undefined;
                                             const encumbranceInfo = getEncumbranceEffectForStat(stat.label, numericValue ?? stat.baseValue, stat.baseValue);
@@ -2463,6 +2427,7 @@ export default function CharacterStats({ selectedStatGroup: propGroup, setSelect
                                                     debuffEffect={buffDebuffInfo.debuffEffect}
                                                     conditionEffect={buffDebuffInfo.conditionEffect}
                                                     sources={getStatSources(stat.label)}
+                                                    breakdown={derivedBreakdown}
                                                 />
                                             );
                                         })()

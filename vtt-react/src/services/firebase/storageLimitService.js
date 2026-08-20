@@ -158,6 +158,7 @@ class StorageLimitService {
         journals: 0,
         campaigns: 0,
         audioFiles: 0,
+        mediaFiles: 0,
         lastUpdated: Date.now()
       };
 
@@ -310,7 +311,8 @@ class StorageLimitService {
         rooms: usage.rooms || 0,
         journals: usage.journals || 0,
         campaigns: usage.campaigns || 0,
-        audioFiles: usage.audioFiles || 0
+        audioFiles: usage.audioFiles || 0,
+        mediaFiles: usage.mediaFiles || 0
       },
       limits: {
         characters: limits.characters,

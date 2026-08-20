@@ -48,12 +48,14 @@
 /* Base Resource Bar */
 .class-resource-bar {
     position: relative;
+    width: 100%;
     height: 16px;
     border-radius: 8px;
     overflow: visible; /* Allow content to be visible */
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(160, 140, 112, 0.6);
     margin-bottom: 2px; /* Add spacing between resource bars */
+    box-sizing: border-box;
 }
 
 /* Remove base background/border for custom resource bars to avoid grey track behind */

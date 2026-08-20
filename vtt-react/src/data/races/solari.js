@@ -64,7 +64,7 @@ When Keth-Amar breached the binding seal by devouring the six noble houses' heir
 
 The Wars of Molten Earth came later, when surface kingdoms, desperate for volcanic resources, attempted to seize Solari forge-clans by force. The Solari fought not as a unified army but as two bloodlines with distinct ways of war. The clans held. The invaders burned. The Forge Accords were established in the aftermath: Solari would never war against Solari. All forges would serve all clans. The Sol\'s Breath would be held by a single tending-clan, rotated by covenant, never hoarded. The Accords have held for generations.
 
-Now the Sol\'s Breath is dimming. The tending-clan has known for three generations and concealed it, executing shamans who spoke the truth, fabricating reports of stable brightness, maintaining their power by managing a lie that grows heavier every year. The Hollow-Solari tending-clan began concealing the Sol\'s Breath's measurable dimming after the False Dawn Riots, two centuries into the Dimming. The concealment lasted three generations, passed from matriarch to matriarch, until the Sol\'s Breath could no longer be hidden. The other clans are beginning to splinter. Some demand transparency. Some accuse the tenders of causing the dimming through mismanagement. Some whisper that the dimming is Keth-Amar's slow victory, the last ember of Sol being consumed from within, like the spirit it came from. And some, the youngest and most reckless, whisper that the Sol\'s Breath was never Sol's gift at all, that it is Keth-Amar's tether, a feeding-line the predator left behind when it breached the seal, and that the Solari have spent centuries tending the wrong fire.
+Now the Sol\'s Breath is dimming. The tending-clan has known for three generations and concealed it, executing shamans who spoke the truth, fabricating reports of stable brightness, maintaining their power by managing a lie that grows heavier every year. The Hollow-Solari tending-clan began concealing the Sol\'s Breath's measurable dimming after the False Dawn Riots, two decades into the Freezing Era. The concealment lasted three generations, passed from matriarch to matriarch, until the Sol\'s Breath could no longer be hidden. The other clans are beginning to splinter. Some demand transparency. Some accuse the tenders of causing the dimming through mismanagement. Some whisper that the dimming is Keth-Amar's slow victory, the last ember of Sol being consumed from within, like the spirit it came from. And some, the youngest and most reckless, whisper that the Sol\'s Breath was never Sol's gift at all, that it is Keth-Amar's tether, a feeding-line the predator left behind when it breached the seal, and that the Solari have spent centuries tending the wrong fire.
 
 The Solari do not know which of these stories is true. They only know the ember is dying. And when it goes out, something will change, either Sol will finally wake, or Keth-Amar will finally finish its meal, or both. The End-Vigil is approaching, and no Sun-Speaker has received a vision to prepare them for it.
   `,
@@ -72,7 +72,7 @@ The Solari do not know which of these stories is true. They only know the ember 
   notableFigures: [
     {
       name: 'Thaeron',
-      title: 'Keeper of the Dimming Flame',
+      title: 'Keeper of the Freezing Era Flame',
       portraitIcon: 'Demon/Icon4',
       backstory: `
 The eldest living Sun-Speaker, Thaeron has tended the Sol\'s Breath for sixty years. His skin is weathered dark brown-beige, cross-hatched with age-lines that trace the pattern of old lava-flows across his forearms. His eyes, enormous even for a Solari, the pupils barely distinguishable from the solid black sclera, have stared into the Sol\'s Breath's light for so long that he claims to see colors in it that younger shamans cannot perceive. He does not speak of what those colors mean.
@@ -393,7 +393,7 @@ The current crisis is a Hollow-Solari crisis. The tending-clan has concealed the
             effects: [
               {
                 id: 'sols_breath_dimming',
-                name: 'Shared Dimming',
+                name: 'Shared Failing',
                 description: '-2 to concentration checks when the Sol\'s Breath gutters during moments of crisis',
                 statModifier: { stat: 'concentration', magnitude: -2, magnitudeType: 'flat' },
                 conditions: { sols_breath_dimming: true },

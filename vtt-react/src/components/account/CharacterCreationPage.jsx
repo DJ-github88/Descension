@@ -5,6 +5,7 @@ import CharacterCreationWizard from '../character-creation-wizard/CharacterCreat
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
 import subscriptionService from '../../services/subscriptionService';
+import { createEmptyEquipment } from '../../utils/equipmentUtils';
 import './styles/CharacterCreationPage.css';
 
 const CharacterCreationPage = ({ user, isEditing = false }) => {
@@ -146,12 +147,7 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
               copper: 0
             }
           },
-          equipment: {
-            weapon: null,
-            armor: null,
-            shield: null,
-            accessories: []
-          },
+          equipment: createEmptyEquipment(),
           // Add empty spells and abilities
           spells: [],
           abilities: [],

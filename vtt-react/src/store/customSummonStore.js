@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
+import { createStorageConfig } from '../utils/storageUtils';
 
 const STORAGE_KEY = 'mythrill-custom-summons';
 
@@ -58,10 +59,7 @@ const useCustomSummonStore = create(
         return get().customTemplates.find((t) => t.id === id);
       },
     }),
-    {
-      name: STORAGE_KEY,
-      getStorage: () => localStorage,
-    }
+    createStorageConfig(STORAGE_KEY)
   )
 );
 

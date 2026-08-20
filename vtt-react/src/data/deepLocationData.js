@@ -43,24 +43,24 @@ DEEP_LOCATIONS['greymark-keep'] = {
    'Dim and diffuse, oil lamps and hearth-fires cast halos that the fog immediately softens. On clear nights (rare), bioluminescent lichen on the ironwood trunks glows pale blue-green.'
  },
  history: {
-  founded: 'just after the Binding',
+  founded: 'early in the Slow Cracks',
   foundedBy: 'House Thalreth',
   foundingStory:
    'Built where three ancient ironwood roots converged above a geothermal vent. The first Thalreth settlers chose this spot because the roots formed a natural shelter, and the vent provided the only unfrozen ground within fifty miles. The original keep was a single hall carved into the largest root, that hall is now the High Hearth.',
   significantEvents: [
-   { date: 'just after the Binding', event: 'The Fog Compact: House Thalreth trades spatial clarity for insulating fog; first Scribe-Sentinels founded' },
-    { date: 'just after the Breach', event: 'The Solbrand Order was founded in the High Hearth; first Scribe-Sentinels formally appointed' },
-    { date: 'just after the Breach', event: 'The Preservation Compact: noble houses seal dark-bargain tablets in the Council Chamber' },
-   { date: 'in the first centuries of the Dimming', event: 'High Confessor Aldren Thalreth the Elder, ancestor of the present line, departed for Nordhalla\'s Frozen Archive to seal himself in meditative stasis' },
-   { date: 'in the first centuries of the Dimming', event: 'The Ledger Purge: Lord Aldren Thalreth consolidates all family ledgers into a single sealed vault, entrusting location to no one' },
-   { date: 'in the first centuries of the Dimming', event: 'The Sovereign Ledger established: the first formal system of documented vs. undocumented citizenship' },
-   { date: 'in the early centuries of the Dimming', event: 'The Fogwood Schism: Thalren archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
+   { date: 'early in the Slow Cracks', event: 'The Fog Compact: House Thalreth trades spatial clarity for insulating fog; first Scribe-Sentinels founded' },
+    { date: 'just after Blizzard’s End', event: 'The Solbrand Order was founded in the High Hearth; first Scribe-Sentinels formally appointed' },
+    { date: 'just after Blizzard’s End', event: 'The Preservation Compact: noble houses seal dark-bargain tablets in the Council Chamber' },
+   { date: 'in the first centuries of the Freezing Era', event: 'High Confessor Aldren Thalreth the Elder, ancestor of the present line, departed for Nordhalla\'s Frozen Archive to seal himself in meditative stasis' },
+   { date: 'in the first centuries of the Freezing Era', event: 'The Ledger Purge: Lord Aldren Thalreth consolidates all family ledgers into a single sealed vault, entrusting location to no one' },
+   { date: 'in the first centuries of the Freezing Era', event: 'The Sovereign Ledger established: the first formal system of documented vs. undocumented citizenship' },
+   { date: 'in the early centuries of the Freezing Era', event: 'The Fogwood Schism: Thalren archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
    { date: 'around the time of the Mimir Purge', event: 'The Ledger Halls Collapse: original archives buried; the Great Forgetting begins' },
-   { date: 'centuries into the Dimming', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
-   { date: 'centuries into the Dimming', event: 'Florae raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
-   { date: 'centuries into the Dimming', event: 'The Florae Uprising: Trueborn Florae raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
-   { date: 'centuries into the Dimming', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
-   { date: 'in the later centuries of the Dimming', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
+   { date: 'decades into the Freezing Era', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
+   { date: 'decades into the Freezing Era', event: 'Florae raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
+   { date: 'decades into the Freezing Era', event: 'The Florae Uprising: Trueborn Florae raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
+   { date: 'decades into the Freezing Era', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
+   { date: 'in the later centuries of the Freezing Era', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
   ]
  },
  subLocations: [
@@ -72,7 +72,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
     'The throne room of House Thalreth, carved into the heart of the largest petrified ironwood root. The root still lives, faintly, and its sap sometimes seeps through the walls, glowing amber in the darkness. The Lord\'s throne is a natural seat formed where three root-branches diverge.',
    proprietor: 'House Thalreth',
    notableFeatures: [
-    'The Hearth-Fire: a perpetual flame fed by resinous heartwood that has not gone out in eight centuries',
+    'The Hearth-Fire: a perpetual flame fed by resinous heartwood that has not gone out since before the sun was buried',
     'The Whispering Gallery: a curved wall where petitioners stand, the acoustics carry their words directly to the Lord\'s ear',
     'The Ledger-Stand: a rotating ironwood pillar displaying the day\'s decrees, updated hourly by Scribe-Sentinels'
    ]
@@ -157,17 +157,17 @@ DEEP_LOCATIONS['frozen-archive'] = {
    'Pale blue-green from geothermal vents filtered through ice. Whale-oil lamps in the inhabited chambers. The deepest vaults are completely dark, the Skald navigate them by touch and memory.'
  },
  history: {
-  founded: 'just after the Binding',
+  founded: 'early in the Slow Cracks',
   foundedBy: 'House Skalvyr',
   foundingStory:
    'The Skald carved the Archive into the glacier as both fortress and tomb. The first chamber held their dead. The family believed that freezing their ancestors in ice would preserve not just their bodies but their wisdom. Over centuries, the vaults grew as chiselers added genealogies, star-charts, treaties, and prophecies.',
   significantEvents: [
-   { date: 'at the Binding', event: 'First Augur reading: Cassia reads the Deepening\'s hour in glacier-elk entrails' },
-    { date: 'just after the Binding', event: 'The Skalvyr Glacier Bargain: Keth-Amar freezes glaciers through Aethil\'s framework; Frost-Tithe set on Rime-Born' },
-   { date: 'just after the Breach', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
-   { date: 'in the first centuries of the Dimming', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
-   { date: 'in the first centuries of the Dimming', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
-   { date: 'in the later centuries of the Dimming', event: 'False Dawn Riots: Archive seals outer gates for the first time as mobs attack Augurs' },
+   { date: 'at the Great Binding', event: 'First Augur reading: Cassia reads the failing of the warmth\'s hour in glacier-elk entrails' },
+    { date: 'early in the Slow Cracks', event: 'The Skalvyr Glacier Bargain: Keth-Amar freezes glaciers through Aethil\'s framework; Frost-Tithe set on Rime-Born' },
+   { date: 'just after Blizzard’s End', event: 'First Rebirth Window: Augurs measure 40% output; systematic logging begins' },
+   { date: 'in the first centuries of the Freezing Era', event: 'Aldren Thalreth the Elder\'s self-entombment, his frozen chamber remains in the deepest vault' },
+   { date: 'in the first centuries of the Freezing Era', event: 'Berserker founding: Grum\'s Blood-Heat occurs in Emberspire\'s caldera, recorded in Archive annals' },
+   { date: 'in the later centuries of the Freezing Era', event: 'False Dawn Riots: Archive seals outer gates for the first time as mobs attack Augurs' },
    { date: 'within living memory', event: 'Clandestine Silence-heat engine construction began beneath the Archive' },
    { date: 'within living memory', event: 'Silence-Heat Heresy: construction of the heat-engine beneath the Archive begins in earnest' },
    { date: 'within living memory', event: 'Augur Collapse: accuracy plummets from 93% to 41%; Cassia\'s preserved body weeps frozen tears' }
@@ -182,7 +182,7 @@ DEEP_LOCATIONS['frozen-archive'] = {
     'A vast, multi-tiered chamber where Skald chiselers work in silence, carving family lineages into the glacier walls. Each chiseler works with a blood-ink mixture, their own blood mixed with crushed minerals, believing that ancestry can only be recorded by one who shares the blood.',
    proprietor: 'Skald Keepers',
    notableFeatures: [
-    'The Wall of First Names: the oldest genealogical record, dating to at the Binding of the Dimming',
+    'The Wall of First Names: the oldest genealogical record, dating to at the Great Binding of the Freezing Era',
     'The Correction Ledger: a small, heated chamber where errors in genealogies are debated and ruled upon by a council of Elders'
    ]
   },
@@ -261,8 +261,8 @@ DEEP_LOCATIONS['over-shanty'] = {
   foundingStory:
    'When the Velun Neth signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
   significantEvents: [
-   { date: 'in the mid-Dimming centuries', event: 'Local legend says Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty; whether the cult truly exists — or is merely a name the Shanty assigns to the silence that lives in the deep bogs — remains an open question' },
-   { date: 'in the mid-Dimming centuries', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
+   { date: 'in the middle decades of the Freeze', event: 'Local legend says Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty; whether the cult truly exists — or is merely a name the Shanty assigns to the silence that lives in the deep bogs — remains an open question' },
+   { date: 'in the middle decades of the Freeze', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
     { date: 'in the most recent centuries', event: 'The Silence Between Stars: the Voice makes first two-way contact with the Cult\'s inner circle, answering from the deep dark' },
    { date: 'in the most recent centuries', event: 'The Great Fire, a third of the Shanty burned; the Cult used Shadow magic to contain the flames, earning grudging respect' }
   ]
@@ -348,19 +348,19 @@ DEEP_LOCATIONS['synod-hold'] = {
    'Darkness broken only by firelight. The starless sky offers nothing. At night, the Hold\'s inhabitants light their homes with whale-oil lamps. On the steppe itself, the only light comes from the bioluminescence of the woolly herds\' antlers.'
  },
  history: {
-  founded: 'in the early generations of the Dimming',
+  founded: 'in the early generations of the Freezing Era',
   foundedBy: 'House Ordavan',
   foundingStory:
    'Originally a seasonal gathering site for nomadic clans, Synod Hold grew into a permanent settlement when the Ordavan realized that the steppe\'s trade value exceeded its grazing value. The Unlit Veil arrived within a generation and never left.',
 
   significantEvents: [
-   { date: 'before the Binding', event: 'Astril First Landing: the refugee vessels from Lumia touch the steppe, carrying warning of Keth-Amar' },
-   { date: 'in the early generations of the Dimming', event: 'Synod Hold established as a permanent trade post' },
-   { date: 'in the early centuries of the Dimming', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
-   { date: 'in the early centuries of the Dimming', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
-   { date: 'centuries into the Dimming', event: 'The Earthen Astril-Stellar Astril Schism: Harmonists vs. Silencers split the Astril' },
-   { date: 'in the later centuries of the Dimming', event: 'False Dawn Riots: Synod authority challenged when the myth of Sol\'s return breaks' },
-   { date: 'in the later centuries of the Dimming', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
+   { date: 'before the Star-Fall', event: 'Astril First Landing: the refugee vessels from Lumia touch the steppe, carrying warning of Keth-Amar' },
+   { date: 'in the early generations of the Freezing Era', event: 'Synod Hold established as a permanent trade post' },
+   { date: 'in the early centuries of the Freezing Era', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
+   { date: 'in the early centuries of the Freezing Era', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
+   { date: 'decades into the Freezing Era', event: 'The Earthen Astril-Stellar Astril Schism: Harmonists vs. Silencers split the Astril' },
+   { date: 'in the later centuries of the Freezing Era', event: 'False Dawn Riots: Synod authority challenged when the myth of Sol\'s return breaks' },
+   { date: 'in the later centuries of the Freezing Era', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
    { date: 'in the most recent centuries', event: 'Silence Between Stars: Li Wei witnesses the contact and founds the False Prophet tradition' }
   ]
  },
@@ -432,12 +432,12 @@ DEEP_LOCATIONS['mirror-mere'] = {
    'Reflected light dominates, the mere catches whatever illumination exists and doubles it. On clear nights, bioluminescent lichen and the glow of the lake itself provide a steady, silver-blue radiance. The effect is dreamlike.'
  },
  history: {
-  founded: 'in the early generations of the Dimming',
+  founded: 'in the early generations of the Freezing Era',
   foundedBy: 'Masked Mimir elders',
   foundingStory:
    'When the first Mimir discovered that the fog was dissolving their identities, a small group of Masked sought a place where identity could be verified externally. They found a lake so perfectly still that it reflected not just the present, but rippled with echoes of the near future. They built their settlement around it, and the mere has served as both anchor and oracle ever since.',
   significantEvents: [
-   { date: 'in the early generations of the Dimming', event: 'The Mirror Compact, Mimir elders swore to maintain the mere as a neutral identity-ground' },
+   { date: 'in the early generations of the Freezing Era', event: 'The Mirror Compact, Mimir elders swore to maintain the mere as a neutral identity-ground' },
    { date: 'around the time of the Mimir Purge', event: 'A Gref emerged from the mere\'s reflection, stealing the face of an elder mid-council session' },
    { date: 'in the most recent centuries', event: 'Thalren scribes established a memory-glass harvesting operation with Mimir permission' }
   ]
@@ -522,13 +522,13 @@ DEEP_LOCATIONS['vargtor'] = {
    'Harsh and functional, whale-oil lamps in iron cages. The signal-fire bathes the summit in orange light. On clear nights, the glacier reflects starlight with an intensity that makes the tor glow blue-white.'
  },
  history: {
-  founded: 'in the early centuries of the Dimming',
+  founded: 'in the early centuries of the Freezing Era',
   foundedBy: 'House Skalvyr',
   foundingStory:
    'Established as a forward watch-post after a Corvani raiding party descended from the eastern peaks and sacked a Skald fishing village. The tor was chosen for its natural height and the strange affinity wolves show for its base, the garrison has never been taken by surprise.',
   significantEvents: [
-   { date: 'in the early centuries of the Dimming', event: 'Garrison established after the Corvani Sack of Hvalvik' },
-   { date: 'centuries into the Dimming', event: 'A glacier wyrm attacked the tor and was repelled, its frozen corpse remains at the base as a warning' },
+   { date: 'in the early centuries of the Freezing Era', event: 'Garrison established after the Corvani Sack of Hvalvik' },
+   { date: 'decades into the Freezing Era', event: 'A glacier wyrm attacked the tor and was repelled, its frozen corpse remains at the base as a warning' },
    { date: 'in the most recent centuries', event: 'Rime-Born Rune Keepers arrived to study the ancient runic carvings found in the tor\'s deepest chambers' }
   ]
  },
@@ -541,7 +541,7 @@ DEEP_LOCATIONS['vargtor'] = {
     'The only entrance to the tor, a narrow passage at the base, reinforced with cold-iron doors carved with wolf-heads. The wolves that gather outside the gate are not tame, but the garrison feeds them scraps, creating an unofficial first line of defense.',
    proprietor: 'Skald Ice-Trackers',
    notableFeatures: [
-    'The Wyrm-Skull: the frozen skull of the glacier wyrm killed in centuries into the Dimming, mounted above the gate',
+    'The Wyrm-Skull: the frozen skull of the glacier wyrm killed in decades into the Freezing Era, mounted above the gate',
     'The Rime-Scratch Board: a wall of ice where the Ice-Trackers record their patrol observations in runic shorthand'
    ]
   },
@@ -613,14 +613,14 @@ DEEP_LOCATIONS['ember-lagoon'] = {
    'Orange-red from the volcanic glow beneath the water\'s surface. The lagoon literally glows at night, the thermal vents illuminate the water from below, casting rippling red light on the basalt cliffs. It is never truly dark here.'
  },
  history: {
-  founded: 'in the first centuries of the Dimming',
+  founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Hollow-Solari and Merryn sailors',
   foundingStory:
    'Discovered by a Merryn trading vessel blown off course during a gale. The captain found warm water in a frozen sea and immediately recognized its value. The Solari, who had known of the thermal vents but considered them sacred, reluctantly agreed to share the site when the Merryn demonstrated that the lagoon could be Sundale\'s lifeline to the outside world.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'First Merryn-Solari trade agreement signed on the lagoon shore' },
-   { date: 'centuries into the Dimming', event: 'The Great Eruption, a thermal vent exploded, destroying a third of the dock district' },
-   { date: 'in the later centuries of the Dimming', event: 'Solvarn sun-priests established a shrine to Sol on the eastern cliff, drawing pilgrims' }
+   { date: 'in the first centuries of the Freezing Era', event: 'First Merryn-Solari trade agreement signed on the lagoon shore' },
+   { date: 'decades into the Freezing Era', event: 'The Great Eruption, a thermal vent exploded, destroying a third of the dock district' },
+   { date: 'in the later centuries of the Freezing Era', event: 'Solvarn sun-priests established a shrine to Sol on the eastern cliff, drawing pilgrims' }
   ]
  },
  subLocations: [
@@ -705,14 +705,14 @@ DEEP_LOCATIONS['aran-glen'] = {
    'Bioluminescent moss cultivated on every surface provides a steady, warm green-gold light. The Kessen have bred specific strains for different brightness levels, creating a natural lighting system that responds to the settlement\'s needs.'
  },
  history: {
-  founded: 'in the first centuries of the Dimming',
+  founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Kessen Neth Weavers',
   foundingStory:
    'When Atropolis grew crowded and the Velun Pact-Lords became increasingly rigid in their interpretation of the First Contract, a group of Kessen weavers left to establish a community dedicated to the living arts. They found a narrow glen where the ironwood roots formed a natural enclosure and began the slow, patient work of growing a settlement. Three centuries later, Aran-Glen is proof that architecture can be alive.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'The Glen Compact, Kessen weavers bound themselves to the grove\'s health' },
-   { date: 'centuries into the Dimming', event: 'First successful living-bridge grown across the glen, spanning 100 feet' },
-   { date: 'in the later centuries of the Dimming', event: 'Morren peat-cutters granted settlement rights in exchange for root-system maintenance' }
+   { date: 'in the first centuries of the Freezing Era', event: 'The Glen Compact, Kessen weavers bound themselves to the grove\'s health' },
+   { date: 'decades into the Freezing Era', event: 'First successful living-bridge grown across the glen, spanning 100 feet' },
+   { date: 'in the later centuries of the Freezing Era', event: 'Morren peat-cutters granted settlement rights in exchange for root-system maintenance' }
   ]
  },
  subLocations: [
@@ -797,13 +797,13 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
    'Industrial illumination, gas-lamps, electrical arc-lights, and the orange glow of forge-fires. The geothermal vents cast an eerie red light from below. Steam creates a perpetual haze that diffuses all light sources into soft halos.'
  },
  history: {
-  founded: 'in the early centuries of the Dimming',
+  founded: 'in the early centuries of the Freezing Era',
   foundedBy: 'Clockwork Fexric',
   foundingStory:
    'Founded when a Clockwork Fexric expedition discovered a geothermal ravine with naturally occurring steam-pressure that could power machinery without manual bellows. Within a generation, the gulch became the industrial heart of the Cragjaw Peaks, producing clockwork mechanisms, automaton components, and refined metals for all seven regions.',
   significantEvents: [
-   { date: 'in the early centuries of the Dimming', event: 'Geothermal ravine discovered and first forge-works established' },
-   { date: 'centuries into the Dimming', event: 'The Great Backlash, a pressure explosion killed forty Fexric and led to the Safety Codes' },
+   { date: 'in the early centuries of the Freezing Era', event: 'Geothermal ravine discovered and first forge-works established' },
+   { date: 'decades into the Freezing Era', event: 'The Great Backlash, a pressure explosion killed forty Fexric and led to the Safety Codes' },
    { date: 'in the most recent centuries', event: 'First successful automaton-sentry deployed, revolutionizing gulch security' }
   ]
  },
@@ -889,14 +889,14 @@ DEEP_LOCATIONS['spindrift-lagoon'] = {
    'Bioluminescent blue-green light from the coral reef provides the primary illumination, the entire lagoon glows at night, visible for miles across the frozen sea. The effect is breathtaking. Surface fires and lanterns provide warm accents. The interplay of blue-green from below and orange-gold from above creates a dual-toned world.'
  },
  history: {
-  founded: 'in the first centuries of the Dimming',
+  founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Myrathil Shore',
   foundingStory:
-   'The lagoon was discovered by Shore Myrathil following a thermal current that cut through the frozen sea like a warm scar. They found a volcanic hotspot where coral had survived the Deepening, sheltered by the unique thermal dynamics. The Shore have tended the reef ever since, building a settlement that exists in harmony with the living organisms that power it.',
+   'The lagoon was discovered by Shore Myrathil following a thermal current that cut through the frozen sea like a warm scar. They found a volcanic hotspot where coral had survived the failing of the warmth, sheltered by the unique thermal dynamics. The Shore have tended the reef ever since, building a settlement that exists in harmony with the living organisms that power it.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'First coral-chamber grown; the Shore established the Reef Compact' },
-   { date: 'in the early centuries of the Dimming', event: 'Merryn traders arrived; negotiated a co-habitation agreement' },
-   { date: 'in the mid-Dimming centuries', event: 'A coral blight threatened the reef, the Reef-Mother sacrificed her voice to save it, communicating only through bioluminescence thereafter' }
+   { date: 'in the first centuries of the Freezing Era', event: 'First coral-chamber grown; the Shore established the Reef Compact' },
+   { date: 'in the early centuries of the Freezing Era', event: 'Merryn traders arrived; negotiated a co-habitation agreement' },
+   { date: 'in the middle decades of the Freeze', event: 'A coral blight threatened the reef, the Reef-Mother sacrificed her voice to save it, communicating only through bioluminescence thereafter' }
   ]
  },
  subLocations: [
@@ -970,7 +970,7 @@ DEEP_LOCATIONS['starfall-vale'] = {
  },
  atmosphere: {
   mood:
-   'Reverent, hushed, and luminous. Starfall Vale is the closest thing the starless world has to a cathedral of light. The crystalline shards glow with trapped starlight, fragments of Lumia\'s shattered biosphere that struck Mythrill during the Breach. Even the most cynical visitors lower their voices. The light is simply too beautiful to shout over.',
+   'Reverent, hushed, and luminous. Starfall Vale is the closest thing the starless world has to a cathedral of light. The crystalline shards glow with trapped starlight, fragments of Lumia\'s shattered biosphere that struck Mythrill during Blizzard’s End. Even the most cynical visitors lower their voices. The light is simply too beautiful to shout over.',
   architecture:
    'Minimal and organic, Ordan yurts and Astril crystal-tents arranged around the vale\'s central shard-field. No permanent stone structures; the Astril believe building in stone would insult the starlight. The Ordan herders maintain the paths and supply the settlement with food.',
   sounds:
@@ -981,14 +981,14 @@ DEEP_LOCATIONS['starfall-vale'] = {
    'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Earthen Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
  },
  history: {
-  founded: 'at the Binding',
+  founded: 'at the Great Binding',
   foundedBy: 'Earthen Astril',
   foundingStory:
-    'When Keth-Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Binding, creating a crater that the Earthen Astril found within hours of their arrival. They have never left.',
+    'When Keth-Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Earthen Astril found within hours of their arrival. They have never left.',
   significantEvents: [
-    { date: 'before the Binding', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Earthen Astril claim the site within hours' },
-   { date: 'in the first centuries of the Dimming', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },
-   { date: 'in the later centuries of the Dimming', event: 'Ordan herders granted grazing rights in exchange for provisioning the pilgrimage route' }
+    { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Earthen Astril claim the site within hours' },
+   { date: 'in the first centuries of the Freezing Era', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },
+   { date: 'in the later centuries of the Freezing Era', event: 'Ordan herders granted grazing rights in exchange for provisioning the pilgrimage route' }
   ]
  },
  subLocations: [
@@ -1009,7 +1009,7 @@ DEEP_LOCATIONS['starfall-vale'] = {
    name: "The Pilgrims' Rest",
    type: 'tavern',
    description:
-    'An Ordan yurt erected at the vale\'s entrance, providing food, shelter, and fermented mare\'s milk to arriving pilgrims. The yurt is surprisingly comfortable, thick wool walls, warm hearth-fires, and a ceiling painted with a star-chart that depicts the sky as it was before the Deepening.',
+    'An Ordan yurt erected at the vale\'s entrance, providing food, shelter, and fermented mare\'s milk to arriving pilgrims. The yurt is surprisingly comfortable, thick wool walls, warm hearth-fires, and a ceiling painted with a star-chart that depicts the sky as it was before the failing of the warmth.',
    proprietor: 'Ordan Host-Family (rotating)',
    notableFeatures: [
     'The Star-Ceiling: a painted representation of the pre-Breaching sky, the only complete record of how constellations appeared when Sol still shone',
@@ -1068,13 +1068,13 @@ DEEP_LOCATIONS['harath-vault'] = {
    lighting: 'Orange-red from the forge-pits and geothermal vents. The vault has no windows and no natural light. It is illuminated entirely by fire, metal, and the occasional eruption of volcanic glow from the deeper chambers.'
  },
  history: {
-  founded: 'in the first centuries of the Dimming',
+  founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Grum Bloodhammer',
   foundingStory:
    'When Grum Bloodhammer first ignited the Blood-Heat in Emberspire\'s caldera, the Solvarn Vigil thought the buried star was returning. The eruption of fury he unleashed melted a tunnel through the basalt into this natural vault, where he established the Forge of Grum, the first Berserker training ground. The impression of his hammer is still preserved in the main forge-floor, and every Blood-Priest since has begun their term by pressing their own hammer into the cooling metal beside it.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
-   { date: 'in the early centuries of the Dimming', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
+   { date: 'in the first centuries of the Freezing Era', event: 'Grum Bloodhammer ignites the first Blood-Heat; the Forge of Grum is established in the newly-formed Harath-Vault' },
+   { date: 'in the early centuries of the Freezing Era', event: 'The Skald Council formed to govern the growing Berserker order; the Vault becomes the Council\'s permanent seat' },
    { date: 'within living memory', event: 'The Silence-Heat Heresy reaches Sundale; Hark Ash-Hammer purges the Pact-less Unbound from the Vault' },
    { date: 'within living memory', event: 'Deep-tunnel settlers from Emberspire\'s lower reaches attempt to establish an independent forge-hold; Hark Ash-Hammer condemns it as heretical' }
   ]
@@ -1147,22 +1147,22 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
   status: 'stable'
  },
  atmosphere: {
-  mood: 'Enduring, somber, and calcified, both literally and emotionally. Frostmaw Holdfast is the oldest continuously inhabited Groven settlement, and it shows. The stone walls are polished smooth by eight centuries of Groven hands. The air is warm from geothermal vents but carries the mineral scent of old bone.',
+  mood: 'Enduring, somber, and calcified, both literally and emotionally. Frostmaw Holdfast is the oldest continuously inhabited Groven settlement, and it shows. The stone walls are polished smooth by generations beyond counting of Groven hands. The air is warm from geothermal vents but carries the mineral scent of old bone.',
   architecture: 'Groven construction, brutalist, functional, and built to last millennia. Walls are grown from calcified Groven bone, fused with volcanic stone into a composite harder than either material. The Ancestor-Spans are the most visible feature, bridges of interlocking Groven vertebrae that groan and settle like living things.',
   sounds: 'The creak and groan of the Ancestor-Spans settling, the deep echoes of Groven work-chants from the lower tunnels, the hiss of geothermal steam, the clatter of stone-scale against stone, and the occasional bone-deep vibration of Deep Alchemist experiments far below.',
   smells: 'Warm stone, mineral steam, Groven musk, old bone, and the faint chemical tang of alchemical residue that leaks upward from the sealed vat-labs.',
   lighting: 'Dim and amber, Groven bio-luminescent moss cultivated on the ceilings provides most light, supplemented by geothermal glow-tubes in the inhabited chambers. The lower tunnels are dark enough that even Groven darkvision strains.'
  },
  history: {
-  founded: 'in the early generations of the Dimming',
+  founded: 'in the early generations of the Freezing Era',
   foundedBy: 'The First Foreman (Groven Vat-Breakers)',
   foundingStory:
    'Forty years after the Deep Alchemists began their experiments on Thrumm broodlings, the first generation of transformed Groven, engineered for docility but gifted with will by the alchemical serums, shattered their containment vats and rose against their creators. The Vat-Breakers\' Revolt was bloody and total: the Groven drove the Alchemists from the surface tunnels and sealed them in the deeper laboratories. Frostmaw Holdfast was built on the site of the first shattered vat, the Foreman\'s calcified skeleton forming the hall\'s central arch.',
   significantEvents: [
-   { date: 'in the early generations of the Dimming', event: 'The Vat-Breakers\' Revolt, Groven shatter their containment vats and seize Frostmaw from the Deep Alchemists' },
-   { date: 'in the early centuries of the Dimming', event: 'First Ancestor-Span grown across the Great Gorge, connecting Frostmaw to the Gearworks Gulch' },
+   { date: 'in the early generations of the Freezing Era', event: 'The Vat-Breakers\' Revolt, Groven shatter their containment vats and seize Frostmaw from the Deep Alchemists' },
+   { date: 'in the early centuries of the Freezing Era', event: 'First Ancestor-Span grown across the Great Gorge, connecting Frostmaw to the Gearworks Gulch' },
    { date: 'in the most recent centuries', event: 'Deep Alchemist activity detected in the lower tunnels; Frostmaw seals the sub-levels and establishes permanent sentry-rotations' },
-   { date: 'within living memory', event: 'The Dimming accelerates; the geothermal terraces begin cooling, threatening Frostmaw\'s food supply' }
+   { date: 'within living memory', event: 'The Freezing Era accelerates; the geothermal terraces begin cooling, threatening Frostmaw\'s food supply' }
   ]
  },
  subLocations: [
@@ -1240,15 +1240,15 @@ DEEP_LOCATIONS['merrowport'] = {
   lighting: 'Bioluminescent, Myrathil light-coral in the ceilings casts a cool blue-green glow. Neth contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
  },
  history: {
-  founded: 'in the first centuries of the Dimming',
+  founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Jax the Wager and Lyra the Clause',
   foundingStory:
    'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Neth clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation, luck versus structure, and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
   significantEvents: [
-   { date: 'in the first centuries of the Dimming', event: 'Jax and Lyra establish the Gambit tradition in the newly-built Merrowport Deep-Quarter' },
-   { date: 'centuries into the Dimming', event: 'Jax walks into the sea, telling no one why; his followers splinter into the luck-cult' },
-   { date: 'in the later centuries of the Dimming', event: 'Lyra\'s Deck-Burners radicalize; the Deep-Quarter\'s ruling council is established to mediate between the factions' },
-   { date: 'within living memory', event: 'The Dimming disrupts Myrathil bioluminescence; the Deep-Quarter\'s coral foundations begin to weaken' }
+   { date: 'in the first centuries of the Freezing Era', event: 'Jax and Lyra establish the Gambit tradition in the newly-built Merrowport Deep-Quarter' },
+   { date: 'decades into the Freezing Era', event: 'Jax walks into the sea, telling no one why; his followers splinter into the luck-cult' },
+   { date: 'in the later centuries of the Freezing Era', event: 'Lyra\'s Deck-Burners radicalize; the Deep-Quarter\'s ruling council is established to mediate between the factions' },
+   { date: 'within living memory', event: 'The Freezing Era disrupts Myrathil bioluminescence; the Deep-Quarter\'s coral foundations begin to weaken' }
   ]
  },
  subLocations: [
@@ -1337,12 +1337,12 @@ DEEP_LOCATIONS['atropolis'] = {
     lighting: 'Soft, ambient silver luminescence emitted by canopy lichens and memory-glass lamps.'
   },
   history: {
-    founded: '1st century of the Dimming',
+    founded: '1st century of the Freezing Era',
     foundedBy: 'Scribe-Clan Ancestors & Morvane',
     foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Neth when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
     significantEvents: [
-      { date: 'Year 42 of the Dimming', event: 'The First Contract signed at the Heartwood Archive' },
-      { date: 'Year 310 of the Dimming', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
+      { date: 'Year 42 of the Freezing Era', event: 'The First Contract signed at the Heartwood Archive' },
+      { date: 'Year 310 of the Freezing Era', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
     ]
   },
   subLocations: [
@@ -1402,9 +1402,9 @@ DEEP_LOCATIONS['the-sunken-spire'] = {
   history: {
     founded: 'Pre-Binding Era',
     foundedBy: 'Ancient Vreken Monks',
-    foundingStory: 'Built as a surface monastery to Morvane before Sol was bound. When Morvane was wounded by the Wyrd during the Deepening, the monastery collapsed into the sinkhole and transformed into the Sunken Spire.',
+    foundingStory: 'Built as a surface monastery to Morvane before Sol was bound. When Morvane was wounded by the Wyrd during the failing of the warmth, the monastery collapsed into the sinkhole and transformed into the Sunken Spire.',
     significantEvents: [
-      { date: 'Deepening Era', event: 'The Spore Transformation: Morvane\'s wound mutates the Vreken monastic order' }
+      { date: 'the Slow Cracks', event: 'The Spore Transformation: Morvane\'s wound mutates the Vreken monastic order' }
     ]
   },
   subLocations: [
@@ -1463,7 +1463,7 @@ DEEP_LOCATIONS['hvalhavn'] = {
     lighting: 'Pale polar gloom by day, flickering whale-oil torches at the Hungríd guard post by night.'
   },
   history: {
-    founded: 'in the early generations of the Dimming',
+    founded: 'in the early generations of the Freezing Era',
     foundedBy: 'Skald Fisher-Clans',
     foundingStory: 'Founded as a northern whaling and fishing haven. Hvalhavn was the home village of brothers Úlfrekr and Sylvén. During a desperate polar wolf hunt deep in the arctic wastes, Sylvén abandoned/murdered Úlfrekr, returned alone, and lied that his brother died saving him. Sylvén used the village\'s sympathy to rally followers before consuming the Swallow-Heart.',
     significantEvents: [
@@ -1602,7 +1602,7 @@ DEEP_LOCATIONS['snowcall-city'] = {
     lighting: 'Warm amber lantern-light reflected off snow drifts and slate roofs.'
   },
   history: {
-    founded: '2nd century of the Dimming',
+    founded: '2nd century of the Freezing Era',
     foundedBy: 'Skald-Neth Trade Coalition',
     foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where High Neth immigrants could settle safely alongside Skald clans.',
     significantEvents: [

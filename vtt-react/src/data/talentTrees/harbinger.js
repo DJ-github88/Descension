@@ -1,479 +1,1352 @@
+// ============================================
+// HARBINGER TALENT TREES (v3: full v2/v3 active/passive spec identity overhaul)
+// Schema: see talentSystem.mjs. Rank N spell = rank N-1 + rankUpgrades[N-2].
+// Economy: 8/6/6/5/5/5 = 30 pts (tiers 1-6) + 15 pts (tier 7) = 50 pts per tree.
+//
+// SPECS:
+//   1. WILD PROPHET:  The Chaos Surge AoE Bombarder / Mayhem Conductor.
+//   2. DEATH'S SEER:  The Single-Target Entropy Necromancer / Doom Marker.
+//   3. FATE RIFT:     The Dimensional Tearer / Void Rift Weaver.
+// ============================================
+
+// ============================================
+// 1. HARBINGER — WILD PROPHET
+// ============================================
 export const HARBINGER_WILD_PROPHET = [
- {
-  id: 'wp_t0_surge_attunement',
-  name: 'Surge Attunement',
-  description: 'The Wyrd-threads of Keth-Amar fray with every chaos pulse. Whenever a Wild Magic Surge triggers, gain +1 Mayhem per rank and deal 1d6 random damage to a random enemy within 30ft. Mayhem economy + Damage.',
-  icon: 'spell_nature_mirrorimage',
-  maxRanks: 3,
-  position: { x: 2, y: 0 },
-  requires: null,
-  category: 'mayhem_economy'
- },
+  // ──────────────── TIER 1 (8 pts) ────────────────
+  {
+    id: "wp_t1_chaos_eruption",
+    name: "Chaos Prophecy Eruption",
+    icon: "spell_fire_fire",
+    maxRanks: 3,
+    position: { x: 1, y: 0 },
+    requires: null,
+    spell: {
+      name: "Chaos Prophecy Eruption",
+      description: "Cast an unstable chaos rune within 45 feet for 1 round: erupts dealing 2d6 random elemental damage (ember, rime, storm, or wyrd) to all enemies in a 20-foot area, generating 2 Mayhem.",
+      flavorText: "The Wyrd-threads of Keth-Amar fray with every chaos pulse.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 20,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mana: { baseAmount: 4 } },
+      damageTypes: ["ember", "rime", "storm"],
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["aoe", "wild-magic", "mayhem-builder", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "25-foot area deals 3d6 damage, generates 2 Mayhem, and has a 25% chance to trigger a Wild Magic Surge.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 },
+      { description: "30-foot area deals 4d6 damage, generates 2 Mayhem, and 50% chance to trigger Wild Magic Surge.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 10 }
+    ]
+  },
+  {
+    id: "wp_t1_surge_attunement",
+    name: "Surge Attunement",
+    icon: "spell_nature_mirrorimage",
+    maxRanks: 3,
+    position: { x: 2.5, y: 0 },
+    requires: null,
+    spell: {
+      name: "Surge Attunement",
+      description: "Whenever a Wild Magic Surge triggers, you gain 2 Mayhem and deal 2d6 random damage to a random enemy within 30 feet.",
+      flavorText: "Entropy spreads like cracks in the foundation of reality.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "surge-proc", "mayhem", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Gain 2 Mayhem on surge and deal 3d6 random damage." },
+      { description: "Gain 2 Mayhem on surge, deal 4d6 random damage, and your next spell deals +10% damage." }
+    ]
+  },
+  {
+    id: "wp_t1_area_mastery",
+    name: "Expanding Prophecy",
+    icon: "spell_fire_selfdestruct",
+    maxRanks: 2,
+    position: { x: 4, y: 0 },
+    requires: null,
+    spell: {
+      name: "Expanding Prophecy",
+      description: "All your area prophecy radii increase by +10 feet, and you take 20% less damage from your own wild magic surges.",
+      flavorText: "Wider visions encompass wider battlefields.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "aoe-range", "self-dr", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Radii +15 feet; immune to self-damage from your own surges and gain +1 Durability Step to equipped durability." }
+    ]
+  },
 
- {
-  id: 'wp_t1_chain_reaction',
-  name: 'Chain Reaction',
-  description: 'Each surge tears a wider rift in the probability weave. When a Wild Magic Surge triggers, there is a 25% chance per rank it triggers again immediately. When a Prophesied area prophecy hits, 1 target per rank triggers a secondary 1d8 explosion affecting adjacent creatures. Spell modifier.',
-  icon: 'spell_fire_fire',
-  maxRanks: 3,
-  position: { x: 1, y: 1 },
-  requires: 'wp_t0_surge_attunement',
-  category: 'spell_modifier'
- },
- {
-  id: 'wp_t1_area_mastery',
-  name: 'Area Mastery',
-  description: 'The entropy of Keth-Amar spreads like cracks in the foundation of reality. All prophecy areas increase by 5ft radius per rank. Earn +1 Mayhem per target hit in area prophecies. Mayhem economy.',
-  icon: 'spell_fire_selfdestruct',
-  maxRanks: 3,
-  position: { x: 3, y: 1 },
-  requires: 'wp_t0_surge_attunement',
-  category: 'mayhem_economy'
- },
+  // ──────────────── TIER 2 (6 pts) ────────────────
+  {
+    id: "wp_t2_wild_cascade",
+    name: "Wild Magic Cascade",
+    icon: "spell_arcane_arcanetorrent",
+    maxRanks: 3,
+    position: { x: 1, y: 1.5 },
+    requires: "wp_t1_chaos_eruption",
+    spell: {
+      name: "Wild Magic Cascade",
+      description: "Spend 3 Mayhem: force 3 random Wild Magic Surges to detonate instantly on targets within 45 feet. Deals 2d8 damage per surge and knocks affected enemies prone.",
+      flavorText: "Chaos chained into a triple lightning strike of fate.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "multi", rangeType: "ranged", range: 45,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 3 } },
+      damageTypes: ["ember", "storm"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      debuffs: ["prone"], visualTheme: "wyrd", tags: ["multi-nuke", "surge-trigger", "knockdown", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Fires 3 surges dealing 3d8 damage each and stuns affected enemies for 1 round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Fires 3 surges dealing 4d8 damage each, stuns for 1 round, and refunds 1 Mayhem.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "wp_t2_unstable_aura",
+    name: "Unstable Wyrd Aura",
+    icon: "spell_arcane_arcaneresilience",
+    maxRanks: 3,
+    position: { x: 3, y: 1.5 },
+    requires: "wp_t1_surge_attunement",
+    spell: {
+      name: "Unstable Wyrd Aura",
+      description: "When hit in melee, there is a 15% chance to negate the attack completely and deal 1d8 random elemental damage back to the attacker.",
+      flavorText: "The Wyrd recoils from those who strike its champion.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "negate-attack", "retaliation", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "25% chance to negate melee hits and deal 2d8 damage." },
+      { description: "35% chance to negate hits, deal 3d8 damage, and trigger a free Wild Cascade on attacker." }
+    ]
+  },
 
- {
-  id: 'wp_t2_unstable_aura',
-  name: 'Unstable Aura',
-  description: 'The Wyrd recoils from those who strike its champion. Enemies that hit you in melee must roll on the Wild Surge table (d6). On a 1, the attack is negated. On 6, the attacker takes 2d6 random damage per rank. Damage + Spell modifier.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 2,
-  position: { x: 0, y: 2 },
-  requires: 'wp_t1_chain_reaction',
-  category: 'damage'
- },
- {
-  id: 'wp_t2_multi_prophecy',
-  name: 'Multi-Prophecy',
-  description: 'Time itself splinters under the weight of visions from Keth-Amar. You can have +1 simultaneous area prophecy active per rank (base 1, max 3 with 2 ranks). Spell modifier.',
-  icon: 'spell_arcane_arcane01',
-  maxRanks: 2,
-  position: { x: 2, y: 2 },
-  requires: 'wp_t1_chain_reaction',
-  category: 'spell_modifier'
- },
- {
-  id: 'wp_t2_overlapping_doom',
-  name: 'Overlapping Doom',
-  description: 'Where prophecy overlaps, the Wyrd collapses into violent certainty. When two of your area prophecies overlap, the overlapping zone deals double damage per rank. Enemies within 25ft take 1d4 random damage per rank from wild energy. Damage.',
-  icon: 'spell_fire_fireball',
-  maxRanks: 3,
-  position: { x: 4, y: 2 },
-  requires: 'wp_t1_area_mastery',
-  category: 'damage'
- },
+  // ──────────────── TIER 3 (6 pts) ────────────────
+  {
+    id: "wp_t3_overlapping_doom",
+    name: "Overlapping Doom Vortex",
+    icon: "spell_fire_fireball",
+    maxRanks: 3,
+    position: { x: 1, y: 3 },
+    requires: "wp_t2_wild_cascade",
+    spell: {
+      name: "Overlapping Doom Vortex",
+      description: "Spend 4 Mayhem: place 2 overlapping prophecy circles within 50 feet for 3 rounds. The overlapping zone deals 2d6 chaotic wyrd damage per round and pulls enemies toward the center.",
+      flavorText: "Where prophecy overlaps, reality collapses into violent certainty.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 30,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 4 } },
+      damageTypes: ["ember", "blight"],
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      isDot: true, dotDuration: 3, dotTick: "2d6",
+      visualTheme: "wyrd", tags: ["vortex", "hazard", "overlap", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d6 damage per round, silences enemies inside, and area expands to 35 feet.", dotTick: "3d6", aoeSize: 35 },
+      { description: "Deals 4d6 damage per round, silences, prevents all dashes/teleports, and crits on 20+.", dotTick: "4d6", aoeSize: 40 }
+    ]
+  },
+  {
+    id: "wp_t3_surging_power",
+    name: "Surging Power Escalation",
+    icon: "spell_nature_mirrorimage",
+    maxRanks: 3,
+    position: { x: 3, y: 3 },
+    requires: "wp_t2_unstable_aura",
+    spell: {
+      name: "Surging Power Escalation",
+      description: "Each Wild Magic Surge grants you +2% spell damage (stacks up to 5 times, max +10%) and +5ft movement speed.",
+      flavorText: "Each chaos pulse feeds the next in an escalating spiral.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "stacking-damage", "speed", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "+3% damage per surge (stacks up to +15%) and +1 Durability Step to equipped durability." },
+      { description: "+4% damage per surge (stacks up to +20%), +2 Durability Steps to equipped durability, and spells ignore 15% resistance." }
+    ]
+  },
 
- {
-  id: 'wp_t3_surging_power',
-  name: 'Surging Power',
-  description: 'Each chaos pulse feeds the next in an escalating spiral of entropy. Each Wild Magic Surge that triggers during combat gives you a stacking +1 to spell damage per rank (max 5 stacks). Resets on long rest. Damage.',
-  icon: 'spell_nature_mirrorimage',
-  maxRanks: 2,
-  position: { x: 1, y: 3 },
-  requires: 'wp_t2_unstable_aura',
-  category: 'damage'
- },
- {
-  id: 'wp_t3_cataclysm_table',
-  name: 'Cataclysm Table',
-  description: 'Keth-Amar whispers the names of calamities yet to come. Spend 3 Mayhem to roll on an enhanced d8 table for area effects (fire/necrotic/psychic/force/stun/prone/slow/heal reversal). +1 table option per rank. Spell modifier.',
-  icon: 'spell_fire_fireball02',
-  maxRanks: 3,
-  position: { x: 3, y: 3 },
-  requires: 'wp_t2_multi_prophecy',
-  category: 'spell_modifier'
- },
- {
-  id: 'wp_t3_terrain_scorch',
-  name: 'Terrain Scorch',
-  description: 'The Wyrd leaves scorched echoes upon the land it touches. Your area prophecies leave behind difficult terrain for 3 rounds per rank. Enemies in terrain take 1d4 fire damage per round. Spell modifier.',
-  icon: 'spell_nature_corrosion',
-  maxRanks: 2,
-  position: { x: 4, y: 3 },
-  requires: 'wp_t2_overlapping_doom',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 4 (5 pts) ────────────────
+  {
+    id: "wp_t4_cataclysm_beam",
+    name: "Cataclysmic Disintegration Beam",
+    icon: "spell_fire_fireball02",
+    maxRanks: 3,
+    position: { x: 1, y: 4.5 },
+    requires: "wp_t3_overlapping_doom",
+    spell: {
+      name: "Cataclysmic Disintegration Beam",
+      description: "Spend 5 Mayhem: channel a 60-foot beam of pure unraveling chaos for 1 instant: deals 3d8 damage of 3 random elements simultaneously to all enemies in a line and burns them for 1d8 damage over 2 rounds.",
+      flavorText: "Keth-Amar speaks the names of calamities yet to come.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 60, aoeShape: "line", aoeSize: 60,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 5 } },
+      damageTypes: ["ember", "storm", "blight"],
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["line", "nuke", "multi-element", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "70-foot beam deals 4d8 damage, burns for 2d8, and cooldown drops to 18s.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 18 },
+      { description: "80-foot beam deals 5d8 damage, pierces 25% of enemy shields/durability, and refunds 2 Mayhem.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
+    ]
+  },
+  {
+    id: "wp_t4_mayhem_overflow",
+    name: "Mayhem Overload",
+    icon: "spell_shadow_shadowbolt",
+    maxRanks: 2,
+    position: { x: 3.5, y: 4.5 },
+    requires: "wp_t3_surging_power",
+    spell: {
+      name: "Mayhem Overload",
+      description: "Your maximum Mayhem increases by 6. At 10+ Mayhem, all your spell casts automatically trigger a free Wild Magic Surge.",
+      flavorText: "When Mayhem reaches its peak, reality begins to fray.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "mayhem-cap", "auto-surge", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Max Mayhem +8; auto-surges deal +25% damage and grant 1 Action Point." }
+    ]
+  },
 
- {
-  id: 'wp_t4_mayhem_overload',
-  name: 'Mayhem Overload',
-  description: 'When Mayhem reaches its peak, reality itself begins to fray. Whenever you reach 15+ Mayhem, all your spells gain the Wild Surge trigger (d20, nat 1 = surge) for free. Lose this effect when Mayhem drops below 10. Mayhem economy + Spell modifier.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 2,
-  position: { x: 0, y: 4 },
-  requires: 'wp_t3_surging_power',
-  category: 'mayhem_economy'
- },
- {
-  id: 'wp_t4_convergence',
-  name: 'Convergence',
-  description: 'The will of Keth-Amar converges where prophecies collide. When you detonate 2+ area prophecies in the same round, all resolution rolls gain +2 per rank. Spend 4 Mayhem to force a Wild Magic Surge on your next spell cast (guaranteed). Spell modifier.',
-  icon: 'spell_holy_mindvision',
-  maxRanks: 2,
-  position: { x: 2, y: 4 },
-  requires: 'wp_t3_cataclysm_table',
-  category: 'spell_modifier'
- },
- {
-  id: 'wp_t4_blast_amplification',
-  name: 'Blast Amplification',
-  description: 'The Wyrd amplifies every ounce of chaos you channel. Prophesied area effects deal +1d8 damage per 3 Mayhem you currently hold per rank. All wild magic table effects that deal damage gain +1d6 per rank. Damage.',
-  icon: 'spell_shadow_shadowbolt',
-  maxRanks: 2,
-  position: { x: 4, y: 4 },
-  requires: 'wp_t3_terrain_scorch',
-  category: 'damage'
- },
+  // ──────────────── TIER 5 (5 pts) ────────────────
+  {
+    id: "wp_t5_apex_surge_nova",
+    name: "Apex Surge Nova",
+    icon: "spell_fire_selfdestruct",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "wp_t4_cataclysm_beam",
+    spell: {
+      name: "Apex Surge Nova",
+      description: "Spend 6 Mayhem: unleash a 40-foot supernova of wild magic. Deals 5d8 elemental damage, knocks all enemies back 20 feet, and applies random elemental weaknesses to all survivors for 2 rounds.",
+      flavorText: "At the apex of entropy, the Wyrd consumes all.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 6 } },
+      damageTypes: ["ember", "rime", "storm"],
+      primaryDamage: { dice: "5d8", flat: 0, procChance: 100 },
+      debuffs: ["elemental-vulnerability"], visualTheme: "wyrd", tags: ["supernova", "nuke", "mass-vuln", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "50-foot nova deals 6d8 damage, stuns all enemies for 1 round, and cooldown drops to 24s.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 24 }
+    ]
+  },
+  {
+    id: "wp_t5_wild_sovereignty",
+    name: "Wild Sovereignty",
+    icon: "spell_nature_mirrorimage",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "wp_t4_mayhem_overflow",
+    spell: {
+      name: "Wild Sovereignty",
+      description: "All area prophecy damage dice are upgraded (d6 becomes d8, d8 becomes d10) and you heal for 30% of all surge damage dealt.",
+      flavorText: "Dominion over the chaos turning the predator's leak against it.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "dice-upgrade", "sustain", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Damage dice upgrade (d10 becomes d12) and heal for 30% of surge damage dealt." },
+      { description: "Heal for 35% of surge damage; overheal becomes a 30-HP wyrd shield." }
+    ]
+  },
 
- {
-  id: 'wp_t5_wild_sovereignty',
-  name: 'Wild Sovereignty',
-  description: 'You leech dominion over the chaos Keth-Amar manifests, turning the leakage of the predator against it. You are immune to the negative effects of your own Wild Magic Surges. Allies within 20ft take 50% less damage from your surges per rank. Area prophecy dice are upgraded: d6 to d8, d8 to d10, d10 to d12 per rank. Spell modifier.',
-  icon: 'spell_nature_mirrorimage',
-  maxRanks: 2,
-  position: { x: 1, y: 5 },
-  requires: 'wp_t4_mayhem_overload',
-  category: 'spell_modifier'
- },
- {
-  id: 'wp_t5_apex_surge',
-  name: 'Apex Surge',
-  description: 'At the apex of entropy, the Wyrd consumes all in its path. When a Wild Magic Surge triggers, all enemies within 30ft take 2d8 random damage per rank and you gain +3 Mayhem. All area prophecy damage ignores 5 resistance per rank. Damage + Mayhem economy.',
-  icon: 'spell_arcane_arcanetorrent',
-  maxRanks: 2,
-  position: { x: 3, y: 5 },
-  requires: 'wp_t4_convergence',
-  category: 'damage'
- },
+  // ──────────────── TIER 6 (5 pts) ────────────────
+  {
+    id: "wp_t6_cataclysm_incarnate",
+    name: "Cataclysm Incarnate",
+    icon: "spell_shadow_curseofsargeras",
+    maxRanks: 1,
+    position: { x: 1, y: 7.5 },
+    requires: "wp_t5_apex_surge_nova",
+    spell: {
+      name: "Cataclysm Incarnate",
+      description: "Spend 8 Mayhem: enter the Cataclysm State for 2 rounds: every single spell you cast triggers 2 guaranteed Wild Magic Surges, all surge damage is doubled, and all your area prophecies auto-detonate every round without cooldown.",
+      flavorText: "Keth-Amar walks through you, and reality trembles.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "buff",
+      targetingMode: "self", rangeType: "self", range: 0,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 8 } },
+      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      buffs: ["cataclysm-incarnate"], visualTheme: "wyrd", tags: ["god-mode", "double-surges", "climax", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "wp_t6_chaos_criticality",
+    name: "Chaotic Singularity Crits",
+    icon: "spell_fire_fireball",
+    maxRanks: 2,
+    position: { x: 2.5, y: 7.5 },
+    requires: "wp_t5_wild_sovereignty",
+    spell: {
+      name: "Chaotic Singularity Crits",
+      description: "All chaos, wild magic, and prophecy spells score critical hits on 17+ and critical hits release a 4d8 shockwave to adjacent foes.",
+      flavorText: "A critical tear in the probability weave.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["ember"],
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "crit", "crit-burst", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Critical hits on 16+; crits deal +25% damage and shockwave deals 4d8 elemental damage." }
+    ]
+  },
+  {
+    id: "wp_t6_entropy_ward",
+    name: "Chaotic Bastion",
+    icon: "spell_holy_powerwordbarrier",
+    maxRanks: 2,
+    position: { x: 4, y: 7.5 },
+    requires: "wp_t5_wild_sovereignty",
+    spell: {
+      name: "Chaotic Bastion",
+      description: "While in combat, you gain +4 Durability Steps to equipped durability, 25% elemental damage resistance, and whenever you take damage, you gain 2 Mayhem.",
+      flavorText: "The chaotic cloak absorbs all incoming force.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "durability", "mayhem-on-hit", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Gain +5 Durability Steps to equipped durability, 30% resistance, gain 3 Mayhem on damage, and reflect 25% damage back at attackers." }
+    ]
+  },
 
- {
-  id: 'wp_t6_cataclysm_incarnate',
-  name: 'Cataclysm Incarnate',
-  description: 'Keth-Amar walks through you, and reality trembles. For 3 rounds: every spell you cast triggers a Wild Magic Surge automatically, all surge effects are doubled, all area prophecies auto-Prophesize, and you generate 2 Mayhem per surge. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
-  icon: 'spell_shadow_curseofsargeras',
-  maxRanks: 1,
-  position: { x: 2, y: 6 },
-  requires: ['wp_t5_wild_sovereignty', 'wp_t5_apex_surge'],
-  requiresAll: true,
-  category: 'damage'
- }
+  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  {
+    id: "wp_t7_avatar_of_keth_amar",
+    name: "Avatar of the Chaos Void",
+    icon: "spell_shadow_unholyfrenzy",
+    maxRanks: 1,
+    position: { x: 0.5, y: 8 },
+    requires: "wp_t6_cataclysm_incarnate",
+    spell: {
+      name: "Avatar of the Chaos Void",
+      description: "ULTIMATE: Spend 10 Mayhem: transform into the Living Herald of Keth-Amar for 1 minute: continuous elemental storms blanket the entire 60-foot battlefield dealing 8d10 damage per round, and all your attacks score critical hits on 18+.",
+      flavorText: "Reality is unmade. In the center of the void stands the Prophet.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "ACTIVE", category: "buff",
+      targetingMode: "self", rangeType: "self", range: 0,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 10 } },
+      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      damageTypes: ["ember", "rime", "storm"],
+      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
+      buffs: ["avatar-keth-amar"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "wp_t7_wild_prophet_doctrine",
+    name: "Wild Prophet Doctrine",
+    icon: "spell_nature_mirrorimage",
+    maxRanks: 5,
+    position: { x: 1.5, y: 8 },
+    requires: "wp_t6_cataclysm_incarnate",
+    spell: {
+      name: "Wild Prophet Doctrine",
+      description: "All wild magic, chaos, and elemental prophecy damage you deal is increased by 5%.",
+      flavorText: "The words of the Prophet rewrite the world.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["ember", "rime", "storm"],
+      visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "All wild magic and prophecy damage increased by 10%." },
+      { description: "All wild magic and prophecy damage increased by 15%." },
+      { description: "All wild magic and prophecy damage increased by 20%." },
+      { description: "All wild magic and prophecy damage increased by 25%, and Chaos Prophecy Eruption costs 0 mana." }
+    ]
+  },
+  {
+    id: "wp_t7_infinite_mayhem_engine",
+    name: "Endless Mayhem Reservoir",
+    icon: "spell_arcane_arcanetorrent",
+    maxRanks: 3,
+    position: { x: 2.5, y: 8 },
+    requires: "wp_t6_chaos_criticality",
+    spell: {
+      name: "Endless Mayhem Reservoir",
+      description: "Your maximum Mayhem increases by 8. You generate 2 Mayhem at the start of every combat round.",
+      flavorText: "An inexhaustible spring of unraveling energy.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "mayhem-engine", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Max Mayhem +10; generate 3 Mayhem per round and movement speed +10ft." },
+      { description: "Max Mayhem +12; generate 4 Mayhem per round and abilities cost 1 fewer Mayhem." }
+    ]
+  },
+  {
+    id: "wp_t7_cataclysmic_cascades",
+    name: "Perpetual Cascade Nova",
+    icon: "spell_fire_selfdestruct",
+    maxRanks: 3,
+    position: { x: 3.5, y: 8 },
+    requires: "wp_t6_chaos_criticality",
+    spell: {
+      name: "Perpetual Cascade Nova",
+      description: "Whenever an enemy dies from your wild magic or prophecies, trigger an immediate free Wild Magic Cascade centered on their corpse.",
+      flavorText: "Death only detonates another pocket of chaos.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "chain-death", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Corpse cascade deals +25% bonus damage and stuns survivors for 1 round." },
+      { description: "Corpse cascade deals +35% bonus damage, stuns survivors for 1 round, and refunds 3 Mayhem." }
+    ]
+  },
+  {
+    id: "wp_t7_chaos_rebirth",
+    name: "Wild Surge Rebirth",
+    icon: "spell_nature_astralrecal",
+    maxRanks: 3,
+    position: { x: 4.5, y: 8 },
+    requires: "wp_t6_entropy_ward",
+    spell: {
+      name: "Wild Surge Rebirth",
+      description: "While at 4+ Mayhem, lethal damage triggers a massive wild magic reset: prevents death, restores 40% health and 30 temporary health, and sets Mayhem to 5 (cooldown: 180s).",
+      flavorText: "The universe refused the outcome, rewinding the fatal blow into an explosion.",
+      source: "talent", class: "Harbinger", treeId: "wild_prophet",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+    ]
+  }
 ];
 
+// ============================================
+// 2. HARBINGER — DEATH'S SEER
+// ============================================
 export const HARBINGER_DEATHS_SEER = [
- {
-  id: 'ds_t0_decay_touch',
-  name: 'Decay Touch',
-  description: 'The entropy of the Wyrd begins with the smallest touch of decay. Attacks deal +1d6 necrotic damage per rank. Prophesied outcomes on single-target spells deal +50% damage per rank. Damage.',
-  icon: 'spell_shadow_chilltouch',
-  maxRanks: 3,
-  position: { x: 2, y: 0 },
-  requires: null,
-  category: 'damage'
- },
+  // ──────────────── TIER 1 (8 pts) ────────────────
+  {
+    id: "ds_t1_death_mark_strike",
+    name: "Death Mark Strike",
+    icon: "spell_shadow_chilltouch",
+    maxRanks: 3,
+    position: { x: 1, y: 0 },
+    requires: null,
+    spell: {
+      name: "Death Mark Strike",
+      description: "Brand a target within 45 feet with a Doom Mark for 1 minute: deals 2d8 blight damage, reduces target durability by 2, and generates 2 Mayhem.",
+      flavorText: "The entropy of the Wyrd begins with the smallest touch of decay.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "single", rangeType: "ranged", range: 45,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mana: { baseAmount: 4 } },
+      damageTypes: ["blight"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      debuffs: ["doom-mark"], visualTheme: "wyrd", tags: ["single-nuke", "durability-sunder", "doom-mark", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d8 blight damage, reduces durability by 3, and causes bleed for 1d6 blight per round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 blight damage, reduces durability by 4, bleeds for 1d6, and attacks against the marked target score critical hits on 19+.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
+    ]
+  },
+  {
+    id: "ds_t1_decay_wave",
+    name: "Necrotic Decay Aura",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 2.5, y: 0 },
+    requires: null,
+    spell: {
+      name: "Necrotic Decay Aura",
+      description: "All your single-target blight and doom spells deal +10% increased damage, and your attacks ignore 10% of enemy durability.",
+      flavorText: "The entropy of Keth-Amar spreads like a plague.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["blight"],
+      visualTheme: "wyrd", tags: ["passive", "necrotic-amp", "penetration", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "+15% blight damage and ignores 20% of enemy durability." },
+      { description: "+20% blight damage, ignores 30% of enemy durability, and kills grant +2 Mayhem." }
+    ]
+  },
+  {
+    id: "ds_t1_entropy_shield",
+    name: "Shroud of Inevitable Decay",
+    icon: "spell_arcane_arcaneresilience",
+    maxRanks: 2,
+    position: { x: 4, y: 0 },
+    requires: null,
+    spell: {
+      name: "Shroud of Inevitable Decay",
+      description: "You gain +2 Durability Steps to equipped durability and take 25% less blight damage. Attackers who strike you take 1d6 blight damage in retaliation.",
+      flavorText: "Keth-Amar shrouds its prophets in an aura of decay.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["blight"],
+      primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "retaliation", "durability", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Gain +3 Durability Steps to equipped durability, take 25% less blight damage, retaliate for 2d6 blight, and heal for 25% of retaliation damage." }
+    ]
+  },
 
- {
-  id: 'ds_t1_decay_wave',
-  name: 'Decay Wave',
-  description: 'The entropy of Keth-Amar spreads like a plague through weakened souls. Your Entropy spells that reduce stats also reduce the target\'s maximum HP by the same amount for the duration. When a target affected by your prophecy is reduced to 0 HP, gain +2 Mayhem per rank. Spell modifier.',
-  icon: 'spell_shadow_shadowwordpain',
-  maxRanks: 2,
-  position: { x: 1, y: 1 },
-  requires: 'ds_t0_decay_touch',
-  category: 'spell_modifier'
- },
- {
-  id: 'ds_t1_death_precision',
-  name: 'Death Precision',
-  description: 'The Wyrd grants unerring precision to those who embrace oblivion. Your entropy damage ignores 10% armor per rank. When prophecy range has 2 or fewer values, gain +1 to resolution roll per rank. Spell modifier.',
-  icon: 'ability_rogue_deadliness',
-  maxRanks: 3,
-  position: { x: 3, y: 1 },
-  requires: 'ds_t0_decay_touch',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 2 (6 pts) ────────────────
+  {
+    id: "ds_t2_organ_collapse",
+    name: "Decay Organ Collapse",
+    icon: "spell_shadow_chilltouch",
+    maxRanks: 3,
+    position: { x: 1, y: 1.5 },
+    requires: "ds_t1_death_mark_strike",
+    spell: {
+      name: "Decay Organ Collapse",
+      description: "Spend 2 Mayhem: cause internal organs of a marked enemy within 45 feet to rapidly decay. Deals 2d8 blight damage, stuns the target for 1 round, and reduces their durability by 2.",
+      flavorText: "The Wyrd gnaws at the core of life itself.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "single", rangeType: "ranged", range: 45,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 2 } },
+      damageTypes: ["blight"],
+primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      debuffs: ["stun"], visualTheme: "wyrd", tags: ["single-nuke", "stun", "organ-collapse", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 3d8 blight damage and reduces target's next attack by 25%.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 blight damage, stuns for 1 round, and reduces target's durability by 3.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
+    ]
+  },
+  {
+    id: "ds_t2_deep_rot",
+    name: "Deep Rotting Wounds",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 3, y: 1.5 },
+    requires: "ds_t1_decay_wave",
+    spell: {
+      name: "Deep Rotting Wounds",
+      description: "Enemies with Doom Marks take 10% more damage from all sources, and their movement speed is reduced by 10 feet.",
+      flavorText: "Flesh softens and rots under the gaze of the Seer.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "debuff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "vulnerability", "slow", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Marked foes take 15% more damage and speed reduced by 15 feet." },
+      { description: "Marked foes take 20% more damage, speed reduced by 20 feet, and your attacks against them score critical hits on 19+." }
+    ]
+  },
 
- {
-  id: 'ds_t2_deep_rot',
-  name: 'Deep Rot',
-  description: 'Entropy deepens as the Wyrd gnaws at the fabric of life. Your entropy debuffs last +1 round per rank. When a debuff expires, deal 1d4 necrotic damage per rank to the target. When a prophecy deals Prophesied damage, the target takes 1d8 bonus necrotic per rank at the start of next turn. Spell modifier.',
-  icon: 'spell_shadow_chilltouch',
-  maxRanks: 3,
-  position: { x: 0, y: 2 },
-  requires: 'ds_t1_decay_wave',
-  category: 'spell_modifier'
- },
- {
-  id: 'ds_t2_entropy_shield',
-  name: 'Entropy Shield',
-  description: 'Keth-Amar shrouds its prophets in an aura of inevitable decay. +1 armor per rank. When hit in melee, attacker takes 1d4 necrotic damage per rank. You can sense targets below 30% HP per rank. Damage.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 3,
-  position: { x: 2, y: 2 },
-  requires: 'ds_t1_decay_wave',
-  category: 'damage'
- },
- {
-  id: 'ds_t2_mark_of_doom',
-  name: 'Mark of Doom',
-  description: 'The Wyrd brands its chosen victims with the certainty of a prophet. Spend 2 Mayhem to mark a target, your next prophecy against them auto-resolves as at least Base (no Outside). +1 use per rank. Whenever an enemy dies while affected by your entropy debuff, gain +2 Mayhem per rank. Spell modifier.',
-  icon: 'spell_shadow_curseofsargeras',
-  maxRanks: 3,
-  position: { x: 4, y: 2 },
-  requires: 'ds_t1_death_precision',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 3 (6 pts) ────────────────
+  {
+    id: "ds_t3_reap_soul",
+    name: "Soul Reaping Harvest",
+    icon: "spell_shadow_lifedrain02",
+    maxRanks: 3,
+    position: { x: 1, y: 3 },
+    requires: "ds_t2_organ_collapse",
+    spell: {
+      name: "Soul Reaping Harvest",
+      description: "Spend 3 Mayhem: rip the soul essence from a marked target within 50 feet. Deals 3d8 blight damage, heals you for 1d6 health, and grants 15 temporary health.",
+      flavorText: "Harvesting the unmade soul to sustain the vessel.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "single", rangeType: "ranged", range: 50,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 3 } },
+      damageTypes: ["blight"],
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      healing: { dice: "1d6", flat: 0 },
+      visualTheme: "wyrd", tags: ["single-nuke", "lifesteal", "temp-hp", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 4d8 blight damage, heals for 2d6, grants 20 temp HP.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, healing: { dice: "2d6", flat: 0 } },
+      { description: "Deals 5d8 blight damage, heals for 2d8, grants 30 temp HP, and silences the target for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, healing: { dice: "2d8", flat: 0 } }
+    ]
+  },
+  {
+    id: "ds_t3_unmaking_criticality",
+    name: "Corrupting Blows",
+    icon: "ability_rogue_deadliness",
+    maxRanks: 3,
+    position: { x: 3, y: 3 },
+    requires: "ds_t2_deep_rot",
+    spell: {
+      name: "Corrupting Blows",
+      description: "All single-target blight spells score critical hits on 19+ and critical hits cause the target to explode for 2d8 blight damage to all nearby foes.",
+      flavorText: "Corruption flows through the Wyrd like blood through dying veins.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["blight"],
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "crit", "corpse-nova", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Crits on 18+; explosion deals 3d8 blight damage." },
+      { description: "Crits on 18+; explosion deals 4d8 blight, and crits refund 2 Mayhem." }
+    ]
+  },
 
- {
-  id: 'ds_t3_decay_mastery',
-  name: 'Decay Mastery',
-  description: 'Keth-Amar teaches that entropy compounds upon itself without limit. Your entropy debuffs now stack twice on the same target (double the stat reduction). Spend 2 Mayhem to spread a debuff from one target to an adjacent enemy. Prophecies against marked targets gain +2 to resolution roll per rank. Spell modifier.',
-  icon: 'spell_shadow_chilltouch',
-  maxRanks: 2,
-  position: { x: 1, y: 3 },
-  requires: 'ds_t2_deep_rot',
-  category: 'spell_modifier'
- },
- {
-  id: 'ds_t3_corruption',
-  name: 'Corrupting Blows',
-  description: 'Corruption flows through the Wyrd like blood through dying veins. Your entropy damage critically hits on 18-20. Crit damage bonus is +2d6 necrotic per rank instead of normal crit dice. You can have 2 Death Marks active simultaneously per rank. Damage.',
-  icon: 'spell_arcane_arcanetorrent',
-  maxRanks: 2,
-  position: { x: 3, y: 3 },
-  requires: 'ds_t2_mark_of_doom',
-  category: 'damage'
- },
+  // ──────────────── TIER 4 (5 pts) ────────────────
+  {
+    id: "ds_t4_unmake_entity",
+    name: "Unmake Entity",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 3,
+    position: { x: 1, y: 4.5 },
+    requires: "ds_t3_reap_soul",
+    spell: {
+      name: "Unmake Entity",
+      description: "Spend 4 Mayhem: target an enemy within 45 feet. Deals 4d8 blight damage (deals +30% damage if target is below 40% HP). If the target dies, raise them as a decaying revenant servant for 1 minute.",
+      flavorText: "The Wyrd unmakes what it once created, claiming its due.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "single", rangeType: "ranged", range: 45,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 4 } },
+      damageTypes: ["blight"],
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["execute", "raise-dead", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 5d8 blight damage; revenant lasts 2 minutes and deals 1d8 blight on attack.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 18 },
+      { description: "Deals 6d8 blight damage; kills refund 3 Mayhem.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
+    ]
+  },
+  {
+    id: "ds_t4_death_siphon",
+    name: "Soul Harvest Economy",
+    icon: "spell_arcane_arcanetorrent",
+    maxRanks: 2,
+    position: { x: 3.5, y: 4.5 },
+    requires: "ds_t3_unmaking_criticality",
+    spell: {
+      name: "Soul Harvest Economy",
+      description: "Whenever an enemy dies from your spells or while marked, you gain 4 Mayhem, restore 15 mana, and heal for 10% max HP.",
+      flavorText: "Death pays the greatest dividend.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "healing",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "sustain", "mayhem-on-kill", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Kills grant 6 Mayhem, restore 30 mana, and heal for 15% max HP." }
+    ]
+  },
 
- {
-  id: 'ds_t4_unmake',
-  name: 'Unmake',
-  description: 'The Wyrd unmakes what it once helped create, claiming its due. When you reduce an enemy to 0 HP with an entropy spell, refund 3 Mayhem per rank and reduce your entropy spell cooldowns by 1. Targets affected by your prophecies cannot be healed above 50% HP per rank. Mayhem economy.',
-  icon: 'spell_shadow_shadowwordpain',
-  maxRanks: 2,
-  position: { x: 0, y: 4 },
-  requires: 'ds_t3_decay_mastery',
-  category: 'mayhem_economy'
- },
- {
-  id: 'ds_t4_entropy_convergence',
-  name: 'Entropy Convergence',
-  description: 'At the convergence of entropy, the power of Keth-Amar becomes absolute. Entropy spells that hit 3+ targets deal +1d8 necrotic damage per rank to all targets hit. Havoc cost of single-target prophecy spells reduced by 2. Prophesied damage increased by your Spirit modifier per rank. Damage.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 3,
-  position: { x: 2, y: 4 },
-  requires: 'ds_t3_decay_mastery',
-  category: 'damage'
- },
- {
-  id: 'ds_t4_entropy_storm',
-  name: 'Entropy Storm',
-  description: 'The Wyrd manifests as a storm that unmakes all it touches. Your entropy AoE spells leave a hazard zone (10ft radius, 1d6 necrotic/turn, 2 rounds) per rank. When you reduce a target to 0 HP with a Prophesied prophecy, refund the Mayhem cost. Spell modifier.',
-  icon: 'spell_arcane_arcanetorrent',
-  maxRanks: 2,
-  position: { x: 4, y: 4 },
-  requires: 'ds_t3_corruption',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 5 (5 pts) ────────────────
+  {
+    id: "ds_t5_eternal_decay",
+    name: "Oblivion's Black Sun",
+    icon: "spell_shadow_shadowbolt",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "ds_t4_unmake_entity",
+    spell: {
+      name: "Oblivion's Black Sun",
+      description: "Spend 5 Mayhem: summon an abyssal black sun over the battlefield for 3 rounds. Deals 3d6 blight damage per round to all marked enemies and prevents them from receiving healing.",
+      flavorText: "The black sun that casts no shadow.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 5 } },
+      damageTypes: ["blight"],
+      primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
+      isDot: true, dotDuration: 3, dotTick: "3d6",
+      visualTheme: "wyrd", tags: ["black-sun", "heal-block", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 4d6 blight per round, silences all marked enemies, and lasts 4 rounds.", dotTick: "4d6", cooldownValue: 24 }
+    ]
+  },
+  {
+    id: "ds_t5_undead_mastery",
+    name: "Army of the Fallen Wyrd",
+    icon: "spell_shadow_chilltouch",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "ds_t4_death_siphon",
+    spell: {
+      name: "Army of the Fallen Wyrd",
+      description: "You can maintain up to 3 revenant servants simultaneously. Revenants have +25% health and +2 Durability Steps to equipped durability.",
+      flavorText: "Keth-Amar defies even death, raising what it consumes.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "pet-cap", "undead-buff", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Maintain up to 4 revenants; revenants explode for 3d8 blight on death." },
+      { description: "Maintain up to 5 revenants; revenants explode for 4d8 blight on death." }
+    ]
+  },
 
- {
-  id: 'ds_t5_eternal_decay',
-  name: 'Eternal Decay',
-  description: 'The entropy of Keth-Amar defies even death, raising what it consumes. Creatures killed by your entropy effects rise as decaying undead (HP = your level x 3) for 3 rounds. Max 2 undead per rank. All single-target Prophesied effects deal maximum damage. Spell modifier.',
-  icon: 'spell_shadow_chilltouch',
-  maxRanks: 2,
-  position: { x: 1, y: 5 },
-  requires: 'ds_t4_unmake',
-  category: 'spell_modifier'
- },
- {
-  id: 'ds_t5_oblivion_embrace',
-  name: 'Oblivion\'s Embrace',
-  description: 'Oblivion embraces those who wield the darkest gifts of the Wyrd. Immune to necrotic damage. +1d12 necrotic on all attacks. Whenever you take damage, gain +1 Mayhem per rank. Your narrow-range prophecies (d4+d4) deal additional damage equal to your level per rank. Damage + Mayhem economy.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 2,
-  position: { x: 3, y: 5 },
-  requires: 'ds_t4_entropy_storm',
-  category: 'damage'
- },
+  // ──────────────── TIER 6 (5 pts) ────────────────
+  {
+    id: "ds_t6_death_incarnate",
+    name: "Death Incarnate",
+    icon: "spell_shadow_curseofsargeras",
+    maxRanks: 1,
+    position: { x: 1, y: 7.5 },
+    requires: "ds_t5_eternal_decay",
+    spell: {
+      name: "Death Incarnate",
+      description: "Spend 6 Mayhem: become the Living Incarnation of Death for 1 minute: your single-target blight spells deal +30% damage to marked enemies, execute non-boss targets below 15% HP instantly, and you gain +2 Durability Steps to equipped durability.",
+      flavorText: "The final seer of mortality takes the throne.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "buff",
+      targetingMode: "self", rangeType: "self", range: 0,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 6 } },
+      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      buffs: ["death-incarnate"], visualTheme: "wyrd", tags: ["god-mode", "instant-execute", "maximize", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "ds_t6_doom_penetration",
+    name: "Absolute Oblivion",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 2,
+    position: { x: 2.5, y: 7.5 },
+    requires: "ds_t5_undead_mastery",
+    spell: {
+      name: "Absolute Oblivion",
+      description: "All your blight spells ignore 30% of enemy durability and resistance.",
+      flavorText: "Oblivion recognizes no armor.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", damageTypes: ["blight"],
+      visualTheme: "wyrd", tags: ["passive", "true-damage", "penetration", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Blight spells ignore 35% of enemy durability and resistance and score critical hits on 18+." }
+    ]
+  },
+  {
+    id: "ds_t6_undying_shroud",
+    name: "Phylactery Shroud",
+    icon: "spell_holy_powerwordbarrier",
+    maxRanks: 2,
+    position: { x: 4, y: 7.5 },
+    requires: "ds_t5_undead_mastery",
+    spell: {
+      name: "Phylactery Shroud",
+      description: "While you maintain at least 1 active revenant, 35% of damage you take is redirected into your revenant instead.",
+      flavorText: "The servant absorbs the fatal wound.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "damage-redirect", "defense", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Redirect 35% of damage into revenants, and when a revenant dies from redirected damage, you gain 3 Mayhem." }
+    ]
+  },
 
- {
-  id: 'ds_t6_death_incarnate',
-  name: 'Death Incarnate',
-  description: 'You become the final prophet of death, forcing the entropy Keth-Amar bleeds into the world to incarnate through you. For 3 rounds: all entropy spells gain +3d8 necrotic damage, all stat reductions are doubled, all single-target Prophesied effects deal maximum damage, and you generate 2 Mayhem per enemy damaged. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
-  icon: 'spell_shadow_curseofsargeras',
-  maxRanks: 1,
-  position: { x: 2, y: 6 },
-  requires: ['ds_t5_eternal_decay', 'ds_t5_oblivion_embrace'],
-  requiresAll: true,
-  category: 'damage'
- }
+  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  {
+    id: "ds_t7_avatar_of_the_reaper",
+    name: "Avatar of the Black Reaper",
+    icon: "spell_shadow_shadowwordpain",
+    maxRanks: 1,
+    position: { x: 0.5, y: 8 },
+    requires: "ds_t6_death_incarnate",
+    spell: {
+      name: "Avatar of the Black Reaper",
+      description: "ULTIMATE: Spend 10 Mayhem: summon the Great Scythe of Keth-Amar for 1 minute: all marked enemies take 8d10 blight damage every round, any target below 20% HP is executed instantly, and each death raises a giant undead behemoth for 1 minute.",
+      flavorText: "The harvest is complete. No seed remains ungathered.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 10 } },
+      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      damageTypes: ["blight"],
+      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
+      buffs: ["black-reaper"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "mass-execute", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "ds_t7_deaths_seer_doctrine",
+    name: "Death's Seer Doctrine",
+    icon: "spell_shadow_chilltouch",
+    maxRanks: 5,
+    position: { x: 1.5, y: 8 },
+    requires: "ds_t6_death_incarnate",
+    spell: {
+      name: "Death's Seer Doctrine",
+      description: "All single-target blight and doom damage you deal is increased by 5%.",
+      flavorText: "The gaze of the Seer is the end of the journey.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["blight"],
+      visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "All single-target blight damage increased by 10%." },
+      { description: "All single-target blight damage increased by 15%." },
+      { description: "All single-target blight damage increased by 20%." },
+      { description: "All single-target blight damage increased by 25%, and Death Mark Strike costs 0 mana." }
+    ]
+  },
+  {
+    id: "ds_t7_infinite_doom_engine",
+    name: "Endless Soul Siphon Reservoir",
+    icon: "spell_shadow_lifedrain02",
+    maxRanks: 3,
+    position: { x: 2.5, y: 8 },
+    requires: "ds_t6_doom_penetration",
+    spell: {
+      name: "Endless Soul Siphon Reservoir",
+      description: "Your maximum Mayhem increases by 8. Whenever an enemy dies from your blight damage, generate 1 Mayhem.",
+      flavorText: "Every cut pays a royalty in dark energy.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "mayhem-engine", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Max Mayhem +10; generate 2 Mayhem per kill and movement speed +10ft." },
+      { description: "Max Mayhem +12; generate 3 Mayhem per kill and abilities cost 1 fewer Mayhem." }
+    ]
+  },
+  {
+    id: "ds_t7_guaranteed_execution",
+    name: "Certain Death Principle",
+    icon: "ability_rogue_shadowdance",
+    maxRanks: 3,
+    position: { x: 3.5, y: 8 },
+    requires: "ds_t6_doom_penetration",
+    spell: {
+      name: "Certain Death Principle",
+      description: "Your attacks against marked targets deal +10% damage and score critical hits on 19+.",
+      flavorText: "What the Seer writes, fate cannot erase.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "debuff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "execute", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Attacks against marked targets deal +15% damage and execute non-boss targets below 15% HP." },
+      { description: "Attacks against marked targets deal +20% damage, execute below 20% HP, and kills refund 3 Mayhem." }
+    ]
+  },
+  {
+    id: "ds_t7_death_rebirth",
+    name: "Necrotic Ascendance Rebirth",
+    icon: "spell_holy_resurrection",
+    maxRanks: 3,
+    position: { x: 4.5, y: 8 },
+    requires: "ds_t6_undying_shroud",
+    spell: {
+      name: "Necrotic Ascendance Rebirth",
+      description: "While at 3+ Mayhem, lethal damage dissolves you into necrotic mist instead: prevents death, restores 40% health and 30 temp HP, and sets Mayhem to 5 (cooldown: 180s).",
+      flavorText: "Death cannot claim its own master.",
+      source: "talent", class: "Harbinger", treeId: "deaths_seer",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+    ]
+  }
 ];
 
+// ============================================
+// 3. HARBINGER — FATE RIFT
+// ============================================
 export const HARBINGER_FATE_RIFT = [
- {
-  id: 'fr_t0_chaos_dice',
-  name: 'Chaos Dice',
-  description: 'The Wyrd manifests as dice that dance at the edge of fate. Gain chaos dice that enhance your magic. Roll 1d20 when casting chaos table spells: on 16+ per rank, gain a chaos die (max 3). Chaos dice add +1d6 to table spell damage. Spell modifier.',
-  icon: 'spell_shadow_possession',
-  maxRanks: 3,
-  position: { x: 3, y: 0 },
-  requires: null,
-  category: 'spell_modifier'
- },
- {
-  id: 'fr_t0_escalation',
-  name: 'Escalation',
-  description: 'Each delayed detonation builds pressure in the volatile currents of the Wyrd. Every round a delayed prophecy ticks, its damage increases by +1d6 per rank. When you spend Mayhem to adjust a table result, reduce the cost by 1 per rank (minimum cost 1). Mayhem economy + Damage.',
-  icon: 'spell_fire_selfdestruct',
-  maxRanks: 3,
-  position: { x: 1, y: 0 },
-  requires: null,
-  category: 'mayhem_economy'
- },
+  // ──────────────── TIER 1 (8 pts) ────────────────
+  {
+    id: "fr_t1_void_tear",
+    name: "Void Tear Strike",
+    icon: "spell_arcane_blast",
+    maxRanks: 3,
+    position: { x: 1, y: 0 },
+    requires: null,
+    spell: {
+      name: "Void Tear Strike",
+      description: "Tear open a dimensional void rift at a target location within 45 feet: deals 2d6 wyrd damage to all enemies in a 15-foot area and generates 1 Mayhem.",
+      flavorText: "Ripping the fabric of space to reveal the hungry abyss behind it.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 15,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mana: { baseAmount: 4 } },
+      damageTypes: ["arcane", "wyrd"],
+      primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["rift", "aoe", "mayhem-builder", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "20-foot rift deals 3d6 wyrd damage, pulls enemies 10ft inward, and generates 1 Mayhem.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 20 },
+      { description: "25-foot rift deals 3d6 wyrd damage, pulls 15ft inward, and generates 2 Mayhem.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 }
+    ]
+  },
+  {
+    id: "fr_t1_spatial_instability",
+    name: "Spatial Instability",
+    icon: "spell_arcane_blink",
+    maxRanks: 3,
+    position: { x: 2.5, y: 0 },
+    requires: null,
+    spell: {
+      name: "Spatial Instability",
+      description: "All your void and force spells deal +5% increased damage, and your movement speed increases by +10 feet.",
+      flavorText: "Space bends easily to those who know where it is torn.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["arcane"],
+      visualTheme: "wyrd", tags: ["passive", "void-amp", "speed", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "+8% void damage, speed +15 feet, and you can teleport 10ft as a bonus action." },
+      { description: "+10% void damage, speed +20 feet, and attacks ignore 10% resistance." }
+    ]
+  },
+  {
+    id: "fr_t1_rift_insulation",
+    name: "Rift Phasing",
+    icon: "spell_arcane_arcaneresilience",
+    maxRanks: 2,
+    position: { x: 4, y: 0 },
+    requires: null,
+    spell: {
+      name: "Rift Phasing",
+      description: "While standing within 20 feet of any active void rift, you gain +2 Durability Steps to equipped durability and take 15% less magical damage.",
+      flavorText: "Half-phased into the spaces between worlds.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "rift-defense", "durability", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Gain +3 Durability Steps to equipped durability, 25% magical resistance, and heal 1d8 per round near rifts." }
+    ]
+  },
 
- {
-  id: 'fr_t1_wild_bolt',
-  name: 'Wild Bolt',
-  description: 'The wildest bolts of Keth-Amar strike with the fury of unraveling reality. When your chaos table spell rolls a natural maximum on the table die, deal +2d6 damage per rank of a random type. Damage.',
-  icon: 'spell_arcane_arcanetorrent',
-  maxRanks: 3,
-  position: { x: 0, y: 1 },
-  requires: 'fr_t0_escalation',
-  category: 'damage'
- },
- {
-  id: 'fr_t1_dice_storm',
-  name: 'Dice Storm',
-  description: 'Chaos dice scatter like storm-tossed leaves across the winds of the Wyrd. Your chaos table spells that hit an area gain +5ft radius per rank. Your chaos dice also increase area by 5ft each. Spell modifier.',
-  icon: 'spell_shadow_possession',
-  maxRanks: 2,
-  position: { x: 2, y: 1 },
-  requires: 'fr_t0_chaos_dice',
-  category: 'spell_modifier'
- },
- {
-  id: 'fr_t1_doom_aura',
-  name: 'Doom Aura',
-  description: 'The Wyrd radiates an aura of crushing inevitability. Enemies within 15ft have -1 to all rolls per 3 Mayhem you hold (max -3) per rank. Your Mayhem maximum increases by 3 per rank. Spell modifier.',
-  icon: 'spell_shadow_unstableaffliction',
-  maxRanks: 3,
-  position: { x: 4, y: 1 },
-  requires: 'fr_t0_chaos_dice',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 2 (6 pts) ────────────────
+  {
+    id: "fr_t2_rift_collapse",
+    name: "Gravitational Singularity Collapse",
+    icon: "spell_shadow_mindtwisting",
+    maxRanks: 3,
+    position: { x: 1, y: 1.5 },
+    requires: "fr_t1_void_tear",
+    spell: {
+      name: "Gravitational Singularity Collapse",
+      description: "Spend 3 Mayhem: violently collapse an active void rift within 50 feet. Deals 3d8 arcane damage to all enemies within 25 feet and pulls them to the singularity epicenter.",
+      flavorText: "The rift snaps shut like an iron jaw.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 25,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 3 } },
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      debuffs: ["singularity-pull"], visualTheme: "wyrd", tags: ["aoe", "vortex", "nuke", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "30-foot collapse deals 4d8 arcane damage and stuns all victims for 1 round.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, aoeSize: 30 },
+      { description: "35-foot collapse deals 4d8 arcane damage, stuns for 1 round, and immediately opens 2 new rifts.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, aoeSize: 35 }
+    ]
+  },
+  {
+    id: "fr_t2_rift_synergy",
+    name: "Resonating Rifts",
+    icon: "spell_arcane_arcanetorrent",
+    maxRanks: 3,
+    position: { x: 3, y: 1.5 },
+    requires: "fr_t1_spatial_instability",
+    spell: {
+      name: "Resonating Rifts",
+      description: "Whenever an enemy is within 15 feet of multiple active rifts, they take +5% increased damage from all sources per rift.",
+      flavorText: "Torn space amplifies every vibration.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "debuff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "rift-overlap", "vulnerability", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Take +8% increased damage per rift and have -1 to saving throws." },
+      { description: "Take +10% increased damage per rift and -2 to saving throws." }
+    ]
+  },
 
- {
-  id: 'fr_t2_probability_shift',
-  name: 'Probability Shift',
-  description: 'Keth-Amar bends probability like a river changes course. Allies within 30ft roll twice and take higher on d20 saves against your chaos effects. Spend 3 Mayhem to force an enemy to roll twice and take lower on one save per rank. Spell modifier.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 2,
-  position: { x: 1, y: 2 },
-  requires: 'fr_t1_wild_bolt',
-  category: 'spell_modifier'
- },
- {
-  id: 'fr_t2_loaded_table',
-  name: 'Loaded Table',
-  description: 'The Wyrd rigs the chaos tables in your favor, subtly but surely. Increase the minimum result on any chaos table by 1 per rank (e.g., d20 minimum becomes 3 at rank 2). Stacks with spec passive. Delayed prophecies generate +1 bonus Mayhem per round they remain active per rank. Spell modifier.',
-  icon: 'spell_arcane_arcanetorrent',
-  maxRanks: 2,
-  position: { x: 3, y: 2 },
-  requires: 'fr_t1_dice_storm',
-  category: 'spell_modifier'
- },
- {
-  id: 'fr_t2_consuming_doom',
-  name: 'Consuming Doom',
-  description: 'Doom spreads like fire through dry grass, consuming all near its epicenter. When a delayed prophecy detonates, all enemies within 10ft of the target take half the damage per rank. Every round of combat past round 1, gain +1 Mayhem per rank passively. Damage + Mayhem economy.',
-  icon: 'spell_fire_fireball',
-  maxRanks: 2,
-  position: { x: 4, y: 2 },
-  requires: 'fr_t1_doom_aura',
-  category: 'damage'
- },
+  // ──────────────── TIER 3 (6 pts) ────────────────
+  {
+    id: "fr_t3_dimensional_shred",
+    name: "Dimensional Shredder",
+    icon: "spell_arcane_blast",
+    maxRanks: 3,
+    position: { x: 1, y: 3 },
+    requires: "fr_t2_rift_collapse",
+    spell: {
+      name: "Dimensional Shredder",
+      description: "Spend 4 Mayhem: link two active rifts with a 40-foot laser wire of hyper-dense void energy. Deals 4d8 arcane damage to all enemies crossing the line and shears 25% of their durability.",
+      flavorText: "A wire cut directly from the edge of reality.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "line", aoeSize: 40,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 4 } },
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      debuffs: ["armor-sunder"], visualTheme: "wyrd", tags: ["line", "wire", "sunder", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "50-foot wire deals 5d8 arcane damage, shears 30% of enemy durability, cooldown drops to 12s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 12 },
+      { description: "60-foot wire deals 6d8 arcane damage, shears 35% of enemy durability, and silences targets for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
+    ]
+  },
+  {
+    id: "fr_t3_void_overflow",
+    name: "Void Leech",
+    icon: "spell_shadow_lifedrain",
+    maxRanks: 3,
+    position: { x: 3, y: 3 },
+    requires: "fr_t2_rift_synergy",
+    spell: {
+      name: "Void Leech",
+      description: "All void and rift damage you deal heals you and all allies for 10% of the damage dealt. Overheal grants temporary health up to 20.",
+      flavorText: "The empty space feeds the flesh.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "healing",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "lifesteal", "party-heal", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Heal for 15% of void damage; temp HP caps at 30." },
+      { description: "Heal for 20% of void damage; temp HP caps at 40 and grants +2 Durability Steps to equipped durability." }
+    ]
+  },
 
- {
-  id: 'fr_t3_critical_chaos',
-  name: 'Critical Chaos',
-  description: 'At the extremes of chaos, the Wyrd rewards those who embrace its madness. When a chaos table spell rolls a natural 1 on the table die (worst result), gain 1d4 Mayhem per rank and your next chaos spell costs no mana. When you have 10+ Mayhem, all prophecy resolution rolls gain +2 per rank. Mayhem economy.',
-  icon: 'spell_shadow_possession',
-  maxRanks: 3,
-  position: { x: 0, y: 3 },
-  requires: 'fr_t2_probability_shift',
-  category: 'mayhem_economy'
- },
- {
-  id: 'fr_t3_accumulated_power',
-  name: 'Accumulated Power',
-  description: 'Power accumulates within delayed prophecies like pressure before a storm. Detonation of delayed prophecies deals +2d8 damage per round the prophecy was active per rank. Your chaos table spells that deal AoE damage gain +1 target affected per rank. Damage.',
-  icon: 'spell_shadow_shadowbolt',
-  maxRanks: 2,
-  position: { x: 2, y: 3 },
-  requires: 'fr_t2_loaded_table',
-  category: 'damage'
- },
- {
-  id: 'fr_t3_aura_expansion',
-  name: 'Aura Expansion',
-  description: 'The aura of Keth-Amar expands to encompass all who dare stand against its prophet. Spend 3 Mayhem to expand doom aura to 30ft and increase penalty by -1 per rank. Lasts 3 rounds. +1 armor per chaos die you hold. When attacked, spend 2 Mayhem per rank to force the attacker to reroll the attack. Spell modifier.',
-  icon: 'spell_shadow_ward',
-  maxRanks: 2,
-  position: { x: 4, y: 3 },
-  requires: 'fr_t2_consuming_doom',
-  category: 'spell_modifier'
- },
+  // ──────────────── TIER 4 (5 pts) ────────────────
+  {
+    id: "fr_t4_void_nova",
+    name: "Fate Rift Super-Singularity",
+    icon: "spell_arcane_starfire",
+    maxRanks: 3,
+    position: { x: 1, y: 4.5 },
+    requires: "fr_t3_dimensional_shred",
+    spell: {
+      name: "Fate Rift Super-Singularity",
+      description: "Spend 5 Mayhem: create a colossal 35-foot black hole within 60 feet for 3 rounds: deals 3d6 arcane damage per round to all enemies inside, and pulls in all enemies across the battlefield.",
+      flavorText: "An event horizon summoned on mortal ground.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 35,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 5 } },
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
+      isDot: true, dotDuration: 3, dotTick: "3d6",
+      visualTheme: "wyrd", tags: ["black-hole", "mass-pull", "nuke", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "40-foot singularity deals 4d6 per round and silences enemies inside.", dotTick: "4d6", aoeSize: 40 },
+      { description: "45-foot singularity deals 5d6 per round, silences, and shatters for 4d6 upon collapsing.", dotTick: "5d6", aoeSize: 45 }
+    ]
+  },
+  {
+    id: "fr_t4_multi_rift_capacity",
+    name: "Endless Rift Network",
+    icon: "spell_arcane_portalshattrath",
+    maxRanks: 2,
+    position: { x: 3.5, y: 4.5 },
+    requires: "fr_t3_void_overflow",
+    spell: {
+      name: "Endless Rift Network",
+      description: "You may maintain up to 4 active void rifts simultaneously, and rifts last 2 minutes without expiring.",
+      flavorText: "Turning the battlefield into a perforated sheet of space.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "rift-cap", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Maintain up to 7 rifts simultaneously; you and allies can teleport between any active rifts as a free action." }
+    ]
+  },
 
- {
-  id: 'fr_t4_fate_weaver',
-  name: 'Fate Weaver',
-  description: 'The Wyrd answers to you as the master weaver of fate. Once per combat, dictate the exact result of one chaos table roll (no Mayhem cost). After round 5 of combat, all your prophecies auto-Prophesize on the first resolution roll per round. Spell modifier.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 1,
-  position: { x: 1, y: 4 },
-  requires: 'fr_t3_critical_chaos',
-  category: 'spell_modifier'
- },
- {
-  id: 'fr_t4_double_down',
-  name: 'Double Down',
-  description: 'The precipice of chaos rewards those reckless enough to gamble everything — you harvest the entropy Keth-Amar spills. When you spend 5+ Mayhem on a single table adjustment, gain a free chaos die and deal +1d8 random damage per rank. Your delayed prophecies cannot be dispelled or removed early. Damage + Spell modifier.',
-  icon: 'spell_shadow_possession',
-  maxRanks: 2,
-  position: { x: 3, y: 4 },
-  requires: 'fr_t3_accumulated_power',
-  category: 'damage'
- },
+  // ──────────────── TIER 5 (5 pts) ────────────────
+  {
+    id: "fr_t5_event_horizon_implosion",
+    name: "Event Horizon Implosion",
+    icon: "spell_shadow_mindtwisting",
+    maxRanks: 2,
+    position: { x: 1, y: 6 },
+    requires: "fr_t4_void_nova",
+    spell: {
+      name: "Event Horizon Implosion",
+      description: "Spend 6 Mayhem: detonate ALL active void rifts simultaneously in a cataclysmic chain reaction. Deals 4d8 arcane damage per rift to all nearby enemies and sunders 25% of enemy durability and wards.",
+      flavorText: "All holes in reality collapsing inward together.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 6 } },
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
+      debuffs: ["ward-strip"], visualTheme: "wyrd", tags: ["chain-detonate", "mass-nuke", "dispel", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Deals 5d8 damage per rift, stuns all enemies for 1 round, and cooldown drops to 24s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 24 }
+    ]
+  },
+  {
+    id: "fr_t5_spatial_sovereignty",
+    name: "Void Entity Dominion",
+    icon: "spell_arcane_arcaneresilience",
+    maxRanks: 3,
+    position: { x: 3, y: 6 },
+    requires: "fr_t4_multi_rift_capacity",
+    spell: {
+      name: "Void Entity Dominion",
+      description: "Your maximum Mayhem increases by 6. At 5+ Mayhem, you can phase through solid walls, take 20% less damage, and your attacks cannot be parried.",
+      flavorText: "Existing partially beyond physical space.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "noclip", "dr", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Max Mayhem +8; take 25% less damage, and attacks ignore 20% of enemy durability." },
+      { description: "Max Mayhem +10; take 30% less damage, attacks ignore 30% of enemy durability and score crits on 19+." }
+    ]
+  },
 
- {
-  id: 'fr_t5_dice_god',
-  name: 'Dice God',
-  description: 'You seize a parasite godhood over the random and the fated, ascending not by the grace of Keth-Amar but by draining its essence. Your Mayhem Modifier cap increases by +5 per rank. Whenever you reach your cap, your next chaos spell auto-hits and cannot be saved against. Doom aura is always active (no concentration). Mayhem economy.',
-  icon: 'spell_arcane_arcaneresilience',
-  maxRanks: 2,
-  position: { x: 0, y: 5 },
-  requires: 'fr_t4_fate_weaver',
-  category: 'mayhem_economy'
- },
- {
-  id: 'fr_t5_overwhelming_doom',
-  name: 'Overwhelming Doom',
-  description: 'The overwhelming weight of the Wyrd crushes all resistance to nothing. All chaos table spells deal +1d10 random damage per rank. Rolling on a d100 table costs 2 less Mayhem to adjust per rank. Doom aura penalty cap increases to -8. Enemies at -5 or worse are also frightened. Damage.',
-  icon: 'spell_shadow_antishadow',
-  maxRanks: 2,
-  position: { x: 4, y: 5 },
-  requires: 'fr_t4_double_down',
-  category: 'damage'
- },
+  // ──────────────── TIER 6 (5 pts) ────────────────
+  {
+    id: "fr_t6_the_abyssal_rift",
+    name: "The Abyssal Riftway",
+    icon: "spell_arcane_portalshattrath",
+    maxRanks: 1,
+    position: { x: 1, y: 7.5 },
+    requires: "fr_t5_event_horizon_implosion",
+    spell: {
+      name: "The Abyssal Riftway",
+      description: "Spend 7 Mayhem: tear a massive gateway into the Deep Void for 1 minute: all enemies within 60 feet are pulled 15ft toward the gateway each round and take 4d6 arcane damage per round, while all allies gain +30% movement speed.",
+      flavorText: "The doors to the deep dark are thrown wide open.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "damage",
+      targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 7 } },
+      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
+      buffs: ["abyssal-riftway"], visualTheme: "wyrd", tags: ["mass-pull", "climax", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "fr_t6_void_criticality",
+    name: "Singularity Overload Crits",
+    icon: "spell_arcane_blast",
+    maxRanks: 2,
+    position: { x: 2.5, y: 7.5 },
+    requires: "fr_t5_spatial_sovereignty",
+    spell: {
+      name: "Singularity Overload Crits",
+      description: "All void and force spells score critical hits on 18+ and critical hits instantly open a new void rift at the target's feet.",
+      flavorText: "A wound in the target that opens a wound in space.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["arcane"],
+      visualTheme: "wyrd", tags: ["passive", "crit", "auto-rift", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Critical hits on 17+ and crits deal +25% damage." }
+    ]
+  },
+  {
+    id: "fr_t6_rift_sanctuary",
+    name: "Spatial Distortion Shell",
+    icon: "spell_holy_powerwordbarrier",
+    maxRanks: 2,
+    position: { x: 4, y: 7.5 },
+    requires: "fr_t5_spatial_sovereignty",
+    spell: {
+      name: "Spatial Distortion Shell",
+      description: "You and all allies gain a permanent 40-damage void ward that regenerates 10 points every round.",
+      flavorText: "Bent space absorbing the edge of every strike.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "regenerating-shield", "defense", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Ward capacity 60 temp HP, regenerates 15 points per round, and reflects 25% damage." }
+    ]
+  },
 
- {
-  id: 'fr_t6_fate_deity',
-  name: 'Fate Deity',
-  description: 'You make a deity of chaos manifest — not by the grace of Keth-Amar, but by holding its own entropy hostage in your flesh. For 3 rounds: all chaos table results automatically shift up by 2 tiers, you gain unlimited Mayhem spending (no cap per roll), all delayed prophecies deal double damage on detonation, and chaos spells cost 50% less mana. Costs all remaining Mayhem (minimum 10). Long rest cooldown.',
-  icon: 'spell_shadow_curseofsargeras',
-  maxRanks: 1,
-  position: { x: 2, y: 6 },
-  requires: ['fr_t5_dice_god', 'fr_t5_overwhelming_doom'],
-  requiresAll: true,
-  category: 'damage'
- }
+  // ──────────────── TIER 7 / CAPSTONE (15 pts) ────────────────
+  {
+    id: "fr_t7_avatar_of_the_void_weaver",
+    name: "Avatar of the Singularity Sovereign",
+    icon: "spell_shadow_mindtwisting",
+    maxRanks: 1,
+    position: { x: 0.5, y: 8 },
+    requires: "fr_t6_the_abyssal_rift",
+    spell: {
+      name: "Avatar of the Singularity Sovereign",
+      description: "ULTIMATE: Spend 10 Mayhem: collapse all dimensional boundaries for 1 minute: 10 void rifts open across the arena, dealing 8d10 arcane damage every round divided among enemies, you take 35% less damage, and your spells cast instantly.",
+      flavorText: "You are the center of the singularity. Nothing escapes.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "ACTIVE", category: "buff",
+      targetingMode: "self", rangeType: "self", range: 0,
+      castTimeType: "instant", castTimeValue: 0,
+      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
+      resourceCosts: { mayhem: { baseAmount: 10 } },
+      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      damageTypes: ["arcane"],
+      primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
+      buffs: ["singularity-sovereign"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "damage-reduction", "harbinger"]
+    },
+    rankUpgrades: []
+  },
+  {
+    id: "fr_t7_fate_rift_doctrine",
+    name: "Fate Rift Doctrine",
+    icon: "spell_arcane_blast",
+    maxRanks: 5,
+    position: { x: 1.5, y: 8 },
+    requires: "fr_t6_the_abyssal_rift",
+    spell: {
+      name: "Fate Rift Doctrine",
+      description: "All void, force, and rift damage you deal is increased by 5%.",
+      flavorText: "The fabric of space tears obediently.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["arcane"],
+      visualTheme: "wyrd", tags: ["passive", "capstone", "damage", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "All void and rift damage increased by 10%." },
+      { description: "All void and rift damage increased by 15%." },
+      { description: "All void and rift damage increased by 20%." },
+      { description: "All void and rift damage increased by 25%, and Void Tear Strike costs 0 mana." }
+    ]
+  },
+  {
+    id: "fr_t7_infinite_rift_engine",
+    name: "Perpetual Void Generator",
+    icon: "spell_arcane_portalshattrath",
+    maxRanks: 3,
+    position: { x: 2.5, y: 8 },
+    requires: "fr_t6_void_criticality",
+    spell: {
+      name: "Perpetual Void Generator",
+      description: "Your maximum Mayhem increases by 8. Whenever an active rift deals damage to an enemy, generate 1 Mayhem (once per round per rift).",
+      flavorText: "An endless siphon from the extra-dimensional depths.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "utility",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "mayhem-engine", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Max Mayhem +10; generate 2 Mayhem per rift per round and movement speed +10ft." },
+      { description: "Max Mayhem +12; generate 2 Mayhem per rift per round and rift abilities cost 1 fewer Mayhem." }
+    ]
+  },
+  {
+    id: "fr_t7_hyper_spatial_crush",
+    name: "Hyper-Spatial Crush",
+    icon: "spell_shadow_mindtwisting",
+    maxRanks: 3,
+    position: { x: 3.5, y: 8 },
+    requires: "fr_t6_void_criticality",
+    spell: {
+      name: "Hyper-Spatial Crush",
+      description: "When enemies are pulled into a void rift, they are crushed for an additional 3d8 arcane damage.",
+      flavorText: "Gravity so dense it flattens bone to foil.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "damage",
+      targetingMode: "self", damageTypes: ["arcane"],
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      visualTheme: "wyrd", tags: ["passive", "capstone", "pull-crush", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Crush deals 4d8 arcane damage and stuns for 1 round." },
+      { description: "Crush deals 5d8 arcane damage, stuns for 1 round, and refunds 2 Mayhem." }
+    ]
+  },
+  {
+    id: "fr_t7_rift_rebirth",
+    name: "Dimensional Shift Rebirth",
+    icon: "spell_arcane_blink",
+    maxRanks: 3,
+    position: { x: 4.5, y: 8 },
+    requires: "fr_t6_rift_sanctuary",
+    spell: {
+      name: "Dimensional Shift Rebirth",
+      description: "While at 3+ Mayhem, lethal damage shifts your body into an active void rift: prevents death, restores 40% health and 30 temp HP, sets Mayhem to 5, and teleports you 40 feet away (cooldown: 180s).",
+      flavorText: "You slipped into the rift before the executioner finished the swing.",
+      source: "talent", class: "Harbinger", treeId: "fate_rift",
+      spellType: "PASSIVE", category: "buff",
+      targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
+    },
+    rankUpgrades: [
+      { description: "Survive lethal damage, restore 60% health, 40 temp HP, full Mayhem (cooldown: 120s)." },
+      { description: "Survive lethal damage, restore 75% health, 50 temp HP (cooldown: 90s)." }
+    ]
+  }
 ];

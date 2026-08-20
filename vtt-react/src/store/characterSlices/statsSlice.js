@@ -125,6 +125,7 @@ export const createStatsSlice = (set, get) => ({
         back: null,
         chest: null,
         shirt: null,
+        tabard: null,
         wrists: null,
         mainHand: null,
         offHand: null,

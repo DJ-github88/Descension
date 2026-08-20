@@ -908,7 +908,7 @@
     {
       "id": "tatzelvine_serpent_lunge",
       "name": "Serpent-Lunge",
-      "description": "The tatzelvine's venom carries the Dimming's slow forgetfulness. Coils and strikes with venom-dripping fangs.",
+      "description": "The tatzelvine's venom carries the Freeze's slow forgetfulness. Coils and strikes with venom-dripping fangs.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_nature_abolishmagic",
@@ -957,7 +957,7 @@
     {
       "id": "tatzelvine_memory_venom",
       "name": "Memory-Venom",
-      "description": "The tatzelvine's venom carries the Dimming's slow forgetfulness. Wounds weep a venom that dissolves short-term memory into confusion.",
+      "description": "The tatzelvine's venom carries the Freeze's slow forgetfulness. Wounds weep a venom that dissolves short-term memory into confusion.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_shadow_vampirictouch",
@@ -1024,7 +1024,7 @@
     {
       "id": "tatzelvine_branch_grip",
       "name": "Branch-Grip",
-      "description": "The tatzelvine's venom carries the Dimming's slow forgetfulness. Moves fluidly through the canopy, never provoking attacks.",
+      "description": "The tatzelvine's venom carries the Freeze's slow forgetfulness. Moves fluidly through the canopy, never provoking attacks.",
       "level": 1,
       "spellType": "PASSIVE",
       "icon": "spell_druid_bearform",
@@ -3062,7 +3062,7 @@
     {
       "id": "fuath_pool_song",
       "name": "Pool-Song",
-      "description": "The Fuath's fey-pool reflects what the Dimming took. A haunting call that drags victims toward the black pool.",
+      "description": "The Fuath's fey-pool reflects what the Freeze took. A haunting call that drags victims toward the black pool.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_shadow_soulburn",
@@ -3130,7 +3130,7 @@
     {
       "id": "fuath_kelp_grasp",
       "name": "Kelp-Grasp",
-      "description": "The Fuath's fey-pool reflects what the Dimming took. Kelp-hair snares the victim and drags them under.",
+      "description": "The Fuath's fey-pool reflects what the Freeze took. Kelp-hair snares the victim and drags them under.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_nature_entanglement",
@@ -3196,7 +3196,7 @@
     {
       "id": "fuath_dissolve",
       "name": "Dissolve",
-      "description": "The Fuath's fey-pool reflects what the Dimming took. Merges with the pool-water, becoming undetectable.",
+      "description": "The Fuath's fey-pool reflects what the Freeze took. Merges with the pool-water, becoming undetectable.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_frost_frostblast",
@@ -8245,7 +8245,7 @@
     {
       "id": "anzu_talon_dive",
       "name": "Talon-Dive",
-      "description": "Anzu's Thrumm-crest flares with ember-light from before the Dimming. A plunging dive from the caldera-rim.",
+      "description": "Anzu's Thrumm-crest flares with ember-light from before the Freeze. A plunging dive from the caldera-rim.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "ability_hunter_aspectofthehawk",
@@ -8295,7 +8295,7 @@
     {
       "id": "anzu_golden_crest_flash",
       "name": "Golden-Crest-Flash",
-      "description": "Anzu's Thrumm-crest flares with ember-light from before the Dimming. A blinding flare of its golden crest.",
+      "description": "Anzu's Thrumm-crest flares with ember-light from before the Freeze. A blinding flare of its golden crest.",
       "level": 1,
       "spellType": "ACTION",
       "icon": "spell_holy_aurabrilliance",
@@ -8356,7 +8356,7 @@
     {
       "id": "anzu_obsidian_talon_ignite",
       "name": "Obsidian-Talon-Ignite",
-      "description": "Anzu's Thrumm-crest flares with ember-light from before the Dimming. Talons ignite dry material on contact.",
+      "description": "Anzu's Thrumm-crest flares with ember-light from before the Freeze. Talons ignite dry material on contact.",
       "level": 1,
       "spellType": "PASSIVE",
       "icon": "spell_fire_firebolt",

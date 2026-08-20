@@ -1,0 +1,128 @@
+- generic [ref=f3e2]:
+  - generic:
+    - generic:
+      - generic [ref=f3e3] [cursor=pointer]
+      - generic [ref=f3e5] [cursor=pointer]:
+        - generic [ref=f3e6]: L
+        - generic [ref=f3e8]:
+          - generic [ref=f3e9]:
+            - generic [ref=f3e10]:
+              - text: Lyra Ashborn (Level 2)
+              - generic [ref=f3e11]:
+                - generic [ref=f3e12]: 
+                - combobox [ref=f3e13]:
+                  - option "Level 0 (Normal)" [selected]
+                  - option "Level 1 (Disadvantage on Checks)"
+                  - option "Level 2 (Speed Halved)"
+                  - option "Level 3 (Disadvantage on Attacks/Saves)"
+                  - option "Level 4 (HP Max Halved)"
+                  - option "Level 5 (Speed 0)"
+                  - option "Level 6 (Death)"
+            - generic [ref=f3e14]:
+              - generic [ref=f3e15]: Shoreling (Myrathil)
+              - generic [ref=f3e16]: Spellguard
+              - generic [ref=f3e17]: Neutral Good
+          - generic [ref=f3e19]:
+            - generic [ref=f3e21]:
+              - generic [ref=f3e22]: 43/55
+              - generic:
+                - generic:
+                  - generic:
+                    - img "Health Status"
+            - generic [ref=f3e25]:
+              - generic [ref=f3e27]:
+                - generic [ref=f3e28]: 28/85
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Mana Status"
+              - generic [ref=f3e32]:
+                - generic [ref=f3e33]: 3/3 AP
+                - generic:
+                  - generic:
+                    - generic:
+                      - img "Action Points Status"
+            - generic [ref=f3e39]:
+              - generic:
+                - generic: ◈
+                - generic: ◇
+                - generic: ◆
+                - generic: ◈
+              - generic [ref=f3e40]:
+                - generic [ref=f3e41]: "0"
+                - generic [ref=f3e42]: /
+                - generic [ref=f3e43]: "100"
+                - generic [ref=f3e44]: AEP
+      - generic [ref=f3e48]:
+        - generic [ref=f3e49] [cursor=pointer]: "1"
+        - generic [ref=f3e50] [cursor=pointer]: "2"
+        - generic [ref=f3e51] [cursor=pointer]: "3"
+        - generic [ref=f3e52] [cursor=pointer]: "4"
+        - generic [ref=f3e53] [cursor=pointer]: "5"
+        - generic [ref=f3e54] [cursor=pointer]: "6"
+        - generic [ref=f3e55] [cursor=pointer]: "7"
+        - generic [ref=f3e56] [cursor=pointer]: "8"
+        - generic [ref=f3e57] [cursor=pointer]: "9"
+        - generic [ref=f3e58] [cursor=pointer]: "0"
+      - generic [ref=f3e60]:
+        - generic:
+          - generic: "132"
+          - generic: /
+          - generic: "300"
+          - generic: XP
+      - button " Dialogue" [ref=f3e63] [cursor=pointer]:
+        - generic [ref=f3e64]: 
+        - generic [ref=f3e65]: Dialogue
+    - generic [ref=f3e67]:
+      - button "Character" [ref=f3e69] [cursor=pointer]:
+        - img "Character"
+      - button "Adventure" [ref=f3e71] [cursor=pointer]:
+        - img "Adventure"
+      - button "Tools" [ref=f3e73] [cursor=pointer]:
+        - img "Tools"
+      - button "Settings" [ref=f3e74] [cursor=pointer]:
+        - img "Settings"
+      - button "ESC" [ref=f3e75] [cursor=pointer]:
+        - img "ESC"
+      - button "Minimize Navigation (~)" [ref=f3e76] [cursor=pointer]
+    - generic "Click to center on origin (0, 0)" [ref=f3e77] [cursor=pointer]:
+      - generic [ref=f3e78]: 
+      - generic [ref=f3e79]: "X: 0.0"
+      - generic [ref=f3e80]: "|"
+      - generic [ref=f3e81]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=f3e82]: 
+  - generic [ref=f3e83]:
+    - button "" [ref=f3e84] [cursor=pointer]
+    - generic [ref=f3e93]:
+      - generic [ref=f3e94]: Dice Roller
+      - generic [ref=f3e96]:
+        - generic [ref=f3e97]: "Quick Roll:"
+        - generic [ref=f3e98]:
+          - button "D4" [ref=f3e99] [cursor=pointer]
+          - button "D6" [ref=f3e100] [cursor=pointer]
+          - button "D8" [ref=f3e101] [cursor=pointer]
+          - button "D10" [ref=f3e102] [cursor=pointer]
+          - button "D12" [ref=f3e103] [cursor=pointer]
+          - button "D20" [ref=f3e104] [cursor=pointer]
+          - button "D%" [ref=f3e105] [cursor=pointer]
+          - button "D100" [ref=f3e106] [cursor=pointer]
+      - generic [ref=f3e107]:
+        - generic [ref=f3e108]: "Select Dice:"
+        - generic [ref=f3e109]:
+          - button "D4" [ref=f3e111] [cursor=pointer]
+          - button "D6" [ref=f3e115] [cursor=pointer]
+          - button "D8" [ref=f3e119] [cursor=pointer]
+          - button "D10" [ref=f3e123] [cursor=pointer]
+          - button "D12" [ref=f3e127] [cursor=pointer]
+          - button "D20" [ref=f3e131] [cursor=pointer]
+          - button "D%" [ref=f3e135] [cursor=pointer]
+          - button "D100" [ref=f3e139] [cursor=pointer]
+      - generic [ref=f3e142]:
+        - generic [ref=f3e143]: "Theme:"
+        - generic [ref=f3e144]:
+          - button "Classic Obsidian" [ref=f3e145] [cursor=pointer]
+          - button "Glacial Frost" [ref=f3e148] [cursor=pointer]
+          - button "Infernal Flame" [ref=f3e151] [cursor=pointer]
+          - button "Abyssal Void" [ref=f3e154] [cursor=pointer]
+          - button "Verdant Sylvan" [ref=f3e157] [cursor=pointer]
+          - button "Tempest Storm" [ref=f3e160] [cursor=pointer]

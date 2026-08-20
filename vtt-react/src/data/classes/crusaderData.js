@@ -878,7 +878,7 @@ export const CRUSADER_DATA = {
     illustrationCaption: "A Solari Crusader channeling Aex's starlight song through a shattered greatsword.",
     originStory: `A Crusader is not a peaceful monk praying at an altar. You are a walking starlight furnace encased in sixty pounds of hammered iron and consecrated glass, standing on the rim of the dark and daring the monsters of Keth-Amar to try you.
 
-When the Dimming fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
+When the Freezing Era fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
 
 To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Radiant Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy armor and leaves the earth permanently consecrated.
 
@@ -898,7 +898,7 @@ The cost of this zeal is complete, exhausting physical devotion. A Crusader cann
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-Forged during the Dimming when Solvan knights bound Aex's starlight song to heavy armor to hold the Wyrd-breach.
+Forged during the Freezing Era when Solvan knights bound Aex's starlight song to heavy armor to hold the Wyrd-breach.
 
 **CITIES & CIVIL RECEPTION**
 Highly revered in Sundale and Emberspire; viewed with caution by Atropolis archivists who fear religious zeal.
@@ -988,7 +988,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
       },
       currentCrisisAngle: `The accuracy collapse in Astril star-arithmetic has driven Stellar Crusaders to abandon passive observation entirely: they now enforce starlight justice through physical combat.`,
       signatureQuote: {
-        text: '"My skin broke in the shape of a star eight hundred years ago. I am merely passing the light forward."',
+        text: '"My skin broke in the shape of a star a century ago. I am merely passing the light forward."',
         speaker: 'Valen Prism-Blade',
         context: 'Before executing a Wyrd-Channel in the Frostwood'
       }

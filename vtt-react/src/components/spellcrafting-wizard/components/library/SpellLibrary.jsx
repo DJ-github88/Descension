@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
@@ -13,6 +13,8 @@ import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
+import { TALENT_TREES } from '../../../../data/talentTreeData';
+import { convertTalentSpellToLibrarySpell } from '../../../../data/talentTrees/talentSystem.mjs';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 
@@ -22,82 +24,6 @@ import SpellContextMenu from './SpellContextMenu';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
-
-
-// Helper function to map WoW icon IDs to local ability icons for spells
-const mapSpellIcon = (wowIconId) => {
- const iconMapping = {
-  // Combat/Attack icons
-  'ability_meleedamage': 'General/Combat Downward Strike',
-  'ability_warrior_savageblow': 'General/Combat Downward Strike',
-  'ability_warrior_charge': 'General/Combat Downward Strike',
-  'ability_warrior_revenge': 'General/Combat Downward Strike',
-  'ability_warrior_cleave': 'General/Combat Downward Strike',
-  'ability_warrior_riposte': 'Utility/Parry',
-  'ability_warrior_shieldbash': 'Utility/Shield',
-  'ability_rogue_evasion': 'Utility/Speed Dash',
-  'ability_rogue_feint': 'Utility/Parry',
-  'ability_rogue_sprint': 'Utility/Speed Dash',
-  'ability_rogue_tricksofthetrade': 'Utility/Speed Dash',
-  'ability_stealth': 'Utility/Hide',
-  'ability_hunter_snipershot': 'Utility/Target Crosshair',
-  'ability_hunter_markedshot': 'Utility/Target Crosshair',
-  'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
-
-  // Defensive icons
-  'inv_shield_05': 'Utility/Shield',
-  'inv_shield_04': 'Utility/Shield',
-  'ability_warrior_defensivestance': 'Utility/Shield',
-  'spell_holy_powerwordshield': 'Utility/Shield',
-  'spell_holy_devotionaura': 'Radiant/Divine Blessing',
-
-  // Healing/Support icons
-  'spell_holy_greaterheal': 'Healing/Golden Heart',
-  'spell_holy_heal02': 'Healing/Golden Heart',
-  'spell_holy_flashheal': 'Healing/Golden Heart',
-  'spell_holy_renew': 'Healing/Renewal',
-
-  // Utility icons
-  'spell_arcane_portaldalaran': 'Utility/Utility',
-  'spell_arcane_teleportundercity': 'Utility/Utility',
-  'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-  'inv_misc_questionmark': 'Utility/Utility',
-  'inv_misc_book_07': 'Utility/Utility',
-  'inv_misc_bag_08': 'Utility/Utility',
-
-  // Magic/Damage icons
-  'spell_fire_fireball02': 'Fire/Swirling Fireball',
-  'spell_fire_flamebolt': 'Fire/Flame Burst',
-  'spell_frost_frostbolt02': 'Frost/Frozen in Ice',
-  'spell_arcane_blast': 'Arcane/Magical Sword',
-  'spell_shadow_shadowbolt': 'Shadow/Shadow Darkness',
-  'spell_holy_holysmite': 'Radiant/Divine Blessing',
-  'spell_nature_lightning': 'Lightning/Lightning Bolt',
-
-  // Control icons
-  'spell_frost_chainsofice': 'Frost/Frozen in Ice',
-  'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
-
-  // Buff icons
-  'spell_holy_divineillumination': 'Radiant/Divine Blessing',
-  'spell_holy_blessingofprotection': 'Radiant/Divine Blessing',
-
-  // Summoning icons
-  'spell_shadow_summonvoidwalker': 'Utility/Summon Minion',
-  'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-
-  // Transformation icons
-  'ability_druid_catform': 'Utility/Utility',
-
-  // Trap icons
-  'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
-
-  // Wild magic icons
-  'spell_arcane_arcane04': 'Arcane/Magical Sword'
- };
-
- return iconMapping[wowIconId] || null;
-};
 
 // Helper function to get spell icon URL using local ability icons
 const getSpellIconUrl = (spell) => {
@@ -128,16 +54,10 @@ const getSpellIconUrl = (spell) => {
   return getCustomIconUrl(iconId, 'abilities');
  }
 
- // If it's a WoW icon ID, try to map it to a local ability icon
- if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
-  const mappedIcon = mapSpellIcon(iconId);
-  if (mappedIcon) {
-   return getCustomIconUrl(mappedIcon, 'abilities');
+// If it's a WoW icon ID, use getAbilityIconUrl for proper icon resolution
+  if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_') || iconId.startsWith('achievement_')) {
+  return getAbilityIconUrl(iconId);
   }
-  // If no mapping found, try getAbilityIconUrl as fallback (but it may add creature- prefix)
-  // Better to use a sensible default based on icon name
-  return getCustomIconUrl('Utility/Utility', 'abilities');
- }
 
  // Default fallback
  return getCustomIconUrl('Utility/Utility', 'abilities');
@@ -380,6 +300,35 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  // Get known spells from character store
  const knownSpellIds = useCharacterStore(state => state.class_spells?.known_spells || []);
  const activeCharKnownSpells = activeChar?.class_spells?.known_spells || knownSpellIds;
+ const characterStoreTalents = useCharacterStore(state => state.talents || {});
+ const activeCharTalents = activeChar?.talents || characterStoreTalents;
+
+ // Dynamically resolve learned talent spells and passives for active character
+ const characterTalentSpells = useMemo(() => {
+  if (!hasActiveCharacter || !characterClass || !activeCharTalents) return [];
+  const learned = [];
+  const classTreeData = TALENT_TREES[characterClass];
+  if (!classTreeData) return [];
+
+  Object.entries(activeCharTalents).forEach(([talentId, rank]) => {
+   if (!rank || rank <= 0) return;
+   // Find the talent node across all specs of this class
+   for (const treeKey of Object.keys(classTreeData)) {
+    const tree = classTreeData[treeKey];
+    if (Array.isArray(tree)) {
+     const node = tree.find(t => t.id === talentId);
+     if (node && node.spell) {
+      const spell = convertTalentSpellToLibrarySpell(node, rank);
+      if (spell) {
+       learned.push(spell);
+      }
+      break;
+     }
+    }
+   }
+  });
+  return learned;
+ }, [hasActiveCharacter, characterClass, activeCharTalents]);
 
  // Get filtered library spells for category population (before final filtering)
  // This needs to be defined before allSpellCategories uses it
@@ -576,6 +525,31 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    });
   }
 
+  // Add Talent Abilities category (Learned talent spells from active character or spell library)
+  const allTalentSpellsMap = new Map();
+  // 1. Add character talent spells
+  characterTalentSpells.forEach(s => allTalentSpellsMap.set(s.id, s));
+  // 2. Add any library talent spells
+  library.spells.filter(spell =>
+   spell.source === 'talent' ||
+   spell.id?.startsWith('talent-spell-')
+  ).forEach(s => {
+   if (!allTalentSpellsMap.has(s.id)) allTalentSpellsMap.set(s.id, s);
+  });
+  const allTalentSpells = Array.from(allTalentSpellsMap.values());
+
+  if (allTalentSpells.length > 0) {
+   combined.push({
+    id: 'talent_abilities',
+    name: 'Talent Abilities',
+    description: 'Specialization abilities unlocked through your talent trees',
+    color: '#D4AF37', // Gold
+    icon: 'Radiant/Divine Blessing',
+    spells: allTalentSpells,
+    isTalent: true
+   });
+  }
+
   // Add My Spells category (Custom spells created in the wizard)
   const customSpells = library.spells.filter(spell =>
    spell.isCustom ||
@@ -596,7 +570,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   }
 
   return combined;
- }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath, library.spells]); // Added library.spells to deps
+ }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath, library.spells, characterTalentSpells]);
 
  // Track deleted spell IDs to prevent reloading them from Firebase
  const getDeletedSpellIds = () => {
@@ -1148,6 +1122,17 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       const fallbackDiscipline = currentPath ? getDisciplineSpells(currentPath) : [];
       spellsToFilter = fallbackDiscipline;
      }
+    } else if (activeCategory === 'talent_abilities') {
+     // Show only talent spells (from character talent points or library storage)
+     const allTalentSpellsMap = new Map();
+     characterTalentSpells.forEach(s => allTalentSpellsMap.set(s.id, s));
+     filteredLibrarySpells.filter(spell =>
+      spell.source === 'talent' ||
+      spell.id?.startsWith('talent-spell-')
+     ).forEach(s => {
+      if (!allTalentSpellsMap.has(s.id)) allTalentSpellsMap.set(s.id, s);
+     });
+     spellsToFilter = Array.from(allTalentSpellsMap.values());
     } else if (activeCategory === 'custom_spells') {
      // Show only custom/wizard-created spells
      spellsToFilter = filteredLibrarySpells.filter(spell =>
@@ -1259,7 +1244,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     }
     // library.spells is already included at the top
    } else {
-    // Show all spells from all categories (class + general + library spells for custom spells)
+    // Show all spells from all categories (class + general + character talents + library spells for custom spells)
     // BUT only include known class spells, not all class spells
     const allClassSpells = rawClassSpells || [];
     const generalSpellIds = new Set(filteredGeneralSpells.map(spell => spell.id));
@@ -1289,13 +1274,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
      return spellLevel <= activeCharacterLevel;
     });
 
-    // Include only known class spells and general spells (excluding Attack spell)
-    spellsToFilter = [...spellsToFilter, ...knownClassSpells, ...filteredGeneralSpells];
+    // Include known class spells, character talents, and general spells
+    spellsToFilter = [...spellsToFilter, ...knownClassSpells, ...characterTalentSpells, ...filteredGeneralSpells];
    }
   } else if (!isGeneralCategory) {
-   // Fall back to traditional library spells + general spells (excluding Attack spell)
-   // Only do this if we're not filtering by a general category
-   spellsToFilter = [...spellsToFilter, ...filteredGeneralSpells];
+   // Fall back to traditional library spells + general spells + character talents
+   spellsToFilter = [...spellsToFilter, ...characterTalentSpells, ...filteredGeneralSpells];
   }
 
   // Deduplicate spells by ID (same spell might be in both class spells and library.spells)
@@ -1337,7 +1321,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   currentRace,
   currentSubrace,
   currentPath,
-  activeChar
+  activeChar,
+  characterTalentSpells
  ]);
 
  // Reset page when category or filters actually change (but not when manually paginating or showing popup)
@@ -2077,7 +2062,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     {/* Compact WoW-style view */}
     {viewMode === 'compact' ? (
      <div className="wow-spellbook-view">
-      {/* Header with Category Dropdown */}
       <div className="wow-spellbook-header">
        {/* Category Dropdown */}
        {allSpellCategories.length > 0 ? (
@@ -2085,42 +2069,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
          <button
           type="button"
           className="wow-category-dropdown-trigger"
-          onMouseDown={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
-           if (paginationTimeoutRef.current) {
-            clearTimeout(paginationTimeoutRef.current);
-           }
-           isManuallyPaginatingRef.current = true;
-          }}
-          onMouseUp={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
-           setActiveCategory(null);
-           setCurrentPage(1);
-           paginationTimeoutRef.current = setTimeout(() => {
-            isManuallyPaginatingRef.current = false;
-            paginationTimeoutRef.current = null;
-           }, 2000);
-          }}
-          onClick={(e) => {
-           e.preventDefault();
-           e.stopPropagation();
-           if (paginationTimeoutRef.current) {
-            clearTimeout(paginationTimeoutRef.current);
-           }
-           isManuallyPaginatingRef.current = true;
-           setActiveCategory(null);
-           setCurrentPage(1);
-           paginationTimeoutRef.current = setTimeout(() => {
-            isManuallyPaginatingRef.current = false;
-            paginationTimeoutRef.current = null;
-           }, 2000);
-          }}
-          title="All Spells - click to show all spells"
+          title={activeCategory ? (allSpellCategories.find(c => c.id === activeCategory)?.name || 'Category') : 'All Spells - click to filter'}
          >
           <i className="fas fa-book"></i>
-          <span>All Spells</span>
+          <span>{activeCategory ? (allSpellCategories.find(c => c.id === activeCategory)?.name || 'Category') : 'All Spells'}</span>
           <i className="fas fa-caret-down"></i>
          </button>
          <div className="wow-category-dropdown-menu">

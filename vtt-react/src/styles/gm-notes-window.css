@@ -539,29 +539,51 @@
 
 .gm-notes-window .react-resizable-handle {
     position: absolute;
-    background: rgba(139, 69, 19, 0.3);
     border: none;
-    border-radius: 0 0 4px 0;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .gm-notes-window .react-resizable-handle-se {
     bottom: 0;
     right: 0;
-    width: 20px;
-    height: 20px;
-    cursor: nw-resize;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    width: 18px;
+    height: 18px;
+    cursor: nwse-resize;
+    background: transparent;
+    opacity: 0.35;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+    background-image: linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(212, 175, 55, 0.45) 40%,
+        rgba(212, 175, 55, 0.45) 48%,
+        transparent 48%,
+        transparent 60%,
+        rgba(212, 175, 55, 0.65) 60%,
+        rgba(212, 175, 55, 0.65) 68%,
+        transparent 68%,
+        transparent 80%,
+        rgba(212, 175, 55, 0.85) 80%,
+        rgba(212, 175, 55, 0.85) 88%,
+        transparent 88%,
+        transparent 100%
+    );
 }
 
 .gm-notes-window:hover .react-resizable-handle-se {
+    opacity: 0.75;
+}
+
+.gm-notes-window .react-resizable-handle-se:hover {
     opacity: 1;
-    background: rgba(139, 69, 19, 0.6);
+    filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.8));
 }
 
 .gm-notes-window.resizing .react-resizable-handle-se {
     opacity: 1 !important;
-    background: rgba(139, 69, 19, 0.8) !important;
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 1)) !important;
 }
 
 .gm-notes-icon-selector {

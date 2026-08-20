@@ -5,6 +5,7 @@
 
 // XP requirements table based on rulesData.js
 // Format: [level, xpForThisLevel, totalXPRequired]
+// Level cap is 10 (talent system v2 — see src/data/talentTrees/talentSystem.mjs).
 const XP_TABLE = [
     [1, 0, 0],
     [2, 300, 300],
@@ -15,27 +16,19 @@ const XP_TABLE = [
     [7, 8000, 20000],
     [8, 11000, 31000],
     [9, 14000, 45000],
-    [10, 19000, 64000],
-    [11, 21000, 85000],
-    [12, 25000, 110000],
-    [13, 30000, 140000],
-    [14, 35000, 175000],
-    [15, 50000, 225000],
-    [16, 60000, 285000],
-    [17, 75000, 360000],
-    [18, 90000, 450000],
-    [19, 110000, 560000],
-    [20, 120000, 680000]
+    [10, 19000, 64000]
 ];
+
+const LEVEL_CAP = 10;
 
 /**
  * Get total XP required to reach a specific level
- * @param {number} level - Target level (1-20)
+ * @param {number} level - Target level (1-10)
  * @returns {number} Total XP required
  */
 export function getXPForLevel(level) {
     if (level < 1) return 0;
-    if (level > 20) return XP_TABLE[XP_TABLE.length - 1][2];
+    if (level > LEVEL_CAP) return XP_TABLE[XP_TABLE.length - 1][2];
     
     const entry = XP_TABLE.find(row => row[0] === level);
     return entry ? entry[2] : 0;
@@ -44,7 +37,7 @@ export function getXPForLevel(level) {
 /**
  * Get the level for a given amount of XP
  * @param {number} xp - Current XP amount
- * @returns {number} Current level (1-20)
+ * @returns {number} Current level (1-10)
  */
 export function getLevelFromXP(xp) {
     if (xp < 0) return 1;
@@ -86,7 +79,7 @@ export function getXPProgress(currentXP) {
         xpIntoLevel,
         xpNeededForLevel,
         percentage,
-        isMaxLevel: currentLevel >= 20
+        isMaxLevel: currentLevel >= LEVEL_CAP
     };
 }
 
@@ -152,12 +145,12 @@ export function calculateLevelUpHP(constitutionScore) {
  */
 export function getLevelUpRewards(newLevel) {
     const rewards = {
-        talentPoints: 1, // Always gain 1 talent point
+        talentPoints: 5, // 5 talent points per level (talent system v2: 50 pts by cap 10)
         attributePoints: 0,
         specialFeatures: []
     };
     
-    // Attribute improvements at levels 4, 8, 12, 16, 20
+    // Attribute improvements at levels 4, 8
     if (newLevel % 4 === 0) {
         rewards.attributePoints = 2;
     }
@@ -167,12 +160,6 @@ export function getLevelUpRewards(newLevel) {
         rewards.specialFeatures.push('Extra Attack');
     }
     if (newLevel === 10) {
-        rewards.specialFeatures.push('Improved Critical');
-    }
-    if (newLevel === 15) {
-        rewards.specialFeatures.push('Legendary Resistance');
-    }
-    if (newLevel === 20) {
         rewards.specialFeatures.push('Epic Boon');
     }
     

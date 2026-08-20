@@ -1,11 +1,19 @@
 /**
- * Community Spells Tab
+ * Community Spells Tab - Overhauled & Polished Edition
  * 
- * This component provides access to community-created spells stored in Firebase.
- * Users can browse spells by category, search, and download spells to their local library.
+ * Features:
+ * - Scoped class names (.csp-*) to prevent CSS collisions with global styles
+ * - Deduplicated Browse flow (no duplicate cards across Featured & Catalog)
+ * - Padded toolbar preventing collision with window close button
+ * - Fixed search input padding (no clipping/overlapping icons)
+ * - Compact, elegant two-tier filter strip (Role & Magic School)
+ * - Rich, highly legible Pathfinder spell cards & compact list rows
+ * - Interactive spell detail inspection modal (with full formulas & action economy)
+ * - Live In-Library status detection & smooth in-tab toast notifications
+ * - 100% emoji-free typography with FontAwesome iconography
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
@@ -14,12 +22,12 @@ import { getCustomIconUrl } from '../../../../utils/assetManager';
 import { mapSpellIcon } from '../common/spellFormatterUtils';
 import SpellTooltip from '../common/SpellTooltip';
 import SpellContextMenu from './SpellContextMenu';
-import '../../../../styles/community-tabs-shared.css';
-import '../../styles/pathfinder/main.css';
+import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import MythrillWindow from '../../../windows/MythrillWindow';
 import './CommunitySpellsTab.css';
 
 const CATEGORIES = [
-  { id: 'all', name: 'All Spells', icon: 'fa-book-open' },
+  { id: 'all', name: 'All Roles', icon: 'fa-layer-group' },
   { id: 'damage', name: 'Damage', icon: 'fa-fire' },
   { id: 'healing', name: 'Healing', icon: 'fa-heart' },
   { id: 'control', name: 'Control', icon: 'fa-hand-sparkles' },
@@ -27,9 +35,80 @@ const CATEGORIES = [
   { id: 'summoning', name: 'Summoning', icon: 'fa-paw' }
 ];
 
+const SCHOOLS = [
+  { id: 'all', name: 'All Schools' },
+  { id: 'ember', name: 'Ember', icon: 'fa-fire', color: '#e25822' },
+  { id: 'rime', name: 'Rime', icon: 'fa-snowflake', color: '#5b9bd5' },
+  { id: 'storm', name: 'Storm', icon: 'fa-bolt', color: '#d4af37' },
+  { id: 'arcane', name: 'Arcane', icon: 'fa-hat-wizard', color: '#9b59b6' },
+  { id: 'primal', name: 'Primal', icon: 'fa-leaf', color: '#27ae60' },
+  { id: 'blight', name: 'Blight', icon: 'fa-skull', color: '#6c3483' },
+  { id: 'sacred', name: 'Sacred', icon: 'fa-sun', color: '#f1c40f' },
+  { id: 'wyrd', name: 'Wyrd', icon: 'fa-eye', color: '#8e44ad' }
+];
+
+// Helper to resolve icon URL
+const resolveSpellIcon = (spell) => {
+  const iconId = spell?.typeConfig?.icon || spell?.icon || spell?.damageConfig?.icon || spell?.healingConfig?.icon || null;
+  if (!iconId) {
+    return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+  if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
+    return iconId;
+  }
+  if (iconId.includes('/') && !iconId.startsWith('http')) {
+    return getCustomIconUrl(iconId, 'abilities');
+  }
+  if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_')) {
+    const mapped = mapSpellIcon(iconId);
+    return mapped ? getCustomIconUrl(mapped, 'abilities') : getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+  return getCustomIconUrl(iconId, 'abilities');
+};
+
+// Helper for school classification
+const getSchoolInfo = (spell) => {
+  const rawSchool = (
+    spell?.typeConfig?.school ||
+    spell?.school ||
+    spell?.damageConfig?.elementType ||
+    spell?.elementType ||
+    spell?.damageTypes?.[0] ||
+    ''
+  ).toLowerCase();
+
+  const schoolMap = {
+    ember: { className: 'csp-school-ember', label: 'Ember' },
+    fire: { className: 'csp-school-ember', label: 'Ember' },
+    rime: { className: 'csp-school-rime', label: 'Rime' },
+    frost: { className: 'csp-school-rime', label: 'Rime' },
+    cold: { className: 'csp-school-rime', label: 'Rime' },
+    ice: { className: 'csp-school-rime', label: 'Rime' },
+    storm: { className: 'csp-school-storm', label: 'Storm' },
+    lightning: { className: 'csp-school-storm', label: 'Storm' },
+    thunder: { className: 'csp-school-storm', label: 'Storm' },
+    arcane: { className: 'csp-school-arcane', label: 'Arcane' },
+    primal: { className: 'csp-school-primal', label: 'Primal' },
+    nature: { className: 'csp-school-primal', label: 'Primal' },
+    blight: { className: 'csp-school-blight', label: 'Blight' },
+    shadow: { className: 'csp-school-blight', label: 'Blight' },
+    necrotic: { className: 'csp-school-blight', label: 'Blight' },
+    wyrd: { className: 'csp-school-wyrd', label: 'Wyrd' },
+    psychic: { className: 'csp-school-wyrd', label: 'Wyrd' },
+    chaos: { className: 'csp-school-wyrd', label: 'Wyrd' },
+    sacred: { className: 'csp-school-sacred', label: 'Sacred' },
+    divine: { className: 'csp-school-sacred', label: 'Sacred' },
+    holy: { className: 'csp-school-sacred', label: 'Sacred' }
+  };
+
+  return schoolMap[rawSchool] || { className: 'csp-school-arcane', label: rawSchool ? rawSchool.charAt(0).toUpperCase() + rawSchool.slice(1) : 'Spell' };
+};
+
 const CommunitySpellsTab = () => {
   const { user } = useAuthStore();
   const library = useSpellLibrary();
+  const libraryDispatch = useSpellLibraryDispatch();
+
   const {
     spells,
     featuredSpells,
@@ -54,50 +133,63 @@ const CommunitySpellsTab = () => {
     loadUserFavorites,
     loadFavoriteStatuses
   } = useCommunitySpells();
-  
-  const [activeSection, setActiveSection] = useState('browse'); // 'browse', 'mySpells', 'favorites'
-  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const libraryDispatch = useSpellLibraryDispatch();
+  const [activeSection, setActiveSection] = useState('browse'); // 'browse', 'favorites', 'mySpells'
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedSchool, setSelectedSchool] = useState('all');
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [searchInput, setSearchInput] = useState('');
   const [downloadingSpells, setDownloadingSpells] = useState(new Set());
   const [votingSpells, setVotingSpells] = useState(new Set());
   const [favoritingSpells, setFavoritingSpells] = useState(new Set());
   const [contextMenu, setContextMenu] = useState(null);
+  const [inspectingSpell, setInspectingSpell] = useState(null);
+  const [toast, setToast] = useState(null); // { message, type }
 
-  // Load user's spells when component mounts and user is logged in
+  // Toast notification helper
+  const showToast = useCallback((message, type = 'success', duration = 3200) => {
+    setToast({ message, type });
+    const timer = setTimeout(() => setToast(null), duration);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Check if spell exists in local library
+  const isInLibrary = useCallback((spell) => {
+    if (!library?.spells || !spell) return false;
+    return library.spells.some(s =>
+      s.originalId === spell.id ||
+      s.id === spell.id ||
+      (s.name && spell.name && s.name.trim().toLowerCase() === spell.name.trim().toLowerCase())
+    );
+  }, [library?.spells]);
+
+  // Load user data on mount
   useEffect(() => {
     if (user?.uid) {
       loadMySpells(user.uid);
-    }
-  }, [user?.uid, loadMySpells]);
-
-  // Load user votes and favorites when spells change
-  useEffect(() => {
-    if (user?.uid) {
-      if (spells.length > 0) {
-        loadUserVotes(spells.map(s => s.id), user.uid);
-        loadFavoriteStatuses(spells.map(s => s.id), user.uid);
-      }
-      if (featuredSpells.length > 0) {
-        loadUserVotes(featuredSpells.map(s => s.id), user.uid);
-        loadFavoriteStatuses(featuredSpells.map(s => s.id), user.uid);
-      }
-      if (mySpells.length > 0) {
-        loadUserVotes(mySpells.map(s => s.id), user.uid);
-      }
-      if (favoriteSpells.length > 0) {
-        loadUserVotes(favoriteSpells.map(s => s.id), user.uid);
-      }
-    }
-  }, [user?.uid, spells, featuredSpells, mySpells, favoriteSpells, loadUserVotes, loadFavoriteStatuses]);
-  
-  // Load user favorites when component mounts
-  useEffect(() => {
-    if (user?.uid) {
       loadUserFavorites(user.uid);
     }
-  }, [user?.uid, loadUserFavorites]);
+  }, [user?.uid, loadMySpells, loadUserFavorites]);
+
+  // Memoize spell IDs key to prevent redundant fetch cycles
+  const allSpellIdsKey = useMemo(() => {
+    return [...spells, ...featuredSpells, ...mySpells, ...favoriteSpells]
+      .map(s => s.id)
+      .filter(Boolean)
+      .sort()
+      .join(',');
+  }, [spells, featuredSpells, mySpells, favoriteSpells]);
+
+  // Load vote & favorite statuses for visible spells
+  useEffect(() => {
+    if (user?.uid && allSpellIdsKey) {
+      const allIds = allSpellIdsKey.split(',').filter(Boolean);
+      if (allIds.length > 0) {
+        loadUserVotes(allIds, user.uid);
+        loadFavoriteStatuses(allIds, user.uid);
+      }
+    }
+  }, [user?.uid, allSpellIdsKey, loadUserVotes, loadFavoriteStatuses]);
 
   // Tooltip state
   const [hoveredSpell, setHoveredSpell] = useState(null);
@@ -110,7 +202,6 @@ const CommunitySpellsTab = () => {
     }
   };
 
-  // Tooltip handlers
   const handleMouseEnter = (spell, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPosition({
@@ -134,17 +225,17 @@ const CommunitySpellsTab = () => {
     setHoveredSpell(null);
   };
 
-  const handleDownloadSpell = async (spell) => {
+  // Download spell to local library
+  const handleDownloadSpell = async (spell, e) => {
+    if (e) e.stopPropagation();
     try {
       setDownloadingSpells(prev => new Set([...prev, spell.id]));
       
-      // Download from Firebase (increments download count)
       const downloadedSpell = await downloadCommunitySpell(spell.id);
       
-      // Add to local library
       const localSpell = {
         ...downloadedSpell,
-        id: `community-${downloadedSpell.id}-${Date.now()}`, // Ensure unique local ID
+        id: `community-${downloadedSpell.id}-${Date.now()}`,
         dateCreated: new Date().toISOString(),
         lastModified: new Date().toISOString(),
         source: 'community',
@@ -152,33 +243,27 @@ const CommunitySpellsTab = () => {
       };
       
       libraryDispatch(libraryActionCreators.addSpell(localSpell));
-      
-      alert(`Successfully downloaded "${spell.name}" to your spell library!`);
+      showToast(`Added "${spell.name}" to your spell library!`, 'success');
     } catch (err) {
-      alert(`Failed to download spell: ${err.message}`);
+      showToast(`Failed to download: ${err.message}`, 'error');
     } finally {
       setDownloadingSpells(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(spell.id);
-        return newSet;
+        const next = new Set(prev);
+        next.delete(spell.id);
+        return next;
       });
     }
   };
 
-  // Handle adding spell to collection (downloads first if not already in library)
+  // Add spell to collection
   const handleAddToCollection = async (spellId, collectionId) => {
-    // First, check if spell is already in library
     let spell = library.spells.find(s => s.id === spellId || s.originalId === spellId);
     
-    // If not in library, download it first
     if (!spell) {
       try {
         setDownloadingSpells(prev => new Set([...prev, spellId]));
-        
-        // Download from Firebase
         const downloadedSpell = await downloadCommunitySpell(spellId);
         
-        // Add to local library
         const localSpell = {
           ...downloadedSpell,
           id: `community-${downloadedSpell.id}-${Date.now()}`,
@@ -190,33 +275,26 @@ const CommunitySpellsTab = () => {
         
         libraryDispatch(libraryActionCreators.addSpell(localSpell));
         spell = localSpell;
-        
-        setDownloadingSpells(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(spellId);
-          return newSet;
-        });
       } catch (err) {
-        alert(`Failed to download spell: ${err.message}`);
-        setDownloadingSpells(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(spellId);
-          return newSet;
-        });
+        showToast(`Download error: ${err.message}`, 'error');
         return;
+      } finally {
+        setDownloadingSpells(prev => {
+          const next = new Set(prev);
+          next.delete(spellId);
+          return next;
+        });
       }
     }
     
-    // Now add to collection
     libraryDispatch(libraryActionCreators.addSpellToCollection(spell.id, collectionId));
-    alert(`Added "${spell.name}" to collection!`);
+    showToast(`Added "${spell.name}" to collection!`, 'success');
   };
 
-  // Handle right-click on spell card
+  // Context Menu
   const handleSpellContextMenu = (e, spell) => {
     e.preventDefault();
     e.stopPropagation();
-    
     setContextMenu({
       x: e.clientX,
       y: e.clientY,
@@ -225,54 +303,158 @@ const CommunitySpellsTab = () => {
     });
   };
 
-  const handleVote = async (spell, voteType) => {
+  // Vote handler
+  const handleVote = async (spell, voteType, e) => {
+    if (e) e.stopPropagation();
     if (!user?.uid) {
-      alert('Please log in to vote on spells.');
+      showToast('Please log in to vote on spells.', 'info');
       return;
     }
 
     try {
       setVotingSpells(prev => new Set([...prev, spell.id]));
       await voteCommunitySpell(spell.id, user.uid, voteType);
+      showToast(voteType === 'upvote' ? 'Upvoted spell' : 'Downvoted spell', 'info', 1800);
     } catch (err) {
-      alert(`Failed to vote: ${err.message}`);
+      showToast(`Vote failed: ${err.message}`, 'error');
     } finally {
       setVotingSpells(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(spell.id);
-        return newSet;
+        const next = new Set(prev);
+        next.delete(spell.id);
+        return next;
       });
     }
   };
 
-  const getUserVoteForSpell = (spellId) => {
-    return userVotes[spellId] || null;
-  };
-
-  const isSpellFavoritedByUser = (spellId) => {
-    return userFavorites.has(spellId);
-  };
-
-  const handleFavorite = async (spell, isFavorite) => {
+  // Favorite handler
+  const handleFavorite = async (spell, isFavorite, e) => {
+    if (e) e.stopPropagation();
     if (!user?.uid) {
-      alert('Please log in to favorite spells.');
+      showToast('Please log in to save favorites.', 'info');
       return;
     }
 
     try {
       setFavoritingSpells(prev => new Set([...prev, spell.id]));
       await favoriteCommunitySpell(spell.id, user.uid, isFavorite);
+      showToast(isFavorite ? `Saved "${spell.name}" to favorites` : 'Removed from favorites', 'success', 2200);
     } catch (err) {
-      alert(`Failed to ${isFavorite ? 'favorite' : 'unfavorite'} spell: ${err.message}`);
+      showToast(`Favorite failed: ${err.message}`, 'error');
     } finally {
       setFavoritingSpells(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(spell.id);
-        return newSet;
+        const next = new Set(prev);
+        next.delete(spell.id);
+        return next;
       });
     }
   };
 
+  const getUserVoteForSpell = (spellId) => userVotes[spellId] || null;
+  const isSpellFavoritedByUser = (spellId) => userFavorites.has(spellId);
+
+  // Multi-criteria filter function
+  const matchSpellFilters = useCallback((spell) => {
+    if (!spell) return false;
+
+    // Role / Category filter
+    if (selectedCategory !== 'all') {
+      const spellCat = (spell.categoryId || spell.spellType || spell.actionType || '').toLowerCase();
+      const spellTags = (spell.tags || []).map(t => t.toLowerCase());
+      const hasDamage = !!spell.damageConfig || !!spell.damage;
+      const hasHealing = !!spell.healingConfig || !!spell.healing;
+      const isSummon = spellCat.includes('summon') || spellTags.includes('summon') || spellTags.includes('minion');
+      const isControl = spellCat.includes('control') || spellTags.includes('control') || spellTags.includes('stun') || spellTags.includes('slow');
+      const isUtility = spellCat.includes('utility') || spellTags.includes('utility') || spellTags.includes('buff');
+
+      if (selectedCategory === 'damage' && !(spellCat === 'damage' || hasDamage || spellTags.includes('damage'))) return false;
+      if (selectedCategory === 'healing' && !(spellCat === 'healing' || hasHealing || spellTags.includes('healing'))) return false;
+      if (selectedCategory === 'control' && !(spellCat === 'control' || isControl)) return false;
+      if (selectedCategory === 'utility' && !(spellCat === 'utility' || isUtility)) return false;
+      if (selectedCategory === 'summoning' && !(spellCat === 'summoning' || isSummon)) return false;
+    }
+
+    // Magic School filter
+    if (selectedSchool !== 'all') {
+      const rawSchool = (
+        spell.typeConfig?.school ||
+        spell.school ||
+        spell.damageConfig?.elementType ||
+        spell.elementType ||
+        spell.damageTypes?.[0] ||
+        ''
+      ).toLowerCase();
+
+      const schoolAliases = {
+        ember: ['ember', 'fire'],
+        rime: ['rime', 'frost', 'cold', 'ice'],
+        storm: ['storm', 'lightning', 'thunder', 'air', 'wind'],
+        arcane: ['arcane', 'force', 'energy'],
+        primal: ['primal', 'nature', 'earth', 'water', 'physical', 'smashing'],
+        blight: ['blight', 'shadow', 'necrotic', 'poison', 'acid'],
+        sacred: ['sacred', 'holy', 'divine', 'radiant', 'light'],
+        wyrd: ['wyrd', 'psychic', 'chaos', 'astral', 'time', 'space']
+      };
+
+      const allowed = schoolAliases[selectedSchool] || [selectedSchool];
+      if (!allowed.some(alias => rawSchool.includes(alias))) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [selectedCategory, selectedSchool]);
+
+  // Deduplicate array of spells by ID and normalized name
+  const deduplicateList = useCallback((list = []) => {
+    const seenIds = new Set();
+    const seenNames = new Set();
+    return list.filter(spell => {
+      if (!spell) return false;
+      const id = spell.id || spell._id;
+      const name = (spell.name || '').trim().toLowerCase();
+      if (id && seenIds.has(id)) return false;
+      if (name && seenNames.has(name)) return false;
+      if (id) seenIds.add(id);
+      if (name) seenNames.add(name);
+      return true;
+    });
+  }, []);
+
+  // Filtered & deduplicated lists
+  const filteredFeaturedSpells = useMemo(() => {
+    return deduplicateList(featuredSpells.filter(matchSpellFilters));
+  }, [featuredSpells, matchSpellFilters, deduplicateList]);
+
+  // Catalog spells: in Browse mode without search, filter out spells already shown in Featured!
+  const filteredCatalogSpells = useMemo(() => {
+    const allFiltered = deduplicateList(spells.filter(matchSpellFilters));
+    if (!searchTerm && filteredFeaturedSpells.length > 0) {
+      const featuredIdSet = new Set(filteredFeaturedSpells.map(s => s.id));
+      const featuredNameSet = new Set(filteredFeaturedSpells.map(s => (s.name || '').trim().toLowerCase()));
+      return allFiltered.filter(s => !featuredIdSet.has(s.id) && !featuredNameSet.has((s.name || '').trim().toLowerCase()));
+    }
+    return allFiltered;
+  }, [spells, matchSpellFilters, deduplicateList, searchTerm, filteredFeaturedSpells]);
+
+  const filteredFavoriteSpells = useMemo(() => {
+    return deduplicateList(favoriteSpells.filter(matchSpellFilters));
+  }, [favoriteSpells, matchSpellFilters, deduplicateList]);
+
+  const filteredMySpells = useMemo(() => {
+    return deduplicateList(mySpells.filter(matchSpellFilters));
+  }, [mySpells, matchSpellFilters, deduplicateList]);
+
+  // Active filters count
+  const activeFiltersCount = (selectedCategory !== 'all' ? 1 : 0) + (selectedSchool !== 'all' ? 1 : 0) + (searchTerm ? 1 : 0);
+
+  const clearAllFilters = () => {
+    setSelectedCategory('all');
+    setSelectedSchool('all');
+    setSearchInput('');
+    clearSelection();
+  };
+
+  // Render Spell Card (Supports Grid Card or Compact Row)
   const renderSpellCard = (spell) => {
     const completeSpell = {
       ...spell,
@@ -282,56 +464,158 @@ const CommunitySpellsTab = () => {
       source: 'community'
     };
 
-    // Resolve spell icon (same logic as SpellLibrary)
-    const iconId = spell?.typeConfig?.icon || spell?.icon || spell?.damageConfig?.icon || spell?.healingConfig?.icon || null;
-    let iconUrl;
-    if (!iconId) {
-      iconUrl = getCustomIconUrl('Utility/Utility', 'abilities');
-    } else if (typeof iconId === 'string' && iconId.startsWith('/assets/')) {
-      iconUrl = iconId;
-    } else if (iconId.includes('/') && !iconId.startsWith('http')) {
-      iconUrl = getCustomIconUrl(iconId, 'abilities');
-    } else if (iconId.startsWith('inv_') || iconId.startsWith('spell_') || iconId.startsWith('ability_')) {
-      const mapped = mapSpellIcon(iconId);
-      iconUrl = mapped ? getCustomIconUrl(mapped, 'abilities') : getCustomIconUrl('Utility/Utility', 'abilities');
-    } else {
-      iconUrl = getCustomIconUrl(iconId, 'abilities');
+    const iconUrl = resolveSpellIcon(spell);
+    const { className: schoolClass, label: schoolLabel } = getSchoolInfo(spell);
+    const spellType = (spell.spellType || spell.actionType || 'Action').toUpperCase();
+    const tags = spell.tags || [];
+    const inLib = isInLibrary(spell);
+    const isDownloading = downloadingSpells.has(spell.id);
+    const isVoting = votingSpells.has(spell.id);
+    const isFavoriting = favoritingSpells.has(spell.id);
+    const userVote = getUserVoteForSpell(spell.id);
+    const isFav = isSpellFavoritedByUser(spell.id);
+
+    if (viewMode === 'grid') {
+      return (
+        <div
+          key={spell.id}
+          className={`csp-card ${schoolClass}`}
+          onClick={() => setInspectingSpell(completeSpell)}
+          onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onContextMenu={(e) => handleSpellContextMenu(e, spell)}
+        >
+          {/* Card Top Banner: School Badge, In-Library Badge, Type Badge */}
+          <div className="csp-card-topbar">
+            <span className={`csp-school-badge ${schoolClass}`}>
+              {schoolLabel}
+            </span>
+            <div className="csp-card-topbar-badges">
+              {inLib && (
+                <span className="csp-in-lib-badge" title="Already inscribed in your spellbook">
+                  <i className="fas fa-check"></i> In Library
+                </span>
+              )}
+              <span className="csp-type-badge">{spellType}</span>
+            </div>
+          </div>
+
+          {/* Card Body: Icon + Title + Meta */}
+          <div className="csp-card-header">
+            <div className="csp-card-icon-frame">
+              <img
+                src={iconUrl}
+                alt={spell.name}
+                className="csp-card-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = getCustomIconUrl('Utility/Utility', 'abilities');
+                }}
+              />
+            </div>
+            <div className="csp-card-header-info">
+              <h4 className="csp-card-title" title={spell.name}>{spell.name}</h4>
+              <div className="csp-card-meta">
+                {spell.level !== undefined && <span>Level {spell.level}</span>}
+                {spell.castingTime && <span>{spell.castingTime}</span>}
+                {spell.range && <span>{spell.range}</span>}
+              </div>
+            </div>
+          </div>
+
+          {/* Description */}
+          {spell.description && (
+            <p className="csp-card-description">{spell.description}</p>
+          )}
+
+          {/* Tags */}
+          {tags.length > 0 && (
+            <div className="csp-card-tags">
+              {tags.slice(0, 4).map((tag, i) => (
+                <span key={i} className="csp-card-tag">{tag}</span>
+              ))}
+              {tags.length > 4 && <span className="csp-card-tag-more">+{tags.length - 4}</span>}
+            </div>
+          )}
+
+          {/* Card Footer: Rating, Votes, Download */}
+          <div className="csp-card-footer" onClick={(e) => e.stopPropagation()}>
+            <div className="csp-card-stats">
+              <span className="csp-stat-rating" title={`Rating: ${spell.rating?.toFixed(1) || '0.0'} (${spell.ratingCount || 0} votes)`}>
+                <i className="fas fa-star"></i> {spell.rating?.toFixed(1) || '0.0'}
+              </span>
+              <span className="csp-stat-downloads" title={`${spell.downloadCount || 0} downloads`}>
+                <i className="fas fa-download"></i> {spell.downloadCount || 0}
+              </span>
+            </div>
+
+            <div className="csp-card-actions">
+              {user?.uid && (
+                <div className="csp-vote-group">
+                  <button
+                    className={`csp-icon-btn upvote ${userVote === 1 ? 'active' : ''}`}
+                    onClick={(e) => handleVote(spell, 'upvote', e)}
+                    disabled={isVoting}
+                    title="Upvote"
+                  >
+                    <i className="fas fa-thumbs-up"></i>
+                  </button>
+                  <button
+                    className={`csp-icon-btn downvote ${userVote === -1 ? 'active' : ''}`}
+                    onClick={(e) => handleVote(spell, 'downvote', e)}
+                    disabled={isVoting}
+                    title="Downvote"
+                  >
+                    <i className="fas fa-thumbs-down"></i>
+                  </button>
+                </div>
+              )}
+
+              {user?.uid && (
+                <button
+                  className={`csp-icon-btn favorite ${isFav ? 'active' : ''}`}
+                  onClick={(e) => handleFavorite(spell, !isFav, e)}
+                  disabled={isFavoriting}
+                  title={isFav ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  <i className={isFav ? 'fas fa-star' : 'far fa-star'}></i>
+                </button>
+              )}
+
+              <button
+                className={`csp-download-btn ${inLib ? 'in-library' : ''}`}
+                onClick={(e) => handleDownloadSpell(spell, e)}
+                disabled={isDownloading}
+                title={inLib ? 'Click to re-download latest copy' : 'Download to local spell library'}
+              >
+                {isDownloading ? (
+                  <><i className="fas fa-spinner fa-spin"></i> Downloading</>
+                ) : inLib ? (
+                  <><i className="fas fa-check"></i> In Library</>
+                ) : (
+                  <><i className="fas fa-download"></i> Download</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      );
     }
 
-    // School color class
-    const school = (spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || '').toLowerCase();
-    const schoolClassMap = {
-      ember: 'spell-ember', fire: 'spell-ember',
-      rime: 'spell-rime', frost: 'spell-rime', cold: 'spell-rime', ice: 'spell-rime',
-      storm: 'spell-storm', lightning: 'spell-storm', thunder: 'spell-storm',
-      arcane: 'spell-arcane',
-      primal: 'spell-primal', nature: 'spell-primal',
-      blight: 'spell-blight', shadow: 'spell-blight', necrotic: 'spell-blight',
-      wyrd: 'spell-wyrd', psychic: 'spell-wyrd', chaos: 'spell-wyrd',
-      sacred: 'spell-sacred', divine: 'spell-sacred',
-    };
-    const schoolClass = schoolClassMap[school] || '';
-    const schoolLabel = school ? school.charAt(0).toUpperCase() + school.slice(1) : '';
-
-    // Spell type label (ACTION, REACTION, etc.)
-    const spellType = spell.spellType || spell.actionType || 'Action';
-
-    // Tags (damage types, etc.)
-    const tags = spell.tags || [];
-
+    // List Row View
     return (
       <div
         key={spell.id}
-        className={`community-spell-row ${schoolClass}`}
+        className={`csp-row ${schoolClass}`}
+        onClick={() => setInspectingSpell(completeSpell)}
         onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onContextMenu={(e) => handleSpellContextMenu(e, spell)}
-        onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell); }}
       >
-        {/* Main content row: icon + info + type badge */}
-        <div className="community-spell-row-main">
-          <div className="community-spell-row-icon">
+        <div className="csp-row-main">
+          <div className="csp-row-icon-frame">
             <img
               src={iconUrl}
               alt={spell.name}
@@ -341,307 +625,429 @@ const CommunitySpellsTab = () => {
               }}
             />
           </div>
-          <div className="community-spell-row-info">
-            <div className="community-spell-row-name-row">
-              <span className="community-spell-row-name">{spell.name}</span>
-              {schoolLabel && (
-                <span className={`community-spell-row-school ${schoolClass}`}>{schoolLabel}</span>
+          <div className="csp-row-details">
+            <div className="csp-row-title-line">
+              <span className="csp-row-title">{spell.name}</span>
+              <span className={`csp-school-badge small ${schoolClass}`}>{schoolLabel}</span>
+              <span className="csp-type-badge small">{spellType}</span>
+              {inLib && (
+                <span className="csp-in-lib-badge small" title="In Library">
+                  <i className="fas fa-check"></i>
+                </span>
               )}
             </div>
-            <div className="community-spell-row-meta">
-              {spell.level !== undefined && <span className="community-spell-row-level">Level {spell.level}</span>}
-              {spell.castingTime && <span className="community-spell-row-cast">{spell.castingTime}</span>}
-              {spell.range && <span className="community-spell-row-range">{spell.range}</span>}
+            <div className="csp-row-meta">
+              {spell.level !== undefined && <span>Level {spell.level}</span>}
+              {spell.castingTime && <span>{spell.castingTime}</span>}
+              {spell.range && <span>{spell.range}</span>}
             </div>
             {spell.description && (
-              <p className="community-spell-row-desc">{spell.description}</p>
-            )}
-            {tags.length > 0 && (
-              <div className="community-spell-row-tags">
-                {tags.map((tag, i) => (
-                  <span key={i} className="community-spell-row-tag">{tag}</span>
-                ))}
-              </div>
+              <p className="csp-row-desc">{spell.description}</p>
             )}
           </div>
-          <span className="community-spell-row-type">{spellType}</span>
         </div>
 
-        {/* Action bar: votes + stats + download + favorite */}
-        <div className="community-spell-row-actions">
+        <div className="csp-row-controls" onClick={(e) => e.stopPropagation()}>
+          <div className="csp-row-stats">
+            <span className="csp-stat-rating">
+              <i className="fas fa-star"></i> {spell.rating?.toFixed(1) || '0.0'}
+            </span>
+            <span className="csp-stat-downloads">
+              <i className="fas fa-download"></i> {spell.downloadCount || 0}
+            </span>
+          </div>
+
           {user?.uid && (
-            <div className="community-spell-row-votes">
+            <div className="csp-row-user-actions">
               <button
-                className={`vote-btn upvote ${getUserVoteForSpell(spell.id) === 1 ? 'active' : ''}`}
-                onClick={() => handleVote(spell, 'upvote')}
-                disabled={votingSpells.has(spell.id)}
+                className={`csp-icon-btn upvote ${userVote === 1 ? 'active' : ''}`}
+                onClick={(e) => handleVote(spell, 'upvote', e)}
+                disabled={isVoting}
                 title="Upvote"
               >
                 <i className="fas fa-thumbs-up"></i>
               </button>
               <button
-                className={`vote-btn downvote ${getUserVoteForSpell(spell.id) === -1 ? 'active' : ''}`}
-                onClick={() => handleVote(spell, 'downvote')}
-                disabled={votingSpells.has(spell.id)}
+                className={`csp-icon-btn downvote ${userVote === -1 ? 'active' : ''}`}
+                onClick={(e) => handleVote(spell, 'downvote', e)}
+                disabled={isVoting}
                 title="Downvote"
               >
                 <i className="fas fa-thumbs-down"></i>
               </button>
+              <button
+                className={`csp-icon-btn favorite ${isFav ? 'active' : ''}`}
+                onClick={(e) => handleFavorite(spell, !isFav, e)}
+                disabled={isFavoriting}
+                title={isFav ? 'Remove from favorites' : 'Add to favorites'}
+              >
+                <i className={isFav ? 'fas fa-star' : 'far fa-star'}></i>
+              </button>
             </div>
           )}
-          <div className="community-spell-row-stats">
-            <span className="community-spell-row-rating">
-              <i className="fas fa-star"></i> {spell.rating?.toFixed(1) || '0.0'} <span className="community-spell-row-rating-count">({spell.ratingCount || 0})</span>
-            </span>
-            <span className="community-spell-row-downloads">
-              <i className="fas fa-download"></i> {spell.downloadCount || 0}
-            </span>
-          </div>
-          <div className="community-spell-row-btns">
-            <button
-              className="community-download-btn"
-              onClick={() => handleDownloadSpell(spell)}
-              disabled={downloadingSpells.has(spell.id)}
-            >
-              {downloadingSpells.has(spell.id) ? (
-                <><i className="fas fa-spinner fa-spin"></i> Downloading...</>
-              ) : (
-                <><i className="fas fa-download"></i> Download</>
-              )}
-            </button>
-            {user?.uid && (
-              <button
-                className={`favorite-btn ${isSpellFavoritedByUser(spell.id) ? 'active' : ''}`}
-                onClick={() => handleFavorite(spell, !isSpellFavoritedByUser(spell.id))}
-                disabled={favoritingSpells.has(spell.id)}
-                title={isSpellFavoritedByUser(spell.id) ? 'Remove from favorites' : 'Add to favorites'}
-              >
-                {favoritingSpells.has(spell.id) ? (
-                  <i className="fas fa-spinner fa-spin"></i>
-                ) : isSpellFavoritedByUser(spell.id) ? (
-                  <i className="fas fa-star"></i>
-                ) : (
-                  <i className="far fa-star"></i>
-                )}
-              </button>
+
+          <button
+            className={`csp-download-btn ${inLib ? 'in-library' : ''}`}
+            onClick={(e) => handleDownloadSpell(spell, e)}
+            disabled={isDownloading}
+          >
+            {isDownloading ? (
+              <><i className="fas fa-spinner fa-spin"></i> ...</>
+            ) : inLib ? (
+              <><i className="fas fa-check"></i> In Library</>
+            ) : (
+              <><i className="fas fa-download"></i> Download</>
             )}
-          </div>
+          </button>
         </div>
       </div>
     );
   };
 
-  const filteredSpells = spells.filter(spell => {
-    if (selectedCategory === 'all') return true;
-    return spell.categoryId?.toLowerCase() === selectedCategory.toLowerCase();
-  });
-
-  const filteredFeaturedSpells = featuredSpells.filter(spell => {
-    if (selectedCategory === 'all') return true;
-    return spell.categoryId?.toLowerCase() === selectedCategory.toLowerCase();
-  });
-
-  const filteredFavoriteSpells = favoriteSpells.filter(spell => {
-    if (selectedCategory === 'all') return true;
-    return spell.categoryId?.toLowerCase() === selectedCategory.toLowerCase();
-  });
-
-  const filteredMySpells = mySpells.filter(spell => {
-    if (selectedCategory === 'all') return true;
-    return spell.categoryId?.toLowerCase() === selectedCategory.toLowerCase();
-  });
-
   return (
-    <div className="community-spells-tab">
-      {/* Top Controls Bar */}
-      <div className="premium-community-controls">
-        <div className="community-section-tabs">
+    <div className="community-spells-tab csp-root">
+      {/* Toast Notification Banner */}
+      {toast && (
+        <div className={`csp-toast ${toast.type}`}>
+          <i className={toast.type === 'success' ? 'fas fa-check-circle' : toast.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-info-circle'}></i>
+          <span>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Top Grimoire Toolbar (With right padding to avoid window close button) */}
+      <div className="csp-toolbar">
+        {/* Left: View Tabs */}
+        <div className="csp-toolbar-nav">
           <button
-            className={`section-tab ${activeSection === 'browse' ? 'active' : ''}`}
+            type="button"
+            className={`csp-nav-tab ${activeSection === 'browse' ? 'active' : ''}`}
             onClick={() => setActiveSection('browse')}
           >
-            <i className="fas fa-compass"></i> Browse
+            <i className="fas fa-compass"></i>
+            <span>Browse</span>
+            <span className="csp-nav-badge">{spells.length}</span>
           </button>
           <button
-            className={`section-tab ${activeSection === 'favorites' ? 'active' : ''}`}
+            type="button"
+            className={`csp-nav-tab ${activeSection === 'favorites' ? 'active' : ''}`}
             onClick={() => {
               setActiveSection('favorites');
-              if (user?.uid) {
-                loadUserFavorites(user.uid);
-              }
+              if (user?.uid) loadUserFavorites(user.uid);
             }}
           >
-            <i className="fas fa-star"></i> Favorites {user?.uid ? `(${favoriteSpells.length})` : ''}
+            <i className="fas fa-star"></i>
+            <span>Favorites</span>
+            {user?.uid && <span className="csp-nav-badge">{favoriteSpells.length}</span>}
           </button>
           <button
-            className={`section-tab ${activeSection === 'mySpells' ? 'active' : ''}`}
+            type="button"
+            className={`csp-nav-tab ${activeSection === 'mySpells' ? 'active' : ''}`}
             onClick={() => {
               setActiveSection('mySpells');
-              if (user?.uid) {
-                loadMySpells(user.uid);
-              }
+              if (user?.uid) loadMySpells(user.uid);
             }}
           >
-            <i className="fas fa-book"></i> My Spells {user?.uid ? `(${mySpells.length})` : ''}
+            <i className="fas fa-scroll"></i>
+            <span>My Spells</span>
+            {user?.uid && <span className="csp-nav-badge">{mySpells.length}</span>}
           </button>
         </div>
 
-        <form onSubmit={handleSearch} className="premium-search-form">
-          <div className="premium-search-input-group">
-            <i className="fas fa-search search-field-icon"></i>
-            <input
-              type="text"
-              placeholder="Search community spells..."
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              className="premium-search-input"
-            />
-            {searchInput && (
-              <button 
-                type="button" 
-                className="search-clear-inline" 
-                onClick={() => { setSearchInput(''); search(''); }}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            )}
-          </div>
+        {/* Center: Search Bar (Unified single container) */}
+        <form onSubmit={handleSearch} className="csp-search-bar">
+          <i className="fas fa-search csp-search-icon"></i>
+          <input
+            type="text"
+            placeholder="Search spells by name, tag, damage..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="csp-search-input"
+          />
+          {searchInput && (
+            <button
+              type="button"
+              className="csp-search-clear"
+              onClick={() => { setSearchInput(''); search(''); }}
+              title="Clear search"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          )}
         </form>
 
-        <div className="sort-controls">
-          <label>Sort:</label>
-          <select
-            value={sortBy}
-            onChange={(e) => changeSortBy(e.target.value)}
-            className="sort-select"
-            disabled={!!searchTerm}
-          >
-            <option value="rating">Rating</option>
-            <option value="downloads">Downloads</option>
-            <option value="newest">Newest</option>
-          </select>
-        </div>
+        {/* Right: Sort & View Toggle Controls */}
+        <div className="csp-toolbar-controls">
+          <div className="csp-sort-box">
+            <span className="csp-control-label">SORT:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => changeSortBy(e.target.value)}
+              className="csp-sort-select"
+              disabled={!!searchTerm}
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="downloads">Most Downloads</option>
+              <option value="newest">Newest First</option>
+            </select>
+          </div>
 
-        {(searchTerm || selectedCategory !== 'all') && (
-          <button 
-            onClick={() => {
-              clearSelection();
-              setSearchInput('');
-              setSelectedCategory('all');
-            }} 
-            className="premium-clear-btn" 
-            title="Clear search/filter"
-          >
-            <i className="fas fa-times-circle"></i> Clear
-          </button>
-        )}
+          <div className="csp-view-toggle">
+            <button
+              type="button"
+              className={`csp-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <i className="fas fa-th-large"></i>
+            </button>
+            <button
+              type="button"
+              className={`csp-view-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <i className="fas fa-list"></i>
+            </button>
+          </div>
+
+          {activeFiltersCount > 0 && (
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              className="csp-reset-btn"
+              title="Reset all filters"
+            >
+              <i className="fas fa-times-circle"></i> Clear ({activeFiltersCount})
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="community-content">
-        {/* Mini Header */}
-        <div className="community-minimal-header">
-          <div className="minimal-header-content">
-            <h1>Community Spells</h1>
-            <div className="header-stats">
-              <span className="header-stat"><i className="fas fa-scroll"></i> {spells.length} spells</span>
-              <span className="header-stat"><i className="fas fa-star"></i> {featuredSpells.length} featured</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Category Chips Section */}
-        <div className="spell-categories-section">
-          <div className="section-header">
-            <i className="fas fa-filter"></i>
-            <h3>Filter by School</h3>
-          </div>
-          <div className="community-category-chips">
+      {/* Two-Tier Filter Strip (Role + School) */}
+      <div className="csp-filter-bar">
+        {/* Role Row */}
+        <div className="csp-filter-row">
+          <span className="csp-filter-heading">ROLE:</span>
+          <div className="csp-chips-wrap">
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
-                className={`category-chip ${selectedCategory === cat.id ? 'active' : ''}`}
+                type="button"
+                className={`csp-chip ${selectedCategory === cat.id ? 'active' : ''}`}
                 onClick={() => setSelectedCategory(cat.id)}
               >
-                <i className={`fas ${cat.icon}`}></i> {cat.name}
+                <span>{cat.name}</span>
               </button>
             ))}
           </div>
         </div>
 
+        {/* School Row */}
+        <div className="csp-filter-row">
+          <span className="csp-filter-heading">SCHOOL:</span>
+          <div className="csp-chips-wrap">
+            {SCHOOLS.map(sch => (
+              <button
+                key={sch.id}
+                type="button"
+                className={`csp-chip csp-chip-school ${sch.id !== 'all' ? `school-${sch.id}` : ''} ${selectedSchool === sch.id ? 'active' : ''}`}
+                onClick={() => setSelectedSchool(sch.id)}
+              >
+                {sch.id !== 'all' && (
+                  <span
+                    className="csp-school-dot"
+                    style={{
+                      backgroundColor:
+                        sch.id === 'ember' ? '#e25822' :
+                        sch.id === 'rime' ? '#4a90e2' :
+                        sch.id === 'storm' ? '#f5a623' :
+                        sch.id === 'arcane' ? '#9b59b6' :
+                        sch.id === 'primal' ? '#27ae60' :
+                        sch.id === 'blight' ? '#8e44ad' :
+                        sch.id === 'sacred' ? '#e6b800' : '#9b59b6'
+                    }}
+                  />
+                )}
+                <span>{sch.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Scrollable Content */}
+      <div className="csp-content-scroll">
         {/* Error State */}
         {error && (
-          <div className="community-error-state">
-            <div className="error-icon">
-              <i className="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3>Unable to Connect to Community</h3>
-            <p>
-              We're having trouble connecting to the community spell database.
-              This might be due to network issues or the service being temporarily unavailable.
-            </p>
-            <p className="error-details">
-              <strong>Don't worry!</strong> You can still use the spell wizard to create your own spells,
-              and they'll be saved to your local library.
-            </p>
-            <div className="error-actions">
-              <button
-                onClick={() => window.location.reload()}
-                className="retry-btn"
-              >
-                <i className="fas fa-redo"></i> Try Again
-              </button>
-            </div>
+          <div className="csp-state-box error">
+            <i className="fas fa-exclamation-triangle"></i>
+            <h3>Database Connection Error</h3>
+            <p>{error}</p>
+            <button onClick={() => window.location.reload()} className="csp-action-btn">
+              <i className="fas fa-redo"></i> Reconnect
+            </button>
+          </div>
+        )}
+
+        {/* Browse Section */}
+        {activeSection === 'browse' && (
+          <div className="csp-browse-flow">
+            {/* If searching or filtering, display single unified results section */}
+            {(searchTerm || selectedCategory !== 'all' || selectedSchool !== 'all') ? (
+              <div className="csp-section">
+                <div className="csp-section-header">
+                  <div className="csp-section-title-wrap">
+                    <i className="fas fa-search"></i>
+                    <h3 className="csp-section-title">
+                      {searchTerm ? `Search Results for "${searchTerm}"` : 'Filtered Community Spells'}
+                    </h3>
+                    <span className="csp-section-badge">{filteredCatalogSpells.length} spells</span>
+                  </div>
+                  <button onClick={clearAllFilters} className="csp-text-btn">
+                    <i className="fas fa-times"></i> Clear Filters
+                  </button>
+                </div>
+
+                {loading && filteredCatalogSpells.length === 0 ? (
+                  <div className="csp-state-box loading">
+                    <div className="csp-arcane-spinner"></div>
+                    <p>Inscribing community spells from the archives...</p>
+                  </div>
+                ) : filteredCatalogSpells.length === 0 ? (
+                  <div className="csp-state-box empty">
+                    <i className="fas fa-scroll"></i>
+                    <h4>No Matching Spells</h4>
+                    <p>No community spells match your active filter and search terms.</p>
+                    <button onClick={clearAllFilters} className="csp-action-btn">
+                      <i className="fas fa-times"></i> Reset Filters
+                    </button>
+                  </div>
+                ) : (
+                  <div className={viewMode === 'grid' ? 'csp-grid' : 'csp-list'}>
+                    {filteredCatalogSpells
+                      .sort((a, b) => {
+                        if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+                        if (sortBy === 'downloads') return (b.downloadCount || 0) - (a.downloadCount || 0);
+                        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+                      })
+                      .map(renderSpellCard)}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Default Browse flow: Featured Spells followed by non-duplicate Catalog Spells */
+              <>
+                {filteredFeaturedSpells.length > 0 && (
+                  <div className="csp-section featured">
+                    <div className="csp-section-header">
+                      <div className="csp-section-title-wrap">
+                        <i className="fas fa-star gold-glow"></i>
+                        <h3 className="csp-section-title">Featured Curations</h3>
+                        <span className="csp-section-badge">{filteredFeaturedSpells.length} spells</span>
+                      </div>
+                      <span className="csp-section-note">Curated high-tier community creations</span>
+                    </div>
+
+                    <div className={viewMode === 'grid' ? 'csp-grid' : 'csp-list'}>
+                      {filteredFeaturedSpells
+                        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                        .map(renderSpellCard)}
+                    </div>
+                  </div>
+                )}
+
+                <div className="csp-section catalog">
+                  <div className="csp-section-header">
+                    <div className="csp-section-title-wrap">
+                      <i className="fas fa-book-open"></i>
+                      <h3 className="csp-section-title">Guild Spell Archives</h3>
+                      <span className="csp-section-badge">{filteredCatalogSpells.length} spells</span>
+                    </div>
+                  </div>
+
+                  {loading && filteredCatalogSpells.length === 0 ? (
+                    <div className="csp-state-box loading">
+                      <div className="csp-arcane-spinner"></div>
+                      <p>Loading community spells...</p>
+                    </div>
+                  ) : filteredCatalogSpells.length === 0 ? (
+                    <div className="csp-state-box empty">
+                      <i className="fas fa-feather-alt"></i>
+                      <h4>Archive Catalog Empty</h4>
+                      <p>All current featured spells are shown above. Create and share your custom spells to expand the archives!</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={viewMode === 'grid' ? 'csp-grid' : 'csp-list'}>
+                        {filteredCatalogSpells
+                          .sort((a, b) => {
+                            if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+                            if (sortBy === 'downloads') return (b.downloadCount || 0) - (a.downloadCount || 0);
+                            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+                          })
+                          .map(renderSpellCard)}
+                      </div>
+
+                      {hasMore && (
+                        <div className="csp-load-more-box">
+                          <button
+                            type="button"
+                            onClick={loadMoreSpells}
+                            disabled={loading}
+                            className="csp-load-more-btn"
+                          >
+                            {loading ? (
+                              <><i className="fas fa-spinner fa-spin"></i> Loading more spells...</>
+                            ) : (
+                              <><i className="fas fa-chevron-down"></i> Load More Archives</>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         )}
 
         {/* Favorites Section */}
         {activeSection === 'favorites' && (
           !user?.uid ? (
-            <div className="community-auth-prompt">
-              <div className="prompt-icon">
-                <i className="fas fa-scroll fa-3x"></i>
-              </div>
-              <h3>Guild Registry Required</h3>
-              <p>
-                Sign in to your character account to bookmark spells from the community archives and sync them across the realm.
-              </p>
+            <div className="csp-state-box auth">
+              <i className="fas fa-star gold-glow"></i>
+              <h3>Sign In Required</h3>
+              <p>Sign in to your account to save your favorite community spells and access them across sessions.</p>
             </div>
           ) : (
-            <div className="my-spells-section">
-              <div className="section-header">
-                <h3>Favorite Spells</h3>
-                <p className="section-subtitle">
-                  Spells you've favorited from the community
-                </p>
+            <div className="csp-section">
+              <div className="csp-section-header">
+                <div className="csp-section-title-wrap">
+                  <i className="fas fa-star gold-glow"></i>
+                  <h3 className="csp-section-title">My Bookmarked Favorites</h3>
+                  <span className="csp-section-badge">{filteredFavoriteSpells.length} spells</span>
+                </div>
               </div>
-              
+
               {loading && filteredFavoriteSpells.length === 0 ? (
-                <div className="loading-state">
-                  <i className="fas fa-spinner fa-spin"></i>
-                  <p>Loading favorites...</p>
+                <div className="csp-state-box loading">
+                  <div className="csp-arcane-spinner"></div>
+                  <p>Retrieving your favorite spells...</p>
                 </div>
               ) : filteredFavoriteSpells.length === 0 ? (
-                <div className="empty-state empty-state-enhanced">
-                  <div className="empty-state-icon-group">
-                    <i className="fas fa-star"></i>
-                  </div>
-                  <h4 className="empty-state-title">No Favorites Yet</h4>
-                  <p className="empty-state-message">
-                    {favoriteSpells.length === 0 
-                      ? "Browse community spells and click the star icon to save your favorites here."
-                      : "Try changing your magic school filters."}
-                  </p>
+                <div className="csp-state-box empty">
+                  <i className="far fa-star"></i>
+                  <h4>No Favorites Saved</h4>
+                  <p>Click the star icon on any community spell to save it here for quick access.</p>
+                  <button onClick={() => setActiveSection('browse')} className="csp-action-btn">
+                    <i className="fas fa-compass"></i> Browse Spells
+                  </button>
                 </div>
               ) : (
-                <div className="spells-grid">
+                <div className={viewMode === 'grid' ? 'csp-grid' : 'csp-list'}>
                   {filteredFavoriteSpells
-                    .sort((a, b) => {
-                      const ratingA = a.rating || 0;
-                      const ratingB = b.rating || 0;
-                      if (ratingA !== ratingB) return ratingB - ratingA;
-                      return (b.downloadCount || 0) - (a.downloadCount || 0);
-                    })
+                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
                     .map(renderSpellCard)}
                 </div>
               )}
@@ -652,180 +1058,104 @@ const CommunitySpellsTab = () => {
         {/* My Spells Section */}
         {activeSection === 'mySpells' && (
           !user?.uid ? (
-            <div className="community-auth-prompt">
-              <div className="prompt-icon">
-                <i className="fas fa-quill-pen fa-3x"></i>
-              </div>
-              <h3>Archmage Credentials Needed</h3>
-              <p>
-                Sign in to document and publish your custom-crafted spells to the great community library.
-              </p>
+            <div className="csp-state-box auth">
+              <i className="fas fa-quill-pen"></i>
+              <h3>Sign In Required</h3>
+              <p>Sign in to publish and manage spells you have shared with the community.</p>
             </div>
           ) : (
-            <div className="my-spells-section">
-              <div className="section-header">
-                <h3>My Shared Spells</h3>
-                <p className="section-subtitle">
-                  Spells you've shared with the community
-                </p>
+            <div className="csp-section">
+              <div className="csp-section-header">
+                <div className="csp-section-title-wrap">
+                  <i className="fas fa-scroll"></i>
+                  <h3 className="csp-section-title">My Published Spells</h3>
+                  <span className="csp-section-badge">{filteredMySpells.length} published</span>
+                </div>
               </div>
-              
+
               {loading && filteredMySpells.length === 0 ? (
-                <div className="loading-state">
-                  <i className="fas fa-spinner fa-spin"></i>
-                  <p>Loading your spells...</p>
+                <div className="csp-state-box loading">
+                  <div className="csp-arcane-spinner"></div>
+                  <p>Loading your published spells...</p>
                 </div>
               ) : filteredMySpells.length === 0 ? (
-                <div className="empty-state empty-state-enhanced">
-                  <div className="empty-state-icon-group">
-                    <i className="fas fa-scroll"></i>
-                  </div>
-                  <h4 className="empty-state-title">No Shared Spells</h4>
-                  <p className="empty-state-message">
-                    {mySpells.length === 0
-                      ? "Right-click on a custom spell in your Spell Library and select 'Share with Community' to contribute to the archives."
-                      : "Try changing your magic school filters."}
-                  </p>
+                <div className="csp-state-box empty">
+                  <i className="fas fa-feather-alt"></i>
+                  <h4>No Spells Published</h4>
+                  <p>To publish a spell, right-click any custom spell in your Spell Library and select "Share with Community".</p>
                 </div>
               ) : (
-                <div className="spells-grid">
+                <div className={viewMode === 'grid' ? 'csp-grid' : 'csp-list'}>
                   {filteredMySpells
-                    .sort((a, b) => {
-                      const ratingA = a.rating || 0;
-                      const ratingB = b.rating || 0;
-                      if (ratingA !== ratingB) return ratingB - ratingA;
-                      return (b.downloadCount || 0) - (a.downloadCount || 0);
-                    })
+                    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
                     .map(renderSpellCard)}
                 </div>
               )}
             </div>
           )
         )}
-
-        {/* Browse Community Section */}
-        {activeSection === 'browse' && (
-          <>
-            {/* Featured Spells */}
-            {!searchTerm && filteredFeaturedSpells.length > 0 && (
-              <div className="featured-spells-section">
-                <div className="section-header">
-                  <i className="fas fa-star"></i>
-                  <h3>Featured Spells</h3>
-                  <span className="section-subtitle">Curated by the community</span>
-                </div>
-                <div className="spells-grid">
-                  {filteredFeaturedSpells
-                    .sort((a, b) => {
-                      const ratingA = a.rating || 0;
-                      const ratingB = b.rating || 0;
-                      if (ratingA !== ratingB) return ratingB - ratingA;
-                      return (b.downloadCount || 0) - (a.downloadCount || 0);
-                    })
-                    .map(renderSpellCard)}
-                </div>
-              </div>
-            )}
-
-            {/* All Community Spells */}
-            <div className="spell-results-section">
-              <div className="results-header">
-                <h3>
-                  {searchTerm 
-                    ? `Search Results for "${searchTerm}"`
-                    : 'All Community Spells'
-                  }
-                </h3>
-                <span className="results-count">{filteredSpells.length} spells</span>
-              </div>
-
-              {loading && filteredSpells.length === 0 ? (
-                <div className="loading-state">
-                  <i className="fas fa-spinner fa-spin"></i>
-                  <p>Loading spells...</p>
-                </div>
-              ) : filteredSpells.length === 0 ? (
-                <div className="empty-state empty-state-enhanced">
-                  <div className="empty-state-icon-group">
-                    <div className="arcane-loading-circle"></div>
-                    <i className="fas fa-scroll"></i>
-                  </div>
-                  <h4 className="empty-state-title">The Arcane Archives Await</h4>
-                  <p className="empty-state-message">No community spells have been shared yet. Be the first to contribute to the guild's collection!</p>
-                  <p className="empty-state-hint">Create a spell in the Spell Wizard and share it with the community.</p>
-                </div>
-              ) : (
-                <>
-                  <div className="spells-grid">
-                    {filteredSpells
-                      .sort((a, b) => {
-                        const ratingA = a.rating || 0;
-                        const ratingB = b.rating || 0;
-                        if (ratingA !== ratingB) return ratingB - ratingA;
-                        return (b.downloadCount || 0) - (a.downloadCount || 0);
-                      })
-                      .map(renderSpellCard)}
-                  </div>
-                  
-                  {hasMore && (
-                    <div className="load-more">
-                      <button 
-                        onClick={loadMoreSpells} 
-                        disabled={loading}
-                        className="load-more-btn animate-pulse"
-                      >
-                        {loading ? (
-                          <>
-                            <i className="fas fa-spinner fa-spin"></i> Loading...
-                          </>
-                        ) : (
-                          <>
-                            <i className="fas fa-chevron-down"></i> Load More
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <div className="error-state">
-            <i className="fas fa-exclamation-triangle"></i>
-            <p>Error: {error}</p>
-            <button onClick={() => window.location.reload()}>Retry</button>
-          </div>
-        )}
-
-        {/* Offline State */}
-        {!navigator.onLine && (
-          <div className="offline-state">
-            <i className="fas fa-wifi"></i>
-            <p>You're offline. Community spells require an internet connection.</p>
-          </div>
-        )}
       </div>
 
-      {/* Tooltip Portal */}
-      {hoveredSpell && ReactDOM.createPortal(
+      {/* Spell Details Inspection Modal */}
+      {inspectingSpell && (
+        <MythrillWindow
+          isOpen={true}
+          onClose={() => setInspectingSpell(null)}
+          title={`Spell Details: ${inspectingSpell.name}`}
+          modal={true}
+          centered={true}
+          defaultSize={{ width: 540, height: 700 }}
+        >
+          <div className="csp-inspect-modal">
+            <div className="csp-inspect-card-wrap">
+              <UnifiedSpellCard
+                spell={inspectingSpell}
+                variant="wizard"
+                showActions={false}
+                showDescription={true}
+                showStats={true}
+                showTags={true}
+              />
+            </div>
+            <div className="csp-inspect-footer">
+              <button
+                type="button"
+                className="csp-modal-close-btn"
+                onClick={() => setInspectingSpell(null)}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className={`csp-modal-download-btn ${isInLibrary(inspectingSpell) ? 'in-library' : ''}`}
+                onClick={() => handleDownloadSpell(inspectingSpell)}
+                disabled={downloadingSpells.has(inspectingSpell.id)}
+              >
+                {downloadingSpells.has(inspectingSpell.id) ? (
+                  <><i className="fas fa-spinner fa-spin"></i> Downloading...</>
+                ) : isInLibrary(inspectingSpell) ? (
+                  <><i className="fas fa-check"></i> In Library (Re-download)</>
+                ) : (
+                  <><i className="fas fa-download"></i> Download to Spellbook</>
+                )}
+              </button>
+            </div>
+          </div>
+        </MythrillWindow>
+      )}
+
+      {/* Hover Tooltip Portal */}
+      {hoveredSpell && !inspectingSpell && ReactDOM.createPortal(
         <SpellTooltip
           spell={hoveredSpell}
           position={tooltipPosition}
-          onMouseEnter={() => {
-            setHoveredSpell(hoveredSpell);
-          }}
-          onMouseLeave={() => {
-            setHoveredSpell(null);
-          }}
+          onMouseEnter={() => setHoveredSpell(hoveredSpell)}
+          onMouseLeave={() => setHoveredSpell(null)}
         />,
         document.body
       )}
 
-      {/* Context Menu */}
+      {/* Context Menu Portal */}
       {contextMenu && ReactDOM.createPortal(
         <SpellContextMenu
           x={contextMenu.x}
@@ -846,7 +1176,6 @@ const CommunitySpellsTab = () => {
         />,
         document.body
       )}
-
     </div>
   );
 };
