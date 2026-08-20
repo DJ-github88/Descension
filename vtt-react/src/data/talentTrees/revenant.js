@@ -470,7 +470,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: null,
     spell: {
       name: "Glacial Shatter Lance",
-      description: "Hurl a spear of black necrotic ice within 50 feet: deals 3d8 frost damage, freezes the target for 1 round, and generates 2 Death Toll.",
+      description: "Hurl a spear of black necrotic ice within 50 feet: deals 2d8 rime damage, freezes the target for 1 round, and generates 2 Death Toll.",
       flavorText: "The Frozen Archive's chill focuses into deadly precision.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "damage",
@@ -480,12 +480,12 @@ export const REVENANT_FROST_SOVEREIGN = [
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["rime"],
-      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       debuffs: ["frozen"], visualTheme: "rime", tags: ["single-nuke", "freeze", "dt-builder", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 5d8 frost damage, freeze lasts 2 rounds, and pierces 30% resistance.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 } },
-      { description: "Deals 7d8 frost damage, freeze lasts 2 rounds, pierces 50% resistance, and shatters for 3d8 AoE frost on target hit.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } }
+      { description: "Deals 3d8 rime damage, freeze lasts 1 round, and pierces 10% resistance.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
+      { description: "Deals 3d8 rime damage, freeze lasts 2 rounds, pierces 15% resistance, and shatters for 2d8 AoE rime on target hit.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -497,7 +497,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: null,
     spell: {
       name: "Black Ice Mastery",
-      description: "All your frost spells deal +20% damage to frozen targets and your freeze save DC increases by +2.",
+      description: "All your frost spells deal +5% damage to frozen targets and your freeze save DC increases by +2.",
       flavorText: "The Archive's ancient frost guides every spell.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "damage",
@@ -505,8 +505,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["passive", "freeze-amp", "dc-boost", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deal +35% damage to frozen targets and save DC +3." },
-      { description: "Deal +50% damage to frozen targets, save DC +4, and +2 Durability Steps to equipped durability." }
+      { description: "Deal +8% damage to frozen targets and save DC +3." },
+      { description: "Deal +10% damage to frozen targets, save DC +4, and +2 Durability Steps to equipped durability." }
     ]
   },
   {
@@ -541,7 +541,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t1_frost_lance_shatter",
     spell: {
       name: "Glacial Chain Shatter",
-      description: "Spend 2 DT: cause all frozen enemies within 50 feet to shatter violently. Deals 5d8 frost damage to each target and 3d8 frost damage to all adjacent enemies, chaining the freeze effect.",
+      description: "Spend 2 DT: cause all frozen enemies within 50 feet to shatter violently. Deals 3d8 rime damage to each target and 2d6 rime damage to all adjacent enemies, chaining the freeze effect.",
       flavorText: "Necrotic ice shatters, seeking fresh warmth to extinguish.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "ACTIVE", category: "damage",
@@ -551,12 +551,12 @@ export const REVENANT_FROST_SOVEREIGN = [
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 2 } },
       damageTypes: ["rime"],
-      primaryDamage: { dice: "5d8", flat: 0, procChance: 100 },
+      primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       visualTheme: "rime", tags: ["mass-shatter", "aoe", "chain-freeze", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 7d8 frost damage + 5d8 splash, and pierces 40% resistance.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 } },
-      { description: "Deals 9d8 frost damage + 7d8 splash, stuns all hit targets for 1 round, and refunds 2 DT.", primaryDamage: { dice: "9d8", flat: 0, procChance: 100 } }
+      { description: "Deals 4d8 rime damage + 2d8 splash, and pierces 10% resistance.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } },
+      { description: "Deals 4d8 rime damage + 3d8 splash, stuns all hit targets for 1 round, and refunds 1 DT.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -568,15 +568,15 @@ export const REVENANT_FROST_SOVEREIGN = [
     requires: "fs_t1_eternal_focus",
     spell: {
       name: "Glacial Synapse Bond",
-      description: "All frozen enemies share 50% of all damage taken with other frozen enemies within 30 feet.",
+      description: "All frozen enemies share 25% of all damage taken with other frozen enemies within 30 feet.",
       flavorText: "The Archive links its frozen children in shared suffering.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "damage",
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "damage-share", "frozen-network", "revenant"]
     },
     rankUpgrades: [
-      { description: "Frozen enemies share 75% of damage taken." },
-      { description: "Frozen enemies share 100% full damage taken and have vulnerability to physical damage." }
+      { description: "Frozen enemies share 30% of damage taken." },
+      { description: "Frozen enemies share 35% of damage taken and have vulnerability to physical damage." }
     ]
   },
 
